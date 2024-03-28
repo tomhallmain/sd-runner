@@ -1,9 +1,97 @@
+3d
+3d character
+3d game
+3d game scene
+abs
+airbrushed
+aliasing
+amateur
+animation
+anime
+autograph
+bad
+bad anatomy
+bad arms
+bad art
+bad body
+bad face
+bad hands
+bad legs
+bad photo
+bad photography
+bad shadow
+bad teeth
+bad-contrast
+beginner
+blender
+blur
+blur
+blurry
+bw
+cartoon
+cgi
+compression artifacts
+deformities
+digital art
+digits
+distorted
+distortion
 downsampling
+duplicate
+embedding:asian-less-neg
+embedding:badhandv4
+embedding:easynegativev2
+error
+fake
+fingernails
+glitch
+glossy
+grainy
+grayscale
+hat
+headwear
+high-contrast
+hyper
+illustration
+jpeg artifacts
+letters
+logo
+low details
+low-quality
+low-resolution
+lowres
+manga
+missing fingers
 moiré patten
 monochrome
-text
-watermark
-worst quality
-aliasing
-distorted
+morbid
+muscles
+name
+normal quality
+out of focus
+overexposed
+oversaturated
+painting
+pattern
+people of color
+photo
+pixelated
+poorly drawn
+render
+semi-realistic
+siamese twins
+signature
 simple background
+symmetrical
+text
+text font
+trademark
+twisted
+two heads
+ugly
+underexposed
+undersaturated
+username
+watermark
+words
+worst quality

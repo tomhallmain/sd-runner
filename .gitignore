@@ -1,7 +1,9 @@
 __pycache__
+concepts/_
 concepts/negatives.txt
 concepts/nsfl*
 concepts/nsfw*
+config.json
 control_nets.py
 ip_adapters.py
 prompts/test.json

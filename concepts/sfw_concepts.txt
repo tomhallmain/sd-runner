@@ -345,6 +345,7 @@ sloppy
 spacetime
 speech bubble
 spinal column
+spindly
 spooky
 star charts
 stasis tank
@@ -354,6 +355,7 @@ symbol
 tame creature
 titian
 torus
+twisted
 universal serial bus
 vectors
 vicious animal

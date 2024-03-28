@@ -9,7 +9,6 @@ from prompter import Prompter
 
 class Globals:
     HOME = os.path.expanduser("~")
-    BASE_DIR = os.path.join(HOME, "ComfyUI\\models\\_workflows\\")
     DEFAULT_PROMPT_MODE = PromptMode.get(config.dict["default_prompt_mode"])
     DEFAULT_WORKFLOW = config.dict["default_workflow"]
     DEFAULT_MODEL = config.dict["default_model"]

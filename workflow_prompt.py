@@ -47,7 +47,7 @@ class WorkflowPrompt:
     ID = "id"
     INPUTS = "inputs"
     NON_API_INPUTS = "widgets_values"
-    PROMPTS_LOC = Globals.BASE_DIR + "scripts\\prompts"
+    PROMPTS_LOC = "prompts"
     LAST_PROMPT_FILENAME = "test.json"
     LAST_PROMPT_FILE = os.path.join(PROMPTS_LOC, LAST_PROMPT_FILENAME)
 
