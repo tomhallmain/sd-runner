@@ -1,7 +1,10 @@
 __pycache__
+concepts/negatives.txt
+concepts/nsfl*
+concepts/nsfw*
+control_nets.py
+ip_adapters.py
 prompts/test.json
-#concepts/nsfw*
-#concepts/nsfl*
 sdg_script.py
 temp.py
 test_multiselect.py
