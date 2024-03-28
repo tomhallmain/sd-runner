@@ -1,0 +1,1 @@
+This code is primarily a custom UI to trigger ComfyUI workflows using presets and prompt randomization.

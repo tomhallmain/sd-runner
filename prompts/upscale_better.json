@@ -1,0 +1,244 @@
+{
+  "4": {
+    "inputs": {
+      "ckpt_name": "XL\\realvisxlV20_v20Bakedvae.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "10": {
+    "inputs": {
+      "ckpt_name": "XL\\realvisxlV20_v20Bakedvae.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "75": {
+    "inputs": {
+      "width": 2048,
+      "height": 2048,
+      "crop_w": 0,
+      "crop_h": 0,
+      "target_width": 2048,
+      "target_height": 2048,
+      "text_g": "young ballerina",
+      "text_l": "",
+      "clip": [
+        "244",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL"
+  },
+  "81": {
+    "inputs": {
+      "ascore": 2,
+      "width": 2048,
+      "height": 2048,
+      "text": "noise, grit, dull, washed out, low contrast, blurry, deep-fried, hazy, malformed, warped, deformed, grayscale,",
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXLRefiner"
+  },
+  "82": {
+    "inputs": {
+      "width": 2048,
+      "height": 2048,
+      "crop_w": 0,
+      "crop_h": 0,
+      "target_width": 2048,
+      "target_height": 2048,
+      "text_g": "noise, grit, dull, washed out, low contrast, blurry, deep-fried, hazy, malformed, warped, deformed, grayscale,",
+      "text_l": "noise, grit, dull, washed out, low contrast, blurry, deep-fried, hazy, malformed, warped, deformed, grayscale,",
+      "clip": [
+        "244",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL"
+  },
+  "120": {
+    "inputs": {
+      "ascore": 6,
+      "width": 2048,
+      "height": 2048,
+      "text": "",
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXLRefiner"
+  },
+  "187": {
+    "inputs": {
+      "model_name": "4x_foolhardy_Remacri.pth"
+    },
+    "class_type": "UpscaleModelLoader"
+  },
+  "201": {
+    "inputs": {
+      "filename_prefix": "upscaled_",
+      "images": [
+        "221",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  },
+  "213": {
+    "inputs": {
+      "upscale_model": [
+        "187",
+        0
+      ],
+      "image": [
+        "266",
+        0
+      ]
+    },
+    "class_type": "ImageUpscaleWithModel"
+  },
+  "215": {
+    "inputs": {
+      "upscale_method": "area",
+      "scale_by": 0.5,
+      "image": [
+        "213",
+        0
+      ]
+    },
+    "class_type": "ImageScaleBy"
+  },
+  "216": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 573200031900680,
+      "steps": 30,
+      "cfg": 7.5,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "karras",
+      "start_at_step": 15,
+      "end_at_step": 22,
+      "return_with_leftover_noise": "enable",
+      "model": [
+        "244",
+        0
+      ],
+      "positive": [
+        "75",
+        0
+      ],
+      "negative": [
+        "82",
+        0
+      ],
+      "latent_image": [
+        "217",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "217": {
+    "inputs": {
+      "pixels": [
+        "215",
+        0
+      ],
+      "vae": [
+        "241",
+        0
+      ]
+    },
+    "class_type": "VAEEncode"
+  },
+  "218": {
+    "inputs": {
+      "samples": [
+        "255",
+        0
+      ],
+      "vae": [
+        "241",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "221": {
+    "inputs": {
+      "blend_factor": 0.1125,
+      "blend_mode": "overlay",
+      "image1": [
+        "218",
+        0
+      ],
+      "image2": [
+        "218",
+        0
+      ]
+    },
+    "class_type": "ImageBlend"
+  },
+  "241": {
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "244": {
+    "inputs": {
+      "lora_name": "XL\\sd_xl_offset_example-lora_1.0.safetensors",
+      "strength_model": 0.3,
+      "strength_clip": 0.3,
+      "model": [
+        "10",
+        0
+      ],
+      "clip": [
+        "10",
+        1
+      ]
+    },
+    "class_type": "LoraLoader"
+  },
+  "255": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 573200031900680,
+      "steps": 30,
+      "cfg": 7.5,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "karras",
+      "start_at_step": 22,
+      "end_at_step": 1000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "120",
+        0
+      ],
+      "negative": [
+        "81",
+        0
+      ],
+      "latent_image": [
+        "216",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "266": {
+    "inputs": {
+      "image": "",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  }
+}

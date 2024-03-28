@@ -1,0 +1,1 @@
+The code in this directory are modified forms of some classes from https://github.com/WASasquatch/was-node-suite-comfyui which is under MIT license as of date of inclusion.

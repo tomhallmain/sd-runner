@@ -1,0 +1,237 @@
+red
+orange
+yellow
+green
+jade
+blue
+turquoise
+indigo
+violet
+black
+white
+cerulean
+gold
+silver
+emerald
+ruby
+sapphire
+amethyst
+rainbow
+iridescent
+barbershop
+gray
+platinum
+steel
+teal
+lilac
+pink
+slate blue
+baby blue
+magenta
+rose
+ethereal
+glowing
+radiating
+shining
+glinting
+coral
+amaranth # reddish-rose or reddish-purple color, named after the flower of the amaranth plant
+#    cardinal # vivid red, like the bird
+carmine # deep red, though some varieties may include a tiny bit of purple
+cinabrese # pale reddish-orange, after a flesh-colored pigment used by Italian Renaissance painters
+cinnabar # see vermillion below (and link to etymology)
+coquelicot # bright red, named after a French word for poppy
+crimson # deep, rich red with a hint of blue, often associated with royalty and luxury
+sorrel # reddish-brown, from horses of that color
+stammel # wine red, named after a coarse cloth used for medieval undergarments
+titian # reddish-brown, named after a Renaissance painter
+vermillion # bright red, sometimes slightly orange
+amber # golden yellow-orange, named after fossilized tree sap, which is used to make jewelry
+fawn # pale shade of yellowish-brown or dark orange, both of which are found on the spotted coat of fawns (young deer)
+gamboge # yellow-orange used to dye Buddhist monks' robes, named after the tree most commonly tapped to make the pigment
+jacinthe # vivid yellowish-orange, from a French name for hyacinth
+madder # orange-red, named after the plant used to make the dye (from its root)
+mahogany # golden-red or reddish-brown, named after mahogany wood; when referring to paints, mahogany is often a very dark reddish-brown
+nacarat # bright orange, sometimes with a reddish tint
+persimmon # bright orange, after the persimmon fruit
+sinopia # reddish-orange or reddish-brown, “red earth” or “red ochre” color used in Classical Antiquity through the Renaissance; fairly synonymous with the pigment known as Venetian red
+tangelo # bold orange, named after the fruit (a hybrid between orange and tangerine)
+aureate # gold, golden
+aureolin # medium yellow, named after a pigment similar to canary yellow
+champagne # pale yellow, after the bubbly drink
+citron # dark yellow, named after the fruit
+fulvous # brownish-yellow, see also tawny below
+jonquil # golden-yellow, after the flower (a species of daffodil)
+ochre # yellow-brown, but see this page for other varieties, e.g. “red ochre”
+or-color # yellow or gold, used in heraldry
+saffron # yellow-orange, named after the spice
+sarcoline # pale yellow-beige color used to describe some lighter skin tones; comes from the Greek word “sarx,” meaning flesh or meat
+tawny # brownish-yellow, usually, but see this list for other possibilities
+celadon # pale green or gray-green, like the pottery
+chartreuse # yellowish-green, like the French liqueur
+kombu # dark green, the Japanese name for edible kelp
+lovat # grayish-green used in woolen textiles
+paris green # blue-green to deep green, after a toxic inorganic powder used as a pigment and insecticide
+sage # gray-green or silver-green, like the plant
+skobeloff # rich, bluish-green color with a hint of darkness
+smaragdine # deep green, after the Latin word for “emerald”
+tilleul # pale yellowish-green, named after the lime tree
+viridian # blue-green
+azure # deep, sky-blue color
+celeste # sky blue
+#    cornflower # medium-to-light blue, named after the flower
+glaucous # hazy, grayish-blue, like the foggy sheen on plums and grapes
+indigo # deep purplish-blue, named after the plant used to make dye
+mazarine # deep blue color used in textiles and ceramics
+phthalo # blue-green, from the family of synthetic pigments made from copper phthalocyanine
+ultramarine # intense blue
+YInMn Blue # intense, near-perfect blue with IR reflective properties, discovered in 2009
+zaffre # deep cobalt blue, from the Persian word “zāfira,” which means “sapphire”
+aubergine # dark purple, another word for eggplant
+byzantium # a rich, dark purple with a hint of red, named after the ancient city
+claret # dark reddish-purple, like the wine
+heliotrope # a vibrant purple with pinkish undertones, named after the flower
+#    lilac # pale blueish-purple, named after the flower
+mauve # grayish-purple
+#    mulberry # a vibrant reddish-purple, named after the fruit
+orchid # a medium to light purple with pink and blue undertones, named after the flower
+periwinkle # a soft, pastel purple with a bluish tint, named after the flower
+puce # brownish-purple
+#    thistle # a light purple with a slight grayish tone, named after the flower
+tyrian # deep reddish-purple that originated in ancient Phoenicia
+ultraviolet # intense blueish-purple
+wisteria # a light to medium purple, named after the flowering plant
+#    coal # matte black, like coal
+corbeau # black with green or blue, from the color of crows (corvids)
+#    ebony # black with olive undertones, named after a dense type of ornamental wood
+ink # a dark, intense black, often with a bluish undertone, reminiscent of black ink used in writing or printing
+jet # a deep, pure black, named after the lignite mineral used in jewelry, which is a precursor to coal
+obsidian # black, sometimes with purple undertones, named after the igneous rock
+onyx # deep black, named after the gemstone, a form of chalcedony
+piceous # glossy brownish-black, resembling pitch (pitch is also used as a color)
+sable # black used in heraldry, may have some brown, like a sable's pelt
+Vantablack # an extremely dark black, known as one of the darkest artificial substances
+alabaster # white with a very pale yellow or pink tint
+albescent # shading into or becoming white
+albugineous # white, used to describe anatomical features, such as fibers or fluids, that are white
+argent # white or silver, used in heraldry (similar to “or”)
+cornsilk # silky yellowish-white, describes the color of corn silk (the thread-like stuff that surrounds the corncob)
+eburnean # ivory white, from the Latin word meaning “resembling ivory”; the term can also be used to describe something as pure, pristine, or elegant
+magnolia # a creamy white with a hint of yellow or pink, named after the petals of the magnolia flower
+niveous # snowy or resembling snow, often used to describe a pure, untainted white
+porcelain # white, often used to describe delicate things or very pale skin
+zinc # a bluish-white, named after the metal zinc, often used in galvanizing
+#    battleship # a medium gray with a bluish tint, often associated with naval ships
+cinereous # ash gray, sometimes gray-brown, from the Latin word for ashes
+drab # a dull, light brownish-gray, often used to describe uninteresting or dreary things
+feldgrau # grayish green, from the German word for “field green.” Feldgrau was the color of choice for German uniforms during WWI and WWII.
+gossamer # greyish-white, like a spider's web
+greige # grayish-beige, a portmanteau of gray and beige
+gunmetal # medium gray, sometimes with a greenish undertone
+isabelline # pale yellowish-gray, used to describe plumage, horse coats, and textiles used in fashion
+livid # a grayish-blue or grayish-purple, often used to describe the color of bruises or contusions
+pewter # flat gray, named after a tin alloy
+pumice # a light, ashy gray, named after the volcanic rock
+
+
+# Palettes
+
+Autumn Warmth
+Beach Paradise
+Cozy Pastels
+Desert Sunset
+Electric Neon
+Forest Greens
+Grayscale Elegance
+Ocean Blues
+Romantic Reds
+Spring Blossoms
+Summer Citrus
+Sunset Hues
+Tropical Vibrance
+Vintage Sepia
+Winter Frost
+Earthy Tones
+Fresh Meadow
+Urban Grunge
+Pastel Dreams
+Vibrant Pop
+
+# Lighting Mood Prompts:
+
+Candlelit Dinner # A romantic dinner table illuminated by candlelight.
+Urban Neon Lights # A city street adorned with vibrant neon signs.
+Glowing Lanterns # Colorful paper lanterns lighting up a nighttime celebration.
+Sunset Silhouettes # People silhouetted against the warm hues of a setting sun.
+Lighthouse Beacon # The beam of light from a coastal lighthouse.
+Fairy Lights # A cozy room decorated with twinkling fairy lights.
+Starlit Night # A clear night sky filled with sparkling stars.
+Fireworks Spectacle # A dazzling fireworks display in the night sky.
+Traffic at Dusk # Headlights and taillights on a busy city street at dusk.
+Underwater Bioluminescence # Glowing creatures in the depths of the ocean.
+Fireplace Warmth # A cozy fireplace casting a warm glow in a living room.
+Lightning Storm # A dramatic sky illuminated by bolts of lightning.
+Glowing Fireflies # Fireflies lighting up a tranquil summer evening.
+Car Headlights on a Foggy Road # Beams of light piercing through thick fog.
+Retro Cinema Marquee # A vintage cinema marquee with glowing letters.
+Magical Forest Clearing # A clearing in a forest with soft, enchanting light.
+Concert Stage Lights # A rock concert stage bathed in colorful, dynamic lighting.
+Candle Procession # A religious or ceremonial procession with candles.
+Starry Skyscrapers # Modern city skyscrapers against a starry night sky.
+Street Vendor's Cart # A street food vendor's cart lit up at night.
+Bioluminescent Beach # A beach with waves glowing from bioluminescent organisms.
+Ethereal Moonlight # A serene landscape illuminated by a full moon.
+Glowing Desert Sands # The dunes of a desert shimmering in moonlight.
+Spotlight on a Performer # A performer on a stage bathed in a spotlight.
+Lighting of a Cathedral # A cathedral interior beautifully lit during a ceremony.
+Fire Dancers # Dancers twirling fire in the darkness of the night.
+Dazzling Christmas Lights # A house adorned with elaborate Christmas lights.
+Retro Disco Ball # A dance floor with light reflecting off a disco ball.
+Carnival Ferris Wheel # A vibrant ferris wheel lit up at a nighttime carnival.
+Solar Eclipse # A rare solar eclipse creating unique lighting effects.
+
+
+# Color Moods
+
+Vibrant Sunset # A stunning sunset with a palette of warm and vivid colors.
+Monochromatic Blue # A composition dominated by various shades of blue.
+Rainbow Over Waterfall # A rainbow arching over a cascading waterfall.
+Autumn Leaves # Fallen leaves in various shades of red, orange, and yellow.
+Neon Cityscape # A futuristic cityscape with neon lights and vibrant colors.
+Colorful Street Market # A bustling street market filled with vibrant fruits, textiles, and people.
+Fiery Red Sky # A dramatic and fiery red sky during a sunset.
+Blossoming Cherry Trees # Cherry blossom trees in full bloom with soft pink petals.
+Underwater Coral Reef # A colorful and diverse underwater coral reef.
+Graffiti Art # A vibrant and intricate graffiti mural on a city wall.
+# Colorful Hot Air Balloons # A sky filled with a variety of colorful hot air balloons.
+Desert Sunrise # A desert landscape bathed in warm, golden hues during sunrise.
+Green Rolling Hills # Lush green hills and meadows stretching into the distance.
+Subtle Pastels # A collection of soft and subtle pastel-colored objects.
+Colorful Street Art # Vibrant street art pieces adorning urban walls.
+Tropical Paradise # A tropical beach with turquoise waters, palm trees, and vibrant flowers.
+Underwater Paradise # A colorful underwater world with tropical fish and coral.
+Autumn Forest # A forest with trees in various shades of red, orange, and brown.
+Abstract Watercolor # A beautiful abstract watercolor painting with vivid colors.
+Butterfly Garden # A garden filled with butterflies in a range of bright colors.
+Mountain Sunrise # Snow-capped mountains glowing in the warm light of sunrise.
+Evening City Lights # A cityscape at dusk with bright, colorful lights.
+Northern Lights # The magical display of the Northern Lights in the night sky.
+Golden Fields # Fields of wheat or sunflowers in golden hues.
+Holi Festival # People celebrating the Holi Festival, throwing colorful powders.
+Rainbow Umbrellas # A street filled with colorful umbrellas, suspended in the air.
+# Colorful Bird Feathers # Close-up of exotic birds with vibrant plumage.
+Vintage Color Palette # A collection of vintage items with a classic color scheme.
+# Colorful Balloons # A bunch of helium balloons in a variety of bright colors.
+Paint Palette # A palette of vivid paint colors and brushes ready for an artist.
+Aurora Borealis # The ethereal and colorful Northern Lights dancing in the night sky.
+Mountain Wildflowers # Wildflowers in a mountain meadow with various colors.
+Autumn Vineyard # Rows of vineyards with autumn leaves changing colors.
+Holi Powder Clouds # People at the Holi Festival creating clouds of colorful powders.
+Carnival Carousel # A carousel at a colorful carnival or fair.
+Colorful Frosted Cupcakes # A selection of frosted cupcakes in a bakery.
+Orchard in Bloom # An orchard filled with blossoming fruit trees.
+Beach Umbrellas # Colorful beach umbrellas on a sunny shore.
+Tropic Sunset # A tropical beach with a stunning sunset of vivid colors.
+Bohemian Textiles # Colorful textiles and fabrics in a bohemian style.
+# Chinese New Year # A vibrant Chinese New Year celebration with red lanterns.
+Peaceful Lavender Fields # Fields of fragrant lavender in various shades of purple.

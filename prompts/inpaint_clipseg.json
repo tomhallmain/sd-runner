@@ -1,0 +1,174 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "analogMadness_v60.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "text": "(white fuzzy rug)",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "3": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "4": {
+    "inputs": {
+      "image": "CUI_17040839222115104.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "5": {
+    "inputs": {
+      "text": "right side",
+      "blur": 7,
+      "threshold": 0.08,
+      "dilation_factor": 4,
+      "image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "CLIPSeg"
+  },
+  "7": {
+    "inputs": {
+      "seed": 495512973966770,
+      "steps": 25,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.74,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "2",
+        0
+      ],
+      "negative": [
+        "3",
+        0
+      ],
+      "latent_image": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "KSampler"
+  },
+  "10": {
+    "inputs": {
+      "pixels": [
+        "21",
+        0
+      ],
+      "vae": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "VAEEncode"
+  },
+  "11": {
+    "inputs": {
+      "vae_name": "vae-ft-mse-840000-ema-pruned.ckpt"
+    },
+    "class_type": "VAELoader"
+  },
+  "12": {
+    "inputs": {
+      "samples": [
+        "10",
+        0
+      ],
+      "mask": [
+        "20",
+        1
+      ]
+    },
+    "class_type": "SetLatentNoiseMask"
+  },
+  "13": {
+    "inputs": {
+      "images": [
+        "5",
+        1
+      ]
+    },
+    "class_type": "PreviewImage"
+  },
+  "14": {
+    "inputs": {
+      "samples": [
+        "7",
+        0
+      ],
+      "vae": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "15": {
+    "inputs": {
+      "images": [
+        "14",
+        0
+      ]
+    },
+    "class_type": "PreviewImage"
+  },
+  "18": {
+    "inputs": {
+      "image": "CUI_17040839079577942-1.png",
+      "channel": "alpha",
+      "upload": "image"
+    },
+    "class_type": "LoadImageMask"
+  },
+  "20": {
+    "inputs": {
+      "select": 1,
+      "images1": [
+        "4",
+        0
+      ],
+      "mask1_opt": [
+        "5",
+        0
+      ],
+      "mask2_opt": [
+        "18",
+        0
+      ]
+    },
+    "class_type": "ImageMaskSwitch"
+  },
+  "21": {
+    "inputs": {
+      "dup_times": 4,
+      "images": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "ImageDuplicator"
+  }
+}

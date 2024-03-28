@@ -1,0 +1,370 @@
+wide-angle shot
+strange magic
+magenta coral cerulean teal gold orange rose marble texture
+natural shell iridescence
+tentacles and creatures
+(scenic nature, misty)
+
+abstract
+aura
+blurry
+bright
+cold
+colorful
+concept art
+dark
+detailed
+distorted
+hard edges
+emotive
+fuzzy
+grayscale
+high-contrast
+low-contrast
+muted
+noisy
+outlined
+pixelated
+soft
+solid
+textured
+shaded
+busy
+scattered
+neon
+sunny
+cloudy
+rainy
+warm
+windy
+snowy
+hot
+cold
+humid
+dry
+blizzard
+grungy
+highest definition
+acrylic on canvas
+anime
+architectural render
+comic book
+engineering schematic
+pencil sketch
+sketchbook
+watercolor
+wood engraving
+amateur photo
+raw photo
+bokeh
+depth of field
+graphic art
+print art
+sfm
+blender
+3d model
+gaussian splatting
+silver nitrate film
+daguerrotype
+hologram
+holographic
+focused
+focused
+focusing
+fisheye lens
+view through a telescope
+view through a microscope
+selfie
+clear
+vignette
+landscape painting
+still life
+excellent art
+breathtaking
+linear transformation
+plane shearing
+backward mapping
+bayer filter
+bi-linear interpolation
+bitmap
+ccd
+perfect composition
+excellent art
+corrupted pixels
+glitch art
+diagonal axis
+digital camera image
+dilation
+sharp edges
+clean lines
+edge map
+electromagnetic spectrum
+electromagnetic
+gaussian noise
+degaussing
+geometric process
+high-key image
+high-contrast image
+high-pass filter
+histogram equalized
+horizontal axis
+vertical axis
+interpolated
+inverted image
+impulse noise
+linear brightness transformation
+low-contrast image
+low-key image
+low-pass filter
+median filtering
+(morphological operation)
+mid-tones
+restored historic photograph
+colorized old photograph
+high pixel depth
+highest resolution
+lowest resolution
+jpeg artifacts
+linear rotation
+resampled image
+extreme saturation image
+burnt-out colors
+washed-out colors
+heavy shading
+pixel subtraction result
+thresholding
+print screen image
+thermal camera image
+heat map
+vertical axis
+retro game
+pixel art
+logo
+design
+graphic design
+cartoon
+hyperrealistic
+vectorized
+vectorization
+advertising insert
+leaflet
+magazine
+marble bust
+radiological scan
+ct scan
+x-ray
+liquid-crystal display
+organic light-emitting diode
+dna and proteins
+webcam
+uwu
+360 degree view
+silk screen
+surrealism
+radar
+night vision image
+cubism
+dadaism
+art deco
+impressionism
+tapestry
+closeup
+clusters
+multiple views
+motion blur
+pov hands
+retro artstyle
+origami
+moiré pattern
+upsampling
+viewfinder
+voxel art
+polaroid
+traditional media
+shadows
+fashion editorial
+representational
+dgtlv2
+8k
+breathtaking
+wallpaper
+backlighting
+thick textured paint style impasto
+
+
+
+dynamic angle
+angle shot
+from above
+from below
+from the side
+side profile
+portrait
+landscape
+
+
+(dark club with neon lights)
+ancient
+ancient Egypt
+ancient Rome
+Artificial Intelligence
+atmosphere
+atomic bomb
+bag
+bald
+Baldacchino
+baroque patterns
+beauty
+bed sheets
+Bernini sculpture
+big daddy
+Big Data Analytics
+bioluminescence
+black hole
+black tar and oil
+Blockchain Technology
+brain
+broken
+bubbles
+burning sun
+cat
+central processing unit
+checkboard
+cinematic render
+circulatory system
+clean
+closed mouth
+color gradients
+constellations
+convertible with the top down
+copper etching
+coral
+cow
+cracked
+cranium
+crowded
+cute
+cybersecurity
+cyborg
+dark dungeon
+deep learning
+destitute
+detailed background
+dirty
+disco ball
+dog
+dragon
+egg
+electricity
+ethereal light
+evolutionary computing 
+exoskeleton
+extraterrestrials
+extravagant
+family with kids
+fat
+fish
+flintlock
+floral arrangement
+flowering plant
+flowers
+fractal
+fruits
+giant vat
+glow
+goat
+gold sheen
+grilled meats
+hairy
+halo
+holding
+horse
+house party
+hugging
+huge
+industrial
+islam
+kiss
+lagrange points
+lantern
+laser beam
+liminal space
+liquid metal
+lizard
+machine learning
+magnets
+man
+married couple
+melted
+messy
+molecular chemical bonds visualization
+mollusk
+molting
+moss
+musculoskelatal system
+mushrooms
+neat
+nerve clusters
+nervous system
+noosphere
+nuclear missile
+nuclear reactor
+old man
+old woman
+opal glint
+oyster
+pacifier
+palm plantation
+panda
+perfectly cut gemstone
+pillow
+planet
+poor
+porous volcanic stone
+protein folding visualization
+pushing buttons
+reflecting
+reflections
+rich
+robot
+satellites
+scales
+scuffed
+sheep
+shining diamond
+shiny
+shocking blast
+silhouette
+simple background
+sinews
+sinuous
+skinny
+skull
+sky
+sloppy
+spacetime
+speech bubble
+spinal column
+spooky
+star charts
+stasis tank
+stuffed animals
+supermassive black hole
+symbol
+tame creature
+titian
+torus
+universal serial bus
+vectors
+vicious animal
+vicious creature
+vicious dog
+whale
+wings
+wires
+woman
+wormhole
+young boy
+young girl
+young man
+young woman

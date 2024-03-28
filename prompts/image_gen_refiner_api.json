@@ -1,0 +1,201 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": ""
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "3": {
+    "inputs": {
+      "text": "embedding:EasyNegativeV2, (poorly rendered), ugly, disfigured, bad anatomy, low quality, blurry, text, watermark, jpeg artifacts",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "4": {
+    "inputs": {
+      "samples": [
+        "39",
+        0
+      ],
+      "vae": [
+        "33",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "6": {
+    "inputs": {
+      "ckpt_name": "analogMadness_v60.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "7": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "6",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "8": {
+    "inputs": {
+      "text": "embedding:EasyNegativeV2, (poorly rendered), ugly, disfigured, bad anatomy, low quality, blurry, text, watermark, jpeg artifacts",
+      "clip": [
+        "6",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "12": {
+    "inputs": {
+      "samples": [
+        "40",
+        0
+      ],
+      "vae": [
+        "32",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "15": {
+    "inputs": {
+      "width": 768,
+      "height": 768,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "16": {
+    "inputs": {
+      "model_name": "4xNMKDSuperscale_4xNMKDSuperscale.pth"
+    },
+    "class_type": "UpscaleModelLoader"
+  },
+  "17": {
+    "inputs": {
+      "upscale_model": [
+        "16",
+        0
+      ],
+      "image": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "ImageUpscaleWithModel"
+  },
+  "18": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  },
+  "32": {
+    "inputs": {
+      "vae_name": "TRCVAE.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "33": {
+    "inputs": {
+      "vae_name": "TRCVAE.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "39": {
+    "inputs": {
+      "seed": 703652186568259,
+      "steps": 30,
+      "cfg": 6,
+      "sampler_name": "dpmpp_2m_sde_gpu",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "2",
+        0
+      ],
+      "negative": [
+        "3",
+        0
+      ],
+      "latent_image": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "KSampler"
+  },
+  "40": {
+    "inputs": {
+      "seed": 706524382494912,
+      "steps": 30,
+      "cfg": 8,
+      "sampler_name": "dpmpp_2m_sde_gpu",
+      "scheduler": "karras",
+      "denoise": 0.25,
+      "model": [
+        "6",
+        0
+      ],
+      "positive": [
+        "7",
+        0
+      ],
+      "negative": [
+        "8",
+        0
+      ],
+      "latent_image": [
+        "39",
+        0
+      ]
+    },
+    "class_type": "KSampler"
+  },
+  "41": {
+    "inputs": {
+      "images": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "PreviewImage"
+  },
+  "42": {
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "PreviewImage"
+  }
+}

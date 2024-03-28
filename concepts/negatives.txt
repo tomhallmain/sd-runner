@@ -1,0 +1,9 @@
+downsampling
+moiré patten
+monochrome
+text
+watermark
+worst quality
+aliasing
+distorted
+simple background

@@ -1,0 +1,178 @@
+{
+  "8": {
+    "inputs": {
+      "vae_name": "vae-ft-mse-840000-ema-pruned.ckpt"
+    },
+    "class_type": "VAELoader"
+  },
+  "16": {
+    "inputs": {
+      "ckpt_name": "analogMadness_v60.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "18": {
+    "inputs": {
+      "text": "blurry, lowres, low quality, embedding:badhandv4, fat, chubby, embedding:EasyNegativeV2, embedding:Asian-Less-Neg",
+      "clip": [
+        "16",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "21": {
+    "inputs": {
+      "width": 768,
+      "height": 512,
+      "batch_size": 4
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "30": {
+    "inputs": {
+      "text": [
+        "107",
+        0
+      ],
+      "clip": [
+        "16",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "31": {
+    "inputs": {
+      "tile_size": 768,
+      "samples": [
+        "97",
+        0
+      ],
+      "vae": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "VAEDecodeTiled"
+  },
+  "48": {
+    "inputs": {
+      "weight": 0.5,
+      "model_name": "ip-adapter_sd15_plus.pth",
+      "dtype": "fp32",
+      "model": [
+        "16",
+        0
+      ],
+      "image": [
+        "164",
+        0
+      ],
+      "clip_vision": [
+        "57",
+        0
+      ]
+    },
+    "class_type": "IPAdapter"
+  },
+  "50": {
+    "inputs": {
+      "strength": 1.02,
+      "noise_augmentation": 0.2,
+      "conditioning": [
+        "30",
+        0
+      ],
+      "clip_vision_output": [
+        "48",
+        1
+      ]
+    },
+    "class_type": "unCLIPConditioning"
+  },
+  "57": {
+    "inputs": {
+      "clip_name": "SD1.5\\pytorch_model.bin"
+    },
+    "class_type": "CLIPVisionLoader"
+  },
+  "97": {
+    "inputs": {
+      "seed": 930360836410023,
+      "steps": 24,
+      "cfg": 6.5,
+      "sampler_name": "ddpm",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "159",
+        0
+      ],
+      "positive": [
+        "50",
+        0
+      ],
+      "negative": [
+        "18",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler"
+  },
+  "107": {
+    "inputs": {
+      "wildcard_text": "",
+      "populated_text": "",
+      "mode": true,
+      "seed": 103813258013324,
+      "Select to add Wildcard": "Select the Wildcard to add to the text"
+    },
+    "class_type": "ImpactWildcardProcessor"
+  },
+  "159": {
+    "inputs": {
+      "b1": 0.99,
+      "b2": 0.99,
+      "s1": 0.92,
+      "s2": 0.2,
+      "model": [
+        "48",
+        0
+      ]
+    },
+    "class_type": "FreeU"
+  },
+  "161": {
+    "inputs": {
+      "image": "",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "164": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "megapixels": 0.5,
+      "image": [
+        "161",
+        0
+      ]
+    },
+    "class_type": "ImageScaleToTotalPixels"
+  },
+  "171": {
+    "inputs": {
+      "filename_prefix": "InstantLoRA",
+      "images": [
+        "31",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  }
+}

@@ -1,0 +1,493 @@
+abaya
+ancient greek dress
+ancient minoan dress
+ankle socks
+anorak
+apparel
+apron
+argyle
+armor
+ascot tie
+athletic wear
+attire
+bacterium in electron micrscope
+balaclava
+ball gown
+bandanna
+baseball cap
+bathing suit
+bathrobe
+snakeskin outfit
+snakeskin boots
+leather boots
+crop top
+brownshirt
+beanie
+bedclothes
+bell-bottoms
+belt
+beret
+Bermuda shorts
+bib
+bikini
+biological experiment
+blazer
+bloomers
+blouse
+boa
+bonnet
+boot
+bow tie
+bow
+boxer shorts
+boxers
+bra
+bracelet
+bracelets
+brassiere
+breeches
+briefs
+bubble dress
+buckle
+button-down shirt
+button
+caftan
+camisole
+camouflage
+cap and gown
+cap
+cape
+capris
+cardigan
+cat costume
+caveman outfit
+chemise
+cloak
+clogs
+cloning
+clothes
+clothing
+coat
+collar
+corset
+costume
+coveralls
+cowboy boots
+cowboy hat
+cravat
+crown
+cuff links
+cuffs
+culottes
+cummerbund
+cyborg
+dashiki
+denim
+detached sleeves
+diamond ring
+dinner jacket
+dirndl
+drawers
+dress shirt
+dress
+duds
+dungaree shorts
+dungarees
+earmuffs
+earrings
+elastic
+evening gown
+fancy watch
+fashion
+fatigues
+fedora
+fez
+flak jacket
+flannel nightgown
+flannel shirt
+flip-flops
+formal wear
+frills
+frock
+fur coat
+fur
+gabardine
+gaiters
+galoshes
+garb
+garment
+garters
+gear
+getup
+gilet
+girdle
+glasses
+gloves
+gold ring
+gown
+halter top
+handbag
+handkerchief
+hat
+Hawaiian shirt
+hazmat suit
+headscarf
+helmet
+hem
+high heels
+hooded cloak
+hoodie
+hook and eye
+hose
+hosiery
+hospital gown
+houndstooth
+housecoat
+jacket
+jeans
+jeans
+jersey
+jewelry
+jodhpurs
+jumper
+jumpsuit
+kerchief
+khaki pants
+khakis
+kilt
+kimono
+kit
+knickers
+lab coat
+lapel
+leather jacket
+leather pants
+leg warmers
+leggings
+leotard
+life jacket
+lingerie
+loafers
+loincloth
+long johns
+long socks
+long underwear
+maxi skirt
+miniskirt
+mittens
+moccasins
+muffler
+muumuu
+neckerchief
+necklace
+necklace
+nightgown
+nightshirt
+onesies
+outerwear
+outfit
+overalls
+overcoat
+overshirt
+pajamas
+pajamas
+panama hat
+pants
+pantsuit
+pantyhose
+parka
+pea coat
+peplum
+perfectly tailored suit
+petticoat
+pig costume
+pinafore
+pleat
+pleated skirt
+pocket
+pocketbook
+polo shirt
+poncho
+poodle skirt
+pork pie hat
+pullover
+pumps
+purse
+raincoat
+ring
+robe
+robot
+rugby shirt
+sandals
+sari
+sarong
+sash
+scarf
+school uniform
+scrubs
+shawl
+sheath dress
+shift dress
+shirt
+shoe
+short sleeves
+shorts
+shoulder pads
+shrug
+singlet
+skirt
+slacks
+sleeveless
+slip
+slippers
+smock
+snaps
+sneakers
+sock
+sombrero
+spacesuit
+Stetson hat
+stockings
+stole
+suit
+sun hat
+sunbonnet
+sundress
+sunglasses
+suspenders
+sweater
+sweatpants
+sweatshirt
+sweatsuit
+swimsuit
+T-shirt
+tam
+tank top
+teddy
+threads
+tiara
+tie clip
+tie
+toga
+togs
+top coat
+top hat
+top
+train
+trench coat
+trousers
+trunks
+tshirt
+tube skirt
+tube top
+tunic
+turban
+turtleneck
+tutu
+tux
+tuxedo
+tweed jacket
+twill
+twin set
+umbrella
+undershirt
+uniform
+veil
+Velcro
+vest
+vestments
+virus in electron microscope
+visor
+waders
+waistcoat
+wear
+wedding gown
+wedge heels
+Wellingtons
+wetsuit
+white tie
+wifebeater
+wig
+windbreaker
+woolens
+wrap
+yoke
+zipper
+zoris
+
+Ankle Boots
+Athletic Leggings
+Ballgown
+Bathing Suit
+Beach Cover-Up
+Belted Trench Coat
+Blazer and Slacks
+Bohemian Skirt
+Bomber Jacket
+Business Suit
+Button-Down Shirt
+Cardigan Sweater
+Casual Denim Shorts
+Classic White Blouse
+Cocktail Dress
+Crop Top and High-Waisted Jeans
+Denim Jacket
+Elegant Evening Gown
+Faux Fur Coat
+Floral Maxi Dress
+Flowy Kimono
+Graphic T-Shirt
+High Heels
+Hoodie and Sweatpants
+Jumpsuit
+Knee-Length Skirt
+Leather Pants
+Leather Jacket
+Lingerie Set
+Little Black Dress
+Maxi Skirt
+Mini Skirt
+Off-Shoulder Top
+One-Piece Swimsuit
+Overalls
+Oversized Sweater
+Pajamas
+Parka Jacket
+Peplum Blouse
+Puffer Coat
+Raincoat
+Romper
+Ruffled Blouse
+Sequin Dress
+Sheath Dress
+Silk Robe
+Skinny Jeans
+Slip Dress
+Sports Bra and Leggings
+Striped Tee and Jeans
+Summer Sundress
+Sweater Dress
+Tank Top
+Trench Coat
+Turtleneck Sweater
+Utility Jumpsuit
+Vintage A-Line Dress
+Western Boots
+Wool Coat
+Wrap Dress
+Yoga Pants and Tank Top
+Zip-Up Hoodie
+Asymmetrical Skirt
+Ballerina Flats
+Baseball Cap
+Bell-Bottom Pants
+Button-Up Cardigan
+Capri Pants
+Cashmere Scarf
+Chelsea Boots
+Chiffon Blouse
+Cocktail Party Dress
+Denim Skirt
+Fitted Blouse
+Flannel Shirt
+Flowy Palazzo Pants
+Gladiator Sandals
+Halter Neck Dress
+Harem Pants
+High-Waisted Bikini
+Hooded Poncho
+Jersey Dress
+Kaftan Dress
+Knee-High Boots
+Lace Camisole
+Leather Backpack
+Linen Pants
+Long Trench Coat
+Midi Dress
+Motorcycle Jacket
+Off-Shoulder Sweater
+Peasant Blouse
+Platform Sandals
+Polka Dot Dress
+Ruffle Skirt
+Satchel Bag
+Sheer Blouse
+Silk Kimono
+Slip Skirt
+Tulle Skirt
+
+Pixie Cut
+Bob Cut
+Layered Haircut
+Shaggy Haircut
+Long Straight Hair
+Wavy Lob
+Asymmetrical Bob
+Blunt Cut
+Crew Cut
+Tapered Pixie
+Side-Swept Bangs
+Curly Bob
+French Crop
+Chin-Length Bob
+Undercut
+Mohawk
+Updo
+Tight Hair Bun
+Loose Hair Bun
+Braided Crown
+
+Classic White T-Shirt
+Dress Shirt and Tie
+Slim-Fit Suit
+Jeans and T-Shirt
+Polo Shirt and Chinos
+Business Casual Outfit
+Sports Jacket
+Hoodie and Jeans
+Bomber Jacket
+Leather Jacket
+Flannel Shirt
+Cargo Pants
+Varsity Jacket
+Casual Blazer
+Denim Jacket
+Dress Shoes
+Sneakers and Jeans
+Sweater and Slacks
+Tailored Tuxedo
+Athletic Wear
+
+Crew Cut
+Undercut
+Pompadour
+Taper Fade
+Buzz Cut
+Quiff
+Comb Over
+Spiky Hair
+Faux Hawk
+High and Tight
+Side Part
+Textured Crop
+Slicked Back
+Mohawk
+Long Hair and Beard
+Caesar Cut
+Ivy League Cut
+Curly Top
+Shaved Sides and Back
+
+glasses
+button-down sweater
+
+winter clothes
+heavy coat
+long sleeves
+black gloves
+
+hoop earrings
+
+ribbon
+hair ornament
+flower in hair

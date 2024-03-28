@@ -1,0 +1,78 @@
+Aerial View
+Bird's Eye View
+Camera View From Above
+Canted Angle (Dutch Tilt)
+Cinematic Panorama
+Close-up View
+Drone View
+Dutch Angle (Oblique View)
+Eye-Level Shot
+Extreme Close-Up (ECU)
+Extreme Long Shot
+Far-Shot Angle
+First-Person View
+Front View
+Frog's Eye View
+Full-Shot Angle
+Ground-Shot Angle
+High Angle View
+Isometric View
+Knee-Level Shot
+Long Exposure
+Long Shot
+Low-Angle View
+Medium Close-Up
+Medium Long Shot
+Medium-Shot Angle
+Microscopic View
+Nose-Level Shot
+Outer space View
+Over-the-Shoulder View
+Point of View (POV) Shot
+Product View
+Rear View
+Satellite View
+Shoulder-Level Shot
+Side View
+Skewed Angle
+Split Screen View
+Tilt-shift
+Two-Shot / Three-Shot
+Top View
+Ultra-Wide Angle
+Widee Angle View
+Worm's Eye View
+
+14mm
+18mm 
+24mm 
+35mm 
+50mm 
+85mm
+100mm 
+200mm 
+300mm
+400mm 
+500mm
+360 vr lens
+Blurry lens
+Bokeh lens
+Fish-eye
+Fisheye Lens
+Fisheye Lens
+Fish-eye
+Macro Lens
+Micro Lens
+Telephoto lens
+Ultra-Wide Angle lens
+Wide Angle lens
+
+Portrait, 85mm, f/1.4
+Landscape, 24mm, f/11
+Macro, 100mm (Macro Lens), f/2.8
+Low-Light, 50mm, f/1.8 or wider
+Sports, 300mm, f/2.8 
+Street, 35mm, f/2.8
+Astrophotography, 14mm, f/2.8
+Product, 50mm, f/8
+

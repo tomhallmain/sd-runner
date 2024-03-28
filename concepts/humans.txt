@@ -1,0 +1,29 @@
+# TODO expand this list
+young man
+young woman
+teen boy
+teen girl
+preteen boy
+preteen girl
+toddler
+baby
+grandma
+grandpa
+middle-aged man
+middle-aged woman
+father
+mother
+father and mother
+sister
+daughter
+brother
+son
+sisters and brothers
+family
+friends
+farmer
+man
+woman
+child
+multiple people
+different people

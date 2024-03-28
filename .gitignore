@@ -1,0 +1,7 @@
+__pycache__
+prompts/test.json
+#concepts/nsfw*
+#concepts/nsfl*
+sdg_script.py
+temp.py
+test_multiselect.py

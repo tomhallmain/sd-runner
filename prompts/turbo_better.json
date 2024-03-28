@@ -1,0 +1,102 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "Turbo\\realvisxlV30Turbo_v30TurboBakedvae.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "stop_at_clip_layer": -1,
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPSetLastLayer"
+  },
+  "3": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "4": {
+    "inputs": {
+      "text": "(simple background:1.5), plastic, daz_studio, blender, sfm,  anthro, lanky, long torso, blurry, lowres, low quality, embedding:badhandv4, embedding:EasyNegativeV2, embedding:Asian-Less-Neg, (nsfw:1.5),",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "5": {
+    "inputs": {
+      "seed": 108166210354571,
+      "steps": 5,
+      "cfg": 3.12,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "3",
+        0
+      ],
+      "negative": [
+        "4",
+        0
+      ],
+      "latent_image": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "KSampler"
+  },
+  "6": {
+    "inputs": {
+      "width": 1216,
+      "height": 832,
+      "batch_size": 2
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "7": {
+    "inputs": {
+      "samples": [
+        "5",
+        0
+      ],
+      "vae": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "8": {
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "11": {
+    "inputs": {
+      "filename_prefix": "ComfyUI_Turbo",
+      "images": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  }
+}

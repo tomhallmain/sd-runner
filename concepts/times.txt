@@ -1,0 +1,14 @@
+morning
+afternoon
+evening
+dusk
+twilight
+soft morning light
+golden hour
+night
+spring
+summer
+fall
+winter
+bedtime
+midday

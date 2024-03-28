@@ -1,0 +1,91 @@
+{
+    "default_prompt_mode": "FIXED",
+    "default_workflow": "simple_image_gen.json",
+    "default_model": "analogMadness_v60.safetensors",
+    "default_n_latents": 1,
+    "default_positive_prompt": "",
+    "default_negative_prompt": "simple background, fused body parts, extra limbs, worst quality, blurry, lowres, low quality, ",
+    "default_positive_tags": "",
+    "default_negative_tags": "",
+    "default_b_w_colorization": "magenta coral cerulean teal gold orange rose marble texture, natural shell iridescence, ",
+    "default_lora_strength": 0.6,
+    "default_controlnet_strength": 0.95,
+    "default_ipadapter_strength": 0.5,
+    "default_resolution_tag": "square",
+    "default_resolution_width": 512,
+    "default_resolution_height": 512,
+    "model_prompt_tags_negative": true,
+    "model_prompt_tags_positive": true,
+    "override_base_negative": false,
+    "skip_confirmations": false,
+    "print_negatives": false,
+    "prompter_get_specific_locations": true,
+    "random_skip_chance": 0,
+    "gen_order": [
+        "control_nets",
+        "ip_adapters",
+        "resolutions",
+        "models",
+        "vaes",
+        "loras"
+    ],
+    "redo_parameters": [
+        "n_latents",
+        "resolutions",
+        "models",
+        "loras"
+    ],
+    "model_presets": [
+        {
+            "model_tags": "pony,realpony",
+            "clip_req": -2,
+            "prompt_tags": {
+                "ANIME": {
+                    "positive": "score_9, score_8_up, score_7_up, score_6_up, (score:anime), clean lines\nBREAK\n",
+                    "negative": "watermark, flowers, sfm, hair dye, anthro, lanky, long torso, "
+                },
+                "*": {
+                    "positive": "score_9, score_8_up, score_7_up, score_6_up, score:explicit, hyperrealistic photograph, vivid color, expressive faces, masterpiece, best quality\nBREAK\n",
+                    "negative": "watermark, flowers, sfm, hair dye, anthro, lanky, long torso, "
+                }
+            }
+        },
+        {
+            "model_tags": "DreamShaper_6.31,dreamshaperXL10",
+            "prompt_tags": {
+                "ANIME": {
+                    "positive": "hyperrealistic, 8kdslr, "
+                }
+            }
+        },
+        {
+            "model_tags": "opendalle",
+            "clip_req": -2
+        }
+    ],
+    "prompt_presets": [
+        {
+            "prompt_modes": ["NSFW", "NSFL"],
+            "prepend_prompt": "beautiful woman",
+            "chance": 0.9
+        }
+    ],
+
+    "img_dir": "{HOME}\\img",
+    "img_temps_dir": "{HOME}\\img\\img_temps",
+    "ipadapter_dir": "{HOME}\\img\\ipadapter_bases",
+    "comfyui_loc": "{HOME}\\ComfyUI",
+    "sd_webui_loc": "{HOME}\\stable-diffusion-webui",
+    "sd_prompt_reader_loc": "{HOME}\\stable-diffusion-prompt-reader",
+    "image_searcher_dir": "D:\\stable-diffusion-webui\\log\\images",
+    "image_searcher_dir2": "D:\\img",
+
+    "interrogator_initial_question_categories": {
+        "category1": true,
+        "category2": false
+    },
+    "interrogator_interrogation_dir": "{HOME}\\Downloads",
+    "interrogator_initial_questions_file": "{HOME}\\refac-dir\\questions_initial.json",
+    "interrogator_questions_file": "{HOME}\\refac-dir\\questions.json",
+    "interrogator_folder_category_mappings_file": "{HOME}\\refac-dir\\folder_category_mappings.json"
+}

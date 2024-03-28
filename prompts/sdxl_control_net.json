@@ -1,0 +1,403 @@
+{
+  "4": {
+    "inputs": {
+      "ckpt_name": "XL\\realvisxlV20_v20Bakedvae.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "5": {
+    "inputs": {
+      "width": [
+        "267",
+        0
+      ],
+      "height": [
+        "267",
+        1
+      ],
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "8": {
+    "inputs": {
+      "samples": [
+        "23",
+        0
+      ],
+      "vae": [
+        "241",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "10": {
+    "inputs": {
+      "ckpt_name": "XL\\realvisxlV20_v20Bakedvae.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "22": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 302177903849490,
+      "steps": 30,
+      "cfg": 7.5,
+      "sampler_name": "dpm_2",
+      "scheduler": "normal",
+      "start_at_step": 0,
+      "end_at_step": 22,
+      "return_with_leftover_noise": "enable",
+      "model": [
+        "239",
+        0
+      ],
+      "positive": [
+        "251",
+        0
+      ],
+      "negative": [
+        "82",
+        0
+      ],
+      "latent_image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "23": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 302177903849490,
+      "steps": 30,
+      "cfg": 7.5,
+      "sampler_name": "dpm_2",
+      "scheduler": "normal",
+      "start_at_step": 22,
+      "end_at_step": 1000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "120",
+        0
+      ],
+      "negative": [
+        "81",
+        0
+      ],
+      "latent_image": [
+        "22",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "75": {
+    "inputs": {
+      "width": 2048,
+      "height": 2048,
+      "crop_w": 0,
+      "crop_h": 0,
+      "target_width": 2048,
+      "target_height": 2048,
+      "text_g": "",
+      "text_l": "",
+      "clip": [
+        "239",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL"
+  },
+  "81": {
+    "inputs": {
+      "ascore": 2,
+      "width": 2048,
+      "height": 2048,
+      "text": "noise, grit, dull, washed out, low contrast, blurry, deep-fried, hazy, malformed, warped, deformed, grayscale",
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXLRefiner"
+  },
+  "82": {
+    "inputs": {
+      "width": 2048,
+      "height": 2048,
+      "crop_w": 0,
+      "crop_h": 0,
+      "target_width": 2048,
+      "target_height": 2048,
+      "text_g": "noise, grit, dull, washed out, low contrast, blurry, deep-fried, hazy, malformed, warped, deformed, grayscale",
+      "text_l": "noise, grit, dull, washed out, low contrast, blurry, deep-fried, hazy, malformed, warped, deformed, grayscale",
+      "clip": [
+        "239",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL"
+  },
+  "120": {
+    "inputs": {
+      "ascore": 6,
+      "width": 2048,
+      "height": 2048,
+      "text": "",
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXLRefiner"
+  },
+  "184": {
+    "inputs": {
+      "filename_prefix": "output_",
+      "images": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  },
+  "187": {
+    "inputs": {
+      "model_name": "4x_foolhardy_Remacri.pth"
+    },
+    "class_type": "UpscaleModelLoader"
+  },
+  "201": {
+    "inputs": {
+      "filename_prefix": "upscaled_",
+      "images": [
+        "221",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  },
+  "213": {
+    "inputs": {
+      "upscale_model": [
+        "187",
+        0
+      ],
+      "image": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "ImageUpscaleWithModel"
+  },
+  "215": {
+    "inputs": {
+      "upscale_method": "area",
+      "scale_by": 0.5,
+      "image": [
+        "213",
+        0
+      ]
+    },
+    "class_type": "ImageScaleBy"
+  },
+  "216": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 302177903849490,
+      "steps": 30,
+      "cfg": 7.5,
+      "sampler_name": "dpm_2",
+      "scheduler": "ddim_uniform",
+      "start_at_step": 20,
+      "end_at_step": 28,
+      "return_with_leftover_noise": "enable",
+      "model": [
+        "239",
+        0
+      ],
+      "positive": [
+        "75",
+        0
+      ],
+      "negative": [
+        "82",
+        0
+      ],
+      "latent_image": [
+        "217",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "217": {
+    "inputs": {
+      "pixels": [
+        "215",
+        0
+      ],
+      "vae": [
+        "241",
+        0
+      ]
+    },
+    "class_type": "VAEEncode"
+  },
+  "218": {
+    "inputs": {
+      "samples": [
+        "255",
+        0
+      ],
+      "vae": [
+        "241",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "221": {
+    "inputs": {
+      "blend_factor": 0.1125,
+      "blend_mode": "overlay",
+      "image1": [
+        "218",
+        0
+      ],
+      "image2": [
+        "218",
+        0
+      ]
+    },
+    "class_type": "ImageBlend"
+  },
+  "239": {
+    "inputs": {
+      "lora_name": "XL\\add-detail-xl.safetensors",
+      "strength_model": 0.5,
+      "strength_clip": 0.5,
+      "model": [
+        "244",
+        0
+      ],
+      "clip": [
+        "244",
+        1
+      ]
+    },
+    "class_type": "LoraLoader"
+  },
+  "241": {
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "244": {
+    "inputs": {
+      "lora_name": "XL\\sd_xl_offset_example-lora_1.0.safetensors",
+      "strength_model": 0.5,
+      "strength_clip": 1,
+      "model": [
+        "10",
+        0
+      ],
+      "clip": [
+        "10",
+        1
+      ]
+    },
+    "class_type": "LoraLoader"
+  },
+  "246": {
+    "inputs": {
+      "control_net_name": "diffusers_xl_depth_full.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "248": {
+    "inputs": {
+      "image": "",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "251": {
+    "inputs": {
+      "strength": 0.8,
+      "conditioning": [
+        "75",
+        0
+      ],
+      "control_net": [
+        "246",
+        0
+      ],
+      "image": [
+        "248",
+        0
+      ]
+    },
+    "class_type": "ControlNetApply"
+  },
+  "255": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 302177903849490,
+      "steps": 30,
+      "cfg": 7.5,
+      "sampler_name": "dpm_2",
+      "scheduler": "ddim_uniform",
+      "start_at_step": 28,
+      "end_at_step": 1000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "120",
+        0
+      ],
+      "negative": [
+        "81",
+        0
+      ],
+      "latent_image": [
+        "216",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "266": {
+    "inputs": {
+      "side_length": 1152,
+      "side": "Longest",
+      "upscale_method": "nearest-exact",
+      "crop": "disabled",
+      "image": [
+        "248",
+        0
+      ]
+    },
+    "class_type": "Image scale to side"
+  },
+  "267": {
+    "inputs": {
+      "image": [
+        "266",
+        0
+      ]
+    },
+    "class_type": "Get Image Size"
+  }
+}
