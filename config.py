@@ -3,6 +3,8 @@ import os
 
 
 class Config:
+    CONFIG_FILE_LOC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
+
     def __init__(self):
         self.dict = {}
         self.img_dir = None
@@ -25,7 +27,7 @@ class Config:
         self.interrogator_folder_category_mappings_file = None
 
         try:
-            self.dict = json.load(open("config.json", "r"))
+            self.dict = json.load(open(Config.CONFIG_FILE_LOC, "r"))
             self.img_dir = self.validate_and_set_directory(key="img_dir")
             self.img_temps_dir = self.validate_and_set_directory(key="img_temps_dir")
             self.ipadapter_dir = self.validate_and_set_directory(key="ipadapter_dir")

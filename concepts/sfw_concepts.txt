@@ -44,6 +44,8 @@ humid
 dry
 blizzard
 grungy
+flowing
+blocky
 highest definition
 acrylic on canvas
 anime
@@ -203,6 +205,69 @@ portrait
 landscape
 
 
+Iron Age reconstruction
+Copper Age reconstruction
+Bronze Age reconstruction
+Third Reich Deustchland
+Elizabethan England
+Victorian England
+Roman Republic
+Imperial Rome
+Egyptian Empire
+Persian Empire
+Middle Ages
+1500 BC
+1400 BC
+1300 BC
+1200 BC
+1100 BC
+1000 BC
+900 BC
+800 BC
+700 BC
+600 BC
+500 BC
+400 BC
+300 BC
+200 BC
+100 BC
+0 AD
+100 AD
+200 AD
+300 AD
+400 AD
+500 AD
+600 AD
+700 AD
+800 AD
+900 AD
+1000 AD
+1100 AD
+1200 AD
+1300s
+1400s
+1500s
+1600s
+1700s
+1800s
+1890s
+Gilded Age
+Worlds Fair
+1900s
+1920s
+1930s
+1940s
+1950s
+1960s
+1970s
+1980s
+1990s
+2000s
+2010s
+2020s
+
+
+
 (dark club with neon lights)
 ancient
 ancient Egypt
@@ -225,9 +290,12 @@ black tar and oil
 Blockchain Technology
 brain
 broken
+broken glass
+broken cup
 bubbles
 burning sun
 cat
+cellular automata
 central processing unit
 checkboard
 cinematic render
@@ -250,12 +318,15 @@ dark dungeon
 deep learning
 destitute
 detailed background
+die shot integrated circuitry
 dirty
 disco ball
 dog
 dragon
 egg
 electricity
+embroidery
+embroidered
 ethereal light
 evolutionary computing 
 exoskeleton
@@ -270,10 +341,12 @@ flowering plant
 flowers
 fractal
 fruits
+fond broderie
 giant vat
 glow
 goat
 gold sheen
+golden ratio
 grilled meats
 hairy
 halo
@@ -304,6 +377,7 @@ moss
 musculoskelatal system
 mushrooms
 neat
+negative space
 nerve clusters
 nervous system
 noosphere
@@ -317,6 +391,7 @@ pacifier
 palm plantation
 panda
 perfectly cut gemstone
+phase congruence
 pillow
 planet
 poor
@@ -327,6 +402,8 @@ reflecting
 reflections
 rich
 robot
+rock face
+ruined
 satellites
 scales
 scuffed
@@ -346,9 +423,11 @@ spacetime
 speech bubble
 spinal column
 spindly
+spiral matrix
 spooky
 star charts
 stasis tank
+stone
 stuffed animals
 supermassive black hole
 symbol
@@ -361,6 +440,8 @@ vectors
 vicious animal
 vicious creature
 vicious dog
+viral molecule
+voronoi trees
 whale
 wings
 wires

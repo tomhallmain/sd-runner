@@ -187,18 +187,9 @@ def main():
     interrogator.report()
 
     # Initial questions
-    # interrogator.questions = pyjson5.load(open(config.interrogator_initial_questions_file, "r"))
-
-
-    # TODO TODO TODO REMOVE
-    initial_question_categories = {
-        "nsfw": False,
-        "girl": False,
-        "humans": False,
-        "black": True,
-    }
-
-    initial_question_categories = config.dict["interrogator_initial_question_categories"]
+    # iniitial_questions = pyjson5.load(open(config.interrogator_initial_questions_file, "r"))
+    # interrogator.questions = initial_questions["questions"]
+    # initial_question_categories = initial_questions["categories"]
 
     # while interrogator.state_has_images_remaining(State.UNSEEN):
     #     interrogator.interrogate_batch(max=40, state=State.UNSEEN, new_state=State.REVIEW_BASED_ON_INITIAL_QUESTIONS)
@@ -208,7 +199,10 @@ def main():
     #     interrogator.report()
     #     time.sleep(10)
 
-    interrogator.update_state(old_state=State.UNSEEN, new_state=State.SEEN_AFTER_INITIAL_QUESTIONS) # TODO REMOVE
+    # TODO REMOVE
+    interrogator.update_state(old_state=State.UNSEEN, new_state=State.SEEN_AFTER_INITIAL_QUESTIONS)
+
+    # Main questions
 
     interrogator.questions = pyjson5.load(open(config.interrogator_questions_file, "r"))
     folder_category_mappings = pyjson5.load(open(config.interrogator_folder_category_mappings_file, "r"))

@@ -186,7 +186,7 @@ Spotlight on a Performer # A performer on a stage bathed in a spotlight.
 Lighting of a Cathedral # A cathedral interior beautifully lit during a ceremony.
 Fire Dancers # Dancers twirling fire in the darkness of the night.
 Dazzling Christmas Lights # A house adorned with elaborate Christmas lights.
-Retro Disco Ball # A dance floor with light reflecting off a disco ball.
+Retro Disco # A dance floor with light reflecting off a disco ball.
 Carnival Ferris Wheel # A vibrant ferris wheel lit up at a nighttime carnival.
 Solar Eclipse # A rare solar eclipse creating unique lighting effects.
 
