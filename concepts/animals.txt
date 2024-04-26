@@ -502,6 +502,11 @@ Canvasback
 Cape Lion
 Capuchin
 Capybara
+Capybara
+Capybara
+Capybara
+Capybara
+Capybara
 Caracal
 Cardinal
 Caribbean Reef Shark
@@ -1594,6 +1599,9 @@ Mangrove Snapper
 Manta Ray
 Mantella Frog
 Manul - Pallas Cat
+Manul - Pallas Cat
+Manul - Pallas Cat
+Manul - Pallas Cat
 Marabou Stork
 Marans Chicken
 Marble Fox
@@ -1752,6 +1760,7 @@ Northern Bobwhite
 Northern Cardinal
 Northern Flicker
 Northern Fur Seal
+Happy Seal
 Northern Harrier
 Northern Inuit Dog
 Northern Jacana
@@ -2035,6 +2044,11 @@ Quail
 Queen Snake
 Quetzal
 Quetzalcoatlus northropi
+Quokka
+Quokka
+Quokka
+Quokka
+Quokka
 Quokka
 Quoll
 Rabbit

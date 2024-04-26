@@ -47,7 +47,7 @@ class WorkflowPrompt:
     ID = "id"
     INPUTS = "inputs"
     NON_API_INPUTS = "widgets_values"
-    PROMPTS_LOC = "prompts"
+    PROMPTS_LOC = os.path.join(os.path.abspath(os.path.dirname(__file__)), "prompts")
     LAST_PROMPT_FILENAME = "test.json"
     LAST_PROMPT_FILE = os.path.join(PROMPTS_LOC, LAST_PROMPT_FILENAME)
 
@@ -130,6 +130,8 @@ class WorkflowPrompt:
         return self.get_sampler_node()[WorkflowPrompt.INPUTS]
 
     def set_for_class_type(self, class_type, key, value):
+        if not value:
+            return
         node = self.find_node_of_class_type(class_type)
         node[WorkflowPrompt.INPUTS][key] = value
 
@@ -140,7 +142,7 @@ class WorkflowPrompt:
     def set_by_id(self, id_key, key, value):
         self.json[id_key][WorkflowPrompt.INPUTS][key] = value
 
-    def find_linked_input_node(self, starting_class_type=ComfyNodeName.IP_ADAPTER, class_type=ComfyNodeName.LOAD_IMAGE, vartype="image"):
+    def find_linked_input_node(self, starting_class_type=ComfyNodeName.IP_ADAPTER_ADVANCED, class_type=ComfyNodeName.LOAD_IMAGE, vartype="image"):
         found_node = None
         counter = 0
         next_input = ()
@@ -158,7 +160,7 @@ class WorkflowPrompt:
             raise Exception(f"Could not find input {class_type} of type {vartype} for {starting_class_type}")
         return found_node
 
-    def set_linked_input_node(self, value, starting_class_type=ComfyNodeName.IP_ADAPTER, class_type=ComfyNodeName.LOAD_IMAGE, vartype="image"):
+    def set_linked_input_node(self, value, starting_class_type=ComfyNodeName.IP_ADAPTER_ADVANCED, class_type=ComfyNodeName.LOAD_IMAGE, vartype="image"):
         if not value:
             return
         node = self.find_linked_input_node(starting_class_type=starting_class_type, class_type=class_type, vartype=vartype)
@@ -204,11 +206,9 @@ class WorkflowPrompt:
             return
         if model:
             if positive:
-                if Globals.MODEL_PROMPT_TAGS_POSITIVE and model.positive_tags:
-                    text = model.positive_tags + text
+                text, negative = model.get_model_text(text, "")
             else:
-                if not Globals.OVERRIDE_BASE_NEGATIVE and Globals.MODEL_PROMPT_TAGS_NEGATIVE and model.negative_tags:
-                    text = model.negative_tags + text
+                _positive, text = model.get_model_text("", text)
             if model.clip_req:
                 self.set_clip_last_layer(model.clip_req)
         try:
@@ -228,10 +228,7 @@ class WorkflowPrompt:
         if not (positive or negative):
             return
         if model:
-            if Globals.MODEL_PROMPT_TAGS_POSITIVE and model.positive_tags:
-                positive = model.positive_tags + positive
-            if not Globals.OVERRIDE_BASE_NEGATIVE and Globals.MODEL_PROMPT_TAGS_NEGATIVE and model.negative_tags:
-                negative = model.negative_tags + negative
+            positive, negative = model.get_model_text(positive, negative)
             if model.clip_req:
                 self.set_clip_last_layer(model.clip_req)
         if positive:
@@ -367,13 +364,13 @@ class WorkflowPrompt:
     def set_ip_adapter_image(self, image_path):
         if not image_path:
             return
-        self.set_linked_input_node(image_path, ComfyNodeName.IP_ADAPTER)
+        self.set_linked_input_node(image_path, ComfyNodeName.IP_ADAPTER_ADVANCED)
 
     def set_ip_adapter_model(self, model):
         if not model:
             return
         try:
-            self.set_for_class_type(ComfyNodeName.IP_ADAPTER, "model_name", model)
+            self.set_for_class_type(ComfyNodeName.IP_ADAPTER_ADVANCED, "model_name", model)
         except Exception:
             self.set_for_class_type(ComfyNodeName.IP_ADAPTER_MODEL_LOADER, "ipadapter_file", model)
 
@@ -381,7 +378,7 @@ class WorkflowPrompt:
         if not strength:
             print("NO STRENGTH FOUND")
             return
-        self.set_for_class_type(ComfyNodeName.IP_ADAPTER, "weight", strength)
+        self.set_for_class_type(ComfyNodeName.IP_ADAPTER_ADVANCED, "weight", strength)
 
     def set_image_scale_to_side(self, longest):
         if not longest:

@@ -7,8 +7,8 @@ from config import config
 
 
 class PrompterConfiguration:
-    def __init__(self, concepts_config=(1,3), positions_config=(0,2), locations_config=(0,2),
-                 animals_config=(0,2,0.1), colors_config=(0,2), times_config=(0,1),
+    def __init__(self, concepts_config=(1,3), positions_config=(0,2), locations_config=(0,1),
+                 animals_config=(0,1,0.1), colors_config=(0,2), times_config=(0,1),
                  dress_config=(0,2,0.5), expressions=True, actions=(0,2), descriptions=(0,1),
                  random_words_config=(0,5)) -> None:
         self.concepts = concepts_config

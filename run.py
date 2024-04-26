@@ -19,6 +19,10 @@ prompt_list = [
 
 
 class RunConfig:
+    previous_model_tags = None
+    model_switch_detected = False
+    has_warned_about_prompt_massage_text_mismatch = False
+
     def __init__(self, args=None):
         self.args = args
         self.workflow_tag = self.get("workflow_tag")
@@ -43,6 +47,11 @@ class RunConfig:
         self.auto_run = self.get("auto_run")
         self.total = self.get("total")
 
+        if RunConfig.previous_model_tags != self.model_tags:
+            RunConfig.model_switch_detected = True
+
+        RunConfig.previous_model_tags = self.model_tags
+
     def get(self, name):
         if isinstance(self.args, dict):
             return self.args[name]
@@ -55,6 +64,11 @@ class RunConfig:
         # Check here if for example, using FIXED prompt mode and > 6 set total
         if self.prompt_mode == PromptMode.FIXED and self.total > 10:
             raise Exception("Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?")
+        if RunConfig.model_switch_detected and not RunConfig.has_warned_about_prompt_massage_text_mismatch:
+            prompt_massage_tags = Model.get_first_model_prompt_massage_tags(self.model_tags, prompt_mode=self.prompt_mode, inpainting=self.inpainting)
+            if Globals.POSITIVE_PROMPT_MASSAGE_TAGS != prompt_massage_tags:
+                RunConfig.has_warned_about_prompt_massage_text_mismatch = True
+                raise Exception("A model switch was detected and the model massage tags don't match. This warning will only be shown once.")
         return True
 
 

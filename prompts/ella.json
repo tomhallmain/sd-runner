@@ -1,0 +1,79 @@
+{
+  "27": {
+    "inputs": {
+      "model": [
+        "29",
+        0
+      ],
+      "clip": [
+        "29",
+        1
+      ],
+      "vae": [
+        "29",
+        2
+      ]
+    },
+    "class_type": "ella_model_loader",
+    "_meta": {
+      "title": "ELLA Model Loader"
+    }
+  },
+  "29": {
+    "inputs": {
+      "ckpt_name": "analogMadness_v60.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "30": {
+    "inputs": {
+      "images": [
+        "36",
+        0
+      ],
+      "filename_prefix": "ELLA_"
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "36": {
+    "inputs": {
+      "width": 512,
+      "height": 768,
+      "steps": 25,
+      "guidance_scale": 10,
+      "seed": 198246043884619,
+      "scheduler": "DDPMScheduler",
+      "ella_model": [
+        "27",
+        0
+      ],
+      "ella_embeds": [
+        "37",
+        0
+      ]
+    },
+    "class_type": "ella_sampler",
+    "_meta": {
+      "title": "ELLA Sampler"
+    }
+  },
+  "37": {
+    "inputs": {
+      "prompt": "",
+      "batch_size": 4,
+      "max_length": 128,
+      "fixed_negative": false,
+      "flexible_max_length": true
+    },
+    "class_type": "ella_t5_embeds",
+    "_meta": {
+      "title": "ELLA T5 Embeds"
+    }
+  }
+}

@@ -1,12 +1,7 @@
-wide-angle shot
-strange magic
-magenta coral cerulean teal gold orange rose marble texture
-natural shell iridescence
-tentacles and creatures
-(scenic nature, misty)
 
 abstract
 aura
+blur
 blurry
 bright
 cold
@@ -14,6 +9,7 @@ colorful
 concept art
 dark
 detailed
+very detailed
 distorted
 hard edges
 emotive
@@ -46,10 +42,29 @@ blizzard
 grungy
 flowing
 blocky
+airbrushed
+sharpened
+burnt
 highest definition
 acrylic on canvas
 anime
+line art
+bold black outlines
 architectural render
+flat design
+transparent background
+detailed background
+high-resolution vector output
+smooth curves
+2D vector style
+versatile
+scalable
+suitable for various media
+generic
+universal appeal
+monochrome
+centered composition
+main shape focus
 comic book
 engineering schematic
 pencil sketch
@@ -60,13 +75,19 @@ amateur photo
 raw photo
 bokeh
 depth of field
+lomo
 graphic art
 print art
+Currier and Ives
 sfm
 blender
 3d model
 gaussian splatting
+film
 silver nitrate film
+poster
+movie poster
+concert poster
 daguerrotype
 hologram
 holographic
@@ -91,6 +112,7 @@ bi-linear interpolation
 bitmap
 ccd
 perfect composition
+embroidery
 excellent art
 corrupted pixels
 glitch art
@@ -104,7 +126,9 @@ electromagnetic spectrum
 electromagnetic
 gaussian noise
 degaussing
+geometry
 geometric process
+mapping
 high-key image
 high-contrast image
 high-pass filter
@@ -192,7 +216,14 @@ breathtaking
 wallpaper
 backlighting
 thick textured paint style impasto
-
+wide-angle shot
+strange magic
+magenta coral cerulean teal gold orange rose marble texture
+natural shell iridescence
+tentacles and creatures
+(scenic nature, misty)
+fiber optic strands
+magical realism
 
 
 dynamic angle
@@ -267,11 +298,27 @@ Worlds Fair
 2020s
 
 
+polygon
+linear
+triangle
+rhombus
+square
+trapezoid
+pentagon
+hexagon
+heptagon
+octagon
+nonagon
+decagon
+dodecahedron
+sphere
+
 
 (dark club with neon lights)
 ancient
 ancient Egypt
 ancient Rome
+Art Nouveau
 Artificial Intelligence
 atmosphere
 atomic bomb
@@ -292,12 +339,18 @@ brain
 broken
 broken glass
 broken cup
+bronze sculpture
 bubbles
 burning sun
+bust
+carved
 cat
 cellular automata
 central processing unit
+cereal box
 checkboard
+chibi
+chrome organic
 cinematic render
 circulatory system
 clean
@@ -319,6 +372,7 @@ deep learning
 destitute
 detailed background
 die shot integrated circuitry
+diorama
 dirty
 disco ball
 dog
@@ -327,13 +381,19 @@ egg
 electricity
 embroidery
 embroidered
+engraved
+ethereal
 ethereal light
 evolutionary computing 
 exoskeleton
 extraterrestrials
 extravagant
 family with kids
+fabric
 fat
+felt
+(ferrofluid:0.8)
+fine china porcelain
 fish
 flintlock
 floral arrangement
@@ -342,6 +402,8 @@ flowers
 fractal
 fruits
 fond broderie
+future world
+futuristic
 giant vat
 glow
 goat
@@ -356,11 +418,18 @@ house party
 hugging
 huge
 industrial
+insane art
+irregularities
 islam
+ivory
+kintsugi
 kiss
+jade figurine
 lagrange points
 lantern
 laser beam
+leather
+light box
 liminal space
 liquid metal
 lizard
@@ -368,14 +437,18 @@ machine learning
 magnets
 man
 married couple
+masterpiece
 melted
 messy
 molecular chemical bonds visualization
 mollusk
 molting
 moss
+mounted deer head on the wall
 musculoskelatal system
+museum exhibit
 mushrooms
+mystical
 neat
 negative space
 nerve clusters
@@ -394,24 +467,30 @@ perfectly cut gemstone
 phase congruence
 pillow
 planet
+houseplants
+plants
 poor
 porous volcanic stone
 protein folding visualization
 pushing buttons
 reflecting
 reflections
+regularity
+repeating patterns
 rich
 robot
 rock face
 ruined
 satellites
 scales
+sci fi
 scuffed
 sheep
 shining diamond
 shiny
 shocking blast
 silhouette
+silver
 simple background
 sinews
 sinuous
@@ -420,13 +499,17 @@ skull
 sky
 sloppy
 spacetime
+spiderweb
+spiderwebs
 speech bubble
 spinal column
 spindly
 spiral matrix
 spooky
 star charts
+statuette
 stasis tank
+steel sculpture
 stone
 stuffed animals
 supermassive black hole
@@ -434,8 +517,10 @@ symbol
 tame creature
 titian
 torus
+trinket
 twisted
 universal serial bus
+vaporwave
 vectors
 vicious animal
 vicious creature
@@ -445,9 +530,87 @@ voronoi trees
 whale
 wings
 wires
+wire sculpture
 woman
 wormhole
 young boy
 young girl
 young man
 young woman
+
+# Lighting Mood Prompts:
+
+Candlelit Dinner # A romantic dinner table illuminated by candlelight.
+Urban Neon Lights # A city street adorned with vibrant neon signs.
+Glowing Lanterns # Colorful paper lanterns lighting up a nighttime celebration.
+Sunset Silhouettes # People silhouetted against the warm hues of a setting sun.
+Lighthouse Beacon # The beam of light from a coastal lighthouse.
+Fairy Lights # A cozy room decorated with twinkling fairy lights.
+Starlit Night # A clear night sky filled with sparkling stars.
+Fireworks Spectacle # A dazzling fireworks display in the night sky.
+Traffic at Dusk # Headlights and taillights on a busy city street at dusk.
+Underwater Bioluminescence # Glowing creatures in the depths of the ocean.
+Fireplace Warmth # A cozy fireplace casting a warm glow in a living room.
+Lightning Storm # A dramatic sky illuminated by bolts of lightning.
+Glowing Fireflies # Fireflies lighting up a tranquil summer evening.
+Car Headlights on a Foggy Road # Beams of light piercing through thick fog.
+Retro Cinema Marquee # A vintage cinema marquee with glowing letters.
+Magical Forest Clearing # A clearing in a forest with soft, enchanting light.
+Concert Stage Lights # A rock concert stage bathed in colorful, dynamic lighting.
+Candle Procession # A religious or ceremonial procession with candles.
+Starry Skyscrapers # Modern city skyscrapers against a starry night sky.
+Street Vendor's Cart # A street food vendor's cart lit up at night.
+Bioluminescent Beach # A beach with waves glowing from bioluminescent organisms.
+Ethereal Moonlight # A serene landscape illuminated by a full moon.
+Glowing Desert Sands # The dunes of a desert shimmering in moonlight.
+Spotlight on a Performer # A performer on a stage bathed in a spotlight.
+Lighting of a Cathedral # A cathedral interior beautifully lit during a ceremony.
+Fire Dancers # Dancers twirling fire in the darkness of the night.
+Dazzling Christmas Lights # A house adorned with elaborate Christmas lights.
+Retro Disco # A dance floor with light reflecting off a disco ball.
+# Carnival Ferris Wheel # A vibrant ferris wheel lit up at a nighttime carnival.
+Solar Eclipse # A rare solar eclipse creating unique lighting effects.
+
+
+# Color Moods
+
+Vibrant Sunset # A stunning sunset with a palette of warm and vivid colors.
+Monochromatic Blue # A composition dominated by various shades of blue.
+Rainbow Over Waterfall # A rainbow arching over a cascading waterfall.
+Autumn Leaves # Fallen leaves in various shades of red, orange, and yellow.
+Neon Cityscape # A futuristic cityscape with neon lights and vibrant colors.
+Colorful Street Market # A bustling street market filled with vibrant fruits, textiles, and people.
+Fiery Red Sky # A dramatic and fiery red sky during a sunset.
+Blossoming Cherry Trees # Cherry blossom trees in full bloom with soft pink petals.
+Underwater Coral Reef # A colorful and diverse underwater coral reef.
+Graffiti Art # A vibrant and intricate graffiti mural on a city wall.
+# Colorful Hot Air Balloons # A sky filled with a variety of colorful hot air balloons.
+Desert Sunrise # A desert landscape bathed in warm, golden hues during sunrise.
+Green Rolling Hills # Lush green hills and meadows stretching into the distance.
+Subtle Pastels # A collection of soft and subtle pastel-colored objects.
+Colorful Street Art # Vibrant street art pieces adorning urban walls.
+Tropical Paradise # A tropical beach with turquoise waters, palm trees, and vibrant flowers.
+Underwater Paradise # A colorful underwater world with tropical fish and coral.
+Autumn Forest # A forest with trees in various shades of red, orange, and brown.
+Abstract Watercolor # A beautiful abstract watercolor painting with vivid colors.
+Butterfly Garden # A garden filled with butterflies in a range of bright colors.
+Mountain Sunrise # Snow-capped mountains glowing in the warm light of sunrise.
+Evening City Lights # A cityscape at dusk with bright, colorful lights.
+Northern Lights # The magical display of the Northern Lights in the night sky.
+Golden Fields # Fields of wheat or sunflowers in golden hues.
+# Rainbow Umbrellas # A street filled with colorful umbrellas, suspended in the air.
+# Colorful Bird Feathers # Close-up of exotic birds with vibrant plumage.
+Vintage Color Palette # A collection of vintage items with a classic color scheme.
+# Colorful Balloons # A bunch of helium balloons in a variety of bright colors.
+Paint Palette # A palette of vivid paint colors and brushes ready for an artist.
+Aurora Borealis # The ethereal and colorful Northern Lights dancing in the night sky.
+Mountain Wildflowers # Wildflowers in a mountain meadow with various colors.
+Autumn Vineyard # Rows of vineyards with autumn leaves changing colors.
+# Carnival Carousel # A carousel at a colorful carnival or fair.
+Colorful Frosted Cupcakes # A selection of frosted cupcakes in a bakery.
+Orchard in Bloom # An orchard filled with blossoming fruit trees.
+Beach Umbrellas # Colorful beach umbrellas on a sunny shore.
+Tropic Sunset # A tropical beach with a stunning sunset of vivid colors.
+Bohemian Textiles # Colorful textiles and fabrics in a bohemian style.
+# Chinese New Year # A vibrant Chinese New Year celebration with red lanterns.
+Peaceful Lavender Fields # Fields of fragrant lavender in various shades of purple.

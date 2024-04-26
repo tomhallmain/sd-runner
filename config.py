@@ -7,6 +7,7 @@ class Config:
 
     def __init__(self):
         self.dict = {}
+        self.comfyui_url = None
         self.img_dir = None
         self.img_temps_dir = None
         self.ipadapter_dir = None
@@ -28,6 +29,7 @@ class Config:
 
         try:
             self.dict = json.load(open(Config.CONFIG_FILE_LOC, "r"))
+            self.comfyui_url = self.dict["comfyui_url"]
             self.img_dir = self.validate_and_set_directory(key="img_dir")
             self.img_temps_dir = self.validate_and_set_directory(key="img_temps_dir")
             self.ipadapter_dir = self.validate_and_set_directory(key="ipadapter_dir")

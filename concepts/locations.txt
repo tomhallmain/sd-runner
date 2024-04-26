@@ -31,6 +31,7 @@ by the river
 cabin in the woods
 cafe
 camping by the river
+chicken coop
 church
 cinema
 city center
@@ -43,6 +44,7 @@ dark aquarium
 dark club with neon lights
 dark dungeon
 docks
+driveway
 dungeon
 endless void
 factory
@@ -62,12 +64,15 @@ hot springs
 hotel
 in a busy place
 in a canoe
+in a boardroom meeting
 in a mosque
 in a roman temple
 in a synagogue
 in space
 in the desert
+in the dining room
 in the jungle
+in the living room
 in the steppes
 in the woods
 in the wilderness
@@ -75,7 +80,6 @@ industrial park
 junkyard
 kitchen
 library
-Library
 living room
 market
 mountains
@@ -91,12 +95,16 @@ on a lake
 on a sailboat
 on a secluded beach
 on a surfboard
+on stage
 on the beach
 on the farm
 on the fen
 on the moon
 on the moors
+on the road
 on the space station
+on top of a mountain
+on top of a skyscraper
 open sea
 orchard
 overpass
@@ -108,6 +116,7 @@ pharmacy
 playground
 police station
 post office
+public baths
 restaurant
 road sign
 rooftop bar

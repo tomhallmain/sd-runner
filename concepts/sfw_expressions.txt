@@ -1,13 +1,16 @@
 amused
 angry
+ashamed
 begging
 blank expression
 blushing
 concerned
+confident
 crying
 despair
 determined
 devastated
+eager
 elated
 embarrassed
 exasperated
@@ -16,6 +19,7 @@ eyebrow raised
 grinning
 happy
 hopeful
+jovial
 joyful
 joyous
 knowing look
@@ -33,7 +37,9 @@ smile
 smiling
 smirk
 smug
+snarl
 sneering
+somber
 stinkeye
 surprised
 thinking face

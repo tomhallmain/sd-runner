@@ -22,6 +22,7 @@ looking left
 looking right
 looking up
 lying down
+lying prone
 lying on back
 lying on side
 lying on stomach

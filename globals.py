@@ -15,6 +15,7 @@ class Globals:
     DEFAULT_N_LATENTS = config.dict["default_n_latents"]
     DEFAULT_POSITIVE_PROMPT = config.dict["default_positive_prompt"]
     DEFAULT_NEGATIVE_PROMPT = config.dict["default_negative_prompt"]
+    POSITIVE_PROMPT_MASSAGE_TAGS = None # Used for models trained with quality tags in positive prompt
     DEFAULT_B_W_COLORIZATION = config.dict["default_b_w_colorization"]
     DEFAULT_LORA_STRENGTH = config.dict["default_lora_strength"]
     DEFAULT_CONTROL_NET_STRENGTH = config.dict["default_controlnet_strength"]
@@ -36,6 +37,10 @@ class Globals:
         cls.PROMPTER = prompter
 
     @classmethod
+    def set_prompt_massage_tags(cls, tags):
+        cls.POSITIVE_PROMPT_MASSAGE_TAGS = tags
+
+    @classmethod
     def get_image_data_extractor(cls):
         if cls.image_data_extractor is None:
             cls.image_data_extractor = ImageDataExtractor()
@@ -54,10 +59,12 @@ class Globals:
         cls.DEFAULT_CONTROL_NET_STRENGTH = strength
 
 
+
 class WorkflowType(Enum):
     SIMPLE_IMAGE_GEN = "simple_image_gen.json"
     SIMPLE_IMAGE_GEN_LORA = "simple_image_gen_lora.json"
     SIMPLE_IMAGE_GEN_TILED_UPSCALE = "simple_image_gen_tiled_upscale.json"
+    ELLA = "ella.json"
     INSTANT_LORA = "instant_lora.json"
     IP_ADAPTER = "ip_adapter.json"
     INPAINT_CLIPSEG = "inpaint_clipseg.json"
@@ -115,6 +122,7 @@ class ComfyNodeName:
     KSAMPLER_ADVANCED = "KSamplerAdvanced"
     SAMPLER_CUSTOM = "SamplerCustom"
     IP_ADAPTER = "IPAdapter"
+    IP_ADAPTER_ADVANCED = "IPAdapterAdvanced"
     IP_ADAPTER_MODEL_LOADER = "IPAdapterModelLoader"
     IMAGE_DUPLICATOR = "ImageDuplicator"
     IMPACT_WILDCARD_PROCESSOR = "ImpactWildcardProcessor"
@@ -124,3 +132,5 @@ class ComfyNodeName:
     CLIP_VISION = "CLIPVisionLoader"
     IMAGE_SCALE_TO_SIDE = "Image scale to side"
     IMAGE_SCALE = "ImageScale"
+    ELLA_T5_EMBEDS = "ella_t5_embeds"
+    ELLA_SAMPLER = "ella_sampler"

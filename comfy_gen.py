@@ -13,7 +13,7 @@ from workflow_prompt import WorkflowPrompt
 
 
 class ComfyGen:
-    BASE_URL = "http://127.0.0.1:8188"
+    BASE_URL = config.comfyui_url
     PROMPT_URL = BASE_URL + "/prompt"
     HISTORY_URL = BASE_URL + "/history"
     ORDER = config.gen_order
@@ -90,6 +90,8 @@ class ComfyGen:
             self.simple_image_gen_tiled_upscale(prompt, resolution, model, vae, n_latents, positive, negative, lora)
         elif workflow_id == WorkflowType.SIMPLE_IMAGE_GEN:
             self.simple_image_gen(prompt, resolution, model, vae, n_latents, positive, negative)
+        elif workflow_id == WorkflowType.ELLA:
+            self.ella(prompt, resolution, model, vae, n_latents, positive)
         elif workflow_id == WorkflowType.INSTANT_LORA:
             self.instant_lora(prompt, model, vae, n_latents, positive, negative, control_net, ip_adapter)
         elif workflow_id == WorkflowType.IP_ADAPTER:
@@ -135,6 +137,8 @@ class ComfyGen:
                 lora = kw["lora"]
                 if isinstance(lora, LoraBundle):
                     prompt = WorkflowPrompt("simple_image_gen_lora2.json")
+            if workflow_type == WorkflowType.INSTANT_LORA and model.is_xl:
+                prompt = WorkflowPrompt("instant_lora_xl.json")
             if not prompt:
                 prompt = WorkflowPrompt(workflow_type.value)
         self.counter += 1
@@ -228,6 +232,23 @@ class ComfyGen:
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         ComfyGen.queue_prompt(prompt)
 
+    def ella(self, prompt, resolution, model, vae, n_latents, positive):
+        prompt, model, vae = self.prompt_setup(WorkflowType.ELLA, "Assembling Ella prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive)
+        model = self.gen_config.redo_param("model", model)
+        if not model.is_sd_15() or resolution.is_xl():
+            raise Exception("ELLA only supports SD1.5 models and resolutions.")
+        prompt.set_model(model)
+#        prompt.set_vae(self.gen_config.redo_param("vae", vae))
+        prompt.set_for_class_type(ComfyNodeName.ELLA_T5_EMBEDS, "prompt", self.gen_config.redo_param("positive", positive))
+        prompt.set_for_class_type(ComfyNodeName.ELLA_SAMPLER, "seed", self.gen_config.redo_param("seed", self.get_seed()))
+        prompt.set_for_class_type(ComfyNodeName.ELLA_SAMPLER, "steps", self.gen_config.steps) if self.gen_config.steps and self.gen_config.steps > 0 else None
+        resolution = self.gen_config.redo_param("resolution", resolution)
+        if resolution:
+            prompt.set_for_class_type(ComfyNodeName.ELLA_SAMPLER, "width", resolution.width)
+            prompt.set_for_class_type(ComfyNodeName.ELLA_SAMPLER, "height", resolution.height)
+        prompt.set_for_class_type(ComfyNodeName.ELLA_T5_EMBEDS, "batch_size", self.gen_config.redo_param("n_latents", n_latents))
+        ComfyGen.queue_prompt(prompt)
+
     def renoiser(self, prompt, model, vae, n_latents, positive, negative, control_net):
         prompt, model, vae = self.prompt_setup(WorkflowType.RENOISER, "Assembling Renoiser prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
@@ -294,8 +315,6 @@ class ComfyGen:
 
     def instant_lora(self, prompt, model, vae, n_latents, positive, negative, control_net, ip_adapter):
         prompt, model, vae = self.prompt_setup(WorkflowType.INSTANT_LORA, "Assembling Instant LoRA prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, ip_adapter=ip_adapter)
-        if not model or not model.is_sd_15():
-            raise Exception("Invalid model for instant lora: " + str(model))
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
         prompt.set_vae(self.gen_config.redo_param("vae", vae))
@@ -307,9 +326,9 @@ class ComfyGen:
         prompt.set_other_sampler_inputs(self.gen_config)
         prompt.set_for_class_type(ComfyNodeName.IMAGE_SCALE_TO_SIDE, "side_length", 1024 if self.gen_config.is_xl() else 768)
         prompt.set_control_net(self.gen_config.redo_param("control_net", control_net))
-        ip_adapter_model, clip_vision_model = self.gen_config.get_ip_adapter_models()
-        prompt.set_ip_adapter_model(ip_adapter_model)
-        prompt.set_clip_vision_model(clip_vision_model)
+#        ip_adapter_model, clip_vision_model = self.gen_config.get_ip_adapter_models()
+ #       prompt.set_ip_adapter_model(ip_adapter_model)
+ #       prompt.set_clip_vision_model(clip_vision_model) TODO update these
         prompt.set_ip_adapter_strength(ip_adapter.strength)
         prompt.set_ip_adapter_image(self.gen_config.redo_param("ip_adapter", ip_adapter.get_id(control_net=control_net)))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))

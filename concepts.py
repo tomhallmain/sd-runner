@@ -1,5 +1,8 @@
 from enum import Enum
+import os
 import random
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 class PromptMode(Enum):
     FIXED = "FIXED"
@@ -153,7 +156,8 @@ class Concepts:
     @staticmethod
     def load(filename):
         l = []
-        with open("concepts\\" + filename, encoding="utf-8") as f:
+        filepath = os.path.join(os.path.join(BASE_DIR, "concepts"), filename)
+        with open(filepath, encoding="utf-8") as f:
             for line in f:
                 val = ""
                 for c in line:

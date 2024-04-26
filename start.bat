@@ -1,1 +1,1 @@
-python app.py
+python %~dp0\app.py

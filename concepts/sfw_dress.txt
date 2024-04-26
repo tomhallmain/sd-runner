@@ -62,6 +62,7 @@ cardigan
 cat costume
 caveman outfit
 chemise
+clasp
 cloak
 clogs
 cloning
@@ -168,6 +169,7 @@ leotard
 life jacket
 lingerie
 loafers
+locket
 loincloth
 long johns
 long socks
@@ -273,6 +275,7 @@ togs
 top coat
 top hat
 top
+tracksuit
 train
 trench coat
 trousers

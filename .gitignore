@@ -6,6 +6,7 @@ concepts/nsfw*
 config.json
 control_nets.py
 ip_adapters.py
+prompts/stableDiffusion3*
 prompts/test.json
 sdg_script.py
 temp.py

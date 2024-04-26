@@ -232,6 +232,18 @@ class Model:
             return Model.get_model("hentai")
         return Model.get_model(Model.DEFAULT_SD15_MODEL)
 
+    def get_model_text(self, positive, negative):
+        if positive:
+            if Globals.MODEL_PROMPT_TAGS_POSITIVE:
+                if Globals.POSITIVE_PROMPT_MASSAGE_TAGS and Globals.POSITIVE_PROMPT_MASSAGE_TAGS != "":
+                    positive = Globals.POSITIVE_PROMPT_MASSAGE_TAGS + positive
+                elif self.positive_tags:
+                    positive = self.positive_tags + positive
+        if negative:
+            if not Globals.OVERRIDE_BASE_NEGATIVE and Globals.MODEL_PROMPT_TAGS_NEGATIVE and self.negative_tags:
+                negative = self.negative_tags + negative
+        return positive, negative
+
     @staticmethod
     def get_default_model_tag(workflow):
         if workflow == WorkflowType.TURBO:
@@ -337,6 +349,11 @@ class Model:
             Model.CHECKPOINTS = models
 
     @staticmethod
+    def load_all_if_unloaded():
+        if len(Model.CHECKPOINTS) == 0:
+            Model.load_all()
+
+    @staticmethod
     def load_all():
         Model.load_models(is_lora=False)
         Model.load_models(is_lora=True)
@@ -362,6 +379,7 @@ class Model:
     def set_model_presets(prompt_mode):
         for preset_config in config.model_presets:
             model_tags = preset_config["model_tags"]
+            models = []
             try:
                 models = Model.get_models(model_tags)
             except Exception as e:
@@ -380,6 +398,23 @@ class Model:
                             model.positive_tags = prompt_config["positive"]
                             model.negative_tags = prompt_config["negative"]
 
+    @staticmethod
+    def get_first_model_prompt_massage_tags(model_tags_str, prompt_mode=PromptMode.SFW, inpainting=False, default_tag=""):
+        Model.load_all_if_unloaded()
+        Model.set_model_presets(prompt_mode)
+        models = []
+        try:
+            models = Model.get_models(model_tags_str, default_tag=default_tag, inpainting=inpainting)
+        except Exception as e:
+            print(e)
+        prompt_massage_tags = ""
+        if len(models) == 1:
+            print(models)
+            print(models[0].positive_tags)
+            tags_from_model = models[0].positive_tags
+            if tags_from_model:
+                prompt_massage_tags = tags_from_model
+        return prompt_massage_tags
 
 class LoraBundle:
     def __init__(self, loras=[]):
@@ -399,7 +434,7 @@ class LoraBundle:
         return out
 
 class IPAdapter:
-    BASE_DIR = "D:\\img\\ipadapter_bases\\"
+    BASE_DIR = config.ipadapter_dir
     DEFAULT_SD15_MODEL = "ip-adapter_sd15_plus.pth"
     DEFAULT_SDXL_MODEL = "ip-adapter_xl.pth"
     DEFAULT_SD15_CLIP_VISION_MODEL = "SD1.5\\pytorch_model.bin"

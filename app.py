@@ -15,7 +15,7 @@ from globals import Globals, WorkflowType, Sampler, Scheduler
 from comfy_gen import ComfyGen
 from concepts import PromptMode
 from gen_config import GenConfig
-from models import IPAdapter
+from models import IPAdapter, Model
 from prompter import PROMPTER_CONFIG, Prompter
 from utils import open_file_location, periodic, start_thread
 
@@ -157,6 +157,7 @@ class App():
         self.add_label(self.label_model_tags, "Model Tags")
         self.model_tags = tk.StringVar()
         self.model_tags_box = self.new_entry(self.model_tags)
+        self.model_tags_box.bind("<Return>", self.set_prompt_massage_tags_box_from_model_tags)
         self.model_tags_box.insert(0, "realvisxlV40_v40Bakedvae")
         self.apply_to_grid(self.model_tags_box, sticky=W)
 
@@ -168,6 +169,10 @@ class App():
 
         self.label_prompt_tags = Label(self.sidebar)
         self.add_label(self.label_prompt_tags, "Prompt Tags (Universal)")
+        self.prompt_massage_tags = tk.StringVar()
+        self.prompt_massage_tags_box = self.new_entry(self.prompt_massage_tags)
+        self.apply_to_grid(self.prompt_massage_tags_box, sticky=W)
+        self.prompt_massage_tags_box.bind("<Return>", self.set_prompt_massage_tags)
         self.positive_tags = tk.StringVar()
         self.positive_tags_box = self.new_entry(self.positive_tags)
         self.apply_to_grid(self.positive_tags_box, sticky=W)
@@ -398,6 +403,9 @@ class App():
                 command=lambda: setattr(Globals, "OVERRIDE_BASE_NEGATIVE", self.override_negative_var.get()))
         self.apply_to_grid(self.override_negative_choice, sticky=W, column=1, columnspan=3)
 
+        Model.load_all()
+
+        self.master.bind("<Control-Return>", self.run)
         self.toggle_theme()
         self.master.update()
 
@@ -408,7 +416,7 @@ class App():
             self.destroy_grid_element("progress_bar")
             self.progress_bar = None
 
-    def run(self):
+    def run(self, event=None):
         args = RunConfig()
         args.auto_run = self.auto_run_var.get()
         args.inpainting = self.inpainting_var.get()
@@ -425,6 +433,8 @@ class App():
         args.denoise = float(self.denoise.get())
         args.total = int(self.total.get())
         args.prompt_mode = PromptMode[self.prompt_mode.get()]
+#        self.set_prompt_massage_tags_box_from_model_tags(args.model_tags, args.inpainting)
+        self.set_prompt_massage_tags()
         self.set_positive_tags()
         self.set_negative_tags()
         self.set_bw_colorization()
@@ -484,6 +494,21 @@ class App():
         PROMPTER_CONFIG.descriptions = (int(self.descriptions0.get()), int(self.descriptions1.get()))
         PROMPTER_CONFIG.random_words = (int(self.random_words0.get()), int(self.random_words1.get()))
 
+    def set_prompt_massage_tags_box_from_model_tags(self, event=None, model_tags=None, inpainting=None):
+        Model.set_model_presets(PromptMode[self.prompt_mode.get()])
+        if model_tags is None:
+            model_tags = self.model_tags.get()
+        if inpainting is None:
+            inpainting = self.inpainting_var.get()
+        prompt_massage_tags = Model.get_first_model_prompt_massage_tags(model_tags, prompt_mode=self.prompt_mode.get(), inpainting=inpainting)
+        self.prompt_massage_tags_box.delete(0, 'end')
+        self.prompt_massage_tags_box.insert(0, prompt_massage_tags)
+        self.prompt_massage_tags.set(prompt_massage_tags)
+        self.set_prompt_massage_tags()
+        self.master.update()
+
+    def set_prompt_massage_tags(self, event=None):
+        Globals.set_prompt_massage_tags(self.prompt_massage_tags.get())
 
     def set_positive_tags(self, event=None):
         Prompter.set_positive_tags(self.positive_tags.get())
@@ -586,7 +611,7 @@ class App():
             self.apply_to_grid(button)
 
     def new_entry(self, text_variable, text="", **kw):
-        return Entry(self.sidebar, text=text, textvariable=text_variable, width=30, font=fnt.Font(size=8), **kw)
+        return Entry(self.sidebar, text=text, textvariable=text_variable, width=40, font=fnt.Font(size=8), **kw)
 
     def destroy_grid_element(self, element_ref_name):
         element = getattr(self, element_ref_name)
