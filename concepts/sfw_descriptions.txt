@@ -92,12 +92,10 @@ Broad-shouldered
 Buff
 Burly
 Chiseled
-Chubby
 Distinguished
 Endowed
 Fit
 Girthy
-Hairy
 Hard-bodied
 Hirsute
 Hulking
@@ -120,7 +118,6 @@ Stout
 Sturdy
 Swarthy
 Taut
-Toned
 Trim
 V-shaped
 Vascular

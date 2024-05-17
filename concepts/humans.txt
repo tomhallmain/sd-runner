@@ -1,4 +1,5 @@
 # TODO expand this list
+humanoid
 young man
 young woman
 teen boy

@@ -16,6 +16,8 @@ head forward
 head propped on hand
 head turned
 legs crossed
+legs spread
+legs together
 looking back over shoulder
 looking down
 looking left
@@ -95,8 +97,6 @@ Blurry lens
 Bokeh lens
 Fish-eye
 Fisheye Lens
-Fisheye Lens
-Fish-eye
 Macro Lens
 Micro Lens
 Telephoto lens

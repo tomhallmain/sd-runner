@@ -146,7 +146,6 @@ houndstooth
 housecoat
 jacket
 jeans
-jeans
 jersey
 jewelry
 jodhpurs
@@ -192,7 +191,6 @@ overalls
 overcoat
 overshirt
 pajamas
-pajamas
 panama hat
 pants
 pantsuit
@@ -208,6 +206,7 @@ pleat
 pleated skirt
 pocket
 pocketbook
+polka
 polo shirt
 poncho
 poodle skirt
@@ -348,21 +347,16 @@ Leather Pants
 Leather Jacket
 Lingerie Set
 Little Black Dress
-Maxi Skirt
 Mini Skirt
 Off-Shoulder Top
 One-Piece Swimsuit
-Overalls
 Oversized Sweater
-Pajamas
 Parka Jacket
 Peplum Blouse
 Puffer Coat
-Raincoat
 Romper
 Ruffled Blouse
 Sequin Dress
-Sheath Dress
 Silk Robe
 Skinny Jeans
 Slip Dress
@@ -371,7 +365,6 @@ Striped Tee and Jeans
 Summer Sundress
 Sweater Dress
 Tank Top
-Trench Coat
 Turtleneck Sweater
 Utility Jumpsuit
 Vintage A-Line Dress
@@ -382,7 +375,6 @@ Yoga Pants and Tank Top
 Zip-Up Hoodie
 Asymmetrical Skirt
 Ballerina Flats
-Baseball Cap
 Bell-Bottom Pants
 Button-Up Cardigan
 Capri Pants
@@ -392,7 +384,6 @@ Chiffon Blouse
 Cocktail Party Dress
 Denim Skirt
 Fitted Blouse
-Flannel Shirt
 Flowy Palazzo Pants
 Gladiator Sandals
 Halter Neck Dress
@@ -448,21 +439,16 @@ Polo Shirt and Chinos
 Business Casual Outfit
 Sports Jacket
 Hoodie and Jeans
-Bomber Jacket
 Leather Jacket
-Flannel Shirt
 Cargo Pants
 Varsity Jacket
 Casual Blazer
-Denim Jacket
 Dress Shoes
 Sneakers and Jeans
 Sweater and Slacks
 Tailored Tuxedo
 Athletic Wear
 
-Crew Cut
-Undercut
 Pompadour
 Taper Fade
 Buzz Cut
@@ -474,7 +460,6 @@ High and Tight
 Side Part
 Textured Crop
 Slicked Back
-Mohawk
 Long Hair and Beard
 Caesar Cut
 Ivy League Cut

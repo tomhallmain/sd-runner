@@ -1,229 +1,272 @@
 
-abstract
-aura
-blur
-blurry
-bright
-cold
-colorful
-concept art
-dark
-detailed
-very detailed
-distorted
-hard edges
-emotive
-fuzzy
-grayscale
-high-contrast
-low-contrast
-muted
-noisy
-outlined
-pixelated
-soft
-solid
-textured
-shaded
-busy
-scattered
-neon
-sunny
-cloudy
-rainy
-warm
-windy
-snowy
-hot
-cold
-humid
-dry
-blizzard
-grungy
-flowing
-blocky
-airbrushed
-sharpened
-burnt
-highest definition
-acrylic on canvas
-anime
-line art
-bold black outlines
-architectural render
-flat design
-transparent background
-detailed background
-high-resolution vector output
-smooth curves
+
+(morphological operation)
+(scenic nature, misty)
 2D vector style
-versatile
-scalable
-suitable for various media
-generic
-universal appeal
-monochrome
-centered composition
-main shape focus
-comic book
-engineering schematic
-pencil sketch
-sketchbook
-watercolor
-wood engraving
-amateur photo
-raw photo
-bokeh
-depth of field
-lomo
-graphic art
-print art
-Currier and Ives
-sfm
-blender
+360 degree view
 3d model
-gaussian splatting
-film
-silver nitrate film
-poster
-movie poster
-concert poster
-daguerrotype
-hologram
-holographic
-focused
-focused
-focusing
-fisheye lens
-view through a telescope
-view through a microscope
-selfie
-clear
-vignette
-landscape painting
-still life
-excellent art
-breathtaking
-linear transformation
-plane shearing
+3D render
+8k
+abstract
+acrylic on canvas
+advertising insert
+airbrushed
+amateur photo
+anime
+architectural render
+art deco
+aura
+award winning image
+backlighting
 backward mapping
 bayer filter
 bi-linear interpolation
 bitmap
+blender
+blizzard
+blocky
+blur
+blurry
+bokeh
+bold black outlines
+breathtaking
+breathtaking
+bright
+burnt
+burnt-out colors
+busy
+cartoon
 ccd
-perfect composition
-embroidery
-excellent art
+centered composition
+clean lines
+clear
+closeup
+cloudy
+clusters
+cold
+colorful
+colorized old photograph
+comic book
+concept art
+concert poster
 corrupted pixels
-glitch art
+crisp
+crystal
+ct scan
+cubism
+Currier and Ives
+curved
+dadaism
+daguerrotype
+dark
+degaussing
+depth of field
+design
+detailed
+detailed background
+dgtlv2
 diagonal axis
 digital camera image
 dilation
-sharp edges
-clean lines
+distorted
+dna and proteins
+dot art
+dry
 edge map
-electromagnetic spectrum
 electromagnetic
+electromagnetic spectrum
+emotive
+engineering schematic
+excellent art
+excellent art
+extreme saturation image
+fashion editorial
+featured on cg society
+fiber optic strands
+film
+fireflies
+fisheye lens
+flash photography
+flat
+flat design
+flowing
+focused
+focused
+focusing
+fretsaw
+fuzzy
 gaussian noise
-degaussing
-geometry
+gaussian splatting
+generic
 geometric process
-mapping
-high-key image
+geometry
+glitch art
+gloomy
+glossy
+grainy
+graphic art
+graphic design
+grassy
+grayscale
+gritty
+grungy
+hard edges
+heat map
+heavy shading
+high pixel depth
+high-contrast
 high-contrast image
+high-key image
 high-pass filter
+high-resolution vector output
+highest definition
+highest resolution
 histogram equalized
+hologram
+holographic
 horizontal axis
-vertical axis
+hot
+humid
+hyperrealistic
+impressionism
+impulse noise
+inspired
 interpolated
 inverted image
-impulse noise
+jpeg artifacts
+landscape painting
+leaflet
+line art
 linear brightness transformation
+linear rotation
+linear transformation
+liquid-crystal display
+logo
+lomo
+low-contrast
 low-contrast image
 low-key image
 low-pass filter
-median filtering
-(morphological operation)
-mid-tones
-restored historic photograph
-colorized old photograph
-high pixel depth
-highest resolution
+low-poly 3D render
 lowest resolution
-jpeg artifacts
-linear rotation
-resampled image
-extreme saturation image
-burnt-out colors
-washed-out colors
-heavy shading
-pixel subtraction result
-thresholding
-print screen image
-thermal camera image
-heat map
-vertical axis
-retro game
-pixel art
-logo
-design
-graphic design
-cartoon
-hyperrealistic
-vectorized
-vectorization
-advertising insert
-leaflet
 magazine
-marble bust
-radiological scan
-ct scan
-x-ray
-liquid-crystal display
-organic light-emitting diode
-dna and proteins
-webcam
-uwu
-360 degree view
-silk screen
-surrealism
-radar
-night vision image
-cubism
-dadaism
-art deco
-impressionism
-tapestry
-closeup
-clusters
-multiple views
-motion blur
-pov hands
-retro artstyle
-origami
-moiré pattern
-upsampling
-viewfinder
-voxel art
-polaroid
-traditional media
-shadows
-fashion editorial
-representational
-dgtlv2
-8k
-breathtaking
-wallpaper
-backlighting
-thick textured paint style impasto
-wide-angle shot
-strange magic
 magenta coral cerulean teal gold orange rose marble texture
-natural shell iridescence
-tentacles and creatures
-(scenic nature, misty)
-fiber optic strands
 magical realism
+main shape focus
+mapping
+marble bust
+matte
+median filtering
+melancholy
+mid-tones
+moiré pattern
+monochrome
+motion blur
+movie poster
+multiple views
+muted
+natural shell iridescence
+neon
+night photography
+night vision image
+nightmare
+noisy
+optical illusion
+organic light-emitting diode
+origami
+outlined
+paper mache
+parchment
+particles
+patterned
+pencil sketch
+perfect composition
+pixel art
+pixel subtraction result
+pixelated
+plane shearing
+pointy
+polaroid
+polished
+poster
+pov hands
+print art
+print screen image
+radar
+radiological scan
+rainy
+raw photo
+raytraced image inspired by senior environment artist
+representational
+resampled image
+restored historic photograph
+retro artstyle
+retro game
+rough
+rounded
+scalable
+scattered
+scribbles
+selfie
+sfm
+shaded
+shadows
+sharp
+sharp edges
+sharpened
+sheen
+shimmering
+silk screen
+silver nitrate film
+sketchbook
+smooth
+smooth
+smooth curves
+snowy
+soft
+soft
+solid
+spirograph
+still life
+strange magic
+striped
+stripes
+suitable for various media
+sunny
+surrealism
+tapestry
+tentacles and creatures
+textured
+thermal camera image
+thick textured paint style impasto
+thresholding
+traditional media
+transparent background
+universal appeal
+upsampling
+uwu
+vectorization
+vectorized
+velvet
+versatile
+vertical axis
+vertical axis
+very detailed
+view through a microscope
+view through a telescope
+viewfinder
+vignette
+voxel art
+wallpaper
+warm
+washed-out colors
+watercolor
+webcam
+wide-angle shot
+windy
+wood engraving
+x-ray
+zentangle art
 
 
 dynamic angle
@@ -332,6 +375,7 @@ Bernini sculpture
 big daddy
 Big Data Analytics
 bioluminescence
+birefringence
 black hole
 black tar and oil
 Blockchain Technology
@@ -372,6 +416,7 @@ deep learning
 destitute
 detailed background
 die shot integrated circuitry
+diffused
 diorama
 dirty
 disco ball
@@ -406,7 +451,6 @@ future world
 futuristic
 giant vat
 glow
-goat
 gold sheen
 golden ratio
 grilled meats
@@ -415,13 +459,13 @@ halo
 holding
 horse
 house party
-hugging
 huge
 industrial
 insane art
 irregularities
 islam
 ivory
+kaleidoscopic
 kintsugi
 kiss
 jade figurine
@@ -440,8 +484,8 @@ married couple
 masterpiece
 melted
 messy
+minimalist
 molecular chemical bonds visualization
-mollusk
 molting
 moss
 mounted deer head on the wall
@@ -459,7 +503,7 @@ nuclear reactor
 old man
 old woman
 opal glint
-oyster
+organic
 pacifier
 palm plantation
 panda
@@ -481,6 +525,7 @@ rich
 robot
 rock face
 ruined
+rusty
 satellites
 scales
 sci fi
@@ -499,6 +544,7 @@ skull
 sky
 sloppy
 spacetime
+sparkling
 spiderweb
 spiderwebs
 speech bubble
@@ -515,6 +561,7 @@ stuffed animals
 supermassive black hole
 symbol
 tame creature
+technology
 titian
 torus
 trinket

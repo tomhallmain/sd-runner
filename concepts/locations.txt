@@ -14,8 +14,10 @@ at college
 at home
 at school
 at the park
+at the zoo
 bakery
 bank
+barber shop
 basement
 bedroom
 bicycle path
@@ -31,51 +33,87 @@ by the river
 cabin in the woods
 cafe
 camping by the river
+car showroom
+casino
+castle
+cemetery
 chicken coop
 church
 cinema
 city center
+city hall
 clothing store
+college
+concert hall
 conference room
+country club
+courthouse
 crossroads
 crosswalk
 cyberspace
 dark aquarium
 dark club with neon lights
 dark dungeon
+deli
+diner
 docks
+dog park
+downtown
+drive-in movie theater
 driveway
 dungeon
+electric railroad
+embassy
 endless void
+exhibit
 factory
 farm
-farm
+field
 fields
+fire station
 fjord
-flowering plant
 forest
 frat house
+freeway
 garage
+garden
+gas station
 graveyard
 greenhouse
+grocery store
 gym
+gymnasium
+harbor
+hardware store
+high school
 hospital
 hot springs
 hotel
+ice skating rink
+in a boardroom meeting
 in a busy place
 in a canoe
-in a boardroom meeting
 in a mosque
+in a museum
+in a park
+in a restaurant
 in a roman temple
+in a shopping center
+in a spa
 in a synagogue
+in a theme park
+in a well-lit grotto
+in a zoo
+in a zoological gardens
+in a zoological park
 in space
 in the desert
 in the dining room
 in the jungle
 in the living room
 in the steppes
-in the woods
 in the wilderness
+in the woods
 industrial park
 junkyard
 kitchen
@@ -95,6 +133,7 @@ on a lake
 on a sailboat
 on a secluded beach
 on a surfboard
+on a train
 on stage
 on the beach
 on the farm
@@ -110,6 +149,7 @@ orchard
 overpass
 park
 parking lot
+parlor
 pavement
 petrol station
 pharmacy
@@ -118,20 +158,34 @@ police station
 post office
 public baths
 restaurant
+river in the city
 road sign
 rooftop bar
 roundabout
 royal castle
 royal throneroom
+rural area
+rural village
+saloon
 school
+seaport
+shack
 shipyard
 shoe shop
+shopping center
 sidewalk
+ski resort
+skyscraper
+snowy mountain
 sorority house
 sports centre
+stadium
+street
 street lights
+studio
 suburb
 subway
+summer camp
 supermarket
 swimming pool
 telephone booth

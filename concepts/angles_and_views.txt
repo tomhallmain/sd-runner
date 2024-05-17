@@ -59,8 +59,6 @@ Blurry lens
 Bokeh lens
 Fish-eye
 Fisheye Lens
-Fisheye Lens
-Fish-eye
 Macro Lens
 Micro Lens
 Telephoto lens

@@ -13,3 +13,6 @@ archery
 encased in ice
 holding
 foreshortening
+view through a micrscope
+view through a telescope
+view through a kaleidoscope

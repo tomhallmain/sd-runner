@@ -178,6 +178,7 @@ class HardConcepts:
 class SFW:
     concepts = "sfw_concepts.txt"
     positions = "positions.txt"
+    lighting = "lighting.txt"
     humans = "humans.txt"
     locations = "locations.txt"
     locations_specific = "locations_specific.txt"

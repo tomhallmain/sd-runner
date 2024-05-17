@@ -15,30 +15,26 @@ art from around the world
 art or coffee table books
 autographed pictures or other items
 badminton
-baking cookies
-baking a cake
 baking
+baking a cake
+baking cookies
 balancing
 barging into a room
 barre
-baseball cards
 baseball
-# basketball
+baseball cards
 BBQ or grilling
 becoming
 beer and spirits tasting
 being
 bells
 bingo or other group games
-bingo
 bird books or items bird-themed
 birdhouses
-blogging
 blogging
 board games
 book club
 bottle caps
-bowling
 bowling
 boxing
 brain teasers
@@ -46,9 +42,9 @@ breaking a glass
 breastfeeding
 brewery games
 bringing
+building
 building dollhouses
 building wooden toys
-building
 bullet journaling
 butterfly art or items
 buying
@@ -75,12 +71,12 @@ cleaning
 closing
 cocktails
 collaborating
-collage making
 collage
+collage making
+collecting
 collecting model airplanes, matchbox cars, model cars
 collecting tea cups
 collecting teas
-collecting
 collector
 coloring
 computer hobbies
@@ -111,7 +107,6 @@ cycling
 dancing
 dancing
 dancing
-dancing
 darts
 debating
 deciding
@@ -137,9 +132,8 @@ drinking water
 drinking wine
 dueling
 DVDs or VHS tapes
+eating
 eating grapes and drinking wine while reclining on a roman bench
-eating
-eating
 embroidery
 encouraging
 establishing
@@ -155,13 +149,12 @@ farming
 fashion design
 fashion photography
 feeding
-feeling cramped
 feeling
+feeling cramped
 felt arts
 fencing
 fighting
 fighting
-figure skating
 figure skating
 figurines
 film watching/review
@@ -181,33 +174,41 @@ generating
 giving
 glass blowing
 glass painting
+going
 going to museums
 going to work
-going
 golf
-growing bonsai
 growing
+growing bonsai
 gymnastics
 hair styling
 hand lettering
 hanging
+hanging out
 happening
 hating
 hats
 hearing
 Hello Kitty items or collectibles
 helping
+herding
 hiding
+high school
 hiking
 holding
 holiday books
+holing up
 home decorating
+homework
 hopping
 horse racing
 host a supper club
+house painting
+housing
 howling
-hugging a friend
 hugging
+hugging a friend
+hurdling
 hurting
 ice hockey
 ice skating
@@ -215,10 +216,12 @@ identifying
 ignoring
 illustrating
 implying
+increasing
 introducing
 irritating
 jazzercise/aerobics
 jet skiing
+jewelry design
 jewelry making
 jogging
 joining a band
@@ -226,11 +229,12 @@ joining a choir
 joking
 judging
 juggling
+juggling
+jumping
 jumping up in the air
-jumping
-jumping
 karate
 kawai or Japanese items or collectibles
+kayaking
 kickboxing
 kicking
 killing
@@ -238,29 +242,31 @@ kitschy artwork or collectibles
 knitting
 knocking
 laughing
+laundry
 lawn games
-learning a new language
 learning
+learning a new language
 leather crafting
 leaving
 leeping
 LEGO sets
 lifting
-listening to music
 listening
+listening to music
 living
+looking
 losing
 loving
-lying down
 lying
+lying down
 magic
 magnets
 makeup art
+making
 making a big fuss
 making breakfast
 making dolls
 making dream catchers
-making
 managing
 mason jars (vintage)
 measuring
@@ -272,8 +278,8 @@ memorizing music lyrics
 metal detecting
 miniatures
 mirrors
-mixing a potion
 mixing
+mixing a potion
 mod podge crafts
 model building
 model cars
@@ -292,9 +298,9 @@ oil painting
 on a date
 online classes
 online games
+opening
 opening a can
 opening a door
-opening
 ordering
 origami
 owning
@@ -303,7 +309,6 @@ painting a picture
 painting a portrait
 painting a wall
 painting rocks
-painting
 participating
 party planning
 passing
@@ -319,18 +324,18 @@ photography
 pilates
 pinching
 planting
+playing
 playing cello
 playing classical, bass or electric guitar
 playing drums
 playing keyboard or piano
 playing sport
 playing trumpet
-playing with friends
-playing
 playing violin
+playing with friends
 podcasting
-poetry writing
 poetry
+poetry writing
 postcards
 pottery/ceramics
 praying
@@ -351,11 +356,11 @@ quacking
 quilting
 quitting
 raising
-reaching up high for something on the shelf
 reaching
+reaching up high for something on the shelf
+reading
+reading literature
 reading music
-reading
-reading
 realizing
 records
 red shoe/high heel/glamour items
@@ -373,15 +378,15 @@ roasting
 rock climbing
 rock tumbling
 roller skating
+roman salute
 rotating
 rug beaters
 rugby
 rum, whiskey, bourbon or other spirits
+running
+running
 running track
-running
-running
 saluting
-roman salute
 saying
 scarves
 scrapbooking
@@ -404,13 +409,14 @@ shocking
 shoes
 shooting a gun
 shouting
-showing off
 showing
+showing off
 shrinking
 sightseeing
-singing (solo)
 singing
+singing (solo)
 sitting
+sitting on a throne
 skateboarding
 sketching
 skiing
@@ -444,11 +450,10 @@ sticker collecting
 sticking
 stopping
 stretching
-stretching
 striking
 string art
-studying hard
 studying
+studying hard
 stuffed animals
 submitting
 surfing
@@ -459,15 +464,15 @@ table tennis
 taekwondo
 tai chi
 take a cooking class
-taking pills
 taking
-talking on the phone
+taking pills
 talking
+talking on the phone
 tasting
 tea items
+teaching
 teaching a foreign language
 teaching a musical instrument
-teaching
 tearing
 telling
 tending
@@ -507,9 +512,9 @@ waiting
 walking
 wanting
 warning
+watching
 watching the game
 watching TV
-watching
 water skiing
 watercolor painting
 watercolors
@@ -518,7 +523,6 @@ wearing
 weight lifting
 wind surfing
 wine, beer or spirits tasting
-wine
 wines from a certain region of the world
 winking
 winning
@@ -531,8 +535,7 @@ word scrambles
 working
 wreath making
 wrestling
-writing poetry
 writing
+writing poetry
 yelling
 yoga or pilates
-yoga
