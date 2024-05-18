@@ -8,6 +8,7 @@ class Config:
     def __init__(self):
         self.dict = {}
         self.comfyui_url = None
+        self.models_dir = ""
         self.img_dir = None
         self.img_temps_dir = None
         self.ipadapter_dir = None
@@ -29,28 +30,33 @@ class Config:
 
         try:
             self.dict = json.load(open(Config.CONFIG_FILE_LOC, "r"))
-            self.comfyui_url = self.dict["comfyui_url"]
-            self.img_dir = self.validate_and_set_directory(key="img_dir")
-            self.img_temps_dir = self.validate_and_set_directory(key="img_temps_dir")
-            self.ipadapter_dir = self.validate_and_set_directory(key="ipadapter_dir")
-            self.comfyui_loc = self.validate_and_set_directory(key="comfyui_loc")
-            self.sd_webui_loc = self.validate_and_set_directory(key="sd_webui_loc")
-            self.sd_prompt_reader_loc = self.validate_and_set_directory(key="sd_prompt_reader_loc")
-            self.image_searcher_dir = self.validate_and_set_directory(key="sd_prompt_reader_loc")
-            self.image_searcher_dir2 = self.validate_and_set_directory(key="sd_prompt_reader_loc")
-
-            self.gen_order = self.dict["gen_order"]
-            self.redo_parameters = self.dict["redo_parameters"]
-            self.model_presets = self.dict["model_presets"]
-            self.prompt_presets = self.dict["prompt_presets"]
-
-            self.interrogator_interrogation_dir = self.validate_and_set_directory(key="interrogator_interrogation_dir")
-            self.interrogator_initial_questions_file = self.validate_and_set_filepath(key="interrogator_initial_questions_file")
-            self.interrogator_questions_file = self.validate_and_set_filepath(key="interrogator_questions_file")
-            self.interrogator_folder_category_mappings_file = self.validate_and_set_filepath(key="interrogator_folder_category_mappings_file")
         except Exception as e:
             print(e)
             print("Unable to load config. Ensure config.json file settings are correct.")
+        
+        self.set_values(str,
+                        "comfyui_url")
+        self.set_values(list,
+                        "gen_order",
+                        "redo_parameters",
+                        "model_presets",
+                        "prompt_presets")
+        self.set_directories(
+            "models_dir",
+            "img_dir",
+            "img_temps_dir",
+            "ipadapter_dir",
+            "comfyui_loc",
+            "sd_webui_loc",
+            "sd_prompt_reader_loc",
+            "image_searcher_dir2",
+            "interrogator_interrogation_dir",
+        )
+        self.set_filepaths(
+            "interrogator_initial_questions_file",
+            "interrogator_questions_file",
+            "interrogator_folder_category_mappings_file"
+        )
 
     def validate_and_set_directory(self, key):
         loc = self.dict[key]
@@ -71,6 +77,38 @@ class Config:
                 raise Exception(f"Invalid location provided for {key}: {filepath}")
             return filepath
         return None
+
+    def set_directories(self, *directories):
+        for directory in directories:
+            # try:
+            setattr(self, directory, self.validate_and_set_directory(directory))
+            # except Exception as e:
+            #     print(e)
+            #     print(f"Failed to set {directory} from config.json file. Ensure the key is set.")
+
+    def set_filepaths(self, *filepaths):
+        for filepath in filepaths:
+            try:
+                setattr(self, filepath, self.validate_and_set_filepath(filepath))
+            except Exception as e:
+                print(e)
+                print(f"Failed to set {filepath} from config.json file. Ensure the key is set.")
+
+    def set_values(self, type, *names):
+        for name in names:
+            if type:
+                try:
+                    setattr(self, name, type(self.dict[name]))
+                except Exception as e:
+                    print(e)
+                    print(f"Failed to set {name} from config.json file. Ensure the value is set and of the correct type.")
+            else:
+                try:
+                    setattr(self, name, self.dict[name])
+                except Exception as e:
+                    print(e)
+                    print(f"Failed to set {name} from config.json file. Ensure the key is set.")
+
 
 
 config = Config()

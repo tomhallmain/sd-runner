@@ -166,13 +166,13 @@ class Model:
     DEFAULT_TURBO_MODEL = "realvisxlV30Turbo"
     DEFAULT_SDXL_VAE = "sdxl_vae.safetensors"
     DEFAULT_SD15_VAE = "vae-ft-mse-840000-ema-pruned.ckpt"
-    MODELS_DIR = "D:\\stable-diffusion-webui\\models\\"
+    MODELS_DIR = config.models_dir
     CHECKPOINTS = {}
     LORAS = {}
 
     def __init__(self, id, path=None, is_lora=False, is_xl=False, is_turbo=False, clip_req=None, lora_strength=Globals.DEFAULT_LORA_STRENGTH):
         self.id = id
-        self.path = path if path else Model.MODELS_DIR + id
+        self.path = path if path else os.path.join(Model.MODELS_DIR, id)
         self.is_lora = is_lora
         self.is_xl = is_xl or (path is not None and path.startswith("XL"))
         self.is_turbo = is_turbo or (path is not None and path.startswith("Turbo"))
@@ -333,7 +333,7 @@ class Model:
     def load_models(is_lora):
         models = {}
         lora_or_sd = "Lora" if is_lora else "Stable-diffusion"
-        root_dir = Model.MODELS_DIR + lora_or_sd
+        root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
         for file in glob.glob(pathname="**/*", root_dir=root_dir, recursive=True):
             if not file.endswith("ckpt") and not file.endswith("safetensors") and not file.endswith("pth"):
                 continue

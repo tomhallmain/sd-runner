@@ -7,6 +7,7 @@ from tkinter import messagebox, HORIZONTAL, Label, Checkbutton
 from tkinter.constants import W
 import tkinter.font as fnt
 from tkinter.ttk import Button, Entry, Frame, OptionMenu, Progressbar
+from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
 from run import main, RunConfig
@@ -26,6 +27,20 @@ def set_attr_if_not_empty(text_box):
         return None
     return 
 
+def matches_tag(fieldValue, acListEntry):
+    if fieldValue and "+" in fieldValue:
+        pattern_base = fieldValue.split("+")[-1]
+    elif fieldValue and "," in fieldValue:
+        pattern_base = fieldValue.split(",")[-1]
+    else:
+        pattern_base = fieldValue
+    return matches(pattern_base, acListEntry)
+
+def set_tag(current_value, new_value):
+    if current_value and (current_value.endswith("+") or current_value.endswith(",")):
+        return current_value + new_value
+    else:
+        return new_value
 
 class Sidebar(tk.Frame):
     def __init__(self, master=None, cnf={}, **kw):
@@ -99,6 +114,7 @@ class App():
         self.master = master
         self.progress_bar = None
         self.job_queue = JobQueue()
+        Model.load_all()
 
         # Sidebar
         self.sidebar = Sidebar(self.master)
@@ -156,7 +172,14 @@ class App():
         self.label_model_tags = Label(self.sidebar)
         self.add_label(self.label_model_tags, "Model Tags")
         self.model_tags = tk.StringVar()
-        self.model_tags_box = self.new_entry(self.model_tags)
+        model_names = list(map(lambda l: str(l).split('.')[0], Model.CHECKPOINTS))
+        self.model_tags_box = AutocompleteEntry(model_names,
+                                               self.sidebar,
+                                               listboxLength=6,
+                                               textvariable=self.model_tags,
+                                               matchesFunction=matches_tag,
+                                               setFunction=set_tag,
+                                               width=40, font=fnt.Font(size=8))
         self.model_tags_box.bind("<Return>", self.set_prompt_massage_tags_box_from_model_tags)
         self.model_tags_box.insert(0, "realvisxlV40_v40Bakedvae")
         self.apply_to_grid(self.model_tags_box, sticky=W)
@@ -164,7 +187,30 @@ class App():
         self.label_lora_tags = Label(self.sidebar)
         self.add_label(self.label_lora_tags, "LoRA Tags")
         self.lora_tags = tk.StringVar()
-        self.lora_tags_box = self.new_entry(self.lora_tags)
+        lora_names = list(map(lambda l: str(l).split('.')[0], Model.LORAS))
+
+        def matches_lora_tag(fieldValue, acListEntry):
+            if fieldValue and "+" in fieldValue:
+                pattern_base = fieldValue.split("+")[-1]
+            elif fieldValue and "," in fieldValue:
+                pattern_base = fieldValue.split(",")[-1]
+            else:
+                pattern_base = fieldValue
+            return matches(pattern_base, acListEntry)
+
+        def set_lora_tag(current_value, new_value):
+            if current_value and (current_value.endswith("+") or current_value.endswith(",")):
+                return current_value + new_value
+            else:
+                return new_value
+
+        self.lora_tags_box = AutocompleteEntry(lora_names,
+                                               self.sidebar,
+                                               listboxLength=6,
+                                               textvariable=self.lora_tags,
+                                               matchesFunction=matches_tag,
+                                               setFunction=set_tag,
+                                               width=40, font=fnt.Font(size=8))
         self.apply_to_grid(self.lora_tags_box, sticky=W)
 
         self.label_prompt_tags = Label(self.sidebar)
@@ -403,11 +449,10 @@ class App():
                 command=lambda: setattr(Globals, "OVERRIDE_BASE_NEGATIVE", self.override_negative_var.get()))
         self.apply_to_grid(self.override_negative_choice, sticky=W, column=1, columnspan=3)
 
-        Model.load_all()
-
         self.master.bind("<Control-Return>", self.run)
         self.toggle_theme()
         self.master.update()
+        self.model_tags_box.closeListbox()
 
     def destroy_progress_bar(self):
         if self.progress_bar is not None:
