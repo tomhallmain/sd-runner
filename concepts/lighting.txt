@@ -1,5 +1,7 @@
 Action-packed lighting
 Back lighting
+Backlit
+Rim lighting
 Black and White lighting
 Bright lighting
 Cinematic lighting
@@ -44,8 +46,10 @@ Twinkling lighting
 Volumetric lighting
 backlighting
 backlit
+multiple light sources
+torchlight
 
-Candlelit Dinner # A romantic dinner table illuminated by candlelight.
+Candlelit # A romantic scene illuminated by candlelight.
 Urban Neon Lights # A city street adorned with vibrant neon signs.
 Glowing Lanterns # Colorful paper lanterns lighting up a nighttime celebration.
 Sunset Silhouettes # People silhouetted against the warm hues of a setting sun.

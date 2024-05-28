@@ -28,6 +28,7 @@ despair
 determined
 Determined
 devastated
+devious
 Disappointed
 Discontent
 Disoriented
@@ -68,11 +69,13 @@ Jovial
 joyful
 Joyful
 joyous
+kind smile
 knowing look
 Lazy
 Lighthearted
 Lonely
 Melancholic
+mischevious
 Miserable
 mortified
 Nervous

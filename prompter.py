@@ -64,7 +64,7 @@ class Prompter:
         elif PromptMode.RANDOM == self.prompt_mode:
             positive = self.random()
             negative += " boring, dull"
-        elif self.prompt_mode in (PromptMode.ANY_ART, PromptMode.PAINTERLY, PromptMode.ANIME, PromptMode.GLITCH):
+        elif self.concepts.is_art_style_prompt_mode():
             print(positive)
             print(len(positive))
             positive += self.get_artistic_prompt(len(positive) == 0)
@@ -98,7 +98,7 @@ class Prompter:
         Prompter.emphasize(random_words, emphasis_threshold=emphasis_threshold)
         return ', '.join(random_words)
 
-    def _mix_concepts(self, humans_threshold=0.75, emphasis_threshold=0.9):
+    def _mix_concepts(self, humans_threshold=0.75, emphasis_threshold=0.9, art_styles_chance=0.3):
         mix = []
         mix.extend(self.concepts.get_concepts(*PROMPTER_CONFIG.concepts))
         mix.extend(self.concepts.get_positions(*PROMPTER_CONFIG.positions))
@@ -116,6 +116,10 @@ class Prompter:
         if self.prompt_mode == PromptMode.SFW:
             if random.random() > humans_threshold:
                 mix.extend(self.concepts.get_humans())
+        # Small chance to add artist style
+        if not self.concepts.is_art_style_prompt_mode() and random.random() < art_styles_chance:
+            print("Adding art styles")
+            mix.extend(self.concepts.get_art_styles(max_styles=2))
         random.shuffle(mix)
         Prompter.emphasize(mix, emphasis_threshold=emphasis_threshold)
         # Extra concepts for NSFW

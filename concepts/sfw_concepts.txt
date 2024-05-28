@@ -6,6 +6,7 @@
 360 degree view
 3d model
 3D render
+4k textures
 8k
 abstract
 acrylic on canvas
@@ -15,6 +16,7 @@ amateur photo
 anime
 architectural render
 art deco
+art nouveau
 aura
 award winning image
 backlighting
@@ -37,6 +39,7 @@ burnt-out colors
 busy
 cartoon
 ccd
+cel shading
 centered composition
 clean lines
 clear
@@ -51,6 +54,7 @@ concept art
 concert poster
 corrupted pixels
 crisp
+crumpled paper
 crystal
 ct scan
 cubism
@@ -66,12 +70,16 @@ detailed
 detailed background
 dgtlv2
 diagonal axis
+digital painting
 digital camera image
 dilation
 distorted
 dna and proteins
+dnd character portrait
+character sheet
 dot art
 dry
+dry rubbing
 edge map
 electromagnetic
 electromagnetic spectrum
@@ -103,6 +111,8 @@ geometry
 glitch art
 gloomy
 glossy
+godrays
+gouache painting
 grainy
 graphic art
 graphic design
@@ -128,6 +138,7 @@ horizontal axis
 hot
 humid
 hyperrealistic
+illustration
 impressionism
 impulse noise
 inspired
@@ -135,8 +146,10 @@ interpolated
 inverted image
 jpeg artifacts
 landscape painting
+layered
 leaflet
 line art
+line sketch
 linear brightness transformation
 linear rotation
 linear transformation
@@ -156,6 +169,7 @@ main shape focus
 mapping
 marble bust
 matte
+matte painting
 median filtering
 melancholy
 mid-tones
@@ -163,6 +177,7 @@ moiré pattern
 monochrome
 motion blur
 movie poster
+multiple light sources
 multiple views
 muted
 natural shell iridescence
@@ -171,10 +186,12 @@ night photography
 night vision image
 nightmare
 noisy
+oil on canvas
 optical illusion
 organic light-emitting diode
 origami
 outlined
+panorama
 paper mache
 parchment
 particles
@@ -196,12 +213,14 @@ radar
 radiological scan
 rainy
 raw photo
+raytracing
 raytraced image inspired by senior environment artist
 representational
 resampled image
 restored historic photograph
 retro artstyle
 retro game
+rotoscoped image
 rough
 rounded
 scalable
@@ -218,6 +237,7 @@ sheen
 shimmering
 silk screen
 silver nitrate film
+simple sketch
 sketchbook
 smooth
 smooth
@@ -231,6 +251,7 @@ still life
 strange magic
 striped
 stripes
+studio photography
 suitable for various media
 sunny
 surrealism
@@ -240,9 +261,12 @@ textured
 thermal camera image
 thick textured paint style impasto
 thresholding
+tiltshift
 traditional media
 transparent background
+ultrasharp
 universal appeal
+unreal engine
 upsampling
 uwu
 vectorization
@@ -262,6 +286,7 @@ warm
 washed-out colors
 watercolor
 webcam
+western comic book art
 wide-angle shot
 windy
 wood engraving
@@ -320,6 +345,7 @@ Middle Ages
 1200 AD
 1300s
 1400s
+Renaissance
 1500s
 1600s
 1700s
@@ -355,9 +381,13 @@ nonagon
 decagon
 dodecahedron
 sphere
+rectilinear
+disjoint
 
 
 (dark club with neon lights)
+aesthetic
+amalgamation
 ancient
 ancient Egypt
 ancient Rome
@@ -365,10 +395,12 @@ Art Nouveau
 Artificial Intelligence
 atmosphere
 atomic bomb
+award-winning artwork
+award-winning photograph
 bag
-bald
 Baldacchino
 baroque patterns
+baroque style
 beauty
 bed sheets
 Bernini sculpture
@@ -392,15 +424,19 @@ cat
 cellular automata
 central processing unit
 cereal box
+character modeling
 checkboard
 chibi
 chrome organic
 cinematic render
 circulatory system
+city map
 clean
 closed mouth
 color gradients
+complex
 constellations
+construct
 convertible with the top down
 copper etching
 coral
@@ -422,11 +458,13 @@ dirty
 disco ball
 dog
 dragon
+eerie
 egg
 electricity
 embroidery
 embroidered
 engraved
+erosion
 ethereal
 ethereal light
 evolutionary computing 
@@ -441,25 +479,33 @@ felt
 fine china porcelain
 fish
 flintlock
+floral
 floral arrangement
 flowering plant
 flowers
 fractal
 fruits
+folklore
 fond broderie
 future world
 futuristic
 giant vat
+glam
 glow
 gold sheen
 golden ratio
+gothic
 grilled meats
+grimdark
 hairy
 halo
+heritage
 holding
 horse
 house party
 huge
+hypermaximalist
+illuminated manuscript
 industrial
 insane art
 irregularities
@@ -472,43 +518,59 @@ jade figurine
 lagrange points
 lantern
 laser beam
+leonardo davinci design sketches
 leather
 light box
 liminal space
 liquid metal
 lizard
+lore
+lore map
 machine learning
+magic the gathering card
 magnets
 man
 married couple
 masterpiece
+maximalism
 melted
 messy
-minimalist
+minimalism
 molecular chemical bonds visualization
 molting
 moss
+motifs
 mounted deer head on the wall
 musculoskelatal system
 museum exhibit
 mushrooms
 mystical
+national geographic
 neat
 negative space
+neoclassical
 nerve clusters
 nervous system
+noir
 noosphere
+nordic
 nuclear missile
 nuclear reactor
+octane render
 old man
 old woman
 opal glint
 organic
+ornate
 pacifier
 palm plantation
 panda
+pastoral
+pattern
+path tracing
 perfectly cut gemstone
 phase congruence
+picture book
 pillow
 planet
 houseplants
@@ -517,19 +579,28 @@ poor
 porous volcanic stone
 protein folding visualization
 pushing buttons
+pre-Raphaelite
+Raphaelite
+redshift
 reflecting
 reflections
 regularity
 repeating patterns
+retro computer graphics
+retro-futuristic
 rich
 robot
 rock face
+rococo style
+royal
 ruined
-rusty
+rule of thirds
+rusted
 satellites
 scales
 sci fi
 scuffed
+shards
 sheep
 shining diamond
 shiny
@@ -537,6 +608,7 @@ shocking blast
 silhouette
 silver
 simple background
+simplex
 sinews
 sinuous
 skinny
@@ -557,12 +629,19 @@ statuette
 stasis tank
 steel sculpture
 stone
+storybook
+structure
 stuffed animals
+stylized
 supermassive black hole
 symbol
 tame creature
+tarot card
+tear drops
 technology
+textural
 titian
+torchlight
 torus
 trinket
 twisted
@@ -580,14 +659,16 @@ wires
 wire sculpture
 woman
 wormhole
+wuxia
 young boy
 young girl
 young man
 young woman
+xenomorph
 
 # Lighting Mood Prompts:
 
-Candlelit Dinner # A romantic dinner table illuminated by candlelight.
+Candlelit # A romantic scene illuminated by candlelight.
 Urban Neon Lights # A city street adorned with vibrant neon signs.
 Glowing Lanterns # Colorful paper lanterns lighting up a nighttime celebration.
 Sunset Silhouettes # People silhouetted against the warm hues of a setting sun.
@@ -617,6 +698,7 @@ Dazzling Christmas Lights # A house adorned with elaborate Christmas lights.
 Retro Disco # A dance floor with light reflecting off a disco ball.
 # Carnival Ferris Wheel # A vibrant ferris wheel lit up at a nighttime carnival.
 Solar Eclipse # A rare solar eclipse creating unique lighting effects.
+volumetric lighting
 
 
 # Color Moods

@@ -44,3 +44,45 @@ Shoji Kawamori (Super Dimension Fortress Macross)
 Masaaki Yuasa (Kaiba)
 Yoshito Usui (Crayon Shin-Chan)
 Junji Ito
+
+
+# TODO - The below artists may not be mangakas
+
+kaoru mori
+ryohei hase
+igarashi daisuke
+fuji choko
+akihiko yoshida
+akihito tsukushi
+akihito yoshitomi
+akira yamaoka
+taro yamamoto
+takashi murakami
+takashi takeuchi
+takato yamamoto
+takeshi obata
+tatsuki fujimoto
+hidari
+hideo kojima
+hidetaka miyazaki
+hideyuki ashizawa
+hikari shimoda
+hiroaki samura
+hirokazu yokohara
+satoshi kon
+satoshi matsuura
+tetsugoro yorozu
+tetsuya nomura
+hiroshi nagai
+hiroshi yoshida
+chie yoshii
+chihiro iwasaki
+chiho aoshima
+terada katsuya
+shinichi sakamoto
+makoto shinkai
+yasutomo oka
+katsura masakazu
+takato yomamoto
+tsuruta kenji
+kantoku

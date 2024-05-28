@@ -133,20 +133,25 @@ class Concepts:
             random_word_strings.append(word_string.strip())
         return random_word_strings
 
-    def get_art_styles(self):
-        if self.prompt_mode == PromptMode.ANY_ART:
+    def is_art_style_prompt_mode(self):
+        return self.prompt_mode in (PromptMode.ANY_ART, PromptMode.PAINTERLY, PromptMode.ANIME, PromptMode.GLITCH)
+
+    def get_art_styles(self, max_styles=None):
+        m = {PromptMode.ANIME: (ArtSyles.anime, "anime"),
+             PromptMode.GLITCH: (ArtSyles.glitch, "glitch"),
+             PromptMode.PAINTERLY: (ArtSyles.painters, "painting")}
+        if self.prompt_mode in m:
+            art_styles = Concepts.load(m[self.prompt_mode][0])
+            style_tag = m[self.prompt_mode][1]
+        else:
             art_styles = []
             art_styles.extend(Concepts.load(ArtSyles.anime))
             art_styles.extend(Concepts.load(ArtSyles.glitch))
             art_styles.extend(Concepts.load(ArtSyles.painters))
-            style_tag = None
-        else:
-            m = {PromptMode.ANIME: (ArtSyles.anime, "anime"),
-                 PromptMode.GLITCH: (ArtSyles.glitch, "glitch"),
-                 PromptMode.PAINTERLY: (ArtSyles.painters, "painting")}
-            art_styles = Concepts.load(m[self.prompt_mode][0])
-            style_tag = m[self.prompt_mode][1]
-        max_styles = min(8, len(art_styles)) if self.prompt_mode in (PromptMode.ANY_ART, PromptMode.GLITCH) else 2
+            art_styles.extend(Concepts.load(ArtSyles.artists))
+            style_tag = None            
+        if max_styles is None:
+            max_styles = min(8, len(art_styles)) if self.prompt_mode in (PromptMode.ANY_ART, PromptMode.GLITCH) else 2
         out = sample(art_styles, 1, random.randint(1, max_styles))
         append = style_tag + " art by " if style_tag else "art by "
         for i in range(len(out)):
@@ -206,6 +211,7 @@ class NSFL:
 
 
 class ArtSyles:
+    artists = "artists.txt"
     anime = "mangakas.txt"
     painters = "painters.txt"
     glitch = "glitch.txt"

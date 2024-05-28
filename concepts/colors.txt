@@ -22,11 +22,13 @@ barbershop
 gray
 platinum
 steel
+sepia
 teal
 lilac
 pink
 slate blue
 baby blue
+midnight blue
 magenta
 rose
 ethereal

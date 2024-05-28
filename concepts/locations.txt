@@ -16,6 +16,7 @@ at school
 at the park
 at the zoo
 bakery
+balcony
 bank
 barber shop
 basement
@@ -23,6 +24,7 @@ bedroom
 bicycle path
 bookstore
 boonies
+botanical gardens
 brewery
 bridge
 bus station
@@ -179,6 +181,7 @@ skyscraper
 snowy mountain
 sorority house
 sports centre
+spring gardens
 stadium
 street
 street lights
@@ -187,7 +190,9 @@ suburb
 subway
 summer camp
 supermarket
+swamp
 swimming pool
+taiga
 telephone booth
 theater
 traffic jam

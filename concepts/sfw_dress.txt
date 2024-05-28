@@ -72,6 +72,7 @@ coat
 collar
 corset
 costume
+couture
 coveralls
 cowboy boots
 cowboy hat

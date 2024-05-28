@@ -1,3 +1,4 @@
+3/4 view
 arched back
 arms down
 arms extended
@@ -10,6 +11,7 @@ facing_eachother
 facing_up
 facing_viewer
 fetal position
+glamour pose
 half turn
 head down
 head forward
@@ -28,9 +30,11 @@ lying prone
 lying on back
 lying on side
 lying on stomach
+model pose
 nodding off
 on tiptoes
 quarter turn
+profile posing
 reaching down
 reaching up
 reclining
@@ -53,6 +57,7 @@ Camera View From Above
 Canted Angle (Dutch Tilt)
 Cinematic Panorama
 Close-up View
+dramatic angle
 Drone View
 Dutch Angle (Oblique View)
 Eye-Level Shot

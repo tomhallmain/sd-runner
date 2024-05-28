@@ -189,21 +189,6 @@ class App():
         self.lora_tags = tk.StringVar()
         lora_names = list(map(lambda l: str(l).split('.')[0], Model.LORAS))
 
-        def matches_lora_tag(fieldValue, acListEntry):
-            if fieldValue and "+" in fieldValue:
-                pattern_base = fieldValue.split("+")[-1]
-            elif fieldValue and "," in fieldValue:
-                pattern_base = fieldValue.split(",")[-1]
-            else:
-                pattern_base = fieldValue
-            return matches(pattern_base, acListEntry)
-
-        def set_lora_tag(current_value, new_value):
-            if current_value and (current_value.endswith("+") or current_value.endswith(",")):
-                return current_value + new_value
-            else:
-                return new_value
-
         self.lora_tags_box = AutocompleteEntry(lora_names,
                                                self.sidebar,
                                                listboxLength=6,
