@@ -215,6 +215,23 @@ class ImageDataExtractor:
         return images
 
 
+    def copy_dir_images_no_exif(self, source_dir, target_dir=None, max_count=5000):
+        count = 0
+        images = glob.glob(source_dir + "**/*", recursive=True)
+
+        for image_path in images:
+            try:
+                self.copy_without_exif(image_path, target_dir=target_dir)
+                count += 1
+            except Exception as e:
+                print(e)
+            if count > max_count:
+                print(f"Reached max image copy count: {max_count}")
+                return
+
+        print(f"Copied {count} images without exif.")
+
+
 
 def main():
     image_data_extractor = ImageDataExtractor()

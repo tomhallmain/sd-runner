@@ -100,7 +100,7 @@ class ComfyGen:
             ComfyGen.clear_history() # There is something funky going on with rerunning these, which is probably for the best considering seed doesn't do much.
             self.renoiser(prompt, model, vae, n_latents, positive, negative, control_net)
         elif workflow_id == WorkflowType.INPAINT_CLIPSEG:
-            self.inpaint_clipseg(prompt, model, vae, n_latents, positive, negative)
+            self.inpaint_clipseg(prompt, model, vae, n_latents, positive, negative, control_net)
         elif workflow_id == WorkflowType.TURBO:
             self.simple_image_gen_turbo(prompt, resolution, model, vae, n_latents, positive, negative)
         elif workflow_id == WorkflowType.UPSCALE_SIMPLE:
@@ -263,11 +263,12 @@ class ComfyGen:
         control_net = self.gen_config.redo_param("control_net", control_net)
         if control_net:
             prompt.set_by_id("56", "image", control_net.id) # There are two control nets in this workflow, not easy to find right linked input node
+            prompt.set_by_id("25", "strength", control_net.strength)
+            prompt.set_by_id("30", "strength", control_net.strength)
         ComfyGen.queue_prompt(prompt)
 
-    ## TODO add controlnet to this method so it actually has an image to inpaint
-    def inpaint_clipseg(self, prompt, model, vae, n_latents, positive, negative):
-        prompt, model, vae = self.prompt_setup(WorkflowType.INPAINT_CLIPSEG, "Assembling clipseg-assisted inpaint prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative)
+    def inpaint_clipseg(self, prompt, model, vae, n_latents, positive, negative, control_net):
+        prompt, model, vae = self.prompt_setup(WorkflowType.INPAINT_CLIPSEG, "Assembling clipseg-assisted inpaint prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, inpaint_image=control_net)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
         prompt.set_vae(self.gen_config.redo_param("vae", vae))

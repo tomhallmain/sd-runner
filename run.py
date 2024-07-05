@@ -175,19 +175,12 @@ def do_workflow(args, workflow, positive_prompt, negative_prompt, control_nets, 
         pass
 
 
-
-def main(args):
-    Model.load_all()
-    Model.set_lora_strength(Globals.DEFAULT_LORA_STRENGTH)
+def load_and_run(args, prompt_mode, control_nets):
     ip_adapters = get_ip_adapters(args.ip_adapters.split(",") if args.ip_adapters and args.ip_adapters != "" else None)
-    control_nets = get_control_nets(args.control_nets.split(",") if args.control_nets and args.control_nets != "" else None)
     positive_prompt = args.positive_prompt if args.positive_prompt else Globals.DEFAULT_POSITIVE_PROMPT
     base_negative = "" if Globals.OVERRIDE_BASE_NEGATIVE else str(Globals.DEFAULT_NEGATIVE_PROMPT)
     negative_prompt = args.negative_prompt if args.negative_prompt else base_negative
-    prompt_mode = PromptMode.FIXED if args.prompter_override else args.prompt_mode
-    Model.set_model_presets(prompt_mode)
     Globals.set_prompter(Prompter(prompt_mode=prompt_mode, get_specific_locations=Globals.PROMPTER_GET_SPECIFIC_LOCATIONS, prompt_list=prompt_list))
-    Globals.SKIP_CONFIRMATIONS = args.auto_run
 
     if args.auto_run:
         print("Auto-run mode set.")
@@ -202,6 +195,22 @@ def main(args):
         except Exception as e:
             print(e)
             traceback.print_exc()
+
+
+def main(args):
+    Model.load_all()
+    Model.set_lora_strength(Globals.DEFAULT_LORA_STRENGTH)
+    prompt_mode = PromptMode.FIXED if args.prompter_override else args.prompt_mode
+    Model.set_model_presets(prompt_mode)
+    Globals.SKIP_CONFIRMATIONS = args.auto_run
+    control_nets, is_dir = get_control_nets(args.control_nets.split(",") if args.control_nets and args.control_nets != "" else None)
+    if is_dir:
+        for i in range(len(control_nets)):
+            control_net = control_nets[i]
+            load_and_run(args, prompt_mode, [control_net])
+            print(f"Running control net {i} - {control_net}")
+    else:
+        load_and_run(args, prompt_mode, control_nets)
 
 
 

@@ -41,6 +41,18 @@ def set_tag(current_value, new_value):
         return current_value + new_value
     else:
         return new_value
+    
+def clear_quotes(s):
+    if len(s) > 0:
+        if s.startswith('"'):
+            s = s[1:]
+        if s.endswith('"'):
+            s = s[:-1]
+        if s.startswith("'"):
+            s = s[1:]
+        if s.endswith("'"):
+            s = s[:-1]
+    return s
 
 class Sidebar(tk.Frame):
     def __init__(self, master=None, cnf={}, **kw):
@@ -131,7 +143,8 @@ class App():
         self.label_workflows = Label(self.sidebar)
         self.add_label(self.label_workflows, "Workflow")
         self.workflow = tk.StringVar(master)
-        self.workflows_choice = OptionMenu(self.sidebar, self.workflow, WorkflowType.SIMPLE_IMAGE_GEN_LORA.name, *WorkflowType.__members__.keys())
+        self.workflows_choice = OptionMenu(self.sidebar, self.workflow, WorkflowType.SIMPLE_IMAGE_GEN_LORA.name,
+                                           *WorkflowType.__members__.keys(), command=self.set_workflow_type)
         self.apply_to_grid(self.workflows_choice, sticky=W)
 
         self.label_resolutions = Label(self.sidebar)
@@ -204,8 +217,8 @@ class App():
         self.prompt_massage_tags_box = self.new_entry(self.prompt_massage_tags)
         self.apply_to_grid(self.prompt_massage_tags_box, sticky=W)
         self.prompt_massage_tags_box.bind("<Return>", self.set_prompt_massage_tags)
-        self.positive_tags = tk.StringVar()
-        self.positive_tags_box = self.new_entry(self.positive_tags)
+#        self.positive_tags = tk.StringVar()
+        self.positive_tags_box = tk.Text(self.sidebar, height=3, width=40, font=fnt.Font(size=8))
         self.apply_to_grid(self.positive_tags_box, sticky=W)
         self.positive_tags_box.bind("<Return>", self.set_positive_tags)
         self.negative_tags = tk.StringVar()
@@ -292,7 +305,7 @@ class App():
         self.label_prompt_mode = Label(self.prompter_config)
         self.add_label(self.label_prompt_mode, "Prompt Mode", column=1)
         self.prompt_mode = tk.StringVar(master)
-        self.prompt_mode_choice = OptionMenu(self.prompter_config, self.prompt_mode, str(PromptMode.FIXED), *PromptMode.__members__.keys())
+        self.prompt_mode_choice = OptionMenu(self.prompter_config, self.prompt_mode, str(PromptMode.SFW), *PromptMode.__members__.keys())
         self.apply_to_grid(self.prompt_mode_choice, sticky=W, column=1)
 
         self.label_sampler = Label(self.prompter_config)
@@ -439,6 +452,14 @@ class App():
         self.master.update()
         self.model_tags_box.closeListbox()
 
+    def set_workflow_type(self, event=None):
+        workflow_tag = self.workflow.get()
+        if workflow_tag == WorkflowType.INPAINT_CLIPSEG.name:
+            self.inpainting_var.set(True)
+            self.resolutions_box["text"] = "landscape3" # Technically not needed
+            self.total.set("1")
+
+
     def destroy_progress_bar(self):
         if self.progress_bar is not None:
             self.progress_bar.stop()
@@ -469,15 +490,16 @@ class App():
         self.set_negative_tags()
         self.set_bw_colorization()
         self.set_lora_strength()
+        controlnet_file = clear_quotes(self.controlnet_file_box.get())
 
         if args.workflow_tag == WorkflowType.REDO_PROMPT.name:
-            args.workflow_tag = self.controlnet_file_box.get()
+            args.workflow_tag = controlnet_file
             self.set_redo_params()
         else:
-            args.control_nets = self.controlnet_file_box.get()
+            args.control_nets = controlnet_file
 
         self.set_controlnet_strength()
-        args.ip_adapters = self.ipadapter_file_box.get()
+        args.ip_adapters = clear_quotes(self.ipadapter_file_box.get())
         self.set_ipadapter_strength()
         self.set_random_skip()
 
@@ -489,7 +511,7 @@ class App():
             res = self.alert("Confirm Run",
                 str(e) + "\n\nAre you sure you want to proceed?",
                 kind="warning")
-            if res != messagebox.YES:
+            if res != messagebox.OK:
                 return
 
         def run_async(args) -> None:
@@ -541,7 +563,10 @@ class App():
         Globals.set_prompt_massage_tags(self.prompt_massage_tags.get())
 
     def set_positive_tags(self, event=None):
-        Prompter.set_positive_tags(self.positive_tags.get())
+        text = self.positive_tags_box.get("1.0", tk.END)
+        if text.endswith("\n"):
+            text = text[:-1]
+        Prompter.set_positive_tags(text)
 
     def set_negative_tags(self, event=None):
         Prompter.set_negative_tags(self.negative_tags.get())

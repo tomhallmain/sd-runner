@@ -75,12 +75,12 @@ class Concepts:
             return []
         return sample(Concepts.load(SFW.animals), low, high)
 
-    def get_locations(self, low=0, high=2):
+    def get_locations(self, low=0, high=2, inclusion_chance=0.4):
         locations = Concepts.load(SFW.locations)
         if self.get_specific_locations and random.random() > 0.5:
             locations.extend(Concepts.load(SFW.locations_specific))
-        if random.random() > 0.4:
-            return []
+#        if random.random() > inclusion_chance:
+#            return []
         return sample(locations, low, high)
 
     def get_colors(self, low=0, high=3):

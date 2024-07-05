@@ -10,5 +10,5 @@ ip_adapters.py
 prompts/stableDiffusion3*
 prompts/test.json
 sdg_script.py
-temp.py
+temp*.py
 test_multiselect.py

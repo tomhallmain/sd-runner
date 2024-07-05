@@ -281,11 +281,11 @@ class Model:
         for _model_name in models:
             model_name = _model_name.lower()
             if model_name.startswith(model_tag):
-                if inpainting:
-                    if "inpainting" in model_name:
+                if not is_lora and inpainting:
+                    if "inpaint" in model_name:
                         if is_xl == 0 or is_xl == 1 or "xl" not in model_name:
                             model = models[_model_name]
-                elif "inpainting" not in model_name:
+                elif is_lora or "inpaint" not in model_name:
                     if is_xl == 0 or is_xl == 1 or "xl" not in model_name:
                         model = models[_model_name]
 

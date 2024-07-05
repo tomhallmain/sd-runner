@@ -91,8 +91,9 @@ class Config:
             try:
                 setattr(self, filepath, self.validate_and_set_filepath(filepath))
             except Exception as e:
-                print(e)
-                print(f"Failed to set {filepath} from config.json file. Ensure the key is set.")
+                pass
+#                print(e)
+#                print(f"Failed to set {filepath} from config.json file. Ensure the key is set.")
 
     def set_values(self, type, *names):
         for name in names:
@@ -100,14 +101,16 @@ class Config:
                 try:
                     setattr(self, name, type(self.dict[name]))
                 except Exception as e:
-                    print(e)
-                    print(f"Failed to set {name} from config.json file. Ensure the value is set and of the correct type.")
+                    pass
+#                    print(e)
+#                    print(f"Failed to set {name} from config.json file. Ensure the value is set and of the correct type.")
             else:
                 try:
                     setattr(self, name, self.dict[name])
                 except Exception as e:
-                    print(e)
-                    print(f"Failed to set {name} from config.json file. Ensure the key is set.")
+                    pass
+#                    print(e)
+#                    print(f"Failed to set {name} from config.json file. Ensure the key is set.")
 
 
 

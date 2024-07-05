@@ -71341,7 +71341,6 @@ simplexes
 simplices
 simplicia
 simplicial
-simplicialy
 simplicity
 simplification
 simplifications
