@@ -2,7 +2,7 @@ from enum import Enum
 import os
 import random
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 class PromptMode(Enum):
     FIXED = "FIXED"

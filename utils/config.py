@@ -3,7 +3,7 @@ import os
 
 
 class Config:
-    CONFIG_FILE_LOC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
+    CONFIG_FILE_LOC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "config.json")
 
     def __init__(self):
         self.dict = {}
@@ -28,6 +28,10 @@ class Config:
         self.interrogator_questions_file = None
         self.interrogator_folder_category_mappings_file = None
 
+        self.server_port = 6000
+        self.server_password = "<PASSWORD>"
+        self.server_host = "localhost"
+
         try:
             self.dict = json.load(open(Config.CONFIG_FILE_LOC, "r"))
         except Exception as e:
@@ -35,7 +39,8 @@ class Config:
             print("Unable to load config. Ensure config.json file settings are correct.")
         
         self.set_values(str,
-                        "comfyui_url")
+                        "comfyui_url",
+                        "server_password")
         self.set_values(list,
                         "gen_order",
                         "redo_parameters",

@@ -3,10 +3,10 @@ import os
 import random
 import re
 
-from concepts import PromptMode
-from config import config
-from globals import Globals, WorkflowType
-from utils import extract_substring
+from sd_runner.concepts import PromptMode
+from utils.config import config
+from utils.globals import Globals, WorkflowType
+from utils.utils import extract_substring
 
 
 class Resolution:
@@ -342,7 +342,7 @@ class Model:
             is_turbo = file.startswith("Turbo")
             model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo)
             models[model_name] = model
-            print(model)
+#            print(model)
         if is_lora:
             Model.LORAS = models
         else:

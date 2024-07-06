@@ -4,12 +4,12 @@ from urllib import request, parse, error
 from time import sleep
 import traceback
 
-from captioner import Captioner
-from config import config
-from gen_config import GenConfig, format_white, format_red
-from globals import Globals, WorkflowType, ComfyNodeName
-from models import Model, LoraBundle
-from workflow_prompt import WorkflowPrompt
+from sd_runner.captioner import Captioner
+from utils.config import config
+from sd_runner.gen_config import GenConfig, format_white, format_red
+from utils.globals import Globals, WorkflowType, ComfyNodeName
+from sd_runner.models import Model, LoraBundle
+from sd_runner.workflow_prompt import WorkflowPrompt
 
 
 class ComfyGen:
@@ -92,13 +92,15 @@ class ComfyGen:
             self.simple_image_gen(prompt, resolution, model, vae, n_latents, positive, negative)
         elif workflow_id == WorkflowType.ELLA:
             self.ella(prompt, resolution, model, vae, n_latents, positive)
-        elif workflow_id == WorkflowType.INSTANT_LORA:
-            self.instant_lora(prompt, model, vae, n_latents, positive, negative, control_net, ip_adapter)
+        elif workflow_id == WorkflowType.CONTROLNET:
+            self.control_net(prompt, resolution, model, vae, n_latents, positive, negative, control_net)
         elif workflow_id == WorkflowType.IP_ADAPTER:
             self.ip_adapter(prompt, resolution, model, vae, n_latents, positive, negative, control_net, ip_adapter)
         elif workflow_id  == WorkflowType.RENOISER:
             ComfyGen.clear_history() # There is something funky going on with rerunning these, which is probably for the best considering seed doesn't do much.
             self.renoiser(prompt, model, vae, n_latents, positive, negative, control_net)
+        elif workflow_id == WorkflowType.INSTANT_LORA:
+            self.instant_lora(prompt, model, vae, n_latents, positive, negative, control_net, ip_adapter)
         elif workflow_id == WorkflowType.INPAINT_CLIPSEG:
             self.inpaint_clipseg(prompt, model, vae, n_latents, positive, negative, control_net)
         elif workflow_id == WorkflowType.TURBO:
@@ -139,6 +141,8 @@ class ComfyGen:
                     prompt = WorkflowPrompt("simple_image_gen_lora2.json")
             if workflow_type == WorkflowType.INSTANT_LORA and model.is_xl:
                 prompt = WorkflowPrompt("instant_lora_xl.json")
+            if workflow_type == WorkflowType.CONTROLNET and model.is_xl:
+                prompt = WorkflowPrompt("controlnet_sdxl.json")
             if not prompt:
                 prompt = WorkflowPrompt(workflow_type.value)
         self.counter += 1
@@ -199,8 +203,8 @@ class ComfyGen:
 
     def simple_image_gen_tiled_upscale(self, prompt, resolution, model, vae, n_latents, positive, negative, lora):
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN_TILED_UPSCALE, "Assembling Simple Image Gen Tiled Upscale prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
-        model.validate_loras(lora)
         model = self.gen_config.redo_param("model", model)
+        model.validate_loras(lora)
         prompt.set_model(model)
         prompt.set_vae(self.gen_config.redo_param("vae", vae))
         prompt.set_lora(self.gen_config.redo_param("lora", lora))
@@ -332,6 +336,26 @@ class ComfyGen:
  #       prompt.set_clip_vision_model(clip_vision_model) TODO update these
         prompt.set_ip_adapter_strength(ip_adapter.strength)
         prompt.set_ip_adapter_image(self.gen_config.redo_param("ip_adapter", ip_adapter.get_id(control_net=control_net)))
+        prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
+        ComfyGen.queue_prompt(prompt)
+
+    def control_net(self, prompt, resolution, model, vae, n_latents, positive, negative, control_net):
+        prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling IP Adapter prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net)
+        model = self.gen_config.redo_param("model", model)
+#        model.validate_loras(lora)
+        prompt.set_model(model)
+        prompt.set_vae(self.gen_config.redo_param("vae", vae))
+        prompt.set_clip_text_by_id(
+            self.gen_config.redo_param("positive", positive),
+            self.gen_config.redo_param("negative", negative),
+            positive_id=None, negative_id="18", model=model)
+        prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
+        prompt.set_other_sampler_inputs(self.gen_config)
+        if control_net.id is None:
+            return
+        prompt.set_control_net_image(self.gen_config.redo_param("control_net", control_net.id))
+        prompt.set_control_net_strength(control_net.strength)
+#        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         ComfyGen.queue_prompt(prompt)
 

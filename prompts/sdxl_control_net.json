@@ -160,7 +160,7 @@
   },
   "184": {
     "inputs": {
-      "filename_prefix": "output_",
+      "filename_prefix": "ComfyUI_",
       "images": [
         "8",
         0
@@ -176,7 +176,7 @@
   },
   "201": {
     "inputs": {
-      "filename_prefix": "upscaled_",
+      "filename_prefix": "ComfyUI_",
       "images": [
         "221",
         0

@@ -12,3 +12,8 @@ This code is primarily a custom UI to trigger ComfyUI workflows using presets an
 
 `default_negative_prompt`: Any of the defaults are useful, but the negative default can be especially useful as it is often less likely to change.
 
+## Server
+
+Set configuration options for a server port to make use of the server while the UI is running. Calls to the server made with Python's multiprocessing client will update the UI as specified, but leave anything unspecified as already set in the UI. This can be helpful to use in conjunction with other applications that involve images. For an example, see [this class](https://github.com/tomhallmain/simple_image_compare/blob/master/extensions/sd_runner_client.py).
+
+

@@ -8,7 +8,7 @@ import os
 from PIL import Image
 import torch
 
-from config import config
+from utils.config import config
 
 
 MODELS_DIR = os.path.join(config.comfyui_loc, "models")

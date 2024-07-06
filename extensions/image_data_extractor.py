@@ -6,7 +6,7 @@ import sys
 
 import pprint
 
-from config import config
+from utils.config import config
 
 has_imported_sd_prompt_reader = False
 try:

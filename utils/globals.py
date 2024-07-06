@@ -1,10 +1,10 @@
 from enum import Enum
 import os
 
-from concepts import PromptMode
-from config import config
-from image_data_extractor import ImageDataExtractor
-from prompter import Prompter
+from sd_runner.concepts import PromptMode
+from utils.config import config
+from extensions.image_data_extractor import ImageDataExtractor
+from sd_runner.prompter import Prompter
 
 
 class Globals:
@@ -67,6 +67,7 @@ class WorkflowType(Enum):
     ELLA = "ella.json"
     INSTANT_LORA = "instant_lora.json"
     IP_ADAPTER = "ip_adapter.json"
+    CONTROLNET = "controlnet_sd15.json"
     INPAINT_CLIPSEG = "inpaint_clipseg.json"
     ANIMATE_DIFF = "animate_diff.json"
     RENOISER = "renoiser.json"

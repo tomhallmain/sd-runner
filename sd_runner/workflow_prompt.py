@@ -1,9 +1,9 @@
 import json
 import os
 
-from config import config
-from globals import Globals, WorkflowType, Sampler, Scheduler, ComfyNodeName
-from models import Model, Resolution, LoraBundle
+from utils.config import config
+from utils.globals import Globals, WorkflowType, Sampler, Scheduler, ComfyNodeName
+from sd_runner.models import Model, Resolution, LoraBundle
 
 
 class TempRedoInputs:
@@ -47,7 +47,7 @@ class WorkflowPrompt:
     ID = "id"
     INPUTS = "inputs"
     NON_API_INPUTS = "widgets_values"
-    PROMPTS_LOC = os.path.join(os.path.abspath(os.path.dirname(__file__)), "prompts")
+    PROMPTS_LOC = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), "prompts")
     LAST_PROMPT_FILENAME = "test.json"
     LAST_PROMPT_FILE = os.path.join(PROMPTS_LOC, LAST_PROMPT_FILENAME)
 
@@ -82,6 +82,7 @@ class WorkflowPrompt:
                 ip_adapters.clear()
                 ip_adapters.append(None)
         if workflow not in [
+                WorkflowType.CONTROLNET,
                 WorkflowType.INSTANT_LORA,
                 WorkflowType.RENOISER,
                 WorkflowType.UPSCALE_SIMPLE,

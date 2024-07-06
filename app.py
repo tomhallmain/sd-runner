@@ -1,4 +1,5 @@
 import os
+import signal
 import time
 import traceback
 
@@ -11,14 +12,16 @@ from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
 from run import main, RunConfig
-from globals import Globals, WorkflowType, Sampler, Scheduler
+from utils.globals import Globals, WorkflowType, Sampler, Scheduler
 
-from comfy_gen import ComfyGen
-from concepts import PromptMode
-from gen_config import GenConfig
-from models import IPAdapter, Model
-from prompter import PROMPTER_CONFIG, Prompter
-from utils import open_file_location, periodic, start_thread
+from extensions.sd_runner_server import SDRunnerServer
+
+from sd_runner.comfy_gen import ComfyGen
+from sd_runner.concepts import PromptMode
+from sd_runner.gen_config import GenConfig
+from sd_runner.models import IPAdapter, Model
+from sd_runner.prompter import PROMPTER_CONFIG, Prompter
+from utils.utils import open_file_location, periodic, start_thread
 
 
 def set_attr_if_not_empty(text_box):
@@ -124,8 +127,10 @@ class App():
 
     def __init__(self, master):
         self.master = master
+        self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.progress_bar = None
         self.job_queue = JobQueue()
+        self.server = self.setup_server()
         Model.load_all()
 
         # Sidebar
@@ -452,13 +457,36 @@ class App():
         self.master.update()
         self.model_tags_box.closeListbox()
 
-    def set_workflow_type(self, event=None):
-        workflow_tag = self.workflow.get()
+
+    def on_closing(self):
+        if self.server is not None:
+            try:
+                self.server.stop()
+            except Exception as e:
+                print(f"Error stopping server: {e}")
+        self.master.destroy()
+
+    def setup_server(self):
+        server = SDRunnerServer(self.server_run_callback)
+        try:
+            start_thread(server.start)
+            return server
+        except Exception as e:
+            print(f"Failed to start server: {e}")
+
+    def single_resolution(self):
+            self.resolutions_box.delete(0, "end")
+            self.resolutions_box.insert(0, "landscape3") # Technically not needed
+
+    def set_workflow_type(self, event=None, workflow_tag=None):
+        if workflow_tag is None:
+            workflow_tag = self.workflow.get()
         if workflow_tag == WorkflowType.INPAINT_CLIPSEG.name:
             self.inpainting_var.set(True)
-            self.resolutions_box["text"] = "landscape3" # Technically not needed
+            self.single_resolution()
             self.total.set("1")
-
+        if workflow_tag == WorkflowType.CONTROLNET.name:
+            self.single_resolution()
 
     def destroy_progress_bar(self):
         if self.progress_bar is not None:
@@ -490,7 +518,7 @@ class App():
         self.set_negative_tags()
         self.set_bw_colorization()
         self.set_lora_strength()
-        controlnet_file = clear_quotes(self.controlnet_file_box.get())
+        controlnet_file = clear_quotes(self.controlnet_file.get())
 
         if args.workflow_tag == WorkflowType.REDO_PROMPT.name:
             args.workflow_tag = controlnet_file
@@ -499,7 +527,7 @@ class App():
             args.control_nets = controlnet_file
 
         self.set_controlnet_strength()
-        args.ip_adapters = clear_quotes(self.ipadapter_file_box.get())
+        args.ip_adapters = clear_quotes(self.ipadapter_file.get())
         self.set_ipadapter_strength()
         self.set_random_skip()
 
@@ -531,6 +559,21 @@ class App():
             self.job_queue.add(args)
         else:
             start_thread(run_async, use_asyncio=False, args=[args])
+
+
+    def server_run_callback(self, workflow_type, args):
+        self.workflow.set(workflow_type.name)
+        self.set_workflow_type(workflow_type.name)
+        if len(args) > 0:
+            if workflow_type == WorkflowType.CONTROLNET or workflow_type == WorkflowType.RENOISER:
+                self.controlnet_file.set(args[0])
+            elif workflow_type == WorkflowType.IP_ADAPTER:
+                self.ipadapter_file.set(args[0])
+            else:
+                print(f"Unhandled workflow type for server connection: {workflow_type}")
+            self.master.update()
+        self.run()
+        return {} # Empty error object for confirmation
 
 
     def set_prompter_config(self):
@@ -690,6 +733,17 @@ if __name__ == "__main__":
         root.columnconfigure(0, weight=1)
         root.columnconfigure(1, weight=1)
         root.rowconfigure(0, weight=1)
+
+        # Graceful shutdown handler
+        def graceful_shutdown(signum, frame):
+            print("Caught signal, shutting down gracefully...")
+            app.on_closing()
+            exit(0)
+
+        # Register the signal handlers for graceful shutdown
+        signal.signal(signal.SIGINT, graceful_shutdown)
+        signal.signal(signal.SIGTERM, graceful_shutdown)
+
         app = App(root)
         root.mainloop()
         exit()

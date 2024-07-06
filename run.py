@@ -3,15 +3,15 @@ from copy import deepcopy
 import time
 import traceback
 
-from globals import Globals
-from concepts import PromptMode
-from comfy_gen import ComfyGen
-from control_nets import get_control_nets, redo_files
-from gen_config import GenConfig
-from ip_adapters import get_ip_adapters
-from prompter import Prompter
-from models import Model, Resolution
-from workflow_prompt import WorkflowPrompt
+from utils.globals import Globals
+from sd_runner.concepts import PromptMode
+from sd_runner.comfy_gen import ComfyGen
+from sd_runner.control_nets import get_control_nets, redo_files
+from sd_runner.gen_config import GenConfig
+from sd_runner.ip_adapters import get_ip_adapters
+from sd_runner.prompter import Prompter
+from sd_runner.models import Model, Resolution
+from sd_runner.workflow_prompt import WorkflowPrompt
 
 
 prompt_list = [
@@ -207,8 +207,8 @@ def main(args):
     if is_dir:
         for i in range(len(control_nets)):
             control_net = control_nets[i]
-            load_and_run(args, prompt_mode, [control_net])
             print(f"Running control net {i} - {control_net}")
+            load_and_run(args, prompt_mode, [control_net])
     else:
         load_and_run(args, prompt_mode, control_nets)
 

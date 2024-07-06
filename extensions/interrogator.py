@@ -7,7 +7,7 @@ import time
 
 from blip.blip import WAS_BLIP_Model_Loader, WAS_BLIP_Analyze_Image
 
-from config import config
+from utils.config import config
 
 
 class AnswerType(Enum):

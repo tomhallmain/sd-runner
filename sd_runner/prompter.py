@@ -2,8 +2,8 @@ import json
 import random
 import subprocess
 
-from concepts import Concepts, PromptMode
-from config import config
+from sd_runner.concepts import Concepts, PromptMode
+from utils.config import config
 
 
 class PrompterConfiguration:

@@ -1,10 +1,10 @@
 import re
 import random
 
-from concepts import HardConcepts
-from config import config
-from globals import Sampler, Scheduler
-from models import Globals, IPAdapter, Model, Resolution
+from sd_runner.concepts import HardConcepts
+from utils.config import config
+from utils.globals import Sampler, Scheduler
+from sd_runner.models import Globals, IPAdapter, Model, Resolution
 
 RESET = "\033[m"
 GRAY = "\033[90m"
