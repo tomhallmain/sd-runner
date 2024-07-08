@@ -3,7 +3,7 @@ from copy import deepcopy
 import time
 import traceback
 
-from utils.globals import Globals
+from utils.globals import Globals # must import first
 from sd_runner.concepts import PromptMode
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.control_nets import get_control_nets, redo_files
@@ -12,7 +12,7 @@ from sd_runner.ip_adapters import get_ip_adapters
 from sd_runner.prompter import Prompter
 from sd_runner.models import Model, Resolution
 from sd_runner.workflow_prompt import WorkflowPrompt
-
+from utils.utils import split
 
 prompt_list = [
 ]
@@ -203,7 +203,7 @@ def main(args):
     prompt_mode = PromptMode.FIXED if args.prompter_override else args.prompt_mode
     Model.set_model_presets(prompt_mode)
     Globals.SKIP_CONFIRMATIONS = args.auto_run
-    control_nets, is_dir = get_control_nets(args.control_nets.split(",") if args.control_nets and args.control_nets != "" else None)
+    control_nets, is_dir = get_control_nets(split(args.control_nets, ",") if args.control_nets and args.control_nets != "" else None)
     if is_dir:
         for i in range(len(control_nets)):
             control_net = control_nets[i]

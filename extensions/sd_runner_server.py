@@ -66,9 +66,7 @@ class SDRunnerServer:
             elif _type == SDRunnerServer.TYPE_CONTROL_NET:
                 resp = self.run_callback(WorkflowType.CONTROLNET, args)
             elif _type == SDRunnerServer.TYPE_IP_ADAPTER:
-                print("Before run callback")
                 resp = self.run_callback(WorkflowType.IP_ADAPTER, args)
-                print(f"resp = {resp}")
             else:
                 self._conn.send({"error": "invalid command type", 'data': _type})
                 return
@@ -76,7 +74,7 @@ class SDRunnerServer:
             print("After self._conn.send(resp)")
         except Exception as e:
             print(e)
-            self._conn.send({'error':'run error', 'data': str(e)})
+            self._conn.send({'error': 'run error', 'data': str(e)})
 
     def stop(self):
         self._is_stopping = True

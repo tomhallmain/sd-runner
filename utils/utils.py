@@ -125,3 +125,21 @@ def remove_substring_by_indices(string, start_index, end_index):
     right_part = string[end_index+1:]
     print("Removed: " + string[start_index:end_index+1])
     return left_part + right_part
+
+def split(string, delimiter=","):
+    # Split the string by the delimiter and clean any delimiter escapes present in the string
+    parts = []
+    i = 0
+    while i < len(string):
+        if string[i] == delimiter:
+            if i == 0 or string[i-1] != "\\":
+                parts.append(string[:i])
+                string = string[i+1:]
+                i = -1
+            elif i != 0 and string[i-1] == "\\":
+                string = string[:i-1] + delimiter + string[i+1:]
+        i += 1
+    print("Parts: " + str(parts))
+    if len(parts) == 0 and len(string) != 0:
+        parts.append(string)
+    return parts

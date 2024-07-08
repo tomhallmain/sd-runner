@@ -475,8 +475,8 @@ class App():
             print(f"Failed to start server: {e}")
 
     def single_resolution(self):
-            self.resolutions_box.delete(0, "end")
-            self.resolutions_box.insert(0, "landscape3") # Technically not needed
+        self.resolutions_box.delete(0, "end")
+        self.resolutions_box.insert(0, "landscape3") # Technically not needed
 
     def set_workflow_type(self, event=None, workflow_tag=None):
         if workflow_tag is None:
@@ -524,6 +524,7 @@ class App():
             args.workflow_tag = controlnet_file
             self.set_redo_params()
         else:
+            print(controlnet_file)
             args.control_nets = controlnet_file
 
         self.set_controlnet_strength()
@@ -565,10 +566,12 @@ class App():
         self.workflow.set(workflow_type.name)
         self.set_workflow_type(workflow_type.name)
         if len(args) > 0:
+            file = args[0].replace(",", "\\,")
+            print(file)
             if workflow_type == WorkflowType.CONTROLNET or workflow_type == WorkflowType.RENOISER:
-                self.controlnet_file.set(args[0])
+                self.controlnet_file.set(file)
             elif workflow_type == WorkflowType.IP_ADAPTER:
-                self.ipadapter_file.set(args[0])
+                self.ipadapter_file.set(file)
             else:
                 print(f"Unhandled workflow type for server connection: {workflow_type}")
             self.master.update()
@@ -631,10 +634,6 @@ class App():
 
     def set_random_skip(self, event=None):
         ComfyGen.RANDOM_SKIP_CHANCE = float(self.random_skip.get()) if self.random_skip_var.get() else 0
-
-    @classmethod
-    def toggle_fill_canvas(cls):
-        cls.fill_canvas = not cls.fill_canvas
 
     def alert(self, title, message, kind="info", hidemain=True) -> None:
         if kind not in ("error", "warning", "info"):

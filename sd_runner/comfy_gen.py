@@ -340,7 +340,7 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def control_net(self, prompt, resolution, model, vae, n_latents, positive, negative, control_net):
-        prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling IP Adapter prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net)
+        prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net)
         model = self.gen_config.redo_param("model", model)
 #        model.validate_loras(lora)
         prompt.set_model(model)
