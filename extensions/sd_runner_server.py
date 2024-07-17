@@ -5,6 +5,7 @@ from utils.config import config
 from utils.globals import WorkflowType
 
 class SDRunnerServer:
+    TYPE_REDO_PROMPT = 'redo_prompt'
     TYPE_RENOISER = 'renoiser'
     TYPE_CONTROL_NET = 'control_net'
     TYPE_IP_ADAPTER = 'ip_adapter'
@@ -67,6 +68,8 @@ class SDRunnerServer:
                 resp = self.run_callback(WorkflowType.CONTROLNET, args)
             elif _type == SDRunnerServer.TYPE_IP_ADAPTER:
                 resp = self.run_callback(WorkflowType.IP_ADAPTER, args)
+            elif _type == SDRunnerServer.TYPE_REDO_PROMPT:
+                resp = self.run_callback(WorkflowType.REDO_PROMPT, args)
             else:
                 self._conn.send({"error": "invalid command type", 'data': _type})
                 return

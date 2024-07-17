@@ -61,6 +61,7 @@ capris
 cardigan
 cat costume
 caveman outfit
+chain mail
 chemise
 clasp
 cloak
@@ -125,6 +126,7 @@ gilet
 girdle
 glasses
 gloves
+goggles
 gold ring
 gown
 halter top
@@ -265,6 +267,8 @@ swimsuit
 T-shirt
 tam
 tank top
+tattered clothes
+tattered robe
 teddy
 threads
 tiara

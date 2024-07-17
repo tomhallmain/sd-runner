@@ -424,6 +424,7 @@ cat
 cellular automata
 central processing unit
 cereal box
+chandelier
 character modeling
 checkboard
 chibi
@@ -492,6 +493,7 @@ futuristic
 giant vat
 glam
 glow
+gnarled
 gold sheen
 golden ratio
 gothic
@@ -508,6 +510,8 @@ hypermaximalist
 illuminated manuscript
 industrial
 insane art
+interpolation
+interpleaded
 irregularities
 islam
 ivory
@@ -654,6 +658,7 @@ vicious creature
 vicious dog
 viral molecule
 voronoi trees
+wax figure
 whale
 wings
 wires

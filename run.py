@@ -9,7 +9,7 @@ from sd_runner.comfy_gen import ComfyGen
 from sd_runner.control_nets import get_control_nets, redo_files
 from sd_runner.gen_config import GenConfig
 from sd_runner.ip_adapters import get_ip_adapters
-from sd_runner.prompter import Prompter
+from sd_runner.prompter import PrompterConfiguration, Prompter
 from sd_runner.models import Model, Resolution
 from sd_runner.workflow_prompt import WorkflowPrompt
 from utils.utils import split
@@ -39,7 +39,7 @@ class RunConfig:
         self.denoise = self.get("denoise")
         self.prompter_override = self.get("prompter_override")
         self.redo_files = self.get("redo_files")
-        self.prompt_mode = self.get("prompt_mode")
+        self.prompter_config = self.get("prompter_config")
         self.control_nets = self.get("control_nets")
         self.ip_adapters = self.get("ip_adapters")
         self.positive_prompt = self.get("positive_prompt")
@@ -61,11 +61,13 @@ class RunConfig:
             return getattr(self.args, name)
 
     def validate(self):
+        if self.prompter_config is None:
+            raise Exception("No prompter config found!")
         # Check here if for example, using FIXED prompt mode and > 6 set total
-        if self.prompt_mode == PromptMode.FIXED and self.total > 10:
+        if self.prompter_config.prompt_mode == PromptMode.FIXED and self.total > 10:
             raise Exception("Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?")
         if RunConfig.model_switch_detected and not RunConfig.has_warned_about_prompt_massage_text_mismatch:
-            prompt_massage_tags = Model.get_first_model_prompt_massage_tags(self.model_tags, prompt_mode=self.prompt_mode, inpainting=self.inpainting)
+            prompt_massage_tags = Model.get_first_model_prompt_massage_tags(self.model_tags, prompt_mode=self.prompter_config.prompt_mode, inpainting=self.inpainting)
             if Globals.POSITIVE_PROMPT_MASSAGE_TAGS != prompt_massage_tags:
                 RunConfig.has_warned_about_prompt_massage_text_mismatch = True
                 raise Exception("A model switch was detected and the model massage tags don't match. This warning will only be shown once.")
@@ -175,17 +177,17 @@ def do_workflow(args, workflow, positive_prompt, negative_prompt, control_nets, 
         pass
 
 
-def load_and_run(args, prompt_mode, control_nets):
+def load_and_run(args, prompter_config, control_nets):
     ip_adapters = get_ip_adapters(args.ip_adapters.split(",") if args.ip_adapters and args.ip_adapters != "" else None)
     positive_prompt = args.positive_prompt if args.positive_prompt else Globals.DEFAULT_POSITIVE_PROMPT
     base_negative = "" if Globals.OVERRIDE_BASE_NEGATIVE else str(Globals.DEFAULT_NEGATIVE_PROMPT)
     negative_prompt = args.negative_prompt if args.negative_prompt else base_negative
-    Globals.set_prompter(Prompter(prompt_mode=prompt_mode, get_specific_locations=Globals.PROMPTER_GET_SPECIFIC_LOCATIONS, prompt_list=prompt_list))
+    Globals.set_prompter(Prompter(prompter_config=prompter_config, get_specific_locations=Globals.PROMPTER_GET_SPECIFIC_LOCATIONS, prompt_list=prompt_list))
 
     if args.auto_run:
         print("Auto-run mode set.")
 
-    print(args.prompt_mode)
+    print(args.prompter_config.prompt_mode)
 
     workflow_tags = args.redo_files.split(",") if args.redo_files else args.workflow_tag.split(",")
     for workflow_tag in workflow_tags:
@@ -200,17 +202,17 @@ def load_and_run(args, prompt_mode, control_nets):
 def main(args):
     Model.load_all()
     Model.set_lora_strength(Globals.DEFAULT_LORA_STRENGTH)
-    prompt_mode = PromptMode.FIXED if args.prompter_override else args.prompt_mode
-    Model.set_model_presets(prompt_mode)
+    prompter_config = PrompterConfiguration(prompt_mode=PromptMode.FIXED) if args.prompter_override else args.prompter_config
+    Model.set_model_presets(prompter_config.prompt_mode)
     Globals.SKIP_CONFIRMATIONS = args.auto_run
     control_nets, is_dir = get_control_nets(split(args.control_nets, ",") if args.control_nets and args.control_nets != "" else None)
     if is_dir:
         for i in range(len(control_nets)):
             control_net = control_nets[i]
             print(f"Running control net {i} - {control_net}")
-            load_and_run(args, prompt_mode, [control_net])
+            load_and_run(args, prompter_config, [control_net])
     else:
-        load_and_run(args, prompt_mode, control_nets)
+        load_and_run(args, prompter_config, control_nets)
 
 
 

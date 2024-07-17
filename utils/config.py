@@ -7,6 +7,8 @@ class Config:
 
     def __init__(self):
         self.dict = {}
+        self.foreground_color = None
+        self.background_color = None
         self.comfyui_url = None
         self.models_dir = ""
         self.img_dir = None
@@ -39,6 +41,8 @@ class Config:
             print("Unable to load config. Ensure config.json file settings are correct.")
         
         self.set_values(str,
+                        "foreground_color",
+                        "background_color",
                         "comfyui_url",
                         "server_password")
         self.set_values(list,

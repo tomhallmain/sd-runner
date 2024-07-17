@@ -1,3 +1,4 @@
+from copy import deepcopy
 import json
 import random
 import subprocess
@@ -7,10 +8,11 @@ from utils.config import config
 
 
 class PrompterConfiguration:
-    def __init__(self, concepts_config=(1,3), positions_config=(0,2), locations_config=(0,1),
+    def __init__(self, prompt_mode=PromptMode.SFW, concepts_config=(1,3), positions_config=(0,2), locations_config=(0,1),
                  animals_config=(0,1,0.1), colors_config=(0,2), times_config=(0,1),
                  dress_config=(0,2,0.5), expressions=True, actions=(0,2), descriptions=(0,1),
                  random_words_config=(0,5)) -> None:
+        self.prompt_mode = prompt_mode
         self.concepts = concepts_config
         self.positions = positions_config
         self.locations = locations_config
@@ -23,8 +25,53 @@ class PrompterConfiguration:
         self.descriptions = descriptions
         self.random_words = random_words_config
 
+    def to_dict(self) -> dict:
+        return {
+            "prompt_mode": self.prompt_mode.name,
+            "concepts": self.concepts,
+            "positions": self.positions,
+            "locations": self.locations,
+            "animals": self.animals,
+            "colors": self.colors,
+            "times": self.times,
+            "dress": self.dress,
+            "expressions": self.expressions,
+            "actions": self.actions,
+            "descriptions": self.descriptions,
+            "random_words": self.random_words
+        }
 
-PROMPTER_CONFIG = PrompterConfiguration()
+    def set_from_dict(self, _dict):
+        self.prompt_mode = PromptMode[_dict["prompt_mode"]]
+        self.concepts = _dict['concepts'] if 'concepts' in _dict else self.concepts
+        self.positions = _dict['positions'] if 'positions' in _dict else self.positions
+        self.locations = _dict['locations'] if 'locations' in _dict else self.locations
+        self.animals = _dict['animals'] if 'animals' in _dict else self.animals
+        self.colors = _dict['colors'] if 'colors' in _dict else self.colors
+        self.times = _dict['times'] if 'times' in _dict else self.times
+        self.dress = _dict['dress'] if 'dress' in _dict else self.dress
+        self.expressions = _dict['expressions'] if 'expressions' in _dict else self.expressions
+        self.actions = _dict['actions'] if 'actions' in _dict else self.actions
+        self.descriptions = _dict['descriptions'] if 'descriptions' in _dict else self.descriptions
+        self.random_words = _dict['random_words'] if 'random_words' in _dict else self.random_words
+
+    def set_from_other(self, other):
+        if not isinstance(other, PrompterConfiguration):
+            raise TypeError("Can't set from non-PrompterConfiguration")
+        self.__dict__ = deepcopy(other.__dict__)
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+    
+    def __hash__(self):
+        class PromptModeEncoder(json.JSONEncoder):
+            def default(self, z):
+                if isinstance(z, PromptMode):
+                    return (str(z.name))
+                else:
+                    return super().default(z)
+        return hash(json.dumps(self, cls=PromptModeEncoder, sort_keys=True))
+
 
 class Prompter:
     # Set these to include constant detail in all prompts
@@ -34,16 +81,17 @@ class Prompter:
     """
     Has various functions for generating stable diffusion image generation prompts.
     """
-    def __init__(self, reference_image_path="", llava_path="", prompt_mode=PromptMode.SFW, get_specific_locations=False, prompt_list=[]):
+    def __init__(self, reference_image_path="", llava_path="", prompter_config=PrompterConfiguration(), get_specific_locations=False, prompt_list=[]):
         self.reference_image_path = reference_image_path
         self.llava_path = llava_path
-        self.prompt_mode = prompt_mode
-        self.concepts = Concepts(prompt_mode, get_specific_locations=get_specific_locations)
+        self.prompter_config = prompter_config
+        self.prompt_mode = prompter_config.prompt_mode
+        self.concepts = Concepts(prompter_config.prompt_mode, get_specific_locations=get_specific_locations)
         self.count = 0
         self.prompt_list = prompt_list
         self.last_prompt = ""
 
-        if prompt_mode == PromptMode.LIST and len(prompt_list) == 0:
+        if prompter_config == PromptMode.LIST and len(prompt_list) == 0:
             raise Exception("No list items to iterate for prompting.")
 
     def set_prompt_mode(self, prompt_mode):
@@ -94,24 +142,24 @@ class Prompter:
         return "New prompt based on original image: " + str(data)
 
     def random(self, emphasis_threshold=0.9):
-        random_words = self.concepts.get_random_words(*PROMPTER_CONFIG.random_words)
+        random_words = self.concepts.get_random_words(*self.prompter_config.random_words)
         Prompter.emphasize(random_words, emphasis_threshold=emphasis_threshold)
         return ', '.join(random_words)
 
     def _mix_concepts(self, humans_threshold=0.75, emphasis_threshold=0.9, art_styles_chance=0.3):
         mix = []
-        mix.extend(self.concepts.get_concepts(*PROMPTER_CONFIG.concepts))
-        mix.extend(self.concepts.get_positions(*PROMPTER_CONFIG.positions))
-        mix.extend(self.concepts.get_locations(*PROMPTER_CONFIG.locations))
-        mix.extend(self.concepts.get_animals(*PROMPTER_CONFIG.animals))
-        mix.extend(self.concepts.get_colors(*PROMPTER_CONFIG.colors))
-        mix.extend(self.concepts.get_times(*PROMPTER_CONFIG.times))
-        mix.extend(self.concepts.get_dress(*PROMPTER_CONFIG.dress))
-        if PROMPTER_CONFIG.expressions:
+        mix.extend(self.concepts.get_concepts(*self.prompter_config.concepts))
+        mix.extend(self.concepts.get_positions(*self.prompter_config.positions))
+        mix.extend(self.concepts.get_locations(*self.prompter_config.locations))
+        mix.extend(self.concepts.get_animals(*self.prompter_config.animals))
+        mix.extend(self.concepts.get_colors(*self.prompter_config.colors))
+        mix.extend(self.concepts.get_times(*self.prompter_config.times))
+        mix.extend(self.concepts.get_dress(*self.prompter_config.dress))
+        if self.prompter_config.expressions:
             mix.extend(self.concepts.get_expressions())
-        mix.extend(self.concepts.get_actions(*PROMPTER_CONFIG.actions))
-        mix.extend(self.concepts.get_descriptions(*PROMPTER_CONFIG.descriptions))
-        mix.extend(self.concepts.get_random_words(*PROMPTER_CONFIG.random_words))
+        mix.extend(self.concepts.get_actions(*self.prompter_config.actions))
+        mix.extend(self.concepts.get_descriptions(*self.prompter_config.descriptions))
+        mix.extend(self.concepts.get_random_words(*self.prompter_config.random_words))
         # Humans might not always be desirable so only add some randomly
         if self.prompt_mode == PromptMode.SFW:
             if random.random() > humans_threshold:

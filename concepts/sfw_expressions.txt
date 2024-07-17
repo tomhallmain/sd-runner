@@ -23,6 +23,7 @@ Content
 crying
 Curious
 Delighted
+delirious
 Depressed
 despair
 determined
@@ -44,6 +45,10 @@ exasperated
 excited
 Exhausted
 eyebrow raised
+eyes closed
+eyes half closed
+eyes wide
+narrowed eyes
 Fatigued
 Festive
 Friendly
@@ -70,6 +75,7 @@ joyful
 Joyful
 joyous
 kind smile
+kindly
 knowing look
 Lazy
 Lighthearted
@@ -102,6 +108,7 @@ sad
 Sad
 Satisfied
 Shy
+side-eye
 sighing
 Silly
 skeptical

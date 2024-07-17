@@ -74,7 +74,7 @@ class WorkflowType(Enum):
     TURBO = "turbo2.json"
     UPSCALE_SIMPLE = "upscale_image.json"
     UPSCALE_BETTER = "upscale_better.json"
-    REDO_PROMPT = "redo_prompt"
+    REDO_PROMPT = "redo_prompt"        
 
 
 class Sampler(Enum):
