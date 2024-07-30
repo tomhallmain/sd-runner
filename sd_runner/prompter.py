@@ -1,6 +1,7 @@
 from copy import deepcopy
 import json
 import random
+import re
 import subprocess
 
 from sd_runner.concepts import Concepts, PromptMode
@@ -223,6 +224,37 @@ class Prompter:
                         if random_deemphasis > 1.5:
                             deemphasis_str = "1.1"
                         mix[i] = f"({mix[i]}:{deemphasis_str})"
+
+    @staticmethod
+    def contains_wildcard(text):
+        if "*" in text or "?" in text:
+            return True
+        if re.search(r"(\$)?\{?[A-Za-z]+\}?", text):
+            return True
+        return False
+
+    @staticmethod
+    def apply_wildcards(text):
+        text += " ${}"
+        for match in re.finditer(r"(\$)?\{?[A-Za-z]+\}?", text):
+            left = text[:match.start()]
+            right = text[match.end():]
+            name = match.group().lower()
+            if "$" in name:
+                name = name.replace("$", "")
+            if "{" in name:
+                name = name.replace("{", "")
+            if "}" in name:
+                name = name.replace("}", "")
+            if name not in config.wildcards:
+                print(f"Invalid prompt replacement ID: \"{name}\"")
+                continue
+            if name == "random":
+                name = random.choice(list(config.wildcards))
+                print(f"Using random prompt replacement ID: {name}")
+            replacement = config.wildcards[name]
+            text = left + replacement + right
+        return str(text)
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import os
 
 
 class Config:
-    CONFIG_FILE_LOC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "config.json")
+    CONFIGS_DIR_LOC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "configs")
 
     def __init__(self):
         self.dict = {}
@@ -24,6 +24,7 @@ class Config:
         self.redo_parameters = ["n_latents", "resolutions", "models", "loras"]
         self.model_presets = []
         self.prompt_presets = []
+        self.wildcards = {}
 
         self.interrogator_interrogation_dir = None
         self.interrogator_initial_questions_file = None
@@ -34,8 +35,21 @@ class Config:
         self.server_password = "<PASSWORD>"
         self.server_host = "localhost"
 
+        configs =  [ f.path for f in os.scandir(Config.CONFIGS_DIR_LOC) if f.is_file() and f.path.endswith(".json") ]
+        self.config_path = None
+
+        for c in configs:
+            if os.path.basename(c) == "config.json":
+                self.config_path = c
+                break
+            elif os.path.basename(c) != "config_example.json":
+                self.config_path = c
+
+        if self.config_path is None:
+            self.config_path = os.path.join(Config.CONFIGS_DIR_LOC, "config_example.json")
+
         try:
-            self.dict = json.load(open(Config.CONFIG_FILE_LOC, "r"))
+            self.dict = json.load(open(self.config_path, "r"))
         except Exception as e:
             print(e)
             print("Unable to load config. Ensure config.json file settings are correct.")
@@ -50,6 +64,7 @@ class Config:
                         "redo_parameters",
                         "model_presets",
                         "prompt_presets")
+        self.set_values(dict, "wildcards")
         self.set_directories(
             "models_dir",
             "img_dir",
