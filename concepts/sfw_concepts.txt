@@ -23,6 +23,7 @@ backlighting
 backward mapping
 bayer filter
 bi-linear interpolation
+billboard
 bitmap
 blender
 blizzard
@@ -106,6 +107,7 @@ fuzzy
 gaussian noise
 gaussian splatting
 generic
+geometric
 geometric process
 geometry
 glitch art
@@ -114,6 +116,7 @@ glossy
 godrays
 gouache painting
 grainy
+graph
 graphic art
 graphic design
 grassy
@@ -141,6 +144,7 @@ hyperrealistic
 illustration
 impressionism
 impulse noise
+infographic
 inspired
 interpolated
 inverted image
@@ -162,10 +166,12 @@ low-key image
 low-pass filter
 low-poly 3D render
 lowest resolution
-magazine
+magazine cover
+magazine insert
 magenta coral cerulean teal gold orange rose marble texture
 magical realism
 main shape focus
+map
 mapping
 marble bust
 matte
@@ -387,6 +393,7 @@ disjoint
 
 (dark club with neon lights)
 aesthetic
+aliens
 amalgamation
 ancient
 ancient Egypt
@@ -409,6 +416,7 @@ Big Data Analytics
 bioluminescence
 birefringence
 black hole
+black lines
 black tar and oil
 Blockchain Technology
 brain
@@ -416,9 +424,11 @@ broken
 broken glass
 broken cup
 bronze sculpture
+brutalism
 bubbles
 burning sun
 bust
+cartridge
 carved
 cat
 cellular automata
@@ -445,6 +455,7 @@ cow
 cracked
 cranium
 crowded
+cursive
 cute
 cybersecurity
 cyborg
@@ -573,6 +584,7 @@ pastoral
 pattern
 path tracing
 perfectly cut gemstone
+perspective
 phase congruence
 picture book
 pillow
@@ -584,6 +596,7 @@ porous volcanic stone
 protein folding visualization
 pushing buttons
 pre-Raphaelite
+raining
 Raphaelite
 redshift
 reflecting

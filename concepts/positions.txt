@@ -17,6 +17,10 @@ head down
 head forward
 head propped on hand
 head turned
+leaning forward
+leaning back
+leaning on side
+leaning on railing
 legs crossed
 legs spread
 legs together

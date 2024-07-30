@@ -2,6 +2,8 @@ abandoned warehouse
 airport
 alien world
 amusement park
+antechamber
+army base
 at a dance club
 at a family gettogether
 at a family reunion
@@ -19,6 +21,7 @@ bakery
 balcony
 bank
 barber shop
+barracks
 basement
 bedroom
 bicycle path
@@ -75,6 +78,7 @@ fields
 fire station
 fjord
 forest
+foyer
 frat house
 freeway
 garage
@@ -93,8 +97,10 @@ hot springs
 hotel
 ice skating rink
 in a boardroom meeting
+in a bus
 in a busy place
 in a canoe
+in a car
 in a mosque
 in a museum
 in a park
@@ -119,8 +125,10 @@ in the woods
 industrial park
 junkyard
 kitchen
+laundry room
 library
 living room
+manor
 market
 mountains
 museum
@@ -136,6 +144,7 @@ on a sailboat
 on a secluded beach
 on a surfboard
 on a train
+on an airplane
 on stage
 on the beach
 on the farm
@@ -157,6 +166,7 @@ petrol station
 pharmacy
 playground
 police station
+porch
 post office
 public baths
 restaurant
@@ -197,12 +207,14 @@ telephone booth
 theater
 traffic jam
 traffic lights
+trailer park
 train station
 tundra
 under covers
 under the bed
 underpass
 underwater
+veranda
 wetlands
 wild
 zoo

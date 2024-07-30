@@ -35,6 +35,7 @@ blazer
 bloomers
 blouse
 boa
+bolo
 bonnet
 boot
 bow tie
@@ -49,6 +50,7 @@ breeches
 briefs
 bubble dress
 buckle
+burqa
 button-down shirt
 button
 caftan
@@ -73,6 +75,8 @@ coat
 collar
 corset
 costume
+courduroy
+courduroy pants
 couture
 coveralls
 cowboy boots
@@ -129,6 +133,7 @@ gloves
 goggles
 gold ring
 gown
+Halloween costume
 halter top
 handbag
 handkerchief
@@ -139,6 +144,7 @@ headscarf
 helmet
 hem
 high heels
+hijab
 hooded cloak
 hoodie
 hook and eye
@@ -238,6 +244,7 @@ short sleeves
 shorts
 shoulder pads
 shrug
+silly costume
 singlet
 skirt
 slacks
@@ -484,3 +491,4 @@ hoop earrings
 ribbon
 hair ornament
 flower in hair
+hair band

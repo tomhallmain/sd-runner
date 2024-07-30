@@ -5,6 +5,7 @@ concepts/temp
 concepts/negatives.txt
 concepts/nsfl*
 concepts/nsfw*
+concepts/wildcards.txt
 config.json
 control_nets.py
 ip_adapters.py

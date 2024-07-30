@@ -8,7 +8,7 @@ import tkinter as tk
 from tkinter import messagebox, HORIZONTAL, Label, Checkbutton
 from tkinter.constants import W
 import tkinter.font as fnt
-from tkinter.ttk import Button, Entry, Frame, OptionMenu, Progressbar
+from tkinter.ttk import Button, Entry, Frame, OptionMenu, Progressbar, Scale
 from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
@@ -26,6 +26,10 @@ from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.runner_app_config import RunnerAppConfig
 from utils.utils import open_file_location, periodic, start_thread
+
+
+# TODO enable "madlibs" style prompting variables (requires labelling parts of speech in english_words.txt)
+# TODO enable "profile" prompting with cycles between them, possibly interfacing with the madlib prompting in previous TODO comment
 
 
 def set_attr_if_not_empty(text_box):
@@ -233,7 +237,6 @@ class App():
         self.prompt_massage_tags_box.insert(0, self.runner_app_config.prompt_massage_tags)
         self.apply_to_grid(self.prompt_massage_tags_box, sticky=W)
         self.prompt_massage_tags_box.bind("<Return>", self.set_prompt_massage_tags)
-#        self.positive_tags = tk.StringVar()
         self.positive_tags_box = tk.Text(self.sidebar, height=6, width=50, font=fnt.Font(size=8))
         self.positive_tags_box.insert("0.0", self.runner_app_config.positive_tags)
         self.apply_to_grid(self.positive_tags_box, sticky=W)
@@ -254,11 +257,9 @@ class App():
 
         self.label_lora_strength = Label(self.sidebar)
         self.add_label(self.label_lora_strength, "Default LoRA Strength")
-        self.lora_strength = tk.StringVar()
-        self.lora_strength_box = self.new_entry(self.lora_strength)
-        self.lora_strength_box.insert(0, self.runner_app_config.lora_strength)
-        self.apply_to_grid(self.lora_strength_box, sticky=W)
-        self.lora_strength_box.bind("<Return>", self.set_lora_strength)
+        self.lora_strength_slider = Scale(self.sidebar, from_=0, to=100, orient=HORIZONTAL, command=self.set_lora_strength)
+        self.set_widget_value(self.lora_strength_slider, self.runner_app_config.lora_strength)
+        self.apply_to_grid(self.lora_strength_slider, sticky=W)
 
         self.label_controlnet_file = Label(self.sidebar)
         self.add_label(self.label_controlnet_file, "Control Net or Redo files")
@@ -269,11 +270,9 @@ class App():
 
         self.label_controlnet_strength = Label(self.sidebar)
         self.add_label(self.label_controlnet_strength, "Default Control Net Strength")
-        self.controlnet_strength = tk.StringVar()
-        self.controlnet_strength_box = self.new_entry(self.controlnet_strength)
-        self.controlnet_strength_box.insert(0, self.runner_app_config.control_net_strength)
-        self.apply_to_grid(self.controlnet_strength_box, sticky=W)
-        self.controlnet_strength_box.bind("<Return>", self.set_controlnet_strength)
+        self.controlnet_strength_slider = Scale(self.sidebar, from_=0, to=100, orient=HORIZONTAL, command=self.set_controlnet_strength)
+        self.set_widget_value(self.controlnet_strength_slider, self.runner_app_config.control_net_strength)
+        self.apply_to_grid(self.controlnet_strength_slider, sticky=W)
 
         self.label_ipadapter_file = Label(self.sidebar)
         self.add_label(self.label_ipadapter_file, "IPAdapter files")
@@ -284,11 +283,9 @@ class App():
 
         self.label_ipadapter_strength = Label(self.sidebar)
         self.add_label(self.label_ipadapter_strength, "Default IPAdapter Strength")
-        self.ipadapter_strength = tk.StringVar()
-        self.ipadapter_strength_box = self.new_entry(self.ipadapter_strength)
-        self.ipadapter_strength_box.insert(0, self.runner_app_config.ip_adapter_strength)
-        self.apply_to_grid(self.ipadapter_strength_box, sticky=W)
-        self.ipadapter_strength_box.bind("<Return>", self.set_ipadapter_strength)
+        self.ipadapter_strength_slider = Scale(self.sidebar, from_=0, to=100, orient=HORIZONTAL, command=self.set_ipadapter_strength)
+        self.set_widget_value(self.ipadapter_strength_slider, self.runner_app_config.ip_adapter_strength)
+        self.apply_to_grid(self.ipadapter_strength_slider, sticky=W)
 
         self.label_redo_params = Label(self.sidebar)
         self.add_label(self.label_redo_params, "Redo Parameters")
@@ -532,8 +529,11 @@ class App():
         self.close_autocomplete_popups()
 
     def set_widget_value(self, widget, value):
-        widget.delete(0, "end")
-        widget.insert(0, value)
+        if isinstance(widget, Scale):
+            widget.set(float(value) * 100)
+        else:
+            widget.delete(0, "end")
+            widget.insert(0, value)
 
     def set_widgets_from_config(self):
         if self.runner_app_config is None:
@@ -552,11 +552,11 @@ class App():
         self.positive_tags_box.insert("0.0", self.runner_app_config.positive_tags)
         self.set_widget_value(self.negative_tags_box, self.runner_app_config.negative_tags)
         self.set_widget_value(self.bw_colorization_box, self.runner_app_config.b_w_colorization)
-        self.set_widget_value(self.lora_strength_box, self.runner_app_config.lora_strength)
+        self.set_widget_value(self.lora_strength_slider, self.runner_app_config.lora_strength)
         self.set_widget_value(self.controlnet_file_box, self.runner_app_config.control_net_file)
-        self.set_widget_value(self.controlnet_strength_box, self.runner_app_config.control_net_strength)
+        self.set_widget_value(self.controlnet_strength_slider, self.runner_app_config.control_net_strength)
         self.set_widget_value(self.ipadapter_file_box, self.runner_app_config.ip_adapter_file)
-        self.set_widget_value(self.ipadapter_strength_box, self.runner_app_config.ip_adapter_strength)
+        self.set_widget_value(self.ipadapter_strength_slider, self.runner_app_config.ip_adapter_strength)
         self.set_widget_value(self.redo_params_box, self.runner_app_config.redo_params)
         self.set_widget_value(self.random_skip_box, self.runner_app_config.random_skip_chance)
         self.random_skip_box.insert(0, self.runner_app_config.random_skip_chance)
@@ -752,16 +752,19 @@ class App():
         IPAdapter.set_bw_coloration(self.runner_app_config.b_w_colorization)
 
     def set_lora_strength(self, event=None):
-        self.runner_app_config.lora_strength = self.lora_strength.get().strip()
-        Globals.set_lora_strength(float(self.runner_app_config.lora_strength))
+        value = self.lora_strength_slider.get() / 100
+        self.runner_app_config.lora_strength = str(value)
+        Globals.set_lora_strength(value)
 
     def set_ipadapter_strength(self, event=None):
-        self.runner_app_config.ip_adapter_strength = self.ipadapter_strength.get().strip()
-        Globals.set_ipadapter_strength(float(self.runner_app_config.ip_adapter_strength))
+        value = self.ipadapter_strength_slider.get() / 100
+        self.runner_app_config.ip_adapter_strength = str(value)
+        Globals.set_ipadapter_strength(value)
 
     def set_controlnet_strength(self, event=None):
-        self.runner_app_config.control_net_strength = self.controlnet_strength.get().strip()
-        Globals.set_controlnet_strength(float(self.runner_app_config.control_net_strength))
+        value = self.controlnet_strength_slider.get() / 100
+        self.runner_app_config.control_net_strength = str(value)
+        Globals.set_controlnet_strength(value)
 
     def set_redo_params(self, event=None):
         self.runner_app_config.redo_params = self.redo_params_box.get()

@@ -65,6 +65,24 @@ class AppInfoCache:
             raise Exception("Invalid history index " + str(_idx))
         return history[_idx]
 
+    def get_prompt_tags_by_frequency(self) -> dict[str, int]:
+        history = self._get_history()
+        prompts = []
+        prompt_tags = {}
+        for config in history:
+            prompt = RunnerAppConfig.from_dict(config).positive_tags
+            if prompt is not None and prompt != "" and prompt not in prompts:
+                prompts.append(str(prompt))
+        for prompt in prompts:
+            tags = prompt.split(",")
+            for tag in tags:
+                tag = tag.strip()
+                if tag not in prompt_tags:
+                    prompt_tags[tag] = 1
+                else:
+                    prompt_tags[tag] += 1
+        return prompt_tags
+
     def set_directory(self, directory, key, value):
         directory = AppInfoCache.normalize_directory_key(directory)
         if directory is None or directory.strip() == "":

@@ -48,6 +48,7 @@ backlighting
 backlit
 multiple light sources
 torchlight
+string lights
 
 Candlelit # A romantic scene illuminated by candlelight.
 Urban Neon Lights # A city street adorned with vibrant neon signs.

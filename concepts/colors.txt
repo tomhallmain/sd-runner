@@ -1,3 +1,7 @@
+muted colors
+vivid colors
+high-depth resolution
+pastels
 red
 orange
 yellow
@@ -37,6 +41,15 @@ radiating
 shining
 glinting
 coral
+black and white
+monochrome
+monochrome blue
+monochrome purple
+monochrome burgundy
+monochrome yellow
+monochrome orange
+monochrome deep green
+monochrome teal
 amaranth # reddish-rose or reddish-purple color, named after the flower of the amaranth plant
 #    cardinal # vivid red, like the bird
 carmine # deep red, though some varieties may include a tiny bit of purple

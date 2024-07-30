@@ -20,6 +20,8 @@ concerned
 confident
 Confused
 Content
+creepy smile
+cross-eyed
 crying
 Curious
 Delighted
@@ -34,6 +36,7 @@ Disappointed
 Discontent
 Disoriented
 Distrustful
+duck face
 eager
 Ecstatic
 elated
@@ -41,6 +44,7 @@ embarrassed
 Energetic
 Enthusiastic
 Envious
+evil smile
 exasperated
 excited
 Exhausted
@@ -84,6 +88,9 @@ Melancholic
 mischevious
 Miserable
 mortified
+mouth slightly open
+mouth closed
+mouth tightly closed
 Nervous
 nervous look
 Optimistic
@@ -96,6 +103,8 @@ Pessimistic
 Playful
 pondering
 pouting
+puckered lips
+pursed lips
 questioning
 quizzical look
 Regretful
@@ -104,9 +113,11 @@ relieved
 Relieved
 resting bitch face
 Restless
+rolling eyes
 sad
 Sad
 Satisfied
+scrunched nose
 Shy
 side-eye
 sighing
@@ -123,6 +134,7 @@ somber
 Spirited
 stinkeye
 Stressed
+surly
 surprised
 Suspicious
 Tearful
