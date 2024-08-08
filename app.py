@@ -4,10 +4,10 @@ import signal
 import time
 import traceback
 
-from tkinter import messagebox, Frame, Toplevel, Label, Checkbutton, StringVar, BooleanVar, END, HORIZONTAL, NW, BOTH, YES
+from tkinter import messagebox, Toplevel, Frame, Label, Checkbutton, Text, StringVar, BooleanVar, END, HORIZONTAL, NW, BOTH, YES, N, E, W
 from tkinter.constants import W
 import tkinter.font as fnt
-from tkinter.ttk import Button, Entry, Frame, OptionMenu, Progressbar, Scale
+from tkinter.ttk import Button, Entry, OptionMenu, Progressbar, Scale
 from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
@@ -448,6 +448,12 @@ class App():
         self.apply_to_grid(self.random_words0_choice, sticky=W, interior_column=0, column=1, increment_row_counter=False)
         self.apply_to_grid(self.random_words1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
+        self.label_art_style_chance = Label(self.prompter_config)
+        self.add_label(self.label_art_style_chance, "Art Styles Chance", column=1)
+        self.art_style_chance_slider = Scale(self.prompter_config, from_=0, to=100, orient=HORIZONTAL, command=self.set_art_style_chance)
+        self.set_widget_value(self.art_style_chance_slider, self.runner_app_config.prompter_config.art_styles_chance)
+        self.apply_to_grid(self.art_style_chance_slider, sticky=W, column=1)
+
         self.auto_run_var = BooleanVar(value=True)
         self.auto_run_choice = Checkbutton(self.prompter_config, text='Auto Run', variable=self.auto_run_var)
         self.apply_to_grid(self.auto_run_choice, sticky=W, column=1)
@@ -689,8 +695,11 @@ class App():
 
 
     def server_run_callback(self, workflow_type, args):
-        self.workflow.set(workflow_type.name)
-        self.set_workflow_type(workflow_type.name)
+        if workflow_type is not None:
+            self.workflow.set(workflow_type.name)
+            self.set_workflow_type(workflow_type.name)
+        else:
+            print("Rerunning from server request with last settings.")
         if len(args) > 0:
             file = args[0].replace(",", "\\,")
             print(file)
@@ -776,6 +785,10 @@ class App():
         self.runner_app_config.random_skip_chance = self.random_skip.get().strip()
         ComfyGen.RANDOM_SKIP_CHANCE = float(self.runner_app_config.random_skip_chance)
 
+    def set_art_style_chance(self, event=None):
+        value = float(self.art_style_chance_slider.get()) / 100
+        self.runner_app_config.prompter_config.art_styles_chance = value
+
     def set_override_negative(self, event=None):
         self.runner_app_config.override_negative = self.override_negative_var.get()
         lambda: setattr(Globals, "OVERRIDE_BASE_NEGATIVE", self.runner_app_config.override_negative)
@@ -789,8 +802,7 @@ class App():
             else:
                 self.negative_tags.set(text)
             self.master.update()
-        else:
-            return text
+        return text
 
     def alert(self, title, message, kind="info", hidemain=True) -> None:
         if kind not in ("error", "warning", "info"):

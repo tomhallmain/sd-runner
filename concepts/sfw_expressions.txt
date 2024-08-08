@@ -8,6 +8,7 @@ begging
 Bewildered
 Bitter
 blank expression
+blank stare
 Blissful
 blushing
 Bored
@@ -29,11 +30,11 @@ delirious
 Depressed
 despair
 determined
-Determined
 devastated
 devious
 Disappointed
 Discontent
+disgusted
 Disoriented
 Distrustful
 duck face
@@ -115,13 +116,12 @@ resting bitch face
 Restless
 rolling eyes
 sad
-Sad
 Satisfied
 scrunched nose
 Shy
 side-eye
 sighing
-Silly
+Silly face
 skeptical
 smile
 smiling
@@ -131,7 +131,11 @@ snarl
 sneering
 Solemn
 somber
+sourpuss
 Spirited
+staring intensely
+staring surreptitiously
+stern look
 stinkeye
 Stressed
 surly

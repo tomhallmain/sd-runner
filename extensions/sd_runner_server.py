@@ -9,6 +9,7 @@ class SDRunnerServer:
     TYPE_RENOISER = 'renoiser'
     TYPE_CONTROL_NET = 'control_net'
     TYPE_IP_ADAPTER = 'ip_adapter'
+    TYPE_LAST_SETTINGS = 'last_settings'
 
     def __init__(self, run_callback, host='localhost', port=config.server_port):
         self._running = False
@@ -62,7 +63,9 @@ class SDRunnerServer:
             self._conn.send({"error": "invalid command", 'data': command})
             return
         try:
-            if _type == SDRunnerServer.TYPE_RENOISER:
+            if _type == SDRunnerServer.TYPE_LAST_SETTINGS:
+                resp = self.run_callback(None, args)
+            elif _type == SDRunnerServer.TYPE_RENOISER:
                 resp = self.run_callback(WorkflowType.RENOISER, args)
             elif _type == SDRunnerServer.TYPE_CONTROL_NET:
                 resp = self.run_callback(WorkflowType.CONTROLNET, args)

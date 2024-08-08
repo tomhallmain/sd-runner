@@ -65,7 +65,7 @@ class AppInfoCache:
             raise Exception("Invalid history index " + str(_idx))
         return history[_idx]
 
-    def get_prompt_tags_by_frequency(self) -> dict[str, int]:
+    def get_prompt_tags_by_frequency(self, weighted=False) -> dict[str, int]:
         history = self._get_history()
         prompts = []
         prompt_tags = {}

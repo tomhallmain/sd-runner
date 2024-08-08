@@ -137,6 +137,7 @@ highest resolution
 histogram equalized
 hologram
 holographic
+horde
 horizontal axis
 hot
 humid
@@ -174,6 +175,7 @@ main shape focus
 map
 mapping
 marble bust
+masses
 matte
 matte painting
 median filtering
@@ -294,6 +296,7 @@ watercolor
 webcam
 western comic book art
 wide-angle shot
+ultra wide-angle shot
 windy
 wood engraving
 x-ray
@@ -373,6 +376,7 @@ Worlds Fair
 2020s
 
 
+circle
 polygon
 linear
 triangle
@@ -389,6 +393,7 @@ dodecahedron
 sphere
 rectilinear
 disjoint
+concentric circles
 
 
 (dark club with neon lights)
@@ -548,6 +553,7 @@ man
 married couple
 masterpiece
 maximalism
+maze
 melted
 messy
 minimalism
@@ -593,6 +599,7 @@ houseplants
 plants
 poor
 porous volcanic stone
+portal
 protein folding visualization
 pushing buttons
 pre-Raphaelite
@@ -665,6 +672,7 @@ trinket
 twisted
 universal serial bus
 vaporwave
+variability
 vectors
 vicious animal
 vicious creature

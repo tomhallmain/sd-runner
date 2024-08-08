@@ -12,7 +12,7 @@ class PrompterConfiguration:
     def __init__(self, prompt_mode=PromptMode.SFW, concepts_config=(1,3), positions_config=(0,2), locations_config=(0,1),
                  animals_config=(0,1,0.1), colors_config=(0,2), times_config=(0,1),
                  dress_config=(0,2,0.5), expressions=True, actions=(0,2), descriptions=(0,1),
-                 random_words_config=(0,5)) -> None:
+                 random_words_config=(0,5), art_styles_chance=0.3) -> None:
         self.prompt_mode = prompt_mode
         self.concepts = concepts_config
         self.positions = positions_config
@@ -25,6 +25,7 @@ class PrompterConfiguration:
         self.actions = actions
         self.descriptions = descriptions
         self.random_words = random_words_config
+        self.art_styles_chance = art_styles_chance
 
     def to_dict(self) -> dict:
         return {
@@ -39,7 +40,8 @@ class PrompterConfiguration:
             "expressions": self.expressions,
             "actions": self.actions,
             "descriptions": self.descriptions,
-            "random_words": self.random_words
+            "random_words": self.random_words,
+            "art_styles_chance": self.art_styles_chance,
         }
 
     def set_from_dict(self, _dict):
@@ -55,6 +57,7 @@ class PrompterConfiguration:
         self.actions = _dict['actions'] if 'actions' in _dict else self.actions
         self.descriptions = _dict['descriptions'] if 'descriptions' in _dict else self.descriptions
         self.random_words = _dict['random_words'] if 'random_words' in _dict else self.random_words
+        self.art_styles_chance = _dict['art_styles_chance'] if 'art_styles_chance' in _dict else self.art_styles_chance
 
     def set_from_other(self, other):
         if not isinstance(other, PrompterConfiguration):
@@ -147,7 +150,7 @@ class Prompter:
         Prompter.emphasize(random_words, emphasis_threshold=emphasis_threshold)
         return ', '.join(random_words)
 
-    def _mix_concepts(self, humans_threshold=0.75, emphasis_threshold=0.9, art_styles_chance=0.3):
+    def _mix_concepts(self, humans_threshold=0.75, emphasis_threshold=0.9):
         mix = []
         mix.extend(self.concepts.get_concepts(*self.prompter_config.concepts))
         mix.extend(self.concepts.get_positions(*self.prompter_config.positions))
@@ -166,7 +169,7 @@ class Prompter:
             if random.random() > humans_threshold:
                 mix.extend(self.concepts.get_humans())
         # Small chance to add artist style
-        if not self.concepts.is_art_style_prompt_mode() and random.random() < art_styles_chance:
+        if not self.concepts.is_art_style_prompt_mode() and random.random() < self.prompter_config.art_styles_chance:
             print("Adding art styles")
             mix.extend(self.concepts.get_art_styles(max_styles=2))
         random.shuffle(mix)
@@ -229,17 +232,19 @@ class Prompter:
     def contains_wildcard(text):
         if "*" in text or "?" in text:
             return True
-        if re.search(r"(\$)?\{?[A-Za-z]+\}?", text):
+        if re.search(r"(\$)[A-Za-z0-9]+|(\$)?\{[A-Za-z0-9]+\}", text):
             return True
         return False
 
     @staticmethod
     def apply_wildcards(text):
-        text += " ${}"
-        for match in re.finditer(r"(\$)?\{?[A-Za-z]+\}?", text):
-            left = text[:match.start()]
-            right = text[match.end():]
+#        text += " ${}"
+        offset = 0
+        for match in re.finditer(r"(\$)[A-Za-z]+|(\$)?\{[A-Za-z]+\}", text):
+            left = text[:match.start() + offset]
+            right = text[match.end() + offset:]
             name = match.group().lower()
+            original_length = len(name)
             if "$" in name:
                 name = name.replace("$", "")
             if "{" in name:
@@ -254,6 +259,27 @@ class Prompter:
                 print(f"Using random prompt replacement ID: {name}")
             replacement = config.wildcards[name]
             text = left + replacement + right
+            offset += len(replacement) - original_length
+        for match in re.finditer(r"(\$)[0-9]+|(\$)?\{[0-9]+\}", text):
+            left = text[:match.start() + offset]
+            right = text[match.end() + offset:]
+            name = match.group().lower()
+            original_length = len(name)
+            if "$" in name:
+                name = name.replace("$", "")
+            if "{" in name:
+                name = name.replace("{", "")
+            if "}" in name:
+                name = name.replace("}", "")
+            if name not in config.wildcards:
+                print(f"Invalid prompt replacement ID: \"{name}\"")
+                continue
+            if name == "random":
+                name = random.choice(list(config.wildcards))
+                print(f"Using random prompt replacement ID: {name}")
+            replacement = config.wildcards[name]
+            text = left + replacement + right
+            offset += len(replacement) - original_length
         return str(text)
 
 
