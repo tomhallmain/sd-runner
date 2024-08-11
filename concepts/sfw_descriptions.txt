@@ -24,6 +24,7 @@ tawdry
 tiny
 ugly
 viking
+war paint
 wicked
 
 
@@ -180,3 +181,28 @@ soft eyes
 
 fair skin
 pale skin
+
+German
+Irish
+English
+French
+Swedish
+Norwegian
+Italian
+Greek
+Spanish
+Portuguese
+Danish
+Dutch
+Austrian
+Hungarian
+Finnish
+Algerian
+Syrian
+Arabic
+Persian
+Japanese
+Chinese
+Korean
+Russian
+

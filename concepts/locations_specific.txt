@@ -192,3 +192,109 @@ Wembley Stadium - England
 Westminster Abbey - England
 Windsor Castle - England
 Yonaguni Monument
+
+London
+Crete
+Barcelona
+Madrid
+Paris
+Rome
+Venice
+Florence
+Milan
+Naples
+Pisa
+Santorini
+The Bahamas
+The Cayman Islands
+The Coral Sea
+The Grand Canal of Venice
+The Little Mermaid
+The Millennium Bridge
+Tokyo
+The Sphinx
+Valley of the Kings
+Vatican City
+Serbia
+Turkey
+The Balkans
+The Alps
+The Black Sea
+The Caspian Sea
+The Danube
+Palestine
+Ibiza
+Jerusalem
+Mecca
+The Hanging Gardens of Babylon
+The Himalayas
+Miami Beach
+Maldives
+Auckland - New Zealand
+Bondi Beach
+Los Angeles
+San Francisco
+Nebraska
+Couer D'Alene Idaho
+Edinburgh Scotland
+Rhineland
+Portugal
+Rosario Argentina
+Atacama Salt Flats - Chile
+Faroe Islands
+Sintra - Portugal
+Oshino Hakkai Oshino Yamanashi - Japan
+
+Kuang Si Falls - Laos
+Lapland - Finland
+The Pitons - St. Lucia
+Joshua Tree National Park
+Lake Como - Italy
+Hallstatt - Austria
+Las Coloradas - Mexico
+Bagan - Myanmar
+Chamarel - Mauritius
+Amalfi Coast - Italy
+Tu Le Valley - Vietnam
+Petra - Jordan
+Saturnia - Italy
+Palm Springs - California
+Pailón del Diablo- Ecuador
+Provence - France
+Namib Desert - Namibia
+Valletta - Malta
+White Sands - New Mexico
+Seychelles
+Hamnø - Norway
+Cappadocia - Turkey
+Lençóis Maranhense- Brazil
+Mostar - Bosnia
+Mykonos - Greece
+Maui - Hawaii
+Patagonia
+Uyuni Salt Flats - Bolivia
+Kyoto - Japan
+Iguazu Falls - Brazil
+Angkor Wat - Cambodia
+Aspen - Colorado
+Hvar - Croatia
+Bora Bora - French Polynesia
+Isle of Skye - Scotland
+Sidi Bou Said - Tunisia
+Newfoundland - Canada
+Blue Ridge Mountains - Virginia
+Blue Lagoon - Iceland
+Oia - Greece
+North Island - New Zealand
+Bruges - Belgium
+Zhangjiajie National Forest - China
+Hampshire - England
+Antelope Canyon - Arizona
+Zanzibar - Tanzania
+Keukenhof Gardens - Netherlands
+Lake Powell - Utah
+Plitvice Lakes - Croatia
+Marrakech - Morocco
+Cartagena - Colombia
+
+

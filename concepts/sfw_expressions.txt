@@ -65,6 +65,7 @@ grinning
 Grumpy
 happy
 Happy
+happy sad
 Heartbroken
 Hesitant
 hopeful

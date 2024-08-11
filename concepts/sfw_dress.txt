@@ -1,6 +1,7 @@
 abaya
 ancient greek dress
 ancient minoan dress
+Ankle Boots
 ankle socks
 anorak
 apparel
@@ -8,71 +9,102 @@ apron
 argyle
 armor
 ascot tie
+Asymmetrical Bob
+Asymmetrical Skirt
+Athletic Leggings
 athletic wear
+Athletic Wear
 attire
 bacterium in electron micrscope
+baggy pants
 balaclava
 ball gown
+Ballerina Flats
+Ballgown
 bandanna
 baseball cap
 bathing suit
+Bathing Suit
 bathrobe
-snakeskin outfit
-snakeskin boots
-leather boots
-crop top
-brownshirt
+Beach Cover-Up
 beanie
 bedclothes
+Bell-Bottom Pants
 bell-bottoms
 belt
+Belted Trench Coat
 beret
 Bermuda shorts
 bib
-bikini
 biological experiment
+black gloves
 blazer
-bloomers
+Blazer and Slacks
 blouse
+Blunt Cut
 boa
+Bob Cut
+Bohemian Skirt
 bolo
+Bomber Jacket
 bonnet
 boot
-bow tie
 bow
+bow tie
 boxer shorts
 boxers
-bra
 bracelet
 bracelets
-brassiere
+Braided Crown
 breeches
 briefs
+brownshirt
 bubble dress
 buckle
 burqa
-button-down shirt
+Business Casual Outfit
+Business Suit
 button
+button-down shirt
+Button-Down Shirt
+button-down sweater
+Button-Up Cardigan
+Buzz Cut
+Caesar Cut
 caftan
 camisole
 camouflage
-cap and gown
 cap
+cap and gown
 cape
+Capri Pants
 capris
 cardigan
+Cardigan Sweater
+Cargo Pants
+Cashmere Scarf
+Casual Blazer
+Casual Denim Shorts
 cat costume
 caveman outfit
 chain mail
+Chelsea Boots
 chemise
+Chiffon Blouse
+Chin-Length Bob
 clasp
+Classic White Blouse
+Classic White T-Shirt
 cloak
 clogs
 cloning
 clothes
 clothing
 coat
+Cocktail Dress
+Cocktail Party Dress
 collar
+Comb Over
 corset
 costume
 courduroy
@@ -82,110 +114,166 @@ coveralls
 cowboy boots
 cowboy hat
 cravat
+Crew Cut
+crop top
+Crop Top and High-Waisted Jeans
 crown
 cuff links
 cuffs
 culottes
 cummerbund
+Curly Bob
+Curly Top
 cyborg
 dashiki
 denim
+Denim Jacket
+Denim Skirt
 detached sleeves
 diamond ring
 dinner jacket
 dirndl
 drawers
-dress shirt
 dress
+dress shirt
+Dress Shirt and Tie
+Dress Shoes
 duds
 dungaree shorts
 dungarees
 earmuffs
 earrings
 elastic
+Elegant Evening Gown
 evening gown
 fancy watch
 fashion
 fatigues
+Faux Fur Coat
+Faux Hawk
+feather headress
 fedora
 fez
+fireman's helmet
+Fitted Blouse
 flak jacket
 flannel nightgown
 flannel shirt
 flip-flops
+Floral Maxi Dress
+flower in hair
+Flowy Kimono
+Flowy Palazzo Pants
 formal wear
+French Crop
 frills
 frock
-fur coat
 fur
+fur coat
 gabardine
 gaiters
 galoshes
 garb
 garment
-garters
 gear
 getup
 gilet
-girdle
+Gladiator Sandals
+glasses
 glasses
 gloves
 goggles
 gold ring
 gown
+Graphic T-Shirt
+hair band
+hair ornament
 Halloween costume
+Halter Neck Dress
 halter top
 handbag
 handkerchief
+hard hat
 hat
 Hawaiian shirt
 hazmat suit
 headscarf
+heavy coat
 helmet
 hem
+High and Tight
 high heels
+High Heels
 hijab
 hooded cloak
+Hooded Poncho
 hoodie
+Hoodie and Jeans
+Hoodie and Sweatpants
 hook and eye
-hose
-hosiery
+hoop earrings
 hospital gown
 houndstooth
 housecoat
+Ivy League Cut
 jacket
 jeans
+Jeans and T-Shirt
 jersey
+Jersey Dress
+jester outfit
 jewelry
 jodhpurs
 jumper
 jumpsuit
+Jumpsuit
+Kaftan Dress
 kerchief
 khaki pants
 khakis
 kilt
 kimono
 kit
+Knee-High Boots
+Knee-Length Skirt
 knickers
 lab coat
 lapel
+Layered Haircut
+Leather Backpack
+leather boots
 leather jacket
+Leather Jacket
+Leather Jacket
 leather pants
+Leather Pants
+lederhosen
 leg warmers
 leggings
 leotard
 life jacket
-lingerie
+Linen Pants
 loafers
 locket
 loincloth
+Long Hair and Beard
 long johns
+long sleeves
 long socks
+Long Straight Hair
+Long Trench Coat
 long underwear
+loose fit
+Loose Hair Bun
 maxi skirt
+Midi Dress
+mime outfit
+Mini Skirt
 miniskirt
 mittens
 moccasins
+Mohawk
+Motorcycle Jacket
 muffler
 muumuu
 neckerchief
@@ -193,48 +281,67 @@ necklace
 necklace
 nightgown
 nightshirt
+Off-Shoulder Sweater
+Off-Shoulder Top
 onesies
 outerwear
 outfit
 overalls
 overcoat
 overshirt
+Oversized Sweater
 pajamas
 panama hat
 pants
 pantsuit
-pantyhose
 parka
+Parka Jacket
 pea coat
+Peasant Blouse
 peplum
+Peplum Blouse
 perfectly tailored suit
 petticoat
-pig costume
 pinafore
+Pixie Cut
+Platform Sandals
 pleat
 pleated skirt
 pocket
 pocketbook
 polka
+Polka Dot Dress
 polo shirt
+Polo Shirt and Chinos
+Pompadour
 poncho
 poodle skirt
 pork pie hat
+Puffer Coat
 pullover
 pumps
 purse
+Quiff
 raincoat
+ribbon
 ring
 robe
 robot
+Romper
+Ruffle Skirt
+Ruffled Blouse
 rugby shirt
 sandals
 sari
 sarong
 sash
+Satchel Bag
 scarf
 school uniform
 scrubs
+Sequin Dress
+Shaggy Haircut
+Shaved Sides and Back
 shawl
 sheath dress
 shift dress
@@ -244,48 +351,74 @@ short sleeves
 shorts
 shoulder pads
 shrug
+Side Part
+Side-Swept Bangs
+silk
+Silk Kimono
+Silk Robe
 silly costume
 singlet
+Skinny Jeans
 skirt
 slacks
 sleeveless
-slip
+Slicked Back
+Slim-Fit Suit
 slippers
 smock
+snakeskin boots
+snakeskin outfit
 snaps
 sneakers
-sock
+Sneakers and Jeans
+socks
 sombrero
 spacesuit
+Spiky Hair
+Sports Bra and Leggings
+Sports Jacket
 Stetson hat
 stockings
 stole
+Striped Tee and Jeans
+suede
 suit
+Summer Sundress
 sun hat
 sunbonnet
 sundress
 sunglasses
 suspenders
 sweater
+Sweater and Slacks
+Sweater Dress
 sweatpants
 sweatshirt
 sweatsuit
 swimsuit
 T-shirt
+Tailored Tuxedo
 tam
 tank top
+Tank Top
+Taper Fade
+Tapered Pixie
 tattered clothes
 tattered robe
 teddy
+Textured Crop
 threads
+three-piece suit
 tiara
-tie clip
 tie
+tie clip
+tied shirt
+Tight Hair Bun
 toga
 togs
+top
 top coat
 top hat
-top
 tracksuit
 train
 trench coat
@@ -294,9 +427,11 @@ trunks
 tshirt
 tube skirt
 tube top
+Tulle Skirt
 tunic
 turban
 turtleneck
+Turtleneck Sweater
 tutu
 tux
 tuxedo
@@ -304,191 +439,38 @@ tweed jacket
 twill
 twin set
 umbrella
+Undercut
 undershirt
 uniform
+Updo
+Utility Jumpsuit
+Varsity Jacket
 veil
 Velcro
 vest
 vestments
-virus in electron microscope
+Vintage A-Line Dress
 visor
 waders
 waistcoat
+Wavy Lob
 wear
 wedding gown
 wedge heels
 Wellingtons
+Western Boots
 wetsuit
 white tie
 wifebeater
 wig
 windbreaker
+winter clothes
+Wool Coat
 woolens
 wrap
-yoke
-zipper
-zoris
-
-Ankle Boots
-Athletic Leggings
-Ballgown
-Bathing Suit
-Beach Cover-Up
-Belted Trench Coat
-Blazer and Slacks
-Bohemian Skirt
-Bomber Jacket
-Business Suit
-Button-Down Shirt
-Cardigan Sweater
-Casual Denim Shorts
-Classic White Blouse
-Cocktail Dress
-Crop Top and High-Waisted Jeans
-Denim Jacket
-Elegant Evening Gown
-Faux Fur Coat
-Floral Maxi Dress
-Flowy Kimono
-Graphic T-Shirt
-High Heels
-Hoodie and Sweatpants
-Jumpsuit
-Knee-Length Skirt
-Leather Pants
-Leather Jacket
-Lingerie Set
-Little Black Dress
-Mini Skirt
-Off-Shoulder Top
-One-Piece Swimsuit
-Oversized Sweater
-Parka Jacket
-Peplum Blouse
-Puffer Coat
-Romper
-Ruffled Blouse
-Sequin Dress
-Silk Robe
-Skinny Jeans
-Slip Dress
-Sports Bra and Leggings
-Striped Tee and Jeans
-Summer Sundress
-Sweater Dress
-Tank Top
-Turtleneck Sweater
-Utility Jumpsuit
-Vintage A-Line Dress
-Western Boots
-Wool Coat
 Wrap Dress
 Yoga Pants and Tank Top
+yoke
 Zip-Up Hoodie
-Asymmetrical Skirt
-Ballerina Flats
-Bell-Bottom Pants
-Button-Up Cardigan
-Capri Pants
-Cashmere Scarf
-Chelsea Boots
-Chiffon Blouse
-Cocktail Party Dress
-Denim Skirt
-Fitted Blouse
-Flowy Palazzo Pants
-Gladiator Sandals
-Halter Neck Dress
-Harem Pants
-High-Waisted Bikini
-Hooded Poncho
-Jersey Dress
-Kaftan Dress
-Knee-High Boots
-Lace Camisole
-Leather Backpack
-Linen Pants
-Long Trench Coat
-Midi Dress
-Motorcycle Jacket
-Off-Shoulder Sweater
-Peasant Blouse
-Platform Sandals
-Polka Dot Dress
-Ruffle Skirt
-Satchel Bag
-Sheer Blouse
-Silk Kimono
-Slip Skirt
-Tulle Skirt
-
-Pixie Cut
-Bob Cut
-Layered Haircut
-Shaggy Haircut
-Long Straight Hair
-Wavy Lob
-Asymmetrical Bob
-Blunt Cut
-Crew Cut
-Tapered Pixie
-Side-Swept Bangs
-Curly Bob
-French Crop
-Chin-Length Bob
-Undercut
-Mohawk
-Updo
-Tight Hair Bun
-Loose Hair Bun
-Braided Crown
-
-Classic White T-Shirt
-Dress Shirt and Tie
-Slim-Fit Suit
-Jeans and T-Shirt
-Polo Shirt and Chinos
-Business Casual Outfit
-Sports Jacket
-Hoodie and Jeans
-Leather Jacket
-Cargo Pants
-Varsity Jacket
-Casual Blazer
-Dress Shoes
-Sneakers and Jeans
-Sweater and Slacks
-Tailored Tuxedo
-Athletic Wear
-
-Pompadour
-Taper Fade
-Buzz Cut
-Quiff
-Comb Over
-Spiky Hair
-Faux Hawk
-High and Tight
-Side Part
-Textured Crop
-Slicked Back
-Long Hair and Beard
-Caesar Cut
-Ivy League Cut
-Curly Top
-Shaved Sides and Back
-
-glasses
-button-down sweater
-
-winter clothes
-heavy coat
-long sleeves
-black gloves
-
-hoop earrings
-
-ribbon
-hair ornament
-flower in hair
-hair band
+zipper
+zoris

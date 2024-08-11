@@ -11,7 +11,7 @@ from utils.config import config
 class PrompterConfiguration:
     def __init__(self, prompt_mode=PromptMode.SFW, concepts_config=(1,3), positions_config=(0,2), locations_config=(0,1),
                  animals_config=(0,1,0.1), colors_config=(0,2), times_config=(0,1),
-                 dress_config=(0,2,0.5), expressions=True, actions=(0,2), descriptions=(0,1),
+                 dress_config=(0,2,0.5), expressions=(1,1), actions=(0,2), descriptions=(0,1),
                  random_words_config=(0,5), art_styles_chance=0.3) -> None:
         self.prompt_mode = prompt_mode
         self.concepts = concepts_config
@@ -58,11 +58,20 @@ class PrompterConfiguration:
         self.descriptions = _dict['descriptions'] if 'descriptions' in _dict else self.descriptions
         self.random_words = _dict['random_words'] if 'random_words' in _dict else self.random_words
         self.art_styles_chance = _dict['art_styles_chance'] if 'art_styles_chance' in _dict else self.art_styles_chance
+        self._handle_old_types()
 
     def set_from_other(self, other):
         if not isinstance(other, PrompterConfiguration):
             raise TypeError("Can't set from non-PrompterConfiguration")
         self.__dict__ = deepcopy(other.__dict__)
+        self._handle_old_types()
+
+    def _handle_old_types(self):
+        if type(self.expressions) == bool:
+            if self.expressions:
+                self.expressions = (1, 1)
+            else:
+                self.expressions = (0, 0)
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
@@ -159,8 +168,7 @@ class Prompter:
         mix.extend(self.concepts.get_colors(*self.prompter_config.colors))
         mix.extend(self.concepts.get_times(*self.prompter_config.times))
         mix.extend(self.concepts.get_dress(*self.prompter_config.dress))
-        if self.prompter_config.expressions:
-            mix.extend(self.concepts.get_expressions())
+        mix.extend(self.concepts.get_expressions(*self.prompter_config.expressions))
         mix.extend(self.concepts.get_actions(*self.prompter_config.actions))
         mix.extend(self.concepts.get_descriptions(*self.prompter_config.descriptions))
         mix.extend(self.concepts.get_random_words(*self.prompter_config.random_words))

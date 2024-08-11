@@ -308,6 +308,7 @@ angle shot
 from above
 from below
 from the side
+oblique view
 side profile
 portrait
 landscape
@@ -583,6 +584,7 @@ old woman
 opal glint
 organic
 ornate
+overcast
 pacifier
 palm plantation
 panda
@@ -654,6 +656,7 @@ statuette
 stasis tank
 steel sculpture
 stone
+stormy
 storybook
 structure
 stuffed animals
@@ -678,6 +681,8 @@ vicious animal
 vicious creature
 vicious dog
 viral molecule
+virus in electron microscope
+vortex
 voronoi trees
 wax figure
 whale

@@ -75,9 +75,9 @@ class Concepts:
             return []
         return sample(Concepts.load(SFW.animals), low, high)
 
-    def get_locations(self, low=0, high=2, inclusion_chance=0.4):
+    def get_locations(self, low=0, high=2, specific_inclusion_chance=0.3):
         locations = Concepts.load(SFW.locations)
-        if self.get_specific_locations and random.random() > 0.5:
+        if self.get_specific_locations and random.random() > (1 - specific_inclusion_chance):
             locations.extend(Concepts.load(SFW.locations_specific))
 #        if random.random() > inclusion_chance:
 #            return []
@@ -97,14 +97,14 @@ class Concepts:
             return []
         dress = Concepts.load(SFW.dress)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
-            self.extend(dress, NSFW.dress, 8, NSFL.dress, 1)
+            self.extend(dress, NSFW.dress, 3, NSFL.dress, 1)
         return sample(dress, low, high)
 
-    def get_expressions(self):
+    def get_expressions(self, low=1, high=1):
         expressions = Concepts.load(SFW.expressions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(expressions, NSFW.expressions, 6, NSFL.expressions, 3)
-        return sample(expressions, 1, 1)
+        return sample(expressions, low, high)
 
     def get_actions(self, low=0, high=2):
         actions = Concepts.load(SFW.actions)

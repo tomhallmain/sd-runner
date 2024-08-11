@@ -1,3 +1,4 @@
+in a horse-drawn carriage
 abandoned warehouse
 airport
 alien world
@@ -15,12 +16,14 @@ at a wedding
 at college
 at home
 at school
+at the mall
 at the park
 at the zoo
 bakery
 balcony
 bank
 barber shop
+barn
 barracks
 basement
 bedroom
@@ -53,6 +56,7 @@ concert hall
 conference room
 country club
 courthouse
+courtroom
 crossroads
 crosswalk
 cyberspace
@@ -84,6 +88,8 @@ freeway
 garage
 garden
 gas station
+glade
+glen
 graveyard
 greenhouse
 grocery store
@@ -123,6 +129,7 @@ in the steppes
 in the wilderness
 in the woods
 industrial park
+jail
 junkyard
 kitchen
 laundry room
@@ -160,6 +167,7 @@ orchard
 overpass
 park
 parking lot
+pasture
 parlor
 pavement
 petrol station
@@ -188,6 +196,7 @@ shopping center
 sidewalk
 ski resort
 skyscraper
+small town
 snowy mountain
 sorority house
 sports centre
@@ -214,6 +223,9 @@ under covers
 under the bed
 underpass
 underwater
+urban area
+small village
+fishing village
 veranda
 wetlands
 wild
