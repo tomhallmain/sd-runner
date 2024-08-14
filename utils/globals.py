@@ -67,7 +67,7 @@ class WorkflowType(Enum):
     ELLA = "ella.json"
     INSTANT_LORA = "instant_lora.json"
     IP_ADAPTER = "ip_adapter.json"
-    CONTROLNET = "controlnet_sd15.json"
+    CONTROLNET = "controlnet_sd151.json"
     INPAINT_CLIPSEG = "inpaint_clipseg.json"
     ANIMATE_DIFF = "animate_diff.json"
     RENOISER = "renoiser.json"

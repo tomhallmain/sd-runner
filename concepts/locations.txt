@@ -5,6 +5,7 @@ alien world
 amusement park
 antechamber
 army base
+asphalt
 at a dance club
 at a family gettogether
 at a family reunion
@@ -44,12 +45,14 @@ camping by the river
 car showroom
 casino
 castle
+catacombs
 cemetery
 chicken coop
 church
 cinema
 city center
 city hall
+city state
 clothing store
 college
 concert hall
@@ -121,6 +124,7 @@ in a zoo
 in a zoological gardens
 in a zoological park
 in space
+in the corner
 in the desert
 in the dining room
 in the jungle
@@ -140,6 +144,7 @@ market
 mountains
 museum
 ocean
+off world
 office
 on a boat
 on a busy public beach
@@ -162,6 +167,7 @@ on the road
 on the space station
 on top of a mountain
 on top of a skyscraper
+on top of a tower
 open sea
 orchard
 overpass
@@ -219,6 +225,7 @@ traffic lights
 trailer park
 train station
 tundra
+tunnel
 under covers
 under the bed
 underpass

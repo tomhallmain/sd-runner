@@ -93,7 +93,7 @@ class ComfyGen:
         elif workflow_id == WorkflowType.ELLA:
             self.ella(prompt, resolution, model, vae, n_latents, positive)
         elif workflow_id == WorkflowType.CONTROLNET:
-            self.control_net(prompt, resolution, model, vae, n_latents, positive, negative, control_net)
+            self.control_net(prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net)
         elif workflow_id == WorkflowType.IP_ADAPTER:
             self.ip_adapter(prompt, resolution, model, vae, n_latents, positive, negative, control_net, ip_adapter)
         elif workflow_id  == WorkflowType.RENOISER:
@@ -142,7 +142,7 @@ class ComfyGen:
             if workflow_type == WorkflowType.INSTANT_LORA and model.is_xl:
                 prompt = WorkflowPrompt("instant_lora_xl.json")
             if workflow_type == WorkflowType.CONTROLNET and model.is_xl:
-                prompt = WorkflowPrompt("controlnet_sdxl.json")
+                prompt = WorkflowPrompt("controlnet_sdxl1.json")
             if not prompt:
                 prompt = WorkflowPrompt(workflow_type.value)
         self.counter += 1
@@ -339,12 +339,13 @@ class ComfyGen:
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         ComfyGen.queue_prompt(prompt)
 
-    def control_net(self, prompt, resolution, model, vae, n_latents, positive, negative, control_net):
-        prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net)
+    def control_net(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net):
+        prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
         model = self.gen_config.redo_param("model", model)
-#        model.validate_loras(lora)
+        model.validate_loras(lora)
         prompt.set_model(model)
         prompt.set_vae(self.gen_config.redo_param("vae", vae))
+        prompt.set_lora(self.gen_config.redo_param("lora", lora))
         prompt.set_clip_text_by_id(
             self.gen_config.redo_param("positive", positive),
             self.gen_config.redo_param("negative", negative),

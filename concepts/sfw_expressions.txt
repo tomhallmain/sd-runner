@@ -34,6 +34,8 @@ devastated
 devious
 Disappointed
 Discontent
+disinterest
+mild disgust
 disgusted
 Disoriented
 Distrustful
@@ -124,6 +126,7 @@ side-eye
 sighing
 Silly face
 skeptical
+slight smile
 smile
 smiling
 smirk

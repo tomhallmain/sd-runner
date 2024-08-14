@@ -1,4 +1,5 @@
 adorable
+alternative style
 ancient
 benevolent
 comfy
@@ -11,11 +12,13 @@ futuristic
 gentle
 ghoulish
 glowing
+goth style
 hairy
 happy
 harried
 hopeful
 nice
+punk style
 round
 skinny
 small
@@ -26,7 +29,9 @@ ugly
 viking
 war paint
 wicked
-
+overworked
+tuckered out
+frazzled
 
 Alluring
 Angelic

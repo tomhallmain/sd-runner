@@ -19,9 +19,9 @@
   },
   "18": {
     "inputs": {
-      "text": "blurry, lowres, low quality, embedding:badhandv4",
+      "text": "blurry, lowres, low quality, ",
       "clip": [
-        "16",
+        "185",
         1
       ]
     },
@@ -54,7 +54,7 @@
         0
       ],
       "clip": [
-        "16",
+        "185",
         1
       ]
     },
@@ -109,7 +109,7 @@
   },
   "97": {
     "inputs": {
-      "seed": 752740929114167,
+      "seed": 74763129879906,
       "steps": 24,
       "cfg": 6.5,
       "sampler_name": "ddpm",
@@ -200,7 +200,7 @@
       "s1": 0.92,
       "s2": 0.2,
       "model": [
-        "16",
+        "185",
         0
       ]
     },
@@ -266,7 +266,7 @@
   },
   "182": {
     "inputs": {
-      "image": "CUI_17141102414792922.png",
+      "image": "",
       "upload": "image"
     },
     "class_type": "LoadImage",
@@ -288,6 +288,44 @@
     "class_type": "CLIPVisionEncode",
     "_meta": {
       "title": "CLIP Vision Encode"
+    }
+  },
+  "184": {
+    "inputs": {
+      "lora_name": "XL\\add-detail-xl.safetensors",
+      "strength_model": 0.5,
+      "strength_clip": 0.5,
+      "model": [
+        "16",
+        0
+      ],
+      "clip": [
+        "16",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "185": {
+    "inputs": {
+      "lora_name": "XL\\impressionism.safetensors",
+      "strength_model": 0,
+      "strength_clip": 0,
+      "model": [
+        "184",
+        0
+      ],
+      "clip": [
+        "184",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "Load LoRA"
     }
   }
 }

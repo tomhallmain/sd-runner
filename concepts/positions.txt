@@ -11,6 +11,7 @@ facing_eachother
 facing_up
 facing_viewer
 fetal position
+from across the room
 glamour pose
 half turn
 head down
@@ -55,6 +56,11 @@ hand up
 cowboy shot
 looking at another
 looking at viewer
+every angle
+off-center view
+hip-level shot
+(distant subject, ultra wide-angle shot)
+surrounding
 
 Aerial View
 Bird's Eye View

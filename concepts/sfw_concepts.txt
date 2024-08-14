@@ -13,6 +13,7 @@ acrylic on canvas
 advertising insert
 airbrushed
 amateur photo
+amorphous
 anime
 architectural render
 art deco
@@ -102,6 +103,7 @@ flowing
 focused
 focused
 focusing
+formless shapes
 fretsaw
 fuzzy
 gaussian noise
@@ -181,6 +183,7 @@ matte painting
 median filtering
 melancholy
 mid-tones
+mind map
 moiré pattern
 monochrome
 motion blur
@@ -299,6 +302,7 @@ wide-angle shot
 ultra wide-angle shot
 windy
 wood engraving
+word cloud
 x-ray
 zentangle art
 
@@ -398,12 +402,14 @@ concentric circles
 
 
 (dark club with neon lights)
+(partially obscured subject, x in foreground blocking view)
 aesthetic
 aliens
 amalgamation
 ancient
 ancient Egypt
 ancient Rome
+arches
 Art Nouveau
 Artificial Intelligence
 atmosphere
@@ -451,6 +457,7 @@ city map
 clean
 closed mouth
 color gradients
+columns
 complex
 constellations
 construct
@@ -499,9 +506,11 @@ fish
 flintlock
 floral
 floral arrangement
+flowing
 flowering plant
 flowers
 fractal
+frieze
 fruits
 folklore
 fond broderie
@@ -547,6 +556,7 @@ liquid metal
 lizard
 lore
 lore map
+lost in the crowd
 machine learning
 magic the gathering card
 magnets
@@ -579,12 +589,14 @@ nordic
 nuclear missile
 nuclear reactor
 octane render
+odd
 old man
 old woman
 opal glint
 organic
 ornate
 overcast
+overflowing
 pacifier
 palm plantation
 panda
@@ -626,6 +638,7 @@ rusted
 satellites
 scales
 sci fi
+science fiction
 scuffed
 shards
 sheep
@@ -644,6 +657,7 @@ sky
 sloppy
 spacetime
 sparkling
+sparse
 spiderweb
 spiderwebs
 speech bubble
@@ -651,6 +665,7 @@ spinal column
 spindly
 spiral matrix
 spooky
+spread out
 star charts
 statuette
 stasis tank
@@ -658,11 +673,13 @@ steel sculpture
 stone
 stormy
 storybook
+stretching
 structure
 stuffed animals
 stylized
 supermassive black hole
 symbol
+tableau, framed wall of images
 tame creature
 tarot card
 tear drops
@@ -671,12 +688,15 @@ textural
 titian
 torchlight
 torus
+trapped, enclosed space
 trinket
 twisted
+unique
 universal serial bus
 vaporwave
 variability
 vectors
+viceroy
 vicious animal
 vicious creature
 vicious dog
@@ -685,7 +705,9 @@ virus in electron microscope
 vortex
 voronoi trees
 wax figure
+welding sparks
 whale
+whimsical
 wings
 wires
 wire sculpture
