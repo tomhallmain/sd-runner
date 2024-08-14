@@ -5,14 +5,31 @@ from tkinter.ttk import Button
 
 from utils.app_info_cache import app_info_cache
 from utils.config import config
+from utils.runner_app_config import RunnerAppConfig
 
 
 class Preset:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, runner_app_config) -> None:
+        self.workflow_tags = runner_app_config.workflow_tags
+        self.positive_tags = runner_app_config.positive_tags
+        self.negative_tags = runner_app_config.negative_tags
 
     def is_valid(self):
         return True
+
+    def __str__(self):
+        return self.readable_str()
+
+    def __eq__(self, other):
+        if not isinstance(other, Preset):
+            return False
+        return self.worklow_tags == other.worklow_tags \
+            and self.positive_tags == other.positive_tags \
+            and self.negative_tags == other.negative_tags
+
+    def __hash__(self):
+        return hash(self.workflow_tags, self.positive_tags, self.negative_tags)
+
 
 class Presets:
     presets = []
@@ -23,7 +40,7 @@ class Presets:
 
 
 class PresetsWindow():
-    recent_directories = []
+    recent_presets = []
     last_set_preset = None
 
     preset_history = []
@@ -34,8 +51,8 @@ class PresetsWindow():
     COL_0_WIDTH = 600
 
     @staticmethod
-    def set_recent_directories(recent_directories):
-        Presets.presets = recent_directories
+    def set_recent_presets(recent_presets):
+        Presets.presets = recent_presets
 
     @staticmethod
     def get_history_preset(start_index=0):
@@ -76,8 +93,8 @@ class PresetsWindow():
         if len(Presets.presets) > 0 and Presets.presets[0].is_valid():
             self.starting_target = Presets.presets[0]
 
-        self.filtered_prompt_tags = Presets.presets[:]
-        self.add_tag_btn_list = []
+        self.filtered_presets = Presets.presets[:]
+        self.set_preset_btn_list = []
         self.label_list = []
 
         self.frame = Frame(self.master)
@@ -93,7 +110,7 @@ class PresetsWindow():
         self.add_preset_btn = None
         self.add_btn("add_preset_btn", "Add preset", self.handle_preset, column=1)
         self.clear_recent_presets_btn = None
-        self.add_btn("clear_recent_presets_btn", "Clear presets", self.clear_recent_directories, column=3)
+        self.add_btn("clear_recent_presets_btn", "Clear presets", self.clear_recent_presets, column=3)
         self.frame.after(1, lambda: self.frame.focus_force())
 
         self.master.bind("<Key>", self.filter_presets)
@@ -104,25 +121,18 @@ class PresetsWindow():
     def add_preset_widgets(self):
         row = 0
         base_col = 0
-        for i in range(len(self.filtered_prompt_tags)):
-            if i >= PresetsWindow.N_TAGS_CUTOFF * 2:
-                row = i-PresetsWindow.N_TAGS_CUTOFF*2+1
-                base_col = 4
-            elif i >= PresetsWindow.N_TAGS_CUTOFF:
-                row = i-PresetsWindow.N_TAGS_CUTOFF+1
-                base_col = 2
-            else:
-                row = i+1
-            _dir = self.filtered_prompt_tags[i]
+        for i in range(len(self.filtered_presets)):
+            row = i+1
+            preset = self.filtered_presets[i]
             self._label_info = Label(self.frame)
             self.label_list.append(self._label_info)
-            self.add_label(self._label_info, _dir, row=row, column=base_col, wraplength=PresetsWindow.COL_0_WIDTH)
-            add_tag_btn = Button(self.frame, text="Set")
-            self.add_tag_btn_list.append(add_tag_btn)
-            add_tag_btn.grid(row=row, column=base_col+1)
-            def set_dir_handler(event, self=self, _dir=_dir):
-                return self.set_preset(event, _dir)
-            add_tag_btn.bind("<Button-1>", set_dir_handler)
+            self.add_label(self._label_info, str(preset), row=row, column=base_col, wraplength=PresetsWindow.COL_0_WIDTH)
+            set_preset_btn = Button(self.frame, text="Set")
+            self.set_preset_btn_list.append(set_preset_btn)
+            set_preset_btn.grid(row=row, column=base_col+1)
+            def set_preset_handler(event, self=self, preset=preset):
+                return self.set_preset(event, preset)
+            set_preset_btn.bind("<Button-1>", set_preset_handler)
 
     @staticmethod
     def get_preset(preset, toast_callback):
@@ -143,9 +153,9 @@ class PresetsWindow():
     def handle_preset(self, event=None, preset=None):
         """
         Have to call this when user is setting a new preset as well, in which case preset will be None.
-        
+
         In this case we will need to add the new preset to the list of valid presets.
-        
+
         Also in this case, this function will call itself by calling set_preset(),
         just this time with the directory set.
         """
@@ -185,9 +195,9 @@ class PresetsWindow():
             # If the key is up/down arrow key, roll the list up/down
             if event.keysym == "Down" or event.keysym == "Up":
                 if event.keysym == "Down":
-                    self.filtered_prompt_tags = self.filtered_prompt_tags[1:] + [self.filtered_prompt_tags[0]]
+                    self.filtered_presets = self.filtered_presets[1:] + [self.filtered_presets[0]]
                 else:  # keysym == "Up"
-                    self.filtered_prompt_tags = [self.filtered_prompt_tags[-1]] + self.filtered_prompt_tags[:-1]
+                    self.filtered_presets = [self.filtered_presets[-1]] + self.filtered_presets[:-1]
                 self.clear_widget_lists()
                 self.add_preset_widgets()
                 self.master.update()
@@ -203,8 +213,8 @@ class PresetsWindow():
         if self.filter_text.strip() == "":
             print("Filter unset")
             # Restore the list of target directories to the full list
-            self.filtered_prompt_tags.clear()
-            self.filtered_prompt_tags = Presets.presets[:]
+            self.filtered_presets.clear()
+            self.filtered_presets = Presets.presets[:]
         else:
             temp = []
             # First pass try to match directory basename
@@ -212,15 +222,15 @@ class PresetsWindow():
                 if preset == self.filter_text:
                     temp.append(preset)
             for preset in Presets.presets:
-                if not preset in temp:
+                if preset not in temp:
                     if preset.startswith(self.filter_text):
                         temp.append(preset)
             # Third pass try to match part of the basename
             for preset in Presets.presets:
-                if not preset in temp:
+                if preset not in temp:
                     if preset and (f" {self.filter_text}" in preset.lower() or f"_{self.filter_text}" in preset.lower()):
                         temp.append(preset)
-            self.filtered_prompt_tags = temp[:]
+            self.filtered_presets = temp[:]
 
         self.clear_widget_lists()
         self.add_preset_widgets()
@@ -231,7 +241,7 @@ class PresetsWindow():
         """
         The user has requested to set a preset. Based on the context, figure out what to do.
 
-        If no presets exist, call handle_preset() with _dir=None to set a new preset.
+        If no presets exist, call handle_preset() with preset=None to set a new preset.
 
         If presets exist, call set_preset() to set the first preset.
 
@@ -249,28 +259,28 @@ class PresetsWindow():
             penultimate_preset = PresetsWindow.get_history_preset(start_index=1)
             if penultimate_preset is not None and os.path.isdir(penultimate_preset):
                 self.set_preset(preset=penultimate_preset)
-        elif len(self.filtered_prompt_tags) == 0 or control_key_pressed:
+        elif len(self.filtered_presets) == 0 or control_key_pressed:
             self.handle_preset()
         else:
-            if len(self.filtered_prompt_tags) == 1 or self.filter_text.strip() != "":
-                _dir = self.filtered_prompt_tags[0]
+            if len(self.filtered_presets) == 1 or self.filter_text.strip() != "":
+                preset = self.filtered_presets[0]
             else:
-                _dir = PresetsWindow.last_set_preset
-            self.set_preset(preset=_dir)
+                preset = PresetsWindow.last_set_preset
+            self.set_preset(preset=preset)
 
-    def clear_recent_directories(self, event=None):
+    def clear_recent_presets(self, event=None):
         self.clear_widget_lists()
         Presets.presets.clear()
-        self.filtered_prompt_tags.clear()
+        self.filtered_presets.clear()
         self.add_preset_widgets()
         self.master.update()
 
     def clear_widget_lists(self):
-        for btn in self.add_tag_btn_list:
+        for btn in self.set_preset_btn_list:
             btn.destroy()
         for label in self.label_list:
             label.destroy()
-        self.add_tag_btn_list = []
+        self.set_preset_btn_list = []
         self.label_list = []
 
     def close_windows(self, event=None):
@@ -287,4 +297,3 @@ class PresetsWindow():
             setattr(self, button_ref_name, button)
             button # for some reason this is necessary to maintain the reference?
             button.grid(row=row, column=column)
-

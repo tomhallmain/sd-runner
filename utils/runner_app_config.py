@@ -6,20 +6,21 @@ from utils.globals import Globals, WorkflowType, Sampler, Scheduler
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.prompter import PrompterConfiguration
 
+
 class RunnerAppConfig:
     def __init__(self):
         self.workflow_type = WorkflowType.SIMPLE_IMAGE_GEN_LORA.name
         self.resolutions = "landscape3,portrait3"
-        self.seed = "-1" # if less than zero, randomize
-        self.steps = "-1" # if not int / less than zero, take workflow's value
-        self.cfg = "-1" # if not int / less than zero, take workflow's value
-        self.denoise = "-1" # if not int / less than zero, take workflow's value
+        self.seed = "-1"  # if less than zero, randomize
+        self.steps = "-1"  # if not int / less than zero, take workflow's value
+        self.cfg = "-1"  # if not int / less than zero, take workflow's value
+        self.denoise = "-1"  # if not int / less than zero, take workflow's value
         self.model_tags = "realvisxlV40_v40Bakedvae"
         self.lora_tags = ""
         self.prompt_massage_tags = ""
         self.positive_tags = ""
         self.negative_tags = ""
-        self.b_w_colorization = "" # Globals.DEFAULT_B_W_COLORIZATION
+        self.b_w_colorization = ""  # Globals.DEFAULT_B_W_COLORIZATION
         self.lora_strength = str(Globals.DEFAULT_LORA_STRENGTH)
         self.control_net_file = ""
         self.control_net_strength = str(Globals.DEFAULT_CONTROL_NET_STRENGTH)
@@ -58,6 +59,9 @@ class RunnerAppConfig:
         self.auto_run = args.auto_run
         self.inpainting = args.inpainting
 
+    def readable_str(self):
+        return f"{self.workflow_type} {self.positive_tags[0:20]}"
+
     @staticmethod
     def from_dict(_dict):
         app_config = RunnerAppConfig()
@@ -68,7 +72,7 @@ class RunnerAppConfig:
         app_config.prompter_config = PrompterConfiguration()
         app_config.prompter_config.set_from_dict(prompter_config_dict)
         return app_config
-    
+
     def to_dict(self):
         _dict = deepcopy(self.__dict__)
         if not isinstance(self.workflow_type, str):

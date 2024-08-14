@@ -11,44 +11,44 @@ class FrequentTags:
     tags = []
 
     @staticmethod
-    def set_recent_directories(directories):
-        FrequentTags.tags = list(directories)
+    def set_recent_tags(tags):
+        FrequentTags.tags = list(tags)
 
 
 class FrequentPromptTagsWindow():
-    recent_directories = []
-    last_set_directory = None
+    recent_tags = []
+    last_set_tag = None
 
-    directory_history = []
-    MAX_DIRECTORIES = 50
+    tag_history = []
+    MAX_TAGS = 50
 
     MAX_HEIGHT = 900
     N_TAGS_CUTOFF = 30
     COL_0_WIDTH = 600
 
     @staticmethod
-    def set_recent_directories(recent_directories):
-        FrequentTags.tags = recent_directories
+    def set_recent_tags(recent_tags):
+        FrequentTags.tags = recent_tags
 
     @staticmethod
-    def get_history_directory(start_index=0):
-        # Get a previous directory.
-        _dir = None
-        for i in range(len(FrequentPromptTagsWindow.directory_history)):
+    def get_history_tag(start_index=0):
+        # Get a previous tag.
+        tag = None
+        for i in range(len(FrequentPromptTagsWindow.tag_history)):
             if i < start_index:
                 continue
-            _dir = FrequentPromptTagsWindow.directory_history[i]
+            tag = FrequentPromptTagsWindow.tag_history[i]
             break
-        return _dir
+        return tag
 
     @staticmethod
-    def update_history(_dir):
-        if len(FrequentPromptTagsWindow.directory_history) > 0 and \
-                _dir == FrequentPromptTagsWindow.directory_history[0]:
+    def update_history(tag):
+        if len(FrequentPromptTagsWindow.tag_history) > 0 and \
+                tag == FrequentPromptTagsWindow.tag_history[0]:
             return
-        FrequentPromptTagsWindow.directory_history.insert(0, _dir)
-        if len(FrequentPromptTagsWindow.directory_history) > FrequentPromptTagsWindow.MAX_DIRECTORIES:
-            del FrequentPromptTagsWindow.directory_history[-1]
+        FrequentPromptTagsWindow.tag_history.insert(0, tag)
+        if len(FrequentPromptTagsWindow.tag_history) > FrequentPromptTagsWindow.MAX_TAGS:
+            del FrequentPromptTagsWindow.tag_history[-1]
 
     @staticmethod
     def get_geometry(is_gui=True):
@@ -82,7 +82,7 @@ class FrequentPromptTagsWindow():
         self.base_dir = os.path.normpath(base_dir)
         self.filter_text = ""
 
-        # Use the last set target directory as a base if any directories have been set
+        # Use the last set tag as a base if any tags have been set
         if len(FrequentTags.tags) > 0 and os.path.isdir(FrequentTags.tags[0]):
             self.starting_target = FrequentTags.tags[0]
         else:
@@ -108,24 +108,22 @@ class FrequentPromptTagsWindow():
 
         self.frame.config(bg=AppStyle.BG_COLOR)
 
-        self.add_dir_widgets()
+        self.add_tag_widgets()
 
         self._label_info = Label(self.frame)
-        self.add_label(self._label_info, _("Set a new target directory"), row=0, wraplength=FrequentPromptTagsWindow.COL_0_WIDTH)
-        self.add_directory_move_btn = None
-        self.add_btn("add_directory_move_btn", _("Add directory"), self.handle_directory, column=1)
-        self.set_recent_directories_from_dir_btn = None
-        self.add_btn("set_recent_directories_from_dir_btn", _("Add directories from parent"), self.set_recent_directories_from_dir, column=2)
-        self.clear_recent_directories_btn = None
-        self.add_btn("clear_recent_directories_btn", _("Clear targets"), self.clear_recent_directories, column=3)
+        self.add_label(self._label_info, "Set a new tag", row=0, wraplength=FrequentPromptTagsWindow.COL_0_WIDTH)
+        self.add_tag_move_btn = None
+        self.add_btn("add_tag_move_btn", "Add tag", self.handle_tag, column=1)
+        self.clear_recent_tags_btn = None
+        self.add_btn("clear_recent_tags_btn", "Clear targets", self.clear_recent_tags, column=3)
         self.frame.after(1, lambda: self.frame.focus_force())
 
-        self.master.bind("<Key>", self.filter_directories)
+        self.master.bind("<Key>", self.filter_tags)
         self.master.bind("<Return>", self.do_action)
         self.master.bind("<Escape>", self.close_windows)
         self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
 
-    def add_dir_widgets(self):
+    def add_tag_widgets(self):
         row = 0
         base_col = 0
         for i in range(len(self.filtered_prompt_tags)):
@@ -137,100 +135,72 @@ class FrequentPromptTagsWindow():
                 base_col = 2
             else:
                 row = i+1
-            _dir = self.filtered_prompt_tags[i]
+            tag = self.filtered_prompt_tags[i]
             self._label_info = Label(self.frame)
             self.label_list.append(self._label_info)
-            self.add_label(self._label_info, _dir, row=row, column=base_col, wraplength=FrequentPromptTagsWindow.COL_0_WIDTH)
+            self.add_label(self._label_info, tag, row=row, column=base_col, wraplength=FrequentPromptTagsWindow.COL_0_WIDTH)
             add_tag_btn = Button(self.frame, text="Set")
             self.add_tag_btn_list.append(add_tag_btn)
             add_tag_btn.grid(row=row, column=base_col+1)
-            def set_dir_handler(event, self=self, _dir=_dir):
-                return self.set_directory(event, _dir)
-            add_tag_btn.bind("<Button-1>", set_dir_handler)
+            def set_tag_handler(event, self=self, tag=tag):
+                return self.set_tag(event, tag)
+            add_tag_btn.bind("<Button-1>", set_tag_handler)
 
     @staticmethod
-    def get_directory(_dir, starting_target, toast_callback):
+    def get_tag(tag, starting_target, toast_callback):
         """
         If target dir given is not valid then ask user for a new one
         """
-        if _dir:
-            if os.path.isdir(_dir):
-                return _dir, True
+        if tag:
+            if os.path.isdir(tag):
+                return tag, True
             else:
-                if _dir in FrequentTags.tags:
-                    FrequentTags.tags.remove(_dir)
-                toast_callback(_("Invalid directory: %s").format(_dir))
-        _dir = filedialog.askdirectory(
-                initialdir=starting_target, title=_("Set image comparison directory"))
-        return _dir, False
+                if tag in FrequentTags.tags:
+                    FrequentTags.tags.remove(tag)
+                toast_callback("Invalid tag: {0}".format(tag))
+        tag = filedialog.asktag(
+                initialdir=starting_target, title="Set image comparison tag")
+        return tag, False
 
 
-    def handle_directory(self, event=None, _dir=None):
+    def handle_tag(self, event=None, tag=None):
         """
-        Have to call this when user is setting a new directory as well, in which case _dir will be None.
-        
-        In this case we will need to add the new directory to the list of valid directories.
-        
-        Also in this case, this function will call itself by calling set_directory(),
-        just this time with the directory set.
+        Have to call this when user is setting a new tag as well, in which case tag will be None.
+
+        In this case we will need to add the new tag to the list of valid tags.
+
+        Also in this case, this function will call itself by calling set_tag(),
+        just this time with the tag set.
         """
-        _dir, target_was_valid = FrequentPromptTagsWindow.get_directory(_dir, self.starting_target, self.app_actions.toast)
-        if not os.path.isdir(_dir):
+        tag, target_was_valid = FrequentPromptTagsWindow.get_tag(tag, self.starting_target, self.app_actions.toast)
+        if not os.path.isdir(tag):
             self.close_windows()
-            raise Exception("Failed to set target directory to receive marked files.")
-        if target_was_valid and _dir is not None:
-            if _dir in FrequentTags.tags:
-                FrequentTags.tags.remove(_dir)
-            FrequentTags.tags.insert(0, _dir)
-            return _dir
+            raise Exception("Failed to set tag to receive marked files.")
+        if target_was_valid and tag is not None:
+            if tag in FrequentTags.tags:
+                FrequentTags.tags.remove(tag)
+            FrequentTags.tags.insert(0, tag)
+            return tag
 
-        _dir = os.path.normpath(_dir)
-        # NOTE don't want to sort here, instead keep the most recent directories at the top
-        if _dir in FrequentTags.tags:
-            FrequentTags.tags.remove(_dir)
-        FrequentTags.tags.insert(0, _dir)
-        self.set_directory(_dir=_dir)
+        tag = os.path.normpath(tag)
+        # NOTE don't want to sort here, instead keep the most recent tags at the top
+        if tag in FrequentTags.tags:
+            FrequentTags.tags.remove(tag)
+        FrequentTags.tags.insert(0, tag)
+        self.set_tag(tag=tag)
 
-    def set_directory(self, event=None, _dir=None):
-        _dir = self.handle_directory(_dir=_dir)
+    def set_tag(self, event=None, tag=None):
+        tag = self.handle_tag(tag=tag)
         if self.filter_text is not None and self.filter_text.strip() != "":
             print(f"Filtered by string: {self.filter_text}")
-        FrequentPromptTagsWindow.update_history(_dir)
-        self.app_actions.add_tags(_dir)
-        FrequentPromptTagsWindow.last_set_directory = _dir
+        FrequentPromptTagsWindow.update_history(tag)
+        self.app_actions.add_tags(tag)
+        FrequentPromptTagsWindow.last_set_tag = tag
         self.close_windows()
 
-    def set_recent_directories_from_dir(self, event=None):
+    def filter_tags(self, event):
         """
-        Gather all first-level child directories from the selected directory and
-        add them as directories, updating the window when complete.
-        """
-        parent_dir = filedialog.askdirectory(
-                initialdir=self.starting_target, title="Select parent directory for image comparison directories")
-        if not os.path.isdir(parent_dir):
-            raise Exception("Failed to set directory.")
-
-        recent_directories_to_add = [name for name in os.listdir(parent_dir)
-            if os.path.isdir(os.path.join(parent_dir, name))]
-        recent_directories_to_add.sort(reverse=True)
-
-        for _dir in recent_directories_to_add:
-            dirpath = os.path.normpath(os.path.join(parent_dir, _dir))
-            if dirpath in FrequentTags.tags:
-                FrequentTags.tags.remove(dirpath)
-            if dirpath != self.base_dir:
-                FrequentTags.tags.insert(0, dirpath)
-
-        self.filtered_prompt_tags = FrequentTags.tags[:]
-        self.filter_text = "" # Clear the filter to ensure all new directories are shown
-        self.clear_widget_lists()
-        self.add_dir_widgets()
-        self.master.update()
-        self.frame.after(1, lambda: self.frame.focus_force())
-
-    def filter_directories(self, event):
-        """
-        Rebuild the filtered directories list based on the filter string and update the UI.
+        Rebuild the filtered tags list based on the filter string and update the UI.
         """
         modifier_key_pressed = (event.state & 0x1) != 0 or (event.state & 0x4) != 0 # Do not filter if modifier key is down
         if modifier_key_pressed:
@@ -243,7 +213,7 @@ class FrequentPromptTagsWindow():
                 else:  # keysym == "Up"
                     self.filtered_prompt_tags = [self.filtered_prompt_tags[-1]] + self.filtered_prompt_tags[:-1]
                 self.clear_widget_lists()
-                self.add_dir_widgets()
+                self.add_tag_widgets()
                 self.master.update()
             if event.keysym != "BackSpace":
                 return
@@ -256,28 +226,28 @@ class FrequentPromptTagsWindow():
             return
         if self.filter_text.strip() == "":
             print("Filter unset")
-            # Restore the list of target directories to the full list
+            # Restore the list of tags to the full list
             self.filtered_prompt_tags.clear()
             self.filtered_prompt_tags = FrequentTags.tags[:]
         else:
             temp = []
-            # First pass try to match directory basename
-            for _dir in FrequentTags.tags:
-                if _dir == self.filter_text:
-                    temp.append(_dir)
-            for _dir in FrequentTags.tags:
-                if not _dir in temp:
-                    if _dir.startswith(self.filter_text):
-                        temp.append(_dir)
+            # First pass try to match tag basename
+            for tag in FrequentTags.tags:
+                if tag == self.filter_text:
+                    temp.append(tag)
+            for tag in FrequentTags.tags:
+                if tag not in temp:
+                    if tag.startswith(self.filter_text):
+                        temp.append(tag)
             # Third pass try to match part of the basename
-            for _dir in FrequentTags.tags:
-                if not _dir in temp:
-                    if _dir and (f" {self.filter_text}" in _dir.lower() or f"_{self.filter_text}" in _dir.lower()):
-                        temp.append(_dir)
+            for tag in FrequentTags.tags:
+                if tag not in temp:
+                    if tag and (f" {self.filter_text}" in tag.lower() or f"_{self.filter_text}" in tag.lower()):
+                        temp.append(tag)
             self.filtered_prompt_tags = temp[:]
 
         self.clear_widget_lists()
-        self.add_dir_widgets()
+        self.add_tag_widgets()
         self.master.update()
 
 
@@ -285,38 +255,38 @@ class FrequentPromptTagsWindow():
         """
         The user has requested to set a tag. Based on the context, figure out what to do.
 
-        If no directories preset, call handle_tag() with _dir=None to set a new tag.
+        If no tags preset, call handle_tag() with tag=None to set a new tag.
 
-        If directories preset, call set_tag() to set the first tag.
+        If tags preset, call set_tag() to set the first tag.
 
         If control key pressed, ignore existing and add a new tag.
 
         If alt key pressed, use the penultimate tag.
 
-        The idea is the user can filter the directories using keypresses, then press enter to
+        The idea is the user can filter the tags using keypresses, then press enter to
         do the action on the first filtered tag.
         """
 #        shift_key_pressed = (event.state & 0x1) != 0
         control_key_pressed = (event.state & 0x4) != 0
         alt_key_pressed = (event.state & 0x20000) != 0
         if alt_key_pressed:
-            penultimate_dir = FrequentPromptTagsWindow.get_history_directory(start_index=1)
-            if penultimate_dir is not None and os.path.isdir(penultimate_dir):
-                self.set_directory(_dir=penultimate_dir)
+            penultimate_tag = FrequentPromptTagsWindow.get_history_tag(start_index=1)
+            if penultimate_tag is not None and os.path.isdir(penultimate_tag):
+                self.set_tag(tag=penultimate_tag)
         elif len(self.filtered_prompt_tags) == 0 or control_key_pressed:
-            self.handle_directory()
+            self.handle_tag()
         else:
             if len(self.filtered_prompt_tags) == 1 or self.filter_text.strip() != "":
-                _dir = self.filtered_prompt_tags[0]
+                tag = self.filtered_prompt_tags[0]
             else:
-                _dir = FrequentPromptTagsWindow.last_set_directory
-            self.set_directory(_dir=_dir)
+                tag = FrequentPromptTagsWindow.last_set_tag
+            self.set_tag(tag=tag)
 
-    def clear_recent_directories(self, event=None):
+    def clear_recent_tags(self, event=None):
         self.clear_widget_lists()
         FrequentTags.tags.clear()
         self.filtered_prompt_tags.clear()
-        self.add_dir_widgets()
+        self.add_tag_widgets()
         self.master.update()
 
     def clear_widget_lists(self):
@@ -341,4 +311,3 @@ class FrequentPromptTagsWindow():
             setattr(self, button_ref_name, button)
             button # for some reason this is necessary to maintain the reference?
             button.grid(row=row, column=column)
-
