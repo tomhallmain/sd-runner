@@ -17,6 +17,9 @@ class Preset:
     def is_valid(self):
         return True
 
+    def readable_str(self):
+        return f"{self.workflow_tags} {self.positive_tags[0:20]}"
+
     def __str__(self):
         return self.readable_str()
 
@@ -80,12 +83,12 @@ class PresetsWindow():
         height = 100
         return f"{width}x{height}"
 
-    def __init__(self, master, app_master, app_actions, base_dir=".", run_compare_image=None):
+    def __init__(self, master, app_master, app_actions, runner_app_config=RunnerAppConfig(), run_compare_image=None):
         self.master = master
 #        self.app_master = master
         self.run_compare_image = run_compare_image
         self.app_actions = app_actions
-        self.base_dir = os.path.normpath(base_dir)
+        self.base_preset = Preset(runner_app_config)
         self.filter_text = ""
         self.starting_target = None
 

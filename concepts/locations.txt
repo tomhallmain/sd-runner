@@ -43,10 +43,12 @@ cabin in the woods
 cafe
 camping by the river
 car showroom
+canopy
 casino
 castle
 catacombs
 cemetery
+chateau
 chicken coop
 church
 cinema
@@ -62,6 +64,7 @@ courthouse
 courtroom
 crossroads
 crosswalk
+crowded bar
 cyberspace
 dark aquarium
 dark club with neon lights
@@ -83,7 +86,9 @@ farm
 field
 fields
 fire station
+fireplace
 fjord
+float
 forest
 foyer
 frat house
@@ -91,15 +96,20 @@ freeway
 garage
 garden
 gas station
+gazebo
+general store
 glade
 glen
+golf course
 graveyard
 greenhouse
 grocery store
 gym
 gymnasium
+hallway
 harbor
 hardware store
+hearth
 high school
 hospital
 hot springs
@@ -124,7 +134,9 @@ in a zoo
 in a zoological gardens
 in a zoological park
 in space
+in the city
 in the corner
+in the country
 in the desert
 in the dining room
 in the jungle
@@ -141,6 +153,7 @@ library
 living room
 manor
 market
+monument
 mountains
 museum
 ocean
@@ -171,17 +184,20 @@ on top of a tower
 open sea
 orchard
 overpass
+parade
 park
 parking lot
 pasture
 parlor
 pavement
+pawn shop
 petrol station
 pharmacy
 playground
 police station
 porch
 post office
+pub
 public baths
 restaurant
 river in the city
@@ -205,6 +221,7 @@ skyscraper
 small town
 snowy mountain
 sorority house
+spa
 sports centre
 spring gardens
 stadium
@@ -215,6 +232,7 @@ suburb
 subway
 summer camp
 supermarket
+surface of Mars
 swamp
 swimming pool
 taiga
@@ -224,6 +242,7 @@ traffic jam
 traffic lights
 trailer park
 train station
+treehouse
 tundra
 tunnel
 under covers

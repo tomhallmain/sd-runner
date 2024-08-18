@@ -170,7 +170,7 @@ def do_workflow(args, workflow, positive_prompt, negative_prompt, control_nets, 
             if args.auto_run:
                 # TODO websocket would be better here to ensure all have finished before starting new gen
                 sleep_time = config.maximum_gens()
-                sleep_time *= (10 if config.is_xl() else 6)
+                sleep_time *= Globals.GENERATION_DELAY_TIME_SECONDS
                 print(f"Sleeping for {sleep_time} seconds.")
                 time.sleep(sleep_time)
     except KeyboardInterrupt:

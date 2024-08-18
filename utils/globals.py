@@ -30,6 +30,7 @@ class Globals:
     PRINT_NEGATIVES = config.dict["print_negatives"]
     PROMPTER = Prompter()
     PROMPTER_GET_SPECIFIC_LOCATIONS = config.dict["prompter_get_specific_locations"]
+    GENERATION_DELAY_TIME_SECONDS = 10
     image_data_extractor = None
 
     @classmethod
@@ -58,6 +59,13 @@ class Globals:
     def set_controlnet_strength(cls, strength):
         cls.DEFAULT_CONTROL_NET_STRENGTH = strength
 
+    @classmethod
+    def set_override_base_negative(cls, override_negative):
+        cls.OVERRIDE_BASE_NEGATIVE = override_negative
+
+    @classmethod
+    def set_delay(cls, delay):
+        cls.GENERATION_DELAY_TIME_SECONDS = delay
 
 
 class WorkflowType(Enum):

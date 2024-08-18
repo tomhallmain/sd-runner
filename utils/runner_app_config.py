@@ -38,6 +38,7 @@ class RunnerAppConfig:
         self.auto_run = True
         self.inpainting = False
         self.override_negative = False
+        self.tags_apply_to_start = True
 
     def set_from_run_config(self, args):
         self.workflow_type = args.workflow_tag
@@ -59,13 +60,12 @@ class RunnerAppConfig:
         self.auto_run = args.auto_run
         self.inpainting = args.inpainting
 
-    def readable_str(self):
-        return f"{self.workflow_type} {self.positive_tags[0:20]}"
-
     @staticmethod
     def from_dict(_dict):
         app_config = RunnerAppConfig()
         app_config.__dict__ = deepcopy(_dict)
+        if not hasattr(app_config, 'tags_apply_to_start'):
+            app_config.tags_apply_to_start = True
         if not isinstance(app_config.prompter_config, dict):
             raise Exception("Prompter config is not a dict")
         prompter_config_dict = deepcopy(app_config.prompter_config)

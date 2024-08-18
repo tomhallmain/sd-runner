@@ -57,7 +57,7 @@ cinabrese # pale reddish-orange, after a flesh-colored pigment used by Italian R
 cinnabar # see vermillion below (and link to etymology)
 coquelicot # bright red, named after a French word for poppy
 crimson # deep, rich red with a hint of blue, often associated with royalty and luxury
-sorrel # reddish-brown, from horses of that color
+sorrel-colored # reddish-brown, from horses of that color
 stammel # wine red, named after a coarse cloth used for medieval undergarments
 titian # reddish-brown, named after a Renaissance painter
 vermillion # bright red, sometimes slightly orange
@@ -68,13 +68,13 @@ jacinthe # vivid yellowish-orange, from a French name for hyacinth
 madder # orange-red, named after the plant used to make the dye (from its root)
 mahogany # golden-red or reddish-brown, named after mahogany wood; when referring to paints, mahogany is often a very dark reddish-brown
 nacarat # bright orange, sometimes with a reddish tint
-persimmon # bright orange, after the persimmon fruit
+persimmon-colored # bright orange, after the persimmon fruit
 sinopia # reddish-orange or reddish-brown, “red earth” or “red ochre” color used in Classical Antiquity through the Renaissance; fairly synonymous with the pigment known as Venetian red
 tangelo # bold orange, named after the fruit (a hybrid between orange and tangerine)
 aureate # gold, golden
 aureolin # medium yellow, named after a pigment similar to canary yellow
 champagne # pale yellow, after the bubbly drink
-citron # dark yellow, named after the fruit
+citron-colored # dark yellow, named after the fruit
 fulvous # brownish-yellow, see also tawny below
 jonquil # golden-yellow, after the flower (a species of daffodil)
 ochre # yellow-brown, but see this page for other varieties, e.g. “red ochre”
@@ -84,7 +84,7 @@ sarcoline # pale yellow-beige color used to describe some lighter skin tones; co
 tawny # brownish-yellow, usually, but see this list for other possibilities
 celadon # pale green or gray-green, like the pottery
 chartreuse # yellowish-green, like the French liqueur
-kombu # dark green, the Japanese name for edible kelp
+kombu-color # dark green, the Japanese name for edible kelp
 lovat # grayish-green used in woolen textiles
 paris green # blue-green to deep green, after a toxic inorganic powder used as a pigment and insecticide
 sage # gray-green or silver-green, like the plant
@@ -109,13 +109,13 @@ heliotrope # a vibrant purple with pinkish undertones, named after the flower
 #    lilac # pale blueish-purple, named after the flower
 mauve # grayish-purple
 #    mulberry # a vibrant reddish-purple, named after the fruit
-orchid # a medium to light purple with pink and blue undertones, named after the flower
-periwinkle # a soft, pastel purple with a bluish tint, named after the flower
-puce # brownish-purple
+orchid-purple # a medium to light purple with pink and blue undertones, named after the flower
+periwinkle-purple # a soft, pastel purple with a bluish tint, named after the flower
+puce-purple # brownish-purple
 #    thistle # a light purple with a slight grayish tone, named after the flower
 tyrian # deep reddish-purple that originated in ancient Phoenicia
 ultraviolet # intense blueish-purple
-wisteria # a light to medium purple, named after the flowering plant
+wisteria-colored # a light to medium purple, named after the flowering plant
 #    coal # matte black, like coal
 corbeau # black with green or blue, from the color of crows (corvids)
 #    ebony # black with olive undertones, named after a dense type of ornamental wood

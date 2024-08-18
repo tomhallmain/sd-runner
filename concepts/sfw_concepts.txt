@@ -403,6 +403,7 @@ concentric circles
 
 (dark club with neon lights)
 (partially obscured subject, x in foreground blocking view)
+abyss
 aesthetic
 aliens
 amalgamation
@@ -454,6 +455,7 @@ chrome organic
 cinematic render
 circulatory system
 city map
+classy
 clean
 closed mouth
 color gradients
@@ -501,6 +503,7 @@ fabric
 fat
 felt
 (ferrofluid:0.8)
+film noire
 fine china porcelain
 fish
 flintlock
@@ -639,6 +642,7 @@ satellites
 scales
 sci fi
 science fiction
+screw
 scuffed
 shards
 sheep
@@ -685,6 +689,7 @@ tarot card
 tear drops
 technology
 textural
+thespian
 titian
 torchlight
 torus
@@ -695,6 +700,7 @@ unique
 universal serial bus
 vaporwave
 variability
+the vast expanse
 vectors
 viceroy
 vicious animal
@@ -733,6 +739,9 @@ Fireworks Spectacle # A dazzling fireworks display in the night sky.
 Traffic at Dusk # Headlights and taillights on a busy city street at dusk.
 Underwater Bioluminescence # Glowing creatures in the depths of the ocean.
 Fireplace Warmth # A cozy fireplace casting a warm glow in a living room.
+Torchlit
+Firelight
+Hearth
 Lightning Storm # A dramatic sky illuminated by bolts of lightning.
 Glowing Fireflies # Fireflies lighting up a tranquil summer evening.
 Car Headlights on a Foggy Road # Beams of light piercing through thick fog.

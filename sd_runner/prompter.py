@@ -17,6 +17,7 @@ class PrompterConfiguration:
         self.concepts = concepts_config
         self.positions = positions_config
         self.locations = locations_config
+        self.specific_locations = True
         self.animals = animals_config
         self.colors = colors_config
         self.times = times_config
@@ -26,6 +27,7 @@ class PrompterConfiguration:
         self.descriptions = descriptions
         self.random_words = random_words_config
         self.art_styles_chance = art_styles_chance
+        self.specify_humans_chance = 0.25
 
     def to_dict(self) -> dict:
         return {
@@ -33,6 +35,7 @@ class PrompterConfiguration:
             "concepts": self.concepts,
             "positions": self.positions,
             "locations": self.locations,
+            "specific_locations": self.specific_locations,
             "animals": self.animals,
             "colors": self.colors,
             "times": self.times,
@@ -42,6 +45,7 @@ class PrompterConfiguration:
             "descriptions": self.descriptions,
             "random_words": self.random_words,
             "art_styles_chance": self.art_styles_chance,
+            "specify_humans_chance": self.specify_humans_chance,
         }
 
     def set_from_dict(self, _dict):
@@ -49,6 +53,7 @@ class PrompterConfiguration:
         self.concepts = _dict['concepts'] if 'concepts' in _dict else self.concepts
         self.positions = _dict['positions'] if 'positions' in _dict else self.positions
         self.locations = _dict['locations'] if 'locations' in _dict else self.locations
+        self.specific_locations = _dict['specific_locations'] if'specific_locations' in _dict else self.specific_locations
         self.animals = _dict['animals'] if 'animals' in _dict else self.animals
         self.colors = _dict['colors'] if 'colors' in _dict else self.colors
         self.times = _dict['times'] if 'times' in _dict else self.times
@@ -58,6 +63,7 @@ class PrompterConfiguration:
         self.descriptions = _dict['descriptions'] if 'descriptions' in _dict else self.descriptions
         self.random_words = _dict['random_words'] if 'random_words' in _dict else self.random_words
         self.art_styles_chance = _dict['art_styles_chance'] if 'art_styles_chance' in _dict else self.art_styles_chance
+        self.specify_humans_chance = _dict['specify_humans_chance'] if'specify_humans_chance' in  _dict else self.specify_humans_chance
         self._handle_old_types()
 
     def set_from_other(self, other):
@@ -90,6 +96,7 @@ class Prompter:
     # Set these to include constant detail in all prompts
     POSITIVE_TAGS = config.dict["default_positive_tags"]
     NEGATIVE_TAGS = config.dict["default_negative_tags"]
+    TAGS_APPLY_TO_START = True
 
     """
     Has various functions for generating stable diffusion image generation prompts.
@@ -119,6 +126,10 @@ class Prompter:
     def set_negative_tags(cls, tags):
         cls.NEGATIVE_TAGS = tags
 
+    @classmethod
+    def set_tags_apply_to_start(cls, apply):
+        cls.TAGS_APPLY_TO_START = apply
+
     def generate_prompt(self, positive="", negative=""):
         if self.prompt_mode in (PromptMode.SFW, PromptMode.NSFW, PromptMode.NSFL):
             positive = self.mix_concepts()
@@ -135,10 +146,18 @@ class Prompter:
             data = self.gather_data()
             positive = self.transform_result(data)
         self.count += 1
-        if Prompter.POSITIVE_TAGS and Prompter.POSITIVE_TAGS != "" and not positive.startswith(Prompter.POSITIVE_TAGS):
-            positive = Prompter.POSITIVE_TAGS + positive
-        if Prompter.NEGATIVE_TAGS and Prompter.NEGATIVE_TAGS != "" and not negative.startswith(Prompter.NEGATIVE_TAGS):
-            negative = Prompter.NEGATIVE_TAGS + negative
+        if Prompter.POSITIVE_TAGS and Prompter.POSITIVE_TAGS.strip() != "":
+            if Prompter.TAGS_APPLY_TO_START:
+                if not positive.startswith(Prompter.POSITIVE_TAGS):
+                    positive = Prompter.POSITIVE_TAGS + positive
+            elif not positive.endswith(Prompter.POSITIVE_TAGS):
+                positive += ", " + Prompter.POSITIVE_TAGS
+        if Prompter.NEGATIVE_TAGS and Prompter.NEGATIVE_TAGS != "":
+            if Prompter.TAGS_APPLY_TO_START:
+                if not negative.startswith(Prompter.NEGATIVE_TAGS):
+                    negative = Prompter.NEGATIVE_TAGS + negative
+            elif not negative.endswith(Prompter.NEGATIVE_TAGS):
+                negative += ", " + Prompter.NEGATIVE_TAGS
         self.last_prompt = positive
         return (positive, negative)
 
@@ -159,7 +178,7 @@ class Prompter:
         Prompter.emphasize(random_words, emphasis_threshold=emphasis_threshold)
         return ', '.join(random_words)
 
-    def _mix_concepts(self, humans_threshold=0.75, emphasis_threshold=0.9):
+    def _mix_concepts(self, humans_chance=0.25, emphasis_threshold=0.9):
         mix = []
         mix.extend(self.concepts.get_concepts(*self.prompter_config.concepts))
         mix.extend(self.concepts.get_positions(*self.prompter_config.positions))
@@ -174,7 +193,7 @@ class Prompter:
         mix.extend(self.concepts.get_random_words(*self.prompter_config.random_words))
         # Humans might not always be desirable so only add some randomly
         if self.prompt_mode == PromptMode.SFW:
-            if random.random() > humans_threshold:
+            if random.random() < humans_chance:
                 mix.extend(self.concepts.get_humans())
         # Small chance to add artist style
         if not self.concepts.is_art_style_prompt_mode() and random.random() < self.prompter_config.art_styles_chance:
@@ -186,8 +205,8 @@ class Prompter:
         self.add_presets(mix)
         return mix
 
-    def mix_concepts(self, humans_threshold=0.75, emphasis_threshold=0.9):
-        return ', '.join(self._mix_concepts(humans_threshold=humans_threshold, emphasis_threshold=emphasis_threshold))
+    def mix_concepts(self, emphasis_threshold=0.9):
+        return ', '.join(self._mix_concepts(humans_chance=self.prompter_config.specify_humans_chance, emphasis_threshold=emphasis_threshold))
 
     def mix_colors(self):
         return ', '.join(self.concepts.get_colors(low=2, high=5))
@@ -206,14 +225,14 @@ class Prompter:
                 else:
                     raise Exception(f"Invalid prompt mode: {prompt_mode_name}")
 
-    def get_artistic_prompt(self, add_concepts, humans_threshold=0.75, emphasis_threshold=0.9):
+    def get_artistic_prompt(self, add_concepts, emphasis_threshold=0.9):
         mix = []
         mix.extend(self.concepts.get_art_styles())
         if add_concepts:
-            mix.extend(self._mix_concepts(humans_threshold=humans_threshold, emphasis_threshold=emphasis_threshold))
+            mix.extend(self._mix_concepts(humans_chance=0, emphasis_threshold=emphasis_threshold))
         # Humans might not always be desirable so only add some randomly
         if self.prompt_mode == PromptMode.SFW:
-            if random.random() > humans_threshold:
+            if random.random() < (self.prompter_config.specify_humans_chance * 0.5):
                 mix.extend(self.concepts.get_humans())
         random.shuffle(mix)
         Prompter.emphasize(mix, emphasis_threshold=emphasis_threshold)
