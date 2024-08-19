@@ -5,6 +5,7 @@ arms extended
 arms up
 assuming a stance
 back
+down below
 facing_away
 facing_down
 facing_eachother
@@ -61,6 +62,7 @@ off-center view
 hip-level shot
 (distant subject, ultra wide-angle shot)
 surrounding
+up above
 
 Aerial View
 Bird's Eye View
@@ -107,6 +109,8 @@ Top View
 Ultra-Wide Angle
 Wide Angle View
 Worm's Eye View
+(view from far above)
+(view from far away)
 
 360 vr lens
 Blurry lens

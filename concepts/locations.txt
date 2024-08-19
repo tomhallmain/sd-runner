@@ -27,6 +27,8 @@ barber shop
 barn
 barracks
 basement
+beach
+beach town
 bedroom
 bicycle path
 boardwalk
@@ -64,6 +66,7 @@ condo
 country club
 courthouse
 courtroom
+cove
 crossroads
 crosswalk
 crowded bar
@@ -73,6 +76,7 @@ dark aquarium
 dark club with neon lights
 dark dungeon
 deli
+deserted island
 diner
 docks
 dog park
@@ -149,6 +153,8 @@ in the steppes
 in the wilderness
 in the woods
 industrial park
+inlet
+island
 jail
 junkyard
 kitchen

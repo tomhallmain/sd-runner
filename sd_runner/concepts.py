@@ -37,6 +37,46 @@ def sample(l, low, high):
 
 class Concepts:
     ENGLISH_WORDS = "english_words.txt"
+    TAG_BLACKLIST = []
+
+    @staticmethod
+    def set_blacklist(blacklist):
+        Concepts.TAG_BLACKLIST = list(blacklist)
+    
+    @staticmethod
+    def add_to_blacklist(tag):
+        Concepts.TAG_BLACKLIST.append(tag)
+        Concepts.TAG_BLACKLIST.sort()
+
+    @staticmethod
+    def remove_from_blacklist(tag):
+        try:
+            Concepts.TAG_BLACKLIST.remove(tag)
+            return True
+        except ValueError as e:
+            return False
+
+    @staticmethod
+    def clear_blacklist():
+        Concepts.TAG_BLACKLIST = []
+
+    @staticmethod
+    def sample_whitelisted(concepts, low, high):
+        # TODO technically inefficient to rebuild the whitelist each time
+        # TODO blacklist concepts from the negative prompt
+        if len(Concepts.TAG_BLACKLIST) == 0:
+            return sample(concepts, low, high)
+        whitelist = []
+        for concept in concepts:
+            match_found = False
+            for tag in Concepts.TAG_BLACKLIST:
+                if tag.lower() in concept.lower():
+                    print(f"Filtered concept \"{concept}\" from blacklist tag \"{tag}\"")
+                    match_found = True
+                    break
+            if not match_found:
+                whitelist.append(concept)
+        return sample(whitelist, low, high)
 
     def __init__(self, prompt_mode, get_specific_locations):
         self.prompt_mode = prompt_mode
@@ -57,7 +97,7 @@ class Concepts:
         concepts = Concepts.load(SFW.concepts)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
-        return sample(concepts, low, high)
+        return Concepts.sample_whitelisted(concepts, low, high)
 
     def get_positions(self, low=0, high=2):
         positions = Concepts.load(SFW.positions)
@@ -65,15 +105,15 @@ class Concepts:
         #     self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
         if len(positions) > 1 and random.random() > 0.4:
             del positions[1]
-        return sample(positions, low, high)
+        return Concepts.sample_whitelisted(positions, low, high)
 
     def get_humans(self):
-        return sample(Concepts.load(SFW.humans), 1, 1)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.humans), 1, 1)
 
     def get_animals(self, low=0, high=2, inclusion_chance=0.1):
         if random.random() > inclusion_chance:
             return []
-        return sample(Concepts.load(SFW.animals), low, high)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.animals), low, high)
 
     def get_locations(self, low=0, high=2, specific_inclusion_chance=0.3):
         locations = Concepts.load(SFW.locations)
@@ -81,16 +121,16 @@ class Concepts:
             locations.extend(Concepts.load(SFW.locations_specific))
 #        if random.random() > inclusion_chance:
 #            return []
-        return sample(locations, low, high)
+        return Concepts.sample_whitelisted(locations, low, high)
 
     def get_colors(self, low=0, high=3):
-        colors = sample(Concepts.load(SFW.colors), low, high)
+        colors = Concepts.sample_whitelisted(Concepts.load(SFW.colors), low, high)
         if "rainbow" in colors and random.random() > 0.5:
             colors.remove("rainbow")
         return colors
 
     def get_times(self, low=0, high=1):
-        return sample(Concepts.load(SFW.times), low, high)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.times), low, high)
 
     def get_dress(self, low=0, high=2, inclusion_chance=0.5):
         if random.random() > inclusion_chance:
@@ -98,28 +138,28 @@ class Concepts:
         dress = Concepts.load(SFW.dress)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(dress, NSFW.dress, 3, NSFL.dress, 1)
-        return sample(dress, low, high)
+        return Concepts.sample_whitelisted(dress, low, high)
 
     def get_expressions(self, low=1, high=1):
         expressions = Concepts.load(SFW.expressions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(expressions, NSFW.expressions, 6, NSFL.expressions, 3)
-        return sample(expressions, low, high)
+        return Concepts.sample_whitelisted(expressions, low, high)
 
     def get_actions(self, low=0, high=2):
         actions = Concepts.load(SFW.actions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(actions, NSFW.actions, 8, NSFL.actions, 3)
-        return sample(actions, low, high)
+        return Concepts.sample_whitelisted(actions, low, high)
 
     def get_descriptions(self, low=0, high=1):
         descriptions = Concepts.load(SFW.descriptions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(descriptions, NSFW.descriptions, 3, NSFL.descriptions, 2)
-        return sample(descriptions, low, high)
+        return Concepts.sample_whitelisted(descriptions, low, high)
 
     def get_random_words(self, low=0, high=9):
-        random_words = sample(self.english_words, low, high)
+        random_words = Concepts.sample_whitelisted(self.english_words, low, high)
         random.shuffle(random_words)
         random_word_strings = []
         word_string = ""

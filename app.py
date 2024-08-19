@@ -21,11 +21,13 @@ from sd_runner.concepts import PromptMode
 from sd_runner.gen_config import GenConfig
 from sd_runner.models import IPAdapter, Model
 from sd_runner.prompter import Prompter
+from ui.app_style import AppStyle
+from ui.tags_blacklist_window import BlacklistWindow
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
-from utils.utils import open_file_location, periodic, start_thread
+from utils.utils import start_thread
 
 _ = I18N._
 
@@ -106,35 +108,6 @@ class App():
     '''
     UI for overlay of ComfyUI workflow management.
     '''
-
-    IS_DEFAULT_THEME = False
-    GRAY = "gray"
-    DARK_BG = config.background_color if config.background_color and config.background_color != "" else "#053E10"
-    DARK_FG = config.foreground_color if config.foreground_color and config.foreground_color != "" else "white"
-
-    def configure_style(self, theme):
-        self.master.set_theme(theme, themebg="black")
-
-    def toggle_theme(self):
-        if App.IS_DEFAULT_THEME:
-            self.configure_style("breeze") # Changes the window to light theme
-            bg_color = App.GRAY
-            fg_color = "black"
-        else:
-            self.configure_style("black") # Changes the window to dark theme
-            bg_color = App.DARK_BG
-            fg_color = App.DARK_FG
-        App.IS_DEFAULT_THEME = not App.IS_DEFAULT_THEME
-        self.master.config(bg=bg_color)
-        self.sidebar.config(bg=bg_color)
-        self.prompter_config_bar.config(bg=bg_color)
-        for name, attr in self.__dict__.items():
-            if isinstance(attr, Label):
-                attr.config(bg=bg_color, fg=fg_color)
-            elif isinstance(attr, Checkbutton):
-                attr.config(bg=bg_color, fg=fg_color, selectcolor=bg_color)
-        self.master.update()
-        self.toast("Theme switched to dark." if App.IS_DEFAULT_THEME else "Theme switched to light.")
 
     def __init__(self, master):
         self.master = master
@@ -505,6 +478,9 @@ class App():
         self.tags_at_start_choice = Checkbutton(self.prompter_config_bar, text=_("Tags Applied to Prompt Start"), variable=self.tags_at_start_var, command=self.set_tags_apply_to_start)
         self.apply_to_grid(self.tags_at_start_choice, sticky=W, column=1, columnspan=3)
 
+        self.tag_blacklist_btn = None
+        self.add_button("tag_blacklist_btn", text=_("Tag Blacklist"), command=self.show_tag_blacklist, sidebar=False)
+
         self.master.bind("<Control-Return>", self.run)
         self.master.bind("<Prior>", lambda event: self.one_config_away(change=1))
         self.master.bind("<Next>", lambda event: self.one_config_away(change=-1))
@@ -513,11 +489,36 @@ class App():
         self.master.update()
         self.close_autocomplete_popups()
 
+    def toggle_theme(self, to_theme=None, do_toast=True):
+        if (to_theme is None and AppStyle.IS_DEFAULT_THEME) or to_theme == AppStyle.LIGHT_THEME:
+            if to_theme is None:
+                self.master.set_theme("breeze", themebg="black")  # Changes the window to light theme
+            AppStyle.BG_COLOR = "gray"
+            AppStyle.FG_COLOR = "black"
+        else:
+            if to_theme is None:
+                self.master.set_theme("black", themebg="black")  # Changes the window to dark theme
+            AppStyle.BG_COLOR = config.background_color if config.background_color and config.background_color != "" else "#053E10"
+            AppStyle.FG_COLOR = config.foreground_color if config.foreground_color and config.foreground_color != "" else "white"
+        AppStyle.IS_DEFAULT_THEME = (not AppStyle.IS_DEFAULT_THEME or to_theme
+                                     == AppStyle.DARK_THEME) and to_theme != AppStyle.LIGHT_THEME
+        self.master.config(bg=AppStyle.BG_COLOR)
+        self.sidebar.config(bg=AppStyle.BG_COLOR)
+        self.prompter_config_bar.config(bg=AppStyle.BG_COLOR)
+        for name, attr in self.__dict__.items():
+            if isinstance(attr, Label):
+                attr.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+                            # font=fnt.Font(size=config.font_size))
+            elif isinstance(attr, Checkbutton):
+                attr.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                            selectcolor=AppStyle.BG_COLOR)#, font=fnt.Font(size=config.font_size))
+        self.master.update()
+        if do_toast:
+            self.toast(f"Theme switched to {AppStyle.get_theme_name()}.")
 
     def close_autocomplete_popups(self):
         self.model_tags_box.closeListbox()
         self.lora_tags_box.closeListbox()
-
 
     def on_closing(self):
         self.store_info_cache()
@@ -548,11 +549,13 @@ class App():
         if self.runner_app_config is not None:
             app_info_cache.set_history(self.runner_app_config)
         app_info_cache.set("config_history_index", self.config_history_index)
+        BlacklistWindow.store_blacklist()
         app_info_cache.store()
 
     def load_info_cache(self):
         try:
             self.config_history_index = app_info_cache.get("config_history_index", default_val=0)
+            BlacklistWindow.set_blacklist()
             return RunnerAppConfig.from_dict(app_info_cache.get_history(0))
         except Exception as e:
             print(e)
@@ -872,6 +875,15 @@ class App():
             self.master.update()
         return text
 
+    def show_tag_blacklist(self):
+        top_level = Toplevel(self.master, bg=AppStyle.BG_COLOR)
+        top_level.title(_("Tags Blacklist"))
+        top_level.geometry(BlacklistWindow.get_geometry(is_gui=True))
+        try:
+            blacklist_window = BlacklistWindow(top_level, self.toast)
+        except Exception as e:
+            self.alert("Blacklist Window Error", str(e), kind="error")
+
     def alert(self, title, message, kind="info", hidemain=True) -> None:
         if kind not in ("error", "warning", "info"):
             raise ValueError("Unsupported alert kind.")
@@ -890,16 +902,16 @@ class App():
         y = 0
 
         # Create the toast on the top level
-        toast = Toplevel(self.master, bg=App.DARK_BG)
+        toast = Toplevel(self.master, bg=AppStyle.BG_COLOR)
         toast.geometry(f'{width}x{height}+{int(x)}+{int(y)}')
-        self.container = Frame(toast, bg=App.DARK_BG)
+        self.container = Frame(toast, bg=AppStyle.BG_COLOR)
         self.container.pack(fill=BOTH, expand=YES)
         label = Label(
             self.container,
             text=message,
             anchor=NW,
-            bg=App.DARK_BG,
-            fg='white',
+            bg=AppStyle.BG_COLOR,
+            fg=AppStyle.FG_COLOR,
             font=('Helvetica', 12)
         )
         label.grid(row=1, column=1, sticky="NSEW", padx=10, pady=(0, 5))
@@ -937,12 +949,13 @@ class App():
         label_ref['text'] = text
         self.apply_to_grid(label_ref, sticky=sticky, pady=pady, column=column, columnspan=columnspan, increment_row_counter=increment_row_counter)
 
-    def add_button(self, button_ref_name, text, command):
+    def add_button(self, button_ref_name, text, command, sidebar=True):
         if getattr(self, button_ref_name) is None:
-            button = Button(master=self.sidebar, text=text, command=command)
+            master = self.sidebar if sidebar else self.prompter_config_bar
+            button = Button(master=master, text=text, command=command)
             setattr(self, button_ref_name, button)
             button
-            self.apply_to_grid(button)
+            self.apply_to_grid(button, column=(0 if sidebar else 1))
 
     def new_entry(self, text_variable, text="", width=55, **kw):
         return Entry(self.sidebar, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
