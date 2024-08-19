@@ -12,7 +12,10 @@ from sd_runner.ip_adapters import get_ip_adapters
 from sd_runner.prompter import PrompterConfiguration, Prompter
 from sd_runner.models import Model, Resolution
 from sd_runner.workflow_prompt import WorkflowPrompt
+from utils.translations import I18N
 from utils.utils import split
+
+_ = I18N._
 
 prompt_list = [
 ]
@@ -62,15 +65,15 @@ class RunConfig:
 
     def validate(self):
         if self.prompter_config is None:
-            raise Exception("No prompter config found!")
+            raise Exception(_("No prompter config found!"))
         # Check here if for example, using FIXED prompt mode and > 6 set total
         if self.prompter_config.prompt_mode == PromptMode.FIXED and self.total > 10:
-            raise Exception("Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?")
+            raise Exception(_("Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"))
         if RunConfig.model_switch_detected and not RunConfig.has_warned_about_prompt_massage_text_mismatch:
             prompt_massage_tags = Model.get_first_model_prompt_massage_tags(self.model_tags, prompt_mode=self.prompter_config.prompt_mode, inpainting=self.inpainting)
             if Globals.POSITIVE_PROMPT_MASSAGE_TAGS != prompt_massage_tags:
                 RunConfig.has_warned_about_prompt_massage_text_mismatch = True
-                raise Exception("A model switch was detected and the model massage tags don't match. This warning will only be shown once.")
+                raise Exception(_("A model switch was detected and the model massage tags don't match. This warning will only be shown once."))
         return True
 
 

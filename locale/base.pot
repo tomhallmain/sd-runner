@@ -1,0 +1,245 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2024-08-19 11:24-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1252\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: .\app.py:156
+msgid "Run ComfyUI Workflows"
+msgstr ""
+
+#: .\app.py:159
+msgid "Run Workflows"
+msgstr ""
+
+#: .\app.py:167
+msgid "Workflow"
+msgstr ""
+
+#: .\app.py:174
+msgid "Sampler"
+msgstr ""
+
+#: .\app.py:180
+msgid "Scheduler"
+msgstr ""
+
+#: .\app.py:186
+msgid "Set N Latents"
+msgstr ""
+
+#: .\app.py:192
+msgid "Set Total"
+msgstr ""
+
+#: .\app.py:198
+msgid "Delay Seconds"
+msgstr ""
+
+#: .\app.py:205
+msgid "Resolutions"
+msgstr ""
+
+#: .\app.py:212
+msgid "Model Tags"
+msgstr ""
+
+#: .\app.py:227
+msgid "LoRA Tags"
+msgstr ""
+
+#: .\app.py:243
+msgid "Default LoRA Strength"
+msgstr ""
+
+#: .\app.py:249
+msgid "Prompt Massage Tags"
+msgstr ""
+
+#: .\app.py:257
+msgid "Positive Tags"
+msgstr ""
+
+#: .\app.py:264
+msgid "Negative Tags"
+msgstr ""
+
+#: .\app.py:272
+msgid "B/W Colorization Tags"
+msgstr ""
+
+#: .\app.py:280
+msgid "Control Net or Redo files"
+msgstr ""
+
+#: .\app.py:287
+msgid "Default Control Net Strength"
+msgstr ""
+
+#: .\app.py:293
+msgid "IPAdapter files"
+msgstr ""
+
+#: .\app.py:300
+msgid "Default IPAdapter Strength"
+msgstr ""
+
+#: .\app.py:306
+msgid "Redo Parameters"
+msgstr ""
+
+#: .\app.py:314
+msgid "Seed"
+msgstr ""
+
+#: .\app.py:321
+msgid "Steps"
+msgstr ""
+
+#: .\app.py:328
+msgid "CFG"
+msgstr ""
+
+#: .\app.py:335
+msgid "Denoise"
+msgstr ""
+
+#: .\app.py:342
+msgid "Random Skip Chance"
+msgstr ""
+
+#: .\app.py:358
+msgid "Prompts Configuration"
+msgstr ""
+
+#: .\app.py:361
+msgid "Prompt Mode"
+msgstr ""
+
+#: .\app.py:370
+msgid "Concepts"
+msgstr ""
+
+#: .\app.py:379
+msgid "Positions"
+msgstr ""
+
+#: .\app.py:388
+msgid "Locations"
+msgstr ""
+
+#: .\app.py:397
+msgid "Specific Locations Chance"
+msgstr ""
+
+#: .\app.py:403
+msgid "Animals"
+msgstr ""
+
+#: .\app.py:412
+msgid "Colors"
+msgstr ""
+
+#: .\app.py:421
+msgid "Times"
+msgstr ""
+
+#: .\app.py:430
+msgid "Dress"
+msgstr ""
+
+#: .\app.py:439
+msgid "Expressions"
+msgstr ""
+
+#: .\app.py:448
+msgid "Actions"
+msgstr ""
+
+#: .\app.py:457
+msgid "Descriptions"
+msgstr ""
+
+#: .\app.py:466
+msgid "Random Words"
+msgstr ""
+
+#: .\app.py:475
+msgid "Specify Humans Chance"
+msgstr ""
+
+#: .\app.py:481
+msgid "Art Styles Chance"
+msgstr ""
+
+#: .\app.py:487
+msgid "Emphasis Chance"
+msgstr ""
+
+#: .\app.py:493
+msgid "Auto Run"
+msgstr ""
+
+#: .\app.py:497
+msgid "Inpainting"
+msgstr ""
+
+#: .\app.py:501
+msgid "Override Base Negative"
+msgstr ""
+
+#: .\app.py:505
+msgid "Tags Applied to Prompt Start"
+msgstr ""
+
+#: .\app.py:533
+msgid "Confirm Quit"
+msgstr ""
+
+#: .\app.py:533
+msgid "Would you like to quit the application?"
+msgstr ""
+
+#: .\app.py:717
+msgid "Confirm Run"
+msgstr ""
+
+#: .\app.py:718
+msgid "Are you sure you want to proceed?"
+msgstr ""
+
+#: .\app.py:962
+msgid " ComfyGen "
+msgstr ""
+
+#: .\run.py:68
+msgid "No prompter config found!"
+msgstr ""
+
+#: .\run.py:71
+msgid "Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"
+msgstr ""
+
+#: .\run.py:76
+msgid "A model switch was detected and the model massage tags don't match. This warning will only be shown once."
+msgstr ""
+
+#: .\ui\presets_window.py:151
+msgid "Invalid preset: %s"
+msgstr ""
+
+#: .\ui\tags_blacklist_window.py:124
+msgid "Invalid tag: %s"
+msgstr ""
+

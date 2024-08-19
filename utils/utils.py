@@ -143,3 +143,21 @@ def split(string, delimiter=","):
     if len(parts) == 0 and len(string) != 0:
         parts.append(string)
     return parts
+
+def get_default_user_language():
+    _locale = os.environ['LANG'] if "LANG" in os.environ else None
+    if not _locale or _locale == '':
+        if sys.platform == 'win32':
+            import ctypes
+            import locale
+            windll = ctypes.windll.kernel32
+            windll.GetUserDefaultUILanguage()
+            _locale = locale.windows_locale[windll.GetUserDefaultUILanguage()]
+            if _locale is not None and "_" in _locale:
+                _locale = _locale[:_locale.index("_")]
+        # TODO support finding default languages on other platforms
+        else:
+            _locale = 'en'
+    elif _locale is not None and "_" in _locale:
+        _locale = _locale[:_locale.index("_")]
+    return _locale

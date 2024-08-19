@@ -24,8 +24,10 @@ from sd_runner.prompter import Prompter
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.runner_app_config import RunnerAppConfig
+from utils.translations import I18N
 from utils.utils import open_file_location, periodic, start_thread
 
+_ = I18N._
 
 # TODO enable "madlibs" style prompting variables (requires labelling parts of speech in english_words.txt)
 # TODO enable "profile" prompting with cycles between them, possibly interfacing with the madlib prompting in previous TODO comment
@@ -151,10 +153,10 @@ class App():
         self.row_counter0 = 0
         self.sidebar.grid(column=0, row=self.row_counter0)
         self.label_title = Label(self.sidebar)
-        self.add_label(self.label_title, "Run ComfyUI Workflows", sticky=None, columnspan=2)
+        self.add_label(self.label_title, _("Run ComfyUI Workflows"), sticky=None, columnspan=2)
 
         self.run_btn = None
-        self.add_button("run_btn", "Run Workflows", self.run)
+        self.add_button("run_btn", _("Run Workflows"), self.run)
         self.master.bind("<Shift-R>", self.run)
 
         # self.toggle_theme_btn = None
@@ -162,52 +164,52 @@ class App():
 
         # TODO multiselect
         self.label_workflows = Label(self.sidebar)
-        self.add_label(self.label_workflows, "Workflow", increment_row_counter=False)
+        self.add_label(self.label_workflows, _("Workflow"), increment_row_counter=False)
         self.workflow = StringVar(master)
         self.workflows_choice = OptionMenu(self.sidebar, self.workflow, self.runner_app_config.workflow_type,
                                            *WorkflowType.__members__.keys(), command=self.set_workflow_type)
         self.apply_to_grid(self.workflows_choice, interior_column=1, sticky=W)
 
         self.label_sampler = Label(self.sidebar)
-        self.add_label(self.label_sampler, "Sampler", increment_row_counter=False)
+        self.add_label(self.label_sampler, _("Sampler"), increment_row_counter=False)
         self.sampler = StringVar(master)
         self.sampler_choice = OptionMenu(self.sidebar, self.sampler, str(self.runner_app_config.sampler), *Sampler.__members__.keys())
         self.apply_to_grid(self.sampler_choice, interior_column=1, sticky=W)
 
         self.label_scheduler = Label(self.sidebar)
-        self.add_label(self.label_scheduler, "Scheduler", increment_row_counter=False)
+        self.add_label(self.label_scheduler, _("Scheduler"), increment_row_counter=False)
         self.scheduler = StringVar(master)
         self.scheduler_choice = OptionMenu(self.sidebar, self.scheduler, str(self.runner_app_config.scheduler), *Scheduler.__members__.keys())
         self.apply_to_grid(self.scheduler_choice, interior_column=1, sticky=W)
 
         self.label_n_latents = Label(self.sidebar)
-        self.add_label(self.label_n_latents, "Set N Latents", increment_row_counter=False)
+        self.add_label(self.label_n_latents, _("Set N Latents"), increment_row_counter=False)
         self.n_latents = StringVar(master)
         self.n_latents_choice = OptionMenu(self.sidebar, self.n_latents, str(self.runner_app_config.n_latents), *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.n_latents_choice, interior_column=1, sticky=W)
 
         self.label_total = Label(self.sidebar)
-        self.add_label(self.label_total, "Set Total", increment_row_counter=False)
+        self.add_label(self.label_total, _("Set Total"), increment_row_counter=False)
         self.total = StringVar(master)
         self.total_choice = OptionMenu(self.sidebar, self.total, str(self.runner_app_config.total), *[str(i) for i in list(range(101))])
         self.apply_to_grid(self.total_choice, interior_column=1, sticky=W)
 
         self.label_delay = Label(self.sidebar)
-        self.add_label(self.label_delay, "Delay Seconds", increment_row_counter=False)
+        self.add_label(self.label_delay, _("Delay Seconds"), increment_row_counter=False)
         self.delay = StringVar(master)
         self.delay_choice = OptionMenu(self.sidebar, self.delay, str(Globals.GENERATION_DELAY_TIME_SECONDS), *[str(i) for i in list(range(101))], command=self.set_delay)
         self.apply_to_grid(self.delay_choice, interior_column=1, sticky=W)
         self.delay_choice.bind("<Return>", self.set_random_skip)
 
         self.label_resolutions = Label(self.sidebar)
-        self.add_label(self.label_resolutions, "Resolutions", increment_row_counter=False)
+        self.add_label(self.label_resolutions, _("Resolutions"), increment_row_counter=False)
         self.resolutions = StringVar()
         self.resolutions_box = self.new_entry(self.resolutions, width=20)
         self.resolutions_box.insert(0, self.runner_app_config.resolutions)
         self.apply_to_grid(self.resolutions_box, interior_column=1, sticky=W)
 
         self.label_model_tags = Label(self.sidebar)
-        self.add_label(self.label_model_tags, "Model Tags")
+        self.add_label(self.label_model_tags, _("Model Tags"))
         self.model_tags = StringVar()
         model_names = list(map(lambda l: str(l).split('.')[0], Model.CHECKPOINTS))
         self.model_tags_box = AutocompleteEntry(model_names,
@@ -222,7 +224,7 @@ class App():
         self.apply_to_grid(self.model_tags_box, sticky=W, columnspan=2)
 
         self.label_lora_tags = Label(self.sidebar)
-        self.add_label(self.label_lora_tags, "LoRA Tags")
+        self.add_label(self.label_lora_tags, _("LoRA Tags"))
         self.lora_tags = StringVar()
         lora_names = list(map(lambda l: str(l).split('.')[0], Model.LORAS))
 
@@ -238,13 +240,13 @@ class App():
         self.apply_to_grid(self.lora_tags_box, sticky=W, columnspan=2)
 
         self.label_lora_strength = Label(self.sidebar)
-        self.add_label(self.label_lora_strength, "Default LoRA Strength", increment_row_counter=False)
+        self.add_label(self.label_lora_strength, _("Default LoRA Strength"), increment_row_counter=False)
         self.lora_strength_slider = Scale(self.sidebar, from_=0, to=100, orient=HORIZONTAL, command=self.set_lora_strength)
         self.set_widget_value(self.lora_strength_slider, self.runner_app_config.lora_strength)
         self.apply_to_grid(self.lora_strength_slider, interior_column=1, sticky=W)
 
         self.label_prompt_tags = Label(self.sidebar)
-        self.add_label(self.label_prompt_tags, "Prompt Massage Tags")
+        self.add_label(self.label_prompt_tags, _("Prompt Massage Tags"))
         self.prompt_massage_tags = StringVar()
         self.prompt_massage_tags_box = self.new_entry(self.prompt_massage_tags)
         self.prompt_massage_tags_box.insert(0, self.runner_app_config.prompt_massage_tags)
@@ -252,14 +254,14 @@ class App():
         self.prompt_massage_tags_box.bind("<Return>", self.set_prompt_massage_tags)
 
         self.label_positive_tags = Label(self.sidebar)
-        self.add_label(self.label_positive_tags, "Positive Tags")
+        self.add_label(self.label_positive_tags, _("Positive Tags"))
         self.positive_tags_box = Text(self.sidebar, height=6, width=55, font=fnt.Font(size=8))
         self.positive_tags_box.insert("0.0", self.runner_app_config.positive_tags)
         self.apply_to_grid(self.positive_tags_box, sticky=W, columnspan=2)
         self.positive_tags_box.bind("<Return>", self.set_positive_tags)
 
         self.label_negative_tags = Label(self.sidebar)
-        self.add_label(self.label_negative_tags, "Negative Tags")
+        self.add_label(self.label_negative_tags, _("Negative Tags"))
         self.negative_tags = StringVar()
         self.negative_tags_box = Text(self.sidebar, height=3, width=55, font=fnt.Font(size=8))
         self.negative_tags_box.insert("0.0", self.runner_app_config.negative_tags)
@@ -267,7 +269,7 @@ class App():
         self.negative_tags_box.bind("<Return>", self.set_negative_tags)
 
         self.label_bw_colorization = Label(self.sidebar)
-        self.add_label(self.label_bw_colorization, "B/W Colorization Tags", increment_row_counter=False)
+        self.add_label(self.label_bw_colorization, _("B/W Colorization Tags"), increment_row_counter=False)
         self.bw_colorization = StringVar()
         self.bw_colorization_box = self.new_entry(self.bw_colorization, width=20)
         self.bw_colorization_box.insert(0, self.runner_app_config.b_w_colorization)
@@ -275,33 +277,33 @@ class App():
         self.bw_colorization_box.bind("<Return>", self.set_bw_colorization)
 
         self.label_controlnet_file = Label(self.sidebar)
-        self.add_label(self.label_controlnet_file, "Control Net or Redo files")
+        self.add_label(self.label_controlnet_file, _("Control Net or Redo files"))
         self.controlnet_file = StringVar()
         self.controlnet_file_box = self.new_entry(self.controlnet_file)
         self.controlnet_file_box.insert(0, self.runner_app_config.control_net_file)
         self.apply_to_grid(self.controlnet_file_box, sticky=W, columnspan=2)
 
         self.label_controlnet_strength = Label(self.sidebar)
-        self.add_label(self.label_controlnet_strength, "Default Control Net Strength", increment_row_counter=False)
+        self.add_label(self.label_controlnet_strength, _("Default Control Net Strength"), increment_row_counter=False)
         self.controlnet_strength_slider = Scale(self.sidebar, from_=0, to=100, orient=HORIZONTAL, command=self.set_controlnet_strength)
         self.set_widget_value(self.controlnet_strength_slider, self.runner_app_config.control_net_strength)
         self.apply_to_grid(self.controlnet_strength_slider, interior_column=1, sticky=W)
 
         self.label_ipadapter_file = Label(self.sidebar)
-        self.add_label(self.label_ipadapter_file, "IPAdapter files")
+        self.add_label(self.label_ipadapter_file, _("IPAdapter files"))
         self.ipadapter_file = StringVar()
         self.ipadapter_file_box = self.new_entry(self.ipadapter_file)
         self.ipadapter_file_box.insert(0, self.runner_app_config.ip_adapter_file)
         self.apply_to_grid(self.ipadapter_file_box, sticky=W, columnspan=2)
 
         self.label_ipadapter_strength = Label(self.sidebar)
-        self.add_label(self.label_ipadapter_strength, "Default IPAdapter Strength", increment_row_counter=False)
+        self.add_label(self.label_ipadapter_strength, _("Default IPAdapter Strength"), increment_row_counter=False)
         self.ipadapter_strength_slider = Scale(self.sidebar, from_=0, to=100, orient=HORIZONTAL, command=self.set_ipadapter_strength)
         self.set_widget_value(self.ipadapter_strength_slider, self.runner_app_config.ip_adapter_strength)
         self.apply_to_grid(self.ipadapter_strength_slider, interior_column=1, sticky=W)
 
         self.label_redo_params = Label(self.sidebar)
-        self.add_label(self.label_redo_params, "Redo Parameters", increment_row_counter=False)
+        self.add_label(self.label_redo_params, _("Redo Parameters"), increment_row_counter=False)
         self.redo_params = StringVar()
         self.redo_params_box = self.new_entry(self.redo_params, width=20)
         self.redo_params_box.insert(0, self.runner_app_config.redo_params)
@@ -309,35 +311,35 @@ class App():
         self.redo_params_box.bind("<Return>", self.set_redo_params)
 
         self.label_seed = Label(self.sidebar)
-        self.add_label(self.label_seed, "Seed", increment_row_counter=False)
+        self.add_label(self.label_seed, _("Seed"), increment_row_counter=False)
         self.seed = StringVar()
         self.seed_box = self.new_entry(self.seed, width=10)
         self.seed_box.insert(0, self.runner_app_config.seed)
         self.apply_to_grid(self.seed_box, interior_column=1, sticky=W)
 
         self.label_steps = Label(self.sidebar)
-        self.add_label(self.label_steps, "Steps", increment_row_counter=False)
+        self.add_label(self.label_steps, _("Steps"), increment_row_counter=False)
         self.steps = StringVar()
         self.steps_box = self.new_entry(self.steps, width=10)
         self.steps_box.insert(0, self.runner_app_config.steps) 
         self.apply_to_grid(self.steps_box, interior_column=1, sticky=W)
 
         self.label_cfg = Label(self.sidebar)
-        self.add_label(self.label_cfg, "CFG", increment_row_counter=False)
+        self.add_label(self.label_cfg, _("CFG"), increment_row_counter=False)
         self.cfg = StringVar()
         self.cfg_box = self.new_entry(self.cfg, width=10)
         self.cfg_box.insert(0, self.runner_app_config.cfg)
         self.apply_to_grid(self.cfg_box, interior_column=1, sticky=W)
 
         self.label_denoise = Label(self.sidebar)
-        self.add_label(self.label_denoise, "Denoise", increment_row_counter=False)
+        self.add_label(self.label_denoise, _("Denoise"), increment_row_counter=False)
         self.denoise = StringVar()
         self.denoise_box = self.new_entry(self.denoise, width=10)
         self.denoise_box.insert(0, self.runner_app_config.denoise)
         self.apply_to_grid(self.denoise_box, interior_column=1, sticky=W)
 
         self.label_random_skip = Label(self.sidebar)
-        self.add_label(self.label_random_skip, "Random Skip Chance", increment_row_counter=False)
+        self.add_label(self.label_random_skip, _("Random Skip Chance"), increment_row_counter=False)
         self.random_skip = StringVar()
         self.random_skip_box = self.new_entry(self.random_skip, width=10)
         self.random_skip_box.insert(0, self.runner_app_config.random_skip_chance)
@@ -353,10 +355,10 @@ class App():
         self.prompter_config_bar.grid(column=1, row=self.row_counter1)
 
         self.label_title_config = Label(self.prompter_config_bar)
-        self.add_label(self.label_title_config, "Prompts Configuration", column=1, columnspan=3, sticky=W+E)
+        self.add_label(self.label_title_config, _("Prompts Configuration"), column=1, columnspan=3, sticky=W+E)
 
         self.label_prompt_mode = Label(self.prompter_config_bar)
-        self.add_label(self.label_prompt_mode, "Prompt Mode", column=1, increment_row_counter=False)
+        self.add_label(self.label_prompt_mode, _("Prompt Mode"), column=1, increment_row_counter=False)
         self.prompt_mode = StringVar(master)
         starting_prompt_mode = self.runner_app_config.prompter_config.prompt_mode.name
         self.prompt_mode_choice = OptionMenu(self.prompter_config_bar, self.prompt_mode, starting_prompt_mode, *PromptMode.__members__.keys())
@@ -365,7 +367,7 @@ class App():
         prompter_config = self.runner_app_config.prompter_config
 
         self.label_concepts = Label(self.prompter_config_bar)
-        self.add_label(self.label_concepts, "Concepts", column=1)
+        self.add_label(self.label_concepts, _("Concepts"), column=1)
         self.concepts0 = StringVar(master)
         self.concepts1 = StringVar(master)
         self.concepts0_choice = OptionMenu(self.prompter_config_bar, self.concepts0, str(prompter_config.concepts[0]), *[str(i) for i in list(range(51))])
@@ -374,7 +376,7 @@ class App():
         self.apply_to_grid(self.concepts1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
         self.label_positions = Label(self.prompter_config_bar)
-        self.add_label(self.label_positions, "Positions", column=1)
+        self.add_label(self.label_positions, _("Positions"), column=1)
         self.positions0 = StringVar(master)
         self.positions1 = StringVar(master)
         self.positions0_choice = OptionMenu(self.prompter_config_bar, self.positions0, str(prompter_config.positions[0]), *[str(i) for i in list(range(51))])
@@ -383,7 +385,7 @@ class App():
         self.apply_to_grid(self.positions1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
         self.label_locations = Label(self.prompter_config_bar)
-        self.add_label(self.label_locations, "Locations", column=1)
+        self.add_label(self.label_locations, _("Locations"), column=1)
         self.locations0 = StringVar(master)
         self.locations1 = StringVar(master)
         self.locations0_choice = OptionMenu(self.prompter_config_bar, self.locations0, str(prompter_config.locations[0]), *[str(i) for i in list(range(51))])
@@ -391,12 +393,14 @@ class App():
         self.apply_to_grid(self.locations0_choice, sticky=W, interior_column=0, column=1, increment_row_counter=False)
         self.apply_to_grid(self.locations1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
-        self.specific_locations_var = BooleanVar(value=self.runner_app_config.prompter_config.specific_locations)
-        self.specific_locations_choice = Checkbutton(self.prompter_config_bar, text="Allow Specific Locations", variable=self.specific_locations_var, command=self.set_specific_locations)
-        self.apply_to_grid(self.specific_locations_choice, sticky=W, column=1, columnspan=3)
+        self.label_specific_locations = Label(self.prompter_config_bar)
+        self.add_label(self.label_specific_locations, _("Specific Locations Chance"), column=1, increment_row_counter=False)
+        self.specific_locations_slider = Scale(self.prompter_config_bar, from_=0, to=100, orient=HORIZONTAL, command=self.set_specific_locations)
+        self.set_widget_value(self.specific_locations_slider, self.runner_app_config.prompter_config.specific_locations_chance)
+        self.apply_to_grid(self.specific_locations_slider, interior_column=1, sticky=W, column=1)
 
         self.label_animals = Label(self.prompter_config_bar)
-        self.add_label(self.label_animals, "Animals", column=1)
+        self.add_label(self.label_animals, _("Animals"), column=1)
         self.animals0 = StringVar(master)
         self.animals1 = StringVar(master)
         self.animals0_choice = OptionMenu(self.prompter_config_bar, self.animals0, str(prompter_config.animals[0]), *[str(i) for i in list(range(51))])
@@ -405,7 +409,7 @@ class App():
         self.apply_to_grid(self.animals1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
         self.label_colors = Label(self.prompter_config_bar)
-        self.add_label(self.label_colors, "Colors", column=1)
+        self.add_label(self.label_colors, _("Colors"), column=1)
         self.colors0 = StringVar(master)
         self.colors1 = StringVar(master)
         self.colors0_choice = OptionMenu(self.prompter_config_bar, self.colors0, str(prompter_config.colors[0]), *[str(i) for i in list(range(51))])
@@ -414,7 +418,7 @@ class App():
         self.apply_to_grid(self.colors1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
         self.label_times = Label(self.prompter_config_bar)
-        self.add_label(self.label_times, "Times", column=1)
+        self.add_label(self.label_times, _("Times"), column=1)
         self.times0 = StringVar(master)
         self.times1 = StringVar(master)
         self.times0_choice = OptionMenu(self.prompter_config_bar, self.times0, str(prompter_config.times[0]), *[str(i) for i in list(range(51))])
@@ -423,7 +427,7 @@ class App():
         self.apply_to_grid(self.times1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
         self.label_dress = Label(self.prompter_config_bar)
-        self.add_label(self.label_dress, "Dress", column=1)
+        self.add_label(self.label_dress, _("Dress"), column=1)
         self.dress0 = StringVar(master)
         self.dress1 = StringVar(master)
         self.dress0_choice = OptionMenu(self.prompter_config_bar, self.dress0, str(prompter_config.dress[0]), *[str(i) for i in list(range(51))])
@@ -432,7 +436,7 @@ class App():
         self.apply_to_grid(self.dress1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
         self.label_expressions = Label(self.prompter_config_bar)
-        self.add_label(self.label_expressions, "Expressions", column=1)
+        self.add_label(self.label_expressions, _("Expressions"), column=1)
         self.expressions0 = StringVar(master)
         self.expressions1 = StringVar(master)
         self.expressions0_choice = OptionMenu(self.prompter_config_bar, self.expressions0, str(prompter_config.expressions[0]), *[str(i) for i in list(range(51))])
@@ -441,7 +445,7 @@ class App():
         self.apply_to_grid(self.expressions1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
         self.label_actions = Label(self.prompter_config_bar)
-        self.add_label(self.label_actions, "Actions", column=1)
+        self.add_label(self.label_actions, _("Actions"), column=1)
         self.actions0 = StringVar(master)
         self.actions1 = StringVar(master)
         self.actions0_choice = OptionMenu(self.prompter_config_bar, self.actions0, str(prompter_config.actions[0]), *[str(i) for i in list(range(51))])
@@ -450,7 +454,7 @@ class App():
         self.apply_to_grid(self.actions1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
         self.label_descriptions = Label(self.prompter_config_bar)
-        self.add_label(self.label_descriptions, "Descriptions", column=1)
+        self.add_label(self.label_descriptions, _("Descriptions"), column=1)
         self.descriptions0 = StringVar(master)
         self.descriptions1 = StringVar(master)
         self.descriptions0_choice = OptionMenu(self.prompter_config_bar, self.descriptions0, str(prompter_config.descriptions[0]), *[str(i) for i in list(range(51))])
@@ -459,7 +463,7 @@ class App():
         self.apply_to_grid(self.descriptions1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
         self.label_random_words = Label(self.prompter_config_bar)
-        self.add_label(self.label_random_words, "Random Words", column=1)
+        self.add_label(self.label_random_words, _("Random Words"), column=1)
         self.random_words0 = StringVar(master)
         self.random_words1 = StringVar(master)
         self.random_words0_choice = OptionMenu(self.prompter_config_bar, self.random_words0, str(prompter_config.random_words[0]), *[str(i) for i in list(range(51))])
@@ -468,31 +472,37 @@ class App():
         self.apply_to_grid(self.random_words1_choice, sticky=W, interior_column=1, column=1, increment_row_counter=True)
 
         self.label_specify_humans_chance = Label(self.prompter_config_bar)
-        self.add_label(self.label_specify_humans_chance, "Specify Humans Chance", column=1, increment_row_counter=False)
+        self.add_label(self.label_specify_humans_chance, _("Specify Humans Chance"), column=1, increment_row_counter=False)
         self.specify_humans_chance_slider = Scale(self.prompter_config_bar, from_=0, to=100, orient=HORIZONTAL, command=self.set_specify_humans_chance)
         self.set_widget_value(self.specify_humans_chance_slider, self.runner_app_config.prompter_config.specify_humans_chance)
         self.apply_to_grid(self.specify_humans_chance_slider, interior_column=1, sticky=W, column=1)
 
         self.label_art_style_chance = Label(self.prompter_config_bar)
-        self.add_label(self.label_art_style_chance, "Art Styles Chance", column=1, increment_row_counter=False)
+        self.add_label(self.label_art_style_chance, _("Art Styles Chance"), column=1, increment_row_counter=False)
         self.art_style_chance_slider = Scale(self.prompter_config_bar, from_=0, to=100, orient=HORIZONTAL, command=self.set_art_style_chance)
         self.set_widget_value(self.art_style_chance_slider, self.runner_app_config.prompter_config.art_styles_chance)
         self.apply_to_grid(self.art_style_chance_slider, interior_column=1, sticky=W, column=1)
 
+        self.label_emphasis_chance = Label(self.prompter_config_bar)
+        self.add_label(self.label_emphasis_chance, _("Emphasis Chance"), column=1, increment_row_counter=False)
+        self.emphasis_chance_slider = Scale(self.prompter_config_bar, from_=0, to=100, orient=HORIZONTAL, command=self.set_emphasis_chance)
+        self.set_widget_value(self.emphasis_chance_slider, self.runner_app_config.prompter_config.emphasis_chance)
+        self.apply_to_grid(self.emphasis_chance_slider, interior_column=1, sticky=W, column=1)
+
         self.auto_run_var = BooleanVar(value=True)
-        self.auto_run_choice = Checkbutton(self.prompter_config_bar, text='Auto Run', variable=self.auto_run_var)
+        self.auto_run_choice = Checkbutton(self.prompter_config_bar, text=_('Auto Run'), variable=self.auto_run_var)
         self.apply_to_grid(self.auto_run_choice, sticky=W, column=1)
 
         self.inpainting_var = BooleanVar(value=False)
-        self.inpainting_choice = Checkbutton(self.prompter_config_bar, text='Inpainting', variable=self.inpainting_var)
+        self.inpainting_choice = Checkbutton(self.prompter_config_bar, text=_('Inpainting'), variable=self.inpainting_var)
         self.apply_to_grid(self.inpainting_choice, sticky=W, column=1)
 
         self.override_negative_var = BooleanVar(value=False)
-        self.override_negative_choice = Checkbutton(self.prompter_config_bar, text="Override Base Negative", variable=self.override_negative_var, command=self.set_override_negative)
+        self.override_negative_choice = Checkbutton(self.prompter_config_bar, text=_("Override Base Negative"), variable=self.override_negative_var, command=self.set_override_negative)
         self.apply_to_grid(self.override_negative_choice, sticky=W, column=1, columnspan=3)
 
         self.tags_at_start_var = BooleanVar(value=self.runner_app_config.tags_apply_to_start)
-        self.tags_at_start_choice = Checkbutton(self.prompter_config_bar, text="Tags Applied to Prompt Start", variable=self.tags_at_start_var, command=self.set_tags_apply_to_start)
+        self.tags_at_start_choice = Checkbutton(self.prompter_config_bar, text=_("Tags Applied to Prompt Start"), variable=self.tags_at_start_var, command=self.set_tags_apply_to_start)
         self.apply_to_grid(self.tags_at_start_choice, sticky=W, column=1, columnspan=3)
 
         self.master.bind("<Control-Return>", self.run)
@@ -520,7 +530,7 @@ class App():
 
 
     def quit(self, event=None):
-        res = self.alert("Confirm Quit", "Would you like to quit the application?", kind="askokcancel")
+        res = self.alert(_("Confirm Quit"), _("Would you like to quit the application?"), kind="askokcancel")
         if res == messagebox.OK or res == True:
             print("Exiting application")
             self.on_closing()
@@ -704,8 +714,8 @@ class App():
         try:
             args.validate()
         except Exception as e:
-            res = self.alert("Confirm Run",
-                str(e) + "\n\nAre you sure you want to proceed?",
+            res = self.alert(_("Confirm Run"),
+                str(e) + "\n\n" + _("Are you sure you want to proceed?"),
                 kind="warning")
             if res != messagebox.OK:
                 return
@@ -824,7 +834,8 @@ class App():
         Globals.set_delay(delay)
 
     def set_specific_locations(self, event=None):
-        self.runner_app_config.prompter_config.specific_locations = self.specific_locations_var.get()
+        value = float(self.specific_locations_slider.get()) / 100
+        self.runner_app_config.prompter_config.specific_locations_chance = value
 
     def set_random_skip(self, event=None):
         self.runner_app_config.random_skip_chance = self.random_skip.get().strip()
@@ -837,6 +848,10 @@ class App():
     def set_art_style_chance(self, event=None):
         value = float(self.art_style_chance_slider.get()) / 100
         self.runner_app_config.prompter_config.art_styles_chance = value
+
+    def set_emphasis_chance(self, event=None):
+        value = float(self.emphasis_chance_slider.get()) / 100
+        self.runner_app_config.prompter_config.emphasis_chance = value
 
     def set_override_negative(self, event=None):
         self.runner_app_config.override_negative = self.override_negative_var.get()
@@ -942,13 +957,13 @@ class App():
 
 if __name__ == "__main__":
     try:
-        assets = os.path.join(os.path.dirname(os.path.realpath(__file__)), "assets")
+        # assets = os.path.join(os.path.dirname(os.path.realpath(__file__)), "assets")
         root = ThemedTk(theme="black", themebg="black")
-        root.title(" ComfyGen ")
+        root.title(_(" ComfyGen "))
         #root.iconbitmap(bitmap=r"icon.ico")
         # icon = PhotoImage(file=os.path.join(assets, "icon.png"))
         # root.iconphoto(False, icon)
-        root.geometry("600x950")
+        root.geometry("700x950")
         # root.attributes('-fullscreen', True)
         root.resizable(1, 1)
         root.columnconfigure(0, weight=1)
