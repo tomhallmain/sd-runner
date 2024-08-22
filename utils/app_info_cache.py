@@ -52,13 +52,18 @@ class AppInfoCache:
     def set_history(self, runner_config):
         history = self._get_history()
         if len(history) > 0 and runner_config == RunnerAppConfig.from_dict(history[0]):
-            return
+            return False
         config_dict = runner_config.to_dict()
         history.insert(0, config_dict)
         # Remove the oldest entry from history if over the limit of entries
         while len(history) >= AppInfoCache.MAX_HISTORY_ENTRIES:
             history = history[0:-1]
-    
+        return True
+
+    def get_last_history_index(self):
+        history = self._get_history()
+        return len(history) - 1
+
     def get_history(self, _idx=0):
         history = self._get_history()
         if _idx >= len(history):

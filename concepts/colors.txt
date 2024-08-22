@@ -3,7 +3,7 @@ vivid colors
 high-depth resolution
 pastels
 red
-orange
+orange-colored
 yellow
 green
 jade

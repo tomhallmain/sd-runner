@@ -117,7 +117,7 @@ class BlacklistWindow():
         if tag is not None:
             Concepts.remove_from_blacklist(tag)
             self.refresh()
-            self.toast(_("Removed tag: {}").format(tag))
+            self.toast(_("Removed tag: {0}").format(tag))
             return None
         tag = self.tag_var.get()
         return tag
@@ -132,7 +132,7 @@ class BlacklistWindow():
 
         Concepts.add_to_blacklist(tag)
         self.refresh()
-        self.toast(_("Added tag to blacklist: {}").format(tag))
+        self.toast(_("Added tag to blacklist: {0}").format(tag))
         return tag
 
     def remove_tag(self, event=None, tag=None):

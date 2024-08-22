@@ -3,8 +3,8 @@ import random
 
 from sd_runner.concepts import HardConcepts
 from utils.config import config
-from utils.globals import Sampler, Scheduler
 from sd_runner.models import Globals, IPAdapter, Model, Resolution
+from sd_runner.run_config import RunConfig
 
 RESET = "\033[m"
 GRAY = "\033[90m"
@@ -37,8 +37,9 @@ class GenConfig:
 
     def __init__(self, workflow_id=Globals.DEFAULT_WORKFLOW, n_latents=Globals.DEFAULT_N_LATENTS, positive="",
                  negative=Globals.DEFAULT_NEGATIVE_PROMPT, models=[Model(Globals.DEFAULT_MODEL)], vaes=[],
-                 control_nets=[], ip_adapters = [], loras = [], resolutions=[Resolution()], seed=None,
-                 steps=-1, cfg=-1, sampler=Sampler.ACCEPT_ANY, scheduler=Scheduler.ACCEPT_ANY, denoise=-1):
+                 control_nets=[], ip_adapters = [], loras = [], resolutions=[Resolution()],
+                 run_config = RunConfig()):
+        assert run_config is not None, "Run config must be provided"
         self.workflow_id = workflow_id
         self.n_latents = n_latents
         self.models = models
@@ -49,12 +50,12 @@ class GenConfig:
         self.negative = negative
         self.loras = loras
         self.resolutions = resolutions
-        self.seed = seed
-        self.steps = steps
-        self.cfg = cfg
-        self.sampler = sampler
-        self.scheduler = scheduler
-        self.denoise = denoise
+        self.seed = run_config.seed
+        self.steps = run_config.steps
+        self.cfg = run_config.cfg
+        self.sampler = run_config.sampler
+        self.scheduler = run_config.scheduler
+        self.denoise = run_config.denoise
 
     def is_xl(self):
         return self.models[0].is_xl

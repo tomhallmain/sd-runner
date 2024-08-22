@@ -10,6 +10,7 @@ class PromptMode(Enum):
     NSFW = "NSFW"
     NSFL = "NSFL"
     RANDOM = "RANDOM"
+    NONSENSE = "NONSENSE"
     ANY_ART = "ANY_ART"
     PAINTERLY = "PAINTERLY"
     ANIME = "ANIME"
@@ -38,6 +39,8 @@ def sample(l, low, high):
 class Concepts:
     ENGLISH_WORDS = "english_words.txt"
     TAG_BLACKLIST = []
+    ALPHABET = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
     @staticmethod
     def set_blacklist(blacklist):
@@ -64,6 +67,9 @@ class Concepts:
     def sample_whitelisted(concepts, low, high):
         # TODO technically inefficient to rebuild the whitelist each time
         # TODO blacklist concepts from the negative prompt
+        # TODO need to ensure that low is respected and since concepts are being subtracted
+        if len(concepts) == 0:
+            return []
         if len(Concepts.TAG_BLACKLIST) == 0:
             return sample(concepts, low, high)
         whitelist = []
@@ -173,6 +179,11 @@ class Concepts:
             random_word_strings.append(word_string.strip())
         return random_word_strings
 
+    def get_nonsense(self, low=0, high=2):
+        print(f"Nonsense range high: {high}")
+        nonsense_words = [self.get_nonsense_word() for _ in range(high)]
+        return Concepts.sample_whitelisted(nonsense_words, low, high)
+
     def is_art_style_prompt_mode(self):
         return self.prompt_mode in (PromptMode.ANY_ART, PromptMode.PAINTERLY, PromptMode.ANIME, PromptMode.GLITCH)
 
@@ -197,6 +208,19 @@ class Concepts:
         for i in range(len(out)):
             out[i] = append + out[i]
         return out
+
+    def get_nonsense_word(self):
+        # TODO check other language lists as well
+        length = random.randint(3, 15)
+        word = ''.join([random.choice(Concepts.ALPHABET) for i in range(length)])
+        counter = 0
+        while word in self.english_words:
+            if counter > 100:
+                print("Failed to generate a nonsense word!")
+                break
+            word = ''.join([random.choice(Concepts.ALPHABET) for i in range(length)])
+            counter += 1
+        return word
 
     @staticmethod
     def load(filename):

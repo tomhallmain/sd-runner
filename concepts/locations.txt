@@ -2,6 +2,7 @@ in a horse-drawn carriage
 abandoned warehouse
 airport
 alien world
+alley
 amusement park
 antechamber
 army base
@@ -58,6 +59,7 @@ cinema
 city center
 city hall
 city state
+cliff
 clothing store
 college
 concert hall
@@ -156,13 +158,17 @@ industrial park
 inlet
 island
 jail
+jobsite
 junkyard
 kitchen
+laser tag
 laundry room
 library
 living room
 manor
 market
+modern architectural space
+modern architectural interior
 monument
 mountains
 museum
@@ -264,7 +270,10 @@ underwater
 urban area
 small village
 fishing village
+vast open area
 veranda
+walk-in closet
 wetlands
 wild
+worksite
 zoo

@@ -12,7 +12,7 @@ class PrompterConfiguration:
     def __init__(self, prompt_mode=PromptMode.SFW, concepts_config=(1,3), positions_config=(0,2), locations_config=(0,1),
                  animals_config=(0,1,0.1), colors_config=(0,2), times_config=(0,1),
                  dress_config=(0,2,0.5), expressions=(1,1), actions=(0,2), descriptions=(0,1),
-                 random_words_config=(0,5), art_styles_chance=0.3) -> None:
+                 random_words_config=(0,5), nonsense_config=(0, 0), art_styles_chance=0.3) -> None:
         self.prompt_mode = prompt_mode
         self.concepts = concepts_config
         self.positions = positions_config
@@ -26,6 +26,7 @@ class PrompterConfiguration:
         self.actions = actions
         self.descriptions = descriptions
         self.random_words = random_words_config
+        self.nonsense = nonsense_config
         self.art_styles_chance = art_styles_chance
         self.specify_humans_chance = 0.25
         self.emphasis_chance = 0.1
@@ -45,6 +46,7 @@ class PrompterConfiguration:
             "actions": self.actions,
             "descriptions": self.descriptions,
             "random_words": self.random_words,
+            "nonsense": self.nonsense,
             "art_styles_chance": self.art_styles_chance,
             "specify_humans_chance": self.specify_humans_chance,
             "emphasis_chance": self.emphasis_chance
@@ -64,6 +66,7 @@ class PrompterConfiguration:
         self.actions = _dict['actions'] if 'actions' in _dict else self.actions
         self.descriptions = _dict['descriptions'] if 'descriptions' in _dict else self.descriptions
         self.random_words = _dict['random_words'] if 'random_words' in _dict else self.random_words
+        self.nonsense = _dict['nonsense'] if 'nonsense' in _dict else self.nonsense
         self.art_styles_chance = _dict['art_styles_chance'] if 'art_styles_chance' in _dict else self.art_styles_chance
         self.specify_humans_chance = _dict['specify_humans_chance'] if'specify_humans_chance' in  _dict else self.specify_humans_chance
         self.emphasis_chance = _dict['emphasis_chance'] if 'emphasis_chance' in _dict else self.emphasis_chance
@@ -138,7 +141,10 @@ class Prompter:
             positive = self.mix_concepts()
         elif PromptMode.RANDOM == self.prompt_mode:
             positive = self.random()
-            negative += " boring, dull"
+            negative += ", boring, dull"
+        elif PromptMode.NONSENSE == self.prompt_mode:
+            positive = self.nonsense()
+            negative += ", boring, dull"
         elif self.concepts.is_art_style_prompt_mode():
             print(positive)
             print(len(positive))
@@ -181,6 +187,11 @@ class Prompter:
         Prompter.emphasize(random_words, emphasis_chance=self.prompter_config.emphasis_chance)
         return ', '.join(random_words)
 
+    def nonsense(self):
+        nonsense = self.concepts.get_nonsense(*self.prompter_config.nonsense)
+        Prompter.emphasize(nonsense, emphasis_chance=self.prompter_config.emphasis_chance)
+        return ', '.join(nonsense)
+
     def _mix_concepts(self, humans_chance=0.25):
         mix = []
         mix.extend(self.concepts.get_concepts(*self.prompter_config.concepts))
@@ -194,6 +205,7 @@ class Prompter:
         mix.extend(self.concepts.get_actions(*self.prompter_config.actions))
         mix.extend(self.concepts.get_descriptions(*self.prompter_config.descriptions))
         mix.extend(self.concepts.get_random_words(*self.prompter_config.random_words))
+        mix.extend(self.concepts.get_nonsense(*self.prompter_config.nonsense))
         # Humans might not always be desirable so only add some randomly
         if self.prompt_mode == PromptMode.SFW:
             if random.random() < humans_chance:

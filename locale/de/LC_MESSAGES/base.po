@@ -77,7 +77,7 @@ msgstr "Negativ Stichworte"
 
 #: .\app.py:272
 msgid "B/W Colorization Tags"
-msgstr "Scwarz-Wei\u00df-F\u00e4rbung Stichworte"
+msgstr "Schwarz-Wei\u00df-F\u00e4rbung Stichworte"
 
 #: .\app.py:280
 msgid "Control Net or Redo files"
@@ -237,9 +237,6 @@ msgstr "Es wurde ein Modellwechsel erkannt und die Modell-Massage-Tags stimmen n
 
 #: .\ui\presets_window.py:151
 msgid "Invalid preset: %s"
-msgstr "Ung\u00fcltige Voreinstellung"
+msgstr "Ung\u00fcltige Voreinstellung: {0}"
 
-#: .\ui\tags_blacklist_window.py:124
-msgid "Invalid tag: %s"
-msgstr "Ung\u00fcltige Stichworte"
 

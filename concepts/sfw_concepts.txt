@@ -429,9 +429,11 @@ Big Data Analytics
 bioluminescence
 birefringence
 black hole
+black light
 black lines
 black tar and oil
 Blockchain Technology
+boxed in
 brain
 broken
 broken glass
@@ -457,6 +459,7 @@ circulatory system
 city map
 classy
 clean
+clean minimalism
 closed mouth
 color gradients
 columns
@@ -466,22 +469,26 @@ construct
 convertible with the top down
 copper etching
 coral
+cornucopia
 cow
 cracked
 cranium
 crowded
+cuneiform
 cursive
 cute
 cybersecurity
 cyborg
 dark dungeon
 deep learning
+(desktop screenshot, computer screenshot, open application windows)
 destitute
 detailed background
 die shot integrated circuitry
 diffused
 diorama
 dirty
+disassembled
 disco ball
 dog
 dragon
@@ -500,6 +507,7 @@ extraterrestrials
 extravagant
 family with kids
 fabric
+fabric folds
 fat
 felt
 (ferrofluid:0.8)
@@ -526,6 +534,7 @@ gnarled
 gold sheen
 golden ratio
 gothic
+(gothic script)
 grilled meats
 grimdark
 hairy
@@ -537,6 +546,7 @@ house party
 huge
 hypermaximalist
 illuminated manuscript
+in pieces
 industrial
 insane art
 interpolation
@@ -571,6 +581,7 @@ maze
 melted
 messy
 minimalism
+miracle
 molecular chemical bonds visualization
 molting
 moss
@@ -618,6 +629,7 @@ plants
 poor
 porous volcanic stone
 portal
+portrayal
 protein folding visualization
 pushing buttons
 pre-Raphaelite
@@ -634,10 +646,12 @@ rich
 robot
 rock face
 rococo style
+roman numerals
 royal
 ruffles
 ruined
 rule of thirds
+runes
 rusted
 satellites
 scales
@@ -645,6 +659,7 @@ sci fi
 science fiction
 screw
 scuffed
+sectioned
 shards
 sheep
 shining diamond
@@ -697,6 +712,7 @@ torus
 trapped, enclosed space
 trinket
 twisted
+UFO, alien spacecraft
 unique
 universal serial bus
 vaporwave
@@ -712,6 +728,7 @@ virus in electron microscope
 vortex
 voronoi trees
 wax figure
+(web page screenshot, modern web design, home page)
 welding sparks
 whale
 whimsical

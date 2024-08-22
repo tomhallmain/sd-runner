@@ -5,6 +5,7 @@ arms extended
 arms up
 assuming a stance
 back
+candid
 down below
 facing_away
 facing_down

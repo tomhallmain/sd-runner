@@ -17,55 +17,55 @@ msgstr ""
 
 #: .\app.py:156
 msgid "Run ComfyUI Workflows"
-msgstr ""
+msgstr "Ejecutar flujos de trabajo ComfyUI"
 
 #: .\app.py:159
 msgid "Run Workflows"
-msgstr ""
+msgstr "Ejecutar flujos de trabajo"
 
 #: .\app.py:167
 msgid "Workflow"
-msgstr ""
+msgstr "Flujo de trabajo"
 
 #: .\app.py:174
 msgid "Sampler"
-msgstr ""
+msgstr "Muestrario"
 
 #: .\app.py:180
 msgid "Scheduler"
-msgstr ""
+msgstr "Planificador"
 
 #: .\app.py:186
 msgid "Set N Latents"
-msgstr ""
+msgstr "Conjunto N Latentes"
 
 #: .\app.py:192
 msgid "Set Total"
-msgstr ""
+msgstr "Total"
 
 #: .\app.py:198
 msgid "Delay Seconds"
-msgstr ""
+msgstr "Segundos de retraso"
 
 #: .\app.py:205
 msgid "Resolutions"
-msgstr ""
+msgstr "Resoluciones"
 
 #: .\app.py:212
 msgid "Model Tags"
-msgstr ""
+msgstr "Etiquetas del modelo"
 
 #: .\app.py:227
 msgid "LoRA Tags"
-msgstr ""
+msgstr "Etiquetas LoRA"
 
 #: .\app.py:243
 msgid "Default LoRA Strength"
-msgstr ""
+msgstr "Fuerza LoRA por defecto"
 
 #: .\app.py:249
 msgid "Prompt Massage Tags"
-msgstr ""
+msgstr "Etiquetas de Prompt Masaje"
 
 #: .\app.py:257
 msgid "Positive Tags"
@@ -77,35 +77,35 @@ msgstr "Etiquetas negativas"
 
 #: .\app.py:272
 msgid "B/W Colorization Tags"
-msgstr ""
+msgstr "Etiquetas de coloración en blanco y negro"
 
 #: .\app.py:280
 msgid "Control Net or Redo files"
-msgstr ""
+msgstr "Archivos Control Net o Rehacer"
 
 #: .\app.py:287
 msgid "Default Control Net Strength"
-msgstr ""
+msgstr "Fuerza ControlNet por defecto"
 
 #: .\app.py:293
 msgid "IPAdapter files"
-msgstr ""
+msgstr "Archivos IPAdapter"
 
 #: .\app.py:300
 msgid "Default IPAdapter Strength"
-msgstr ""
+msgstr "Fuerza IPAdapter por defecto"
 
 #: .\app.py:306
 msgid "Redo Parameters"
-msgstr ""
+msgstr "Rehacer par\u00e1metros"
 
 #: .\app.py:314
 msgid "Seed"
-msgstr ""
+msgstr "Semilla"
 
 #: .\app.py:321
 msgid "Steps"
-msgstr ""
+msgstr "Pasos"
 
 #: .\app.py:328
 msgid "CFG"
@@ -113,35 +113,35 @@ msgstr "CFG"
 
 #: .\app.py:335
 msgid "Denoise"
-msgstr ""
+msgstr "Ruido de fondo"
 
 #: .\app.py:342
 msgid "Random Skip Chance"
-msgstr ""
+msgstr "Salto aleatorio Casualidad"
 
 #: .\app.py:358
 msgid "Prompts Configuration"
-msgstr ""
+msgstr "Configuraci\u00f3n de avisos"
 
 #: .\app.py:361
 msgid "Prompt Mode"
-msgstr ""
+msgstr "Modo Preguntar"
 
 #: .\app.py:370
 msgid "Concepts"
-msgstr ""
+msgstr "Conceptos"
 
 #: .\app.py:379
 msgid "Positions"
-msgstr ""
+msgstr "Puestos"
 
 #: .\app.py:388
 msgid "Locations"
-msgstr ""
+msgstr "Lugares"
 
 #: .\app.py:397
 msgid "Specific Locations Chance"
-msgstr ""
+msgstr "Lugares espec\u00edficos Probabilidad"
 
 #: .\app.py:403
 msgid "Animals"
@@ -153,23 +153,23 @@ msgstr "Colores"
 
 #: .\app.py:421
 msgid "Times"
-msgstr ""
+msgstr "Tiempos"
 
 #: .\app.py:430
 msgid "Dress"
-msgstr ""
+msgstr "Vestido"
 
 #: .\app.py:439
 msgid "Expressions"
-msgstr ""
+msgstr "Expresiones"
 
 #: .\app.py:448
 msgid "Actions"
-msgstr ""
+msgstr "Acciones"
 
 #: .\app.py:457
 msgid "Descriptions"
-msgstr ""
+msgstr "Descripciones"
 
 #: .\app.py:466
 msgid "Random Words"
@@ -177,31 +177,31 @@ msgstr "Palabras al azar"
 
 #: .\app.py:475
 msgid "Specify Humans Chance"
-msgstr ""
+msgstr "Especificar Humanos Probabilidad"
 
 #: .\app.py:481
 msgid "Art Styles Chance"
-msgstr ""
+msgstr "Estilos art\u00edsticos Probabilidad"
 
 #: .\app.py:487
 msgid "Emphasis Chance"
-msgstr ""
+msgstr "\u00c9nfasis Probabilidad"
 
 #: .\app.py:493
 msgid "Auto Run"
-msgstr ""
+msgstr "Ejecuci\u00f3n autom\u00e1tica"
 
 #: .\app.py:497
 msgid "Inpainting"
-msgstr ""
+msgstr "Pintar por dentro"
 
 #: .\app.py:501
 msgid "Override Base Negative"
-msgstr ""
+msgstr "Anular Base Negativa"
 
 #: .\app.py:505
 msgid "Tags Applied to Prompt Start"
-msgstr ""
+msgstr "Etiquetas aplicadas a Prompt Inicio"
 
 #: .\app.py:533
 msgid "Confirm Quit"
@@ -213,7 +213,7 @@ msgstr "\u00bfDesea abandonar la aplicaci\u00f3n?"
 
 #: .\app.py:717
 msgid "Confirm Run"
-msgstr ""
+msgstr "Confirmar ejecuci\u00f3n"
 
 #: .\app.py:718
 msgid "Are you sure you want to proceed?"
@@ -221,25 +221,21 @@ msgstr "\u00bfEst\u00e1s seguro de que quieres continuar?"
 
 #: .\app.py:962
 msgid " ComfyGen "
-msgstr ""
+msgstr " Generaci\u00f3n C\u00f3moda "
 
 #: .\run.py:68
 msgid "No prompter config found!"
-msgstr ""
+msgstr "No se ha encontrado ninguna configuraci\u00f3n."
 
 #: .\run.py:71
 msgid "Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"
-msgstr ""
+msgstr "Aseg\u00farese de que la configuraci\u00f3n es correcta: \u00bfrealmente desea crear m\u00e1s de 10 im\u00e1genes con la misma solicitud?"
 
 #: .\run.py:76
 msgid "A model switch was detected and the model massage tags don't match. This warning will only be shown once."
-msgstr ""
+msgstr "Se ha detectado un cambio de modelo y las etiquetas de masaje del modelo no coinciden. Esta advertencia s\u00f3lo se mostrar\u00e1 una vez."
 
 #: .\ui\presets_window.py:151
 msgid "Invalid preset: %s"
-msgstr ""
-
-#: .\ui\tags_blacklist_window.py:124
-msgid "Invalid tag: %s"
-msgstr ""
+msgstr "Preajuste no válido: {0}"
 

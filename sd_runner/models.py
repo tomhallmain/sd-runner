@@ -185,6 +185,9 @@ class Model:
     def is_sd_15(self):
         return not self.is_lora and not self.is_xl and not self.is_turbo
 
+    def get_default_lora(self):
+        return "add-detail" if self.is_sd_15() else "add-detail-xl"
+
     def get_default_vae(self):
         return Model.DEFAULT_SDXL_VAE if self.is_xl or self.is_turbo else Model.DEFAULT_SD15_VAE
 
