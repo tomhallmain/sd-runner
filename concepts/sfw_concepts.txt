@@ -52,6 +52,7 @@ cold
 colorful
 colorized old photograph
 comic book
+comic strip
 concept art
 concert poster
 corrupted pixels
@@ -74,6 +75,7 @@ dgtlv2
 diagonal axis
 digital painting
 digital camera image
+digitally altered image
 dilation
 distorted
 dna and proteins
@@ -148,6 +150,7 @@ illustration
 impressionism
 impulse noise
 infographic
+ink
 inspired
 interpolated
 inverted image
@@ -231,6 +234,7 @@ resampled image
 restored historic photograph
 retro artstyle
 retro game
+rotated image
 rotoscoped image
 rough
 rounded
@@ -549,6 +553,7 @@ illuminated manuscript
 in pieces
 industrial
 insane art
+insert
 interpolation
 interpleaded
 irregularities
@@ -586,6 +591,7 @@ molecular chemical bonds visualization
 molting
 moss
 motifs
+motivational poster
 mounted deer head on the wall
 musculoskelatal system
 museum exhibit
@@ -633,6 +639,7 @@ portrayal
 protein folding visualization
 pushing buttons
 pre-Raphaelite
+product catalog
 raining
 Raphaelite
 redshift
@@ -772,6 +779,7 @@ Street Vendor's Cart # A street food vendor's cart lit up at night.
 Bioluminescent Beach # A beach with waves glowing from bioluminescent organisms.
 Ethereal Moonlight # A serene landscape illuminated by a full moon.
 Glowing Desert Sands # The dunes of a desert shimmering in moonlight.
+spotlight
 Spotlight on a Performer # A performer on a stage bathed in a spotlight.
 Lighting of a Cathedral # A cathedral interior beautifully lit during a ceremony.
 Fire Dancers # Dancers twirling fire in the darkness of the night.

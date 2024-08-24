@@ -76,7 +76,9 @@ class Concepts:
         for concept in concepts:
             match_found = False
             for tag in Concepts.TAG_BLACKLIST:
-                if tag.lower() in concept.lower():
+                concept = concept.lower()
+                tag = tag.lower()
+                if concept.startswith(tag + " ") or concept.startswith(tag + "-") or (" " + tag) in concept:
                     print(f"Filtered concept \"{concept}\" from blacklist tag \"{tag}\"")
                     match_found = True
                     break
@@ -180,7 +182,6 @@ class Concepts:
         return random_word_strings
 
     def get_nonsense(self, low=0, high=2):
-        print(f"Nonsense range high: {high}")
         nonsense_words = [self.get_nonsense_word() for _ in range(high)]
         return Concepts.sample_whitelisted(nonsense_words, low, high)
 

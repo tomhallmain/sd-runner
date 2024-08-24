@@ -11,48 +11,41 @@ from utils.translations import I18N
 
 _ = I18N._
 
-
-# TODO technically would prefer a way to enable/disable tags in addition to only adding/removing them.
-
-
-class BlacklistWindow():
-    recent_tags = []
-    last_set_tag = None
-
-    tag_history = []
-    MAX_TAGS = 50
-
+class ConceptEditorWindow():
+    last_set_concept = None
+    concept_change_history = []
+    MAX_CONCEPTS = 50
     MAX_HEIGHT = 900
-    N_TAGS_CUTOFF = 30
+    N_CONCEPTS_CUTOFF = 30
     COL_0_WIDTH = 600
 
     @staticmethod
     def set_blacklist():
-        Concepts.set_blacklist(app_info_cache.get("tag_blacklist", default_val=[]))
+        ConceptEditorWindow.concept_change_history = app_info_cache.get("concept_changes", default_val=[])
 
     @staticmethod
-    def store_blacklist():
-        app_info_cache.set("tag_blacklist", Concepts.TAG_BLACKLIST)
+    def store_concept_changes():
+        app_info_cache.set("concept_changes", ConceptEditorWindow.concept_change_history)
 
     @staticmethod
-    def get_history_tag(start_index=0):
-        # Get a previous tag.
-        tag = None
-        for i in range(len(BlacklistWindow.tag_history)):
+    def get_history_concept_change(start_index=0):
+        # Get a previous concept.
+        concept = None
+        for i in range(len(ConceptEditorWindow.concept_change_history)):
             if i < start_index:
                 continue
-            tag = BlacklistWindow.tag_history[i]
+            concept = ConceptEditorWindow.concept_change_history[i]
             break
-        return tag
+        return concept
 
     @staticmethod
     def update_history(tag):
-        if len(BlacklistWindow.tag_history) > 0 and \
-                tag == BlacklistWindow.tag_history[0]:
+        if len(ConceptEditorWindow.concept_change_history) > 0 and \
+                tag == ConceptEditorWindow.concept_change_history[0]:
             return
-        BlacklistWindow.tag_history.insert(0, tag)
-        if len(BlacklistWindow.tag_history) > BlacklistWindow.MAX_TAGS:
-            del BlacklistWindow.tag_history[-1]
+        ConceptEditorWindow.concept_change_history.insert(0, tag)
+        if len(ConceptEditorWindow.concept_change_history) > ConceptEditorWindow.MAX_CONCEPTS:
+            del ConceptEditorWindow.concept_change_history[-1]
 
     @staticmethod
     def get_geometry(is_gui=True):
@@ -75,17 +68,17 @@ class BlacklistWindow():
         self.frame.columnconfigure(1, weight=1)
         self.frame.config(bg=AppStyle.BG_COLOR)
 
-        self.add_blacklist_widgets()
+        self.add_concept_widgets()
 
         self._label_info = Label(self.frame)
-        self.add_label(self._label_info, "Add to tag blacklist", row=0, wraplength=BlacklistWindow.COL_0_WIDTH)
-        self.add_tag_btn = None
-        self.add_btn("add_tag_btn", "Add tag", self.handle_tag, column=1)
-        self.tag_var = StringVar(self.master)
-        self.tag_entry = self.new_entry(self.tag_var)
-        self.tag_entry.grid(row=0, column=2)
-        self.clear_blacklist_btn = None
-        self.add_btn("clear_blacklist_btn", "Clear tags", self.clear_tags, column=3)
+        self.add_label(self._label_info, "Add to concepts", row=0, wraplength=ConceptEditorWindow.COL_0_WIDTH)
+        self.add_concept_btn = None
+        self.add_btn("add_concept_btn", "Add concept", self.handle_concept, column=1)
+        self.concept_var = StringVar(self.master)
+        self.concept_entry = self.new_entry(self.concept_var)
+        self.concept_entry.grid(row=0, column=2)
+        # self.clear_blacklist_btn = None
+        # self.add_btn("clear_blacklist_btn", "Clear tags", self.clear_tags, column=3)
         self.frame.after(1, lambda: self.frame.focus_force())
 
         self.master.bind("<Key>", self.filter_tags)
@@ -93,7 +86,7 @@ class BlacklistWindow():
         self.master.bind("<Escape>", self.close_windows)
         self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
 
-    def add_blacklist_widgets(self):
+    def add_concept_widgets(self):
         row = 0
         base_col = 0
         for i in range(len(self.filtered_tags)):
@@ -101,7 +94,7 @@ class BlacklistWindow():
             tag = self.filtered_tags[i]
             self._label_info = Label(self.frame)
             self.label_list.append(self._label_info)
-            self.add_label(self._label_info, str(tag), row=row, column=base_col, wraplength=BlacklistWindow.COL_0_WIDTH)
+            self.add_label(self._label_info, str(tag), row=row, column=base_col, wraplength=ConceptEditorWindow.COL_0_WIDTH)
             remove_tag_btn = Button(self.frame, text=_("Remove"))
             self.remove_tag_btn_list.append(remove_tag_btn)
             remove_tag_btn.grid(row=row, column=base_col+1)
@@ -109,39 +102,39 @@ class BlacklistWindow():
                 return self.remove_tag(event, tag)
             remove_tag_btn.bind("<Button-1>", remove_tag_handler)
 
-    def get_tag(self, tag):
+    def get_concept(self, tag):
         """
-        Add or remove a tag from the blacklist
+        Add or remove a concept from files
         """
         if tag is not None:
             Concepts.remove_from_blacklist(tag)
             self.refresh()
             self.toast(_("Removed tag: {0}").format(tag))
             return None
-        tag = self.tag_var.get()
+        tag = self.concept_var.get()
         return tag
 
-    def handle_tag(self, event=None, tag=None):
-        tag = self.get_tag(tag)
-        if tag is None:
+    def handle_concept(self, event=None, concept=None):
+        concept = self.get_concept(concept)
+        if concept is None:
             return
-        if tag.strip() == "":
+        if concept.strip() == "":
             self.close_windows()
             raise Exception("Failed to set tag for blacklist.")
 
-        Concepts.add_to_blacklist(tag)
+        Concepts.add_to_blacklist(concept)
         self.refresh()
-        self.toast(_("Added tag to blacklist: {0}").format(tag))
-        return tag
+        self.toast(_("Added tag to blacklist: {0}").format(concept))
+        return concept
 
     def remove_tag(self, event=None, tag=None):
-        tag = self.handle_tag(tag=tag)
+        tag = self.handle_concept(concept=tag)
         if tag is None:
             return
         if self.filter_text is not None and self.filter_text.strip() != "":
             print(f"Filtered by string: {self.filter_text}")
-        BlacklistWindow.update_history(tag)
-        BlacklistWindow.last_set_tag = tag
+        ConceptEditorWindow.update_history(tag)
+        ConceptEditorWindow.last_set_concept = tag
         self.close_windows()
 
     def filter_tags(self, event):
@@ -159,7 +152,7 @@ class BlacklistWindow():
                 else:  # keysym == "Up"
                     self.filtered_tags = [self.filtered_tags[-1]] + self.filtered_tags[:-1]
                 self.clear_widget_lists()
-                self.add_blacklist_widgets()
+                self.add_concept_widgets()
                 self.master.update()
             if event.keysym != "BackSpace":
                 return
@@ -199,7 +192,7 @@ class BlacklistWindow():
         The user has requested to set a tag.
         If no tags exist, call handle_tag() with tag=None to set a new tag.
         """
-        self.handle_tag()
+        self.handle_concept()
 
     def clear_tags(self, event=None):
         Concepts.TAG_BLACKLIST.clear()
@@ -219,7 +212,7 @@ class BlacklistWindow():
         if refresh_list:
             self.filtered_tags = Concepts.TAG_BLACKLIST[:]
         self.clear_widget_lists()
-        self.add_blacklist_widgets()
+        self.add_concept_widgets()
         self.master.update()
 
     def close_windows(self, event=None):

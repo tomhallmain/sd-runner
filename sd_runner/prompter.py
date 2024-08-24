@@ -167,6 +167,10 @@ class Prompter:
                     negative = Prompter.NEGATIVE_TAGS + negative
             elif not negative.endswith(Prompter.NEGATIVE_TAGS):
                 negative += ", " + Prompter.NEGATIVE_TAGS
+        if Prompter.contains_choice_set(positive):
+            positive = self.apply_choice_sets(positive)
+        if Prompter.contains_choice_set(negative):
+            negative = self.apply_choice_sets(negative)
         self.last_prompt = positive
         return (positive, negative)
 
@@ -269,6 +273,35 @@ class Prompter:
                         if random_deemphasis > 1.5:
                             deemphasis_str = "1.1"
                         mix[i] = f"({mix[i]}:{deemphasis_str})"
+
+    @staticmethod
+    def contains_choice_set(text):
+        if "[[" not in text or "]]" not in text:
+            return False
+        return re.search(r"\[\[[^\[\]]*\]\]", text) is not None
+
+    @staticmethod
+    def apply_choice_sets(text):
+        offset = 0
+        for match in re.finditer(r"\[\[[^\[\]]*\]\]", text):
+            left = text[:match.start() + offset]
+            right = text[match.end() + offset:]
+            original_len = len(match.group())
+            choice_set_str = match.group()[2:-2].split(",")
+            population = []
+            weights = []
+            for choice in choice_set_str:
+                if ":" in choice:
+                    chance_weight = float(choice[choice.rfind(":") + 1:])
+                    choice = choice[:choice.rfind(":")]
+                else:
+                    chance_weight = 1
+                population.append(choice.strip())
+                weights.append(chance_weight)
+            choice = random.choices(population=population, weights=weights, k=1)[0]
+            text = left + choice + right
+            offset += len(choice) - original_len
+        return str(text)
 
     @staticmethod
     def contains_wildcard(text):
