@@ -167,10 +167,14 @@ class Prompter:
                     negative = Prompter.NEGATIVE_TAGS + negative
             elif not negative.endswith(Prompter.NEGATIVE_TAGS):
                 negative += ", " + Prompter.NEGATIVE_TAGS
+        if Prompter.contains_expansion_var(positive):
+            positive = self.apply_expansions(positive, concepts=self.concepts)
+        if Prompter.contains_expansion_var(negative):
+            negative = self.apply_expansions(negative, concepts=self.concepts)
         if Prompter.contains_choice_set(positive):
-            positive = self.apply_choice_sets(positive)
+            positive = self.apply_choices(positive)
         if Prompter.contains_choice_set(negative):
-            negative = self.apply_choice_sets(negative)
+            negative = self.apply_choices(negative)
         self.last_prompt = positive
         return (positive, negative)
 
@@ -281,7 +285,7 @@ class Prompter:
         return re.search(r"\[\[[^\[\]]*\]\]", text) is not None
 
     @staticmethod
-    def apply_choice_sets(text):
+    def apply_choices(text):
         offset = 0
         for match in re.finditer(r"\[\[[^\[\]]*\]\]", text):
             left = text[:match.start() + offset]
@@ -304,21 +308,30 @@ class Prompter:
         return str(text)
 
     @staticmethod
-    def contains_wildcard(text):
-        if "*" in text or "?" in text:
-            return True
-        if re.search(r"(\$)[A-Za-z0-9]+|(\$)?\{[A-Za-z0-9]+\}", text):
+    def _expansion_var_pattern(from_ui=False):
+        if from_ui:
+            return r"(\$)[A-Za-z_]+|(\$)?\{[A-Za-z_]+\}"
+        else:
+            return r"(\$)(\$)?[A-Za-z_]+|(\$)?\{[A-Za-z_]+\}"
+
+    @staticmethod
+    def contains_expansion_var(text, from_ui=False):
+        # if "*" in text or "?" in text:
+        #     return True
+        if re.search(Prompter._expansion_var_pattern(from_ui), text):
             return True
         return False
 
     @staticmethod
-    def apply_wildcards(text):
+    def apply_expansions(text, from_ui=False, concepts=None):
 #        text += " ${}"
         offset = 0
-        for match in re.finditer(r"(\$)[A-Za-z]+|(\$)?\{[A-Za-z]+\}", text):
+        for match in re.finditer(Prompter._expansion_var_pattern(from_ui), text):
             left = text[:match.start() + offset]
             right = text[match.end() + offset:]
             name = match.group().lower()
+            if from_ui and name[0] == "$" and match.start() > 0 and text[match.start()-1] == "$":
+                continue
             original_length = len(name)
             if "$" in name:
                 name = name.replace("$", "")
@@ -326,33 +339,43 @@ class Prompter:
                 name = name.replace("{", "")
             if "}" in name:
                 name = name.replace("}", "")
-            if name not in config.wildcards:
+            replacement = None
+            if name in config.wildcards:
+                replacement = config.wildcards[name]
+            elif name == "random" and len(config.wildcards) > 0:
+                name = random.choice(list(config.wildcards))
+                replacement = config.wildcards[name]
+                print(f"Using random prompt replacement ID: {name}")
+            elif concepts is not None:
+                if name == "actions":
+                    replacement = random.choice(concepts.get_actions(low=1, high=1))
+                elif name == "concepts":
+                    replacement = random.choice(concepts.get_concepts(low=1, high=1))
+                elif name == "dress":
+                    replacement = random.choice(concepts.get_dress(low=1, high=1))
+                elif name == "times":
+                    replacement = random.choice(concepts.get_times(low=1, high=1))
+                elif name == "expressions":
+                    replacement = random.choice(concepts.get_expressions(low=1, high=1))
+                elif name == "animals":
+                    replacement = random.choice(concepts.get_animals(low=1, high=1))
+                elif name == "descriptions":
+                    replacement = random.choice(concepts.get_descriptions(low=1, high=1))
+                elif name == "random_word":
+                    replacement = random.choice(concepts.get_random_words(low=1, high=1))
+                elif name == "nonsense":
+                    replacement = random.choice(concepts.get_nonsense(low=1, high=1))
+                elif name == "colors":
+                    replacement = random.choice(concepts.get_colors(low=1, high=1))
+                elif name == "locations":
+                    replacement = random.choice(concepts.get_locations(low=1, high=1))
+                elif name == "humans":
+                    replacement = random.choice(concepts.get_humans(low=1, high=1))
+                elif name == "positions":
+                    replacement = random.choice(concepts.get_positions(low=1, high=1))
+            if replacement is None:
                 print(f"Invalid prompt replacement ID: \"{name}\"")
                 continue
-            if name == "random":
-                name = random.choice(list(config.wildcards))
-                print(f"Using random prompt replacement ID: {name}")
-            replacement = config.wildcards[name]
-            text = left + replacement + right
-            offset += len(replacement) - original_length
-        for match in re.finditer(r"(\$)[0-9]+|(\$)?\{[0-9]+\}", text):
-            left = text[:match.start() + offset]
-            right = text[match.end() + offset:]
-            name = match.group().lower()
-            original_length = len(name)
-            if "$" in name:
-                name = name.replace("$", "")
-            if "{" in name:
-                name = name.replace("{", "")
-            if "}" in name:
-                name = name.replace("}", "")
-            if name not in config.wildcards:
-                print(f"Invalid prompt replacement ID: \"{name}\"")
-                continue
-            if name == "random":
-                name = random.choice(list(config.wildcards))
-                print(f"Using random prompt replacement ID: {name}")
-            replacement = config.wildcards[name]
             text = left + replacement + right
             offset += len(replacement) - original_length
         return str(text)

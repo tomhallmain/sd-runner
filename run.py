@@ -21,18 +21,15 @@ prompt_list = [
 ]
 
 
-
-
 class Run:
-    def __init__(self, args):
+    def __init__(self, args, progress_callback=None):
         self.is_cancelled = False
         self.args = args
         self.prompter_config = args.prompter_config
         self.editing = False
         self.switching_params = False
         self.last_config = None
-
-    # TODO change this into a class and add boolean is_cancelled to disable while a run is happening
+        self.progress_callback = progress_callback
 
     def run(self, config, comfy_gen, original_positive, original_negative):
         prompter = Globals.PROMPTER
@@ -111,17 +108,22 @@ class Run:
         count = 0
 
         try:
-            while True:
+            while not self.is_cancelled:
                 self.run(config, comfy_gen, positive_prompt, negative_prompt)
                 if self.last_config is None:
                     return
                 count += 1
                 if self.args.total:
-                    if count == self.args.total:
+                    if self.args.total > -1 and count == self.args.total:
                         print(f"Reached maximum requested iterations: {self.args.total}")
                         return
                     else:
-                        print(f"On iteration {count} of {self.args.total} - continuing.")
+                        if self.args.total == -1:
+                            print("Running until cancelled or total iterations reached")
+                        else:
+                            print(f"On iteration {count} of {self.args.total} - continuing.")
+                        if self.progress_callback is not None:
+                            self.progress_callback(count, self.args.total)
                 if self.args.auto_run:
                     # TODO websocket would be better here to ensure all have finished before starting new gen
                     sleep_time = config.maximum_gens()
@@ -146,6 +148,8 @@ class Run:
 
         workflow_tags = self.args.redo_files.split(",") if self.args.redo_files else self.args.workflow_tag.split(",")
         for workflow_tag in workflow_tags:
+            if self.is_cancelled:
+                break
             workflow = WorkflowPrompt.setup_workflow(workflow_tag, control_nets, ip_adapters)
             try:
                 self.do_workflow(workflow, positive_prompt, negative_prompt, control_nets, ip_adapters)
@@ -162,11 +166,18 @@ class Run:
         control_nets, is_dir = get_control_nets(split(self.args.control_nets, ",") if self.args.control_nets and self.args.control_nets != "" else None)
         if is_dir:
             for i in range(len(control_nets)):
+                if self.is_cancelled:
+                    break
                 control_net = control_nets[i]
                 print(f"Running control net {i} - {control_net}")
                 self.load_and_run([control_net])
         else:
             self.load_and_run(control_nets)
+
+    def cancel(self):
+        print("Canceling...")
+        self.is_cancelled = True
+        # TODO send cancel/delete call to ComfyUI for all previously started prompts
 
 def main(args):
     run = Run(args)

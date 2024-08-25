@@ -27,4 +27,15 @@ man
 woman
 child
 multiple people
+group of people
 different people
+1boy
+1girl
+2girls
+2boys
+1girl 2boys
+1boy 2girls
+2girls 2boys
+3girls
+3boys
+

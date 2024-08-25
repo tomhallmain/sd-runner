@@ -115,8 +115,8 @@ class Concepts:
             del positions[1]
         return Concepts.sample_whitelisted(positions, low, high)
 
-    def get_humans(self):
-        return Concepts.sample_whitelisted(Concepts.load(SFW.humans), 1, 1)
+    def get_humans(self, low=1, high=1):
+        return Concepts.sample_whitelisted(Concepts.load(SFW.humans), low, high)
 
     def get_animals(self, low=0, high=2, inclusion_chance=0.1):
         if random.random() > inclusion_chance:

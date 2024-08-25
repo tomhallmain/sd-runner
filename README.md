@@ -14,7 +14,7 @@ This code is primarily a custom UI to trigger ComfyUI workflows using presets an
 
 ## Prompt Syntax
 
-Preset variables can be defined in the config to expand into full prompt text. To access these in the prompt UI, append $ or surround them with curly braces, and upon running the prompt the expansion will occur:
+Preset variables can be defined in the config to expand into full prompt text. To access these in the prompt UI, preend $ or surround them with curly braces, and upon running the prompt the expansion will occur in the UI, overwriting the original prompt.
 
 `"this is my $promptvar"` -> `"this is my expanded prompt text from promptvar"`
 

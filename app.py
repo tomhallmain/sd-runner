@@ -11,7 +11,7 @@ from tkinter.ttk import Button, Entry, OptionMenu, Progressbar, Scale
 from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
-from run import main
+from run import Run
 from utils.globals import Globals, WorkflowType, Sampler, Scheduler
 
 from extensions.sd_runner_server import SDRunnerServer
@@ -118,6 +118,7 @@ class App():
         self.server = self.setup_server()
         self.runner_app_config = self.load_info_cache()
         self.config_history_index = 0
+        self.current_run = Run(RunConfig())
         Model.load_all()
 
         # Sidebar
@@ -131,10 +132,10 @@ class App():
 
         self.run_btn = None
         self.add_button("run_btn", _("Run Workflows"), self.run)
-        self.master.bind("<Shift-R>", self.run)
 
-        # self.toggle_theme_btn = None
-        # self.add_button("toggle_theme_btn", "Toggle theme", self.toggle_theme)
+        self.cancel_btn = Button(self.sidebar, text=_("Cancel Run"), command=self.cancel)
+        self.label_progress = Label(self.sidebar)
+        self.add_label(self.label_progress, "", sticky=None)
 
         # TODO multiselect
         self.label_workflows = Label(self.sidebar)
@@ -143,18 +144,6 @@ class App():
         self.workflows_choice = OptionMenu(self.sidebar, self.workflow, self.runner_app_config.workflow_type,
                                            *WorkflowType.__members__.keys(), command=self.set_workflow_type)
         self.apply_to_grid(self.workflows_choice, interior_column=1, sticky=W)
-
-        self.label_sampler = Label(self.sidebar)
-        self.add_label(self.label_sampler, _("Sampler"), increment_row_counter=False)
-        self.sampler = StringVar(master)
-        self.sampler_choice = OptionMenu(self.sidebar, self.sampler, str(self.runner_app_config.sampler), *Sampler.__members__.keys())
-        self.apply_to_grid(self.sampler_choice, interior_column=1, sticky=W)
-
-        self.label_scheduler = Label(self.sidebar)
-        self.add_label(self.label_scheduler, _("Scheduler"), increment_row_counter=False)
-        self.scheduler = StringVar(master)
-        self.scheduler_choice = OptionMenu(self.sidebar, self.scheduler, str(self.runner_app_config.scheduler), *Scheduler.__members__.keys())
-        self.apply_to_grid(self.scheduler_choice, interior_column=1, sticky=W)
 
         self.label_n_latents = Label(self.sidebar)
         self.add_label(self.label_n_latents, _("Set N Latents"), increment_row_counter=False)
@@ -165,13 +154,15 @@ class App():
         self.label_total = Label(self.sidebar)
         self.add_label(self.label_total, _("Set Total"), increment_row_counter=False)
         self.total = StringVar(master)
-        self.total_choice = OptionMenu(self.sidebar, self.total, str(self.runner_app_config.total), *[str(i) for i in list(range(101))])
+        total_options = [str(i) for i in list(range(-1, 101))]
+        total_options.remove('0')
+        self.total_choice = OptionMenu(self.sidebar, self.total, str(self.runner_app_config.total), *total_options)
         self.apply_to_grid(self.total_choice, interior_column=1, sticky=W)
 
         self.label_delay = Label(self.sidebar)
         self.add_label(self.label_delay, _("Delay Seconds"), increment_row_counter=False)
         self.delay = StringVar(master)
-        self.delay_choice = OptionMenu(self.sidebar, self.delay, str(Globals.GENERATION_DELAY_TIME_SECONDS), *[str(i) for i in list(range(101))], command=self.set_delay)
+        self.delay_choice = OptionMenu(self.sidebar, self.delay, str(self.runner_app_config.delay_time_seconds), *[str(i) for i in list(range(101))], command=self.set_delay)
         self.apply_to_grid(self.delay_choice, interior_column=1, sticky=W)
         self.delay_choice.bind("<Return>", self.set_random_skip)
 
@@ -229,7 +220,7 @@ class App():
 
         self.label_positive_tags = Label(self.sidebar)
         self.add_label(self.label_positive_tags, _("Positive Tags"), columnspan=2)
-        self.positive_tags_box = Text(self.sidebar, height=6, width=55, font=fnt.Font(size=8))
+        self.positive_tags_box = Text(self.sidebar, height=10, width=55, font=fnt.Font(size=8))
         self.positive_tags_box.insert("0.0", self.runner_app_config.positive_tags)
         self.apply_to_grid(self.positive_tags_box, sticky=W, columnspan=2)
         self.positive_tags_box.bind("<Return>", self.set_positive_tags)
@@ -237,7 +228,7 @@ class App():
         self.label_negative_tags = Label(self.sidebar)
         self.add_label(self.label_negative_tags, _("Negative Tags"), columnspan=2)
         self.negative_tags = StringVar()
-        self.negative_tags_box = Text(self.sidebar, height=3, width=55, font=fnt.Font(size=8))
+        self.negative_tags_box = Text(self.sidebar, height=5, width=55, font=fnt.Font(size=8))
         self.negative_tags_box.insert("0.0", self.runner_app_config.negative_tags)
         self.apply_to_grid(self.negative_tags_box, sticky=W, columnspan=2)
         self.negative_tags_box.bind("<Return>", self.set_negative_tags)
@@ -284,42 +275,6 @@ class App():
         self.apply_to_grid(self.redo_params_box, interior_column=1, sticky=W)
         self.redo_params_box.bind("<Return>", self.set_redo_params)
 
-        self.label_seed = Label(self.sidebar)
-        self.add_label(self.label_seed, _("Seed"), increment_row_counter=False)
-        self.seed = StringVar()
-        self.seed_box = self.new_entry(self.seed, width=10)
-        self.seed_box.insert(0, self.runner_app_config.seed)
-        self.apply_to_grid(self.seed_box, interior_column=1, sticky=W)
-
-        self.label_steps = Label(self.sidebar)
-        self.add_label(self.label_steps, _("Steps"), increment_row_counter=False)
-        self.steps = StringVar()
-        self.steps_box = self.new_entry(self.steps, width=10)
-        self.steps_box.insert(0, self.runner_app_config.steps) 
-        self.apply_to_grid(self.steps_box, interior_column=1, sticky=W)
-
-        self.label_cfg = Label(self.sidebar)
-        self.add_label(self.label_cfg, _("CFG"), increment_row_counter=False)
-        self.cfg = StringVar()
-        self.cfg_box = self.new_entry(self.cfg, width=10)
-        self.cfg_box.insert(0, self.runner_app_config.cfg)
-        self.apply_to_grid(self.cfg_box, interior_column=1, sticky=W)
-
-        self.label_denoise = Label(self.sidebar)
-        self.add_label(self.label_denoise, _("Denoise"), increment_row_counter=False)
-        self.denoise = StringVar()
-        self.denoise_box = self.new_entry(self.denoise, width=10)
-        self.denoise_box.insert(0, self.runner_app_config.denoise)
-        self.apply_to_grid(self.denoise_box, interior_column=1, sticky=W)
-
-        self.label_random_skip = Label(self.sidebar)
-        self.add_label(self.label_random_skip, _("Random Skip Chance"), increment_row_counter=False)
-        self.random_skip = StringVar()
-        self.random_skip_box = self.new_entry(self.random_skip, width=10)
-        self.random_skip_box.insert(0, self.runner_app_config.random_skip_chance)
-        self.apply_to_grid(self.random_skip_box, interior_column=1, sticky=W)
-        self.random_skip_box.bind("<Return>", self.set_random_skip)
-
         # Prompter Config
         self.row_counter1 = 0
         self.prompter_config_bar = Sidebar(self.master)
@@ -327,6 +282,54 @@ class App():
         self.prompter_config_bar.columnconfigure(1, weight=1)
         self.prompter_config_bar.columnconfigure(2, weight=1)
         self.prompter_config_bar.grid(column=1, row=self.row_counter1)
+
+        self.label_sampler = Label(self.prompter_config_bar)
+        self.add_label(self.label_sampler, _("Sampler"), increment_row_counter=False)
+        self.sampler = StringVar(master)
+        self.sampler_choice = OptionMenu(self.prompter_config_bar, self.sampler, str(self.runner_app_config.sampler), *Sampler.__members__.keys())
+        self.apply_to_grid(self.sampler_choice, interior_column=1, sticky=W)
+
+        self.label_scheduler = Label(self.prompter_config_bar)
+        self.add_label(self.label_scheduler, _("Scheduler"), increment_row_counter=False)
+        self.scheduler = StringVar(master)
+        self.scheduler_choice = OptionMenu(self.prompter_config_bar, self.scheduler, str(self.runner_app_config.scheduler), *Scheduler.__members__.keys())
+        self.apply_to_grid(self.scheduler_choice, interior_column=1, sticky=W)
+
+        self.label_seed = Label(self.prompter_config_bar)
+        self.add_label(self.label_seed, _("Seed"), increment_row_counter=False)
+        self.seed = StringVar()
+        self.seed_box = self.new_entry(self.seed, width=10, sidebar=False)
+        self.seed_box.insert(0, self.runner_app_config.seed)
+        self.apply_to_grid(self.seed_box, interior_column=1, sticky=W)
+
+        self.label_steps = Label(self.prompter_config_bar)
+        self.add_label(self.label_steps, _("Steps"), increment_row_counter=False)
+        self.steps = StringVar()
+        self.steps_box = self.new_entry(self.steps, width=10, sidebar=False)
+        self.steps_box.insert(0, self.runner_app_config.steps) 
+        self.apply_to_grid(self.steps_box, interior_column=1, sticky=W)
+
+        self.label_cfg = Label(self.prompter_config_bar)
+        self.add_label(self.label_cfg, _("CFG"), increment_row_counter=False)
+        self.cfg = StringVar()
+        self.cfg_box = self.new_entry(self.cfg, width=10, sidebar=False)
+        self.cfg_box.insert(0, self.runner_app_config.cfg)
+        self.apply_to_grid(self.cfg_box, interior_column=1, sticky=W)
+
+        self.label_denoise = Label(self.prompter_config_bar)
+        self.add_label(self.label_denoise, _("Denoise"), increment_row_counter=False)
+        self.denoise = StringVar()
+        self.denoise_box = self.new_entry(self.denoise, width=10, sidebar=False)
+        self.denoise_box.insert(0, self.runner_app_config.denoise)
+        self.apply_to_grid(self.denoise_box, interior_column=1, sticky=W)
+
+        self.label_random_skip = Label(self.prompter_config_bar)
+        self.add_label(self.label_random_skip, _("Random Skip Chance"), increment_row_counter=False)
+        self.random_skip = StringVar()
+        self.random_skip_box = self.new_entry(self.random_skip, width=10, sidebar=False)
+        self.random_skip_box.insert(0, self.runner_app_config.random_skip_chance)
+        self.apply_to_grid(self.random_skip_box, interior_column=1, sticky=W)
+        self.random_skip_box.bind("<Return>", self.set_random_skip)
 
         self.label_title_config = Label(self.prompter_config_bar)
         self.add_label(self.label_title_config, _("Prompts Configuration"), column=1, columnspan=3, sticky=W+E)
@@ -492,6 +495,7 @@ class App():
         self.add_button("tag_blacklist_btn", text=_("Tag Blacklist"), command=self.show_tag_blacklist, sidebar=False)
 
         self.master.bind("<Control-Return>", self.run)
+        self.master.bind("<Shift-R>", self.run)
         self.master.bind("<Prior>", lambda event: self.one_config_away(change=1))
         self.master.bind("<Next>", lambda event: self.one_config_away(change=-1))
         self.master.bind("<Home>", lambda event: self.first_config())
@@ -602,6 +606,9 @@ class App():
     def set_widget_value(self, widget, value):
         if isinstance(widget, Scale):
             widget.set(float(value) * 100)
+        elif isinstance(widget, Text):
+            widget.delete("0.0", "end")
+            widget.insert("0.0", str(value))
         else:
             widget.delete(0, "end")
             widget.insert(0, value)
@@ -619,10 +626,8 @@ class App():
         if self.runner_app_config.lora_tags is not None and self.runner_app_config.lora_tags!= "":
             self.set_widget_value(self.lora_tags_box, self.runner_app_config.lora_tags)
         self.set_widget_value(self.prompt_massage_tags_box, self.runner_app_config.prompt_massage_tags)
-        self.positive_tags_box.delete("0.0", "end")
-        self.positive_tags_box.insert("0.0", self.runner_app_config.positive_tags)
-        self.negative_tags_box.delete("0.0", "end")
-        self.negative_tags_box.insert("0.0", self.runner_app_config.negative_tags)
+        self.set_widget_value(self.positive_tags_box, self.runner_app_config.positive_tags)
+        self.set_widget_value(self.negative_tags_box, self.runner_app_config.negative_tags)
         self.set_widget_value(self.bw_colorization_box, self.runner_app_config.b_w_colorization)
         self.set_widget_value(self.lora_strength_slider, self.runner_app_config.lora_strength)
         self.set_widget_value(self.controlnet_file_box, self.runner_app_config.control_net_file)
@@ -631,7 +636,6 @@ class App():
         self.set_widget_value(self.ipadapter_strength_slider, self.runner_app_config.ip_adapter_strength)
         self.set_widget_value(self.redo_params_box, self.runner_app_config.redo_params)
         self.set_widget_value(self.random_skip_box, self.runner_app_config.random_skip_chance)
-        self.random_skip_box.insert(0, self.runner_app_config.random_skip_chance)
 
         # Prompter Config
         prompter_config = self.runner_app_config.prompter_config
@@ -640,6 +644,7 @@ class App():
         self.scheduler.set(str(self.runner_app_config.scheduler))
         self.n_latents.set(str(self.runner_app_config.n_latents))
         self.total.set(str(self.runner_app_config.total))
+        self.delay.set(str(self.runner_app_config.delay_time_seconds))
         self.concepts0.set(str(prompter_config.concepts[0]))
         self.concepts1.set(str(prompter_config.concepts[1]))
         self.positions0.set(str(prompter_config.positions[0]))
@@ -754,7 +759,10 @@ class App():
             self.progress_bar = Progressbar(self.sidebar, orient=HORIZONTAL, length=100, mode='indeterminate')
             self.progress_bar.grid(row=1, column=1)
             self.progress_bar.start()
-            main(args)
+            self.cancel_btn.grid(row=2, column=1)
+            self.current_run = Run(args, progress_callback=self.update_progress)
+            self.current_run.execute()
+            self.cancel_btn.grid_forget()
             self.destroy_progress_bar()
             self.job_queue.job_running = False
             next_job_args = self.job_queue.take()
@@ -767,6 +775,15 @@ class App():
             self.runner_app_config.set_from_run_config(args_copy)
             start_thread(run_async, use_asyncio=False, args=[args])
 
+    def cancel(self, event=None):
+        self.current_run.cancel()
+
+    def update_progress(self, current_index, total):
+        if total == -1:
+            self.label_progress["text"] = str(current_index + 1) + _(" (unlimited)")
+        else:
+            self.label_progress["text"] = str(current_index + 1) + "/" + str(total)
+        self.master.update()
 
     def server_run_callback(self, workflow_type, args):
         if workflow_type is not None:
@@ -891,8 +908,8 @@ class App():
         Prompter.set_tags_apply_to_start(self.runner_app_config.tags_apply_to_start)
 
     def apply_wildcards(self, text, positive=False):
-        if Prompter.contains_wildcard(text):
-            text = Prompter.apply_wildcards(text)
+        if Prompter.contains_expansion_var(text, from_ui=True):
+            text = Prompter.apply_expansions(text, from_ui=True)
             if positive:
                 self.positive_tags_box.delete("0.0", END)
                 self.positive_tags_box.insert("0.0", text)
@@ -983,8 +1000,9 @@ class App():
             button
             self.apply_to_grid(button, column=(0 if sidebar else 1))
 
-    def new_entry(self, text_variable, text="", width=55, **kw):
-        return Entry(self.sidebar, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
+    def new_entry(self, text_variable, text="", width=55, sidebar=True, **kw):
+        master = self.sidebar if sidebar else self.prompter_config_bar
+        return Entry(master, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
 
     def destroy_grid_element(self, element_ref_name):
         element = getattr(self, element_ref_name)

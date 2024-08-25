@@ -28,6 +28,7 @@ class RunnerAppConfig:
         self.ip_adapter_strength = str(Globals.DEFAULT_IPADAPTER_STRENGTH)
         self.redo_params = "models,resolutions,seed,n_latents"
         self.random_skip_chance = str(ComfyGen.RANDOM_SKIP_CHANCE)
+        self.delay_time_seconds = str(Globals.GENERATION_DELAY_TIME_SECONDS)
 
         self.sampler = Sampler.ACCEPT_ANY.name
         self.scheduler = Scheduler.ACCEPT_ANY.name
@@ -66,6 +67,8 @@ class RunnerAppConfig:
         app_config.__dict__ = deepcopy(_dict)
         if not hasattr(app_config, 'tags_apply_to_start'):
             app_config.tags_apply_to_start = True
+        if not hasattr(app_config, 'delay_time_seconds'):
+            app_config.delay_time_seconds = 10
         if not isinstance(app_config.prompter_config, dict):
             raise Exception("Prompter config is not a dict")
         prompter_config_dict = deepcopy(app_config.prompter_config)
