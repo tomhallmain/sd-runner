@@ -704,6 +704,7 @@ class App():
         self.store_info_cache()
         if self.current_run.is_infinite():
             self.current_run.cancel()
+        self.set_delay()
         args = RunConfig()
         args.auto_run = self.auto_run_var.get()
         args.inpainting = self.inpainting_var.get()
@@ -794,14 +795,22 @@ class App():
         else:
             print("Rerunning from server request with last settings.")
         if len(args) > 0:
-            file = args[0].replace(",", "\\,")
-            print(file)
-            if workflow_type in [WorkflowType.CONTROLNET, WorkflowType.RENOISER, WorkflowType.REDO_PROMPT]:
-                self.controlnet_file.set(file)
-            elif workflow_type == WorkflowType.IP_ADAPTER:
-                self.ipadapter_file.set(file)
-            else:
-                print(f"Unhandled workflow type for server connection: {workflow_type}")
+            if "image" in args:
+                image_path = args["image"].replace(",", "\\,")
+                print(image_path)
+                if workflow_type in [WorkflowType.CONTROLNET, WorkflowType.RENOISER, WorkflowType.REDO_PROMPT]:
+                    if "append" in args and args["append"] and self.controlnet_file.get().strip() != "":
+                        self.controlnet_file.set(self.controlnet_file.get() + "," + image_path)
+                    else:
+                        self.controlnet_file.set(image_path)
+                elif workflow_type == WorkflowType.IP_ADAPTER:
+                    if "append" in args and args["append"] and self.ipadapter_file.get().strip() != "":
+                        self.ipadapter_file.set(self.ipadapter_file.get() + "," + image_path)
+                    else:
+                        self.ipadapter_file.set(image_path)
+                else:
+                    print(f"Unhandled workflow type for server connection: {workflow_type}")
+                
             self.master.update()
         self.run()
         return {} # Empty error object for confirmation

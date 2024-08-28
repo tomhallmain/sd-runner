@@ -3,7 +3,7 @@ import random
 
 from sd_runner.concepts import HardConcepts
 from utils.config import config
-from sd_runner.models import Globals, IPAdapter, Model, Resolution
+from sd_runner.models import Globals, IPAdapter, Model, Resolution, WorkflowType
 from sd_runner.run_config import RunConfig
 
 RESET = "\033[m"
@@ -155,7 +155,11 @@ class GenConfig:
         n_models = len(self.models) if len(self.models) > 0 else 1
         n_vaes = len(self.vaes) if len(self.vaes) > 0 else 1
         n_loras = len(self.loras) if len(self.loras) > 0 else 1
-        if self.workflow_id in ["instant_lora.json", "ip_adapter.json"]:
+        if self.workflow_id in [
+            WorkflowType.INSTANT_LORA,
+            WorkflowType.IP_ADAPTER,
+            WorkflowType.CONTROLNET
+            ]:
             n_control_nets = len(self.control_nets) if len(self.control_nets) > 0 else 1
             n_ip_adapters = len(self.ip_adapters) if len(self.ip_adapters) > 0 else 1
             return n_resolutions * n_models * n_vaes * n_loras * n_control_nets * n_ip_adapters * self.n_latents

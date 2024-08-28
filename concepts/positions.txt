@@ -42,12 +42,16 @@ model pose
 nodding off
 on tiptoes
 quarter turn
+POV hands
+POV legs
+POV feet
 profile posing
 reaching down
 reaching up
 reclining
 rolling over
 side profile
+sitting around, casual
 sitting back
 sitting up
 sitting
@@ -113,6 +117,7 @@ Wide Angle View
 Worm's Eye View
 (view from far above)
 (view from far away)
+(view through a window)
 
 360 vr lens
 Blurry lens

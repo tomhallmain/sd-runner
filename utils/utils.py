@@ -138,8 +138,9 @@ def split(string, delimiter=","):
                 i = -1
             elif i != 0 and string[i-1] == "\\":
                 string = string[:i-1] + delimiter + string[i+1:]
+        elif i == len(string) - 1:
+            parts.append(string[:i+1])
         i += 1
-    print("Parts: " + str(parts))
     if len(parts) == 0 and len(string) != 0:
         parts.append(string)
     return parts

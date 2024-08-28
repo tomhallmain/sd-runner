@@ -187,6 +187,8 @@ median filtering
 melancholy
 mid-tones
 mind map
+mirror
+mirrors
 moiré pattern
 monochrome
 motion blur
@@ -220,7 +222,6 @@ pointy
 polaroid
 polished
 poster
-pov hands
 print art
 print screen image
 radar
@@ -269,6 +270,7 @@ stripes
 studio photography
 suitable for various media
 sunny
+superimposed images
 surrealism
 tapestry
 tentacles and creatures
@@ -642,6 +644,7 @@ pre-Raphaelite
 product catalog
 raining
 Raphaelite
+rebar
 redshift
 reflecting
 reflections
@@ -746,6 +749,7 @@ wires
 wire sculpture
 woman
 wormhole
+wreckage
 wuxia
 young boy
 young girl
