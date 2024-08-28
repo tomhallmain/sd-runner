@@ -184,7 +184,7 @@ class App():
                                                matchesFunction=matches_tag,
                                                setFunction=set_tag,
                                                width=55, font=fnt.Font(size=8))
-        self.model_tags_box.bind("<Return>", self.set_prompt_massage_tags_box_from_model_tags)
+        self.model_tags_box.bind("<Return>", self.set_model_dependent_fields)
         self.model_tags_box.insert(0, self.runner_app_config.model_tags)
         self.apply_to_grid(self.model_tags_box, sticky=W, columnspan=2)
 
@@ -702,6 +702,8 @@ class App():
 
     def run(self, event=None):
         self.store_info_cache()
+        if self.current_run.is_infinite():
+            self.current_run.cancel()
         args = RunConfig()
         args.auto_run = self.auto_run_var.get()
         args.inpainting = self.inpainting_var.get()
@@ -780,9 +782,9 @@ class App():
 
     def update_progress(self, current_index, total):
         if total == -1:
-            self.label_progress["text"] = str(current_index + 1) + _(" (unlimited)")
+            self.label_progress["text"] = str(current_index) + _(" (unlimited)")
         else:
-            self.label_progress["text"] = str(current_index + 1) + "/" + str(total)
+            self.label_progress["text"] = str(current_index) + "/" + str(total)
         self.master.update()
 
     def server_run_callback(self, workflow_type, args):
@@ -819,7 +821,7 @@ class App():
         self.runner_app_config.prompter_config.random_words = (int(self.random_words0.get()), int(self.random_words1.get()))
         self.runner_app_config.prompter_config.nonsense = (int(self.nonsense0.get()), int(self.nonsense1.get()))
 
-    def set_prompt_massage_tags_box_from_model_tags(self, event=None, model_tags=None, inpainting=None):
+    def set_model_dependent_fields(self, event=None, model_tags=None, inpainting=None):
         Model.set_model_presets(PromptMode[self.prompt_mode.get()])
         if model_tags is None:
             model_tags = self.model_tags.get()
@@ -830,6 +832,8 @@ class App():
         self.prompt_massage_tags_box.insert(0, prompt_massage_tags)
         self.prompt_massage_tags.set(prompt_massage_tags)
         self.set_prompt_massage_tags()
+        # TODO
+        #    self.lora_tags = Model.get_first_model_lora_tags(self.model_tags, self.lora_tags)
         self.master.update()
 
     def set_prompt_massage_tags(self, event=None):
@@ -876,8 +880,8 @@ class App():
         GenConfig.set_redo_params(self.runner_app_config.redo_params)
 
     def set_delay(self, event=None):
-        delay = int(self.delay.get())
-        Globals.set_delay(delay)
+        self.runner_app_config.delay_time_seconds = self.delay.get()
+        Globals.set_delay(int(self.runner_app_config.delay_time_seconds))
 
     def set_specific_locations(self, event=None):
         value = float(self.specific_locations_slider.get()) / 100

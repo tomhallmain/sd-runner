@@ -29,11 +29,30 @@ class PromptMode(Enum):
         
         raise Exception(f"Not a valid prompt mode: {name}")
 
+def weighted_sample_without_replacement(population, weights, k=1) -> list:
+    weights = list(weights)
+    positions = range(len(population))
+    indices = []
+    while True:
+        needed = k - len(indices)
+        if needed == 0:
+            break
+        for i in random.choices(positions, weights, k=needed):
+            if weights[i]:
+                weights[i] = 0.0
+                indices.append(i)
+    return [population[i] for i in indices]
 
-def sample(l, low, high):
-    if low > high:
-        return random.sample(l, high)
-    return random.sample(l, random.randint(low, high))
+
+def sample(l, low, high) -> list:
+    if high > len(l):
+        high = len(l) - 1
+    k = high if low > high else random.randint(low, high)
+    if isinstance(l, dict):
+        return weighted_sample_without_replacement(list(l.keys()), l.values(), k)
+    elif isinstance(l, list):
+        return random.sample(l, k)
+    raise Exception(f"{type(l)} is not a valid sample population type")
 
 
 class Concepts:
@@ -64,7 +83,7 @@ class Concepts:
         Concepts.TAG_BLACKLIST = []
 
     @staticmethod
-    def sample_whitelisted(concepts, low, high):
+    def sample_whitelisted(concepts, low, high) -> list:
         # TODO technically inefficient to rebuild the whitelist each time
         # TODO blacklist concepts from the negative prompt
         # TODO need to ensure that low is respected and since concepts are being subtracted
@@ -72,18 +91,25 @@ class Concepts:
             return []
         if len(Concepts.TAG_BLACKLIST) == 0:
             return sample(concepts, low, high)
-        whitelist = []
-        for concept in concepts:
+        is_dict = isinstance(concepts, dict)
+        whitelist = {} if is_dict else []
+        filtered = {}
+        for concept_cased in concepts:
             match_found = False
             for tag in Concepts.TAG_BLACKLIST:
-                concept = concept.lower()
+                concept = concept_cased.lower()
                 tag = tag.lower()
                 if concept.startswith(tag + " ") or concept.startswith(tag + "-") or (" " + tag) in concept:
-                    print(f"Filtered concept \"{concept}\" from blacklist tag \"{tag}\"")
+                    filtered[concept_cased] = tag
                     match_found = True
                     break
             if not match_found:
-                whitelist.append(concept)
+                if is_dict:
+                    whitelist[concept_cased] = concepts[concept_cased]
+                else:
+                    whitelist.append(concept_cased)
+        if len(filtered)!= 0:
+            print(f"Filtered concepts from blacklist tags: {filtered}")
         return sample(whitelist, low, high)
 
     def __init__(self, prompt_mode, get_specific_locations):
@@ -125,10 +151,11 @@ class Concepts:
 
     def get_locations(self, low=0, high=2, specific_inclusion_chance=0.3):
         locations = Concepts.load(SFW.locations)
-        if self.get_specific_locations and random.random() > (1 - specific_inclusion_chance):
-            locations.extend(Concepts.load(SFW.locations_specific))
-#        if random.random() > inclusion_chance:
-#            return []
+        if self.get_specific_locations:
+            nonspecific_locations_chance = 1 - specific_inclusion_chance
+            locations = {l: nonspecific_locations_chance for l in locations}
+            for l in Concepts.load(SFW.locations_specific):
+                locations[l] = specific_inclusion_chance
         return Concepts.sample_whitelisted(locations, low, high)
 
     def get_colors(self, low=0, high=3):

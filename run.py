@@ -31,6 +31,9 @@ class Run:
         self.last_config = None
         self.progress_callback = progress_callback
 
+    def is_infinite(self):
+        return self.args.total == -1
+
     def run(self, config, comfy_gen, original_positive, original_negative):
         prompter = Globals.PROMPTER
         if not self.editing and not self.switching_params:
@@ -116,6 +119,8 @@ class Run:
                 if self.args.total:
                     if self.args.total > -1 and count == self.args.total:
                         print(f"Reached maximum requested iterations: {self.args.total}")
+                        if self.progress_callback is not None:
+                            self.progress_callback(count, self.args.total)
                         return
                     else:
                         if self.args.total == -1:
@@ -129,7 +134,9 @@ class Run:
                     sleep_time = config.maximum_gens()
                     sleep_time *= Globals.GENERATION_DELAY_TIME_SECONDS
                     print(f"Sleeping for {sleep_time} seconds.")
-                    time.sleep(sleep_time)
+                    while sleep_time > 0 and not self.is_cancelled:
+                        sleep_time -= 1
+                        time.sleep(1)
         except KeyboardInterrupt:
             pass
 

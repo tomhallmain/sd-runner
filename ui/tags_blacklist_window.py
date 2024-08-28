@@ -78,14 +78,14 @@ class BlacklistWindow():
         self.add_blacklist_widgets()
 
         self._label_info = Label(self.frame)
-        self.add_label(self._label_info, "Add to tag blacklist", row=0, wraplength=BlacklistWindow.COL_0_WIDTH)
+        self.add_label(self._label_info, _("Add to tag blacklist"), row=0, wraplength=BlacklistWindow.COL_0_WIDTH)
         self.add_tag_btn = None
-        self.add_btn("add_tag_btn", "Add tag", self.handle_tag, column=1)
+        self.add_btn("add_tag_btn", _("Add tag"), self.handle_tag, column=1)
         self.tag_var = StringVar(self.master)
         self.tag_entry = self.new_entry(self.tag_var)
         self.tag_entry.grid(row=0, column=2)
         self.clear_blacklist_btn = None
-        self.add_btn("clear_blacklist_btn", "Clear tags", self.clear_tags, column=3)
+        self.add_btn("clear_blacklist_btn", _("Clear tags"), self.clear_tags, column=3)
         self.frame.after(1, lambda: self.frame.focus_force())
 
         self.master.bind("<Key>", self.filter_tags)

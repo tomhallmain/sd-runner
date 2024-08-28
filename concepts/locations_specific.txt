@@ -45,12 +45,13 @@ Easter Island Heads
 Empire State Building - The United States
 Eternal Flame Falls - Nature's Unique Phenomena
 Fairmont Le Château Frontenac - Canada
-Falling Water, Pennsylvania
+Falling Water Pennsylvania
 Fingal's Cave - Symmeterical Natural Wonder
 Fish River Canyon - Namibia
 Frank Lloyd Wright
 French Riviera
 Gardens by the Bay - Singapore
+Gebel Musa
 Giant Crystal Cave
 Giant’s Causeway - Ireland
 Golden Gate Bridge - The United States
@@ -322,3 +323,498 @@ Hungary
 Austria
 
 
+
+Afghanistan
+Albania
+Algeria
+Andorra
+Angola
+Antigua and Barbuda
+Argentina
+Armenia
+Australia
+Austria
+Azerbaijan
+The Bahamas
+Bahrain
+Bangladesh
+Barbados
+Belarus
+Belgium
+Belize
+Benin
+Bhutan
+Bolivia
+Bosnia and Herzegovina
+Botswana
+Brazil
+Brunei
+Bulgaria
+Burkina Faso
+Burundi
+Cabo Verde
+Cambodia
+Cameroon
+Canada
+Central African Republic
+Chad
+Chile
+China
+Colombia
+Comoros
+Democratic Republic of the Congo
+Costa Rica
+Côte d’Ivoire
+Croatia
+Cuba
+Cyprus
+Czech Republic
+Denmark
+Djibouti
+Dominica
+Dominican Republic
+Timor-Leste
+Ecuador
+Egypt
+El Salvador
+Equatorial Guinea
+Eritrea
+Estonia
+Eswatini
+Ethiopia
+Fiji
+Finland
+France
+Gabon
+The Gambia
+Georgia
+Germany
+Ghana
+Greece
+Grenada
+Guatemala
+Guinea
+Guinea-Bissau
+Guyana
+Haiti
+Honduras
+Hungary
+Iceland
+India
+Indonesia
+Iran
+Iraq
+Ireland
+Palestine
+Italy
+Jamaica
+Japan
+Jordan
+Kazakhstan
+Kenya
+Kiribati
+South Korea
+Kosovo
+Kuwait
+Kyrgyzstan
+Laos
+Latvia
+Lebanon
+Lesotho
+Liberia
+Libya
+Liechtenstein
+Lithuania
+Luxembourg
+Madagascar
+Malawi
+Malaysia
+Maldives
+Mali
+Malta
+Marshall Islands
+Mauritania
+Mauritius
+Mexico
+Federated States of Micronesia
+Moldova
+Monaco
+Mongolia
+Montenegro
+Morocco
+Mozambique
+Burma
+Namibia
+Nauru
+Nepal
+Netherlands
+New Zealand
+Nicaragua
+Niger
+Nigeria
+North Macedonia
+Norway
+Oman
+Pakistan
+Palau
+Panama
+Papua New Guinea
+Paraguay
+Peru
+Philippines
+Poland
+Portugal
+Qatar
+Romania
+Russia
+Rwanda
+Saint Kitts and Nevis
+Saint Lucia
+Saint Vincent and  the Grenadines
+Samoa
+San Marino
+Sao Tome and Principe
+Saudi Arabia
+Senegal
+Serbia
+Seychelles
+Sierra Leone
+Singapore
+Slovakia
+Slovenia
+Solomon Islands
+Somalia
+South Africa
+Spain
+Sri Lanka
+Sudan
+Suriname
+Sweden
+Switzerland
+Syria
+Taiwan
+Tajikistan
+Tanzania
+Thailand
+Togo
+Tonga
+Trinidad and Tobago
+Tunisia
+Turkey
+Turkmenistan
+Tuvalu
+Uganda
+The Ukraine
+United Arab Emirates
+United Kingdom
+United States
+Uruguay
+Uzbekistan
+Vanuatu
+Vatican City
+Venezuela
+Vietnam
+Yemen
+Zambia
+Zimbabwe
+
+
+Abbasid Caliphate
+Aceh Sultanate
+Achaemenid Empire
+Afsharid Iran
+Aghlabids
+Ajuran Sultanate
+Akkadian Empire
+Aksumite Empire
+Akwamu
+Alaouite Dynasty
+Almohad Caliphate
+Almoravid Dynasty
+Angevin Empire
+Aq Qoyunlu
+Armenian Empire
+Ashanti Empire
+Assyria
+Aulikara Empire
+Austria-Hungary
+Austrian Empire
+Avar Khaganate
+Ayutthaya Kingdom
+Ayyubid Dynasty
+Aztec Empire
+Babylonia
+Neo-Babylonian Empire
+Balhae
+Sultanate of Banjar
+Bamana Empire
+Belgian colonial empire
+Bengal Sultanate
+Benin Empire
+Bogd Khanate of Mongolia
+Bornu Empire
+Empire of Brazil
+Britannic Empire
+British Empire
+Bruneian Empire
+Bukhara Empire
+Bulgarian Empire (Great Bulgaria)
+Bulgarian Empire (first)
+Bulgarian Empire (second)
+Burgundian State
+Buyid Dynasty
+Byzantine
+Calakmul
+Caliphate of Córdoba
+Cao Wei
+Carthaginian Empire
+Central African Empire
+Chagatai Khanate
+Chalukya Dynasty
+Chauhan Dynasty
+Chenla
+Chera Dynasty
+Chimor
+Chola Empire
+Classical Athens
+Comanche Empire
+Commonwealth of England
+Congo Free State
+Crimean Khanate
+Crown of Aragon
+Dacian Empire
+Kingdom of Dagbon
+Danish colonial empire
+Delhi Sultanate
+Pallava Empire
+Demak Sultanate
+Durrani Empire
+Dutch colonial empire
+Dzungar Khanate
+Eastern Chalukya Empire
+Eastern Ganga Dynasty
+Kingdom of England
+Old Kingdom of Egypt
+Middle Kingdom of Egypt
+New Kingdom of Egypt
+Elamite Empire
+Principality of Elba
+Ethiopian Empire
+Fatimid Caliphate
+First French Empire
+Second French Empire
+French colonial empire
+Frankish Empire
+Funan
+Gallic Empire
+Gaza Empire
+Genoese Republic
+German colonial empire
+German Empire
+German Empire
+Ghana Empire
+Ghaznavid Empire
+Ghurid Dynasty
+Goguryeo
+Goryeo
+Gorkha Empire
+Göktürk Khaganate
+Golden Horde
+Sultanate of Gowa
+Gran Colombia
+Grand Duchy of Lithuania
+Empire of Great Fulo
+Great Moravian Empire
+Pratihara Dynasty
+Gupta Empire
+First Empire of Haiti
+Second Empire of Haiti
+Hafsid Kingdom
+Han dynasty
+Empire of Harsha
+Hephthalite Empire
+Hittite Empire
+Holy Roman Empire
+Hospitaller colonial empire
+Hotak Dynasty
+Hoysala Empire
+Hunnic Empire
+Husainid Dynasty
+Idrisid dynasty
+Iberian Union
+Ilkhanate
+Kingdom of Israel (united monarchy)
+Kingdom of Judah (united monarchy)
+Inca Empire
+Indian Empire
+Italian Empire
+Japanese Empire
+Jin dynasty (266–420)
+Jin dynasty (1115–1234)
+Johor Empire
+Jolof Empire
+Joseon
+Kaabu Empire
+Kachari kingdom
+Kanem Empire
+Kalmar Union
+Kadamba dynasty
+Kanva dynasty
+Kara-Khanid Khanate
+Kazakh Khanate
+Khazar Khaganate
+Khmer Empire
+Khilji Dynasty
+Khwarazmian Empire
+Kievan Rus'
+Kingdom of France
+Kingdom of Georgia
+Konbaung Dynasty
+Kong Empire
+Korean Empire
+Kushan Empire
+Kingdom of Kush
+Kyrgyz Khaganate
+Latin Empire
+Later Lê dynasty
+Liao dynasty
+Lodi Sultanate
+Lavo Kingdom
+Macedonian Empire
+Madurai Nayak dynasty
+Magadha Empire
+Majapahit Empire
+Mali Empire
+Malacca Empire
+Mamluk Sultanate
+Maratha Empire
+Marhasi
+Marinid dynasty
+Massina Empire
+Mataram Sultanate
+Mauretania
+Mauryan Empire
+Median Empire
+Mlechchha dynasty
+First Mexican Empire
+Second Mexican Empire
+Ming dynasty
+Kingdom of Mitanni
+Mongol Empire
+Muhammad Ali Dynasty
+Mughal Empire
+Nanda Empire
+Neo-Sumerian Empire
+Nguyễn dynasty
+North Sea Empire
+Empire of Nicaea
+Northern Yuan dynasty
+Numidia
+Odrysian kingdom
+Omani Empire
+Ostrogothic Kingdom
+Ottoman Empire
+Oyo Empire
+Pagan Kingdom
+Pahlavi Iran
+Pala Empire
+Palmyrene Empire
+Pandyan dynasty
+Parthian Empire
+People's Republic of China
+Polish–Lithuanian Commonwealth
+Kingdom of Pontus
+Portuguese Empire
+Ptolemaic Empire
+Purépecha Empire
+Qajar Iran
+Qara Qoyunlu
+Qara Khitai
+Qin dynasty
+Qing dynasty
+Rashidun Caliphate
+Rashtrakuta dynasty
+Roman Republic
+Roman Empire
+Rouran Khaganate
+Rozvi Empire
+Rustamid dynasty
+Russian Empire
+Tsardom of Russia
+Saadi dynasty
+Safavid Iran
+Saffarid dynasty
+Samo's Empire
+Sassanian Empire
+Satavahana dynasty
+Samanid Empire
+Seleucid Empire
+Seljuk Empire
+Sultanate of Rum
+Serbian Empire
+Shah Mir Dynasty
+Shu Han
+Shang dynasty
+Siam Empire
+Sikh Empire
+Singhasari
+Sokoto Caliphate
+Song dynasty
+Songhai Empire
+Soviet Union
+Spanish Empire
+Spartan Empire
+Srivijaya Empire
+Sui dynasty
+Shunga Empire
+Sur Empire
+Swedish Empire
+Sweden-Norway
+Sukhothai Kingdom
+Tahirid dynasty
+Tang dynasty
+Tây Sơn dynasty
+Sultanate of Ternate
+Empire of Thessalonica
+Thonburi Kingdom
+Tibet
+Dalai Lama
+reverence
+Tibetan Empire
+Tikal
+Timurid Empire
+Kingdom of Tlemcen
+Empire of Trebizond
+Tokugawa shogunate
+Toltec Empire
+Toucouleur Empire
+Toungoo dynasty
+Tui Manu’a
+Tuʻi Tonga Empire
+Turgesh Khaganate
+Umayyad Caliphate
+United States of America
+Uyghur Khaganate
+Uzbek Khanate
+Vandal Kingdom
+Varman dynasty
+Venetian Republic
+Empire of Vietnam
+Vijayanagara Empire
+Visigothic Kingdom
+Wari Empire
+Wassoulou Empire
+Wattasid dynasty
+Western Chalukya Empire
+Western Roman Empire
+Xia dynasty
+Western Xia
+Xin dynasty
+Xiongnu Empire
+empire
+Yuan dynasty
+Zand dynasty
+Zhou dynasty
+Wu Zhou
+Zirid dynasty
+Zulu Empire

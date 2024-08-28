@@ -402,6 +402,11 @@ class Model:
                             model.negative_tags = prompt_config["negative"]
 
     @staticmethod
+    def get_first_model_lora_tags(model_tags, lora_tags):
+        # TODO in case there was a model switch, need to be sure the default lora for the model type is set.
+        pass
+
+    @staticmethod
     def get_first_model_prompt_massage_tags(model_tags_str, prompt_mode=PromptMode.SFW, inpainting=False, default_tag=""):
         Model.load_all_if_unloaded()
         Model.set_model_presets(prompt_mode)

@@ -5,6 +5,7 @@ benevolent
 comfy
 evil
 fat
+feminine
 flawless
 freckles
 fun
@@ -17,6 +18,7 @@ hairy
 happy
 harried
 hopeful
+masculine
 nice
 pompous
 punk style
@@ -213,4 +215,6 @@ Japanese
 Chinese
 Korean
 Russian
+
+$$amish
 
