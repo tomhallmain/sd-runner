@@ -74,6 +74,7 @@ hopeful
 Hopeless
 Indifferent
 Inquisitive
+insanity
 Insecure
 Irritable
 Irritated

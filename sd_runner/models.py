@@ -187,6 +187,15 @@ class Model:
 
     def get_default_lora(self):
         return "add-detail" if self.is_sd_15() else "add-detail-xl"
+    
+    def get_lora_text(self):
+        if not self.is_lora:
+            raise Exception("Model is not of type LoRA")
+        name = self.id if "." not in self.id else self.id[:self.id.index(".")]
+        if self.lora_strength_clip is not None and self.lora_strength_clip != self.lora_strength:
+            return f" <lora:{name}:{self.lora_strength}:{self.lora_strength_clip}>"
+        else:
+            return f" <lora:{name}:{self.lora_strength}>"
 
     def get_default_vae(self):
         return Model.DEFAULT_SDXL_VAE if self.is_xl or self.is_turbo else Model.DEFAULT_SD15_VAE
@@ -454,7 +463,9 @@ class IPAdapter:
     def set_bw_coloration(cls, coloration):
         cls.B_W_COLORATION = coloration
 
-    def __init__(self, id, desc="", modifiers="", strength=Globals.DEFAULT_IPADAPTER_STRENGTH):
+    def __init__(self, id, desc="", modifiers="", strength=None):
+        if strength is None:
+            strength = Globals.DEFAULT_IPADAPTER_STRENGTH
         if not id or id.startswith("C:\\") or id.startswith("D:\\") or id.startswith("/"):
             self.id = id
         else:

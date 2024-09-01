@@ -1,4 +1,3 @@
-in a horse-drawn carriage
 abandoned warehouse
 airport
 alcove
@@ -6,6 +5,9 @@ alien world
 alley
 amusement park
 antechamber
+antiques store
+aquarium
+aqueduct
 army base
 asphalt
 at a dance club
@@ -34,6 +36,7 @@ beach
 beach town
 bedroom
 bicycle path
+bivouac
 boardwalk
 bookstore
 boonies
@@ -56,6 +59,7 @@ castle
 catacombs
 cemetery
 chateau
+checkout line
 chicken coop
 church
 cinema
@@ -91,6 +95,7 @@ dog park
 downtown
 drive-in movie theater
 driveway
+dugout
 dungeon
 electric railroad
 embassy
@@ -99,6 +104,8 @@ engine rooengine roomm
 exhibit
 factory
 farm
+fast casual restaurant
+fast food restaurant
 field
 fields
 fire station
@@ -118,6 +125,7 @@ general store
 glade
 glen
 golf course
+gondola
 graveyard
 greenhouse
 grocery store
@@ -128,6 +136,7 @@ harbor
 hardware store
 hearth
 high school
+home improvement store
 hospital
 hot springs
 hotel
@@ -138,6 +147,7 @@ in a bus
 in a busy place
 in a canoe
 in a car
+in a horse-drawn carriage
 in a mosque
 in a museum
 in a park
@@ -182,6 +192,7 @@ modern architectural interior
 monument
 mountains
 museum
+nomad camp
 nuclear reactor
 ocean
 off world
@@ -273,6 +284,7 @@ traffic jam
 traffic lights
 trailer park
 train station
+travelers camp
 treehouse
 tundra
 tunnel
@@ -288,5 +300,6 @@ veranda
 walk-in closet
 wetlands
 wild
+workshop
 worksite
 zoo

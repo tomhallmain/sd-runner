@@ -4,6 +4,7 @@ acing a test
 acrylic painting
 acting
 acting in a play
+airbrushing
 allowing
 analyzing
 animal-themed items
@@ -14,6 +15,7 @@ archery
 arguing
 art from around the world
 art or coffee table books
+asking
 autographed pictures or other items
 badminton
 baking
@@ -34,6 +36,7 @@ berating
 betrayal
 bingo or other group games
 bird books or items bird-themed
+bird watching
 birdhouses
 blogging
 board games
@@ -43,6 +46,7 @@ bowling
 boxing
 brain teasers
 breaking a glass
+breaking up
 breastfeeding
 brewery games
 bringing
@@ -50,6 +54,7 @@ building
 building dollhouses
 building wooden toys
 bullet journaling
+busking
 butterfly art or items
 buying
 cake pans
@@ -65,14 +70,17 @@ card making
 cartwheeling
 carving
 ceremony
+chariot racing
 chasing
 checkers
 cheerleading
 chess
 china patterns
 choosing
+churning butter
 clay crafts
 cleaning
+cliff diving
 closing
 cocktails
 collaborating
@@ -84,8 +92,10 @@ collecting tea cups
 collecting teas
 collector
 coloring
+colonizing
 computer hobbies
 concert or choir photography
+conquering
 convincing
 cookbooks
 cooking
@@ -114,6 +124,7 @@ dancing
 dancing
 dancing
 darts
+dating
 debating
 deciding
 defending
@@ -121,6 +132,7 @@ designing clothes
 designing graphics
 dessert plates, tea cups, china patterns
 diamond painting kit
+digging
 discovering
 doing a t pose
 doing a wheelie on a bicycle
@@ -136,6 +148,7 @@ drinking bourbon
 drinking champagne
 drinking water
 drinking wine
+driving
 dueling
 DVDs or VHS tapes
 eating
@@ -167,6 +180,7 @@ fighting
 fighting
 figure skating
 figurines
+filling up
 film watching/review
 fishing
 floral design
@@ -196,12 +210,15 @@ hand lettering
 hanging
 hanging out
 happening
+hard at work
+harvesting crops
 hating
 hats
 headbanging
 hearing
 Hello Kitty items or collectibles
 helping
+helping a customer
 herding
 hiding
 high school
@@ -214,6 +231,7 @@ homework
 hopping
 horse racing
 host a supper club
+hosting
 house painting
 housing
 howling
@@ -255,6 +273,7 @@ knocking
 laughing
 laundry
 lawn games
+leaping
 learning
 learning a new language
 leather crafting
@@ -290,8 +309,11 @@ melting
 memorabilia from a specific decade
 memorizing music lyrics
 metal detecting
+milking a cow
+milling
 Minecraft
 miniatures
+mining
 mirrors
 mixing
 mixing a potion
@@ -311,6 +333,9 @@ obtaining
 offering
 oil painting
 on a date
+on a field trip
+on the case
+on the job
 online classes
 online games
 opening
@@ -329,6 +354,7 @@ party planning
 passing
 pastels
 paying
+people watching
 performing
 persisting
 petting cat
@@ -340,21 +366,26 @@ pilates
 pinching
 planting
 playing
+playing cards
 playing cello
 playing classical, bass or electric guitar
 playing drums
 playing keyboard or piano
 playing pool
 playing sport
+playing the lottery
 playing trumpet
+playing video games
 playing violin
 playing with friends
+pleading
 podcasting
 poetry
 poetry writing
 postcards
 pottery/ceramics
 praying
+presenting
 preserving florals and stems such as drying eucalyptus 
 pretending
 pretending to be a ghost
@@ -392,6 +423,7 @@ ribbon cutting ceremony
 riding
 riding a motorcycle
 riding a scooter
+riding in a car
 ripping
 roaring
 roasting
@@ -402,7 +434,7 @@ roman salute
 rotating
 rug beaters
 rugby
-rum, whiskey, bourbon or other spirits
+rum whiskey bourbon or other spirits
 running
 running
 running away
@@ -419,7 +451,7 @@ sculpture
 sea shells
 seeming
 selling baked goods
-selling items you’ve created
+selling items you've created
 selling vintage items
 sending
 serving
@@ -446,6 +478,7 @@ sketching
 skiing
 sky diving
 sleeping
+slot machines
 smelling
 smoking a cigar
 smoking a cigarette
@@ -459,6 +492,8 @@ sobbing
 soccer
 solving
 speaking
+speeding
+spelunking
 spices from around the world
 spinning
 spirit bottles
@@ -477,14 +512,18 @@ stretching
 striking
 string art
 strolling
+strutting
 studying
 studying hard
 stuffed animals
 submitting
+summiting
 surfing
 surprising
+surveying
 swimming
 swimming
+swinging
 table tennis
 taekwondo
 tai chi
@@ -507,9 +546,11 @@ tennis
 themed model kits
 thinking
 throwing
+throwing a ball
+throwing a javelin
 tickling
-tie dye
-ties
+tie dyeing
+tying
 tissue paper crafts
 tossing a pizza
 trapping
@@ -532,11 +573,12 @@ vintage glass
 vintage milk glass
 visiting and walking around area gardens
 visiting museums
-void
 volleyball
 volunteering
 waiting
 walking
+walking a tightrope
+wandering
 wanting
 warning
 warping
@@ -548,12 +590,14 @@ watercolor painting
 watercolors
 waving
 wearing
+weighing
 weight lifting
 wind surfing
 wine, beer or spirits tasting
 wines from a certain region of the world
 winking
 winning
+wondering
 wood burning
 wood carving
 wood turning
@@ -561,6 +605,7 @@ woodworking
 word games and puzzles
 word scrambles
 working
+working out
 wreath making
 wrestling
 writing

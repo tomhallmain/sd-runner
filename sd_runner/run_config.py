@@ -9,6 +9,7 @@ class RunConfig:
 
     def __init__(self, args=None):
         self.args = args
+        self.software_type = self.get("software_type")
         self.workflow_tag = self.get("workflow_tag")
         self.res_tags = self.get("res_tags")
         self.model_tags = self.get("model_tags")

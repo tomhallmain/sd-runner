@@ -11,6 +11,7 @@ from sd_runner.gen_config import GenConfig
 from sd_runner.ip_adapters import get_ip_adapters
 from sd_runner.prompter import PrompterConfiguration, Prompter
 from sd_runner.models import Model, Resolution
+from sd_runner.sdwebui_gen import SDWebuiGen
 from sd_runner.workflow_prompt import WorkflowPrompt
 from utils.translations import I18N
 from utils.utils import split
@@ -34,7 +35,7 @@ class Run:
     def is_infinite(self):
         return self.args.total == -1
 
-    def run(self, config, comfy_gen, original_positive, original_negative):
+    def run(self, config, gen, original_positive, original_negative):
         prompter = Globals.PROMPTER
         if not self.editing and not self.switching_params:
             config.positive, config.negative = prompter.generate_prompt(original_positive, original_negative)
@@ -81,13 +82,13 @@ class Run:
                 return
 
         if config.prompts_match(self.last_config) or config.validate():
-            comfy_gen.run()
+            gen.run()
 
         if config.maximum_gens() > 10:
             print(f"Large config with maximum gens {config.maximum_gens()} - skipping loop.")
             exit()
 
-        self.last_config = deepcopy(comfy_gen.gen_config)
+        self.last_config = deepcopy(gen.gen_config)
 
 
     def do_workflow(self, workflow, positive_prompt, negative_prompt, control_nets, ip_adapters):
@@ -104,7 +105,7 @@ class Run:
             positive=positive_prompt, negative=negative_prompt, resolutions=resolutions,
             run_config=self.args,
         )
-        comfy_gen = ComfyGen(config)
+        gen = ComfyGen(config) if self.args.software_type == "ComfyUI" else SDWebuiGen(config)
         self.editing = False
         self.switching_params = False
         self.last_config = None
@@ -112,7 +113,7 @@ class Run:
 
         try:
             while not self.is_cancelled:
-                self.run(config, comfy_gen, positive_prompt, negative_prompt)
+                self.run(config, gen, positive_prompt, negative_prompt)
                 if self.last_config is None:
                     return
                 count += 1

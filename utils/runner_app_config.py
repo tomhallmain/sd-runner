@@ -1,7 +1,7 @@
 from copy import deepcopy
 import json
 
-from utils.globals import Globals, WorkflowType, Sampler, Scheduler
+from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType
 
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.prompter import PrompterConfiguration
@@ -9,6 +9,7 @@ from sd_runner.prompter import PrompterConfiguration
 
 class RunnerAppConfig:
     def __init__(self):
+        self.software_type = SoftwareType.ComfyUI.name
         self.workflow_type = WorkflowType.SIMPLE_IMAGE_GEN_LORA.name
         self.resolutions = "landscape3,portrait3"
         self.seed = "-1"  # if less than zero, randomize
@@ -65,6 +66,8 @@ class RunnerAppConfig:
     def from_dict(_dict):
         app_config = RunnerAppConfig()
         app_config.__dict__ = deepcopy(_dict)
+        if not hasattr(app_config, 'software_type'):
+            app_config.software_type = SoftwareType.ComfyUI.name
         if not hasattr(app_config, 'tags_apply_to_start'):
             app_config.tags_apply_to_start = True
         if not hasattr(app_config, 'delay_time_seconds'):
@@ -78,6 +81,8 @@ class RunnerAppConfig:
 
     def to_dict(self):
         _dict = deepcopy(self.__dict__)
+        if not isinstance(self.software_type, str):
+            _dict["software_type"] = self.software_type.name
         if not isinstance(self.workflow_type, str):
             _dict["workflow_type"] = self.workflow_type.name
         if not isinstance(self.sampler, str):
@@ -94,7 +99,7 @@ class RunnerAppConfig:
     def __hash__(self):
         class EnumsEncoder(json.JSONEncoder):
             def default(self, z):
-                if isinstance(z, WorkflowType) or isinstance(z, Sampler) or isinstance(z, Scheduler):
+                if isinstance(z, SoftwareType) or isinstance(z, WorkflowType) or isinstance(z, Sampler) or isinstance(z, Scheduler):
                     return (str(z.name))
                 else:
                     return super().default(z)

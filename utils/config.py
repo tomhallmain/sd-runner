@@ -10,6 +10,8 @@ class Config:
         self.foreground_color = None
         self.background_color = None
         self.comfyui_url = None
+        self.sd_webui_url = None
+        self.sd_webui_save_path = "."
         self.models_dir = ""
         self.img_dir = None
         self.img_temps_dir = None
@@ -53,11 +55,12 @@ class Config:
         except Exception as e:
             print(e)
             print("Unable to load config. Ensure config.json file settings are correct.")
-        
+
         self.set_values(str,
                         "foreground_color",
                         "background_color",
                         "comfyui_url",
+                        "sd_webui_url",
                         "server_password")
         self.set_values(list,
                         "gen_order",
@@ -72,6 +75,7 @@ class Config:
             "ipadapter_dir",
             "comfyui_loc",
             "sd_webui_loc",
+            "sd_webui_save_path",
             "sd_prompt_reader_loc",
             "image_searcher_dir2",
             "interrogator_interrogation_dir",

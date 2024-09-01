@@ -20,6 +20,7 @@ head down
 head forward
 head propped on hand
 head turned
+in line
 in the middle
 leaning forward
 leaning back

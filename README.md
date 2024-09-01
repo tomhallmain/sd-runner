@@ -1,4 +1,4 @@
-This code is primarily a custom UI to trigger ComfyUI workflows using presets and prompt randomization.
+This code is primarily a custom UI to trigger ComfyUI workflows or SD Web UI functions using presets and prompt randomization.
 
 ## Configuration Options
 

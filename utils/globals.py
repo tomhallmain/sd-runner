@@ -82,8 +82,27 @@ class WorkflowType(Enum):
     TURBO = "turbo2.json"
     UPSCALE_SIMPLE = "upscale_image.json"
     UPSCALE_BETTER = "upscale_better.json"
-    REDO_PROMPT = "redo_prompt"        
+    REDO_PROMPT = "redo_prompt"
 
+
+class PromptTypeSDWebUI(Enum):
+    TXT2IMG = "txt2img.json"
+    TXT2IMG_LORA  = "txt2img.json"
+    TXT2IMG_REFINER = "txt2img_refiner.json"
+    UPSCALE_SIMPLE = "upscale_image.json"
+    CONTROLNET = "controlnet.json"
+    IMG2IMG = "img2img.json"
+
+    @staticmethod
+    def convert_to_sd_webui_filename(filename):
+        this_workflow_type = None
+        for key, workflow_type in WorkflowType.__members__.items():
+            if workflow_type.value == filename:
+                this_workflow_type = workflow_type
+        if this_workflow_type == WorkflowType.IP_ADAPTER:
+            return PromptTypeSDWebUI.IMG2IMG.value
+        else:
+            return PromptTypeSDWebUI.TXT2IMG.value
 
 class Sampler(Enum):
     ACCEPT_ANY = "Any"
@@ -143,3 +162,8 @@ class ComfyNodeName:
     IMAGE_SCALE = "ImageScale"
     ELLA_T5_EMBEDS = "ella_t5_embeds"
     ELLA_SAMPLER = "ella_sampler"
+
+
+class SoftwareType(Enum):
+    ComfyUI = "ComfyUI"
+    SDWebUI = "SDWebUI"

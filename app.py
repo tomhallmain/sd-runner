@@ -12,7 +12,7 @@ from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
 from run import Run
-from utils.globals import Globals, WorkflowType, Sampler, Scheduler
+from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType
 
 from extensions.sd_runner_server import SDRunnerServer
 
@@ -23,6 +23,8 @@ from sd_runner.models import IPAdapter, Model
 from sd_runner.prompter import Prompter
 from sd_runner.run_config import RunConfig
 from ui.app_style import AppStyle
+from ui.preset import Preset
+from ui.presets_window import PresetsWindow
 from ui.tags_blacklist_window import BlacklistWindow
 from utils.app_info_cache import app_info_cache
 from utils.config import config
@@ -129,6 +131,7 @@ class App():
         self.sidebar.grid(column=0, row=self.row_counter0)
         self.label_title = Label(self.sidebar)
         self.add_label(self.label_title, _("Run ComfyUI Workflows"), sticky=None, columnspan=2)
+        ## TODO change above label to be software-agnostic
 
         self.run_btn = None
         self.add_button("run_btn", _("Run Workflows"), self.run)
@@ -136,6 +139,13 @@ class App():
         self.cancel_btn = Button(self.sidebar, text=_("Cancel Run"), command=self.cancel)
         self.label_progress = Label(self.sidebar)
         self.add_label(self.label_progress, "", sticky=None)
+
+        self.label_software = Label(self.sidebar)
+        self.add_label(self.label_software, _("Software"), increment_row_counter=False)
+        self.software = StringVar(master)
+        self.software_choice = OptionMenu(self.sidebar, self.software, self.runner_app_config.software_type,
+                                          *SoftwareType.__members__.keys(), command=self.set_software_type)
+        self.apply_to_grid(self.software_choice, interior_column=1, sticky=W)
 
         # TODO multiselect
         self.label_workflows = Label(self.sidebar)
@@ -284,51 +294,51 @@ class App():
         self.prompter_config_bar.grid(column=1, row=self.row_counter1)
 
         self.label_sampler = Label(self.prompter_config_bar)
-        self.add_label(self.label_sampler, _("Sampler"), increment_row_counter=False)
+        self.add_label(self.label_sampler, _("Sampler"), column=1, increment_row_counter=False)
         self.sampler = StringVar(master)
         self.sampler_choice = OptionMenu(self.prompter_config_bar, self.sampler, str(self.runner_app_config.sampler), *Sampler.__members__.keys())
-        self.apply_to_grid(self.sampler_choice, interior_column=1, sticky=W)
+        self.apply_to_grid(self.sampler_choice, column=1, interior_column=1, sticky=W)
 
         self.label_scheduler = Label(self.prompter_config_bar)
-        self.add_label(self.label_scheduler, _("Scheduler"), increment_row_counter=False)
+        self.add_label(self.label_scheduler, _("Scheduler"), column=1, increment_row_counter=False)
         self.scheduler = StringVar(master)
         self.scheduler_choice = OptionMenu(self.prompter_config_bar, self.scheduler, str(self.runner_app_config.scheduler), *Scheduler.__members__.keys())
-        self.apply_to_grid(self.scheduler_choice, interior_column=1, sticky=W)
+        self.apply_to_grid(self.scheduler_choice, column=1, interior_column=1, sticky=W)
 
         self.label_seed = Label(self.prompter_config_bar)
-        self.add_label(self.label_seed, _("Seed"), increment_row_counter=False)
+        self.add_label(self.label_seed, _("Seed"), column=1, increment_row_counter=False)
         self.seed = StringVar()
         self.seed_box = self.new_entry(self.seed, width=10, sidebar=False)
         self.seed_box.insert(0, self.runner_app_config.seed)
-        self.apply_to_grid(self.seed_box, interior_column=1, sticky=W)
+        self.apply_to_grid(self.seed_box, column=1, interior_column=1, sticky=W)
 
         self.label_steps = Label(self.prompter_config_bar)
-        self.add_label(self.label_steps, _("Steps"), increment_row_counter=False)
+        self.add_label(self.label_steps, _("Steps"), column=1, increment_row_counter=False)
         self.steps = StringVar()
         self.steps_box = self.new_entry(self.steps, width=10, sidebar=False)
         self.steps_box.insert(0, self.runner_app_config.steps) 
-        self.apply_to_grid(self.steps_box, interior_column=1, sticky=W)
+        self.apply_to_grid(self.steps_box, column=1, interior_column=1, sticky=W)
 
         self.label_cfg = Label(self.prompter_config_bar)
-        self.add_label(self.label_cfg, _("CFG"), increment_row_counter=False)
+        self.add_label(self.label_cfg, _("CFG"), column=1, increment_row_counter=False)
         self.cfg = StringVar()
         self.cfg_box = self.new_entry(self.cfg, width=10, sidebar=False)
         self.cfg_box.insert(0, self.runner_app_config.cfg)
-        self.apply_to_grid(self.cfg_box, interior_column=1, sticky=W)
+        self.apply_to_grid(self.cfg_box, column=1, interior_column=1, sticky=W)
 
         self.label_denoise = Label(self.prompter_config_bar)
-        self.add_label(self.label_denoise, _("Denoise"), increment_row_counter=False)
+        self.add_label(self.label_denoise, _("Denoise"), column=1, increment_row_counter=False)
         self.denoise = StringVar()
         self.denoise_box = self.new_entry(self.denoise, width=10, sidebar=False)
         self.denoise_box.insert(0, self.runner_app_config.denoise)
-        self.apply_to_grid(self.denoise_box, interior_column=1, sticky=W)
+        self.apply_to_grid(self.denoise_box, column=1, interior_column=1, sticky=W)
 
         self.label_random_skip = Label(self.prompter_config_bar)
-        self.add_label(self.label_random_skip, _("Random Skip Chance"), increment_row_counter=False)
+        self.add_label(self.label_random_skip, _("Random Skip Chance"), column=1, increment_row_counter=False)
         self.random_skip = StringVar()
         self.random_skip_box = self.new_entry(self.random_skip, width=10, sidebar=False)
         self.random_skip_box.insert(0, self.runner_app_config.random_skip_chance)
-        self.apply_to_grid(self.random_skip_box, interior_column=1, sticky=W)
+        self.apply_to_grid(self.random_skip_box, column=1, interior_column=1, sticky=W)
         self.random_skip_box.bind("<Return>", self.set_random_skip)
 
         self.label_title_config = Label(self.prompter_config_bar)
@@ -492,7 +502,9 @@ class App():
         self.apply_to_grid(self.tags_at_start_choice, sticky=W, column=1, columnspan=3)
 
         self.tag_blacklist_btn = None
-        self.add_button("tag_blacklist_btn", text=_("Tag Blacklist"), command=self.show_tag_blacklist, sidebar=False)
+        self.presets_window_btn = None
+        self.add_button("tag_blacklist_btn", text=_("Tag Blacklist"), command=self.show_tag_blacklist, sidebar=False, increment_row_counter=False)
+        self.add_button("presets_window_btn", text=_("Presets Window"), command=self.open_presets_window, sidebar=False, interior_column=1)
 
         self.master.bind("<Control-Return>", self.run)
         self.master.bind("<Shift-R>", self.run)
@@ -568,12 +580,14 @@ class App():
                     self.config_history_index -= 1
         app_info_cache.set("config_history_index", self.config_history_index)
         BlacklistWindow.store_blacklist()
+        PresetsWindow.store_recent_presets()
         app_info_cache.store()
 
     def load_info_cache(self):
         try:
             self.config_history_index = app_info_cache.get("config_history_index", default_val=0)
             BlacklistWindow.set_blacklist()
+            PresetsWindow.set_recent_presets()
             return RunnerAppConfig.from_dict(app_info_cache.get_history(0))
         except Exception as e:
             print(e)
@@ -674,6 +688,15 @@ class App():
         self.inpainting_var.set(self.runner_app_config.inpainting)
         self.override_negative_var.set(self.runner_app_config.override_negative)
 
+    def set_widgets_from_preset(self, preset):
+        self.set_workflow_type(preset.workflow_type)
+        self.set_widget_value(self.positive_tags_box, preset.positive_tags)
+        self.set_widget_value(self.negative_tags_box, preset.negative_tags)
+
+    def construct_preset(self):
+        args, args_copy = self.get_args()
+        self.runner_app_config.set_from_run_config(args)
+        return Preset.from_runner_app_config(self.runner_app_config)
 
     def single_resolution(self):
         # TODO make a setting to ignore resolutions for controlnet optionally (would require updating workflows)
@@ -682,6 +705,9 @@ class App():
             current_res = current_res[:current_res.index(",")]
             self.resolutions_box.delete(0, "end")
             self.resolutions_box.insert(0, current_res) # Technically not needed
+
+    def set_software_type(self, event=None):
+        self.runner_app_config.software_type = self.software.get()
 
     def set_workflow_type(self, event=None, workflow_tag=None):
         if workflow_tag is None:
@@ -701,15 +727,53 @@ class App():
             self.progress_bar = None
 
     def run(self, event=None):
-        self.store_info_cache()
         if self.current_run.is_infinite():
             self.current_run.cancel()
+        args, args_copy = self.get_args()
+
+        try:
+            args.validate()
+        except Exception as e:
+            res = self.alert(_("Confirm Run"),
+                str(e) + "\n\n" + _("Are you sure you want to proceed?"),
+                kind="warning")
+            if res != messagebox.OK:
+                return
+
+        def run_async(args) -> None:
+            self.job_queue.job_running = True
+            self.destroy_progress_bar()
+            self.progress_bar = Progressbar(self.sidebar, orient=HORIZONTAL, length=100, mode='indeterminate')
+            self.progress_bar.grid(row=1, column=1)
+            self.progress_bar.start()
+            self.cancel_btn.grid(row=2, column=1)
+            self.current_run = Run(args, progress_callback=self.update_progress)
+            self.current_run.execute()
+            self.cancel_btn.grid_forget()
+            self.destroy_progress_bar()
+            self.job_queue.job_running = False
+            next_job_args = self.job_queue.take()
+            if next_job_args:
+                start_thread(run_async, use_asyncio=False, args=[next_job_args])
+
+        if self.job_queue.has_pending():
+            self.job_queue.add(args)
+        else:
+            self.runner_app_config.set_from_run_config(args_copy)
+            start_thread(run_async, use_asyncio=False, args=[args])
+
+    def cancel(self, event=None):
+        self.current_run.cancel()
+
+    def get_args(self):
+        self.store_info_cache()
         self.set_delay()
         args = RunConfig()
+        args.software_type = self.software.get()
+        args.workflow_tag = self.workflow.get()
         args.auto_run = self.auto_run_var.get()
         args.inpainting = self.inpainting_var.get()
         args.lora_tags = self.lora_tags_box.get()
-        args.workflow_tag = self.workflow.get()
         args.model_tags = self.model_tags_box.get()
         args.res_tags = self.resolutions.get()
         args.n_latents = int(self.n_latents.get())
@@ -746,40 +810,7 @@ class App():
         self.set_random_skip()
 
         self.set_prompter_config()
-
-        try:
-            args.validate()
-        except Exception as e:
-            res = self.alert(_("Confirm Run"),
-                str(e) + "\n\n" + _("Are you sure you want to proceed?"),
-                kind="warning")
-            if res != messagebox.OK:
-                return
-
-        def run_async(args) -> None:
-            self.job_queue.job_running = True
-            self.destroy_progress_bar()
-            self.progress_bar = Progressbar(self.sidebar, orient=HORIZONTAL, length=100, mode='indeterminate')
-            self.progress_bar.grid(row=1, column=1)
-            self.progress_bar.start()
-            self.cancel_btn.grid(row=2, column=1)
-            self.current_run = Run(args, progress_callback=self.update_progress)
-            self.current_run.execute()
-            self.cancel_btn.grid_forget()
-            self.destroy_progress_bar()
-            self.job_queue.job_running = False
-            next_job_args = self.job_queue.take()
-            if next_job_args:
-                start_thread(run_async, use_asyncio=False, args=[next_job_args])
-
-        if self.job_queue.has_pending():
-            self.job_queue.add(args)
-        else:
-            self.runner_app_config.set_from_run_config(args_copy)
-            start_thread(run_async, use_asyncio=False, args=[args])
-
-    def cancel(self, event=None):
-        self.current_run.cancel()
+        return args, args_copy
 
     def update_progress(self, current_index, total):
         if total == -1:
@@ -938,7 +969,16 @@ class App():
         try:
             blacklist_window = BlacklistWindow(top_level, self.toast)
         except Exception as e:
-            self.alert("Blacklist Window Error", str(e), kind="error")
+            self.handle_error(str(e), title="Blacklist Window Error")
+
+    def open_presets_window(self):
+        top_level = Toplevel(self.master, bg=AppStyle.BG_COLOR)
+        top_level.title(_("Presets Window"))
+        top_level.geometry(PresetsWindow.get_geometry(is_gui=True))
+        try:
+            presets_window = PresetsWindow(top_level, self.toast, self.construct_preset, self.set_widgets_from_preset)
+        except Exception as e:
+            self.handle_error(str(e), title="Presets Window Error")
 
     def alert(self, title, message, kind="info", hidemain=True) -> None:
         if kind not in ("error", "warning", "info"):
@@ -947,6 +987,12 @@ class App():
         print(f"Alert - Title: \"{title}\" Message: {message}")
         show_method = getattr(messagebox, "show{}".format(kind))
         return show_method(title, message)
+
+    def handle_error(self, error_text, title=None, kind="error"):
+        traceback.print_exc()
+        if title is None:
+            title = _("Error")
+        self.alert(title, error_text, kind=kind)
 
     def toast(self, message):
         print("Toast message: " + message)
@@ -1005,13 +1051,13 @@ class App():
         label_ref['text'] = text
         self.apply_to_grid(label_ref, sticky=sticky, pady=pady, column=column, columnspan=columnspan, increment_row_counter=increment_row_counter)
 
-    def add_button(self, button_ref_name, text, command, sidebar=True):
+    def add_button(self, button_ref_name, text, command, sidebar=True, interior_column=0, increment_row_counter=True):
         if getattr(self, button_ref_name) is None:
             master = self.sidebar if sidebar else self.prompter_config_bar
             button = Button(master=master, text=text, command=command)
             setattr(self, button_ref_name, button)
             button
-            self.apply_to_grid(button, column=(0 if sidebar else 1))
+            self.apply_to_grid(button, column=(0 if sidebar else 1), interior_column=interior_column, increment_row_counter=increment_row_counter)
 
     def new_entry(self, text_variable, text="", width=55, sidebar=True, **kw):
         master = self.sidebar if sidebar else self.prompter_config_bar

@@ -40,6 +40,9 @@ host
 hostess
 usher
 athlete
+tradesman
+architect
+salesman
 
 Alluring
 Angelic
