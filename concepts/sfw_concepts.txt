@@ -265,6 +265,7 @@ soft
 soft
 solid
 spirograph
+splashiness
 stereograph
 still life
 strange magic
@@ -479,6 +480,7 @@ complex
 constellations
 construct
 convertible with the top down
+cookie cutters
 copper etching
 coral
 cornucopia
@@ -591,6 +593,7 @@ magnets
 man
 married couple
 masterpiece
+matryoshka
 maximalism
 maze
 melted
@@ -600,6 +603,7 @@ minimalism
 miracle
 missile arc
 molecular chemical bonds visualization
+metal molds
 molting
 moss
 motifs
@@ -615,6 +619,7 @@ negative space
 neoclassical
 nerve clusters
 nervous system
+nested
 noir
 noosphere
 nordic
@@ -734,6 +739,7 @@ thespian
 titian
 torchlight
 torus
+trailing into the distance
 train tracks
 trapped, enclosed space
 trinket

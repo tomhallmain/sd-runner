@@ -1,7 +1,8 @@
 import os
 
-from tkinter import Frame, Label, filedialog, messagebox, LEFT, W
-from tkinter.ttk import Button
+from tkinter import Frame, Label, StringVar, filedialog, messagebox, LEFT, W
+import tkinter.font as fnt
+from tkinter.ttk import Entry, Button
 
 from ui.app_style import AppStyle
 from ui.preset import Preset
@@ -37,6 +38,13 @@ class PresetsWindow():
         app_info_cache.set("recent_presets", preset_dicts)
 
     @staticmethod
+    def get_preset_by_name(name):
+        for preset in PresetsWindow.recent_presets:
+            if name == preset.name:
+                return preset
+        raise Exception(f"No preset found with name: {name}. Set it on the Presets Window.")
+
+    @staticmethod
     def get_history_preset(start_index=0):
         # Get a previous preset.
         preset = None
@@ -58,7 +66,7 @@ class PresetsWindow():
 
     @staticmethod
     def get_geometry(is_gui=True):
-        width = 300
+        width = 700
         height = 100
         return f"{width}x{height}"
 
@@ -86,10 +94,13 @@ class PresetsWindow():
 
         self._label_info = Label(self.frame)
         self.add_label(self._label_info, "Set a new preset", row=0, wraplength=PresetsWindow.COL_0_WIDTH)
+        self.new_preset_name = StringVar(self.master, value="New Preset")
+        self.new_preset_name_entry = Entry(self.frame, textvariable=self.new_preset_name, width=50, font=fnt.Font(size=8))
+        self.new_preset_name_entry.grid(column=1, row=0, sticky="w")
         self.add_preset_btn = None
-        self.add_btn("add_preset_btn", "Add preset", self.handle_preset, column=1)
+        self.add_btn("add_preset_btn", "Add preset", self.handle_preset, column=2)
         self.clear_recent_presets_btn = None
-        self.add_btn("clear_recent_presets_btn", "Clear presets", self.clear_recent_presets, column=2)
+        self.add_btn("clear_recent_presets_btn", "Clear presets", self.clear_recent_presets, column=3)
         self.frame.after(1, lambda: self.frame.focus_force())
 
         self.master.bind("<Key>", self.filter_presets)
@@ -132,7 +143,7 @@ class PresetsWindow():
                 if preset in PresetsWindow.recent_presets:
                     PresetsWindow.recent_presets.remove(preset)
                 toast_callback(_("Invalid preset: {0}").format(preset))
-        return self.construct_preset_callback(), False
+        return self.construct_preset_callback(self.new_preset_name.get()), False
 
     def handle_preset(self, event=None, preset=None):
         """
@@ -252,10 +263,12 @@ class PresetsWindow():
         self.master.update()
 
     def clear_widget_lists(self):
-        for btn in self.set_preset_btn_list:
-            btn.destroy()
         for label in self.label_list:
             label.destroy()
+        for btn in self.set_preset_btn_list:
+            btn.destroy()
+        for btn in self.delete_preset_btn_list:
+            btn.destroy()
         self.set_preset_btn_list = []
         self.label_list = []
 

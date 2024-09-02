@@ -12,6 +12,7 @@ class Config:
         self.comfyui_url = None
         self.sd_webui_url = None
         self.sd_webui_save_path = "."
+        self.concepts_dir = "concepts"
         self.models_dir = ""
         self.img_dir = None
         self.img_temps_dir = None
@@ -26,6 +27,7 @@ class Config:
         self.redo_parameters = ["n_latents", "resolutions", "models", "loras"]
         self.model_presets = []
         self.prompt_presets = []
+        self.prompt_preset_schedule = {}
         self.wildcards = {}
 
         self.interrogator_interrogation_dir = None
@@ -67,7 +69,9 @@ class Config:
                         "redo_parameters",
                         "model_presets",
                         "prompt_presets")
-        self.set_values(dict, "wildcards")
+        self.set_values(dict, 
+                        "wildcards",
+                        "prompt_preset_schedule")
         self.set_directories(
             "models_dir",
             "img_dir",
@@ -86,8 +90,36 @@ class Config:
             "interrogator_folder_category_mappings_file"
         )
 
-    def validate_and_set_directory(self, key):
-        loc = self.dict[key]
+        self.concepts_dirs = {}
+        self.default_concepts_dir = "concepts"
+        self.set_concepts_dirs()
+
+    def set_concepts_dirs(self):
+        concepts = "concepts"
+        if not "concepts_dirs" in self.dict:
+            self.dict["concepts_dirs"] = [concepts]
+        self.concepts_dirs = {}
+        concept_dirs_list = self.dict["concepts_dirs"]
+        self.concepts_dirs[concepts] = concepts
+        for i in range(len(concept_dirs_list)):
+            d = concept_dirs_list[i].strip()
+            if d == "" or d == concepts:
+                continue
+            d = self.validate_and_set_directory(d, override=True)
+            if d is None:
+                raise Exception("Invalid concept directory provided in config!")
+            self.concepts_dirs[os.path.basename(d)] = d
+        if "default_concepts_dir" in self.dict and self.dict["default_concepts_dir"] not in [None, "", concepts]:
+            default_dir = self.validate_and_set_directory("default_concepts_dir")
+            assert default_dir is not None and default_dir!= ""
+            self.default_concepts_dir = os.path.basename(default_dir)
+            if not self.default_concepts_dir in self.concepts_dirs:
+                raise Exception("Invalid default concept directory provided in config, not found in concept dirs list.")
+        else:
+            self.default_concepts_dir = concepts
+
+    def validate_and_set_directory(self, key, override=False):
+        loc = key if override else self.dict[key]
         if loc and loc.strip() != "":
             if "{HOME}" in loc:
                 loc = loc.strip().replace("{HOME}", os.path.expanduser("~"))

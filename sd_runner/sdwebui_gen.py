@@ -254,11 +254,9 @@ class SDWebuiGen:
         # prompt.set_ip_adapter_model(ip_adapter_model)
         # prompt.set_clip_vision_model(clip_vision_model)
         prompt.set_denoise(1 - ip_adapter.strength)
-        print(1 - ip_adapter.strength)
-        print(prompt.json["denoising_strength"])
         image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.id)
         prompt.set_img2img_image(encode_file_to_base64(image_path))
-        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
+        prompt.set_latent_dimensions(resolution.get_closest(ip_adapter.id))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         SDWebuiGen.schedule_prompt(prompt, img2img=True)
 

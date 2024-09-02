@@ -67,7 +67,6 @@ class Globals:
     def set_delay(cls, delay):
         cls.GENERATION_DELAY_TIME_SECONDS = delay
 
-
 class WorkflowType(Enum):
     SIMPLE_IMAGE_GEN = "simple_image_gen.json"
     SIMPLE_IMAGE_GEN_LORA = "simple_image_gen_lora.json"

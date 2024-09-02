@@ -22,7 +22,6 @@ sapphire
 amethyst
 rainbow
 iridescent
-barbershop
 gray
 platinum
 steel
@@ -76,7 +75,7 @@ aureolin # medium yellow, named after a pigment similar to canary yellow
 champagne # pale yellow, after the bubbly drink
 citron-colored # dark yellow, named after the fruit
 fulvous # brownish-yellow, see also tawny below
-jonquil # golden-yellow, after the flower (a species of daffodil)
+jonquil-golden-yellow # golden-yellow, after the flower (a species of daffodil)
 ochre # yellow-brown, but see this page for other varieties, e.g. “red ochre”
 or-color # yellow or gold, used in heraldry
 saffron # yellow-orange, named after the spice
@@ -117,36 +116,36 @@ tyrian # deep reddish-purple that originated in ancient Phoenicia
 ultraviolet # intense blueish-purple
 wisteria-colored # a light to medium purple, named after the flowering plant
 #    coal # matte black, like coal
-corbeau # black with green or blue, from the color of crows (corvids)
+corbeau-black # black with green or blue, from the color of crows (corvids)
 #    ebony # black with olive undertones, named after a dense type of ornamental wood
-ink # a dark, intense black, often with a bluish undertone, reminiscent of black ink used in writing or printing
-jet # a deep, pure black, named after the lignite mineral used in jewelry, which is a precursor to coal
-obsidian # black, sometimes with purple undertones, named after the igneous rock
-onyx # deep black, named after the gemstone, a form of chalcedony
-piceous # glossy brownish-black, resembling pitch (pitch is also used as a color)
-sable # black used in heraldry, may have some brown, like a sable's pelt
+ink-black # a dark, intense black, often with a bluish undertone, reminiscent of black ink used in writing or printing
+jet-black # a deep, pure black, named after the lignite mineral used in jewelry, which is a precursor to coal
+obsidian-black # black, sometimes with purple undertones, named after the igneous rock
+onyx-black # deep black, named after the gemstone, a form of chalcedony
+piceous-glossy-brownish-black # glossy brownish-black, resembling pitch (pitch is also used as a color)
+sable-black # black used in heraldry, may have some brown, like a sable's pelt
 Vantablack # an extremely dark black, known as one of the darkest artificial substances
 alabaster # white with a very pale yellow or pink tint
-albescent # shading into or becoming white
-albugineous # white, used to describe anatomical features, such as fibers or fluids, that are white
-argent # white or silver, used in heraldry (similar to “or”)
+albescent-white # shading into or becoming white
+albugineous-white # white, used to describe anatomical features, such as fibers or fluids, that are white
+argent-white-silver # white or silver, used in heraldry (similar to “or”)
 cornsilk # silky yellowish-white, describes the color of corn silk (the thread-like stuff that surrounds the corncob)
-eburnean # ivory white, from the Latin word meaning “resembling ivory”; the term can also be used to describe something as pure, pristine, or elegant
-magnolia # a creamy white with a hint of yellow or pink, named after the petals of the magnolia flower
-niveous # snowy or resembling snow, often used to describe a pure, untainted white
-porcelain # white, often used to describe delicate things or very pale skin
-zinc # a bluish-white, named after the metal zinc, often used in galvanizing
+eburnean-ivory-white # ivory white, from the Latin word meaning “resembling ivory”; the term can also be used to describe something as pure, pristine, or elegant
+magnolia-creamy-white # a creamy white with a hint of yellow or pink, named after the petals of the magnolia flower
+niveous-snow-white # snowy or resembling snow, often used to describe a pure, untainted white
+porcelain-white # white, often used to describe delicate things or very pale skin
+zinc-bluish-white # a bluish-white, named after the metal zinc, often used in galvanizing
 #    battleship # a medium gray with a bluish tint, often associated with naval ships
-cinereous # ash gray, sometimes gray-brown, from the Latin word for ashes
-drab # a dull, light brownish-gray, often used to describe uninteresting or dreary things
-feldgrau # grayish green, from the German word for “field green.” Feldgrau was the color of choice for German uniforms during WWI and WWII.
-gossamer # greyish-white, like a spider's web
+cinereous-ash-gray # ash gray, sometimes gray-brown, from the Latin word for ashes
+drab-gray # a dull, light brownish-gray, often used to describe uninteresting or dreary things
+feldgrau-grayish-green # grayish green, from the German word for “field green.” Feldgrau was the color of choice for German uniforms during WWI and WWII.
+gossamer-white # greyish-white, like a spider's web
 greige # grayish-beige, a portmanteau of gray and beige
-gunmetal # medium gray, sometimes with a greenish undertone
-isabelline # pale yellowish-gray, used to describe plumage, horse coats, and textiles used in fashion
-livid # a grayish-blue or grayish-purple, often used to describe the color of bruises or contusions
-pewter # flat gray, named after a tin alloy
-pumice # a light, ashy gray, named after the volcanic rock
+gunmetal-gray # medium gray, sometimes with a greenish undertone
+isabelline-yellowish-gray # pale yellowish-gray, used to describe plumage, horse coats, and textiles used in fashion
+livid-gray-purple # a grayish-blue or grayish-purple, often used to describe the color of bruises or contusions
+pewter-gray # flat gray, named after a tin alloy
+pumice-ashy-gray # a light, ashy gray, named after the volcanic rock
 
 
 # Palettes

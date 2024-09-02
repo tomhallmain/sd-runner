@@ -3,6 +3,7 @@ import os
 import random
 import re
 
+from extensions.image_data_extractor import ImageDataExtractor
 from sd_runner.concepts import PromptMode
 from utils.config import config
 from utils.globals import Globals, WorkflowType
@@ -10,6 +11,9 @@ from utils.utils import extract_substring
 
 
 class Resolution:
+    TOTAL_PIXELS_TOLERANCE_RANGE = []
+    XL_TOTAL_PIXELS_TOLERANCE_RANGE = []
+
     def __init__(self, width=Globals.DEFAULT_RESOLUTION_WIDTH, height=Globals.DEFAULT_RESOLUTION_HEIGHT, scale=2):
         self.width = width
         self.height = height
@@ -126,6 +130,49 @@ class Resolution:
             return self.landscape(is_xl)
         else:
             return self.portrait(is_xl)
+
+    @staticmethod
+    def construct_tolerance_range(is_xl):
+        all_resolutions = ["square", "landscape1", "portrait1", "landscape2", "portrait2", "landscape3", "portrait3", "landscape4", "portrait4"]
+        tolerance_range = [99999999999, -1]
+        for res_tag in all_resolutions:
+            res = Resolution.get_resolution(res_tag, is_xl)
+            total_pixels = res.width * res.height
+            if total_pixels < tolerance_range[0]:
+                tolerance_range[0] = total_pixels
+            elif total_pixels > tolerance_range[1]:
+                tolerance_range[1] = total_pixels
+        return tolerance_range
+
+    def get_tolerance_range(self):
+        is_xl = self.is_xl()
+        tolerance_range = Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE if is_xl else Resolution.TOTAL_PIXELS_TOLERANCE_RANGE
+        if len(tolerance_range) == 0:
+            tolerance_range = Resolution.construct_tolerance_range(is_xl)
+            if is_xl:
+                Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
+            else:
+                Resolution.TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
+        return tolerance_range
+
+    def get_closest(self, ref_image_path):
+        tolerance_range = self.get_tolerance_range()
+        width, height = ImageDataExtractor().get_image_size(ref_image_path)
+        if width * height < tolerance_range[0]:
+            while width * height < tolerance_range[0]:
+                width *= 1.1
+                height *= 1.1
+        elif width * height > tolerance_range[1]:
+            while width * height < tolerance_range[0]:
+                width *= 0.9
+                height *= 0.9
+        width = int(width)
+        height = int(height)
+        while width % 4 != 0:
+            width += 1
+        while height % 4 != 0:
+            height += 1
+        return Resolution(width, height)
 
     def __str__(self):
         return f"{self.width}x{self.height}"

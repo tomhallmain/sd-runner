@@ -29,15 +29,21 @@ class ImageDataExtractor:
         pass
 
     def is_xl(self, image_path):
-        width, height = Image.open(image_path).size
+        width, height = self.get_image_size(image_path)
         return width > 768 and height > 768
 
+    def get_image_size(self, image_path):
+        image = Image.open(image_path)
+        width, height = image.size
+        image.close()
+        return (width, height)
+
     def equals_resolution(self, image_path, ex_width=512, ex_height=512):
-        width, height = Image.open(image_path).size
+        width, height = self.get_image_size(image_path)
         return width == ex_width and height == ex_height
 
     def higher_than_resolution(self, image_path, max_width=512, max_height=512, inclusive=True):
-        width, height = Image.open(image_path).size
+        width, height = self.get_image_size(image_path)
         if max_width:
             if inclusive:
                 if max_width > width:
@@ -53,7 +59,7 @@ class ImageDataExtractor:
         return True
 
     def lower_than_resolution(self, image_path, max_width=512, max_height=512, inclusive=True):
-        width, height = Image.open(image_path).size
+        width, height = self.get_image_size(image_path)
         if max_width:
             if inclusive:
                 if max_width < width:
@@ -69,21 +75,24 @@ class ImageDataExtractor:
         return True
 
     def extract_prompt(self, image_path):
-        info = Image.open(image_path).info
+        image = Image.open(image_path)
+        info = image.info
         if isinstance(info, dict):
             if 'prompt' in info:
                 prompt = json.loads(info['prompt'])
+                image.close()
                 return prompt
             elif 'parameters' in info:
 #                print("skipping unhandled Automatic1111 image info")
-                return None
+                pass
             else:
 #                print("Unhandled exif data: " + image_path)
                 pass
 #                print(info)
         else:
             print("Exif data not found: " + image_path)
-            return None
+        image.close()
+        return None
 
     def copy_prompt_to_file(self, image_path, prompt_file_path):
         prompt = self.extract_prompt(image_path)

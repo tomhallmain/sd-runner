@@ -78,6 +78,13 @@
         "odie": "((Odie, white dog with brown spot)), longue tongue hanging out of side of mouth, dumb dog, panting"
     },
 
+    "prompt_preset_schedule": {
+        "My Preset will run twice": 2,
+        "My Preset will run once": 1
+    },
+
+    "concepts_dirs": ["concepts"],
+    "default_concepts_dir": null,
     "models_dir": "D:\\stable-diffusion-webui\\models",
     "img_dir": "{HOME}\\img",
     "img_temps_dir": "{HOME}\\img\\img_temps",

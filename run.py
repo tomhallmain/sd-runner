@@ -24,6 +24,8 @@ prompt_list = [
 
 class Run:
     def __init__(self, args, progress_callback=None):
+        self.id = str(time.time())
+        self.is_complete = False
         self.is_cancelled = False
         self.args = args
         self.prompter_config = args.prompter_config
@@ -166,6 +168,8 @@ class Run:
                 traceback.print_exc()
 
     def execute(self):
+        self.is_complete = False
+        self.is_cancelled = False
         Model.load_all()
         Model.set_lora_strength(Globals.DEFAULT_LORA_STRENGTH)
         prompter_config = PrompterConfiguration(prompt_mode=PromptMode.FIXED) if self.args.prompter_override else self.args.prompter_config
@@ -181,6 +185,7 @@ class Run:
                 self.load_and_run([control_net])
         else:
             self.load_and_run(control_nets)
+        self.is_complete = True
 
     def cancel(self):
         print("Canceling...")

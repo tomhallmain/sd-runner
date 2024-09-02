@@ -77,7 +77,6 @@ class SDRunnerServer:
                 self._conn.send({"error": "invalid command type", 'data': _type})
                 return
             self._conn.send(resp)
-            print("After self._conn.send(resp)")
         except Exception as e:
             print(e)
             self._conn.send({'error': 'run error', 'data': str(e)})

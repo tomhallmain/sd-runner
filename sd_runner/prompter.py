@@ -13,6 +13,7 @@ class PrompterConfiguration:
                  animals_config=(0,1,0.1), colors_config=(0,2), times_config=(0,1),
                  dress_config=(0,2,0.5), expressions=(1,1), actions=(0,2), descriptions=(0,1),
                  random_words_config=(0,5), nonsense_config=(0, 0), art_styles_chance=0.3) -> None:
+        self.concepts_dir = config.concepts_dirs[config.default_concepts_dir]
         self.prompt_mode = prompt_mode
         self.concepts = concepts_config
         self.positions = positions_config
@@ -33,6 +34,7 @@ class PrompterConfiguration:
 
     def to_dict(self) -> dict:
         return {
+            "concepts_dir": self.concepts_dir,
             "prompt_mode": self.prompt_mode.name,
             "concepts": self.concepts,
             "positions": self.positions,
@@ -49,11 +51,12 @@ class PrompterConfiguration:
             "nonsense": self.nonsense,
             "art_styles_chance": self.art_styles_chance,
             "specify_humans_chance": self.specify_humans_chance,
-            "emphasis_chance": self.emphasis_chance
+            "emphasis_chance": self.emphasis_chance,
         }
 
     def set_from_dict(self, _dict):
         self.prompt_mode = PromptMode[_dict["prompt_mode"]]
+        self.concepts_dir = _dict['concepts_dir'] if 'concepts_dir' in _dict else self.concepts_dir
         self.concepts = _dict['concepts'] if 'concepts' in _dict else self.concepts
         self.positions = _dict['positions'] if 'positions' in _dict else self.positions
         self.locations = _dict['locations'] if 'locations' in _dict else self.locations
@@ -112,7 +115,7 @@ class Prompter:
         self.llava_path = llava_path
         self.prompter_config = prompter_config
         self.prompt_mode = prompter_config.prompt_mode
-        self.concepts = Concepts(prompter_config.prompt_mode, get_specific_locations=get_specific_locations)
+        self.concepts = Concepts(prompter_config.prompt_mode, get_specific_locations=get_specific_locations, concepts_dir=prompter_config.concepts_dir)
         self.count = 0
         self.prompt_list = prompt_list
         self.last_prompt = ""
@@ -146,8 +149,8 @@ class Prompter:
             positive = self.nonsense()
             negative += ", boring, dull"
         elif self.concepts.is_art_style_prompt_mode():
-            print(positive)
-            print(len(positive))
+            # print(positive)
+            # print(len(positive))
             positive += self.get_artistic_prompt(len(positive) == 0)
         elif PromptMode.LIST == self.prompt_mode:
             positive = self.prompt_list[self.count % len(self.prompt_list)]

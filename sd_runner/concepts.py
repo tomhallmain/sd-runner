@@ -2,6 +2,8 @@ from enum import Enum
 import os
 import random
 
+from utils.config import config
+
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 class PromptMode(Enum):
@@ -56,10 +58,23 @@ def sample(l, low, high) -> list:
 
 
 class Concepts:
-    ENGLISH_WORDS = "english_words.txt"
+    ALL_WORDS_LIST_FILENAME = "dictionary.txt"
+    ALL_WORDS_LIST = []
     TAG_BLACKLIST = []
     ALPHABET = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
                 "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+    CONCEPTS_DIR = os.path.join(BASE_DIR, "concepts") if config.default_concepts_dir == "concepts" else config.concepts_dir
+
+    @staticmethod
+    def set_concepts_dir(path="concepts"):
+        old_path = Concepts.CONCEPTS_DIR
+        if path == "concepts":
+            Concepts.CONCEPTS_DIR = os.path.join(BASE_DIR, "concepts")
+        elif not os.path.isdir(path):
+            raise Exception(f"{path} is not a valid concepts directory")
+        else:
+            Concepts.CONCEPTS_DIR = path
+        return old_path != Concepts.CONCEPTS_DIR
 
     @staticmethod
     def set_blacklist(blacklist):
@@ -112,10 +127,11 @@ class Concepts:
             print(f"Filtered concepts from blacklist tags: {filtered}")
         return sample(whitelist, low, high)
 
-    def __init__(self, prompt_mode, get_specific_locations):
+    def __init__(self, prompt_mode, get_specific_locations, concepts_dir="concepts"):
+        if Concepts.set_concepts_dir(concepts_dir):
+            Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
         self.prompt_mode = prompt_mode
         self.get_specific_locations = get_specific_locations
-        self.english_words = Concepts.load(Concepts.ENGLISH_WORDS)
         # Randomly select concepts from the lists
 
     def extend(self, l, nsfw_file, nsfw_repeats, nsfl_file, nsfl_repeats):
@@ -194,7 +210,7 @@ class Concepts:
         return Concepts.sample_whitelisted(descriptions, low, high)
 
     def get_random_words(self, low=0, high=9):
-        random_words = Concepts.sample_whitelisted(self.english_words, low, high)
+        random_words = Concepts.sample_whitelisted(Concepts.ALL_WORDS_LIST, low, high)
         random.shuffle(random_words)
         random_word_strings = []
         word_string = ""
@@ -242,7 +258,7 @@ class Concepts:
         length = random.randint(3, 15)
         word = ''.join([random.choice(Concepts.ALPHABET) for i in range(length)])
         counter = 0
-        while word in self.english_words:
+        while word in Concepts.ALL_WORDS_LIST:
             if counter > 100:
                 print("Failed to generate a nonsense word!")
                 break
@@ -253,7 +269,7 @@ class Concepts:
     @staticmethod
     def load(filename):
         l = []
-        filepath = os.path.join(os.path.join(BASE_DIR, "concepts"), filename)
+        filepath = os.path.join(Concepts.CONCEPTS_DIR, filename)
         with open(filepath, encoding="utf-8") as f:
             for line in f:
                 val = ""

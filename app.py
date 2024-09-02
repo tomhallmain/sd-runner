@@ -351,6 +351,13 @@ class App():
         self.prompt_mode_choice = OptionMenu(self.prompter_config_bar, self.prompt_mode, starting_prompt_mode, *PromptMode.__members__.keys())
         self.apply_to_grid(self.prompt_mode_choice, interior_column=1, sticky=W, column=1)
 
+        self.label_concepts_dir = Label(self.prompter_config_bar)
+        self.add_label(self.label_concepts_dir, _("Concepts Dir"), column=1, increment_row_counter=False)
+        self.concepts_dir = StringVar(master)
+        self.concepts_dir_choice = OptionMenu(self.prompter_config_bar, self.concepts_dir, config.default_concepts_dir,
+                                              *config.concepts_dirs.keys(), command=self.set_concepts_dir)
+        self.apply_to_grid(self.concepts_dir_choice, interior_column=1, sticky=W, column=1)
+
         prompter_config = self.runner_app_config.prompter_config
 
         self.label_concepts = Label(self.prompter_config_bar)
@@ -500,6 +507,11 @@ class App():
         self.tags_at_start_var = BooleanVar(value=self.runner_app_config.tags_apply_to_start)
         self.tags_at_start_choice = Checkbutton(self.prompter_config_bar, text=_("Tags Applied to Prompt Start"), variable=self.tags_at_start_var, command=self.set_tags_apply_to_start)
         self.apply_to_grid(self.tags_at_start_choice, sticky=W, column=1, columnspan=3)
+
+        self.run_preset_schedule_var = BooleanVar(value=False)
+        self.run_preset_schedule_choice = Checkbutton(self.prompter_config_bar, text=_("Run Preset Schedule"), variable=self.run_preset_schedule_var)
+        self.apply_to_grid(self.run_preset_schedule_choice, sticky=W, column=1, columnspan=3)
+        self.has_started_preset_schedule = False
 
         self.tag_blacklist_btn = None
         self.presets_window_btn = None
@@ -689,14 +701,45 @@ class App():
         self.override_negative_var.set(self.runner_app_config.override_negative)
 
     def set_widgets_from_preset(self, preset):
-        self.set_workflow_type(preset.workflow_type)
+        self.prompt_mode.set(preset.prompt_mode)
         self.set_widget_value(self.positive_tags_box, preset.positive_tags)
         self.set_widget_value(self.negative_tags_box, preset.negative_tags)
+        self.master.update()
 
-    def construct_preset(self):
+    def construct_preset(self, name):
         args, args_copy = self.get_args()
         self.runner_app_config.set_from_run_config(args)
-        return Preset.from_runner_app_config(self.runner_app_config)
+        return Preset.from_runner_app_config(name, self.runner_app_config)
+
+    def run_preset_schedule(self):
+        self.has_started_preset_schedule = True
+
+        def run_preset_async():
+            for preset_name, count in config.prompt_preset_schedule.items():
+                if not self.has_started_preset_schedule or not self.run_preset_schedule_var.get():
+                    self.has_started_preset_schedule = False
+                    return
+                try:
+                    preset = PresetsWindow.get_preset_by_name(preset_name)
+                except Exception as e:
+                    self.handle_error(str(e), "Preset Schedule Error")
+                    raise e
+                self.set_widgets_from_preset(preset)
+                self.total.set(count)
+                self.run()
+                # NOTE have to do some special handling here because the runs are still not self-contained,
+                # and overwriting widget values may cause the current run to have its settings changed mid-run
+                time.sleep(0.1)
+                started_run_id = self.current_run.id
+                while (self.current_run is not None and started_run_id == self.current_run.id
+                        and not self.current_run.is_cancelled and not self.current_run.is_complete):
+                    if not self.has_started_preset_schedule or not self.run_preset_schedule_var.get():
+                        self.has_started_preset_schedule = False
+                        return
+                    time.sleep(1)
+            self.has_started_preset_schedule = False
+
+        start_thread(run_preset_async, use_asyncio=False, args=[])
 
     def single_resolution(self):
         # TODO make a setting to ignore resolutions for controlnet optionally (would require updating workflows)
@@ -729,6 +772,19 @@ class App():
     def run(self, event=None):
         if self.current_run.is_infinite():
             self.current_run.cancel()
+        if event is not None and self.has_started_preset_schedule:
+            res = self.alert(_("Confirm Run"),
+                _("Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"),
+                kind="warning")
+            if res != messagebox.OK:
+                return
+            self.has_started_preset_schedule = False
+        if self.run_preset_schedule_var.get():
+            if not self.has_started_preset_schedule:
+                self.run_preset_schedule()
+                return None
+        else:
+            self.has_started_preset_schedule = False
         args, args_copy = self.get_args()
 
         try:
@@ -738,7 +794,7 @@ class App():
                 str(e) + "\n\n" + _("Are you sure you want to proceed?"),
                 kind="warning")
             if res != messagebox.OK:
-                return
+                return None
 
         def run_async(args) -> None:
             self.job_queue.job_running = True
@@ -768,6 +824,7 @@ class App():
     def get_args(self):
         self.store_info_cache()
         self.set_delay()
+        self.set_concepts_dir()
         args = RunConfig()
         args.software_type = self.software.get()
         args.workflow_tag = self.workflow.get()
@@ -922,6 +979,9 @@ class App():
     def set_delay(self, event=None):
         self.runner_app_config.delay_time_seconds = self.delay.get()
         Globals.set_delay(int(self.runner_app_config.delay_time_seconds))
+
+    def set_concepts_dir(self, event=None):
+        self.runner_app_config.prompter_config.concepts_dir = config.concepts_dirs[self.concepts_dir.get()]
 
     def set_specific_locations(self, event=None):
         value = float(self.specific_locations_slider.get()) / 100
