@@ -142,7 +142,7 @@ class ComfyGen:
             if workflow_type == WorkflowType.INSTANT_LORA and model.is_xl:
                 prompt = WorkflowPrompt("instant_lora_xl.json")
             if workflow_type == WorkflowType.CONTROLNET and model.is_xl:
-                prompt = WorkflowPrompt("controlnet_sdxl1.json")
+                prompt = WorkflowPrompt("controlnet_sdxl.json")
             if not prompt:
                 prompt = WorkflowPrompt(workflow_type.value)
         self.counter += 1
@@ -340,7 +340,8 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def control_net(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net):
-        prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
+        resolution = resolution.get_closest(control_net.id)
+        prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
         model = self.gen_config.redo_param("model", model)
         model.validate_loras(lora)
         prompt.set_model(model)
@@ -356,6 +357,7 @@ class ComfyGen:
             return
         prompt.set_control_net_image(self.gen_config.redo_param("control_net", control_net.id))
         prompt.set_control_net_strength(control_net.strength)
+        prompt.set_latent_dimensions(resolution)
 #        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         ComfyGen.queue_prompt(prompt)

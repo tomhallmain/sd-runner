@@ -35,6 +35,10 @@ wicked
 overworked
 tuckered out
 frazzled
+mustache
+handlebar mustache
+long beard
+bushy beard
 
 host
 hostess

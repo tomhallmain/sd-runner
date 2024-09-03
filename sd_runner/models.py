@@ -98,6 +98,9 @@ class Resolution:
     def is_xl(self):
         return self.width > 768 and self.height > 768
 
+    def aspect_ratio(self):
+        return float(self.width) / float(self.height)
+
     def invert(self):
         temp = self.width
         self.width = self.height
@@ -137,10 +140,11 @@ class Resolution:
         tolerance_range = [99999999999, -1]
         for res_tag in all_resolutions:
             res = Resolution.get_resolution(res_tag, is_xl)
+            assert res is not None
             total_pixels = res.width * res.height
             if total_pixels < tolerance_range[0]:
                 tolerance_range[0] = total_pixels
-            elif total_pixels > tolerance_range[1]:
+            if total_pixels > tolerance_range[1]:
                 tolerance_range[1] = total_pixels
         return tolerance_range
 
@@ -155,15 +159,31 @@ class Resolution:
                 Resolution.TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
         return tolerance_range
 
+    @staticmethod
+    def find_matching_aspect_ratio_resolution(is_xl, target_width, target_height):
+        all_resolutions = ["square", "landscape1", "portrait1", "landscape2", "portrait2", "landscape3", "portrait3", "landscape4", "portrait4"]
+        aspect_ratio = float(target_width)/float(target_height)
+        for res_tag in all_resolutions:
+            res = Resolution.get_resolution(res_tag, is_xl)
+            assert res is not None
+            if aspect_ratio == res.aspect_ratio():
+                return res
+        return None
+
     def get_closest(self, ref_image_path):
-        tolerance_range = self.get_tolerance_range()
         width, height = ImageDataExtractor().get_image_size(ref_image_path)
+        # First check if the aspect ratio matches one of the existing resolutions, and return that
+        matching_resolution = Resolution.find_matching_aspect_ratio_resolution(self.is_xl, width, height)
+        if matching_resolution is not None:
+            return matching_resolution
+        # If not, find the closest resolution that is within the tolerance range
+        tolerance_range = self.get_tolerance_range()
         if width * height < tolerance_range[0]:
             while width * height < tolerance_range[0]:
                 width *= 1.1
                 height *= 1.1
         elif width * height > tolerance_range[1]:
-            while width * height < tolerance_range[0]:
+            while width * height > tolerance_range[1]:
                 width *= 0.9
                 height *= 0.9
         width = int(width)

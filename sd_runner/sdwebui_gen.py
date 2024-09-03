@@ -237,7 +237,8 @@ class SDWebuiGen:
         SDWebuiGen.schedule_prompt(prompt)
 
     def ip_adapter(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, ip_adapter):
-        prompt, model, vae = self.prompt_setup(WorkflowType.IP_ADAPTER, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
+        resolution = resolution.get_closest(ip_adapter.id)
+        prompt, model, vae = self.prompt_setup(WorkflowType.IP_ADAPTER, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
         prompt.set_vae(self.gen_config.redo_param("vae", vae))
@@ -256,7 +257,7 @@ class SDWebuiGen:
         prompt.set_denoise(1 - ip_adapter.strength)
         image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.id)
         prompt.set_img2img_image(encode_file_to_base64(image_path))
-        prompt.set_latent_dimensions(resolution.get_closest(ip_adapter.id))
+        prompt.set_latent_dimensions(resolution)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         SDWebuiGen.schedule_prompt(prompt, img2img=True)
 

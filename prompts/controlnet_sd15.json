@@ -1,0 +1,325 @@
+{
+  "8": {
+    "inputs": {
+      "vae_name": "vae-ft-mse-840000-ema-pruned.ckpt"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "16": {
+    "inputs": {
+      "ckpt_name": "analogMadness_v60.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "18": {
+    "inputs": {
+      "text": "blurry, lowres, low quality, ",
+      "clip": [
+        "185",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Negative_Prompt"
+    }
+  },
+  "21": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "Empty Latent Image"
+    }
+  },
+  "30": {
+    "inputs": {
+      "text": [
+        "107",
+        0
+      ],
+      "clip": [
+        "185",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Positive_Prompt"
+    }
+  },
+  "31": {
+    "inputs": {
+      "tile_size": 768,
+      "samples": [
+        "97",
+        0
+      ],
+      "vae": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "VAEDecodeTiled",
+    "_meta": {
+      "title": "VAE Decode (Tiled)"
+    }
+  },
+  "50": {
+    "inputs": {
+      "strength": 1.02,
+      "noise_augmentation": 0.2,
+      "conditioning": [
+        "30",
+        0
+      ],
+      "clip_vision_output": [
+        "183",
+        0
+      ]
+    },
+    "class_type": "unCLIPConditioning",
+    "_meta": {
+      "title": "Prompt Strength"
+    }
+  },
+  "57": {
+    "inputs": {
+      "clip_name": "SD1.5\\pytorch_model.bin"
+    },
+    "class_type": "CLIPVisionLoader",
+    "_meta": {
+      "title": "Load CLIP Vision"
+    }
+  },
+  "97": {
+    "inputs": {
+      "seed": 74763129879906,
+      "steps": 24,
+      "cfg": 6.5,
+      "sampler_name": "ddpm",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "159",
+        0
+      ],
+      "positive": [
+        "154",
+        0
+      ],
+      "negative": [
+        "18",
+        0
+      ],
+      "latent_image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "107": {
+    "inputs": {
+      "wildcard_text": "",
+      "populated_text": "",
+      "mode": true,
+      "seed": 1019181848339221,
+      "Select to add Wildcard": "Select the Wildcard to add to the text"
+    },
+    "class_type": "ImpactWildcardProcessor",
+    "_meta": {
+      "title": "ImpactWildcardProcessor"
+    }
+  },
+  "154": {
+    "inputs": {
+      "strength": 0.75,
+      "conditioning": [
+        "50",
+        0
+      ],
+      "control_net": [
+        "156",
+        0
+      ],
+      "image": [
+        "157",
+        0
+      ]
+    },
+    "class_type": "ControlNetApply",
+    "_meta": {
+      "title": "Apply ControlNet"
+    }
+  },
+  "156": {
+    "inputs": {
+      "control_net_name": "control_v11f1p_sd15_depth.pth"
+    },
+    "class_type": "ControlNetLoader",
+    "_meta": {
+      "title": "Load ControlNet Model"
+    }
+  },
+  "157": {
+    "inputs": {
+      "resolution": 640,
+      "image": [
+        "163",
+        0
+      ]
+    },
+    "class_type": "Zoe-DepthMapPreprocessor",
+    "_meta": {
+      "title": "Zoe Depth Map"
+    }
+  },
+  "159": {
+    "inputs": {
+      "b1": 0.99,
+      "b2": 0.99,
+      "s1": 0.92,
+      "s2": 0.2,
+      "model": [
+        "185",
+        0
+      ]
+    },
+    "class_type": "FreeU",
+    "_meta": {
+      "title": "FreeU"
+    }
+  },
+  "163": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "megapixels": 0.5,
+      "image": [
+        "182",
+        0
+      ]
+    },
+    "class_type": "ImageScaleToTotalPixels",
+    "_meta": {
+      "title": "ImageScaleToTotalPixels"
+    }
+  },
+  "168": {
+    "inputs": {
+      "side_length": 768,
+      "side": "Longest",
+      "upscale_method": "area",
+      "crop": "disabled",
+      "image": [
+        "182",
+        0
+      ]
+    },
+    "class_type": "Image scale to side",
+    "_meta": {
+      "title": "Image scale to side"
+    }
+  },
+  "170": {
+    "inputs": {
+      "image": [
+        "168",
+        0
+      ]
+    },
+    "class_type": "Get image size",
+    "_meta": {
+      "title": "Get image size"
+    }
+  },
+  "171": {
+    "inputs": {
+      "filename_prefix": "CUI",
+      "images": [
+        "31",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "182": {
+    "inputs": {
+      "image": "",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "183": {
+    "inputs": {
+      "clip_vision": [
+        "57",
+        0
+      ],
+      "image": [
+        "182",
+        0
+      ]
+    },
+    "class_type": "CLIPVisionEncode",
+    "_meta": {
+      "title": "CLIP Vision Encode"
+    }
+  },
+  "184": {
+    "inputs": {
+      "lora_name": "add-detail.safetensors",
+      "strength_model": 0.5,
+      "strength_clip": 0.5,
+      "model": [
+        "16",
+        0
+      ],
+      "clip": [
+        "16",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  },
+  "185": {
+    "inputs": {
+      "lora_name": "XL\\impressionism.safetensors",
+      "strength_model": 0,
+      "strength_clip": 0,
+      "model": [
+        "184",
+        0
+      ],
+      "clip": [
+        "184",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "Load LoRA"
+    }
+  }
+}
