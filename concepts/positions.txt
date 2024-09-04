@@ -72,6 +72,7 @@ hip-level shot
 (distant subject, ultra wide-angle shot)
 surrounding
 up above
+view up at $$random_word
 
 Aerial View
 Bird's Eye View

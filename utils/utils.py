@@ -162,3 +162,11 @@ def get_default_user_language():
     elif _locale is not None and "_" in _locale:
         _locale = _locale[:_locale.index("_")]
     return _locale
+
+
+def play_sound(sound="success"):
+    if sys.platform != 'win32':
+        return
+    sound = os.path.join(os.path.dirname(os.path.dirname(__file__)), "lib", "sounds", sound + ".wav")
+    import winsound
+    winsound.PlaySound(sound, winsound.SND_ASYNC)

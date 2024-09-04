@@ -101,11 +101,24 @@ class Concepts:
     def sample_whitelisted(concepts, low, high) -> list:
         # TODO technically inefficient to rebuild the whitelist each time
         # TODO blacklist concepts from the negative prompt
-        # TODO need to ensure that low is respected and since concepts are being subtracted
         if len(concepts) == 0:
+            if low > 0:
+                raise Exception("No concepts to sample")
             return []
         if len(Concepts.TAG_BLACKLIST) == 0:
             return sample(concepts, low, high)
+        sampled = []
+        count = 0
+        min_needed = min(low, high)
+        while len(sampled) < min_needed:
+            count += 1
+            if count > 100:
+                raise Exception(f"Failed to generate a sample list for concepts. Concepts len {len(concepts)} Low {low} High {high}")
+            sampled = Concepts._sample_whitelisted(concepts, low, high)
+        return sampled
+
+    @staticmethod
+    def _sample_whitelisted(concepts, low, high):
         is_dict = isinstance(concepts, dict)
         whitelist = {} if is_dict else []
         filtered = {}
@@ -130,6 +143,7 @@ class Concepts:
     def __init__(self, prompt_mode, get_specific_locations, concepts_dir="concepts"):
         if Concepts.set_concepts_dir(concepts_dir):
             Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
+            print("Reset all words list.")
         self.prompt_mode = prompt_mode
         self.get_specific_locations = get_specific_locations
         # Randomly select concepts from the lists
@@ -210,6 +224,9 @@ class Concepts:
         return Concepts.sample_whitelisted(descriptions, low, high)
 
     def get_random_words(self, low=0, high=9):
+        if len(Concepts.ALL_WORDS_LIST) == 0:
+            print("For some reason, all words list was empty.")
+            Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
         random_words = Concepts.sample_whitelisted(Concepts.ALL_WORDS_LIST, low, high)
         random.shuffle(random_words)
         random_word_strings = []

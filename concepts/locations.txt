@@ -10,6 +10,7 @@ aquarium
 aqueduct
 army base
 asphalt
+at a $$random_word
 at a dance club
 at a family gettogether
 at a family reunion
@@ -18,12 +19,16 @@ at a laboratory
 at a party
 at a track meet, long jump
 at a wedding
+at $$random_word
 at college
 at home
 at school
+at the $$random_word
 at the mall
 at the park
 at the zoo
+at the bottom
+at the top
 baggage claim
 bakery
 balcony
@@ -46,6 +51,7 @@ bridge
 bus station
 bus stop
 busy jungle village
+by the $$random_word
 by the door
 by the lake
 by the river
@@ -92,6 +98,7 @@ deserted island
 diner
 docks
 dog park
+down the hall
 downtown
 drive-in movie theater
 driveway
@@ -142,6 +149,7 @@ hot springs
 hotel
 housing development
 ice skating rink
+in a $$random_word
 in a boardroom meeting
 in a bus
 in a busy place
@@ -161,7 +169,9 @@ in a well-lit grotto
 in a zoo
 in a zoological gardens
 in a zoological park
+in $$random_word
 in space
+in the $$random_word
 in the city
 in the corner
 in the country
@@ -197,6 +207,7 @@ nuclear reactor
 ocean
 off world
 office
+on a $$random_word
 on a boat
 on a busy public beach
 on a busy public street
@@ -209,6 +220,8 @@ on a surfboard
 on a train
 on an airplane
 on stage
+on $$random_word
+on the $$random_word
 on the beach
 on the farm
 on the fen
@@ -216,6 +229,8 @@ on the moon
 on the moors
 on the road
 on the space station
+on top of a $$random_word
+on top of a double-decker bus
 on top of a mountain
 on top of a skyscraper
 on top of a tower
@@ -288,7 +303,9 @@ travelers camp
 treehouse
 tundra
 tunnel
+under $$random_word
 under covers
+under the $$random_word
 under the bed
 underpass
 underwater

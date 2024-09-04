@@ -79,8 +79,9 @@
     },
 
     "prompt_preset_schedule": {
-        "My Preset will run twice": 2,
-        "My Preset will run once": 1
+        "Preset to run using the currently set total": -1,
+        "Preset to run twice": 2,
+        "Preset to run once": 1
     },
 
     "concepts_dirs": ["concepts"],

@@ -215,6 +215,7 @@ class PresetsWindow():
             self.filtered_presets = PresetsWindow.recent_presets[:]
         else:
             temp = []
+            return # TODO
             for preset in PresetsWindow.recent_presets:
                 if preset not in temp:
                     if preset and (f" {self.filter_text}" in preset.lower() or f"_{self.filter_text}" in preset.lower()):

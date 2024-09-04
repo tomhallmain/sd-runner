@@ -9,10 +9,12 @@ Deutschland
 Valhalla
 Al Naslaa Rock Formation
 Aloba Arch - Chad
+Alsace
 Angkor Wat - Cambodia
 Antelope Canyon
 Aokigahara Forest - The Suicide Forest
 Arc de Triomphe - France
+Auxerre - France
 Banff National Park - Canada
 Berlin TV Tower - Germany
 Big Ben - England
@@ -35,6 +37,7 @@ Cliffs of Moher - Ireland
 CN Tower - Canada
 Confluence Of Rhone And Arve Rivers
 Copacabana Beach - Brazil
+Cornwall
 Crooked Forest - Spooky Yet Beautiful
 Danakil Depression - The Place With Acid Pools
 Dead Sea - Float Over The Water
@@ -74,6 +77,7 @@ Italian Riviera
 Itsukushima Shrine - Japan
 Jellyfish Lake
 Jeronimos Monastery - Lisbon
+Kinkaku-Ji - Golden Pavilion Summer palace
 Koekohe Beach - Beach With Giant Boulders
 La Sagrada Familia - Spain
 Lake Natron - Scariest Lake
@@ -109,6 +113,7 @@ Notre Dame - France
 Nyaung Ohak - Explore The Jungle Village
 One Canada Square - Canary Wharf, England
 Oneuli Beach - Black Beach
+Osaka
 Painted Hills
 Pancake Rocks - Natural Staircases
 Peggy’s Point Lighthouse - Canada
@@ -137,6 +142,7 @@ Sea Of Stars - Walk Down The Glowing Water
 Seattle Space Needle - The United States
 Seoul Tower - South Korea
 Shwedagon Pagoda - Myanmar
+Skyline Drive
 Slope Point - Windy Spot
 Sossusvlei - Namibia
 Spanish Steps - Italy
@@ -148,6 +154,7 @@ Statue of Liberty - The United States
 Stonehenge - England
 Straight of Gibraltar
 Sugar Loaf Mountain - Brazil
+Swansea
 Sydney Harbour Bridge - Australia
 Sydney Opera House - Australia
 Table Mountain - South Africa
@@ -819,3 +826,85 @@ Zhou dynasty
 Wu Zhou
 Zirid dynasty
 Zulu Empire
+
+Tokyo
+Delhi
+Shanghai
+São Paulo
+Mexico City
+Cairo
+Mumbai
+Beijing
+Dhaka
+Osaka
+New York City
+Tehran
+Karachi
+Buenos Aires
+Chongqing
+Istanbul
+Kolkata
+Manila
+Lagos
+Rio de Janeiro
+Tianjin
+Kinshasa
+Guangzhou
+Los Angeles
+Moscow
+Shenzhen
+Lahore
+Bangalore
+Paris
+Bogotá
+Jakarta
+Chennai
+Lima
+Bangkok
+Seoul
+Nagoya
+Hyderabad
+London
+Chicago
+Chengdu
+Nanjing
+Wuhan
+Ho Chi Minh City
+Luanda
+Ahmedabad
+Kuala Lumpur
+Xi'an
+Hong Kong
+Dongguan
+Hangzhou
+Foshan
+Shenyang
+Riyadh
+Baghdad
+Santiago
+Surat
+Madrid
+Suzhou
+Pune
+Harbin
+Houston
+Dallas
+Toronto
+Dar es Salaam
+Miami
+Belo Horizonte
+Singapore
+Philadelphia
+Atlanta
+Fukuoka
+Khartoum
+Barcelona
+Johannesburg
+Saint Petersburg
+Qingdao
+Dalian
+Washington
+Yangon
+Alexandria
+Jinan
+Guadalajara

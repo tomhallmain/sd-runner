@@ -30,7 +30,7 @@ from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
-from utils.utils import start_thread
+from utils.utils import start_thread, play_sound
 
 _ = I18N._
 
@@ -84,7 +84,8 @@ class ProgressListener:
         self.update_func(context, percent_complete)
 
 class JobQueue:
-    def __init__(self, max_size=20):
+    def __init__(self, name="JobQueue", max_size=20):
+        self.name = name
         self.max_size = max_size
         self.pending_jobs = []
         self.job_running = False
@@ -95,16 +96,19 @@ class JobQueue:
     def take(self):
         if len(self.pending_jobs) == 0:
             return None
-        run_config = self.pending_jobs[0]
+        job_args = self.pending_jobs[0]
         del self.pending_jobs[0]
-        return run_config
+        return job_args
 
-    def add(self, run_config):
+    def add(self, job_args):
         if len(self.pending_jobs) > self.max_size:
             raise Exception(f"Reached limit of pending runs: {self.max_size} - wait until current run has completed.")
-        self.pending_jobs.append(run_config)
-        print(f"Added pending job: {run_config}")
+        self.pending_jobs.append(job_args)
+        print(f"JobQueue {self.name} - Added pending job: {job_args}")
 
+    def cancel(self):
+        self.pending_jobs = []
+        self.job_running = False
 
 
 class App():
@@ -116,7 +120,8 @@ class App():
         self.master = master
         self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.progress_bar = None
-        self.job_queue = JobQueue()
+        self.job_queue = JobQueue("Stable Diffusion Runs")
+        self.job_queue_preset_schedules = JobQueue("Preset Schedules")
         self.server = self.setup_server()
         self.runner_app_config = self.load_info_cache()
         self.config_history_index = 0
@@ -511,7 +516,6 @@ class App():
         self.run_preset_schedule_var = BooleanVar(value=False)
         self.run_preset_schedule_choice = Checkbutton(self.prompter_config_bar, text=_("Run Preset Schedule"), variable=self.run_preset_schedule_var)
         self.apply_to_grid(self.run_preset_schedule_choice, sticky=W, column=1, columnspan=3)
-        self.has_started_preset_schedule = False
 
         self.tag_blacklist_btn = None
         self.presets_window_btn = None
@@ -711,13 +715,19 @@ class App():
         self.runner_app_config.set_from_run_config(args)
         return Preset.from_runner_app_config(name, self.runner_app_config)
 
-    def run_preset_schedule(self):
-        self.has_started_preset_schedule = True
-
+    def run_preset_schedule(self, override_args={}):
         def run_preset_async():
+            self.job_queue_preset_schedules.job_running = True
+            if "control_net" in override_args:
+                self.controlnet_file.set(override_args["control_net"])
+                print(f"Updated Control Net for next preset schedule: " + str(override_args["control_net"]))
+            if "ip_adapter" in override_args:
+                self.ipadapter_file.set(override_args["ip_adapter"])
+                print(f"Updated IP Adapater for next preset schedule: " + str(override_args["ip_adapter"]))
             for preset_name, count in config.prompt_preset_schedule.items():
-                if not self.has_started_preset_schedule or not self.run_preset_schedule_var.get():
-                    self.has_started_preset_schedule = False
+                if not self.job_queue_preset_schedules.has_pending() or not self.run_preset_schedule_var.get() or \
+                        (self.current_run is not None and self.current_run.is_cancelled):
+                    self.job_queue_preset_schedules.cancel()
                     return
                 try:
                     preset = PresetsWindow.get_preset_by_name(preset_name)
@@ -725,7 +735,8 @@ class App():
                     self.handle_error(str(e), "Preset Schedule Error")
                     raise e
                 self.set_widgets_from_preset(preset)
-                self.total.set(count)
+                if count > 0:
+                    self.total.set(count)
                 self.run()
                 # NOTE have to do some special handling here because the runs are still not self-contained,
                 # and overwriting widget values may cause the current run to have its settings changed mid-run
@@ -733,11 +744,17 @@ class App():
                 started_run_id = self.current_run.id
                 while (self.current_run is not None and started_run_id == self.current_run.id
                         and not self.current_run.is_cancelled and not self.current_run.is_complete):
-                    if not self.has_started_preset_schedule or not self.run_preset_schedule_var.get():
-                        self.has_started_preset_schedule = False
+                    if not self.job_queue_preset_schedules.has_pending() or not self.run_preset_schedule_var.get():
+                        self.job_queue_preset_schedules.cancel()
                         return
                     time.sleep(1)
-            self.has_started_preset_schedule = False
+            self.job_queue_preset_schedules.job_running = False
+            next_preset_schedule_args = self.job_queue_preset_schedules.take()
+            if next_preset_schedule_args is None:
+                play_sound()
+                self.job_queue_preset_schedules.cancel()
+            else:
+                self.run_preset_schedule(override_args=next_preset_schedule_args)
 
         start_thread(run_preset_async, use_asyncio=False, args=[])
 
@@ -772,19 +789,19 @@ class App():
     def run(self, event=None):
         if self.current_run.is_infinite():
             self.current_run.cancel()
-        if event is not None and self.has_started_preset_schedule:
+        if event is not None and self.job_queue_preset_schedules.has_pending():
             res = self.alert(_("Confirm Run"),
                 _("Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"),
                 kind="warning")
             if res != messagebox.OK:
                 return
-            self.has_started_preset_schedule = False
+            self.job_queue_preset_schedules.cancel()
         if self.run_preset_schedule_var.get():
-            if not self.has_started_preset_schedule:
+            if not self.job_queue_preset_schedules.has_pending():
                 self.run_preset_schedule()
                 return None
         else:
-            self.has_started_preset_schedule = False
+            self.job_queue_preset_schedules.cancel()
         args, args_copy = self.get_args()
 
         try:
@@ -887,11 +904,17 @@ class App():
                 image_path = args["image"].replace(",", "\\,")
                 print(image_path)
                 if workflow_type in [WorkflowType.CONTROLNET, WorkflowType.RENOISER, WorkflowType.REDO_PROMPT]:
-                    if "append" in args and args["append"] and self.controlnet_file.get().strip() != "":
+                    if self.run_preset_schedule_var.get() and self.job_queue_preset_schedules.has_pending():
+                        self.job_queue_preset_schedules.add({"control_net": image_path})
+                        return {}
+                    elif "append" in args and args["append"] and self.controlnet_file.get().strip() != "":
                         self.controlnet_file.set(self.controlnet_file.get() + "," + image_path)
                     else:
                         self.controlnet_file.set(image_path)
                 elif workflow_type == WorkflowType.IP_ADAPTER:
+                    if self.run_preset_schedule_var.get() and self.job_queue_preset_schedules.has_pending():
+                        self.job_queue_preset_schedules.add({"ip_adapter": image_path})
+                        return {}
                     if "append" in args and args["append"] and self.ipadapter_file.get().strip() != "":
                         self.ipadapter_file.set(self.ipadapter_file.get() + "," + image_path)
                     else:
