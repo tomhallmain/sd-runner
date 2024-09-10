@@ -57,3 +57,6 @@ class RunConfig:
                 RunConfig.has_warned_about_prompt_massage_text_mismatch = True
                 raise Exception(_("A model switch was detected and the model massage tags don't match. This warning will only be shown once."))
         return True
+
+    def __str__(self):
+        return str(self.__dict__)

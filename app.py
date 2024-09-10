@@ -1,5 +1,4 @@
 from copy import deepcopy
-import os
 import signal
 import time
 import traceback
@@ -34,9 +33,7 @@ from utils.utils import start_thread, play_sound
 
 _ = I18N._
 
-# TODO enable "madlibs" style prompting variables (requires labelling parts of speech in english_words.txt)
-# TODO enable "profile" prompting with cycles between them, possibly interfacing with the madlib prompting in previous TODO comment
-
+# TODO enable "madlibs" style prompting variables (requires labelling parts of speech in dictionary.txt)
 
 def set_attr_if_not_empty(text_box):
     current_value = text_box.get()
@@ -84,7 +81,7 @@ class ProgressListener:
         self.update_func(context, percent_complete)
 
 class JobQueue:
-    def __init__(self, name="JobQueue", max_size=20):
+    def __init__(self, name="JobQueue", max_size=50):
         self.name = name
         self.max_size = max_size
         self.pending_jobs = []
@@ -110,10 +107,18 @@ class JobQueue:
         self.pending_jobs = []
         self.job_running = False
 
+    def pending_text(self):
+        if len(self.pending_jobs) == 0:
+            return ""
+        if self.name == "Stable Diffusion Runs":
+            return _(" (Pending runs: {0})").format(len(self.pending_jobs))
+        elif self.name == "Preset Schedules":
+            return _(" (Pending schedules: {0})").format(len(self.pending_jobs))
+
 
 class App():
     '''
-    UI for overlay of ComfyUI workflow management.
+    UI for Stable Diffusion workflow management.
     '''
 
     def __init__(self, master):
@@ -461,6 +466,15 @@ class App():
         self.apply_to_grid(self.descriptions0_choice, sticky=W, interior_column=1, column=1, increment_row_counter=False)
         self.apply_to_grid(self.descriptions1_choice, sticky=W, interior_column=2, column=1, increment_row_counter=True)
 
+        self.label_characters = Label(self.prompter_config_bar)
+        self.add_label(self.label_characters, _("Characters"), column=1, increment_row_counter=False)
+        self.characters0 = StringVar(master)
+        self.characters1 = StringVar(master)
+        self.characters0_choice = OptionMenu(self.prompter_config_bar, self.characters0, str(prompter_config.characters[0]), *[str(i) for i in list(range(51))])
+        self.characters1_choice = OptionMenu(self.prompter_config_bar, self.characters1, str(prompter_config.characters[1]), *[str(i) for i in list(range(51))])
+        self.apply_to_grid(self.characters0_choice, sticky=W, interior_column=1, column=1, increment_row_counter=False)
+        self.apply_to_grid(self.characters1_choice, sticky=W, interior_column=2, column=1, increment_row_counter=True)
+
         self.label_random_words = Label(self.prompter_config_bar)
         self.add_label(self.label_random_words, _("Random Words"), column=1, increment_row_counter=False)
         self.random_words0 = StringVar(master)
@@ -513,9 +527,19 @@ class App():
         self.tags_at_start_choice = Checkbutton(self.prompter_config_bar, text=_("Tags Applied to Prompt Start"), variable=self.tags_at_start_var, command=self.set_tags_apply_to_start)
         self.apply_to_grid(self.tags_at_start_choice, sticky=W, column=1, columnspan=3)
 
+        self.tags_sparse_mix_var = BooleanVar(value=self.runner_app_config.prompter_config.sparse_mixed_tags)
+        self.tags_sparse_mix_choice = Checkbutton(self.prompter_config_bar, text=_("Sparse Mixed Tags"), variable=self.tags_sparse_mix_var, command=self.set_tags_sparse_mix)
+        self.apply_to_grid(self.tags_sparse_mix_choice, sticky=W, column=1, columnspan=3)
+
         self.run_preset_schedule_var = BooleanVar(value=False)
         self.run_preset_schedule_choice = Checkbutton(self.prompter_config_bar, text=_("Run Preset Schedule"), variable=self.run_preset_schedule_var)
         self.apply_to_grid(self.run_preset_schedule_choice, sticky=W, column=1, columnspan=3)
+
+        self.label_preset_schedule_choice = Label(self.prompter_config_bar)
+        self.add_label(self.label_preset_schedule_choice, _("Prompt Preset Schedule"), column=1, increment_row_counter=False)
+        self.preset_schedule = StringVar(master)
+        self.preset_schedule_choice = OptionMenu(self.prompter_config_bar, self.preset_schedule, str(list(config.prompt_preset_schedules.keys())[0]), *config.prompt_preset_schedules.keys())
+        self.apply_to_grid(self.preset_schedule_choice, column=1, interior_column=1, sticky=W)
 
         self.tag_blacklist_btn = None
         self.presets_window_btn = None
@@ -695,6 +719,8 @@ class App():
         self.actions1.set(str(prompter_config.actions[1]))
         self.descriptions0.set(str(prompter_config.descriptions[0]))
         self.descriptions1.set(str(prompter_config.descriptions[1]))
+        self.characters0.set(str(prompter_config.characters[0]))
+        self.characters1.set(str(prompter_config.characters[1]))
         self.random_words0.set(str(prompter_config.random_words[0]))
         self.random_words1.set(str(prompter_config.random_words[1]))
         self.nonsense0.set(str(prompter_config.nonsense[0]))
@@ -724,9 +750,11 @@ class App():
             if "ip_adapter" in override_args:
                 self.ipadapter_file.set(override_args["ip_adapter"])
                 print(f"Updated IP Adapater for next preset schedule: " + str(override_args["ip_adapter"]))
-            for preset_name, count in config.prompt_preset_schedule.items():
+            starting_total = int(self.total.get())
+            schedule = config.prompt_preset_schedules[self.preset_schedule.get()]
+            for preset_name, count in schedule.items():
                 if not self.job_queue_preset_schedules.has_pending() or not self.run_preset_schedule_var.get() or \
-                        (self.current_run is not None and self.current_run.is_cancelled):
+                        (self.current_run is not None and not self.current_run.is_infinite() and self.current_run.is_cancelled):
                     self.job_queue_preset_schedules.cancel()
                     return
                 try:
@@ -735,8 +763,7 @@ class App():
                     self.handle_error(str(e), "Preset Schedule Error")
                     raise e
                 self.set_widgets_from_preset(preset)
-                if count > 0:
-                    self.total.set(count)
+                self.total.set(str(count if count > 0 else starting_total))
                 self.run()
                 # NOTE have to do some special handling here because the runs are still not self-contained,
                 # and overwriting widget values may cause the current run to have its settings changed mid-run
@@ -748,10 +775,10 @@ class App():
                         self.job_queue_preset_schedules.cancel()
                         return
                     time.sleep(1)
+            self.total.set(str(starting_total))
             self.job_queue_preset_schedules.job_running = False
             next_preset_schedule_args = self.job_queue_preset_schedules.take()
             if next_preset_schedule_args is None:
-                play_sound()
                 self.job_queue_preset_schedules.cancel()
             else:
                 self.run_preset_schedule(override_args=next_preset_schedule_args)
@@ -821,13 +848,19 @@ class App():
             self.progress_bar.start()
             self.cancel_btn.grid(row=2, column=1)
             self.current_run = Run(args, progress_callback=self.update_progress)
-            self.current_run.execute()
+            try:
+                self.current_run.execute()
+            except Exception:
+                traceback.print_exc()
+                self.current_run.cancel()
             self.cancel_btn.grid_forget()
             self.destroy_progress_bar()
             self.job_queue.job_running = False
             next_job_args = self.job_queue.take()
             if next_job_args:
                 start_thread(run_async, use_asyncio=False, args=[next_job_args])
+            elif not self.job_queue_preset_schedules.has_pending() and not self.current_run.is_cancelled:
+                play_sound()
 
         if self.job_queue.has_pending():
             self.job_queue.add(args)
@@ -890,11 +923,19 @@ class App():
         if total == -1:
             self.label_progress["text"] = str(current_index) + _(" (unlimited)")
         else:
-            self.label_progress["text"] = str(current_index) + "/" + str(total)
+            pending_text = self.job_queue_preset_schedules.pending_text()
+            if pending_text is None or pending_text == "":
+                pending_text = self.job_queue.pending_text()
+                if pending_text is None:
+                    pending_text = ""
+            self.label_progress["text"] = str(current_index) + "/" + str(total) + pending_text
         self.master.update()
 
     def server_run_callback(self, workflow_type, args):
         if workflow_type is not None:
+            if WorkflowType.CONTROLNET == workflow_type and self.software.get() == "SDWebUI":
+                # TODO remove this after setting up controlnet for SDWebUI
+                workflow_type = WorkflowType.IP_ADAPTER
             self.workflow.set(workflow_type.name)
             self.set_workflow_type(workflow_type.name)
         else:
@@ -938,6 +979,7 @@ class App():
         self.runner_app_config.prompter_config.expressions = (int(self.expressions0.get()), int(self.expressions1.get()))
         self.runner_app_config.prompter_config.actions = (int(self.actions0.get()), int(self.actions1.get()))
         self.runner_app_config.prompter_config.descriptions = (int(self.descriptions0.get()), int(self.descriptions1.get()))
+        self.runner_app_config.prompter_config.characters = (int(self.characters0.get()), int(self.characters1.get()))
         self.runner_app_config.prompter_config.random_words = (int(self.random_words0.get()), int(self.random_words1.get()))
         self.runner_app_config.prompter_config.nonsense = (int(self.nonsense0.get()), int(self.nonsense1.get()))
 
@@ -1033,6 +1075,10 @@ class App():
     def set_tags_apply_to_start(self, event=None):
         self.runner_app_config.tags_apply_to_start = self.tags_at_start_var.get()
         Prompter.set_tags_apply_to_start(self.runner_app_config.tags_apply_to_start)
+
+    def set_tags_sparse_mix(self, event=None):
+        self.runner_app_config.prompter_config.sparse_mixed_tags = self.tags_sparse_mix_var.get()
+        Prompter.set_tags_apply_to_start(self.runner_app_config.prompter_config.sparse_mixed_tags)
 
     def apply_wildcards(self, text, positive=False):
         if Prompter.contains_expansion_var(text, from_ui=True):

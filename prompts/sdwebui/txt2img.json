@@ -1,12 +1,12 @@
 {
     "prompt": " <lora:lora_model:1>",
     "negative_prompt": "",
-    "seed": 1,
+    "seed": 0,
     "steps": 20,
     "width": 512,
     "height": 512,
     "cfg_scale": 7,
-    "sampler_name": "DPM++ 2M",
+    "sampler_name": "DPM++ 2M Karras",
     "n_iter": 1,
     "batch_size": 1,
     "override_settings": {

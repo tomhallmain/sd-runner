@@ -143,7 +143,7 @@ class GenConfig:
         return int(random.random() * 9999999999999)
     
     def get_seed(self):
-        return self.seed if (self.seed and self.seed > -1) else GenConfig.random_seed()
+        return self.seed if (self.seed is not None and self.seed > -1) else GenConfig.random_seed()
     
     def get_ip_adapter_models(self):
         if self.is_xl():

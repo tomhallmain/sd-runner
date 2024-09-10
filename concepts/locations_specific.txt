@@ -908,3 +908,6 @@ Yangon
 Alexandria
 Jinan
 Guadalajara
+
+Jericho
+

@@ -6,31 +6,34 @@ import subprocess
 
 from sd_runner.concepts import Concepts, PromptMode
 from utils.config import config
+from extensions.image_data_extractor import ImageDataExtractor
 
 
 class PrompterConfiguration:
-    def __init__(self, prompt_mode=PromptMode.SFW, concepts_config=(1,3), positions_config=(0,2), locations_config=(0,1),
-                 animals_config=(0,1,0.1), colors_config=(0,2), times_config=(0,1),
-                 dress_config=(0,2,0.5), expressions=(1,1), actions=(0,2), descriptions=(0,1),
-                 random_words_config=(0,5), nonsense_config=(0, 0), art_styles_chance=0.3) -> None:
+    def __init__(self, prompt_mode=PromptMode.SFW, concepts=(1,3), positions=(0,2), locations=(0,1),
+                 animals=(0,1,0.1), colors=(0,2), times=(0,1), dress=(0,2,0.5),
+                 expressions=(1,1), actions=(0,2), descriptions=(0,1), characters=(0,1),
+                 random_words=(0,5), nonsense=(0, 0), art_styles_chance=0.3) -> None:
         self.concepts_dir = config.concepts_dirs[config.default_concepts_dir]
         self.prompt_mode = prompt_mode
-        self.concepts = concepts_config
-        self.positions = positions_config
-        self.locations = locations_config
+        self.concepts = concepts
+        self.positions = positions
+        self.locations = locations
         self.specific_locations_chance = 0.25
-        self.animals = animals_config
-        self.colors = colors_config
-        self.times = times_config
-        self.dress = dress_config
+        self.animals = animals
+        self.colors = colors
+        self.times = times
+        self.dress = dress
         self.expressions = expressions
         self.actions = actions
         self.descriptions = descriptions
-        self.random_words = random_words_config
-        self.nonsense = nonsense_config
+        self.characters = characters
+        self.random_words = random_words
+        self.nonsense = nonsense
         self.art_styles_chance = art_styles_chance
         self.specify_humans_chance = 0.25
         self.emphasis_chance = 0.1
+        self.sparse_mixed_tags = False
 
     def to_dict(self) -> dict:
         return {
@@ -47,11 +50,13 @@ class PrompterConfiguration:
             "expressions": self.expressions,
             "actions": self.actions,
             "descriptions": self.descriptions,
+            "characters": self.characters,
             "random_words": self.random_words,
             "nonsense": self.nonsense,
             "art_styles_chance": self.art_styles_chance,
             "specify_humans_chance": self.specify_humans_chance,
             "emphasis_chance": self.emphasis_chance,
+            "sparse_mixed_tags": self.sparse_mixed_tags,
         }
 
     def set_from_dict(self, _dict):
@@ -68,11 +73,13 @@ class PrompterConfiguration:
         self.expressions = _dict['expressions'] if 'expressions' in _dict else self.expressions
         self.actions = _dict['actions'] if 'actions' in _dict else self.actions
         self.descriptions = _dict['descriptions'] if 'descriptions' in _dict else self.descriptions
+        self.characters = _dict["characters"] if "characters" in _dict else self.characters
         self.random_words = _dict['random_words'] if 'random_words' in _dict else self.random_words
         self.nonsense = _dict['nonsense'] if 'nonsense' in _dict else self.nonsense
         self.art_styles_chance = _dict['art_styles_chance'] if 'art_styles_chance' in _dict else self.art_styles_chance
         self.specify_humans_chance = _dict['specify_humans_chance'] if'specify_humans_chance' in  _dict else self.specify_humans_chance
         self.emphasis_chance = _dict['emphasis_chance'] if 'emphasis_chance' in _dict else self.emphasis_chance
+        self.sparse_mixed_tags = _dict['sparse_mixed_tags'] if 'sparse_mixed_tags' in _dict else self.sparse_mixed_tags
         self._handle_old_types()
 
     def set_from_other(self, other):
@@ -106,6 +113,7 @@ class Prompter:
     POSITIVE_TAGS = config.dict["default_positive_tags"]
     NEGATIVE_TAGS = config.dict["default_negative_tags"]
     TAGS_APPLY_TO_START = True
+    IMAGE_DATA_EXTRACTOR = None
 
     """
     Has various functions for generating stable diffusion image generation prompts.
@@ -139,7 +147,7 @@ class Prompter:
     def set_tags_apply_to_start(cls, apply):
         cls.TAGS_APPLY_TO_START = apply
 
-    def generate_prompt(self, positive="", negative=""):
+    def generate_prompt(self, positive="", negative="", related_image_path=""):
         if self.prompt_mode in (PromptMode.SFW, PromptMode.NSFW, PromptMode.NSFL):
             positive = self.mix_concepts()
         elif PromptMode.RANDOM == self.prompt_mode:
@@ -152,6 +160,10 @@ class Prompter:
             # print(positive)
             # print(len(positive))
             positive += self.get_artistic_prompt(len(positive) == 0)
+        elif PromptMode.TAKE == self.prompt_mode:
+            if related_image_path == "":
+                raise Exception("No related image path provided to take prompt from")
+            positive, negative = Prompter.take_prompt_from_image(related_image_path)
         elif PromptMode.LIST == self.prompt_mode:
             positive = self.prompt_list[self.count % len(self.prompt_list)]
         elif PromptMode.IMPROVE == self.prompt_mode:
@@ -159,13 +171,17 @@ class Prompter:
             positive = self.transform_result(data)
         self.count += 1
         if Prompter.POSITIVE_TAGS and Prompter.POSITIVE_TAGS.strip() != "":
-            if Prompter.TAGS_APPLY_TO_START:
+            if self.prompter_config.sparse_mixed_tags:
+                positive = self._mix_sparse_tags(positive)
+            elif Prompter.TAGS_APPLY_TO_START:
                 if not positive.startswith(Prompter.POSITIVE_TAGS):
                     positive = Prompter.POSITIVE_TAGS + positive
             elif not positive.endswith(Prompter.POSITIVE_TAGS):
                 positive += ", " + Prompter.POSITIVE_TAGS
         if Prompter.NEGATIVE_TAGS and Prompter.NEGATIVE_TAGS != "":
-            if Prompter.TAGS_APPLY_TO_START:
+            if self.prompter_config.sparse_mixed_tags:
+                negative = self._mix_sparse_tags(negative)
+            elif Prompter.TAGS_APPLY_TO_START:
                 if not negative.startswith(Prompter.NEGATIVE_TAGS):
                     negative = Prompter.NEGATIVE_TAGS + negative
             elif not negative.endswith(Prompter.NEGATIVE_TAGS):
@@ -203,6 +219,47 @@ class Prompter:
         Prompter.emphasize(nonsense, emphasis_chance=self.prompter_config.emphasis_chance)
         return ', '.join(nonsense)
 
+    def _mix_sparse_tags(self, text):
+        if not Prompter.POSITIVE_TAGS or Prompter.POSITIVE_TAGS.strip() == '' or text is None or text.strip() == "":
+            return str(text)
+        positive_tags = Prompter._get_discretely_emphasized_prompt(Prompter.POSITIVE_TAGS)
+        # print(positive_tags)
+        if len(positive_tags) > 1:
+            random.shuffle(positive_tags)
+            min_chance = 0.25
+            max_chance = 1
+            proportion_to_keep = random.random() * (max_chance - min_chance) + min_chance
+            positive_tags = positive_tags[:int(len(positive_tags) * proportion_to_keep)]
+        full_prompt = [w.strip() for w in text.split(',')]
+        full_prompt.extend(positive_tags)
+        random.shuffle(full_prompt)
+        return ', '.join(full_prompt)
+
+    @staticmethod
+    def _get_discretely_emphasized_prompt(text):
+        assert isinstance(text, str) and len(text) > 0, "Text must be a non-empty string."
+        prompt_part = ""
+        just_closed = 0
+        emphasis_level = 0
+        positive_tags = []
+        for i in range(len(text)):
+            c = text[i]
+            if c == "(":
+                emphasis_level += 1
+            elif c == ")":
+                emphasis_level -= 1
+                if emphasis_level == 0:
+                    just_closed += 1
+            elif c == ",":
+                emphasis_left = "(" * (emphasis_level + just_closed)
+                emphasis_right = ")" * (emphasis_level + just_closed)
+                positive_tags.append(emphasis_left + prompt_part.strip() + emphasis_right)
+                prompt_part = ""
+                just_closed = 0
+            else:
+                prompt_part += c
+        return positive_tags
+
     def _mix_concepts(self, humans_chance=0.25):
         mix = []
         mix.extend(self.concepts.get_concepts(*self.prompter_config.concepts))
@@ -215,6 +272,7 @@ class Prompter:
         mix.extend(self.concepts.get_expressions(*self.prompter_config.expressions))
         mix.extend(self.concepts.get_actions(*self.prompter_config.actions))
         mix.extend(self.concepts.get_descriptions(*self.prompter_config.descriptions))
+        mix.extend(self.concepts.get_characters(*self.prompter_config.characters))
         mix.extend(self.concepts.get_random_words(*self.prompter_config.random_words))
         mix.extend(self.concepts.get_nonsense(*self.prompter_config.nonsense))
         # Humans might not always be desirable so only add some randomly
@@ -263,6 +321,12 @@ class Prompter:
         random.shuffle(mix)
         Prompter.emphasize(mix)
         return ', '.join(mix)
+
+    @staticmethod
+    def take_prompt_from_image(related_image_path):
+        if Prompter.IMAGE_DATA_EXTRACTOR is None:
+            Prompter.IMAGE_DATA_EXTRACTOR = ImageDataExtractor()
+        return Prompter.IMAGE_DATA_EXTRACTOR.extract(related_image_path)
 
     @staticmethod
     def emphasize(mix, emphasis_chance=0.1):

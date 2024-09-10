@@ -187,7 +187,8 @@ class SDWebuiGen:
         prompt.set_clip_texts(
             self.gen_config.redo_param("positive", positive),
             self.gen_config.redo_param("negative", negative), model=model)
-        prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
+        seed = self.gen_config.redo_param("seed", self.get_seed())
+        prompt.set_seed(seed)
         prompt.set_other_sampler_inputs(self.gen_config)
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))

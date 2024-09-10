@@ -1,3 +1,4 @@
+Underwater Coral Reef # A colorful and diverse underwater coral reef.
 abandoned warehouse
 airport
 alcove
@@ -10,6 +11,7 @@ aquarium
 aqueduct
 army base
 asphalt
+at $$random_word
 at a $$random_word
 at a dance club
 at a family gettogether
@@ -19,19 +21,19 @@ at a laboratory
 at a party
 at a track meet, long jump
 at a wedding
-at $$random_word
 at college
 at home
 at school
 at the $$random_word
+at the bottom
 at the mall
 at the park
-at the zoo
-at the bottom
 at the top
+at the zoo
 baggage claim
 bakery
 balcony
+bamboo forest
 bank
 barber shop
 barn
@@ -58,10 +60,12 @@ by the river
 cabin in the woods
 cafe
 camping by the river
-car showroom
 canopy
+car showroom
 casino
 castle
+castle interior
+castle walls
 catacombs
 cemetery
 chateau
@@ -70,21 +74,23 @@ chicken coop
 church
 cinema
 city center
+city gates
 city hall
 city state
+city walls
 cliff
 clothing store
 college
 concert hall
-conference room
 condo
+conference room
 cookout
 country club
 courthouse
 courtroom
 cove
-cozy suburban home
 cozy rural home
+cozy suburban home
 crossroads
 crosswalk
 crowded bar
@@ -94,12 +100,14 @@ dark aquarium
 dark club with neon lights
 dark dungeon
 deli
+desert
 deserted island
 diner
 docks
 dog park
 down the hall
 downtown
+drawbridge
 drive-in movie theater
 driveway
 dugout
@@ -117,6 +125,7 @@ field
 fields
 fire station
 fireplace
+fishing village
 fjord
 float
 food court
@@ -138,6 +147,7 @@ greenhouse
 grocery store
 gym
 gymnasium
+haberdashery
 hallway
 harbor
 hardware store
@@ -149,6 +159,7 @@ hot springs
 hotel
 housing development
 ice skating rink
+in $$random_word
 in a $$random_word
 in a boardroom meeting
 in a bus
@@ -169,7 +180,6 @@ in a well-lit grotto
 in a zoo
 in a zoological gardens
 in a zoological park
-in $$random_word
 in space
 in the $$random_word
 in the city
@@ -185,8 +195,8 @@ in the woods
 industrial park
 info station
 inlet
-isle
 island
+isle
 jail
 jobsite
 junkyard
@@ -197,8 +207,9 @@ library
 living room
 manor
 market
-modern architectural space
+moat
 modern architectural interior
+modern architectural space
 monument
 mountains
 museum
@@ -207,6 +218,7 @@ nuclear reactor
 ocean
 off world
 office
+on $$random_word
 on a $$random_word
 on a boat
 on a busy public beach
@@ -220,7 +232,6 @@ on a surfboard
 on a train
 on an airplane
 on stage
-on $$random_word
 on the $$random_word
 on the beach
 on the farm
@@ -240,8 +251,8 @@ overpass
 parade
 park
 parking lot
-pasture
 parlor
+pasture
 pavement
 pawn shop
 petrol station
@@ -264,17 +275,21 @@ royal throneroom
 rural area
 rural village
 saloon
+savannah
 school
+school classroom
 seaport
 service desk
 shack
 shipyard
 shoe shop
 shopping center
+shrine
 sidewalk
 ski resort
 skyscraper
 small town
+small village
 snowy mountain
 sorority house
 spa
@@ -293,8 +308,11 @@ surface of Mars
 swamp
 swimming pool
 taiga
+tel
 telephone booth
+temple
 theater
+throne room
 traffic jam
 traffic lights
 trailer park
@@ -310,8 +328,6 @@ under the bed
 underpass
 underwater
 urban area
-small village
-fishing village
 vast open area
 veranda
 walk-in closet

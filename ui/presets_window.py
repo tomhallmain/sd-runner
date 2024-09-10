@@ -67,7 +67,7 @@ class PresetsWindow():
     @staticmethod
     def get_geometry(is_gui=True):
         width = 700
-        height = 100
+        height = 400
         return f"{width}x{height}"
 
     def __init__(self, master, toast_callback, construct_preset_callback,

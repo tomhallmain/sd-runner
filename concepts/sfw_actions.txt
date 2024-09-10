@@ -31,6 +31,7 @@ beckoning
 becoming
 beer and spirits tasting
 being
+being a $$random_word
 bells
 berating
 betrayal
@@ -143,6 +144,7 @@ doing puzzles
 dollhouses
 dolls
 doodling
+drafting
 drawing
 dressing up
 drinking bourbon
@@ -151,6 +153,7 @@ drinking water
 drinking wine
 driving
 dueling
+Dungeons and Dragons
 DVDs or VHS tapes
 eating
 eating breakfast
@@ -203,6 +206,7 @@ glass blowing
 glass painting
 going
 going down
+going to $$random_word
 going to museums
 going to work
 going up
@@ -227,9 +231,11 @@ helping
 helping a customer
 herding
 hiding
+hiding from $$random_word
 high school
 hiking
 holding
+holding $$random_word
 holiday books
 holing up
 home decorating
@@ -279,6 +285,7 @@ knocking
 laughing
 laundry
 lawn games
+lazy day
 leaping
 learning
 learning a new language
@@ -292,6 +299,7 @@ listening to music
 living
 log rolling
 looking
+looking at $$random_word
 looking down
 looking over the edge
 looking up
@@ -299,6 +307,7 @@ losing
 loving
 lying
 lying down
+lying on a $$random_word
 magic
 magnets
 makeup art
@@ -330,6 +339,7 @@ model building
 model cars
 model kits
 moving
+mowing the lawn
 musical instruments
 nail art
 nautical or beach inspired art or items
@@ -390,6 +400,8 @@ pleading
 podcasting
 poetry
 poetry writing
+popping a bubble
+popping a wheelie
 postcards
 pottery/ceramics
 praying
@@ -446,9 +458,11 @@ rum whiskey bourbon or other spirits
 running
 running
 running away
+running from $$random_word
 running track
 saluting
 saying
+saying $$random_word
 saying hi
 saying no
 scarves
@@ -534,6 +548,7 @@ swimming
 swimming
 swinging
 table tennis
+tabletop games
 taekwondo
 tai chi
 take a cooking class

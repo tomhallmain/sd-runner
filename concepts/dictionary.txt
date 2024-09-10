@@ -1,3 +1,7 @@
+comest
+cometh
+dost
+doth
 a
 aardvark
 aardwolf
@@ -30741,7 +30745,8 @@ gobo
 goboes
 gobos
 gobs
-god
+God
+God-ward
 godchild
 godchildren
 goddam
@@ -30774,7 +30779,7 @@ godmother
 godmothers
 godparent
 godparents
-gods
+Gods
 godsend
 godsends
 godson

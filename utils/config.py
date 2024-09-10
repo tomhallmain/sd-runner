@@ -27,7 +27,7 @@ class Config:
         self.redo_parameters = ["n_latents", "resolutions", "models", "loras"]
         self.model_presets = []
         self.prompt_presets = []
-        self.prompt_preset_schedule = {}
+        self.prompt_preset_schedules = {}
         self.wildcards = {}
 
         self.interrogator_interrogation_dir = None
@@ -71,7 +71,7 @@ class Config:
                         "prompt_presets")
         self.set_values(dict, 
                         "wildcards",
-                        "prompt_preset_schedule")
+                        "prompt_preset_schedules")
         self.set_directories(
             "models_dir",
             "img_dir",

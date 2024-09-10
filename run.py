@@ -11,6 +11,7 @@ from sd_runner.gen_config import GenConfig
 from sd_runner.ip_adapters import get_ip_adapters
 from sd_runner.prompter import PrompterConfiguration, Prompter
 from sd_runner.models import Model, Resolution
+from sd_runner.run_config import RunConfig
 from sd_runner.sdwebui_gen import SDWebuiGen
 from sd_runner.workflow_prompt import WorkflowPrompt
 from utils.translations import I18N

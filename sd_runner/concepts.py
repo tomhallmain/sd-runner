@@ -11,6 +11,7 @@ class PromptMode(Enum):
     SFW = "SFW"
     NSFW = "NSFW"
     NSFL = "NSFL"
+    TAKE = "TAKE"
     RANDOM = "RANDOM"
     NONSENSE = "NONSENSE"
     ANY_ART = "ANY_ART"
@@ -223,6 +224,12 @@ class Concepts:
             self.extend(descriptions, NSFW.descriptions, 3, NSFL.descriptions, 2)
         return Concepts.sample_whitelisted(descriptions, low, high)
 
+    def get_characters(self, low=0, high=1):
+        characters = Concepts.load(SFW.characters)
+        if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
+            self.extend(characters, NSFW.characters, 3, NSFL.characters, 2)
+        return Concepts.sample_whitelisted(characters, low, high)
+
     def get_random_words(self, low=0, high=9):
         if len(Concepts.ALL_WORDS_LIST) == 0:
             print("For some reason, all words list was empty.")
@@ -272,6 +279,7 @@ class Concepts:
 
     def get_nonsense_word(self):
         # TODO check other language lists as well
+        # TODO check other concept lists
         length = random.randint(3, 15)
         word = ''.join([random.choice(Concepts.ALPHABET) for i in range(length)])
         counter = 0
@@ -287,16 +295,19 @@ class Concepts:
     def load(filename):
         l = []
         filepath = os.path.join(Concepts.CONCEPTS_DIR, filename)
-        with open(filepath, encoding="utf-8") as f:
-            for line in f:
-                val = ""
-                for c in line:
-                    if c == "#":
-                        break
-                    val += c
-                val = val.strip()
-                if len(val) > 0:
-                    l.append(val)
+        try:
+            with open(filepath, encoding="utf-8") as f:
+                for line in f:
+                    val = ""
+                    for c in line:
+                        if c == "#":
+                            break
+                        val += c
+                    val = val.strip()
+                    if len(val) > 0:
+                        l.append(val)
+        except Exception:
+            print("Failed to load concepts file: " + filepath)
         return l
 
 class HardConcepts:
@@ -306,21 +317,23 @@ class HardConcepts:
 
 # Below files are reloaded every time there's a prompt generation to enable quick swapping
 class SFW:
-    concepts = "sfw_concepts.txt"
-    positions = "positions.txt"
-    lighting = "lighting.txt"
-    humans = "humans.txt"
-    locations = "locations.txt"
-    locations_specific = "locations_specific.txt"
-    colors = "colors.txt"
-    times = "times.txt"
-    dress = "sfw_dress.txt"
-    descriptions = "sfw_descriptions.txt"
-    expressions = "sfw_expressions.txt"
     actions = "sfw_actions.txt"
     animals = "animals.txt"
+    characters = "sfw_characters.txt"
+    colors = "colors.txt"
+    concepts = "sfw_concepts.txt"
+    descriptions = "sfw_descriptions.txt"
+    dress = "sfw_dress.txt"
+    expressions = "sfw_expressions.txt"
+    humans = "humans.txt"
+    lighting = "lighting.txt"
+    locations = "locations.txt"
+    locations_specific = "locations_specific.txt"
+    positions = "positions.txt"
+    times = "times.txt"
 
 class NSFW:
+    characters = "nsfw_characters.txt"
     concepts = "nsfw_concepts.txt"
     dress = "nsfw_dress.txt"
     descriptions = "nsfw_descriptions.txt"
@@ -328,6 +341,7 @@ class NSFW:
     actions = "nsfw_actions.txt"
 
 class NSFL:
+    characters = "nsfl_characters.txt"
     concepts = "nsfl_concepts.txt"
     dress = "nsfl_dress.txt"
     descriptions = "nsfl_descriptions.txt"

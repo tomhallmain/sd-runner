@@ -125,6 +125,7 @@ graphic art
 graphic design
 grassy
 grayscale
+grid
 gritty
 grungy
 hard edges
@@ -151,6 +152,7 @@ impressionism
 impulse noise
 infographic
 ink
+inset
 insignia
 inspired
 interpolated
@@ -421,6 +423,7 @@ ancient
 ancient Egypt
 ancient Rome
 arches
+arrow indicator
 Art Nouveau
 Artificial Intelligence
 atmosphere
@@ -488,6 +491,7 @@ cow
 cracked
 cranium
 crowded
+crystalline
 cuneiform
 cursive
 cute
@@ -511,6 +515,8 @@ egg
 electricity
 embroidery
 embroidered
+encased in glass
+enemy health indicators
 engraved
 erosion
 ethereal
@@ -540,6 +546,7 @@ fruits
 fog
 folklore
 fond broderie
+footnotes
 future world
 futuristic
 giant vat
@@ -555,15 +562,20 @@ grimdark
 group of $$random_word
 hairy
 halo
+heads-up display
+health and stamina indicators
 heraldry
 heritage
+highlighter marks
 holding
 horse
 house party
 huge
+game hud elements overlay
 hypermaximalist
 illuminated manuscript
 in pieces
+indicator light
 industrial
 insane art
 insert
@@ -590,7 +602,9 @@ lore
 lore map
 lost in the crowd
 machine learning
+magic
 magic the gathering card
+magic wand
 magnets
 man
 married couple
@@ -612,6 +626,7 @@ motifs
 motivational poster
 mounted deer head on the wall
 musculoskelatal system
+museum display
 museum exhibit
 mushrooms
 mystical
@@ -625,6 +640,7 @@ nested
 noir
 noosphere
 nordic
+notes scribbled in the margin
 nuclear missile
 nuclear reactor
 octane render
@@ -765,11 +781,13 @@ virus in electron microscope
 void
 vortex
 voronoi trees
+wacky
 wax figure
 (web page screenshot, modern web design, home page)
 welding sparks
 whale
 whimsical
+whirlpool
 wings
 wires
 wire sculpture
@@ -827,13 +845,12 @@ volumetric lighting
 
 Vibrant Sunset # A stunning sunset with a palette of warm and vivid colors.
 Monochromatic Blue # A composition dominated by various shades of blue.
-Rainbow Over Waterfall # A rainbow arching over a cascading waterfall.
+(Rainbow Over Waterfall:0.2) # A rainbow arching over a cascading waterfall.
 Autumn Leaves # Fallen leaves in various shades of red, orange, and yellow.
 Neon Cityscape # A futuristic cityscape with neon lights and vibrant colors.
-Colorful Street Market # A bustling street market filled with vibrant fruits, textiles, and people.
+(Colorful Street Market:0.4) # A bustling street market filled with vibrant fruits, textiles, and people.
 Fiery Red Sky # A dramatic and fiery red sky during a sunset.
-Blossoming Cherry Trees # Cherry blossom trees in full bloom with soft pink petals.
-Underwater Coral Reef # A colorful and diverse underwater coral reef.
+(Blossoming Cherry Trees:0.2) # Cherry blossom trees in full bloom with soft pink petals.
 Graffiti Art # A vibrant and intricate graffiti mural on a city wall.
 # Colorful Hot Air Balloons # A sky filled with a variety of colorful hot air balloons.
 Desert Sunrise # A desert landscape bathed in warm, golden hues during sunrise.
@@ -847,21 +864,20 @@ Abstract Watercolor # A beautiful abstract watercolor painting with vivid colors
 Butterfly Garden # A garden filled with butterflies in a range of bright colors.
 Mountain Sunrise # Snow-capped mountains glowing in the warm light of sunrise.
 Evening City Lights # A cityscape at dusk with bright, colorful lights.
-Northern Lights # The magical display of the Northern Lights in the night sky.
 Golden Fields # Fields of wheat or sunflowers in golden hues.
 # Rainbow Umbrellas # A street filled with colorful umbrellas, suspended in the air.
 # Colorful Bird Feathers # Close-up of exotic birds with vibrant plumage.
 Vintage Color Palette # A collection of vintage items with a classic color scheme.
 # Colorful Balloons # A bunch of helium balloons in a variety of bright colors.
 Paint Palette # A palette of vivid paint colors and brushes ready for an artist.
-Aurora Borealis # The ethereal and colorful Northern Lights dancing in the night sky.
+(Aurora Borealis:0.4) # The ethereal and colorful Northern Lights dancing in the night sky.
 Mountain Wildflowers # Wildflowers in a mountain meadow with various colors.
 Autumn Vineyard # Rows of vineyards with autumn leaves changing colors.
-# Carnival Carousel # A carousel at a colorful carnival or fair.
-Colorful Frosted Cupcakes # A selection of frosted cupcakes in a bakery.
-Orchard in Bloom # An orchard filled with blossoming fruit trees.
+(Carnival Carousel:0.2) # A carousel at a colorful carnival or fair.
+(Colorful Frosted Cupcakes:0.2) # A selection of frosted cupcakes in a bakery.
+(Orchard in Bloom:0.1) # An orchard filled with blossoming fruit trees.
 Beach Umbrellas # Colorful beach umbrellas on a sunny shore.
 Tropic Sunset # A tropical beach with a stunning sunset of vivid colors.
 Bohemian Textiles # Colorful textiles and fabrics in a bohemian style.
 # Chinese New Year # A vibrant Chinese New Year celebration with red lanterns.
-Peaceful Lavender Fields # Fields of fragrant lavender in various shades of purple.
+(Peaceful Lavender Fields:0.1) # Fields of fragrant lavender in various shades of purple.

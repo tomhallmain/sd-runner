@@ -39,6 +39,7 @@ mustache
 handlebar mustache
 long beard
 bushy beard
+meek
 
 host
 hostess
