@@ -108,6 +108,7 @@ class Concepts:
             return []
         if len(Concepts.TAG_BLACKLIST) == 0:
             return sample(concepts, low, high)
+        ### TODO fix this case as it is broken
         sampled = []
         count = 0
         min_needed = min(low, high)
@@ -158,13 +159,24 @@ class Concepts:
         for i in range(nsfw_repeats):
             l.extend(nsfw)
 
-    def get_concepts(self, low=1, high=3):
+    def adjust_range(self, low, high, multiplier=1):
+        if multiplier == 1:
+            return low, high
+        candidate_low = max(0, int(low * multiplier))
+        candidate_high = max(0, int(high * multiplier))
+        low = 1 if candidate_low == 0 and low != 0 else candidate_low
+        high = 1 if candidate_high == 0 and high != 0 else candidate_high
+        return low, high
+
+    def get_concepts(self, low=1, high=3, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         concepts = Concepts.load(SFW.concepts)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
         return Concepts.sample_whitelisted(concepts, low, high)
 
-    def get_positions(self, low=0, high=2):
+    def get_positions(self, low=0, high=2, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         positions = Concepts.load(SFW.positions)
         # if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
         #     self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
@@ -172,15 +184,18 @@ class Concepts:
             del positions[1]
         return Concepts.sample_whitelisted(positions, low, high)
 
-    def get_humans(self, low=1, high=1):
+    def get_humans(self, low=1, high=1, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.humans), low, high)
 
-    def get_animals(self, low=0, high=2, inclusion_chance=0.1):
+    def get_animals(self, low=0, high=2, inclusion_chance=0.1, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         if random.random() > inclusion_chance:
             return []
         return Concepts.sample_whitelisted(Concepts.load(SFW.animals), low, high)
 
-    def get_locations(self, low=0, high=2, specific_inclusion_chance=0.3):
+    def get_locations(self, low=0, high=2, specific_inclusion_chance=0.3, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         locations = Concepts.load(SFW.locations)
         if self.get_specific_locations:
             nonspecific_locations_chance = 1 - specific_inclusion_chance
@@ -189,16 +204,19 @@ class Concepts:
                 locations[l] = specific_inclusion_chance
         return Concepts.sample_whitelisted(locations, low, high)
 
-    def get_colors(self, low=0, high=3):
+    def get_colors(self, low=0, high=3, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         colors = Concepts.sample_whitelisted(Concepts.load(SFW.colors), low, high)
         if "rainbow" in colors and random.random() > 0.5:
             colors.remove("rainbow")
         return colors
 
-    def get_times(self, low=0, high=1):
+    def get_times(self, low=0, high=1, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.times), low, high)
 
-    def get_dress(self, low=0, high=2, inclusion_chance=0.5):
+    def get_dress(self, low=0, high=2, inclusion_chance=0.5, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         if random.random() > inclusion_chance:
             return []
         dress = Concepts.load(SFW.dress)
@@ -206,31 +224,36 @@ class Concepts:
             self.extend(dress, NSFW.dress, 3, NSFL.dress, 1)
         return Concepts.sample_whitelisted(dress, low, high)
 
-    def get_expressions(self, low=1, high=1):
+    def get_expressions(self, low=1, high=1, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         expressions = Concepts.load(SFW.expressions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(expressions, NSFW.expressions, 6, NSFL.expressions, 3)
         return Concepts.sample_whitelisted(expressions, low, high)
 
-    def get_actions(self, low=0, high=2):
+    def get_actions(self, low=0, high=2, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         actions = Concepts.load(SFW.actions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(actions, NSFW.actions, 8, NSFL.actions, 3)
         return Concepts.sample_whitelisted(actions, low, high)
 
-    def get_descriptions(self, low=0, high=1):
+    def get_descriptions(self, low=0, high=1, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         descriptions = Concepts.load(SFW.descriptions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(descriptions, NSFW.descriptions, 3, NSFL.descriptions, 2)
         return Concepts.sample_whitelisted(descriptions, low, high)
 
-    def get_characters(self, low=0, high=1):
+    def get_characters(self, low=0, high=1, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         characters = Concepts.load(SFW.characters)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(characters, NSFW.characters, 3, NSFL.characters, 2)
         return Concepts.sample_whitelisted(characters, low, high)
 
-    def get_random_words(self, low=0, high=9):
+    def get_random_words(self, low=0, high=9, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         if len(Concepts.ALL_WORDS_LIST) == 0:
             print("For some reason, all words list was empty.")
             Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
@@ -248,7 +271,8 @@ class Concepts:
             random_word_strings.append(word_string.strip())
         return random_word_strings
 
-    def get_nonsense(self, low=0, high=2):
+    def get_nonsense(self, low=0, high=2, multiplier=1):
+        low, high = self.adjust_range(low, high, multiplier)
         nonsense_words = [self.get_nonsense_word() for _ in range(high)]
         return Concepts.sample_whitelisted(nonsense_words, low, high)
 
@@ -256,18 +280,18 @@ class Concepts:
         return self.prompt_mode in (PromptMode.ANY_ART, PromptMode.PAINTERLY, PromptMode.ANIME, PromptMode.GLITCH)
 
     def get_art_styles(self, max_styles=None):
-        m = {PromptMode.ANIME: (ArtSyles.anime, "anime"),
-             PromptMode.GLITCH: (ArtSyles.glitch, "glitch"),
-             PromptMode.PAINTERLY: (ArtSyles.painters, "painting")}
+        m = {PromptMode.ANIME: (ArtStyles.anime, "anime"),
+             PromptMode.GLITCH: (ArtStyles.glitch, "glitch"),
+             PromptMode.PAINTERLY: (ArtStyles.painters, "painting")}
         if self.prompt_mode in m:
             art_styles = Concepts.load(m[self.prompt_mode][0])
             style_tag = m[self.prompt_mode][1]
         else:
             art_styles = []
-            art_styles.extend(Concepts.load(ArtSyles.anime))
-            art_styles.extend(Concepts.load(ArtSyles.glitch))
-            art_styles.extend(Concepts.load(ArtSyles.painters))
-            art_styles.extend(Concepts.load(ArtSyles.artists))
+            art_styles.extend(Concepts.load(ArtStyles.anime))
+            art_styles.extend(Concepts.load(ArtStyles.glitch))
+            art_styles.extend(Concepts.load(ArtStyles.painters))
+            art_styles.extend(Concepts.load(ArtStyles.artists))
             style_tag = None            
         if max_styles is None:
             max_styles = min(8, len(art_styles)) if self.prompt_mode in (PromptMode.ANY_ART, PromptMode.GLITCH) else 2
@@ -349,8 +373,51 @@ class NSFL:
     actions = "nsfl_actions.txt"
 
 
-class ArtSyles:
+class ArtStyles:
     artists = "artists.txt"
     anime = "mangakas.txt"
     painters = "painters.txt"
     glitch = "glitch.txt"
+
+
+def is_in_existing_concepts(parts_to_check=[]):
+    is_in_existing = {}
+    all_words_list = []
+    for filename in [
+            SFW.actions,
+            SFW.animals,
+            SFW.characters,
+            SFW.colors,
+            SFW.concepts,
+            SFW.descriptions,
+            SFW.dress,
+            SFW.expressions,
+            SFW.humans,
+            SFW.lighting,
+            SFW.locations,
+            SFW.locations_specific,
+            SFW.positions,
+            SFW.times,
+            NSFW.characters,
+            NSFW.concepts,
+            NSFW.dress,
+            NSFW.descriptions,
+            NSFW.expressions,
+            NSFW.actions,
+            NSFL.characters,
+            NSFL.concepts,
+            NSFL.dress,
+            NSFL.descriptions,
+            NSFL.expressions,
+            NSFL.actions,
+            ArtStyles.artists,
+            ArtStyles.anime,
+            ArtStyles.painters,
+            ArtStyles.glitch,
+            ]:
+        l = Concepts.load(filename)
+        for s in l:
+            all_words_list.append(s.lower())
+    for part in parts_to_check:
+        is_in_existing[part] = part.lower() in all_words_list
+    return is_in_existing

@@ -1,3 +1,4 @@
+$$time in $$location
 Underwater Coral Reef # A colorful and diverse underwater coral reef.
 abandoned warehouse
 airport
@@ -30,6 +31,7 @@ at the mall
 at the park
 at the top
 at the zoo
+backyard
 baggage claim
 bakery
 balcony
@@ -52,7 +54,9 @@ brewery
 bridge
 bus station
 bus stop
+busy crowded town square
 busy jungle village
+busy place
 by the $$random_word
 by the door
 by the lake
@@ -81,6 +85,7 @@ city walls
 cliff
 clothing store
 college
+commissary
 concert hall
 condo
 conference room
@@ -94,6 +99,8 @@ cozy suburban home
 crossroads
 crosswalk
 crowded bar
+crowded party
+cul-de-sac
 cyberspace
 dam
 dark aquarium
@@ -205,8 +212,10 @@ laser tag
 laundry room
 library
 living room
+loft
 manor
 market
+metro stop
 moat
 modern architectural interior
 modern architectural space
@@ -248,6 +257,7 @@ on top of a tower
 open sea
 orchard
 overpass
+pantry
 parade
 park
 parking lot
@@ -265,9 +275,11 @@ power plant
 pub
 public baths
 rainforest
+renaissance tavern
 restaurant
 river in the city
 road sign
+roof
 rooftop bar
 roundabout
 royal castle
@@ -279,6 +291,7 @@ savannah
 school
 school classroom
 seaport
+secluded grove
 service desk
 shack
 shipyard
@@ -311,6 +324,7 @@ taiga
 tel
 telephone booth
 temple
+the abyss
 theater
 throne room
 traffic jam
@@ -330,6 +344,7 @@ underwater
 urban area
 vast open area
 veranda
+viewing platform
 walk-in closet
 wetlands
 wild

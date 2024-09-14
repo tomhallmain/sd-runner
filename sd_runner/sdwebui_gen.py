@@ -14,7 +14,7 @@ from utils.globals import Globals, WorkflowType, PromptTypeSDWebUI
 from sd_runner.models import Model, LoraBundle
 from sd_runner.workflow_prompt import WorkflowPromptSDWebUI
 from utils.config import config
-from utils.utils import start_thread
+from utils.utils import Utils
 
 
 def timestamp():
@@ -148,11 +148,11 @@ class SDWebuiGen:
         return prompt, model, vae
 
     @staticmethod
-    def schedule_prompt(prompt, img2img=False):
-        start_thread(SDWebuiGen.queue_prompt, use_asyncio=False, args=[prompt, img2img])
+    def schedule_prompt(prompt, img2img=False, related_image_path=None):
+        Utils.start_thread(SDWebuiGen.queue_prompt, use_asyncio=False, args=[prompt, img2img, related_image_path])
 
     @staticmethod
-    def queue_prompt(prompt, img2img=False):
+    def queue_prompt(prompt, img2img=False, related_image_path=None):
         api_endpoint = SDWebuiGen.IMG_2_IMG if img2img else SDWebuiGen.TXT_2_IMG
         data = prompt.get_json()
         req = request.Request(
@@ -162,16 +162,18 @@ class SDWebuiGen:
         )
         try:
             response = request.urlopen(req)
-            SDWebuiGen.save_image_data(response)
+            SDWebuiGen.save_image_data(response, related_image_path)
         except error.URLError:
             raise Exception("Failed to connect to SD Web UI. Is SD Web UI running?")
 
     @staticmethod
-    def save_image_data(response):
+    def save_image_data(response, related_image_path=None):
         resp_json = json.loads(response.read().decode('utf-8'))
         for index, image in enumerate(resp_json.get('images')):
             save_path = os.path.join(config.sd_webui_save_path, f'SDWebUI_{timestamp()}_{index}.png')
             decode_and_save_base64(image, save_path)
+            if related_image_path is not None:
+                Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
 
     @staticmethod
     def clear_history():
@@ -235,7 +237,7 @@ class SDWebuiGen:
         prompt.set_control_net_strength(control_net.strength)
 #        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.schedule_prompt(prompt)
+        SDWebuiGen.schedule_prompt(prompt, related_image_path=control_net.id)
 
     def ip_adapter(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, ip_adapter):
         resolution = resolution.get_closest(ip_adapter.id)
@@ -260,7 +262,7 @@ class SDWebuiGen:
         prompt.set_img2img_image(encode_file_to_base64(image_path))
         prompt.set_latent_dimensions(resolution)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.schedule_prompt(prompt, img2img=True)
+        SDWebuiGen.schedule_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
 
     def maybe_caption_image(self, image_path, positive):
         if positive is None or positive == "":

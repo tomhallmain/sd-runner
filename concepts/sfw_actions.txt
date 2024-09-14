@@ -441,6 +441,7 @@ resisting
 revering
 ribbon cutting ceremony
 riding
+riding a horse
 riding a motorcycle
 riding a scooter
 riding in a car
@@ -483,6 +484,7 @@ shaking
 shaming
 shaving his beard
 sheet music
+shimmying
 shocking
 shoes
 shooting a gun
@@ -616,6 +618,7 @@ waving
 wearing
 weighing
 weight lifting
+wiggling
 wind surfing
 wine, beer or spirits tasting
 wines from a certain region of the world

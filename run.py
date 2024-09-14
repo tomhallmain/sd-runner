@@ -15,7 +15,7 @@ from sd_runner.run_config import RunConfig
 from sd_runner.sdwebui_gen import SDWebuiGen
 from sd_runner.workflow_prompt import WorkflowPrompt
 from utils.translations import I18N
-from utils.utils import split
+from utils.utils import Utils
 
 _ = I18N._
 
@@ -176,7 +176,7 @@ class Run:
         prompter_config = PrompterConfiguration(prompt_mode=PromptMode.FIXED) if self.args.prompter_override else self.args.prompter_config
         Model.set_model_presets(prompter_config.prompt_mode)
         Globals.SKIP_CONFIRMATIONS = self.args.auto_run
-        control_nets, is_dir = get_control_nets(split(self.args.control_nets, ",") if self.args.control_nets and self.args.control_nets != "" else None)
+        control_nets, is_dir = get_control_nets(Utils.split(self.args.control_nets, ",") if self.args.control_nets and self.args.control_nets != "" else None)
         if is_dir:
             for i in range(len(control_nets)):
                 if self.is_cancelled:

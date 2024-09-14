@@ -3,11 +3,10 @@ import os
 import random
 import re
 
-from extensions.image_data_extractor import ImageDataExtractor
 from sd_runner.concepts import PromptMode
 from utils.config import config
 from utils.globals import Globals, WorkflowType
-from utils.utils import extract_substring
+from utils.utils import Utils
 
 
 class Resolution:
@@ -171,7 +170,7 @@ class Resolution:
         return None
 
     def get_closest(self, ref_image_path):
-        width, height = ImageDataExtractor().get_image_size(ref_image_path)
+        width, height = Globals.get_image_data_extractor().get_image_size(ref_image_path)
         # First check if the aspect ratio matches one of the existing resolutions, and return that
         matching_resolution = Resolution.find_matching_aspect_ratio_resolution(self.is_xl, width, height)
         if matching_resolution is not None:
@@ -207,9 +206,9 @@ class Resolution:
 
     @staticmethod
     def get_resolution(resolution_tag, is_xl=False):
-        scale_str = extract_substring(resolution_tag, "[0-9]+")
+        scale_str = Utils.extract_substring(resolution_tag, "[0-9]+")
         scale = int(scale_str) if scale_str and scale_str != "" else 2
-        resolution_tag = extract_substring(resolution_tag, "[a-z]+")
+        resolution_tag = Utils.extract_substring(resolution_tag, "[a-z]+")
         if "square".startswith(resolution_tag):
             return Resolution.SQUARE(is_xl=is_xl, scale=scale)
         elif "portrait".startswith(resolution_tag):

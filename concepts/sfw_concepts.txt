@@ -1,5 +1,7 @@
 
 
+$$random_word in foreground blocking view
+person in foreground blocking view
 (morphological operation)
 (scenic nature, misty)
 2D vector style
@@ -23,6 +25,7 @@ award winning image
 backlighting
 backward mapping
 bayer filter
+best quality
 bi-linear interpolation
 billboard
 bitmap
@@ -303,6 +306,7 @@ view through a microscope
 view through a telescope
 viewfinder
 vignette
+vivid color
 voxel art
 wallpaper
 warm
@@ -414,7 +418,7 @@ concentric circles
 
 
 (dark club with neon lights)
-(partially obscured subject, x in foreground blocking view)
+(partially obscured subject, $$random_word in foreground blocking view)
 abyss
 aesthetic
 aliens
@@ -482,6 +486,7 @@ columns
 complex
 constellations
 construct
+contraption
 convertible with the top down
 cookie cutters
 copper etching
@@ -515,6 +520,7 @@ egg
 electricity
 embroidery
 embroidered
+emergent complexity
 encased in glass
 enemy health indicators
 engraved
@@ -547,12 +553,14 @@ fog
 folklore
 fond broderie
 footnotes
+fountain
 future world
 futuristic
 giant vat
 glam
 glow
 gnarled
+gobbledygook
 gold sheen
 golden ratio
 gothic
@@ -592,6 +600,7 @@ jade figurine
 lagrange points
 lantern
 laser beam
+lava lamp
 leonardo davinci design sketches
 leather
 light box
@@ -612,6 +621,7 @@ masterpiece
 matryoshka
 maximalism
 maze
+mechanism
 melted
 mercury flash folding camera
 messy
@@ -716,6 +726,7 @@ simple background
 simplex
 sinews
 sinuous
+skid marks
 skinny
 skull
 sky
@@ -737,6 +748,7 @@ statuette
 stasis tank
 steamboat
 steel sculpture
+still life
 stone
 stormy
 storybook
@@ -753,8 +765,10 @@ tarot card
 tear drops
 technology
 textural
+textured glass
 thespian
 titian
+topsy-turvy
 torchlight
 torus
 trailing into the distance
@@ -800,6 +814,7 @@ young boy
 young girl
 young man
 young woman
+x-y plot
 xenomorph
 
 # Lighting Mood Prompts:

@@ -1,8 +1,10 @@
-from PIL import Image
 import glob
 import json
 import os
 import sys
+
+from PIL import Image
+from PIL.PngImagePlugin import PngInfo
 
 import pprint
 
@@ -24,6 +26,7 @@ class ImageDataExtractor:
     INPUTS = "inputs"
     POSITIVE = "positive"
     NEGATIVE = "negative"
+    RELATED_IMAGE_KEY = "related_image"
 
     def __init__(self):
         pass
@@ -118,8 +121,8 @@ class ImageDataExtractor:
 
             positive = prompt_dicts.get(node_inputs[ImageDataExtractor.POSITIVE], "")
             negative = prompt_dicts.get(node_inputs[ImageDataExtractor.NEGATIVE], "")
-            print(f"Positive: \"{positive}\"")
-            print(f"Negative: \"{negative}\"")
+            # print(f"Positive: \"{positive}\"")
+            # print(f"Negative: \"{negative}\"")
 
         return (positive, negative)
 
@@ -240,6 +243,15 @@ class ImageDataExtractor:
 
         print(f"Copied {count} images without exif.")
 
+    def add_related_image_path(self, image_path, related_image_path=""):
+        image = Image.open(image_path)
+        png_info = PngInfo()
+        for k, v in image.info.items():
+            png_info.add_text(str(k), str(v))
+        png_info.add_text(ImageDataExtractor.RELATED_IMAGE_KEY, str(related_image_path))
+        image.save(image_path, pnginfo=png_info)
+        image.close()
+        print("Added related image path: " + related_image_path)
 
 
 def main():

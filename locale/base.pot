@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-08-27 20:52-0400\n"
+"POT-Creation-Date: 2024-09-13 19:58-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,243 +15,291 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: .\app.py:131
+#: .\app.py:114
+msgid " (Pending runs: {0})"
+msgstr ""
+
+#: .\app.py:116
+msgid " (Pending schedules: {0})"
+msgstr ""
+
+#: .\app.py:143
 msgid "Run ComfyUI Workflows"
 msgstr ""
 
-#: .\app.py:134
+#: .\app.py:147
 msgid "Run Workflows"
 msgstr ""
 
-#: .\app.py:136
+#: .\app.py:149
 msgid "Cancel Run"
 msgstr ""
 
-#: .\app.py:142
+#: .\app.py:154
+msgid "Software"
+msgstr ""
+
+#: .\app.py:162
 msgid "Workflow"
 msgstr ""
 
-#: .\app.py:149
+#: .\app.py:169
 msgid "Set N Latents"
 msgstr ""
 
-#: .\app.py:155
+#: .\app.py:175
 msgid "Set Total"
 msgstr ""
 
-#: .\app.py:163
+#: .\app.py:183
 msgid "Delay Seconds"
 msgstr ""
 
-#: .\app.py:170
+#: .\app.py:189
 msgid "Resolutions"
 msgstr ""
 
-#: .\app.py:177
+#: .\app.py:196
 msgid "Model Tags"
 msgstr ""
 
-#: .\app.py:192
+#: .\app.py:211
 msgid "LoRA Tags"
 msgstr ""
 
-#: .\app.py:208
+#: .\app.py:227
 msgid "Default LoRA Strength"
 msgstr ""
 
-#: .\app.py:214
+#: .\app.py:233
 msgid "Prompt Massage Tags"
 msgstr ""
 
-#: .\app.py:222
+#: .\app.py:241
 msgid "Positive Tags"
 msgstr ""
 
-#: .\app.py:229
+#: .\app.py:248
 msgid "Negative Tags"
 msgstr ""
 
-#: .\app.py:237
+#: .\app.py:256
 msgid "B/W Colorization Tags"
 msgstr ""
 
-#: .\app.py:245
+#: .\app.py:264
 msgid "Control Net or Redo files"
 msgstr ""
 
-#: .\app.py:252
+#: .\app.py:271
 msgid "Default Control Net Strength"
 msgstr ""
 
-#: .\app.py:258
+#: .\app.py:277
 msgid "IPAdapter files"
 msgstr ""
 
-#: .\app.py:265
+#: .\app.py:284
 msgid "Default IPAdapter Strength"
 msgstr ""
 
-#: .\app.py:271
+#: .\app.py:290
 msgid "Redo Parameters"
 msgstr ""
 
-#: .\app.py:287
+#: .\app.py:306
 msgid "Sampler"
 msgstr ""
 
-#: .\app.py:293
+#: .\app.py:312
 msgid "Scheduler"
 msgstr ""
 
-#: .\app.py:299
+#: .\app.py:318
 msgid "Seed"
 msgstr ""
 
-#: .\app.py:306
+#: .\app.py:325
 msgid "Steps"
 msgstr ""
 
-#: .\app.py:313
+#: .\app.py:332
 msgid "CFG"
 msgstr ""
 
-#: .\app.py:320
+#: .\app.py:339
 msgid "Denoise"
 msgstr ""
 
-#: .\app.py:327
+#: .\app.py:346
 msgid "Random Skip Chance"
 msgstr ""
 
-#: .\app.py:335
+#: .\app.py:354
 msgid "Prompts Configuration"
 msgstr ""
 
-#: .\app.py:338
+#: .\app.py:357
 msgid "Prompt Mode"
 msgstr ""
 
-#: .\app.py:347
+#: .\app.py:364
+msgid "Concepts Dir"
+msgstr ""
+
+#: .\app.py:373
 msgid "Concepts"
 msgstr ""
 
-#: .\app.py:356
+#: .\app.py:382
 msgid "Positions"
 msgstr ""
 
-#: .\app.py:365
+#: .\app.py:391
 msgid "Locations"
 msgstr ""
 
-#: .\app.py:374
+#: .\app.py:400
 msgid "Specific Locations Chance"
 msgstr ""
 
-#: .\app.py:380
+#: .\app.py:406
 msgid "Animals"
 msgstr ""
 
-#: .\app.py:389
+#: .\app.py:415
 msgid "Colors"
 msgstr ""
 
-#: .\app.py:398
+#: .\app.py:424
 msgid "Times"
 msgstr ""
 
-#: .\app.py:407
+#: .\app.py:433
 msgid "Dress"
 msgstr ""
 
-#: .\app.py:416
+#: .\app.py:442
 msgid "Expressions"
 msgstr ""
 
-#: .\app.py:425
+#: .\app.py:451
 msgid "Actions"
 msgstr ""
 
-#: .\app.py:434
+#: .\app.py:460
 msgid "Descriptions"
 msgstr ""
 
-#: .\app.py:443
+#: .\app.py:469
+msgid "Characters"
+msgstr ""
+
+#: .\app.py:478
 msgid "Random Words"
 msgstr ""
 
-#: .\app.py:452
+#: .\app.py:487
 msgid "Nonsense"
 msgstr ""
 
-#: .\app.py:461
+#: .\app.py:496
+msgid "Multiplier"
+msgstr ""
+
+#: .\app.py:507
 msgid "Specify Humans Chance"
 msgstr ""
 
-#: .\app.py:467
+#: .\app.py:513
 msgid "Art Styles Chance"
 msgstr ""
 
-#: .\app.py:473
+#: .\app.py:519
 msgid "Emphasis Chance"
 msgstr ""
 
-#: .\app.py:479
+#: .\app.py:525
 msgid "Auto Run"
 msgstr ""
 
-#: .\app.py:483
+#: .\app.py:529
 msgid "Inpainting"
 msgstr ""
 
-#: .\app.py:487
+#: .\app.py:533
 msgid "Override Base Negative"
 msgstr ""
 
-#: .\app.py:491
+#: .\app.py:537
 msgid "Tags Applied to Prompt Start"
 msgstr ""
 
-#: .\app.py:495
+#: .\app.py:541
+msgid "Sparse Mixed Tags"
+msgstr ""
+
+#: .\app.py:545
+msgid "Run Preset Schedule"
+msgstr ""
+
+#: .\app.py:549
+msgid "Prompt Preset Schedule"
+msgstr ""
+
+#: .\app.py:556
 msgid "Tag Blacklist"
 msgstr ""
 
-#: .\app.py:550
+#: .\app.py:557 .\app.py:1125
+msgid "Presets Window"
+msgstr ""
+
+#: .\app.py:613
 msgid "Confirm Quit"
 msgstr ""
 
-#: .\app.py:550
+#: .\app.py:613
 msgid "Would you like to quit the application?"
 msgstr ""
 
-#: .\app.py:752
+#: .\app.py:832 .\app.py:849
 msgid "Confirm Run"
 msgstr ""
 
-#: .\app.py:753
+#: .\app.py:833
+msgid "Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"
+msgstr ""
+
+#: .\app.py:850
 msgid "Are you sure you want to proceed?"
 msgstr ""
 
-#: .\app.py:785
+#: .\app.py:940
 msgid " (unlimited)"
 msgstr ""
 
-#: .\app.py:927
+#: .\app.py:1116
 msgid "Tags Blacklist"
 msgstr ""
 
-#: .\app.py:1023
+#: .\app.py:1143
+msgid "Error"
+msgstr ""
+
+#: .\app.py:1227
 msgid " ComfyGen "
 msgstr ""
 
-#: .\sd_runner\run_config.py:49
+#: .\sd_runner\run_config.py:51
 msgid "No prompter config found!"
 msgstr ""
 
-#: .\sd_runner\run_config.py:52
+#: .\sd_runner\run_config.py:54
 msgid "Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"
 msgstr ""
 
-#: .\sd_runner\run_config.py:57
+#: .\sd_runner\run_config.py:59
 msgid "A model switch was detected and the model massage tags don't match. This warning will only be shown once."
 msgstr ""
 
@@ -271,8 +319,8 @@ msgstr ""
 msgid "Cleared tag blacklist"
 msgstr ""
 
-#: .\ui\presets_window.py:151
-msgid "Invalid preset: %s"
+#: .\ui\presets_window.py:145
+msgid "Invalid preset: {0}"
 msgstr ""
 
 #: .\ui\tags_blacklist_window.py:81

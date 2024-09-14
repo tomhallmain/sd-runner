@@ -30,6 +30,7 @@ class PrompterConfiguration:
         self.characters = characters
         self.random_words = random_words
         self.nonsense = nonsense
+        self.multiplier = 1
         self.art_styles_chance = art_styles_chance
         self.specify_humans_chance = 0.25
         self.emphasis_chance = 0.1
@@ -53,6 +54,7 @@ class PrompterConfiguration:
             "characters": self.characters,
             "random_words": self.random_words,
             "nonsense": self.nonsense,
+            "multiplier": self.multiplier,
             "art_styles_chance": self.art_styles_chance,
             "specify_humans_chance": self.specify_humans_chance,
             "emphasis_chance": self.emphasis_chance,
@@ -76,6 +78,7 @@ class PrompterConfiguration:
         self.characters = _dict["characters"] if "characters" in _dict else self.characters
         self.random_words = _dict['random_words'] if 'random_words' in _dict else self.random_words
         self.nonsense = _dict['nonsense'] if 'nonsense' in _dict else self.nonsense
+        self.multiplier = _dict["multiplier"] if "multiplier" in _dict else self.multiplier
         self.art_styles_chance = _dict['art_styles_chance'] if 'art_styles_chance' in _dict else self.art_styles_chance
         self.specify_humans_chance = _dict['specify_humans_chance'] if'specify_humans_chance' in  _dict else self.specify_humans_chance
         self.emphasis_chance = _dict['emphasis_chance'] if 'emphasis_chance' in _dict else self.emphasis_chance
@@ -187,9 +190,9 @@ class Prompter:
             elif not negative.endswith(Prompter.NEGATIVE_TAGS):
                 negative += ", " + Prompter.NEGATIVE_TAGS
         if Prompter.contains_expansion_var(positive):
-            positive = self.apply_expansions(positive, concepts=self.concepts)
+            positive = self.apply_expansions(positive, concepts=self.concepts, specific_locations_chance=self.prompter_config.specific_locations_chance)
         if Prompter.contains_expansion_var(negative):
-            negative = self.apply_expansions(negative, concepts=self.concepts)
+            negative = self.apply_expansions(negative, concepts=self.concepts, specific_locations_chance=self.prompter_config.specific_locations_chance)
         if Prompter.contains_choice_set(positive):
             positive = self.apply_choices(positive)
         if Prompter.contains_choice_set(negative):
@@ -262,19 +265,19 @@ class Prompter:
 
     def _mix_concepts(self, humans_chance=0.25):
         mix = []
-        mix.extend(self.concepts.get_concepts(*self.prompter_config.concepts))
-        mix.extend(self.concepts.get_positions(*self.prompter_config.positions))
-        mix.extend(self.concepts.get_locations(*self.prompter_config.locations, specific_inclusion_chance=self.prompter_config.specific_locations_chance))
-        mix.extend(self.concepts.get_animals(*self.prompter_config.animals))
-        mix.extend(self.concepts.get_colors(*self.prompter_config.colors))
-        mix.extend(self.concepts.get_times(*self.prompter_config.times))
-        mix.extend(self.concepts.get_dress(*self.prompter_config.dress))
-        mix.extend(self.concepts.get_expressions(*self.prompter_config.expressions))
-        mix.extend(self.concepts.get_actions(*self.prompter_config.actions))
-        mix.extend(self.concepts.get_descriptions(*self.prompter_config.descriptions))
-        mix.extend(self.concepts.get_characters(*self.prompter_config.characters))
-        mix.extend(self.concepts.get_random_words(*self.prompter_config.random_words))
-        mix.extend(self.concepts.get_nonsense(*self.prompter_config.nonsense))
+        mix.extend(self.concepts.get_concepts(*self.prompter_config.concepts, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_positions(*self.prompter_config.positions, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_locations(*self.prompter_config.locations, specific_inclusion_chance=self.prompter_config.specific_locations_chance, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_animals(*self.prompter_config.animals, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_colors(*self.prompter_config.colors, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_times(*self.prompter_config.times, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_dress(*self.prompter_config.dress, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_expressions(*self.prompter_config.expressions, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_actions(*self.prompter_config.actions, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_descriptions(*self.prompter_config.descriptions, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_characters(*self.prompter_config.characters, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_random_words(*self.prompter_config.random_words, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_nonsense(*self.prompter_config.nonsense, multiplier=self.prompter_config.multiplier))
         # Humans might not always be desirable so only add some randomly
         if self.prompt_mode == PromptMode.SFW:
             if random.random() < humans_chance:
@@ -390,7 +393,7 @@ class Prompter:
         return False
 
     @staticmethod
-    def apply_expansions(text, from_ui=False, concepts=None):
+    def apply_expansions(text, from_ui=False, concepts=None, specific_locations_chance=0.3):
 #        text += " ${}"
         offset = 0
         for match in re.finditer(Prompter._expansion_var_pattern(from_ui), text):
@@ -414,32 +417,34 @@ class Prompter:
                 replacement = config.wildcards[name]
                 print(f"Using random prompt replacement ID: {name}")
             elif concepts is not None:
-                if name == "actions":
+                if name.startswith("action"):
                     replacement = random.choice(concepts.get_actions(low=1, high=1))
-                elif name == "concepts":
+                elif name.startswith("concept"):
                     replacement = random.choice(concepts.get_concepts(low=1, high=1))
                 elif name == "dress":
                     replacement = random.choice(concepts.get_dress(low=1, high=1))
-                elif name == "times":
+                elif name.startswith("time"):
                     replacement = random.choice(concepts.get_times(low=1, high=1))
-                elif name == "expressions":
+                elif name.startswith("expression"):
                     replacement = random.choice(concepts.get_expressions(low=1, high=1))
-                elif name == "animals":
-                    replacement = random.choice(concepts.get_animals(low=1, high=1))
-                elif name == "descriptions":
+                elif name.startswith("animal"):
+                    replacement = random.choice(concepts.get_animals(low=1, high=1, inclusion_chance=1.0))
+                elif name.startswith("description"):
                     replacement = random.choice(concepts.get_descriptions(low=1, high=1))
                 elif name == "random_word":
                     replacement = random.choice(concepts.get_random_words(low=1, high=1))
                 elif name == "nonsense":
                     replacement = random.choice(concepts.get_nonsense(low=1, high=1))
-                elif name == "colors":
+                elif name.startswith("color"):
                     replacement = random.choice(concepts.get_colors(low=1, high=1))
-                elif name == "locations":
-                    replacement = random.choice(concepts.get_locations(low=1, high=1))
-                elif name == "humans":
+                elif name.startswith("location"):
+                    replacement = random.choice(concepts.get_locations(low=1, high=1, specific_inclusion_chance=specific_locations_chance))
+                elif name.startswith("human"):
                     replacement = random.choice(concepts.get_humans(low=1, high=1))
-                elif name == "positions":
+                elif name.startswith("position"):
                     replacement = random.choice(concepts.get_positions(low=1, high=1))
+                elif name.startswith("number"):
+                    replacement = str(random.randint(1, 999))
             if replacement is None:
                 print(f"Invalid prompt replacement ID: \"{name}\"")
                 continue

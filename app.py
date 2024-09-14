@@ -29,7 +29,7 @@ from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
-from utils.utils import start_thread, play_sound
+from utils.utils import Utils
 
 _ = I18N._
 
@@ -184,7 +184,6 @@ class App():
         self.delay = StringVar(master)
         self.delay_choice = OptionMenu(self.sidebar, self.delay, str(self.runner_app_config.delay_time_seconds), *[str(i) for i in list(range(101))], command=self.set_delay)
         self.apply_to_grid(self.delay_choice, interior_column=1, sticky=W)
-        self.delay_choice.bind("<Return>", self.set_random_skip)
 
         self.label_resolutions = Label(self.sidebar)
         self.add_label(self.label_resolutions, _("Resolutions"), increment_row_counter=False)
@@ -493,6 +492,17 @@ class App():
         self.apply_to_grid(self.nonsense0_choice, sticky=W, interior_column=1, column=1, increment_row_counter=False)
         self.apply_to_grid(self.nonsense1_choice, sticky=W, interior_column=2, column=1, increment_row_counter=True)
 
+        self.label_multiplier = Label(self.prompter_config_bar)
+        self.add_label(self.label_multiplier, _("Multiplier"), column=1, increment_row_counter=False)
+        multiplier_options = [str(i) for i in list(range(8))]
+        multiplier_options.insert(2, "1.5")
+        multiplier_options.insert(1, "0.75")
+        multiplier_options.insert(1, "0.5")
+        multiplier_options.insert(1, "0.25")
+        self.multiplier = StringVar(master)
+        self.multiplier_choice = OptionMenu(self.prompter_config_bar, self.multiplier, str(self.runner_app_config.prompter_config.multiplier), *multiplier_options, command=self.set_multiplier)
+        self.apply_to_grid(self.multiplier_choice, column=1, interior_column=1, sticky=W)
+
         self.label_specify_humans_chance = Label(self.prompter_config_bar)
         self.add_label(self.label_specify_humans_chance, _("Specify Humans Chance"), column=1, increment_row_counter=False, columnspan=2)
         self.specify_humans_chance_slider = Scale(self.prompter_config_bar, from_=0, to=100, orient=HORIZONTAL, command=self.set_specify_humans_chance)
@@ -536,10 +546,10 @@ class App():
         self.apply_to_grid(self.run_preset_schedule_choice, sticky=W, column=1, columnspan=3)
 
         self.label_preset_schedule_choice = Label(self.prompter_config_bar)
-        self.add_label(self.label_preset_schedule_choice, _("Prompt Preset Schedule"), column=1, increment_row_counter=False)
+        self.add_label(self.label_preset_schedule_choice, _("Prompt Preset Schedule"), column=1, columnspan=2, increment_row_counter=False)
         self.preset_schedule = StringVar(master)
         self.preset_schedule_choice = OptionMenu(self.prompter_config_bar, self.preset_schedule, str(list(config.prompt_preset_schedules.keys())[0]), *config.prompt_preset_schedules.keys())
-        self.apply_to_grid(self.preset_schedule_choice, column=1, interior_column=1, sticky=W)
+        self.apply_to_grid(self.preset_schedule_choice, column=1, interior_column=2, sticky=W)
 
         self.tag_blacklist_btn = None
         self.presets_window_btn = None
@@ -589,6 +599,7 @@ class App():
         self.lora_tags_box.closeListbox()
 
     def on_closing(self):
+        Utils.prevent_sleep(False)
         self.store_info_cache()
         if self.server is not None:
             try:
@@ -608,7 +619,7 @@ class App():
     def setup_server(self):
         server = SDRunnerServer(self.server_run_callback)
         try:
-            start_thread(server.start)
+            Utils.start_thread(server.start)
             return server
         except Exception as e:
             print(f"Failed to start server: {e}")
@@ -726,6 +737,7 @@ class App():
         self.nonsense0.set(str(prompter_config.nonsense[0]))
         self.nonsense1.set(str(prompter_config.nonsense[1]))
 
+        self.multiplier.set(str(prompter_config.multiplier))
         self.auto_run_var.set(self.runner_app_config.auto_run)
         self.inpainting_var.set(self.runner_app_config.inpainting)
         self.override_negative_var.set(self.runner_app_config.override_negative)
@@ -783,7 +795,7 @@ class App():
             else:
                 self.run_preset_schedule(override_args=next_preset_schedule_args)
 
-        start_thread(run_preset_async, use_asyncio=False, args=[])
+        Utils.start_thread(run_preset_async, use_asyncio=False, args=[])
 
     def single_resolution(self):
         # TODO make a setting to ignore resolutions for controlnet optionally (would require updating workflows)
@@ -841,6 +853,7 @@ class App():
                 return None
 
         def run_async(args) -> None:
+            Utils.prevent_sleep(True)
             self.job_queue.job_running = True
             self.destroy_progress_bar()
             self.progress_bar = Progressbar(self.sidebar, orient=HORIZONTAL, length=100, mode='indeterminate')
@@ -858,15 +871,18 @@ class App():
             self.job_queue.job_running = False
             next_job_args = self.job_queue.take()
             if next_job_args:
-                start_thread(run_async, use_asyncio=False, args=[next_job_args])
-            elif not self.job_queue_preset_schedules.has_pending() and not self.current_run.is_cancelled:
-                play_sound()
+                Utils.start_thread(run_async, use_asyncio=False, args=[next_job_args])
+            else:
+                Utils.prevent_sleep(False)
+                if not self.job_queue_preset_schedules.has_pending() and not self.current_run.is_cancelled:
+                    Utils.play_sound()
+            
 
         if self.job_queue.has_pending():
             self.job_queue.add(args)
         else:
             self.runner_app_config.set_from_run_config(args_copy)
-            start_thread(run_async, use_asyncio=False, args=[args])
+            Utils.start_thread(run_async, use_asyncio=False, args=[args])
 
     def cancel(self, event=None):
         self.current_run.cancel()
@@ -1056,6 +1072,10 @@ class App():
         self.runner_app_config.random_skip_chance = self.random_skip.get().strip()
         ComfyGen.RANDOM_SKIP_CHANCE = float(self.runner_app_config.random_skip_chance)
 
+    def set_multiplier(self, event=None):
+        value = float(self.multiplier.get())
+        self.runner_app_config.prompter_config.multiplier = value
+
     def set_specify_humans_chance(self, event=None):
         value = float(self.specify_humans_chance_slider.get()) / 100
         self.runner_app_config.prompter_config.specify_humans_chance = value
@@ -1156,7 +1176,7 @@ class App():
             time.sleep(time_in_seconds)
             label.destroy()
             toast.destroy()
-        start_thread(self_destruct_after, use_asyncio=False, args=[2])
+        Utils.start_thread(self_destruct_after, use_asyncio=False, args=[2])
 
     def apply_to_grid(self, component, sticky=None, pady=0, interior_column=0, column=0, increment_row_counter=True, columnspan=None):
         row = self.row_counter0 if column == 0 else self.row_counter1

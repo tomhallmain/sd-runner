@@ -66,6 +66,7 @@ hand up
 cowboy shot
 looking at another
 looking at viewer
+looking away
 every angle
 off-center view
 hip-level shot

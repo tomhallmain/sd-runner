@@ -1,4 +1,7 @@
 
+Gundam
+Mobile Wingsuit Gundam
+Super Dimension Fortress Macross
 Animal Crossing: New Horizons
 Apex Legends
 Assassin's Creed IV: Black Flag
@@ -102,7 +105,7 @@ Portal 2
 Rain World
 Red Dead Redemption
 Red Dead Redemption 2
-Resident Evil 2 (Remake)
+Resident Evil 2 Remake
 Resident Evil 4
 Return of the Obra Dinn
 Rise of the Tomb Raider
@@ -131,7 +134,7 @@ Super Smash Bros. Ultimate
 System Shock 2
 Terraria
 Tetris
-Tetris (Game Boy / NES)
+Tetris - Game Boy / NES
 The Elder Scrolls I: Arena
 The Elder Scrolls II: Daggerfall
 The Elder Scrolls III: Morrowind
@@ -3849,7 +3852,7 @@ The Last Battle
 Captains Courageous
 The Castle
 The Metamorphosis
-The Magic Mountain (Der Zauberberg)
+The Magic Mountain - Der Zauberberg
 James and the Giant Peach
 The Horse and His Boy
 Angels & Demons
@@ -4191,6 +4194,117 @@ Vision in White
 The Whipping Boy
 Room
 Deception Point
+
+Beauty and the Beast
+Big Bad Wolf
+Bluebeard
+Cheshire cat
+Cinderella
+Fairy Godmother
+Geppetto
+Goldilocks
+Gretel
+Hansel
+Hansel and Gretel
+Henny Penny
+Humpty Dumpty
+Little Red Riding Hood
+mad hatter
+Pied Piper
+Pinocchio
+Prince Charming
+Queen of Hearts
+Rapunzel
+Rumpelstiltskin
+Scheherazade
+Sleeping Beauty
+Snow Queen
+Snow White
+Thumbelina
+Tom Thumb
+Tooth fairy
+Again, The Snake Bridegroom
+Ahmed and Paribanou
+Aladdin
+Alphege, or the Green Monkey
+Ali Baba and the Forty Thieves
+Bibigon's Adventures
+Big Bad Wolf
+Blockhead Hans
+Bluebeard
+The Brave Little Tailor
+Brother and Sister (Greek fairy tale)
+Champavati
+Clever Hans (fairy tale)
+Conall Cra Bhuidhe
+The Dog in the Sea
+Tale of the Doomed Prince
+Dragon-Child and Sun-Child (Armenian folktale)
+The Ebony Horse
+The Emperor's New Clothes
+Fire Boy (Japanese folktale)
+The Four Skillful Brothers
+The Frog Prince
+The Gingerbread Man
+The Golden Eggplant
+The Good Bargain
+The Great Snake
+Grünkappe
+Habrmani
+The Story of the Hamadryad
+Hans My Hedgehog
+Hansel and Gretel
+Hassan of Basra
+The Heavenly Maiden and the Woodcutter
+The Hedgehog, the Merchant, the King and the Poor Man
+Hop-o'-My-Thumb
+Jack (hero)
+The Jew Among Thorns
+Khastakhumar and Bibinagar
+King Iguana
+The King of the Snakes
+King Thrushbeard
+Leaves of Pearls
+Little Johnny Sheep-Dung
+The Little Lame Prince and his Travelling Cloak
+Little Peter's Journey to the Moon
+The Little Princess and the Poet
+Mogarzea and his Son
+Momotarō
+Nemtudomka (Hungarian folktale)
+Nezha
+The Old Man and his Grandson
+Prince Prigio
+Prince Charming
+The Professor of Practical Jokes
+The Ruby Prince (Punjabi folktale)
+Rumpelstiltskin
+The Serpent Prince
+Seven Dwarfs
+The Tale of the Shifty Lad, the Widow's Son
+Sinbad the Sailor
+The Sisters Envious of Their Cadette
+The Six Swans
+The Snail Son (Japanese folktale)
+The Snake Prince
+The Snake-Prince Sleepy-Head
+The Son of Seven Mothers
+The Steadfast Tin Soldier
+Tale of Two Brothers
+The Three Clever Kings
+The Three Enchanted Princes
+The Three Little Pigs
+Tom Thumb
+Trandafiru
+Tulisa, the Wood-Cutter's Daughter
+The Turtle Prince (folktale)
+The Twelve Brothers
+Two Pieces of Nuts
+The Wife from the Dragon Palace
+The Wonderful Toymaker
+The Tale of the Woodcutter and his Daughters
+Yasmin and the Serpent Prince
+The Story of the Youth Who Went Forth to Learn What Fear Was
 
 A Clockwork Orange
 A Passage to India

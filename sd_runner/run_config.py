@@ -1,6 +1,7 @@
 
 from utils.globals import Globals # must import first
 from sd_runner.concepts import PromptMode
+from sd_runner.models import Model
 
 class RunConfig:
     previous_model_tags = None

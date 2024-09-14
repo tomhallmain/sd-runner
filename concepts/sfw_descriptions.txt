@@ -1,9 +1,11 @@
 adorable
+sandy
 alternative style
 ancient
 benevolent
 comfy
 evil
+expressive faces
 fat
 feminine
 flawless
@@ -40,6 +42,7 @@ handlebar mustache
 long beard
 bushy beard
 meek
+small eyes
 
 host
 hostess
