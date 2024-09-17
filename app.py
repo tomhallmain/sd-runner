@@ -558,6 +558,7 @@ class App():
 
         self.master.bind("<Control-Return>", self.run)
         self.master.bind("<Shift-R>", self.run)
+        self.master.bind("<Shift-N>", self.next_preset)
         self.master.bind("<Prior>", lambda event: self.one_config_away(change=1))
         self.master.bind("<Next>", lambda event: self.one_config_away(change=-1))
         self.master.bind("<Home>", lambda event: self.first_config())
@@ -825,6 +826,9 @@ class App():
             self.destroy_grid_element("progress_bar")
             self.progress_bar = None
 
+    def has_runs_pending(self):
+        return self.job_queue.has_pending() or self.job_queue_preset_schedules.has_pending()
+
     def run(self, event=None):
         if self.current_run.is_infinite():
             self.current_run.cancel()
@@ -860,7 +864,7 @@ class App():
             self.progress_bar.grid(row=1, column=1)
             self.progress_bar.start()
             self.cancel_btn.grid(row=2, column=1)
-            self.current_run = Run(args, progress_callback=self.update_progress)
+            self.current_run = Run(args, progress_callback=self.update_progress, delay_after_last_run=self.has_runs_pending())
             try:
                 self.current_run.execute()
             except Exception:
@@ -871,6 +875,7 @@ class App():
             self.job_queue.job_running = False
             next_job_args = self.job_queue.take()
             if next_job_args:
+                self.current_run.delay_after_last_run = True
                 Utils.start_thread(run_async, use_asyncio=False, args=[next_job_args])
             else:
                 Utils.prevent_sleep(False)
@@ -1128,6 +1133,9 @@ class App():
             presets_window = PresetsWindow(top_level, self.toast, self.construct_preset, self.set_widgets_from_preset)
         except Exception as e:
             self.handle_error(str(e), title="Presets Window Error")
+
+    def next_preset(self, event=None):
+        self.set_widgets_from_preset(PresetsWindow.next_preset(self.alert))
 
     def alert(self, title, message, kind="info", hidemain=True) -> None:
         if kind not in ("error", "warning", "info"):

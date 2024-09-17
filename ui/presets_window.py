@@ -70,6 +70,15 @@ class PresetsWindow():
         height = 400
         return f"{width}x{height}"
 
+    @staticmethod
+    def next_preset(alert_callback):
+        if len(PresetsWindow.recent_presets) == 0:
+            alert_callback("Not enough presets found.")
+        next_preset = PresetsWindow.recent_presets[-1]
+        PresetsWindow.recent_presets.remove(next_preset)
+        PresetsWindow.recent_presets.insert(0, next_preset)
+        return next_preset
+
     def __init__(self, master, toast_callback, construct_preset_callback,
                  set_widgets_from_preset_callback, runner_app_config=RunnerAppConfig()):
         self.master = master

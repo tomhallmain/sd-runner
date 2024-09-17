@@ -5,32 +5,8 @@ from sd_runner.concepts import HardConcepts
 from utils.config import config
 from sd_runner.models import Globals, IPAdapter, Model, Resolution, WorkflowType
 from sd_runner.run_config import RunConfig
+from utils.utils import Utils
 
-RESET = "\033[m"
-GRAY = "\033[90m"
-WHITE = "\033[37m"
-DARK_RED = "\033[91m"
-DARK_GREEN = "\033[92m"
-CYAN = "\033[34m"
-
-def format_red(s):
-    return f"{DARK_RED}{s}{RESET}"
-
-def format_green(s):
-    return f"{DARK_GREEN}{s}{RESET}"
-
-def format_white(s):
-    return f"{WHITE}{s}{RESET}"
-
-def format_cyan(s):
-    return f"{CYAN}{s}{RESET}"
-
-def print_list_str(ls):
-    out = "[\n"
-    for item in ls:
-        out += f"\t{item}\n"
-    out += "]"
-    return out
 
 class GenConfig:
     REDO_PARAMETERS = config.redo_parameters
@@ -172,20 +148,20 @@ class GenConfig:
 
     def __str__(self):
         if self.is_redo_prompt():
-            out = format_white(f"GenConfig: {self.workflow_id}") + "\n"
-            out += f"Models: {print_list_str(self.models)}\n"
-            out += "Overrides: " + print_list_str(GenConfig.REDO_PARAMETERS)
+            out = Utils.format_white(f"GenConfig: {self.workflow_id}") + "\n"
+            out += f"Models: {Utils.print_list_str(self.models)}\n"
+            out += "Overrides: " + Utils.print_list_str(GenConfig.REDO_PARAMETERS)
             return out
         else:
-            vae_str = f"VAEs: {print_list_str(self.vaes)}\n" if GenConfig.is_set(self.vaes) else ""
-            lora_str = f"LoRAs: {print_list_str(self.loras)}\n" if GenConfig.is_set(self.loras) else ""
-            control_net_str = f"Control nets: {print_list_str(self.control_nets)}\n" if GenConfig.is_set(self.control_nets) else ""
-            ip_adapter_str = f"IP Adapters: {print_list_str(self.ip_adapters)}\n" if GenConfig.is_set(self.ip_adapters) else ""
-            negative_str = f"Negative: {format_red(self.negative)}\n" if Globals.PRINT_NEGATIVES else ""
-            return f"""{format_white(f"GenConfig: {self.workflow_id}")}
-Resolutions: {print_list_str(self.resolutions)}
-Models: {print_list_str(self.models)}
-{vae_str}{lora_str}Positive: {format_green(self.positive)}
+            vae_str = f"VAEs: {Utils.print_list_str(self.vaes)}\n" if GenConfig.is_set(self.vaes) else ""
+            lora_str = f"LoRAs: {Utils.print_list_str(self.loras)}\n" if GenConfig.is_set(self.loras) else ""
+            control_net_str = f"Control nets: {Utils.print_list_str(self.control_nets)}\n" if GenConfig.is_set(self.control_nets) else ""
+            ip_adapter_str = f"IP Adapters: {Utils.print_list_str(self.ip_adapters)}\n" if GenConfig.is_set(self.ip_adapters) else ""
+            negative_str = f"Negative: {Utils.format_red(self.negative)}\n" if Globals.PRINT_NEGATIVES else ""
+            return f"""{Utils.format_white(f"GenConfig: {self.workflow_id}")}
+Resolutions: {Utils.print_list_str(self.resolutions)}
+Models: {Utils.print_list_str(self.models)}
+{vae_str}{lora_str}Positive: {Utils.format_green(self.positive)}
 {negative_str}{control_net_str}{ip_adapter_str}"""
 
     def __hash__(self):

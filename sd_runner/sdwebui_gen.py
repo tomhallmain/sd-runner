@@ -9,7 +9,7 @@ import time
 import traceback
 
 from sd_runner.captioner import Captioner
-from sd_runner.gen_config import GenConfig, format_white, format_red
+from sd_runner.gen_config import GenConfig
 from utils.globals import Globals, WorkflowType, PromptTypeSDWebUI
 from sd_runner.models import Model, LoraBundle
 from sd_runner.workflow_prompt import WorkflowPromptSDWebUI
@@ -80,7 +80,7 @@ class SDWebuiGen:
                                     continue
 
                                 args = [_1, _2, _3, _4, _5, _6]
-                                # print_list_str(args)
+                                # Utils.print_list_str(args)
                                 resolution = args[SDWebuiGen.ORDER.index("resolutions")]
                                 model = args[SDWebuiGen.ORDER.index("models")]
                                 vae = args[SDWebuiGen.ORDER.index("vaes")]
@@ -127,12 +127,12 @@ class SDWebuiGen:
         if not "n_latents" in kw:
             raise Exception("Missing n_latents setting!")
         self.latent_counter += kw["n_latents"]
-        out = f"{format_white(action)} with config: "
+        out = f"{Utils.format_white(action)} with config: "
         for item in kw.items():
             if not item[1]:
                 continue
             if item[0] != "negative" or Globals.PRINT_NEGATIVES:
-                out += f"\n{format_white(item[0])}: {item[1]}"
+                out += f"\n{Utils.format_white(item[0])}: {item[1]}"
         print(out)
 
     def prompt_setup(self, workflow_type, action, prompt, model, vae=None, resolution=None, **kw):

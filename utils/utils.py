@@ -1,5 +1,7 @@
 import asyncio
+import glob
 import math
+import random
 import re
 import os
 import sys
@@ -11,6 +13,14 @@ try:
     has_imported_windll = True
 except ImportError as e:
     print("Failed to import WinDLL, skipping sleep prevention.")
+
+
+RESET = "\033[m"
+GRAY = "\033[90m"
+WHITE = "\033[37m"
+DARK_RED = "\033[91m"
+DARK_GREEN = "\033[92m"
+CYAN = "\033[34m"
 
 
 class Utils:
@@ -208,3 +218,48 @@ class Utils:
             kernel32.SetThreadExecutionState(ES_CONTINUOUS)
         Utils.sleep_prevented = prevent_sleep
 
+    @staticmethod
+    def get_files_from_dir(dirpath, recursive=False, random_sort=False):
+        if not os.path.isdir(dirpath):
+            raise Exception(f"Not a directory: {dirpath}")
+        glob_pattern = "**/*" if recursive else "*"
+        files = glob.glob(os.path.join(dirpath, glob_pattern), recursive=recursive)
+        if random_sort:
+            random.shuffle(files)
+        else:
+            files.sort()
+        return files
+
+    @staticmethod
+    def get_random_file_from_dir(dirpath, recursive=False):
+        files = Utils.get_files_from_dir(dirpath, recursive, random_sort=True)
+        allowed_ext = [".jpg", ".jpeg", ".png", ".webp"]
+        random.shuffle(allowed_ext)
+        for f in files:
+            for ext in allowed_ext:
+                if f.endswith(ext):
+                    return f
+
+    @staticmethod
+    def format_red(s):
+        return f"{DARK_RED}{s}{RESET}"
+
+    @staticmethod
+    def format_green(s):
+        return f"{DARK_GREEN}{s}{RESET}"
+
+    @staticmethod
+    def format_white(s):
+        return f"{WHITE}{s}{RESET}"
+
+    @staticmethod
+    def format_cyan(s):
+        return f"{CYAN}{s}{RESET}"
+
+    @staticmethod
+    def print_list_str(ls):
+        out = "[\n"
+        for item in ls:
+            out += f"\t{item}\n"
+        out += "]"
+        return out

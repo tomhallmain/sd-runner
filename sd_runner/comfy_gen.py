@@ -6,10 +6,11 @@ import traceback
 
 from sd_runner.captioner import Captioner
 from utils.config import config
-from sd_runner.gen_config import GenConfig, format_white, format_red
+from sd_runner.gen_config import GenConfig
 from utils.globals import Globals, WorkflowType, ComfyNodeName
 from sd_runner.models import Model, LoraBundle
 from sd_runner.workflow_prompt import WorkflowPrompt
+from utils.utils import Utils
 
 
 class ComfyGen:
@@ -58,7 +59,7 @@ class ComfyGen:
                                     continue
 
                                 args = [_1, _2, _3, _4, _5, _6]
-                                # print_list_str(args)
+                                # Utils.print_list_str(args)
                                 resolution = args[ComfyGen.ORDER.index("resolutions")]
                                 model = args[ComfyGen.ORDER.index("models")]
                                 vae = args[ComfyGen.ORDER.index("vaes")]
@@ -121,12 +122,12 @@ class ComfyGen:
         if not "n_latents" in kw:
             raise Exception("Missing n_latents setting!")
         self.latent_counter += kw["n_latents"]
-        out = f"{format_white(action)} with config: "
+        out = f"{Utils.format_white(action)} with config: "
         for item in kw.items():
             if not item[1]:
                 continue
             if item[0] != "negative" or Globals.PRINT_NEGATIVES:
-                out += f"\n{format_white(item[0])}: {item[1]}"
+                out += f"\n{Utils.format_white(item[0])}: {item[1]}"
         print(out)
 
     def prompt_setup(self, workflow_type, action, prompt, model, vae, resolution, **kw):
@@ -431,7 +432,7 @@ class ComfyGen:
                     self.run_workflow(prompt, prompt.workflow_filename, resolution, model, vae, n_latents, positive,
                                       negative, lora, control_net=control_net, ip_adapter=ip_adapter)
                 else:
-                    print(format_red("Invalid prompt for file: " + source_file))
+                    print(Utils.format_red("Invalid prompt for file: " + source_file))
                     return
             except Exception:
                 traceback.print_exc()

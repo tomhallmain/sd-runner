@@ -25,6 +25,7 @@ award winning image
 backlighting
 backward mapping
 bayer filter
+beacon
 best quality
 bi-linear interpolation
 billboard
@@ -85,6 +86,7 @@ dna and proteins
 dnd character portrait
 character sheet
 dot art
+driftwood
 dry
 dry rubbing
 edge map
@@ -284,6 +286,7 @@ surrealism
 tapestry
 tentacles and creatures
 textured
+totem
 thermal camera image
 thick textured paint style impasto
 thresholding
@@ -412,11 +415,21 @@ nonagon
 decagon
 dodecahedron
 sphere
+cone
+cylinder
+cube
+hypercube
 rectilinear
 disjoint
 concentric circles
 
 
+hundreds
+thousands
+millions
+
+
+$$random_word made of $$random_word
 (dark club with neon lights)
 (partially obscured subject, $$random_word in foreground blocking view)
 abyss
@@ -427,9 +440,11 @@ ancient
 ancient Egypt
 ancient Rome
 arches
+architecture
 arrow indicator
 Art Nouveau
 Artificial Intelligence
+assortment
 atmosphere
 atomic bomb
 award-winning artwork
@@ -450,6 +465,7 @@ black hole
 black light
 black lines
 black tar and oil
+blob
 Blockchain Technology
 boxed in
 brain
@@ -597,6 +613,7 @@ kaleidoscopic
 kintsugi
 kiss
 jade figurine
+jungle gym
 lagrange points
 lantern
 laser beam
@@ -653,6 +670,8 @@ nordic
 notes scribbled in the margin
 nuclear missile
 nuclear reactor
+objects
+ocean made of $$random_word
 octane render
 odd
 old man
@@ -674,6 +693,7 @@ perfectly cut gemstone
 perspective
 phase congruence
 picture book
+pile of $$random_word
 pillow
 planet
 houseplants
@@ -753,6 +773,7 @@ stone
 stormy
 storybook
 stretching
+string
 structure
 stuffed animals
 stylized
@@ -767,6 +788,7 @@ technology
 textural
 textured glass
 thespian
+tiny bubbles
 titian
 topsy-turvy
 torchlight
@@ -775,6 +797,7 @@ trailing into the distance
 train tracks
 trapped, enclosed space
 trinket
+turntable
 twisted
 UFO, alien spacecraft
 unique
@@ -796,12 +819,14 @@ void
 vortex
 voronoi trees
 wacky
+wall made of water
 wax figure
 (web page screenshot, modern web design, home page)
 welding sparks
 whale
 whimsical
 whirlpool
+Wild West
 wings
 wires
 wire sculpture

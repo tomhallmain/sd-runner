@@ -24,10 +24,11 @@ prompt_list = [
 
 
 class Run:
-    def __init__(self, args, progress_callback=None):
+    def __init__(self, args, progress_callback=None, delay_after_last_run=True):
         self.id = str(time.time())
         self.is_complete = False
         self.is_cancelled = False
+        self.delay_after_last_run = delay_after_last_run
         self.args = args
         self.prompter_config = args.prompter_config
         self.editing = False
@@ -89,7 +90,7 @@ class Run:
 
         if config.maximum_gens() > 10:
             print(f"Large config with maximum gens {config.maximum_gens()} - skipping loop.")
-            exit()
+            return
 
         self.last_config = deepcopy(gen.gen_config)
 
@@ -125,6 +126,9 @@ class Run:
                         print(f"Reached maximum requested iterations: {self.args.total}")
                         if self.progress_callback is not None:
                             self.progress_callback(count, self.args.total)
+                        if self.delay_after_last_run:
+                            # print(Utils.format_red("WILL SLEEP AFTER LAST RUN."))
+                            self._sleep_for_delay(maximum_gens=config.maximum_gens() / 2) # NOTE halving the delay here
                         return
                     else:
                         if self.args.total == -1:
@@ -133,20 +137,21 @@ class Run:
                             print(f"On iteration {count} of {self.args.total} - continuing.")
                         if self.progress_callback is not None:
                             self.progress_callback(count, self.args.total)
-                if self.args.auto_run:
-                    # TODO websocket would be better here to ensure all have finished before starting new gen
-                    sleep_time = config.maximum_gens()
-                    sleep_time *= Globals.GENERATION_DELAY_TIME_SECONDS
-                    print(f"Sleeping for {sleep_time} seconds.")
-                    while sleep_time > 0 and not self.is_cancelled:
-                        sleep_time -= 1
-                        time.sleep(1)
+                self._sleep_for_delay(maximum_gens=config.maximum_gens())
         except KeyboardInterrupt:
             pass
 
+    def _sleep_for_delay(self, maximum_gens=1):
+        if self.args.auto_run:
+            # TODO websocket would be better here to ensure all have finished before starting new gen
+            sleep_time = maximum_gens
+            sleep_time *= Globals.GENERATION_DELAY_TIME_SECONDS
+            print(f"Sleeping for {sleep_time} seconds.")
+            while sleep_time > 0 and not self.is_cancelled:
+                sleep_time -= 1
+                time.sleep(1)
 
-    def load_and_run(self, control_nets):
-        ip_adapters = get_ip_adapters(self.args.ip_adapters.split(",") if self.args.ip_adapters and self.args.ip_adapters != "" else None)
+    def load_and_run(self, control_nets, ip_adapters):
         positive_prompt = self.args.positive_prompt if self.args.positive_prompt else Globals.DEFAULT_POSITIVE_PROMPT
         base_negative = "" if Globals.OVERRIDE_BASE_NEGATIVE else str(Globals.DEFAULT_NEGATIVE_PROMPT)
         negative_prompt = self.args.negative_prompt if self.args.negative_prompt else base_negative
@@ -176,16 +181,50 @@ class Run:
         prompter_config = PrompterConfiguration(prompt_mode=PromptMode.FIXED) if self.args.prompter_override else self.args.prompter_config
         Model.set_model_presets(prompter_config.prompt_mode)
         Globals.SKIP_CONFIRMATIONS = self.args.auto_run
-        control_nets, is_dir = get_control_nets(Utils.split(self.args.control_nets, ",") if self.args.control_nets and self.args.control_nets != "" else None)
-        if is_dir:
+
+        control_nets, is_dir_controlnet = get_control_nets(Utils.split(self.args.control_nets, ",") if self.args.control_nets and self.args.control_nets != "" else None)
+        ip_adapters, is_dir_ipadapter = get_ip_adapters(Utils.split(self.args.ip_adapters, ",") if self.args.ip_adapters and self.args.ip_adapters != "" else None)
+
+        if is_dir_controlnet or is_dir_ipadapter:
+            self.delay_after_last_run = True
+            if self.args.total < 1:
+                raise Exception("Infinite run not possible on directories")
+
+        if is_dir_ipadapter and is_dir_controlnet:
+            for i in range(len(control_nets)):
+                control_net = control_nets[i]
+                if not control_net.is_valid():
+                    continue
+                for j in range(len(ip_adapters)):
+                    if self.is_cancelled:
+                        break
+                    ip_adapter = ip_adapters[i]
+                    if not ip_adapter.is_valid():
+                        continue
+                    print(f"Running control net {i} - {control_net}")
+                    print(f"Running ip adapter {j} - {ip_adapter}")
+                    self.load_and_run([control_net], [ip_adapter])
+        elif is_dir_controlnet:
             for i in range(len(control_nets)):
                 if self.is_cancelled:
                     break
                 control_net = control_nets[i]
+                if not control_net.is_valid():
+                    continue
                 print(f"Running control net {i} - {control_net}")
-                self.load_and_run([control_net])
+                self.load_and_run([control_net], ip_adapters)
+        elif is_dir_ipadapter:
+            for i in range(len(ip_adapters)):
+                if self.is_cancelled:
+                    break
+                ip_adapter = ip_adapters[i]
+                if not ip_adapter.is_valid():
+                    continue
+                print(f"Running ip adapter {i} - {ip_adapter}")
+                self.load_and_run(control_nets, [ip_adapter])
         else:
-            self.load_and_run(control_nets)
+            self.load_and_run(control_nets, ip_adapters)
+
         self.is_complete = True
 
     def cancel(self):

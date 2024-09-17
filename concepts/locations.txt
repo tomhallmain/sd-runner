@@ -1,4 +1,6 @@
+
 $$time in $$location
+developer conference
 Underwater Coral Reef # A colorful and diverse underwater coral reef.
 abandoned warehouse
 airport
@@ -120,9 +122,11 @@ driveway
 dugout
 dungeon
 electric railroad
+elevator
 embassy
 endless void
 engine rooengine roomm
+escalator
 exhibit
 factory
 farm
@@ -160,6 +164,7 @@ harbor
 hardware store
 hearth
 high school
+history museum
 home improvement store
 hospital
 hot springs
@@ -276,6 +281,7 @@ pub
 public baths
 rainforest
 renaissance tavern
+resort
 restaurant
 river in the city
 road sign
@@ -290,6 +296,7 @@ saloon
 savannah
 school
 school classroom
+science fair
 seaport
 secluded grove
 service desk

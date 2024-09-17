@@ -229,7 +229,7 @@ class Prompter:
         # print(positive_tags)
         if len(positive_tags) > 1:
             random.shuffle(positive_tags)
-            min_chance = 0.25
+            min_chance = 0.5
             max_chance = 1
             proportion_to_keep = random.random() * (max_chance - min_chance) + min_chance
             positive_tags = positive_tags[:int(len(positive_tags) * proportion_to_keep)]

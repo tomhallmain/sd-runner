@@ -2,6 +2,8 @@ This code is primarily a custom UI to trigger ComfyUI workflows or SD Web UI fun
 
 ## Configuration Options
 
+`total`: By default this is 1 to run a workflow only once, however with prompt randomization the same workflow can produce a different result each time. Set to -1 to run infinitely.
+
 `gen_order`: A single run can include multiple resolutions, models, vaes, loras, IP adapters, and control nets. Modify the gen_order list to set the order in which these combinations are run.
 
 `redo_parameters`: Redo an image using the stored workflow found in the image, but with desired different parameters.

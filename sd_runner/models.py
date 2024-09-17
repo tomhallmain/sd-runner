@@ -536,11 +536,12 @@ class IPAdapter:
             self.id = id
         else:
             self.id = os.path.join(IPAdapter.BASE_DIR, id)
-        if id and not os.path.isfile(self.id):
-            raise Exception("Invalid file for IPAdapter: " + self.id)
         self.desc = desc
         self.modifiers = modifiers
         self.strength = strength
+
+    def is_valid(self):
+        return os.path.isfile(self.id)
 
     def get_id(self, control_net=None):
         if self.id:
@@ -580,6 +581,9 @@ class ControlNet:
         self.id = id
         self.desc = desc
         self.strength = strength
+
+    def is_valid(self):
+        return os.path.isfile(self.id)
 
     def __str__(self):
         if self.desc and self.desc != "":
