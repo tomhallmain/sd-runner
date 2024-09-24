@@ -8,5 +8,8 @@
     "n_iter": 1,
     "init_images": [],
     "batch_size": 1,
-    "mask": null
+    "mask": null,
+    "override_settings": {
+        "sd_model_checkpoint": "sd_xl_base_1.0"
+    }    
 }

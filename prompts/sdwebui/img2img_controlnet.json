@@ -6,8 +6,9 @@
     "width": 512,
     "height": 512,
     "cfg_scale": 7,
-    "sampler_name": "DPM++ 2M Karras",
+    "sampler_name": "DPM++ 2M",
     "n_iter": 1,
+    "init_images": [],
     "batch_size": 1,
 
     "alwayson_scripts": {

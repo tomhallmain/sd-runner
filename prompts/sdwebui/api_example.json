@@ -1,0 +1,77 @@
+{
+    "prompt": " <lora:lora_model:1>",
+    "negative_prompt": "",
+    "seed": 1,
+    "steps": 20,
+    "width": 512,
+    "height": 512,
+    "cfg_scale": 7,
+    "sampler_name": "DPM++ 2M",
+    "n_iter": 1,
+    "batch_size": 1,
+
+    "script_name": "x/y/z plot",
+    "script_args": [
+        1,
+        "10,20",
+        [],
+        0,
+        "",
+        [],
+        0,
+        "",
+        [],
+        true,
+        true,
+        false,
+        false,
+        0,
+        false
+    ],
+
+    "alwayson_scripts": {
+        "ControlNet": {
+            "args": [
+                {
+                    "batch_images": "",
+                    "control_mode": "Balanced",
+                    "enabled": true,
+                    "guidance_end": 1,
+                    "guidance_start": 0,
+                    "image": {
+                        "image": "",
+                        "mask": null
+                    },
+                    "input_mode": "simple",
+                    "is_ui": true,
+                    "loopback": false,
+                    "low_vram": false,
+                    "model": "control_v11p_sd15_canny [d14c016b]",
+                    "module": "canny",
+                    "output_dir": "",
+                    "pixel_perfect": false,
+                    "processor_res": 512,
+                    "resize_mode": "Crop and Resize",
+                    "threshold_a": 100,
+                    "threshold_b": 200,
+                    "weight": 1
+                }
+            ]
+        },
+        "Refiner": {
+            "args": [
+                true,
+                "sd_xl_refiner_1.0",
+                0.5
+            ]
+        }
+    },
+    "enable_hr": true,
+    "hr_upscaler": "R-ESRGAN 4x+ Anime6B",
+    "hr_scale": 2,
+    "denoising_strength": 0.5,
+    "styles": ["style 1", "style 2"],
+    "override_settings": {
+        "sd_model_checkpoint": "sd_xl_base_1.0"
+    }
+}

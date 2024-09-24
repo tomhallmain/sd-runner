@@ -46,6 +46,7 @@ class SDWebuiGen:
         self.counter = 0
         self.latent_counter = 0
         self.captioner = None
+        self.has_run_one_workflow = False
 
     def reset_counters(self):
         self.counter = 0
@@ -63,6 +64,7 @@ class SDWebuiGen:
         return do_skip
 
     def run(self):
+        self.has_run_one_workflow = False
         self.gen_config.prepare()
         workflow_id = self.gen_config.workflow_id
         n_latents = self.gen_config.n_latents
@@ -82,6 +84,11 @@ class SDWebuiGen:
                                 args = [_1, _2, _3, _4, _5, _6]
                                 # Utils.print_list_str(args)
                                 resolution = args[SDWebuiGen.ORDER.index("resolutions")]
+
+                                if resolution.should_be_randomly_skipped():
+                                    self.gen_config.resolutions_skipped += 1
+                                    continue
+
                                 model = args[SDWebuiGen.ORDER.index("models")]
                                 vae = args[SDWebuiGen.ORDER.index("vaes")]
                                 if vae is None:
@@ -100,6 +107,7 @@ class SDWebuiGen:
                                 else:
                                     self.run_workflow(None, workflow_id, resolution, model, vae, n_latents, positive_copy,
                                                       negative, lora, control_net=control_net, ip_adapter=ip_adapter)
+                                self.has_run_one_workflow = True
         self.print_stats()
 
     def run_workflow(self, prompt, workflow_id, resolution, model, vae, n_latents, positive, negative, lora, control_net=None, ip_adapter=None):
@@ -113,6 +121,8 @@ class SDWebuiGen:
             self.control_net(prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net)
         elif workflow_id == WorkflowType.IP_ADAPTER:
             self.ip_adapter(prompt, resolution, model, vae, n_latents, positive, negative, lora, ip_adapter=ip_adapter)
+        elif workflow_id == WorkflowType.INSTANT_LORA:
+            self.instant_lora(prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net=control_net, ip_adapter=ip_adapter)
         elif workflow_id == WorkflowType.UPSCALE_SIMPLE:
             self.upscale_simple(prompt, model, control_net)
         else:
@@ -148,11 +158,11 @@ class SDWebuiGen:
         return prompt, model, vae
 
     @staticmethod
-    def schedule_prompt(prompt, img2img=False, related_image_path=None):
-        Utils.start_thread(SDWebuiGen.queue_prompt, use_asyncio=False, args=[prompt, img2img, related_image_path])
+    def schedule_prompt(prompt, img2img=False, related_image_path=None, workflow=None):
+        Utils.start_thread(SDWebuiGen.queue_prompt, use_asyncio=False, args=[prompt, img2img, related_image_path, workflow])
 
     @staticmethod
-    def queue_prompt(prompt, img2img=False, related_image_path=None):
+    def queue_prompt(prompt, img2img=False, related_image_path=None, workflow=None):
         api_endpoint = SDWebuiGen.IMG_2_IMG if img2img else SDWebuiGen.TXT_2_IMG
         data = prompt.get_json()
         req = request.Request(
@@ -162,14 +172,16 @@ class SDWebuiGen:
         )
         try:
             response = request.urlopen(req)
-            SDWebuiGen.save_image_data(response, related_image_path)
+            SDWebuiGen.save_image_data(response, related_image_path, workflow)
         except error.URLError:
             raise Exception("Failed to connect to SD Web UI. Is SD Web UI running?")
 
     @staticmethod
-    def save_image_data(response, related_image_path=None):
+    def save_image_data(response, related_image_path=None, workflow=None):
         resp_json = json.loads(response.read().decode('utf-8'))
         for index, image in enumerate(resp_json.get('images')):
+            if workflow == PromptTypeSDWebUI.CONTROLNET and index % 2 == 1:
+                continue # Extra control net mask is not an image we want to save.
             save_path = os.path.join(config.sd_webui_save_path, f'SDWebUI_{timestamp()}_{index}.png')
             decode_and_save_base64(image, save_path)
             if related_image_path is not None:
@@ -183,6 +195,7 @@ class SDWebuiGen:
         return self.gen_config.get_seed()
 
     def simple_image_gen(self, prompt, resolution, model, vae, n_latents, positive, negative):
+        resolution = resolution.convert_for_model_type(model.is_xl)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN, "Assembling Simple Image Gen prompt", prompt=prompt, model=model, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
@@ -197,8 +210,9 @@ class SDWebuiGen:
         SDWebuiGen.schedule_prompt(prompt)
 
     def simple_image_gen_lora(self, prompt, resolution, model, vae, n_latents, positive, negative, lora):
+        resolution = resolution.convert_for_model_type(model.is_xl)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN_LORA, "Assembling Simple Image Gen LoRA prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, lora=lora, n_latents=n_latents, positive=positive, negative=negative)
-        model.validate_loras(lora)
+        lora = model.validate_loras(lora)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
         prompt.set_vae(self.gen_config.redo_param("vae", vae))
@@ -220,29 +234,44 @@ class SDWebuiGen:
         SDWebuiGen.schedule_prompt(prompt)
 
     def control_net(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net):
-        prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
+        # control_v11p_sd15_canny [d14c016b]
+        # diffusers_xl_depth_full [2f51180b]
+        # sai_xl_depth_256lora [73ad23d1]
+        # t2i-adapter_diffusers_xl_depth_midas [9c183166]
+        # t2i-adapter_diffusers_xl_depth_zoe [cc102381]
+        resolution = resolution.get_closest_to_image(control_net.id, round_to=16)
+        resolution = resolution.convert_for_model_type(model.is_xl)
+        prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
         model = self.gen_config.redo_param("model", model)
-        model.validate_loras(lora)
+        lora = model.validate_loras(lora)
         prompt.set_model(model)
         prompt.set_vae(self.gen_config.redo_param("vae", vae))
         prompt.set_clip_texts(
             self.gen_config.redo_param("positive", positive),
             self.gen_config.redo_param("negative", negative), model=model)
-        prompt.set_lora(self.gen_config.redo_param("lora", lora))
+        if lora is not None and lora != "":
+            prompt.set_lora(self.gen_config.redo_param("lora", lora))
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
-        if control_net.id is None:
+        image_path = self.gen_config.redo_param("control_net", control_net.id)
+        if image_path is None:
             return
-        prompt.set_control_net_image(self.gen_config.redo_param("control_net", control_net.id))
+        prompt.set_control_net_image(encode_file_to_base64(image_path))
         prompt.set_control_net_strength(control_net.strength)
+        prompt.set_latent_dimensions(resolution)
 #        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.schedule_prompt(prompt, related_image_path=control_net.id)
+        SDWebuiGen.schedule_prompt(prompt, related_image_path=control_net.id, workflow=PromptTypeSDWebUI.CONTROLNET)
 
     def ip_adapter(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, ip_adapter):
-        resolution = resolution.get_closest(ip_adapter.id)
+        print("SETTING RESOLUTION")
+        resolution = resolution.get_closest_to_image(ip_adapter.id)
+        print(resolution)
+        resolution = resolution.convert_for_model_type(model.is_xl)
+        print(resolution)
         prompt, model, vae = self.prompt_setup(WorkflowType.IP_ADAPTER, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
+        lora = model.validate_loras(lora)
         prompt.set_model(model)
         prompt.set_vae(self.gen_config.redo_param("vae", vae))
         prompt.set_clip_texts(
@@ -257,6 +286,36 @@ class SDWebuiGen:
         ip_adapter_model, clip_vision_model = self.gen_config.get_ip_adapter_models()
         # prompt.set_ip_adapter_model(ip_adapter_model)
         # prompt.set_clip_vision_model(clip_vision_model)
+        prompt.set_denoise(1 - ip_adapter.strength)
+        image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.id)
+        prompt.set_img2img_image(encode_file_to_base64(image_path))
+        prompt.set_latent_dimensions(resolution)
+        prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
+        SDWebuiGen.schedule_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
+
+    def instant_lora(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net, ip_adapter):
+        resolution = resolution.get_closest_to_image(ip_adapter.id)
+        resolution = resolution.convert_for_model_type(model.is_xl)
+        prompt, model, vae = self.prompt_setup(WorkflowType.INSTANT_LORA, "Assembling Img2Img ControlNet prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, ip_adapter=ip_adapter)
+        model = self.gen_config.redo_param("model", model)
+        model.validate_loras(lora)
+        prompt.set_model(model)
+        prompt.set_vae(self.gen_config.redo_param("vae", vae))
+        prompt.set_clip_texts(
+            self.gen_config.redo_param("positive", positive),
+            self.gen_config.redo_param("negative", negative), model=model)
+        if lora is not None and lora!= "":
+            prompt.set_lora(self.gen_config.redo_param("lora", lora))
+        prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
+        prompt.set_other_sampler_inputs(self.gen_config)
+        if ip_adapter.id is None or control_net.id is None:
+            return
+        image_path = self.gen_config.redo_param("control_net", control_net.id)
+        prompt.set_control_net_image(encode_file_to_base64(image_path))
+        prompt.set_control_net_strength(control_net.strength)
+#        ip_adapter_model, clip_vision_model = self.gen_config.get_ip_adapter_models()
+ #       prompt.set_ip_adapter_model(ip_adapter_model)
+ #       prompt.set_clip_vision_model(clip_vision_model) TODO update these
         prompt.set_denoise(1 - ip_adapter.strength)
         image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.id)
         prompt.set_img2img_image(encode_file_to_base64(image_path))

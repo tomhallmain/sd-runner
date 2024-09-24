@@ -1,0 +1,19 @@
+{
+    "prompt": "",
+    "negative_prompt": "",
+    "seed": -1,
+    "subseed": -1,
+    "subseed_strength": 0,
+    "batch_size": 1,
+    "n_iter": 1,
+    "steps": 15,
+    "cfg_scale": 7,
+    "width": 512,
+    "height": 512,
+    "restore_faces": true,
+    "eta": 0,
+    "sampler_index": "Euler a",
+    "controlnet_input_image": [],
+    "controlnet_module": "depth",
+    "controlnet_model": "diffusers_xl_depth_full [2f51180b]"
+}

@@ -13,26 +13,27 @@ class Resolution:
     TOTAL_PIXELS_TOLERANCE_RANGE = []
     XL_TOTAL_PIXELS_TOLERANCE_RANGE = []
 
-    def __init__(self, width=Globals.DEFAULT_RESOLUTION_WIDTH, height=Globals.DEFAULT_RESOLUTION_HEIGHT, scale=2):
+    def __init__(self, width=Globals.DEFAULT_RESOLUTION_WIDTH, height=Globals.DEFAULT_RESOLUTION_HEIGHT, scale=2, random_skip=False):
         self.width = width
         self.height = height
         self.scale = scale
+        self.random_skip = random_skip
 
     @classmethod
-    def SQUARE(cls, is_xl, scale=2):
-        resolution = Resolution(scale=scale)
+    def SQUARE(cls, is_xl, scale=2, random_skip=False):
+        resolution = Resolution(scale=scale, random_skip=random_skip)
         resolution.square(is_xl)
         return resolution
 
     @classmethod
-    def PORTRAIT(cls, is_xl, scale=2):
-        resolution = Resolution(scale=scale)
+    def PORTRAIT(cls, is_xl, scale=2, random_skip=False):
+        resolution = Resolution(scale=scale, random_skip=random_skip)
         resolution.portrait(is_xl)
         return resolution
 
     @classmethod
-    def LANDSCAPE(cls, is_xl, scale=2):
-        resolution = Resolution(scale=scale)
+    def LANDSCAPE(cls, is_xl, scale=2, random_skip=False):
+        resolution = Resolution(scale=scale, random_skip=random_skip)
         resolution.landscape(is_xl)
         return resolution
 
@@ -105,6 +106,18 @@ class Resolution:
         self.width = self.height
         self.height = temp
 
+    def convert_for_model_type(self, model_is_xl):
+        if model_is_xl:
+            if not self.is_xl():
+                return self.convert_to(model_is_xl)
+        else:
+            if self.is_xl():
+                return self.convert_to(model_is_xl)
+        return self
+
+    def convert_to(self, to_xl):
+        return self.get_closest(self.width, self.height, override_xl=to_xl)
+
     def square(self, is_xl):
         if is_xl:
             self.height = Resolution.get_xl_long_scale(self.scale-2)
@@ -133,6 +146,11 @@ class Resolution:
         else:
             return self.portrait(is_xl)
 
+    def should_be_randomly_skipped(self):
+        if self.random_skip:
+            return random.random() > 0.5
+        return False
+
     @staticmethod
     def construct_tolerance_range(is_xl):
         all_resolutions = ["square", "landscape1", "portrait1", "landscape2", "portrait2", "landscape3", "portrait3", "landscape4", "portrait4"]
@@ -147,8 +165,8 @@ class Resolution:
                 tolerance_range[1] = total_pixels
         return tolerance_range
 
-    def get_tolerance_range(self):
-        is_xl = self.is_xl()
+    def get_tolerance_range(self, override_xl=None):
+        is_xl = override_xl if override_xl is not None else self.is_xl()
         tolerance_range = Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE if is_xl else Resolution.TOTAL_PIXELS_TOLERANCE_RANGE
         if len(tolerance_range) == 0:
             tolerance_range = Resolution.construct_tolerance_range(is_xl)
@@ -169,14 +187,18 @@ class Resolution:
                 return res
         return None
 
-    def get_closest(self, ref_image_path):
+    def get_closest_to_image(self, ref_image_path, round_to=4):
         width, height = Globals.get_image_data_extractor().get_image_size(ref_image_path)
+        return self.get_closest(width=width, height=height, round_to=round_to)
+    
+    def get_closest(self, width, height, round_to=4, override_xl=None):
+        is_xl = override_xl if override_xl is not None else self.is_xl()
         # First check if the aspect ratio matches one of the existing resolutions, and return that
-        matching_resolution = Resolution.find_matching_aspect_ratio_resolution(self.is_xl, width, height)
+        matching_resolution = Resolution.find_matching_aspect_ratio_resolution(is_xl, width, height)
         if matching_resolution is not None:
             return matching_resolution
         # If not, find the closest resolution that is within the tolerance range
-        tolerance_range = self.get_tolerance_range()
+        tolerance_range = self.get_tolerance_range(override_xl=override_xl)
         if width * height < tolerance_range[0]:
             while width * height < tolerance_range[0]:
                 width *= 1.1
@@ -187,9 +209,9 @@ class Resolution:
                 height *= 0.9
         width = int(width)
         height = int(height)
-        while width % 4 != 0:
+        while width % round_to != 0:
             width += 1
-        while height % 4 != 0:
+        while height % round_to != 0:
             height += 1
         return Resolution(width, height)
 
@@ -208,13 +230,14 @@ class Resolution:
     def get_resolution(resolution_tag, is_xl=False):
         scale_str = Utils.extract_substring(resolution_tag, "[0-9]+")
         scale = int(scale_str) if scale_str and scale_str != "" else 2
+        random_skip = "*" in resolution_tag
         resolution_tag = Utils.extract_substring(resolution_tag, "[a-z]+")
         if "square".startswith(resolution_tag):
-            return Resolution.SQUARE(is_xl=is_xl, scale=scale)
+            return Resolution.SQUARE(is_xl=is_xl, scale=scale, random_skip=random_skip)
         elif "portrait".startswith(resolution_tag):
-            return Resolution.PORTRAIT(is_xl=is_xl, scale=scale)
+            return Resolution.PORTRAIT(is_xl=is_xl, scale=scale, random_skip=random_skip)
         elif "landscape".startswith(resolution_tag):
-            return Resolution.LANDSCAPE(is_xl=is_xl, scale=scale)
+            return Resolution.LANDSCAPE(is_xl=is_xl, scale=scale, random_skip=random_skip)
 
     @staticmethod
     def get_resolutions(resolution_tag_str, default_tag=Globals.DEFAULT_RESOLUTION_TAG, is_xl=False):
@@ -252,8 +275,11 @@ class Model:
         return not self.is_lora and not self.is_xl and not self.is_turbo
 
     def get_default_lora(self):
-        return "add-detail" if self.is_sd_15() else "add-detail-xl"
-    
+        return "add_detail" if self.is_sd_15() else "add-detail-xl"
+
+    def get_other_default_lora(self):
+        return "add-detail" if not self.is_sd_15() else "add-detail-xl"
+
     def get_lora_text(self):
         if not self.is_lora:
             raise Exception("Model is not of type LoRA")
@@ -277,10 +303,17 @@ class Model:
     def validate_loras(self, lora_bundle):
         if self.is_xl or self.is_turbo:
             if not lora_bundle.is_xl: # TODO update if more
-                raise Exception(f"Invalid Lora {lora_bundle} for SDXL model {self.id}")
+                if isinstance(lora_bundle, Model) and self.get_other_default_lora() in lora_bundle.id:
+                    return Model.get_model(self.get_default_lora(), is_lora=True, is_xl=self.is_xl)
+                else:
+                    raise Exception(f"Invalid Lora {lora_bundle} for SDXL model {self.id}")
         else:
             if lora_bundle.is_xl:
-                raise Exception(f"Invalid SDXL lora {lora_bundle} for model {self.id}")
+                if isinstance(lora_bundle, Model) and self.get_other_default_lora() in lora_bundle.id:
+                    return Model.get_model(self.get_default_lora(), is_lora=True, is_xl=self.is_xl)
+                else:
+                    raise Exception(f"Invalid SDXL lora {lora_bundle} for model {self.id}")
+        return lora_bundle
 
     def __str__(self):
         if self.is_lora:
@@ -340,7 +373,7 @@ class Model:
 
         if model_tag == "*":
             filtered_list = [model_name for model_name, model in models.items() if (model.is_xl == (is_xl == 1))]
-#            print(filtered_list)
+            # print(filtered_list)
             random_model_name = random.sample(filtered_list, 1)
             return models[random_model_name[0]]
 
@@ -397,7 +430,7 @@ class Model:
             try:
                 if "+" in model_tag:
                     if not is_lora:
-                        raise Exception("Expected lora for use of Lora bundle token \":\"")
+                        raise Exception("Expected lora for use of Lora bundle token \"+\"")
                     bundle_model_tags = model_tag.replace("+", ",")
                     models.append(LoraBundle(Model.get_models(bundle_model_tags, is_lora=is_lora, default_tag=default_tag, inpainting=inpainting, is_xl=is_xl)))
                 else:
@@ -420,7 +453,7 @@ class Model:
             is_turbo = file.startswith("Turbo")
             model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo)
             models[model_name] = model
-#            print(model)
+            # print(model)
         if is_lora:
             Model.LORAS = models
         else:

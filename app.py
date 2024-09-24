@@ -618,7 +618,7 @@ class App():
 
 
     def setup_server(self):
-        server = SDRunnerServer(self.server_run_callback)
+        server = SDRunnerServer(self.server_run_callback, self.cancel)
         try:
             Utils.start_thread(server.start)
             return server
@@ -954,9 +954,6 @@ class App():
 
     def server_run_callback(self, workflow_type, args):
         if workflow_type is not None:
-            if WorkflowType.CONTROLNET == workflow_type and self.software.get() == "SDWebUI":
-                # TODO remove this after setting up controlnet for SDWebUI
-                workflow_type = WorkflowType.IP_ADAPTER
             self.workflow.set(workflow_type.name)
             self.set_workflow_type(workflow_type.name)
         else:

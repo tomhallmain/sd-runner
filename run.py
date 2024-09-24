@@ -118,6 +118,8 @@ class Run:
         try:
             while not self.is_cancelled:
                 self.run(config, gen, positive_prompt, negative_prompt)
+                if not gen.has_run_one_workflow:
+                    continue
                 if self.last_config is None:
                     return
                 count += 1

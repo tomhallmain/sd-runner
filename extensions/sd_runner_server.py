@@ -10,8 +10,9 @@ class SDRunnerServer:
     TYPE_CONTROL_NET = 'control_net'
     TYPE_IP_ADAPTER = 'ip_adapter'
     TYPE_LAST_SETTINGS = 'last_settings'
+    TYPE_CANCEL = 'cancel'
 
-    def __init__(self, run_callback, host='localhost', port=config.server_port):
+    def __init__(self, run_callback, cancel_callback, host='localhost', port=config.server_port):
         self._running = False
         self._is_stopping = False
         self._host = host
@@ -19,6 +20,7 @@ class SDRunnerServer:
         self.listener = None
         self._conn = None
         self.run_callback = run_callback
+        self.cancel_callback = cancel_callback
 
     def start(self):
         self.listener = Listener((self._host, self._port), authkey=str.encode(config.server_password))
@@ -65,6 +67,9 @@ class SDRunnerServer:
         try:
             if _type == SDRunnerServer.TYPE_LAST_SETTINGS:
                 resp = self.run_callback(None, args)
+            elif _type == SDRunnerServer.TYPE_CANCEL:
+                self.cancel_callback()
+                resp = {}
             elif _type == SDRunnerServer.TYPE_RENOISER:
                 resp = self.run_callback(WorkflowType.RENOISER, args)
             elif _type == SDRunnerServer.TYPE_CONTROL_NET:

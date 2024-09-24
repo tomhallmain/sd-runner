@@ -561,6 +561,8 @@ class WorkflowPromptSDWebUI:
     Can also be used for gathering information about prompts stored in images already created by Comfy
     """
     PROMPTS_LOC = os.path.join(WorkflowPrompt.PROMPTS_LOC, "sdwebui")
+    ALWAYSON_SCRIPTS_KEY = "alwayson_scripts"
+    CONTROLNET_KEY = "ControlNet"
 
     def __init__(self, workflow_filename):
         if workflow_filename.endswith(".png"):
@@ -596,6 +598,7 @@ class WorkflowPromptSDWebUI:
             return
         override_settings = self.json["override_settings"] if "override_settings" in self.json else {}
         override_settings["sd_model_checkpoint"] = model.path
+        self.json["override_settings"] = override_settings
 
     def get_model(self):
         return self.json["override_settings"]["sd_model_checkpoint"]
@@ -605,6 +608,9 @@ class WorkflowPromptSDWebUI:
 
     def get_vae(self):
         return None
+
+    def get_scripts(self):
+        return self.json[WorkflowPromptSDWebUI.ALWAYSON_SCRIPTS_KEY]
 
     def set_empty_latents(self, n_latents):
         if not n_latents:
@@ -734,17 +740,20 @@ class WorkflowPromptSDWebUI:
         pass
 #        self.set_for_class_type("UpscaleModelLoader", "model_name", model)
 
-    def set_control_net_image(self, image_path):
-        if not image_path:
+    def get_controlnet_script_args(self):
+        return self.get_scripts()[WorkflowPromptSDWebUI.CONTROLNET_KEY]["args"][0]
+
+    def set_control_net_image(self, image):
+        if not image:
             return
-        pass
-#        self.set_linked_input_node(image_path, ComfyNodeName.CONTROL_NET)
+        controlnet_script = self.get_controlnet_script_args()
+        controlnet_script["image"]["image"] = image
 
     def set_control_net_strength(self, strength):
         if not strength:
             return
-        pass
-#        self.set_for_class_type(ComfyNodeName.CONTROL_NET, "strength", strength)
+        controlnet_script = self.get_controlnet_script_args()
+        controlnet_script["weight"] = strength * 2
 
     def set_control_net(self, control_net):
         if not control_net:

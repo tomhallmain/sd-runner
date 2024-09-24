@@ -32,11 +32,13 @@ class GenConfig:
         self.sampler = run_config.sampler
         self.scheduler = run_config.scheduler
         self.denoise = run_config.denoise
+        self.resolutions_skipped = 0
 
     def is_xl(self):
         return self.models[0].is_xl
 
     def prepare(self):
+        self.resolutions_skipped = 0
         if len(self.vaes) == 0:
             self.vaes.append(None)
         if len(self.loras) == 0:
@@ -97,7 +99,6 @@ class GenConfig:
             confirm_str += message + "\n"
         confirm_str += "Confirm (y/n): "
         return input(confirm_str).lower().startswith("y")
-              
 
     def is_redo_prompt(self):
         return isinstance(self.workflow_id, str) and self.workflow_id.endswith(".png")
@@ -127,7 +128,8 @@ class GenConfig:
         return IPAdapter.DEFAULT_SD15_MODEL, IPAdapter.DEFAULT_SD15_CLIP_VISION_MODEL
 
     def maximum_gens(self):
-        n_resolutions = len(self.resolutions) if len(self.resolutions) > 0 else 1
+        count_res = len(self.resolutions) - self.resolutions_skipped
+        n_resolutions = count_res if count_res > 0 else 1
         n_models = len(self.models) if len(self.models) > 0 else 1
         n_vaes = len(self.vaes) if len(self.vaes) > 0 else 1
         n_loras = len(self.loras) if len(self.loras) > 0 else 1

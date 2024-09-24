@@ -25,6 +25,7 @@ class ComfyGen:
         self.counter = 0
         self.latent_counter = 0
         self.captioner = None
+        self.has_run_one_workflow = False
 
     def reset_counters(self):
         self.counter = 0
@@ -42,6 +43,7 @@ class ComfyGen:
         return do_skip
 
     def run(self):
+        self.has_run_one_workflow = False
         self.gen_config.prepare()
         workflow_id = self.gen_config.workflow_id
         n_latents = self.gen_config.n_latents
@@ -61,6 +63,11 @@ class ComfyGen:
                                 args = [_1, _2, _3, _4, _5, _6]
                                 # Utils.print_list_str(args)
                                 resolution = args[ComfyGen.ORDER.index("resolutions")]
+
+                                if resolution.should_be_randomly_skipped():
+                                    self.gen_config.resolutions_skipped += 1
+                                    continue
+
                                 model = args[ComfyGen.ORDER.index("models")]
                                 vae = args[ComfyGen.ORDER.index("vaes")]
                                 if vae is None:
@@ -80,6 +87,7 @@ class ComfyGen:
                                 else:
                                     self.run_workflow(None, workflow_id, resolution, model, vae, n_latents, positive_copy,
                                                       negative, lora, control_net=control_net, ip_adapter=ip_adapter)
+                                self.has_run_one_workflow = True
         self.print_stats()
 
     def run_workflow(self, prompt, workflow_id, resolution, model, vae, n_latents, positive, negative, lora, control_net=None, ip_adapter=None):
@@ -171,6 +179,7 @@ class ComfyGen:
         return self.gen_config.get_seed()
 
     def simple_image_gen(self, prompt, resolution, model, vae, n_latents, positive, negative):
+        resolution = resolution.convert_for_model_type(model.is_xl)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN, "Assembling Simple Image Gen prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
@@ -186,6 +195,7 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def simple_image_gen_lora(self, prompt, resolution, model, vae, n_latents, positive, negative, lora):
+        resolution = resolution.convert_for_model_type(model.is_xl)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN_LORA, "Assembling Simple Image Gen LoRA prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, lora=lora, n_latents=n_latents, positive=positive, negative=negative)
         model.validate_loras(lora)
         model = self.gen_config.redo_param("model", model)
@@ -203,6 +213,7 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def simple_image_gen_tiled_upscale(self, prompt, resolution, model, vae, n_latents, positive, negative, lora):
+        resolution = resolution.convert_for_model_type(model.is_xl)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN_TILED_UPSCALE, "Assembling Simple Image Gen Tiled Upscale prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
         model.validate_loras(lora)
@@ -223,6 +234,7 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def simple_image_gen_turbo(self, prompt, resolution, model, vae, n_latents, positive, negative):
+        resolution = resolution.convert_for_model_type(model.is_xl)
         prompt, model, vae = self.prompt_setup(WorkflowType.TURBO, "Assembling Simple Image Gen Turbo prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
@@ -341,7 +353,8 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def control_net(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net):
-        resolution = resolution.get_closest(control_net.id)
+        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.get_closest_to_image(control_net.id)
         prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
         model = self.gen_config.redo_param("model", model)
         model.validate_loras(lora)
@@ -364,6 +377,7 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def ip_adapter(self, prompt, resolution, model, vae, n_latents, positive, negative, control_net, ip_adapter):
+        resolution = resolution.convert_for_model_type(model.is_xl)
         prompt, model, vae = self.prompt_setup(WorkflowType.IP_ADAPTER, "Assembling IP Adapter prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)

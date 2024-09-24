@@ -47,6 +47,7 @@ cartoon
 ccd
 cel shading
 centered composition
+chalk
 clean lines
 clear
 closeup
@@ -439,6 +440,7 @@ amalgamation
 ancient
 ancient Egypt
 ancient Rome
+arch
 arches
 architecture
 arrow indicator
@@ -545,11 +547,13 @@ ethereal
 ethereal light
 evolutionary computing 
 exoskeleton
+exquisite
 extraterrestrials
 extravagant
 family with kids
 fabric
 fabric folds
+fantasy
 fat
 felt
 (ferrofluid:0.8)
@@ -562,6 +566,7 @@ floral arrangement
 flowing
 flowering plant
 flowers
+flying buttresses
 fractal
 frieze
 fruits
@@ -570,6 +575,7 @@ folklore
 fond broderie
 footnotes
 fountain
+framed
 future world
 futuristic
 giant vat
@@ -581,6 +587,7 @@ gold sheen
 golden ratio
 gothic
 (gothic script)
+grandfather clock
 grilled meats
 grimdark
 group of $$random_word
@@ -706,6 +713,7 @@ protein folding visualization
 pushing buttons
 pre-Raphaelite
 product catalog
+pyrotechnics
 raining
 Raphaelite
 rebar

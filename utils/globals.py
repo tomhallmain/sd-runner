@@ -91,6 +91,7 @@ class PromptTypeSDWebUI(Enum):
     UPSCALE_SIMPLE = "upscale_image.json"
     CONTROLNET = "controlnet.json"
     IMG2IMG = "img2img.json"
+    IMG2IMG_CONTROLNET = "img2img_controlnet.json"
 
     @staticmethod
     def convert_to_sd_webui_filename(filename):
@@ -100,6 +101,10 @@ class PromptTypeSDWebUI(Enum):
                 this_workflow_type = workflow_type
         if this_workflow_type == WorkflowType.IP_ADAPTER:
             return PromptTypeSDWebUI.IMG2IMG.value
+        elif this_workflow_type == WorkflowType.CONTROLNET:
+            return PromptTypeSDWebUI.CONTROLNET.value
+        elif this_workflow_type == WorkflowType.INSTANT_LORA:
+            return PromptTypeSDWebUI.IMG2IMG_CONTROLNET.value
         else:
             return PromptTypeSDWebUI.TXT2IMG.value
 

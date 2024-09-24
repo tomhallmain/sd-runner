@@ -160,6 +160,7 @@ gym
 gymnasium
 haberdashery
 hallway
+hammock
 harbor
 hardware store
 hearth
@@ -270,6 +271,7 @@ parlor
 pasture
 pavement
 pawn shop
+penthouse
 petrol station
 pharmacy
 playground
@@ -331,6 +333,7 @@ taiga
 tel
 telephone booth
 temple
+tent
 the abyss
 theater
 throne room
