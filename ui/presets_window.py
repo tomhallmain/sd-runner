@@ -1,13 +1,12 @@
 import os
 
-from tkinter import Frame, Label, StringVar, filedialog, messagebox, LEFT, W
+from tkinter import Frame, Label, StringVar, LEFT, W
 import tkinter.font as fnt
 from tkinter.ttk import Entry, Button
 
 from ui.app_style import AppStyle
 from ui.preset import Preset
 from utils.app_info_cache import app_info_cache
-from utils.config import config
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
 
@@ -43,6 +42,14 @@ class PresetsWindow():
             if name == preset.name:
                 return preset
         raise Exception(f"No preset found with name: {name}. Set it on the Presets Window.")
+
+    @staticmethod
+    def get_preset_names():
+        return sorted(list(map(lambda x: x.name, PresetsWindow.recent_presets)))
+
+    @staticmethod
+    def get_most_recent_preset_name():
+        PresetsWindow.recent_presets[0] if len(PresetsWindow.recent_presets) > 0 else "New Preset (ERROR no presets found)"
 
     @staticmethod
     def get_history_preset(start_index=0):
@@ -82,7 +89,6 @@ class PresetsWindow():
     def __init__(self, master, toast_callback, construct_preset_callback,
                  set_widgets_from_preset_callback, runner_app_config=RunnerAppConfig()):
         self.master = master
-#        self.app_master = master
         self.toast_callback = toast_callback
         self.construct_preset_callback = construct_preset_callback
         self.set_widgets_from_preset_callback = set_widgets_from_preset_callback
@@ -280,6 +286,7 @@ class PresetsWindow():
         for btn in self.delete_preset_btn_list:
             btn.destroy()
         self.set_preset_btn_list = []
+        self.delete_preset_btn_list = []
         self.label_list = []
 
     def refresh(self, refresh_list=True):

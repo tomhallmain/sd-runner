@@ -20,9 +20,12 @@ Aokigahara Forest - The Suicide Forest
 Arc de Triomphe - France
 Auxerre - France
 Banff National Park - Canada
+Basque Country
+Bavaria
 Berlin TV Tower - Germany
 Big Ben - England
 Blood Falls - Red Water Flow
+Bohemia
 Bondi Beach - Australia
 Bordeaux Cathedral
 Brandenburg Gate - Germany
@@ -93,6 +96,7 @@ Lencois Maranhenses National Park - White Sand Dunes Structures
 Machu Picchu - Peru
 Magnetic Hill - Get Ready For A Tough Ride
 Marble Caverns
+Marianas Trench - Deep sea
 Marina Bay Sands - Singapore
 Mendenhall Ice Caves - Walk Amidst The Ice Crystals
 Mexico City Cathedral
@@ -142,6 +146,7 @@ Sailing Stones - See The Stones Moving
 Saint Mark’s Basilica - Italy
 Salar De Uyuni - White Salt Bed
 Sand Cave - Kentucky Natural Wonder
+Saxony
 Sea Of Stars - Walk Down The Glowing Water
 Seattle Space Needle - The United States
 Seoul Tower - South Korea
@@ -214,6 +219,76 @@ Wembley Stadium - England
 Westminster Abbey - England
 Windsor Castle - England
 Yonaguni Monument
+
+
+Pozzo di San Patrizio Orvieto
+Karlsruhe
+Villa Farnese
+Ibiza
+Sorrento
+Amalfi
+Portofino
+Hallstaat Osterreich
+Malaga Spain
+Isle Of Skye
+Monterosso al Mare
+Valletta Malta
+Linz Osterreich
+Arles France
+Chania Crete
+Monte Carlo Monaco
+Marbella Espana
+Ménerbes France
+Ostia Antica
+Ortigia Sicily
+Les Baux de Provence France
+Annecy France
+Mougins France
+Moustiers Sainte Marie French village
+Edinburgh Scotland
+Glasgow Scotland
+Phoenician Steps of Anacapri
+Quedlinburg Deustchland
+Tyrol Osterreich
+Innsbruck Osterreich
+Cagliari Sicily
+Budva Montenegro
+The Bosphorus
+River Thames
+Peebles
+Varenna Lake Como Italy
+Yvoire France
+Lacoste France
+Najac France
+Curacao - Willemstad
+Eze France
+Strait of Gibraltar
+Siena Italy
+Hamburg Germany
+Golan Heights Palestine
+Ancient Yodfat
+Abu Simbel
+Tel Dan Palestine
+L’Isle-sur-la-Sorgue France
+Reykjavík Iceland
+Paxos Greece
+
+
+Pevensey Castle England
+Hastings Castle England
+Windsor Castle England
+Norwhich Castle England
+Rockingham Castle England
+Chepstow Castle Wales
+Dunham Castle
+Dover Castle
+Colchester Castle
+York Castle
+Dunalastair Castle Scotland
+Ajlun Castle Jordan
+Bamburgh Castle England
+Heidelberg Castle Deustchland
+Montfort Castle Crusader Fortress
 
 London
 Crete

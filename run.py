@@ -94,6 +94,12 @@ class Run:
 
         self.last_config = deepcopy(gen.gen_config)
 
+    def finalize_gen(self, gen, original_positive, original_negative):
+        print("Filling expected number of generations due to skips.")
+        gen.gen_config.set_countdown_mode()
+        while gen.gen_config.countdown_value > 0:
+            self.run(gen.gen_config, gen, original_positive, original_negative)
+        gen.gen_config.reset_countdown_mode()
 
     def do_workflow(self, workflow, positive_prompt, negative_prompt, control_nets, ip_adapters):
         models = Model.get_models(self.args.model_tags,
@@ -120,6 +126,9 @@ class Run:
                 self.run(config, gen, positive_prompt, negative_prompt)
                 if not gen.has_run_one_workflow:
                     continue
+                # If some of the prompts are skipped, need to fill the gaps if we are not running infinitely
+                if self.args.total > -1 and gen.gen_config is not None and gen.gen_config.has_skipped():
+                    self.finalize_gen(gen, positive_prompt, negative_prompt)
                 if self.last_config is None:
                     return
                 count += 1

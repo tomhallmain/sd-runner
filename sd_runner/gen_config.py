@@ -33,6 +33,8 @@ class GenConfig:
         self.scheduler = run_config.scheduler
         self.denoise = run_config.denoise
         self.resolutions_skipped = 0
+        self.override_resolution = run_config.override_resolution
+        self.countdown_value = -1
 
     def is_xl(self):
         return self.models[0].is_xl
@@ -68,7 +70,6 @@ class GenConfig:
             if "resolution" not in GenConfig.REDO_PARAMETERS and "resolutions" not in GenConfig.REDO_PARAMETERS:
                 self.resolutions.clear()
                 self.resolutions.append(None)
-
 
     def prompts_match(self, prior_config):
         if prior_config:
@@ -127,8 +128,10 @@ class GenConfig:
             return IPAdapter.DEFAULT_SDXL_MODEL, IPAdapter.DEFAULT_SDXL_CLIP_VISION_MODEL
         return IPAdapter.DEFAULT_SD15_MODEL, IPAdapter.DEFAULT_SD15_CLIP_VISION_MODEL
 
-    def maximum_gens(self):
-        count_res = len(self.resolutions) - self.resolutions_skipped
+    def maximum_gens(self, exclude_skipped=True):
+        count_res = len(self.resolutions)
+        if exclude_skipped:
+            count_res -= self.resolutions_skipped
         n_resolutions = count_res if count_res > 0 else 1
         n_models = len(self.models) if len(self.models) > 0 else 1
         n_vaes = len(self.vaes) if len(self.vaes) > 0 else 1
@@ -143,6 +146,22 @@ class GenConfig:
             return n_resolutions * n_models * n_vaes * n_loras * n_control_nets * n_ip_adapters * self.n_latents
         else:
             return n_resolutions * n_models * n_vaes * n_loras * self.n_latents
+
+    def has_skipped(self):
+        return self.resolutions_skipped > 0
+
+    def set_countdown_mode(self):
+        self.countdown_value = self.resolutions_skipped
+
+    def reset_countdown_mode(self):
+        self.countdown_value = -1
+
+    def register_run(self):
+        if self.countdown_value > 0:
+            print(f"Registering run - countdown value {self.countdown_value}")
+            self.countdown_value -= 1
+            return True
+        return self.countdown_value != 0
 
     @staticmethod
     def is_set(ls_var):

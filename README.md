@@ -12,8 +12,6 @@ This code is primarily a custom UI to trigger ComfyUI workflows or SD Web UI fun
 
 `prompt_presets`: For specific prompt modes add a chance to prepend or append tokens to the prompt.
 
-`prompt_presets_schedule`: Define an iteration schedule of named presets to be run via the UI.
-
 `default_negative_prompt`: Any of the defaults are useful, but the negative default can be especially useful as it is often less likely to change.
 
 ## Prompt Syntax
@@ -32,11 +30,27 @@ To define a set of words to randomly choose from, surround a comma-separated lis
 
 Note that choice sets can be stored in preset prompt variables to cut down on visible prompt lengths.
 
+## Image Resolutions
+
+Any of the following resolution options can be used: square, portrait1, portrait2, portrait3, landscape1, landscape2, landscape3. These options are valid for both SD 1.5 and SDXL models.
+
+To randomly skip a resolution during generation, attach a "*" to the resolution tag in the resolutions box. This is one way to help inject more randomness of output.
+
+Note the default behavior of Control Net and IP Adapater workflows is to inherit from the source image a resolution with a matching aspect ratio. The `Override resolutions` checkbox allows you to instead use the predefined resolution tags for these workflows.
+
 ## Prompt Presets
 
 The presets window allows you to manage presets for specific prompt and prompt mode combinations. Use this window to add presets, delete presets and to apply them to the UI.
 
 If a presets schedule is defined in the config, the checkbox Run Preset Schedule will be enabled and presets will be run at the specified schedule if this boolean is set to True.
+
+## Preset Schedules
+
+After having defined presets using the presets window, you can create and modify batch schedules to run presets using the preset schedules window. Giving the preset schedules a unique name is helpful for quickly switching between them.
+
+A preset schedule should specify the number of times each preset should run, as well as the order. If the run count for a preset is set to -1, it should inherit the run count from the value set before starting the run schedule.
+
+Note that similar to normal image generation runs, run schedules can be queued while one is already running.
 
 ## Concepts Folder
 

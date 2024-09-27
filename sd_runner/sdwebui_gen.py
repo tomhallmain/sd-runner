@@ -89,6 +89,9 @@ class SDWebuiGen:
                                     self.gen_config.resolutions_skipped += 1
                                     continue
 
+                                if not self.gen_config.register_run():
+                                    break
+
                                 model = args[SDWebuiGen.ORDER.index("models")]
                                 vae = args[SDWebuiGen.ORDER.index("vaes")]
                                 if vae is None:
@@ -107,6 +110,7 @@ class SDWebuiGen:
                                 else:
                                     self.run_workflow(None, workflow_id, resolution, model, vae, n_latents, positive_copy,
                                                       negative, lora, control_net=control_net, ip_adapter=ip_adapter)
+
                                 self.has_run_one_workflow = True
         self.print_stats()
 
@@ -239,7 +243,8 @@ class SDWebuiGen:
         # sai_xl_depth_256lora [73ad23d1]
         # t2i-adapter_diffusers_xl_depth_midas [9c183166]
         # t2i-adapter_diffusers_xl_depth_zoe [cc102381]
-        resolution = resolution.get_closest_to_image(control_net.id, round_to=16)
+        if not self.gen_config.override_resolution:
+            resolution = resolution.get_closest_to_image(control_net.id, round_to=16)
         resolution = resolution.convert_for_model_type(model.is_xl)
         prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
         model = self.gen_config.redo_param("model", model)
@@ -264,11 +269,9 @@ class SDWebuiGen:
         SDWebuiGen.schedule_prompt(prompt, related_image_path=control_net.id, workflow=PromptTypeSDWebUI.CONTROLNET)
 
     def ip_adapter(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, ip_adapter):
-        print("SETTING RESOLUTION")
-        resolution = resolution.get_closest_to_image(ip_adapter.id)
-        print(resolution)
         resolution = resolution.convert_for_model_type(model.is_xl)
-        print(resolution)
+        if not self.gen_config.override_resolution:
+            resolution = resolution.get_closest_to_image(ip_adapter.id)
         prompt, model, vae = self.prompt_setup(WorkflowType.IP_ADAPTER, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
         lora = model.validate_loras(lora)

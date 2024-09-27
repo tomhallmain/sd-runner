@@ -68,6 +68,9 @@ class ComfyGen:
                                     self.gen_config.resolutions_skipped += 1
                                     continue
 
+                                if not self.gen_config.register_run():
+                                    break
+
                                 model = args[ComfyGen.ORDER.index("models")]
                                 vae = args[ComfyGen.ORDER.index("vaes")]
                                 if vae is None:
@@ -354,7 +357,8 @@ class ComfyGen:
 
     def control_net(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net):
         resolution = resolution.convert_for_model_type(model.is_xl)
-        resolution = resolution.get_closest_to_image(control_net.id)
+        if not self.gen_config.override_resolution:
+            resolution = resolution.get_closest_to_image(control_net.id)
         prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
         model = self.gen_config.redo_param("model", model)
         model.validate_loras(lora)

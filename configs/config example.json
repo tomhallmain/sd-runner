@@ -75,13 +75,7 @@
 
     "wildcards": {
         "garf": "((Garfield, fat cat)), (short-hair orange Tabby cat, domestic cat, half-lidded eyes, bored, prideful)",
-        "odie": "((Odie, white dog with brown spot)), longue tongue hanging out of side of mouth, dumb dog, panting"
-    },
-
-    "prompt_preset_schedule": {
-        "Preset to run using the currently set total": -1,
-        "Preset to run twice": 2,
-        "Preset to run once": 1
+        "odie": "((Odie, white dog with brown spot)), long tongue hanging out of side of mouth, dumb dog, panting"
     },
 
     "concepts_dirs": ["concepts"],

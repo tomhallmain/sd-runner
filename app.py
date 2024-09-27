@@ -15,6 +15,7 @@ from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareTyp
 
 from extensions.sd_runner_server import SDRunnerServer
 
+from lib.aware_entry import AwareEntry, AwareText
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.concepts import PromptMode
 from sd_runner.gen_config import GenConfig
@@ -24,6 +25,7 @@ from sd_runner.run_config import RunConfig
 from ui.app_style import AppStyle
 from ui.preset import Preset
 from ui.presets_window import PresetsWindow
+from ui.schedules_windows import SchedulesWindow
 from ui.tags_blacklist_window import BlacklistWindow
 from utils.app_info_cache import app_info_cache
 from utils.config import config
@@ -239,7 +241,7 @@ class App():
 
         self.label_positive_tags = Label(self.sidebar)
         self.add_label(self.label_positive_tags, _("Positive Tags"), columnspan=2)
-        self.positive_tags_box = Text(self.sidebar, height=10, width=55, font=fnt.Font(size=8))
+        self.positive_tags_box = AwareText(self.sidebar, height=10, width=55, font=fnt.Font(size=8))
         self.positive_tags_box.insert("0.0", self.runner_app_config.positive_tags)
         self.apply_to_grid(self.positive_tags_box, sticky=W, columnspan=2)
         self.positive_tags_box.bind("<Return>", self.set_positive_tags)
@@ -247,7 +249,7 @@ class App():
         self.label_negative_tags = Label(self.sidebar)
         self.add_label(self.label_negative_tags, _("Negative Tags"), columnspan=2)
         self.negative_tags = StringVar()
-        self.negative_tags_box = Text(self.sidebar, height=5, width=55, font=fnt.Font(size=8))
+        self.negative_tags_box = AwareText(self.sidebar, height=5, width=55, font=fnt.Font(size=8))
         self.negative_tags_box.insert("0.0", self.runner_app_config.negative_tags)
         self.apply_to_grid(self.negative_tags_box, sticky=W, columnspan=2)
         self.negative_tags_box.bind("<Return>", self.set_negative_tags)
@@ -521,9 +523,13 @@ class App():
         self.set_widget_value(self.emphasis_chance_slider, self.runner_app_config.prompter_config.emphasis_chance)
         self.apply_to_grid(self.emphasis_chance_slider, interior_column=2, sticky=W, column=1)
 
-        self.auto_run_var = BooleanVar(value=True)
-        self.auto_run_choice = Checkbutton(self.prompter_config_bar, text=_('Auto Run'), variable=self.auto_run_var)
-        self.apply_to_grid(self.auto_run_choice, sticky=W, column=1)
+        # self.auto_run_var = BooleanVar(value=True) TODO at some point add in a way to approve prompts before running in the UI.
+        # self.auto_run_choice = Checkbutton(self.prompter_config_bar, text=_('Auto Run'), variable=self.auto_run_var)
+        # self.apply_to_grid(self.auto_run_choice, sticky=W, column=1)
+
+        self.override_resolution_var = BooleanVar(value=self.runner_app_config.override_resolution)
+        self.override_resolution_choice = Checkbutton(self.prompter_config_bar, text=_('Override Resolution'), variable=self.override_resolution_var)
+        self.apply_to_grid(self.override_resolution_choice, sticky=W, column=1)
 
         self.inpainting_var = BooleanVar(value=False)
         self.inpainting_choice = Checkbutton(self.prompter_config_bar, text=_('Inpainting'), variable=self.inpainting_var)
@@ -545,11 +551,8 @@ class App():
         self.run_preset_schedule_choice = Checkbutton(self.prompter_config_bar, text=_("Run Preset Schedule"), variable=self.run_preset_schedule_var)
         self.apply_to_grid(self.run_preset_schedule_choice, sticky=W, column=1, columnspan=3)
 
-        self.label_preset_schedule_choice = Label(self.prompter_config_bar)
-        self.add_label(self.label_preset_schedule_choice, _("Prompt Preset Schedule"), column=1, columnspan=2, increment_row_counter=False)
-        self.preset_schedule = StringVar(master)
-        self.preset_schedule_choice = OptionMenu(self.prompter_config_bar, self.preset_schedule, str(list(config.prompt_preset_schedules.keys())[0]), *config.prompt_preset_schedules.keys())
-        self.apply_to_grid(self.preset_schedule_choice, column=1, interior_column=2, sticky=W)
+        self.preset_schedules_window_btn = None
+        self.add_button("preset_schedules_window_btn", text=_("Preset Schedule Window"), command=self.open_preset_schedules_window, sidebar=False)
 
         self.tag_blacklist_btn = None
         self.presets_window_btn = None
@@ -557,8 +560,8 @@ class App():
         self.add_button("presets_window_btn", text=_("Presets Window"), command=self.open_presets_window, sidebar=False, interior_column=1)
 
         self.master.bind("<Control-Return>", self.run)
-        self.master.bind("<Shift-R>", self.run)
-        self.master.bind("<Shift-N>", self.next_preset)
+        self.master.bind("<Shift-R>", lambda event: self.check_focus(event, self.run))
+        self.master.bind("<Shift-N>", lambda event: self.check_focus(event, self.next_preset))
         self.master.bind("<Prior>", lambda event: self.one_config_away(change=1))
         self.master.bind("<Next>", lambda event: self.one_config_away(change=-1))
         self.master.bind("<Home>", lambda event: self.first_config())
@@ -633,6 +636,7 @@ class App():
         app_info_cache.set("config_history_index", self.config_history_index)
         BlacklistWindow.store_blacklist()
         PresetsWindow.store_recent_presets()
+        SchedulesWindow.store_schedules()
         app_info_cache.store()
 
     def load_info_cache(self):
@@ -640,6 +644,7 @@ class App():
             self.config_history_index = app_info_cache.get("config_history_index", default_val=0)
             BlacklistWindow.set_blacklist()
             PresetsWindow.set_recent_presets()
+            SchedulesWindow.set_schedules()
             return RunnerAppConfig.from_dict(app_info_cache.get_history(0))
         except Exception as e:
             print(e)
@@ -739,7 +744,7 @@ class App():
         self.nonsense1.set(str(prompter_config.nonsense[1]))
 
         self.multiplier.set(str(prompter_config.multiplier))
-        self.auto_run_var.set(self.runner_app_config.auto_run)
+        self.override_resolution_var.set(self.runner_app_config.override_resolution)
         self.inpainting_var.set(self.runner_app_config.inpainting)
         self.override_negative_var.set(self.runner_app_config.override_negative)
 
@@ -764,19 +769,23 @@ class App():
                 self.ipadapter_file.set(override_args["ip_adapter"])
                 print(f"Updated IP Adapater for next preset schedule: " + str(override_args["ip_adapter"]))
             starting_total = int(self.total.get())
-            schedule = config.prompt_preset_schedules[self.preset_schedule.get()]
-            for preset_name, count in schedule.items():
+            schedule = SchedulesWindow.current_schedule
+            if schedule is None:
+                raise Exception("No Schedule Selected")
+            print(f"Running Preset Schedule: {schedule}")
+            for preset_task in schedule.get_tasks():
                 if not self.job_queue_preset_schedules.has_pending() or not self.run_preset_schedule_var.get() or \
                         (self.current_run is not None and not self.current_run.is_infinite() and self.current_run.is_cancelled):
                     self.job_queue_preset_schedules.cancel()
                     return
                 try:
-                    preset = PresetsWindow.get_preset_by_name(preset_name)
+                    preset = PresetsWindow.get_preset_by_name(preset_task.name)
+                    print(f"Running Preset Schedule: {preset}")
                 except Exception as e:
                     self.handle_error(str(e), "Preset Schedule Error")
                     raise e
                 self.set_widgets_from_preset(preset)
-                self.total.set(str(count if count > 0 else starting_total))
+                self.total.set(str(preset_task.count_runs if preset_task.count_runs > 0 else starting_total))
                 self.run()
                 # NOTE have to do some special handling here because the runs are still not self-contained,
                 # and overwriting widget values may cause the current run to have its settings changed mid-run
@@ -799,7 +808,6 @@ class App():
         Utils.start_thread(run_preset_async, use_asyncio=False, args=[])
 
     def single_resolution(self):
-        # TODO make a setting to ignore resolutions for controlnet optionally (would require updating workflows)
         current_res = self.resolutions_box.get()
         if "," in current_res:
             current_res = current_res[:current_res.index(",")]
@@ -817,7 +825,8 @@ class App():
             self.single_resolution()
             self.total.set("1")
         if workflow_tag == WorkflowType.CONTROLNET.name:
-            self.single_resolution()
+            # self.single_resolution()
+            pass
 
     def destroy_progress_bar(self):
         if self.progress_bar is not None:
@@ -899,7 +908,8 @@ class App():
         args = RunConfig()
         args.software_type = self.software.get()
         args.workflow_tag = self.workflow.get()
-        args.auto_run = self.auto_run_var.get()
+        args.auto_run = True
+        args.override_resolution = self.override_resolution_var.get()
         args.inpainting = self.inpainting_var.get()
         args.lora_tags = self.lora_tags_box.get()
         args.model_tags = self.model_tags_box.get()
@@ -1131,6 +1141,12 @@ class App():
         except Exception as e:
             self.handle_error(str(e), title="Presets Window Error")
 
+    def open_preset_schedules_window(self):
+        try:
+            schedules_window = SchedulesWindow(self.master, self.toast)
+        except Exception as e:
+            self.handle_error(str(e), title="Preset Schedules Window Error")
+
     def next_preset(self, event=None):
         self.set_widgets_from_preset(PresetsWindow.next_preset(self.alert))
 
@@ -1215,7 +1231,7 @@ class App():
 
     def new_entry(self, text_variable, text="", width=55, sidebar=True, **kw):
         master = self.sidebar if sidebar else self.prompter_config_bar
-        return Entry(master, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
+        return AwareEntry(master, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
 
     def destroy_grid_element(self, element_ref_name):
         element = getattr(self, element_ref_name)
@@ -1223,6 +1239,14 @@ class App():
             element.destroy()
             setattr(self, element_ref_name, None)
             self.row_counter0 -= 1
+
+    def check_focus(self, event, func):
+        # Skip key binding that might be triggered by a text entry
+        if event is not None and (AwareEntry.an_entry_has_focus or AwareText.an_entry_has_focus):
+            return
+        if func:
+            func()
+
 
 
 if __name__ == "__main__":

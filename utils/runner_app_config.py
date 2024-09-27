@@ -38,6 +38,7 @@ class RunnerAppConfig:
         self.prompter_config = PrompterConfiguration()
 
         self.auto_run = True
+        self.override_resolution = False
         self.inpainting = False
         self.override_negative = False
         self.tags_apply_to_start = True
@@ -60,6 +61,7 @@ class RunnerAppConfig:
         self.n_latents = args.n_latents
         self.total = args.total
         self.auto_run = args.auto_run
+        self.override_resolution = args.override_resolution
         self.inpainting = args.inpainting
 
     @staticmethod
@@ -72,6 +74,8 @@ class RunnerAppConfig:
             app_config.tags_apply_to_start = True
         if not hasattr(app_config, 'delay_time_seconds'):
             app_config.delay_time_seconds = 10
+        if not hasattr(app_config,'override_resolution'):
+            app_config.override_resolution = False
         if not isinstance(app_config.prompter_config, dict):
             raise Exception("Prompter config is not a dict")
         prompter_config_dict = deepcopy(app_config.prompter_config)

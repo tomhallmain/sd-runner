@@ -31,6 +31,7 @@ class RunConfig:
         self.positive_prompt = self.get("positive_prompt")
         self.negative_prompt = self.get("negative_prompt")
         self.auto_run = self.get("auto_run")
+        self.override_resolution = self.get("override_resolution")
         self.total = self.get("total")
 
         if RunConfig.previous_model_tags != self.model_tags:

@@ -68,6 +68,7 @@ ct scan
 cubism
 Currier and Ives
 curved
+cyanotype darkroom processed image
 dadaism
 daguerrotype
 dark
@@ -207,6 +208,7 @@ multiple light sources
 multiple views
 muted
 natural shell iridescence
+negative
 neon
 night photography
 night vision image
@@ -224,6 +226,8 @@ particles
 patterned
 pencil sketch
 perfect composition
+photograph
+photonegative
 pixel art
 pixel subtraction result
 pixelated
@@ -430,6 +434,7 @@ thousands
 millions
 
 
+
 $$random_word made of $$random_word
 (dark club with neon lights)
 (partially obscured subject, $$random_word in foreground blocking view)
@@ -437,6 +442,7 @@ abyss
 aesthetic
 aliens
 amalgamation
+anemone
 ancient
 ancient Egypt
 ancient Rome
@@ -522,6 +528,7 @@ cybersecurity
 cyborg
 dark dungeon
 deep learning
+deep-sea photography
 (desktop screenshot, computer screenshot, open application windows)
 destitute
 detailed background
@@ -576,6 +583,7 @@ fond broderie
 footnotes
 fountain
 framed
+funhouse
 future world
 futuristic
 giant vat
@@ -588,6 +596,7 @@ golden ratio
 gothic
 (gothic script)
 grandfather clock
+graph of complex equation
 grilled meats
 grimdark
 group of $$random_word
@@ -705,10 +714,12 @@ pillow
 planet
 houseplants
 plants
+plaster
 poor
 porous volcanic stone
 portal
 portrayal
+prism
 protein folding visualization
 pushing buttons
 pre-Raphaelite
@@ -769,6 +780,7 @@ spill
 spinal column
 spindly
 spiral matrix
+splotches
 spooky
 spread out
 star charts
@@ -827,6 +839,7 @@ void
 vortex
 voronoi trees
 wacky
+Walking Tour
 wall made of water
 wax figure
 (web page screenshot, modern web design, home page)
@@ -887,6 +900,10 @@ Retro Disco # A dance floor with light reflecting off a disco ball.
 # Carnival Ferris Wheel # A vibrant ferris wheel lit up at a nighttime carnival.
 Solar Eclipse # A rare solar eclipse creating unique lighting effects.
 volumetric lighting
+fluorescent lights
+led lights
+glowing
+
 
 
 # Color Moods

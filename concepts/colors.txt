@@ -33,13 +33,14 @@ slate blue
 baby blue
 midnight blue
 magenta
-rose
+rose-colored
 ethereal
 glowing
 radiating
 shining
 glinting
-coral
+coral-colored
+fuschia
 black and white
 monochrome
 monochrome blue
@@ -47,6 +48,7 @@ monochrome purple
 monochrome burgundy
 monochrome yellow
 monochrome orange
+monochrome orange-pink
 monochrome deep green
 monochrome teal
 amaranth # reddish-rose or reddish-purple color, named after the flower of the amaranth plant
@@ -170,5 +172,5 @@ Fresh Meadow
 Urban Grunge
 Pastel Dreams
 Vibrant Pop
-
+Cyanotype
 Mint green
