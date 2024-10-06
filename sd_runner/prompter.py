@@ -5,6 +5,7 @@ import re
 import subprocess
 
 from sd_runner.concepts import Concepts, PromptMode
+from ui.expansion import Expansion
 from utils.config import config
 from extensions.image_data_extractor import ImageDataExtractor
 
@@ -394,6 +395,7 @@ class Prompter:
 
     @staticmethod
     def apply_expansions(text, from_ui=False, concepts=None, specific_locations_chance=0.3):
+        # TODO enable recursive expansions
 #        text += " ${}"
         offset = 0
         for match in re.finditer(Prompter._expansion_var_pattern(from_ui), text):
@@ -412,6 +414,8 @@ class Prompter:
             replacement = None
             if name in config.wildcards:
                 replacement = config.wildcards[name]
+            elif Expansion.contains_expansion(name):
+                replacement = Expansion.get_expansion_text_by_id(name)
             elif name == "random" and len(config.wildcards) > 0:
                 name = random.choice(list(config.wildcards))
                 replacement = config.wildcards[name]

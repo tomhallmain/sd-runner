@@ -643,11 +643,13 @@ lizard
 lore
 lore map
 lost in the crowd
+loupe
 machine learning
 magic
 magic the gathering card
 magic wand
 magnets
+magnifying glass
 man
 married couple
 masterpiece
@@ -797,6 +799,7 @@ string
 structure
 stuffed animals
 stylized
+supercell storm
 supermassive black hole
 symbol
 table

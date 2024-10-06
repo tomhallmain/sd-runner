@@ -151,6 +151,15 @@ class Utils:
         return left_part + right_part
 
     @staticmethod
+    def get_centrally_truncated_string(s, maxlen):
+        # get centrally truncated string
+        if len(s) <= maxlen:
+            return s
+        max_left_index = int((maxlen)/2-2)
+        min_right_index = int(-(maxlen)/2-1)
+        return s[:max_left_index] + "..." + s[min_right_index:]
+
+    @staticmethod
     def split(string, delimiter=","):
         # Split the string by the delimiter and clean any delimiter escapes present in the string
         parts = []

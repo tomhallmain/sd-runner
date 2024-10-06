@@ -24,7 +24,7 @@ class ScheduleModifyWindow():
         self.master = ScheduleModifyWindow.top_level
         self.refresh_callback = refresh_callback
         self.schedule = schedule if schedule is not None else Schedule()
-        ScheduleModifyWindow.top_level.title(f"Modify Preset Schedule: {self.schedule.name}")
+        ScheduleModifyWindow.top_level.title(_("Modify Preset Schedule: {0}").format(self.schedule.name))
 
         self.frame = Frame(self.master)
         self.frame.grid(column=0, row=0)
@@ -35,17 +35,17 @@ class ScheduleModifyWindow():
         self.frame.columnconfigure(4, weight=1)
 
         self._label_info = Label(self.frame)
-        self.add_label(self._label_info, f"Modify Schedule", row=0, wraplength=SchedulesWindow.COL_0_WIDTH)
+        self.add_label(self._label_info, _("Modify Schedule"), row=0, wraplength=ScheduleModifyWindow.COL_0_WIDTH)
 
-        self.new_schedule_name = StringVar(self.master, value="New Schedule"if schedule is None else schedule.name)
+        self.new_schedule_name = StringVar(self.master, value=_("New Schedule") if schedule is None else schedule.name)
         self.new_schedule_name_entry = Entry(self.frame, textvariable=self.new_schedule_name, width=50, font=fnt.Font(size=8))
         self.new_schedule_name_entry.grid(column=1, row=0, sticky="w")
 
         self.add_schedule_btn = None
-        self.add_btn("add_schedule_btn", "Add schedule", self.finalize_schedule, column=2)
+        self.add_btn("add_schedule_btn", _("Add schedule"), self.finalize_schedule, column=2)
 
         self.add_preset_task_btn = None
-        self.add_btn("add_preset_task_btn", "Add Preset Task", self.add_preset_task, column=3)
+        self.add_btn("add_preset_task_btn", _("Add Preset Task"), self.add_preset_task, column=3)
 
         self.name_var_list = []
         self.name_widget_list = []
@@ -85,7 +85,7 @@ class ScheduleModifyWindow():
             count_choice.grid(row=row, column=base_col+2, sticky=W)
             self.count_widget_list.append(count_choice)
 
-            delete_task_btn = Button(self.frame, text="Delete")
+            delete_task_btn = Button(self.frame, text=_("Delete"))
             self.delete_task_btn_list.append(delete_task_btn)
             delete_task_btn.grid(row=row, column=base_col+3)
             def delete_task_handler(event, self=self, idx=i):
@@ -93,7 +93,7 @@ class ScheduleModifyWindow():
                 self.refresh()
             delete_task_btn.bind("<Button-1>", delete_task_handler)
 
-            move_down_btn = Button(self.frame, text="Move Down")
+            move_down_btn = Button(self.frame, text=_("Move Down"))
             self.move_down_btn_list.append(move_down_btn)
             move_down_btn.grid(row=row, column=base_col+4)
             def move_down_handler(event, self=self, idx=i):
@@ -169,6 +169,9 @@ class SchedulesWindow():
     def set_schedules():
         for schedule_dict in list(app_info_cache.get("recent_schedules", default_val=[])):
             SchedulesWindow.recent_schedules.append(Schedule.from_dict(schedule_dict))
+        current_schedule_dict = app_info_cache.get("current_schedule", default_val=None)
+        if current_schedule_dict is not None:
+            SchedulesWindow.current_schedule = Schedule.from_dict(current_schedule_dict)
 
     @staticmethod
     def store_schedules():
@@ -176,6 +179,8 @@ class SchedulesWindow():
         for schedule in SchedulesWindow.recent_schedules:
             schedule_dicts.append(schedule.to_dict())
         app_info_cache.set("recent_schedules", schedule_dicts)
+        if SchedulesWindow.current_schedule is not None:
+            app_info_cache.set("current_schedule", SchedulesWindow.current_schedule.to_dict())
 
     @staticmethod
     def get_schedule_by_name(name):
@@ -213,7 +218,7 @@ class SchedulesWindow():
     @staticmethod
     def next_schedule(alert_callback):
         if len(SchedulesWindow.recent_schedules) == 0:
-            alert_callback("Not enough schedules found.")
+            alert_callback(_("Not enough schedules found."))
         next_schedule = SchedulesWindow.recent_schedules[-1]
         SchedulesWindow.recent_schedules.remove(next_schedule)
         SchedulesWindow.recent_schedules.insert(0, next_schedule)
@@ -222,7 +227,7 @@ class SchedulesWindow():
     def __init__(self, master, toast_callback, runner_app_config=RunnerAppConfig()):
         SchedulesWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
         SchedulesWindow.top_level.geometry(SchedulesWindow.get_geometry())
-        SchedulesWindow.top_level.title("Preset Schedules")
+        SchedulesWindow.top_level.title(_("Preset Schedules"))
         self.master = SchedulesWindow.top_level
         self.toast_callback = toast_callback
         self.filter_text = ""
@@ -241,11 +246,11 @@ class SchedulesWindow():
         self.frame.config(bg=AppStyle.BG_COLOR)
 
         self._label_info = Label(self.frame)
-        self.add_label(self._label_info, f"Current schedule: {SchedulesWindow.current_schedule}", row=0, wraplength=SchedulesWindow.COL_0_WIDTH)
+        self.add_label(self._label_info, self.get_current_schedule_label_text(), row=0, wraplength=SchedulesWindow.COL_0_WIDTH)
         self.add_schedule_btn = None
-        self.add_btn("add_schedule_btn", "Add schedule", self.open_schedule_modify_window, column=1)
+        self.add_btn("add_schedule_btn", _("Add schedule"), self.open_schedule_modify_window, column=1)
         self.clear_recent_schedules_btn = None
-        self.add_btn("clear_recent_schedules_btn", "Clear schedules", self.clear_recent_schedules, column=2)
+        self.add_btn("clear_recent_schedules_btn", _("Clear schedules"), self.clear_recent_schedules, column=2)
 
         self.add_schedule_widgets()
 
@@ -266,21 +271,21 @@ class SchedulesWindow():
             self.label_list.append(label_name)
             self.add_label(label_name, str(schedule), row=row, column=base_col, wraplength=SchedulesWindow.COL_0_WIDTH)
 
-            set_schedule_btn = Button(self.frame, text="Set")
+            set_schedule_btn = Button(self.frame, text=_("Set"))
             self.set_schedule_btn_list.append(set_schedule_btn)
             set_schedule_btn.grid(row=row, column=base_col+1)
             def set_schedule_handler(event, self=self, schedule=schedule):
                 return self.set_schedule(event, schedule)
             set_schedule_btn.bind("<Button-1>", set_schedule_handler)
 
-            modify_schedule_btn = Button(self.frame, text="Modify")
+            modify_schedule_btn = Button(self.frame, text=_("Modify"))
             self.set_schedule_btn_list.append(modify_schedule_btn)
             modify_schedule_btn.grid(row=row, column=base_col+2)
             def modify_schedule_handler(event, self=self, schedule=schedule):
                 return self.open_schedule_modify_window(event, schedule)
             modify_schedule_btn.bind("<Button-1>", modify_schedule_handler)
 
-            delete_schedule_btn = Button(self.frame, text="Delete")
+            delete_schedule_btn = Button(self.frame, text=_("Delete"))
             self.delete_schedule_btn_list.append(delete_schedule_btn)
             delete_schedule_btn.grid(row=row, column=base_col+3)
             def delete_schedule_handler(event, self=self, schedule=schedule):
@@ -300,9 +305,12 @@ class SchedulesWindow():
         self.filtered_schedules = SchedulesWindow.recent_schedules[:]
         self.set_schedule(schedule)
 
+    def get_current_schedule_label_text(self):
+        return _("Current schedule: {0}").format(SchedulesWindow.current_schedule)
+
     def set_schedule(self, event=None, schedule=None):
         SchedulesWindow.current_schedule = schedule
-        self._label_info["text"] = f"Current schedule: {SchedulesWindow.current_schedule}"
+        self._label_info["text"] = self.get_current_schedule_label_text()
         self.refresh()
 
     def delete_schedule(self, event=None, schedule=None):

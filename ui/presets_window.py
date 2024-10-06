@@ -49,7 +49,7 @@ class PresetsWindow():
 
     @staticmethod
     def get_most_recent_preset_name():
-        PresetsWindow.recent_presets[0] if len(PresetsWindow.recent_presets) > 0 else "New Preset (ERROR no presets found)"
+        PresetsWindow.recent_presets[0] if len(PresetsWindow.recent_presets) > 0 else _("New Preset (ERROR no presets found)")
 
     @staticmethod
     def get_history_preset(start_index=0):
@@ -80,7 +80,7 @@ class PresetsWindow():
     @staticmethod
     def next_preset(alert_callback):
         if len(PresetsWindow.recent_presets) == 0:
-            alert_callback("Not enough presets found.")
+            alert_callback(_("Not enough presets found."))
         next_preset = PresetsWindow.recent_presets[-1]
         PresetsWindow.recent_presets.remove(next_preset)
         PresetsWindow.recent_presets.insert(0, next_preset)
@@ -108,14 +108,14 @@ class PresetsWindow():
         self.add_preset_widgets()
 
         self._label_info = Label(self.frame)
-        self.add_label(self._label_info, "Set a new preset", row=0, wraplength=PresetsWindow.COL_0_WIDTH)
-        self.new_preset_name = StringVar(self.master, value="New Preset")
+        self.add_label(self._label_info, _("Set a new preset"), row=0, wraplength=PresetsWindow.COL_0_WIDTH)
+        self.new_preset_name = StringVar(self.master, value=_("New Preset"))
         self.new_preset_name_entry = Entry(self.frame, textvariable=self.new_preset_name, width=50, font=fnt.Font(size=8))
         self.new_preset_name_entry.grid(column=1, row=0, sticky="w")
         self.add_preset_btn = None
-        self.add_btn("add_preset_btn", "Add preset", self.handle_preset, column=2)
+        self.add_btn("add_preset_btn", _("Add preset"), self.handle_preset, column=2)
         self.clear_recent_presets_btn = None
-        self.add_btn("clear_recent_presets_btn", "Clear presets", self.clear_recent_presets, column=3)
+        self.add_btn("clear_recent_presets_btn", _("Clear presets"), self.clear_recent_presets, column=3)
         self.frame.after(1, lambda: self.frame.focus_force())
 
         self.master.bind("<Key>", self.filter_presets)
@@ -129,18 +129,18 @@ class PresetsWindow():
         for i in range(len(self.filtered_presets)):
             row = i+1
             preset = self.filtered_presets[i]
-            self._label_info = Label(self.frame)
-            self.label_list.append(self._label_info)
-            self.add_label(self._label_info, str(preset), row=row, column=base_col, wraplength=PresetsWindow.COL_0_WIDTH)
+            _label_info = Label(self.frame)
+            self.label_list.append(_label_info)
+            self.add_label(_label_info, str(preset), row=row, column=base_col, wraplength=PresetsWindow.COL_0_WIDTH)
 
-            set_preset_btn = Button(self.frame, text="Set")
+            set_preset_btn = Button(self.frame, text=_("Set"))
             self.set_preset_btn_list.append(set_preset_btn)
             set_preset_btn.grid(row=row, column=base_col+1)
             def set_preset_handler(event, self=self, preset=preset):
                 return self.set_preset(event, preset)
             set_preset_btn.bind("<Button-1>", set_preset_handler)
 
-            delete_preset_btn = Button(self.frame, text="Delete")
+            delete_preset_btn = Button(self.frame, text=_("Delete"))
             self.delete_preset_btn_list.append(delete_preset_btn)
             delete_preset_btn.grid(row=row, column=base_col+2)
             def delete_preset_handler(event, self=self, preset=preset):

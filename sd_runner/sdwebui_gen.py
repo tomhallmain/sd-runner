@@ -334,7 +334,80 @@ class SDWebuiGen:
     def redo_with_different_parameter(self, source_file, resolution=None, model=None, vae=None,
                                       lora=None, positive=None, negative=None, n_latents=None,
                                       control_net=None, ip_adapter=None):
-        raise Exception("Redo prompt is not supported for SDWebUI")
+        self.print_pre("Assembling redo prompt", model=model, resolution=resolution, vae=vae, n_latents=n_latents, positive="", negative="", lora=lora, control_net=control_net, ip_adapter=ip_adapter)
+        prompt = WorkflowPromptSDWebUI(source_file)
+
+        # If this is not an API prompt, handle in an annoying way
+        if not prompt.validate_api_prompt():
+            print("Not an API prompt image: " + source_file)
+            try:
+                if prompt.try_set_workflow_non_api_prompt():
+                    resolution = prompt.temp_redo_inputs.resolution
+                    model = prompt.temp_redo_inputs.model
+                    vae = prompt.temp_redo_inputs.vae
+                    lora = prompt.temp_redo_inputs.lora
+                    positive = prompt.temp_redo_inputs.positive
+                    negative = prompt.temp_redo_inputs.negative
+                    control_net = prompt.temp_redo_inputs.control_net
+                    ip_adapter = prompt.temp_redo_inputs.ip_adapter
+                    self.run_workflow(prompt, prompt.workflow_filename, resolution, model, vae, n_latents, positive,
+                                      negative, lora, control_net=control_net, ip_adapter=ip_adapter)
+                else:
+                    print(Utils.format_red("Invalid prompt for file: " + source_file))
+                    return
+            except Exception:
+                traceback.print_exc()
+                return
+
+        try:
+            prompt.set_empty_latents(n_latents)
+        except Exception:
+            print("Failed to set number of empty latents")
+
+        has_made_one_change = False
+        if "model" not in GenConfig.REDO_PARAMETERS and "models" not in GenConfig.REDO_PARAMETERS:
+            model = Model.get_model(prompt.get_model())
+
+        for attr in GenConfig.REDO_PARAMETERS:
+            try:
+                if attr.startswith("model"):
+                    prompt.set_model(model)
+                elif attr.startswith("vae"):
+                    prompt.set_vae(vae)
+                elif attr.startswith("resolution"):
+                    prompt.set_latent_dimensions(resolution)
+                elif attr.startswith("lora"):
+                    prompt.set_lora(lora)
+                elif attr.startswith("control_net"):
+                    prompt.set_control_net_image(encode_file_to_base64(control_net.id))
+                    prompt.set_control_net_strength(control_net.strength)
+                elif attr.startswith("ip_adapter"):
+                    prompt.set_img2img_image(encode_file_to_base64(ip_adapter.id))
+                    prompt.set_denoise(1 - ip_adapter.strength)
+                elif attr == "positive":
+                    prompt.set_clip_text(positive, model, positive=True)
+                elif attr == "negative":
+                    prompt.set_clip_text(negative, model, positive=False)
+                elif attr == "n_latents":
+                    prompt.set_empty_latents(n_latents) # TODO maybe remove as this is set above
+                elif attr == "seed":
+                    prompt.set_seed(self.get_seed())
+                else:
+                    raise Exception("Unhandled redo parameter: " + attr)
+                print("Redoing parameter with different value: " + attr)
+                has_made_one_change = True
+            except Exception as e:
+                print(e)
+
+        if not has_made_one_change:
+            print("Did not make any changes to prompt for image: " + source_file)
+        
+        # if prompt.requires_img2img():
+        #     SDWebuiGen.queue_prompt()
+        # else:
+        #     SDWebuiGen.queue_prompt(prompt, img2img=False, workflow=)
+
+
 
 
 

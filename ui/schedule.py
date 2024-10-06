@@ -1,4 +1,8 @@
 
+from utils.translations import I18N
+
+_ = I18N._
+
 
 class PresetTask:
     def __init__(self, name, count_runs):
@@ -7,7 +11,7 @@ class PresetTask:
 
 class Schedule:
     def __init__(self):
-        self.name = 'New Schedule'
+        self.name = _('New Schedule')
         self.schedule = []
 
     def get_tasks(self):
@@ -65,7 +69,7 @@ class Schedule:
         }
 
     def __str__(self):
-        return f'{self.name} ({len(self.schedule)} runs)'
+        return _("{0} ({1} runs)").format(self.name, len(self.schedule))
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, Schedule) and self.name == other.name

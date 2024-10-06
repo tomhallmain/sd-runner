@@ -6,7 +6,7 @@ import traceback
 from tkinter import messagebox, Toplevel, Frame, Label, Checkbutton, Text, StringVar, BooleanVar, END, HORIZONTAL, NW, BOTH, YES, N, E, W
 from tkinter.constants import W
 import tkinter.font as fnt
-from tkinter.ttk import Button, Entry, OptionMenu, Progressbar, Scale
+from tkinter.ttk import Button, OptionMenu, Progressbar, Scale
 from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
@@ -23,6 +23,7 @@ from sd_runner.models import IPAdapter, Model
 from sd_runner.prompter import Prompter
 from sd_runner.run_config import RunConfig
 from ui.app_style import AppStyle
+from ui.expansions_window import ExpansionsWindow
 from ui.preset import Preset
 from ui.presets_window import PresetsWindow
 from ui.schedules_windows import SchedulesWindow
@@ -552,12 +553,14 @@ class App():
         self.apply_to_grid(self.run_preset_schedule_choice, sticky=W, column=1, columnspan=3)
 
         self.preset_schedules_window_btn = None
-        self.add_button("preset_schedules_window_btn", text=_("Preset Schedule Window"), command=self.open_preset_schedules_window, sidebar=False)
+        self.presets_window_btn = None
+        self.add_button("preset_schedules_window_btn", text=_("Preset Schedule Window"), command=self.open_preset_schedules_window, sidebar=False, increment_row_counter=False)
+        self.add_button("presets_window_btn", text=_("Presets Window"), command=self.open_presets_window, sidebar=False, interior_column=1)
 
         self.tag_blacklist_btn = None
-        self.presets_window_btn = None
+        self.expansions_window_btn = None
         self.add_button("tag_blacklist_btn", text=_("Tag Blacklist"), command=self.show_tag_blacklist, sidebar=False, increment_row_counter=False)
-        self.add_button("presets_window_btn", text=_("Presets Window"), command=self.open_presets_window, sidebar=False, interior_column=1)
+        self.add_button("expansions_window_btn", text=_("Expansions Window"), command=self.open_expansions_window, sidebar=False, interior_column=1)
 
         self.master.bind("<Control-Return>", self.run)
         self.master.bind("<Shift-R>", lambda event: self.check_focus(event, self.run))
@@ -621,7 +624,7 @@ class App():
 
 
     def setup_server(self):
-        server = SDRunnerServer(self.server_run_callback, self.cancel)
+        server = SDRunnerServer(self.server_run_callback, self.cancel, self.revert_to_simple_gen)
         try:
             Utils.start_thread(server.start)
             return server
@@ -637,6 +640,7 @@ class App():
         BlacklistWindow.store_blacklist()
         PresetsWindow.store_recent_presets()
         SchedulesWindow.store_schedules()
+        ExpansionsWindow.store_expansions()
         app_info_cache.store()
 
     def load_info_cache(self):
@@ -645,6 +649,7 @@ class App():
             BlacklistWindow.set_blacklist()
             PresetsWindow.set_recent_presets()
             SchedulesWindow.set_schedules()
+            ExpansionsWindow.set_expansions()
             return RunnerAppConfig.from_dict(app_info_cache.get_history(0))
         except Exception as e:
             print(e)
@@ -748,10 +753,12 @@ class App():
         self.inpainting_var.set(self.runner_app_config.inpainting)
         self.override_negative_var.set(self.runner_app_config.override_negative)
 
-    def set_widgets_from_preset(self, preset):
+    def set_widgets_from_preset(self, preset, manual=True):
         self.prompt_mode.set(preset.prompt_mode)
         self.set_widget_value(self.positive_tags_box, preset.positive_tags)
         self.set_widget_value(self.negative_tags_box, preset.negative_tags)
+        if manual:
+            self.run_preset_schedule_var.set(False)
         self.master.update()
 
     def construct_preset(self, name):
@@ -784,7 +791,7 @@ class App():
                 except Exception as e:
                     self.handle_error(str(e), "Preset Schedule Error")
                     raise e
-                self.set_widgets_from_preset(preset)
+                self.set_widgets_from_preset(preset, manual=False)
                 self.total.set(str(preset_task.count_runs if preset_task.count_runs > 0 else starting_total))
                 self.run()
                 # NOTE have to do some special handling here because the runs are still not self-contained,
@@ -820,6 +827,8 @@ class App():
     def set_workflow_type(self, event=None, workflow_tag=None):
         if workflow_tag is None:
             workflow_tag = self.workflow.get()
+        elif isinstance(workflow_tag, WorkflowType):
+            workflow_tag = workflow_tag.name
         if workflow_tag == WorkflowType.INPAINT_CLIPSEG.name:
             self.inpainting_var.set(True)
             self.single_resolution()
@@ -901,6 +910,12 @@ class App():
     def cancel(self, event=None):
         self.current_run.cancel()
 
+    def revert_to_simple_gen(self, event=None):
+        self.cancel()
+        self.workflow.set(WorkflowType.SIMPLE_IMAGE_GEN_LORA.name)
+        self.set_workflow_type(WorkflowType.SIMPLE_IMAGE_GEN_LORA)
+        self.run()
+
     def get_args(self):
         self.store_info_cache()
         self.set_delay()
@@ -965,7 +980,7 @@ class App():
     def server_run_callback(self, workflow_type, args):
         if workflow_type is not None:
             self.workflow.set(workflow_type.name)
-            self.set_workflow_type(workflow_type.name)
+            self.set_workflow_type(workflow_type)
         else:
             print("Rerunning from server request with last settings.")
         if len(args) > 0:
@@ -1034,7 +1049,7 @@ class App():
         text = self.positive_tags_box.get("1.0", END)
         if text.endswith("\n"):
             text = text[:-1]
-        text = self.apply_wildcards(text, positive=True)
+        text = self.apply_expansions(text, positive=True)
         self.runner_app_config.positive_tags = text
         Prompter.set_positive_tags(text)
 
@@ -1042,7 +1057,7 @@ class App():
         text = self.negative_tags_box.get("1.0", END)
         if text.endswith("\n"):
             text = text[:-1]
-        text = self.apply_wildcards(text, positive=False)
+        text = self.apply_expansions(text, positive=False)
         self.runner_app_config.negative_tags = text
         Prompter.set_negative_tags(text)
 
@@ -1112,7 +1127,7 @@ class App():
         self.runner_app_config.prompter_config.sparse_mixed_tags = self.tags_sparse_mix_var.get()
         Prompter.set_tags_apply_to_start(self.runner_app_config.prompter_config.sparse_mixed_tags)
 
-    def apply_wildcards(self, text, positive=False):
+    def apply_expansions(self, text, positive=False):
         if Prompter.contains_expansion_var(text, from_ui=True):
             text = Prompter.apply_expansions(text, from_ui=True)
             if positive:
@@ -1149,6 +1164,15 @@ class App():
 
     def next_preset(self, event=None):
         self.set_widgets_from_preset(PresetsWindow.next_preset(self.alert))
+
+    def open_expansions_window(self, event=None):
+        top_level = Toplevel(self.master, bg=AppStyle.BG_COLOR)
+        top_level.title(_("Expansions Window"))
+        top_level.geometry(ExpansionsWindow.get_geometry(is_gui=True))
+        try:
+            expansions_window = ExpansionsWindow(top_level, self.toast)
+        except Exception as e:
+            self.handle_error(str(e), title="Expansions Window Error")
 
     def alert(self, title, message, kind="info", hidemain=True) -> None:
         if kind not in ("error", "warning", "info"):
