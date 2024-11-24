@@ -124,6 +124,7 @@ geometry
 glitch art
 gloomy
 glossy
+glossy finish
 godrays
 gouache painting
 grainy
@@ -439,6 +440,7 @@ $$random_word made of $$random_word
 (dark club with neon lights)
 (partially obscured subject, $$random_word in foreground blocking view)
 abyss
+acrylic nameplate
 aesthetic
 aliens
 amalgamation
@@ -485,6 +487,7 @@ brutalism
 bubbles
 burning sun
 bust
+canvas
 cartridge
 carved
 cat
@@ -519,6 +522,7 @@ cornucopia
 cow
 cracked
 cranium
+cross stitch
 crowded
 crystalline
 cuneiform
@@ -543,6 +547,7 @@ dragon
 eerie
 egg
 electricity
+embossed
 embroidery
 embroidered
 emergent complexity
@@ -573,6 +578,7 @@ floral arrangement
 flowing
 flowering plant
 flowers
+column ridges fluting and reeding
 flying buttresses
 fractal
 frieze
@@ -586,6 +592,7 @@ framed
 funhouse
 future world
 futuristic
+geode
 giant vat
 glam
 glow
@@ -611,6 +618,7 @@ holding
 horse
 house party
 huge
+geode
 game hud elements overlay
 hypermaximalist
 illuminated manuscript
@@ -692,6 +700,7 @@ objects
 ocean made of $$random_word
 octane render
 odd
+ogee
 old man
 old woman
 opal glint
@@ -700,6 +709,7 @@ ornate
 overcast
 overflowing
 pacifier
+page from design guidebook with numbered list of designs 1 through 10
 paint swatches
 palm plantation
 panda
@@ -717,6 +727,8 @@ planet
 houseplants
 plants
 plaster
+polished
+polyester
 poor
 porous volcanic stone
 portal
@@ -823,6 +835,7 @@ trinket
 turntable
 twisted
 UFO, alien spacecraft
+unfinished technical sketch
 unique
 universal serial bus
 vapor

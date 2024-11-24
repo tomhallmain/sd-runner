@@ -3,6 +3,10 @@ import os
 
 from utils.runner_app_config import RunnerAppConfig
 
+# TODO add a second history cache for only the positive and negative prompt tags, or perhaps for the final prompts.
+# This list should have a longer length of say 5000, and perhaps it should be its own file as well.
+# This would enable the get_prompt_tags_by_frequency functionality to be used.
+
 class AppInfoCache:
     CACHE_LOC = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "app_info_cache.json")
     INFO_KEY = "info"

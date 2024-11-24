@@ -17,6 +17,7 @@ Athletic Wear
 attire
 badges
 baggy pants
+baggy shirt
 balaclava
 ball gown
 Ballerina Flats
@@ -300,6 +301,7 @@ parka
 Parka Jacket
 pea coat
 Peasant Blouse
+pelisse
 peplum
 Peplum Blouse
 perfectly tailored suit

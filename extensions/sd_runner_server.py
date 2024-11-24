@@ -70,7 +70,7 @@ class SDRunnerServer:
             if _type == SDRunnerServer.TYPE_LAST_SETTINGS:
                 resp = self.run_callback(None, args)
             elif _type == SDRunnerServer.TYPE_CANCEL:
-                self.cancel_callback()
+                self.cancel_callback("Server cancel callback")
                 resp = {}
             elif _type == SDRunnerServer.TYPE_REVERT_TO_SIMPLE_GEN:
                 self.revert_callback()

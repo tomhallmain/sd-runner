@@ -14,6 +14,7 @@ from sd_runner.models import Model, Resolution
 from sd_runner.run_config import RunConfig
 from sd_runner.sdwebui_gen import SDWebuiGen
 from sd_runner.workflow_prompt import WorkflowPrompt
+from utils.config import config
 from utils.translations import I18N
 from utils.utils import Utils
 
@@ -36,6 +37,10 @@ class Run:
         self.last_config = None
         self.progress_callback = progress_callback
 
+    def print(self, *args):
+        if config.debug:
+            print(*args)
+
     def is_infinite(self):
         return self.args.total == -1
 
@@ -44,7 +49,7 @@ class Run:
         if not self.editing and not self.switching_params:
             config.positive, config.negative = prompter.generate_prompt(original_positive, original_negative)
 
-        print(config)
+        self.print(config)
         if config.is_redo_prompt():
             confirm_text = "\n\nRedo Prompt (y/n/[space to quit]): "
         else:
@@ -89,13 +94,13 @@ class Run:
             gen.run()
 
         if config.maximum_gens() > 10:
-            print(f"Large config with maximum gens {config.maximum_gens()} - skipping loop.")
+            self.print(f"Large config with maximum gens {config.maximum_gens()} - skipping loop.")
             return
 
         self.last_config = deepcopy(gen.gen_config)
 
     def finalize_gen(self, gen, original_positive, original_negative):
-        print("Filling expected number of generations due to skips.")
+        self.print("Filling expected number of generations due to skips.")
         gen.gen_config.set_countdown_mode()
         while gen.gen_config.countdown_value > 0:
             self.run(gen.gen_config, gen, original_positive, original_negative)
@@ -134,7 +139,7 @@ class Run:
                 count += 1
                 if self.args.total:
                     if self.args.total > -1 and count == self.args.total:
-                        print(f"Reached maximum requested iterations: {self.args.total}")
+                        self.print(f"Reached maximum requested iterations: {self.args.total}")
                         if self.progress_callback is not None:
                             self.progress_callback(count, self.args.total)
                         if self.delay_after_last_run:
@@ -143,9 +148,9 @@ class Run:
                         return
                     else:
                         if self.args.total == -1:
-                            print("Running until cancelled or total iterations reached")
+                            self.print("Running until cancelled or total iterations reached")
                         else:
-                            print(f"On iteration {count} of {self.args.total} - continuing.")
+                            self.print(f"On iteration {count} of {self.args.total} - continuing.")
                         if self.progress_callback is not None:
                             self.progress_callback(count, self.args.total)
                 self._sleep_for_delay(maximum_gens=config.maximum_gens())
@@ -157,7 +162,7 @@ class Run:
             # TODO websocket would be better here to ensure all have finished before starting new gen
             sleep_time = maximum_gens
             sleep_time *= Globals.GENERATION_DELAY_TIME_SECONDS
-            print(f"Sleeping for {sleep_time} seconds.")
+            self.print(f"Sleeping for {sleep_time} seconds.")
             while sleep_time > 0 and not self.is_cancelled:
                 sleep_time -= 1
                 time.sleep(1)
@@ -169,9 +174,9 @@ class Run:
         Globals.set_prompter(Prompter(prompter_config=self.prompter_config, get_specific_locations=Globals.PROMPTER_GET_SPECIFIC_LOCATIONS, prompt_list=prompt_list))
 
         if self.args.auto_run:
-            print("Auto-run mode set.")
+            self.print("Auto-run mode set.")
 
-        print("Running prompt mode: " + str(self.args.prompter_config.prompt_mode))
+        self.print("Running prompt mode: " + str(self.args.prompter_config.prompt_mode))
 
         workflow_tags = self.args.redo_files.split(",") if self.args.redo_files else self.args.workflow_tag.split(",")
         for workflow_tag in workflow_tags:
@@ -212,8 +217,8 @@ class Run:
                     ip_adapter = ip_adapters[i]
                     if not ip_adapter.is_valid():
                         continue
-                    print(f"Running control net {i} - {control_net}")
-                    print(f"Running ip adapter {j} - {ip_adapter}")
+                    self.print(f"Running control net {i} - {control_net}")
+                    self.print(f"Running ip adapter {j} - {ip_adapter}")
                     self.load_and_run([control_net], [ip_adapter])
         elif is_dir_controlnet:
             for i in range(len(control_nets)):
@@ -222,7 +227,7 @@ class Run:
                 control_net = control_nets[i]
                 if not control_net.is_valid():
                     continue
-                print(f"Running control net {i} - {control_net}")
+                self.print(f"Running control net {i} - {control_net}")
                 self.load_and_run([control_net], ip_adapters)
         elif is_dir_ipadapter:
             for i in range(len(ip_adapters)):
@@ -231,16 +236,18 @@ class Run:
                 ip_adapter = ip_adapters[i]
                 if not ip_adapter.is_valid():
                     continue
-                print(f"Running ip adapter {i} - {ip_adapter}")
+                self.print(f"Running ip adapter {i} - {ip_adapter}")
                 self.load_and_run(control_nets, [ip_adapter])
         else:
             self.load_and_run(control_nets, ip_adapters)
 
         self.is_complete = True
 
-    def cancel(self):
-        print("Canceling...")
+    def cancel(self, reason=None):
+        self.print("Canceling...")
         self.is_cancelled = True
+        if reason is not None:
+            self.print(f"Cancel reason: {reason}")
         # TODO send cancel/delete call to ComfyUI for all previously started prompts
 
 def main(args):

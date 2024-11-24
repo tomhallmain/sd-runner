@@ -1,5 +1,6 @@
 import asyncio
 import glob
+import logging
 import math
 import random
 import re
@@ -22,8 +23,36 @@ DARK_RED = "\033[91m"
 DARK_GREEN = "\033[92m"
 CYAN = "\033[34m"
 
+# create logger
+logger = logging.getLogger("muse")
+logger.setLevel(logging.DEBUG)
+logger.propagate = False
+
+# # create console handler with a higher log level
+# ch = logging.StreamHandler()
+# ch.setLevel(logging.DEBUG)
+# ch.setFormatter(CustomFormatter())
+# logger.addHandler(ch)
+
 
 class Utils:
+
+    @staticmethod
+    def log(message, level=logging.INFO):
+        logger.log(level, message)
+    
+    @staticmethod
+    def log_debug(message):
+        Utils.log(message, logging.DEBUG)
+
+    @staticmethod
+    def log_red(message):
+        Utils.log(message, logging.ERROR)
+    
+    @staticmethod
+    def log_yellow(message):
+        Utils.log(message, logging.WARNING)
+
     sleep_prevented = False
 
     @staticmethod

@@ -130,6 +130,7 @@ escalator
 exhibit
 factory
 farm
+farmers market
 fast casual restaurant
 fast food restaurant
 field

@@ -30,12 +30,14 @@ from ui.schedules_windows import SchedulesWindow
 from ui.tags_blacklist_window import BlacklistWindow
 from utils.app_info_cache import app_info_cache
 from utils.config import config
+from utils.job_queue import JobQueue
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
 from utils.utils import Utils
 
 _ = I18N._
 
+# TODO implement logging
 # TODO enable "madlibs" style prompting variables (requires labelling parts of speech in dictionary.txt)
 
 def set_attr_if_not_empty(text_box):
@@ -83,41 +85,6 @@ class ProgressListener:
     def update(self, context, percent_complete):
         self.update_func(context, percent_complete)
 
-class JobQueue:
-    def __init__(self, name="JobQueue", max_size=50):
-        self.name = name
-        self.max_size = max_size
-        self.pending_jobs = []
-        self.job_running = False
-
-    def has_pending(self):
-        return self.job_running or len(self.pending_jobs) > 0
-
-    def take(self):
-        if len(self.pending_jobs) == 0:
-            return None
-        job_args = self.pending_jobs[0]
-        del self.pending_jobs[0]
-        return job_args
-
-    def add(self, job_args):
-        if len(self.pending_jobs) > self.max_size:
-            raise Exception(f"Reached limit of pending runs: {self.max_size} - wait until current run has completed.")
-        self.pending_jobs.append(job_args)
-        print(f"JobQueue {self.name} - Added pending job: {job_args}")
-
-    def cancel(self):
-        self.pending_jobs = []
-        self.job_running = False
-
-    def pending_text(self):
-        if len(self.pending_jobs) == 0:
-            return ""
-        if self.name == "Stable Diffusion Runs":
-            return _(" (Pending runs: {0})").format(len(self.pending_jobs))
-        elif self.name == "Preset Schedules":
-            return _(" (Pending schedules: {0})").format(len(self.pending_jobs))
-
 
 class App():
     '''
@@ -128,8 +95,8 @@ class App():
         self.master = master
         self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.progress_bar = None
-        self.job_queue = JobQueue("Stable Diffusion Runs")
-        self.job_queue_preset_schedules = JobQueue("Preset Schedules")
+        self.job_queue = JobQueue(JobQueue.JOB_QUEUE_SD_RUNS_KEY)
+        self.job_queue_preset_schedules = JobQueue(JobQueue.JOB_QUEUE_PRESETS_KEY)
         self.server = self.setup_server()
         self.runner_app_config = self.load_info_cache()
         self.config_history_index = 0
@@ -849,7 +816,7 @@ class App():
 
     def run(self, event=None):
         if self.current_run.is_infinite():
-            self.current_run.cancel()
+            self.current_run.cancel("Infinite run switch")
         if event is not None and self.job_queue_preset_schedules.has_pending():
             res = self.alert(_("Confirm Run"),
                 _("Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"),
@@ -887,7 +854,7 @@ class App():
                 self.current_run.execute()
             except Exception:
                 traceback.print_exc()
-                self.current_run.cancel()
+                self.current_run.cancel("Run failure")
             self.cancel_btn.grid_forget()
             self.destroy_progress_bar()
             self.job_queue.job_running = False
@@ -907,11 +874,11 @@ class App():
             self.runner_app_config.set_from_run_config(args_copy)
             Utils.start_thread(run_async, use_asyncio=False, args=[args])
 
-    def cancel(self, event=None):
-        self.current_run.cancel()
+    def cancel(self, event=None, reason=None):
+        self.current_run.cancel(reason=reason)
 
     def revert_to_simple_gen(self, event=None):
-        self.cancel()
+        self.cancel(reason="Revert to simple generation")
         self.workflow.set(WorkflowType.SIMPLE_IMAGE_GEN_LORA.name)
         self.set_workflow_type(WorkflowType.SIMPLE_IMAGE_GEN_LORA)
         self.run()
@@ -981,7 +948,7 @@ class App():
         if workflow_type is not None:
             self.workflow.set(workflow_type.name)
             self.set_workflow_type(workflow_type)
-        else:
+        elif config.debug:
             print("Rerunning from server request with last settings.")
         if len(args) > 0:
             if "image" in args:
