@@ -3,6 +3,7 @@ $$time in $$location
 developer conference
 Underwater Coral Reef # A colorful and diverse underwater coral reef.
 abandoned warehouse
+agora
 airport
 alcove
 alien world
@@ -47,6 +48,7 @@ beach
 beach town
 bedroom
 bicycle path
+bike shop
 bivouac
 boardwalk
 bookstore
@@ -65,6 +67,7 @@ by the lake
 by the river
 cabin in the woods
 cafe
+cairn
 camping by the river
 canopy
 car showroom
@@ -87,12 +90,14 @@ city walls
 cliff
 clothing store
 college
+colonial estate
 commissary
 concert hall
 condo
 conference room
 cookout
 country club
+cottage
 courthouse
 courtroom
 cove
@@ -102,12 +107,15 @@ crossroads
 crosswalk
 crowded bar
 crowded party
+crypt
 cul-de-sac
+curiosity shop
 cyberspace
 dam
 dark aquarium
 dark club with neon lights
 dark dungeon
+dealership
 deli
 desert
 deserted island
@@ -125,7 +133,7 @@ electric railroad
 elevator
 embassy
 endless void
-engine rooengine roomm
+engine room
 escalator
 exhibit
 factory
@@ -156,6 +164,7 @@ golf course
 gondola
 graveyard
 greenhouse
+Gregorian manor
 grocery store
 gym
 gymnasium
@@ -212,6 +221,7 @@ inlet
 island
 isle
 jail
+jewelry store
 jobsite
 junkyard
 kitchen
@@ -227,6 +237,7 @@ moat
 modern architectural interior
 modern architectural space
 monument
+mountain pass
 mountains
 museum
 nomad camp
@@ -275,11 +286,13 @@ pawn shop
 penthouse
 petrol station
 pharmacy
+plantation
 playground
 police station
 porch
 post office
 power plant
+prairie
 pub
 public baths
 rainforest
@@ -306,6 +319,7 @@ service desk
 shack
 shipyard
 shoe shop
+shop
 shopping center
 shrine
 sidewalk
@@ -313,6 +327,8 @@ ski resort
 skyscraper
 small town
 small village
+smoking room
+smoke shop
 snowy mountain
 sorority house
 spa
@@ -338,6 +354,7 @@ tent
 the abyss
 theater
 throne room
+tomb
 traffic jam
 traffic lights
 trailer park

@@ -23,6 +23,7 @@ ball gown
 Ballerina Flats
 Ballgown
 bandanna
+banyan
 barrister's robes
 baseball cap
 bathing suit
@@ -208,6 +209,7 @@ High and Tight
 high heels
 High Heels
 hijab
+holster
 hooded cloak
 Hooded Poncho
 hoodie
@@ -286,6 +288,7 @@ nightgown
 nightshirt
 Off-Shoulder Sweater
 Off-Shoulder Top
+oil jacket
 onesies
 outerwear
 outfit
@@ -306,6 +309,7 @@ peplum
 Peplum Blouse
 perfectly tailored suit
 petticoat
+Phrygian cap
 pinafore
 Pixie Cut
 Platform Sandals
@@ -324,6 +328,7 @@ pork pie hat
 Puffer Coat
 pullover
 pumps
+Puritan dress
 purse
 Quiff
 raincoat
@@ -337,6 +342,7 @@ Romper
 Ruffle Skirt
 Ruffled Blouse
 rugby shirt
+sailor suit
 sandals
 sari
 sarong
@@ -429,6 +435,7 @@ top hat
 tracksuit
 train
 trench coat
+Tricorner hat
 trousers
 trunks
 tshirt

@@ -14,9 +14,11 @@ abstract
 acrylic on canvas
 advertising insert
 airbrushed
+albumen silver print
 amateur photo
 amorphous
 anime
+antialiasing
 architectural render
 art deco
 art nouveau
@@ -33,6 +35,7 @@ bitmap
 blender
 blizzard
 blocky
+bloom
 blur
 blurry
 bokeh
@@ -44,12 +47,15 @@ burnt
 burnt-out colors
 busy
 cartoon
+cartoonish
+cart-de-visite
 ccd
 cel shading
 centered composition
 chalk
 clean lines
 clear
+clipart
 closeup
 cloudy
 clusters
@@ -87,8 +93,9 @@ distorted
 dna and proteins
 dnd character portrait
 character sheet
+dithering
 dot art
-driftwood
+double exposure
 dry
 dry rubbing
 edge map
@@ -126,6 +133,7 @@ gloomy
 glossy
 glossy finish
 godrays
+gouache and ink
 gouache painting
 grainy
 graph
@@ -136,6 +144,7 @@ grayscale
 grid
 gritty
 grungy
+halftone
 hard edges
 heat map
 heavy shading
@@ -160,6 +169,7 @@ impressionism
 impulse noise
 infographic
 ink
+ink-wash painting
 inset
 insignia
 inspired
@@ -193,6 +203,7 @@ mapping
 marble bust
 masses
 masquerade
+matchbook art
 matte
 matte painting
 median filtering
@@ -207,6 +218,7 @@ motion blur
 movie poster
 multiple light sources
 multiple views
+mural
 muted
 natural shell iridescence
 negative
@@ -222,6 +234,8 @@ origami
 outlined
 panorama
 paper mache
+papyrus
+parallax
 parchment
 particles
 patterned
@@ -286,6 +300,7 @@ striped
 stripes
 studio photography
 suitable for various media
+Sumi-e
 sunny
 superimposed images
 surrealism
@@ -405,6 +420,14 @@ Worlds Fair
 2010s
 2020s
 
+1950s National Geographic photo
+1960s National Geographic photo
+1970s National Geographic photo
+1980s National Geographic photo
+1990s National Geographic photo
+2000s National Geographic photo
+
+News headline image
 
 circle
 polygon
@@ -439,6 +462,7 @@ millions
 $$random_word made of $$random_word
 (dark club with neon lights)
 (partially obscured subject, $$random_word in foreground blocking view)
+abstract background
 abyss
 acrylic nameplate
 aesthetic
@@ -459,6 +483,7 @@ atmosphere
 atomic bomb
 award-winning artwork
 award-winning photograph
+axle
 bacterium in electron micrscope
 bag
 Baldacchino
@@ -471,6 +496,7 @@ big daddy
 Big Data Analytics
 bioluminescence
 birefringence
+black borders
 black hole
 black light
 black lines
@@ -500,6 +526,7 @@ character modeling
 checkboard
 chest full of treasure
 chibi
+christianity
 chrome organic
 cinematic render
 circulatory system
@@ -509,8 +536,11 @@ clean
 clean minimalism
 closed mouth
 color gradients
+colorgraded
 columns
+comfy
 complex
+confetti falling
 constellations
 construct
 contraption
@@ -535,6 +565,7 @@ deep learning
 deep-sea photography
 (desktop screenshot, computer screenshot, open application windows)
 destitute
+destroyed
 detailed background
 die shot integrated circuitry
 diffused
@@ -543,8 +574,12 @@ dirty
 disassembled
 disco ball
 dog
+dot matrix, dithering, scanlines
 dragon
+driftwood
+dynamic
 eerie
+EGA graphics
 egg
 electricity
 embossed
@@ -569,9 +604,12 @@ fantasy
 fat
 felt
 (ferrofluid:0.8)
+figura serpentinata
+film grain
 film noire
 fine china porcelain
 fish
+flame
 flintlock
 floral
 floral arrangement
@@ -590,9 +628,11 @@ footnotes
 fountain
 framed
 funhouse
+fusion
 future world
 futuristic
 geode
+geodesic
 giant vat
 glam
 glow
@@ -600,10 +640,13 @@ gnarled
 gobbledygook
 gold sheen
 golden ratio
+gongbi
 gothic
 (gothic script)
 grandfather clock
 graph of complex equation
+grid
+grid of four
 grilled meats
 grimdark
 group of $$random_word
@@ -625,12 +668,16 @@ illuminated manuscript
 in pieces
 indicator light
 industrial
+inflatable
 insane art
+insect wings
 insert
 interpolation
 interpleaded
 irregularities
+isolation
 islam
+italic
 ivory
 ivy-covered walls
 kaleidoscopic
@@ -652,6 +699,7 @@ lore
 lore map
 lost in the crowd
 loupe
+luminism
 machine learning
 magic
 magic the gathering card
@@ -665,12 +713,15 @@ matryoshka
 maximalism
 maze
 mechanism
+melancholy
 melted
 mercury flash folding camera
 messy
+meticulous linework precision
 minimalism
 miracle
 missile arc
+mixed media
 molecular chemical bonds visualization
 metal molds
 molting
@@ -701,10 +752,12 @@ ocean made of $$random_word
 octane render
 odd
 ogee
+oil slick nebula
 old man
 old woman
 opal glint
 organic
+oriel
 ornate
 overcast
 overflowing
@@ -713,6 +766,8 @@ page from design guidebook with numbered list of designs 1 through 10
 paint swatches
 palm plantation
 panda
+panzer
+platformer pixelart parallax video game background
 pastoral
 pattern
 path tracing
@@ -724,6 +779,7 @@ picture book
 pile of $$random_word
 pillow
 planet
+plans, assembly instructions, 2 d autocad
 houseplants
 plants
 plaster
@@ -742,11 +798,13 @@ pyrotechnics
 raining
 Raphaelite
 rebar
+rebus
 redshift
 reflecting
 reflections
 regularity
 repeating patterns
+resin
 retro computer graphics
 retro-futuristic
 rich
@@ -754,6 +812,7 @@ robot
 rock face
 rococo style
 roman numerals
+rows
 royal
 ruffles
 ruined
@@ -764,18 +823,24 @@ satellites
 scales
 sci fi
 science fiction
+scratched up
 screw
 scuffed
 seal
 sectioned
 shards
 sheep
+sheets
 shining diamond
 shiny
 shocking blast
+signal
 silhouette
 silver
+simple image
 simple background
+simple drawing
+simple manga
 simplex
 sinews
 sinuous
@@ -783,8 +848,10 @@ skid marks
 skinny
 skull
 sky
+sliding screen
 sloppy
 spacetime
+sparkles
 sparkling
 sparse
 spiderweb
@@ -794,6 +861,7 @@ spill
 spinal column
 spindly
 spiral matrix
+splendor
 splotches
 spooky
 spread out
@@ -802,6 +870,7 @@ statuette
 stasis tank
 steamboat
 steel sculpture
+steep
 still life
 stone
 stormy
@@ -822,9 +891,14 @@ tear drops
 technology
 textural
 textured glass
+thatched
 thespian
+tint
 tiny bubbles
 titian
+toile de jouy
+topographic map
+topology
 topsy-turvy
 torchlight
 torus
@@ -862,9 +936,12 @@ wax figure
 welding sparks
 whale
 whimsical
+whimsy
 whirlpool
+white borders
 Wild West
 wings
+windy
 wires
 wire sculpture
 woman

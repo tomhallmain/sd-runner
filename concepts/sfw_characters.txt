@@ -1,4 +1,25 @@
 
+Merlin
+King Arthur
+Beowulf
+
+wendigo
+mantis, scyther claws, sclera, chitin
+tyranid
+
+Legos
+Playmobil
+
+
+muppets
+Bert
+Ernie
+Oscar the Grouch
+Elmo
+Kermit the Frog
+Ms. Piggy
+
+hierophant
 mobster
 race car driver
 detective
@@ -18,6 +39,8 @@ Minnie Mouse
 Garfield
 
 Carmen San Diego
+
+Inflatable Tube man
 
 Gundam
 Mobile Wingsuit Gundam
@@ -321,6 +344,13 @@ Bacchus
 Vesta
 Terra
 Victoria
+
+sword
+flail
+flamethrower
+lance
+spear
+spiked mace
 
 Aaron
 Aaronites

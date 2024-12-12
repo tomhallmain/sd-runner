@@ -1,11 +1,21 @@
+early morning
 morning
+late morning
+noon
+early afternoon
 afternoon
+late afternoon
 evening
+dawn
 dusk
 twilight
 soft morning light
 golden hour
 night
+3 AM
+9 AM
+5 PM
+10 PM
 spring
 summer
 fall
