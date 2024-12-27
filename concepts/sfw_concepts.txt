@@ -39,6 +39,7 @@ bloom
 blur
 blurry
 bokeh
+bold
 bold black outlines
 breathtaking
 breathtaking
@@ -53,6 +54,7 @@ ccd
 cel shading
 centered composition
 chalk
+chromatic aberration
 clean lines
 clear
 clipart
@@ -179,6 +181,8 @@ jpeg artifacts
 landscape painting
 layered
 leaflet
+lens flare
+limited palette
 line art
 line sketch
 linear brightness transformation
@@ -264,6 +268,7 @@ resampled image
 restored historic photograph
 retro artstyle
 retro game
+risograph
 rotated image
 rotoscoped image
 rough
@@ -293,6 +298,7 @@ soft
 solid
 spirograph
 splashiness
+spray painted
 stereograph
 still life
 strange magic
@@ -534,6 +540,7 @@ city map
 classy
 clean
 clean minimalism
+cloissone
 closed mouth
 color gradients
 colorgraded
@@ -577,6 +584,7 @@ dog
 dot matrix, dithering, scanlines
 dragon
 driftwood
+drooping
 dynamic
 eerie
 EGA graphics
@@ -590,6 +598,7 @@ encased in glass
 enemy health indicators
 engraved
 erosion
+Etch A Sketch
 ethereal
 ethereal light
 evolutionary computing 
@@ -619,11 +628,13 @@ flowers
 column ridges fluting and reeding
 flying buttresses
 fractal
+fragment
 frieze
 fruits
 fog
 folklore
 fond broderie
+font
 footnotes
 fountain
 framed
@@ -658,6 +669,7 @@ heraldry
 heritage
 highlighter marks
 holding
+honeycomb
 horse
 house party
 huge
@@ -795,6 +807,7 @@ pushing buttons
 pre-Raphaelite
 product catalog
 pyrotechnics
+pyxis
 raining
 Raphaelite
 rebar
@@ -835,6 +848,7 @@ shining diamond
 shiny
 shocking blast
 signal
+signature
 silhouette
 silver
 simple image
@@ -882,6 +896,7 @@ stuffed animals
 stylized
 supercell storm
 supermassive black hole
+swath
 symbol
 table
 tableau, framed wall of images
@@ -893,6 +908,7 @@ textural
 textured glass
 thatched
 thespian
+tincture
 tint
 tiny bubbles
 titian

@@ -1,3 +1,5 @@
+while noone was looking
+serrate
 3D puzzles
 accelerating
 acing a test
@@ -41,6 +43,7 @@ bingo or other group games
 bird books or items bird-themed
 bird watching
 birdhouses
+blinking
 blogging
 board games
 book club
@@ -57,6 +60,7 @@ building
 building dollhouses
 building wooden toys
 bullet journaling
+bungee jumping
 busking
 butterfly art or items
 buying
@@ -85,6 +89,7 @@ churning butter
 clay crafts
 cleaning
 cliff diving
+clinging
 closing
 cocktails
 collaborating
@@ -140,6 +145,7 @@ diamond painting kit
 digging
 discovering
 dog show
+doing $$random_word
 doing a t pose
 doing a wheelie on a bicycle
 doing cartwheels
@@ -220,6 +226,7 @@ growing bonsai
 gymnastics
 hair styling
 hand lettering
+hanggliding
 hanging
 hanging out
 happening
@@ -310,6 +317,7 @@ looking over the edge
 looking up
 losing
 loving
+lunging
 lying
 lying down
 lying on a $$random_word
@@ -321,6 +329,7 @@ making a big fuss
 making breakfast
 making dolls
 making dream catchers
+making money
 managing
 marathon
 mason jars (vintage)
@@ -570,6 +579,7 @@ talking
 talking on the phone
 tasting
 tea items
+tea party
 teaching
 teaching a foreign language
 teaching a musical instrument
@@ -612,6 +622,7 @@ volunteering
 waiting
 walking
 walking a tightrope
+waltzing
 wandering
 wanting
 warning

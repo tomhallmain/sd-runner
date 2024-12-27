@@ -1,4 +1,9 @@
 
+seaport
+terrace
+caverns
+
+$$random_word on the side of a $$random_word
 $$time in $$location
 developer conference
 Underwater Coral Reef # A colorful and diverse underwater coral reef.
@@ -13,6 +18,7 @@ antechamber
 antiques store
 aquarium
 aqueduct
+artificial planet
 army base
 asphalt
 at $$random_word
@@ -34,6 +40,7 @@ at the mall
 at the park
 at the top
 at the zoo
+attic
 backyard
 baggage claim
 bakery
@@ -129,6 +136,7 @@ drive-in movie theater
 driveway
 dugout
 dungeon
+Dyson sphere
 electric railroad
 elevator
 embassy
@@ -230,8 +238,10 @@ laundry room
 library
 living room
 loft
+loggia
 manor
 market
+mechanical planet
 metro stop
 moat
 modern architectural interior
@@ -332,6 +342,8 @@ smoke shop
 snowy mountain
 sorority house
 spa
+space elevator
+space station
 sports centre
 spring gardens
 stadium

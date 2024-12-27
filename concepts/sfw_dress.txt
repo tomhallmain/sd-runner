@@ -99,6 +99,7 @@ clasp
 Classic White Blouse
 Classic White T-Shirt
 cloak
+cloche
 clogs
 cloning
 clothes
@@ -174,6 +175,7 @@ frills
 frock
 fur
 fur coat
+gaberdine
 gabardine
 gaiters
 galoshes
@@ -286,6 +288,7 @@ necklace
 necklace
 nightgown
 nightshirt
+obi
 Off-Shoulder Sweater
 Off-Shoulder Top
 oil jacket
