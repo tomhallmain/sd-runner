@@ -147,6 +147,7 @@ discovering
 dog show
 doing $$random_word
 doing a t pose
+doing a trick
 doing a wheelie on a bicycle
 doing cartwheels
 doing jumping jacks
@@ -172,6 +173,7 @@ eating dinner
 eating a midnight snack
 eating grapes and drinking wine while reclining on a roman bench
 embroidery
+emerging
 encouraging
 establishing
 examining
@@ -602,6 +604,7 @@ travel and travel planning
 travel books
 travel brochures
 traveling
+trick-or-treating
 tripping and falling
 turning
 typing on a keyboard

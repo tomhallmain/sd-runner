@@ -467,6 +467,7 @@ gharliera
 giancola
 giant squid inspired
 giger stalenhag
+Gihachiro Okuyama
 gil elvgren
 gilles beloeil
 gingko trees
@@ -1041,6 +1042,7 @@ nikolai shurygin
 nil tawata
 nina masic
 nina tryggvadottir
+Nishimura Hado
 nivanh chanthara
 noah bradley
 noriyoshi ohrai
@@ -1268,6 +1270,7 @@ shingei geiami
 shinji aramaki
 shinkai alphonse takashi
 shintaro kago
+Shiro Kasamatsu
 shoujo manga
 sig mead
 silverjow
@@ -1325,9 +1328,11 @@ swietopelk
 syd mead
 sylvain sarrailh
 tadao ando
+Takeuchi Keishu
 talibam
 tamara de lempika
 tamplier painter
+Tanigami Konan
 tara phillips
 tatyana kupriyanova
 ted nasmith
@@ -1468,6 +1473,7 @@ yayoi kusama
 yoann lossel
 yoichi hatakenaka
 yoji shinkawa
+Yoshida Hiroshi
 yoshida seiji
 yoshitaka amano
 yoshitomo nara

@@ -53,6 +53,7 @@ monochrome orange-pink
 monochrome deep green
 monochrome teal
 duotone
+limited palette
 amaranth # reddish-rose or reddish-purple color, named after the flower of the amaranth plant
 #    cardinal # vivid red, like the bird
 carmine # deep red, though some varieties may include a tiny bit of purple

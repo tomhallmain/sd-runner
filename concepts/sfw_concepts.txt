@@ -191,6 +191,7 @@ linear transformation
 liquid-crystal display
 logo
 lomo
+lomography
 low-contrast
 low-contrast image
 low-key image
@@ -466,6 +467,7 @@ millions
 
 
 $$random_word made of $$random_word
+https://$$random_word.com/$$random_word
 (dark club with neon lights)
 (partially obscured subject, $$random_word in foreground blocking view)
 abstract background
@@ -497,6 +499,7 @@ baroque patterns
 baroque style
 beauty
 bed sheets
+bedtime
 Bernini sculpture
 big daddy
 Big Data Analytics
@@ -570,6 +573,7 @@ cyborg
 dark dungeon
 deep learning
 deep-sea photography
+designed by Gaudi
 (desktop screenshot, computer screenshot, open application windows)
 destitute
 destroyed
@@ -697,6 +701,7 @@ kintsugi
 kiss
 jade figurine
 jungle gym
+lacquer
 lagrange points
 lantern
 laser beam
@@ -712,6 +717,7 @@ lore map
 lost in the crowd
 loupe
 luminism
+luxurious
 machine learning
 magic
 magic the gathering card
@@ -771,6 +777,7 @@ opal glint
 organic
 oriel
 ornate
+ornaments
 overcast
 overflowing
 pacifier
@@ -824,6 +831,7 @@ rich
 robot
 rock face
 rococo style
+roller coaster
 roman numerals
 rows
 royal
@@ -855,6 +863,7 @@ simple image
 simple background
 simple drawing
 simple manga
+simple primitive shapes
 simplex
 sinews
 sinuous
@@ -868,9 +877,10 @@ spacetime
 sparkles
 sparkling
 sparse
+special relativity
+speech bubble
 spiderweb
 spiderwebs
-speech bubble
 spill
 spinal column
 spindly
@@ -913,6 +923,7 @@ tint
 tiny bubbles
 titian
 toile de jouy
+topiary
 topographic map
 topology
 topsy-turvy

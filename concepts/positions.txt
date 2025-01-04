@@ -10,6 +10,7 @@ assuming a stance
 back
 candid
 down below
+dynamic pose
 eyelevel
 facing_away
 facing_down
@@ -48,6 +49,7 @@ model pose
 nodding off
 on tiptoes
 quarter turn
+perched
 POV hands
 POV legs
 POV feet

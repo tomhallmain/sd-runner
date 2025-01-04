@@ -2,6 +2,7 @@
 seaport
 terrace
 caverns
+waterfall
 
 $$random_word on the side of a $$random_word
 $$time in $$location
@@ -18,6 +19,7 @@ antechamber
 antiques store
 aquarium
 aqueduct
+art gallery
 artificial planet
 army base
 asphalt
@@ -108,6 +110,7 @@ cottage
 courthouse
 courtroom
 cove
+covered porch
 cozy rural home
 cozy suburban home
 crossroads
@@ -142,6 +145,7 @@ elevator
 embassy
 endless void
 engine room
+entrance
 escalator
 exhibit
 factory
@@ -151,6 +155,7 @@ fast casual restaurant
 fast food restaurant
 field
 fields
+fire escape
 fire station
 fireplace
 fishing village
@@ -223,6 +228,7 @@ in the living room
 in the steppes
 in the wilderness
 in the woods
+industrial complex
 industrial park
 info station
 inlet
@@ -252,9 +258,11 @@ mountains
 museum
 nomad camp
 nuclear reactor
+observatory
 ocean
 off world
 office
+office complex
 on $$random_word
 on a $$random_word
 on a boat
@@ -296,6 +304,7 @@ pawn shop
 penthouse
 petrol station
 pharmacy
+planetarium
 plantation
 playground
 police station
@@ -307,6 +316,7 @@ pub
 public baths
 rainforest
 renaissance tavern
+repair shop
 resort
 restaurant
 river in the city
@@ -339,6 +349,7 @@ small town
 small village
 smoking room
 smoke shop
+snack bar
 snowy mountain
 sorority house
 spa
@@ -361,9 +372,11 @@ swimming pool
 taiga
 tel
 telephone booth
+tenement
 temple
 tent
 the abyss
+the projects
 theater
 throne room
 tomb

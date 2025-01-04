@@ -1,5 +1,11 @@
 This code is primarily a custom UI to trigger ComfyUI workflows or SD Web UI functions using presets and prompt randomization.
 
+## Warnings
+
+- This was originally developed during early 2024, so many prompts may be out of date with current versions of the respective image generation projects.
+- Though any prompt applied to any model can result in undesirable images despite properly set negative prompts, prompt randomization increases the chance that undesirable images may be generated, even if only innocuous terms are included in the prompt, because the randomness allows for wider traversal of the model's latent space. For this reason it is wise to use a local prevalidation and content filtering tool. I recommend using [simple_image_compare](https://github.com/tomhallmain/simple_image_compare) which has many other features in addition to customizable prevalidations based on CLIP and H5 models.
+- Continuously viewing random images may cause small lapses in sanity. Employ total randomness with caution.
+
 ## Configuration Options
 
 `total`: By default this is 1 to run a workflow only once, however with prompt randomization the same workflow can produce a different result each time. Set to -1 to run infinitely.

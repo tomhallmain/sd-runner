@@ -1,9 +1,13 @@
 early morning
 morning
+morning
+mid-morning
 late morning
 noon
 early afternoon
 afternoon
+afternoon
+mid-afternoon
 late afternoon
 evening
 dawn
@@ -12,13 +16,36 @@ twilight
 soft morning light
 golden hour
 night
+midnight
 3 AM
 9 AM
+4 PM
 5 PM
 10 PM
 spring
 summer
 fall
 winter
-bedtime
 midday
+midday
+yesterday
+tomorrow
+last week
+next week
+this week
+a fortnight ago
+a long time ago
+far into the future
+view into the past
+ancient
+prehistoric
+Monday through Friday
+weekend
+Monday
+Tuesday
+Wednesday
+Thursday
+Friday
+Saturday
+Sunday
+
