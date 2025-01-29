@@ -5,6 +5,7 @@ person in foreground blocking view
 (morphological operation)
 (scenic nature, misty)
 2D vector style
+35mm film
 360 degree view
 3d model
 3D render
@@ -70,6 +71,7 @@ concept art
 concert poster
 corrupted pixels
 crisp
+crosshatch
 crumpled paper
 crystal
 ct scan
@@ -171,12 +173,14 @@ impressionism
 impulse noise
 infographic
 ink
+ink blot
 ink-wash painting
 inset
 insignia
 inspired
 interpolated
 inverted image
+italic
 jpeg artifacts
 landscape painting
 layered
@@ -252,6 +256,7 @@ pixel art
 pixel subtraction result
 pixelated
 plane shearing
+pointillist
 pointy
 polaroid
 polished
@@ -279,6 +284,7 @@ scattered
 scribbles
 selfie
 sfm
+shades
 shaded
 shadows
 sharp
@@ -290,6 +296,7 @@ silk screen
 silver nitrate film
 simple sketch
 sketchbook
+smeared
 smooth
 smooth
 smooth curves
@@ -300,6 +307,7 @@ solid
 spirograph
 splashiness
 spray painted
+stained
 stereograph
 still life
 strange magic
@@ -434,6 +442,16 @@ Worlds Fair
 1990s National Geographic photo
 2000s National Geographic photo
 
+in half
+thirds
+fourths
+fifths
+sixth
+seventh
+eigths
+ninth
+tenths
+
 News headline image
 
 circle
@@ -466,7 +484,10 @@ millions
 
 
 
+$$random_word embedded in $$random_word
 $$random_word made of $$random_word
+$$random_word shaped
+90s style VHS paused image
 https://$$random_word.com/$$random_word
 (dark club with neon lights)
 (partially obscured subject, $$random_word in foreground blocking view)
@@ -475,11 +496,13 @@ abyss
 acrylic nameplate
 aesthetic
 aliens
+all alone
 amalgamation
 anemone
 ancient
 ancient Egypt
 ancient Rome
+apparatus
 arch
 arches
 architecture
@@ -526,6 +549,7 @@ canvas
 cartridge
 carved
 cat
+ceiling
 cellular automata
 cell phone
 central processing unit
@@ -549,7 +573,9 @@ color gradients
 colorgraded
 columns
 comfy
+compass rose
 complex
+condensation
 confetti falling
 constellations
 construct
@@ -560,6 +586,7 @@ copper etching
 coral
 cornucopia
 cow
+cozy
 cracked
 cranium
 cross stitch
@@ -594,10 +621,13 @@ eerie
 EGA graphics
 egg
 electricity
+embed
 embossed
 embroidery
 embroidered
+emergency broadcast
 emergent complexity
+emotional photos
 encased in glass
 enemy health indicators
 engraved
@@ -647,6 +677,7 @@ fusion
 future world
 futuristic
 geode
+game hud elements overlay
 geodesic
 giant vat
 glam
@@ -671,15 +702,17 @@ heads-up display
 health and stamina indicators
 heraldry
 heritage
+herringbone pattern
+Higgs boson
 highlighter marks
 holding
 honeycomb
 horse
 house party
 huge
-geode
-game hud elements overlay
+hydraulic press
 hypermaximalist
+ignition
 illuminated manuscript
 in pieces
 indicator light
@@ -747,6 +780,7 @@ moss
 motifs
 motivational poster
 mounted deer head on the wall
+muons
 musculoskelatal system
 museum display
 museum exhibit
@@ -759,6 +793,7 @@ neoclassical
 nerve clusters
 nervous system
 nested
+neutrinos
 noir
 noosphere
 nordic
@@ -780,9 +815,10 @@ ornate
 ornaments
 overcast
 overflowing
-pacifier
+ovolo
 page from design guidebook with numbered list of designs 1 through 10
 paint swatches
+Paleozoic
 palm plantation
 panda
 panzer
@@ -808,7 +844,9 @@ poor
 porous volcanic stone
 portal
 portrayal
+printing press
 prism
+progress bar
 protein folding visualization
 pushing buttons
 pre-Raphaelite
@@ -828,6 +866,7 @@ resin
 retro computer graphics
 retro-futuristic
 rich
+rigging
 robot
 rock face
 rococo style
@@ -835,11 +874,13 @@ roller coaster
 roman numerals
 rows
 royal
+RPG tabletop
 ruffles
 ruined
 rule of thirds
 runes
 rusted
+rustic
 satellites
 scales
 sci fi
@@ -848,7 +889,9 @@ scratched up
 screw
 scuffed
 seal
+section
 sectioned
+shagreen
 shards
 sheep
 sheets
@@ -867,6 +910,7 @@ simple primitive shapes
 simplex
 sinews
 sinuous
+skewed
 skid marks
 skinny
 skull
@@ -886,6 +930,7 @@ spinal column
 spindly
 spiral matrix
 splendor
+spliced
 splotches
 spooky
 spread out
@@ -895,6 +940,7 @@ stasis tank
 steamboat
 steel sculpture
 steep
+steepen
 still life
 stone
 stormy
@@ -912,8 +958,10 @@ table
 tableau, framed wall of images
 tame creature
 tarot card
+taut
 tear drops
 technology
+television
 textural
 textured glass
 thatched
@@ -935,6 +983,8 @@ trapped, enclosed space
 trinket
 turntable
 twisted
+TV screen
+UI
 UFO, alien spacecraft
 unfinished technical sketch
 unique
@@ -959,6 +1009,7 @@ wacky
 Walking Tour
 wall made of water
 wax figure
+weathered
 (web page screenshot, modern web design, home page)
 welding sparks
 whale
@@ -975,6 +1026,8 @@ woman
 wormhole
 wreckage
 wuxia
+yarnbombing
+yay!
 yearbook pictures
 young boy
 young girl

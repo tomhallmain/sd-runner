@@ -8,6 +8,7 @@ acting
 acting in a play
 airbrushing
 allowing
+ambushed
 analyzing
 animal-themed items
 annoy
@@ -75,6 +76,7 @@ candlesticks
 canvas art
 card games
 card making
+carpentry
 cartwheeling
 carving
 ceremony
@@ -212,6 +214,7 @@ gaining
 games 
 games surrounding a theme
 gardening
+gathering
 generating
 giving
 glass blowing
@@ -323,6 +326,7 @@ lunging
 lying
 lying down
 lying on a $$random_word
+machining
 magic
 magnets
 makeup art
@@ -385,9 +389,11 @@ painting a picture
 painting a portrait
 painting a wall
 painting rocks
+panning
 participating
 party planning
 passing
+passing through
 pastels
 paying
 people watching
@@ -599,6 +605,7 @@ tie dyeing
 tying
 tissue paper crafts
 tossing a pizza
+towing
 trapping
 travel and travel planning
 travel books

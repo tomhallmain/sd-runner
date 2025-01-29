@@ -8,6 +8,7 @@ arms up
 around the block
 assuming a stance
 back
+back to camera
 candid
 down below
 dynamic pose
@@ -27,6 +28,7 @@ head propped on hand
 head turned
 in line
 in the middle
+in tow
 leaning forward
 leaning back
 leaning on side
