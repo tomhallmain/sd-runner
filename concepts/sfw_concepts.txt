@@ -487,6 +487,7 @@ millions
 $$random_word embedded in $$random_word
 $$random_word made of $$random_word
 $$random_word shaped
+$$random_word pattern
 90s style VHS paused image
 https://$$random_word.com/$$random_word
 (dark club with neon lights)
@@ -497,6 +498,7 @@ acrylic nameplate
 aesthetic
 aliens
 all alone
+Allmoge style
 amalgamation
 anemone
 ancient
@@ -588,6 +590,7 @@ cornucopia
 cow
 cozy
 cracked
+craft paper
 cranium
 cross stitch
 crowded
@@ -597,6 +600,7 @@ cursive
 cute
 cybersecurity
 cyborg
+cymatics
 dark dungeon
 deep learning
 deep-sea photography
@@ -766,6 +770,7 @@ maze
 mechanism
 melancholy
 melted
+mercury
 mercury flash folding camera
 messy
 meticulous linework precision
@@ -775,6 +780,7 @@ missile arc
 mixed media
 molecular chemical bonds visualization
 metal molds
+modal
 molting
 moss
 motifs
@@ -822,6 +828,8 @@ Paleozoic
 palm plantation
 panda
 panzer
+paperfold
+patterns
 platformer pixelart parallax video game background
 pastoral
 pattern
@@ -883,6 +891,7 @@ rusted
 rustic
 satellites
 scales
+scenic
 sci fi
 science fiction
 scratched up
@@ -934,6 +943,7 @@ spliced
 splotches
 spooky
 spread out
+stages
 star charts
 statuette
 stasis tank
@@ -952,6 +962,7 @@ stuffed animals
 stylized
 supercell storm
 supermassive black hole
+surface of a $$random_word
 swath
 symbol
 table
@@ -995,6 +1006,7 @@ variability
 the vast expanse
 vectors
 ventriloquism
+vibrational
 viceroy
 vicious animal
 vicious creature
