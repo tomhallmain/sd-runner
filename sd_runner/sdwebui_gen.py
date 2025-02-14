@@ -199,7 +199,7 @@ class SDWebuiGen:
         return self.gen_config.get_seed()
 
     def simple_image_gen(self, prompt, resolution, model, vae, n_latents, positive, negative):
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN, "Assembling Simple Image Gen prompt", prompt=prompt, model=model, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
@@ -214,7 +214,7 @@ class SDWebuiGen:
         SDWebuiGen.schedule_prompt(prompt)
 
     def simple_image_gen_lora(self, prompt, resolution, model, vae, n_latents, positive, negative, lora):
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN_LORA, "Assembling Simple Image Gen LoRA prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, lora=lora, n_latents=n_latents, positive=positive, negative=negative)
         lora = model.validate_loras(lora)
         model = self.gen_config.redo_param("model", model)
@@ -245,7 +245,7 @@ class SDWebuiGen:
         # t2i-adapter_diffusers_xl_depth_zoe [cc102381]
         if not self.gen_config.override_resolution:
             resolution = resolution.get_closest_to_image(control_net.id, round_to=16)
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
         model = self.gen_config.redo_param("model", model)
         lora = model.validate_loras(lora)
@@ -269,7 +269,7 @@ class SDWebuiGen:
         SDWebuiGen.schedule_prompt(prompt, related_image_path=control_net.id, workflow=PromptTypeSDWebUI.CONTROLNET)
 
     def ip_adapter(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, ip_adapter):
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         if not self.gen_config.override_resolution:
             resolution = resolution.get_closest_to_image(ip_adapter.id)
         prompt, model, vae = self.prompt_setup(WorkflowType.IP_ADAPTER, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
@@ -298,7 +298,7 @@ class SDWebuiGen:
 
     def instant_lora(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net, ip_adapter):
         resolution = resolution.get_closest_to_image(ip_adapter.id)
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.INSTANT_LORA, "Assembling Img2Img ControlNet prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
         model.validate_loras(lora)

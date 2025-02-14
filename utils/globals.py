@@ -171,3 +171,12 @@ class ComfyNodeName:
 class SoftwareType(Enum):
     ComfyUI = "ComfyUI"
     SDWebUI = "SDWebUI"
+
+class ArchitectureType(Enum):
+    SD_15 = "SD_15"
+    SDXL = "SDXL"
+    ILLUSTRIOUS = "ILLUSTRIOUS"
+    TURBO = "TURBO"
+
+    def is_xl(self):
+        return self == ArchitectureType.SDXL or self == ArchitectureType.ILLUSTRIOUS

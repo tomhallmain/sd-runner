@@ -414,7 +414,7 @@ sweatsuit
 swimsuit
 T-shirt
 Tailored Tuxedo
-tam
+tam hat
 tank top
 Tank Top
 Taper Fade

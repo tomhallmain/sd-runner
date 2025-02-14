@@ -3,7 +3,8 @@ import random
 
 from sd_runner.concepts import HardConcepts
 from utils.config import config
-from sd_runner.models import Globals, IPAdapter, Model, Resolution, WorkflowType
+from utils.globals import Globals, WorkflowType, ArchitectureType
+from sd_runner.models import IPAdapter, Model, Resolution
 from sd_runner.run_config import RunConfig
 from utils.utils import Utils
 
@@ -37,7 +38,18 @@ class GenConfig:
         self.countdown_value = -1
 
     def is_xl(self):
-        return self.models[0].is_xl
+        return self.models[0].is_xl()
+
+    def architecture_type(self):
+        return self.models[0].architecture_type
+
+    def max_image_scale_to_side(self):
+        if self.architecture_type() == ArchitectureType.ILLUSTRIOUS:
+            return 1536
+        elif self.architecture_type() == ArchitectureType.SDXL:
+            return 1024
+        else:
+            return 768
 
     def prepare(self):
         self.resolutions_skipped = 0

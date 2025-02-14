@@ -5,13 +5,14 @@ import re
 
 from sd_runner.concepts import PromptMode
 from utils.config import config
-from utils.globals import Globals, WorkflowType
+from utils.globals import Globals, WorkflowType, ArchitectureType
 from utils.utils import Utils
 
 
 class Resolution:
     TOTAL_PIXELS_TOLERANCE_RANGE = []
     XL_TOTAL_PIXELS_TOLERANCE_RANGE = []
+    ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE = []
 
     def __init__(self, width=Globals.DEFAULT_RESOLUTION_WIDTH, height=Globals.DEFAULT_RESOLUTION_HEIGHT, scale=2, random_skip=False):
         self.width = width
@@ -20,21 +21,21 @@ class Resolution:
         self.random_skip = random_skip
 
     @classmethod
-    def SQUARE(cls, is_xl, scale=2, random_skip=False):
+    def SQUARE(cls, architecture_type=ArchitectureType.SDXL, scale=2, random_skip=False):
         resolution = Resolution(scale=scale, random_skip=random_skip)
-        resolution.square(is_xl)
+        resolution.square(architecture_type)
         return resolution
 
     @classmethod
-    def PORTRAIT(cls, is_xl, scale=2, random_skip=False):
+    def PORTRAIT(cls, architecture_type=ArchitectureType.SDXL, scale=2, random_skip=False):
         resolution = Resolution(scale=scale, random_skip=random_skip)
-        resolution.portrait(is_xl)
+        resolution.portrait(architecture_type)
         return resolution
 
     @classmethod
-    def LANDSCAPE(cls, is_xl, scale=2, random_skip=False):
+    def LANDSCAPE(cls, architecture_type=ArchitectureType.SDXL, scale=2, random_skip=False):
         resolution = Resolution(scale=scale, random_skip=random_skip)
-        resolution.landscape(is_xl)
+        resolution.landscape(architecture_type)
         return resolution
 
     @staticmethod
@@ -81,6 +82,26 @@ class Resolution:
         return 1024
 
     @staticmethod
+    def get_illustrious_long_scale(scale=2):
+        if scale == 1:
+            return 1664
+        elif scale == 2:
+            return 1792
+        elif scale == 3:
+            return 2048
+        return 1536
+
+    @staticmethod
+    def get_illustrious_short_scale(scale=2):
+        if scale == 1:
+            return 1344
+        if scale == 2:
+            return 1216
+        if scale == 3:
+            return 1152
+        return 1536
+
+    @staticmethod
     def round_int(value, multiplier=4):
         modified_value = int(value)
         try_above = True
@@ -98,6 +119,11 @@ class Resolution:
     def is_xl(self):
         return self.width > 768 and self.height > 768
 
+    def is_illustrious(self):
+        return self.width > 1024 and self.height > 1024 or \
+            self.height == 1024 and self.width > 1024 or \
+            self.width == 1024 and self.height > 1024
+
     def aspect_ratio(self):
         return float(self.width) / float(self.height)
 
@@ -106,28 +132,37 @@ class Resolution:
         self.width = self.height
         self.height = temp
 
-    def convert_for_model_type(self, model_is_xl):
-        if model_is_xl:
+    def convert_for_model_type(self, architecture_type):
+        if architecture_type == ArchitectureType.ILLUSTRIOUS:
+            if not self.is_illustrious():
+                return self.convert_to(architecture_type)
+        elif architecture_type == ArchitectureType.SDXL:
             if not self.is_xl():
-                return self.convert_to(model_is_xl)
+                return self.convert_to(architecture_type)
         else:
             if self.is_xl():
-                return self.convert_to(model_is_xl)
+                return self.convert_to(architecture_type)
         return self
 
-    def convert_to(self, to_xl):
-        return self.get_closest(self.width, self.height, override_xl=to_xl)
+    def convert_to(self, architecture_type):
+        return self.get_closest(self.width, self.height, architecture_type=architecture_type)
 
-    def square(self, is_xl):
-        if is_xl:
+    def square(self, architecture_type):
+        if architecture_type == ArchitectureType.ILLUSTRIOUS:
+            self.height = Resolution.get_illustrious_long_scale(self.scale-2)
+            self.width = self.height
+        elif architecture_type == ArchitectureType.SDXL:
             self.height = Resolution.get_xl_long_scale(self.scale-2)
             self.width = self.height
         else:
             self.height = Resolution.get_long_scale(self.scale-2)
             self.width = self.height
 
-    def portrait(self, is_xl):
-        if is_xl:
+    def portrait(self, architecture_type):
+        if architecture_type == ArchitectureType.ILLUSTRIOUS:
+            self.height = Resolution.get_illustrious_short_scale(self.scale)
+            self.width = Resolution.get_illustrious_long_scale(self.scale)
+        elif architecture_type == ArchitectureType.SDXL:
             self.height = Resolution.get_xl_long_scale(self.scale)
             self.width = Resolution.get_xl_short_scale(self.scale)
         else:
@@ -152,12 +187,12 @@ class Resolution:
         return False
 
     @staticmethod
-    def construct_tolerance_range(is_xl):
+    def construct_tolerance_range(architecture_type):
         all_resolutions = ["square", "landscape1", "portrait1", "landscape2", "portrait2", "landscape3", "portrait3", "landscape4", "portrait4"]
         tolerance_range = [99999999999, -1]
         for res_tag in all_resolutions:
-            res = Resolution.get_resolution(res_tag, is_xl)
-            assert res is not None
+            res = Resolution.get_resolution(res_tag, architecture_type=architecture_type)
+            assert res is not None and res.width is not None and res.height is not None
             total_pixels = res.width * res.height
             if total_pixels < tolerance_range[0]:
                 tolerance_range[0] = total_pixels
@@ -165,13 +200,20 @@ class Resolution:
                 tolerance_range[1] = total_pixels
         return tolerance_range
 
-    def get_tolerance_range(self, override_xl=None):
-        is_xl = override_xl if override_xl is not None else self.is_xl()
-        tolerance_range = Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE if is_xl else Resolution.TOTAL_PIXELS_TOLERANCE_RANGE
+    def get_tolerance_range(self, architecture_type=None):
+        architecture_type = architecture_type if architecture_type is not None else ArchitectureType.SDXL
+        if architecture_type == ArchitectureType.SDXL:
+            tolerance_range = Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE
+        elif architecture_type == ArchitectureType.ILLUSTRIOUS:
+            tolerance_range = Resolution.ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE
+        else:
+            tolerance_range = Resolution.TOTAL_PIXELS_TOLERANCE_RANGE
         if len(tolerance_range) == 0:
-            tolerance_range = Resolution.construct_tolerance_range(is_xl)
-            if is_xl:
+            tolerance_range = Resolution.construct_tolerance_range(architecture_type=architecture_type)
+            if architecture_type == ArchitectureType.SDXL:
                 Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
+            if architecture_type == ArchitectureType.ILLUSTRIOUS:
+                Resolution.ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
             else:
                 Resolution.TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
         return tolerance_range
@@ -190,15 +232,15 @@ class Resolution:
     def get_closest_to_image(self, ref_image_path, round_to=4):
         width, height = Globals.get_image_data_extractor().get_image_size(ref_image_path)
         return self.get_closest(width=width, height=height, round_to=round_to)
-    
-    def get_closest(self, width, height, round_to=4, override_xl=None):
-        is_xl = override_xl if override_xl is not None else self.is_xl()
+
+    def get_closest(self, width, height, round_to=4, architecture_type=None):
+        architecture_type = architecture_type if architecture_type is not None else (ArchitectureType.SDXL if self.is_xl() else ArchitectureType.SD_15)
         # First check if the aspect ratio matches one of the existing resolutions, and return that
-        matching_resolution = Resolution.find_matching_aspect_ratio_resolution(is_xl, width, height)
+        matching_resolution = Resolution.find_matching_aspect_ratio_resolution(architecture_type, width, height)
         if matching_resolution is not None:
             return matching_resolution
         # If not, find the closest resolution that is within the tolerance range
-        tolerance_range = self.get_tolerance_range(override_xl=override_xl)
+        tolerance_range = self.get_tolerance_range(architecture_type=architecture_type)
         if width * height < tolerance_range[0]:
             while width * height < tolerance_range[0]:
                 width *= 1.1
@@ -227,32 +269,33 @@ class Resolution:
         return hash((self.width, self.height))
 
     @staticmethod
-    def get_resolution(resolution_tag, is_xl=False):
+    def get_resolution(resolution_tag, architecture_type=ArchitectureType.SDXL):
         scale_str = Utils.extract_substring(resolution_tag, "[0-9]+")
         scale = int(scale_str) if scale_str and scale_str != "" else 2
         random_skip = "*" in resolution_tag
         resolution_tag = Utils.extract_substring(resolution_tag, "[a-z]+")
         if "square".startswith(resolution_tag):
-            return Resolution.SQUARE(is_xl=is_xl, scale=scale, random_skip=random_skip)
+            return Resolution.SQUARE(architecture_type=architecture_type, scale=scale, random_skip=random_skip)
         elif "portrait".startswith(resolution_tag):
-            return Resolution.PORTRAIT(is_xl=is_xl, scale=scale, random_skip=random_skip)
+            return Resolution.PORTRAIT(architecture_type=architecture_type, scale=scale, random_skip=random_skip)
         elif "landscape".startswith(resolution_tag):
-            return Resolution.LANDSCAPE(is_xl=is_xl, scale=scale, random_skip=random_skip)
+            return Resolution.LANDSCAPE(architecture_type=architecture_type, scale=scale, random_skip=random_skip)
 
     @staticmethod
-    def get_resolutions(resolution_tag_str, default_tag=Globals.DEFAULT_RESOLUTION_TAG, is_xl=False):
+    def get_resolutions(resolution_tag_str, default_tag=Globals.DEFAULT_RESOLUTION_TAG, architecture_type=ArchitectureType.SDXL):
         if resolution_tag_str is None or resolution_tag_str.strip() == "":
             resolution_tag_str = default_tag
         resolution_tags = resolution_tag_str.split(",")
         resolutions = []
         for resolution_tag in resolution_tags:
-            resolutions.append(Resolution.get_resolution(resolution_tag.lower().strip(), is_xl=is_xl))
+            resolutions.append(Resolution.get_resolution(resolution_tag.lower().strip(), architecture_type=architecture_type))
         return resolutions
 
 class Model:
     DEFAULT_SD15_MODEL = "analogMadness"
     DEFAULT_XL_MODEL = "realvisXLV20"
     DEFAULT_TURBO_MODEL = "realvisxlV30Turbo"
+    DEFAULT_ILLUSTRIOUS_MODEL = "Illustrious-XL-v1.0"
     DEFAULT_SDXL_VAE = "sdxl_vae.safetensors"
     DEFAULT_SD15_VAE = "vae-ft-mse-840000-ema-pruned.ckpt"
     MODELS_DIR = config.models_dir
@@ -263,8 +306,14 @@ class Model:
         self.id = id
         self.path = path if path else os.path.join(Model.MODELS_DIR, id)
         self.is_lora = is_lora
-        self.is_xl = is_xl or (path is not None and path.startswith("XL"))
-        self.is_turbo = is_turbo or (path is not None and path.startswith("Turbo"))
+        if "Illustrious" in id:
+            self.architecture_type = ArchitectureType.ILLUSTRIOUS
+        elif path is not None and path.startswith("XL") or is_xl:
+            self.architecture_type = ArchitectureType.SDXL
+        elif path is not None and path.startswith("Turbo") or is_turbo:
+            self.architecture_type = ArchitectureType.TURBO
+        else:
+            self.architecture_type = ArchitectureType.SD_15
         self.positive_tags = None
         self.negative_tags = None
         self.clip_req = clip_req
@@ -272,7 +321,17 @@ class Model:
         self.lora_strength_clip = lora_strength
 
     def is_sd_15(self):
-        return not self.is_lora and not self.is_xl and not self.is_turbo
+        return not self.is_lora and self.architecture_type == ArchitectureType.SD_15
+
+    def is_xl(self):
+        # NOTE Illustrious uses SDXL architecture but produces larger images, so it is not technically XL
+        return not self.is_lora and (self.architecture_type == ArchitectureType.SDXL or self.architecture_type == ArchitectureType.ILLUSTRIOUS)
+
+    def is_illustrious(self):
+        return not self.is_lora and self.architecture_type == ArchitectureType.ILLUSTRIOUS
+
+    def is_turbo(self):
+        return not self.is_lora and self.architecture_type == ArchitectureType.TURBO
 
     def get_default_lora(self):
         return "add_detail" if self.is_sd_15() else "add-detail-xl"
@@ -290,10 +349,10 @@ class Model:
             return f" <lora:{name}:{self.lora_strength}>"
 
     def get_default_vae(self):
-        return Model.DEFAULT_SDXL_VAE if self.is_xl or self.is_turbo else Model.DEFAULT_SD15_VAE
+        return Model.DEFAULT_SDXL_VAE if self.is_xl() or self.is_turbo else Model.DEFAULT_SD15_VAE
 
     def validate_vae(self, vae):
-        if self.is_xl or self.is_turbo:
+        if self.is_xl() or self.is_turbo():
             if vae != Model.DEFAULT_SDXL_VAE: # TODO update if more
                 raise Exception(f"Invalid VAE {vae} for SDXL model {self.id}")
         else:
@@ -301,25 +360,25 @@ class Model:
                 raise Exception(f"Invalid SDXL VAE {vae} for model {self.id}")
     
     def validate_loras(self, lora_bundle):
-        if self.is_xl or self.is_turbo:
+        if self.is_xl() or self.is_turbo():
             if not lora_bundle.is_xl: # TODO update if more
                 if isinstance(lora_bundle, Model) and self.get_other_default_lora() in lora_bundle.id:
-                    return Model.get_model(self.get_default_lora(), is_lora=True, is_xl=self.is_xl)
+                    return Model.get_model(self.get_default_lora(), is_lora=True, is_xl=self.is_xl())
                 else:
-                    raise Exception(f"Invalid Lora {lora_bundle} for SDXL model {self.id}")
+                    raise Exception(f"Invalid non-SDXL Lora {lora_bundle} for SDXL model {self.id}")
         else:
             if lora_bundle.is_xl:
                 if isinstance(lora_bundle, Model) and self.get_other_default_lora() in lora_bundle.id:
-                    return Model.get_model(self.get_default_lora(), is_lora=True, is_xl=self.is_xl)
+                    return Model.get_model(self.get_default_lora(), is_lora=True, is_xl=self.is_xl())
                 else:
-                    raise Exception(f"Invalid SDXL lora {lora_bundle} for model {self.id}")
+                    raise Exception(f"Invalid SDXL lora {lora_bundle} for non-SDXL model {self.id}")
         return lora_bundle
 
     def __str__(self):
         if self.is_lora:
             return "Model " + self.id + " - LoRA: " + str(self.is_lora) + " - Strength: " + str(self.lora_strength)
         else:
-            return "Model " + self.id + " - LoRA: " + str(self.is_lora) + " - XL: " + str(self.is_xl) + " - Turbo: " + str(self.is_turbo)
+            return "Model " + self.id + " - LoRA: " + str(self.is_lora) + " - XL: " + str(self.is_xl()) + " - Turbo: " + str(self.is_turbo)
 
     def __eq__(self, other):
         if isinstance(other, Model):
@@ -329,8 +388,13 @@ class Model:
     def hash(self):
         return hash(self.id)
 
+    def get_illustrious_model(self):
+        if self.is_illustrious():
+            return self
+        return Model.get_model(Model.DEFAULT_ILLUSTRIOUS_MODEL)
+
     def get_xl_model(self):
-        if self.is_xl:
+        if self.is_xl():
             return self
         if "hentai" in self.id or "orange" in self.id:
             return Model.get_model("pony")
@@ -372,7 +436,7 @@ class Model:
         models = Model.LORAS if is_lora else Model.CHECKPOINTS
 
         if model_tag == "*":
-            filtered_list = [model_name for model_name, model in models.items() if (model.is_xl == (is_xl == 1))]
+            filtered_list = [model_name for model_name, model in models.items() if (model.is_xl() == (is_xl == 1))]
             # print(filtered_list)
             random_model_name = random.sample(filtered_list, 1)
             return models[random_model_name[0]]
@@ -394,10 +458,10 @@ class Model:
             if model_name.startswith(model_tag):
                 if not is_lora and inpainting:
                     if "inpaint" in model_name:
-                        if is_xl == 0 or is_xl == 1 or "xl" not in model_name:
+                        if is_xl == 0 or is_xl == 1 or "xl" not in model_name.lower():
                             model = models[_model_name]
                 elif is_lora or "inpaint" not in model_name:
-                    if is_xl == 0 or is_xl == 1 or "xl" not in model_name:
+                    if is_xl == 0 or is_xl == 1 or "xl" not in model_name.lower():
                         model = models[_model_name]
 
         if model is None:
@@ -406,10 +470,10 @@ class Model:
                 if model_tag in model_name:
                     if inpainting:
                         if "inpainting" in model_name:
-                            if is_xl == 0 or is_xl == 1 or "xl" not in model_name:
+                            if is_xl == 0 or is_xl == 1 or "xl" not in model_name.lower():
                                 model = models[_model_name]
                     elif "inpainting" not in model_name:
-                        if is_xl == 0 or is_xl == 1 or "xl" not in model_name:
+                        if is_xl == 0 or is_xl == 1 or "xl" not in model_name.lower():
                             model = models[_model_name]
 
         if model is None:
@@ -537,9 +601,9 @@ class LoraBundle:
         self.loras = loras
         if len(self.loras) == 0:
             raise Exception("No loras provided to Lora bundle!")
-        self.is_xl = self.loras[0].is_xl
+        self.is_xl = self.loras[0].is_xl()
         for lora in self.loras:
-            if self.is_xl != lora.is_xl:
+            if self.is_xl != lora.is_xl():
                 raise Exception(f"Inconsistent SDXL specification for loras in lora bundle: {lora.id} expected is_xl: {self.is_xl}")
 
     def __str__(self):

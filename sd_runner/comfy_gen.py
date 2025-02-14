@@ -151,9 +151,9 @@ class ComfyGen:
                 lora = kw["lora"]
                 if isinstance(lora, LoraBundle):
                     prompt = WorkflowPrompt("simple_image_gen_lora2.json")
-            if workflow_type == WorkflowType.INSTANT_LORA and model.is_xl:
+            if workflow_type == WorkflowType.INSTANT_LORA and model.is_xl():
                 prompt = WorkflowPrompt("instant_lora_xl.json")
-            if workflow_type == WorkflowType.CONTROLNET and model.is_xl:
+            if workflow_type == WorkflowType.CONTROLNET and model.is_xl():
                 prompt = WorkflowPrompt("controlnet_sdxl.json")
             if not prompt:
                 prompt = WorkflowPrompt(workflow_type.value)
@@ -182,7 +182,7 @@ class ComfyGen:
         return self.gen_config.get_seed()
 
     def simple_image_gen(self, prompt, resolution, model, vae, n_latents, positive, negative):
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN, "Assembling Simple Image Gen prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
@@ -198,7 +198,7 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def simple_image_gen_lora(self, prompt, resolution, model, vae, n_latents, positive, negative, lora):
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN_LORA, "Assembling Simple Image Gen LoRA prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, lora=lora, n_latents=n_latents, positive=positive, negative=negative)
         model.validate_loras(lora)
         model = self.gen_config.redo_param("model", model)
@@ -216,7 +216,7 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def simple_image_gen_tiled_upscale(self, prompt, resolution, model, vae, n_latents, positive, negative, lora):
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN_TILED_UPSCALE, "Assembling Simple Image Gen Tiled Upscale prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
         model.validate_loras(lora)
@@ -237,7 +237,7 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def simple_image_gen_turbo(self, prompt, resolution, model, vae, n_latents, positive, negative):
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.TURBO, "Assembling Simple Image Gen Turbo prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
@@ -315,7 +315,7 @@ class ComfyGen:
         Will upscale the image by 2x using SDXL model. If the output size is lower than XL resolutions, may not be a good result
         """
         prompt, model, vae = self.prompt_setup(WorkflowType.UPSCALE_BETTER, "Assembling upscale image better prompt", prompt=prompt, model=model, vae=None, resolution=None, n_latents=1, positive="", negative="", upscale_image=control_net)
-        if not model.is_xl:
+        if not model.is_xl():
             raise Exception("SDXL model should be used for the upscale better workflow.")
         positive = self.maybe_caption_image(control_net.id, positive)
 #        prompt.set_upscaler_model()
@@ -356,7 +356,7 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def control_net(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net):
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         if not self.gen_config.override_resolution:
             resolution = resolution.get_closest_to_image(control_net.id)
         prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
@@ -381,7 +381,7 @@ class ComfyGen:
         ComfyGen.queue_prompt(prompt)
 
     def ip_adapter(self, prompt, resolution, model, vae, n_latents, positive, negative, control_net, ip_adapter):
-        resolution = resolution.convert_for_model_type(model.is_xl)
+        resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.IP_ADAPTER, "Assembling IP Adapter prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)

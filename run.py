@@ -62,11 +62,11 @@ class Run:
         elif confirm.lower() == "r":
             new_resolution = input("New resolution (p = portrait/l = landscape/s = square): ")
             if new_resolution.lower() == "p":
-                config.resolutions[0].portrait(config.is_xl())
+                config.resolutions[0].portrait(config.architecture_type())
             if new_resolution.lower() == "l":
-                config.resolutions[0].landscape(config.is_xl())
+                config.resolutions[0].landscape(config.architecture_type())
             if new_resolution.lower() == "s":
-                config.resolutions[0].square(config.is_xl())
+                config.resolutions[0].square(config.architecture_type())
             self.switching_params = True
         elif confirm.lower() == "m":
             new_input_mode = input("New input mode (FIXED/SFW/NSFW/NSFL): ")
@@ -113,7 +113,7 @@ class Run:
         loras = Model.get_models(self.args.lora_tags, is_lora=True,
                                  default_tag=models[0].get_default_lora(),
                                  inpainting=self.args.inpainting, is_xl=(2 if models[0].is_sd_15() else 1))
-        resolutions = Resolution.get_resolutions(self.args.res_tags, is_xl=models[0].is_xl)
+        resolutions = Resolution.get_resolutions(self.args.res_tags, architecture_type=models[0].architecture_type)
         config = GenConfig(
             workflow_id=workflow, models=models, loras=loras, n_latents=self.args.n_latents,
             control_nets=control_nets, ip_adapters=ip_adapters,
