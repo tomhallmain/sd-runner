@@ -291,6 +291,7 @@ class Resolution:
             resolutions.append(Resolution.get_resolution(resolution_tag.lower().strip(), architecture_type=architecture_type))
         return resolutions
 
+
 class Model:
     DEFAULT_SD15_MODEL = "analogMadness"
     DEFAULT_XL_MODEL = "realvisXLV20"
@@ -306,7 +307,7 @@ class Model:
         self.id = id
         self.path = path if path else os.path.join(Model.MODELS_DIR, id)
         self.is_lora = is_lora
-        if "Illustrious" in id:
+        if "Illustrious-XL" in id:
             self.architecture_type = ArchitectureType.ILLUSTRIOUS
         elif path is not None and path.startswith("XL") or is_xl:
             self.architecture_type = ArchitectureType.SDXL
@@ -325,7 +326,7 @@ class Model:
 
     def is_xl(self):
         # NOTE Illustrious uses SDXL architecture but produces larger images, so it is not technically XL
-        return not self.is_lora and (self.architecture_type == ArchitectureType.SDXL or self.architecture_type == ArchitectureType.ILLUSTRIOUS)
+        return self.architecture_type == ArchitectureType.SDXL or self.architecture_type == ArchitectureType.ILLUSTRIOUS
 
     def is_illustrious(self):
         return not self.is_lora and self.architecture_type == ArchitectureType.ILLUSTRIOUS
@@ -358,7 +359,7 @@ class Model:
         else:
             if vae == Model.DEFAULT_SDXL_VAE:
                 raise Exception(f"Invalid SDXL VAE {vae} for model {self.id}")
-    
+
     def validate_loras(self, lora_bundle):
         if self.is_xl() or self.is_turbo():
             if not lora_bundle.is_xl: # TODO update if more
@@ -376,9 +377,9 @@ class Model:
 
     def __str__(self):
         if self.is_lora:
-            return "Model " + self.id + " - LoRA: " + str(self.is_lora) + " - Strength: " + str(self.lora_strength)
+            return "Model " + self.id + " - LoRA: " + str(self.is_lora) + " - Strength: " + str(self.lora_strength) + " - XL: " + str(self.is_xl())
         else:
-            return "Model " + self.id + " - LoRA: " + str(self.is_lora) + " - XL: " + str(self.is_xl()) + " - Turbo: " + str(self.is_turbo)
+            return "Model " + self.id + " - LoRA: " + str(self.is_lora) + " - XL: " + str(self.is_xl()) + " - Turbo: " + str(self.is_turbo())
 
     def __eq__(self, other):
         if isinstance(other, Model):
@@ -399,7 +400,7 @@ class Model:
         if "hentai" in self.id or "orange" in self.id:
             return Model.get_model("pony")
         return Model.get_model(Model.DEFAULT_XL_MODEL)
-    
+
     def get_sd15_model(self):
         if self.is_sd_15():
             return self
@@ -510,14 +511,14 @@ class Model:
         lora_or_sd = "Lora" if is_lora else "Stable-diffusion"
         root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
         for file in glob.glob(pathname="**/*", root_dir=root_dir, recursive=True):
-            if not file.endswith("ckpt") and not file.endswith("safetensors") and not file.endswith("pth"):
+            if not file.endswith("ckpt") and not file.endswith("safetensors") and not file.endswith("pth") and not file.endswith("pt"):
                 continue
             model_name = re.sub("^.+\\\\", "", file)
             is_xl = file.startswith("XL")
             is_turbo = file.startswith("Turbo")
             model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo)
             models[model_name] = model
-            # print(model)
+            print(model)
         if is_lora:
             Model.LORAS = models
         else:
@@ -596,6 +597,7 @@ class Model:
                 prompt_massage_tags = tags_from_model
         return prompt_massage_tags
 
+
 class LoraBundle:
     def __init__(self, loras=[]):
         self.loras = loras
@@ -612,6 +614,7 @@ class LoraBundle:
             out += str(lora) + " "
         out += "]"
         return out
+
 
 class IPAdapter:
     BASE_DIR = config.ipadapter_dir
@@ -672,6 +675,7 @@ class IPAdapter:
 
     def hash(self):
         return hash(self.id)
+
 
 class ControlNet:
     def __init__(self, id, desc="", strength=Globals.DEFAULT_CONTROL_NET_STRENGTH):
