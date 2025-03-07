@@ -59,20 +59,19 @@ class App(QMainWindow):
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.main_layout = QHBoxLayout(self.central_widget)
-        self.main_layout.setContentsMargins(5, 5, 5, 5)
-        self.main_layout.setSpacing(5)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+        self.main_layout.setSpacing(0)
         
         # Create sidebar with fixed width
         self.sidebar = Sidebar(self)
-        self.sidebar.setFixedWidth(250)
         self.main_layout.addWidget(self.sidebar)
         
         # Create prompter config area
         self.prompter_config_area = QScrollArea(self)
         self.prompter_config_widget = QWidget()
         self.prompter_config_layout = QVBoxLayout(self.prompter_config_widget)
-        self.prompter_config_layout.setContentsMargins(5, 5, 5, 5)
-        self.prompter_config_layout.setSpacing(5)
+        self.prompter_config_layout.setContentsMargins(0, 0, 0, 0)
+        self.prompter_config_layout.setSpacing(0)
         self.prompter_config_area.setWidget(self.prompter_config_widget)
         self.prompter_config_area.setWidgetResizable(True)
         self.main_layout.addWidget(self.prompter_config_area)
@@ -82,6 +81,8 @@ class App(QMainWindow):
 
     def create_combo_box(self, label_text, items, current_text=None, height=20, on_change=None, sidebar=True):
         layout = QHBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         label = QLabel(_(label_text))
         combo = QComboBox()
         combo.setFixedHeight(height)
@@ -94,10 +95,12 @@ class App(QMainWindow):
         layout.addWidget(combo)
         if sidebar:
             self.sidebar.layout.addLayout(layout)
-        return layout, combo
+        return combo
 
     def create_text_input(self, label_text, text="", height=20, on_change=None, sidebar=True):
         layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         label = QLabel(_(label_text))
         text_edit = QTextEdit() if height else QLineEdit()
         if height:
@@ -109,10 +112,12 @@ class App(QMainWindow):
         layout.addWidget(text_edit)
         if sidebar:
             self.sidebar.layout.addLayout(layout)
-        return layout, text_edit
+        return text_edit
 
-    def create_slider(self, label_text, value, height=20, on_change=None, sidebar=True):
+    def create_slider(self, label_text, value, height=10, on_change=None, sidebar=True):
         layout = QHBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         label = QLabel(_(label_text))
         slider = QSlider(Qt.Orientation.Horizontal)
         slider.setFixedHeight(height)
@@ -124,7 +129,7 @@ class App(QMainWindow):
         layout.addWidget(slider)
         if sidebar:
             self.sidebar.layout.addLayout(layout)
-        return layout, slider
+        return slider
 
     def create_checkbox(self, text, checked=False, on_change=None, sidebar=True):
         checkbox = QCheckBox(_(text))
@@ -136,13 +141,6 @@ class App(QMainWindow):
         return checkbox
 
     def setup_ui(self):
-        # Title with smaller font
-        self.label_title = QLabel(_("Run ComfyUI Workflows"))
-        title_font = QFont()
-        title_font.setPointSize(10)
-        self.label_title.setFont(title_font)
-        self.sidebar.layout.addWidget(self.label_title)
-
         # Run button with fixed height
         self.run_btn = QPushButton(_("Run Workflows"))
         self.run_btn.setFixedHeight(20)
@@ -170,101 +168,31 @@ class App(QMainWindow):
         self.label_progress.setFont(progress_font)
         self.sidebar.layout.addWidget(self.label_progress)
 
-        # Add spacing between sections
-        self.sidebar.layout.addSpacing(5)
-
-        # Software selection
-        software_layout, self.software_combo = self.create_combo_box(
-            "Software", SoftwareType.__members__.keys(), self.runner_app_config.software_type, on_change=self.set_software_type)
-
-        # Prompt mode
-        prompt_mode_layout, self.prompt_mode_combo = self.create_combo_box(
-            "Prompt Mode", PromptMode.__members__.keys(), str(Globals.DEFAULT_PROMPT_MODE))
-
-        # Workflow type
-        workflow_layout, self.workflow_combo = self.create_combo_box(
-            "Workflow Type", WorkflowType.__members__.keys(), on_change=self.set_workflow_type)
-
-        # N Latents
-        n_latents_layout, self.n_latents_combo = self.create_combo_box(
-            "Set N Latents", [str(i) for i in range(51)], str(self.runner_app_config.n_latents), on_change=lambda x: setattr(self.runner_app_config, 'n_latents', int(x)))
-
-        # Total
-        total_layout, self.total_combo = self.create_combo_box(
-            "Set Total", [str(i) for i in range(-1, 101) if i != 0], str(self.runner_app_config.total), on_change=lambda x: setattr(self.runner_app_config, 'total', int(x)))
-
-        # Delay
-        delay_layout, self.delay_combo = self.create_combo_box(
-            "Delay Seconds", [str(i) for i in range(101)], str(self.runner_app_config.delay_time_seconds), on_change=self.set_delay)
-
-        # Resolutions
-        resolutions_layout, self.resolutions_edit = self.create_text_input(
-            "Resolutions", self.runner_app_config.resolutions, on_change=self.set_resolutions)
-
-        # Model tags
-        model_tags_layout, self.model_tags_edit = self.create_text_input(
-            "Model Tags", self.runner_app_config.model_tags, on_change=self.set_model_tags)
+        self.software_combo = self.create_combo_box("Software", SoftwareType.__members__.keys(), self.runner_app_config.software_type, on_change=self.set_software_type)
+        self.prompt_mode_combo = self.create_combo_box("Prompt Mode", PromptMode.__members__.keys(), str(Globals.DEFAULT_PROMPT_MODE))
+        self.workflow_combo = self.create_combo_box("Workflow Type", WorkflowType.__members__.keys(), on_change=self.set_workflow_type)
+        self.n_latents_combo = self.create_combo_box("Set N Latents", [str(i) for i in range(51)], str(self.runner_app_config.n_latents), on_change=lambda x: setattr(self.runner_app_config, 'n_latents', int(x)))
+        self.total_combo = self.create_combo_box("Set Total", [str(i) for i in range(-1, 101) if i != 0], str(self.runner_app_config.total), on_change=lambda x: setattr(self.runner_app_config, 'total', int(x)))
+        self.delay_combo = self.create_combo_box("Delay Seconds", [str(i) for i in range(101)], str(self.runner_app_config.delay_time_seconds), on_change=self.set_delay)
+        self.resolutions_edit = self.create_text_input("Resolutions", self.runner_app_config.resolutions, on_change=self.set_resolutions)
         self.model_tags_edit = AutocompleteLineEdit(list(map(lambda l: str(l).split('.')[0], Model.CHECKPOINTS)))
-
-        # LoRA tags
-        lora_tags_layout, self.lora_tags_edit = self.create_text_input(
-            "LoRA Tags", self.runner_app_config.lora_tags, on_change=lambda x: setattr(self.runner_app_config, 'lora_tags', x))
+        self.lora_tags_edit = self.create_text_input("LoRA Tags", self.runner_app_config.lora_tags, on_change=lambda x: setattr(self.runner_app_config, 'lora_tags', x))
         self.lora_tags_edit = AutocompleteLineEdit(list(map(lambda l: str(l).split('.')[0], Model.LORAS)))
-
-        # LoRA strength
-        lora_strength_layout, self.lora_strength_slider = self.create_slider(
-            "Default LoRA Strength", self.runner_app_config.lora_strength, on_change=self.set_lora_strength)
-
-        # Prompt massage tags
-        prompt_tags_layout, self.prompt_massage_tags_edit = self.create_text_input(
-            "Prompt Massage Tags", self.runner_app_config.prompt_massage_tags, on_change=self.set_prompt_massage_tags)
-
-        # Positive tags
-        positive_tags_layout, self.positive_tags_edit = self.create_text_input(
-            "Positive Tags", self.runner_app_config.positive_tags, height=100, on_change=self.set_positive_tags)
-
-        # Negative tags
-        negative_tags_layout, self.negative_tags_edit = self.create_text_input(
-            "Negative Tags", self.runner_app_config.negative_tags, height=50, on_change=self.set_negative_tags)
-
-        # B/W Colorization
-        bw_layout, self.bw_colorization_edit = self.create_text_input(
-            "B/W Colorization Tags", self.runner_app_config.b_w_colorization, on_change=self.set_bw_colorization)
-
-        # Control Net files
-        controlnet_layout, self.controlnet_file_edit = self.create_text_input(
-            "Control Net or Redo files", self.runner_app_config.control_net_file, on_change=lambda x: setattr(self.runner_app_config, 'control_net_file', x))
-
-        # Control Net strength
-        controlnet_strength_layout, self.controlnet_strength_slider = self.create_slider(
-            "Default Control Net Strength", self.runner_app_config.control_net_strength, on_change=self.set_controlnet_strength)
-
-        # IP Adapter files
-        ipadapter_layout, self.ipadapter_file_edit = self.create_text_input(
-            "IPAdapter files", self.runner_app_config.ip_adapter_file, on_change=lambda x: setattr(self.runner_app_config, 'ip_adapter_file', x))
-
-        # IP Adapter strength
-        ipadapter_strength_layout, self.ipadapter_strength_slider = self.create_slider(
-            "Default IPAdapter Strength", self.runner_app_config.ip_adapter_strength, on_change=self.set_ipadapter_strength)
-
-        # Redo parameters
-        redo_layout, self.redo_params_edit = self.create_text_input(
-            "Redo Parameters", self.runner_app_config.redo_params, on_change=self.set_redo_params)
-
-        # Checkboxes
+        self.lora_strength_slider = self.create_slider("Default LoRA Strength", self.runner_app_config.lora_strength, on_change=self.set_lora_strength)
+        self.prompt_massage_tags_edit = self.create_text_input("Prompt Massage Tags", self.runner_app_config.prompt_massage_tags, on_change=self.set_prompt_massage_tags)
+        self.positive_tags_edit = self.create_text_input("Positive Tags", self.runner_app_config.positive_tags, height=100, on_change=self.set_positive_tags)
+        self.negative_tags_edit = self.create_text_input("Negative Tags", self.runner_app_config.negative_tags, height=50, on_change=self.set_negative_tags)
+        self.bw_colorization_edit = self.create_text_input("B/W Colorization Tags", self.runner_app_config.b_w_colorization, on_change=self.set_bw_colorization)
+        self.controlnet_file_edit = self.create_text_input("Control Net or Redo files", self.runner_app_config.control_net_file, on_change=lambda x: setattr(self.runner_app_config, 'control_net_file', x))
+        self.controlnet_strength_slider = self.create_slider("Default Control Net Strength", self.runner_app_config.control_net_strength, on_change=self.set_controlnet_strength)
+        self.ipadapter_file_edit = self.create_text_input("IPAdapter files", self.runner_app_config.ip_adapter_file, on_change=lambda x: setattr(self.runner_app_config, 'ip_adapter_file', x))
+        self.ipadapter_strength_slider = self.create_slider("Default IPAdapter Strength", self.runner_app_config.ip_adapter_strength, on_change=self.set_ipadapter_strength)
+        self.redo_params_edit = self.create_text_input("Redo Parameters", self.runner_app_config.redo_params, on_change=self.set_redo_params)
         self.run_preset_schedule_var = self.create_checkbox("Run Preset Schedule")
-
-        self.override_resolution_var = self.create_checkbox(
-            "Override Resolution", self.runner_app_config.override_resolution, on_change=lambda x: setattr(self.runner_app_config, 'override_resolution', bool(x)))
-
-        self.inpainting_var = self.create_checkbox(
-            "Inpainting", on_change=lambda x: setattr(self.runner_app_config, 'inpainting', bool(x)))
-
-        self.override_negative_var = self.create_checkbox(
-            "Override Base Negative", on_change=self.set_override_negative)
-
-        self.tags_at_start_var = self.create_checkbox(
-            "Tags Applied to Prompt Start", self.runner_app_config.tags_apply_to_start, on_change=self.set_tags_apply_to_start)
+        self.override_resolution_var = self.create_checkbox("Override Resolution", self.runner_app_config.override_resolution, on_change=lambda x: setattr(self.runner_app_config, 'override_resolution', bool(x)))
+        self.inpainting_var = self.create_checkbox("Inpainting", on_change=lambda x: setattr(self.runner_app_config, 'inpainting', bool(x)))
+        self.override_negative_var = self.create_checkbox("Override Base Negative", on_change=self.set_override_negative)
+        self.tags_at_start_var = self.create_checkbox("Tags Applied to Prompt Start", self.runner_app_config.tags_apply_to_start, on_change=self.set_tags_apply_to_start)
 
         # Buttons
         buttons_layout = QHBoxLayout()
@@ -659,6 +587,11 @@ class App(QMainWindow):
 def main():
     try:
         app = QApplication(sys.argv)
+        
+        # Set smaller default font size for the entire application
+        default_font = app.font()
+        default_font.setPointSize(6)
+        app.setFont(default_font)
         
         # Register signal handlers for graceful shutdown
         def signal_handler(signum, frame):
