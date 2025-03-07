@@ -117,6 +117,7 @@ couture
 coveralls
 cowboy boots
 cowboy hat
+cowl
 cravat
 Crew Cut
 crop top

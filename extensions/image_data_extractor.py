@@ -230,6 +230,8 @@ class ImageDataExtractor:
     def copy_dir_images_no_exif(self, source_dir, target_dir=None, max_count=5000):
         count = 0
         images = glob.glob(source_dir + "**/*", recursive=True)
+        if target_dir is not None and not os.path.isdir(target_dir):
+            os.makedirs(target_dir)
 
         for image_path in images:
             try:

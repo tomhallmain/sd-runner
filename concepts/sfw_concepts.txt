@@ -27,6 +27,7 @@ aura
 award winning image
 backlighting
 backward mapping
+bas-relief
 bayer filter
 beacon
 best quality
@@ -124,6 +125,7 @@ focused
 focused
 focusing
 formless shapes
+found footage
 fretsaw
 fuzzy
 gaussian noise
@@ -352,6 +354,7 @@ warm
 washed-out colors
 watercolor
 webcam
+webcomic style
 western comic book art
 wide-angle shot
 ultra wide-angle shot
@@ -604,6 +607,7 @@ cymatics
 dark dungeon
 deep learning
 deep-sea photography
+deflated
 designed by Gaudi
 (desktop screenshot, computer screenshot, open application windows)
 destitute
@@ -722,6 +726,7 @@ in pieces
 indicator light
 industrial
 inflatable
+inflated
 insane art
 insect wings
 insert
@@ -1047,6 +1052,7 @@ young man
 young woman
 x-y plot
 xenomorph
+zebra stripes
 
 # Lighting Mood Prompts:
 
