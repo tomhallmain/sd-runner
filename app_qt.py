@@ -37,6 +37,8 @@ class Sidebar(QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.layout = QVBoxLayout(self)
+        self.layout.setContentsMargins(0, 0, 0, 0)
+        self.layout.setSpacing(2)
         self.setLayout(self.layout)
 
 class App(QMainWindow):
@@ -117,7 +119,7 @@ class App(QMainWindow):
     def create_slider(self, label_text, value, height=10, on_change=None, sidebar=True):
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
+        layout.setSpacing(1)
         label = QLabel(_(label_text))
         slider = QSlider(Qt.Orientation.Horizontal)
         slider.setFixedHeight(height)
@@ -207,7 +209,7 @@ class App(QMainWindow):
             (self.blacklist_btn, self.show_tag_blacklist),
             (self.expansions_btn, self.open_expansions_window)
         ]:
-            btn.setFixedHeight(25)
+            btn.setFixedHeight(20)
             btn.clicked.connect(callback)
             buttons_layout.addWidget(btn)
         
@@ -223,12 +225,12 @@ class App(QMainWindow):
                     background-color: {AppStyle.BG_COLOR}; color: {AppStyle.FG_COLOR}; }}
                 QPushButton {{
                     background-color: {AppStyle.BG_COLOR}; color: {AppStyle.FG_COLOR};
-                    border: 1px solid {AppStyle.FG_COLOR}; padding: 5px; border-radius: 3px; }}
+                    border: 1px solid {AppStyle.FG_COLOR}; padding: 2px; border-radius: 3px; }}
                 QPushButton:hover {{
                     background-color: {AppStyle.FG_COLOR}; color: {AppStyle.BG_COLOR}; }}
                 QComboBox, QLineEdit, QTextEdit {{
                     background-color: {AppStyle.BG_COLOR}; color: {AppStyle.FG_COLOR};
-                    border: 1px solid {AppStyle.FG_COLOR}; padding: 5px; }}  """)
+                    border: 1px solid {AppStyle.FG_COLOR}; padding: 1px; margin: 0px; }}""")
 
     def setup_server(self):
         server = SDRunnerServer(self.server_run_callback, self.cancel, self.revert_to_simple_gen)
