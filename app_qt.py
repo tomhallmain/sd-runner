@@ -97,6 +97,8 @@ class App(QMainWindow):
         layout.addWidget(combo)
         if sidebar:
             self.sidebar.layout.addLayout(layout)
+        else:
+            self.prompter_config_layout.addLayout(layout)
         return combo
 
     def create_text_input(self, label_text, text="", height=20, on_change=None, sidebar=True):
@@ -114,6 +116,8 @@ class App(QMainWindow):
         layout.addWidget(text_edit)
         if sidebar:
             self.sidebar.layout.addLayout(layout)
+        else:
+            self.prompter_config_layout.addLayout(layout)
         return text_edit
 
     def create_slider(self, label_text, value, height=10, on_change=None, sidebar=True):
@@ -131,6 +135,8 @@ class App(QMainWindow):
         layout.addWidget(slider)
         if sidebar:
             self.sidebar.layout.addLayout(layout)
+        else:
+            self.prompter_config_layout.addLayout(layout)
         return slider
 
     def create_checkbox(self, text, checked=False, on_change=None, sidebar=True):
@@ -140,21 +146,26 @@ class App(QMainWindow):
             checkbox.stateChanged.connect(on_change)
         if sidebar:
             self.sidebar.layout.addWidget(checkbox)
+        else:
+            self.prompter_config_layout.addWidget(checkbox)
         return checkbox
+
+    def create_button(self, text, height=20, on_click=None, layout=None):
+        button = QPushButton(_(text))
+        button.setFixedHeight(height)
+        if on_click:
+            button.clicked.connect(on_click)
+        if layout is not None:
+            layout.addWidget(button)
+        return button
 
     def setup_ui(self):
         # Run button with fixed height
-        self.run_btn = QPushButton(_("Run Workflows"))
-        self.run_btn.setFixedHeight(20)
-        self.run_btn.clicked.connect(self.run)
-        self.sidebar.layout.addWidget(self.run_btn)
+        self.run_btn = self.create_button("Run Workflows", on_click=self.run, layout=self.sidebar.layout)
 
         # Cancel button with fixed height
-        self.cancel_btn = QPushButton(_("Cancel Run"))
-        self.cancel_btn.setFixedHeight(20)
+        self.cancel_btn = self.create_button("Cancel Run", on_click=self.cancel, layout=self.sidebar.layout)
         self.cancel_btn.hide()
-        self.cancel_btn.clicked.connect(self.cancel)
-        self.sidebar.layout.addWidget(self.cancel_btn)
 
         # Progress bar with fixed height
         self.progress_bar = QProgressBar(self)
@@ -196,23 +207,13 @@ class App(QMainWindow):
         self.override_negative_var = self.create_checkbox("Override Base Negative", on_change=self.set_override_negative)
         self.tags_at_start_var = self.create_checkbox("Tags Applied to Prompt Start", self.runner_app_config.tags_apply_to_start, on_change=self.set_tags_apply_to_start)
 
-        # Buttons
         buttons_layout = QHBoxLayout()
-        self.presets_btn = QPushButton(_("Manage Presets"))
-        self.schedules_btn = QPushButton(_("Preset Schedule Window"))
-        self.blacklist_btn = QPushButton(_("Tag Blacklist"))
-        self.expansions_btn = QPushButton(_("Expansions Window"))
-        
-        for btn, callback in [
-            (self.presets_btn, self.open_presets_window),
-            (self.schedules_btn, self.open_preset_schedules_window),
-            (self.blacklist_btn, self.show_tag_blacklist),
-            (self.expansions_btn, self.open_expansions_window)
-        ]:
-            btn.setFixedHeight(20)
-            btn.clicked.connect(callback)
-            buttons_layout.addWidget(btn)
-        
+        buttons_layout.setContentsMargins(0, 0, 0, 0)
+        buttons_layout.setSpacing(0)
+        self.presets_btn = self.create_button("Manage Presets", on_click=self.open_presets_window, layout=buttons_layout)
+        self.schedules_btn = self.create_button("Preset Schedule Window", on_click=self.open_preset_schedules_window, layout=buttons_layout)
+        self.blacklist_btn = self.create_button("Tag Blacklist", on_click=self.show_tag_blacklist, layout=buttons_layout)
+        self.expansions_btn = self.create_button("Expansions Window", on_click=self.open_expansions_window, layout=buttons_layout)
         self.sidebar.layout.addLayout(buttons_layout)
 
         # Add spacer at the bottom
