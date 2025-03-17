@@ -181,6 +181,7 @@ class App(QMainWindow):
         self.label_progress.setFont(progress_font)
         self.sidebar.layout.addWidget(self.label_progress)
 
+        # Sidebar widgets
         self.software_combo = self.create_combo_box("Software", SoftwareType.__members__.keys(), self.runner_app_config.software_type, on_change=self.set_software_type)
         self.prompt_mode_combo = self.create_combo_box("Prompt Mode", PromptMode.__members__.keys(), str(Globals.DEFAULT_PROMPT_MODE))
         self.workflow_combo = self.create_combo_box("Workflow Type", WorkflowType.__members__.keys(), on_change=self.set_workflow_type)
@@ -207,6 +208,7 @@ class App(QMainWindow):
         self.override_negative_var = self.create_checkbox("Override Base Negative", on_change=self.set_override_negative)
         self.tags_at_start_var = self.create_checkbox("Tags Applied to Prompt Start", self.runner_app_config.tags_apply_to_start, on_change=self.set_tags_apply_to_start)
 
+        # Bottom buttons layout
         buttons_layout = QHBoxLayout()
         buttons_layout.setContentsMargins(0, 0, 0, 0)
         buttons_layout.setSpacing(0)
@@ -218,6 +220,18 @@ class App(QMainWindow):
 
         # Add spacer at the bottom
         self.sidebar.layout.addStretch()
+
+        # Prompter config widgets
+        self.prompter_config_layout.addWidget(QLabel(_("Prompter Configuration")))
+        self.sampler_combo = self.create_combo_box("Sampler", Sampler.__members__.keys(), str(self.runner_app_config.sampler), sidebar=False)
+        self.scheduler_combo = self.create_combo_box("Scheduler", Scheduler.__members__.keys(), str(self.runner_app_config.scheduler), sidebar=False)
+        self.seed_combo = self.create_combo_box("Seed", ["-1", "0"] + [str(i) for i in range(1, 1001)], str(self.runner_app_config.seed), sidebar=False)
+        self.steps_combo = self.create_combo_box("Steps", [str(i) for i in range(1, 151)], str(self.runner_app_config.steps), sidebar=False)
+        self.cfg_scale_combo = self.create_combo_box("CFG Scale", [str(i) for i in range(1, 31)], str(self.runner_app_config.cfg), sidebar=False)
+        self.denoising_strength_slider = self.create_slider("Denoising Strength", float(self.runner_app_config.denoise), height=10, sidebar=False)
+        
+        # Add spacer at the bottom of prompter config
+        self.prompter_config_layout.addStretch()
 
     def apply_style(self):
         if AppStyle.IS_DEFAULT_THEME:

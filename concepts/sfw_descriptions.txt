@@ -1,8 +1,11 @@
 adorable
+average
 sandy
 alternative style
 ancient
+appalling
 benevolent
+bulky
 comfy
 cute
 evil
@@ -29,6 +32,7 @@ punk style
 round
 scar
 skinny
+slim
 small
 spry
 tall
@@ -38,6 +42,7 @@ ugly
 viking
 war paint
 wicked
+zeal
 overworked
 tuckered out
 frazzled

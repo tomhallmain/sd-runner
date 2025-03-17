@@ -243,6 +243,7 @@ optical illusion
 organic light-emitting diode
 origami
 outlined
+overexposed
 panorama
 paper mache
 papyrus
@@ -263,6 +264,7 @@ pointy
 polaroid
 polished
 poster
+primer
 print art
 print screen image
 radar
@@ -307,6 +309,7 @@ soft
 soft
 solid
 spirograph
+splash
 splashiness
 spray painted
 stained
@@ -347,6 +350,7 @@ view through a microscope
 view through a telescope
 viewfinder
 vignette
+vinyl
 vivid color
 voxel art
 wallpaper
@@ -507,11 +511,13 @@ anemone
 ancient
 ancient Egypt
 ancient Rome
+animatronic
 apparatus
 arch
 arches
 architecture
 arrow indicator
+arrow symbol
 Art Nouveau
 Artificial Intelligence
 assortment
@@ -548,6 +554,7 @@ broken cup
 bronze sculpture
 brutalism
 bubbles
+bulk
 burning sun
 bust
 canvas
@@ -639,6 +646,7 @@ emotional photos
 encased in glass
 enemy health indicators
 engraved
+ephemeral
 erosion
 Etch A Sketch
 ethereal
@@ -761,6 +769,7 @@ loupe
 luminism
 luxurious
 machine learning
+maestro
 magic
 magic the gathering card
 magic wand
@@ -771,6 +780,7 @@ married couple
 masterpiece
 matryoshka
 maximalism
+maximized
 maze
 mechanism
 melancholy
@@ -780,6 +790,7 @@ mercury flash folding camera
 messy
 meticulous linework precision
 minimalism
+minimized
 miracle
 missile arc
 mixed media
@@ -811,6 +822,7 @@ nordic
 notes scribbled in the margin
 nuclear missile
 nuclear reactor
+obelus
 objects
 ocean made of $$random_word
 octane render
@@ -831,6 +843,7 @@ page from design guidebook with numbered list of designs 1 through 10
 paint swatches
 Paleozoic
 palm plantation
+paltry
 panda
 panzer
 paperfold
@@ -861,6 +874,7 @@ printing press
 prism
 progress bar
 protein folding visualization
+prow
 pushing buttons
 pre-Raphaelite
 product catalog
@@ -870,6 +884,7 @@ raining
 Raphaelite
 rebar
 rebus
+recoil
 redshift
 reflecting
 reflections
@@ -931,6 +946,7 @@ skull
 sky
 sliding screen
 sloppy
+soldered
 spacetime
 sparkles
 sparkling
@@ -947,6 +963,7 @@ splendor
 spliced
 splotches
 spooky
+spool
 spread out
 stages
 star charts
@@ -970,6 +987,7 @@ supermassive black hole
 surface of a $$random_word
 swath
 symbol
+symbolic
 table
 tableau, framed wall of images
 tame creature
@@ -982,6 +1000,7 @@ textural
 textured glass
 thatched
 thespian
+thou
 tincture
 tint
 tiny bubbles
@@ -1034,6 +1053,7 @@ whimsical
 whimsy
 whirlpool
 white borders
+Whoa!
 Wild West
 wings
 windy

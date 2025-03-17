@@ -12,9 +12,11 @@ Underwater Coral Reef # A colorful and diverse underwater coral reef.
 abandoned warehouse
 agora
 airport
+aisle
 alcove
 alien world
 alley
+altar
 amusement park
 antechamber
 antiques store
@@ -153,6 +155,7 @@ endless void
 engine room
 entrance
 escalator
+escarp
 exhibit
 expo
 factory
@@ -225,6 +228,7 @@ in a well-lit grotto
 in a zoo
 in a zoological gardens
 in a zoological park
+in real life
 in space
 in the $$random_word
 in the city
@@ -249,6 +253,7 @@ jewelry store
 jobsite
 junkyard
 kitchen
+knoll
 laser tag
 laundry room
 lecture hall
@@ -276,6 +281,7 @@ ocean
 off world
 office
 office complex
+offline
 on $$random_word
 on a $$random_word
 on a boat
@@ -303,6 +309,7 @@ on top of a double-decker bus
 on top of a mountain
 on top of a skyscraper
 on top of a tower
+online
 open sea
 orchard
 overpass
@@ -329,6 +336,7 @@ prairie
 pub
 public baths
 rainforest
+ranch
 renaissance tavern
 repair shop
 resort
@@ -347,6 +355,7 @@ savannah
 school
 school classroom
 science fair
+seaplane
 seaport
 secluded grove
 service desk
@@ -417,6 +426,7 @@ veranda
 viewing platform
 walk-in closet
 wetlands
+whaling ship
 wild
 workshop
 worksite
