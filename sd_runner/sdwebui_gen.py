@@ -1,23 +1,21 @@
 import base64
-from datetime import datetime
 import json
 import os
-import random
 from urllib import request, parse, error
-from time import sleep
 import time
 import traceback
 
-from sd_runner.captioner import Captioner
 from sd_runner.gen_config import GenConfig
 from utils.globals import Globals, WorkflowType, PromptTypeSDWebUI
+
+from sd_runner.base_image_generator import BaseImageGenerator
 from sd_runner.models import Model, LoraBundle
 from sd_runner.workflow_prompt import WorkflowPromptSDWebUI
 from utils.config import config
 from utils.utils import Utils
 
 
-def timestamp():
+def timestamp_str():
     time_str = str(time.time()).replace(".", "")
     while len(time_str) < 17:
         time_str += "0"
@@ -34,120 +32,13 @@ def decode_and_save_base64(base64_str, save_path):
 
 
 
-class SDWebuiGen:
+class SDWebuiGen(BaseImageGenerator):
     BASE_URL = config.sd_webui_url
     TXT_2_IMG = "sdapi/v1/txt2img"
     IMG_2_IMG = "sdapi/v1/img2img"
-    ORDER = config.gen_order
-    RANDOM_SKIP_CHANCE = config.dict["random_skip_chance"]
 
     def __init__(self, config=GenConfig()):
-        self.gen_config = config
-        self.counter = 0
-        self.latent_counter = 0
-        self.captioner = None
-        self.has_run_one_workflow = False
-
-    def reset_counters(self):
-        self.counter = 0
-        self.latent_counter = 0
-
-    def get_captioner(self):
-        if self.captioner is None:
-            self.captioner = Captioner()
-        return self.captioner
-
-    def random_skip(self):
-        do_skip = SDWebuiGen.RANDOM_SKIP_CHANCE > 0 and random.random() < SDWebuiGen.RANDOM_SKIP_CHANCE
-        if do_skip:
-            print("Skipping by random chance. Current skip chance set at: " + str(SDWebuiGen.RANDOM_SKIP_CHANCE))
-        return do_skip
-
-    def run(self):
-        self.has_run_one_workflow = False
-        self.gen_config.prepare()
-        workflow_id = self.gen_config.workflow_id
-        n_latents = self.gen_config.n_latents
-        positive = self.gen_config.positive
-        negative = self.gen_config.negative
-        if workflow_id is None or workflow_id == "":
-            raise Exception("Invalid workflow ID.")
-        for _1 in getattr(self.gen_config, SDWebuiGen.ORDER[0]):
-            for _2 in getattr(self.gen_config, SDWebuiGen.ORDER[1]):
-                for _3 in getattr(self.gen_config, SDWebuiGen.ORDER[2]):
-                    for _4 in getattr(self.gen_config, SDWebuiGen.ORDER[3]):
-                        for _5 in getattr(self.gen_config, SDWebuiGen.ORDER[4]):
-                            for _6 in getattr(self.gen_config, SDWebuiGen.ORDER[5]):
-                                if self.random_skip():
-                                    continue
-
-                                args = [_1, _2, _3, _4, _5, _6]
-                                # Utils.print_list_str(args)
-                                resolution = args[SDWebuiGen.ORDER.index("resolutions")]
-
-                                if resolution.should_be_randomly_skipped():
-                                    self.gen_config.resolutions_skipped += 1
-                                    continue
-
-                                if not self.gen_config.register_run():
-                                    break
-
-                                model = args[SDWebuiGen.ORDER.index("models")]
-                                vae = args[SDWebuiGen.ORDER.index("vaes")]
-                                if vae is None:
-                                    vae = model.get_default_vae()
-                                model.validate_vae(vae)
-                                lora = args[SDWebuiGen.ORDER.index("loras")]
-                                control_net = args[SDWebuiGen.ORDER.index("control_nets")]
-                                ip_adapter = args[SDWebuiGen.ORDER.index("ip_adapters")]
-                                positive_copy = str(positive)
-                                if ip_adapter:
-                                    positive_copy += ip_adapter.modifiers
-                                    positive_copy = ip_adapter.b_w_coloration_modifier(positive_copy)
-                                
-                                if self.gen_config.is_redo_prompt():
-                                    raise Exception("Redo prompt is not supported for SD Web UI.")
-                                else:
-                                    self.run_workflow(None, workflow_id, resolution, model, vae, n_latents, positive_copy,
-                                                      negative, lora, control_net=control_net, ip_adapter=ip_adapter)
-
-                                self.has_run_one_workflow = True
-        self.print_stats()
-
-    def run_workflow(self, prompt, workflow_id, resolution, model, vae, n_latents, positive, negative, lora, control_net=None, ip_adapter=None):
-        if workflow_id == WorkflowType.SIMPLE_IMAGE_GEN_LORA:
-            if lora is None:
-                raise Exception("Image gen with lora - lora not set!")
-            self.simple_image_gen_lora(prompt, resolution, model, vae, n_latents, positive, negative, lora)
-        elif workflow_id == WorkflowType.SIMPLE_IMAGE_GEN:
-            self.simple_image_gen(prompt, resolution, model, vae, n_latents, positive, negative)
-        elif workflow_id == WorkflowType.CONTROLNET:
-            self.control_net(prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net)
-        elif workflow_id == WorkflowType.IP_ADAPTER:
-            self.ip_adapter(prompt, resolution, model, vae, n_latents, positive, negative, lora, ip_adapter=ip_adapter)
-        elif workflow_id == WorkflowType.INSTANT_LORA:
-            self.instant_lora(prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net=control_net, ip_adapter=ip_adapter)
-        elif workflow_id == WorkflowType.UPSCALE_SIMPLE:
-            self.upscale_simple(prompt, model, control_net)
-        else:
-            raise Exception(f"Workflow not set up for SD Web UI: {workflow_id}")
-        sleep(0.2)
-
-    def print_stats(self):
-        print(f"Started {self.counter} prompts, {self.latent_counter} images to be saved if all complete")
-        self.reset_counters()
-
-    def print_pre(self, action, **kw):
-        if not "n_latents" in kw:
-            raise Exception("Missing n_latents setting!")
-        self.latent_counter += kw["n_latents"]
-        out = f"{Utils.format_white(action)} with config: "
-        for item in kw.items():
-            if not item[1]:
-                continue
-            if item[0] != "negative" or Globals.PRINT_NEGATIVES:
-                out += f"\n{Utils.format_white(item[0])}: {item[1]}"
-        print(out)
+        super().__init__(config)
 
     def prompt_setup(self, workflow_type, action, prompt, model, vae=None, resolution=None, **kw):
         if prompt:
@@ -158,12 +49,30 @@ class SDWebuiGen:
             self.print_pre(action=action, model=model, vae=vae, resolution=resolution, **kw)
             if not prompt:
                 prompt = WorkflowPromptSDWebUI(workflow_type.value)
-        self.counter += 1
         return prompt, model, vae
 
-    @staticmethod
-    def schedule_prompt(prompt, img2img=False, related_image_path=None, workflow=None):
-        Utils.start_thread(SDWebuiGen.queue_prompt, use_asyncio=False, args=[prompt, img2img, related_image_path, workflow])
+    def _get_workflows(self) -> dict:
+        """Return a dictionary mapping workflow IDs to methods"""
+        return {
+            WorkflowType.ANIMATE_DIFF: None,
+            WorkflowType.CONTROLNET: self.control_net,
+            WorkflowType.ELLA: None,
+            WorkflowType.INPAINT_CLIPSEG: None,
+            WorkflowType.INSTANT_LORA: self.instant_lora,
+            WorkflowType.IP_ADAPTER: self.ip_adapter,
+            WorkflowType.REDO_PROMPT: self.redo_with_different_parameter,
+            WorkflowType.RENOISER: None,
+            WorkflowType.SIMPLE_IMAGE_GEN_LORA: self.simple_image_gen_lora,
+            WorkflowType.SIMPLE_IMAGE_GEN_TILED_UPSCALE: None,            
+            WorkflowType.SIMPLE_IMAGE_GEN: self.simple_image_gen,
+            WorkflowType.TURBO: None,
+            WorkflowType.UPSCALE_BETTER: None,
+            WorkflowType.UPSCALE_SIMPLE: self.upscale_simple,
+        }
+
+    # @staticmethod
+    # def schedule_prompt(prompt, img2img=False, related_image_path=None, workflow=None):
+    #     Utils.start_thread(SDWebuiGen.queue_prompt, use_asyncio=False, args=[prompt, img2img, related_image_path, workflow])
 
     @staticmethod
     def queue_prompt(prompt, img2img=False, related_image_path=None, workflow=None):
@@ -186,7 +95,7 @@ class SDWebuiGen:
         for index, image in enumerate(resp_json.get('images')):
             if workflow == PromptTypeSDWebUI.CONTROLNET and index % 2 == 1:
                 continue # Extra control net mask is not an image we want to save.
-            save_path = os.path.join(config.sd_webui_save_path, f'SDWebUI_{timestamp()}_{index}.png')
+            save_path = os.path.join(config.sd_webui_save_path, f'SDWebUI_{timestamp_str()}_{index}.png')
             decode_and_save_base64(image, save_path)
             if related_image_path is not None:
                 Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
@@ -195,10 +104,7 @@ class SDWebuiGen:
     def clear_history():
         pass # TODO figure out if there is a history api
 
-    def get_seed(self):
-        return self.gen_config.get_seed()
-
-    def simple_image_gen(self, prompt, resolution, model, vae, n_latents, positive, negative):
+    def simple_image_gen(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN, "Assembling Simple Image Gen prompt", prompt=prompt, model=model, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
@@ -211,9 +117,9 @@ class SDWebuiGen:
         prompt.set_other_sampler_inputs(self.gen_config)
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.schedule_prompt(prompt)
+        SDWebuiGen.queue_prompt(prompt)
 
-    def simple_image_gen_lora(self, prompt, resolution, model, vae, n_latents, positive, negative, lora):
+    def simple_image_gen_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN_LORA, "Assembling Simple Image Gen LoRA prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, lora=lora, n_latents=n_latents, positive=positive, negative=negative)
         lora = model.validate_loras(lora)
@@ -228,16 +134,16 @@ class SDWebuiGen:
         prompt.set_other_sampler_inputs(self.gen_config)
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.schedule_prompt(prompt)
+        SDWebuiGen.queue_prompt(prompt)
 
-    def upscale_simple(self, prompt, model, control_net):
+    def upscale_simple(self, prompt="", model=None, control_net=None, **kw):
         prompt, model, vae = self.prompt_setup(WorkflowType.UPSCALE_SIMPLE, "Assembling simple upscale image prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=1, positive="", negative="", upscale_image=control_net)
         # prompt.set_upscaler_model()
         prompt.set_image_scale_to_side(1024) # Max image side length
         control_net = self.gen_config.redo_param("control_net", control_net)
-        SDWebuiGen.schedule_prompt(prompt)
+        SDWebuiGen.queue_prompt(prompt)
 
-    def control_net(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net):
+    def control_net(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, **kw):
         # control_v11p_sd15_canny [d14c016b]
         # diffusers_xl_depth_full [2f51180b]
         # sai_xl_depth_256lora [73ad23d1]
@@ -266,9 +172,9 @@ class SDWebuiGen:
         prompt.set_latent_dimensions(resolution)
 #        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.schedule_prompt(prompt, related_image_path=control_net.id, workflow=PromptTypeSDWebUI.CONTROLNET)
+        SDWebuiGen.queue_prompt(prompt, related_image_path=control_net.id, workflow=PromptTypeSDWebUI.CONTROLNET)
 
-    def ip_adapter(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, ip_adapter):
+    def ip_adapter(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
         if not self.gen_config.override_resolution:
             resolution = resolution.get_closest_to_image(ip_adapter.id)
@@ -294,14 +200,14 @@ class SDWebuiGen:
         prompt.set_img2img_image(encode_file_to_base64(image_path))
         prompt.set_latent_dimensions(resolution)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.schedule_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
+        SDWebuiGen.queue_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
 
-    def instant_lora(self, prompt, resolution, model, vae, n_latents, positive, negative, lora, control_net, ip_adapter):
+    def instant_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         resolution = resolution.get_closest_to_image(ip_adapter.id)
         resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.INSTANT_LORA, "Assembling Img2Img ControlNet prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
-        model.validate_loras(lora)
+        lora = model.validate_loras(lora)
         prompt.set_model(model)
         prompt.set_vae(self.gen_config.redo_param("vae", vae))
         prompt.set_clip_texts(
@@ -324,16 +230,11 @@ class SDWebuiGen:
         prompt.set_img2img_image(encode_file_to_base64(image_path))
         prompt.set_latent_dimensions(resolution)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.schedule_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
+        SDWebuiGen.queue_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
 
-    def maybe_caption_image(self, image_path, positive):
-        if positive is None or positive == "":
-            return self.get_captioner().caption(image_path)
-        return positive
-
-    def redo_with_different_parameter(self, source_file, resolution=None, model=None, vae=None,
+    def redo_with_different_parameter(self, source_file="", resolution=None, model=None, vae=None,
                                       lora=None, positive=None, negative=None, n_latents=None,
-                                      control_net=None, ip_adapter=None):
+                                      control_net=None, ip_adapter=None, **kw):
         self.print_pre("Assembling redo prompt", model=model, resolution=resolution, vae=vae, n_latents=n_latents, positive="", negative="", lora=lora, control_net=control_net, ip_adapter=ip_adapter)
         prompt = WorkflowPromptSDWebUI(source_file)
 
@@ -350,8 +251,8 @@ class SDWebuiGen:
                     negative = prompt.temp_redo_inputs.negative
                     control_net = prompt.temp_redo_inputs.control_net
                     ip_adapter = prompt.temp_redo_inputs.ip_adapter
-                    self.run_workflow(prompt, prompt.workflow_filename, resolution, model, vae, n_latents, positive,
-                                      negative, lora, control_net=control_net, ip_adapter=ip_adapter)
+                    self.run_workflow(prompt.workflow_filename, prompt=prompt, resolution=resolution, model=model, vae=vae, n_latents=n_latents, positive=positive,
+                                      negative=negative, lora=lora, control_net=control_net, ip_adapter=ip_adapter)
                 else:
                     print(Utils.format_red("Invalid prompt for file: " + source_file))
                     return

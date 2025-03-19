@@ -36,6 +36,7 @@ class GenConfig:
         self.resolutions_skipped = 0
         self.override_resolution = run_config.override_resolution
         self.countdown_value = -1
+        self.software_type = run_config.software_type
 
     def is_xl(self):
         return self.models[0].is_xl()
@@ -209,6 +210,7 @@ Models: {Utils.print_list_str(self.models)}
             self.negative,
             self.loras,
             self.resolutions,
+            self.software_type,
         ))
     
     def __eq__(self, other):
@@ -227,6 +229,7 @@ Models: {Utils.print_list_str(self.models)}
                 self.loras,
                 self.resolutions,
                 self.seed,
+                self.software_type,
             ) == (
                 other.workflow_id,
                 other.n_latents,
@@ -239,6 +242,7 @@ Models: {Utils.print_list_str(self.models)}
                 other.loras,
                 other.resolutions,
                 other.seed,
+                other.software_type,
             ) and (self.seed is not None and other.seed is not None
                    and self.seed >-1 and other.seed > -1) # Ensure random seed not set.
         return False  # To handle the case when other object is of different type
