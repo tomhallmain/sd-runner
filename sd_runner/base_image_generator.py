@@ -10,6 +10,7 @@ from utils.globals import Globals, WorkflowType
 
 from sd_runner.captioner import Captioner
 from sd_runner.gen_config import GenConfig
+from ui.app_actions import AppActions
 from utils.config import config
 from utils.utils import Utils
 
@@ -20,8 +21,11 @@ class BaseImageGenerator(ABC):
     _executor = ThreadPoolExecutor(max_workers=8)  # Central executor
     _executor_lock = threading.Lock()  # For thread-safe counter updates
     
-    def __init__(self, config: GenConfig = GenConfig()):
+    pending_counter = 0
+    
+    def __init__(self, config: GenConfig = GenConfig(), ui_callbacks: Optional[AppActions] = None):
         self.gen_config = config
+        self.ui_callbacks = ui_callbacks
         self.counter = 0
         self.latent_counter = 0
         self.captioner = None
@@ -132,9 +136,11 @@ class BaseImageGenerator(ABC):
         workflow_method = self.validate_workflow(workflow_id, **kwargs)
         self.schedule_generation(workflow_method, **kwargs)
         with self._lock:
+            self.pending_counter += 1
             self.counter += 1
             self.has_run_one_workflow = True
-        time.sleep(0.2)  # Much shorter sleep if needed
+            self.update_ui_pending()
+        time.sleep(0.2)
 
     def validate_workflow(self, workflow_id: str, **kwargs) -> None:
         """Validate the workflow and its parameters"""
@@ -154,6 +160,10 @@ class BaseImageGenerator(ABC):
                 *args, **kwargs
             )
             return future
+
+    def update_ui_pending(self):
+        if self.ui_callbacks is not None:
+            self.ui_callbacks.update_pending(self.pending_counter)
 
     def _wrap_task(self, task_fn: callable) -> callable:
         """Add common error handling and logging"""

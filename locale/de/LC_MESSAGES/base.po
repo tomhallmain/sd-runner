@@ -1,25 +1,24 @@
 # APPLICATION TRANSLATIONS
-# Copyright (C) YEAR ORGANIZATION
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# AUTHOR NAME <author@example.com>, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-10-05 23:58-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: 2025-03-19 21:35-0400\n"
+"PO-Revision-Date: 2025-03-19 21:35-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
+"Language: de\n"
 "Language-Team: de Team <<EMAIL>>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=cp1252\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: pygettext.py 1.5\n"
 
 
-#: .\app.py:117
+#: .\utils\job_queue.py:40
 msgid " (Pending runs: {0})"
 msgstr " (Ausstehende L\u00e4ufe: {0})"
 
-#: .\app.py:119
+#: .\utils\job_queue.py:42
 msgid " (Pending schedules: {0})"
 msgstr " (Ausstehende Zeitpl\u00e4ne: {0})"
 
@@ -27,271 +26,271 @@ msgstr " (Ausstehende Zeitpl\u00e4ne: {0})"
 msgid "Run ComfyUI Workflows"
 msgstr "ComfyUI-Arbeitsabl\u00e4ufen ausf\u00fchren"
 
-#: .\app.py:150
+#: .\app.py:120
 msgid "Run Workflows"
 msgstr "Arbeitsabl\u00e4ufen ausf\u00fchren"
 
-#: .\app.py:152
+#: .\app.py:122
 msgid "Cancel Run"
 msgstr "Lauf abbrechen"
 
-#: .\app.py:157
+#: .\app.py:130
 msgid "Software"
 msgstr "Programmausstattung"
 
-#: .\app.py:165
+#: .\app.py:138
 msgid "Workflow"
 msgstr "Arbeitsabl\u00e4ufe"
 
-#: .\app.py:172
+#: .\app.py:145
 msgid "Set N Latents"
 msgstr "N Latenzbilder"
 
-#: .\app.py:178
+#: .\app.py:151
 msgid "Set Total"
 msgstr "Gesamt"
 
-#: .\app.py:186
+#: .\app.py:159
 msgid "Delay Seconds"
 msgstr "Verz\u00f6gerung Sekunden"
 
-#: .\app.py:192
+#: .\app.py:165
 msgid "Resolutions"
 msgstr "Bildaufl\u00f6sungen"
 
-#: .\app.py:199
+#: .\app.py:172
 msgid "Model Tags"
 msgstr "Modell-Stichworte"
 
-#: .\app.py:214
+#: .\app.py:187
 msgid "LoRA Tags"
 msgstr "LoRA-Stichworte"
 
-#: .\app.py:230
+#: .\app.py:203
 msgid "Default LoRA Strength"
 msgstr "Standard-LoRA-St\u00e4rke"
 
-#: .\app.py:236
+#: .\app.py:209
 msgid "Prompt Massage Tags"
 msgstr "Aufforderungs-Nachricht-Stichworte"
 
-#: .\app.py:244
+#: .\app.py:217
 msgid "Positive Tags"
 msgstr "Positiv Stichworte"
 
-#: .\app.py:251
+#: .\app.py:224
 msgid "Negative Tags"
 msgstr "Negativ Stichworte"
 
-#: .\app.py:259
+#: .\app.py:232
 msgid "B/W Colorization Tags"
 msgstr "Schwarz-Wei\u00df-F\u00e4rbung Stichworte"
 
-#: .\app.py:267
+#: .\app.py:240
 msgid "Control Net or Redo files"
 msgstr "Dateien Control Net oder wiederherstellen"
 
-#: .\app.py:274
+#: .\app.py:247
 msgid "Default Control Net Strength"
 msgstr "Standard-Control Net-St\u00e4rke"
 
-#: .\app.py:280
+#: .\app.py:253
 msgid "IPAdapter files"
 msgstr "Dateien IPAdapter"
 
-#: .\app.py:287
+#: .\app.py:260
 msgid "Default IPAdapter Strength"
 msgstr "Standard-IPAdapter-St\u00e4rke"
 
-#: .\app.py:293
+#: .\app.py:266
 msgid "Redo Parameters"
 msgstr "Wiederherstellungsparameter"
 
-#: .\app.py:309
+#: .\app.py:282
 msgid "Sampler"
 msgstr "Probenehmer"
 
-#: .\app.py:315
+#: .\app.py:288
 msgid "Scheduler"
 msgstr "Planer"
 
-#: .\app.py:321
+#: .\app.py:294
 msgid "Seed"
 msgstr "Saat"
 
-#: .\app.py:328
+#: .\app.py:301
 msgid "Steps"
 msgstr "Schritte"
 
-#: .\app.py:335
+#: .\app.py:308
 msgid "CFG"
 msgstr "CFG"
 
-#: .\app.py:342
+#: .\app.py:315
 msgid "Denoise"
 msgstr "Entrauschen"
 
-#: .\app.py:349
+#: .\app.py:322
 msgid "Random Skip Chance"
 msgstr "Zuf\u00e4llige \u00dcbersprungm\u00f6glichkeit"
 
-#: .\app.py:357
+#: .\app.py:330
 msgid "Prompts Configuration"
 msgstr "Aufforderungen zur Konfiguration"
 
-#: .\app.py:360
+#: .\app.py:333
 msgid "Prompt Mode"
 msgstr "Aufforderungs-Modus"
 
-#: .\app.py:367
+#: .\app.py:340
 msgid "Concepts Dir"
 msgstr "Konzepte-Verzeichnis"
 
-#: .\app.py:376
+#: .\app.py:349
 msgid "Concepts"
 msgstr "Konzepte"
 
-#: .\app.py:385
+#: .\app.py:358
 msgid "Positions"
 msgstr "Stellen"
 
-#: .\app.py:394
+#: .\app.py:367
 msgid "Locations"
 msgstr "Standorte"
 
-#: .\app.py:403
+#: .\app.py:376
 msgid "Specific Locations Chance"
 msgstr "Spezifische Standorte-M\u00f6glichkeit"
 
-#: .\app.py:409
+#: .\app.py:382
 msgid "Animals"
 msgstr "Tiere"
 
-#: .\app.py:418
+#: .\app.py:391
 msgid "Colors"
 msgstr "Farben"
 
-#: .\app.py:427
+#: .\app.py:400
 msgid "Times"
 msgstr "Zeiten"
 
-#: .\app.py:436
+#: .\app.py:409
 msgid "Dress"
 msgstr "Kleidung"
 
-#: .\app.py:445
+#: .\app.py:418
 msgid "Expressions"
 msgstr "Ausdr\u00fccke"
 
-#: .\app.py:454
+#: .\app.py:427
 msgid "Actions"
 msgstr "Aktionen"
 
-#: .\app.py:463
+#: .\app.py:436
 msgid "Descriptions"
 msgstr "Beschreibungen"
 
-#: .\app.py:472
+#: .\app.py:445
 msgid "Characters"
 msgstr "Charaktere"
 
-#: .\app.py:481
+#: .\app.py:454
 msgid "Random Words"
 msgstr "Zuf\u00e4llige W\u00f6rter"
 
-#: .\app.py:490
+#: .\app.py:463
 msgid "Nonsense"
 msgstr "Quatsch"
 
-#: .\app.py:499
+#: .\app.py:472
 msgid "Multiplier"
 msgstr "Vervielfacher"
 
-#: .\app.py:510
+#: .\app.py:483
 msgid "Specify Humans Chance"
 msgstr "Spezifizieren Menschen-M\u00f6glichkeit"
 
-#: .\app.py:516
+#: .\app.py:489
 msgid "Art Styles Chance"
 msgstr "Kunststile-M\u00f6glichkeit"
 
-#: .\app.py:522
+#: .\app.py:495
 msgid "Emphasis Chance"
 msgstr "Hervorhebung-M\u00f6glichkeit"
 
-#: .\app.py:532
+#: .\app.py:505
 msgid "Override Resolution"
 msgstr "Aufhebung der Aufl\u00f6sung"
 
-#: .\app.py:536
+#: .\app.py:509
 msgid "Inpainting"
 msgstr "\u00dcbermalen"
 
-#: .\app.py:540
+#: .\app.py:513
 msgid "Override Base Negative"
 msgstr "\u00dcberschreiben Basis Negativ"
 
-#: .\app.py:544
+#: .\app.py:517
 msgid "Tags Applied to Prompt Start"
 msgstr "Stichworte f\u00fcr den sofortigen Start"
 
-#: .\app.py:548
+#: .\app.py:521
 msgid "Sparse Mixed Tags"
 msgstr "Sp\u00e4rliche gemischte Stichworte"
 
-#: .\app.py:552
+#: .\app.py:525
 msgid "Run Preset Schedule"
 msgstr "Voreingestellten Zeitplan ausf\u00fchren"
 
-#: .\app.py:557
+#: .\app.py:530
 msgid "Preset Schedule Window"
 msgstr "Fenster Voreingestellter Zeitplan"
 
-#: .\app.py:558 .\app.py:1152
+#: .\app.py:531 .\app.py:1135 .\ui\presets_window_qt.py:27
 msgid "Presets Window"
 msgstr "Fenster Voreinstellungen"
 
-#: .\app.py:562
+#: .\app.py:535
 msgid "Tag Blacklist"
 msgstr "Stichworte-Schwarzliste"
 
-#: .\app.py:563 .\app.py:1170
+#: .\app.py:536 .\app.py:1153
 msgid "Expansions Window"
 msgstr "Fenster Erweiterungen"
 
-#: .\app.py:620
+#: .\app.py:593
 msgid "Confirm Quit"
 msgstr "Beenden best\u00e4tigen"
 
-#: .\app.py:620
+#: .\app.py:593
 msgid "Would you like to quit the application?"
 msgstr "M\u00f6chten Sie die Anwendung beenden?"
 
-#: .\app.py:854 .\app.py:871
+#: .\app.py:827 .\app.py:844
 msgid "Confirm Run"
 msgstr "Lauf best\u00e4tigen"
 
-#: .\app.py:855
+#: .\app.py:828
 msgid "Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"
 msgstr "Wenn Sie einen neuen Lauf starten, wird der aktuelle voreingestellte Zeitplan gel\u00f6scht. Sind Sie sicher, dass Sie fortfahren m\u00f6chten?"
 
-#: .\app.py:872
+#: .\app.py:845
 msgid "Are you sure you want to proceed?"
 msgstr "Sind Sie sicher, dass Sie fortfahren wollen?"
 
-#: .\app.py:970
+#: .\app.py:941 .\app_qt.py:375
 msgid " (unlimited)"
 msgstr " (unbegrenzt)"
 
-#: .\app.py:1143
+#: .\app.py:1126 .\ui\tags_blacklist_window_qt.py:16
 msgid "Tags Blacklist"
 msgstr "Stichworte-Schwarzliste"
 
-#: .\app.py:1188
+#: .\app.py:1171
 msgid "Error"
 msgstr "Error"
 
-#: .\app.py:1280
+#: .\app.py:1263 .\app_qt.py:47
 msgid " ComfyGen "
 msgstr " SD-L\u00e4ufer "
 
@@ -316,6 +315,7 @@ msgid "Removed tag: {0}"
 msgstr "Stichworte entfernt: {0}"
 
 #: .\ui\concept_editor_window.py:127 .\ui\tags_blacklist_window.py:134
+#: .\ui\tags_blacklist_window_qt.py:92
 msgid "Added tag to blacklist: {0}"
 msgstr "Stichworte zur Schwarzliste hinzugef\u00fcgt: {0}"
 
@@ -363,12 +363,13 @@ msgstr "Erweiterung hinzuf\u00fcgen"
 msgid "Clear expansions"
 msgstr "Klare Erweiterungen"
 
-#: .\ui\expansions_window.py:190 .\ui\schedules_windows.py:276
+#: .\ui\expansions_window.py:190 .\ui\schedules_windows.py:281
 msgid "Modify"
 msgstr "\u00c4ndern"
 
-#: .\ui\expansions_window.py:197 .\ui\presets_window.py:143
-#: .\ui\schedules_windows.py:88 .\ui\schedules_windows.py:283
+#: .\ui\concept_editor_window_qt.py:49 .\ui\expansions_window.py:197
+#: .\ui\presets_window.py:143 .\ui\schedules_windows.py:88
+#: .\ui\schedules_windows.py:288
 msgid "Delete"
 msgstr "L\u00f6schen"
 
@@ -376,7 +377,7 @@ msgstr "L\u00f6schen"
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
 msgstr "Ung\u00fcltige Erweiterungs-ID \"{0}\" oder Text \"{1}\""
 
-#: .\ui\presets_window.py:52
+#: .\ui\presets_window.py:52 .\ui\presets_window_qt.py:160
 msgid "New Preset (ERROR no presets found)"
 msgstr "Neue Voreinstellung (keine Voreinstellungen gefunden)"
 
@@ -388,7 +389,7 @@ msgstr "Nicht gen\u00fcgend Voreinstellungen gefunden."
 msgid "Set a new preset"
 msgstr "Eine neue Voreinstellung festlegen"
 
-#: .\ui\presets_window.py:112
+#: .\ui\presets_window.py:112 .\ui\presets_window_qt.py:56
 msgid "New Preset"
 msgstr "Neue Voreinstellung"
 
@@ -400,7 +401,7 @@ msgstr "Voreinstellung hinzuf\u00fcgen"
 msgid "Clear presets"
 msgstr "Voreinstellungen l\u00f6schen"
 
-#: .\ui\presets_window.py:136 .\ui\schedules_windows.py:269
+#: .\ui\presets_window.py:136 .\ui\schedules_windows.py:274
 msgid "Set"
 msgstr "Einstellen"
 
@@ -408,7 +409,8 @@ msgstr "Einstellen"
 msgid "Invalid preset: {0}"
 msgstr "Ung\u00fcltige Voreinstellung: {0}"
 
-#: .\ui\schedule.py:14 .\ui\schedules_windows.py:40
+#: .\ui\schedule.py:14 .\ui\schedules_window_qt.py:54
+#: .\ui\schedules_window_qt.py:165 .\ui\schedules_windows.py:40
 msgid "New Schedule"
 msgstr "Neuer Zeitplan"
 
@@ -420,11 +422,11 @@ msgstr "{0} ({1} L\u00e4ufe)"
 msgid "Modify Preset Schedule: {0}"
 msgstr "Voreingestellten Zeitplan \u00e4ndern: {0}"
 
-#: .\ui\schedules_windows.py:38
+#: .\ui\schedules_window_qt.py:51 .\ui\schedules_windows.py:38
 msgid "Modify Schedule"
 msgstr "Zeitplan \u00e4ndern"
 
-#: .\ui\schedules_windows.py:45 .\ui\schedules_windows.py:246
+#: .\ui\schedules_windows.py:45 .\ui\schedules_windows.py:251
 msgid "Add schedule"
 msgstr "Zeitplan hinzuf\u00fcgen"
 
@@ -436,19 +438,19 @@ msgstr "Voreingestellte Aufgabe hinzuf\u00fcgen"
 msgid "Move Down"
 msgstr "Nach unten bewegen"
 
-#: .\ui\schedules_windows.py:216
+#: .\ui\schedules_windows.py:221
 msgid "Not enough schedules found."
 msgstr "Es wurden nicht gen\u00fcgend Zeitpl\u00e4ne gefunden."
 
-#: .\ui\schedules_windows.py:225
+#: .\ui\schedules_windows.py:230
 msgid "Preset Schedules"
 msgstr "Voreingestellte Zeitpl\u00e4ne"
 
-#: .\ui\schedules_windows.py:248
+#: .\ui\schedules_windows.py:253
 msgid "Clear schedules"
 msgstr "Klare Zeitpl\u00e4ne"
 
-#: .\ui\schedules_windows.py:304
+#: .\ui\schedules_window_qt.py:205 .\ui\schedules_windows.py:309
 msgid "Current schedule: {0}"
 msgstr "Aktueller Zeitplan: {0}"
 
@@ -463,4 +465,232 @@ msgstr "Stichworte hinzuf\u00fcgen"
 #: .\ui\tags_blacklist_window.py:88
 msgid "Clear tags"
 msgstr "Stichworten l\u00f6schen"
+
+#: .\app.py:116
+msgid "Run SD Workflows"
+msgstr "SD-Workflows ausf\u00fchren"
+
+#: .\app.py:960
+msgid "{0} pending generations"
+msgstr "{0} ausstehende Generationen"
+
+#: .\app_qt.py:225
+msgid "Prompter Configuration"
+msgstr "Prompter-Konfiguration"
+
+#: .\ui\concept_editor_window_qt.py:19
+msgid "Concept Editor"
+msgstr "Konzept-Editor"
+
+#: .\ui\concept_editor_window_qt.py:36
+msgid "Search concepts..."
+msgstr "Konzepte suchen..."
+
+#: .\ui\concept_editor_window_qt.py:47 .\ui\expansions_window_qt.py:68
+msgid "New"
+msgstr "Neu"
+
+#: .\ui\concept_editor_window_qt.py:65
+msgid "Name:"
+msgstr "Name:"
+
+#: .\ui\concept_editor_window_qt.py:73
+msgid "Type:"
+msgstr "Typ:"
+
+#: .\ui\concept_editor_window_qt.py:82
+msgid "Trigger:"
+msgstr "Trigger:"
+
+#: .\ui\concept_editor_window_qt.py:90
+msgid "Weight:"
+msgstr "Gewicht:"
+
+#: .\ui\concept_editor_window_qt.py:100 .\ui\expansions_window_qt.py:51
+msgid "Value:"
+msgstr "Wert:"
+
+#: .\ui\concept_editor_window_qt.py:110
+msgid "Browse"
+msgstr "Nach oben"
+
+#: .\ui\concept_editor_window_qt.py:117
+msgid "Active"
+msgstr "Aktiv"
+
+#: .\ui\concept_editor_window_qt.py:122 .\ui\expansions_window_qt.py:58
+#: .\ui\schedules_window_qt.py:95
+msgid "Save"
+msgstr "Speichern"
+
+#: .\ui\concept_editor_window_qt.py:141
+msgid "Import"
+msgstr "Einfuhr"
+
+#: .\ui\concept_editor_window_qt.py:142
+msgid "Export"
+msgstr "Ausfuhr"
+
+#: .\ui\concept_editor_window_qt.py:143 .\ui\expansions_window_qt.py:70
+#: .\ui\presets_window_qt.py:59 .\ui\schedules_window_qt.py:97
+#: .\ui\schedules_window_qt.py:169 .\ui\tags_blacklist_window_qt.py:52
+msgid "Close"
+msgstr "Schlie\u00dfen"
+
+#: .\ui\concept_editor_window_qt.py:232
+msgid "Updated concept: {0} -> {1}"
+msgstr "Aktualisiertes Konzept: {0} -> {1}"
+
+#: .\ui\concept_editor_window_qt.py:234
+msgid "Saved concept: {0}"
+msgstr "Gespeichertes Konzept: {0}"
+
+#: .\ui\concept_editor_window_qt.py:247
+msgid "Deleted concept: {0}"
+msgstr "Gel\u00f6schtes Konzept: {0}"
+
+#: .\ui\concept_editor_window_qt.py:252
+msgid "Select Image"
+msgstr "Bild ausw\u00e4hlen"
+
+#: .\ui\concept_editor_window_qt.py:254
+msgid "Image Files (*.png *.jpg *.jpeg *.bmp *.gif)"
+msgstr "Bilddateien (*.png *.jpg *.jpeg *.bmp *.gif)"
+
+#: .\ui\concept_editor_window_qt.py:262
+msgid "Import Concepts"
+msgstr "Importkonzepte"
+
+#: .\ui\concept_editor_window_qt.py:264 .\ui\concept_editor_window_qt.py:286
+msgid "JSON Files (*.json)"
+msgstr "JSON Dateien (*.json)"
+
+#: .\ui\concept_editor_window_qt.py:276
+msgid "Imported concepts from: {0}"
+msgstr "Importierte Konzepte von: {0}"
+
+#: .\ui\concept_editor_window_qt.py:279
+msgid "Error importing concepts: {0}"
+msgstr "Fehler Importieren von Konzepten: {0}"
+
+#: .\ui\concept_editor_window_qt.py:284
+msgid "Export Concepts"
+msgstr "Exportkonzepte"
+
+#: .\ui\concept_editor_window_qt.py:295
+msgid "Exported concepts to: {0}"
+msgstr "Exportierte Konzepte zu: {0}"
+
+#: .\ui\concept_editor_window_qt.py:298
+msgid "Error exporting concepts: {0}"
+msgstr "Fehler Export von Konzepten: {0}"
+
+#: .\ui\expansions_window_qt.py:16
+msgid "Expansions"
+msgstr "Erweiterungen"
+
+#: .\ui\expansions_window_qt.py:28
+msgid "Search expansions..."
+msgstr "Sucherweiterungen..."
+
+#: .\ui\expansions_window_qt.py:43
+msgid "Key:"
+msgstr "Schl\u00fcssel:"
+
+#: .\ui\expansions_window_qt.py:69 .\ui\presets_window_qt.py:58
+#: .\ui\schedules_window_qt.py:168 .\ui\tags_blacklist_window_qt.py:51
+msgid "Delete Selected"
+msgstr "Ausgew\u00e4hlte l\u00f6schen"
+
+#: .\ui\expansions_window_qt.py:139
+msgid "Updated expansion: {0} -> {1}"
+msgstr "Aktualisierte Erweiterung: {0} -> {1}"
+
+#: .\ui\expansions_window_qt.py:141
+msgid "Saved expansion: {0}"
+msgstr "Gespeicherte Erweiterung: {0}"
+
+#: .\ui\expansions_window_qt.py:155
+msgid "Deleted expansion: {0}"
+msgstr "Gel\u00f6schte Erweiterung: {0}"
+
+#: .\ui\presets_window_qt.py:42
+msgid "Search presets..."
+msgstr "Voreinstellungen suchen..."
+
+#: .\ui\presets_window_qt.py:57
+msgid "Apply Selected"
+msgstr "Ausgew\u00e4hlte anwenden"
+
+#: .\ui\presets_window_qt.py:111
+msgid "Created new preset: {0}"
+msgstr "Neues Voreinstellung erstellt: {0}"
+
+#: .\ui\presets_window_qt.py:124
+msgid "Applied preset: {0}"
+msgstr "Angewandte Voreinstellung: {0}"
+
+#: .\ui\presets_window_qt.py:140
+msgid "Deleted preset: {0}"
+msgstr "Gel\u00f6schte Voreinstellung: {0}"
+
+#: .\ui\schedules_window_qt.py:62
+msgid "Schedule Name:"
+msgstr "Zeitplan Name:"
+
+#: .\ui\schedules_window_qt.py:76
+msgid "Task name"
+msgstr "Aufgabenname"
+
+#: .\ui\schedules_window_qt.py:82
+msgid "Add Task"
+msgstr "Aufgabe hinzuf\u00fcgen"
+
+#: .\ui\schedules_window_qt.py:96
+msgid "Delete Selected Task"
+msgstr "Ausgew\u00e4hlte Aufgabe l\u00f6schen"
+
+#: .\ui\schedules_window_qt.py:135
+msgid "Schedules Window"
+msgstr "Fenster Zeitpl\u00e4ne"
+
+#: .\ui\schedules_window_qt.py:147
+msgid "Search schedules..."
+msgstr "Zeitpl\u00e4ne suchen..."
+
+#: .\ui\schedules_window_qt.py:166
+msgid "Modify Selected"
+msgstr "Ausgew\u00e4hlt \u00e4ndern"
+
+#: .\ui\schedules_window_qt.py:167
+msgid "Set Selected"
+msgstr "Ausgew\u00e4hlt einstellen"
+
+#: .\ui\schedules_window_qt.py:231
+msgid "Set schedule: {0}"
+msgstr "Zeitplan festlegen: {0}"
+
+#: .\ui\schedules_window_qt.py:246
+msgid "Deleted schedule: {0}"
+msgstr "Gel\u00f6schter Zeitplan: {0}"
+
+#: .\ui\schedules_window_qt.py:265
+msgid "Saved schedule: {0}"
+msgstr "Gespeicherter Zeitplan: {0}"
+
+#: .\ui\tags_blacklist_window_qt.py:28
+msgid "Search tags..."
+msgstr "Suche Tags..."
+
+#: .\ui\tags_blacklist_window_qt.py:40
+msgid "Enter tag to blacklist"
+msgstr "Tag f\u00fcr schwarz Liste eingeben"
+
+#: .\ui\tags_blacklist_window_qt.py:41
+msgid "Add Tag"
+msgstr "Schlagwort hinzuf\u00fcgen"
+
+#: .\ui\tags_blacklist_window_qt.py:104
+msgid "Removed tag from blacklist: {0}"
+msgstr "Tag von der schwarz Liste entfernt: {0}"
 

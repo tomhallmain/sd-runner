@@ -37,8 +37,8 @@ class SDWebuiGen(BaseImageGenerator):
     TXT_2_IMG = "sdapi/v1/txt2img"
     IMG_2_IMG = "sdapi/v1/img2img"
 
-    def __init__(self, config=GenConfig()):
-        super().__init__(config)
+    def __init__(self, config=GenConfig(), ui_callbacks=None):
+        super().__init__(config, ui_callbacks)
 
     def prompt_setup(self, workflow_type, action, prompt, model, vae=None, resolution=None, **kw):
         if prompt:
@@ -72,10 +72,9 @@ class SDWebuiGen(BaseImageGenerator):
 
     # @staticmethod
     # def schedule_prompt(prompt, img2img=False, related_image_path=None, workflow=None):
-    #     Utils.start_thread(SDWebuiGen.queue_prompt, use_asyncio=False, args=[prompt, img2img, related_image_path, workflow])
+    #     Utils.start_thread(self.queue_prompt, use_asyncio=False, args=[prompt, img2img, related_image_path, workflow])
 
-    @staticmethod
-    def queue_prompt(prompt, img2img=False, related_image_path=None, workflow=None):
+    def queue_prompt(self, prompt, img2img=False, related_image_path=None, workflow=None):
         api_endpoint = SDWebuiGen.IMG_2_IMG if img2img else SDWebuiGen.TXT_2_IMG
         data = prompt.get_json()
         req = request.Request(
@@ -85,12 +84,11 @@ class SDWebuiGen(BaseImageGenerator):
         )
         try:
             response = request.urlopen(req)
-            SDWebuiGen.save_image_data(response, related_image_path, workflow)
+            self.save_image_data(response, related_image_path, workflow)
         except error.URLError:
             raise Exception("Failed to connect to SD Web UI. Is SD Web UI running?")
 
-    @staticmethod
-    def save_image_data(response, related_image_path=None, workflow=None):
+    def save_image_data(self, response, related_image_path=None, workflow=None):
         resp_json = json.loads(response.read().decode('utf-8'))
         for index, image in enumerate(resp_json.get('images')):
             if workflow == PromptTypeSDWebUI.CONTROLNET and index % 2 == 1:
@@ -99,6 +97,9 @@ class SDWebuiGen(BaseImageGenerator):
             decode_and_save_base64(image, save_path)
             if related_image_path is not None:
                 Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
+        with self._lock:
+            self.pending_counter -= 1
+            self.update_ui_pending()
 
     @staticmethod
     def clear_history():
@@ -117,7 +118,7 @@ class SDWebuiGen(BaseImageGenerator):
         prompt.set_other_sampler_inputs(self.gen_config)
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.queue_prompt(prompt)
+        self.queue_prompt(prompt)
 
     def simple_image_gen_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -134,14 +135,14 @@ class SDWebuiGen(BaseImageGenerator):
         prompt.set_other_sampler_inputs(self.gen_config)
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.queue_prompt(prompt)
+        self.queue_prompt(prompt)
 
     def upscale_simple(self, prompt="", model=None, control_net=None, **kw):
         prompt, model, vae = self.prompt_setup(WorkflowType.UPSCALE_SIMPLE, "Assembling simple upscale image prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=1, positive="", negative="", upscale_image=control_net)
         # prompt.set_upscaler_model()
         prompt.set_image_scale_to_side(1024) # Max image side length
         control_net = self.gen_config.redo_param("control_net", control_net)
-        SDWebuiGen.queue_prompt(prompt)
+        self.queue_prompt(prompt)
 
     def control_net(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, **kw):
         # control_v11p_sd15_canny [d14c016b]
@@ -172,7 +173,7 @@ class SDWebuiGen(BaseImageGenerator):
         prompt.set_latent_dimensions(resolution)
 #        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.queue_prompt(prompt, related_image_path=control_net.id, workflow=PromptTypeSDWebUI.CONTROLNET)
+        self.queue_prompt(prompt, related_image_path=control_net.id, workflow=PromptTypeSDWebUI.CONTROLNET)
 
     def ip_adapter(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -200,7 +201,7 @@ class SDWebuiGen(BaseImageGenerator):
         prompt.set_img2img_image(encode_file_to_base64(image_path))
         prompt.set_latent_dimensions(resolution)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.queue_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
+        self.queue_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
 
     def instant_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         resolution = resolution.get_closest_to_image(ip_adapter.id)
@@ -230,7 +231,7 @@ class SDWebuiGen(BaseImageGenerator):
         prompt.set_img2img_image(encode_file_to_base64(image_path))
         prompt.set_latent_dimensions(resolution)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        SDWebuiGen.queue_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
+        self.queue_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
 
     def redo_with_different_parameter(self, source_file="", resolution=None, model=None, vae=None,
                                       lora=None, positive=None, negative=None, n_latents=None,
@@ -304,9 +305,9 @@ class SDWebuiGen(BaseImageGenerator):
             print("Did not make any changes to prompt for image: " + source_file)
         
         # if prompt.requires_img2img():
-        #     SDWebuiGen.queue_prompt()
+        #     self.queue_prompt()
         # else:
-        #     SDWebuiGen.queue_prompt(prompt, img2img=False, workflow=)
+        #     self.queue_prompt(prompt, img2img=False, workflow=)
 
 
 

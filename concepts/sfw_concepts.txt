@@ -680,6 +680,7 @@ flying buttresses
 fractal
 fragment
 frieze
+frond
 fruits
 fog
 folklore
@@ -999,6 +1000,7 @@ technology
 television
 textural
 textured glass
+thallus
 thatched
 thespian
 thou

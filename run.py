@@ -25,7 +25,7 @@ prompt_list = [
 
 
 class Run:
-    def __init__(self, args, progress_callback=None, delay_after_last_run=True):
+    def __init__(self, args, ui_callbacks=None, delay_after_last_run=True):
         self.id = str(time.time())
         self.is_complete = False
         self.is_cancelled = False
@@ -35,7 +35,7 @@ class Run:
         self.editing = False
         self.switching_params = False
         self.last_config = None
-        self.progress_callback = progress_callback
+        self.ui_callbacks = ui_callbacks
 
     def print(self, *args):
         if config.debug:
@@ -44,16 +44,17 @@ class Run:
     def is_infinite(self):
         return self.args.total == -1
 
-    def run(self, config, gen, original_positive, original_negative):
+    def run(self, gen, original_positive, original_negative):
+        gen_config = gen.gen_config
         prompter = Globals.PROMPTER
         if not self.editing and not self.switching_params:
-            config.positive, config.negative = prompter.generate_prompt(original_positive, original_negative)
+            gen_config.positive, gen_config.negative = prompter.generate_prompt(original_positive, original_negative)
 
-        self.print(config)
-        if config.is_redo_prompt():
+        self.print(gen_config)
+        if gen_config.is_redo_prompt():
             confirm_text = "\n\nRedo Prompt (y/n/[space to quit]): "
         else:
-            confirm_text = f"\n\nPrompt: \"{config.positive}\" (y/n/r/m/n/e/s/[space to quit]): "
+            confirm_text = f"\n\nPrompt: \"{gen_config.positive}\" (y/n/r/m/n/e/s/[space to quit]): "
         confirm = "y" if Globals.SKIP_CONFIRMATIONS else input(confirm_text)
         self.switching_params = False
 
@@ -62,11 +63,11 @@ class Run:
         elif confirm.lower() == "r":
             new_resolution = input("New resolution (p = portrait/l = landscape/s = square): ")
             if new_resolution.lower() == "p":
-                config.resolutions[0].portrait(config.architecture_type())
+                config.resolutions[0].portrait(gen_config.architecture_type())
             if new_resolution.lower() == "l":
-                config.resolutions[0].landscape(config.architecture_type())
+                config.resolutions[0].landscape(gen_config.architecture_type())
             if new_resolution.lower() == "s":
-                config.resolutions[0].square(config.architecture_type())
+                config.resolutions[0].square(gen_config.architecture_type())
             self.switching_params = True
         elif confirm.lower() == "m":
             new_input_mode = input("New input mode (FIXED/SFW/NSFW/NSFL): ")
@@ -75,25 +76,25 @@ class Run:
         elif confirm.lower() == "e":
             new_prompt = input("Prompt: ")
             self.editing = True
-            config.positive = new_prompt
+            gen_config.positive = new_prompt
         elif confirm.lower() == "s":
             new_seed = int(input(f"Enter a new seed (current seed {config.seed}): "))
-            config.seed = new_seed
+            gen_config.seed = new_seed
             self.switching_params = True
         elif confirm.lower() != "y":
             return
 
-        if self.last_config and config == self.last_config:
+        if self.last_config and gen_config == self.last_config:
             print("\n\nConfig matches last config. Please modify it or quit.")
             if Globals.SKIP_CONFIRMATIONS:
                 raise Exception("Invalid state - must select an auto-modifiable config option if using auto run.")
             else:
                 return
 
-        if config.prompts_match(self.last_config) or config.validate():
+        if gen_config.prompts_match(self.last_config) or gen_config.validate():
             gen.run()
 
-        if config.maximum_gens() > 10:
+        if gen_config.maximum_gens() > 10:
             self.print(f"Large config with maximum gens {config.maximum_gens()} - skipping loop.")
             return
 
@@ -103,10 +104,10 @@ class Run:
         self.print("Filling expected number of generations due to skips.")
         gen.gen_config.set_countdown_mode()
         while gen.gen_config.countdown_value > 0:
-            self.run(gen.gen_config, gen, original_positive, original_negative)
+            self.run(gen, original_positive, original_negative)
         gen.gen_config.reset_countdown_mode()
 
-    def do_workflow(self, workflow, positive_prompt, negative_prompt, control_nets, ip_adapters):
+    def construct_gen(self, workflow, positive_prompt, negative_prompt, control_nets, ip_adapters):
         models = Model.get_models(self.args.model_tags,
                                   default_tag=Model.get_default_model_tag(workflow),
                                   inpainting=self.args.inpainting)
@@ -114,13 +115,22 @@ class Run:
                                  default_tag=models[0].get_default_lora(),
                                  inpainting=self.args.inpainting, is_xl=(2 if models[0].is_sd_15() else 1))
         resolutions = Resolution.get_resolutions(self.args.res_tags, architecture_type=models[0].architecture_type)
-        config = GenConfig(
+        gen_config = GenConfig(
             workflow_id=workflow, models=models, loras=loras, n_latents=self.args.n_latents,
             control_nets=control_nets, ip_adapters=ip_adapters,
             positive=positive_prompt, negative=negative_prompt, resolutions=resolutions,
             run_config=self.args,
         )
-        gen = ComfyGen(config) if self.args.software_type == "ComfyUI" else SDWebuiGen(config)
+        if self.args.software_type == "ComfyUI":
+            gen = ComfyGen(gen_config, self.ui_callbacks)
+        elif self.args.software_type == "SDWebUI":
+            gen = SDWebuiGen(gen_config, self.ui_callbacks)
+        else:
+            raise Exception(f"Unhandled software type: {self.args.software_type}")
+        return gen
+
+    def do_workflow(self, workflow, positive_prompt, negative_prompt, control_nets, ip_adapters):
+        gen = self.construct_gen(workflow, positive_prompt, negative_prompt, control_nets, ip_adapters)
         self.editing = False
         self.switching_params = False
         self.last_config = None
@@ -128,7 +138,7 @@ class Run:
 
         try:
             while not self.is_cancelled:
-                self.run(config, gen, positive_prompt, negative_prompt)
+                self.run(gen, positive_prompt, negative_prompt)
                 if not gen.has_run_one_workflow:
                     continue
                 # If some of the prompts are skipped, need to fill the gaps if we are not running infinitely
@@ -140,20 +150,20 @@ class Run:
                 if self.args.total:
                     if self.args.total > -1 and count == self.args.total:
                         self.print(f"Reached maximum requested iterations: {self.args.total}")
-                        if self.progress_callback is not None:
-                            self.progress_callback(count, self.args.total)
+                        if self.ui_callbacks is not None:
+                            self.ui_callbacks.update_progress(count, self.args.total)
                         if self.delay_after_last_run:
                             # print(Utils.format_red("WILL SLEEP AFTER LAST RUN."))
-                            self._sleep_for_delay(maximum_gens=config.maximum_gens() / 2) # NOTE halving the delay here
+                            self._sleep_for_delay(maximum_gens=gen.gen_config.maximum_gens() / 2) # NOTE halving the delay here
                         return
                     else:
                         if self.args.total == -1:
                             self.print("Running until cancelled or total iterations reached")
                         else:
                             self.print(f"On iteration {count} of {self.args.total} - continuing.")
-                        if self.progress_callback is not None:
-                            self.progress_callback(count, self.args.total)
-                self._sleep_for_delay(maximum_gens=config.maximum_gens())
+                        if self.ui_callbacks is not None:
+                            self.ui_callbacks.update_progress(count, self.args.total)
+                self._sleep_for_delay(maximum_gens=gen.gen_config.maximum_gens())
         except KeyboardInterrupt:
             pass
 

@@ -22,6 +22,7 @@ from sd_runner.gen_config import GenConfig
 from sd_runner.models import IPAdapter, Model
 from sd_runner.prompter import Prompter
 from sd_runner.run_config import RunConfig
+from ui.app_actions import AppActions
 from ui.app_style import AppStyle
 from ui.expansions_window import ExpansionsWindow
 from ui.preset import Preset
@@ -103,6 +104,8 @@ class App():
         self.current_run = Run(RunConfig())
         Model.load_all()
 
+        self.app_actions = AppActions(self.update_progress, self.update_pending)
+
         # Sidebar
         self.sidebar = Sidebar(self.master)
         self.sidebar.columnconfigure(0, weight=1)
@@ -110,8 +113,8 @@ class App():
         self.row_counter0 = 0
         self.sidebar.grid(column=0, row=self.row_counter0)
         self.label_title = Label(self.sidebar)
-        self.add_label(self.label_title, _("Run ComfyUI Workflows"), sticky=None, columnspan=2)
-        ## TODO change above label to be software-agnostic
+        self.add_label(self.label_title, _("Run SD Workflows"), sticky=None, columnspan=2)
+        ## TODO change above label to be software-agnostic (i18n)
 
         self.run_btn = None
         self.add_button("run_btn", _("Run Workflows"), self.run)
@@ -119,6 +122,9 @@ class App():
         self.cancel_btn = Button(self.sidebar, text=_("Cancel Run"), command=self.cancel)
         self.label_progress = Label(self.sidebar)
         self.add_label(self.label_progress, "", sticky=None)
+        
+        self.label_pending = Label(self.sidebar)
+        self.add_label(self.label_pending, "", sticky=None)
 
         self.label_software = Label(self.sidebar)
         self.add_label(self.label_software, _("Software"), increment_row_counter=False)
@@ -849,7 +855,7 @@ class App():
             self.progress_bar.grid(row=1, column=1)
             self.progress_bar.start()
             self.cancel_btn.grid(row=2, column=1)
-            self.current_run = Run(args, progress_callback=self.update_progress, delay_after_last_run=self.has_runs_pending())
+            self.current_run = Run(args, ui_callbacks=self.app_actions, delay_after_last_run=self.has_runs_pending())
             try:
                 self.current_run.execute()
             except Exception:
@@ -864,8 +870,6 @@ class App():
                 Utils.start_thread(run_async, use_asyncio=False, args=[next_job_args])
             else:
                 Utils.prevent_sleep(False)
-                if not self.job_queue_preset_schedules.has_pending() and not self.current_run.is_cancelled:
-                    Utils.play_sound()
             
 
         if self.job_queue.has_pending():
@@ -942,6 +946,18 @@ class App():
                 if pending_text is None:
                     pending_text = ""
             self.label_progress["text"] = str(current_index) + "/" + str(total) + pending_text
+        self.master.update()
+    
+    def update_pending(self, count_pending):
+        # NOTE this is the number of pending generations expected receivable
+        # from the external software after being created in separate threads
+        # by the gen classes.
+        if count_pending <= 0:
+            self.label_pending["text"] = ""
+            if not self.job_queue_preset_schedules.has_pending() and self.current_run.is_complete:
+                Utils.play_sound()
+        else:
+            self.label_pending["text"] = _("{0} pending generations").format(count_pending)
         self.master.update()
 
     def server_run_callback(self, workflow_type, args):
