@@ -93,6 +93,8 @@
     "image_searcher_dir": "D:\\stable-diffusion-webui\\log\\images",
     "image_searcher_dir2": "D:\\img",
 
+    "max_executor_threads": 4,
+
     "interrogator_initial_question_categories": {
         "category1": true,
         "category2": false

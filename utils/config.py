@@ -35,6 +35,8 @@ class Config:
         self.interrogator_questions_file = None
         self.interrogator_folder_category_mappings_file = None
 
+        self.max_executor_threads = 4
+
         self.server_port = 6000
         self.server_password = "<PASSWORD>"
         self.server_host = "localhost"
@@ -58,19 +60,25 @@ class Config:
             print(e)
             print("Unable to load config. Ensure config.json file settings are correct.")
 
+        self.set_values(int,
+                        "max_executor_threads",
+        )
         self.set_values(str,
                         "foreground_color",
                         "background_color",
                         "comfyui_url",
                         "sd_webui_url",
-                        "server_password")
+                        "server_password",
+        )
         self.set_values(list,
                         "gen_order",
                         "redo_parameters",
                         "model_presets",
-                        "prompt_presets")
+                        "prompt_presets",
+        )
         self.set_values(dict, 
-                        "wildcards")
+                        "wildcards",
+        )
         self.set_directories(
             "models_dir",
             "img_dir",

@@ -18,7 +18,7 @@ class BaseImageGenerator(ABC):
     ORDER = config.gen_order
     RANDOM_SKIP_CHANCE = config.dict["random_skip_chance"]
 
-    _executor = ThreadPoolExecutor(max_workers=8)  # Central executor
+    _executor = ThreadPoolExecutor(max_workers=config.max_executor_threads)  # Central executor
     _executor_lock = threading.Lock()  # For thread-safe counter updates
     
     pending_counter = 0

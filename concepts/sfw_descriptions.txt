@@ -6,6 +6,7 @@ ancient
 appalling
 benevolent
 bulky
+civil
 comfy
 cute
 evil
@@ -213,6 +214,9 @@ dull eyes
 angry eyes
 eyes visible through hair
 soft eyes
+sad eyed
+one-eyed
+mad-eye
 
 
 fair skin

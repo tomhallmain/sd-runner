@@ -26,6 +26,7 @@ art gallery
 artificial planet
 army base
 asphalt
+asylum
 at $$random_word
 at a $$random_word
 at a dance club
@@ -313,6 +314,7 @@ online
 open sea
 orchard
 overpass
+palisade
 pantry
 parade
 park
@@ -359,6 +361,7 @@ seaplane
 seaport
 secluded grove
 service desk
+settlement
 shack
 shipwreck
 shipyard
@@ -400,6 +403,8 @@ telephone booth
 tenement
 temple
 tent
+terra
+territories
 the abyss
 the projects
 theater
