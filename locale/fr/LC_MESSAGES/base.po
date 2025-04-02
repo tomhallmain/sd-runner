@@ -1,38 +1,28 @@
-# APPLICATION TRANSLATIONS
-# AUTHOR NAME <author@example.com>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-03-19 21:35-0400\n"
-"PO-Revision-Date: 2025-03-19 21:35-0400\n"
+"POT-Creation-Date: 2025-04-02 13:30-0400\n"
+"PO-Revision-Date: 2025-04-02 13:30-0400\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
-"Language: fr\n"
 "Language-Team: fr Team <<EMAIL>>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=cp1252\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-
-#: .\utils\job_queue.py:40
-msgid " (Pending runs: {0})"
-msgstr " (Ex\u00e9cutions en attente : {0})"
-
-#: .\utils\job_queue.py:42
-msgid " (Pending schedules: {0})"
-msgstr " (Horaires en attente : {0})"
-
-#: .\app.py:146
-msgid "Run ComfyUI Workflows"
-msgstr "Ex\u00e9cuter les flux de travail ComfyUI"
+#: .\app.py:116
+msgid "Run SD Workflows"
+msgstr "Exécuter les flux de travail SD"
 
 #: .\app.py:120
 msgid "Run Workflows"
-msgstr "Ex\u00e9cuter flux de travail"
+msgstr "Exécuter flux de travail"
 
 #: .\app.py:122
 msgid "Cancel Run"
-msgstr "Annuler l'ex\u00e9cution"
+msgstr "Annuler l'exécution"
 
 #: .\app.py:130
 msgid "Software"
@@ -52,39 +42,39 @@ msgstr "Fixer Total"
 
 #: .\app.py:159
 msgid "Delay Seconds"
-msgstr "D\u00e9lai en secondes"
+msgstr "Délai en secondes"
 
 #: .\app.py:165
 msgid "Resolutions"
-msgstr "R\u00e9solutions"
+msgstr "Résolutions"
 
 #: .\app.py:172
 msgid "Model Tags"
-msgstr "\u00c9tiquettes du mod\u00e8le"
+msgstr "Étiquettes du modèle"
 
 #: .\app.py:187
 msgid "LoRA Tags"
-msgstr "\u00c9tiquettes LoRA"
+msgstr "Étiquettes LoRA"
 
 #: .\app.py:203
 msgid "Default LoRA Strength"
-msgstr "Force par d\u00e9faut de la LoRA"
+msgstr "Force par défaut de la LoRA"
 
 #: .\app.py:209
 msgid "Prompt Massage Tags"
-msgstr "\u00c9tiquettes de massages rapides"
+msgstr "Étiquettes de massages rapides"
 
 #: .\app.py:217
 msgid "Positive Tags"
-msgstr "\u00c9tiquettes positives"
+msgstr "Étiquettes positives"
 
 #: .\app.py:224
 msgid "Negative Tags"
-msgstr "\u00c9tiquettes n\u00e9gatifs"
+msgstr "Étiquettes négatifs"
 
 #: .\app.py:232
 msgid "B/W Colorization Tags"
-msgstr "\u00c9tiquettes de colorisation N/B"
+msgstr "Étiquettes de colorisation N/B"
 
 #: .\app.py:240
 msgid "Control Net or Redo files"
@@ -92,7 +82,7 @@ msgstr "Fichiers ControlNet ou Refaire"
 
 #: .\app.py:247
 msgid "Default Control Net Strength"
-msgstr "Force de ControlNet par d\u00e9faut"
+msgstr "Force de ControlNet par défaut"
 
 #: .\app.py:253
 msgid "IPAdapter files"
@@ -100,15 +90,15 @@ msgstr "Fichiers IPAdapter"
 
 #: .\app.py:260
 msgid "Default IPAdapter Strength"
-msgstr "Force de IPAdapter par d\u00e9faut"
+msgstr "Force de IPAdapter par défaut"
 
 #: .\app.py:266
 msgid "Redo Parameters"
-msgstr "Param\u00e8tres de r\u00e9tablissement"
+msgstr "Paramètres de rétablissement"
 
 #: .\app.py:282
 msgid "Sampler"
-msgstr "\u00c9chantillon"
+msgstr "Échantillon"
 
 #: .\app.py:288
 msgid "Scheduler"
@@ -120,7 +110,7 @@ msgstr "Semence"
 
 #: .\app.py:301
 msgid "Steps"
-msgstr "\u00c9tapes"
+msgstr "Étapes"
 
 #: .\app.py:308
 msgid "CFG"
@@ -128,7 +118,7 @@ msgstr "CFG"
 
 #: .\app.py:315
 msgid "Denoise"
-msgstr "D\u00e9noisement"
+msgstr "Dénoisement"
 
 #: .\app.py:322
 msgid "Random Skip Chance"
@@ -144,7 +134,7 @@ msgstr "Mode invite"
 
 #: .\app.py:340
 msgid "Concepts Dir"
-msgstr "R\u00e9pertoire des concepts"
+msgstr "Répertoire des concepts"
 
 #: .\app.py:349
 msgid "Concepts"
@@ -160,7 +150,7 @@ msgstr "Lieux"
 
 #: .\app.py:376
 msgid "Specific Locations Chance"
-msgstr "Chance des lieux sp\u00e9cifiques"
+msgstr "Chance des lieux spécifiques"
 
 #: .\app.py:382
 msgid "Animals"
@@ -196,11 +186,11 @@ msgstr "Personnages"
 
 #: .\app.py:454
 msgid "Random Words"
-msgstr "Mots al\u00e9atoires"
+msgstr "Mots aléatoires"
 
 #: .\app.py:463
 msgid "Nonsense"
-msgstr "Absurdit\u00e9s"
+msgstr "Absurdités"
 
 #: .\app.py:472
 msgid "Multiplier"
@@ -208,7 +198,7 @@ msgstr "Multiplicateur"
 
 #: .\app.py:483
 msgid "Specify Humans Chance"
-msgstr "Chance de sp\u00e9cifier les humains"
+msgstr "Chance de spécifier les humains"
 
 #: .\app.py:489
 msgid "Art Styles Chance"
@@ -220,7 +210,7 @@ msgstr "Chance de l'emphase"
 
 #: .\app.py:505
 msgid "Override Resolution"
-msgstr "Ignorer la r\u00e9solution"
+msgstr "Ignorer la résolution"
 
 #: .\app.py:509
 msgid "Inpainting"
@@ -228,35 +218,35 @@ msgstr "Peinture"
 
 #: .\app.py:513
 msgid "Override Base Negative"
-msgstr "Annulation N\u00e9gatif"
+msgstr "Annulation Négatif"
 
 #: .\app.py:517
 msgid "Tags Applied to Prompt Start"
-msgstr "\u00c9tiquettes appliqu\u00e9s \u00e0 l'appel \u00e0 invite"
+msgstr "Étiquettes appliqués à l'appel à invite"
 
 #: .\app.py:521
 msgid "Sparse Mixed Tags"
-msgstr "\u00c9tiquettes mixtes \u00e9pars"
+msgstr "Étiquettes mixtes épars"
 
 #: .\app.py:525
 msgid "Run Preset Schedule"
-msgstr "Ex\u00e9cution d'un programme pr\u00e9d\u00e9fini"
+msgstr "Exécution d'un programme prédéfini"
 
 #: .\app.py:530
 msgid "Preset Schedule Window"
-msgstr "Fen\u00eatre de programmation pr\u00e9d\u00e9finie"
+msgstr "Fenêtre de programmation prédéfinie"
 
 #: .\app.py:531 .\app.py:1135 .\ui\presets_window_qt.py:27
 msgid "Presets Window"
-msgstr "Fen\u00eatre des pr\u00e9r\u00e9glages"
+msgstr "Fenêtre des préréglages"
 
 #: .\app.py:535
 msgid "Tag Blacklist"
-msgstr "Liste noire des \u00e9tiquettes"
+msgstr "Liste noire des étiquettes"
 
 #: .\app.py:536 .\app.py:1153
 msgid "Expansions Window"
-msgstr "Fen\u00eatre d'expansion"
+msgstr "Fenêtre d'expansion"
 
 #: .\app.py:593
 msgid "Confirm Quit"
@@ -268,23 +258,31 @@ msgstr "Souhaitez-vous quitter l'application ?"
 
 #: .\app.py:827 .\app.py:844
 msgid "Confirm Run"
-msgstr "Confirmer l'ex\u00e9cution"
+msgstr "Confirmer l'exécution"
 
 #: .\app.py:828
-msgid "Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"
-msgstr "Le lancement d'une nouvelle course annulera le programme pr\u00e9d\u00e9fini en cours. \u00cates-vous s\u00fbr de vouloir continuer ?"
+msgid ""
+"Starting a new run will cancel the current preset schedule. Are you sure you"
+" want to proceed?"
+msgstr ""
+"Le lancement d'une nouvelle course annulera le programme prédéfini en cours."
+" Êtes-vous sûr de vouloir continuer ?"
 
 #: .\app.py:845
 msgid "Are you sure you want to proceed?"
-msgstr "\u00cates-vous s\u00fbr de vouloir continuer ?"
+msgstr "Êtes-vous sûr de vouloir continuer ?"
 
 #: .\app.py:941 .\app_qt.py:375
 msgid " (unlimited)"
-msgstr " (illimit\u00e9)"
+msgstr " (illimité)"
+
+#: .\app.py:960
+msgid "{0} pending generations"
+msgstr "{0} générations en attente"
 
 #: .\app.py:1126 .\ui\tags_blacklist_window_qt.py:16
 msgid "Tags Blacklist"
-msgstr "Liste noire des \u00e9tiquettes"
+msgstr "Liste noire des étiquettes"
 
 #: .\app.py:1171
 msgid "Error"
@@ -294,17 +292,29 @@ msgstr "Erreur"
 msgid " ComfyGen "
 msgstr " Coureur SD "
 
+#: .\app_qt.py:225
+msgid "Prompter Configuration"
+msgstr "Configuration du prompteur"
+
 #: .\sd_runner\run_config.py:52
 msgid "No prompter config found!"
-msgstr "Aucune configuration du prompteur n'a \u00e9t\u00e9 trouv\u00e9e !"
+msgstr "Aucune configuration du prompteur n'a été trouvée !"
 
 #: .\sd_runner\run_config.py:55
-msgid "Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"
-msgstr "Assurez-vous que la configuration est correcte - souhaitez-vous vraiment cr\u00e9er plus de 10 images \u00e0 l'aide de la m\u00eame invite ?"
+msgid ""
+"Ensure configuration is correct - do you really want to create more than 10 "
+"images using the same prompt?"
+msgstr ""
+"Assurez-vous que la configuration est correcte - souhaitez-vous vraiment "
+"créer plus de 10 images à l'aide de la même invite ?"
 
 #: .\sd_runner\run_config.py:60
-msgid "A model switch was detected and the model massage tags don't match. This warning will only be shown once."
-msgstr "Un changement de mod\u00e8le a \u00e9t\u00e9 d\u00e9tect\u00e9 et les \u00e9tiquettes de massage du mod\u00e8le ne correspondent pas. Cet avertissement ne sera affich\u00e9 qu'une seule fois."
+msgid ""
+"A model switch was detected and the model massage tags don't match. This "
+"warning will only be shown once."
+msgstr ""
+"Un changement de modèle a été détecté et les étiquettes de massage du modèle"
+" ne correspondent pas. Cet avertissement ne sera affiché qu'une seule fois."
 
 #: .\ui\concept_editor_window.py:98 .\ui\tags_blacklist_window.py:105
 msgid "Remove"
@@ -312,16 +322,129 @@ msgstr "Supprimer"
 
 #: .\ui\concept_editor_window.py:112 .\ui\tags_blacklist_window.py:119
 msgid "Removed tag: {0}"
-msgstr "Suppression de l'\u00e9tiquette : {0}"
+msgstr "Suppression de l'étiquette : {0}"
 
 #: .\ui\concept_editor_window.py:127 .\ui\tags_blacklist_window.py:134
 #: .\ui\tags_blacklist_window_qt.py:92
 msgid "Added tag to blacklist: {0}"
-msgstr "Ajout d'une \u00e9tiquette \u00e0 la liste noire : {0}"
+msgstr "Ajout d'une étiquette à la liste noire : {0}"
 
 #: .\ui\concept_editor_window.py:201 .\ui\tags_blacklist_window.py:208
 msgid "Cleared tag blacklist"
-msgstr "Effacement de la liste noire des \u00e9tiquettes"
+msgstr "Effacement de la liste noire des étiquettes"
+
+#: .\ui\concept_editor_window_qt.py:19
+msgid "Concept Editor"
+msgstr "Éditeur de concepts"
+
+#: .\ui\concept_editor_window_qt.py:36
+msgid "Search concepts..."
+msgstr "Rechercher des concepts..."
+
+#: .\ui\concept_editor_window_qt.py:47 .\ui\expansions_window_qt.py:68
+msgid "New"
+msgstr "Nouveau"
+
+#: .\ui\concept_editor_window_qt.py:49 .\ui\expansions_window.py:197
+#: .\ui\presets_window.py:143 .\ui\schedules_windows.py:88
+#: .\ui\schedules_windows.py:288
+msgid "Delete"
+msgstr "Supprimer"
+
+#: .\ui\concept_editor_window_qt.py:65
+msgid "Name:"
+msgstr "Nom:"
+
+#: .\ui\concept_editor_window_qt.py:73
+msgid "Type:"
+msgstr "Type:"
+
+#: .\ui\concept_editor_window_qt.py:82
+msgid "Trigger:"
+msgstr "Déclencheur :"
+
+#: .\ui\concept_editor_window_qt.py:90
+msgid "Weight:"
+msgstr "Poids:"
+
+#: .\ui\concept_editor_window_qt.py:100 .\ui\expansions_window_qt.py:51
+msgid "Value:"
+msgstr "Valeur :"
+
+#: .\ui\concept_editor_window_qt.py:110
+msgid "Browse"
+msgstr "Parcourir"
+
+#: .\ui\concept_editor_window_qt.py:117
+msgid "Active"
+msgstr "Activité"
+
+#: .\ui\concept_editor_window_qt.py:122 .\ui\expansions_window_qt.py:58
+#: .\ui\schedules_window_qt.py:95
+msgid "Save"
+msgstr "Enregistrer"
+
+#: .\ui\concept_editor_window_qt.py:141
+msgid "Import"
+msgstr "Importation"
+
+#: .\ui\concept_editor_window_qt.py:142
+msgid "Export"
+msgstr "Exportations"
+
+#: .\ui\concept_editor_window_qt.py:143 .\ui\expansions_window_qt.py:70
+#: .\ui\presets_window_qt.py:59 .\ui\schedules_window_qt.py:97
+#: .\ui\schedules_window_qt.py:169 .\ui\tags_blacklist_window_qt.py:52
+msgid "Close"
+msgstr "Fermer"
+
+#: .\ui\concept_editor_window_qt.py:232
+msgid "Updated concept: {0} -> {1}"
+msgstr "Concept actualisé : {0} -> {1}"
+
+#: .\ui\concept_editor_window_qt.py:234
+msgid "Saved concept: {0}"
+msgstr "Concept sauvegardé : {0}"
+
+#: .\ui\concept_editor_window_qt.py:247
+msgid "Deleted concept: {0}"
+msgstr "Concept supprimé: {0}"
+
+#: .\ui\concept_editor_window_qt.py:252
+msgid "Select Image"
+msgstr "Sélectionner l'image"
+
+#: .\ui\concept_editor_window_qt.py:254
+msgid "Image Files (*.png *.jpg *.jpeg *.bmp *.gif)"
+msgstr "Fichiers d'images (*.png *.jpg *.jpeg *.bmp *.gif)"
+
+#: .\ui\concept_editor_window_qt.py:262
+msgid "Import Concepts"
+msgstr "Importer des concepts"
+
+#: .\ui\concept_editor_window_qt.py:264 .\ui\concept_editor_window_qt.py:286
+msgid "JSON Files (*.json)"
+msgstr "Fichiers JSON (*.json)"
+
+#: .\ui\concept_editor_window_qt.py:276
+msgid "Imported concepts from: {0}"
+msgstr "Concepts importés de : {0}"
+
+#: .\ui\concept_editor_window_qt.py:279
+msgid "Error importing concepts: {0}"
+msgstr "Erreur d'importation des concepts : {0}"
+
+#: .\ui\concept_editor_window_qt.py:284
+msgid "Export Concepts"
+msgstr "Exporter des concepts"
+
+#: .\ui\concept_editor_window_qt.py:295
+msgid "Exported concepts to: {0}"
+msgstr "Concepts exportés vers: {0}"
+
+#: .\ui\concept_editor_window_qt.py:298
+msgid "Error exporting concepts: {0}"
+msgstr "Erreur dans l'exportation des concepts : {0}"
 
 #: .\ui\expansions_window.py:28
 msgid "Modify Expansion: {0}"
@@ -345,15 +468,15 @@ msgstr "Fait"
 
 #: .\ui\expansions_window.py:104
 msgid "New Expansion (ERROR no expansions found)"
-msgstr "Nouvelle expansion (ERREUR aucune expansion trouv\u00e9e)"
+msgstr "Nouvelle expansion (ERREUR aucune expansion trouvée)"
 
 #: .\ui\expansions_window.py:135
 msgid "Not enough expansions found."
-msgstr "Il n'y a pas assez d'expansions trouv\u00e9es."
+msgstr "Il n'y a pas assez d'expansions trouvées."
 
 #: .\ui\expansions_window.py:162
 msgid "Add or update expansions"
-msgstr "Ajouter ou mettre \u00e0 jour des expansions"
+msgstr "Ajouter ou mettre à jour des expansions"
 
 #: .\ui\expansions_window.py:164
 msgid "Add expansion"
@@ -367,223 +490,9 @@ msgstr "Des expansions claires"
 msgid "Modify"
 msgstr "Modifier"
 
-#: .\ui\concept_editor_window_qt.py:49 .\ui\expansions_window.py:197
-#: .\ui\presets_window.py:143 .\ui\schedules_windows.py:88
-#: .\ui\schedules_windows.py:288
-msgid "Delete"
-msgstr "Supprimer"
-
 #: .\ui\expansions_window.py:232
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
-msgstr "ID d'expansion \u00ab {0} \u00bb ou texte \u00ab {1} \u00bb non valide"
-
-#: .\ui\presets_window.py:52 .\ui\presets_window_qt.py:160
-msgid "New Preset (ERROR no presets found)"
-msgstr "Nouveau pr\u00e9r\u00e9glage (ERREUR aucun pr\u00e9r\u00e9glage trouv\u00e9)"
-
-#: .\ui\presets_window.py:83
-msgid "Not enough presets found."
-msgstr "Pas assez de pr\u00e9r\u00e9glages trouv\u00e9s."
-
-#: .\ui\presets_window.py:111
-msgid "Set a new preset"
-msgstr "D\u00e9finir un nouveau pr\u00e9r\u00e9glage"
-
-#: .\ui\presets_window.py:112 .\ui\presets_window_qt.py:56
-msgid "New Preset"
-msgstr "Nouveau pr\u00e9r\u00e9glage"
-
-#: .\ui\presets_window.py:116
-msgid "Add preset"
-msgstr "Ajouter un pr\u00e9r\u00e9glage"
-
-#: .\ui\presets_window.py:118
-msgid "Clear presets"
-msgstr "Effacer les pr\u00e9r\u00e9glages"
-
-#: .\ui\presets_window.py:136 .\ui\schedules_windows.py:274
-msgid "Set"
-msgstr "R\u00e9gler"
-
-#: .\ui\presets_window.py:160
-msgid "Invalid preset: {0}"
-msgstr "Pr\u00e9r\u00e9glage non valide : {0}"
-
-#: .\ui\schedule.py:14 .\ui\schedules_window_qt.py:54
-#: .\ui\schedules_window_qt.py:165 .\ui\schedules_windows.py:40
-msgid "New Schedule"
-msgstr "Nouveau horaire"
-
-#: .\ui\schedule.py:72
-msgid "{0} ({1} runs)"
-msgstr "{0} ({1} courses)"
-
-#: .\ui\schedules_windows.py:27
-msgid "Modify Preset Schedule: {0}"
-msgstr "Modifier l'horaire pr\u00e9d\u00e9fini : {0}"
-
-#: .\ui\schedules_window_qt.py:51 .\ui\schedules_windows.py:38
-msgid "Modify Schedule"
-msgstr "Modifier l'horaire"
-
-#: .\ui\schedules_windows.py:45 .\ui\schedules_windows.py:251
-msgid "Add schedule"
-msgstr "Ajouter un horaire"
-
-#: .\ui\schedules_windows.py:48
-msgid "Add Preset Task"
-msgstr "Ajouter une t\u00e2che pr\u00e9d\u00e9finie"
-
-#: .\ui\schedules_windows.py:96
-msgid "Move Down"
-msgstr "D\u00e9placer vers le bas"
-
-#: .\ui\schedules_windows.py:221
-msgid "Not enough schedules found."
-msgstr "Il n'y a pas assez d'horaires trouv\u00e9s."
-
-#: .\ui\schedules_windows.py:230
-msgid "Preset Schedules"
-msgstr "Horaires pr\u00e9d\u00e9finis"
-
-#: .\ui\schedules_windows.py:253
-msgid "Clear schedules"
-msgstr "Des horaires clairs"
-
-#: .\ui\schedules_window_qt.py:205 .\ui\schedules_windows.py:309
-msgid "Current schedule: {0}"
-msgstr "Horaire actuel : {0}"
-
-#: .\ui\tags_blacklist_window.py:81
-msgid "Add to tag blacklist"
-msgstr "Ajouter \u00e0 la liste noire des \u00e9tiquettes"
-
-#: .\ui\tags_blacklist_window.py:83
-msgid "Add tag"
-msgstr "Ajouter \u00e9tiquette"
-
-#: .\ui\tags_blacklist_window.py:88
-msgid "Clear tags"
-msgstr "Effacer les \u00e9tiquettes"
-
-#: .\app.py:116
-msgid "Run SD Workflows"
-msgstr "Ex\u00e9cuter les flux de travail SD"
-
-#: .\app.py:960
-msgid "{0} pending generations"
-msgstr "{0} g\u00e9n\u00e9rations en attente"
-
-#: .\app_qt.py:225
-msgid "Prompter Configuration"
-msgstr "Configuration du prompteur"
-
-#: .\ui\concept_editor_window_qt.py:19
-msgid "Concept Editor"
-msgstr "\u00c9diteur de concepts"
-
-#: .\ui\concept_editor_window_qt.py:36
-msgid "Search concepts..."
-msgstr "Rechercher des concepts..."
-
-#: .\ui\concept_editor_window_qt.py:47 .\ui\expansions_window_qt.py:68
-msgid "New"
-msgstr "Nouveau"
-
-#: .\ui\concept_editor_window_qt.py:65
-msgid "Name:"
-msgstr "Nom:"
-
-#: .\ui\concept_editor_window_qt.py:73
-msgid "Type:"
-msgstr "Type:"
-
-#: .\ui\concept_editor_window_qt.py:82
-msgid "Trigger:"
-msgstr "D\u00e9clencheur :"
-
-#: .\ui\concept_editor_window_qt.py:90
-msgid "Weight:"
-msgstr "Poids:"
-
-#: .\ui\concept_editor_window_qt.py:100 .\ui\expansions_window_qt.py:51
-msgid "Value:"
-msgstr "Valeur :"
-
-#: .\ui\concept_editor_window_qt.py:110
-msgid "Browse"
-msgstr "Parcourir"
-
-#: .\ui\concept_editor_window_qt.py:117
-msgid "Active"
-msgstr "Activit\u00e9"
-
-#: .\ui\concept_editor_window_qt.py:122 .\ui\expansions_window_qt.py:58
-#: .\ui\schedules_window_qt.py:95
-msgid "Save"
-msgstr "Enregistrer"
-
-#: .\ui\concept_editor_window_qt.py:141
-msgid "Import"
-msgstr "Importation"
-
-#: .\ui\concept_editor_window_qt.py:142
-msgid "Export"
-msgstr "Exportations"
-
-#: .\ui\concept_editor_window_qt.py:143 .\ui\expansions_window_qt.py:70
-#: .\ui\presets_window_qt.py:59 .\ui\schedules_window_qt.py:97
-#: .\ui\schedules_window_qt.py:169 .\ui\tags_blacklist_window_qt.py:52
-msgid "Close"
-msgstr "Fermer"
-
-#: .\ui\concept_editor_window_qt.py:232
-msgid "Updated concept: {0} -> {1}"
-msgstr "Concept actualis\u00e9 : {0} -> {1}"
-
-#: .\ui\concept_editor_window_qt.py:234
-msgid "Saved concept: {0}"
-msgstr "Concept sauvegard\u00e9 : {0}"
-
-#: .\ui\concept_editor_window_qt.py:247
-msgid "Deleted concept: {0}"
-msgstr "Concept supprim\u00e9: {0}"
-
-#: .\ui\concept_editor_window_qt.py:252
-msgid "Select Image"
-msgstr "S\u00e9lectionner l'image"
-
-#: .\ui\concept_editor_window_qt.py:254
-msgid "Image Files (*.png *.jpg *.jpeg *.bmp *.gif)"
-msgstr "Fichiers d'images (*.png *.jpg *.jpeg *.bmp *.gif)"
-
-#: .\ui\concept_editor_window_qt.py:262
-msgid "Import Concepts"
-msgstr "Importer des concepts"
-
-#: .\ui\concept_editor_window_qt.py:264 .\ui\concept_editor_window_qt.py:286
-msgid "JSON Files (*.json)"
-msgstr "Fichiers JSON (*.json)"
-
-#: .\ui\concept_editor_window_qt.py:276
-msgid "Imported concepts from: {0}"
-msgstr "Concepts import\u00e9s de : {0}"
-
-#: .\ui\concept_editor_window_qt.py:279
-msgid "Error importing concepts: {0}"
-msgstr "Erreur d'importation des concepts : {0}"
-
-#: .\ui\concept_editor_window_qt.py:284
-msgid "Export Concepts"
-msgstr "Exporter des concepts"
-
-#: .\ui\concept_editor_window_qt.py:295
-msgid "Exported concepts to: {0}"
-msgstr "Concepts export\u00e9s vers: {0}"
-
-#: .\ui\concept_editor_window_qt.py:298
-msgid "Error exporting concepts: {0}"
-msgstr "Erreur dans l'exportation des concepts : {0}"
+msgstr "ID d'expansion « {0} » ou texte « {1} » non valide"
 
 #: .\ui\expansions_window_qt.py:16
 msgid "Expansions"
@@ -595,44 +504,89 @@ msgstr "Rechercher les extensions..."
 
 #: .\ui\expansions_window_qt.py:43
 msgid "Key:"
-msgstr "Cl\u00e9 :"
+msgstr "Clé :"
 
 #: .\ui\expansions_window_qt.py:69 .\ui\presets_window_qt.py:58
 #: .\ui\schedules_window_qt.py:168 .\ui\tags_blacklist_window_qt.py:51
 msgid "Delete Selected"
-msgstr "Supprimer la s\u00e9lection"
+msgstr "Supprimer la sélection"
 
 #: .\ui\expansions_window_qt.py:139
 msgid "Updated expansion: {0} -> {1}"
-msgstr "Extension mise \u00e0 jour : {0} -> {1}"
+msgstr "Extension mise à jour : {0} -> {1}"
 
 #: .\ui\expansions_window_qt.py:141
 msgid "Saved expansion: {0}"
-msgstr "Extension sauvegard\u00e9e : {0}"
+msgstr "Extension sauvegardée : {0}"
 
 #: .\ui\expansions_window_qt.py:155
 msgid "Deleted expansion: {0}"
-msgstr "Extension supprim\u00e9e : {0}"
+msgstr "Extension supprimée : {0}"
+
+#: .\ui\presets_window.py:52 .\ui\presets_window_qt.py:160
+msgid "New Preset (ERROR no presets found)"
+msgstr "Nouveau préréglage (ERREUR aucun préréglage trouvé)"
+
+#: .\ui\presets_window.py:83
+msgid "Not enough presets found."
+msgstr "Pas assez de préréglages trouvés."
+
+#: .\ui\presets_window.py:111
+msgid "Set a new preset"
+msgstr "Définir un nouveau préréglage"
+
+#: .\ui\presets_window.py:112 .\ui\presets_window_qt.py:56
+msgid "New Preset"
+msgstr "Nouveau préréglage"
+
+#: .\ui\presets_window.py:116
+msgid "Add preset"
+msgstr "Ajouter un préréglage"
+
+#: .\ui\presets_window.py:118
+msgid "Clear presets"
+msgstr "Effacer les préréglages"
+
+#: .\ui\presets_window.py:136 .\ui\schedules_windows.py:274
+msgid "Set"
+msgstr "Régler"
+
+#: .\ui\presets_window.py:160
+msgid "Invalid preset: {0}"
+msgstr "Préréglage non valide : {0}"
 
 #: .\ui\presets_window_qt.py:42
 msgid "Search presets..."
-msgstr "Pr\u00e9r\u00e9glages de recherche..."
+msgstr "Préréglages de recherche..."
 
 #: .\ui\presets_window_qt.py:57
 msgid "Apply Selected"
-msgstr "Appliquer la s\u00e9lection"
+msgstr "Appliquer la sélection"
 
 #: .\ui\presets_window_qt.py:111
 msgid "Created new preset: {0}"
-msgstr "Cr\u00e9ation d'un nouveau pr\u00e9r\u00e9glage : {0}"
+msgstr "Création d'un nouveau préréglage : {0}"
 
 #: .\ui\presets_window_qt.py:124
 msgid "Applied preset: {0}"
-msgstr "Pr\u00e9r\u00e9glage appliqu\u00e9: {0}"
+msgstr "Préréglage appliqué: {0}"
 
 #: .\ui\presets_window_qt.py:140
 msgid "Deleted preset: {0}"
-msgstr "Pr\u00e9r\u00e9glage supprim\u00e9: {0}"
+msgstr "Préréglage supprimé: {0}"
+
+#: .\ui\schedule.py:14 .\ui\schedules_window_qt.py:54
+#: .\ui\schedules_window_qt.py:165 .\ui\schedules_windows.py:40
+msgid "New Schedule"
+msgstr "Nouveau horaire"
+
+#: .\ui\schedule.py:72
+msgid "{0} ({1} runs)"
+msgstr "{0} ({1} courses)"
+
+#: .\ui\schedules_window_qt.py:51 .\ui\schedules_windows.py:38
+msgid "Modify Schedule"
+msgstr "Modifier l'horaire"
 
 #: .\ui\schedules_window_qt.py:62
 msgid "Schedule Name:"
@@ -640,19 +594,19 @@ msgstr "Nom d'horaire:"
 
 #: .\ui\schedules_window_qt.py:76
 msgid "Task name"
-msgstr "Nom de la t\u00e2che"
+msgstr "Nom de la tâche"
 
 #: .\ui\schedules_window_qt.py:82
 msgid "Add Task"
-msgstr "Ajouter une t\u00e2che"
+msgstr "Ajouter une tâche"
 
 #: .\ui\schedules_window_qt.py:96
 msgid "Delete Selected Task"
-msgstr "Supprimer la t\u00e2che s\u00e9lectionn\u00e9e"
+msgstr "Supprimer la tâche sélectionnée"
 
 #: .\ui\schedules_window_qt.py:135
 msgid "Schedules Window"
-msgstr "Fen\u00eatre des horaires"
+msgstr "Fenêtre des horaires"
 
 #: .\ui\schedules_window_qt.py:147
 msgid "Search schedules..."
@@ -660,37 +614,88 @@ msgstr "Horaires de recherche..."
 
 #: .\ui\schedules_window_qt.py:166
 msgid "Modify Selected"
-msgstr "Modifier la s\u00e9lection"
+msgstr "Modifier la sélection"
 
 #: .\ui\schedules_window_qt.py:167
 msgid "Set Selected"
-msgstr "D\u00e9finir la s\u00e9lection"
+msgstr "Définir la sélection"
+
+#: .\ui\schedules_window_qt.py:205 .\ui\schedules_windows.py:309
+msgid "Current schedule: {0}"
+msgstr "Horaire actuel : {0}"
 
 #: .\ui\schedules_window_qt.py:231
 msgid "Set schedule: {0}"
-msgstr "R\u00e9gler l'horaire: {0}"
+msgstr "Régler l'horaire: {0}"
 
 #: .\ui\schedules_window_qt.py:246
 msgid "Deleted schedule: {0}"
-msgstr "Horaire supprim\u00e9: {0}"
+msgstr "Horaire supprimé: {0}"
 
 #: .\ui\schedules_window_qt.py:265
 msgid "Saved schedule: {0}"
-msgstr "Horaire enregistr\u00e9: {0}"
+msgstr "Horaire enregistré: {0}"
+
+#: .\ui\schedules_windows.py:27
+msgid "Modify Preset Schedule: {0}"
+msgstr "Modifier l'horaire prédéfini : {0}"
+
+#: .\ui\schedules_windows.py:45 .\ui\schedules_windows.py:251
+msgid "Add schedule"
+msgstr "Ajouter un horaire"
+
+#: .\ui\schedules_windows.py:48
+msgid "Add Preset Task"
+msgstr "Ajouter une tâche prédéfinie"
+
+#: .\ui\schedules_windows.py:96
+msgid "Move Down"
+msgstr "Déplacer vers le bas"
+
+#: .\ui\schedules_windows.py:221
+msgid "Not enough schedules found."
+msgstr "Il n'y a pas assez d'horaires trouvés."
+
+#: .\ui\schedules_windows.py:230
+msgid "Preset Schedules"
+msgstr "Horaires prédéfinis"
+
+#: .\ui\schedules_windows.py:253
+msgid "Clear schedules"
+msgstr "Des horaires clairs"
+
+#: .\ui\tags_blacklist_window.py:81
+msgid "Add to tag blacklist"
+msgstr "Ajouter à la liste noire des étiquettes"
+
+#: .\ui\tags_blacklist_window.py:83
+msgid "Add tag"
+msgstr "Ajouter étiquette"
+
+#: .\ui\tags_blacklist_window.py:88
+msgid "Clear tags"
+msgstr "Effacer les étiquettes"
 
 #: .\ui\tags_blacklist_window_qt.py:28
 msgid "Search tags..."
-msgstr "Rechercher des \u00e9tiquettes"
+msgstr "Rechercher des étiquettes"
 
 #: .\ui\tags_blacklist_window_qt.py:40
 msgid "Enter tag to blacklist"
-msgstr "Entrer une \u00e9tiquette dans la liste noire"
+msgstr "Entrer une étiquette dans la liste noire"
 
 #: .\ui\tags_blacklist_window_qt.py:41
 msgid "Add Tag"
-msgstr "Ajouter une \u00e9tiquette"
+msgstr "Ajouter une étiquette"
 
 #: .\ui\tags_blacklist_window_qt.py:104
 msgid "Removed tag from blacklist: {0}"
-msgstr "Retirer l'\u00e9tiquette de la liste noire : {0}"
+msgstr "Retirer l'étiquette de la liste noire : {0}"
 
+#: .\utils\job_queue.py:40
+msgid " (Pending runs: {0})"
+msgstr " (Exécutions en attente : {0})"
+
+#: .\utils\job_queue.py:42
+msgid " (Pending schedules: {0})"
+msgstr " (Horaires en attente : {0})"
