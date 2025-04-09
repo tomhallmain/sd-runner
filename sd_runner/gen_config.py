@@ -4,7 +4,9 @@ import random
 from sd_runner.concepts import HardConcepts
 from utils.config import config
 from utils.globals import Globals, WorkflowType, ArchitectureType
-from sd_runner.models import IPAdapter, Model, Resolution
+from sd_runner.model_adapters import IPAdapter
+from sd_runner.models import Model
+from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from utils.utils import Utils
 

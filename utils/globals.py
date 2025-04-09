@@ -177,6 +177,8 @@ class ArchitectureType(Enum):
     SDXL = "SDXL"
     ILLUSTRIOUS = "ILLUSTRIOUS"
     TURBO = "TURBO"
+    FLUX = "FLUX"
 
     def is_xl(self):
         return self == ArchitectureType.SDXL or self == ArchitectureType.ILLUSTRIOUS
+

@@ -47,6 +47,10 @@
             }
         },
         {
+            "model_tags": "Ikastrious",
+            "architecture_type": "ILLUSTRIOUS"
+        },
+        {
             "model_tags": "opendalle",
             "clip_req": -2
         },

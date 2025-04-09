@@ -1,9 +1,10 @@
 import base64
 import json
 import os
-from urllib import request, parse, error
+from urllib import request, response, parse, error
 import time
 import traceback
+from typing import Optional
 
 from sd_runner.gen_config import GenConfig
 from utils.globals import Globals, WorkflowType, PromptTypeSDWebUI
@@ -40,7 +41,7 @@ class SDWebuiGen(BaseImageGenerator):
     def __init__(self, config=GenConfig(), ui_callbacks=None):
         super().__init__(config, ui_callbacks)
 
-    def prompt_setup(self, workflow_type, action, prompt, model, vae=None, resolution=None, **kw):
+    def prompt_setup(self, workflow_type: WorkflowType, action: str, prompt: Optional[WorkflowPromptSDWebUI], model: Model, vae=None, resolution=None, **kw):
         if prompt:
             raise Exception("Redo prompt not supported for SDWebui at this time")
             # prompt.set_from_workflow(workflow_type.value)
@@ -74,7 +75,7 @@ class SDWebuiGen(BaseImageGenerator):
     # def schedule_prompt(prompt, img2img=False, related_image_path=None, workflow=None):
     #     Utils.start_thread(self.queue_prompt, use_asyncio=False, args=[prompt, img2img, related_image_path, workflow])
 
-    def queue_prompt(self, prompt, img2img=False, related_image_path=None, workflow=None):
+    def queue_prompt(self, prompt: WorkflowPromptSDWebUI, img2img: bool=False, related_image_path: Optional[str]=None, workflow: Optional[WorkflowType]=None):
         api_endpoint = SDWebuiGen.IMG_2_IMG if img2img else SDWebuiGen.TXT_2_IMG
         data = prompt.get_json()
         req = request.Request(
@@ -83,12 +84,12 @@ class SDWebuiGen(BaseImageGenerator):
             data=data,
         )
         try:
-            response = request.urlopen(req)
-            self.save_image_data(response, related_image_path, workflow)
+            resp = request.urlopen(req)
+            self.save_image_data(resp, related_image_path, workflow)
         except error.URLError:
             raise Exception("Failed to connect to SD Web UI. Is SD Web UI running?")
 
-    def save_image_data(self, response, related_image_path=None, workflow=None):
+    def save_image_data(self, response: response, related_image_path: Optional[str]=None, workflow: Optional[WorkflowType]=None):
         resp_json = json.loads(response.read().decode('utf-8'))
         for index, image in enumerate(resp_json.get('images')):
             if workflow == PromptTypeSDWebUI.CONTROLNET and index % 2 == 1:

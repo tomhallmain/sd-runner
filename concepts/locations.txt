@@ -371,6 +371,7 @@ shopping center
 showroom
 shrine
 sidewalk
+sill
 ski resort
 skyscraper
 small town
@@ -409,6 +410,7 @@ the abyss
 the projects
 theater
 throne room
+toll booth
 tomb
 traffic jam
 traffic lights

@@ -3,7 +3,8 @@ import os
 
 from utils.config import config
 from utils.globals import Globals, WorkflowType, Sampler, Scheduler, ComfyNodeName, PromptTypeSDWebUI
-from sd_runner.models import Model, Resolution, LoraBundle
+from sd_runner.models import Model, LoraBundle
+from sd_runner.resolution import Resolution
 
 
 class TempRedoInputs:
@@ -18,6 +19,7 @@ class TempRedoInputs:
         self.lora = lora
         self.control_net = control_net
         self.ip_adapter = ip_adapter
+
 
 class KSamplerInputs:
     def __init__(self, ksampler_node_values, node_type=ComfyNodeName.KSAMPLER):
@@ -38,29 +40,20 @@ class KSamplerInputs:
         else:
             raise Exception("Unhandled node type: " + node_type)
 
+
 class WorkflowPrompt:
-    """
-    Used for creating new prompts to serve to the Comfy API
-    Can also be used for gathering information about prompts stored in images already created by Comfy
-    """
-    CLASS_TYPE = "class_type"
-    ID = "id"
-    INPUTS = "inputs"
-    NON_API_INPUTS = "widgets_values"
     PROMPTS_LOC = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), "prompts")
     LAST_PROMPT_FILENAME = "test.json"
     LAST_PROMPT_FILE = os.path.join(PROMPTS_LOC, LAST_PROMPT_FILENAME)
 
     def __init__(self, workflow_filename):
-        self.workflow_filename = workflow_filename
-        if self.workflow_filename.endswith(".png"):
-            self.full_path = workflow_filename
-            self.json = Globals.get_image_data_extractor().extract_prompt(self.full_path)
-        else:
-            self.full_path = os.path.join(WorkflowPrompt.PROMPTS_LOC, workflow_filename)
-            self.json = json.load(open(self.full_path, "r"))
-        self.temp_redo_inputs = None
-        self.is_xl = None
+        pass
+
+    def get_json(self):
+        raise NotImplementedError("WorkflowPrompt.get_json() must be implemented by subclasses")
+
+    def set_from_workflow(self, workflow_filename):
+        raise NotImplementedError("WorkflowPrompt.set_from_workflow() must be implemented by subclasses")
 
     @staticmethod
     def setup_workflow(workflow_tag, control_nets, ip_adapters):
@@ -91,6 +84,28 @@ class WorkflowPrompt:
             control_nets.clear()
             control_nets.append(None)
         return workflow
+
+
+class WorkflowPromptComfy(WorkflowPrompt):
+    """
+    Used for creating new prompts to serve to the Comfy API
+    Can also be used for gathering information about prompts stored in images already created by Comfy
+    """
+    CLASS_TYPE = "class_type"
+    ID = "id"
+    INPUTS = "inputs"
+    NON_API_INPUTS = "widgets_values"
+
+    def __init__(self, workflow_filename):
+        self.workflow_filename = workflow_filename
+        if self.workflow_filename.endswith(".png"):
+            self.full_path = workflow_filename
+            self.json = Globals.get_image_data_extractor().extract_prompt(self.full_path)
+        else:
+            self.full_path = os.path.join(WorkflowPrompt.PROMPTS_LOC, workflow_filename)
+            self.json = json.load(open(self.full_path, "r"))
+        self.temp_redo_inputs = None
+        self.is_xl = None
 
     def set_from_workflow(self, workflow_filename):
         self.workflow_filename = workflow_filename
@@ -555,7 +570,7 @@ class WorkflowPrompt:
 
 
 
-class WorkflowPromptSDWebUI:
+class WorkflowPromptSDWebUI(WorkflowPrompt):
     """
     Used for creating new prompts to serve to the SD Web UI API
     Can also be used for gathering information about prompts stored in images already created by Comfy

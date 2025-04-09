@@ -1,6 +1,6 @@
 import os
 
-from sd_runner.models import IPAdapter
+from sd_runner.model_adapters import IPAdapter
 from utils.utils import Utils
 
 redo_files = [

@@ -1,7 +1,7 @@
 import os
 
 from utils.globals import Globals
-from sd_runner.models import ControlNet
+from sd_runner.model_adapters import ControlNet
 from utils.utils import Utils
 
 redo_files = [

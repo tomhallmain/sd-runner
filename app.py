@@ -19,7 +19,8 @@ from lib.aware_entry import AwareEntry, AwareText
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.concepts import PromptMode
 from sd_runner.gen_config import GenConfig
-from sd_runner.models import IPAdapter, Model
+from sd_runner.model_adapters import IPAdapter
+from sd_runner.models import Model
 from sd_runner.prompter import Prompter
 from sd_runner.run_config import RunConfig
 from ui.app_actions import AppActions

@@ -1,13 +1,14 @@
 import json
-from urllib import request, parse, error
+from urllib import request, response, parse, error
 import traceback
+from typing import Optional
 
 from sd_runner.gen_config import GenConfig
 from utils.globals import Globals, WorkflowType, ComfyNodeName
 
 from sd_runner.base_image_generator import BaseImageGenerator
 from sd_runner.models import Model, LoraBundle
-from sd_runner.workflow_prompt import WorkflowPrompt
+from sd_runner.workflow_prompt import WorkflowPrompt, WorkflowPromptComfy
 from utils.config import config
 from utils.utils import Utils
 
@@ -20,22 +21,25 @@ class ComfyGen(BaseImageGenerator):
     def __init__(self, config=GenConfig(), ui_callbacks=None):
         super().__init__(config, ui_callbacks)
 
-    def prompt_setup(self, workflow_type, action, prompt, model, vae=None, resolution=None, **kw):
+    def prompt_setup(self, workflow_type: WorkflowType, action: str, prompt: Optional[WorkflowPrompt], model: Model, vae=None, resolution=None, **kw):
         if prompt:
+            # NOTE this is only needed for redo_with_different_parameter case `if not prompt.validate_api_prompt()`
             prompt.set_from_workflow(workflow_type.value)
             model, vae = prompt.check_for_existing_image(model, vae, resolution)
         else:
             self.print_pre(action=action, model=model, vae=vae, resolution=resolution, **kw)
+            if model.is_flux():
+                raise Exception("Flux models not supported in SDRunner's ComfyUI implementation at this time")
             if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN_LORA:
                 lora = kw["lora"]
                 if isinstance(lora, LoraBundle):
-                    prompt = WorkflowPrompt("simple_image_gen_lora2.json")
+                    prompt = WorkflowPromptComfy("simple_image_gen_lora2.json")
             if workflow_type == WorkflowType.INSTANT_LORA and model.is_xl():
-                prompt = WorkflowPrompt("instant_lora_xl.json")
+                prompt = WorkflowPromptComfy("instant_lora_xl.json")
             if workflow_type == WorkflowType.CONTROLNET and model.is_xl():
-                prompt = WorkflowPrompt("controlnet_sdxl.json")
+                prompt = WorkflowPromptComfy("controlnet_sdxl.json")
             if not prompt:
-                prompt = WorkflowPrompt(workflow_type.value)
+                prompt = WorkflowPromptComfy(workflow_type.value)
         return prompt, model, vae
 
     def _get_workflows(self) -> dict:
@@ -57,7 +61,7 @@ class ComfyGen(BaseImageGenerator):
             WorkflowType.UPSCALE_SIMPLE: self.upscale_simple,
         }
 
-    def queue_prompt(self, prompt):
+    def queue_prompt(self, prompt: WorkflowPromptComfy):
         data = prompt.get_json()
         req = request.Request(ComfyGen.PROMPT_URL, data=data)
         try:

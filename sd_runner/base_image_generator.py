@@ -10,6 +10,8 @@ from utils.globals import Globals, WorkflowType
 
 from sd_runner.captioner import Captioner
 from sd_runner.gen_config import GenConfig
+from sd_runner.models import Model
+from sd_runner.workflow_prompt import WorkflowPrompt
 from ui.app_actions import AppActions
 from utils.config import config
 from utils.utils import Utils
@@ -63,7 +65,7 @@ class BaseImageGenerator(ABC):
             print(f"Started {self.counter} prompts, {self.latent_counter} images to be saved if all complete")
             self.reset_counters()
 
-    def print_pre(self, action, **kw):
+    def print_pre(self, action: str, **kw):
         if not "n_latents" in kw:
             raise Exception("Missing n_latents setting!")
         self.latent_counter += kw["n_latents"]
@@ -191,7 +193,7 @@ class BaseImageGenerator(ABC):
         pass
 
     @abstractmethod
-    def prompt_setup(self, workflow_type, action, prompt, model, vae=None, resolution=None, **kw):
+    def prompt_setup(self, workflow_type: WorkflowType, action: str, prompt: Optional[WorkflowPrompt], model: Model, vae=None, resolution=None, **kw):
         pass
 
     @abstractmethod
