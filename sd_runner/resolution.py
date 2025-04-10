@@ -148,7 +148,7 @@ class Resolution:
         if architecture_type == ArchitectureType.ILLUSTRIOUS:
             self.height = Resolution.get_illustrious_long_scale(self.scale-2)
             self.width = self.height
-        elif architecture_type == ArchitectureType.SDXL:
+        elif architecture_type == ArchitectureType.SDXL or architecture_type == ArchitectureType.FLUX:
             self.height = Resolution.get_xl_long_scale(self.scale-2)
             self.width = self.height
         else:
@@ -159,7 +159,7 @@ class Resolution:
         if architecture_type == ArchitectureType.ILLUSTRIOUS:
             self.height = Resolution.get_illustrious_short_scale(self.scale)
             self.width = Resolution.get_illustrious_long_scale(self.scale)
-        elif architecture_type == ArchitectureType.SDXL:
+        elif architecture_type == ArchitectureType.SDXL or architecture_type == ArchitectureType.FLUX:
             self.height = Resolution.get_xl_long_scale(self.scale)
             self.width = Resolution.get_xl_short_scale(self.scale)
         else:

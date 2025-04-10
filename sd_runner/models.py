@@ -22,7 +22,7 @@ class Model:
     LORAS = {}
 
     @staticmethod
-    def get_architecture_type(model_id, path, is_xl, is_turbo):
+    def get_architecture_type(model_id, path, is_xl, is_turbo, is_flux):
         # NOTE this can be overridden by the presets
         if "Illustrious" in model_id:
             print(f"Assuming model is based on IllustriousXL architecture: {id}")
@@ -31,14 +31,16 @@ class Model:
             architecture_type = ArchitectureType.SDXL
         elif path is not None and path.startswith("Turbo") or is_turbo:
             architecture_type = ArchitectureType.TURBO
+        elif path is not None and (path.lower().startswith("flux")) or is_flux:
+            architecture_type = ArchitectureType.FLUX
         else:
             architecture_type = ArchitectureType.SD_15
         return architecture_type
 
-    def __init__(self, id, path=None, is_lora=False, is_xl=False, is_turbo=False, clip_req=None, lora_strength=Globals.DEFAULT_LORA_STRENGTH):
+    def __init__(self, id, path=None, is_lora=False, is_xl=False, is_turbo=False, is_flux=False, clip_req=None, lora_strength=Globals.DEFAULT_LORA_STRENGTH):
         self.id = id
         self.path = path if path else os.path.join(Model.MODELS_DIR, id)
-        self.architecture_type = Model.get_architecture_type(id, path, is_xl, is_turbo)
+        self.architecture_type = Model.get_architecture_type(id, path, is_xl, is_turbo, is_flux)
         self.is_lora = is_lora
         self.positive_tags = None
         self.negative_tags = None
@@ -81,6 +83,8 @@ class Model:
         return Model.DEFAULT_SDXL_VAE if self.is_xl() or self.is_turbo else Model.DEFAULT_SD15_VAE
 
     def validate_vae(self, vae):
+        if self.is_flux():
+            return # Flux models use their own VAE
         if self.is_xl() or self.is_turbo():
             if vae != Model.DEFAULT_SDXL_VAE: # TODO update if more
                 raise Exception(f"Invalid VAE {vae} for SDXL model {self.id}")
@@ -244,7 +248,8 @@ class Model:
             model_name = re.sub("^.+\\\\", "", file)
             is_xl = file.startswith("XL")
             is_turbo = file.startswith("Turbo")
-            model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo)
+            is_flux = file.startswith("Flux")
+            model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo, is_flux=is_flux)
             models[model_name] = model
             print(model)
         if is_lora:

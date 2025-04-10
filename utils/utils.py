@@ -8,6 +8,8 @@ import os
 import sys
 import threading
 
+from utils.config import config
+
 has_imported_windll = False
 try:
     from ctypes import WinDLL
@@ -25,33 +27,39 @@ CYAN = "\033[34m"
 
 # create logger
 logger = logging.getLogger("muse")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.DEBUG if config.debug else logging.INFO)
 logger.propagate = False
 
-# # create console handler with a higher log level
-# ch = logging.StreamHandler()
-# ch.setLevel(logging.DEBUG)
-# ch.setFormatter(CustomFormatter())
-# logger.addHandler(ch)
+# create console handler and set level to debug
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG if config.debug else logging.INFO)
+
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# add formatter to ch
+ch.setFormatter(formatter) # TODO use custom formatter
+
+# add ch to logger
+logger.addHandler(ch)
 
 
 class Utils:
-
     @staticmethod
     def log(message, level=logging.INFO):
         logger.log(level, message)
     
     @staticmethod
     def log_debug(message):
-        Utils.log(message, logging.DEBUG)
+        Utils.log(message, level=logging.DEBUG)
 
     @staticmethod
     def log_red(message):
-        Utils.log(message, logging.ERROR)
+        Utils.log(message, level=logging.ERROR)
     
     @staticmethod
     def log_yellow(message):
-        Utils.log(message, logging.WARNING)
+        Utils.log(message, level=logging.WARNING)
 
     sleep_prevented = False
 

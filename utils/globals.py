@@ -150,6 +150,7 @@ class ComfyNodeName:
     SAVE_IMAGE = "SaveImage"
     PREVIEW_IMAGE = "PreviewImage"
     EMPTY_LATENT = "EmptyLatentImage"
+    EMPTY_LATENT_SD3 = "EmptySD3LatentImage"
     KSAMPLER = "KSampler"
     KSAMPLER_ADVANCED = "KSamplerAdvanced"
     SAMPLER_CUSTOM = "SamplerCustom"

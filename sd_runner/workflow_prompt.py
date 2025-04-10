@@ -125,8 +125,8 @@ class WorkflowPromptComfy(WorkflowPrompt):
         count = 0
         for node in self.json.items():
             if test:
-                print(node[1][WorkflowPrompt.CLASS_TYPE])
-            if WorkflowPrompt.CLASS_TYPE in node[1] and node[1][WorkflowPrompt.CLASS_TYPE] == class_type:
+                print(node[1][WorkflowPromptComfy.CLASS_TYPE])
+            if WorkflowPromptComfy.CLASS_TYPE in node[1] and node[1][WorkflowPromptComfy.CLASS_TYPE] == class_type:
                 if i == count:
                     return node[1]
                 count += 1
@@ -139,24 +139,24 @@ class WorkflowPromptComfy(WorkflowPrompt):
         if node is None:
             node = self.find_node_of_class_type(ComfyNodeName.KSAMPLER_ADVANCED, raise_exc=False)
             if node is None:
-                node = self.find_node_of_class_type(ComfyNodeName.SAMPLER_CUSTOM)[WorkflowPrompt.INPUTS]
+                node = self.find_node_of_class_type(ComfyNodeName.SAMPLER_CUSTOM)[WorkflowPromptComfy.INPUTS]
         return node
 
     def get_ksampler_node_inputs(self):
-        return self.get_sampler_node()[WorkflowPrompt.INPUTS]
+        return self.get_sampler_node()[WorkflowPromptComfy.INPUTS]
 
     def set_for_class_type(self, class_type, key, value):
         if not value:
             return
         node = self.find_node_of_class_type(class_type)
-        node[WorkflowPrompt.INPUTS][key] = value
+        node[WorkflowPromptComfy.INPUTS][key] = value
 
     def get_for_class_type(self, class_type, key):
         node = self.find_node_of_class_type(class_type)
-        return node[WorkflowPrompt.INPUTS][key]
+        return node[WorkflowPromptComfy.INPUTS][key]
 
     def set_by_id(self, id_key, key, value):
-        self.json[id_key][WorkflowPrompt.INPUTS][key] = value
+        self.json[id_key][WorkflowPromptComfy.INPUTS][key] = value
 
     def find_linked_input_node(self, starting_class_type=ComfyNodeName.IP_ADAPTER_ADVANCED, class_type=ComfyNodeName.LOAD_IMAGE, vartype="image"):
         found_node = None
@@ -164,12 +164,12 @@ class WorkflowPromptComfy(WorkflowPrompt):
         next_input = ()
         current_node = self.find_node_of_class_type(starting_class_type)
         while found_node is None and counter < 100:
-            next_input = current_node[WorkflowPrompt.INPUTS][vartype]
+            next_input = current_node[WorkflowPromptComfy.INPUTS][vartype]
             if len(next_input) < 2:
                 raise Exception(f"Bad input connection on node when backtracing inputs: {current_node}")
             counter += 1
             current_node = self.json[next_input[0]]
-            if current_node[WorkflowPrompt.CLASS_TYPE] == class_type:
+            if current_node[WorkflowPromptComfy.CLASS_TYPE] == class_type:
                 found_node = current_node
                 break
         if found_node is None:
@@ -180,7 +180,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
         if not value:
             return
         node = self.find_linked_input_node(starting_class_type=starting_class_type, class_type=class_type, vartype=vartype)
-        node[WorkflowPrompt.INPUTS][vartype] = value
+        node[WorkflowPromptComfy.INPUTS][vartype] = value
 
     def set_model(self, model):
         if not model:
@@ -198,24 +198,34 @@ class WorkflowPromptComfy(WorkflowPrompt):
     def get_vae(self):
         return self.get_for_class_type(ComfyNodeName.LOAD_VAE, "vae_name")
 
+    def _get_empty_latent_node(self):
+        try:
+            return self.find_node_of_class_type(ComfyNodeName.EMPTY_LATENT)
+        except Exception:
+            try:
+                return self.find_node_of_class_type(ComfyNodeName.EMPTY_LATENT_SD3)
+            except Exception:
+                raise Exception("No empty latent node found in workflow.")
+
     def set_empty_latents(self, n_latents):
         if not n_latents:
             return
-        return self.set_for_class_type(ComfyNodeName.EMPTY_LATENT, "batch_size", n_latents)
+        node = self._get_empty_latent_node()
+        node[WorkflowPromptComfy.INPUTS]["batch_size"] = n_latents
     
     def set_image_duplicator(self, n_latents):
         if not n_latents:
             return
         node = self.find_node_of_class_type(ComfyNodeName.IMAGE_DUPLICATOR)
-        node[WorkflowPrompt.INPUTS]["dup_times"] = n_latents
-        node[WorkflowPrompt.INPUTS]["images"][0] = n_latents
+        node[WorkflowPromptComfy.INPUTS]["dup_times"] = n_latents
+        node[WorkflowPromptComfy.INPUTS]["images"][0] = n_latents
 
     def set_latent_dimensions(self, resolution):
         if not resolution:
             return
-        node = self.find_node_of_class_type(ComfyNodeName.EMPTY_LATENT)
-        node[WorkflowPrompt.INPUTS]["width"] = resolution.width
-        node[WorkflowPrompt.INPUTS]["height"] = resolution.height
+        node = self._get_empty_latent_node()
+        node[WorkflowPromptComfy.INPUTS]["width"] = resolution.width
+        node[WorkflowPromptComfy.INPUTS]["height"] = resolution.height
 
     def set_clip_text(self, text, model, positive=True):
         if not text:
@@ -230,12 +240,12 @@ class WorkflowPromptComfy(WorkflowPrompt):
         try:
             sampler_inputs = self.get_ksampler_node_inputs()
             node = self.json[sampler_inputs["positive" if positive else "negative"][0]]
-            node[WorkflowPrompt.INPUTS]["text"] = text
+            node[WorkflowPromptComfy.INPUTS]["text"] = text
         except Exception as e:
             if positive:
                 node = self.find_node_of_class_type(ComfyNodeName.IMPACT_WILDCARD_PROCESSOR)
-                node[WorkflowPrompt.INPUTS]["wildcard_text"] = positive
-                node[WorkflowPrompt.INPUTS]["populated_text"] = positive
+                node[WorkflowPromptComfy.INPUTS]["wildcard_text"] = positive
+                node[WorkflowPromptComfy.INPUTS]["populated_text"] = positive
             else:
                 raise e
 
@@ -249,15 +259,15 @@ class WorkflowPromptComfy(WorkflowPrompt):
                 self.set_clip_last_layer(model.clip_req)
         if positive:
             if positive_id:
-                self.json[positive_id][WorkflowPrompt.INPUTS]["text"] = positive
+                self.json[positive_id][WorkflowPromptComfy.INPUTS]["text"] = positive
             else:
                 node = self.find_node_of_class_type(ComfyNodeName.IMPACT_WILDCARD_PROCESSOR)
-                node[WorkflowPrompt.INPUTS]["wildcard_text"] = positive
-                node[WorkflowPrompt.INPUTS]["populated_text"] = positive
+                node[WorkflowPromptComfy.INPUTS]["wildcard_text"] = positive
+                node[WorkflowPromptComfy.INPUTS]["populated_text"] = positive
 
         if negative:
             if negative_id:
-                self.json[negative_id][WorkflowPrompt.INPUTS]["text"] = negative
+                self.json[negative_id][WorkflowPromptComfy.INPUTS]["text"] = negative
             else:
                 print("No negative prompt text added!!!")
 
@@ -265,7 +275,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
         if not clip_last_layer:
             return
         node = self.find_node_of_class_type("CLIPSetLastLayer")
-        node[WorkflowPrompt.INPUTS]["stop_at_clip_layer"] = clip_last_layer
+        node[WorkflowPromptComfy.INPUTS]["stop_at_clip_layer"] = clip_last_layer
 
     def set_clip_seg(self, text):
         if not text:
@@ -286,10 +296,10 @@ class WorkflowPromptComfy(WorkflowPrompt):
         if not seed_val:
             return
         node = self.get_sampler_node()
-        if node[WorkflowPrompt.CLASS_TYPE] == ComfyNodeName.SAMPLER_CUSTOM:
-            node[WorkflowPrompt.INPUTS]["noise_seed"] = seed_val
+        if node[WorkflowPromptComfy.CLASS_TYPE] == ComfyNodeName.SAMPLER_CUSTOM:
+            node[WorkflowPromptComfy.INPUTS]["noise_seed"] = seed_val
         else:
-            node[WorkflowPrompt.INPUTS]["seed"] = seed_val
+            node[WorkflowPromptComfy.INPUTS]["seed"] = seed_val
 
     def set_other_sampler_inputs(self, gen_config):
         if gen_config.steps and gen_config.steps > 0:
@@ -343,13 +353,13 @@ class WorkflowPromptComfy(WorkflowPrompt):
             self.set_lora_node(node, lora)
 
     def set_lora_node(self, node, lora):
-        node[WorkflowPrompt.INPUTS]["lora_name"] = lora.path
+        node[WorkflowPromptComfy.INPUTS]["lora_name"] = lora.path
         if lora.lora_strength is not None:
-            node[WorkflowPrompt.INPUTS]["strength_model"] = lora.lora_strength
+            node[WorkflowPromptComfy.INPUTS]["strength_model"] = lora.lora_strength
             if lora.lora_strength_clip is not None:
-                node[WorkflowPrompt.INPUTS]["strength_clip"] = lora.lora_strength_clip
+                node[WorkflowPromptComfy.INPUTS]["strength_clip"] = lora.lora_strength_clip
             else:
-                node[WorkflowPrompt.INPUTS]["strength_clip"] = lora.lora_strength
+                node[WorkflowPromptComfy.INPUTS]["strength_clip"] = lora.lora_strength
 
     def set_upscaler_model(self, model):
         if not model:
@@ -420,7 +430,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
         preview_image_node = self.find_node_of_class_type(ComfyNodeName.PREVIEW_IMAGE, raise_exc=False)
         counter = 0
         while preview_image_node is not None and counter < 3:
-            preview_image_node[WorkflowPrompt.CLASS_TYPE] = ComfyNodeName.SAVE_IMAGE
+            preview_image_node[WorkflowPromptComfy.CLASS_TYPE] = ComfyNodeName.SAVE_IMAGE
 
     def find_non_api_node_of_type(self, node_type, node_index=0):
         found_count = 0
@@ -434,7 +444,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
     def get_non_api_values(self, node_type, node_index=0):
         node = self.find_non_api_node_of_type(node_type, node_index=node_index)
         if node:
-            return node[WorkflowPrompt.NON_API_INPUTS]
+            return node[WorkflowPromptComfy.NON_API_INPUTS]
         return []
 
     def get_non_api_value(self, node_type, input_index=0, node_index=0):
@@ -548,17 +558,17 @@ class WorkflowPromptComfy(WorkflowPrompt):
     # TODO
     def check_for_existing_image(self, model, vae=None, resolution=None):
         if resolution:
-            prompt.check_resolution(resolution)
+            self.check_resolution(resolution)
         if model:
-            model = prompt.check_model(model)
+            model = self.check_model(model)
         if vae:
-            vae = prompt.check_vae(vae)
+            vae = self.check_vae(vae)
         return model, vae
 
     def handle_old_prompt_image_location(self):
         for node_id, node in self.json.items():
-            if node[WorkflowPrompt.CLASS_TYPE] == ComfyNodeName.LOAD_IMAGE:
-                image_location = node[WorkflowPrompt.INPUTS]["image"]
+            if node[WorkflowPromptComfy.CLASS_TYPE] == ComfyNodeName.LOAD_IMAGE:
+                image_location = node[WorkflowPromptComfy.INPUTS]["image"]
                 if image_location.startswith("C:\\") and not os.path.exists(image_location):
                     print("Attempting to fix invalid file location: " + image_location)
                     if image_location.startswith(config.sd_webui_loc) or image_location.startswith(config.img_dir):
@@ -566,7 +576,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
                     if not os.path.exists(image_location):
                         raise Exception("Could not find expected external path for image: " + image_location)
                     print("Will try with external image location " + image_location)
-                    node[WorkflowPrompt.INPUTS]["image"] = image_location
+                    node[WorkflowPromptComfy.INPUTS]["image"] = image_location
 
 
 

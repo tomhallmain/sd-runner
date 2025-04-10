@@ -1,7 +1,10 @@
 import json
-from urllib import request, response, parse, error
 import traceback
 from typing import Optional
+from urllib import request, response, parse, error
+import uuid
+import websocket
+import time
 
 from sd_runner.gen_config import GenConfig
 from utils.globals import Globals, WorkflowType, ComfyNodeName
@@ -14,9 +17,10 @@ from utils.utils import Utils
 
 
 class ComfyGen(BaseImageGenerator):
-    BASE_URL = config.comfyui_url
+    BASE_URL = config.comfyui_url.replace("http://", "").replace("https://", "")
     PROMPT_URL = BASE_URL + "/prompt"
     HISTORY_URL = BASE_URL + "/history"
+    CLIENT_ID = str(uuid.uuid4())
 
     def __init__(self, config=GenConfig(), ui_callbacks=None):
         super().__init__(config, ui_callbacks)
@@ -28,8 +32,6 @@ class ComfyGen(BaseImageGenerator):
             model, vae = prompt.check_for_existing_image(model, vae, resolution)
         else:
             self.print_pre(action=action, model=model, vae=vae, resolution=resolution, **kw)
-            if model.is_flux():
-                raise Exception("Flux models not supported in SDRunner's ComfyUI implementation at this time")
             if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN_LORA:
                 lora = kw["lora"]
                 if isinstance(lora, LoraBundle):
@@ -38,6 +40,11 @@ class ComfyGen(BaseImageGenerator):
                 prompt = WorkflowPromptComfy("instant_lora_xl.json")
             if workflow_type == WorkflowType.CONTROLNET and model.is_xl():
                 prompt = WorkflowPromptComfy("controlnet_sdxl.json")
+            if model.is_flux():
+                if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
+                    prompt = WorkflowPromptComfy("simple_image_gen_flux.json")
+                else:
+                    raise Exception("Flux workflows other than simple image gen are not supported in SDRunner's ComfyUI implementation at this time")
             if not prompt:
                 prompt = WorkflowPromptComfy(workflow_type.value)
         return prompt, model, vae
@@ -63,15 +70,109 @@ class ComfyGen(BaseImageGenerator):
 
     def queue_prompt(self, prompt: WorkflowPromptComfy):
         data = prompt.get_json()
-        req = request.Request(ComfyGen.PROMPT_URL, data=data)
         try:
-            request.urlopen(req)
+            ws = websocket.WebSocket()
+            ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, ComfyGen.CLIENT_ID))
+            images = ComfyGen.get_images(ws, json.loads(data.decode('utf-8')))
+            # TODO do something with the images
+            ws.close() # Need this to avoid random timeouts, memory leaks, etc.
         except error.URLError:
             raise Exception("Failed to connect to ComfyUI. Is ComfyUI running?")
         with self._lock:
-            # TODO when external job timing check enabled, add UI update below
             self.pending_counter -= 1
-            # self.update_ui_pending()
+            self.update_ui_pending()
+
+    @staticmethod
+    def _queue_prompt(prompt):
+        # p = {"prompt": prompt, "client_id": ComfyGen.CLIENT_ID}
+        data = json.dumps(prompt).encode('utf-8')
+        req = request.Request(
+            "http://{}/prompt".format(ComfyGen.BASE_URL),
+            data=data,
+            method='POST',
+            headers={'Content-Type': 'application/json'}
+        )
+        return json.loads(request.urlopen(req).read())
+
+    @staticmethod
+    def get_images(ws, prompt):
+        Utils.log_debug("Queueing prompt to ComfyUI...")
+        prompt_id = ComfyGen._queue_prompt(prompt)['prompt_id']
+        Utils.log_debug(f"Got prompt ID: {prompt_id}")
+        output_images = {}
+        current_node = None
+        progress_complete = False
+        
+        try:
+            while True:
+                try:
+                    out = ws.recv()
+                    if isinstance(out, str):
+                        message = json.loads(out)
+                        Utils.log_debug(f"Received message: {message}")
+                        if message['type'] == 'executing':
+                            data = message['data']
+                            if data['node'] is None and data['prompt_id'] == prompt_id:
+                                Utils.log_debug("Execution completed")
+                                break #Execution is done
+                            else:
+                                current_node = data['node']
+                                Utils.log_debug(f"Executing node: {current_node}")
+                        elif message['type'] == 'progress':
+                            data = message['data']
+                            if data['prompt_id'] == prompt_id and data['value'] == data['max']:
+                                Utils.log_debug("Progress reached 100%")
+                                progress_complete = True
+                                # Wait a bit to ensure all messages are processed
+                                time.sleep(1)
+                                break
+                    else:
+                        Utils.log_debug(f"Received binary data from node: {current_node}")
+                        # If you want to be able to decode the binary stream for latent previews, here is how you can do it:
+                        # bytesIO = BytesIO(out[8:])
+                        # preview_image = Image.open(bytesIO) # This is your preview in PIL image format, store it in a global
+                        continue #previews are binary data
+                except websocket.WebSocketConnectionClosedException:
+                    Utils.log_debug("WebSocket connection closed unexpectedly")
+                    break
+                except Exception as e:
+                    Utils.log_debug(f"Error processing websocket message: {e}")
+                    break
+
+            Utils.log_debug("Getting history for prompt...")
+            history = ComfyGen.get_history(prompt_id)[prompt_id]
+            for node_id in history['outputs']:
+                node_output = history['outputs'][node_id]
+                images_output = []
+                if 'images' in node_output:
+                    for image in node_output['images']:
+                        Utils.log_debug(f"Getting image: {image['filename']}")
+                        image_data = ComfyGen.get_image(image['filename'], image['subfolder'], image['type'])
+                        images_output.append(image_data)
+                output_images[node_id] = images_output
+
+            return output_images
+        except Exception as e:
+            Utils.log_debug(f"Error in get_images: {e}")
+            raise
+        finally:
+            Utils.log_debug("Closing websocket connection...")
+            try:
+                ws.close()
+            except:
+                pass
+
+    @staticmethod
+    def get_image(filename, subfolder, folder_type):
+        data = {"filename": filename, "subfolder": subfolder, "type": folder_type}
+        url_values = parse.urlencode(data)
+        with request.urlopen("http://{}/view?{}".format(ComfyGen.PROMPT_URL, url_values)) as response:
+            return response.read()
+
+    @staticmethod
+    def get_history(prompt_id):
+        with request.urlopen("http://{}/history/{}".format(ComfyGen.BASE_URL, prompt_id)) as response:
+            return json.loads(response.read())
 
     @staticmethod
     def clear_history():
@@ -87,11 +188,17 @@ class ComfyGen(BaseImageGenerator):
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN, "Assembling Simple Image Gen prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
-        prompt.set_vae(self.gen_config.redo_param("vae", vae))
-        prompt.set_clip_text_by_id(
-            self.gen_config.redo_param("positive", positive),
-            self.gen_config.redo_param("negative", negative),
-            positive_id="3", negative_id="4", model=model)
+        if model.is_flux():
+            # NOTE Flux models don't have a negative prompt
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                None, positive_id="6", model=model)
+        else:
+            prompt.set_vae(self.gen_config.redo_param("vae", vae))
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                self.gen_config.redo_param("negative", negative),
+                positive_id="3", negative_id="4", model=model)
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))

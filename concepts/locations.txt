@@ -177,6 +177,8 @@ forest
 foyer
 frat house
 freeway
+galleon
+gallery
 game show
 garage
 garden
