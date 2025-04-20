@@ -65,6 +65,8 @@ class Concepts:
     ALPHABET = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
                 "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     CONCEPTS_DIR = os.path.join(BASE_DIR, "concepts") if config.default_concepts_dir == "concepts" else config.concepts_dir
+    URBAN_DICTIONARY_CORPUS_PATH = os.path.join(BASE_DIR, "concepts", "temp", "urban_dictionary_additions.txt")
+    URBAN_DICTIONARY_CORPUS = []
 
     @staticmethod
     def set_concepts_dir(path="concepts"):
@@ -258,6 +260,15 @@ class Concepts:
             print("For some reason, all words list was empty.")
             Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
         random_words = Concepts.sample_whitelisted(Concepts.ALL_WORDS_LIST, low, high)
+        if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0 and self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
+            try:
+                Concepts.URBAN_DICTIONARY_CORPUS = Concepts.load(Concepts.URBAN_DICTIONARY_CORPUS_PATH)
+            except Exception as e:
+                pass
+        if len(Concepts.URBAN_DICTIONARY_CORPUS) > 0:
+            random_urban_dictionary_words = Concepts.sample_whitelisted(Concepts.URBAN_DICTIONARY_CORPUS, low, high)
+            random_words.extend(random_urban_dictionary_words)
+            random_words = Concepts.sample_whitelisted(random_words, low, high)
         random.shuffle(random_words)
         random_word_strings = []
         word_string = ""

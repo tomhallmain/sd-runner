@@ -3,7 +3,7 @@ from copy import deepcopy
 import time
 import traceback
 
-from utils.globals import Globals # must import first
+from utils.globals import Globals, ResolutionGroup # must import first
 from sd_runner.concepts import PromptMode
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.control_nets import get_control_nets, redo_files
@@ -115,7 +115,9 @@ class Run:
         loras = Model.get_models(self.args.lora_tags, is_lora=True,
                                  default_tag=models[0].get_default_lora(),
                                  inpainting=self.args.inpainting, is_xl=(2 if models[0].is_sd_15() else 1))
-        resolutions = Resolution.get_resolutions(self.args.res_tags, architecture_type=models[0].architecture_type)
+        resolutions = Resolution.get_resolutions(self.args.res_tags,
+                                                 architecture_type=models[0].architecture_type,
+                                                 resolution_group=ResolutionGroup[self.args.resolution_group])
         gen_config = GenConfig(
             workflow_id=workflow, models=models, loras=loras, n_latents=self.args.n_latents,
             control_nets=control_nets, ip_adapters=ip_adapters,

@@ -11,7 +11,7 @@ from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
 from run import Run
-from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType
+from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup
 
 from extensions.sd_runner_server import SDRunnerServer
 
@@ -168,6 +168,12 @@ class App():
         self.resolutions_box = self.new_entry(self.resolutions, width=20)
         self.resolutions_box.insert(0, self.runner_app_config.resolutions)
         self.apply_to_grid(self.resolutions_box, interior_column=1, sticky=W)
+
+        self.label_resolution_group = Label(self.sidebar)
+        self.add_label(self.label_resolution_group, _("Resolution Group"), increment_row_counter=False)
+        self.resolution_group = StringVar(master)
+        self.resolution_group_choice = OptionMenu(self.sidebar, self.resolution_group, str(self.runner_app_config.resolution_group), *ResolutionGroup.__members__.keys())
+        self.apply_to_grid(self.resolution_group_choice, interior_column=1, sticky=W)
 
         self.label_model_tags = Label(self.sidebar)
         self.add_label(self.label_model_tags, _("Model Tags"))
@@ -896,6 +902,7 @@ class App():
         args.software_type = self.software.get()
         args.workflow_tag = self.workflow.get()
         args.auto_run = True
+        args.resolution_group = self.resolution_group.get()
         args.override_resolution = self.override_resolution_var.get()
         args.inpainting = self.inpainting_var.get()
         args.lora_tags = self.lora_tags_box.get()
@@ -1016,11 +1023,14 @@ class App():
             model_tags = self.model_tags.get()
         if inpainting is None:
             inpainting = self.inpainting_var.get()
-        prompt_massage_tags = Model.get_first_model_prompt_massage_tags(model_tags, prompt_mode=self.prompt_mode.get(), inpainting=inpainting)
+        prompt_massage_tags, models = Model.get_first_model_prompt_massage_tags(model_tags, prompt_mode=self.prompt_mode.get(), inpainting=inpainting)
         self.prompt_massage_tags_box.delete(0, 'end')
         self.prompt_massage_tags_box.insert(0, prompt_massage_tags)
         self.prompt_massage_tags.set(prompt_massage_tags)
         self.set_prompt_massage_tags()
+        if len(models) > 0:
+            model = models[0]
+            self.resolution_group.set(model.get_standard_resolution_group())
         # TODO
         #    self.lora_tags = Model.get_first_model_lora_tags(self.model_tags, self.lora_tags)
         self.master.update()

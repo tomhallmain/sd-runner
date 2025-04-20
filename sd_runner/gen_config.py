@@ -36,6 +36,7 @@ class GenConfig:
         self.scheduler = run_config.scheduler
         self.denoise = run_config.denoise
         self.resolutions_skipped = 0
+        self.resolution_group = run_config.resolution_group
         self.override_resolution = run_config.override_resolution
         self.countdown_value = -1
         self.software_type = run_config.software_type

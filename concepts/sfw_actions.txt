@@ -7,6 +7,7 @@ acrylic painting
 acting
 acting in a play
 advising
+ahoy!
 aid
 airbrushing
 allowing
@@ -498,6 +499,7 @@ saying $$random_word
 saying hi
 saying no
 scarves
+scram!
 scrapbooking
 scolding
 scuba diving

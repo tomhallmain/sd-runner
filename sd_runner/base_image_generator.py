@@ -97,8 +97,11 @@ class BaseImageGenerator(ABC):
 
                                 args = [_1, _2, _3, _4, _5, _6]
                                 resolution = args[BaseImageGenerator.ORDER.index("resolutions")]
+                                control_net = args[BaseImageGenerator.ORDER.index("control_nets")]
+                                ip_adapter = args[BaseImageGenerator.ORDER.index("ip_adapters")]
 
-                                if resolution.should_be_randomly_skipped():
+                                if resolution.should_be_randomly_skipped() or \
+                                        self.should_skip_resolution(workflow_id, resolution, control_net, ip_adapter):
                                     self.gen_config.resolutions_skipped += 1
                                     continue
 
@@ -111,8 +114,6 @@ class BaseImageGenerator(ABC):
                                     vae = model.get_default_vae()
                                 model.validate_vae(vae)
                                 lora = args[BaseImageGenerator.ORDER.index("loras")]
-                                control_net = args[BaseImageGenerator.ORDER.index("control_nets")]
-                                ip_adapter = args[BaseImageGenerator.ORDER.index("ip_adapters")]
                                 positive_copy = str(positive)
                                 if ip_adapter:
                                     positive_copy += ip_adapter.modifiers
@@ -129,6 +130,13 @@ class BaseImageGenerator(ABC):
                                 self.has_run_one_workflow = True
         self.print_stats()
         return
+
+    def should_skip_resolution(self, workflow_id, resolution, control_net, ip_adapter):
+        return False
+        # TODO if the control net or IP Adapter image is the other aspect ratio
+        # (portrait vs landscape for the main resolution, or vice versa)
+        # add a high chance to skip this resolution because those combinations
+        # often produce incoherent results
 
     def run_workflow(self, workflow_id: str, **kwargs) -> None:
         """Route to specific workflow implementation"""

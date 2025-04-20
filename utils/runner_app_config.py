@@ -1,7 +1,7 @@
 from copy import deepcopy
 import json
 
-from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType
+from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup
 
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.prompter import PrompterConfiguration
@@ -12,6 +12,7 @@ class RunnerAppConfig:
         self.software_type = SoftwareType.ComfyUI.name
         self.workflow_type = WorkflowType.SIMPLE_IMAGE_GEN_LORA.name
         self.resolutions = "landscape3,portrait3"
+        self.resolution_group = ResolutionGroup.FIVE_ONE_TWO.name
         self.seed = "-1"  # if less than zero, randomize
         self.steps = "-1"  # if not int / less than zero, take workflow's value
         self.cfg = "-1"  # if not int / less than zero, take workflow's value
@@ -76,6 +77,8 @@ class RunnerAppConfig:
             app_config.delay_time_seconds = 10
         if not hasattr(app_config,'override_resolution'):
             app_config.override_resolution = False
+        if not hasattr(app_config, 'resolution_group'):
+            app_config.resolution_group = ResolutionGroup.TEN_TWENTY_FOUR.name
         if not isinstance(app_config.prompter_config, dict):
             raise Exception("Prompter config is not a dict")
         prompter_config_dict = deepcopy(app_config.prompter_config)

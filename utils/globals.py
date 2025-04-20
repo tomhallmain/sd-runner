@@ -143,6 +143,7 @@ class Scheduler(Enum):
 
 class ComfyNodeName:
     LOAD_CHECKPOINT = "CheckpointLoaderSimple"
+    UNET_LOADER = "UNETLoader"
     LOAD_IMAGE = "LoadImage"
     LOAD_IMAGE_MASK = "LoadImageMask"
     LOAD_LORA = "LoraLoader"
@@ -167,6 +168,7 @@ class ComfyNodeName:
     IMAGE_SCALE = "ImageScale"
     ELLA_T5_EMBEDS = "ella_t5_embeds"
     ELLA_SAMPLER = "ella_sampler"
+    BASIC_SCHEDULER = "BasicScheduler"
 
 
 class SoftwareType(Enum):
@@ -182,4 +184,11 @@ class ArchitectureType(Enum):
 
     def is_xl(self):
         return self == ArchitectureType.SDXL or self == ArchitectureType.ILLUSTRIOUS
+
+
+class ResolutionGroup(Enum):
+    FIFTEEN_THIRTY_SIX = "1536"
+    TEN_TWENTY_FOUR = "1024"
+    SEVEN_SIXTY_EIGHT = "768"
+    FIVE_ONE_TWO = "512"
 

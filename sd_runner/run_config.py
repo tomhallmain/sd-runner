@@ -31,6 +31,7 @@ class RunConfig:
         self.positive_prompt = self.get("positive_prompt")
         self.negative_prompt = self.get("negative_prompt")
         self.auto_run = self.get("auto_run")
+        self.resolution_group = self.get("resolution_group")
         self.override_resolution = self.get("override_resolution")
         self.total = self.get("total")
 
@@ -54,7 +55,7 @@ class RunConfig:
         if self.prompter_config.prompt_mode == PromptMode.FIXED and self.total > 10:
             raise Exception(_("Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"))
         if RunConfig.model_switch_detected and not RunConfig.has_warned_about_prompt_massage_text_mismatch:
-            prompt_massage_tags = Model.get_first_model_prompt_massage_tags(self.model_tags, prompt_mode=self.prompter_config.prompt_mode, inpainting=self.inpainting)
+            prompt_massage_tags, models = Model.get_first_model_prompt_massage_tags(self.model_tags, prompt_mode=self.prompter_config.prompt_mode, inpainting=self.inpainting)
             if Globals.POSITIVE_PROMPT_MASSAGE_TAGS != prompt_massage_tags:
                 RunConfig.has_warned_about_prompt_massage_text_mismatch = True
                 raise Exception(_("A model switch was detected and the model massage tags don't match. This warning will only be shown once."))

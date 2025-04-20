@@ -19,11 +19,11 @@ from utils.utils import Utils
 class ComfyGen(BaseImageGenerator):
     BASE_URL = config.comfyui_url.replace("http://", "").replace("https://", "")
     PROMPT_URL = BASE_URL + "/prompt"
-    HISTORY_URL = BASE_URL + "/history"
     CLIENT_ID = str(uuid.uuid4())
 
     def __init__(self, config=GenConfig(), ui_callbacks=None):
         super().__init__(config, ui_callbacks)
+        Utils.log_debug(f"ComfyGen initialized with config: {config}")
 
     def prompt_setup(self, workflow_type: WorkflowType, action: str, prompt: Optional[WorkflowPrompt], model: Model, vae=None, resolution=None, **kw):
         if prompt:
@@ -151,6 +151,7 @@ class ComfyGen(BaseImageGenerator):
                         images_output.append(image_data)
                 output_images[node_id] = images_output
 
+            ComfyGen.clear_history(prompt_id)
             return output_images
         except Exception as e:
             Utils.log_debug(f"Error in get_images: {e}")
@@ -175,9 +176,9 @@ class ComfyGen(BaseImageGenerator):
             return json.loads(response.read())
 
     @staticmethod
-    def clear_history():
+    def clear_history(prompt_id):
         data = json.dumps({"clear": "true"}).encode('utf-8')
-        req = request.Request(ComfyGen.HISTORY_URL, data=data)
+        req = request.Request("http://{}/history/{}".format(ComfyGen.BASE_URL, prompt_id), data=data)
         try:
             return request.urlopen(req)
         except error.URLError:

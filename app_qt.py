@@ -494,7 +494,7 @@ class App(QMainWindow):
         self.runner_app_config.model_tags = text
         Model.set_model_presets(PromptMode[self.prompt_mode_combo.currentText()])
         
-        prompt_massage_tags = Model.get_first_model_prompt_massage_tags(
+        prompt_massage_tags, models = Model.get_first_model_prompt_massage_tags(
             text,
             prompt_mode=self.prompt_mode_combo.currentText(),
             inpainting=self.inpainting_var.isChecked()

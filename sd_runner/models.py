@@ -6,7 +6,7 @@ import re
 from sd_runner.concepts import PromptMode
 from sd_runner.model_adapters import LoraBundle
 from utils.config import config
-from utils.globals import Globals, WorkflowType, ArchitectureType
+from utils.globals import Globals, WorkflowType, ArchitectureType, ResolutionGroup
 
 
 
@@ -69,6 +69,20 @@ class Model:
 
     def get_other_default_lora(self):
         return "add-detail" if not self.is_sd_15() else "add-detail-xl"
+
+    def get_standard_resolution_group(self):
+        if self.is_sd_15():
+            return ResolutionGroup.FIVE_ONE_TWO.name
+        elif self.is_illustrious():
+            return ResolutionGroup.FIFTEEN_THIRTY_SIX.name
+        elif self.is_xl():
+            return ResolutionGroup.TEN_TWENTY_FOUR.name
+        elif self.is_turbo():
+            return ResolutionGroup.TEN_TWENTY_FOUR.name
+        elif self.is_flux():
+            return ResolutionGroup.TEN_TWENTY_FOUR.name
+        else:
+            return ResolutionGroup.FIVE_ONE_TWO.name
 
     def get_lora_text(self):
         if not self.is_lora:
@@ -334,7 +348,7 @@ class Model:
             tags_from_model = models[0].positive_tags
             if tags_from_model:
                 prompt_massage_tags = tags_from_model
-        return prompt_massage_tags
+        return prompt_massage_tags, models
 
 
 

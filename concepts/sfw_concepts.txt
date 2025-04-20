@@ -332,6 +332,7 @@ thermal camera image
 thick textured paint style impasto
 thresholding
 tiltshift
+tintype
 traditional media
 transparent background
 ultrasharp
@@ -1027,6 +1028,7 @@ TV screen
 UI
 UFO, alien spacecraft
 unfinished technical sketch
+unintentional
 unique
 universal serial bus
 vapor

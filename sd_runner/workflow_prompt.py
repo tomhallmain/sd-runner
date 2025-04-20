@@ -139,7 +139,9 @@ class WorkflowPromptComfy(WorkflowPrompt):
         if node is None:
             node = self.find_node_of_class_type(ComfyNodeName.KSAMPLER_ADVANCED, raise_exc=False)
             if node is None:
-                node = self.find_node_of_class_type(ComfyNodeName.SAMPLER_CUSTOM)[WorkflowPromptComfy.INPUTS]
+                node = self.find_node_of_class_type(ComfyNodeName.BASIC_SCHEDULER)
+                if node is None:
+                    node = self.find_node_of_class_type(ComfyNodeName.SAMPLER_CUSTOM)[WorkflowPromptComfy.INPUTS]
         return node
 
     def get_ksampler_node_inputs(self):
@@ -185,7 +187,13 @@ class WorkflowPromptComfy(WorkflowPrompt):
     def set_model(self, model):
         if not model:
             return
-        self.set_for_class_type(ComfyNodeName.LOAD_CHECKPOINT, "ckpt_name", model.path)
+        try:
+            self.set_for_class_type(ComfyNodeName.LOAD_CHECKPOINT, "ckpt_name", model.path)
+        except Exception:
+            try:
+                self.set_for_class_type(ComfyNodeName.UNET_LOADER, "unet_name", model.path)
+            except Exception:
+                raise Exception(f"Neither node type found to set model: {ComfyNodeName.LOAD_CHECKPOINT} {ComfyNodeName.UNET_LOADER}")
 
     def get_model(self):
         return self.get_for_class_type(ComfyNodeName.LOAD_CHECKPOINT, "ckpt_name")

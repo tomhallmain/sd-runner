@@ -86,6 +86,7 @@ camping by the river
 canopy
 car park
 car showroom
+carnival
 casino
 castle
 castle interior
@@ -160,10 +161,12 @@ escarp
 exhibit
 expo
 factory
+fairgrounds
 farm
 farmers market
 fast casual restaurant
 fast food restaurant
+festival
 field
 fields
 fire escape
@@ -389,6 +392,7 @@ space station
 sports centre
 spring gardens
 stadium
+stock exchange
 strait
 street
 street lights
