@@ -170,6 +170,11 @@ class ComfyGen(BaseImageGenerator):
         try:
             while True:
                 try:
+                    # Check if websocket is still connected before trying to receive
+                    if not ws.connected:
+                        Utils.log_debug("WebSocket connection closed")
+                        break
+                        
                     out = ws.recv()
                     if isinstance(out, str):
                         message = json.loads(out)
@@ -229,7 +234,8 @@ class ComfyGen(BaseImageGenerator):
         finally:
             Utils.log_debug("Closing websocket connection...")
             try:
-                ws.close()
+                if ws.connected:
+                    ws.close()
                 ComfyGen.remove_connection(ws)  # Remove the connection from tracking
             except:
                 pass

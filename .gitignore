@@ -1,5 +1,6 @@
 __pycache__
 .cursorignore
+*.swp
 app_info_cache.json
 concepts/_
 concepts/temp

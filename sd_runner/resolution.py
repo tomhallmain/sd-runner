@@ -10,28 +10,64 @@ class Resolution:
     XL_TOTAL_PIXELS_TOLERANCE_RANGE = []
     ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE = []
 
-    def __init__(self, width=Globals.DEFAULT_RESOLUTION_WIDTH, height=Globals.DEFAULT_RESOLUTION_HEIGHT, scale=2, random_skip=False):
+    def __init__(self,
+                 width=Globals.DEFAULT_RESOLUTION_WIDTH,
+                 height=Globals.DEFAULT_RESOLUTION_HEIGHT,
+                 scale=2,
+                 random_skip=False,
+                 resolution_group=ResolutionGroup.TEN_TWENTY_FOUR):
         self.width = width
         self.height = height
         self.scale = scale
         self.random_skip = random_skip
+        self.resolution_group = resolution_group
+
+    @staticmethod
+    def get_resolution(resolution_tag,
+                       architecture_type=ArchitectureType.SDXL,
+                       resolution_group=ResolutionGroup.TEN_TWENTY_FOUR):
+        scale_str = Utils.extract_substring(resolution_tag, "[0-9]+")
+        scale = int(scale_str) if scale_str and scale_str != "" else 2
+        random_skip = "*" in resolution_tag
+        resolution_tag = Utils.extract_substring(resolution_tag, "[a-z]+")
+        if "square".startswith(resolution_tag):
+            return Resolution.SQUARE(architecture_type=architecture_type, resolution_group=resolution_group, scale=scale, random_skip=random_skip)
+        elif "portrait".startswith(resolution_tag):
+            return Resolution.PORTRAIT(architecture_type=architecture_type, resolution_group=resolution_group, scale=scale, random_skip=random_skip)
+        elif "landscape".startswith(resolution_tag):
+            return Resolution.LANDSCAPE(architecture_type=architecture_type, resolution_group=resolution_group, scale=scale, random_skip=random_skip)
+
+    @staticmethod
+    def get_resolutions(resolution_tag_str,
+                        default_tag=Globals.DEFAULT_RESOLUTION_TAG,
+                        architecture_type=ArchitectureType.SDXL,
+                        resolution_group=ResolutionGroup.TEN_TWENTY_FOUR):
+        if resolution_tag_str is None or resolution_tag_str.strip() == "":
+            resolution_tag_str = default_tag
+        resolution_tags = resolution_tag_str.split(",")
+        resolutions = []
+        for resolution_tag in resolution_tags:
+            resolutions.append(Resolution.get_resolution(resolution_tag.lower().strip(),
+                                                         architecture_type=architecture_type,
+                                                         resolution_group=resolution_group))
+        return resolutions
 
     @classmethod
     def SQUARE(cls, architecture_type=ArchitectureType.SDXL, resolution_group=ResolutionGroup.TEN_TWENTY_FOUR, scale=2, random_skip=False):
-        resolution = Resolution(scale=scale, random_skip=random_skip)
-        resolution.square(architecture_type, resolution_group)
+        resolution = Resolution(scale=scale, random_skip=random_skip, resolution_group=resolution_group)
+        resolution.square(architecture_type)
         return resolution
 
     @classmethod
     def PORTRAIT(cls, architecture_type=ArchitectureType.SDXL, resolution_group=ResolutionGroup.TEN_TWENTY_FOUR, scale=2, random_skip=False):
-        resolution = Resolution(scale=scale, random_skip=random_skip)
-        resolution.portrait(architecture_type, resolution_group)
+        resolution = Resolution(scale=scale, random_skip=random_skip, resolution_group=resolution_group)
+        resolution.portrait(architecture_type)
         return resolution
 
     @classmethod
     def LANDSCAPE(cls, architecture_type=ArchitectureType.SDXL, resolution_group=ResolutionGroup.TEN_TWENTY_FOUR, scale=2, random_skip=False):
-        resolution = Resolution(scale=scale, random_skip=random_skip)
-        resolution.landscape(architecture_type, resolution_group)
+        resolution = Resolution(scale=scale, random_skip=random_skip, resolution_group=resolution_group)
+        resolution.landscape(architecture_type)
         return resolution
 
     @staticmethod
@@ -141,36 +177,36 @@ class Resolution:
         return self
 
     def convert_to(self, architecture_type):
-        return self.get_closest(self.width, self.height, architecture_type=architecture_type)
+        return self.get_closest(self.width, self.height, architecture_type=architecture_type, resolution_group=self.resolution_group)
 
-    def square(self, architecture_type, resolution_group):
-        if architecture_type == ArchitectureType.SD_15 or resolution_group == ResolutionGroup.FIVE_ONE_TWO:
+    def square(self, architecture_type):
+        if architecture_type == ArchitectureType.SD_15 or self.resolution_group == ResolutionGroup.FIVE_ONE_TWO:
             self.height = Resolution.get_long_scale(self.scale-2)
             self.width = self.height
-        elif resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
+        elif self.resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
             self.height = Resolution.get_illustrious_long_scale(self.scale-2)
             self.width = self.height
-        elif resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
+        elif self.resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
             self.height = Resolution.get_xl_long_scale(self.scale-2)
             self.width = self.height
         else:
             raise Exception(f"Unhandled architecture type: {architecture_type} and resolution group: {resolution_group}")
 
-    def portrait(self, architecture_type, resolution_group):
-        if architecture_type == ArchitectureType.SD_15 or resolution_group == ResolutionGroup.FIVE_ONE_TWO:
+    def portrait(self, architecture_type):
+        if architecture_type == ArchitectureType.SD_15 or self.resolution_group == ResolutionGroup.FIVE_ONE_TWO:
             self.height = Resolution.get_short_scale(self.scale)
             self.width = Resolution.get_long_scale(self.scale)
-        elif resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
+        elif self.resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
             self.height = Resolution.get_illustrious_short_scale(self.scale)
             self.width = Resolution.get_illustrious_long_scale(self.scale)
-        elif resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
+        elif self.resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
             self.height = Resolution.get_xl_short_scale(self.scale)
             self.width = Resolution.get_xl_long_scale(self.scale)
         else:
             raise Exception(f"Unhandled architecture type: {architecture_type} and resolution group: {resolution_group}")
 
-    def landscape(self, architecture_type, resolution_group):
-        self.portrait(architecture_type, resolution_group)
+    def landscape(self, architecture_type):
+        self.portrait(architecture_type)
         self.invert()
 
     def switch_mode(self, is_xl):
@@ -187,11 +223,11 @@ class Resolution:
         return False
 
     @staticmethod
-    def construct_tolerance_range(architecture_type):
+    def construct_tolerance_range(architecture_type, resolution_group):
         all_resolutions = ["square", "landscape1", "portrait1", "landscape2", "portrait2", "landscape3", "portrait3", "landscape4", "portrait4"]
         tolerance_range = [99999999999, -1]
         for res_tag in all_resolutions:
-            res = Resolution.get_resolution(res_tag, architecture_type=architecture_type)
+            res = Resolution.get_resolution(res_tag, architecture_type=architecture_type, resolution_group=resolution_group)
             assert res is not None and res.width is not None and res.height is not None
             total_pixels = res.width * res.height
             if total_pixels < tolerance_range[0]:
@@ -201,19 +237,19 @@ class Resolution:
         return tolerance_range
 
     @staticmethod
-    def get_tolerance_range(architecture_type=None, resolution_group=ResolutionGroup.FIVE_ONE_TWO):
+    def get_tolerance_range(architecture_type=None, resolution_group=ResolutionGroup.TEN_TWENTY_FOUR):
         architecture_type = architecture_type if architecture_type is not None else ArchitectureType.SDXL
-        if architecture_type == ArchitectureType.SDXL:
+        if resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
             tolerance_range = Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE
-        elif architecture_type == ArchitectureType.ILLUSTRIOUS:
+        elif resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
             tolerance_range = Resolution.ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE
         else:
             tolerance_range = Resolution.TOTAL_PIXELS_TOLERANCE_RANGE
         if len(tolerance_range) == 0:
-            tolerance_range = Resolution.construct_tolerance_range(architecture_type=architecture_type)
-            if architecture_type == ArchitectureType.SDXL:
+            tolerance_range = Resolution.construct_tolerance_range(architecture_type=architecture_type, resolution_group=resolution_group)
+            if resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
                 Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
-            if architecture_type == ArchitectureType.ILLUSTRIOUS:
+            elif resolution_group == ResolutionGroup.ILLUSTRIOUS:
                 Resolution.ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
             else:
                 Resolution.TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
@@ -232,10 +268,11 @@ class Resolution:
 
     def get_closest_to_image(self, ref_image_path, round_to=4):
         width, height = Globals.get_image_data_extractor().get_image_size(ref_image_path)
-        return self.get_closest(width=width, height=height, round_to=round_to)
+        return self.get_closest(width=width, height=height, round_to=round_to, resolution_group=self.resolution_group)
 
     def get_closest(self, width, height, round_to=4, architecture_type=None, resolution_group=ResolutionGroup.FIVE_ONE_TWO):
         architecture_type = architecture_type if architecture_type is not None else (ArchitectureType.SDXL if self.is_xl() else ArchitectureType.SD_15)
+        resolution_group = resolution_group if resolution_group is not None else (ResolutionGroup.TEN_TWENTY_FOUR if self.is_xl() else ResolutionGroup.FIVE_ONE_TWO)
         # First check if the aspect ratio matches one of the existing resolutions, and return that
         matching_resolution = Resolution.find_matching_aspect_ratio_resolution(architecture_type, resolution_group, width, height)
         if matching_resolution is not None:
@@ -256,7 +293,7 @@ class Resolution:
             width += 1
         while height % round_to != 0:
             height += 1
-        return Resolution(width, height)
+        return Resolution(width, height, resolution_group=resolution_group)
 
     def __str__(self):
         return f"{self.width}x{self.height}"
@@ -268,31 +305,3 @@ class Resolution:
 
     def hash(self):
         return hash((self.width, self.height))
-
-    @staticmethod
-    def get_resolution(resolution_tag, architecture_type=ArchitectureType.SDXL, resolution_group=ResolutionGroup.TEN_TWENTY_FOUR):
-        scale_str = Utils.extract_substring(resolution_tag, "[0-9]+")
-        scale = int(scale_str) if scale_str and scale_str != "" else 2
-        random_skip = "*" in resolution_tag
-        resolution_tag = Utils.extract_substring(resolution_tag, "[a-z]+")
-        if "square".startswith(resolution_tag):
-            return Resolution.SQUARE(architecture_type=architecture_type, resolution_group=resolution_group, scale=scale, random_skip=random_skip)
-        elif "portrait".startswith(resolution_tag):
-            return Resolution.PORTRAIT(architecture_type=architecture_type, resolution_group=resolution_group, scale=scale, random_skip=random_skip)
-        elif "landscape".startswith(resolution_tag):
-            return Resolution.LANDSCAPE(architecture_type=architecture_type, resolution_group=resolution_group, scale=scale, random_skip=random_skip)
-
-    @staticmethod
-    def get_resolutions(resolution_tag_str,
-                        default_tag=Globals.DEFAULT_RESOLUTION_TAG,
-                        architecture_type=ArchitectureType.SDXL,
-                        resolution_group=ResolutionGroup.FIVE_ONE_TWO):
-        if resolution_tag_str is None or resolution_tag_str.strip() == "":
-            resolution_tag_str = default_tag
-        resolution_tags = resolution_tag_str.split(",")
-        resolutions = []
-        for resolution_tag in resolution_tags:
-            resolutions.append(Resolution.get_resolution(resolution_tag.lower().strip(),
-                                                         architecture_type=architecture_type,
-                                                         resolution_group=resolution_group))
-        return resolutions
