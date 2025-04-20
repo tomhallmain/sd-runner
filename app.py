@@ -587,6 +587,7 @@ class App():
 
     def on_closing(self):
         Utils.prevent_sleep(False)
+        ComfyGen.close_all_connections()
         self.store_info_cache()
         if self.server is not None:
             try:

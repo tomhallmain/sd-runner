@@ -20,10 +20,36 @@ class ComfyGen(BaseImageGenerator):
     BASE_URL = config.comfyui_url.replace("http://", "").replace("https://", "")
     PROMPT_URL = BASE_URL + "/prompt"
     CLIENT_ID = str(uuid.uuid4())
+    _active_connections = []  # Track all active websocket connections
 
     def __init__(self, config=GenConfig(), ui_callbacks=None):
         super().__init__(config, ui_callbacks)
         Utils.log_debug(f"ComfyGen initialized with config: {config}")
+
+    @classmethod
+    def add_connection(cls, ws):
+        """Add a websocket connection to the tracking list"""
+        cls._active_connections.append(ws)
+        Utils.log_debug(f"Added websocket connection. Total active connections: {len(cls._active_connections)}")
+
+    @classmethod
+    def remove_connection(cls, ws):
+        """Remove a websocket connection from the tracking list"""
+        if ws in cls._active_connections:
+            cls._active_connections.remove(ws)
+            Utils.log_debug(f"Removed websocket connection. Total active connections: {len(cls._active_connections)}")
+
+    @classmethod
+    def close_all_connections(cls):
+        """Close all active websocket connections"""
+        Utils.log_debug(f"Closing all {len(cls._active_connections)} websocket connections...")
+        for ws in cls._active_connections[:]:  # Use a copy of the list to avoid modification during iteration
+            try:
+                ws.close()
+                cls.remove_connection(ws)
+            except Exception as e:
+                Utils.log_debug(f"Error closing websocket connection: {e}")
+        Utils.log_debug("All websocket connections closed")
 
     def prompt_setup(self, workflow_type: WorkflowType, action: str, prompt: Optional[WorkflowPrompt], model: Model, vae=None, resolution=None, **kw):
         if prompt:
@@ -73,14 +99,19 @@ class ComfyGen(BaseImageGenerator):
         try:
             ws = websocket.WebSocket()
             ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, ComfyGen.CLIENT_ID))
+            ComfyGen.add_connection(ws)  # Track the new connection
             images = ComfyGen.get_images(ws, json.loads(data.decode('utf-8')))
             # TODO do something with the images
-            ws.close() # Need this to avoid random timeouts, memory leaks, etc.
+            try:
+                ws.close() # Need this to avoid random timeouts, memory leaks, etc.
+            except Exception:
+                pass
         except error.URLError:
             raise Exception("Failed to connect to ComfyUI. Is ComfyUI running?")
-        with self._lock:
-            self.pending_counter -= 1
-            self.update_ui_pending()
+        finally:
+            with self._lock:
+                self.pending_counter -= 1
+                self.update_ui_pending()
 
     @staticmethod
     def _queue_prompt(prompt):
@@ -134,6 +165,7 @@ class ComfyGen(BaseImageGenerator):
         Utils.log_debug(f"Got prompt ID: {prompt_id}")
         output_images = {}
         current_node = None
+        websocket_error = None
         
         try:
             while True:
@@ -163,12 +195,18 @@ class ComfyGen(BaseImageGenerator):
                         # bytesIO = BytesIO(out[8:])
                         # preview_image = Image.open(bytesIO) # This is your preview in PIL image format, store it in a global
                         continue #previews are binary data
-                except websocket.WebSocketConnectionClosedException:
+                except websocket.WebSocketConnectionClosedException as e:
                     Utils.log_debug("WebSocket connection closed unexpectedly")
+                    websocket_error = e
                     break
                 except Exception as e:
                     Utils.log_debug(f"Error processing websocket message: {e}")
+                    websocket_error = e
                     break
+
+            # If we had a websocket error, don't try to get history
+            if websocket_error:
+                raise websocket_error
 
             Utils.log_debug("Getting history for prompt...")
             history = ComfyGen.get_history(prompt_id)[prompt_id]
@@ -192,6 +230,7 @@ class ComfyGen(BaseImageGenerator):
             Utils.log_debug("Closing websocket connection...")
             try:
                 ws.close()
+                ComfyGen.remove_connection(ws)  # Remove the connection from tracking
             except:
                 pass
 
