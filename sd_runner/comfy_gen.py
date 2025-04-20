@@ -95,13 +95,45 @@ class ComfyGen(BaseImageGenerator):
         return json.loads(request.urlopen(req).read())
 
     @staticmethod
+    def get_history(prompt_id):
+        max_retries = 5
+        retry_delay = 1  # seconds
+        
+        for attempt in range(max_retries):
+            try:
+                Utils.log_debug(f"Getting history for prompt (attempt {attempt + 1}/{max_retries})...")
+                with request.urlopen("http://{}/history/{}".format(ComfyGen.BASE_URL, prompt_id)) as response:
+                    history = json.loads(response.read())
+                    if prompt_id in history:
+                        return history
+                    Utils.log_debug(f"Prompt ID not found in history, waiting {retry_delay} seconds...")
+                    time.sleep(retry_delay)
+            except Exception as e:
+                Utils.log_debug(f"Error getting history (attempt {attempt + 1}): {e}")
+                if attempt < max_retries - 1:
+                    time.sleep(retry_delay)
+                else:
+                    raise Exception(f"Failed to get history for prompt {prompt_id} after {max_retries} attempts")
+        
+        raise Exception(f"Failed to get history for prompt {prompt_id} after {max_retries} attempts")
+
+    @staticmethod
+    def clear_history(prompt_id):
+        # TODO: Figure out how to clear a specific prompt from history
+        return
+        # data = json.dumps({"clear": "true"}).encode('utf-8')
+        # req = request.Request("http://{}/history/{}".format(ComfyGen.BASE_URL, prompt_id), data=data)
+        # try:
+        #     return request.urlopen(req)
+        # except error.URLError:
+        #     raise Exception("Failed to connect to ComfyUI. Is ComfyUI running?")
+    @staticmethod
     def get_images(ws, prompt):
         Utils.log_debug("Queueing prompt to ComfyUI...")
         prompt_id = ComfyGen._queue_prompt(prompt)['prompt_id']
         Utils.log_debug(f"Got prompt ID: {prompt_id}")
         output_images = {}
         current_node = None
-        progress_complete = False
         
         try:
             while True:
@@ -122,7 +154,6 @@ class ComfyGen(BaseImageGenerator):
                             data = message['data']
                             if data['prompt_id'] == prompt_id and data['value'] == data['max']:
                                 Utils.log_debug("Progress reached 100%")
-                                progress_complete = True
                                 # Wait a bit to ensure all messages are processed
                                 time.sleep(1)
                                 break
@@ -141,15 +172,16 @@ class ComfyGen(BaseImageGenerator):
 
             Utils.log_debug("Getting history for prompt...")
             history = ComfyGen.get_history(prompt_id)[prompt_id]
-            for node_id in history['outputs']:
-                node_output = history['outputs'][node_id]
-                images_output = []
-                if 'images' in node_output:
-                    for image in node_output['images']:
-                        Utils.log_debug(f"Getting image: {image['filename']}")
-                        image_data = ComfyGen.get_image(image['filename'], image['subfolder'], image['type'])
-                        images_output.append(image_data)
-                output_images[node_id] = images_output
+            # NOTE: If we want to do something with the images, uncomment this
+            # for node_id in history['outputs']:
+            #     node_output = history['outputs'][node_id]
+            #     images_output = []
+            #     if 'images' in node_output:
+            #         for image in node_output['images']:
+            #             Utils.log_debug(f"Getting image: {image['filename']}")
+            #             image_data = ComfyGen.get_image(image['filename'], image['subfolder'], image['type'])
+            #             images_output.append(image_data)
+            #     output_images[node_id] = images_output
 
             ComfyGen.clear_history(prompt_id)
             return output_images
@@ -169,20 +201,6 @@ class ComfyGen(BaseImageGenerator):
         url_values = parse.urlencode(data)
         with request.urlopen("http://{}/view?{}".format(ComfyGen.PROMPT_URL, url_values)) as response:
             return response.read()
-
-    @staticmethod
-    def get_history(prompt_id):
-        with request.urlopen("http://{}/history/{}".format(ComfyGen.BASE_URL, prompt_id)) as response:
-            return json.loads(response.read())
-
-    @staticmethod
-    def clear_history(prompt_id):
-        data = json.dumps({"clear": "true"}).encode('utf-8')
-        req = request.Request("http://{}/history/{}".format(ComfyGen.BASE_URL, prompt_id), data=data)
-        try:
-            return request.urlopen(req)
-        except error.URLError:
-            raise Exception("Failed to connect to ComfyUI. Is ComfyUI running?")
 
     def simple_image_gen(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
