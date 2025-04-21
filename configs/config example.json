@@ -84,6 +84,8 @@
 
     "concepts_dirs": ["concepts"],
     "default_concepts_dir": null,
+    "override_dictionary_path": null,
+    "override_dictionary_append": false,
     "models_dir": "D:\\stable-diffusion-webui\\models",
     "img_dir": "{HOME}\\img",
     "img_temps_dir": "{HOME}\\img\\img_temps",

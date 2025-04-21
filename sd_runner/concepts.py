@@ -148,6 +148,11 @@ class Concepts:
         if Concepts.set_concepts_dir(concepts_dir):
             Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
             print("Reset all words list.")
+            if config.override_dictionary_path is not config.override_dictionary_path.strip() != "":
+                if config.override_dictionary_append:
+                    Concepts.ALL_WORDS_LIST.extend(Concepts.load(config.override_dictionary_path))
+                else:
+                    Concepts.ALL_WORDS_LIST = Concepts.load(config.override_dictionary_path)
         self.prompt_mode = prompt_mode
         self.get_specific_locations = get_specific_locations
         # Randomly select concepts from the lists
@@ -259,6 +264,11 @@ class Concepts:
         if len(Concepts.ALL_WORDS_LIST) == 0:
             print("For some reason, all words list was empty.")
             Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
+            if config.override_dictionary_path is not None and config.override_dictionary_path.strip() != "":
+                if config.override_dictionary_append:
+                    Concepts.ALL_WORDS_LIST.extend(Concepts.load(config.override_dictionary_path))
+                else:
+                    Concepts.ALL_WORDS_LIST = Concepts.load(config.override_dictionary_path)
         random_words = Concepts.sample_whitelisted(Concepts.ALL_WORDS_LIST, low, high)
         if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0 and self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             try:
@@ -329,7 +339,10 @@ class Concepts:
     @staticmethod
     def load(filename):
         l = []
-        filepath = os.path.join(Concepts.CONCEPTS_DIR, filename)
+        if os.path.isfile(filename):
+            filepath = str(filename)
+        else:
+            filepath = os.path.join(Concepts.CONCEPTS_DIR, filename)
         try:
             with open(filepath, encoding="utf-8") as f:
                 for line in f:

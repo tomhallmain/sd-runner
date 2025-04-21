@@ -194,16 +194,16 @@ class Resolution:
 
     def portrait(self, architecture_type):
         if architecture_type == ArchitectureType.SD_15 or self.resolution_group == ResolutionGroup.FIVE_ONE_TWO:
-            self.height = Resolution.get_short_scale(self.scale)
-            self.width = Resolution.get_long_scale(self.scale)
+            self.height = Resolution.get_long_scale(self.scale)
+            self.width = Resolution.get_short_scale(self.scale)
         elif self.resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
-            self.height = Resolution.get_illustrious_short_scale(self.scale)
-            self.width = Resolution.get_illustrious_long_scale(self.scale)
+            self.height = Resolution.get_illustrious_long_scale(self.scale)
+            self.width = Resolution.get_illustrious_short_scale(self.scale)
         elif self.resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
-            self.height = Resolution.get_xl_short_scale(self.scale)
-            self.width = Resolution.get_xl_long_scale(self.scale)
+            self.height = Resolution.get_xl_long_scale(self.scale)
+            self.width = Resolution.get_xl_short_scale(self.scale)
         else:
-            raise Exception(f"Unhandled architecture type: {architecture_type} and resolution group: {resolution_group}")
+            raise Exception(f"Unhandled architecture type: {architecture_type} and resolution group: {self.resolution_group}")
 
     def landscape(self, architecture_type):
         self.portrait(architecture_type)

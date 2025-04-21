@@ -166,6 +166,7 @@ farm
 farmers market
 fast casual restaurant
 fast food restaurant
+ferry boat
 festival
 field
 fields
@@ -207,10 +208,12 @@ hearth
 hideout
 high school
 history museum
+hoarder house filled with junk
 home improvement store
 hospital
 hot springs
 hotel
+hotel lobby
 housing development
 ice skating rink
 in $$random_word
@@ -276,6 +279,7 @@ moat
 modern architectural interior
 modern architectural space
 monument
+motel
 mountain pass
 mountains
 movie set
@@ -317,6 +321,7 @@ on top of a skyscraper
 on top of a tower
 online
 open sea
+opera house
 orchard
 overpass
 palisade
@@ -378,6 +383,7 @@ shrine
 sidewalk
 sill
 ski resort
+skyway
 skyscraper
 small town
 small village
@@ -392,6 +398,7 @@ space station
 sports centre
 spring gardens
 stadium
+ritzy stadium owner's box
 stock exchange
 strait
 street
@@ -418,6 +425,8 @@ theater
 throne room
 toll booth
 tomb
+traditional architectural interior
+traditional architectural interior, eclecticism, room filled with furniture books lamps etc
 traffic jam
 traffic lights
 trailer park
@@ -438,6 +447,7 @@ vast open area
 venue
 veranda
 viewing platform
+VIP room
 walk-in closet
 wetlands
 whaling ship

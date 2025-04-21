@@ -152,6 +152,7 @@ gritty
 grungy
 halftone
 hard edges
+haze
 heat map
 heavy shading
 high pixel depth

@@ -30,6 +30,9 @@ class Config:
         self.prompt_presets = []
         self.wildcards = {}
 
+        self.override_dictionary_path = None
+        self.override_dictionary_append = True
+
         self.interrogator_interrogation_dir = None
         self.interrogator_initial_questions_file = None
         self.interrogator_questions_file = None
@@ -63,12 +66,16 @@ class Config:
         self.set_values(int,
                         "max_executor_threads",
         )
+        self.set_values(bool,
+                        "override_dictionary_append",
+        )
         self.set_values(str,
                         "foreground_color",
                         "background_color",
                         "comfyui_url",
                         "sd_webui_url",
                         "server_password",
+                        "override_dictionary_path",
         )
         self.set_values(list,
                         "gen_order",
@@ -96,6 +103,10 @@ class Config:
             "interrogator_questions_file",
             "interrogator_folder_category_mappings_file"
         )
+
+        if self.override_dictionary_path is not None:
+            self.set_filepaths("override_dictionary_path")
+            print("Set override_dictionary_path to: " + self.override_dictionary_path)
 
         self.concepts_dirs = {}
         self.default_concepts_dir = "concepts"

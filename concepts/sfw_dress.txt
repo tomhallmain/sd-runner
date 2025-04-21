@@ -13,7 +13,6 @@ Asymmetrical Bob
 Asymmetrical Skirt
 Athletic Leggings
 athletic wear
-Athletic Wear
 attire
 badges
 baggy pants
@@ -27,12 +26,10 @@ banyan
 barrister's robes
 baseball cap
 bathing suit
-Bathing Suit
 bathrobe
 Beach Cover-Up
 beanie
 bedclothes
-Bell-Bottom Pants
 bell-bottoms
 belt
 Belted Trench Coat
@@ -105,7 +102,6 @@ cloning
 clothes
 clothing
 coat
-Cocktail Dress
 Cocktail Party Dress
 collar
 Comb Over
@@ -210,7 +206,6 @@ helmet
 hem
 High and Tight
 high heels
-High Heels
 hijab
 holster
 hooded cloak
@@ -251,10 +246,7 @@ Layered Haircut
 Leather Backpack
 leather boots
 leather jacket
-Leather Jacket
-Leather Jacket
 leather pants
-Leather Pants
 lederhosen
 leg warmers
 leggings
@@ -276,8 +268,6 @@ Loose Hair Bun
 maxi skirt
 Midi Dress
 mime outfit
-Mini Skirt
-miniskirt
 mittens
 moccasins
 Mohawk
@@ -285,7 +275,6 @@ Motorcycle Jacket
 muffler
 muumuu
 neckerchief
-necklace
 necklace
 nightgown
 nightshirt
@@ -332,7 +321,8 @@ pork pie hat
 Puffer Coat
 pullover
 pumps
-Puritan dress
+Puritan man's outfit
+Puritan woman's dress
 purse
 Quiff
 raincoat
@@ -355,7 +345,6 @@ Satchel Bag
 scarf
 school uniform
 scrubs
-Sequin Dress
 Shaggy Haircut
 Shaved Sides and Back
 shawl
@@ -417,7 +406,6 @@ T-shirt
 Tailored Tuxedo
 tam hat
 tank top
-Tank Top
 Taper Fade
 Tapered Pixie
 tassels
