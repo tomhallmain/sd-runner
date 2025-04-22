@@ -104,6 +104,8 @@ class Concepts:
     def sample_whitelisted(concepts, low, high) -> list:
         # TODO technically inefficient to rebuild the whitelist each time
         # TODO blacklist concepts from the negative prompt
+        if low == 0 and high == 0:
+            return []
         if len(concepts) == 0:
             if low > 0:
                 raise Exception("No concepts to sample")
@@ -167,13 +169,26 @@ class Concepts:
             l.extend(nsfw)
 
     def adjust_range(self, low, high, multiplier=1):
+        if multiplier == 0:
+            return 0, 0
         if multiplier == 1:
             return low, high
-        candidate_low = max(0, int(low * multiplier))
-        candidate_high = max(0, int(high * multiplier))
-        low = 1 if candidate_low == 0 and low != 0 else candidate_low
-        high = 1 if candidate_high == 0 and high != 0 else candidate_high
-        return low, high
+        
+        # Calculate the range size
+        range_size = high - low
+        # Scale the range size by the multiplier
+        scaled_range = max(0, int(range_size * multiplier))
+        # Calculate new low and high values
+        new_low = max(0, int(low * multiplier))
+        new_high = new_low + scaled_range
+        
+        # Ensure we don't return 0 if the original range was non-zero
+        if new_low == 0 and low != 0:
+            new_low = 1
+        if new_high == 0 and high != 0:
+            new_high = 1
+            
+        return new_low, new_high
 
     def get_concepts(self, low=1, high=3, multiplier=1):
         low, high = self.adjust_range(low, high, multiplier)
