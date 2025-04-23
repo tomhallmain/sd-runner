@@ -94,7 +94,7 @@ class Model:
             return f" <lora:{name}:{self.lora_strength}>"
 
     def get_default_vae(self):
-        return Model.DEFAULT_SDXL_VAE if self.is_xl() or self.is_turbo else Model.DEFAULT_SD15_VAE
+        return Model.DEFAULT_SD15_VAE if self.is_sd_15() else Model.DEFAULT_SDXL_VAE
 
     def validate_vae(self, vae):
         if self.is_flux():
@@ -108,13 +108,13 @@ class Model:
 
     def validate_loras(self, lora_bundle):
         if self.is_xl() or self.is_turbo():
-            if not lora_bundle.is_xl: # TODO update if more
+            if not lora_bundle.is_xl(): # TODO update if more
                 if isinstance(lora_bundle, Model) and self.get_other_default_lora() in lora_bundle.id:
                     return Model.get_model(self.get_default_lora(), is_lora=True, is_xl=self.is_xl())
                 else:
                     raise Exception(f"Invalid non-SDXL Lora {lora_bundle} for SDXL model {self.id}")
         else:
-            if lora_bundle.is_xl:
+            if lora_bundle.is_xl():
                 if isinstance(lora_bundle, Model) and self.get_other_default_lora() in lora_bundle.id:
                     return Model.get_model(self.get_default_lora(), is_lora=True, is_xl=self.is_xl())
                 else:

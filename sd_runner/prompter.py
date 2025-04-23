@@ -282,11 +282,11 @@ class Prompter:
         # Humans might not always be desirable so only add some randomly
         if self.prompt_mode == PromptMode.SFW:
             if random.random() < humans_chance:
-                mix.extend(self.concepts.get_humans())
+                mix.extend(self.concepts.get_humans(multiplier=self.prompter_config.multiplier))
         # Small chance to add artist style
         if not self.concepts.is_art_style_prompt_mode() and random.random() < self.prompter_config.art_styles_chance:
             print("Adding art styles")
-            mix.extend(self.concepts.get_art_styles(max_styles=2))
+            mix.extend(self.concepts.get_art_styles(max_styles=2, multiplier=self.prompter_config.multiplier))
         random.shuffle(mix)
         Prompter.emphasize(mix, emphasis_chance=self.prompter_config.emphasis_chance)
         # Extra concepts for NSFW

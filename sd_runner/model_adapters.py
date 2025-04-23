@@ -1,4 +1,3 @@
-
 import os
 
 from utils.config import config
@@ -10,10 +9,13 @@ class LoraBundle:
         self.loras = loras
         if len(self.loras) == 0:
             raise Exception("No loras provided to Lora bundle!")
-        self.is_xl = self.loras[0].is_xl()
+        self._is_xl = self.loras[0].is_xl()
         for lora in self.loras:
-            if self.is_xl != lora.is_xl():
+            if self._is_xl != lora.is_xl():
                 raise Exception(f"Inconsistent SDXL specification for loras in lora bundle: {lora.id} expected is_xl: {self.is_xl}")
+
+    def is_xl(self):
+        return self._is_xl
 
     def __str__(self):
         out = "LoraBundle: [ "

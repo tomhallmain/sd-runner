@@ -112,6 +112,7 @@ class BaseImageGenerator(ABC):
                                 vae = args[BaseImageGenerator.ORDER.index("vaes")]
                                 if vae is None:
                                     vae = model.get_default_vae()
+                                    Utils.log(f"Set default VAE: {vae}")
                                 model.validate_vae(vae)
                                 lora = args[BaseImageGenerator.ORDER.index("loras")]
                                 positive_copy = str(positive)

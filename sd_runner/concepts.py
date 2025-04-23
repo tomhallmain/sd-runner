@@ -149,12 +149,14 @@ class Concepts:
     def __init__(self, prompt_mode, get_specific_locations, concepts_dir="concepts"):
         if Concepts.set_concepts_dir(concepts_dir):
             Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
-            print("Reset all words list.")
+            print(f"Reset all words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
             if config.override_dictionary_path is not config.override_dictionary_path.strip() != "":
                 if config.override_dictionary_append:
                     Concepts.ALL_WORDS_LIST.extend(Concepts.load(config.override_dictionary_path))
+                    print(f"Added override dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
                 else:
                     Concepts.ALL_WORDS_LIST = Concepts.load(config.override_dictionary_path)
+                    print(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
         self.prompt_mode = prompt_mode
         self.get_specific_locations = get_specific_locations
         # Randomly select concepts from the lists
@@ -168,7 +170,7 @@ class Concepts:
         for i in range(nsfw_repeats):
             l.extend(nsfw)
 
-    def adjust_range(self, low, high, multiplier=1):
+    def _adjust_range(self, low, high, multiplier=1):
         if multiplier == 0:
             return 0, 0
         if multiplier == 1:
@@ -191,14 +193,14 @@ class Concepts:
         return new_low, new_high
 
     def get_concepts(self, low=1, high=3, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         concepts = Concepts.load(SFW.concepts)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
         return Concepts.sample_whitelisted(concepts, low, high)
 
     def get_positions(self, low=0, high=2, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         positions = Concepts.load(SFW.positions)
         # if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
         #     self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
@@ -207,17 +209,17 @@ class Concepts:
         return Concepts.sample_whitelisted(positions, low, high)
 
     def get_humans(self, low=1, high=1, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.humans), low, high)
 
     def get_animals(self, low=0, high=2, inclusion_chance=0.1, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         if random.random() > inclusion_chance:
             return []
         return Concepts.sample_whitelisted(Concepts.load(SFW.animals), low, high)
 
     def get_locations(self, low=0, high=2, specific_inclusion_chance=0.3, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         locations = Concepts.load(SFW.locations)
         if self.get_specific_locations:
             nonspecific_locations_chance = 1 - specific_inclusion_chance
@@ -227,18 +229,18 @@ class Concepts:
         return Concepts.sample_whitelisted(locations, low, high)
 
     def get_colors(self, low=0, high=3, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         colors = Concepts.sample_whitelisted(Concepts.load(SFW.colors), low, high)
         if "rainbow" in colors and random.random() > 0.5:
             colors.remove("rainbow")
         return colors
 
     def get_times(self, low=0, high=1, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.times), low, high)
 
     def get_dress(self, low=0, high=2, inclusion_chance=0.5, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         if random.random() > inclusion_chance:
             return []
         dress = Concepts.load(SFW.dress)
@@ -247,43 +249,45 @@ class Concepts:
         return Concepts.sample_whitelisted(dress, low, high)
 
     def get_expressions(self, low=1, high=1, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         expressions = Concepts.load(SFW.expressions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(expressions, NSFW.expressions, 6, NSFL.expressions, 3)
         return Concepts.sample_whitelisted(expressions, low, high)
 
     def get_actions(self, low=0, high=2, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         actions = Concepts.load(SFW.actions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(actions, NSFW.actions, 8, NSFL.actions, 3)
         return Concepts.sample_whitelisted(actions, low, high)
 
     def get_descriptions(self, low=0, high=1, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         descriptions = Concepts.load(SFW.descriptions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(descriptions, NSFW.descriptions, 3, NSFL.descriptions, 2)
         return Concepts.sample_whitelisted(descriptions, low, high)
 
     def get_characters(self, low=0, high=1, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         characters = Concepts.load(SFW.characters)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(characters, NSFW.characters, 3, NSFL.characters, 2)
         return Concepts.sample_whitelisted(characters, low, high)
 
     def get_random_words(self, low=0, high=9, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         if len(Concepts.ALL_WORDS_LIST) == 0:
             print("For some reason, all words list was empty.")
             Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
             if config.override_dictionary_path is not None and config.override_dictionary_path.strip() != "":
                 if config.override_dictionary_append:
                     Concepts.ALL_WORDS_LIST.extend(Concepts.load(config.override_dictionary_path))
+                    print(f"Added override dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
                 else:
                     Concepts.ALL_WORDS_LIST = Concepts.load(config.override_dictionary_path)
+                    print(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
         random_words = Concepts.sample_whitelisted(Concepts.ALL_WORDS_LIST, low, high)
         if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0 and self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             try:
@@ -308,14 +312,14 @@ class Concepts:
         return random_word_strings
 
     def get_nonsense(self, low=0, high=2, multiplier=1):
-        low, high = self.adjust_range(low, high, multiplier)
+        low, high = self._adjust_range(low, high, multiplier)
         nonsense_words = [self.get_nonsense_word() for _ in range(high)]
         return Concepts.sample_whitelisted(nonsense_words, low, high)
 
     def is_art_style_prompt_mode(self):
         return self.prompt_mode in (PromptMode.ANY_ART, PromptMode.PAINTERLY, PromptMode.ANIME, PromptMode.GLITCH)
 
-    def get_art_styles(self, max_styles=None):
+    def get_art_styles(self, max_styles=None, multiplier=1):
         m = {PromptMode.ANIME: (ArtStyles.anime, "anime"),
              PromptMode.GLITCH: (ArtStyles.glitch, "glitch"),
              PromptMode.PAINTERLY: (ArtStyles.painters, "painting")}
@@ -331,7 +335,10 @@ class Concepts:
             style_tag = None            
         if max_styles is None:
             max_styles = min(8, len(art_styles)) if self.prompt_mode in (PromptMode.ANY_ART, PromptMode.GLITCH) else 2
-        out = sample(art_styles, 1, random.randint(1, max_styles))
+        low = 1
+        high = random.randint(1, max_styles)
+        low, high = self._adjust_range(low, high, multiplier=multiplier)
+        out = sample(art_styles, low, high)
         append = style_tag + " art by " if style_tag else "art by "
         for i in range(len(out)):
             out[i] = append + out[i]
