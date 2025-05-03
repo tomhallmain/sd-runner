@@ -580,11 +580,16 @@ class WorkflowPromptComfy(WorkflowPrompt):
                 if image_location.startswith("C:\\") and not os.path.exists(image_location):
                     print("Attempting to fix invalid file location: " + image_location)
                     if image_location.startswith(config.sd_webui_loc) or image_location.startswith(config.img_dir):
-                        image_location = image_location.replace(Globals.HOME, "D:\\")
+                        image_location = image_location.replace(Globals.HOME, "F:\\")
+                        if not os.path.exists(image_location) and (
+                                image_location.startswith(config.sd_webui_loc.replace("\\\\repos\\", "\\"))
+                                or image_location.startswith(config.img_dir.replace("\\\\repos", "\\"))):
+                            image_location = image_location.replace(Globals.HOME, "F:\\")
                     if not os.path.exists(image_location):
                         raise Exception("Could not find expected external path for image: " + image_location)
-                    print("Will try with external image location " + image_location)
-                    node[WorkflowPromptComfy.INPUTS]["image"] = image_location
+                    else:
+                        print("Will try with external image location " + image_location)
+                        node[WorkflowPromptComfy.INPUTS]["image"] = image_location
 
 
 

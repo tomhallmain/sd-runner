@@ -106,6 +106,7 @@ Panicked
 Pensive
 Perplexed
 Pessimistic
+piety
 Playful
 pondering
 pouting
@@ -120,6 +121,7 @@ relieved
 Relieved
 resting bitch face
 Restless
+revulsion
 rolling eyes
 sad
 Satisfied

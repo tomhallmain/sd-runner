@@ -135,7 +135,7 @@ Worm's Eye View
 (view from far away)
 (view through a window)
 
-360 vr lens
+view through a 360 vr lens
 Blurry lens
 Bokeh lens
 Fish-eye

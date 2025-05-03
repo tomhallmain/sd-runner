@@ -53,6 +53,7 @@ bakery
 balcony
 bamboo forest
 bank
+bar
 barber shop
 barge
 barn
@@ -106,6 +107,7 @@ city state
 city walls
 cliff
 clothing store
+coffee shop
 college
 colonial estate
 commissary
@@ -137,8 +139,10 @@ dark club with neon lights
 dark dungeon
 dealership
 deli
+den
 desert
 deserted island
+detour
 diner
 docks
 dog park
@@ -159,6 +163,7 @@ entrance
 escalator
 escarp
 exhibit
+exit
 expo
 factory
 fairgrounds
@@ -175,16 +180,20 @@ fire station
 fireplace
 fishing village
 fjord
+flea market
 float
 food court
 forest
+fort
 foyer
 frat house
 freeway
 galleon
 gallery
 game show
+game table
 garage
+garage sale
 garden
 gas station
 gazebo
@@ -193,6 +202,7 @@ glade
 glen
 golf course
 gondola
+graduation ceremony
 graveyard
 greenhouse
 Gregorian manor
@@ -207,15 +217,20 @@ hardware store
 hearth
 hideout
 high school
+hill
+hillside
 history museum
 hoarder house filled with junk
 home improvement store
 hospital
+hostel
 hot springs
 hotel
 hotel lobby
 housing development
+hunting lodge
 ice skating rink
+igloo
 in $$random_word
 in a $$random_word
 in a boardroom meeting
@@ -263,6 +278,7 @@ jobsite
 junkyard
 kitchen
 knoll
+lair
 laser tag
 laundry room
 lecture hall
@@ -320,6 +336,7 @@ on top of a mountain
 on top of a skyscraper
 on top of a tower
 online
+open area
 open sea
 opera house
 orchard
@@ -342,6 +359,7 @@ plantation
 playground
 police station
 porch
+portico
 post office
 power plant
 prairie
@@ -355,6 +373,7 @@ resort
 restaurant
 river in the city
 road sign
+rodeo
 roof
 rooftop bar
 roundabout
@@ -362,6 +381,7 @@ royal castle
 royal throneroom
 rural area
 rural village
+salon
 saloon
 savannah
 school
@@ -413,6 +433,8 @@ surface of Mars
 swamp
 swimming pool
 taiga
+tailgate
+tea house
 tel
 telephone booth
 tenement
@@ -445,6 +467,7 @@ underpass
 underwater
 urban area
 vast open area
+vaults
 venue
 veranda
 viewing platform

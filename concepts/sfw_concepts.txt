@@ -24,6 +24,7 @@ architectural render
 art deco
 art nouveau
 aura
+aspect ratio
 award winning image
 backlighting
 backward mapping
@@ -139,6 +140,7 @@ gloomy
 glossy
 glossy finish
 godrays
+gopro footage
 gouache and ink
 gouache painting
 grainy
@@ -443,6 +445,8 @@ Worlds Fair
 2000s
 2010s
 2020s
+yet
+not yet
 
 1950s National Geographic photo
 1960s National Geographic photo
@@ -460,6 +464,9 @@ seventh
 eigths
 ninth
 tenths
+few
+many
+dozen
 
 News headline image
 
@@ -514,6 +521,7 @@ ancient
 ancient Egypt
 ancient Rome
 animatronic
+apex
 apparatus
 arch
 arches
@@ -522,6 +530,7 @@ arrow indicator
 arrow symbol
 Art Nouveau
 Artificial Intelligence
+assembly
 assortment
 atmosphere
 atomic bomb
@@ -533,6 +542,7 @@ bag
 Baldacchino
 baroque patterns
 baroque style
+batched
 beauty
 bed sheets
 bedtime
@@ -546,6 +556,8 @@ black hole
 black light
 black lines
 black tar and oil
+bleep bloop
+blip
 blob
 Blockchain Technology
 boxed in
@@ -598,6 +610,7 @@ convertible with the top down
 cookie cutters
 copper etching
 coral
+corner
 cornucopia
 cow
 cozy
@@ -628,6 +641,7 @@ diorama
 dirty
 disassembled
 disco ball
+DIY
 dog
 dot matrix, dithering, scanlines
 dragon
@@ -649,6 +663,7 @@ encased in glass
 enemy health indicators
 engraved
 ephemeral
+ermmmmm... ok
 erosion
 Etch A Sketch
 ethereal
@@ -857,6 +872,7 @@ pattern
 path tracing
 perfectly arranged
 perfectly cut gemstone
+performance
 perspective
 phase congruence
 picture book
@@ -873,6 +889,7 @@ poor
 porous volcanic stone
 portal
 portrayal
+posse
 printing press
 prism
 progress bar
@@ -880,8 +897,10 @@ propaganda
 protein folding visualization
 prow
 pushing buttons
+putty
 pre-Raphaelite
 product catalog
+PVC
 pyrotechnics
 pyxis
 raining
@@ -892,6 +911,7 @@ recoil
 redshift
 reflecting
 reflections
+regional
 regularity
 repeating patterns
 resin
@@ -924,6 +944,7 @@ scuffed
 seal
 section
 sectioned
+servo
 shagreen
 shards
 sheep
@@ -994,6 +1015,7 @@ symbol
 symbolic
 table
 tableau, framed wall of images
+tagin
 tame creature
 tarot card
 taut
@@ -1008,6 +1030,7 @@ thallus
 thatched
 thespian
 thou
+thy
 tincture
 tint
 tiny bubbles
@@ -1021,6 +1044,7 @@ torchlight
 torus
 trailing into the distance
 train tracks
+trap
 trapped, enclosed space
 trinket
 turntable
@@ -1044,10 +1068,12 @@ vicious animal
 vicious creature
 vicious dog
 videoconference
+video embed
 screenshot from Teams call
 vintage
 viral molecule
 virus in electron microscope
+visual;ization of algorithm
 void
 vortex
 voronoi trees
@@ -1057,6 +1083,7 @@ wall made of water
 wax figure
 weathered
 (web page screenshot, modern web design, home page)
+weeds
 welding sparks
 whale
 whimsical

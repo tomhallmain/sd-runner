@@ -41,7 +41,7 @@ class IPAdapter:
     def __init__(self, id, desc="", modifiers="", strength=None):
         if strength is None:
             strength = Globals.DEFAULT_IPADAPTER_STRENGTH
-        if not id or id.startswith("C:\\") or id.startswith("D:\\") or id.startswith("/"):
+        if not id or any([id.startswith(drive) for drive in ["C:\\", "D:\\", "E:\\", "F:\\", "/"]]):
             self.id = id
         else:
             self.id = os.path.join(IPAdapter.BASE_DIR, id)
