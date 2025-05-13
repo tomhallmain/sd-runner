@@ -23,6 +23,7 @@ glowing
 goth style
 hairy
 happy
+hard-nosed
 harried
 hopeful
 masculine
@@ -61,6 +62,8 @@ athlete
 tradesman
 architect
 salesman
+cool dude
+surfer
 
 Alluring
 Angelic

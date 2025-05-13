@@ -12,14 +12,17 @@ person in foreground blocking view
 4k textures
 8k
 abstract
+acid
 acrylic on canvas
 advertising insert
 airbrushed
+album cover
 albumen silver print
 amateur photo
 amorphous
 anime
 antialiasing
+aquatint
 architectural render
 art deco
 art nouveau
@@ -53,6 +56,7 @@ busy
 cartoon
 cartoonish
 cart-de-visite
+carved pearwood block
 ccd
 cel shading
 centered composition
@@ -65,12 +69,14 @@ closeup
 cloudy
 clusters
 cold
+collograph
 colorful
 colorized old photograph
 comic book
 comic strip
 concept art
 concert poster
+copy
 corrupted pixels
 crisp
 crosshatch
@@ -104,6 +110,7 @@ dot art
 double exposure
 dry
 dry rubbing
+drypoint
 edge map
 electromagnetic
 electromagnetic spectrum
@@ -135,6 +142,8 @@ generic
 geometric
 geometric process
 geometry
+gesso
+gilding
 glitch art
 gloomy
 glossy
@@ -142,6 +151,7 @@ glossy finish
 godrays
 gopro footage
 gouache and ink
+gouache on vellum
 gouache painting
 grainy
 graph
@@ -183,8 +193,10 @@ ink-wash painting
 inset
 insignia
 inspired
+intaglio
 interpolated
 inverted image
+iron printing plate
 italic
 jpeg artifacts
 landscape painting
@@ -232,30 +244,42 @@ motion blur
 movie poster
 multiple light sources
 multiple views
+multiview orthographic projections
 mural
 muted
 natural shell iridescence
 negative
 neon
+niello
 night photography
 night vision image
 nightmare
 noisy
+oil and paint on limewood
 oil on canvas
+oil on panel
+oil on poplar
+on vellum
 optical illusion
 organic light-emitting diode
 origami
 outlined
 overexposed
+page from $$random_word
+painted sheet metal
 panorama
 paper mache
 papyrus
 parallax
+parcel-gilt
 parchment
 particles
 patterned
+pen
+pen on paper
 pencil sketch
 perfect composition
+photocopy
 photograph
 photonegative
 pixel art
@@ -316,12 +340,14 @@ splash
 splashiness
 spray painted
 stained
+stenciling
 stereograph
 still life
 strange magic
 striped
 stripes
 studio photography
+study of $$random_word
 suitable for various media
 Sumi-e
 sunny
@@ -336,6 +362,7 @@ thick textured paint style impasto
 thresholding
 tiltshift
 tintype
+toleware
 traditional media
 transparent background
 ultrasharp
@@ -542,6 +569,7 @@ bag
 Baldacchino
 baroque patterns
 baroque style
+barrier
 batched
 beauty
 bed sheets
@@ -580,6 +608,7 @@ cellular automata
 cell phone
 central processing unit
 cereal box
+Certosina
 chandelier
 character modeling
 checkboard
@@ -612,11 +641,13 @@ copper etching
 coral
 corner
 cornucopia
+cosmatesque
 cow
 cozy
 cracked
 craft paper
 cranium
+creased
 cross stitch
 crowded
 crystalline
@@ -630,6 +661,7 @@ dark dungeon
 deep learning
 deep-sea photography
 deflated
+defunct
 designed by Gaudi
 (desktop screenshot, computer screenshot, open application windows)
 destitute
@@ -679,6 +711,7 @@ fabric folds
 fantasy
 fat
 felt
+fence
 (ferrofluid:0.8)
 figura serpentinata
 film grain
@@ -756,11 +789,13 @@ inflated
 insane art
 insect wings
 insert
+intarsia
 interpolation
 interpleaded
 irregularities
-isolation
+ishy!
 islam
+isolation
 italic
 ivory
 ivy-covered walls
@@ -792,8 +827,10 @@ magic
 magic the gathering card
 magic wand
 magnets
+magnetic field lines
 magnifying glass
 man
+marquetry
 married couple
 masterpiece
 matryoshka
@@ -834,6 +871,7 @@ nerve clusters
 nervous system
 nested
 neutrinos
+Nilotic landscape
 noir
 noosphere
 nordic
@@ -850,10 +888,13 @@ oil slick nebula
 old man
 old woman
 opal glint
+opus incertum
+opus sectile
 organic
 oriel
 ornate
 ornaments
+osmosis
 overcast
 overflowing
 ovolo
@@ -867,6 +908,7 @@ panzer
 paperfold
 patterns
 platformer pixelart parallax video game background
+parchinkari
 pastoral
 pattern
 path tracing
@@ -876,6 +918,7 @@ performance
 perspective
 phase congruence
 picture book
+Pietra dura
 pile of $$random_word
 pillow
 planet
@@ -887,6 +930,7 @@ polished
 polyester
 poor
 porous volcanic stone
+porphyry
 portal
 portrayal
 posse
@@ -953,6 +997,7 @@ shining diamond
 shiny
 shocking blast
 signal
+signal lamp
 signature
 silhouette
 silver
@@ -971,8 +1016,10 @@ skull
 sky
 sliding screen
 sloppy
+snoods
 soldered
 spacetime
+spalting
 sparkles
 sparkling
 sparse
@@ -990,7 +1037,9 @@ splotches
 spooky
 spool
 spread out
+stabile
 stages
+stamp
 star charts
 statuette
 stasis tank
@@ -1061,6 +1110,7 @@ vaporwave
 variability
 the vast expanse
 vectors
+veneer
 ventriloquism
 vibrational
 viceroy

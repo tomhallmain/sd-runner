@@ -1,3 +1,4 @@
+where'd he go? he was right " $random_word !"
 while noone was looking
 serrate
 3D puzzles
@@ -39,6 +40,7 @@ BBQ or grilling
 beckoning
 becoming
 beer and spirits tasting
+begone
 being
 being a $$random_word
 bells
@@ -90,6 +92,8 @@ catering
 ceremony
 chariot racing
 chasing
+chatter
+chatting
 checkers
 cheerleading
 chess
@@ -187,6 +191,7 @@ eating grapes and drinking wine while reclining on a roman bench
 embroidery
 emerging
 encouraging
+endeavor
 establishing
 examining
 expecting
@@ -229,6 +234,7 @@ games surrounding a theme
 gardening
 gathering
 generating
+gesturing
 giving
 glass blowing
 glass painting
@@ -354,6 +360,7 @@ making dream catchers
 making money
 managing
 marathon
+marooned
 mason jars (vintage)
 measuring
 meditation
@@ -441,6 +448,7 @@ pleading
 podcasting
 poetry
 poetry writing
+pointing
 popping a bubble
 popping a wheelie
 postcards
@@ -504,8 +512,10 @@ running
 running away
 running from $$random_word
 running track
+Salchow jump
 saluting
 save
+say cheese
 saying
 saying $$random_word
 saying hi
@@ -517,6 +527,7 @@ scolding
 scuba diving
 sculpture
 sea shells
+seeking
 seeming
 selling baked goods
 selling items you've created
@@ -559,6 +570,7 @@ snuggling
 soap making and soap packaging
 soaring
 sobbing
+so then I says to the guy I says " $random_word !"
 soccer
 solving
 speaking

@@ -4,6 +4,13 @@ seaport
 terrace
 caverns
 waterfall
+first floort
+second floor
+third floor
+fourth floor
+fifth floor
+tenth floor
+42nd floor
 
 $$random_word on the side of a $$random_word
 $$time in $$location
@@ -85,7 +92,7 @@ cafe
 cairn
 camping by the river
 canopy
-car park
+car lot
 car showroom
 carnival
 casino
@@ -140,6 +147,8 @@ dark dungeon
 dealership
 deli
 den
+department store
+depot
 desert
 deserted island
 detour
@@ -352,6 +361,7 @@ pasture
 pavement
 pawn shop
 penthouse
+peristyle
 petrol station
 pharmacy
 planetarium
@@ -363,6 +373,7 @@ portico
 post office
 power plant
 prairie
+proving grounds
 pub
 public baths
 rainforest
@@ -376,6 +387,7 @@ road sign
 rodeo
 roof
 rooftop bar
+rotunda
 roundabout
 royal castle
 royal throneroom
@@ -421,6 +433,7 @@ spring gardens
 stadium
 ritzy stadium owner's box
 stock exchange
+storefront
 strait
 street
 street lights
@@ -445,6 +458,7 @@ territories
 the abyss
 the projects
 theater
+tholos
 throne room
 toll booth
 tomb
@@ -473,6 +487,7 @@ veranda
 viewing platform
 VIP room
 walk-in closet
+warehouse
 wetlands
 whaling ship
 wild

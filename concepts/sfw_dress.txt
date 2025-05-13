@@ -131,6 +131,7 @@ denim
 Denim Jacket
 Denim Skirt
 detached sleeves
+diadem
 diamond ring
 dinner jacket
 dirndl
