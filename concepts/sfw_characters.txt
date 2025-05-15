@@ -4,6 +4,28 @@ stooges
 keystone cops
 Babar
 Imogen
+Thaddeus
+all-stars
+
+Mr. $$random_word
+Ms. $$random_word
+Monsieur $$random_word
+Madame $$random_word
+Herr $$random_word
+Frau $$random_word
+Madmoiselle
+
+rogue
+bard
+mage
+hunter
+knight
+soldier
+priest
+monk
+paladin
+healer
+sentinel
 
 William the Conqueror
 Ivan the Terrible
@@ -36,6 +58,7 @@ Battlefield 2
 Battleship board game
 Battling Tops
 Beanie Babies
+Beetle Bailey
 Bellona
 Beowulf
 Bert

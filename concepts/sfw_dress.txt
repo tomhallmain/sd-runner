@@ -148,6 +148,7 @@ earrings
 Eaton collar
 elastic
 Elegant Evening Gown
+epaulets
 evening gown
 fancy watch
 fashion
@@ -474,6 +475,7 @@ white tie
 wifebeater
 wig
 windbreaker
+wingtip shoes
 winter clothes
 Wool Coat
 woolens

@@ -1,6 +1,4 @@
-where'd he go? he was right " $random_word !"
-while noone was looking
-serrate
+[[he's,she's]] coming to
 3D puzzles
 accelerating
 acing a test
@@ -10,6 +8,7 @@ acting in a play
 advising
 ahoy!
 aid
+aiming at $$random_word
 airbrushing
 allowing
 ambushed
@@ -37,6 +36,7 @@ barre
 baseball
 baseball cards
 BBQ or grilling
+bearing witness
 beckoning
 becoming
 beer and spirits tasting
@@ -88,6 +88,7 @@ card making
 carpentry
 cartwheeling
 carving
+casting
 catering
 ceremony
 chariot racing
@@ -153,7 +154,7 @@ dating
 debating
 deciding
 defending
-demo
+demoing
 designing clothes
 designing graphics
 dessert plates, tea cups, china patterns
@@ -179,6 +180,7 @@ drinking champagne
 drinking water
 drinking wine
 driving
+ducking to get out of the way
 dueling
 Dungeons and Dragons
 DVDs or VHS tapes
@@ -204,6 +206,7 @@ falling
 farming
 fashion design
 fashion photography
+feat
 feeding
 feeling
 feeling cramped
@@ -235,7 +238,10 @@ gardening
 gathering
 generating
 gesturing
+get out
+get even
 giving
+giving a demonstration
 glass blowing
 glass painting
 going
@@ -250,9 +256,11 @@ gossiping
 griping
 growing
 growing bonsai
+guile
 gymnastics
 hair styling
 hand lettering
+handing out $$random_word
 hanggliding
 hanging
 hanging out
@@ -272,6 +280,8 @@ hiding
 hiding from $$random_word
 high school
 hiking
+hit paydirt
+hit the ceiling
 holding
 holding $$random_word
 holiday books
@@ -284,6 +294,7 @@ host a supper club
 hosting
 house painting
 housing
+how go ye?
 howling
 hugging
 hugging a friend
@@ -295,6 +306,7 @@ identifying
 ignoring
 illustrating
 implying
+in a moment! I'm busy
 increasing
 introducing
 irritating
@@ -332,6 +344,7 @@ leather crafting
 leaving
 leeping
 LEGO sets
+letting [[them,him,her,us,me,someone]] in
 lifting
 listening
 listening to music
@@ -363,6 +376,7 @@ marathon
 marooned
 mason jars (vintage)
 measuring
+measuring up to $$random_word
 meditation
 meeting
 melting
@@ -381,13 +395,16 @@ mod podge crafts
 model building
 model cars
 model kits
+mollifying
 motocross
 mountain biking
 moving
 mowing the lawn
+muahahaha... he fell right into my " $random_word trap! "
 musical instruments
 nail art
 nautical or beach inspired art or items
+need that $$random_word STAT!
 needing
 negotiating
 note taking and research
@@ -416,6 +433,7 @@ panning
 participating
 party planning
 passing
+passing around
 passing through
 pastels
 paying
@@ -485,10 +503,12 @@ records
 red shoe/high heel/glamour items
 reducing
 reflecting
+regaining consciousness
 relaxing
 religious icons
 resetting
 resisting
+responding
 revering
 ribbon cutting ceremony
 riding
@@ -533,6 +553,7 @@ selling baked goods
 selling items you've created
 selling vintage items
 sending
+serrate
 serving
 sewing
 sewing/crochet/knitting
@@ -544,6 +565,7 @@ shimmying
 shocking
 shoes
 shooting a gun
+shooting the breeze
 shouting
 showing
 showing off
@@ -584,6 +606,7 @@ sports balls or equipment
 sports jerseys or other memorabilia
 squirming
 stained glass
+stalemate
 stamp collecting
 star gazing
 stealing
@@ -606,6 +629,7 @@ surveying
 swimming
 swimming
 swinging
+switching
 table tennis
 tabletop games
 taekwondo
@@ -613,8 +637,10 @@ tai chi
 take a cooking class
 taking
 taking a picture
+taking attendance
 taking notes
 taking pills
+taking pity on [[him,her,it,them,us,me]]
 talking
 talking on the phone
 tasting
@@ -680,6 +706,8 @@ waving
 wearing
 weighing
 weight lifting
+where'd he go? he was right " $random_word !"
+while noone was looking
 wiggling
 wind surfing
 wine, beer or spirits tasting

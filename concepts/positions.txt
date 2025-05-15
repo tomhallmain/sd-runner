@@ -1,6 +1,8 @@
 $$random_word reflected in the window of a $$random_word
 3/4 view
+abutting $$random_word
 across the table
+all over
 aloft
 arched back
 arms down
@@ -13,6 +15,7 @@ back to camera
 candid
 down below
 dynamic pose
+everywhere
 eyelevel
 facing_away
 facing_down
@@ -50,6 +53,8 @@ lying on back
 lying on side
 lying on stomach
 model pose
+nearby
+nearest
 nodding off
 on tiptoes
 on a display podium

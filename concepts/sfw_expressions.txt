@@ -39,6 +39,7 @@ mild disgust
 disgusted
 Disoriented
 Distrustful
+down in the dumps
 duck face
 eager
 Ecstatic
@@ -60,6 +61,7 @@ Fatigued
 Festive
 Friendly
 Frustrated
+furrowed brow
 Gloomy
 Grateful
 Grief-stricken

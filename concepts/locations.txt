@@ -132,6 +132,7 @@ cove
 covered porch
 cozy rural home
 cozy suburban home
+cranny
 crossroads
 crosswalk
 crowded bar
@@ -149,6 +150,7 @@ deli
 den
 department store
 depot
+derby
 desert
 deserted island
 detour
@@ -207,6 +209,7 @@ garden
 gas station
 gazebo
 general store
+ghetto
 glade
 glen
 golf course
@@ -216,6 +219,7 @@ graveyard
 greenhouse
 Gregorian manor
 grocery store
+gun show
 gym
 gymnasium
 haberdashery
@@ -261,6 +265,7 @@ in a well-lit grotto
 in a zoo
 in a zoological gardens
 in a zoological park
+in midair
 in real life
 in space
 in the $$random_word
@@ -290,16 +295,19 @@ knoll
 lair
 laser tag
 laundry room
+lawn
 lecture hall
 library
 living room
 loft
 loggia
 manor
+mantle
 marina
 market
 mechanical planet
 metro stop
+mill
 moat
 modern architectural interior
 modern architectural space
@@ -310,6 +318,7 @@ mountains
 movie set
 museum
 nomad camp
+nook
 nuclear reactor
 observatory
 ocean
@@ -358,6 +367,7 @@ parking lot
 parlor
 particle collider
 pasture
+patio
 pavement
 pawn shop
 penthouse
@@ -378,10 +388,12 @@ pub
 public baths
 rainforest
 ranch
+REC center
 renaissance tavern
 repair shop
 resort
 restaurant
+ridge
 river in the city
 road sign
 rodeo
@@ -402,13 +414,16 @@ science fair
 seaplane
 seaport
 secluded grove
+see-saw
 service desk
 settlement
 shack
+shantytown
 shipwreck
 shipyard
 shoe shop
 shop
+shooting range
 shopping center
 showroom
 shrine
@@ -493,4 +508,7 @@ whaling ship
 wild
 workshop
 worksite
+yard
+yard sale
+yonder
 zoo

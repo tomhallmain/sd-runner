@@ -90,6 +90,8 @@ cyanotype darkroom processed image
 dadaism
 daguerrotype
 dark
+decal
+deed
 degaussing
 depth of field
 design
@@ -343,6 +345,7 @@ stained
 stenciling
 stereograph
 still life
+strange
 strange magic
 striped
 stripes
@@ -531,6 +534,7 @@ $$random_word embedded in $$random_word
 $$random_word made of $$random_word
 $$random_word shaped
 $$random_word pattern
+$$random_word to spare
 90s style VHS paused image
 https://$$random_word.com/$$random_word
 (dark club with neon lights)
@@ -548,11 +552,13 @@ ancient
 ancient Egypt
 ancient Rome
 animatronic
+angle
 apex
 apparatus
 arch
 arches
 architecture
+arranged
 arrow indicator
 arrow symbol
 Art Nouveau
@@ -570,6 +576,7 @@ Baldacchino
 baroque patterns
 baroque style
 barrier
+based on a true story
 batched
 beauty
 bed sheets
@@ -612,6 +619,7 @@ Certosina
 chandelier
 character modeling
 checkboard
+chemical reaction
 chest full of treasure
 chibi
 christianity
@@ -662,6 +670,7 @@ deep learning
 deep-sea photography
 deflated
 defunct
+depth
 designed by Gaudi
 (desktop screenshot, computer screenshot, open application windows)
 destitute
@@ -703,6 +712,7 @@ ethereal light
 evolutionary computing 
 exoskeleton
 exquisite
+extra
 extraterrestrials
 extravagant
 family with kids
@@ -710,6 +720,7 @@ fabric
 fabric folds
 fantasy
 fat
+featuring: " $$random_word "
 felt
 fence
 (ferrofluid:0.8)
@@ -719,6 +730,8 @@ film noire
 fine china porcelain
 fish
 flame
+fleet
+fleeting
 flintlock
 floral
 floral arrangement
@@ -740,9 +753,11 @@ footnotes
 fountain
 framed
 funhouse
+furrow
 fusion
 future world
 futuristic
+garbled
 geode
 game hud elements overlay
 geodesic
@@ -773,6 +788,7 @@ herringbone pattern
 Higgs boson
 highlighter marks
 holding
+hollow
 honeycomb
 horse
 house party
@@ -781,6 +797,7 @@ hydraulic press
 hypermaximalist
 ignition
 illuminated manuscript
+in essence it is a $$random_word
 in pieces
 indicator light
 industrial
@@ -800,11 +817,13 @@ italic
 ivory
 ivy-covered walls
 kaleidoscopic
+kinetic
 kintsugi
 kiss
 jade figurine
 jungle gym
 lacquer
+lackluster
 lagrange points
 lantern
 laser beam
@@ -820,6 +839,7 @@ lore map
 lost in the crowd
 loupe
 luminism
+luster
 luxurious
 machine learning
 maestro
@@ -830,6 +850,7 @@ magnets
 magnetic field lines
 magnifying glass
 man
+marginalia
 marquetry
 married couple
 masterpiece
@@ -842,17 +863,20 @@ melancholy
 melted
 mercury
 mercury flash folding camera
+mesh
 messy
 meticulous linework precision
 minimalism
 minimized
 miracle
 missile arc
+mitosis
 mixed media
 molecular chemical bonds visualization
 metal molds
 modal
 molting
+moody
 moss
 motifs
 motivational poster
@@ -875,6 +899,7 @@ Nilotic landscape
 noir
 noosphere
 nordic
+notations
 notes scribbled in the margin
 nuclear missile
 nuclear reactor
@@ -883,6 +908,7 @@ objects
 ocean made of $$random_word
 octane render
 odd
+often
 ogee
 oil slick nebula
 old man
@@ -895,11 +921,13 @@ oriel
 ornate
 ornaments
 osmosis
+otherwise
 overcast
 overflowing
 ovolo
 page from design guidebook with numbered list of designs 1 through 10
 paint swatches
+palatial
 Paleozoic
 palm plantation
 paltry
@@ -909,6 +937,7 @@ paperfold
 patterns
 platformer pixelart parallax video game background
 parchinkari
+past due
 pastoral
 pattern
 path tracing
@@ -926,6 +955,8 @@ plans, assembly instructions, 2 d autocad
 houseplants
 plants
 plaster
+plated
+pleat
 polished
 polyester
 poor
@@ -936,6 +967,7 @@ portrayal
 posse
 printing press
 prism
+process
 progress bar
 propaganda
 protein folding visualization
@@ -943,6 +975,7 @@ prow
 pushing buttons
 putty
 pre-Raphaelite
+preview
 product catalog
 PVC
 pyrotechnics
@@ -1018,6 +1051,7 @@ sliding screen
 sloppy
 snoods
 soldered
+somewhat disorganized
 spacetime
 spalting
 sparkles
@@ -1041,6 +1075,7 @@ stabile
 stages
 stamp
 star charts
+statistic
 statuette
 stasis tank
 steamboat
@@ -1062,6 +1097,7 @@ surface of a $$random_word
 swath
 symbol
 symbolic
+Ta-Da!
 table
 tableau, framed wall of images
 tagin
@@ -1079,12 +1115,16 @@ thallus
 thatched
 thespian
 thou
+thou shalt
 thy
+tiered
+timeline
 tincture
 tint
 tiny bubbles
 titian
 toile de jouy
+too late
 topiary
 topographic map
 topology
@@ -1105,11 +1145,14 @@ unfinished technical sketch
 unintentional
 unique
 universal serial bus
+unplanned
+unstaged
 vapor
 vaporwave
 variability
 the vast expanse
 vectors
+vehicles
 veneer
 ventriloquism
 vibrational
@@ -1201,7 +1244,9 @@ volumetric lighting
 fluorescent lights
 led lights
 glowing
-
+halogen
+lens flare
+glare effect
 
 
 # Color Moods
