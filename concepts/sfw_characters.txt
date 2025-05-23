@@ -1,4 +1,5 @@
 
+Pingu
 A Team
 stooges
 keystone cops
@@ -14,6 +15,14 @@ Madame $$random_word
 Herr $$random_word
 Frau $$random_word
 Madmoiselle
+
+South Park
+Cartman from South Park
+Kenny from South Park
+Stan from South Park
+Butters from South Park
+
+Calvin and Hobbes
 
 rogue
 bard

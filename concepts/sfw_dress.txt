@@ -36,7 +36,7 @@ Belted Trench Coat
 beret
 Bermuda shorts
 bib
-biological experiment
+biretta
 black gloves
 blazer
 Blazer and Slacks
@@ -328,6 +328,8 @@ Puritan woman's dress
 purse
 Quiff
 raincoat
+early Renaissance dress
+late Renaissance dress
 ribbon
 ring
 ripped jeans
@@ -429,6 +431,7 @@ top
 top coat
 top hat
 toque
+La Tonda
 tracksuit
 train
 trench coat

@@ -53,6 +53,7 @@ bright
 burnt
 burnt-out colors
 busy
+Cameo carving
 cartoon
 cartoonish
 cart-de-visite
@@ -123,6 +124,7 @@ excellent art
 extreme saturation image
 fashion editorial
 featured on cg society
+Fête galante
 fiber optic strands
 film
 fireflies
@@ -232,6 +234,7 @@ marble bust
 masses
 masquerade
 matchbook art
+matita rossa e nera style
 matte
 matte painting
 median filtering
@@ -268,6 +271,8 @@ origami
 outlined
 overexposed
 page from $$random_word
+page from photo album
+page from scrapbook
 painted sheet metal
 panorama
 paper mache
@@ -368,6 +373,7 @@ tintype
 toleware
 traditional media
 transparent background
+Trois crayons
 ultrasharp
 universal appeal
 unreal engine
@@ -584,6 +590,7 @@ bedtime
 Bernini sculpture
 big daddy
 Big Data Analytics
+biological experiment
 bioluminescence
 birefringence
 black borders
@@ -622,7 +629,8 @@ checkboard
 chemical reaction
 chest full of treasure
 chibi
-christianity
+Chinoiserie
+Christianity
 chrome organic
 cinematic render
 circulatory system
@@ -778,6 +786,7 @@ grid of four
 grilled meats
 grimdark
 group of $$random_word
+haha
 hairy
 halo
 heads-up display
@@ -785,6 +794,7 @@ health and stamina indicators
 heraldry
 heritage
 herringbone pattern
+Hiberno-Saxon art
 Higgs boson
 highlighter marks
 holding
@@ -806,6 +816,7 @@ inflated
 insane art
 insect wings
 insert
+Insular art style
 intarsia
 interpolation
 interpleaded
@@ -881,6 +892,7 @@ moss
 motifs
 motivational poster
 mounted deer head on the wall
+mugshot
 muons
 musculoskelatal system
 museum display
@@ -998,9 +1010,10 @@ rich
 rigging
 robot
 rock face
-rococo style
+Rococo style
 roller coaster
 roman numerals
+Romanesque style
 rows
 royal
 RPG tabletop

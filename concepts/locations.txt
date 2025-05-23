@@ -157,6 +157,7 @@ detour
 diner
 docks
 dog park
+doorstep
 down the hall
 downtown
 drawbridge
@@ -279,6 +280,8 @@ in the living room
 in the steppes
 in the wilderness
 in the woods
+indoors
+indoor charity event
 industrial complex
 industrial park
 info station
@@ -358,6 +361,8 @@ open area
 open sea
 opera house
 orchard
+outdoors
+outdoor charity event
 overpass
 palisade
 pantry
