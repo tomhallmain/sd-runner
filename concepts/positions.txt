@@ -9,10 +9,14 @@ arms down
 arms extended
 arms up
 around the block
+aside
 assuming a stance
+at an angle
 back
 back to camera
+bunched in
 candid
+direct route
 down below
 dynamic pose
 everywhere
@@ -22,6 +26,7 @@ facing_down
 facing_eachother
 facing_up
 facing_viewer
+far and away
 fetal position
 from across the room
 glamour pose
@@ -31,8 +36,10 @@ head forward
 head propped on hand
 head turned
 in line
+in or out?
 in the middle
 in tow
+jazz hands
 leaning forward
 leaning back
 leaning on side
@@ -60,6 +67,8 @@ on tiptoes
 on a display podium
 on the ground
 open arms
+orientation
+over here
 quarter turn
 perched
 POV hands
@@ -77,6 +86,7 @@ sitting up
 sitting
 squatting
 t-pose
+together
 turning away
 turning back
 hand up
@@ -91,6 +101,7 @@ hip-level shot
 surrounding
 up above
 upheave
+verge of $$random_word
 view up at $$random_word
 
 Aerial View

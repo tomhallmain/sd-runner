@@ -25,6 +25,7 @@ from sd_runner.prompter import Prompter
 from sd_runner.run_config import RunConfig
 from ui.app_actions import AppActions
 from ui.app_style import AppStyle
+from ui.concept_editor_window import ConceptEditorWindow
 from ui.expansions_window import ExpansionsWindow
 from ui.preset import Preset
 from ui.presets_window import PresetsWindow
@@ -342,6 +343,8 @@ class App():
         starting_prompt_mode = self.runner_app_config.prompter_config.prompt_mode.name
         self.prompt_mode_choice = OptionMenu(self.prompter_config_bar, self.prompt_mode, starting_prompt_mode, *PromptMode.__members__.keys())
         self.apply_to_grid(self.prompt_mode_choice, interior_column=1, sticky=W, column=1)
+        self.concept_editor_window_btn = None
+        self.add_button("concept_editor_window_btn", text=_("Edit Concepts"), command=self.open_concept_editor_window, sidebar=False, increment_row_counter=False, interior_column=2)
 
         self.label_concepts_dir = Label(self.prompter_config_bar)
         self.add_label(self.label_concepts_dir, _("Concepts Dir"), column=1, increment_row_counter=False)
@@ -1157,6 +1160,12 @@ class App():
         except Exception as e:
             self.handle_error(str(e), title="Preset Schedules Window Error")
 
+    def open_concept_editor_window(self, event=None):
+        try:
+            concept_editor_window = ConceptEditorWindow(self.master, self.toast)
+        except Exception as e:
+            self.handle_error(str(e), title="Concept Editor Window Error")
+
     def next_preset(self, event=None):
         self.set_widgets_from_preset(PresetsWindow.next_preset(self.alert))
 
@@ -1276,7 +1285,7 @@ if __name__ == "__main__":
         #root.iconbitmap(bitmap=r"icon.ico")
         # icon = PhotoImage(file=os.path.join(assets, "icon.png"))
         # root.iconphoto(False, icon)
-        root.geometry("700x950")
+        root.geometry("800x950")
         # root.attributes('-fullscreen', True)
         root.resizable(1, 1)
         root.columnconfigure(0, weight=1)

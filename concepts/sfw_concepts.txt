@@ -1,6 +1,62 @@
 
 
 $$random_word in foreground blocking view
+$$random_word thereto
+'tis
+A B and C
+a to b
+adorned
+aluminum foil
+anatomy
+apart
+B movie
+blog screenshot
+boring
+bunched
+chart
+curia
+curio
+curl
+dado pedestal part
+Dear Diary
+debut
+derivative
+dimension
+draft
+elements
+encased in amber
+endnote
+fossilized
+frame
+friction
+geometry diagram
+grade
+high energy
+hook
+idol
+in the name of $$random_word
+integration
+knobs
+lay of the land
+leaking
+level [[$$number,A,B,G]]
+lidar
+line work
+lining
+losses and debts
+mannerism
+margins
+medallion
+method
+miscellany
+new releases
+norm
+normal
+onset
+patchwork
+payload
+periodic
+periodic table
 person in foreground blocking view
 (morphological operation)
 (scenic nature, misty)
@@ -286,8 +342,11 @@ pen
 pen on paper
 pencil sketch
 perfect composition
+petrified wood
+photo op
 photocopy
 photograph
+photon
 photonegative
 pixel art
 pixel subtraction result
@@ -298,25 +357,34 @@ pointy
 polaroid
 polished
 poster
+posters
 primer
 print art
 print screen image
+proton
+quite a lot
 radar
 radiological scan
 rainy
+ramp
 raw photo
 raytracing
 raytraced image inspired by senior environment artist
+remix
+remnant
 representational
 resampled image
 restored historic photograph
 retro artstyle
 retro game
+revenue and assets
+rind
 risograph
 rotated image
 rotoscoped image
 rough
 rounded
+saran wrap
 scalable
 scattered
 scribbles
@@ -334,20 +402,29 @@ silk screen
 silver nitrate film
 simple sketch
 sketchbook
+sketches
+slippery
 smeared
 smooth
 smooth
 smooth curves
+sneak preview
 snowy
 soft
 soft
 solid
+speckled
 spirograph
 splash
 splashiness
+sponsored by " $$random_word "
 spray painted
+spree
 stained
+standard model of physics
+static
 stenciling
+step $$number
 stereograph
 still life
 strange
@@ -356,14 +433,25 @@ striped
 stripes
 studio photography
 study of $$random_word
+stuff we all get
 suitable for various media
 Sumi-e
 sunny
+super
 superimposed images
 surrealism
+swag bags
+tapers
 tapestry
+taxonomy diagram
 tentacles and creatures
+textbook page
 textured
+theatre set backdrop
+this and that
+time stopped
+tonal values
+tools
 totem
 thermal camera image
 thick textured paint style impasto
@@ -375,10 +463,12 @@ traditional media
 transparent background
 Trois crayons
 ultrasharp
+uneven borders
 universal appeal
 unreal engine
 upsampling
 uwu
+vase
 vectorization
 vectorized
 velvet
@@ -403,6 +493,7 @@ western comic book art
 wide-angle shot
 ultra wide-angle shot
 windy
+wisp
 wood engraving
 word cloud
 x-ray

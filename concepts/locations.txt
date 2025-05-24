@@ -1,8 +1,28 @@
 
+1950s diner retro style
+buffet
+charity dinner
+copse
+cruiseliner
+ditch
+funicular
+middle of nowhere
+my old haunt
+people mover
 plaza
 seaport
+side road
+stall
+taxi
 terrace
 caverns
+the coast
+thicket
+tidewater basin
+tram
+trench
+tropics
+wagon
 waterfall
 first floort
 second floor
@@ -508,8 +528,10 @@ viewing platform
 VIP room
 walk-in closet
 warehouse
+waypoint
 wetlands
 whaling ship
+wharf
 wild
 workshop
 worksite

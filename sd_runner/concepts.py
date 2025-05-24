@@ -58,6 +58,174 @@ def sample(l, low, high) -> list:
     raise Exception(f"{type(l)} is not a valid sample population type")
 
 
+class ConceptsFile:
+    def __init__(self, filename):
+        self.filename = filename
+        self.lines = []  # Original lines with comments
+        self.concepts = []  # Just the concept strings
+        self.concept_indices = {}  # Map of concept -> line index
+        self.load()
+
+    def load(self):
+        """Load the file while preserving structure and comments"""
+        if os.path.isfile(self.filename):
+            filepath = str(self.filename)
+        else:
+            filepath = os.path.join(Concepts.CONCEPTS_DIR, self.filename)
+            
+        try:
+            with open(filepath, encoding="utf-8") as f:
+                self.lines = f.readlines()
+                
+            # Process lines and build concept list
+            self.concepts = []
+            self.concept_indices = {}
+            for i, line in enumerate(self.lines):
+                val = ""
+                for c in line:
+                    if c == "#":
+                        break
+                    val += c
+                val = val.strip()
+                if len(val) > 0:
+                    self.concepts.append(val)
+                    self.concept_indices[val] = i
+        except Exception as e:
+            print(f"Failed to load concepts file: {filepath}")
+            print(f"Error: {str(e)}")
+            self.lines = []
+            self.concepts = []
+            self.concept_indices = {}
+
+    def save(self):
+        """Save the file while preserving structure and comments"""
+        if os.path.isfile(self.filename):
+            filepath = str(self.filename)
+        else:
+            filepath = os.path.join(Concepts.CONCEPTS_DIR, self.filename)
+            
+        try:
+            with open(filepath, 'w', encoding="utf-8") as f:
+                f.writelines(self.lines)
+        except Exception as e:
+            print(f"Failed to save concepts file: {filepath}")
+            print(f"Error: {str(e)}")
+
+    def add_concept(self, concept):
+        """Add a new concept to the file, maintaining alphabetical order when possible.
+        
+        The method will:
+        1. Try to find the correct alphabetical position
+        2. Allow for 4-5 consecutive out-of-order concepts before giving up
+        3. If no suitable position is found, append to the end
+        """
+        print(f"\nAdding concept: {concept}")
+        print(f"Number of lines: {len(self.lines)}")
+        
+        if concept in self.concepts:
+            print("Concept already exists, returning False")
+            return False
+            
+        # Find the first concept line to start our ordering from
+        first_concept_idx = 0
+        while first_concept_idx < len(self.lines):
+            line = self.lines[first_concept_idx].strip()
+            print(f"Checking line {first_concept_idx}: '{line}'")
+            # Only break if we find an actual concept (non-empty, non-comment line)
+            if line and not line.startswith('#'):
+                # Found a concept line
+                print(f"Found first concept at index {first_concept_idx}: '{line}'")
+                break
+            first_concept_idx += 1
+            
+        if first_concept_idx >= len(self.lines):
+            # No concepts found, append to end
+            print("No concepts found, appending to end")
+            self.lines.append(f"{concept}\n")
+            self.concepts.append(concept)
+            self.concept_indices[concept] = len(self.lines) - 1
+            return True
+            
+        # Start from the first concept and look for insertion point
+        current_idx = first_concept_idx
+        consecutive_out_of_order = 0
+        max_consecutive_out_of_order = 5  # Increased from 3 to 5
+        
+        print(f"\nLooking for insertion point starting from index {current_idx}")
+        while current_idx < len(self.lines):
+            line = self.lines[current_idx].strip()
+            print(f"Checking line {current_idx}: '{line}'")
+            
+            # Skip comments and empty lines
+            if not line or line.startswith('#'):
+                print("Skipping comment/empty line")
+                current_idx += 1
+                continue
+                
+            # Compare with current concept
+            print(f"Comparing '{concept.lower()}' with '{line.lower()}'")
+            if concept.lower() < line.lower():
+                # Found insertion point
+                print(f"Found insertion point at index {current_idx}")
+                self.lines.insert(current_idx, f"{concept}\n")
+                self.concepts.append(concept)
+                self.concept_indices[concept] = current_idx
+                
+                # Update indices for concepts after insertion
+                for c, i in self.concept_indices.items():
+                    if i >= current_idx:
+                        self.concept_indices[c] = i + 1
+                return True
+                
+            # Check if we're out of order
+            if current_idx > first_concept_idx:
+                prev_line = self.lines[current_idx - 1].strip()
+                if prev_line and not prev_line.startswith('#') and line.lower() < prev_line.lower():
+                    consecutive_out_of_order += 1
+                    print(f"Found consecutive out-of-order entry. Count: {consecutive_out_of_order}")
+                    if consecutive_out_of_order >= max_consecutive_out_of_order:
+                        # Too many consecutive out-of-order entries, append to end
+                        print("Too many consecutive out-of-order entries, breaking")
+                        break
+                else:
+                    # Reset counter if we find an in-order entry
+                    consecutive_out_of_order = 0
+                        
+            current_idx += 1
+            
+        # If we get here, either we hit the end or found too many out-of-order entries
+        # Find the last non-empty line to append after
+        last_idx = len(self.lines) - 1
+        while last_idx >= 0 and not self.lines[last_idx].strip():
+            last_idx -= 1
+            
+        print(f"\nAppending concept after index {last_idx}")
+        # Add new concept after the last non-empty line
+        self.lines.insert(last_idx + 1, f"{concept}\n")
+        self.concepts.append(concept)
+        self.concept_indices[concept] = last_idx + 1
+        return True
+
+    def remove_concept(self, concept):
+        """Remove a concept from the file"""
+        if concept not in self.concepts:
+            return False
+            
+        idx = self.concept_indices[concept]
+        del self.lines[idx]
+        self.concepts.remove(concept)
+        del self.concept_indices[concept]
+        
+        # Update indices for concepts after the removed one
+        for c, i in self.concept_indices.items():
+            if i > idx:
+                self.concept_indices[c] = i - 1
+        return True
+
+    def get_concepts(self):
+        """Get the list of concepts"""
+        return self.concepts.copy()
+
 class Concepts:
     ALL_WORDS_LIST_FILENAME = "dictionary.txt"
     ALL_WORDS_LIST = []
@@ -360,6 +528,8 @@ class Concepts:
 
     @staticmethod
     def load(filename):
+        # Keeping this separate from the ConceptsFile class to minimize memory
+        # usage as this is called every time there's a prompt generation for every file.
         l = []
         if os.path.isfile(filename):
             filepath = str(filename)
@@ -379,6 +549,24 @@ class Concepts:
         except Exception:
             print("Failed to load concepts file: " + filepath)
         return l
+
+    @staticmethod
+    def save(filename, concepts):
+        """Save concepts to a file"""
+        file = ConceptsFile(filename)
+        current_concepts = set(file.get_concepts())
+        new_concepts = set(concepts)
+        
+        # Remove concepts that are no longer present
+        for concept in current_concepts - new_concepts:
+            file.remove_concept(concept)
+            
+        # Add new concepts
+        for concept in new_concepts - current_concepts:
+            file.add_concept(concept)
+            
+        # Save the file
+        file.save()
 
 class HardConcepts:
     hard_concepts = Concepts.load("hard_concepts.txt")

@@ -1,9 +1,7 @@
+from tkinter import Entry, Frame, Label, StringVar, messagebox, LEFT, W, Listbox, END, SINGLE, BOTH, Y, Scrollbar, Checkbutton, IntVar, Toplevel
+from tkinter.ttk import Button, Combobox
 
-from tkinter import Entry, Frame, Label, StringVar, filedialog, messagebox, LEFT, W
-import tkinter.font as fnt
-from tkinter.ttk import Button
-
-from sd_runner.concepts import Concepts
+from sd_runner.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
 from ui.app_style import AppStyle
 from utils.app_info_cache import app_info_cache
 from utils.config import config
@@ -18,9 +16,10 @@ class ConceptEditorWindow():
     MAX_HEIGHT = 900
     N_CONCEPTS_CUTOFF = 30
     COL_0_WIDTH = 600
+    top_level = None
 
     @staticmethod
-    def set_blacklist():
+    def load_concept_changes():
         ConceptEditorWindow.concept_change_history = app_info_cache.get("concept_changes", default_val=[])
 
     @staticmethod
@@ -54,182 +53,258 @@ class ConceptEditorWindow():
         return f"{width}x{height}"
 
     def __init__(self, master, toast_callback):
-        self.master = master
+        ConceptEditorWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
+        ConceptEditorWindow.top_level.geometry(self.get_geometry())
+        self.master = ConceptEditorWindow.top_level
         self.toast = toast_callback
-        self.base_tag = ""
-        self.filter_text = ""
-        self.filtered_tags = Concepts.TAG_BLACKLIST[:]
-        self.remove_tag_btn_list = []
-        self.label_list = []
+        self.search_text = ""
+        self.filtered_concepts = []
+        self.concept_files = []
+        self.current_concept = None
+        self.current_file = None
+        # Define categories with their class and default checked state
+        self.file_categories = {
+            "SFW": (SFW, True),  # (class, default_checked)
+            "NSFW": (NSFW, False),
+            "NSFL": (NSFL, False),
+            "Art Styles": (ArtStyles, True)
+        }
+        self.category_vars = {}  # Store checkbox variables
+        self.loaded_concepts = {}  # Cache for loaded concepts by file
 
+        # Setup main frame
         self.frame = Frame(self.master)
-        self.frame.grid(column=0, row=0)
-        self.frame.columnconfigure(0, weight=9)
-        self.frame.columnconfigure(1, weight=1)
+        self.frame.grid(column=0, row=0, sticky="nsew")
+        self.frame.columnconfigure(0, weight=1)
+        self.frame.rowconfigure(0, weight=1)
         self.frame.config(bg=AppStyle.BG_COLOR)
 
-        self.add_concept_widgets()
+        # Create main layout
+        self.setup_ui()
+        
+        # Load initial data
+        self.load_concept_files()
+        self.refresh()
 
-        self._label_info = Label(self.frame)
-        self.add_label(self._label_info, "Add to concepts", row=0, wraplength=ConceptEditorWindow.COL_0_WIDTH)
-        self.add_concept_btn = None
-        self.add_btn("add_concept_btn", "Add concept", self.handle_concept, column=1)
-        self.concept_var = StringVar(self.master)
-        self.concept_entry = self.new_entry(self.concept_var)
-        self.concept_entry.grid(row=0, column=2)
-        # self.clear_blacklist_btn = None
-        # self.add_btn("clear_blacklist_btn", "Clear tags", self.clear_tags, column=3)
-        self.frame.after(1, lambda: self.frame.focus_force())
-
-        self.master.bind("<Key>", self.filter_tags)
-        self.master.bind("<Return>", self.do_action)
+        # Bind events
+        self.master.bind("<Key>", self.filter_concepts)
+        self.master.bind("<Return>", self.save_concept)
         self.master.bind("<Escape>", self.close_windows)
         self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
 
-    def add_concept_widgets(self):
-        row = 0
-        base_col = 0
-        for i in range(len(self.filtered_tags)):
-            row = i+1
-            tag = self.filtered_tags[i]
-            self._label_info = Label(self.frame)
-            self.label_list.append(self._label_info)
-            self.add_label(self._label_info, str(tag), row=row, column=base_col, wraplength=ConceptEditorWindow.COL_0_WIDTH)
-            remove_tag_btn = Button(self.frame, text=_("Remove"))
-            self.remove_tag_btn_list.append(remove_tag_btn)
-            remove_tag_btn.grid(row=row, column=base_col+1)
-            def remove_tag_handler(event, self=self, tag=tag):
-                return self.remove_tag(event, tag)
-            remove_tag_btn.bind("<Button-1>", remove_tag_handler)
+    def setup_ui(self):
+        # Search frame
+        search_frame = Frame(self.frame, bg=AppStyle.BG_COLOR)
+        search_frame.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
+        search_frame.columnconfigure(1, weight=1)
+        
+        Label(search_frame, text=_("Search/Add Concept:"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR).grid(row=0, column=0, padx=5)
+        self.search_var = StringVar()
+        self.search_entry = Entry(search_frame, textvariable=self.search_var, width=40)
+        self.search_entry.grid(row=0, column=1, padx=5, sticky="ew")
+        self.search_entry.bind("<KeyRelease>", self.filter_concepts)
 
-    def get_concept(self, tag):
-        """
-        Add or remove a concept from files
-        """
-        if tag is not None:
-            Concepts.remove_from_blacklist(tag)
+        # Main content frame
+        content_frame = Frame(self.frame, bg=AppStyle.BG_COLOR)
+        content_frame.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        content_frame.columnconfigure(0, weight=1)
+        content_frame.rowconfigure(0, weight=1)
+
+        # Left panel - Concept list and controls
+        left_frame = Frame(content_frame, bg=AppStyle.BG_COLOR)
+        left_frame.grid(row=0, column=0, sticky="nsew", padx=5)
+        left_frame.columnconfigure(0, weight=1)
+        left_frame.rowconfigure(1, weight=1)  # Make concept list expand vertically
+        
+        # Category checkboxes
+        checkbox_frame = Frame(left_frame, bg=AppStyle.BG_COLOR)
+        checkbox_frame.grid(row=0, column=0, sticky="ew", pady=(0, 5))
+        
+        for i, (category, (class_obj, default_checked)) in enumerate(self.file_categories.items()):
+            var = IntVar(value=1 if default_checked else 0)
+            self.category_vars[category] = var
+            cb = Checkbutton(checkbox_frame, text=category, variable=var, command=self.refresh)
+            cb.grid(row=0, column=i, padx=5)
+        
+        # Concept list with scrollbar
+        list_frame = Frame(left_frame, bg=AppStyle.BG_COLOR)
+        list_frame.grid(row=1, column=0, sticky="nsew", pady=(0, 5))
+        list_frame.columnconfigure(0, weight=1)
+        list_frame.rowconfigure(0, weight=1)
+        
+        scrollbar = Scrollbar(list_frame)
+        scrollbar.grid(row=0, column=1, sticky="ns")
+        
+        self.concept_list = Listbox(list_frame, yscrollcommand=scrollbar.set, selectmode=SINGLE,
+                                  bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.concept_list.grid(row=0, column=0, sticky="nsew")
+        scrollbar.config(command=self.concept_list.yview)
+        self.concept_list.bind("<<ListboxSelect>>", self.on_concept_select)
+
+        # Edit controls
+        edit_frame = Frame(left_frame, bg=AppStyle.BG_COLOR)
+        edit_frame.grid(row=2, column=0, sticky="ew", pady=5)
+        edit_frame.columnconfigure(1, weight=1)
+
+        # File selection
+        Label(edit_frame, text=_("File:"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR).grid(row=0, column=0, padx=5, sticky="w")
+        self.file_combo = Combobox(edit_frame, values=[], state="readonly", width=37)
+        self.file_combo.grid(row=0, column=1, padx=5, sticky="ew", pady=5)
+
+        # Buttons
+        button_frame = Frame(edit_frame, bg=AppStyle.BG_COLOR)
+        button_frame.grid(row=2, column=0, columnspan=2, sticky="ew", pady=5)
+        
+        self.save_btn = Button(button_frame, text=_("Save"), command=self.save_concept)
+        self.save_btn.grid(row=0, column=0, padx=5)
+        
+        self.delete_btn = Button(button_frame, text=_("Delete"), command=self.delete_concept)
+        self.delete_btn.grid(row=0, column=1, padx=5)
+
+    def load_concept_files(self):
+        """Load all concept files from the concepts directory"""
+        self.concept_files = []
+        
+        # Add files from each category based on checkbox state
+        for category, (class_obj, default_checked) in self.file_categories.items():
+            if self.category_vars[category].get():
+                # Get all non-private attributes from the class
+                for attr_name in dir(class_obj):
+                    if not attr_name.startswith('_'):
+                        attr_value = getattr(class_obj, attr_name)
+                        if isinstance(attr_value, str):  # Only add string attributes (filenames)
+                            self.concept_files.append(attr_value)
+                
+        self.file_combo['values'] = sorted(self.concept_files)
+
+    def get_concepts_from_file(self, filename):
+        """Get concepts from a file, using cache if available"""
+        if filename not in self.loaded_concepts:
+            self.loaded_concepts[filename] = Concepts.load(filename)
+        return self.loaded_concepts[filename]
+
+    def filter_concepts(self, event=None):
+        """Filter concepts based on search text"""
+        self.search_text = self.search_var.get().lower()
+        if not self.search_text:  # If search is empty, clear the list
+            self.concept_list.delete(0, END)
+            self.filtered_concepts = []
+            return
+            
+        self.refresh()
+
+    def refresh(self):
+        """Refresh the concept list based on current filter and selected categories"""
+        # Reload concept files based on checkbox states
+        self.load_concept_files()
+        
+        self.concept_list.delete(0, END)
+        self.filtered_concepts = []
+        
+        if not self.search_text:  # Don't load concepts if there's no search
+            self.concept_list.insert(END, _("Enter search text to see concepts..."))
+            return
+            
+        # Search through enabled concept files
+        tier1_matches = []  # Matches at start of string
+        tier2_matches = []  # Matches after word boundary
+        tier3_matches = []  # Any other matches
+        
+        for filename in self.concept_files:
+            concepts = self.get_concepts_from_file(filename)
+            for concept in concepts:
+                concept_lower = concept.lower()
+                if self.search_text in concept_lower:
+                    # Check for tier 1: match at start
+                    if concept_lower.startswith(self.search_text):
+                        tier1_matches.append(concept)
+                    # Check for tier 2: match after word boundary
+                    elif any(self.search_text in word for word in concept_lower.split()):
+                        tier2_matches.append(concept)
+                    # Tier 3: any other match
+                    else:
+                        tier3_matches.append(concept)
+        
+        # Combine all matches in priority order
+        self.filtered_concepts = tier1_matches + tier2_matches + tier3_matches
+        
+        # Add to listbox
+        for concept in self.filtered_concepts:
+            self.concept_list.insert(END, concept)
+
+    def on_concept_select(self, event):
+        """Handle concept selection from list"""
+        selection = self.concept_list.curselection()
+        if not selection:
+            return
+            
+        self.current_concept = self.concept_list.get(selection[0])
+        
+        # Find which file contains this concept
+        for filename in self.concept_files:
+            concepts = self.get_concepts_from_file(filename)
+            if self.current_concept in concepts:
+                self.current_file = filename
+                self.file_combo.set(filename)
+                break
+
+    def save_concept(self, event=None):
+        """Save a new concept to the selected file"""
+        new_concept = self.search_var.get().strip()
+        if not new_concept:
+            return
+            
+        selected_file = self.file_combo.get()
+        if not selected_file:
+            messagebox.showerror(_("Error"), _("Please select a file to save to"))
+            return
+            
+        # Load current concepts from file
+        concepts = self.get_concepts_from_file(selected_file)
+        
+        # Add new concept if not already present
+        if new_concept not in concepts:
+            concepts.append(new_concept)
+            concepts.sort()
+            
+            # Save to file
+            Concepts.save(selected_file, concepts)
+                
+            self.toast(_("Saved concept: {0}").format(new_concept))
+            
+            # Search for the new concept to confirm it was saved
             self.refresh()
-            self.toast(_("Removed tag: {0}").format(tag))
-            return None
-        tag = self.concept_var.get()
-        return tag
+            
+            # Select the new concept in the list
+            items = self.concept_list.get(0, END)
+            if new_concept in items:
+                idx = items.index(new_concept)
+                self.concept_list.selection_clear(0, END)
+                self.concept_list.selection_set(idx)
+                self.concept_list.see(idx)
+                
+            # Update current file
+            self.current_file = selected_file
 
-    def handle_concept(self, event=None, concept=None):
-        concept = self.get_concept(concept)
-        if concept is None:
+    def delete_concept(self):
+        """Delete the current concept from its file"""
+        if not self.current_concept or not self.current_file:
             return
-        if concept.strip() == "":
-            self.close_windows()
-            raise Exception("Failed to set tag for blacklist.")
-
-        Concepts.add_to_blacklist(concept)
-        self.refresh()
-        self.toast(_("Added tag to blacklist: {0}").format(concept))
-        return concept
-
-    def remove_tag(self, event=None, tag=None):
-        tag = self.handle_concept(concept=tag)
-        if tag is None:
-            return
-        if self.filter_text is not None and self.filter_text.strip() != "":
-            print(f"Filtered by string: {self.filter_text}")
-        ConceptEditorWindow.update_history(tag)
-        ConceptEditorWindow.last_set_concept = tag
-        self.close_windows()
-
-    def filter_tags(self, event):
-        """
-        Rebuild the filtered tags list based on the filter string and update the UI.
-        """
-        modifier_key_pressed = (event.state & 0x1) != 0 or (event.state & 0x4) != 0 # Do not filter if modifier key is down
-        if modifier_key_pressed:
-            return
-        if len(event.keysym) > 1:
-            # If the key is up/down arrow key, roll the list up/down
-            if event.keysym == "Down" or event.keysym == "Up":
-                if event.keysym == "Down":
-                    self.filtered_tags = self.filtered_tags[1:] + [self.filtered_tags[0]]
-                else:  # keysym == "Up"
-                    self.filtered_tags = [self.filtered_tags[-1]] + self.filtered_tags[:-1]
-                self.clear_widget_lists()
-                self.add_concept_widgets()
-                self.master.update()
-            if event.keysym != "BackSpace":
-                return
-        if event.keysym == "BackSpace":
-            if len(self.filter_text) > 0:
-                self.filter_text = self.filter_text[:-1]
-        elif event.char:
-            self.filter_text += event.char
-        else:
-            return
-        if self.filter_text.strip() == "":
-            print("Filter unset")
-            # Restore the list of target directories to the full list
-            self.filtered_tags.clear()
-            self.filtered_tags = Concepts.TAG_BLACKLIST[:]
-        else:
-            temp = []
-            # First pass try to match directory basename
-            for tag in Concepts.TAG_BLACKLIST:
-                if tag == self.filter_text:
-                    temp.append(tag)
-            for tag in Concepts.TAG_BLACKLIST:
-                if tag not in temp:
-                    if tag.startswith(self.filter_text):
-                        temp.append(tag)
-            # Third pass try to match part of the basename
-            for tag in Concepts.TAG_BLACKLIST:
-                if tag not in temp:
-                    if tag and (f" {self.filter_text}" in tag.lower() or f"_{self.filter_text}" in tag.lower()):
-                        temp.append(tag)
-            self.filtered_tags = temp[:]
-
-        self.refresh(refresh_list=False)
-
-    def do_action(self, event=None):
-        """
-        The user has requested to set a tag.
-        If no tags exist, call handle_tag() with tag=None to set a new tag.
-        """
-        self.handle_concept()
-
-    def clear_tags(self, event=None):
-        Concepts.TAG_BLACKLIST.clear()
-        self.filtered_tags.clear()
-        self.refresh()
-        self.toast(_("Cleared tag blacklist"))
-
-    def clear_widget_lists(self):
-        for btn in self.remove_tag_btn_list:
-            btn.destroy()
-        for label in self.label_list:
-            label.destroy()
-        self.remove_tag_btn_list = []
-        self.label_list = []
-
-    def refresh(self, refresh_list=True):
-        if refresh_list:
-            self.filtered_tags = Concepts.TAG_BLACKLIST[:]
-        self.clear_widget_lists()
-        self.add_concept_widgets()
-        self.master.update()
+            
+        if messagebox.askyesno(_("Confirm"), _("Delete concept: {0}?").format(self.current_concept)):
+            concepts = self.get_concepts_from_file(self.current_file)
+            if self.current_concept in concepts:
+                concepts.remove(self.current_concept)
+                Concepts.save(self.current_file, concepts)
+                    
+                self.toast(_("Deleted concept: {0}").format(self.current_concept))
+                self.current_concept = None
+                self.current_file = None
+                self.search_var.set("")
+                self.file_combo.set("")
+                self.refresh()
 
     def close_windows(self, event=None):
+        """Close the window"""
         self.master.destroy()
-
-    def add_label(self, label_ref, text, row=0, column=0, wraplength=500):
-        label_ref['text'] = text
-        label_ref.grid(column=column, row=row, sticky=W)
-        label_ref.config(wraplength=wraplength, justify=LEFT, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-
-    def add_btn(self, button_ref_name, text, command, row=0, column=0):
-        if getattr(self, button_ref_name) is None:
-            button = Button(master=self.frame, text=text, command=command)
-            setattr(self, button_ref_name, button)
-            button # for some reason this is necessary to maintain the reference?
-            button.grid(row=row, column=column)
-
-    def new_entry(self, text_variable, text="", width=30, **kw):
-        return Entry(self.frame, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
 

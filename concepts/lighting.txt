@@ -1,6 +1,7 @@
 Action-packed lighting
 Back lighting
 Backlit
+dramatic shadows and highlights
 Rim lighting
 Black and White lighting
 Bright lighting
