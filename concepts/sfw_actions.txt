@@ -137,6 +137,7 @@ convincing
 cookbooks
 cooking
 corks
+covering
 crafting 
 crawling
 create elaborate dessert bars
@@ -164,9 +165,12 @@ dancing
 dancing
 darts
 dating
+daydream
 debating
+deceiving
 deciding
 defending
+defense
 demoing
 designing clothes
 designing graphics
@@ -185,6 +189,7 @@ doing jumping jacks
 doing puzzles
 dollhouses
 dolls
+don't fret
 don't sweat it
 doodling
 drafting
@@ -269,6 +274,7 @@ generating
 gesturing
 get out
 get even
+get real
 giving
 giving a demonstration
 glass blowing
@@ -323,6 +329,7 @@ holing up
 home decorating
 homework
 hopping
+hornswoggled
 horse racing
 host a supper club
 hosting
@@ -347,6 +354,8 @@ increasing
 introducing
 irritating
 inventing
+is it a go?
+it's happening
 jazzercise/aerobics
 jet skiing
 jewelry design
@@ -408,6 +417,7 @@ magnets
 makeup art
 making
 making a big fuss
+making allegations
 making breakfast
 making dolls
 making dream catchers
@@ -424,6 +434,7 @@ melee
 melting
 memorabilia from a specific decade
 memorizing music lyrics
+mergers and acquisitions
 metal detecting
 milking a cow
 milling
@@ -450,11 +461,15 @@ nautical or beach inspired art or items
 need that $$random_word STAT!
 needing
 negotiating
+neither!
 no matter
 nod
 note taking and research
+objection!
 observing
 obtaining
+occurrences
+offense
 offering
 oil painting
 on a date
@@ -487,6 +502,7 @@ paying dues
 peel
 people watching
 performing
+perks
 persisting
 petting cat
 petting dog
@@ -521,6 +537,7 @@ pogo stick
 pointing
 popping a bubble
 popping a wheelie
+posit
 postcards
 pottery/ceramics
 powerwashing
@@ -547,6 +564,7 @@ on a quest
 quilting
 quitting
 raising
+ran past
 reaching
 reaching up high for something on the shelf
 reading
@@ -737,6 +755,7 @@ throwing a ball
 throwing a javelin
 tickling
 tie dyeing
+touchdown!
 triage
 trialing
 true to [[him,her,it,me]]
@@ -770,6 +789,7 @@ vintage bottles
 vintage costume design
 vintage glass
 vintage milk glass
+visiting
 visiting and walking around area gardens
 visiting museums
 volleyball

@@ -6,14 +6,17 @@ $$random_word thereto
 A B and C
 a to b
 adorned
+aerosol
 aluminum foil
 anatomy
 apart
 B movie
 blog screenshot
 boring
+brim
 bunched
 chart
+clef
 curia
 curio
 curl
@@ -23,21 +26,27 @@ debut
 derivative
 dimension
 draft
+eighths
 elements
 encased in amber
 endnote
 fossilized
 frame
+frets
 friction
 geometry diagram
 grade
+groupings
+halved
 high energy
 hook
 idol
 in the name of $$random_word
+inasmuch as $$random_word
 integration
 knobs
 lay of the land
+layering
 leaking
 level [[$$number,A,B,G]]
 lidar
@@ -49,6 +58,8 @@ margins
 medallion
 method
 miscellany
+multiperspective
+mutation
 new releases
 norm
 normal
@@ -362,6 +373,8 @@ primer
 print art
 print screen image
 proton
+proxy
+quartered
 quite a lot
 radar
 radiological scan
@@ -387,6 +400,7 @@ rounded
 saran wrap
 scalable
 scattered
+scraped
 scribbles
 selfie
 sfm

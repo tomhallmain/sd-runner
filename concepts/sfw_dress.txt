@@ -276,6 +276,7 @@ Mohawk
 Motorcycle Jacket
 muffler
 muumuu
+name tag
 neckerchief
 necklace
 nightgown

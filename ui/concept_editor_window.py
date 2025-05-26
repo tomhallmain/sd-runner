@@ -67,7 +67,8 @@ class ConceptEditorWindow():
             "SFW": (SFW, True),  # (class, default_checked)
             "NSFW": (NSFW, False),
             "NSFL": (NSFL, False),
-            "Art Styles": (ArtStyles, True)
+            "Art Styles": (ArtStyles, True),
+            "Dictionary": (None, False)  # Special case for dictionary file
         }
         self.category_vars = {}  # Store checkbox variables
         self.loaded_concepts = {}  # Cache for loaded concepts by file
@@ -168,12 +169,16 @@ class ConceptEditorWindow():
         # Add files from each category based on checkbox state
         for category, (class_obj, default_checked) in self.file_categories.items():
             if self.category_vars[category].get():
-                # Get all non-private attributes from the class
-                for attr_name in dir(class_obj):
-                    if not attr_name.startswith('_'):
-                        attr_value = getattr(class_obj, attr_name)
-                        if isinstance(attr_value, str):  # Only add string attributes (filenames)
-                            self.concept_files.append(attr_value)
+                if category == "Dictionary":
+                    # Special case for dictionary file
+                    self.concept_files.append(Concepts.ALL_WORDS_LIST_FILENAME)
+                else:
+                    # Get all non-private attributes from the class
+                    for attr_name in dir(class_obj):
+                        if not attr_name.startswith('_'):
+                            attr_value = getattr(class_obj, attr_name)
+                            if isinstance(attr_value, str):  # Only add string attributes (filenames)
+                                self.concept_files.append(attr_value)
                 
         self.file_combo['values'] = sorted(self.concept_files)
 

@@ -61,6 +61,7 @@ def sample(l, low, high) -> list:
 class ConceptsFile:
     def __init__(self, filename):
         self.filename = filename
+        self.is_dictionary = filename == Concepts.ALL_WORDS_LIST_FILENAME
         self.lines = []  # Original lines with comments
         self.concepts = []  # Just the concept strings
         self.concept_indices = {}  # Map of concept -> line index
@@ -130,14 +131,15 @@ class ConceptsFile:
         first_concept_idx = 0
         while first_concept_idx < len(self.lines):
             line = self.lines[first_concept_idx].strip()
-            print(f"Checking line {first_concept_idx}: '{line}'")
+            if not self.is_dictionary:
+                print(f"Checking line {first_concept_idx}: '{line}'")
             # Only break if we find an actual concept (non-empty, non-comment line)
             if line and not line.startswith('#'):
                 # Found a concept line
                 print(f"Found first concept at index {first_concept_idx}: '{line}'")
                 break
             first_concept_idx += 1
-            
+
         if first_concept_idx >= len(self.lines):
             # No concepts found, append to end
             print("No concepts found, appending to end")
@@ -145,28 +147,32 @@ class ConceptsFile:
             self.concepts.append(concept)
             self.concept_indices[concept] = len(self.lines) - 1
             return True
-            
+
         # Start from the first concept and look for insertion point
         current_idx = first_concept_idx
         consecutive_out_of_order = 0
         max_consecutive_out_of_order = 5  # Increased from 3 to 5
-        
-        print(f"\nLooking for insertion point starting from index {current_idx}")
+
+        if not self.is_dictionary:
+            print(f"\nLooking for insertion point starting from index {current_idx}")
         while current_idx < len(self.lines):
             line = self.lines[current_idx].strip()
-            print(f"Checking line {current_idx}: '{line}'")
+            if not self.is_dictionary:
+                print(f"Checking line {current_idx}: '{line}'")
             
             # Skip comments and empty lines
             if not line or line.startswith('#'):
-                print("Skipping comment/empty line")
+                if not self.is_dictionary:
+                    print("Skipping comment/empty line")
                 current_idx += 1
                 continue
                 
             # Compare with current concept
-            print(f"Comparing '{concept.lower()}' with '{line.lower()}'")
+            if not self.is_dictionary:
+                print(f"Comparing '{concept.lower()}' with '{line.lower()}'")
             if concept.lower() < line.lower():
                 # Found insertion point
-                print(f"Found insertion point at index {current_idx}")
+                print(f"Found insertion point at index {current_idx} (before line \"{line}\")")
                 self.lines.insert(current_idx, f"{concept}\n")
                 self.concepts.append(concept)
                 self.concept_indices[concept] = current_idx

@@ -69,6 +69,7 @@ on the ground
 open arms
 orientation
 over here
+positions
 quarter turn
 perched
 POV hands

@@ -72,4 +72,5 @@ Set configuration options for a server port to make use of the server while the 
 
 The stable-diffusion-webui img2img workflow is set up as the IP Adapter workflow. In this case, modifying the IP adapter strength in the UI will inversely modify the denoising strength to produce a similar effect as IP adapter strength would for that workflow.
 
+The following locales are supported in the UI: en (English), de (Deutsh), fr (Français), es (Español), it (Italiano). Theoretically the prompt outputs could be set up for any written language that has Unicode support by modifying the existing concepts files or adding a path to the config `concepts_dirs` to override concepts files.
 

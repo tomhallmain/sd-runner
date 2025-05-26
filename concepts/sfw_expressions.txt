@@ -142,6 +142,7 @@ smirk
 smug
 snarl
 sneering
+snort
 Solemn
 somber
 sourpuss
