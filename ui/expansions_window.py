@@ -44,12 +44,39 @@ class ExpansionModifyWindow():
         self.new_expansion_text_entry = Entry(self.frame, textvariable=self.new_expansion_text, width=50, font=fnt.Font(size=8))
         self.new_expansion_text_entry.grid(column=0, row=3, sticky="w")
 
+        # Add warning label for wildcard clashes
+        self._warning_label = Label(self.frame)
+        self.add_label(self._warning_label, "", row=4, wraplength=ExpansionModifyWindow.COL_0_WIDTH)
+        self._warning_label.config(fg="red")  # Make warning text red
+        self.check_wildcard_clash()  # Initial check
+
+        # Add trace to check for clashes when name changes
+        self.new_expansion_name.trace_add("write", lambda *args: self.check_wildcard_clash())
+
         self.add_expansion_btn = None
-        self.add_btn("add_expansion_btn", _("Done"), self.finalize_expansion, row=4, column=0)
+        self.add_btn("add_expansion_btn", _("Done"), self.finalize_expansion, row=5, column=0)
 
         self.master.update()
 
+    def check_wildcard_clash(self):
+        """Check if the current expansion name clashes with a wildcard"""
+        name = self.new_expansion_name.get()
+        if name in config.wildcards:
+            self._warning_label.config(text=_("Warning: This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed."))
+            return True
+        else:
+            self._warning_label.config(text="")
+            return False
+
     def finalize_expansion(self, event=None):
+        if self.check_wildcard_clash():
+            self.master.update()
+            # Show confirmation dialog
+            from tkinter import messagebox
+            if not messagebox.askyesno(_("Warning"), 
+                _("This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n\nDo you want to save anyway?")):
+                return  # User chose not to save
+
         self.expansion.id = self.new_expansion_name.get()
         self.expansion.text = self.new_expansion_text.get()
         self.close_windows()
@@ -147,6 +174,7 @@ class ExpansionsWindow():
         self.expansion_text_label_list = []
         self.set_expansion_btn_list = []
         self.delete_expansion_btn_list = []
+        self.copy_expansion_btn_list = []
 
         self.frame = Frame(self.master)
         self.frame.grid(column=0, row=0)
@@ -154,6 +182,7 @@ class ExpansionsWindow():
         self.frame.columnconfigure(1, weight=1)
         self.frame.columnconfigure(2, weight=1)
         self.frame.columnconfigure(3, weight=1)
+        self.frame.columnconfigure(4, weight=1)
         self.frame.config(bg=AppStyle.BG_COLOR)
 
         self.add_expansion_widgets()
@@ -201,6 +230,13 @@ class ExpansionsWindow():
                 return self.delete_expansion(event, expansion)
             delete_expansion_btn.bind("<Button-1>", delete_expansion_handler)
 
+            copy_expansion_btn = Button(self.frame, text=_("Copy"))
+            self.copy_expansion_btn_list.append(copy_expansion_btn)
+            copy_expansion_btn.grid(row=row, column=base_col+4)
+            def copy_expansion_handler(event, self=self, expansion=expansion):
+                return self.copy_expansion(event, expansion)
+            copy_expansion_btn.bind("<Button-1>", copy_expansion_handler)
+
     def open_expansion_modify_window(self, event=None, expansion=None):
         if ExpansionsWindow.expansion_modify_window is not None:
             ExpansionsWindow.expansion_modify_window.master.destroy()
@@ -213,10 +249,12 @@ class ExpansionsWindow():
         Expansion.expansions.insert(0, expansion)
         self.filtered_expansions = Expansion.expansions[:]
         self.set_expansion(expansion)
+        ExpansionsWindow.store_expansions()
 
     def add_empty_expansion(self, event=None):
         Expansion.expansions.insert(0, Expansion("", ""))
         self.refresh()
+        ExpansionsWindow.store_expansions()
 
     def get_expansion(self, expansion=None, id="", text="", toast_callback=None):
         was_valid = False
@@ -269,6 +307,7 @@ class ExpansionsWindow():
         if expansion is not None and expansion in Expansion.expansions:
             Expansion.expansions.remove(expansion)
         self.refresh()
+        ExpansionsWindow.store_expansions()
 
     def filter_expansions(self, event):
         """
@@ -350,6 +389,7 @@ class ExpansionsWindow():
         self.filtered_expansions.clear()
         self.add_expansion_widgets()
         self.master.update()
+        ExpansionsWindow.store_expansions()
 
     def clear_widget_lists(self):
         for label in self.expansion_id_label_list:
@@ -360,10 +400,13 @@ class ExpansionsWindow():
             btn.destroy()
         for btn in self.delete_expansion_btn_list:
             btn.destroy()
+        for btn in self.copy_expansion_btn_list:
+            btn.destroy()
         self.expansion_id_label_list = []
         self.expansion_text_label_list = []
         self.set_expansion_btn_list = []
         self.delete_expansion_btn_list = []
+        self.copy_expansion_btn_list = []
 
     def refresh(self, refresh_list=True):
         self.filtered_expansions = Expansion.expansions[:]
@@ -385,3 +428,10 @@ class ExpansionsWindow():
             setattr(self, button_ref_name, button)
             button # for some reason this is necessary to maintain the reference?
             button.grid(row=row, column=column)
+
+    def copy_expansion(self, event=None, expansion=None):
+        """Copy the expanded text to clipboard"""
+        if expansion is not None and expansion.text is not None:
+            self.master.clipboard_clear()
+            self.master.clipboard_append(expansion.text)
+            self.toast_callback(_("Copied expansion text to clipboard"))
