@@ -10,6 +10,7 @@ from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.translations import I18N
 from utils.utils import Utils
+from lib.tk_scroll_demo import ScrollFrame
 
 _ = I18N._
 
@@ -27,17 +28,19 @@ class ExpansionModifyWindow():
         self.expansion = expansion if expansion is not None else Expansion("", "")
         ExpansionModifyWindow.top_level.title(_("Modify Expansion: {0}").format(self.expansion.id))
 
-        self.frame = Frame(self.master)
-        self.frame.grid(column=0, row=0)
+        self.frame = Frame(self.master, bg=AppStyle.BG_COLOR)
+        self.frame.grid(column=0, row=0, sticky="nsew")
+        self.master.grid_rowconfigure(0, weight=1)
+        self.master.grid_columnconfigure(0, weight=1)
 
-        self._label_info = Label(self.frame)
+        self._label_info = Label(self.frame, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
         self.add_label(self._label_info, _("Expansion ID"), row=0, wraplength=ExpansionModifyWindow.COL_0_WIDTH)
 
         self.new_expansion_name = StringVar(self.master, value="NewExp"if expansion is None else expansion.id)
         self.new_expansion_name_entry = Entry(self.frame, textvariable=self.new_expansion_name, width=50, font=fnt.Font(size=8))
         self.new_expansion_name_entry.grid(column=0, row=1, sticky="w")
 
-        self._label_text = Label(self.frame)
+        self._label_text = Label(self.frame, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
         self.add_label(self._label_text, _("Expansion Text"), row=2, wraplength=ExpansionModifyWindow.COL_0_WIDTH)
 
         self.new_expansion_text = StringVar(self.master, value=_("New Expansion Text") if expansion is None else expansion.text)
@@ -45,9 +48,8 @@ class ExpansionModifyWindow():
         self.new_expansion_text_entry.grid(column=0, row=3, sticky="w")
 
         # Add warning label for wildcard clashes
-        self._warning_label = Label(self.frame)
+        self._warning_label = Label(self.frame, bg=AppStyle.BG_COLOR, fg="red")
         self.add_label(self._warning_label, "", row=4, wraplength=ExpansionModifyWindow.COL_0_WIDTH)
-        self._warning_label.config(fg="red")  # Make warning text red
         self.check_wildcard_clash()  # Initial check
 
         # Add trace to check for clashes when name changes
@@ -88,7 +90,7 @@ class ExpansionModifyWindow():
     def add_label(self, label_ref, text, row=0, column=0, wraplength=500):
         label_ref['text'] = text
         label_ref.grid(column=column, row=row, sticky=W)
-        label_ref.config(wraplength=wraplength, justify=LEFT, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        label_ref.config(wraplength=wraplength, justify=LEFT, bg=AppStyle.BG_COLOR)
 
     def add_btn(self, button_ref_name, text, command, row=0, column=0):
         if getattr(self, button_ref_name) is None:
@@ -176,29 +178,34 @@ class ExpansionsWindow():
         self.delete_expansion_btn_list = []
         self.copy_expansion_btn_list = []
 
-        self.frame = Frame(self.master)
-        self.frame.grid(column=0, row=0)
-        self.frame.columnconfigure(0, weight=1)
-        self.frame.columnconfigure(1, weight=1)
-        self.frame.columnconfigure(2, weight=1)
-        self.frame.columnconfigure(3, weight=1)
-        self.frame.columnconfigure(4, weight=1)
-        self.frame.config(bg=AppStyle.BG_COLOR)
+        # Create main frame for header and buttons
+        self.header_frame = Frame(self.master, bg=AppStyle.BG_COLOR)
+        self.header_frame.grid(column=0, row=0, sticky="ew")
+        self.header_frame.columnconfigure(0, weight=1)
+        self.header_frame.columnconfigure(1, weight=1)
+        self.header_frame.columnconfigure(2, weight=1)
 
-        self.add_expansion_widgets()
+        # Create scrollable frame for expansion rows
+        self.frame = ScrollFrame(self.master, bg_color=AppStyle.BG_COLOR)
+        self.frame.grid(column=0, row=1, sticky="nsew")
+        self.master.grid_rowconfigure(1, weight=1)
+        self.master.grid_columnconfigure(0, weight=1)
 
-        self._label_info = Label(self.frame)
+        # Add header label and buttons
+        self._label_info = Label(self.header_frame)
         self.add_label(self._label_info, _("Add or update expansions"), row=0, wraplength=ExpansionsWindow.COL_0_WIDTH)
         self.add_expansion_btn = None
-        self.add_btn("add_expansion_btn", _("Add expansion"), self.add_empty_expansion, column=1)
+        self._add_btn("add_expansion_btn", _("Add expansion"), self.header_frame, self.add_empty_expansion, column=1)
         self.clear_expansions_btn = None
-        self.add_btn("clear_expansions_btn", _("Clear expansions"), self.clear_expansions, column=2)
-        self.frame.after(1, lambda: self.frame.focus_force())
+        self._add_btn("clear_expansions_btn", _("Clear expansions"), self.header_frame, self.clear_expansions, column=2)
+
+        self.add_expansion_widgets()
 
         self.master.bind("<Key>", self.filter_expansions)
         self.master.bind("<Return>", self.do_action)
         self.master.bind("<Escape>", self.close_windows)
         self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
+        self.frame.after(1, lambda: self.frame.focus_force())
 
     def add_expansion_widgets(self):
         row = 0
@@ -207,30 +214,30 @@ class ExpansionsWindow():
             row = i+1
             expansion = self.filtered_expansions[i]
 
-            id_label = Label(self.frame)
+            id_label = Label(self.frame.viewPort)
             self.expansion_id_label_list.append(id_label)
             self.add_label(id_label, str(expansion.id), row=row, column=base_col, wraplength=ExpansionsWindow.COL_0_WIDTH)
 
-            text_label = Label(self.frame)
+            text_label = Label(self.frame.viewPort)
             self.expansion_text_label_list.append(text_label)
-            expansion_text = Utils.get_centrally_truncated_string(expansion.text, 30)
+            expansion_text = Utils.get_centrally_truncated_string(expansion.text, 50)
             self.add_label(text_label, expansion_text, row=row, column=base_col+1, wraplength=ExpansionsWindow.COL_0_WIDTH)
 
-            set_expansion_btn = Button(self.frame, text=_("Modify"))
+            set_expansion_btn = Button(self.frame.viewPort, text=_("Modify"))
             self.set_expansion_btn_list.append(set_expansion_btn)
             set_expansion_btn.grid(row=row, column=base_col+2)
             def set_expansion_handler(event, self=self, expansion=expansion):
                 self.open_expansion_modify_window(expansion=expansion)
             set_expansion_btn.bind("<Button-1>", set_expansion_handler)
 
-            delete_expansion_btn = Button(self.frame, text=_("Delete"))
+            delete_expansion_btn = Button(self.frame.viewPort, text=_("Delete"))
             self.delete_expansion_btn_list.append(delete_expansion_btn)
             delete_expansion_btn.grid(row=row, column=base_col+3)
             def delete_expansion_handler(event, self=self, expansion=expansion):
                 return self.delete_expansion(event, expansion)
             delete_expansion_btn.bind("<Button-1>", delete_expansion_handler)
 
-            copy_expansion_btn = Button(self.frame, text=_("Copy"))
+            copy_expansion_btn = Button(self.frame.viewPort, text=_("Copy"))
             self.copy_expansion_btn_list.append(copy_expansion_btn)
             copy_expansion_btn.grid(row=row, column=base_col+4)
             def copy_expansion_handler(event, self=self, expansion=expansion):
@@ -423,8 +430,11 @@ class ExpansionsWindow():
         label_ref.config(wraplength=wraplength, justify=LEFT, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
 
     def add_btn(self, button_ref_name, text, command, row=0, column=0):
+        self._add_btn(button_ref_name, text, self.frame.viewPort, command, row=row, column=column)
+
+    def _add_btn(self, button_ref_name, text, frame, command, row=0, column=0):
         if getattr(self, button_ref_name) is None:
-            button = Button(master=self.frame, text=text, command=command)
+            button = Button(master=frame, text=text, command=command)
             setattr(self, button_ref_name, button)
             button # for some reason this is necessary to maintain the reference?
             button.grid(row=row, column=column)

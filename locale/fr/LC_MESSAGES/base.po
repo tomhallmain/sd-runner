@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-05-24 14:34-0400\n"
-"PO-Revision-Date: 2025-05-24 14:34-0400\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-05-27 15:13-0400\n"
+"PO-Revision-Date: 2025-05-27 15:13-0400\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: fr Team <<EMAIL>>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -47,6 +47,10 @@ msgstr "Délai en secondes"
 #: app.py:167
 msgid "Resolutions"
 msgstr "Résolutions"
+
+#: app.py:174
+msgid "Resolution Group"
+msgstr "Groupe de résolution"
 
 #: app.py:180
 msgid "Model Tags"
@@ -131,6 +135,10 @@ msgstr "Configuration des invites"
 #: app.py:341
 msgid "Prompt Mode"
 msgstr "Mode invite"
+
+#: app.py:347
+msgid "Edit Concepts"
+msgstr "Modifier les concepts"
 
 #: app.py:350
 msgid "Concepts Dir"
@@ -284,7 +292,7 @@ msgstr "{0} générations en attente"
 msgid "Tags Blacklist"
 msgstr "Liste noire des étiquettes"
 
-#: app.py:1192 ui/concept_editor_window.py:259
+#: app.py:1192 ui/concept_editor_window.py:264
 msgid "Error"
 msgstr "Erreur"
 
@@ -316,21 +324,48 @@ msgstr ""
 "Un changement de modèle a été détecté et les étiquettes de massage du modèle"
 " ne correspondent pas. Cet avertissement ne sera affiché qu'une seule fois."
 
-#: ui/tags_blacklist_window.py:105
-msgid "Remove"
+#: ui/concept_editor_window.py:102
+msgid "Search/Add Concept:"
+msgstr "Rechercher/Ajouter un concept :"
+
+#: ui/concept_editor_window.py:151
+msgid "File:"
+msgstr "Dossier :"
+
+#: ui/concept_editor_window.py:159 ui/concept_editor_window_qt.py:122
+#: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
+msgid "Save"
+msgstr "Enregistrer"
+
+#: ui/concept_editor_window.py:162 ui/concept_editor_window_qt.py:49
+#: ui/expansions_window.py:232 ui/presets_window.py:143
+#: ui/schedules_windows.py:88 ui/schedules_windows.py:288
+msgid "Delete"
 msgstr "Supprimer"
 
-#: ui/tags_blacklist_window.py:119
-msgid "Removed tag: {0}"
-msgstr "Suppression de l'étiquette : {0}"
+#: ui/concept_editor_window.py:210
+msgid "Enter search text to see concepts..."
+msgstr "Entrez le texte de recherche pour voir les concepts..."
 
-#: ui/tags_blacklist_window.py:134 ui/tags_blacklist_window_qt.py:92
-msgid "Added tag to blacklist: {0}"
-msgstr "Ajout d'une étiquette à la liste noire : {0}"
+#: ui/concept_editor_window.py:264
+msgid "Please select a file to save to"
+msgstr "Veuillez sélectionner un fichier où sauvegarder"
 
-#: ui/tags_blacklist_window.py:208
-msgid "Cleared tag blacklist"
-msgstr "Effacement de la liste noire des étiquettes"
+#: ui/concept_editor_window.py:278 ui/concept_editor_window_qt.py:234
+msgid "Saved concept: {0}"
+msgstr "Concept sauvegardé : {0}"
+
+#: ui/concept_editor_window.py:299
+msgid "Confirm"
+msgstr "Confirmer"
+
+#: ui/concept_editor_window.py:299
+msgid "Delete concept: {0}?"
+msgstr "Supprimer le concept : {0}?"
+
+#: ui/concept_editor_window.py:305 ui/concept_editor_window_qt.py:247
+msgid "Deleted concept: {0}"
+msgstr "Concept supprimé: {0}"
 
 #: ui/concept_editor_window_qt.py:19
 msgid "Concept Editor"
@@ -343,12 +378,6 @@ msgstr "Rechercher des concepts..."
 #: ui/concept_editor_window_qt.py:47 ui/expansions_window_qt.py:68
 msgid "New"
 msgstr "Nouveau"
-
-#: ui/concept_editor_window.py:161 ui/concept_editor_window_qt.py:49
-#: ui/expansions_window.py:197 ui/presets_window.py:143
-#: ui/schedules_windows.py:88 ui/schedules_windows.py:288
-msgid "Delete"
-msgstr "Supprimer"
 
 #: ui/concept_editor_window_qt.py:65
 msgid "Name:"
@@ -378,11 +407,6 @@ msgstr "Parcourir"
 msgid "Active"
 msgstr "Activité"
 
-#: ui/concept_editor_window.py:158 ui/concept_editor_window_qt.py:122
-#: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
-msgid "Save"
-msgstr "Enregistrer"
-
 #: ui/concept_editor_window_qt.py:141
 msgid "Import"
 msgstr "Importation"
@@ -400,14 +424,6 @@ msgstr "Fermer"
 #: ui/concept_editor_window_qt.py:232
 msgid "Updated concept: {0} -> {1}"
 msgstr "Concept actualisé : {0} -> {1}"
-
-#: ui/concept_editor_window.py:273 ui/concept_editor_window_qt.py:234
-msgid "Saved concept: {0}"
-msgstr "Concept sauvegardé : {0}"
-
-#: ui/concept_editor_window.py:300 ui/concept_editor_window_qt.py:247
-msgid "Deleted concept: {0}"
-msgstr "Concept supprimé: {0}"
 
 #: ui/concept_editor_window_qt.py:252
 msgid "Select Image"
@@ -445,53 +461,84 @@ msgstr "Concepts exportés vers: {0}"
 msgid "Error exporting concepts: {0}"
 msgstr "Erreur dans l'exportation des concepts : {0}"
 
-#: ui/expansions_window.py:28
+#: ui/expansions_window.py:29
 msgid "Modify Expansion: {0}"
 msgstr "Modifier l'expansion : {0}"
 
-#: ui/expansions_window.py:34
+#: ui/expansions_window.py:35
 msgid "Expansion ID"
 msgstr "ID d'expansion"
 
-#: ui/expansions_window.py:41
+#: ui/expansions_window.py:42
 msgid "Expansion Text"
 msgstr "Texte d'expansion"
 
-#: ui/expansions_window.py:43
+#: ui/expansions_window.py:44
 msgid "New Expansion Text"
 msgstr "Nouveau texte d'expansion"
 
-#: ui/expansions_window.py:48
+#: ui/expansions_window.py:58
 msgid "Done"
 msgstr "Fait"
 
-#: ui/expansions_window.py:104
+#: ui/expansions_window.py:66
+msgid ""
+"Warning: This expansion ID matches a wildcard in config.json. Changes will "
+"not take effect until the wildcard is removed or renamed."
+msgstr ""
+"Attention : Cet identifiant d'extension correspond à une wildcards dans "
+"config.json. Les changements n'auront pas d'effet jusqu'à ce que la "
+"wildcards soit supprimée ou renommée."
+
+#: ui/expansions_window.py:77
+msgid "Warning"
+msgstr "Avertissement"
+
+#: ui/expansions_window.py:78
+msgid ""
+"This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
+"\n"
+"Do you want to save anyway?"
+msgstr ""
+"Cette expansion ID correspond à un caractère générique dans config.json. Les changements n’auront pas d’effet jusqu’à ce que le caractère générique soit supprimé ou redéfini.\n"
+"\n"
+"Voulez-vous sauvegarder malgré tout ?"
+
+#: ui/expansions_window.py:132
 msgid "New Expansion (ERROR no expansions found)"
 msgstr "Nouvelle expansion (ERREUR aucune expansion trouvée)"
 
-#: ui/expansions_window.py:135
+#: ui/expansions_window.py:163
 msgid "Not enough expansions found."
 msgstr "Il n'y a pas assez d'expansions trouvées."
 
-#: ui/expansions_window.py:162
+#: ui/expansions_window.py:195
 msgid "Add or update expansions"
 msgstr "Ajouter ou mettre à jour des expansions"
 
-#: ui/expansions_window.py:164
+#: ui/expansions_window.py:197
 msgid "Add expansion"
 msgstr "Ajouter l'expansion"
 
-#: ui/expansions_window.py:166
+#: ui/expansions_window.py:199
 msgid "Clear expansions"
 msgstr "Des expansions claires"
 
-#: ui/expansions_window.py:190 ui/schedules_windows.py:281
+#: ui/expansions_window.py:225 ui/schedules_windows.py:281
 msgid "Modify"
 msgstr "Modifier"
 
-#: ui/expansions_window.py:232
+#: ui/expansions_window.py:239
+msgid "Copy"
+msgstr "Copier"
+
+#: ui/expansions_window.py:276
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
 msgstr "ID d'expansion « {0} » ou texte « {1} » non valide"
+
+#: ui/expansions_window.py:446
+msgid "Copied expansion text to clipboard"
+msgstr "Copie du texte de l'extension dans le presse-papiers"
 
 #: ui/expansions_window_qt.py:16
 msgid "Expansions"
@@ -675,6 +722,22 @@ msgstr "Ajouter étiquette"
 msgid "Clear tags"
 msgstr "Effacer les étiquettes"
 
+#: ui/tags_blacklist_window.py:105
+msgid "Remove"
+msgstr "Supprimer"
+
+#: ui/tags_blacklist_window.py:119
+msgid "Removed tag: {0}"
+msgstr "Suppression de l'étiquette : {0}"
+
+#: ui/tags_blacklist_window.py:134 ui/tags_blacklist_window_qt.py:92
+msgid "Added tag to blacklist: {0}"
+msgstr "Ajout d'une étiquette à la liste noire : {0}"
+
+#: ui/tags_blacklist_window.py:208
+msgid "Cleared tag blacklist"
+msgstr "Effacement de la liste noire des étiquettes"
+
 #: ui/tags_blacklist_window_qt.py:28
 msgid "Search tags..."
 msgstr "Rechercher des étiquettes"
@@ -698,35 +761,3 @@ msgstr " (Exécutions en attente : {0})"
 #: utils/job_queue.py:42
 msgid " (Pending schedules: {0})"
 msgstr " (Horaires en attente : {0})"
-
-#: app.py:174
-msgid "Resolution Group"
-msgstr "Groupe de résolution"
-
-#: app.py:347
-msgid "Edit Concepts"
-msgstr "Modifier les concepts"
-
-#: ui/concept_editor_window.py:101
-msgid "Search/Add Concept:"
-msgstr "Rechercher/Ajouter un concept :"
-
-#: ui/concept_editor_window.py:150
-msgid "File:"
-msgstr "Dossier :"
-
-#: ui/concept_editor_window.py:205
-msgid "Enter search text to see concepts..."
-msgstr "Entrez le texte de recherche pour voir les concepts..."
-
-#: ui/concept_editor_window.py:259
-msgid "Please select a file to save to"
-msgstr "Veuillez sélectionner un fichier où sauvegarder"
-
-#: ui/concept_editor_window.py:294
-msgid "Confirm"
-msgstr "Confirmer"
-
-#: ui/concept_editor_window.py:294
-msgid "Delete concept: {0}?"
-msgstr "Supprimer le concept : {0}?"

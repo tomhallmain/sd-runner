@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: APPLICATION 1.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translator@example.com>\n"
-"POT-Creation-Date: 2025-05-24 14:32-0400\n"
-"PO-Revision-Date: 2025-05-24 14:32-0400\n"
+"POT-Creation-Date: 2025-05-27 15:04-0400\n"
+"PO-Revision-Date: 2025-05-27 15:04-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -292,7 +292,7 @@ msgstr ""
 msgid "Tags Blacklist"
 msgstr ""
 
-#: app.py:1192 ui/concept_editor_window.py:259
+#: app.py:1192 ui/concept_editor_window.py:264
 msgid "Error"
 msgstr ""
 
@@ -316,45 +316,45 @@ msgstr ""
 msgid "A model switch was detected and the model massage tags don't match. This warning will only be shown once."
 msgstr ""
 
-#: ui/concept_editor_window.py:101
+#: ui/concept_editor_window.py:102
 msgid "Search/Add Concept:"
 msgstr ""
 
-#: ui/concept_editor_window.py:150
+#: ui/concept_editor_window.py:151
 msgid "File:"
 msgstr ""
 
-#: ui/concept_editor_window.py:158 ui/concept_editor_window_qt.py:122 ui/expansions_window_qt.py:58
+#: ui/concept_editor_window.py:159 ui/concept_editor_window_qt.py:122 ui/expansions_window_qt.py:58
 #: ui/schedules_window_qt.py:95
 msgid "Save"
 msgstr ""
 
-#: ui/concept_editor_window.py:161 ui/concept_editor_window_qt.py:49 ui/expansions_window.py:197 ui/presets_window.py:143
+#: ui/concept_editor_window.py:162 ui/concept_editor_window_qt.py:49 ui/expansions_window.py:232 ui/presets_window.py:143
 #: ui/schedules_windows.py:88 ui/schedules_windows.py:288
 msgid "Delete"
 msgstr ""
 
-#: ui/concept_editor_window.py:205
+#: ui/concept_editor_window.py:210
 msgid "Enter search text to see concepts..."
 msgstr ""
 
-#: ui/concept_editor_window.py:259
+#: ui/concept_editor_window.py:264
 msgid "Please select a file to save to"
 msgstr ""
 
-#: ui/concept_editor_window.py:273 ui/concept_editor_window_qt.py:234
+#: ui/concept_editor_window.py:278 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
 msgstr ""
 
-#: ui/concept_editor_window.py:294
+#: ui/concept_editor_window.py:299
 msgid "Confirm"
 msgstr ""
 
-#: ui/concept_editor_window.py:294
+#: ui/concept_editor_window.py:299
 msgid "Delete concept: {0}?"
 msgstr ""
 
-#: ui/concept_editor_window.py:300 ui/concept_editor_window_qt.py:247
+#: ui/concept_editor_window.py:305 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
 msgstr ""
 
@@ -451,52 +451,78 @@ msgstr ""
 msgid "Error exporting concepts: {0}"
 msgstr ""
 
-#: ui/expansions_window.py:28
+#: ui/expansions_window.py:29
 msgid "Modify Expansion: {0}"
 msgstr ""
 
-#: ui/expansions_window.py:34
+#: ui/expansions_window.py:35
 msgid "Expansion ID"
 msgstr ""
 
-#: ui/expansions_window.py:41
+#: ui/expansions_window.py:42
 msgid "Expansion Text"
 msgstr ""
 
-#: ui/expansions_window.py:43
+#: ui/expansions_window.py:44
 msgid "New Expansion Text"
 msgstr ""
 
-#: ui/expansions_window.py:48
+#: ui/expansions_window.py:58
 msgid "Done"
 msgstr ""
 
-#: ui/expansions_window.py:104
+#: ui/expansions_window.py:66
+msgid ""
+"Warning: This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is "
+"removed or renamed."
+msgstr ""
+
+#: ui/expansions_window.py:77
+msgid "Warning"
+msgstr ""
+
+#: ui/expansions_window.py:78
+msgid ""
+"This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or "
+"renamed.\n"
+"\n"
+"Do you want to save anyway?"
+msgstr ""
+
+#: ui/expansions_window.py:132
 msgid "New Expansion (ERROR no expansions found)"
 msgstr ""
 
-#: ui/expansions_window.py:135
+#: ui/expansions_window.py:163
 msgid "Not enough expansions found."
 msgstr ""
 
-#: ui/expansions_window.py:162
+#: ui/expansions_window.py:195
 msgid "Add or update expansions"
 msgstr ""
 
-#: ui/expansions_window.py:164
+#: ui/expansions_window.py:197
 msgid "Add expansion"
 msgstr ""
 
-#: ui/expansions_window.py:166
+#: ui/expansions_window.py:199
 msgid "Clear expansions"
 msgstr ""
 
-#: ui/expansions_window.py:190 ui/schedules_windows.py:281
+#: ui/expansions_window.py:225 ui/schedules_windows.py:281
 msgid "Modify"
 msgstr ""
 
-#: ui/expansions_window.py:232
+#: ui/expansions_window.py:239
+msgid "Copy"
+msgstr ""
+
+#: ui/expansions_window.py:276
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
+msgstr ""
+
+#: ui/expansions_window.py:446
+msgid "Copied expansion text to clipboard"
 msgstr ""
 
 #: ui/expansions_window_qt.py:16
