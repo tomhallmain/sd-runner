@@ -1,69 +1,146 @@
 
 
+$$random_word edition
 $$random_word in foreground blocking view
 $$random_word thereto
 'tis
+[[my,his,her,your,our,their]] very first $$random_word
 A B and C
 a to b
+abridged edition
 adorned
 aerosol
 aluminum foil
+amazing
 anatomy
+angle of incidence
 apart
+aqua regia
+arc length
+archetype
+at the same time
 B movie
+barrel-vaulted
+bespoke
+blackbody radiation
+blah
 blog screenshot
+boldface
 boring
+brighten
 brim
 bunched
+buttressing
+Capodimonte porcelain
+Carborundum mezzotint
+Cartesian coordinates
+carved ivory
+casts
+catenary
 chart
+chivalric romance
+Christogram
 clef
+collagraphy
+combo $$random_word
+conchoid
+contour rivalry
+contouring
 curia
 curio
 curl
+customized
 dado pedestal part
+darken
 Dear Diary
 debut
+decoration
+decorative arts
 derivative
 dimension
+dislocation
 draft
+dynamical system
+découpage
+earthenware
+Eigenfunction
 eighths
+electrum
 elements
+ellipse
 encased in amber
 endnote
+engraved glass
+ergodic
+essence
+evolute
+faience
+figure eight
+fluctuations
+flux
+formulaic
 fossilized
 frame
 frets
 friction
+geometric forms
 geometry diagram
+gradation
 grade
 groupings
 halved
 high energy
+Hilbert space
+hilt
 hook
+hyperbolic manifold
 idol
+illumination angle
+improvisation
 in the name of $$random_word
 inasmuch as $$random_word
+inlay
 integration
 knobs
 lay of the land
 layering
+Le Nove porcelain
 leaking
+lemniscate
 level [[$$number,A,B,G]]
+lever
 lidar
+lifestyle
+limaçon of Pascal
 line work
 lining
+Lorentz transformation
 losses and debts
+luminiferous aether
+maelstrom
+maiolica
 mannerism
 margins
+mass consumerism
+mass produced
+meaning
 medallion
 method
+mezzotint
 miscellany
+monogram
 multiperspective
 mutation
+Naples porcelain
 new releases
 norm
 normal
+offset
+offset printing
 onset
+orthography
+padding
+parabolic
 patchwork
 payload
 periodic
@@ -365,8 +442,10 @@ pixelated
 plane shearing
 pointillist
 pointy
+Polar coordinates
 polaroid
 polished
+polymorph
 poster
 posters
 primer
@@ -374,6 +453,8 @@ print art
 print screen image
 proton
 proxy
+pseudosphere
+quadratura
 quartered
 quite a lot
 radar
@@ -383,6 +464,8 @@ ramp
 raw photo
 raytracing
 raytraced image inspired by senior environment artist
+refraction
+refractive index
 remix
 remnant
 representational
@@ -393,15 +476,24 @@ retro game
 revenue and assets
 rind
 risograph
+rivets
+rolled
 rotated image
+rotational symmetry
 rotoscoped image
 rough
+roulette curve
 rounded
+s p a c i n g
 saran wrap
+sawtooth wave
 scalable
+scanning electron microscopy
 scattered
 scraped
 scribbles
+sealed
+secant
 selfie
 sfm
 shades
@@ -415,25 +507,32 @@ shimmering
 silk screen
 silver nitrate film
 simple sketch
+sinusoidal
 sketchbook
 sketches
+skeuomorph
 slippery
 smeared
 smooth
 smooth
 smooth curves
+smushed
 sneak preview
+snippet
 snowy
 soft
 soft
 solid
 speckled
+Sperrsatz
 spirograph
 splash
 splashiness
 sponsored by " $$random_word "
 spray painted
 spree
+spring-loaded
+sprocket
 stained
 standard model of physics
 static
@@ -441,6 +540,7 @@ stenciling
 step $$number
 stereograph
 still life
+stippling
 strange
 strange magic
 striped
@@ -448,13 +548,16 @@ stripes
 studio photography
 study of $$random_word
 stuff we all get
+stupendous
 suitable for various media
 Sumi-e
 sunny
 super
 superimposed images
+superposition
 surrealism
 swag bags
+symmetrical
 tapers
 tapestry
 taxonomy diagram
@@ -464,6 +567,7 @@ textured
 theatre set backdrop
 this and that
 time stopped
+tin-glazed
 tonal values
 tools
 totem
@@ -473,16 +577,24 @@ thresholding
 tiltshift
 tintype
 toleware
+tractoid
+tractrix
 traditional media
 transparent background
+tripwire
 Trois crayons
+trompe l'oeil
+trompe-l'œil
+typography
 ultrasharp
 uneven borders
 universal appeal
 unreal engine
+unrolled
 upsampling
 uwu
 vase
+vector space
 vectorization
 vectorized
 velvet
@@ -501,6 +613,7 @@ wallpaper
 warm
 washed-out colors
 watercolor
+waves
 webcam
 webcomic style
 western comic book art

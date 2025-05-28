@@ -191,6 +191,7 @@ goggles
 gold ring
 gown
 Graphic T-Shirt
+guise
 hair band
 hair ornament
 Halloween costume

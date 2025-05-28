@@ -1,4 +1,5 @@
 Agitated
+amazement
 amused
 angry
 Anxious
@@ -7,6 +8,7 @@ ashamed
 begging
 Bewildered
 Bitter
+blah blah
 blank expression
 blank stare
 Blissful
@@ -35,6 +37,7 @@ devious
 Disappointed
 Discontent
 disinterest
+hiss
 mild disgust
 disgusted
 Disoriented
@@ -128,6 +131,7 @@ revulsion
 rolling eyes
 sad
 Satisfied
+savoring
 scoff
 scrunched nose
 Shy
@@ -167,6 +171,7 @@ unimpressed
 Upbeat
 Uplifted
 Vexed
+well I never!
 wishing
 woe
 Worried

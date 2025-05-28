@@ -1,11 +1,15 @@
+$$random_word-sized
 A-list
 adorable
 at a loss
 average
 brand new
+brilliant
 dreary
+evanescent
 fettered
 frizzy
+frozen
 garish
 goalie
 goofy
@@ -14,10 +18,14 @@ in a tizzy
 intrigue
 laid-back
 lord
+low cost
 manic
 mint condition
 morose
 mutated
+of great stature
+powerful
+pricey
 sandy
 alternative style
 ancient
@@ -68,9 +76,12 @@ skinny
 slim
 small
 spry
+startled
 stealthy
 stern
 stormy
+strong
+styled
 swole
 tall
 tawdry
@@ -78,6 +89,7 @@ tiny
 ugly
 urgent
 used
+very fresh
 viking
 war paint
 weary

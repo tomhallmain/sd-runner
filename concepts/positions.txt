@@ -62,6 +62,7 @@ lying on stomach
 model pose
 nearby
 nearest
+neighboring
 nodding off
 on tiptoes
 on a display podium
@@ -86,6 +87,7 @@ sitting back
 sitting up
 sitting
 squatting
+stances
 t-pose
 together
 turning away

@@ -3,6 +3,8 @@ $$random_word redux
 $$random_word the world over
 [[he's,she's]] coming to
 3D puzzles
+a $$random_word the likes of which have never been seen before
+absorbing
 accelerating
 accepting
 acing a test
@@ -15,13 +17,17 @@ aid
 aiming at $$random_word
 air drop
 airbrushing
+akido
 allowing
+amaze
 ambushed
 analyzing
 animal-themed items
 annoy
 appearing
+appeasement
 appointing
+appreciated
 archeological dig
 archery
 arguing
@@ -44,6 +50,7 @@ barre
 baseball
 baseball cards
 BBQ or grilling
+be careful
 bearing witness
 beckoning
 becoming
@@ -64,6 +71,7 @@ bless
 blinking
 blogging
 board games
+booby trap
 book club
 bottle caps
 bowling
@@ -85,6 +93,7 @@ butterfly art or items
 buying
 buzz off
 buzzer
+c-c-c-combo!
 cake pans
 calendars
 calisthenics
@@ -93,6 +102,7 @@ camping
 candle making
 candles
 candlesticks
+canter
 canvas art
 card games
 card making
@@ -101,6 +111,7 @@ cartwheeling
 carving
 casting
 catering
+catering to $$character
 ceremony
 chariot racing
 chasing
@@ -137,6 +148,7 @@ convincing
 cookbooks
 cooking
 corks
+cost allocation
 covering
 crafting 
 crawling
@@ -172,12 +184,15 @@ deciding
 defending
 defense
 demoing
+depositing
+depreciating
 designing clothes
 designing graphics
 dessert plates, tea cups, china patterns
 detente
 diamond painting kit
 digging
+digging up $$random_word
 discovering
 dog show
 doing $$random_word
@@ -192,6 +207,7 @@ dolls
 don't fret
 don't sweat it
 doodling
+dousing the $$random_word
 drafting
 drat
 drawing
@@ -215,6 +231,7 @@ eating grapes and drinking wine while reclining on a roman bench
 edit out
 egads!
 eliciting $$random_word
+embarking
 embroidery
 emerging
 emitting
@@ -222,7 +239,9 @@ encouraging
 end up $$random_word
 endeavor
 establishing
+evaporating
 even I knew that
+evening out
 examining
 expecting
 experimenting
@@ -261,6 +280,7 @@ following
 football
 found [[you,it]] !
 freaking out
+freezing
 fruit-themed decor and items
 frying
 furniture building
@@ -280,6 +300,7 @@ giving a demonstration
 glass blowing
 glass painting
 go ballistic
+go see about $$random_word
 go-carts
 going
 going down
@@ -296,6 +317,7 @@ growing bonsai
 guile
 gymnastics
 hair styling
+halt!
 hand lettering
 handing out $$random_word
 hanggliding
@@ -304,17 +326,20 @@ hanging out
 happening
 hard at work
 harvesting crops
+hatching
 hating
 hats
 haunting
 having fun
 head over heels for $$random_word
 headbanging
+healing
 hearing
 heed my warning
 Hello Kitty items or collectibles
 helping
 helping a customer
+heralding
 herding
 hiding
 hiding from $$random_word
@@ -343,12 +368,14 @@ hurdling
 hurting
 I mean it
 I smell a $$random_word
+I will.
 ice hockey
 ice skating
 identifying
 ignoring
 illustrating
 implying
+improv
 in a moment! I'm busy
 increasing
 introducing
@@ -356,6 +383,8 @@ irritating
 inventing
 is it a go?
 it's happening
+it's not $$random _word per se
+its on me
 jazzercise/aerobics
 jet skiing
 jewelry design
@@ -365,6 +394,7 @@ joining a band
 joining a choir
 joking
 judging
+judo
 juggling
 juggling
 jumping
@@ -377,6 +407,7 @@ kickboxing
 kicking
 killing
 kitschy artwork or collectibles
+knell
 knitting
 knocking
 last lap
@@ -392,9 +423,11 @@ leather crafting
 leaving
 leeping
 LEGO sets
+let [[me,it,us,him,her,them]] go!
 let go
 letting [[them,him,her,us,me,someone]] in
 leveled
+leveling
 lifting
 listening
 listening to music
@@ -443,13 +476,16 @@ Minecraft
 miniatures
 mining
 mirrors
+mission
 mixing
 mixing a potion
+mob rule
 mod podge crafts
 model building
 model cars
 model kits
 mollifying
+mosh pit
 motocross
 mountain biking
 moving
@@ -464,6 +500,7 @@ negotiating
 neither!
 no matter
 nod
+nosedive
 note taking and research
 objection!
 observing
@@ -558,6 +595,7 @@ puppetry
 pushing
 putting
 putting on an act
+putting out $$random_word
 puzzles
 quacking
 on a quest
@@ -567,6 +605,8 @@ raising
 ran past
 reaching
 reaching up high for something on the shelf
+reacting
+read the room
 reading
 reading literature
 reading music
@@ -575,6 +615,7 @@ records
 red shoe/high heel/glamour items
 reducing
 reflecting
+refuted
 regaining consciousness
 relaxing
 relaying
@@ -583,7 +624,9 @@ removing
 repelling
 resetting
 resisting
+resource allocation
 responding
+resting up
 retaliating
 revering
 ribbon cutting ceremony
@@ -598,6 +641,7 @@ roasting
 rock climbing
 rock tumbling
 roller skating
+rolling
 roman salute
 rotating
 routing
@@ -611,6 +655,8 @@ running from $$random_word
 running track
 Salchow jump
 saluting
+same old
+sanctify
 save
 say cheese
 saying
@@ -624,12 +670,14 @@ scolding
 scuba diving
 sculpture
 sea shells
+seal the deal
 seance
 seeking
 seeming
 selling baked goods
 selling items you've created
 selling vintage items
+selloff
 sending
 sent away
 sent for $$random_word
@@ -653,6 +701,7 @@ shrinking
 shuffle along
 sightseeing
 sign up today
+signing [[the,my,]] $$random_word
 singing
 singing (solo)
 sipping
@@ -668,9 +717,11 @@ slide
 slot machines
 slowing down
 smelling
+smiles at $$random_word
 smoking a cigar
 smoking a cigarette
 smoking a pipe
+smushing
 snacking
 snow globes
 snowboarding
@@ -730,6 +781,7 @@ tai chi
 take a cooking class
 taking
 taking a picture
+taking a trip
 taking attendance
 taking it easy
 taking notes
@@ -745,6 +797,7 @@ teaching
 teaching a foreign language
 teaching a musical instrument
 tearing
+tee hee
 telling
 tending
 tennis
@@ -778,6 +831,7 @@ under siege
 understanding
 undoing
 unique spices, teas, coffees
+unrolling
 unusual or hard to find candy
 up and about
 up to no good
@@ -813,6 +867,7 @@ waving
 wearing
 weighing
 weight lifting
+welcome to $$random_word
 well done
 what of it?
 where'd he go? he was right " $random_word !"

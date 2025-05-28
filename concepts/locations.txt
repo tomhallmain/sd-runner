@@ -6,17 +6,22 @@ buffet
 captains hold
 charity dinner
 citadel
+classical concert
 copse
 country road
 covered bridge
+crater
 cruiseliner
 ditch
 end zone
+event horizon
 funicular
 gravel road
 historic monument
+metal concert
 middle of nowhere
 my old haunt
+Odeon
 on deck
 people mover
 plaza
@@ -25,6 +30,7 @@ side road
 single-lane bridge
 single-lane road
 stall
+steppe
 taxi
 terrace
 caverns
@@ -309,7 +315,6 @@ in the desert
 in the dining room
 in the jungle
 in the living room
-in the steppes
 in the wilderness
 in the woods
 indoors
