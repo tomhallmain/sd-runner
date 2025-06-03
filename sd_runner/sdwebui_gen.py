@@ -37,6 +37,7 @@ class SDWebuiGen(BaseImageGenerator):
     BASE_URL = config.sd_webui_url
     TXT_2_IMG = "sdapi/v1/txt2img"
     IMG_2_IMG = "sdapi/v1/img2img"
+    _has_run_txt2img = False  # Class-level flag to track if txt2img has been run
 
     def __init__(self, config=GenConfig(), ui_callbacks=None):
         super().__init__(config, ui_callbacks)
@@ -85,7 +86,7 @@ class SDWebuiGen(BaseImageGenerator):
         )
         try:
             resp = request.urlopen(req)
-            self.save_image_data(resp, related_image_path, workflow)
+            return self.save_image_data(resp, related_image_path, workflow)
         except error.URLError:
             raise Exception("Failed to connect to SD Web UI. Is SD Web UI running?")
 
@@ -101,10 +102,48 @@ class SDWebuiGen(BaseImageGenerator):
         with self._lock:
             self.pending_counter -= 1
             self.update_ui_pending()
+        return save_path
 
     @staticmethod
     def clear_history():
         pass # TODO figure out if there is a history api
+
+    def _run_fake_txt2img(self, model, vae=None):
+        """Run a minimal txt2img generation to fix a known SD WebUI bug.
+        
+        There is a bug in stable-diffusion-webui where img2img processes will fail if they are the first
+        generation run during the application's runtime. This bug persists until at least one txt2img
+        process has been run. This method provides a workaround by running a minimal txt2img generation
+        with empty prompts before the first img2img request.
+        
+        The fake generation uses the same model and VAE as the requested img2img to ensure compatibility
+        and minimal resource usage. The generated image is temporarily saved but immediately deleted.
+        
+        Args:
+            model: The model to use for the fake generation, should match the model being used for img2img
+            vae: The VAE to use for the fake generation, should match the VAE being used for img2img
+        """
+        if not self._has_run_txt2img:
+            print("Running initial txt2img to fix SD WebUI img2img bug...")
+            prompt = WorkflowPromptSDWebUI(WorkflowType.SIMPLE_IMAGE_GEN.value)
+            prompt.set_model(model)
+            prompt.set_vae(vae)
+            prompt.set_clip_texts("", "", model=model)
+            prompt.set_seed(self.get_seed())
+            prompt.set_other_sampler_inputs(self.gen_config)
+            prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", None))
+            prompt.set_empty_latents(1)
+            try:
+                fake_image_path = self.queue_prompt(prompt)
+            except Exception as e:
+                # Maybe SDWebUI is not running?
+                raise Exception(f"Warning: Failed to run fake txt2img: {e}")
+            try:
+                if fake_image_path and os.path.exists(fake_image_path):
+                    os.unlink(fake_image_path)
+            except Exception as e:
+                print(f"Warning: Failed to clean up fake txt2img image: {e}")
+            self._has_run_txt2img = True
 
     def simple_image_gen(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -120,6 +159,7 @@ class SDWebuiGen(BaseImageGenerator):
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         self.queue_prompt(prompt)
+        self._has_run_txt2img = True
 
     def simple_image_gen_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -137,6 +177,7 @@ class SDWebuiGen(BaseImageGenerator):
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         self.queue_prompt(prompt)
+        self._has_run_txt2img = True
 
     def upscale_simple(self, prompt="", model=None, control_net=None, **kw):
         prompt, model, vae = self.prompt_setup(WorkflowType.UPSCALE_SIMPLE, "Assembling simple upscale image prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=1, positive="", negative="", upscale_image=control_net)
@@ -182,9 +223,10 @@ class SDWebuiGen(BaseImageGenerator):
             resolution = resolution.get_closest_to_image(ip_adapter.id)
         prompt, model, vae = self.prompt_setup(WorkflowType.IP_ADAPTER, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
+        vae = self.gen_config.redo_param("vae", vae)
         lora = model.validate_loras(lora)
         prompt.set_model(model)
-        prompt.set_vae(self.gen_config.redo_param("vae", vae))
+        prompt.set_vae(vae)
         prompt.set_clip_texts(
             self.gen_config.redo_param("positive", positive),
             self.gen_config.redo_param("negative", negative), model=model)
@@ -202,6 +244,10 @@ class SDWebuiGen(BaseImageGenerator):
         prompt.set_img2img_image(encode_file_to_base64(image_path))
         prompt.set_latent_dimensions(resolution)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
+
+        # Run fake txt2img if needed to fix the SD WebUI bug
+        self._run_fake_txt2img(model, vae)
+
         self.queue_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
 
     def instant_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):

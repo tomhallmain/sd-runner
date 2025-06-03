@@ -14,6 +14,7 @@ aluminum foil
 amazing
 anatomy
 angle of incidence
+antenna
 apart
 aqua regia
 arc length
@@ -46,9 +47,11 @@ combo $$random_word
 conchoid
 contour rivalry
 contouring
+convection
 curia
 curio
 curl
+currents
 customized
 dado pedestal part
 darken
@@ -77,6 +80,7 @@ evolute
 faience
 figure eight
 fluctuations
+fluid flow
 flux
 formulaic
 fossilized
@@ -446,6 +450,7 @@ Polar coordinates
 polaroid
 polished
 polymorph
+post-it notes
 poster
 posters
 primer
@@ -490,6 +495,7 @@ sawtooth wave
 scalable
 scanning electron microscopy
 scattered
+Schlieren photography
 scraped
 scribbles
 sealed
@@ -498,6 +504,7 @@ selfie
 sfm
 shades
 shaded
+shadowgraph
 shadows
 sharp
 sharp edges
@@ -561,6 +568,7 @@ symmetrical
 tapers
 tapestry
 taxonomy diagram
+television aerial
 tentacles and creatures
 textbook page
 textured

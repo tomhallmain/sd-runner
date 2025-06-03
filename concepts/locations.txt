@@ -12,12 +12,15 @@ country road
 covered bridge
 crater
 cruiseliner
+dais
 ditch
+dovecote
 end zone
 event horizon
 funicular
 gravel road
 historic monument
+hummock
 metal concert
 middle of nowhere
 my old haunt
@@ -25,6 +28,8 @@ Odeon
 on deck
 people mover
 plaza
+radio station
+radio tower
 seaport
 side road
 single-lane bridge

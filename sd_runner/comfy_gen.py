@@ -96,6 +96,7 @@ class ComfyGen(BaseImageGenerator):
 
     def queue_prompt(self, prompt: WorkflowPromptComfy):
         data = prompt.get_json()
+        images = None
         try:
             ws = websocket.WebSocket()
             ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, ComfyGen.CLIENT_ID))
@@ -112,6 +113,7 @@ class ComfyGen(BaseImageGenerator):
             with self._lock:
                 self.pending_counter -= 1
                 self.update_ui_pending()
+            return images
 
     @staticmethod
     def _queue_prompt(prompt):
