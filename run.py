@@ -155,6 +155,8 @@ class Run:
                         self.print(f"Reached maximum requested iterations: {self.args.total}")
                         if self.ui_callbacks is not None:
                             self.ui_callbacks.update_progress(count, self.args.total)
+                            remaining = self.args.total - count + 1 if self.args.total > 0 else 0
+                            self.ui_callbacks.update_time_estimation(workflow, gen.gen_config, remaining)
                         if self.delay_after_last_run:
                             # print(Utils.format_red("WILL SLEEP AFTER LAST RUN."))
                             self._sleep_for_delay(maximum_gens=gen.gen_config.maximum_gens() / 2) # NOTE halving the delay here
@@ -166,6 +168,8 @@ class Run:
                             self.print(f"On iteration {count} of {self.args.total} - continuing.")
                         if self.ui_callbacks is not None:
                             self.ui_callbacks.update_progress(count, self.args.total)
+                            remaining = self.args.total - count + 1 if self.args.total > 0 else 0
+                            self.ui_callbacks.update_time_estimation(workflow, gen.gen_config, remaining)
                 self._sleep_for_delay(maximum_gens=gen.gen_config.maximum_gens())
         except KeyboardInterrupt:
             pass

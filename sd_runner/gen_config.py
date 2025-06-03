@@ -144,7 +144,7 @@ class GenConfig:
             return IPAdapter.DEFAULT_SDXL_MODEL, IPAdapter.DEFAULT_SDXL_CLIP_VISION_MODEL
         return IPAdapter.DEFAULT_SD15_MODEL, IPAdapter.DEFAULT_SD15_CLIP_VISION_MODEL
 
-    def maximum_gens(self, exclude_skipped=True):
+    def maximum_gens_per_latent(self, exclude_skipped=True):
         count_res = len(self.resolutions)
         if exclude_skipped:
             count_res -= self.resolutions_skipped
@@ -159,9 +159,12 @@ class GenConfig:
             ]:
             n_control_nets = len(self.control_nets) if len(self.control_nets) > 0 else 1
             n_ip_adapters = len(self.ip_adapters) if len(self.ip_adapters) > 0 else 1
-            return n_resolutions * n_models * n_vaes * n_loras * n_control_nets * n_ip_adapters * self.n_latents
+            return n_resolutions * n_models * n_vaes * n_loras * n_control_nets * n_ip_adapters
         else:
-            return n_resolutions * n_models * n_vaes * n_loras * self.n_latents
+            return n_resolutions * n_models * n_vaes * n_loras
+
+    def maximum_gens(self, exclude_skipped=True):
+        return self.maximum_gens_per_latent(exclude_skipped) * self.n_latents
 
     def has_skipped(self):
         return self.resolutions_skipped > 0

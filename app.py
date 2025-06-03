@@ -23,6 +23,7 @@ from sd_runner.model_adapters import IPAdapter
 from sd_runner.models import Model
 from sd_runner.prompter import Prompter
 from sd_runner.run_config import RunConfig
+from utils.time_estimator import TimeEstimator
 from ui.app_actions import AppActions
 from ui.app_style import AppStyle
 from ui.concept_editor_window import ConceptEditorWindow
@@ -33,7 +34,7 @@ from ui.schedules_windows import SchedulesWindow
 from ui.tags_blacklist_window import BlacklistWindow
 from utils.app_info_cache import app_info_cache
 from utils.config import config
-from utils.job_queue import JobQueue
+from utils.job_queue import SDRunsQueue, PresetSchedulesQueue
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
 from utils.utils import Utils
@@ -98,15 +99,18 @@ class App():
         self.master = master
         self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.progress_bar = None
-        self.job_queue = JobQueue(JobQueue.JOB_QUEUE_SD_RUNS_KEY)
-        self.job_queue_preset_schedules = JobQueue(JobQueue.JOB_QUEUE_PRESETS_KEY)
+        self.job_queue = SDRunsQueue()
+        self.job_queue_preset_schedules = PresetSchedulesQueue(
+            get_run_config_callback=self.get_basic_run_config,
+            get_current_schedule_callback=lambda: SchedulesWindow.current_schedule
+        )
         self.server = self.setup_server()
         self.runner_app_config = self.load_info_cache()
         self.config_history_index = 0
         self.current_run = Run(RunConfig())
         Model.load_all()
 
-        self.app_actions = AppActions(self.update_progress, self.update_pending)
+        self.app_actions = AppActions(self.update_progress, self.update_pending, self.update_time_estimation)
 
         # Sidebar
         self.sidebar = Sidebar(self.master)
@@ -126,7 +130,9 @@ class App():
         self.add_label(self.label_progress, "", sticky=None)
         
         self.label_pending = Label(self.sidebar)
-        self.add_label(self.label_pending, "", sticky=None)
+        self.add_label(self.label_pending, "", sticky=None, increment_row_counter=False)
+        self.label_time_est = Label(self.sidebar)
+        self.add_label(self.label_time_est, "", sticky=None, interior_column=1)
 
         self.label_software = Label(self.sidebar)
         self.add_label(self.label_software, _("Software"), increment_row_counter=False)
@@ -343,6 +349,7 @@ class App():
         starting_prompt_mode = self.runner_app_config.prompter_config.prompt_mode.name
         self.prompt_mode_choice = OptionMenu(self.prompter_config_bar, self.prompt_mode, starting_prompt_mode, *PromptMode.__members__.keys())
         self.apply_to_grid(self.prompt_mode_choice, interior_column=1, sticky=W, column=1)
+
         self.concept_editor_window_btn = None
         self.add_button("concept_editor_window_btn", text=_("Edit Concepts"), command=self.open_concept_editor_window, sidebar=False, increment_row_counter=False, interior_column=2)
 
@@ -898,10 +905,8 @@ class App():
         self.set_workflow_type(WorkflowType.SIMPLE_IMAGE_GEN_LORA)
         self.run()
 
-    def get_args(self):
-        self.store_info_cache()
+    def get_basic_run_config(self):
         self.set_delay()
-        self.set_concepts_dir()
         args = RunConfig()
         args.software_type = self.software.get()
         args.workflow_tag = self.workflow.get()
@@ -923,6 +928,12 @@ class App():
         self.runner_app_config.prompt_massage_tags = self.prompt_massage_tags.get()
         self.runner_app_config.prompter_config.prompt_mode = PromptMode[self.prompt_mode.get()]
         args.prompter_config = deepcopy(self.runner_app_config.prompter_config)
+        return args
+
+    def get_args(self):
+        self.store_info_cache()
+        self.set_concepts_dir()
+        args = self.get_basic_run_config()
 #        self.set_prompt_massage_tags_box_from_model_tags(args.model_tags, args.inpainting)
         self.set_prompt_massage_tags()
         self.set_positive_tags()
@@ -1245,9 +1256,9 @@ class App():
             else:
                 self.row_counter1 += 1
 
-    def add_label(self, label_ref, text, sticky=W, pady=0, column=0, columnspan=None, increment_row_counter=True):
+    def add_label(self, label_ref, text, sticky=W, pady=0, column=0, columnspan=None, increment_row_counter=True, interior_column=0):
         label_ref['text'] = text
-        self.apply_to_grid(label_ref, sticky=sticky, pady=pady, column=column, columnspan=columnspan, increment_row_counter=increment_row_counter)
+        self.apply_to_grid(label_ref, sticky=sticky, pady=pady, column=column, columnspan=columnspan, increment_row_counter=increment_row_counter, interior_column=interior_column)
 
     def add_button(self, button_ref_name, text, command, sidebar=True, interior_column=0, increment_row_counter=True):
         if getattr(self, button_ref_name) is None:
@@ -1274,6 +1285,40 @@ class App():
             return
         if func:
             func()
+
+    def update_time_estimation(self, workflow_type: str, gen_config: GenConfig, remaining_count: int = 1):
+        """
+        Update the time estimation label with estimated time for current and queued jobs.
+        
+        Args:
+            workflow_type: The type of workflow being run
+            gen_config: The current generation configuration
+            remaining_count: Number of remaining generations in current job
+        """
+        total_seconds = 0
+        
+        # Calculate time for current job
+        total_jobs = gen_config.maximum_gens_per_latent()
+        current_job_time = TimeEstimator.estimate_queue_time(total_jobs * remaining_count, gen_config.n_latents)
+        total_seconds += current_job_time
+        print(f"App.update_time_estimation - current job: {total_jobs} jobs, {remaining_count} remaining, time: {current_job_time}s")
+        
+        # Add time for jobs in standard run queue
+        if self.job_queue.has_pending():
+            queue_time = self.job_queue.estimate_time(gen_config)
+            total_seconds += queue_time
+            print(f"App.update_time_estimation - standard queue time: {queue_time}s")
+                
+        # Add time for jobs in preset schedule queue
+        if self.job_queue_preset_schedules.has_pending():
+            preset_time = self.job_queue_preset_schedules.estimate_time(gen_config)
+            total_seconds += preset_time
+            print(f"App.update_time_estimation - preset queue time: {preset_time}s")
+            
+        current_estimate = TimeEstimator.format_time(total_seconds)
+        print(f"App.update_time_estimation - total time: {total_seconds}s, formatted: {current_estimate}")
+        self.label_time_est["text"] = current_estimate            
+        self.master.update()
 
 
 

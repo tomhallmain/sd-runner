@@ -1,7 +1,7 @@
-
 from utils.globals import Globals # must import first
 from sd_runner.concepts import PromptMode
 from sd_runner.models import Model
+from utils.time_estimator import TimeEstimator
 
 class RunConfig:
     previous_model_tags = None
@@ -63,3 +63,22 @@ class RunConfig:
 
     def __str__(self):
         return str(self.__dict__)
+
+    def estimate_time(self, gen_config=None) -> int:
+        """
+        Estimate the total time in seconds for this run configuration.
+        
+        Args:
+            gen_config: Optional GenConfig instance for calculating total jobs
+            
+        Returns:
+            Estimated time in seconds
+        """
+        # Calculate total jobs using gen_config if available
+        total_jobs = gen_config.maximum_gens_per_latent() if gen_config else 1
+        print(f"RunConfig.estimate_time - total_jobs: {total_jobs}, total: {self.total}, n_latents: {self.n_latents}")
+        
+        # Get time for all jobs
+        total_time = TimeEstimator.estimate_queue_time(total_jobs * self.total, self.n_latents)
+        print(f"RunConfig.estimate_time - total_time: {total_time}s")
+        return total_time
