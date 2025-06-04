@@ -1,0 +1,69 @@
+{
+    "excluded_sections": {
+        "henry-v_TXT_FolgerShakespeare.txt": [
+            [
+                1838,
+                1931
+            ],
+            [
+                3337,
+                3338
+            ],
+            [
+                3343,
+                3343
+            ],
+            [
+                3350,
+                3351
+            ],
+            [
+                3357,
+                3358
+            ],
+            [
+                3369,
+                3371
+            ],
+            [
+                3383,
+                3387
+            ],
+            [
+                3393,
+                3396
+            ],
+            [
+                3407,
+                3412
+            ],
+            [
+                3415,
+                3418
+            ],
+            [
+                3431,
+                3431
+            ],
+            [
+                3454,
+                3454
+            ]
+        ]
+    },
+    "excluded_patterns": {
+        "*": [
+            "Folger Shakespeare Library",
+            "https://shakespeare.folger.edu/",
+            "from FDT version"
+        ]
+    },
+    "remove_possessives": true,
+    "special_cases": {
+        "'t": "it",
+        "th'": "the",
+        "i'": "in",
+        "t": "to",
+        "'r": "our"
+    }
+}
