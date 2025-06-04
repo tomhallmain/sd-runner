@@ -103,6 +103,7 @@ class ExpansionModifyWindow():
 
 
 class ExpansionsWindow():
+    top_level = None
     expansion_modify_window = None
     last_set_expansion = None
     expansion_history = []
@@ -167,9 +168,13 @@ class ExpansionsWindow():
         Expansion.expansions.insert(0, next_expansion)
         return next_expansion
 
-    def __init__(self, master, toast_callback):
-        self.master = master
-        self.toast_callback = toast_callback
+    def __init__(self, master, app_actions):
+        ExpansionsWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
+        ExpansionsWindow.top_level.title(_("Expansions Window"))
+        ExpansionsWindow.top_level.geometry(ExpansionsWindow.get_geometry(is_gui=True))
+
+        self.master = ExpansionsWindow.top_level
+        self.app_actions = app_actions
         self.filter_text = ""
         self.filtered_expansions = Expansion.expansions[:]
         self.expansion_id_label_list = []
@@ -263,7 +268,7 @@ class ExpansionsWindow():
         self.refresh()
         ExpansionsWindow.store_expansions()
 
-    def get_expansion(self, expansion=None, id="", text="", toast_callback=None):
+    def get_expansion(self, expansion=None, id="", text=""):
         was_valid = False
         if expansion is None:
             expansion = Expansion(id, text)
@@ -273,9 +278,8 @@ class ExpansionsWindow():
         expansion.text = text
         if expansion.is_valid():
             return expansion, was_valid
-        assert toast_callback is not None
         text = _("Invalid expansion ID \"{0}\" or text \"{1}\"").format(id, text)
-        toast_callback(text)
+        self.app_actions.toast(text)
         raise Exception(text)
 
 
@@ -288,7 +292,7 @@ class ExpansionsWindow():
         Also in this case, this function will call itself by calling set_expansion(),
         just this time with the directory set.
         """
-        expansion, was_valid = self.get_expansion(expansion, id, text, self.toast_callback)
+        expansion, was_valid = self.get_expansion(expansion, id, text)
         if was_valid and expansion is not None:
             if expansion in Expansion.expansions:
                 Expansion.expansions.remove(expansion)
@@ -444,4 +448,4 @@ class ExpansionsWindow():
         if expansion is not None and expansion.text is not None:
             self.master.clipboard_clear()
             self.master.clipboard_append(expansion.text)
-            self.toast_callback(_("Copied expansion text to clipboard"))
+            self.app_actions.toast(_("Copied expansion text to clipboard"))

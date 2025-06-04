@@ -52,11 +52,11 @@ class ConceptEditorWindow():
         height = 800
         return f"{width}x{height}"
 
-    def __init__(self, master, toast_callback):
+    def __init__(self, master, app_actions):
         ConceptEditorWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
         ConceptEditorWindow.top_level.geometry(self.get_geometry())
         self.master = ConceptEditorWindow.top_level
-        self.toast = toast_callback
+        self.app_actions = app_actions
         self.search_text = ""
         self.filtered_concepts = []
         self.concept_files = []
@@ -275,7 +275,7 @@ class ConceptEditorWindow():
             # Save to file
             Concepts.save(selected_file, concepts)
                 
-            self.toast(_("Saved concept: {0}").format(new_concept))
+            self.app_actions.toast(_("Saved concept: {0}").format(new_concept))
             
             # Search for the new concept to confirm it was saved
             self.refresh()
@@ -302,7 +302,7 @@ class ConceptEditorWindow():
                 concepts.remove(self.current_concept)
                 Concepts.save(self.current_file, concepts)
                     
-                self.toast(_("Deleted concept: {0}").format(self.current_concept))
+                self.app_actions.toast(_("Deleted concept: {0}").format(self.current_concept))
                 self.current_concept = None
                 self.current_file = None
                 self.search_var.set("")

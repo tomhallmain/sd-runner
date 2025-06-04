@@ -1,6 +1,6 @@
 import os
 
-from tkinter import Frame, Label, StringVar, LEFT, W
+from tkinter import Toplevel, Frame, Label, StringVar, LEFT, W
 import tkinter.font as fnt
 from tkinter.ttk import Entry, Button
 
@@ -14,6 +14,7 @@ _ = I18N._
 
 
 class PresetsWindow():
+    top_level = None
     recent_presets = []
     last_set_preset = None
 
@@ -86,12 +87,13 @@ class PresetsWindow():
         PresetsWindow.recent_presets.insert(0, next_preset)
         return next_preset
 
-    def __init__(self, master, toast_callback, construct_preset_callback,
-                 set_widgets_from_preset_callback, runner_app_config=RunnerAppConfig()):
-        self.master = master
-        self.toast_callback = toast_callback
-        self.construct_preset_callback = construct_preset_callback
-        self.set_widgets_from_preset_callback = set_widgets_from_preset_callback
+    def __init__(self, master, app_actions, runner_app_config=RunnerAppConfig()):
+        PresetsWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
+        PresetsWindow.top_level.title(_("Presets Window"))
+        PresetsWindow.top_level.geometry(PresetsWindow.get_geometry(is_gui=True))
+
+        self.master = PresetsWindow.top_level
+        self.app_actions = app_actions
         self.filter_text = ""
         self.filtered_presets = PresetsWindow.recent_presets[:]
         self.set_preset_btn_list = []
@@ -147,7 +149,7 @@ class PresetsWindow():
                 return self.delete_preset(event, preset)
             delete_preset_btn.bind("<Button-1>", delete_preset_handler)
 
-    def get_preset(self, preset, toast_callback):
+    def get_preset(self, preset):
         """
         Add a new preset
         """
@@ -157,8 +159,8 @@ class PresetsWindow():
             else:
                 if preset in PresetsWindow.recent_presets:
                     PresetsWindow.recent_presets.remove(preset)
-                toast_callback(_("Invalid preset: {0}").format(preset))
-        return self.construct_preset_callback(self.new_preset_name.get()), False
+                self.app_actions.toast(_("Invalid preset: {0}").format(preset))
+        return self.app_actions.construct_preset(self.new_preset_name.get()), False
 
     def handle_preset(self, event=None, preset=None):
         """
@@ -169,7 +171,7 @@ class PresetsWindow():
         Also in this case, this function will call itself by calling set_preset(),
         just this time with the directory set.
         """
-        preset, was_valid = self.get_preset(preset, self.toast_callback)
+        preset, was_valid = self.get_preset(preset)
         if was_valid and preset is not None:
             if preset in PresetsWindow.recent_presets:
                 PresetsWindow.recent_presets.remove(preset)
@@ -188,7 +190,7 @@ class PresetsWindow():
             print(f"Filtered by string: {self.filter_text}")
         PresetsWindow.update_history(preset)
         PresetsWindow.last_set_preset = preset
-        self.set_widgets_from_preset_callback(preset)
+        self.app_actions.set_widgets_from_preset(preset)
         self.refresh()
 #        self.close_windows()
 

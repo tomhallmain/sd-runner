@@ -9,7 +9,6 @@ from utils.config import config
 from utils.globals import Globals, WorkflowType, ArchitectureType, ResolutionGroup
 
 
-
 class Model:
     DEFAULT_SD15_MODEL = "analogMadness"
     DEFAULT_XL_MODEL = "realvisXLV20"
@@ -25,7 +24,7 @@ class Model:
     def get_architecture_type(model_id, path, is_xl, is_turbo, is_flux):
         # NOTE this can be overridden by the presets
         if "Illustrious" in model_id:
-            print(f"Assuming model is based on IllustriousXL architecture: {id}")
+            # print(f"Assuming model is based on IllustriousXL architecture: {model_id}")
             architecture_type = ArchitectureType.ILLUSTRIOUS
         elif path is not None and path.startswith("XL") or is_xl:
             architecture_type = ArchitectureType.SDXL
@@ -256,6 +255,7 @@ class Model:
         models = {}
         lora_or_sd = "Lora" if is_lora else "Stable-diffusion"
         root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
+        print(f"Loading models from {root_dir}")
         for file in glob.glob(pathname="**/*", root_dir=root_dir, recursive=True):
             if not file.endswith("ckpt") and not file.endswith("safetensors") and not file.endswith("pth") and not file.endswith("pt"):
                 continue
@@ -265,7 +265,7 @@ class Model:
             is_flux = file.startswith("Flux")
             model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo, is_flux=is_flux)
             models[model_name] = model
-            print(model)
+            # print(model)
         if is_lora:
             Model.LORAS = models
         else:

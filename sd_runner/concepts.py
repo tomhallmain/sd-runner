@@ -2,9 +2,11 @@ from enum import Enum
 import os
 import random
 
+from sd_runner.blacklist import Blacklist
 from utils.config import config
 
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
 
 class PromptMode(Enum):
     FIXED = "FIXED"
@@ -31,6 +33,7 @@ class PromptMode(Enum):
                 return value
         
         raise Exception(f"Not a valid prompt mode: {name}")
+
 
 def weighted_sample_without_replacement(population, weights, k=1) -> list:
     weights = list(weights)
@@ -232,6 +235,7 @@ class ConceptsFile:
         """Get the list of concepts"""
         return self.concepts.copy()
 
+
 class Concepts:
     ALL_WORDS_LIST_FILENAME = "dictionary.txt"
     ALL_WORDS_LIST = []
@@ -254,70 +258,41 @@ class Concepts:
         return old_path != Concepts.CONCEPTS_DIR
 
     @staticmethod
-    def set_blacklist(blacklist):
-        Concepts.TAG_BLACKLIST = list(blacklist)
-    
-    @staticmethod
-    def add_to_blacklist(tag):
-        Concepts.TAG_BLACKLIST.append(tag)
-        Concepts.TAG_BLACKLIST.sort()
-
-    @staticmethod
-    def remove_from_blacklist(tag):
-        try:
-            Concepts.TAG_BLACKLIST.remove(tag)
-            return True
-        except ValueError as e:
-            return False
-
-    @staticmethod
-    def clear_blacklist():
-        Concepts.TAG_BLACKLIST = []
-
-    @staticmethod
-    def sample_whitelisted(concepts, low, high) -> list:
-        # TODO technically inefficient to rebuild the whitelist each time
-        # TODO blacklist concepts from the negative prompt
+    def sample_whitelisted(concepts, low, high) -> list[str]:
+        """Sample concepts while filtering out blacklisted items.
+        
+        Args:
+            concepts: List or dict of concepts to sample from
+            low: Minimum number of items to sample
+            high: Maximum number of items to sample
+            
+        Returns:
+            list[str]: Sampled concepts that passed the blacklist check
+            
+        Raises:
+            Exception: If there are not enough non-blacklisted items to satisfy the range
+        """
         if low == 0 and high == 0:
             return []
         if len(concepts) == 0:
             if low > 0:
                 raise Exception("No concepts to sample")
             return []
-        if len(Concepts.TAG_BLACKLIST) == 0:
+        if Blacklist.is_empty():
             return sample(concepts, low, high)
-        ### TODO fix this case as it is broken
-        sampled = []
-        count = 0
-        min_needed = min(low, high)
-        while len(sampled) < min_needed:
-            count += 1
-            if count > 100:
-                raise Exception(f"Failed to generate a sample list for concepts. Concepts len {len(concepts)} Low {low} High {high}")
-            sampled = Concepts._sample_whitelisted(concepts, low, high)
-        return sampled
-
-    @staticmethod
-    def _sample_whitelisted(concepts, low, high):
-        is_dict = isinstance(concepts, dict)
-        whitelist = {} if is_dict else []
-        filtered = {}
-        for concept_cased in concepts:
-            match_found = False
-            for tag in Concepts.TAG_BLACKLIST:
-                concept = concept_cased.lower()
-                tag = tag.lower()
-                if concept.startswith(tag + " ") or concept.startswith(tag + "-") or (" " + tag) in concept:
-                    filtered[concept_cased] = tag
-                    match_found = True
-                    break
-            if not match_found:
-                if is_dict:
-                    whitelist[concept_cased] = concepts[concept_cased]
-                else:
-                    whitelist.append(concept_cased)
-        if len(filtered)!= 0:
-            print(f"Filtered concepts from blacklist tags: {filtered}")
+            
+        whitelist, filtered = Blacklist.filter_concepts(concepts)
+        
+        # Check if we have enough items after filtering
+        if len(whitelist) < low:
+            print(f"Warning: Not enough non-blacklisted items to satisfy range {low}-{high}. "
+                  f"Got {len(whitelist)} items after filtering out {len(filtered)} blacklisted items.")
+            if len(whitelist) == 0:
+                raise Exception(f"No non-blacklisted items available. Filtered out {len(filtered)} blacklisted items.")
+            # Adjust the range to what we can actually provide
+            high = min(high, len(whitelist))
+            low = min(low, high)
+            
         return sample(whitelist, low, high)
 
     def __init__(self, prompt_mode, get_specific_locations, concepts_dir="concepts"):
@@ -533,7 +508,7 @@ class Concepts:
         return word
 
     @staticmethod
-    def load(filename):
+    def load(filename) -> list[str]:
         # Keeping this separate from the ConceptsFile class to minimize memory
         # usage as this is called every time there's a prompt generation for every file.
         l = []
@@ -573,6 +548,7 @@ class Concepts:
             
         # Save the file
         file.save()
+
 
 class HardConcepts:
     hard_concepts = Concepts.load("hard_concepts.txt")

@@ -16,6 +16,7 @@ from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareTyp
 from extensions.sd_runner_server import SDRunnerServer
 
 from lib.aware_entry import AwareEntry, AwareText
+from sd_runner.blacklist import Blacklist
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.concepts import PromptMode
 from sd_runner.gen_config import GenConfig
@@ -42,7 +43,6 @@ from utils.utils import Utils
 _ = I18N._
 
 # TODO implement logging
-# TODO enable "madlibs" style prompting variables (requires labelling parts of speech in dictionary.txt)
 
 def set_attr_if_not_empty(text_box):
     current_value = text_box.get()
@@ -110,7 +110,13 @@ class App():
         self.current_run = Run(RunConfig())
         Model.load_all()
 
-        self.app_actions = AppActions(self.update_progress, self.update_pending, self.update_time_estimation)
+        self.app_actions = AppActions(self.update_progress,
+                                      self.update_pending,
+                                      self.update_time_estimation,
+                                      self.construct_preset,
+                                      self.set_widgets_from_preset,
+                                      self.toast,
+                                      self.alert)
 
         # Sidebar
         self.sidebar = Sidebar(self.master)
@@ -888,7 +894,6 @@ class App():
                 Utils.start_thread(run_async, use_asyncio=False, args=[next_job_args])
             else:
                 Utils.prevent_sleep(False)
-            
 
         if self.job_queue.has_pending():
             self.job_queue.add(args)
@@ -1016,7 +1021,6 @@ class App():
         self.run()
         return {} # Empty error object for confirmation
 
-
     def set_prompter_config(self):
         self.runner_app_config.prompter_config.concepts = (int(self.concepts0.get()), int(self.concepts1.get()))
         self.runner_app_config.prompter_config.positions = (int(self.positions0.get()), int(self.positions1.get()))
@@ -1054,10 +1058,26 @@ class App():
         self.runner_app_config.prompt_massage_tags = self.prompt_massage_tags.get()
         Globals.set_prompt_massage_tags(self.runner_app_config.prompt_massage_tags)
 
+    def validate_blacklist(self, text):
+        """Validate text against blacklist before processing.
+        Returns True if validation passes, False if blacklisted items are found."""
+        if not config.blacklist_prevent_execution:
+            return True
+
+        filtered = Blacklist.find_blacklisted_items(text)
+        if filtered:
+            self.alert(_("Invalid Prompt Tags"), 
+                      _("Blacklisted items found in prompt: {0}").format(filtered),
+                      kind="error")
+            return False
+        return True
+
     def set_positive_tags(self, event=None):
         text = self.positive_tags_box.get("1.0", END)
         if text.endswith("\n"):
             text = text[:-1]
+        if not self.validate_blacklist(text):
+            return
         text = self.apply_expansions(text, positive=True)
         self.runner_app_config.positive_tags = text
         Prompter.set_positive_tags(text)
@@ -1147,47 +1167,32 @@ class App():
             self.master.update()
         return text
 
-    def show_tag_blacklist(self):
-        top_level = Toplevel(self.master, bg=AppStyle.BG_COLOR)
-        top_level.title(_("Tags Blacklist"))
-        top_level.geometry(BlacklistWindow.get_geometry(is_gui=True))
+    def open_window(self, window_class, error_title):
+        """Open a window with standard constructor arguments.
+        # TODO: Add support for dynamic constructor arguments if needed in the future
+        """
         try:
-            blacklist_window = BlacklistWindow(top_level, self.toast)
+            window = window_class(self.master, self.app_actions)
         except Exception as e:
-            self.handle_error(str(e), title="Blacklist Window Error")
+            self.handle_error(str(e), title=error_title)
+
+    def show_tag_blacklist(self):
+        self.open_window(BlacklistWindow, "Blacklist Window Error")
 
     def open_presets_window(self):
-        top_level = Toplevel(self.master, bg=AppStyle.BG_COLOR)
-        top_level.title(_("Presets Window"))
-        top_level.geometry(PresetsWindow.get_geometry(is_gui=True))
-        try:
-            presets_window = PresetsWindow(top_level, self.toast, self.construct_preset, self.set_widgets_from_preset)
-        except Exception as e:
-            self.handle_error(str(e), title="Presets Window Error")
+        self.open_window(PresetsWindow, "Presets Window Error")
 
     def open_preset_schedules_window(self):
-        try:
-            schedules_window = SchedulesWindow(self.master, self.toast)
-        except Exception as e:
-            self.handle_error(str(e), title="Preset Schedules Window Error")
+        self.open_window(SchedulesWindow, "Preset Schedules Window Error")
 
     def open_concept_editor_window(self, event=None):
-        try:
-            concept_editor_window = ConceptEditorWindow(self.master, self.toast)
-        except Exception as e:
-            self.handle_error(str(e), title="Concept Editor Window Error")
+        self.open_window(ConceptEditorWindow, "Concept Editor Window Error")
+
+    def open_expansions_window(self, event=None):
+        self.open_window(ExpansionsWindow, "Expansions Window Error")
 
     def next_preset(self, event=None):
         self.set_widgets_from_preset(PresetsWindow.next_preset(self.alert))
-
-    def open_expansions_window(self, event=None):
-        top_level = Toplevel(self.master, bg=AppStyle.BG_COLOR)
-        top_level.title(_("Expansions Window"))
-        top_level.geometry(ExpansionsWindow.get_geometry(is_gui=True))
-        try:
-            expansions_window = ExpansionsWindow(top_level, self.toast)
-        except Exception as e:
-            self.handle_error(str(e), title="Expansions Window Error")
 
     def alert(self, title, message, kind="info", hidemain=True) -> None:
         if kind not in ("error", "warning", "info"):

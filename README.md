@@ -4,6 +4,7 @@ This code is primarily a custom UI to trigger ComfyUI workflows or SD Web UI fun
 
 - This was originally developed during early 2024, so many prompts may be out of date with current versions of the respective image generation projects.
 - Though any prompt applied to any model can result in undesirable images despite properly set negative prompts, prompt randomization increases the chance that undesirable images may be generated, even if only innocuous terms are included in the prompt, because the randomness allows for wider traversal of the model's latent space. For this reason it is wise to use a local prevalidation and content filtering tool. I recommend using [simple_image_compare](https://github.com/tomhallmain/simple_image_compare) which has many other features in addition to customizable prevalidations based on CLIP and H5 models.
+- A default English dictionary is used for generating random words, some of which may be found objectionable. A word with a high degree of relation to strong feelings like disgust also tends to carry a lot of prompt weight, even if it is buried in a much larger prompt with no other similar words. As a result you may choose not to use the `random_word` prompt variable, or implement a blacklist which blocks prompts with undesirable strings or otherwise drops them from prompts.
 - Continuously viewing random images may cause small lapses in sanity. Employ total randomness with caution.
 
 ## Configuration Options

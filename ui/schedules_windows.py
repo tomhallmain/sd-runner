@@ -224,12 +224,12 @@ class SchedulesWindow():
         SchedulesWindow.recent_schedules.insert(0, next_schedule)
         return next_schedule
 
-    def __init__(self, master, toast_callback, runner_app_config=RunnerAppConfig()):
+    def __init__(self, master, app_actions, runner_app_config=RunnerAppConfig()):
         SchedulesWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
         SchedulesWindow.top_level.geometry(SchedulesWindow.get_geometry())
         SchedulesWindow.top_level.title(_("Preset Schedules"))
         self.master = SchedulesWindow.top_level
-        self.toast_callback = toast_callback
+        self.app_actions = app_actions
         self.filter_text = ""
         self.filtered_schedules = SchedulesWindow.recent_schedules[:]
         self.label_list = []
@@ -311,11 +311,13 @@ class SchedulesWindow():
     def set_schedule(self, event=None, schedule=None):
         SchedulesWindow.current_schedule = schedule
         self._label_info["text"] = self.get_current_schedule_label_text()
+        self.app_actions.toast(_("Set schedule: {0}").format(schedule))
         self.refresh()
 
     def delete_schedule(self, event=None, schedule=None):
         if schedule is not None and schedule in SchedulesWindow.recent_schedules:
             SchedulesWindow.recent_schedules.remove(schedule)
+            self.app_actions.toast(_("Deleted schedule: {0}").format(schedule))
         self.refresh()
 
     def filter_schedules(self, event):
@@ -400,6 +402,7 @@ class SchedulesWindow():
         self.filtered_schedules.clear()
         self.add_schedule_widgets()
         self.master.update()
+        self.app_actions.toast(_("Cleared schedules"))
 
     def clear_widget_lists(self):
         for label in self.label_list:

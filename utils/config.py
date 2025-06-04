@@ -23,6 +23,7 @@ class Config:
         self.sd_prompt_reader_loc = None
         self.image_searcher_dir = None
         self.image_searcher_dir2 = None
+        self.blacklist_prevent_execution = False  # Whether blacklisted items should prevent prompt execution
 
         self.gen_order = ["control_nets", "ip_adapters", "resolutions", "models", "vaes", "loras"]
         self.redo_parameters = ["n_latents", "resolutions", "models", "loras"]
@@ -68,6 +69,7 @@ class Config:
         )
         self.set_values(bool,
                         "override_dictionary_append",
+                        "blacklist_prevent_execution",
         )
         self.set_values(str,
                         "foreground_color",
