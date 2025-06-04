@@ -21,6 +21,7 @@
     "override_base_negative": false,
     "skip_confirmations": false,
     "print_negatives": false,
+    "blacklist_prevent_execution": true,
     "prompter_get_specific_locations": true,
     "random_skip_chance": 0,
     "gen_order": [

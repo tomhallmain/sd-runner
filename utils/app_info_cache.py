@@ -2,6 +2,7 @@ import json
 import os
 
 from utils.runner_app_config import RunnerAppConfig
+from sd_runner.blacklist import Blacklist
 
 # TODO add a second history cache for only the positive and negative prompt tags, or perhaps for the final prompts.
 # This list should have a longer length of say 5000, and perhaps it should be its own file as well.
@@ -11,7 +12,7 @@ class AppInfoCache:
     CACHE_LOC = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "app_info_cache.json")
     INFO_KEY = "info"
     HISTORY_KEY = "run_history"
-    MAX_HISTORY_ENTRIES = 100
+    MAX_HISTORY_ENTRIES = 1000
     DIRECTORIES_KEY = "directories"
 
     def __init__(self):
@@ -20,8 +21,41 @@ class AppInfoCache:
         self.validate()
 
     def store(self):
+        self._purge_blacklisted_history()
         with open(AppInfoCache.CACHE_LOC, "w") as f:
             json.dump(self._cache, f, indent=4)
+
+    def _purge_blacklisted_history(self):
+        """Remove any history entries that contain blacklisted items in their prompts."""
+        if not self._cache.get(AppInfoCache.HISTORY_KEY):
+            return
+            
+        filtered_history = []
+        count_removed = 0
+
+        for config_dict in self._cache[AppInfoCache.HISTORY_KEY]:
+            config = RunnerAppConfig.from_dict(config_dict)
+            if not config.positive_tags or not config.positive_tags.strip():
+                filtered_history.append(config_dict)
+                continue
+                
+            # Check if any tags in the prompt are blacklisted
+            blacklisted = Blacklist.find_blacklisted_items(config.positive_tags)
+            if not blacklisted:
+                filtered_history.append(config_dict)
+            else:
+                count_removed += 1
+
+        if count_removed > 0:
+            print(f"Removed {count_removed} history entries with blacklisted items.")
+            print(f"Remaining history entries: {len(filtered_history)}")
+            
+        # Ensure we don't exceed MAX_HISTORY_ENTRIES after filtering
+        if len(filtered_history) > AppInfoCache.MAX_HISTORY_ENTRIES:
+            filtered_history = filtered_history[:AppInfoCache.MAX_HISTORY_ENTRIES]
+            print(f"Truncated history to {AppInfoCache.MAX_HISTORY_ENTRIES} entries")
+            
+        self._cache[AppInfoCache.HISTORY_KEY] = filtered_history
 
     def load(self):
         try:
@@ -60,8 +94,8 @@ class AppInfoCache:
         config_dict = runner_config.to_dict()
         history.insert(0, config_dict)
         # Remove the oldest entry from history if over the limit of entries
-        while len(history) >= AppInfoCache.MAX_HISTORY_ENTRIES:
-            history = history[0:-1]
+        while len(history) > AppInfoCache.MAX_HISTORY_ENTRIES:
+            history.pop()
         return True
 
     def get_last_history_index(self):

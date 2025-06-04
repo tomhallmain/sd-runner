@@ -54,7 +54,7 @@ class BlacklistItem:
     
 
 class Blacklist:
-    TAG_BLACKLIST = []
+    TAG_BLACKLIST: list[BlacklistItem] = []
 
     @staticmethod
     def is_empty():
@@ -79,7 +79,7 @@ class Blacklist:
 
     @staticmethod
     def clear():
-        Blacklist.TAG_BLACKLIST = []
+        Blacklist.TAG_BLACKLIST.clear()
 
     @staticmethod
     def set_blacklist(blacklist):
@@ -142,9 +142,17 @@ class Blacklist:
         user_tags = text.split(',')
         
         for tag in user_tags:
+            # Clean the tag by removing parentheses and extra whitespace
             tag = tag.strip()
             if not tag:
                 continue
+                
+            # Remove outer parentheses if they exist
+            while tag.startswith('(') or tag.startswith('['):
+                tag = tag[1:].strip()
+            while tag.endswith(')') or tag.endswith(']'):
+                tag = tag[:-1].strip()
+                
             for blacklist_item in Blacklist.TAG_BLACKLIST:
                 if not blacklist_item.enabled:
                     continue
