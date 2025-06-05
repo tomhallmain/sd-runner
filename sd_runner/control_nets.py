@@ -14,7 +14,7 @@ preset_control_nets = [
 
 
 
-def get_control_nets(control_net_files=[], random_sort=True):
+def get_control_nets(control_net_files=[], random_sort=True) -> tuple[list[ControlNet], bool]:
     #preset_control_nets = glob.glob(pathname="\\*"),
     if not control_net_files or len(control_net_files) == 0:
         control_net_files = preset_control_nets[:]

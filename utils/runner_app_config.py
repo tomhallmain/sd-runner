@@ -1,5 +1,6 @@
 from copy import deepcopy
 import json
+import datetime
 
 from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup
 
@@ -31,6 +32,7 @@ class RunnerAppConfig:
         self.redo_params = "models,resolutions,seed,n_latents"
         self.random_skip_chance = str(ComfyGen.RANDOM_SKIP_CHANCE)
         self.delay_time_seconds = str(Globals.GENERATION_DELAY_TIME_SECONDS)
+        self.timestamp = datetime.datetime.now().isoformat()  # Add timestamp field
 
         self.sampler = Sampler.ACCEPT_ANY.name
         self.scheduler = Scheduler.ACCEPT_ANY.name
@@ -79,6 +81,8 @@ class RunnerAppConfig:
             app_config.override_resolution = False
         if not hasattr(app_config, 'resolution_group'):
             app_config.resolution_group = ResolutionGroup.TEN_TWENTY_FOUR.name
+        if not hasattr(app_config, 'timestamp'):
+            app_config.timestamp = datetime.datetime.now().isoformat()  # Add timestamp for old entries
         if not isinstance(app_config.prompter_config, dict):
             raise Exception("Prompter config is not a dict")
         prompter_config_dict = deepcopy(app_config.prompter_config)
@@ -101,7 +105,12 @@ class RunnerAppConfig:
         return _dict
 
     def __eq__(self, other):
-        return self.__dict__ == other.__dict__
+        if not isinstance(other, RunnerAppConfig):
+            return False
+        # Create copies of both dicts without timestamp
+        self_dict = {k: v for k, v in self.__dict__.items() if k != 'timestamp'}
+        other_dict = {k: v for k, v in other.__dict__.items() if k != 'timestamp'}
+        return self_dict == other_dict
 
     def __hash__(self):
         class EnumsEncoder(json.JSONEncoder):
@@ -110,4 +119,6 @@ class RunnerAppConfig:
                     return (str(z.name))
                 else:
                     return super().default(z)
-        return hash(json.dumps(self, cls=EnumsEncoder, sort_keys=True))
+        # Create a copy of the dict without timestamp
+        dict_without_timestamp = {k: v for k, v in self.__dict__.items() if k != 'timestamp'}
+        return hash(json.dumps(dict_without_timestamp, cls=EnumsEncoder, sort_keys=True))

@@ -41,13 +41,13 @@ class GenConfig:
         self.countdown_value = -1
         self.software_type = run_config.software_type
 
-    def is_xl(self):
+    def is_xl(self) -> bool:
         return self.models[0].is_xl()
 
-    def architecture_type(self):
+    def architecture_type(self) -> ArchitectureType:
         return self.models[0].architecture_type
 
-    def max_image_scale_to_side(self):
+    def max_image_scale_to_side(self) -> int:
         if self.architecture_type() == ArchitectureType.ILLUSTRIOUS:
             return 1536
         elif self.architecture_type() == ArchitectureType.SDXL:
@@ -55,7 +55,7 @@ class GenConfig:
         else:
             return 768
 
-    def prepare(self):
+    def prepare(self) -> None:
         self.resolutions_skipped = 0
         if len(self.vaes) == 0:
             self.vaes.append(None)
@@ -87,12 +87,12 @@ class GenConfig:
                 self.resolutions.clear()
                 self.resolutions.append(None)
 
-    def prompts_match(self, prior_config):
+    def prompts_match(self, prior_config: "GenConfig") -> bool:
         if prior_config:
             return prior_config.positive == self.positive and prior_config.negative == self.negative
         return False
 
-    def validate(self):
+    def validate(self) -> bool:
         if Globals.SKIP_CONFIRMATIONS or self.is_redo_prompt():
             return True
         confirm_messages = []
@@ -117,10 +117,10 @@ class GenConfig:
         confirm_str += "Confirm (y/n): "
         return input(confirm_str).lower().startswith("y")
 
-    def is_redo_prompt(self):
+    def is_redo_prompt(self) -> bool:
         return isinstance(self.workflow_id, str) and self.workflow_id.endswith(".png")
 
-    def redo_param(self, override_key, value_if_not_set):
+    def redo_param(self, override_key: str, value_if_not_set):
         if not self.is_redo_prompt() or override_key in GenConfig.REDO_PARAMETERS:
             return value_if_not_set
         return None

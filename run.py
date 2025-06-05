@@ -3,12 +3,12 @@ from copy import deepcopy
 import time
 import traceback
 
-from utils.globals import Globals, ResolutionGroup # must import first
+from utils.globals import Globals, ResolutionGroup, WorkflowType # must import first
 from sd_runner.concepts import PromptMode
 from sd_runner.comfy_gen import ComfyGen
-from sd_runner.control_nets import get_control_nets, redo_files
+from sd_runner.control_nets import get_control_nets, redo_files, ControlNet
 from sd_runner.gen_config import GenConfig
-from sd_runner.ip_adapters import get_ip_adapters
+from sd_runner.ip_adapters import get_ip_adapters, IPAdapter
 from sd_runner.prompter import PrompterConfiguration, Prompter
 from sd_runner.models import Model
 from sd_runner.resolution import Resolution
@@ -45,7 +45,7 @@ class Run:
     def is_infinite(self):
         return self.args.total == -1
 
-    def run(self, gen, original_positive, original_negative):
+    def run(self, gen: ComfyGen | SDWebuiGen, original_positive, original_negative):
         gen_config = gen.gen_config
         prompter = Globals.PROMPTER
         if not self.editing and not self.switching_params:
@@ -101,14 +101,14 @@ class Run:
 
         self.last_config = deepcopy(gen.gen_config)
 
-    def finalize_gen(self, gen, original_positive, original_negative):
+    def finalize_gen(self, gen: ComfyGen | SDWebuiGen, original_positive, original_negative):
         self.print("Filling expected number of generations due to skips.")
         gen.gen_config.set_countdown_mode()
         while gen.gen_config.countdown_value > 0:
             self.run(gen, original_positive, original_negative)
         gen.gen_config.reset_countdown_mode()
 
-    def construct_gen(self, workflow, positive_prompt, negative_prompt, control_nets, ip_adapters):
+    def construct_gen(self, workflow: str | WorkflowType, positive_prompt: str, negative_prompt: str, control_nets: list[ControlNet], ip_adapters: list[IPAdapter]) -> ComfyGen | SDWebuiGen:
         models = Model.get_models(self.args.model_tags,
                                   default_tag=Model.get_default_model_tag(workflow),
                                   inpainting=self.args.inpainting)
@@ -132,7 +132,7 @@ class Run:
             raise Exception(f"Unhandled software type: {self.args.software_type}")
         return gen
 
-    def do_workflow(self, workflow, positive_prompt, negative_prompt, control_nets, ip_adapters):
+    def do_workflow(self, workflow: str | WorkflowType, positive_prompt: str, negative_prompt: str, control_nets: list[ControlNet], ip_adapters: list[IPAdapter]):
         gen = self.construct_gen(workflow, positive_prompt, negative_prompt, control_nets, ip_adapters)
         self.editing = False
         self.switching_params = False
@@ -184,7 +184,7 @@ class Run:
                 sleep_time -= 1
                 time.sleep(1)
 
-    def load_and_run(self, control_nets, ip_adapters):
+    def load_and_run(self, control_nets: list[ControlNet], ip_adapters: list[IPAdapter]):
         positive_prompt = self.args.positive_prompt if self.args.positive_prompt else Globals.DEFAULT_POSITIVE_PROMPT
         base_negative = "" if Globals.OVERRIDE_BASE_NEGATIVE else str(Globals.DEFAULT_NEGATIVE_PROMPT)
         negative_prompt = self.args.negative_prompt if self.args.negative_prompt else base_negative

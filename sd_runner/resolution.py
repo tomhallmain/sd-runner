@@ -23,7 +23,7 @@ class Resolution:
         self.resolution_group = resolution_group
 
     @staticmethod
-    def get_resolution(resolution_tag,
+    def get_resolution(resolution_tag: str,
                        architecture_type=ArchitectureType.SDXL,
                        resolution_group=ResolutionGroup.TEN_TWENTY_FOUR):
         scale_str = Utils.extract_substring(resolution_tag, "[0-9]+")
@@ -38,7 +38,7 @@ class Resolution:
             return Resolution.LANDSCAPE(architecture_type=architecture_type, resolution_group=resolution_group, scale=scale, random_skip=random_skip)
 
     @staticmethod
-    def get_resolutions(resolution_tag_str,
+    def get_resolutions(resolution_tag_str: str,
                         default_tag=Globals.DEFAULT_RESOLUTION_TAG,
                         architecture_type=ArchitectureType.SDXL,
                         resolution_group=ResolutionGroup.TEN_TWENTY_FOUR):

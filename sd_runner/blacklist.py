@@ -1,5 +1,6 @@
-import json
 import csv
+import json
+import re
 
 class BlacklistItem:
     def __init__(self, string: str, enabled: bool = True):
@@ -34,10 +35,26 @@ class BlacklistItem:
         """
         tag = tag.lower()
         blacklist_str = self.string.lower()
-        return (tag == blacklist_str or
-                tag.startswith(blacklist_str + " ") or
-                tag.startswith(blacklist_str + "-") or
-                (" " + blacklist_str) in tag)
+        
+        # Split tag into words using common word boundary characters
+        # This includes spaces, hyphens, dashes, underscores, and other common separators
+        words = re.split(r'[\s\-_.,;:!?()[\]{}]+', tag)
+        
+        # Check each word for exact match or plural
+        for word in words:
+            if not word:  # Skip empty strings that might result from splitting
+                continue
+            # Exact match
+            if word == blacklist_str:
+                return True
+            # Plural match (adds 's' or 'es')
+            if word == blacklist_str + 's' or word == blacklist_str + 'es':
+                return True
+            # Handle words ending in 's' that need 'es' for plural
+            if blacklist_str.endswith('s') and word == blacklist_str + 'es':
+                return True
+                
+        return False
 
     def __eq__(self, other):
         if isinstance(other, BlacklistItem):
@@ -121,9 +138,10 @@ class Blacklist:
                     break
             if not match_found:
                 whitelist.append(concept_cased)
-                    
-        if len(filtered) != 0:
-            print(f"Filtered concepts from blacklist tags: {filtered}")
+
+        # Uncomment to see filtered concepts                    
+        # if len(filtered) != 0:
+            # print(f"Filtered concepts from blacklist tags: {filtered}")
 
         return whitelist, filtered
 

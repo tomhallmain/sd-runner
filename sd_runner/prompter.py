@@ -4,6 +4,7 @@ import random
 import re
 import subprocess
 
+from sd_runner.blacklist import Blacklist
 from sd_runner.concepts import Concepts, PromptMode
 from ui.expansion import Expansion
 from utils.config import config
@@ -151,7 +152,7 @@ class Prompter:
     def set_tags_apply_to_start(cls, apply):
         cls.TAGS_APPLY_TO_START = apply
 
-    def generate_prompt(self, positive="", negative="", related_image_path=""):
+    def generate_prompt(self, positive: str = "", negative: str = "", related_image_path: str = "") -> tuple[str, str]:
         if self.prompt_mode in (PromptMode.SFW, PromptMode.NSFW, PromptMode.NSFL):
             positive = self.mix_concepts()
         elif PromptMode.RANDOM == self.prompt_mode:
@@ -198,6 +199,16 @@ class Prompter:
             positive = self.apply_choices(positive)
         if Prompter.contains_choice_set(negative):
             negative = self.apply_choices(negative)
+        
+        # Validate final prompts against blacklist
+        positive_concepts = [c.strip() for c in positive.split(',')]
+        positive_whitelist, positive_filtered = Blacklist.filter_concepts(positive_concepts)
+        
+        # Reconstruct the prompts with only whitelisted concepts if needed
+        if len(positive_filtered) > 0:
+            positive = ', '.join(positive_whitelist)
+            print(f"Filtered concepts from blacklist tags: {positive_filtered}")
+        
         self.last_prompt = positive
         return (positive, negative)
 

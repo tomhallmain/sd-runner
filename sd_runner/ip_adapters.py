@@ -13,7 +13,7 @@ preset_ip_adapters = [
 ]
 
 
-def get_ip_adapters(ip_adapter_files=[], random_sort=True):
+def get_ip_adapters(ip_adapter_files=[], random_sort=True) -> tuple[list[IPAdapter], bool]:
     if not ip_adapter_files or len(ip_adapter_files) == 0:
         ip_adapter_files = preset_ip_adapters[:] 
     ip_adapters = []

@@ -8,6 +8,7 @@ import traceback
 
 from utils.globals import Globals, WorkflowType
 
+from sd_runner.blacklist import Blacklist
 from sd_runner.captioner import Captioner
 from sd_runner.gen_config import GenConfig
 from sd_runner.models import Model
@@ -119,7 +120,10 @@ class BaseImageGenerator(ABC):
                                 if ip_adapter:
                                     positive_copy += ip_adapter.modifiers
                                     positive_copy = ip_adapter.b_w_coloration_modifier(positive_copy)
-                                
+
+                                # Final blacklist validation before generation
+                                positive_copy = self.validate_prompt_against_blacklist(positive_copy)
+
                                 if self.gen_config.is_redo_prompt():
                                     if self.gen_config.software_type == "SDWebUI":
                                         raise Exception("Redo prompt is not supported for SD Web UI.")
@@ -193,6 +197,24 @@ class BaseImageGenerator(ABC):
     def _handle_error(self, error: Exception, task_name: str) -> None:
         print(f"Error in {task_name}: {str(error)}")
         traceback.print_exc()
+
+    def validate_prompt_against_blacklist(self, prompt: str) -> str:
+        """Validate a prompt against the blacklist and return the filtered version.
+        
+        Args:
+            prompt: The prompt to validate
+            
+        Returns:
+            str: The filtered prompt with blacklisted terms removed
+        """
+        concepts = [c.strip() for c in prompt.split(',')]
+        whitelist, filtered = Blacklist.filter_concepts(concepts)
+        
+        if len(filtered) > 0:
+            print(f"Filtered concepts from blacklisted tags: {filtered}")        
+            return ', '.join(whitelist)
+        else:
+            return prompt
 
     # Abstract methods to be implemented per generator -------------------------
 

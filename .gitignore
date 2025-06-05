@@ -14,4 +14,5 @@ prompts/stableDiffusion3*
 prompts/test.json
 sdg_script.py
 temp*.py
+temp*.txt
 test_multiselect.py

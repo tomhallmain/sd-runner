@@ -3,6 +3,8 @@ import os
 
 from utils.config import config
 from utils.globals import Globals, WorkflowType, Sampler, Scheduler, ComfyNodeName, PromptTypeSDWebUI
+from sd_runner.control_nets import ControlNet
+from sd_runner.ip_adapters import IPAdapter
 from sd_runner.models import Model, LoraBundle
 from sd_runner.resolution import Resolution
 
@@ -56,7 +58,7 @@ class WorkflowPrompt:
         raise NotImplementedError("WorkflowPrompt.set_from_workflow() must be implemented by subclasses")
 
     @staticmethod
-    def setup_workflow(workflow_tag, control_nets, ip_adapters):
+    def setup_workflow(workflow_tag: str, control_nets: list[ControlNet], ip_adapters: list[IPAdapter]) -> str | WorkflowType:
         workflow = None
         workflow_tag = workflow_tag.lower()
         if workflow_tag.endswith(".png"):

@@ -4,19 +4,22 @@ import os
 from utils.runner_app_config import RunnerAppConfig
 from sd_runner.blacklist import Blacklist
 
-# TODO add a second history cache for only the positive and negative prompt tags, or perhaps for the final prompts.
-# This list should have a longer length of say 5000, and perhaps it should be its own file as well.
-# This would enable the get_prompt_tags_by_frequency functionality to be used.
-
 class AppInfoCache:
     CACHE_LOC = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "app_info_cache.json")
     INFO_KEY = "info"
     HISTORY_KEY = "run_history"
+    PROMPT_HISTORY_KEY = "prompt_history"  # New key for prompt tag history
     MAX_HISTORY_ENTRIES = 1000
+    MAX_PROMPT_HISTORY_ENTRIES = 5000  # Larger limit for prompt history
     DIRECTORIES_KEY = "directories"
 
     def __init__(self):
-        self._cache = {AppInfoCache.INFO_KEY: {}, AppInfoCache.HISTORY_KEY: [], AppInfoCache.DIRECTORIES_KEY: {}}
+        self._cache = {
+            AppInfoCache.INFO_KEY: {}, 
+            AppInfoCache.HISTORY_KEY: [], 
+            AppInfoCache.PROMPT_HISTORY_KEY: [],
+            AppInfoCache.DIRECTORIES_KEY: {}
+        }
         self.load()
         self.validate()
 
@@ -72,6 +75,12 @@ class AppInfoCache:
             self._cache[AppInfoCache.HISTORY_KEY] = {}
         return self._cache[AppInfoCache.HISTORY_KEY]
 
+    def _get_prompt_history(self) -> list:
+        """Get the prompt history list, creating it if it doesn't exist."""
+        if AppInfoCache.PROMPT_HISTORY_KEY not in self._cache:
+            self._cache[AppInfoCache.PROMPT_HISTORY_KEY] = []
+        return self._cache[AppInfoCache.PROMPT_HISTORY_KEY]
+
     def _get_directory_info(self):
         if AppInfoCache.DIRECTORIES_KEY not in self._cache:
             self._cache[AppInfoCache.DIRECTORIES_KEY] = {}
@@ -91,8 +100,24 @@ class AppInfoCache:
         history = self._get_history()
         if len(history) > 0 and runner_config == RunnerAppConfig.from_dict(history[0]):
             return False
+            
         config_dict = runner_config.to_dict()
         history.insert(0, config_dict)
+        
+        # Add to prompt history if there are positive tags
+        if runner_config.positive_tags and runner_config.positive_tags.strip():
+            prompt_history = self._get_prompt_history()
+            prompt_entry = {
+                "positive_tags": runner_config.positive_tags,
+                "negative_tags": runner_config.negative_tags,
+                "timestamp": config_dict.get("timestamp", "")  # Preserve timestamp if available
+            }
+            prompt_history.insert(0, prompt_entry)
+            
+            # Trim prompt history if needed
+            while len(prompt_history) > AppInfoCache.MAX_PROMPT_HISTORY_ENTRIES:
+                prompt_history.pop()
+        
         # Remove the oldest entry from history if over the limit of entries
         while len(history) > AppInfoCache.MAX_HISTORY_ENTRIES:
             history.pop()
@@ -109,22 +134,57 @@ class AppInfoCache:
         return history[_idx]
 
     def get_prompt_tags_by_frequency(self, weighted=False) -> dict[str, int]:
-        history = self._get_history()
-        prompts = []
+        """Get frequency of prompt tags from the prompt history.
+        
+        Args:
+            weighted: If True, weight tags by recency (newer tags count more)
+            
+        Returns:
+            dict: Mapping of tags to their frequency counts
+        """
+        prompt_history = self._get_prompt_history()
         prompt_tags = {}
-        for config in history:
-            prompt = RunnerAppConfig.from_dict(config).positive_tags
-            if prompt is not None and prompt != "" and prompt not in prompts:
-                prompts.append(str(prompt))
-        for prompt in prompts:
-            tags = prompt.split(",")
+        
+        for idx, entry in enumerate(prompt_history):
+            if not entry.get("positive_tags"):
+                continue
+                
+            # Calculate weight based on position if weighted
+            weight = 1.0
+            if weighted:
+                # Newer entries get higher weights, decreasing exponentially
+                weight = 1.0 / (1.0 + idx * 0.1)
+                
+            tags = entry["positive_tags"].split(",")
             for tag in tags:
                 tag = tag.strip()
+                if not tag:
+                    continue
+                    
+                # Clean the tag by removing parentheses
+                while tag.startswith('(') or tag.startswith('['):
+                    tag = tag[1:].strip()
+                while tag.endswith(')') or tag.endswith(']'):
+                    tag = tag[:-1].strip()
+                    
                 if tag not in prompt_tags:
-                    prompt_tags[tag] = 1
+                    prompt_tags[tag] = weight
                 else:
-                    prompt_tags[tag] += 1
+                    prompt_tags[tag] += weight
+                    
         return prompt_tags
+
+    def get_recent_prompts(self, limit=10) -> list[dict]:
+        """Get the most recent prompts from the prompt history.
+        
+        Args:
+            limit: Maximum number of prompts to return
+            
+        Returns:
+            list: List of recent prompt entries, each containing positive_tags, negative_tags, and timestamp
+        """
+        prompt_history = self._get_prompt_history()
+        return prompt_history[:limit]
 
     def set_directory(self, directory, key, value):
         directory = AppInfoCache.normalize_directory_key(directory)

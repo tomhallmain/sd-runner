@@ -175,7 +175,7 @@ class Model:
             return Model.DEFAULT_SD15_MODEL
 
     @staticmethod
-    def get_model(model_tag, is_lora=False, inpainting=False, is_xl=0):
+    def get_model(model_tag: str, is_lora=False, inpainting=False, is_xl=0):
         if model_tag is None or model_tag.strip() == "":
             return None
 
@@ -231,7 +231,7 @@ class Model:
         return model
 
     @staticmethod
-    def get_models(model_tags_str, is_lora=False, default_tag="analogMadness", inpainting=False, is_xl=0):
+    def get_models(model_tags_str: str, is_lora=False, default_tag="analogMadness", inpainting=False, is_xl=0):
         if model_tags_str is None or model_tags_str.strip() == "":
             model_tags_str = default_tag
         model_tags = model_tags_str.split(",")
