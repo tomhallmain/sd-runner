@@ -17,6 +17,7 @@ Bored
 Calm
 Carefree
 Cautious
+chagrin
 Cheerful
 Composed
 concerned
@@ -120,6 +121,7 @@ puckered lips
 pursed lips
 questioning
 quizzical look
+rage
 rapt
 Regretful
 Relaxed

@@ -5,13 +5,17 @@ $$random_word in foreground blocking view
 $$random_word thereto
 'tis
 [[my,his,her,your,our,their]] very first $$random_word
+[[the,my]] rig
 A B and C
 a to b
 abridged edition
 adorned
 aerosol
+Alert!
+algebraic
 aluminum foil
 amazing
+ammo box
 anatomy
 angle of incidence
 antenna
@@ -19,28 +23,39 @@ apart
 aqua regia
 arc length
 archetype
+Arial
+armrest
 at the same time
+ATP
+axial
 B movie
 barrel-vaulted
+basin
 bespoke
 blackbody radiation
 blah
 blog screenshot
 boldface
 boring
+breadth
 brighten
 brim
 bunched
 buttressing
+camouflage
 Capodimonte porcelain
 Carborundum mezzotint
 Cartesian coordinates
 carved ivory
 casts
 catenary
+celestial
+channel
 chart
 chivalric romance
 Christogram
+chromagraph
+chronicle
 clef
 collagraphy
 combo $$random_word
@@ -48,6 +63,8 @@ conchoid
 contour rivalry
 contouring
 convection
+crop
+cropped image
 curia
 curio
 curl
@@ -62,49 +79,69 @@ decorative arts
 derivative
 dimension
 dislocation
+dissapating
+dive
 draft
 dynamical system
 découpage
 earthenware
+echo
 Eigenfunction
 eighths
 electrum
 elements
 ellipse
+emoji
 encased in amber
 endnote
 engraved glass
+epoxy
 ergodic
 essence
 evolute
+exterior structure
 faience
 figure eight
 fluctuations
 fluid flow
 flux
+force field
 formulaic
 fossilized
 frame
 frets
 friction
+gas pipes
 geometric forms
 geometry diagram
+government
 gradation
 grade
+graphite
 groupings
 halved
 high energy
 Hilbert space
 hilt
 hook
+hourglass
+house of $$random_word
 hyperbolic manifold
+icing
 idol
+Illumination
 illumination angle
 improvisation
+in error
 in the name of $$random_word
 inasmuch as $$random_word
 inlay
 integration
+interior structure
+inversion
+inverted $$random_word
+item
+joint
 knobs
 lay of the land
 layering
@@ -113,11 +150,13 @@ leaking
 lemniscate
 level [[$$number,A,B,G]]
 lever
+levitation
 lidar
 lifestyle
 limaçon of Pascal
 line work
 lining
+lint
 Lorentz transformation
 losses and debts
 luminiferous aether
@@ -127,28 +166,42 @@ mannerism
 margins
 mass consumerism
 mass produced
+matching
+materials
 meaning
 medallion
+mere $$random_word
 method
 mezzotint
 miscellany
 monogram
+mortise and tenon
 multiperspective
+musical scales
 mutation
 Naples porcelain
+neurons
 new releases
 norm
 normal
+odds and ends
 offset
 offset printing
 onset
+open set
 orthography
+outer shell
+outline
 padding
 parabolic
+paranormal
+part
+party favors
 patchwork
 payload
 periodic
 periodic table
+periscope
 person in foreground blocking view
 (morphological operation)
 (scenic nature, misty)
@@ -436,6 +489,7 @@ pencil sketch
 perfect composition
 petrified wood
 photo op
+photochrome
 photocopy
 photograph
 photon
@@ -453,19 +507,23 @@ polymorph
 post-it notes
 poster
 posters
+pre-op
 primer
 print art
 print screen image
 proton
 proxy
 pseudosphere
+puppy
 quadratura
 quartered
 quite a lot
 radar
 radiological scan
+radix
 rainy
 ramp
+rare earth metal
 raw photo
 raytracing
 raytraced image inspired by senior environment artist
@@ -479,10 +537,14 @@ restored historic photograph
 retro artstyle
 retro game
 revenue and assets
+reverse
+reversed
+rhyme
 rind
 risograph
 rivets
 rolled
+rosin
 rotated image
 rotational symmetry
 rotoscoped image
@@ -493,24 +555,30 @@ s p a c i n g
 saran wrap
 sawtooth wave
 scalable
+scan
 scanning electron microscopy
 scattered
 Schlieren photography
 scraped
 scribbles
+scrying
 sealed
+sealer
 secant
 selfie
+sets
 sfm
 shades
 shaded
 shadowgraph
 shadows
+sharding
 sharp
 sharp edges
 sharpened
 sheen
 shimmering
+sighted scope lens
 silk screen
 silver nitrate film
 simple sketch
@@ -518,8 +586,12 @@ sinusoidal
 sketchbook
 sketches
 skeuomorph
+slanted
+sleet
 slippery
+sloop
 smeared
+smelted
 smooth
 smooth
 smooth curves
@@ -530,8 +602,12 @@ snowy
 soft
 soft
 solid
+soul
+source
 speckled
+specks
 Sperrsatz
+spirit
 spirograph
 splash
 splashiness
@@ -540,14 +616,18 @@ spray painted
 spree
 spring-loaded
 sprocket
+stack
+staged performance of $$random_word
 stained
 standard model of physics
 static
+stem
 stenciling
 step $$number
 stereograph
 still life
 stippling
+stirred
 strange
 strange magic
 striped
@@ -565,16 +645,22 @@ superposition
 surrealism
 swag bags
 symmetrical
+syntax
+tape
+taped
 tapers
 tapestry
 taxonomy diagram
 television aerial
 tentacles and creatures
+terrazzo
 textbook page
 textured
+the tip
 theatre set backdrop
 this and that
 time stopped
+Times New Roman
 tin-glazed
 tonal values
 tools
@@ -585,18 +671,22 @@ thresholding
 tiltshift
 tintype
 toleware
+traced
 tractoid
 tractrix
 traditional media
+trait
 transparent background
 tripwire
 Trois crayons
 trompe l'oeil
 trompe-l'œil
+twiddly bits
 typography
 ultrasharp
 uneven borders
 universal appeal
+unopened
 unreal engine
 unrolled
 upsampling
@@ -631,6 +721,7 @@ windy
 wisp
 wood engraving
 word cloud
+wove paper
 x-ray
 zentangle art
 

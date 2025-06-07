@@ -1,7 +1,9 @@
 $$random_word reflected in the window of a $$random_word
 3/4 view
+a stone's throw from
 abutting $$random_word
 across the table
+afar
 all over
 aloft
 arched back
@@ -16,6 +18,9 @@ back
 back to camera
 bunched in
 candid
+close at hand
+closeby
+crouched
 direct route
 down below
 dynamic pose
@@ -60,17 +65,22 @@ lying on back
 lying on side
 lying on stomach
 model pose
+near
 nearby
 nearest
 neighboring
 nodding off
+not far
+on target
 on tiptoes
 on a display podium
 on the ground
 open arms
 orientation
 over here
+overhead
 positions
+preceding
 quarter turn
 perched
 POV hands
@@ -88,6 +98,7 @@ sitting up
 sitting
 squatting
 stances
+stooping
 t-pose
 together
 turning away

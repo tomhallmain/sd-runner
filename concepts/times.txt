@@ -1,8 +1,11 @@
+always
 early morning
+everlasting
 morning
 morning
 mid-morning
 late morning
+never
 noon
 early afternoon
 afternoon
@@ -12,6 +15,9 @@ late afternoon
 evening
 dawn
 dusk
+sometime
+sometime [[today,tomorrow,next week,next month,next year]]
+soon
 twilight
 soft morning light
 golden hour
@@ -48,4 +54,5 @@ Thursday
 Friday
 Saturday
 Sunday
+yesteryear
 

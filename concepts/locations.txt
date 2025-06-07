@@ -1,44 +1,76 @@
 
 1950s diner retro style
+abbey
+apartment
+arroyo
+at the helm
 backroads
+ballroom
+bassinet
 below deck
+blacksmith's shop
 buffet
+canal
 captains hold
 charity dinner
 citadel
 classical concert
 copse
+corridor
 country road
 covered bridge
 crater
 cruiseliner
 dais
 ditch
+domicile
 dovecote
 end zone
+entryway
+estate grounds
 event horizon
+forge
 funicular
+granary
 gravel road
+hairpin turn
 historic monument
 hummock
 metal concert
 middle of nowhere
+minibar
 my old haunt
+nursery
 Odeon
 on deck
+open house
+parterre
 people mover
+pit stop
 plaza
 radio station
 radio tower
+ravine
+residence
+rest stop
+rift
+rowhouse
+royal court
+sand dunes
+school grounds
 seaport
 side road
 single-lane bridge
 single-lane road
+smithy
+spot
 stall
 steppe
+tatami mats
 taxi
 terrace
 caverns
+the bridge [of a spaceship for example]
 the coast
 thicket
 tidewater basin
@@ -46,6 +78,7 @@ tram
 trench
 tropics
 wagon
+waiting room
 waterfall
 first floort
 second floor

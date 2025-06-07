@@ -1,31 +1,60 @@
 
+abbott
 al-Ṣūfī
 apologist
 assassin
+bandero
 bub
+bushel and a peck
 buster
+claimant
 culprit
+Dobby
 e'er
 emeratus
 et cetera
 ever
+exarch
+Fido
+fly rink
+gigglemug
 Hermes Trismegistus
 Holy See
+hyssop
+If it is as you say
+ill-gotten gains
+inmate
 Jabir ibn Hayyan
+just cause
 mind over matter
+Mr. Game & Watch
+muffin-walloper
 mutant
 ne'er
 neighbor
+One if by land, two if by sea
 perhaps
 Pingu
 A Team
+podsnapper
 rascal
+Redwall
+scout
+sea rover
+seadog
+seer
+setter
 settler
+Shamu
+sleepers
+sniper
+so be it
 spy
 stooges
 keystone cops
 Babar
 Imogen
+talent scout
 Tar Heels
 Thaddeus
 all-stars
@@ -59,7 +88,10 @@ healer
 sentinel
 
 thane
+The Adoring Fan
+The Secret of Nimh
 w rizz
+what's in a name
 William the Conqueror
 Ivan the Terrible
 Catharine the Great
@@ -172,6 +204,7 @@ Elmer Fudd
 Elmo
 Elven
 Entertainment robot
+would I lie?
 Ēostre
 Erebus
 Erector Set

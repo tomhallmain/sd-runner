@@ -13,7 +13,7 @@ class ConceptEditorWindow():
     last_set_concept = None
     concept_change_history = []
     MAX_CONCEPTS = 50
-    MAX_HEIGHT = 900
+    MAX_HEIGHT = 400
     N_CONCEPTS_CUTOFF = 30
     COL_0_WIDTH = 600
     top_level = None
@@ -49,7 +49,7 @@ class ConceptEditorWindow():
     @staticmethod
     def get_geometry(is_gui=True):
         width = 500
-        height = 800
+        height = 400
         return f"{width}x{height}"
 
     def __init__(self, master, app_actions):

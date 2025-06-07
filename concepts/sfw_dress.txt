@@ -21,6 +21,8 @@ balaclava
 ball gown
 Ballerina Flats
 Ballgown
+bandage
+bandana
 bandanna
 banyan
 barrister's robes
@@ -77,6 +79,7 @@ camouflage
 cap
 cap and gown
 cape
+cappa magna
 Capri Pants
 capris
 cardigan
@@ -177,6 +180,7 @@ fur coat
 gaberdine
 gabardine
 gaiters
+galero
 galoshes
 garb
 garment
@@ -189,6 +193,7 @@ glasses
 gloves
 goggles
 gold ring
+gold-embroidered $$dress
 gown
 Graphic T-Shirt
 guise
@@ -276,12 +281,14 @@ moccasins
 Mohawk
 Motorcycle Jacket
 muffler
+Muslin gown
 muumuu
 name tag
 neckerchief
 necklace
 nightgown
 nightshirt
+Nun's habit
 obi
 Off-Shoulder Sweater
 Off-Shoulder Top
@@ -312,6 +319,7 @@ Pixie Cut
 Platform Sandals
 pleat
 pleated skirt
+pluviale
 pocket
 pocketbook
 polka
@@ -322,6 +330,8 @@ Pompadour
 poncho
 poodle skirt
 pork pie hat
+prelate dress
+priest's cope
 Puffer Coat
 pullover
 pumps
@@ -458,6 +468,7 @@ umbrella
 Undercut
 undershirt
 uniform
+unitard
 Updo
 Utility Jumpsuit
 Varsity Jacket

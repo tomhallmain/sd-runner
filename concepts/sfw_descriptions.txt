@@ -1,31 +1,75 @@
 $$random_word-sized
+[[quite,really]] someone
 A-list
+acumen
 adorable
+as thin as a hair
 at a loss
 average
+bare-knuckle
+bereft
+best in the world
+blatant
+boastful
 brand new
+brash
 brilliant
+burdensome
+charade
+daring
+deftly
+dignified
 dreary
 evanescent
+fabled
+favorable
 fettered
+flim-flam
+foreboding
 frizzy
 frozen
 garish
 goalie
 goofy
+gratis
+habitual
+hearty
+honest
 humane
+imperiled
 in a tizzy
+innate
+inspiring
+integrity
+interim
 intrigue
+it has a mind of its own
+it predates $$random_word by $$number years
 laid-back
+lame
+largest in the world
+loose
 lord
 low cost
 manic
+meritous
+merry
 mint condition
+mired
 morose
+most unfavorable
+mundane
 mutated
+mute
+nemisis
 of great stature
+parted
+perilous
 powerful
 pricey
+rather
+ready
+rinky-dink
 sandy
 alternative style
 ancient
@@ -67,25 +111,39 @@ pedigree
 pompous
 punk style
 round
+sassy
 scandalous
 scar
 scrawny
 sight for sore eyes
 sincere
 skinny
+slangy
 slim
 small
+smallest in the world
+sober
+sobering
+soulful
+spent
 spry
+staid
+stale
 startled
+steady
 stealthy
 stern
+storied
 stormy
 strong
 styled
 swole
+tactical
 tall
 tawdry
+tight
 tiny
+traditional
 ugly
 urgent
 used
@@ -94,6 +152,8 @@ viking
 war paint
 weary
 wicked
+worst in the world
+zany
 zeal
 overworked
 tuckered out
