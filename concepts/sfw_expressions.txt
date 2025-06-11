@@ -39,6 +39,7 @@ Disappointed
 Discontent
 disinterest
 hiss
+jealous
 mild disgust
 disgusted
 Disoriented
@@ -123,6 +124,7 @@ questioning
 quizzical look
 rage
 rapt
+rats!
 Regretful
 Relaxed
 relieved

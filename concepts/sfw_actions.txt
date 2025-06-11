@@ -70,6 +70,7 @@ berating
 beset
 betrayal
 biking
+billiards
 bingo or other group games
 bird books or items bird-themed
 bird watching
@@ -139,6 +140,7 @@ clay crafts
 cleaning
 cliff diving
 clinging
+cloppity-clop
 closing
 cocktails
 collaborating
@@ -211,6 +213,7 @@ diamond painting kit
 didn't leave a tip
 digging
 digging up $$random_word
+dinner party
 discovering
 diving
 do one
@@ -287,6 +290,7 @@ feeling
 feeling cramped
 felt arts
 fencing
+feud
 fiddlesticks!
 field day
 fighting
@@ -310,6 +314,7 @@ football
 found [[you,it]] !
 freaking out
 freezing
+frisbee
 fruit-themed decor and items
 frying
 furniture building
@@ -347,6 +352,7 @@ got the morbs
 griping
 growing
 growing bonsai
+grr...
 guile
 gymnastics
 Hail!
@@ -546,6 +552,7 @@ moving
 mowing the lawn
 muahahaha... he fell right into my " $random_word trap! "
 musical instruments
+nabbed
 nail art
 nautical or beach inspired art or items
 need that $$random_word STAT!
@@ -566,6 +573,7 @@ oh go off
 oil painting
 on a date
 on a field trip
+on break
 on the case
 on the job
 one and done
@@ -596,6 +604,7 @@ pastels
 paving
 paying
 paying dues
+paying the toll
 peel
 peering
 people watching
@@ -613,6 +622,7 @@ physics demonstration
 pilates
 pinching
 pioneer
+pitching
 planting
 playing
 playing a role
@@ -712,6 +722,7 @@ riding
 riding a horse
 riding a motorcycle
 riding a scooter
+riding a train
 riding in a car
 rig up
 ripping
@@ -899,15 +910,19 @@ thinking
 throwing
 throwing a ball
 throwing a javelin
+throwing the first pitch
 tickling
 tie dyeing
+time out
 to-go order
+told ya
 toodaloo
 toot toot
 touchdown!
 triage
 trialing
 triathalon
+trick shot
 true to [[him,her,it,me]]
 try [[this,it]]
 twiddle
@@ -977,6 +992,7 @@ where'd he go? he was right " $random_word !"
 while noone was looking
 whitesmithing
 who goes there?
+Who's with me?
 wiggling
 wind surfing
 wine, beer or spirits tasting
@@ -1001,6 +1017,7 @@ yeesh
 yelling
 yes or no?
 Yessirree
+yippee!
 yoga or pilates
 You betcha!
 you're [[a, ]] $$random_word !

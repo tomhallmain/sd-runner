@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-05-27 15:13-0400\n"
-"PO-Revision-Date: 2025-05-27 15:13-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-06-11 16:44-0400\n"
+"PO-Revision-Date: 2025-06-11 16:44-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: es Team <<EMAIL>>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -12,263 +12,263 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:118
+#: app.py:128
 msgid "Run SD Workflows"
 msgstr "Ejecutar flujos de trabajo SD"
 
-#: app.py:122
+#: app.py:132
 msgid "Run Workflows"
 msgstr "Ejecutar flujos de trabajo"
 
-#: app.py:124
+#: app.py:134
 msgid "Cancel Run"
 msgstr "Cancelar ejecución"
 
-#: app.py:132
+#: app.py:144
 msgid "Software"
 msgstr "Programa"
 
-#: app.py:140
+#: app.py:152
 msgid "Workflow"
 msgstr "Flujo de trabajo"
 
-#: app.py:147
+#: app.py:159
 msgid "Set N Latents"
 msgstr "Conjunto N Latentes"
 
-#: app.py:153
+#: app.py:165
 msgid "Set Total"
 msgstr "Total"
 
-#: app.py:161
+#: app.py:173
 msgid "Delay Seconds"
 msgstr "Segundos de retraso"
 
-#: app.py:167
+#: app.py:179
 msgid "Resolutions"
 msgstr "Resoluciones"
 
-#: app.py:174
+#: app.py:186
 msgid "Resolution Group"
 msgstr "Grupo de resolución"
 
-#: app.py:180
+#: app.py:192
 msgid "Model Tags"
 msgstr "Etiquetas del modelo"
 
-#: app.py:195
+#: app.py:207
 msgid "LoRA Tags"
 msgstr "Etiquetas LoRA"
 
-#: app.py:211
+#: app.py:223
 msgid "Default LoRA Strength"
 msgstr "Fuerza LoRA por defecto"
 
-#: app.py:217
+#: app.py:229
 msgid "Prompt Massage Tags"
 msgstr "Etiquetas de Prompt Masaje"
 
-#: app.py:225
+#: app.py:237
 msgid "Positive Tags"
 msgstr "Etiquetas positivas"
 
-#: app.py:232
+#: app.py:244
 msgid "Negative Tags"
 msgstr "Etiquetas negativas"
 
-#: app.py:240
+#: app.py:252
 msgid "B/W Colorization Tags"
 msgstr "Etiquetas de coloración en blanco y negro"
 
-#: app.py:248
+#: app.py:260
 msgid "Control Net or Redo files"
 msgstr "Archivos Control Net o Rehacer"
 
-#: app.py:255
+#: app.py:267
 msgid "Default Control Net Strength"
 msgstr "Fuerza ControlNet por defecto"
 
-#: app.py:261
+#: app.py:273
 msgid "IPAdapter files"
 msgstr "Archivos IPAdapter"
 
-#: app.py:268
+#: app.py:280
 msgid "Default IPAdapter Strength"
 msgstr "Fuerza IPAdapter por defecto"
 
-#: app.py:274
+#: app.py:286
 msgid "Redo Parameters"
 msgstr "Rehacer parámetros"
 
-#: app.py:290
+#: app.py:302
 msgid "Sampler"
 msgstr "Muestrario"
 
-#: app.py:296
+#: app.py:308
 msgid "Scheduler"
 msgstr "Planificador"
 
-#: app.py:302
+#: app.py:314
 msgid "Seed"
 msgstr "Semilla"
 
-#: app.py:309
+#: app.py:321
 msgid "Steps"
 msgstr "Pasos"
 
-#: app.py:316
+#: app.py:328
 msgid "CFG"
 msgstr "CFG"
 
-#: app.py:323
+#: app.py:335
 msgid "Denoise"
 msgstr "Ruido de fondo"
 
-#: app.py:330
+#: app.py:342
 msgid "Random Skip Chance"
 msgstr "Salto aleatorio Casualidad"
 
-#: app.py:338
+#: app.py:350
 msgid "Prompts Configuration"
 msgstr "Configuración de avisos"
 
-#: app.py:341
+#: app.py:353
 msgid "Prompt Mode"
 msgstr "Modo Preguntar"
 
-#: app.py:347
+#: app.py:360
 msgid "Edit Concepts"
 msgstr "Editar conceptos"
 
-#: app.py:350
+#: app.py:363
 msgid "Concepts Dir"
 msgstr "Directorio de conceptos"
 
-#: app.py:359
+#: app.py:372
 msgid "Concepts"
 msgstr "Conceptos"
 
-#: app.py:368
+#: app.py:381
 msgid "Positions"
 msgstr "Puestos"
 
-#: app.py:377
+#: app.py:390
 msgid "Locations"
 msgstr "Lugares"
 
-#: app.py:386
+#: app.py:399
 msgid "Specific Locations Chance"
 msgstr "Lugares específicos Probabilidad"
 
-#: app.py:392
+#: app.py:405
 msgid "Animals"
 msgstr "Animales"
 
-#: app.py:401
+#: app.py:414
 msgid "Colors"
 msgstr "Colores"
 
-#: app.py:410
+#: app.py:423
 msgid "Times"
 msgstr "Tiempos"
 
-#: app.py:419
+#: app.py:432
 msgid "Dress"
 msgstr "Vestido"
 
-#: app.py:428
+#: app.py:441
 msgid "Expressions"
 msgstr "Expresiones"
 
-#: app.py:437
+#: app.py:450
 msgid "Actions"
 msgstr "Acciones"
 
-#: app.py:446
+#: app.py:459
 msgid "Descriptions"
 msgstr "Descripciones"
 
-#: app.py:455
+#: app.py:468
 msgid "Characters"
 msgstr "Personajes"
 
-#: app.py:464
+#: app.py:477
 msgid "Random Words"
 msgstr "Palabras al azar"
 
-#: app.py:473
+#: app.py:486
 msgid "Nonsense"
 msgstr "Tonterías"
 
-#: app.py:482
+#: app.py:495
 msgid "Multiplier"
 msgstr "Multiplicador"
 
-#: app.py:493
+#: app.py:506
 msgid "Specify Humans Chance"
 msgstr "Especificar Humanos Probabilidad"
 
-#: app.py:499
+#: app.py:512
 msgid "Art Styles Chance"
 msgstr "Estilos artísticos Probabilidad"
 
-#: app.py:505
+#: app.py:518
 msgid "Emphasis Chance"
 msgstr "Énfasis Probabilidad"
 
-#: app.py:515
+#: app.py:528
 msgid "Override Resolution"
 msgstr "Anular la Resolución"
 
-#: app.py:519
+#: app.py:532
 msgid "Inpainting"
 msgstr "Pintar por dentro"
 
-#: app.py:523
+#: app.py:536
 msgid "Override Base Negative"
 msgstr "Anular Base Negativa"
 
-#: app.py:527
+#: app.py:540
 msgid "Tags Applied to Prompt Start"
 msgstr "Etiquetas aplicadas a Prompt Inicio"
 
-#: app.py:531
+#: app.py:544
 msgid "Sparse Mixed Tags"
 msgstr "Etiquetas mixtas dispersas"
 
-#: app.py:535
+#: app.py:548
 msgid "Run Preset Schedule"
 msgstr "Ejecutar programa preestablecido"
 
-#: app.py:540
+#: app.py:553
 msgid "Preset Schedule Window"
 msgstr "Ventana de programación predefinida"
 
-#: app.py:541 app.py:1150 ui/presets_window_qt.py:27
+#: app.py:554 ui/presets_window.py:92 ui/presets_window_qt.py:27
 msgid "Presets Window"
 msgstr "Ventana de preajustes"
 
-#: app.py:545
+#: app.py:558
 msgid "Tag Blacklist"
 msgstr "Lista negra de etiquetas"
 
-#: app.py:546 app.py:1174
+#: app.py:559 ui/expansions_window.py:173
 msgid "Expansions Window"
 msgstr "Ventana de ampliaciones"
 
-#: app.py:604
+#: app.py:617
 msgid "Confirm Quit"
 msgstr "Confirmar Salir"
 
-#: app.py:604
+#: app.py:617
 msgid "Would you like to quit the application?"
 msgstr "¿Desea abandonar la aplicación?"
 
-#: app.py:838 app.py:855
+#: app.py:851 app.py:868
 msgid "Confirm Run"
 msgstr "Confirmar ejecución"
 
-#: app.py:839
+#: app.py:852
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -276,27 +276,27 @@ msgstr ""
 "El inicio de un nuevo recorrido cancelará la programación preestablecida "
 "actual. ¿Está seguro de que desea continuar?"
 
-#: app.py:856
+#: app.py:869
 msgid "Are you sure you want to proceed?"
 msgstr "¿Estás seguro de que quieres continuar?"
 
-#: app.py:953 app_qt.py:375
+#: app.py:969 app_qt.py:375
 msgid " (unlimited)"
 msgstr " (ilimitado)"
 
-#: app.py:972
+#: app.py:988
 msgid "{0} pending generations"
 msgstr "{0} generaciones pendientes"
 
-#: app.py:1141 ui/tags_blacklist_window_qt.py:16
+#: ui/tags_blacklist_window.py:81 ui/tags_blacklist_window_qt.py:16
 msgid "Tags Blacklist"
 msgstr "Lista negra de etiquetas"
 
-#: app.py:1192 ui/concept_editor_window.py:264
+#: app.py:1208 ui/concept_editor_window.py:264
 msgid "Error"
 msgstr "Error"
 
-#: app.py:1284 app_qt.py:47
+#: app.py:1334 app_qt.py:47
 msgid " ComfyGen "
 msgstr " Corredor SD "
 
@@ -338,7 +338,7 @@ msgid "Save"
 msgstr "Guardar"
 
 #: ui/concept_editor_window.py:162 ui/concept_editor_window_qt.py:49
-#: ui/expansions_window.py:232 ui/presets_window.py:143
+#: ui/expansions_window.py:238 ui/presets_window.py:145
 #: ui/schedules_windows.py:88 ui/schedules_windows.py:288
 msgid "Delete"
 msgstr "Borrar"
@@ -407,11 +407,11 @@ msgstr "Navega"
 msgid "Active"
 msgstr "Activo"
 
-#: ui/concept_editor_window_qt.py:141
+#: ui/concept_editor_window_qt.py:141 ui/tags_blacklist_window.py:113
 msgid "Import"
 msgstr "Importación"
 
-#: ui/concept_editor_window_qt.py:142
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:114
 msgid "Export"
 msgstr "Exportación"
 
@@ -465,23 +465,23 @@ msgstr "Error al exportar conceptos: {0}"
 msgid "Modify Expansion: {0}"
 msgstr "Modificar Expansión:  {0}"
 
-#: ui/expansions_window.py:35
+#: ui/expansions_window.py:37
 msgid "Expansion ID"
 msgstr "ID de expansión"
 
-#: ui/expansions_window.py:42
+#: ui/expansions_window.py:44
 msgid "Expansion Text"
 msgstr "Texto de ampliación"
 
-#: ui/expansions_window.py:44
+#: ui/expansions_window.py:46
 msgid "New Expansion Text"
 msgstr "Nuevo texto de ampliación"
 
-#: ui/expansions_window.py:58
+#: ui/expansions_window.py:59
 msgid "Done"
 msgstr "Hecho"
 
-#: ui/expansions_window.py:66
+#: ui/expansions_window.py:67
 msgid ""
 "Warning: This expansion ID matches a wildcard in config.json. Changes will "
 "not take effect until the wildcard is removed or renamed."
@@ -490,11 +490,11 @@ msgstr ""
 "config.json. Los cambios no surtirán efecto hasta que el comodino se elimine"
 " o renombre."
 
-#: ui/expansions_window.py:77
+#: ui/expansions_window.py:78 ui/tags_blacklist_window.py:166
 msgid "Warning"
 msgstr "Advertencia"
 
-#: ui/expansions_window.py:78
+#: ui/expansions_window.py:79
 msgid ""
 "This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
 "\n"
@@ -504,39 +504,39 @@ msgstr ""
 "\n"
 "¿Quieres guardar de todos modos?"
 
-#: ui/expansions_window.py:132
+#: ui/expansions_window.py:134
 msgid "New Expansion (ERROR no expansions found)"
 msgstr "Nueva expansión (ERROR no se han encontrado expansiones)"
 
-#: ui/expansions_window.py:163
+#: ui/expansions_window.py:165
 msgid "Not enough expansions found."
 msgstr "No se han encontrado suficientes expansiones."
 
-#: ui/expansions_window.py:195
+#: ui/expansions_window.py:201
 msgid "Add or update expansions"
 msgstr "Añadir o actualizar expansiones"
 
-#: ui/expansions_window.py:197
+#: ui/expansions_window.py:203
 msgid "Add expansion"
 msgstr "Añadir ampliación"
 
-#: ui/expansions_window.py:199
+#: ui/expansions_window.py:205
 msgid "Clear expansions"
 msgstr "Ampliaciones claras"
 
-#: ui/expansions_window.py:225 ui/schedules_windows.py:281
+#: ui/expansions_window.py:231 ui/schedules_windows.py:281
 msgid "Modify"
 msgstr "Modifique"
 
-#: ui/expansions_window.py:239
+#: ui/expansions_window.py:245
 msgid "Copy"
 msgstr "Copiar"
 
-#: ui/expansions_window.py:276
+#: ui/expansions_window.py:281
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
 msgstr "Expansión no válida ID «{0}» o texto «{1}»"
 
-#: ui/expansions_window.py:446
+#: ui/expansions_window.py:451
 msgid "Copied expansion text to clipboard"
 msgstr "Texto de expansión copiado a portapapeles"
 
@@ -569,35 +569,35 @@ msgstr "Ampliación guardada: {0}"
 msgid "Deleted expansion: {0}"
 msgstr "Ampliación suprimida: {0}"
 
-#: ui/presets_window.py:52 ui/presets_window_qt.py:160
+#: ui/presets_window.py:53 ui/presets_window_qt.py:160
 msgid "New Preset (ERROR no presets found)"
 msgstr "Nuevo preajuste (ERROR no se han encontrado preajustes)"
 
-#: ui/presets_window.py:83
+#: ui/presets_window.py:84
 msgid "Not enough presets found."
 msgstr "No se han encontrado suficientes preajustes."
 
-#: ui/presets_window.py:111
+#: ui/presets_window.py:113
 msgid "Set a new preset"
 msgstr "Establecer un nuevo preajuste"
 
-#: ui/presets_window.py:112 ui/presets_window_qt.py:56
+#: ui/presets_window.py:114 ui/presets_window_qt.py:56
 msgid "New Preset"
 msgstr "Nuevo preajuste"
 
-#: ui/presets_window.py:116
+#: ui/presets_window.py:118
 msgid "Add preset"
 msgstr "Añadir preajuste"
 
-#: ui/presets_window.py:118
+#: ui/presets_window.py:120
 msgid "Clear presets"
 msgstr "Borrar preajustes"
 
-#: ui/presets_window.py:136 ui/schedules_windows.py:274
+#: ui/presets_window.py:138 ui/schedules_windows.py:274
 msgid "Set"
 msgstr "Fije"
 
-#: ui/presets_window.py:160
+#: ui/presets_window.py:162
 msgid "Invalid preset: {0}"
 msgstr "Preajuste inválido: {0}"
 
@@ -670,11 +670,11 @@ msgstr "Fijar seleccionado"
 msgid "Current schedule: {0}"
 msgstr "Horario actual: {0}"
 
-#: ui/schedules_window_qt.py:231
+#: ui/schedules_window_qt.py:231 ui/schedules_windows.py:314
 msgid "Set schedule: {0}"
 msgstr "Fijar horario: {0}"
 
-#: ui/schedules_window_qt.py:246
+#: ui/schedules_window_qt.py:246 ui/schedules_windows.py:320
 msgid "Deleted schedule: {0}"
 msgstr "Horario borrado: {0}"
 
@@ -710,7 +710,7 @@ msgstr "Horarios preestablecidos"
 msgid "Clear schedules"
 msgstr "Horarios claros"
 
-#: ui/tags_blacklist_window.py:81
+#: ui/tags_blacklist_window.py:101
 msgid "Add to tag blacklist"
 msgstr "Añadir a la lista negra de etiquetas"
 
@@ -722,7 +722,7 @@ msgstr "Añadir etiqueta"
 msgid "Clear tags"
 msgstr "Borrar las etiquetas"
 
-#: ui/tags_blacklist_window.py:105
+#: ui/tags_blacklist_window.py:142
 msgid "Remove"
 msgstr "Eliminar"
 
@@ -730,7 +730,7 @@ msgstr "Eliminar"
 msgid "Removed tag: {0}"
 msgstr "Etiqueta eliminada: {0}"
 
-#: ui/tags_blacklist_window.py:134 ui/tags_blacklist_window_qt.py:92
+#: ui/tags_blacklist_window_qt.py:92
 msgid "Added tag to blacklist: {0}"
 msgstr "Añadida etiqueta a la lista negra: {0}"
 
@@ -761,3 +761,91 @@ msgstr " (Ejecuciones pendientes: {0})"
 #: utils/job_queue.py:42
 msgid " (Pending schedules: {0})"
 msgstr " (Horarios pendientes: {0})"
+
+#: app.py:1069
+msgid "Invalid Prompt Tags"
+msgstr "Etiquetas de aviso no válidas"
+
+#: app.py:1070
+msgid "Blacklisted items found in prompt: {0}"
+msgstr "Elementos en lista negra encontrados en el prompt: {0}"
+
+#: ui/schedules_windows.py:405
+msgid "Cleared schedules"
+msgstr "Calendarios despejados"
+
+#: ui/tags_blacklist_window.py:103
+msgid "Add item"
+msgstr "Añadir artículo"
+
+#: ui/tags_blacklist_window.py:108
+msgid "Clear items"
+msgstr "Borrar los artículos"
+
+#: ui/tags_blacklist_window.py:156
+msgid "Removed item: {0}"
+msgstr "Artículo eliminado: {0}"
+
+#: ui/tags_blacklist_window.py:166
+msgid "Please enter a string to add to the blacklist."
+msgstr "Por favor, introduzca una cadena para añadir a la lista negra."
+
+#: ui/tags_blacklist_window.py:171
+msgid "Added item to blacklist: {0}"
+msgstr "Añadido objeto a la lista negra: {0}"
+
+#: ui/tags_blacklist_window.py:245
+msgid "Cleared item blacklist"
+msgstr "Lista negra despejado"
+
+#: ui/tags_blacklist_window.py:291
+msgid "Item \"{0}\" is now {1}"
+msgstr "El artículo \"{0}\" es ahora {1}"
+
+#: ui/tags_blacklist_window.py:293
+msgid "enabled"
+msgstr "activado"
+
+#: ui/tags_blacklist_window.py:293
+msgid "disabled"
+msgstr "desactivado"
+
+#: ui/tags_blacklist_window.py:306
+msgid "Import Blacklist"
+msgstr "Importar la lista negra"
+
+#: ui/tags_blacklist_window.py:321
+msgid "Successfully imported blacklist"
+msgstr "Lista negra importada con éxito"
+
+#: ui/tags_blacklist_window.py:323
+msgid "Import Error"
+msgstr "Error de importación"
+
+#: ui/tags_blacklist_window.py:333
+msgid "Export Blacklist"
+msgstr "Exportar lista negra"
+
+#: ui/tags_blacklist_window.py:348
+msgid "Successfully exported blacklist"
+msgstr "Lista negra exportada con éxito"
+
+#: ui/tags_blacklist_window.py:350
+msgid "Export Error"
+msgstr "Error de exportación"
+
+#: utils/time_estimator.py:87
+msgid "~{0}d"
+msgstr "~{0}d"
+
+#: utils/time_estimator.py:89
+msgid "{0}h"
+msgstr "{0}h"
+
+#: utils/time_estimator.py:91
+msgid "{0}m"
+msgstr "{0}m"
+
+#: utils/time_estimator.py:92
+msgid "{0}s"
+msgstr "{0}s"

@@ -130,6 +130,7 @@ Curly Bob
 Curly Top
 cyborg
 dashiki
+deely-boppers
 denim
 Denim Jacket
 Denim Skirt
@@ -208,6 +209,7 @@ hard hat
 hat
 Hawaiian shirt
 hazmat suit
+head boppers
 headscarf
 heavy coat
 helmet

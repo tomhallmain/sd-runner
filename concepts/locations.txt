@@ -4,11 +4,13 @@ abbey
 apartment
 arroyo
 at the helm
+auto body shop
 backroads
 ballroom
 bassinet
 below deck
 blacksmith's shop
+booth
 buffet
 canal
 captains hold
@@ -33,9 +35,12 @@ forge
 funicular
 granary
 gravel road
+gulch
+gulley
 hairpin turn
 historic monument
 hummock
+kiosk
 metal concert
 middle of nowhere
 minibar
@@ -44,6 +49,7 @@ nursery
 Odeon
 on deck
 open house
+out somewhere
 parterre
 people mover
 pit stop

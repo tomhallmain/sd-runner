@@ -1,5 +1,7 @@
 $$random_word reflected in the window of a $$random_word
 3/4 view
+[[on,to]] the left
+[[on,to]] the right
 a stone's throw from
 abutting $$random_word
 across the table
@@ -16,6 +18,7 @@ assuming a stance
 at an angle
 back
 back to camera
+beside
 bunched in
 candid
 close at hand
@@ -100,6 +103,7 @@ squatting
 stances
 stooping
 t-pose
+time out gesture
 together
 turning away
 turning back

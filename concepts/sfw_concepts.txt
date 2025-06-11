@@ -18,24 +18,29 @@ amazing
 ammo box
 anatomy
 angle of incidence
+anonymous
 antenna
+antennae
 apart
 aqua regia
 arc length
 archetype
 Arial
 armrest
+ashes
 at the same time
 ATP
 axial
 B movie
 barrel-vaulted
 basin
+behemoth
 bespoke
 blackbody radiation
 blah
 blog screenshot
 boldface
+boom
 boring
 breadth
 brighten
@@ -68,6 +73,7 @@ cropped image
 curia
 curio
 curl
+curlicues
 currents
 customized
 dado pedestal part
@@ -81,6 +87,7 @@ dimension
 dislocation
 dissapating
 dive
+doodly-doo
 draft
 dynamical system
 découpage
@@ -95,6 +102,7 @@ emoji
 encased in amber
 endnote
 engraved glass
+epic
 epoxy
 ergodic
 essence
@@ -111,6 +119,7 @@ fossilized
 frame
 frets
 friction
+gaps
 gas pipes
 geometric forms
 geometry diagram
@@ -124,6 +133,7 @@ high energy
 Hilbert space
 hilt
 hook
+horns
 hourglass
 house of $$random_word
 hyperbolic manifold
@@ -169,6 +179,7 @@ mass produced
 matching
 materials
 meaning
+mechanical
 medallion
 mere $$random_word
 method
@@ -188,6 +199,7 @@ odds and ends
 offset
 offset printing
 onset
+open
 open set
 orthography
 outer shell
@@ -533,6 +545,7 @@ remix
 remnant
 representational
 resampled image
+residue
 restored historic photograph
 retro artstyle
 retro game
@@ -552,6 +565,7 @@ rough
 roulette curve
 rounded
 s p a c i n g
+sand
 saran wrap
 sawtooth wave
 scalable
@@ -578,6 +592,7 @@ sharp edges
 sharpened
 sheen
 shimmering
+shut
 sighted scope lens
 silk screen
 silver nitrate film
@@ -588,6 +603,7 @@ sketches
 skeuomorph
 slanted
 sleet
+slide rule
 slippery
 sloop
 smeared
@@ -644,6 +660,7 @@ superimposed images
 superposition
 surrealism
 swag bags
+swirls
 symmetrical
 syntax
 tape
@@ -658,10 +675,12 @@ textbook page
 textured
 the tip
 theatre set backdrop
+thingamajig
 this and that
 time stopped
 Times New Roman
 tin-glazed
+tinge
 tonal values
 tools
 totem
@@ -681,6 +700,7 @@ tripwire
 Trois crayons
 trompe l'oeil
 trompe-l'œil
+turning $$color
 twiddly bits
 typography
 ultrasharp
@@ -705,6 +725,8 @@ view through a telescope
 viewfinder
 vignette
 vinyl
+visualization
+visualization of algorithm
 vivid color
 voxel art
 wallpaper
@@ -1496,7 +1518,6 @@ screenshot from Teams call
 vintage
 viral molecule
 virus in electron microscope
-visual;ization of algorithm
 void
 vortex
 voronoi trees
@@ -1619,3 +1640,4 @@ Tropic Sunset # A tropical beach with a stunning sunset of vivid colors.
 Bohemian Textiles # Colorful textiles and fabrics in a bohemian style.
 # Chinese New Year # A vibrant Chinese New Year celebration with red lanterns.
 (Peaceful Lavender Fields:0.1) # Fields of fragrant lavender in various shades of purple.
+zip tie

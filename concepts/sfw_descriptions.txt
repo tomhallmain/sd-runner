@@ -25,6 +25,7 @@ fabled
 favorable
 fettered
 flim-flam
+flimsy
 foreboding
 frizzy
 frozen
@@ -137,6 +138,7 @@ storied
 stormy
 strong
 styled
+swell
 swole
 tactical
 tall
