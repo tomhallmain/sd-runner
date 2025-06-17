@@ -1,0 +1,82 @@
+mild
+endorsed
+deep
+scruff
+scuffed
+ersatz
+boorish
+mean
+roomy
+twisted
+firm
+lousy
+superior
+loyal
+charred
+keepsake
+beady
+based
+crumpled
+slick
+deflated
+inflated
+one of the good ones
+elusive
+hazily
+woolly
+no-hassle
+aloof
+too true
+floppy
+spooky
+frail
+daft
+nifty
+done up
+smushed
+sagging
+riled
+fused
+maniacal
+akin
+akin to $$random_word
+not a lot
+awash
+medium
+extra-large
+extra-small
+genius
+charming
+sight unseen
+ten feet tall
+$$random_word-ish
+smooth
+noble
+in high regard
+scathing
+driven
+bespoke
+hale
+equipped
+petty
+dour
+available
+porky
+timid
+feral
+a far cry from $$random_word
+famous
+civil
+venerable
+mulish
+pastoral
+philosophic
+stubborn
+trifling
+intact
+adrift
+vulnerable
+particular
+plagiarized
+damning
+pending

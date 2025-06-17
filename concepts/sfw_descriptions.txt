@@ -7,20 +7,24 @@ as thin as a hair
 at a loss
 average
 bare-knuckle
+bent
 bereft
 best in the world
 blatant
 boastful
 brand new
 brash
+brazen
 brilliant
 burdensome
 charade
+crooked
 daring
 deftly
 dignified
 dreary
 evanescent
+exorbitant
 fabled
 favorable
 fettered
@@ -46,6 +50,7 @@ interim
 intrigue
 it has a mind of its own
 it predates $$random_word by $$number years
+juvenile
 laid-back
 lame
 largest in the world
@@ -68,6 +73,7 @@ parted
 perilous
 powerful
 pricey
+primal
 rather
 ready
 rinky-dink
@@ -116,6 +122,7 @@ sassy
 scandalous
 scar
 scrawny
+semidry
 sight for sore eyes
 sincere
 skinny
@@ -136,22 +143,27 @@ stealthy
 stern
 storied
 stormy
+streamlined
 strong
 styled
+superdry
 swell
 swole
 tactical
 tall
 tawdry
+testy
 tight
 tiny
 traditional
 ugly
+uneven
 urgent
 used
 very fresh
 viking
 war paint
+waverly
 weary
 wicked
 worst in the world

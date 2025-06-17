@@ -288,6 +288,7 @@ feat
 feeding
 feeling
 feeling cramped
+feigning
 felt arts
 fencing
 feud
@@ -301,6 +302,7 @@ filling up
 film watching/review
 financing
 fishing
+flip [[your,my]] lid
 flitting about
 floral design
 flower pressing
@@ -334,6 +336,7 @@ gettin' gains
 getting [[my,his,her,our,their]] order
 giving
 giving a demonstration
+giving instructions
 glass blowing
 glass painting
 go ballistic
@@ -447,6 +450,7 @@ jogging
 joining a band
 joining a choir
 joking
+jotting
 judging
 judo
 juggling
@@ -552,6 +556,7 @@ moving
 mowing the lawn
 muahahaha... he fell right into my " $random_word trap! "
 musical instruments
+my turn
 nabbed
 nail art
 nautical or beach inspired art or items
@@ -806,6 +811,7 @@ sketching
 skiing
 skit
 sky diving
+sledding
 sleeping
 slide
 sloshing
@@ -888,6 +894,7 @@ taking it easy
 taking notes
 taking pills
 taking pity on [[him,her,it,them,us,me]]
+taking turns
 talking
 talking [[about,bout]] [[my, ]] $$random_word
 talking on the phone
@@ -978,6 +985,7 @@ watching TV
 water skiing
 watercolor painting
 watercolors
+wavering
 waving
 wearing
 weighing

@@ -6,6 +6,7 @@ a stone's throw from
 abutting $$random_word
 across the table
 afar
+all along the $$random_word
 all over
 aloft
 arched back
@@ -43,6 +44,7 @@ head down
 head forward
 head propped on hand
 head turned
+hiding place
 in line
 in or out?
 in the middle

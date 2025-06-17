@@ -2,6 +2,8 @@
 
 $$random_word edition
 $$random_word in foreground blocking view
+$$random_word Inc.
+$$random_word LLC
 $$random_word thereto
 'tis
 [[my,his,her,your,our,their]] very first $$random_word
@@ -11,6 +13,7 @@ a to b
 abridged edition
 adorned
 aerosol
+airplane safety brochure
 Alert!
 algebraic
 aluminum foil
@@ -65,6 +68,7 @@ clef
 collagraphy
 combo $$random_word
 conchoid
+concrete
 contour rivalry
 contouring
 convection
@@ -89,6 +93,7 @@ dissapating
 dive
 doodly-doo
 draft
+duty
 dynamical system
 découpage
 earthenware
@@ -127,6 +132,7 @@ government
 gradation
 grade
 graphite
+gravel
 groupings
 halved
 high energy
@@ -161,12 +167,14 @@ lemniscate
 level [[$$number,A,B,G]]
 lever
 levitation
+lid
 lidar
 lifestyle
 limaçon of Pascal
 line work
 lining
 lint
+LLC
 Lorentz transformation
 losses and debts
 luminiferous aether
@@ -506,6 +514,7 @@ photocopy
 photograph
 photon
 photonegative
+pile
 pixel art
 pixel subtraction result
 pixelated
@@ -555,6 +564,7 @@ reversed
 rhyme
 rind
 risograph
+rivalry
 rivets
 rolled
 rosin
@@ -565,6 +575,7 @@ rough
 roulette curve
 rounded
 s p a c i n g
+safety brochure
 sand
 saran wrap
 sawtooth wave
@@ -646,6 +657,7 @@ stippling
 stirred
 strange
 strange magic
+streak
 striped
 stripes
 studio photography
@@ -729,6 +741,7 @@ visualization
 visualization of algorithm
 vivid color
 voxel art
+wafer
 wallpaper
 warm
 washed-out colors

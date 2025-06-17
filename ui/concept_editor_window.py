@@ -1,10 +1,11 @@
-from tkinter import Entry, Frame, Label, StringVar, messagebox, LEFT, W, Listbox, END, SINGLE, BOTH, Y, Scrollbar, Checkbutton, IntVar, Toplevel
+from pathlib import Path
+
+from tkinter import Entry, Frame, Label, StringVar, messagebox, LEFT, W, Listbox, END, SINGLE, BOTH, Y, Scrollbar, Checkbutton, IntVar, Toplevel, filedialog
 from tkinter.ttk import Button, Combobox
 
 from sd_runner.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
 from ui.app_style import AppStyle
 from utils.app_info_cache import app_info_cache
-from utils.config import config
 from utils.translations import I18N
 
 _ = I18N._
@@ -161,25 +162,17 @@ class ConceptEditorWindow():
         
         self.delete_btn = Button(button_frame, text=_("Delete"), command=self.delete_concept)
         self.delete_btn.grid(row=0, column=1, padx=5)
+        
+        self.import_btn = Button(button_frame, text=_("Import"), command=self.import_concepts)
+        self.import_btn.grid(row=0, column=2, padx=5)
 
     def load_concept_files(self):
         """Load all concept files from the concepts directory"""
-        self.concept_files = []
+        # Get category states from checkboxes
+        category_states = {name: var.get() for name, var in self.category_vars.items()}
         
-        # Add files from each category based on checkbox state
-        for category, (class_obj, default_checked) in self.file_categories.items():
-            if self.category_vars[category].get():
-                if category == "Dictionary":
-                    # Special case for dictionary file
-                    self.concept_files.append(Concepts.ALL_WORDS_LIST_FILENAME)
-                else:
-                    # Get all non-private attributes from the class
-                    for attr_name in dir(class_obj):
-                        if not attr_name.startswith('_'):
-                            attr_value = getattr(class_obj, attr_name)
-                            if isinstance(attr_value, str):  # Only add string attributes (filenames)
-                                self.concept_files.append(attr_value)
-                
+        # Get files using the new method
+        self.concept_files = Concepts.get_concept_files(category_states)
         self.file_combo['values'] = sorted(self.concept_files)
 
     def get_concepts_from_file(self, filename):
@@ -312,4 +305,41 @@ class ConceptEditorWindow():
     def close_windows(self, event=None):
         """Close the window"""
         self.master.destroy()
+
+    def import_concepts(self, event=None):
+        """Import concepts from a text file"""
+        # Get target file
+        target_file = self.file_combo.get()
+        if not target_file:
+            messagebox.showerror(_("Error"), _("Please select a target file first"))
+            return
+            
+        # Open file dialog
+        import_file = filedialog.askopenfilename(
+            title=_("Select concepts file to import"),
+            filetypes=[(_("Text files"), "*.txt"), (_("All files"), "*.*")]
+        )
+        
+        if not import_file:
+            return
+            
+        # Import concepts
+        try:    
+            imported, failed = Concepts.import_concepts(import_file, target_file)
+        except Exception as e:
+            messagebox.showerror(_("Error"), str(e))
+            return
+        
+        # Show results
+        if imported or failed:
+            msg = []
+            if imported:
+                msg.append(_("Successfully imported {0} concepts").format(len(imported)))
+            if failed:
+                msg.append(_("{0} concepts were not imported (see {1}_failed_import.txt for details)").format(
+                    len(failed), Path(import_file).stem))
+            messagebox.showinfo(_("Import Results"), "\n".join(msg))
+            
+            # Refresh the view
+            self.refresh()
 

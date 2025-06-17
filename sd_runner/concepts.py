@@ -1,6 +1,9 @@
 from enum import Enum
 import os
+from pathlib import Path
 import random
+import re
+from typing import Dict, Set, List, Tuple
 
 from sd_runner.blacklist import Blacklist
 from utils.config import config
@@ -549,6 +552,176 @@ class Concepts:
         # Save the file
         file.save()
 
+    @staticmethod
+    def get_concept_files(category_states: dict[str, bool]) -> list[str]:
+        """Get concept files based on category states.
+        
+        Args:
+            category_states: Dictionary mapping category names to their enabled state
+            
+        Returns:
+            List of concept file paths
+        """
+        files = []
+        
+        # Add files from each category based on enabled state
+        if category_states.get("SFW", True):
+            for attr_name in dir(SFW):
+                if not attr_name.startswith('_'):
+                    attr_value = getattr(SFW, attr_name)
+                    if isinstance(attr_value, str) and attr_value.endswith('.txt'):
+                        files.append(attr_value)
+                        
+        if category_states.get("NSFW", False):
+            for attr_name in dir(NSFW):
+                if not attr_name.startswith('_'):
+                    attr_value = getattr(NSFW, attr_name)
+                    if isinstance(attr_value, str) and attr_value.endswith('.txt'):
+                        files.append(attr_value)
+                        
+        if category_states.get("NSFL", False):
+            for attr_name in dir(NSFL):
+                if not attr_name.startswith('_'):
+                    attr_value = getattr(NSFL, attr_name)
+                    if isinstance(attr_value, str) and attr_value.endswith('.txt'):
+                        files.append(attr_value)
+                        
+        if category_states.get("Art Styles", True):
+            for attr_name in dir(ArtStyles):
+                if not attr_name.startswith('_'):
+                    attr_value = getattr(ArtStyles, attr_name)
+                    if isinstance(attr_value, str) and attr_value.endswith('.txt'):
+                        files.append(attr_value)
+                        
+        if category_states.get("Dictionary", False):
+            files.append(Concepts.ALL_WORDS_LIST_FILENAME)
+            
+        return sorted(files)
+
+    @staticmethod
+    def get_concepts_map() -> Dict[str, Set[str]]:
+        """Get all existing concepts across all categories.
+        
+        Returns:
+            Dictionary mapping filename to set of concepts in that file
+        """
+        existing_concepts = {}
+        
+        # Get all concept files with all categories enabled
+        category_states = {
+            "SFW": True,
+            "NSFW": True,
+            "NSFL": True,
+            "Art Styles": True,
+            "Dictionary": True
+        }
+        
+        # Get all files and load their concepts
+        for filename in Concepts.get_concept_files(category_states):
+            concepts = Concepts.load(filename)
+            existing_concepts[filename] = set(concepts)
+                    
+        return existing_concepts
+
+    @staticmethod
+    def add_concept_to_category(concept: str, target_category: str) -> bool:
+        """Add a concept to a category if it doesn't already exist.
+        
+        Args:
+            concept: The concept to add
+            target_category: The category file to add it to
+            
+        Returns:
+            bool: True if the concept was added, False if it already existed
+        """
+        current_concepts = Concepts.load(target_category)
+        if concept not in current_concepts:
+            current_concepts.append(concept)
+            current_concepts.sort()
+            Concepts.save(target_category, current_concepts)
+            return True
+        return False
+
+    @staticmethod
+    def _check_concept_exists(concept: str, existing_concepts: Dict[str, Set[str]]) -> List[Tuple[str, str]]:
+        """Check if concept exists in any category, including as part of other concepts."""
+        matches = []
+        concept_lower = concept.lower()
+        
+        # Create pattern that matches at word boundary or start of string
+        pattern = re.compile(rf'(\b|^){re.escape(concept_lower)}')
+        
+        for category, concepts in existing_concepts.items():
+            for existing in concepts:
+                existing_lower = existing.lower()
+                if pattern.search(existing_lower):
+                    matches.append((existing, category))
+                    
+        return matches
+    
+    @staticmethod
+    def import_concepts(import_file: str, target_category: str) -> Tuple[List[str], List[str]]:
+        """
+        Import concepts from a file into a target category.
+        Returns (imported_concepts, failed_concepts)
+        
+        Concepts can be force-imported by prefixing them with '!'
+        """
+        # Reset found concepts for this import
+        found_concepts: Dict[str, List[Tuple[str, str]]] = {}
+        
+        # Read and deduplicate concepts from import file
+        with open(import_file, 'r', encoding='utf-8') as f:
+            concepts = set()
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#'):
+                    # Check for force-import prefix
+                    force_import = line.startswith('!')
+                    if force_import:
+                        line = line[1:].strip()
+                    concepts.add((force_import, line))
+            
+        # Get all existing concepts
+        existing_concepts = Concepts.get_concepts_map()
+
+        if not target_category in existing_concepts:
+            raise Exception(f"Target category \"{target_category}\" not found in existing concepts")
+        
+        imported = []
+        failed = []
+        
+        # Process each concept
+        for force_import, concept in concepts:
+            # Skip existence check for force-imported concepts
+            if force_import:
+                if Concepts.add_concept_to_category(concept, target_category):
+                    imported.append(concept)
+                continue
+                
+            # Check if concept exists anywhere
+            matches = Concepts._check_concept_exists(concept, existing_concepts)
+            
+            if matches:
+                # Concept exists somewhere, add to found concepts
+                found_concepts[concept] = matches
+                failed.append(concept)
+            else:
+                # Concept doesn't exist, import it
+                if Concepts.add_concept_to_category(concept, target_category):
+                    imported.append(concept)
+        
+        # Write failed imports to file if any
+        if failed:
+            failed_file = str(Path(import_file).with_suffix('')) + '_failed_import.txt'
+            with open(failed_file, 'w', encoding='utf-8') as f:
+                for concept in failed:
+                    matches = found_concepts[concept]
+                    match_str = " | ".join(f"{match} ({category})" for match, category in matches)
+                    f.write(f"{concept} -> {match_str}\n")
+        
+        return imported, failed 
+
 
 class HardConcepts:
     hard_concepts = Concepts.load("hard_concepts.txt")
@@ -595,45 +768,3 @@ class ArtStyles:
     painters = "painters.txt"
     glitch = "glitch.txt"
 
-
-def is_in_existing_concepts(parts_to_check=[]):
-    is_in_existing = {}
-    all_words_list = []
-    for filename in [
-            SFW.actions,
-            SFW.animals,
-            SFW.characters,
-            SFW.colors,
-            SFW.concepts,
-            SFW.descriptions,
-            SFW.dress,
-            SFW.expressions,
-            SFW.humans,
-            SFW.lighting,
-            SFW.locations,
-            SFW.locations_specific,
-            SFW.positions,
-            SFW.times,
-            NSFW.characters,
-            NSFW.concepts,
-            NSFW.dress,
-            NSFW.descriptions,
-            NSFW.expressions,
-            NSFW.actions,
-            NSFL.characters,
-            NSFL.concepts,
-            NSFL.dress,
-            NSFL.descriptions,
-            NSFL.expressions,
-            NSFL.actions,
-            ArtStyles.artists,
-            ArtStyles.anime,
-            ArtStyles.painters,
-            ArtStyles.glitch,
-            ]:
-        l = Concepts.load(filename)
-        for s in l:
-            all_words_list.append(s.lower())
-    for part in parts_to_check:
-        is_in_existing[part] = part.lower() in all_words_list
-    return is_in_existing
