@@ -1,6 +1,8 @@
+all the time
 always
 early morning
 everlasting
+henceforth
 morning
 morning
 mid-morning
@@ -15,6 +17,7 @@ late afternoon
 evening
 dawn
 dusk
+since then
 sometime
 sometime [[today,tomorrow,next week,next month,next year]]
 soon

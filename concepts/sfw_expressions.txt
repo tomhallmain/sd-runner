@@ -1,4 +1,5 @@
 Agitated
+alas
 amazement
 amused
 angry
@@ -40,6 +41,7 @@ Discontent
 disinterest
 hiss
 jealous
+mania
 mild disgust
 disgusted
 Disoriented

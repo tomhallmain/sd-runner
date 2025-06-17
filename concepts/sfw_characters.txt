@@ -1,67 +1,114 @@
 
 abbott
 al-Ṣūfī
+Antares
 apologist
+are we there yet
 assassin
+at all costs
+baker
 bandero
+Barnum and Baileys
+borzoi
 bub
+bureau
 bushel and a peck
 buster
+can I get a true
+carte blanche
+charizard
+chud
 claimant
+confessor
 culprit
+djinn
 Dobby
 e'er
 emeratus
+EMT
 enemy
 et cetera
 ever
 exarch
+false mustache
 Family Feud
 Fido
 fly rink
+genie
 gigglemug
+Hardy Boys
 Hermes Trismegistus
+Hi-Ho, the Derry-o
 Holy See
+Hoth
+how many times do I have to tell you
 hyssop
+iCarly
 If it is as you say
 ill-gotten gains
 inmate
+intel
+intelligence
+it's only a game
 Jabir ibn Hayyan
 just cause
 lalala
 mind over matter
+miner
 mogul
+more than you know
 Mr. Game & Watch
 muffin-walloper
 mutant
+Naboo
+NANI!?
 ne'er
 neighbor
+numbnut
 oligarch
 One if by land, two if by sea
 opponent
+P.F. Flyers
+P.I.
+P.T. Barnum
+PeeWee's Big Adventure
 perhaps
+Philistine
+picaresque
+pick-me-up
+picker-upper
 Pingu
 A Team
 podsnapper
+poet
+poindexter
+pugilist
 rascal
 Redwall
+Roomba
 scout
 sea rover
 seadog
+seeker
 seer
 setter
 settler
 Shamu
+Sirius
 sleepers
 sniper
 so be it
+spoilers
 spy
+squidbillies
 stooges
 keystone cops
 Babar
 Imogen
+stowaway
 talent scout
 Tar Heels
+Tatooine
 Thaddeus
 all-stars
 
@@ -98,8 +145,10 @@ The Adoring Fan
 the mechanic
 The Mythic Dawn
 The Secret of Nimh
+ulterior motives
 w rizz
 what's in a name
+whoop-dee-doo
 William the Conqueror
 Ivan the Terrible
 Catharine the Great
@@ -213,6 +262,11 @@ Elmo
 Elven
 Entertainment robot
 would I lie?
+wouldn't touch that with a ten-foot pole
+yeah dude like totally hahuh
+Yogi the Bear
+Yoo-Hoo
+Zip-a-Dee-Doo-Dah
 Ēostre
 Erebus
 Erector Set

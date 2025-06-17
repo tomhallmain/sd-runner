@@ -1,7 +1,10 @@
 
 1950s diner retro style
 abbey
+ambulance
+amusement park gate
 apartment
+arcade
 arroyo
 at the helm
 auto body shop
@@ -14,10 +17,14 @@ booth
 buffet
 canal
 captains hold
+castle keep
 charity dinner
 citadel
 classical concert
+co-op
+comedy club
 copse
+corral
 corridor
 country road
 covered bridge
@@ -25,12 +32,15 @@ crater
 cruiseliner
 dais
 ditch
+domain
 domicile
 dovecote
 end zone
 entryway
 estate grounds
 event horizon
+first floor
+floor
 forge
 funicular
 granary
@@ -39,14 +49,23 @@ gulch
 gulley
 hairpin turn
 historic monument
+hive
+home office
 hummock
+hut
 kiosk
+law practice
 lea
+levee
 metal concert
 middle of nowhere
 minibar
+minimart
+monsoon
 my old haunt
+niche
 nursery
+observation room
 Odeon
 on deck
 open house
@@ -55,17 +74,23 @@ parterre
 people mover
 pit stop
 plaza
+pop-up bar
 radio station
 radio tower
 ravine
+rehab
 residence
 rest stop
 rift
+route
 rowhouse
 royal court
 sand dunes
 school grounds
 seaport
+seaside
+security office
+shore
 side road
 single-lane bridge
 single-lane road
@@ -73,6 +98,8 @@ smithy
 spot
 stall
 steppe
+stowed away
+study room
 tatami mats
 taxi
 terrace
@@ -81,13 +108,14 @@ the bridge [of a spaceship for example]
 the coast
 thicket
 tidewater basin
+toy stores
+tracts
 tram
 trench
 tropics
 wagon
 waiting room
 waterfall
-first floort
 second floor
 third floor
 fourth floor

@@ -5,6 +5,7 @@ $$random_word in foreground blocking view
 $$random_word Inc.
 $$random_word LLC
 $$random_word thereto
+$$random_word-shaped
 'tis
 [[my,his,her,your,our,their]] very first $$random_word
 [[the,my]] rig
@@ -13,18 +14,25 @@ a to b
 abridged edition
 adorned
 aerosol
+affable
+affixed
+aftergame
+agleam
 airplane safety brochure
 Alert!
 algebraic
+alloy
 aluminum foil
 amazing
 ammo box
 anatomy
+andante
 angle of incidence
 anonymous
 antenna
 antennae
 apart
+appearances
 aqua regia
 arc length
 archetype
@@ -34,25 +42,34 @@ ashes
 at the same time
 ATP
 axial
+azimuth
 B movie
+B-roll
+backgammon board
+bar of $$random_word
 barrel-vaulted
 basin
 behemoth
+bells and whistles
 bespoke
 blackbody radiation
 blah
 blog screenshot
 boldface
 boom
+boombox
 boring
 breadth
 brighten
 brim
 bunched
+burl
 buttressing
 camouflage
+canto
 Capodimonte porcelain
 Carborundum mezzotint
+card
 Cartesian coordinates
 carved ivory
 casts
@@ -64,14 +81,21 @@ chivalric romance
 Christogram
 chromagraph
 chronicle
+clay
 clef
+coaxial
 collagraphy
 combo $$random_word
+comma
+comparative analysis
 conchoid
 concrete
+conic
 contour rivalry
 contouring
 convection
+coplanar
+creative commons-licensed
 crop
 cropped image
 curia
@@ -87,43 +111,60 @@ debut
 decoration
 decorative arts
 derivative
+dime novel
 dimension
 dislocation
 dissapating
 dive
+doodad
 doodly-doo
 draft
+dram
+drama
 duty
 dynamical system
+dynasty
 découpage
 earthenware
 echo
+ectoplasm
+edge
 Eigenfunction
 eighths
 electrum
 elements
+elision
 ellipse
 emoji
 encased in amber
 endnote
 engraved glass
 epic
+epilogue
+epitaph
 epoxy
 ergodic
 essence
+eulogy
 evolute
 exterior structure
 faience
 figure eight
+fire regulations
+flaw
 fluctuations
 fluid flow
 flux
+foley soundboard
 force field
 formulaic
 fossilized
 frame
 frets
 friction
+fugue
+fuse box
+G-force tech
 gaps
 gas pipes
 geometric forms
@@ -135,14 +176,18 @@ graphite
 gravel
 groupings
 halved
+hash
 high energy
 Hilbert space
 hilt
+hoax
 hook
 horns
 hourglass
 house of $$random_word
+hydro
 hyperbolic manifold
+ice chips
 icing
 idol
 Illumination
@@ -151,14 +196,20 @@ improvisation
 in error
 in the name of $$random_word
 inasmuch as $$random_word
+incorporated
 inlay
+inside-out
 integration
 interior structure
 inversion
 inverted $$random_word
+isopropyl
 item
 joint
+jug
 knobs
+lampoon
+lanes
 lay of the land
 layering
 Le Nove porcelain
@@ -169,6 +220,7 @@ lever
 levitation
 lid
 lidar
+life cycle
 lifestyle
 limaçon of Pascal
 line work
@@ -177,6 +229,8 @@ lint
 LLC
 Lorentz transformation
 losses and debts
+lost and found
+Ltd.
 luminiferous aether
 maelstrom
 maiolica
@@ -189,38 +243,67 @@ materials
 meaning
 mechanical
 medallion
+menagerie
 mere $$random_word
 method
 mezzotint
 miscellany
+molecules
 monogram
 mortise and tenon
+motor
 multiperspective
 musical scales
 mutation
 Naples porcelain
 neurons
 new releases
+noggin
 norm
 normal
 odds and ends
 offset
 offset printing
+oil stain
+omen
 onset
 open
 open set
+ortho-
 orthography
 outer shell
 outline
+oval
 padding
+paean
+pair
+palimpsest
+pamphlet
+panegyric
+panel
+panoramic method
+parable
 parabolic
+paradigm
+paradox
+paragraph
+parallelism
 paranormal
+parenthesis
+parody
 part
+part-song
 party favors
+passage
+pastiche
 patchwork
+pattern poetry
+pause
 payload
+penny dreadful
 periodic
 periodic table
+periodical
 periscope
 person in foreground blocking view
 (morphological operation)
@@ -507,18 +590,27 @@ pen
 pen on paper
 pencil sketch
 perfect composition
+persona
+personification
 petrified wood
+phial
 photo op
 photochrome
 photocopy
 photograph
 photon
 photonegative
+pictionary
 pile
+pivot
 pixel art
 pixel subtraction result
 pixelated
+placard
+plaid
 plane shearing
+playbook markings
+plot
 pointillist
 pointy
 Polar coordinates
@@ -528,24 +620,40 @@ polymorph
 post-it notes
 poster
 posters
+pouch
 pre-op
+preface
 primer
 print art
 print screen image
+prolepsis
+prologue
+proposition
+propriety
+protagonist
 proton
+proverb
 proxy
 pseudosphere
+public domain image
+pun
 puppy
+purity
 quadratura
 quartered
+quatrain
 quite a lot
+quote
 radar
+radar gun
 radiological scan
 radix
 rainy
+rake
 ramp
 rare earth metal
 raw photo
+ray of $$random_word
 raytracing
 raytraced image inspired by senior environment artist
 refraction
@@ -591,6 +699,7 @@ sealed
 sealer
 secant
 selfie
+sequence
 sets
 sfm
 shades
@@ -598,15 +707,18 @@ shaded
 shadowgraph
 shadows
 sharding
+sharing
 sharp
 sharp edges
 sharpened
+shebang
 sheen
 shimmering
 shut
 sighted scope lens
 silk screen
 silver nitrate film
+simile
 simple sketch
 sinusoidal
 sketchbook
@@ -615,7 +727,9 @@ skeuomorph
 slanted
 sleet
 slide rule
+slides
 slippery
+slo-mo
 sloop
 smeared
 smelted
@@ -625,6 +739,7 @@ smooth curves
 smushed
 sneak preview
 snippet
+snout
 snowy
 soft
 soft
@@ -634,6 +749,7 @@ source
 speckled
 specks
 Sperrsatz
+spilling
 spirit
 spirograph
 splash
@@ -643,9 +759,11 @@ spray painted
 spree
 spring-loaded
 sprocket
+sprouting bud
 stack
 staged performance of $$random_word
 stained
+stanchions
 standard model of physics
 static
 stem
@@ -655,21 +773,28 @@ stereograph
 still life
 stippling
 stirred
+strands
 strange
 strange magic
 streak
 striped
 stripes
+stub
 studio photography
 study of $$random_word
 stuff we all get
 stupendous
+style
+substance
+substrate
 suitable for various media
 Sumi-e
 sunny
 super
 superimposed images
 superposition
+superstition
+supposition
 surrealism
 swag bags
 swirls
@@ -693,6 +818,7 @@ time stopped
 Times New Roman
 tin-glazed
 tinge
+title
 tonal values
 tools
 totem
@@ -708,6 +834,9 @@ tractrix
 traditional media
 trait
 transparent background
+tree bark
+trend
+trictrac board design
 tripwire
 Trois crayons
 trompe l'oeil
@@ -715,6 +844,7 @@ trompe-l'œil
 turning $$color
 twiddly bits
 typography
+ultra $$random_word
 ultrasharp
 uneven borders
 universal appeal
@@ -723,6 +853,7 @@ unreal engine
 unrolled
 upsampling
 uwu
+vacuum
 vase
 vector space
 vectorization
@@ -740,6 +871,7 @@ vinyl
 visualization
 visualization of algorithm
 vivid color
+vocab
 voxel art
 wafer
 wallpaper
@@ -747,8 +879,10 @@ warm
 washed-out colors
 watercolor
 waves
+wax
 webcam
 webcomic style
+weightlessness
 western comic book art
 wide-angle shot
 ultra wide-angle shot
@@ -758,6 +892,7 @@ wood engraving
 word cloud
 wove paper
 x-ray
+zenith
 zentangle art
 
 

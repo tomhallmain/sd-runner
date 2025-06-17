@@ -5,7 +5,9 @@ $$random_word reflected in the window of a $$random_word
 a stone's throw from
 abutting $$random_word
 across the table
+adjacent to
 afar
+akimbo
 all along the $$random_word
 all over
 aloft
@@ -28,6 +30,8 @@ crouched
 direct route
 down below
 dynamic pose
+ears
+elbow
 everywhere
 eyelevel
 facing_away
@@ -37,14 +41,18 @@ facing_up
 facing_viewer
 far and away
 fetal position
+fingers
 from across the room
 glamour pose
 half turn
+hands
+hands on hips
 head down
 head forward
 head propped on hand
 head turned
 hiding place
+high up
 in line
 in or out?
 in the middle
@@ -64,6 +72,7 @@ looking down
 looking left
 looking right
 looking up
+low
 lying down
 lying prone
 lying on back
@@ -76,6 +85,8 @@ nearest
 neighboring
 nodding off
 not far
+on a higher level
+on a lower level
 on target
 on tiptoes
 on a display podium
@@ -106,7 +117,10 @@ stances
 stooping
 t-pose
 time out gesture
+to and fro
+toe
 together
+tucked in
 turning away
 turning back
 hand up
@@ -167,6 +181,7 @@ Tilt-shift
 Two-Shot / Three-Shot
 Top View
 Ultra-Wide Angle
+viewpoint
 Wide Angle View
 Worm's Eye View
 (view from far above)
@@ -192,4 +207,5 @@ Sports, 300mm, f/2.8
 Street, 35mm, f/2.8
 Astrophotography, 14mm, f/2.8
 Product, 50mm, f/8
+yoga poses
 

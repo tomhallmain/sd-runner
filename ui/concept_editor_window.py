@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Dict
 
 from tkinter import Entry, Frame, Label, StringVar, messagebox, LEFT, W, Listbox, END, SINGLE, BOTH, Y, Scrollbar, Checkbutton, IntVar, Toplevel, filedialog
 from tkinter.ttk import Button, Combobox
@@ -166,10 +167,14 @@ class ConceptEditorWindow():
         self.import_btn = Button(button_frame, text=_("Import"), command=self.import_concepts)
         self.import_btn.grid(row=0, column=2, padx=5)
 
+    def _get_category_states(self) -> Dict[str, bool]:
+        """Get the current state of all category checkboxes"""
+        return {name: bool(var.get()) for name, var in self.category_vars.items()}
+
     def load_concept_files(self):
         """Load all concept files from the concepts directory"""
         # Get category states from checkboxes
-        category_states = {name: var.get() for name, var in self.category_vars.items()}
+        category_states = self._get_category_states()
         
         # Get files using the new method
         self.concept_files = Concepts.get_concept_files(category_states)
@@ -323,9 +328,12 @@ class ConceptEditorWindow():
         if not import_file:
             return
             
+        # Get category states from checkboxes
+        category_states = self._get_category_states()
+            
         # Import concepts
         try:    
-            imported, failed = Concepts.import_concepts(import_file, target_file)
+            imported, failed = Concepts.import_concepts(import_file, target_file, category_states)
         except Exception as e:
             messagebox.showerror(_("Error"), str(e))
             return

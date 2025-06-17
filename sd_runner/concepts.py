@@ -599,22 +599,20 @@ class Concepts:
         return sorted(files)
 
     @staticmethod
-    def get_concepts_map() -> Dict[str, Set[str]]:
-        """Get all existing concepts across all categories.
-        
-        Returns:
-            Dictionary mapping filename to set of concepts in that file
-        """
+    def get_concepts_map(category_states: Dict[str, bool] = {}) -> Dict[str, Set[str]]:
+        """Get a map of all concept categories to their concepts.
+        If category_states is provided, only include enabled categories."""
         existing_concepts = {}
         
-        # Get all concept files with all categories enabled
-        category_states = {
-            "SFW": True,
-            "NSFW": True,
-            "NSFL": True,
-            "Art Styles": True,
-            "Dictionary": True
-        }
+        # Use default category states if none provided
+        if len(category_states) == 0:
+            category_states = {
+                "SFW": True,
+                "NSFW": True,
+                "NSFL": True,
+                "Art Styles": True,
+                "Dictionary": True
+            }
         
         # Get all files and load their concepts
         for filename in Concepts.get_concept_files(category_states):
@@ -660,12 +658,17 @@ class Concepts:
         return matches
     
     @staticmethod
-    def import_concepts(import_file: str, target_category: str) -> Tuple[List[str], List[str]]:
+    def import_concepts(import_file: str, target_category: str, category_states: Dict[str, bool] = None) -> Tuple[List[str], List[str]]:
         """
         Import concepts from a file into a target category.
         Returns (imported_concepts, failed_concepts)
         
         Concepts can be force-imported by prefixing them with '!'
+        
+        Args:
+            import_file: Path to file containing concepts to import
+            target_category: Category to import concepts into
+            category_states: Dict mapping category names to their enabled state
         """
         # Reset found concepts for this import
         found_concepts: Dict[str, List[Tuple[str, str]]] = {}
@@ -683,7 +686,7 @@ class Concepts:
                     concepts.add((force_import, line))
             
         # Get all existing concepts
-        existing_concepts = Concepts.get_concepts_map()
+        existing_concepts = Concepts.get_concepts_map(category_states)
 
         if not target_category in existing_concepts:
             raise Exception(f"Target category \"{target_category}\" not found in existing concepts")
@@ -693,6 +696,11 @@ class Concepts:
         
         # Process each concept
         for force_import, concept in concepts:
+            # First check if concept exists in target category
+            if concept in existing_concepts[target_category]:
+                # Concept already exists in target, consider it "imported" but don't add to list
+                continue
+                
             # Skip existence check for force-imported concepts
             if force_import:
                 if Concepts.add_concept_to_category(concept, target_category):
@@ -720,7 +728,7 @@ class Concepts:
                     match_str = " | ".join(f"{match} ({category})" for match, category in matches)
                     f.write(f"{concept} -> {match_str}\n")
         
-        return imported, failed 
+        return imported, failed
 
 
 class HardConcepts:

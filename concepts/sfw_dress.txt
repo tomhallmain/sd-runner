@@ -1,4 +1,5 @@
 abaya
+amulet
 ancient greek dress
 ancient minoan dress
 Ankle Boots
@@ -129,6 +130,7 @@ cummerbund
 Curly Bob
 Curly Top
 cyborg
+dabbling
 dashiki
 deely-boppers
 denim
@@ -344,9 +346,13 @@ Quiff
 raincoat
 early Renaissance dress
 late Renaissance dress
+regalia
 ribbon
 ring
 ripped jeans
+ski cap
+ski mask
+tassle
 torn shirt
 robe
 robot
@@ -457,6 +463,7 @@ tube skirt
 tube top
 Tulle Skirt
 tunic
+tuque
 turban
 turtleneck
 Turtleneck Sweater

@@ -1,82 +1,141 @@
+$$random_word-ish
 $$random_word-sized
 [[quite,really]] someone
+a far cry from $$random_word
 A-list
 acumen
 adorable
+adrift
+akin
+akin to $$random_word
+aloof
 as thin as a hair
 at a loss
+available
 average
+awash
 bare-knuckle
+based
+beady
 bent
 bereft
 best in the world
 blatant
 boastful
+boorish
 brand new
 brash
 brazen
 brilliant
 burdensome
 charade
+charred
 crooked
+crumpled
+daft
+damning
 daring
+deep
 deftly
 dignified
+done up
+dour
 dreary
+driven
+elusive
+endorsed
+equipped
+ersatz
 evanescent
 exorbitant
+extra-large
+extra-small
 fabled
+famous
 favorable
+feral
 fettered
+firm
+flawed
 flim-flam
 flimsy
+floppy
 foreboding
+frail
 frizzy
 frozen
+fused
 garish
+genius
 goalie
 goofy
 gratis
 habitual
+hale
+hazily
 hearty
 honest
 humane
 imperiled
 in a tizzy
+in high regard
 innate
 inspiring
+intact
 integrity
 interim
 intrigue
 it has a mind of its own
 it predates $$random_word by $$number years
 juvenile
+keepsake
 laid-back
 lame
 largest in the world
 loose
 lord
+lousy
 low cost
+loyal
+maniacal
 manic
+mean
+medium-sized
 meritous
 merry
+mild
 mint condition
 mired
 morose
 most unfavorable
+mulish
 mundane
 mutated
 mute
 nemisis
+nifty
+no-hassle
+noble
+not a lot
 of great stature
+one of the good ones
 parted
+particular
+pending
 perilous
+petty
+philosophic
+plagiarized
+porky
 powerful
 pricey
 primal
 rather
 ready
+riled
 rinky-dink
+roomy
+sagging
 sandy
 alternative style
 ancient
@@ -121,12 +180,16 @@ round
 sassy
 scandalous
 scar
+scathing
 scrawny
+scruff
 semidry
 sight for sore eyes
+sight unseen
 sincere
 skinny
 slangy
+slick
 slim
 small
 smallest in the world
@@ -145,27 +208,37 @@ storied
 stormy
 streamlined
 strong
+stubborn
 styled
 superdry
+superior
 swell
 swole
 tactical
 tall
 tawdry
+ten feet tall
 testy
 tight
+timid
 tiny
+too true
 traditional
+trifling
 ugly
+ultra
 uneven
 urgent
 used
+venerable
 very fresh
 viking
+vulnerable
 war paint
 waverly
 weary
 wicked
+woolly
 worst in the world
 zany
 zeal
