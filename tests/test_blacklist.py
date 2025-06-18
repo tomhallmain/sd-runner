@@ -121,5 +121,181 @@ class TestBlacklist(unittest.TestCase):
                     if (i + 1) % 10 == 0:  # Print progress every 10 iterations
                         print(f"Completed {i+1}/{num_iterations} iterations")
 
+class TestBlacklistItem(unittest.TestCase):
+    
+    def test_exact_match_behavior_preserved(self):
+        """Test that the original exact match behavior is preserved when use_regex=False."""
+        item = BlacklistItem("cat", use_regex=False)
+        
+        # Should match exact word
+        self.assertTrue(item.matches_tag("cat"))
+        
+        # Should match plural forms
+        self.assertTrue(item.matches_tag("cats"))
+        self.assertTrue(item.matches_tag("cat"))
+        
+        # Should not match similar words
+        self.assertFalse(item.matches_tag("catch"))
+        self.assertFalse(item.matches_tag("category"))
+        
+        # Should match when part of a larger tag
+        self.assertTrue(item.matches_tag("black cat"))
+        self.assertTrue(item.matches_tag("cat-sitting"))
+        self.assertTrue(item.matches_tag("cat, dog"))
+    
+    def test_regex_pattern_matching_with_word_start_boundaries(self):
+        """Test regex pattern matching with automatic word start boundary handling."""
+        # Test simple word matching (should match at word start boundaries)
+        item = BlacklistItem("cat", use_regex=True)  # use_regex=False by default, so explicitly set to True
+        self.assertTrue(item.matches_tag("cat"))
+        self.assertTrue(item.matches_tag("black cat"))
+        self.assertTrue(item.matches_tag("cat sitting"))
+        self.assertTrue(item.matches_tag("black-cat"))
+        self.assertTrue(item.matches_tag("cat, dog"))
+        # Should not match when part of another word
+        self.assertFalse(item.matches_tag("catch"))
+        self.assertFalse(item.matches_tag("category"))
+        self.assertFalse(item.matches_tag("blackcat"))
+        
+        # Test wildcard patterns
+        item = BlacklistItem("*cat*", use_regex=True)
+        self.assertTrue(item.matches_tag("black cat"))
+        self.assertTrue(item.matches_tag("cat sitting"))
+        self.assertTrue(item.matches_tag("fat cat"))
+        self.assertTrue(item.matches_tag("black-cat"))
+        self.assertTrue(item.matches_tag("cat_sitting"))
+        self.assertFalse(item.matches_tag("dog"))
+        
+        # Test prefix wildcard
+        item = BlacklistItem("*cat", use_regex=True)
+        self.assertTrue(item.matches_tag("black cat"))
+        self.assertTrue(item.matches_tag("fat cat"))
+        self.assertFalse(item.matches_tag("cat"))
+        self.assertFalse(item.matches_tag("cat sitting"))
+        
+        # Test suffix wildcard
+        item = BlacklistItem("cat*", use_regex=True)
+        self.assertTrue(item.matches_tag("cat"))
+        self.assertTrue(item.matches_tag("cat sitting"))
+        self.assertTrue(item.matches_tag("cat, dog"))
+        self.assertFalse(item.matches_tag("black cat"))
+        
+        # Test middle wildcard
+        item = BlacklistItem("c*t", use_regex=True)
+        self.assertTrue(item.matches_tag("cat"))
+        self.assertTrue(item.matches_tag("cut"))
+        self.assertTrue(item.matches_tag("cart"))
+        self.assertFalse(item.matches_tag("dog"))
+    
+    def test_regex_pattern_without_word_boundaries(self):
+        """Test regex pattern matching when regex is disabled."""
+        # Test wildcard patterns without regex (falls back to exact match)
+        item = BlacklistItem("*cat*", use_regex=False)
+        self.assertFalse(item.matches_tag("blackcat"))
+        self.assertFalse(item.matches_tag("catblack"))
+        self.assertFalse(item.matches_tag("blackcatwhite"))
+        self.assertFalse(item.matches_tag("dog"))
+        
+        # Test simple word without regex (falls back to exact match)
+        item = BlacklistItem("cat", use_regex=False)
+        self.assertTrue(item.matches_tag("cat"))
+        self.assertTrue(item.matches_tag("cats"))
+        self.assertTrue(item.matches_tag("black cat"))
+        self.assertFalse(item.matches_tag("catch"))
+    
+    def test_special_characters_in_patterns(self):
+        """Test that special characters in patterns are handled correctly."""
+        # Test patterns with special regex characters
+        item = BlacklistItem("cat+dog")
+        self.assertTrue(item.matches_tag("cat+dog"))
+        self.assertFalse(item.matches_tag("catdog"))
+        
+        # Test patterns with parentheses
+        item = BlacklistItem("(cat)")
+        self.assertTrue(item.matches_tag("(cat)"))
+        self.assertFalse(item.matches_tag("cat"))
+        
+        # Test patterns with dots
+        item = BlacklistItem("cat.dog")
+        self.assertTrue(item.matches_tag("cat.dog"))
+        self.assertFalse(item.matches_tag("catdog"))
+    
+    def test_case_insensitive_matching(self):
+        """Test that both exact and regex matching are case insensitive."""
+        # Test exact match case insensitivity
+        item = BlacklistItem("Cat", use_regex=False)
+        self.assertTrue(item.matches_tag("CAT"))
+        self.assertTrue(item.matches_tag("cat"))
+        self.assertTrue(item.matches_tag("Cat"))
+        
+        # Test regex match case insensitivity
+        item = BlacklistItem("*Cat*", use_regex=True)
+        self.assertTrue(item.matches_tag("BLACK CAT"))
+        self.assertTrue(item.matches_tag("black cat"))
+        self.assertTrue(item.matches_tag("Black Cat"))
+    
+    def test_use_regex_property(self):
+        """Test that the regex_pattern property works correctly."""
+        # Should be None by default (no regex)
+        item = BlacklistItem("cat")
+        self.assertIsNone(item.regex_pattern)
+        
+        # Should be None when explicitly set to False
+        item = BlacklistItem("cat", use_regex=False)
+        self.assertIsNone(item.regex_pattern)
+        
+        # Should be a compiled regex when explicitly set to True
+        item = BlacklistItem("cat", use_regex=True)
+        self.assertIsNotNone(item.regex_pattern)
+        self.assertTrue(hasattr(item.regex_pattern, 'search'))
+        
+        # Test that wildcard patterns create valid regex
+        item = BlacklistItem("*cat*", use_regex=True)
+        self.assertIsNotNone(item.regex_pattern)
+        self.assertTrue(hasattr(item.regex_pattern, 'search'))
+    
+    def test_edge_cases(self):
+        """Test edge cases and boundary conditions."""
+        # Empty string
+        item = BlacklistItem("")
+        self.assertFalse(item.matches_tag("anything"))
+        
+        # Just asterisk
+        item = BlacklistItem("*", use_regex=True)
+        self.assertTrue(item.matches_tag("anything"))
+        self.assertTrue(item.matches_tag(""))
+        
+        # Multiple asterisks
+        item = BlacklistItem("***", use_regex=True)
+        self.assertTrue(item.matches_tag("anything"))
+        self.assertTrue(item.matches_tag(""))
+        
+        # Asterisk at start and end
+        item = BlacklistItem("*cat*", use_regex=True)
+        self.assertTrue(item.matches_tag("cat"))
+        self.assertTrue(item.matches_tag("black cat"))
+        self.assertTrue(item.matches_tag("cat sitting"))
+        self.assertFalse(item.matches_tag("dog"))
+    
+    def test_serialization(self):
+        """Test that the new regex_pattern property is properly serialized."""
+        # Test to_dict
+        item = BlacklistItem("test", enabled=True, use_regex=True)
+        data = item.to_dict()
+        self.assertEqual(data["string"], "test")
+        self.assertEqual(data["enabled"], True)
+        self.assertEqual(data["use_regex"], True)
+        
+        # Test from_dict
+        new_item = BlacklistItem.from_dict(data)
+        self.assertEqual(new_item.string, "test")
+        self.assertEqual(new_item.enabled, True)
+        self.assertIsNotNone(new_item.regex_pattern)
+        
+        # Test backward compatibility (missing use_regex)
+        old_data = {"string": "test", "enabled": True}
+        old_item = BlacklistItem.from_dict(old_data)
+        self.assertIsNone(old_item.regex_pattern)  # Default value
+
 if __name__ == '__main__':
     unittest.main() 

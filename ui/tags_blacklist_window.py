@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W
+from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W, BooleanVar, Checkbutton
 import tkinter.font as fnt
 from tkinter.ttk import Button
 
@@ -7,6 +7,7 @@ from ui.app_style import AppStyle
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.translations import I18N
+from lib.aware_entry import AwareEntry
 
 _ = I18N._
 
@@ -86,6 +87,7 @@ class BlacklistWindow():
         self.base_item = ""
         self.filter_text = ""
         self.filtered_items = Blacklist.get_items()[:]
+        self.enable_item_btn_list = []
         self.remove_item_btn_list = []
         self.label_list = []
 
@@ -93,6 +95,8 @@ class BlacklistWindow():
         self.frame.grid(column=0, row=0)
         self.frame.columnconfigure(0, weight=9)
         self.frame.columnconfigure(1, weight=1)
+        self.frame.columnconfigure(2, weight=1)
+        self.frame.columnconfigure(3, weight=1)
         self.frame.config(bg=AppStyle.BG_COLOR)
 
         self.add_blacklist_widgets()
@@ -104,14 +108,27 @@ class BlacklistWindow():
         self.item_var = StringVar(self.master)
         self.item_entry = self.new_entry(self.item_var)
         self.item_entry.grid(row=0, column=2)
+        
+        # Add regex checkbox
+        self.use_regex_var = BooleanVar(value=False)
+        self.regex_checkbox = Checkbutton(
+            self.frame, 
+            text=_("Use glob-based regex"), 
+            variable=self.use_regex_var,
+            bg=AppStyle.BG_COLOR,
+            fg=AppStyle.FG_COLOR,
+            selectcolor=AppStyle.BG_COLOR
+        )
+        self.regex_checkbox.grid(row=0, column=3)
+        
         self.clear_blacklist_btn = None
-        self.add_btn("clear_blacklist_btn", _("Clear items"), self.clear_items, column=3)
+        self.add_btn("clear_blacklist_btn", _("Clear items"), self.clear_items, column=4)
 
         # Add import/export buttons
         self.import_btn = None
         self.export_btn = None
-        self.add_btn("import_btn", _("Import"), self.import_blacklist, column=4)
-        self.add_btn("export_btn", _("Export"), self.export_blacklist, column=5)
+        self.add_btn("import_btn", _("Import"), self.import_blacklist, column=5)
+        self.add_btn("export_btn", _("Export"), self.export_blacklist, column=6)
 
         self.frame.after(1, lambda: self.frame.focus_force())
 
@@ -128,11 +145,17 @@ class BlacklistWindow():
             item = self.filtered_items[i]
             self._label_info = Label(self.frame)
             self.label_list.append(self._label_info)
-            self.add_label(self._label_info, str(item), row=row, column=base_col, wraplength=BlacklistWindow.COL_0_WIDTH)
+            
+            # Display item with regex indicator
+            display_text = str(item)
+            if item.regex_pattern is not None:
+                display_text += " [regex]"
+            self.add_label(self._label_info, display_text, row=row, column=base_col, wraplength=BlacklistWindow.COL_0_WIDTH)
             
             # Add enable/disable toggle
             enabled_var = StringVar(value="✓" if item.enabled else "✗")
             toggle_btn = Button(self.frame, text=enabled_var.get())
+            self.enable_item_btn_list.append(toggle_btn)
             toggle_btn.grid(row=row, column=base_col+1)
             def toggle_handler(event, self=self, item=item, enabled_var=enabled_var):
                 return self.toggle_item(event, item, enabled_var)
@@ -166,7 +189,8 @@ class BlacklistWindow():
             self.app_actions.alert(_("Warning"), _("Please enter a string to add to the blacklist."), kind="warning")
             return
 
-        Blacklist.add_to_blacklist(item)
+        # Add item to blacklist with regex setting from checkbox
+        Blacklist.add_to_blacklist(item, enabled=True, use_regex=self.use_regex_var.get())
         self.refresh()
         self.app_actions.toast(_("Added item to blacklist: {0}").format(item))
         return item
@@ -185,6 +209,10 @@ class BlacklistWindow():
         """
         Rebuild the filtered items list based on the filter string and update the UI.
         """
+        # Don't filter if an entry has focus (user is typing in entry field)
+        if AwareEntry.an_entry_has_focus:
+            return
+            
         modifier_key_pressed = (event.state & 0x1) != 0 or (event.state & 0x4) != 0 # Do not filter if modifier key is down
         if modifier_key_pressed:
             return
@@ -216,16 +244,16 @@ class BlacklistWindow():
             temp = []
             # First pass try to match directory basename
             for item in Blacklist.get_items():
-                if item == self.filter_text:
+                if item.string == self.filter_text:
                     temp.append(item)
             for item in Blacklist.get_items():
                 if item not in temp:
-                    if item.startswith(self.filter_text):
+                    if item.string.startswith(self.filter_text):
                         temp.append(item)
             # Third pass try to match part of the basename
             for item in Blacklist.get_items():
                 if item not in temp:
-                    if item and (f" {self.filter_text}" in item.lower() or f"_{self.filter_text}" in item.lower()):
+                    if item and (f" {self.filter_text}" in item.string.lower() or f"_{self.filter_text}" in item.string.lower()):
                         temp.append(item)
             self.filtered_items = temp[:]
 
@@ -245,10 +273,13 @@ class BlacklistWindow():
         self.app_actions.toast(_("Cleared item blacklist"))
 
     def clear_widget_lists(self):
+        for btn in self.enable_item_btn_list:
+            btn.destroy()
         for btn in self.remove_item_btn_list:
             btn.destroy()
         for label in self.label_list:
             label.destroy()
+        self.enable_item_btn_list = []
         self.remove_item_btn_list = []
         self.label_list = []
 
@@ -275,7 +306,7 @@ class BlacklistWindow():
             button.grid(row=row, column=column)
 
     def new_entry(self, text_variable, text="", width=30, **kw):
-        return Entry(self.frame, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
+        return AwareEntry(self.frame, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
 
     def toggle_item(self, event=None, item=None, enabled_var=None):
         """Toggle the enabled state of an item."""

@@ -3,14 +3,19 @@ import json
 import re
 
 class BlacklistItem:
-    def __init__(self, string: str, enabled: bool = True):
+    def __init__(self, string: str, enabled: bool = True, use_regex: bool = False):
         self.string = string.lower()
+        self.string_plural = (self.string + 's').lower()
+        self.string_plural_es = (self.string + 'es').lower()
         self.enabled = enabled
+        # Store pre-compiled regex pattern if using regex, otherwise None
+        self.regex_pattern = re.compile(self._glob_to_regex(self.string)) if use_regex else None
 
     def to_dict(self):
         return {
             "string": self.string,
-            "enabled": self.enabled
+            "enabled": self.enabled,
+            "use_regex": self.regex_pattern is not None
         }
 
     @classmethod
@@ -22,7 +27,10 @@ class BlacklistItem:
         enabled = data.get("enabled", True)
         if not isinstance(enabled, bool):
             enabled = True
-        return cls(data["string"], enabled)
+        use_regex = data.get("use_regex", False)
+        if not isinstance(use_regex, bool):
+            use_regex = False
+        return cls(data["string"], enabled, use_regex)
 
     def matches_tag(self, tag: str) -> bool:
         """Check if a tag matches this blacklist item.
@@ -36,25 +44,42 @@ class BlacklistItem:
         tag = tag.lower()
         blacklist_str = self.string.lower()
         
-        # Split tag into words using common word boundary characters
-        # This includes spaces, hyphens, dashes, underscores, and other common separators
-        words = re.split(r'[\s\-_.,;:!?()[\]{}]+', tag)
+        # If regex pattern is available, use regex matching
+        if self.regex_pattern is not None:
+            return bool(self.regex_pattern.search(tag))
         
-        # Check each word for exact match or plural
-        for word in words:
-            if not word:  # Skip empty strings that might result from splitting
-                continue
-            # Exact match
-            if word == blacklist_str:
-                return True
-            # Plural match (adds 's' or 'es')
-            if word == blacklist_str + 's' or word == blacklist_str + 'es':
-                return True
-            # Handle words ending in 's' that need 'es' for plural
-            if blacklist_str.endswith('s') and word == blacklist_str + 'es':
-                return True
+        # Original exact match behavior for non-regex patterns
+        if tag.startswith(blacklist_str) or re.search(r'(^|\W)' + re.escape(blacklist_str), tag):
+            return True
+        if tag.startswith(self.string_plural) or re.search(r'(^|\W)' + re.escape(self.string_plural), tag):
+            return True
+        if tag.startswith(self.string_plural_es) or re.search(r'(^|\W)' + re.escape(self.string_plural_es), tag):
+            return True
                 
         return False
+
+    def _glob_to_regex(self, pattern: str) -> str:
+        """Convert a glob pattern to a regex pattern with word start boundary matching.
+        
+        Args:
+            pattern: The glob pattern to convert
+            
+        Returns:
+            str: The regex pattern with word start boundary matching
+        """
+        # Escape regex special characters except *
+        regex_pattern = re.escape(pattern)
+        
+        # Replace escaped asterisks with .* for wildcard matching
+        regex_pattern = regex_pattern.replace(r'\*', '.*')
+        
+        # Add word boundary matching: (^|\W) at start only.
+        # This ensures the pattern matches at the start of a word.
+        # If the user wants to add boundary matching to the end,
+        # they can do this by adding (\W|$) to the end of the pattern.
+        regex_pattern = r'(^|\W)' + regex_pattern
+        
+        return regex_pattern
 
     def __eq__(self, other):
         if isinstance(other, BlacklistItem):
@@ -104,10 +129,16 @@ class Blacklist:
         Blacklist.TAG_BLACKLIST = list(blacklist)
     
     @staticmethod
-    def add_to_blacklist(tag):
-        """Add a tag to the blacklist. If tag is a string, convert to BlacklistItem."""
+    def add_to_blacklist(tag, enabled: bool = True, use_regex: bool = False):
+        """Add a tag to the blacklist. If tag is a string, convert to BlacklistItem.
+        
+        Args:
+            tag: The tag string or BlacklistItem to add
+            enabled: Whether the item should be enabled (default: True)
+            use_regex: Whether to use regex matching (default: False)
+        """
         if isinstance(tag, str):
-            tag = BlacklistItem(tag)
+            tag = BlacklistItem(tag, enabled=enabled, use_regex=use_regex)
         Blacklist.TAG_BLACKLIST.append(tag)
         Blacklist.TAG_BLACKLIST.sort(key=lambda x: x.string)
 
