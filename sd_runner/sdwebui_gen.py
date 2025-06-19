@@ -86,9 +86,10 @@ class SDWebuiGen(BaseImageGenerator):
         )
         try:
             resp = request.urlopen(req)
-            return self.save_image_data(resp, related_image_path, workflow)
+            result = self.save_image_data(resp, related_image_path, workflow)
         except error.URLError:
             raise Exception("Failed to connect to SD Web UI. Is SD Web UI running?")
+        return result
 
     def save_image_data(self, response: response, related_image_path: Optional[str]=None, workflow: Optional[WorkflowType]=None):
         resp_json = json.loads(response.read().decode('utf-8'))

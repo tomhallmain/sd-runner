@@ -1,6 +1,7 @@
 import csv
 import json
 import re
+from functools import lru_cache
 
 class BlacklistItem:
     def __init__(self, string: str, enabled: bool = True, use_regex: bool = False):
@@ -97,67 +98,16 @@ class BlacklistItem:
 
 class Blacklist:
     TAG_BLACKLIST: list[BlacklistItem] = []
+    _version: int = 0
 
+    # LRU cache for filter_concepts, keyed by (concepts tuple, version)
     @staticmethod
-    def is_empty():
-        return len(Blacklist.TAG_BLACKLIST) == 0
-
-    @staticmethod
-    def add_item(item: BlacklistItem):
-        Blacklist.TAG_BLACKLIST.append(item)
-
-    @staticmethod
-    def remove_item(item: BlacklistItem):
-        """Remove a BlacklistItem from the blacklist."""
-        try:
-            Blacklist.TAG_BLACKLIST.remove(item)
-            return True
-        except ValueError:
-            return False
-
-    @staticmethod
-    def get_items():
-        return Blacklist.TAG_BLACKLIST
-
-    @staticmethod
-    def clear():
-        Blacklist.TAG_BLACKLIST.clear()
-
-    @staticmethod
-    def set_blacklist(blacklist):
-        """Set the blacklist to a list of BlacklistItem objects."""
-        Blacklist.TAG_BLACKLIST = list(blacklist)
-    
-    @staticmethod
-    def add_to_blacklist(tag, enabled: bool = True, use_regex: bool = False):
-        """Add a tag to the blacklist. If tag is a string, convert to BlacklistItem.
-        
-        Args:
-            tag: The tag string or BlacklistItem to add
-            enabled: Whether the item should be enabled (default: True)
-            use_regex: Whether to use regex matching (default: False)
-        """
-        if isinstance(tag, str):
-            tag = BlacklistItem(tag, enabled=enabled, use_regex=use_regex)
-        Blacklist.TAG_BLACKLIST.append(tag)
-        Blacklist.TAG_BLACKLIST.sort(key=lambda x: x.string)
-
-    @staticmethod
-    def filter_concepts(concepts, filtered_dict=None) -> tuple[list[str], dict[str, str]]:
-        """Filter a list of concepts against the blacklist.
-        
-        Args:
-            concepts: List of concepts to filter
-            filtered_dict: Optional dict to store filtered items. If None, a new dict is created.
-            
-        Returns:
-            tuple: (whitelist, filtered_dict) where:
-                - whitelist is a list of concepts that passed the blacklist check
-                - filtered_dict maps filtered concepts to their blacklist items
-        """
+    @lru_cache(maxsize=128)
+    def _filter_concepts_cached(concepts_tuple, version):
+        # Convert tuple back to list for processing
+        concepts = list(concepts_tuple)
         whitelist = []
-        filtered = {} if filtered_dict is None else filtered_dict
-        
+        filtered = {}
         for concept_cased in concepts:
             match_found = False
             for blacklist_item in Blacklist.TAG_BLACKLIST:
@@ -174,6 +124,81 @@ class Blacklist:
         # if len(filtered) != 0:
             # print(f"Filtered concepts from blacklist tags: {filtered}")
 
+        return whitelist, filtered
+
+    @staticmethod
+    def is_empty():
+        return len(Blacklist.TAG_BLACKLIST) == 0
+
+    @staticmethod
+    def add_item(item: BlacklistItem):
+        Blacklist.TAG_BLACKLIST.append(item)
+        Blacklist._version += 1
+        Blacklist._filter_concepts_cached.cache_clear()
+
+    @staticmethod
+    def remove_item(item: BlacklistItem):
+        """Remove a BlacklistItem from the blacklist."""
+        try:
+            Blacklist.TAG_BLACKLIST.remove(item)
+            Blacklist._version += 1
+            Blacklist._filter_concepts_cached.cache_clear()
+            return True
+        except ValueError:
+            return False
+
+    @staticmethod
+    def get_items():
+        return Blacklist.TAG_BLACKLIST
+
+    @staticmethod
+    def clear():
+        Blacklist.TAG_BLACKLIST.clear()
+        Blacklist._version += 1
+        Blacklist._filter_concepts_cached.cache_clear()
+
+    @staticmethod
+    def set_blacklist(blacklist):
+        """Set the blacklist to a list of BlacklistItem objects."""
+        Blacklist.TAG_BLACKLIST = list(blacklist)
+        Blacklist._version += 1
+        Blacklist._filter_concepts_cached.cache_clear()
+    
+    @staticmethod
+    def add_to_blacklist(tag, enabled: bool = True, use_regex: bool = False):
+        """Add a tag to the blacklist. If tag is a string, convert to BlacklistItem.
+        
+        Args:
+            tag: The tag string or BlacklistItem to add
+            enabled: Whether the item should be enabled (default: True)
+            use_regex: Whether to use regex matching (default: False)
+        """
+        if isinstance(tag, str):
+            tag = BlacklistItem(tag, enabled=enabled, use_regex=use_regex)
+        Blacklist.TAG_BLACKLIST.append(tag)
+        Blacklist.TAG_BLACKLIST.sort(key=lambda x: x.string)
+        Blacklist._version += 1
+        Blacklist._filter_concepts_cached.cache_clear()
+
+    @staticmethod
+    def filter_concepts(concepts, filtered_dict=None) -> tuple[list[str], dict[str, str]]:
+        """Filter a list of concepts against the blacklist.
+        
+        Args:
+            concepts: List of concepts to filter
+            filtered_dict: Optional dict to store filtered items. If None, a new dict is created.
+            
+        Returns:
+            tuple: (whitelist, filtered_dict) where:
+                - whitelist is a list of concepts that passed the blacklist check
+                - filtered_dict maps filtered concepts to their blacklist items
+        """
+        # Use the LRU cache for filtering
+        concepts_tuple = tuple(concepts)
+        whitelist, filtered = Blacklist._filter_concepts_cached(concepts_tuple, Blacklist._version)
+        # If a filtered_dict is provided, update it
+        if filtered_dict is not None:
+            filtered_dict.update(filtered)
         return whitelist, filtered
 
     @staticmethod
