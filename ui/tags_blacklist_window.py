@@ -148,7 +148,7 @@ class BlacklistWindow():
             
             # Display item with regex indicator
             display_text = str(item)
-            if item.regex_pattern is not None:
+            if item.use_regex:
                 display_text += " [regex]"
             self.add_label(self._label_info, display_text, row=row, column=base_col, wraplength=BlacklistWindow.COL_0_WIDTH)
             

@@ -6,17 +6,26 @@ from functools import lru_cache
 class BlacklistItem:
     def __init__(self, string: str, enabled: bool = True, use_regex: bool = False):
         self.string = string.lower()
-        self.string_plural = (self.string + 's').lower()
-        self.string_plural_es = (self.string + 'es').lower()
         self.enabled = enabled
-        # Store pre-compiled regex pattern if using regex, otherwise None
-        self.regex_pattern = re.compile(self._glob_to_regex(self.string)) if use_regex else None
+        self.use_regex = use_regex
+        
+        # Always store a compiled regex pattern
+        if use_regex:
+            # Use glob-to-regex conversion for regex mode
+            self.regex_pattern = re.compile(self._glob_to_regex(self.string))
+        else:
+            # Use simple word boundary pattern for exact match mode
+            self.regex_pattern = re.compile(r'(^|\W)' + re.escape(self.string))
+        
+        # Pre-compile regex patterns for plural forms for better performance
+        self.plural_pattern = re.compile(r'(^|\W)' + re.escape(self.string + 's'))
+        self.plural_es_pattern = re.compile(r'(^|\W)' + re.escape(self.string + 'es'))
 
     def to_dict(self):
         return {
             "string": self.string,
             "enabled": self.enabled,
-            "use_regex": self.regex_pattern is not None
+            "use_regex": self.use_regex
         }
 
     @classmethod
@@ -43,18 +52,15 @@ class BlacklistItem:
             bool: True if the tag matches this blacklist item, False otherwise
         """
         tag = tag.lower()
-        blacklist_str = self.string.lower()
         
-        # If regex pattern is available, use regex matching
-        if self.regex_pattern is not None:
-            return bool(self.regex_pattern.search(tag))
+        # Always use the compiled regex pattern for the base string
+        if self.regex_pattern.search(tag):
+            return True
         
-        # Original exact match behavior for non-regex patterns
-        if tag.startswith(blacklist_str) or re.search(r'(^|\W)' + re.escape(blacklist_str), tag):
+        # Check plural forms
+        if self.plural_pattern.search(tag):
             return True
-        if tag.startswith(self.string_plural) or re.search(r'(^|\W)' + re.escape(self.string_plural), tag):
-            return True
-        if tag.startswith(self.string_plural_es) or re.search(r'(^|\W)' + re.escape(self.string_plural_es), tag):
+        if self.plural_es_pattern.search(tag):
             return True
                 
         return False

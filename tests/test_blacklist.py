@@ -236,23 +236,29 @@ class TestBlacklistItem(unittest.TestCase):
     
     def test_use_regex_property(self):
         """Test that the regex_pattern property works correctly."""
-        # Should be None by default (no regex)
+        # Should be a compiled regex pattern by default (exact match mode)
         item = BlacklistItem("cat")
-        self.assertIsNone(item.regex_pattern)
+        self.assertIsNotNone(item.regex_pattern)
+        self.assertTrue(hasattr(item.regex_pattern, 'search'))
+        self.assertFalse(item.use_regex)
         
-        # Should be None when explicitly set to False
+        # Should be a compiled regex when explicitly set to False
         item = BlacklistItem("cat", use_regex=False)
-        self.assertIsNone(item.regex_pattern)
+        self.assertIsNotNone(item.regex_pattern)
+        self.assertTrue(hasattr(item.regex_pattern, 'search'))
+        self.assertFalse(item.use_regex)
         
         # Should be a compiled regex when explicitly set to True
         item = BlacklistItem("cat", use_regex=True)
         self.assertIsNotNone(item.regex_pattern)
         self.assertTrue(hasattr(item.regex_pattern, 'search'))
+        self.assertTrue(item.use_regex)
         
         # Test that wildcard patterns create valid regex
         item = BlacklistItem("*cat*", use_regex=True)
         self.assertIsNotNone(item.regex_pattern)
         self.assertTrue(hasattr(item.regex_pattern, 'search'))
+        self.assertTrue(item.use_regex)
     
     def test_edge_cases(self):
         """Test edge cases and boundary conditions."""
@@ -291,11 +297,13 @@ class TestBlacklistItem(unittest.TestCase):
         self.assertEqual(new_item.string, "test")
         self.assertEqual(new_item.enabled, True)
         self.assertIsNotNone(new_item.regex_pattern)
+        self.assertTrue(new_item.use_regex)
         
         # Test backward compatibility (missing use_regex)
         old_data = {"string": "test", "enabled": True}
         old_item = BlacklistItem.from_dict(old_data)
-        self.assertIsNone(old_item.regex_pattern)  # Default value
+        self.assertIsNotNone(old_item.regex_pattern)  # Always a compiled pattern now
+        self.assertFalse(old_item.use_regex)  # Default value
 
 if __name__ == '__main__':
     unittest.main() 
