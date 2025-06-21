@@ -9,6 +9,7 @@ from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.translations import I18N
 from lib.aware_entry import AwareEntry
+from lib.tk_scroll_demo import ScrollFrame
 
 _ = I18N._
 
@@ -171,7 +172,7 @@ class BlacklistWindow():
 
     @staticmethod
     def get_geometry(is_gui=True):
-        width = 600
+        width = 800
         height = 800
         return f"{width}x{height}"
 
@@ -190,18 +191,24 @@ class BlacklistWindow():
         self.label_list = []
         self.preview_item_btn_list = []
 
-        self.frame = Frame(self.master)
-        self.frame.grid(column=0, row=0)
-        self.frame.columnconfigure(0, weight=9)
-        self.frame.columnconfigure(1, weight=1)
-        self.frame.columnconfigure(2, weight=1)
-        self.frame.columnconfigure(3, weight=1)
-        self.frame.columnconfigure(4, weight=1)
-        self.frame.config(bg=AppStyle.BG_COLOR)
+        # Create main frame for header and buttons
+        self.header_frame = Frame(self.master, bg=AppStyle.BG_COLOR)
+        self.header_frame.grid(column=0, row=0, sticky="ew")
+        self.header_frame.columnconfigure(0, weight=9)
+        self.header_frame.columnconfigure(1, weight=1)
+        self.header_frame.columnconfigure(2, weight=1)
+        self.header_frame.columnconfigure(3, weight=1)
+        self.header_frame.columnconfigure(4, weight=1)
+
+        # Create scrollable frame for blacklist items
+        self.frame = ScrollFrame(self.master, bg_color=AppStyle.BG_COLOR)
+        self.frame.grid(column=0, row=1, sticky="nsew")
+        self.master.grid_rowconfigure(1, weight=1)
+        self.master.grid_columnconfigure(0, weight=1)
 
         self.add_blacklist_widgets()
 
-        self._label_info = Label(self.frame)
+        self._label_info = Label(self.header_frame)
         self.add_label(self._label_info, _("Add to tag blacklist"), row=0, wraplength=BlacklistWindow.COL_0_WIDTH)
         self.add_item_btn = None
         self.add_btn("add_item_btn", _("Add item"), self.handle_item, column=1)
@@ -212,7 +219,7 @@ class BlacklistWindow():
         # Add regex checkbox
         self.use_regex_var = BooleanVar(value=False)
         self.regex_checkbox = Checkbutton(
-            self.frame, 
+            self.header_frame, 
             text=_("Use glob-based regex"), 
             variable=self.use_regex_var,
             bg=AppStyle.BG_COLOR,
@@ -242,9 +249,9 @@ class BlacklistWindow():
     def add_blacklist_widgets(self):
         base_col = 0
         for i in range(len(self.filtered_items)):
-            row = i+2  # Start from row 2
+            row = i+1
             item = self.filtered_items[i]
-            self._label_info = Label(self.frame)
+            self._label_info = Label(self.frame.viewPort)
             self.label_list.append(self._label_info)
             
             # Display item with regex indicator
@@ -255,7 +262,7 @@ class BlacklistWindow():
             
             # Add enable/disable toggle
             enabled_var = StringVar(value="✓" if item.enabled else "✗")
-            toggle_btn = Button(self.frame, text=enabled_var.get())
+            toggle_btn = Button(self.frame.viewPort, text=enabled_var.get())
             self.enable_item_btn_list.append(toggle_btn)
             toggle_btn.grid(row=row, column=base_col+1)
             def toggle_handler(event, self=self, item=item, enabled_var=enabled_var):
@@ -263,7 +270,7 @@ class BlacklistWindow():
             toggle_btn.bind("<Button-1>", toggle_handler)
             
             # Add preview button
-            preview_btn = Button(self.frame, text=_("Preview"))
+            preview_btn = Button(self.frame.viewPort, text=_("Preview"))
             self.preview_item_btn_list.append(preview_btn)
             preview_btn.grid(row=row, column=base_col+2)
             def preview_handler(event, self=self, item=item):
@@ -271,7 +278,7 @@ class BlacklistWindow():
             preview_btn.bind("<Button-1>", preview_handler)
             
             # Add remove button
-            remove_item_btn = Button(self.frame, text=_("Remove"))
+            remove_item_btn = Button(self.frame.viewPort, text=_("Remove"))
             self.remove_item_btn_list.append(remove_item_btn)
             remove_item_btn.grid(row=row, column=base_col+3)
             def remove_item_handler(event, self=self, item=item):
@@ -412,13 +419,13 @@ class BlacklistWindow():
 
     def add_btn(self, button_ref_name, text, command, row=0, column=0):
         if getattr(self, button_ref_name) is None:
-            button = Button(master=self.frame, text=text, command=command)
+            button = Button(master=self.header_frame, text=text, command=command)
             setattr(self, button_ref_name, button)
             button # for some reason this is necessary to maintain the reference?
             button.grid(row=row, column=column)
 
     def new_entry(self, text_variable, text="", width=30, **kw):
-        return AwareEntry(self.frame, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
+        return AwareEntry(self.header_frame, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
 
     def toggle_item(self, event=None, item=None, enabled_var=None):
         """Toggle the enabled state of an item."""
