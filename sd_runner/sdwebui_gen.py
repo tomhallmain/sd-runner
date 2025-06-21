@@ -4,6 +4,7 @@ import os
 from urllib import request, response, parse, error
 import time
 import traceback
+import threading
 from typing import Optional
 
 from sd_runner.gen_config import GenConfig
@@ -38,6 +39,7 @@ class SDWebuiGen(BaseImageGenerator):
     TXT_2_IMG = "sdapi/v1/txt2img"
     IMG_2_IMG = "sdapi/v1/img2img"
     _has_run_txt2img = False  # Class-level flag to track if txt2img has been run
+    _txt2img_lock = threading.Lock()  # Thread-safe lock for the flag
 
     def __init__(self, config=GenConfig(), ui_callbacks=None):
         super().__init__(config, ui_callbacks)
@@ -124,27 +126,28 @@ class SDWebuiGen(BaseImageGenerator):
             model: The model to use for the fake generation, should match the model being used for img2img
             vae: The VAE to use for the fake generation, should match the VAE being used for img2img
         """
-        if not self._has_run_txt2img:
-            print("Running initial txt2img to fix SD WebUI img2img bug...")
-            prompt = WorkflowPromptSDWebUI(WorkflowType.SIMPLE_IMAGE_GEN.value)
-            prompt.set_model(model)
-            prompt.set_vae(vae)
-            prompt.set_clip_texts("", "", model=model)
-            prompt.set_seed(self.get_seed())
-            prompt.set_other_sampler_inputs(self.gen_config)
-            prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", None))
-            prompt.set_empty_latents(1)
-            try:
-                fake_image_path = self.queue_prompt(prompt)
-            except Exception as e:
-                # Maybe SDWebUI is not running?
-                raise Exception(f"Warning: Failed to run fake txt2img: {e}")
-            try:
-                if fake_image_path and os.path.exists(fake_image_path):
-                    os.unlink(fake_image_path)
-            except Exception as e:
-                print(f"Warning: Failed to clean up fake txt2img image: {e}")
-            self._has_run_txt2img = True
+        with SDWebuiGen._txt2img_lock:
+            if not SDWebuiGen._has_run_txt2img:
+                print("Running initial txt2img to fix SD WebUI img2img bug...")
+                prompt = WorkflowPromptSDWebUI(WorkflowType.SIMPLE_IMAGE_GEN.value)
+                prompt.set_model(model)
+                prompt.set_vae(vae)
+                prompt.set_clip_texts("", "", model=model)
+                prompt.set_seed(self.get_seed())
+                prompt.set_other_sampler_inputs(self.gen_config)
+                prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", None))
+                prompt.set_empty_latents(1)
+                try:
+                    fake_image_path = self.queue_prompt(prompt)
+                except Exception as e:
+                    # Maybe SDWebUI is not running?
+                    raise Exception(f"Warning: Failed to run fake txt2img: {e}")
+                try:
+                    if fake_image_path and os.path.exists(fake_image_path):
+                        os.unlink(fake_image_path)
+                except Exception as e:
+                    print(f"Warning: Failed to clean up fake txt2img image: {e}")
+                SDWebuiGen._has_run_txt2img = True
 
     def simple_image_gen(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
