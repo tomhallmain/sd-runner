@@ -1,8 +1,9 @@
-from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W, BooleanVar, Checkbutton
+from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W, BooleanVar, Checkbutton, Scrollbar, Listbox, IntVar
 import tkinter.font as fnt
 from tkinter.ttk import Button
 
 from sd_runner.blacklist import BlacklistItem, Blacklist
+from sd_runner.concepts import Concepts
 from ui.app_style import AppStyle
 from utils.app_info_cache import app_info_cache
 from utils.config import config
@@ -10,6 +11,103 @@ from utils.translations import I18N
 from lib.aware_entry import AwareEntry
 
 _ = I18N._
+
+
+class BlacklistPreviewWindow:
+    """Minimalist window to show the effects of blacklist items on concepts."""
+    
+    def __init__(self, master, app_actions, blacklist_item=None):
+        self.master = Toplevel(master, bg=AppStyle.BG_COLOR)
+        self.master.title(_("Blacklist Preview"))
+        self.master.geometry("600x400")
+        
+        self.app_actions = app_actions
+        self.blacklist_item = blacklist_item
+        self.filtered_concepts = []
+        
+        # Define categories with their default checked state
+        self.file_categories = {
+            "SFW": True,
+            "NSFW": False,
+            "NSFL": False,
+            "Art Styles": True,
+            "Dictionary": True
+        }
+        self.category_vars = {}  # Store checkbox variables
+        
+        self.setup_ui()
+        self.load_concepts()
+        
+    def setup_ui(self):
+        # Title label
+        if self.blacklist_item:
+            title_text = _("Concepts filtered by: {0}").format(self.blacklist_item.string)
+            if self.blacklist_item.use_regex:
+                title_text += " [regex]"
+        else:
+            title_text = _("All filtered concepts")
+            
+        title_label = Label(self.master, text=title_text, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, font=fnt.Font(size=10, weight='bold'))
+        title_label.pack(pady=10)
+        
+        # Category checkboxes
+        checkbox_frame = Frame(self.master, bg=AppStyle.BG_COLOR)
+        checkbox_frame.pack(pady=5)
+        
+        for i, (category, default_checked) in enumerate(self.file_categories.items()):
+            var = IntVar(value=1 if default_checked else 0)
+            self.category_vars[category] = var
+            cb = Checkbutton(checkbox_frame, text=category, variable=var, command=self.load_concepts,
+                           bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
+            cb.grid(row=0, column=i, padx=5)
+        
+        # Count label
+        self.count_label = Label(self.master, text="", bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.count_label.pack(pady=5)
+        
+        # Listbox with scrollbar
+        list_frame = Frame(self.master, bg=AppStyle.BG_COLOR)
+        list_frame.pack(fill='both', expand=True, padx=10, pady=10)
+        
+        self.listbox = Listbox(list_frame, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectmode='none')
+        scrollbar = Scrollbar(list_frame, orient='vertical', command=self.listbox.yview)
+        self.listbox.configure(yscrollcommand=scrollbar.set)
+        
+        self.listbox.pack(side='left', fill='both', expand=True)
+        scrollbar.pack(side='right', fill='y')
+        
+        # Close button
+        close_btn = Button(self.master, text=_("Close"), command=self.master.destroy)
+        close_btn.pack(pady=10)
+        
+    def _get_category_states(self):
+        """Get the current state of all category checkboxes"""
+        return {name: bool(var.get()) for name, var in self.category_vars.items()}
+        
+    def load_concepts(self):
+        """Load and filter concepts based on the blacklist item."""
+        try:
+            # Get category states from checkboxes
+            category_states = self._get_category_states()
+            
+            # Use the Concepts class method to get filtered concepts
+            self.filtered_concepts = Concepts.get_filtered_concepts_for_preview(
+                self.blacklist_item, category_states
+            )
+            
+            # Update UI
+            self.count_label.config(text=_("Found {0} filtered concepts").format(len(self.filtered_concepts)))
+            
+            # Populate listbox
+            self.listbox.delete(0, 'end')
+            for concept in sorted(set(self.filtered_concepts)):  # Remove duplicates
+                self.listbox.insert('end', concept)
+                
+        except Exception as e:
+            error_msg = _("Error loading concepts: {0}").format(str(e))
+            self.count_label.config(text=error_msg)
+            if self.app_actions:
+                self.app_actions.alert(_("Error"), error_msg, kind="error")
 
 
 class BlacklistWindow():
@@ -73,7 +171,7 @@ class BlacklistWindow():
 
     @staticmethod
     def get_geometry(is_gui=True):
-        width = 500
+        width = 600
         height = 800
         return f"{width}x{height}"
 
@@ -90,6 +188,7 @@ class BlacklistWindow():
         self.enable_item_btn_list = []
         self.remove_item_btn_list = []
         self.label_list = []
+        self.preview_item_btn_list = []
 
         self.frame = Frame(self.master)
         self.frame.grid(column=0, row=0)
@@ -97,6 +196,7 @@ class BlacklistWindow():
         self.frame.columnconfigure(1, weight=1)
         self.frame.columnconfigure(2, weight=1)
         self.frame.columnconfigure(3, weight=1)
+        self.frame.columnconfigure(4, weight=1)
         self.frame.config(bg=AppStyle.BG_COLOR)
 
         self.add_blacklist_widgets()
@@ -124,11 +224,13 @@ class BlacklistWindow():
         self.clear_blacklist_btn = None
         self.add_btn("clear_blacklist_btn", _("Clear items"), self.clear_items, column=4)
 
-        # Add import/export buttons
+        # Add import/export/preview buttons on a new row
         self.import_btn = None
         self.export_btn = None
-        self.add_btn("import_btn", _("Import"), self.import_blacklist, column=5)
-        self.add_btn("export_btn", _("Export"), self.export_blacklist, column=6)
+        self.preview_all_btn = None
+        self.add_btn("import_btn", _("Import"), self.import_blacklist, row=1, column=0)
+        self.add_btn("export_btn", _("Export"), self.export_blacklist, row=1, column=1)
+        self.add_btn("preview_all_btn", _("Preview All"), self.preview_all, row=1, column=2)
 
         self.frame.after(1, lambda: self.frame.focus_force())
 
@@ -138,10 +240,9 @@ class BlacklistWindow():
         self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
 
     def add_blacklist_widgets(self):
-        row = 0
         base_col = 0
         for i in range(len(self.filtered_items)):
-            row = i+1
+            row = i+2  # Start from row 2
             item = self.filtered_items[i]
             self._label_info = Label(self.frame)
             self.label_list.append(self._label_info)
@@ -161,10 +262,18 @@ class BlacklistWindow():
                 return self.toggle_item(event, item, enabled_var)
             toggle_btn.bind("<Button-1>", toggle_handler)
             
+            # Add preview button
+            preview_btn = Button(self.frame, text=_("Preview"))
+            self.preview_item_btn_list.append(preview_btn)
+            preview_btn.grid(row=row, column=base_col+2)
+            def preview_handler(event, self=self, item=item):
+                return self.preview_item(event, item)
+            preview_btn.bind("<Button-1>", preview_handler)
+            
             # Add remove button
             remove_item_btn = Button(self.frame, text=_("Remove"))
             self.remove_item_btn_list.append(remove_item_btn)
-            remove_item_btn.grid(row=row, column=base_col+2)
+            remove_item_btn.grid(row=row, column=base_col+3)
             def remove_item_handler(event, self=self, item=item):
                 return self.remove_item(event, item)
             remove_item_btn.bind("<Button-1>", remove_item_handler)
@@ -279,9 +388,12 @@ class BlacklistWindow():
             btn.destroy()
         for label in self.label_list:
             label.destroy()
+        for btn in self.preview_item_btn_list:
+            btn.destroy()
         self.enable_item_btn_list = []
         self.remove_item_btn_list = []
         self.label_list = []
+        self.preview_item_btn_list = []
 
     def refresh(self, refresh_list=True):
         if refresh_list:
@@ -324,6 +436,16 @@ class BlacklistWindow():
                     _("enabled") if blacklist_item.enabled else _("disabled")
                 ))
                 break
+
+    def preview_item(self, event=None, item=None):
+        """Show preview of concepts filtered by a specific blacklist item."""
+        if item is None:
+            return
+        BlacklistPreviewWindow(self.master, self.app_actions, item)
+
+    def preview_all(self, event=None):
+        """Show preview of all concepts filtered by any blacklist item."""
+        BlacklistPreviewWindow(self.master, self.app_actions, None)
 
     def import_blacklist(self, event=None):
         """Import blacklist from a file."""

@@ -730,6 +730,46 @@ class Concepts:
         
         return imported, failed
 
+    @staticmethod
+    def get_filtered_concepts_for_preview(blacklist_item=None, category_states: Dict[str, bool] = None) -> List[str]:
+        """Get concepts that would be filtered by blacklist items for preview purposes.
+        
+        Args:
+            blacklist_item: Specific blacklist item to check against, or None for all items
+            category_states: Dictionary mapping category names to their enabled state
+            
+        Returns:
+            List of concepts that would be filtered out
+        """
+        # Use default category states if none provided
+        if category_states is None:
+            category_states = {
+                "SFW": True,
+                "NSFW": True,
+                "NSFL": True,
+                "Art Styles": True,
+                "Dictionary": True
+            }
+        
+        # Get all concepts from enabled categories
+        all_concepts = []
+        for filename in Concepts.get_concept_files(category_states):
+            concepts = Concepts.load(filename)
+            if concepts:
+                all_concepts.extend(concepts)
+        
+        if blacklist_item:
+            # Filter for specific blacklist item
+            filtered_concepts = []
+            for concept in all_concepts:
+                if blacklist_item.matches_tag(concept):
+                    filtered_concepts.append(concept)
+            return filtered_concepts
+        else:
+            # Use the actual blacklist filtering logic
+            whitelist, filtered = Blacklist.filter_concepts(all_concepts)
+            return list(filtered.keys())
+
 
 class HardConcepts:
     hard_concepts = Concepts.load("hard_concepts.txt")
