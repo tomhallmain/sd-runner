@@ -7,7 +7,7 @@ from utils.globals import Globals, ResolutionGroup, WorkflowType # must import f
 from sd_runner.concepts import PromptMode
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.control_nets import get_control_nets, redo_files, ControlNet
-from sd_runner.gen_config import GenConfig
+from sd_runner.gen_config import GenConfig, MultiGenProgressTracker
 from sd_runner.ip_adapters import get_ip_adapters, IPAdapter
 from sd_runner.prompter import PrompterConfiguration, Prompter
 from sd_runner.models import Model
@@ -37,6 +37,7 @@ class Run:
         self.switching_params = False
         self.last_config = None
         self.ui_callbacks = ui_callbacks
+        self.progress_tracker = None  # Will be set upon execution
 
     def print(self, *args):
         if config.debug:
@@ -153,7 +154,9 @@ class Run:
                 if self.args.total:
                     if self.args.total > -1 and count == self.args.total:
                         self.print(f"Reached maximum requested iterations: {self.args.total}")
-                        if self.ui_callbacks is not None:
+                        if self.progress_tracker:
+                            self.progress_tracker.update_progress(count, self.args.total, workflow, gen.gen_config)
+                        elif self.ui_callbacks is not None:
                             self.ui_callbacks.update_progress(count, self.args.total)
                             remaining = self.args.total - count + 1 if self.args.total > 0 else 0
                             self.ui_callbacks.update_time_estimation(workflow, gen.gen_config, remaining)
@@ -166,7 +169,9 @@ class Run:
                             self.print("Running until cancelled or total iterations reached")
                         else:
                             self.print(f"On iteration {count} of {self.args.total} - continuing.")
-                        if self.ui_callbacks is not None:
+                        if self.progress_tracker:
+                            self.progress_tracker.update_progress(count, self.args.total, workflow, gen.gen_config)
+                        elif self.ui_callbacks is not None:
                             self.ui_callbacks.update_progress(count, self.args.total)
                             remaining = self.args.total - count + 1 if self.args.total > 0 else 0
                             self.ui_callbacks.update_time_estimation(workflow, gen.gen_config, remaining)
@@ -218,10 +223,23 @@ class Run:
         control_nets, is_dir_controlnet = get_control_nets(Utils.split(self.args.control_nets, ",") if self.args.control_nets and self.args.control_nets != "" else None)
         ip_adapters, is_dir_ipadapter = get_ip_adapters(Utils.split(self.args.ip_adapters, ",") if self.args.ip_adapters and self.args.ip_adapters != "" else None)
 
+        total_adapter_iterations = 1
         if is_dir_controlnet or is_dir_ipadapter:
             self.delay_after_last_run = True
             if self.args.total < 1:
                 raise Exception("Infinite run not possible on directories")
+            
+            # Create progress tracker for directory processing
+            if is_dir_controlnet:
+                total_adapter_iterations *= len([c for c in control_nets if c.is_valid()])
+            if is_dir_ipadapter:
+                total_adapter_iterations *= len([i for i in ip_adapters if i.is_valid()])            
+
+        self.progress_tracker = MultiGenProgressTracker(
+            total_adapter_iterations=total_adapter_iterations,
+            total_per_adapter=self.args.total,
+            ui_callbacks=self.ui_callbacks
+        )
 
         if is_dir_ipadapter and is_dir_controlnet:
             for i in range(len(control_nets)):
@@ -231,12 +249,13 @@ class Run:
                 for j in range(len(ip_adapters)):
                     if self.is_cancelled:
                         break
-                    ip_adapter = ip_adapters[i]
+                    ip_adapter = ip_adapters[j]
                     if not ip_adapter.is_valid():
                         continue
                     self.print(f"Running control net {i} - {control_net}")
                     self.print(f"Running ip adapter {j} - {ip_adapter}")
                     self.load_and_run([control_net], [ip_adapter])
+                    self.progress_tracker.next_adapter()
         elif is_dir_controlnet:
             for i in range(len(control_nets)):
                 if self.is_cancelled:
@@ -246,6 +265,7 @@ class Run:
                     continue
                 self.print(f"Running control net {i} - {control_net}")
                 self.load_and_run([control_net], ip_adapters)
+                self.progress_tracker.next_adapter()
         elif is_dir_ipadapter:
             for i in range(len(ip_adapters)):
                 if self.is_cancelled:
@@ -255,6 +275,7 @@ class Run:
                     continue
                 self.print(f"Running ip adapter {i} - {ip_adapter}")
                 self.load_and_run(control_nets, [ip_adapter])
+                self.progress_tracker.next_adapter()
         else:
             self.load_and_run(control_nets, ip_adapters)
 

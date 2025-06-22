@@ -255,3 +255,40 @@ Models: {Utils.print_list_str(self.models)}
     
     def __ne__(self, other):
         return not self.__eq__(other)
+
+
+class MultiGenProgressTracker:
+    """Tracks progress across multiple gen_config objects when processing directories."""
+    
+    def __init__(self, total_adapter_iterations: int, total_per_adapter: int, ui_callbacks=None):
+        self.total_adapter_iterations = total_adapter_iterations
+        self.total_per_adapter = total_per_adapter
+        self.ui_callbacks = ui_callbacks
+        self.current_adapter_iteration = 0
+        self.current_count_in_adapter = 0
+        
+    def update_progress(self, count: int, total: int, workflow, gen_config):
+        """Update progress with the correct display format based on totals."""
+        self.current_count_in_adapter = count
+        
+        if self.ui_callbacks is None:
+            return
+            
+        remaining_adapter_iterations = self.total_adapter_iterations - self.current_adapter_iteration - 1
+        remaining = total - count + 1
+        if self.total_per_adapter == 1:
+            # Display: current_adapter_iteration / total_adapter_iterations
+            display_count = self.current_adapter_iteration + 1
+            display_total = self.total_adapter_iterations
+            self.ui_callbacks.update_progress(display_count, display_total)
+        else:
+            # Display: current_count / total (remaining_adapter_iterations)
+            self.ui_callbacks.update_progress(count, total, pending_adapters=remaining_adapter_iterations)
+        if remaining_adapter_iterations > 0:
+            remaining += (remaining_adapter_iterations * total)
+        self.ui_callbacks.update_time_estimation(workflow, gen_config, remaining)
+    
+    def next_adapter(self):
+        """Move to the next adapter iteration."""
+        self.current_adapter_iteration += 1
+        self.current_count_in_adapter = 0

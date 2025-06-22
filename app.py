@@ -77,17 +77,10 @@ def clear_quotes(s):
             s = s[:-1]
     return s
 
+
 class Sidebar(Frame):
     def __init__(self, master=None, cnf={}, **kw):
         Frame.__init__(self, master=master, cnf=cnf, **kw)
-
-
-class ProgressListener:
-    def __init__(self, update_func):
-        self.update_func = update_func
-
-    def update(self, context, percent_complete):
-        self.update_func(context, percent_complete)
 
 
 class App():
@@ -964,7 +957,7 @@ class App():
         self.set_prompter_config()
         return args, args_copy
 
-    def update_progress(self, current_index, total):
+    def update_progress(self, current_index, total, pending_adapters=0):
         if total == -1:
             self.label_progress["text"] = str(current_index) + _(" (unlimited)")
         else:
