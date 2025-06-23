@@ -5,21 +5,30 @@ from functools import lru_cache
 
 class BlacklistItem:
     def __init__(self, string: str, enabled: bool = True, use_regex: bool = False):
-        self.string = string.lower()
         self.enabled = enabled
         self.use_regex = use_regex
         
-        # Always store a compiled regex pattern
         if use_regex:
-            # Use glob-to-regex conversion for regex mode
-            self.regex_pattern = re.compile(self._glob_to_regex(self.string))
+            # For regex patterns, store the original string and compile with case-insensitive flag
+            self.string = string  # Keep original case for regex patterns
+            # Use glob-to-regex conversion for regex mode with case-insensitive flag
+            self.regex_pattern = re.compile(self._glob_to_regex(string), re.IGNORECASE)
         else:
+            # For non-regex patterns, convert to lowercase and use simple word boundary pattern
+            self.string = string.lower()
             # Use simple word boundary pattern for exact match mode
             self.regex_pattern = re.compile(r'(^|\W)' + re.escape(self.string))
         
         # Pre-compile regex patterns for plural forms for better performance
-        self.plural_pattern = re.compile(r'(^|\W)' + re.escape(self.string + 's'))
-        self.plural_es_pattern = re.compile(r'(^|\W)' + re.escape(self.string + 'es'))
+        # For regex patterns, use case-insensitive; for non-regex, use the lowercase version
+        if use_regex:
+            # For regex patterns, we don't need separate plural patterns since regex can handle variations
+            self.plural_pattern = None
+            self.plural_es_pattern = None
+        else:
+            # Use simple word boundary pattern for exact match mode
+            self.plural_pattern = re.compile(r'(^|\W)' + re.escape(self.string + 's'))
+            self.plural_es_pattern = re.compile(r'(^|\W)' + re.escape(self.string + 'es'))
 
     def to_dict(self):
         return {
@@ -51,17 +60,23 @@ class BlacklistItem:
         Returns:
             bool: True if the tag matches this blacklist item, False otherwise
         """
-        tag = tag.lower()
-        
-        # Always use the compiled regex pattern for the base string
-        if self.regex_pattern.search(tag):
-            return True
-        
-        # Check plural forms
-        if self.plural_pattern.search(tag):
-            return True
-        if self.plural_es_pattern.search(tag):
-            return True
+        if self.use_regex:
+            # For regex patterns, use the original tag (case-insensitive matching is handled by the regex)
+            if self.regex_pattern.search(tag):
+                return True
+        else:
+            # For non-regex patterns, convert tag to lowercase
+            tag = tag.lower()
+            
+            # Always use the compiled regex pattern for the base string
+            if self.regex_pattern.search(tag):
+                return True
+            
+            # Check plural forms (only for non-regex patterns)
+            if self.plural_pattern and self.plural_pattern.search(tag):
+                return True
+            if self.plural_es_pattern and self.plural_es_pattern.search(tag):
+                return True
                 
         return False
 
@@ -74,11 +89,21 @@ class BlacklistItem:
         Returns:
             str: The regex pattern with word start boundary matching
         """
-        # Escape regex special characters except *
-        regex_pattern = re.escape(pattern)
-        
-        # Replace escaped asterisks with .* for wildcard matching
-        regex_pattern = regex_pattern.replace(r'\*', '.*')
+        regex_pattern = ''
+        prev_char = None
+        two_prev_char = None
+        for char in pattern:
+            if char == '*':
+                if two_prev_char == '\\' and prev_char == '.':
+                    regex_pattern += '*'
+                else:
+                    regex_pattern += '.*'
+            elif char != '.':
+                if prev_char == '.':
+                    regex_pattern += '.'
+                regex_pattern += char
+            prev_char = char
+            two_prev_char = prev_char
         
         # Add word boundary matching: (^|\W) at start only.
         # This ensures the pattern matches at the start of a word.
