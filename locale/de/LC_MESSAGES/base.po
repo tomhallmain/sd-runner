@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-06-11 16:44-0400\n"
-"PO-Revision-Date: 2025-06-11 16:44-0400\n"
+"POT-Creation-Date: 2025-06-28 16:53-0400\n"
+"PO-Revision-Date: 2025-06-28 16:53-0400\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: de Team <<EMAIL>>\n"
 "Language: de\n"
@@ -12,263 +12,263 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:128
+#: app.py:124
 msgid "Run SD Workflows"
 msgstr "SD-Workflows ausführen"
 
-#: app.py:132
+#: app.py:128
 msgid "Run Workflows"
 msgstr "Arbeitsabläufen ausführen"
 
-#: app.py:134
+#: app.py:130
 msgid "Cancel Run"
 msgstr "Lauf abbrechen"
 
-#: app.py:144
+#: app.py:140
 msgid "Software"
 msgstr "Programmausstattung"
 
-#: app.py:152
+#: app.py:148
 msgid "Workflow"
 msgstr "Arbeitsabläufe"
 
-#: app.py:159
+#: app.py:155
 msgid "Set N Latents"
 msgstr "N Latenzbilder"
 
-#: app.py:165
+#: app.py:161
 msgid "Set Total"
 msgstr "Gesamt"
 
-#: app.py:173
+#: app.py:169
 msgid "Delay Seconds"
 msgstr "Verzögerung Sekunden"
 
-#: app.py:179
+#: app.py:175
 msgid "Resolutions"
 msgstr "Bildauflösungen"
 
-#: app.py:186
+#: app.py:182
 msgid "Resolution Group"
 msgstr "Auflösungsgruppe"
 
-#: app.py:192
+#: app.py:188
 msgid "Model Tags"
 msgstr "Modell-Stichworte"
 
-#: app.py:207
+#: app.py:203
 msgid "LoRA Tags"
 msgstr "LoRA-Stichworte"
 
-#: app.py:223
+#: app.py:219
 msgid "Default LoRA Strength"
 msgstr "Standard-LoRA-Stärke"
 
-#: app.py:229
+#: app.py:225
 msgid "Prompt Massage Tags"
 msgstr "Aufforderungs-Nachricht-Stichworte"
 
-#: app.py:237
+#: app.py:233
 msgid "Positive Tags"
 msgstr "Positiv Stichworte"
 
-#: app.py:244
+#: app.py:240
 msgid "Negative Tags"
 msgstr "Negativ Stichworte"
 
-#: app.py:252
+#: app.py:248
 msgid "B/W Colorization Tags"
 msgstr "Schwarz-Weiß-Färbung Stichworte"
 
-#: app.py:260
+#: app.py:256
 msgid "Control Net or Redo files"
 msgstr "Dateien Control Net oder wiederherstellen"
 
-#: app.py:267
+#: app.py:263
 msgid "Default Control Net Strength"
 msgstr "Standard-Control Net-Stärke"
 
-#: app.py:273
+#: app.py:269
 msgid "IPAdapter files"
 msgstr "Dateien IPAdapter"
 
-#: app.py:280
+#: app.py:276
 msgid "Default IPAdapter Strength"
 msgstr "Standard-IPAdapter-Stärke"
 
-#: app.py:286
+#: app.py:282
 msgid "Redo Parameters"
 msgstr "Wiederherstellungsparameter"
 
-#: app.py:302
+#: app.py:298
 msgid "Sampler"
 msgstr "Probenehmer"
 
-#: app.py:308
+#: app.py:304
 msgid "Scheduler"
 msgstr "Planer"
 
-#: app.py:314
+#: app.py:310
 msgid "Seed"
 msgstr "Saat"
 
-#: app.py:321
+#: app.py:317
 msgid "Steps"
 msgstr "Schritte"
 
-#: app.py:328
+#: app.py:324
 msgid "CFG"
 msgstr "CFG"
 
-#: app.py:335
+#: app.py:331
 msgid "Denoise"
 msgstr "Entrauschen"
 
-#: app.py:342
+#: app.py:338
 msgid "Random Skip Chance"
 msgstr "Zufällige Übersprungmöglichkeit"
 
-#: app.py:350
+#: app.py:346
 msgid "Prompts Configuration"
 msgstr "Aufforderungen zur Konfiguration"
 
-#: app.py:353
+#: app.py:349
 msgid "Prompt Mode"
 msgstr "Aufforderungs-Modus"
 
-#: app.py:360
+#: app.py:356
 msgid "Edit Concepts"
 msgstr "Konzept bearbeiten"
 
-#: app.py:363
+#: app.py:359
 msgid "Concepts Dir"
 msgstr "Konzepte-Verzeichnis"
 
-#: app.py:372
+#: app.py:368
 msgid "Concepts"
 msgstr "Konzepte"
 
-#: app.py:381
+#: app.py:377
 msgid "Positions"
 msgstr "Stellen"
 
-#: app.py:390
+#: app.py:386
 msgid "Locations"
 msgstr "Standorte"
 
-#: app.py:399
+#: app.py:395
 msgid "Specific Locations Chance"
 msgstr "Spezifische Standorte-Möglichkeit"
 
-#: app.py:405
+#: app.py:401
 msgid "Animals"
 msgstr "Tiere"
 
-#: app.py:414
+#: app.py:410
 msgid "Colors"
 msgstr "Farben"
 
-#: app.py:423
+#: app.py:419
 msgid "Times"
 msgstr "Zeiten"
 
-#: app.py:432
+#: app.py:428
 msgid "Dress"
 msgstr "Kleidung"
 
-#: app.py:441
+#: app.py:437
 msgid "Expressions"
 msgstr "Ausdrücke"
 
-#: app.py:450
+#: app.py:446
 msgid "Actions"
 msgstr "Aktionen"
 
-#: app.py:459
+#: app.py:455
 msgid "Descriptions"
 msgstr "Beschreibungen"
 
-#: app.py:468
+#: app.py:464
 msgid "Characters"
 msgstr "Charaktere"
 
-#: app.py:477
+#: app.py:473
 msgid "Random Words"
 msgstr "Zufällige Wörter"
 
-#: app.py:486
+#: app.py:482
 msgid "Nonsense"
 msgstr "Quatsch"
 
-#: app.py:495
+#: app.py:491
 msgid "Multiplier"
 msgstr "Vervielfacher"
 
-#: app.py:506
+#: app.py:502
 msgid "Specify Humans Chance"
 msgstr "Spezifizieren Menschen-Möglichkeit"
 
-#: app.py:512
+#: app.py:508
 msgid "Art Styles Chance"
 msgstr "Kunststile-Möglichkeit"
 
-#: app.py:518
+#: app.py:514
 msgid "Emphasis Chance"
 msgstr "Hervorhebung-Möglichkeit"
 
-#: app.py:528
+#: app.py:524
 msgid "Override Resolution"
 msgstr "Aufhebung der Auflösung"
 
-#: app.py:532
+#: app.py:528
 msgid "Inpainting"
 msgstr "Übermalen"
 
-#: app.py:536
+#: app.py:532
 msgid "Override Base Negative"
 msgstr "Überschreiben Basis Negativ"
 
-#: app.py:540
+#: app.py:536
 msgid "Tags Applied to Prompt Start"
 msgstr "Stichworte für den sofortigen Start"
 
-#: app.py:544
+#: app.py:540
 msgid "Sparse Mixed Tags"
 msgstr "Spärliche gemischte Stichworte"
 
-#: app.py:548
+#: app.py:544
 msgid "Run Preset Schedule"
 msgstr "Voreingestellten Zeitplan ausführen"
 
-#: app.py:553
+#: app.py:549
 msgid "Preset Schedule Window"
 msgstr "Fenster Voreingestellter Zeitplan"
 
-#: app.py:554 ui/presets_window.py:92 ui/presets_window_qt.py:27
+#: app.py:550 ui/presets_window.py:92 ui/presets_window_qt.py:27
 msgid "Presets Window"
 msgstr "Fenster Voreinstellungen"
 
-#: app.py:558
+#: app.py:554
 msgid "Tag Blacklist"
 msgstr "Stichworte-Schwarzliste"
 
-#: app.py:559 ui/expansions_window.py:173
+#: app.py:555 ui/expansions_window.py:173
 msgid "Expansions Window"
 msgstr "Fenster Erweiterungen"
 
-#: app.py:617
+#: app.py:613
 msgid "Confirm Quit"
 msgstr "Beenden bestätigen"
 
-#: app.py:617
+#: app.py:613
 msgid "Would you like to quit the application?"
 msgstr "Möchten Sie die Anwendung beenden?"
 
-#: app.py:851 app.py:868
+#: app.py:847 app.py:864
 msgid "Confirm Run"
 msgstr "Lauf bestätigen"
 
-#: app.py:852
+#: app.py:848
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -276,27 +276,33 @@ msgstr ""
 "Wenn Sie einen neuen Lauf starten, wird der aktuelle voreingestellte "
 "Zeitplan gelöscht. Sind Sie sicher, dass Sie fortfahren möchten?"
 
-#: app.py:869
+#: app.py:865
 msgid "Are you sure you want to proceed?"
 msgstr "Sind Sie sicher, dass Sie fortfahren wollen?"
 
-#: app.py:969 app_qt.py:375
+#: app.py:965 app_qt.py:375
 msgid " (unlimited)"
 msgstr " (unbegrenzt)"
 
-#: app.py:988
+#: app.py:989
 msgid "{0} pending generations"
 msgstr "{0} ausstehende Generationen"
 
-#: ui/tags_blacklist_window.py:81 ui/tags_blacklist_window_qt.py:16
-msgid "Tags Blacklist"
-msgstr "Stichworte-Schwarzliste"
+#: app.py:1070
+msgid "Invalid Prompt Tags"
+msgstr "Ungültige Eingabeaufforderung Stichworte"
 
-#: app.py:1208 ui/concept_editor_window.py:264
+#: app.py:1071
+msgid "Blacklisted items found in prompt: {0}"
+msgstr ""
+"Elemente auf der schwarzen Liste in der Eingabeaufforderung gefunden: {0}"
+
+#: app.py:1209 ui/concept_editor_window.py:262 ui/concept_editor_window.py:319
+#: ui/concept_editor_window.py:338 ui/tags_blacklist_window.py:111
 msgid "Error"
 msgstr "Error"
 
-#: app.py:1334 app_qt.py:47
+#: app.py:1335 app_qt.py:47
 msgid " ComfyGen "
 msgstr " SD-Läufer "
 
@@ -324,46 +330,46 @@ msgstr ""
 "Es wurde ein Modellwechsel erkannt und die Modell-Massage-Tags stimmen nicht"
 " überein. Diese Warnung wird nur einmal angezeigt"
 
-#: ui/concept_editor_window.py:102
+#: ui/concept_editor_window.py:104
 msgid "Search/Add Concept:"
 msgstr "Suche / Konzept hinzufügen:"
 
-#: ui/concept_editor_window.py:151
+#: ui/concept_editor_window.py:153
 msgid "File:"
 msgstr "Datei:"
 
-#: ui/concept_editor_window.py:159 ui/concept_editor_window_qt.py:122
+#: ui/concept_editor_window.py:161 ui/concept_editor_window_qt.py:122
 #: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
 msgid "Save"
 msgstr "Speichern"
 
-#: ui/concept_editor_window.py:162 ui/concept_editor_window_qt.py:49
+#: ui/concept_editor_window.py:164 ui/concept_editor_window_qt.py:49
 #: ui/expansions_window.py:238 ui/presets_window.py:145
 #: ui/schedules_windows.py:88 ui/schedules_windows.py:288
 msgid "Delete"
 msgstr "Löschen"
 
-#: ui/concept_editor_window.py:210
+#: ui/concept_editor_window.py:208
 msgid "Enter search text to see concepts..."
 msgstr "Suchtext eingeben, um Konzepte zu sehen..."
 
-#: ui/concept_editor_window.py:264
+#: ui/concept_editor_window.py:262
 msgid "Please select a file to save to"
 msgstr "Bitte wählen Sie eine Datei aus, um zu speichern"
 
-#: ui/concept_editor_window.py:278 ui/concept_editor_window_qt.py:234
+#: ui/concept_editor_window.py:276 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
 msgstr "Gespeichertes Konzept: {0}"
 
-#: ui/concept_editor_window.py:299
+#: ui/concept_editor_window.py:297
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: ui/concept_editor_window.py:299
+#: ui/concept_editor_window.py:297
 msgid "Delete concept: {0}?"
 msgstr "Konzept löschen: {0}?"
 
-#: ui/concept_editor_window.py:305 ui/concept_editor_window_qt.py:247
+#: ui/concept_editor_window.py:303 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
 msgstr "Gelöschtes Konzept: {0}"
 
@@ -407,17 +413,19 @@ msgstr "Nach oben"
 msgid "Active"
 msgstr "Aktiv"
 
-#: ui/concept_editor_window_qt.py:141 ui/tags_blacklist_window.py:113
+#: ui/concept_editor_window.py:167 ui/concept_editor_window_qt.py:141
+#: ui/tags_blacklist_window.py:238
 msgid "Import"
 msgstr "Einfuhr"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:114
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:239
 msgid "Export"
 msgstr "Ausfuhr"
 
 #: ui/concept_editor_window_qt.py:143 ui/expansions_window_qt.py:70
 #: ui/presets_window_qt.py:59 ui/schedules_window_qt.py:97
-#: ui/schedules_window_qt.py:169 ui/tags_blacklist_window_qt.py:52
+#: ui/schedules_window_qt.py:169 ui/tags_blacklist_window.py:81
+#: ui/tags_blacklist_window_qt.py:52
 msgid "Close"
 msgstr "Schließen"
 
@@ -490,7 +498,7 @@ msgstr ""
 " Änderungen treten nicht in Kraft, bis das Wildcard gelöscht oder umbenannt "
 "wird."
 
-#: ui/expansions_window.py:78 ui/tags_blacklist_window.py:166
+#: ui/expansions_window.py:78 ui/tags_blacklist_window.py:305
 msgid "Warning"
 msgstr "Achtung"
 
@@ -710,33 +718,81 @@ msgstr "Voreingestellte Zeitpläne"
 msgid "Clear schedules"
 msgstr "Klare Zeitpläne"
 
-#: ui/tags_blacklist_window.py:101
+#: ui/schedules_windows.py:405
+msgid "Cleared schedules"
+msgstr "Abgeräumte Zeitpläne"
+
+#: ui/tags_blacklist_window.py:181 ui/tags_blacklist_window_qt.py:16
+msgid "Tags Blacklist"
+msgstr "Stichworte-Schwarzliste"
+
+#: ui/tags_blacklist_window.py:212
 msgid "Add to tag blacklist"
 msgstr "Zur schwarzen Liste der Stichworte hinzufügen"
 
-#: ui/tags_blacklist_window.py:83
-msgid "Add tag"
-msgstr "Stichworte hinzufügen"
+#: ui/tags_blacklist_window.py:214
+msgid "Add item"
+msgstr "Artikel hinzufügen"
 
-#: ui/tags_blacklist_window.py:88
-msgid "Clear tags"
-msgstr "Stichworten löschen"
+#: ui/tags_blacklist_window.py:232
+msgid "Clear items"
+msgstr "Löschen Sie die Artikel"
 
-#: ui/tags_blacklist_window.py:142
+#: ui/tags_blacklist_window.py:281
 msgid "Remove"
 msgstr "Entfernen"
 
-#: ui/tags_blacklist_window.py:119
-msgid "Removed tag: {0}"
-msgstr "Stichworte entfernt: {0}"
+#: ui/tags_blacklist_window.py:295
+msgid "Removed item: {0}"
+msgstr "Artikel entfernen: {0}"
 
-#: ui/tags_blacklist_window_qt.py:92
-msgid "Added tag to blacklist: {0}"
-msgstr "Stichworte zur Schwarzliste hinzugefügt: {0}"
+#: ui/tags_blacklist_window.py:305
+msgid "Please enter a string to add to the blacklist."
+msgstr "Bitte geben Sie einen String um ihn zur schwarzen Liste hinzuzufügen."
 
-#: ui/tags_blacklist_window.py:208
-msgid "Cleared tag blacklist"
-msgstr "Gelöschte Stichworte-Schwarzliste"
+#: ui/tags_blacklist_window.py:311
+msgid "Added item to blacklist: {0}"
+msgstr "Element zur schwarzen Liste hinzugefügt: {0}"
+
+#: ui/tags_blacklist_window.py:389
+msgid "Cleared item blacklist"
+msgstr "Gelöschte schwarze Liste"
+
+#: ui/tags_blacklist_window.py:441
+msgid "Item \"{0}\" is now {1}"
+msgstr "Artikel \"{0}\" ist jetzt {1}"
+
+#: ui/tags_blacklist_window.py:443
+msgid "enabled"
+msgstr "aktiviert"
+
+#: ui/tags_blacklist_window.py:443
+msgid "disabled"
+msgstr "deaktiviert"
+
+#: ui/tags_blacklist_window.py:466
+msgid "Import Blacklist"
+msgstr "Schwarzen Liste importieren"
+
+#: ui/tags_blacklist_window.py:481
+msgid "Successfully imported blacklist"
+msgstr "Erfolgreich importierte schwarze Liste"
+
+#: ui/tags_blacklist_window.py:483
+msgid "Import Error"
+msgstr "Fehler beim Importieren"
+
+#: ui/tags_blacklist_window.py:493
+msgid "Export Blacklist"
+msgstr "Schwarze Liste exportieren"
+
+#: ui/tags_blacklist_window.py:508
+msgid "Successfully exported blacklist"
+msgstr "Erfolgreich exportierte schwarze Liste"
+
+#: ui/tags_blacklist_window.py:510
+msgid "Export Error"
+msgstr "Fehler beim Exportieren"
 
 #: ui/tags_blacklist_window_qt.py:28
 msgid "Search tags..."
@@ -750,6 +806,10 @@ msgstr "Tag für schwarz Liste eingeben"
 msgid "Add Tag"
 msgstr "Schlagwort hinzufügen"
 
+#: ui/tags_blacklist_window_qt.py:92
+msgid "Added tag to blacklist: {0}"
+msgstr "Stichworte zur Schwarzliste hinzugefügt: {0}"
+
 #: ui/tags_blacklist_window_qt.py:104
 msgid "Removed tag from blacklist: {0}"
 msgstr "Tag von der schwarz Liste entfernt: {0}"
@@ -761,79 +821,6 @@ msgstr " (Ausstehende Läufe: {0})"
 #: utils/job_queue.py:42
 msgid " (Pending schedules: {0})"
 msgstr " (Ausstehende Zeitpläne: {0})"
-
-#: app.py:1069
-msgid "Invalid Prompt Tags"
-msgstr "Ungültige Eingabeaufforderung Stichworte"
-
-#: app.py:1070
-msgid "Blacklisted items found in prompt: {0}"
-msgstr ""
-"Elemente auf der schwarzen Liste in der Eingabeaufforderung gefunden: {0}"
-
-#: ui/schedules_windows.py:405
-msgid "Cleared schedules"
-msgstr "Abgeräumte Zeitpläne"
-
-#: ui/tags_blacklist_window.py:103
-msgid "Add item"
-msgstr "Artikel hinzufügen"
-
-#: ui/tags_blacklist_window.py:108
-msgid "Clear items"
-msgstr "Löschen Sie die Artikel"
-
-#: ui/tags_blacklist_window.py:156
-msgid "Removed item: {0}"
-msgstr "Artikel entfernen: {0}"
-
-#: ui/tags_blacklist_window.py:166
-msgid "Please enter a string to add to the blacklist."
-msgstr "Bitte geben Sie einen String um ihn zur schwarzen Liste hinzuzufügen."
-
-#: ui/tags_blacklist_window.py:171
-msgid "Added item to blacklist: {0}"
-msgstr "Element zur schwarzen Liste hinzugefügt: {0}"
-
-#: ui/tags_blacklist_window.py:245
-msgid "Cleared item blacklist"
-msgstr "Gelöschte schwarze Liste"
-
-#: ui/tags_blacklist_window.py:291
-msgid "Item \"{0}\" is now {1}"
-msgstr "Artikel \"{0}\" ist jetzt {1}"
-
-#: ui/tags_blacklist_window.py:293
-msgid "enabled"
-msgstr "aktiviert"
-
-#: ui/tags_blacklist_window.py:293
-msgid "disabled"
-msgstr "deaktiviert"
-
-#: ui/tags_blacklist_window.py:306
-msgid "Import Blacklist"
-msgstr "Schwarzen Liste importieren"
-
-#: ui/tags_blacklist_window.py:321
-msgid "Successfully imported blacklist"
-msgstr "Erfolgreich importierte schwarze Liste"
-
-#: ui/tags_blacklist_window.py:323
-msgid "Import Error"
-msgstr "Fehler beim Importieren"
-
-#: ui/tags_blacklist_window.py:333
-msgid "Export Blacklist"
-msgstr "Schwarze Liste exportieren"
-
-#: ui/tags_blacklist_window.py:348
-msgid "Successfully exported blacklist"
-msgstr "Erfolgreich exportierte schwarze Liste"
-
-#: ui/tags_blacklist_window.py:350
-msgid "Export Error"
-msgstr "Fehler beim Exportieren"
 
 #: utils/time_estimator.py:87
 msgid "~{0}d"
@@ -850,3 +837,69 @@ msgstr "{0}m"
 #: utils/time_estimator.py:92
 msgid "{0}s"
 msgstr "{0}s"
+
+#: sd_runner/blacklist.py:133
+msgid "Filtering concepts for blacklist: "
+msgstr "Filter-Konzepte für die Schwarzeliste: "
+
+#: ui/concept_editor_window.py:319
+msgid "Please select a target file first"
+msgstr "Bitte wählen Sie zuerst eine Zieldatei aus"
+
+#: ui/concept_editor_window.py:324
+msgid "Select concepts file to import"
+msgstr "Wählen Sie Konzepte Datei zum Import"
+
+#: ui/concept_editor_window.py:325
+msgid "Text files"
+msgstr "Textdateien"
+
+#: ui/concept_editor_window.py:325
+msgid "All files"
+msgstr "Alle Dateien"
+
+#: ui/concept_editor_window.py:345
+msgid "Successfully imported {0} concepts"
+msgstr "Erfolgreich importiert {0} Konzepte"
+
+#: ui/concept_editor_window.py:347
+msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
+msgstr ""
+"{0} Konzepten wurden nicht importiert (siehe {1}_failed_import.txt für "
+"Details)"
+
+#: ui/concept_editor_window.py:349
+msgid "Import Results"
+msgstr "Ergebnisse der Einfuhr"
+
+#: ui/tags_blacklist_window.py:22
+msgid "Blacklist Preview"
+msgstr "Schwarzeliste-Vorschau"
+
+#: ui/tags_blacklist_window.py:45
+msgid "Concepts filtered by: {0}"
+msgstr "Gefilterte Konzepte: {0}"
+
+#: ui/tags_blacklist_window.py:49
+msgid "All filtered concepts"
+msgstr "Alle gefilterten Konzepte"
+
+#: ui/tags_blacklist_window.py:100
+msgid "Found {0} filtered concepts"
+msgstr "gefunden {0} gefilterte Konzepte"
+
+#: ui/tags_blacklist_window.py:108
+msgid "Error loading concepts: {0}"
+msgstr "Fehler beim Laden von Konzepten: {0}"
+
+#: ui/tags_blacklist_window.py:223
+msgid "Use glob-based regex"
+msgstr "Glob-basiert Regex"
+
+#: ui/tags_blacklist_window.py:240
+msgid "Preview All"
+msgstr "Alle anzeigen"
+
+#: ui/tags_blacklist_window.py:273
+msgid "Preview"
+msgstr "Voransicht"

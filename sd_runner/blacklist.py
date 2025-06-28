@@ -3,6 +3,11 @@ import json
 import re
 from functools import lru_cache
 
+from utils.translations import I18N
+
+_ = I18N._
+
+
 class BlacklistItem:
     def __init__(self, string: str, enabled: bool = True, use_regex: bool = False):
         self.enabled = enabled
@@ -18,17 +23,6 @@ class BlacklistItem:
             self.string = string.lower()
             # Use simple word boundary pattern for exact match mode
             self.regex_pattern = re.compile(r'(^|\W)' + re.escape(self.string))
-        
-        # Pre-compile regex patterns for plural forms for better performance
-        # For regex patterns, use case-insensitive; for non-regex, use the lowercase version
-        if use_regex:
-            # For regex patterns, we don't need separate plural patterns since regex can handle variations
-            self.plural_pattern = None
-            self.plural_es_pattern = None
-        else:
-            # Use simple word boundary pattern for exact match mode
-            self.plural_pattern = re.compile(r'(^|\W)' + re.escape(self.string + 's'))
-            self.plural_es_pattern = re.compile(r'(^|\W)' + re.escape(self.string + 'es'))
 
     def to_dict(self):
         return {
@@ -60,23 +54,14 @@ class BlacklistItem:
         Returns:
             bool: True if the tag matches this blacklist item, False otherwise
         """
-        if self.use_regex:
+        if not self.use_regex:
             # For regex patterns, use the original tag (case-insensitive matching is handled by the regex)
-            if self.regex_pattern.search(tag):
-                return True
-        else:
             # For non-regex patterns, convert tag to lowercase
             tag = tag.lower()
             
-            # Always use the compiled regex pattern for the base string
-            if self.regex_pattern.search(tag):
-                return True
-            
-            # Check plural forms (only for non-regex patterns)
-            if self.plural_pattern and self.plural_pattern.search(tag):
-                return True
-            if self.plural_es_pattern and self.plural_es_pattern.search(tag):
-                return True
+        # Always use the compiled regex pattern for the base string
+        if self.regex_pattern.search(tag):
+            return True
                 
         return False
 
@@ -130,16 +115,34 @@ class BlacklistItem:
 class Blacklist:
     TAG_BLACKLIST: list[BlacklistItem] = []
     _version: int = 0
+    _ui_callbacks = None  # Static variable to store UI callbacks
 
     # LRU cache for filter_concepts, keyed by (concepts tuple, version)
     @staticmethod
     @lru_cache(maxsize=128)
     def _filter_concepts_cached(concepts_tuple, version):
+        concepts_count = len(concepts_tuple)
+
+        def do_update_progress(current_concept_index):
+            if concepts_count < 20000:
+                return
+            # Notify UI that filtering is starting
+            if Blacklist._ui_callbacks is not None:
+                try:
+                    Blacklist._ui_callbacks.update_progress(current_index=current_concept_index, total=concepts_count,
+                                                            prepend_text=_("Filtering concepts for blacklist: "))
+                except Exception:
+                    pass  # Ignore any errors in UI callback
+        
         # Convert tuple back to list for processing
         concepts = list(concepts_tuple)
         whitelist = []
         filtered = {}
-        for concept_cased in concepts:
+        
+        # Call progress update at the beginning (0)
+        do_update_progress(0)
+        
+        for i, concept_cased in enumerate(concepts):
             match_found = False
             for blacklist_item in Blacklist.TAG_BLACKLIST:
                 if not blacklist_item.enabled:
@@ -150,6 +153,13 @@ class Blacklist:
                     break
             if not match_found:
                 whitelist.append(concept_cased)
+            
+            # Call progress update every 5000 concepts
+            if (i + 1) % 5000 == 0:
+                do_update_progress(i + 1)
+        
+        # Call progress update at the end
+        do_update_progress(concepts_count)
 
         # Uncomment to see filtered concepts                    
         # if len(filtered) != 0:
@@ -369,4 +379,9 @@ class Blacklist:
                     f.write(f"{item.string}\n")
                 else:
                     f.write(f"# {item.string}\n")
+
+    @staticmethod
+    def set_ui_callbacks(ui_callbacks):
+        """Set the UI callbacks to be used for notifications during filtering."""
+        Blacklist._ui_callbacks = ui_callbacks
 

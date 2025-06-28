@@ -111,6 +111,9 @@ class App():
                                       self.toast,
                                       self.alert)
 
+        # Set UI callbacks for Blacklist filtering notifications
+        Blacklist.set_ui_callbacks(self.app_actions)
+
         # Sidebar
         self.sidebar = Sidebar(self.master)
         self.sidebar.columnconfigure(0, weight=1)
@@ -957,16 +960,21 @@ class App():
         self.set_prompter_config()
         return args, args_copy
 
-    def update_progress(self, current_index, total, pending_adapters=0):
+    def update_progress(self, current_index=-1, total=-1, pending_adapters=0, prepend_text=None):
         if total == -1:
-            self.label_progress["text"] = str(current_index) + _(" (unlimited)")
+            text = str(current_index) + _(" (unlimited)")
         else:
             pending_text = self.job_queue_preset_schedules.pending_text()
             if pending_text is None or pending_text == "":
                 pending_text = self.job_queue.pending_text()
-                if pending_text is None:
-                    pending_text = ""
-            self.label_progress["text"] = str(current_index) + "/" + str(total) + pending_text
+            if pending_text is None:
+                pending_text = ""
+            text = str(current_index) + "/" + str(total) + pending_text
+        
+        if prepend_text is not None:
+            self.label_progress["text"] = prepend_text + text
+        else:
+            self.label_progress["text"] = text
         self.master.update()
     
     def update_pending(self, count_pending):
@@ -1328,7 +1336,7 @@ if __name__ == "__main__":
         #root.iconbitmap(bitmap=r"icon.ico")
         # icon = PhotoImage(file=os.path.join(assets, "icon.png"))
         # root.iconphoto(False, icon)
-        root.geometry("800x950")
+        root.geometry("900x950")
         # root.attributes('-fullscreen', True)
         root.resizable(1, 1)
         root.columnconfigure(0, weight=1)
