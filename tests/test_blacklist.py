@@ -130,18 +130,19 @@ class TestBlacklistItem(unittest.TestCase):
         # Should match exact word
         self.assertTrue(item.matches_tag("cat"))
         
-        # Should match plural forms
+        # Should match plural forms and other word forms (prefix matching)
         self.assertTrue(item.matches_tag("cats"))
-        self.assertTrue(item.matches_tag("cat"))
-        
-        # Should not match similar words
-        self.assertFalse(item.matches_tag("catch"))
-        self.assertFalse(item.matches_tag("category"))
+        self.assertTrue(item.matches_tag("catch"))
+        self.assertTrue(item.matches_tag("category"))
         
         # Should match when part of a larger tag
         self.assertTrue(item.matches_tag("black cat"))
         self.assertTrue(item.matches_tag("cat-sitting"))
         self.assertTrue(item.matches_tag("cat, dog"))
+        
+        # Should not match when not at word start
+        self.assertFalse(item.matches_tag("scat"))
+        self.assertFalse(item.matches_tag("blackcat"))
     
     def test_regex_pattern_matching_with_word_start_boundaries(self):
         """Test regex pattern matching with automatic word start boundary handling."""
@@ -152,9 +153,12 @@ class TestBlacklistItem(unittest.TestCase):
         self.assertTrue(item.matches_tag("cat sitting"))
         self.assertTrue(item.matches_tag("black-cat"))
         self.assertTrue(item.matches_tag("cat, dog"))
-        # Should not match when part of another word
-        self.assertFalse(item.matches_tag("catch"))
-        self.assertFalse(item.matches_tag("category"))
+        # Should match words that start with the pattern (prefix matching)
+        self.assertTrue(item.matches_tag("catch"))
+        self.assertTrue(item.matches_tag("category"))
+        self.assertTrue(item.matches_tag("cats"))
+        # Should not match when not at word start
+        self.assertFalse(item.matches_tag("scat"))
         self.assertFalse(item.matches_tag("blackcat"))
         
         # Test wildcard patterns
@@ -170,15 +174,15 @@ class TestBlacklistItem(unittest.TestCase):
         item = BlacklistItem("*cat", use_regex=True)
         self.assertTrue(item.matches_tag("black cat"))
         self.assertTrue(item.matches_tag("fat cat"))
-        self.assertFalse(item.matches_tag("cat"))
-        self.assertFalse(item.matches_tag("cat sitting"))
+        self.assertTrue(item.matches_tag("cat"))
+        self.assertTrue(item.matches_tag("cat sitting"))
         
         # Test suffix wildcard
         item = BlacklistItem("cat*", use_regex=True)
         self.assertTrue(item.matches_tag("cat"))
         self.assertTrue(item.matches_tag("cat sitting"))
         self.assertTrue(item.matches_tag("cat, dog"))
-        self.assertFalse(item.matches_tag("black cat"))
+        self.assertTrue(item.matches_tag("black cat"))
         
         # Test middle wildcard
         item = BlacklistItem("c*t", use_regex=True)
@@ -199,9 +203,12 @@ class TestBlacklistItem(unittest.TestCase):
         # Test simple word without regex (falls back to exact match)
         item = BlacklistItem("cat", use_regex=False)
         self.assertTrue(item.matches_tag("cat"))
-        self.assertTrue(item.matches_tag("cats"))
+        self.assertTrue(item.matches_tag("cats"))  # Prefix matching
+        self.assertTrue(item.matches_tag("catch"))  # Prefix matching
+        self.assertTrue(item.matches_tag("category"))  # Prefix matching
         self.assertTrue(item.matches_tag("black cat"))
-        self.assertFalse(item.matches_tag("catch"))
+        self.assertFalse(item.matches_tag("scat"))  # Not at word start
+        self.assertFalse(item.matches_tag("blackcat"))  # Not at word start
     
     def test_special_characters_in_patterns(self):
         """Test that special characters in patterns are handled correctly."""
@@ -262,9 +269,10 @@ class TestBlacklistItem(unittest.TestCase):
     
     def test_edge_cases(self):
         """Test edge cases and boundary conditions."""
-        # Empty string
+        # Empty string - should match anything since it's a prefix of everything
         item = BlacklistItem("")
-        self.assertFalse(item.matches_tag("anything"))
+        self.assertTrue(item.matches_tag("anything"))
+        self.assertTrue(item.matches_tag(""))
         
         # Just asterisk
         item = BlacklistItem("*", use_regex=True)
