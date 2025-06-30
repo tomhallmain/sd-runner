@@ -107,7 +107,7 @@ import sys
 class SizeAwarePicklableCache:
     """LRU cache with size-aware eviction and file persistence."""
     
-    def __init__(self, maxsize=128, filename=None, large_threshold=1024, max_large_items=1):
+    def __init__(self, maxsize=128, filename=None, large_threshold=1024 * 1024, max_large_items=1):
         """
         Initialize a size-aware cache.
         
@@ -122,7 +122,7 @@ class SizeAwarePicklableCache:
         self.large_threshold = large_threshold
         self.max_large_items = max_large_items
         self.cache = OrderedDict()  # key: (value, size)
-        self.large_items = OrderedDict()  # Tracks large items in LRU order
+        self.large_count = 0  # Track number of large items
         self.total_size = 0
 
     def get(self, key):
@@ -130,14 +130,6 @@ class SizeAwarePicklableCache:
         if key in self.cache:
             value, size = self.cache.pop(key)
             self.cache[key] = (value, size)  # Move to MRU position
-            
-            # Update LRU position for large items
-            if size >= self.large_threshold:
-                if key in self.large_items:
-                    self.large_items.move_to_end(key)
-                else:
-                    # Shouldn't happen normally, but handle inconsistency
-                    self.large_items[key] = None
             return value
         return None
 
@@ -148,61 +140,61 @@ class SizeAwarePicklableCache:
         is_large = new_size >= self.large_threshold
         
         # Handle existing item
+        old_large = False
         if key in self.cache:
             _, old_size = self.cache.pop(key)
             self.total_size -= old_size
-            
-            # Remove from large items if it was large
-            if old_size >= self.large_threshold and key in self.large_items:
-                del self.large_items[key]
+            old_large = old_size >= self.large_threshold
+            if old_large:
+                self.large_count -= 1
         
         # Add/update the item
         self.cache[key] = (value, new_size)
         self.total_size += new_size
         
-        # Update large items tracking
+        # Update large count if new item is large
         if is_large:
-            if type(key) == tuple:
-                print(f"Adding large item: {len(key)}, size: {new_size}")
-            # Add or move to MRU position in large items
-            self.large_items[key] = None
-            self.large_items.move_to_end(key)
-            
-            # Enforce large item limit (evict oldest large item if needed)
-            if len(self.large_items) > self.max_large_items:
-                oldest_large_key, _ = self.large_items.popitem(last=False)
-                self._remove_item(oldest_large_key)
+            self.large_count += 1
+        
+        # Enforce large item limit if needed
+        if is_large and self.large_count > self.max_large_items:
+            self._evict_oldest_large_item(key)
         
         # Enforce maxsize using standard LRU eviction
         while len(self.cache) > self.maxsize:
-            oldest_key, _ = self.cache.popitem(last=False)
-            self._remove_item(oldest_key)
+            oldest_key, (_, oldest_size) = self.cache.popitem(last=False)
+            self.total_size -= oldest_size
+            if oldest_size >= self.large_threshold:
+                self.large_count -= 1
+    
+    def _evict_oldest_large_item(self, current_key):
+        """Evict the oldest large item that isn't the current key."""
+        # Find first large item that's not the current key
+        for key in list(self.cache.keys()):
+            if key == current_key:
+                continue
+            value, size = self.cache[key]
+            if size >= self.large_threshold:
+                # Found candidate - remove it
+                del self.cache[key]
+                self.total_size -= size
+                self.large_count -= 1
+                return
     
     def _calculate_size(self, value):
         """Calculate memory footprint of an item."""
-        if isinstance(value, (list, tuple, set, dict)):
-            container_size = sys.getsizeof(value)
-            if isinstance(value, dict):
-                return container_size + sum(
-                    sys.getsizeof(k) + sys.getsizeof(v)
-                    for k, v in value.items()
-                )
-            else:
-                return container_size + sum(sys.getsizeof(v) for v in value)
+        if isinstance(value, (list, tuple, set)):
+            return sys.getsizeof(value) + sum(sys.getsizeof(v) for v in value)
+        if isinstance(value, dict):
+            return (sys.getsizeof(value) + 
+                    sum(sys.getsizeof(k) + sys.getsizeof(v) 
+                    for k, v in value.items()))
         return sys.getsizeof(value)
-    
-    def _remove_item(self, key):
-        """Remove item from all tracking structures."""
-        if key in self.cache:
-            _, size = self.cache.pop(key)
-            self.total_size -= size
-        if key in self.large_items:
-            del self.large_items[key]
 
     def clear(self):
         """Clear all cached items and reset state."""
         self.cache.clear()
-        self.large_items.clear()
+        self.large_count = 0
         self.total_size = 0
 
     def __len__(self):
