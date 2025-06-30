@@ -440,27 +440,60 @@ class Concepts:
                 else:
                     Concepts.ALL_WORDS_LIST = Concepts.load(config.override_dictionary_path)
                     print(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
-        random_words = Concepts.sample_whitelisted(Concepts.ALL_WORDS_LIST, low, high)
+        
+        # Get initial whitelisted words and load extra words as needed
+        all_words = Concepts.ALL_WORDS_LIST.copy()
         if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0 and self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             try:
                 Concepts.URBAN_DICTIONARY_CORPUS = Concepts.load(Concepts.URBAN_DICTIONARY_CORPUS_PATH)
             except Exception as e:
                 pass
         if len(Concepts.URBAN_DICTIONARY_CORPUS) > 0:
-            random_urban_dictionary_words = Concepts.sample_whitelisted(Concepts.URBAN_DICTIONARY_CORPUS, low, high)
-            random_words.extend(random_urban_dictionary_words)
-            random_words = Concepts.sample_whitelisted(random_words, low, high)
-        random.shuffle(random_words)
+            all_words.extend(Concepts.URBAN_DICTIONARY_CORPUS)
+            # random_urban_dictionary_words = Concepts.sample_whitelisted(Concepts.URBAN_DICTIONARY_CORPUS, low, high)
+            # random_words.extend(random_urban_dictionary_words)
+        random_words = Concepts.sample_whitelisted(all_words, low, high)
+        
+        # Generate phrases and filter out blacklisted combinations
         random_word_strings = []
-        word_string = ""
-        for word in random_words:
-            if random.random() < 0.25:
-                if word_string != "":
-                    random_word_strings.append(word_string.strip())
-                word_string = ""
-            word_string += word + " "
-        if word_string != "" and not word_string.strip() in random_word_strings:
-            random_word_strings.append(word_string.strip())
+        blacklisted_combination_counts = {}
+        def is_blacklisted(combination, combination_counts, current_count):
+            if current_count > 1:
+                return False
+            if Blacklist.get_violation_item(combination) is None:
+                # Only combinations need to be tested, because the sample 
+                # is already composed of whitelisted words
+                return False
+            combination_counts[combination] = current_count
+            return True
+        def combine_words(words, combination_counts, chance_to_combine=0.25):
+            current_count = 0
+            word_string = ""
+            for word in words:
+                if random.random() < chance_to_combine:
+                    if word_string != "":
+                        combination = word_string.strip()
+                        if not is_blacklisted(combination, combination_counts, current_count):
+                            random_word_strings.append(combination)
+                    word_string = ""
+                    current_count = 0
+                word_string += word + " "
+                current_count += 1
+            if word_string != "" and not word_string.strip() in random_word_strings:
+                combination = word_string.strip()
+                if not is_blacklisted(combination, combination_counts, current_count):
+                    random_word_strings.append(combination)
+
+        combine_words(random_words, blacklisted_combination_counts)
+        attempts = 0
+        while len(blacklisted_combination_counts) > 0 and attempts < 10:
+            print(f"Hit {len(blacklisted_combination_counts)} blacklist violations on attempt {attempts} to combine words")
+            attempts += 1
+            number_required = sum(blacklisted_combination_counts.values())
+            # There may be duplication in this resampling but very unlikely for lists of tens of thousands of words
+            random_words = Concepts.sample_whitelisted(all_words, number_required, number_required)
+            new_chance_to_combine = 0.75 # we know these failures came from combinations, try to combine their replacements
+            combine_words(random_words, blacklisted_combination_counts, new_chance_to_combine)
         return random_word_strings
 
     def get_nonsense(self, low=0, high=2, multiplier=1):

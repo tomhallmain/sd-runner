@@ -147,6 +147,7 @@ class BlacklistWindow():
     @staticmethod
     def store_blacklist():
         """Store blacklist to cache, converting items to dictionaries."""
+        Blacklist.save_cache()
         blacklist_dicts = [item.to_dict() for item in Blacklist.get_items()]
         app_info_cache.set("tag_blacklist", blacklist_dicts)
 

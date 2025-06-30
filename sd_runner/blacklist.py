@@ -1,11 +1,17 @@
 import csv
 import json
+import os
 import re
 from functools import lru_cache
 
+from utils.pickleable_cache import SizeAwarePicklableCache
 from utils.translations import I18N
 
 _ = I18N._
+
+# Define cache file path
+CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "configs")
+BLACKLIST_CACHE_FILE = os.path.join(CACHE_DIR, "blacklist_filter_cache.pkl")
 
 
 class BlacklistItem:
@@ -114,25 +120,32 @@ class BlacklistItem:
 
 class Blacklist:
     TAG_BLACKLIST: list[BlacklistItem] = []
-    _version: int = 0
+    CACHE_MAXSIZE = 64
+    CACHE_LARGE_THRESHOLD = 1024 * 1024 * 8
+    CACHE_MAX_LARGE_ITEMS = 4
     _ui_callbacks = None  # Static variable to store UI callbacks
+    _filter_cache = SizeAwarePicklableCache.load_or_create(
+        BLACKLIST_CACHE_FILE, maxsize=CACHE_MAXSIZE,
+        max_large_items=CACHE_MAX_LARGE_ITEMS, large_threshold=CACHE_LARGE_THRESHOLD)
 
-    # LRU cache for filter_concepts, keyed by (concepts tuple, version)
     @staticmethod
-    @lru_cache(maxsize=128)
-    def _filter_concepts_cached(concepts_tuple, version):
+    def _filter_concepts_cached(concepts_tuple):
+        # Check cache first - use just the concepts tuple as key (no version needed)
+        cached_result = Blacklist._filter_cache.get(concepts_tuple)
+        if cached_result is not None:
+            return cached_result
+        
         concepts_count = len(concepts_tuple)
 
         def do_update_progress(current_concept_index):
-            if concepts_count < 20000:
+            if concepts_count < 20000 or Blacklist._ui_callbacks is None:
                 return
             # Notify UI that filtering is starting
-            if Blacklist._ui_callbacks is not None:
-                try:
-                    Blacklist._ui_callbacks.update_progress(current_index=current_concept_index, total=concepts_count,
-                                                            prepend_text=_("Filtering concepts for blacklist: "))
-                except Exception:
-                    pass  # Ignore any errors in UI callback
+            try:
+                Blacklist._ui_callbacks.update_progress(current_index=current_concept_index, total=concepts_count,
+                                                        prepend_text=_("Filtering concepts for blacklist: "))
+            except Exception:
+                pass  # Ignore any errors in UI callback
         
         # Convert tuple back to list for processing
         concepts = list(concepts_tuple)
@@ -142,6 +155,7 @@ class Blacklist:
         # Call progress update at the beginning (0)
         do_update_progress(0)
         
+        print(f"Filtering concepts for blacklist: {concepts_count}")
         for i, concept_cased in enumerate(concepts):
             match_found = False
             for blacklist_item in Blacklist.TAG_BLACKLIST:
@@ -160,12 +174,18 @@ class Blacklist:
         
         # Call progress update at the end
         do_update_progress(concepts_count)
+        print(f"Filtered {len(filtered)} concepts for blacklist")
 
         # Uncomment to see filtered concepts                    
         # if len(filtered) != 0:
             # print(f"Filtered concepts from blacklist tags: {filtered}")
 
-        return whitelist, filtered
+        result = (whitelist, filtered)
+        
+        # Cache the result
+        Blacklist._filter_cache.put(concepts_tuple, result)
+        
+        return result
 
     @staticmethod
     def is_empty():
@@ -174,16 +194,16 @@ class Blacklist:
     @staticmethod
     def add_item(item: BlacklistItem):
         Blacklist.TAG_BLACKLIST.append(item)
-        Blacklist._version += 1
-        Blacklist._filter_concepts_cached.cache_clear()
+        Blacklist._filter_cache.clear()
+        Blacklist._filter_cache.save()
 
     @staticmethod
     def remove_item(item: BlacklistItem):
         """Remove a BlacklistItem from the blacklist."""
         try:
             Blacklist.TAG_BLACKLIST.remove(item)
-            Blacklist._version += 1
-            Blacklist._filter_concepts_cached.cache_clear()
+            Blacklist._filter_cache.clear()
+            Blacklist._filter_cache.save()
             return True
         except ValueError:
             return False
@@ -195,15 +215,21 @@ class Blacklist:
     @staticmethod
     def clear():
         Blacklist.TAG_BLACKLIST.clear()
-        Blacklist._version += 1
-        Blacklist._filter_concepts_cached.cache_clear()
+        Blacklist._filter_cache.clear()
+        Blacklist._filter_cache.save()
 
     @staticmethod
-    def set_blacklist(blacklist):
-        """Set the blacklist to a list of BlacklistItem objects."""
+    def set_blacklist(blacklist, clear_cache=False):
+        """Set the blacklist to a list of BlacklistItem objects.
+        
+        Args:
+            blacklist: List of BlacklistItem objects to set
+            clear_cache: Whether to clear and save the cache (default: False)
+        """
         Blacklist.TAG_BLACKLIST = list(blacklist)
-        Blacklist._version += 1
-        Blacklist._filter_concepts_cached.cache_clear()
+        if clear_cache:
+            Blacklist._filter_cache.clear()
+        Blacklist._filter_cache.save()
     
     @staticmethod
     def add_to_blacklist(tag, enabled: bool = True, use_regex: bool = False):
@@ -218,8 +244,8 @@ class Blacklist:
             tag = BlacklistItem(tag, enabled=enabled, use_regex=use_regex)
         Blacklist.TAG_BLACKLIST.append(tag)
         Blacklist.TAG_BLACKLIST.sort(key=lambda x: x.string)
-        Blacklist._version += 1
-        Blacklist._filter_concepts_cached.cache_clear()
+        Blacklist._filter_cache.clear()
+        Blacklist._filter_cache.save()
 
     @staticmethod
     def filter_concepts(concepts, filtered_dict=None) -> tuple[list[str], dict[str, str]]:
@@ -236,7 +262,7 @@ class Blacklist:
         """
         # Use the LRU cache for filtering
         concepts_tuple = tuple(concepts)
-        whitelist, filtered = Blacklist._filter_concepts_cached(concepts_tuple, Blacklist._version)
+        whitelist, filtered = Blacklist._filter_concepts_cached(concepts_tuple)
         # If a filtered_dict is provided, update it
         if filtered_dict is not None:
             filtered_dict.update(filtered)
@@ -276,6 +302,21 @@ class Blacklist:
                     break
                     
         return filtered
+
+    @staticmethod
+    def get_violation_item(string: str) -> BlacklistItem:
+        """Check if a single string violates any blacklist items.
+        
+        Args:
+            string: The string to check against the blacklist
+            
+        Returns:
+            BlacklistItem: The first blacklist item that matches the string, or None if no violations
+        """
+        for blacklist_item in Blacklist.TAG_BLACKLIST:
+            if blacklist_item.enabled and blacklist_item.matches_tag(string):
+                return blacklist_item
+        return None
 
     @staticmethod
     def import_blacklist_csv(filename):
@@ -384,4 +425,25 @@ class Blacklist:
     def set_ui_callbacks(ui_callbacks):
         """Set the UI callbacks to be used for notifications during filtering."""
         Blacklist._ui_callbacks = ui_callbacks
+
+    @staticmethod
+    def save_cache():
+        """Explicitly save the cache to disk."""
+        Blacklist._filter_cache.save()
+
+    @staticmethod
+    def clear_cache_file():
+        """Clear the cache file and reload the cache."""
+        try:
+            if os.path.exists(BLACKLIST_CACHE_FILE):
+                os.remove(BLACKLIST_CACHE_FILE)
+            Blacklist._filter_cache = SizeAwarePicklableCache.load_or_create(
+                BLACKLIST_CACHE_FILE, maxsize=Blacklist.CACHE_MAXSIZE,
+                max_large_items=Blacklist.CACHE_MAX_LARGE_ITEMS, large_threshold=Blacklist.CACHE_LARGE_THRESHOLD)
+        except Exception as e:
+            print(f"Error clearing cache file: {e}")
+            # Fallback to creating a new cache
+            Blacklist._filter_cache = SizeAwarePicklableCache.load_or_create(
+                BLACKLIST_CACHE_FILE, maxsize=Blacklist.CACHE_MAXSIZE,
+                max_large_items=Blacklist.CACHE_MAX_LARGE_ITEMS, large_threshold=Blacklist.CACHE_LARGE_THRESHOLD)
 
