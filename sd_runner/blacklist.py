@@ -2,7 +2,6 @@ import csv
 import json
 import os
 import re
-from functools import lru_cache
 
 from utils.pickleable_cache import SizeAwarePicklableCache
 from utils.translations import I18N
@@ -129,7 +128,7 @@ class Blacklist:
         max_large_items=CACHE_MAX_LARGE_ITEMS, large_threshold=CACHE_LARGE_THRESHOLD)
 
     @staticmethod
-    def _filter_concepts_cached(concepts_tuple):
+    def _filter_concepts_cached(concepts_tuple, do_cache=True):
         # Check cache first - use just the concepts tuple as key (no version needed)
         cached_result = Blacklist._filter_cache.get(concepts_tuple)
         if cached_result is not None:
@@ -183,7 +182,8 @@ class Blacklist:
         result = (whitelist, filtered)
         
         # Cache the result
-        Blacklist._filter_cache.put(concepts_tuple, result)
+        if do_cache:
+            Blacklist._filter_cache.put(concepts_tuple, result)
         
         return result
 
@@ -248,7 +248,7 @@ class Blacklist:
         Blacklist._filter_cache.save()
 
     @staticmethod
-    def filter_concepts(concepts, filtered_dict=None) -> tuple[list[str], dict[str, str]]:
+    def filter_concepts(concepts, filtered_dict=None, do_cache=True) -> tuple[list[str], dict[str, str]]:
         """Filter a list of concepts against the blacklist.
         
         Args:
@@ -262,7 +262,7 @@ class Blacklist:
         """
         # Use the LRU cache for filtering
         concepts_tuple = tuple(concepts)
-        whitelist, filtered = Blacklist._filter_concepts_cached(concepts_tuple)
+        whitelist, filtered = Blacklist._filter_concepts_cached(concepts_tuple, do_cache)
         # If a filtered_dict is provided, update it
         if filtered_dict is not None:
             filtered_dict.update(filtered)

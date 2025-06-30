@@ -454,7 +454,7 @@ class Concepts:
             # random_words.extend(random_urban_dictionary_words)
         random_words = Concepts.sample_whitelisted(all_words, low, high)
         
-        # Generate phrases and filter out blacklisted combinations
+        # Generate combinations and filter out blacklisted combinations
         random_word_strings = []
         blacklisted_combination_counts = {}
         def is_blacklisted(combination, combination_counts, current_count):
@@ -535,7 +535,7 @@ class Concepts:
         length = random.randint(3, 15)
         word = ''.join([random.choice(Concepts.ALPHABET) for i in range(length)])
         counter = 0
-        while word in Concepts.ALL_WORDS_LIST:
+        while word in Concepts.ALL_WORDS_LIST and Blacklist.get_violation_item(word) is not None:
             if counter > 100:
                 print("Failed to generate a nonsense word!")
                 break
