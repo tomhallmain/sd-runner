@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W, BooleanVar, Checkbutton, Scrollbar, Listbox, IntVar
+from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W, BooleanVar, Checkbutton, Scrollbar, Listbox, IntVar, messagebox
 import tkinter.font as fnt
 from tkinter.ttk import Button
 
@@ -27,6 +27,14 @@ class BlacklistModifyWindow():
         self.original_string = "" if self.is_new_item else blacklist_item.string
         self.blacklist_item = BlacklistItem("", enabled=True, use_regex=False, use_word_boundary=True) if self.is_new_item else blacklist_item
         BlacklistModifyWindow.top_level.title(_("Modify Blacklist Item: {0}").format(self.blacklist_item.string))
+
+        # Store original values for change tracking
+        self.original_values = {
+            'string': self.original_string,
+            'enabled': self.blacklist_item.enabled,
+            'use_regex': self.blacklist_item.use_regex,
+            'use_word_boundary': self.blacklist_item.use_word_boundary
+        }
 
         self.frame = Frame(self.master, bg=AppStyle.BG_COLOR)
         self.frame.grid(column=0, row=0, sticky="nsew")
@@ -83,14 +91,26 @@ class BlacklistModifyWindow():
         self.add_btn("preview_btn", _("Preview"), self.preview_blacklist_item, row=5, column=0)
         self.add_btn("done_btn", _("Done"), self.finalize_blacklist_item, row=5, column=1)
 
+        # Set up window close protocol to handle unsaved changes
+        self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
+
         self.master.update()
+
+    def _has_changes(self):
+        """Check if any changes have been made to the form"""
+        current_values = {
+            'string': self.new_string.get().strip(),
+            'enabled': self.enabled_var.get(),
+            'use_regex': self.use_regex_var.get(),
+            'use_word_boundary': self.use_word_boundary_var.get()
+        }
+        return current_values != self.original_values
 
     def _validate_and_get_item(self):
         """Internal method to validate the form and create a BlacklistItem with current values"""
         string = self.new_string.get().strip()
         if not string:
             self.master.update()
-            from tkinter import messagebox
             messagebox.showerror(_("Error"), _("Blacklist string cannot be empty."))
             return None
 
@@ -112,15 +132,32 @@ class BlacklistModifyWindow():
         BlacklistPreviewWindow(self.master, None, temp_item)
 
     def finalize_blacklist_item(self, event=None):
+        # Check if any changes were made
+        if not self._has_changes():
+            # No changes made, just close the window
+            self.close_windows()
+            # Show a toast message
+            if hasattr(self.master, 'app_actions') and self.master.app_actions:
+                self.master.app_actions.toast(_("No changes were made"))
+            return
+
         blacklist_item = self._validate_and_get_item()
         if blacklist_item is None:
             return
         
-        self.close_windows()
+        self.close_windows(override_check=True)
         self.refresh_callback(blacklist_item, self.is_new_item, self.original_string)
 
-    def close_windows(self, event=None):
-        self.master.destroy()
+    def close_windows(self, event=None, override_check=False):
+        if not override_check and self._has_changes():
+            response = messagebox.askyesnocancel(_("Unsaved Changes"), _("Do you want to save changes before closing?"))
+            if response is True:  # User clicked Yes
+                self.finalize_blacklist_item()
+            elif response is False:  # User clicked No
+                self.master.destroy()
+            # If response is None (Cancel), do nothing and keep window open
+        else:
+            self.master.destroy()
 
     def add_label(self, label_ref, text, row=0, column=0, wraplength=500):
         label_ref['text'] = text
@@ -335,7 +372,7 @@ class BlacklistWindow():
         self._label_info = Label(self.header_frame)
         self.add_label(self._label_info, _("Blacklist items"), row=0, wraplength=BlacklistWindow.COL_0_WIDTH)
         self.add_item_btn = None
-        self.add_btn("add_item_btn", _("Add tag to blacklist"), self.add_new_item, column=1)
+        self.add_btn("add_item_btn", _("Add to tag blacklist"), self.add_new_item, column=1)
         
         self.clear_blacklist_btn = None
         self.add_btn("clear_blacklist_btn", _("Clear items"), self.clear_items, column=2)
@@ -416,7 +453,6 @@ class BlacklistWindow():
         if is_new_item:
             # This is a new item, add it to the blacklist
             Blacklist.add_item(blacklist_item)
-            self.app_actions.toast(_("Added item to blacklist: {0}").format(blacklist_item.string))
         else:
             # This is a modification of an existing item
             # Find and remove the original item
@@ -431,10 +467,8 @@ class BlacklistWindow():
             
             # Add the new/modified item
             Blacklist.add_item(blacklist_item)
-            self.app_actions.toast(_("Modified blacklist item: {0}").format(blacklist_item.string))
         
-        self.filtered_items = Blacklist.get_items()[:]
-        self.set_blacklist_item(blacklist_item)
+        self.set_blacklist_item(blacklist_item=blacklist_item, is_new_item=is_new_item)
 
     def add_new_item(self, event=None):
         """Add a new blacklist item"""
@@ -446,14 +480,19 @@ class BlacklistWindow():
             return
         self.open_blacklist_modify_window(blacklist_item=item)
 
-    def set_blacklist_item(self, event=None, blacklist_item=None):
+    def set_blacklist_item(self, event=None, blacklist_item=None, is_new_item=False):
         """Set a blacklist item (called from refresh callback)"""
         if self.filter_text is not None and self.filter_text.strip() != "":
             print(f"Filtered by string: {self.filter_text}")
         BlacklistWindow.update_history(blacklist_item)
         BlacklistWindow.last_set_item = blacklist_item
         self.refresh()
-        self.app_actions.toast(_("Added item to blacklist: {0}").format(blacklist_item))
+        
+        # Show appropriate toast message
+        if is_new_item:
+            self.app_actions.toast(_("Added item to blacklist: {0}").format(blacklist_item.string))
+        else:
+            self.app_actions.toast(_("Modified blacklist item: {0}").format(blacklist_item.string))
 
     def get_item(self, item):
         """

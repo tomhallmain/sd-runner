@@ -203,6 +203,7 @@ class Blacklist:
     @staticmethod
     def add_item(item: BlacklistItem):
         Blacklist.TAG_BLACKLIST.append(item)
+        Blacklist.sort()
         Blacklist._filter_cache.clear()
         Blacklist._filter_cache.save()
 
@@ -252,10 +253,11 @@ class Blacklist:
         """
         if isinstance(tag, str):
             tag = BlacklistItem(tag, enabled=enabled, use_regex=use_regex)
-        Blacklist.TAG_BLACKLIST.append(tag)
+        Blacklist.add_item(tag)
+
+    @staticmethod
+    def sort():
         Blacklist.TAG_BLACKLIST.sort(key=lambda x: x.string)
-        Blacklist._filter_cache.clear()
-        Blacklist._filter_cache.save()
 
     @staticmethod
     def filter_concepts(concepts, filtered_dict=None, do_cache=True) -> tuple[list[str], dict[str, str]]:
