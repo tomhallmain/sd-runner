@@ -14,9 +14,10 @@ BLACKLIST_CACHE_FILE = os.path.join(CACHE_DIR, "blacklist_filter_cache.pkl")
 
 
 class BlacklistItem:
-    def __init__(self, string: str, enabled: bool = True, use_regex: bool = False):
+    def __init__(self, string: str, enabled: bool = True, use_regex: bool = False, use_word_boundary: bool = True):
         self.enabled = enabled
         self.use_regex = use_regex
+        self.use_word_boundary = use_word_boundary
         
         if use_regex:
             # For regex patterns, store the original string and compile with case-insensitive flag
@@ -27,13 +28,17 @@ class BlacklistItem:
             # For non-regex patterns, convert to lowercase and use simple word boundary pattern
             self.string = string.lower()
             # Use simple word boundary pattern for exact match mode
-            self.regex_pattern = re.compile(r'(^|\W)' + re.escape(self.string))
+            if use_word_boundary:
+                self.regex_pattern = re.compile(r'(^|\W)' + re.escape(self.string))
+            else:
+                self.regex_pattern = re.compile(re.escape(self.string))
 
     def to_dict(self):
         return {
             "string": self.string,
             "enabled": self.enabled,
-            "use_regex": self.use_regex
+            "use_regex": self.use_regex,
+            "use_word_boundary": self.use_word_boundary
         }
 
     @classmethod
@@ -48,7 +53,10 @@ class BlacklistItem:
         use_regex = data.get("use_regex", False)
         if not isinstance(use_regex, bool):
             use_regex = False
-        return cls(data["string"], enabled, use_regex)
+        use_word_boundary = data.get("use_word_boundary", True)
+        if not isinstance(use_word_boundary, bool):
+            use_word_boundary = True
+        return cls(data["string"], enabled, use_regex, use_word_boundary)
 
     def matches_tag(self, tag: str) -> bool:
         """Check if a tag matches this blacklist item.
@@ -71,13 +79,13 @@ class BlacklistItem:
         return False
 
     def _glob_to_regex(self, pattern: str) -> str:
-        """Convert a glob pattern to a regex pattern with word start boundary matching.
+        """Convert a glob pattern to a regex pattern with optional word start boundary matching.
         
         Args:
             pattern: The glob pattern to convert
             
         Returns:
-            str: The regex pattern with word start boundary matching
+            str: The regex pattern with optional word start boundary matching
         """
         regex_pattern = ''
         prev_char = None
@@ -95,11 +103,12 @@ class BlacklistItem:
             prev_char = char
             two_prev_char = prev_char
         
-        # Add word boundary matching: (^|\W) at start only.
+        # Add word boundary matching: (^|\W) at start only if requested.
         # This ensures the pattern matches at the start of a word.
         # If the user wants to add boundary matching to the end,
         # they can do this by adding (\W|$) to the end of the pattern.
-        regex_pattern = r'(^|\W)' + regex_pattern
+        if self.use_word_boundary:
+            regex_pattern = r'(^|\W)' + regex_pattern
         
         return regex_pattern
 
@@ -198,12 +207,13 @@ class Blacklist:
         Blacklist._filter_cache.save()
 
     @staticmethod
-    def remove_item(item: BlacklistItem):
+    def remove_item(item: BlacklistItem, do_save=True):
         """Remove a BlacklistItem from the blacklist."""
         try:
             Blacklist.TAG_BLACKLIST.remove(item)
             Blacklist._filter_cache.clear()
-            Blacklist._filter_cache.save()
+            if do_save:
+                Blacklist._filter_cache.save()
             return True
         except ValueError:
             return False

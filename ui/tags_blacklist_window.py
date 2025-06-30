@@ -14,6 +14,110 @@ from lib.tk_scroll_demo import ScrollFrame
 _ = I18N._
 
 
+class BlacklistModifyWindow():
+    top_level = None
+    COL_0_WIDTH = 600
+
+    def __init__(self, master, refresh_callback, blacklist_item, dimensions="600x400"):
+        BlacklistModifyWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
+        BlacklistModifyWindow.top_level.geometry(dimensions)
+        self.master = BlacklistModifyWindow.top_level
+        self.refresh_callback = refresh_callback
+        self.is_new_item = blacklist_item is None
+        self.original_string = "" if self.is_new_item else blacklist_item.string
+        self.blacklist_item = BlacklistItem("", enabled=True, use_regex=False, use_word_boundary=True) if self.is_new_item else blacklist_item
+        BlacklistModifyWindow.top_level.title(_("Modify Blacklist Item: {0}").format(self.blacklist_item.string))
+
+        self.frame = Frame(self.master, bg=AppStyle.BG_COLOR)
+        self.frame.grid(column=0, row=0, sticky="nsew")
+        self.master.grid_rowconfigure(0, weight=1)
+        self.master.grid_columnconfigure(0, weight=1)
+
+        # String field
+        self._label_string = Label(self.frame, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self._label_string, _("Blacklist String"), row=0, wraplength=BlacklistModifyWindow.COL_0_WIDTH)
+
+        self.new_string = StringVar(self.master, value=self.original_string)
+        self.new_string_entry = Entry(self.frame, textvariable=self.new_string, width=50, font=fnt.Font(size=8))
+        self.new_string_entry.grid(column=0, row=1, sticky="w")
+
+        # Enabled checkbox
+        self.enabled_var = BooleanVar(value=self.blacklist_item.enabled)
+        self.enabled_checkbox = Checkbutton(
+            self.frame, 
+            text=_("Enabled"), 
+            variable=self.enabled_var,
+            bg=AppStyle.BG_COLOR,
+            fg=AppStyle.FG_COLOR,
+            selectcolor=AppStyle.BG_COLOR
+        )
+        self.enabled_checkbox.grid(row=2, column=0, sticky="w")
+
+        # Use regex checkbox
+        self.use_regex_var = BooleanVar(value=self.blacklist_item.use_regex)
+        self.regex_checkbox = Checkbutton(
+            self.frame, 
+            text=_("Use glob-based regex"), 
+            variable=self.use_regex_var,
+            bg=AppStyle.BG_COLOR,
+            fg=AppStyle.FG_COLOR,
+            selectcolor=AppStyle.BG_COLOR
+        )
+        self.regex_checkbox.grid(row=3, column=0, sticky="w")
+
+        # Use word boundary checkbox
+        self.use_word_boundary_var = BooleanVar(value=self.blacklist_item.use_word_boundary)
+        self.word_boundary_checkbox = Checkbutton(
+            self.frame, 
+            text=_("Use word boundary matching"), 
+            variable=self.use_word_boundary_var,
+            bg=AppStyle.BG_COLOR,
+            fg=AppStyle.FG_COLOR,
+            selectcolor=AppStyle.BG_COLOR
+        )
+        self.word_boundary_checkbox.grid(row=4, column=0, sticky="w")
+
+        # Done button
+        self.done_btn = None
+        self.add_btn("done_btn", _("Done"), self.finalize_blacklist_item, row=5, column=0)
+
+        self.master.update()
+
+    def finalize_blacklist_item(self, event=None):
+        string = self.new_string.get().strip()
+        if not string:
+            self.master.update()
+            from tkinter import messagebox
+            messagebox.showerror(_("Error"), _("Blacklist string cannot be empty."))
+            return
+
+        # Create new blacklist item with current values
+        new_item = BlacklistItem(
+            string=string,
+            enabled=self.enabled_var.get(),
+            use_regex=self.use_regex_var.get(),
+            use_word_boundary=self.use_word_boundary_var.get()
+        )
+        
+        self.close_windows()
+        self.refresh_callback(new_item, self.is_new_item, self.original_string)
+
+    def close_windows(self, event=None):
+        self.master.destroy()
+
+    def add_label(self, label_ref, text, row=0, column=0, wraplength=500):
+        label_ref['text'] = text
+        label_ref.grid(column=column, row=row, sticky=W)
+        label_ref.config(wraplength=wraplength, justify=LEFT, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+
+    def add_btn(self, button_ref_name, text, command, row=0, column=0):
+        if getattr(self, button_ref_name) is None:
+            button = Button(master=self.frame, text=text, command=command)
+            setattr(self, button_ref_name, button)
+            button # for some reason this is necessary to maintain the reference?
+            button.grid(row=row, column=column)
+
+
 class BlacklistPreviewWindow:
     """Minimalist window to show the effects of blacklist items on concepts."""
     
@@ -113,6 +217,7 @@ class BlacklistPreviewWindow:
 
 class BlacklistWindow():
     top_level = None
+    blacklist_modify_window = None
     recent_items = []
     last_set_item = None
 
@@ -191,6 +296,7 @@ class BlacklistWindow():
         self.remove_item_btn_list = []
         self.label_list = []
         self.preview_item_btn_list = []
+        self.modify_item_btn_list = []
 
         # Create main frame for header and buttons
         self.header_frame = Frame(self.master, bg=AppStyle.BG_COLOR)
@@ -210,27 +316,12 @@ class BlacklistWindow():
         self.add_blacklist_widgets()
 
         self._label_info = Label(self.header_frame)
-        self.add_label(self._label_info, _("Add to tag blacklist"), row=0, wraplength=BlacklistWindow.COL_0_WIDTH)
+        self.add_label(self._label_info, _("Blacklist items"), row=0, wraplength=BlacklistWindow.COL_0_WIDTH)
         self.add_item_btn = None
-        self.add_btn("add_item_btn", _("Add item"), self.handle_item, column=1)
-        self.item_var = StringVar(self.master)
-        self.item_entry = self.new_entry(self.item_var)
-        self.item_entry.grid(row=0, column=2)
-        
-        # Add regex checkbox
-        self.use_regex_var = BooleanVar(value=False)
-        self.regex_checkbox = Checkbutton(
-            self.header_frame, 
-            text=_("Use glob-based regex"), 
-            variable=self.use_regex_var,
-            bg=AppStyle.BG_COLOR,
-            fg=AppStyle.FG_COLOR,
-            selectcolor=AppStyle.BG_COLOR
-        )
-        self.regex_checkbox.grid(row=0, column=3)
+        self.add_btn("add_item_btn", _("Add tag to blacklist"), self.add_new_item, column=1)
         
         self.clear_blacklist_btn = None
-        self.add_btn("clear_blacklist_btn", _("Clear items"), self.clear_items, column=4)
+        self.add_btn("clear_blacklist_btn", _("Clear items"), self.clear_items, column=2)
 
         # Add import/export/preview buttons on a new row
         self.import_btn = None
@@ -258,7 +349,9 @@ class BlacklistWindow():
             # Display item with regex indicator
             display_text = str(item)
             if item.use_regex:
-                display_text += " [regex]"
+                display_text += " " + _("[regex]")
+            if not item.use_word_boundary:
+                display_text += " " + _("[no boundary]")
             self.add_label(self._label_info, display_text, row=row, column=base_col, wraplength=BlacklistWindow.COL_0_WIDTH)
             
             # Add enable/disable toggle
@@ -270,10 +363,18 @@ class BlacklistWindow():
                 return self.toggle_item(event, item, enabled_var)
             toggle_btn.bind("<Button-1>", toggle_handler)
             
+            # Add modify button
+            modify_btn = Button(self.frame.viewPort, text=_("Modify"))
+            self.modify_item_btn_list.append(modify_btn)
+            modify_btn.grid(row=row, column=base_col+2)
+            def modify_handler(event, self=self, item=item):
+                return self.modify_item(event, item)
+            modify_btn.bind("<Button-1>", modify_handler)
+            
             # Add preview button
             preview_btn = Button(self.frame.viewPort, text=_("Preview"))
             self.preview_item_btn_list.append(preview_btn)
-            preview_btn.grid(row=row, column=base_col+2)
+            preview_btn.grid(row=row, column=base_col+3)
             def preview_handler(event, self=self, item=item):
                 return self.preview_item(event, item)
             preview_btn.bind("<Button-1>", preview_handler)
@@ -281,10 +382,61 @@ class BlacklistWindow():
             # Add remove button
             remove_item_btn = Button(self.frame.viewPort, text=_("Remove"))
             self.remove_item_btn_list.append(remove_item_btn)
-            remove_item_btn.grid(row=row, column=base_col+3)
+            remove_item_btn.grid(row=row, column=base_col+4)
             def remove_item_handler(event, self=self, item=item):
                 return self.remove_item(event, item)
             remove_item_btn.bind("<Button-1>", remove_item_handler)
+
+    def open_blacklist_modify_window(self, event=None, blacklist_item=None):
+        if BlacklistWindow.blacklist_modify_window is not None:
+            BlacklistWindow.blacklist_modify_window.master.destroy()
+        BlacklistWindow.blacklist_modify_window = BlacklistModifyWindow(self.master, self.refresh_blacklist_item, blacklist_item)
+
+    def refresh_blacklist_item(self, blacklist_item, is_new_item, original_string):
+        """Callback for when a blacklist item is created or modified"""
+        BlacklistWindow.update_history(blacklist_item)
+        
+        if is_new_item:
+            # This is a new item, add it to the blacklist
+            Blacklist.add_item(blacklist_item)
+            self.app_actions.toast(_("Added item to blacklist: {0}").format(blacklist_item.string))
+        else:
+            # This is a modification of an existing item
+            # Find and remove the original item
+            original_item = None
+            for item in Blacklist.get_items():
+                if item.string == original_string:
+                    original_item = item
+                    break
+            
+            if original_item:
+                Blacklist.remove_item(original_item, do_save=False)
+            
+            # Add the new/modified item
+            Blacklist.add_item(blacklist_item)
+            self.app_actions.toast(_("Modified blacklist item: {0}").format(blacklist_item.string))
+        
+        self.filtered_items = Blacklist.get_items()[:]
+        self.set_blacklist_item(blacklist_item)
+
+    def add_new_item(self, event=None):
+        """Add a new blacklist item"""
+        self.open_blacklist_modify_window(blacklist_item=None)
+
+    def modify_item(self, event=None, item=None):
+        """Modify an existing blacklist item"""
+        if item is None:
+            return
+        self.open_blacklist_modify_window(blacklist_item=item)
+
+    def set_blacklist_item(self, event=None, blacklist_item=None):
+        """Set a blacklist item (called from refresh callback)"""
+        if self.filter_text is not None and self.filter_text.strip() != "":
+            print(f"Filtered by string: {self.filter_text}")
+        BlacklistWindow.update_history(blacklist_item)
+        BlacklistWindow.last_set_item = blacklist_item
+        self.refresh()
+        self.app_actions.toast(_("Added item to blacklist: {0}").format(blacklist_item))
 
     def get_item(self, item):
         """
@@ -379,9 +531,9 @@ class BlacklistWindow():
     def do_action(self, event=None):
         """
         The user has requested to set an item.
-        If no items exist, call handle_item() with item=None to set a new item.
+        If no items exist, call add_new_item() to create a new item.
         """
-        self.handle_item()
+        self.add_new_item()
 
     def clear_items(self, event=None):
         Blacklist.clear()
@@ -398,10 +550,13 @@ class BlacklistWindow():
             label.destroy()
         for btn in self.preview_item_btn_list:
             btn.destroy()
+        for btn in self.modify_item_btn_list:
+            btn.destroy()
         self.enable_item_btn_list = []
         self.remove_item_btn_list = []
         self.label_list = []
         self.preview_item_btn_list = []
+        self.modify_item_btn_list = []
 
     def refresh(self, refresh_list=True):
         if refresh_list:

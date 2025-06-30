@@ -8,6 +8,7 @@ sys.path.insert(0, PROJECT_ROOT)
 
 from sd_runner.concepts import Concepts
 from sd_runner.blacklist import Blacklist
+from ui.tags_blacklist_window import BlacklistWindow
 
 # Set the input file path here for your use case
 INPUT_PATH = Concepts.URBAN_DICTIONARY_CORPUS_PATH
@@ -29,6 +30,7 @@ def main(input_path):
         concepts = [line.strip() for line in f if line.strip()]
 
     # Use the Blacklist to split the concepts
+    BlacklistWindow.set_blacklist()
     whitelist, filtered = Blacklist.filter_concepts(concepts, do_cache=False)
     blacklist = list(filtered.keys())
 

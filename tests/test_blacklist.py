@@ -313,5 +313,106 @@ class TestBlacklistItem(unittest.TestCase):
         self.assertIsNotNone(old_item.regex_pattern)  # Always a compiled pattern now
         self.assertFalse(old_item.use_regex)  # Default value
 
+    def test_use_word_boundary_parameter(self):
+        """Test that the use_word_boundary parameter correctly controls word boundary matching."""
+        # Test non-regex patterns with word boundary (default behavior)
+        item_with_boundary = BlacklistItem("cat", use_regex=False, use_word_boundary=True)
+        self.assertTrue(item_with_boundary.matches_tag("cat"))
+        self.assertTrue(item_with_boundary.matches_tag("black cat"))
+        self.assertTrue(item_with_boundary.matches_tag("cat sitting"))
+        self.assertFalse(item_with_boundary.matches_tag("scat"))  # Not at word start
+        self.assertFalse(item_with_boundary.matches_tag("blackcat"))  # Not at word start
+        
+        # Test non-regex patterns without word boundary
+        item_without_boundary = BlacklistItem("cat", use_regex=False, use_word_boundary=False)
+        self.assertTrue(item_without_boundary.matches_tag("cat"))
+        self.assertTrue(item_without_boundary.matches_tag("black cat"))
+        self.assertTrue(item_without_boundary.matches_tag("cat sitting"))
+        self.assertTrue(item_without_boundary.matches_tag("scat"))  # Now matches anywhere
+        self.assertTrue(item_without_boundary.matches_tag("blackcat"))  # Now matches anywhere
+        
+        # Test regex patterns with word boundary (default behavior)
+        item_regex_with_boundary = BlacklistItem("cat", use_regex=True, use_word_boundary=True)
+        self.assertTrue(item_regex_with_boundary.matches_tag("cat"))
+        self.assertTrue(item_regex_with_boundary.matches_tag("black cat"))
+        self.assertTrue(item_regex_with_boundary.matches_tag("cat sitting"))
+        self.assertFalse(item_regex_with_boundary.matches_tag("scat"))  # Not at word start
+        self.assertFalse(item_regex_with_boundary.matches_tag("blackcat"))  # Not at word start
+        
+        # Test regex patterns without word boundary
+        item_regex_without_boundary = BlacklistItem("cat", use_regex=True, use_word_boundary=False)
+        self.assertTrue(item_regex_without_boundary.matches_tag("cat"))
+        self.assertTrue(item_regex_without_boundary.matches_tag("black cat"))
+        self.assertTrue(item_regex_without_boundary.matches_tag("cat sitting"))
+        self.assertTrue(item_regex_without_boundary.matches_tag("scat"))  # Now matches anywhere
+        self.assertTrue(item_regex_without_boundary.matches_tag("blackcat"))  # Now matches anywhere
+        
+        # Test wildcard patterns with word boundary
+        item_wildcard_with_boundary = BlacklistItem("*cat*", use_regex=True, use_word_boundary=True)
+        self.assertTrue(item_wildcard_with_boundary.matches_tag("black cat"))
+        self.assertTrue(item_wildcard_with_boundary.matches_tag("cat sitting"))
+        self.assertTrue(item_wildcard_with_boundary.matches_tag("blackcat"))  # Wildcard allows this
+        
+        # Test wildcard patterns without word boundary
+        item_wildcard_without_boundary = BlacklistItem("*cat*", use_regex=True, use_word_boundary=False)
+        self.assertTrue(item_wildcard_without_boundary.matches_tag("black cat"))
+        self.assertTrue(item_wildcard_without_boundary.matches_tag("cat sitting"))
+        self.assertTrue(item_wildcard_without_boundary.matches_tag("blackcat"))  # Now matches anywhere
+
+    def test_use_word_boundary_serialization(self):
+        """Test that the use_word_boundary parameter is properly serialized."""
+        # Test to_dict with use_word_boundary=True (default)
+        item_default = BlacklistItem("test", enabled=True, use_regex=False, use_word_boundary=True)
+        data_default = item_default.to_dict()
+        self.assertEqual(data_default["string"], "test")
+        self.assertEqual(data_default["enabled"], True)
+        self.assertEqual(data_default["use_regex"], False)
+        self.assertEqual(data_default["use_word_boundary"], True)
+        
+        # Test to_dict with use_word_boundary=False
+        item_no_boundary = BlacklistItem("test", enabled=True, use_regex=False, use_word_boundary=False)
+        data_no_boundary = item_no_boundary.to_dict()
+        self.assertEqual(data_no_boundary["use_word_boundary"], False)
+        
+        # Test from_dict with use_word_boundary=True
+        new_item_default = BlacklistItem.from_dict(data_default)
+        self.assertEqual(new_item_default.string, "test")
+        self.assertEqual(new_item_default.enabled, True)
+        self.assertEqual(new_item_default.use_regex, False)
+        self.assertEqual(new_item_default.use_word_boundary, True)
+        
+        # Test from_dict with use_word_boundary=False
+        new_item_no_boundary = BlacklistItem.from_dict(data_no_boundary)
+        self.assertEqual(new_item_no_boundary.use_word_boundary, False)
+        
+        # Test backward compatibility (missing use_word_boundary)
+        old_data = {"string": "test", "enabled": True, "use_regex": False}
+        old_item = BlacklistItem.from_dict(old_data)
+        self.assertEqual(old_item.use_word_boundary, True)  # Default value
+
+    def test_use_word_boundary_edge_cases(self):
+        """Test edge cases for use_word_boundary parameter."""
+        # Test empty string with word boundary
+        item_empty_with_boundary = BlacklistItem("", use_word_boundary=True)
+        self.assertTrue(item_empty_with_boundary.matches_tag("anything"))
+        self.assertTrue(item_empty_with_boundary.matches_tag(""))
+        
+        # Test empty string without word boundary
+        item_empty_without_boundary = BlacklistItem("", use_word_boundary=False)
+        self.assertTrue(item_empty_without_boundary.matches_tag("anything"))
+        self.assertTrue(item_empty_without_boundary.matches_tag(""))
+        
+        # Test single character with word boundary
+        item_char_with_boundary = BlacklistItem("a", use_word_boundary=True)
+        self.assertTrue(item_char_with_boundary.matches_tag("a"))
+        self.assertTrue(item_char_with_boundary.matches_tag("a word"))
+        self.assertFalse(item_char_with_boundary.matches_tag("ba"))  # Not at word start
+        
+        # Test single character without word boundary
+        item_char_without_boundary = BlacklistItem("a", use_word_boundary=False)
+        self.assertTrue(item_char_without_boundary.matches_tag("a"))
+        self.assertTrue(item_char_without_boundary.matches_tag("a word"))
+        self.assertTrue(item_char_without_boundary.matches_tag("ba"))  # Now matches anywhere
+
 if __name__ == '__main__':
     unittest.main() 
