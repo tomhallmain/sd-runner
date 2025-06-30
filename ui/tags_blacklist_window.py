@@ -77,30 +77,47 @@ class BlacklistModifyWindow():
         )
         self.word_boundary_checkbox.grid(row=4, column=0, sticky="w")
 
-        # Done button
+        # Preview and Done buttons
+        self.preview_btn = None
         self.done_btn = None
-        self.add_btn("done_btn", _("Done"), self.finalize_blacklist_item, row=5, column=0)
+        self.add_btn("preview_btn", _("Preview"), self.preview_blacklist_item, row=5, column=0)
+        self.add_btn("done_btn", _("Done"), self.finalize_blacklist_item, row=5, column=1)
 
         self.master.update()
 
-    def finalize_blacklist_item(self, event=None):
+    def _validate_and_get_item(self):
+        """Internal method to validate the form and create a BlacklistItem with current values"""
         string = self.new_string.get().strip()
         if not string:
             self.master.update()
             from tkinter import messagebox
             messagebox.showerror(_("Error"), _("Blacklist string cannot be empty."))
-            return
+            return None
 
-        # Create new blacklist item with current values
-        new_item = BlacklistItem(
+        # Create a blacklist item with current form values
+        return BlacklistItem(
             string=string,
             enabled=self.enabled_var.get(),
             use_regex=self.use_regex_var.get(),
             use_word_boundary=self.use_word_boundary_var.get()
         )
+
+    def preview_blacklist_item(self, event=None):
+        """Preview the effects of the current blacklist item settings"""
+        temp_item = self._validate_and_get_item()
+        if temp_item is None:
+            return
+        
+        # Open preview window with the temporary item
+        BlacklistPreviewWindow(self.master, None, temp_item)
+
+    def finalize_blacklist_item(self, event=None):
+        blacklist_item = self._validate_and_get_item()
+        if blacklist_item is None:
+            return
         
         self.close_windows()
-        self.refresh_callback(new_item, self.is_new_item, self.original_string)
+        self.refresh_callback(blacklist_item, self.is_new_item, self.original_string)
 
     def close_windows(self, event=None):
         self.master.destroy()
