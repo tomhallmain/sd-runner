@@ -1,11 +1,12 @@
 import json
 import os
 
-from utils.runner_app_config import RunnerAppConfig
 from sd_runner.blacklist import Blacklist
+from utils.encryptor import encrypt_data_to_file, decrypt_data_from_file
+from utils.runner_app_config import RunnerAppConfig
 
 class AppInfoCache:
-    CACHE_LOC = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "app_info_cache.json")
+    CACHE_LOC = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "app_info_cache.enc")
     INFO_KEY = "info"
     HISTORY_KEY = "run_history"
     PROMPT_HISTORY_KEY = "prompt_history"  # New key for prompt tag history
@@ -24,9 +25,13 @@ class AppInfoCache:
         self.validate()
 
     def store(self):
-        self._purge_blacklisted_history()
-        with open(AppInfoCache.CACHE_LOC, "w") as f:
-            json.dump(self._cache, f, indent=4)
+        try:
+            self._purge_blacklisted_history()
+            cache_data = json.dumps(self._cache).encode('utf-8')
+            encrypt_data_to_file(cache_data, "sd_runner", "app_info_cache", AppInfoCache.CACHE_LOC)
+        except Exception as e:
+            print(f"Error storing cache: {e}")
+            raise e
 
     def _purge_blacklisted_history(self):
         """Remove any history entries that contain blacklisted items in their prompts."""
@@ -62,8 +67,17 @@ class AppInfoCache:
 
     def load(self):
         try:
-            with open(AppInfoCache.CACHE_LOC, "r") as f:
-                self._cache = json.load(f)
+            old_json_loc = AppInfoCache.CACHE_LOC.replace(".enc", ".json")
+            if os.path.exists(old_json_loc):
+                print(f"Removing old cache file: {old_json_loc}")
+                # Get the old data first
+                with open(old_json_loc, "r", encoding="utf-8") as f:
+                    self._cache = json.load(f)
+                self.store()
+                os.remove(old_json_loc)
+            else:
+                encrypted_data = decrypt_data_from_file(AppInfoCache.CACHE_LOC, "sd_runner", "app_info_cache")
+                self._cache = json.loads(encrypted_data.decode('utf-8'))
         except FileNotFoundError:
             pass
 

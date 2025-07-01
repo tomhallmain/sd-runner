@@ -1,3 +1,5 @@
+cryptography
+keyring
 piexif
 ttkthemes
 PyQt6>=6.4.0

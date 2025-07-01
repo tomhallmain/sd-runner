@@ -1,7 +1,7 @@
 __pycache__
 .cursorignore
 *.swp
-app_info_cache.json
+app_info_cache*
 concepts/_
 concepts/temp
 concepts/negatives.txt
