@@ -1,928 +1,945 @@
-# Translations template for APPLICATION.
-# Copyright (C) 2025 AUTHOR NAME <author@example.com>
-# This file is distributed under the same license as the APPLICATION project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: APPLICATION 1.0\n"
-"Report-Msgid-Bugs-To: Translator Name <translator@example.com>\n"
-"POT-Creation-Date: 2025-07-01 10:28-0400\n"
-"PO-Revision-Date: 2025-07-01 10:28-0400\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: 2025-07-01 14:38-0400\n"
+"PO-Revision-Date: 2025-07-01 14:38-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
+"Language-Team: ko Team <<EMAIL>>\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: app.py:124
 msgid "Run SD Workflows"
-msgstr ""
+msgstr "安定拡散ワークフローの実行"
 
 #: app.py:128
 msgid "Run Workflows"
-msgstr ""
+msgstr "워크플로 실행"
 
 #: app.py:130
 msgid "Cancel Run"
-msgstr ""
+msgstr "실행 취소"
 
 #: app.py:140
 msgid "Software"
-msgstr ""
+msgstr "소프트웨어"
 
 #: app.py:148
 msgid "Workflow"
-msgstr ""
+msgstr "워크플로"
 
 #: app.py:155
 msgid "Set N Latents"
-msgstr ""
+msgstr "잠재 고객 수"
 
 #: app.py:161
 msgid "Set Total"
-msgstr ""
+msgstr "합계"
 
 #: app.py:169
 msgid "Delay Seconds"
-msgstr ""
+msgstr "지연 시간(초)"
 
 #: app.py:175
 msgid "Resolutions"
-msgstr ""
+msgstr "해상도"
 
 #: app.py:182
 msgid "Resolution Group"
-msgstr ""
+msgstr "이미지 해결 그룹"
 
 #: app.py:188
 msgid "Model Tags"
-msgstr ""
+msgstr "모델 태그"
 
 #: app.py:203
 msgid "LoRA Tags"
-msgstr ""
+msgstr "LoRA 태그"
 
 #: app.py:219
 msgid "Default LoRA Strength"
-msgstr ""
+msgstr "기본 LoRA 강도"
 
 #: app.py:225
 msgid "Prompt Massage Tags"
-msgstr ""
+msgstr "프롬프트 마사지 태그"
 
 #: app.py:233
 msgid "Positive Tags"
-msgstr ""
+msgstr "프롬프트 조정 태그"
 
 #: app.py:240
 msgid "Negative Tags"
-msgstr ""
+msgstr "네거티브 태그"
 
 #: app.py:248
 msgid "B/W Colorization Tags"
-msgstr ""
+msgstr "블랙/화이트 컬러화 태그"
 
 #: app.py:256
 msgid "Control Net or Redo files"
-msgstr ""
+msgstr "제어망 또는 파일 다시 실행"
 
 #: app.py:263
 msgid "Default Control Net Strength"
-msgstr ""
+msgstr "기본 제어망 강도"
 
 #: app.py:269
 msgid "IPAdapter files"
-msgstr ""
+msgstr "IPAdapter 파일"
 
 #: app.py:276
 msgid "Default IPAdapter Strength"
-msgstr ""
+msgstr "기본 IPAdapter 강도"
 
 #: app.py:282
 msgid "Redo Parameters"
-msgstr ""
+msgstr "매개변수 다시 실행"
 
 #: app.py:298
 msgid "Sampler"
-msgstr ""
+msgstr "샘플러"
 
 #: app.py:304
 msgid "Scheduler"
-msgstr ""
+msgstr "스케줄러"
 
 #: app.py:310
 msgid "Seed"
-msgstr ""
+msgstr "씨앗"
 
 #: app.py:317
 msgid "Steps"
-msgstr ""
+msgstr "단계"
 
 #: app.py:324
 msgid "CFG"
-msgstr ""
+msgstr "CFG"
 
 #: app.py:331
 msgid "Denoise"
-msgstr ""
+msgstr "노이즈 제거"
 
 #: app.py:338
 msgid "Random Skip Chance"
-msgstr ""
+msgstr "무작위 건너뛰기 확률"
 
 #: app.py:346
 msgid "Prompts Configuration"
-msgstr ""
+msgstr "프롬프트 구성"
 
 #: app.py:349
 msgid "Prompt Mode"
-msgstr ""
+msgstr "프롬프트 모드"
 
 #: app.py:356
 msgid "Edit Concepts"
-msgstr ""
+msgstr "개념 편집"
 
 #: app.py:359
 msgid "Concepts Dir"
-msgstr ""
+msgstr "개념 디렉토리"
 
 #: app.py:368
 msgid "Concepts"
-msgstr ""
+msgstr "개념"
 
 #: app.py:377
 msgid "Positions"
-msgstr ""
+msgstr "포지션"
 
 #: app.py:386
 msgid "Locations"
-msgstr ""
+msgstr "위치"
 
 #: app.py:395
 msgid "Specific Locations Chance"
-msgstr ""
+msgstr "위치 지정 기회"
 
 #: app.py:401
 msgid "Animals"
-msgstr ""
+msgstr "동물"
 
 #: app.py:410
 msgid "Colors"
-msgstr ""
+msgstr "색상"
 
 #: app.py:419
 msgid "Times"
-msgstr ""
+msgstr "시간"
 
 #: app.py:428
 msgid "Dress"
-msgstr ""
+msgstr "의류"
 
 #: app.py:437
 msgid "Expressions"
-msgstr ""
+msgstr "표현식"
 
 #: app.py:446
 msgid "Actions"
-msgstr ""
+msgstr "작업"
 
 #: app.py:455
 msgid "Descriptions"
-msgstr ""
+msgstr "설명"
 
 #: app.py:464
 msgid "Characters"
-msgstr ""
+msgstr "문자"
 
 #: app.py:473
 msgid "Random Words"
-msgstr ""
+msgstr "무작위 단어"
 
 #: app.py:482
 msgid "Nonsense"
-msgstr ""
+msgstr "넌센스"
 
 #: app.py:491
 msgid "Multiplier"
-msgstr ""
+msgstr "승수"
 
 #: app.py:502
 msgid "Specify Humans Chance"
-msgstr ""
+msgstr "인간을 지정할 기회"
 
 #: app.py:508
 msgid "Art Styles Chance"
-msgstr ""
+msgstr "아트 스타일의 기회"
 
 #: app.py:514
 msgid "Emphasis Chance"
-msgstr ""
+msgstr "강조 확률"
 
 #: app.py:524
 msgid "Override Resolution"
-msgstr ""
+msgstr "이미지 해상도 재정의"
 
 #: app.py:528
 msgid "Inpainting"
-msgstr ""
+msgstr "실내 페인팅"
 
 #: app.py:532
 msgid "Override Base Negative"
-msgstr ""
+msgstr "기본 음수 재정의"
 
 #: app.py:536
 msgid "Tags Applied to Prompt Start"
-msgstr ""
+msgstr "프롬프트 시작에 태그 적용"
 
 #: app.py:540
 msgid "Sparse Mixed Tags"
-msgstr ""
+msgstr "희소 혼합 태그"
 
 #: app.py:544
 msgid "Run Preset Schedule"
-msgstr ""
+msgstr "사전 설정 일정 실행"
 
 #: app.py:549
 msgid "Preset Schedule Window"
-msgstr ""
+msgstr "사전 설정 일정 창"
 
 #: app.py:550 ui/presets_window.py:92 ui/presets_window_qt.py:27
 msgid "Presets Window"
-msgstr ""
+msgstr "사전 설정 창"
 
 #: app.py:554
 msgid "Tag Blacklist"
-msgstr ""
+msgstr "태그 블랙리스트"
 
 #: app.py:555 ui/expansions_window.py:173
 msgid "Expansions Window"
-msgstr ""
+msgstr "확장 프로그램 창"
 
 #: app.py:613
 msgid "Confirm Quit"
-msgstr ""
+msgstr "종료 확인"
 
 #: app.py:613
 msgid "Would you like to quit the application?"
-msgstr ""
+msgstr "앱을 종료하시겠습니까?"
 
 #: app.py:847 app.py:864
 msgid "Confirm Run"
-msgstr ""
+msgstr "실행 확인"
 
 #: app.py:848
-msgid "Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"
-msgstr ""
+msgid ""
+"Starting a new run will cancel the current preset schedule. Are you sure you"
+" want to proceed?"
+msgstr "새 실행을 시작하면 현재 미리 설정된 일정이 취소됩니다. 계속 진행하시겠습니까?"
 
 #: app.py:865
 msgid "Are you sure you want to proceed?"
-msgstr ""
+msgstr "계속 진행하시겠습니까?"
 
 #: app.py:965 app_qt.py:375
 msgid " (unlimited)"
-msgstr ""
+msgstr " (무제한)"
 
 #: app.py:989
 msgid "{0} pending generations"
-msgstr ""
+msgstr "{0} 보류 중인 세대"
 
 #: app.py:1070
 msgid "Invalid Prompt Tags"
-msgstr ""
+msgstr "잘못된 프롬프트 태그"
 
 #: app.py:1071
 msgid "Blacklisted items found in prompt: {0}"
-msgstr ""
+msgstr "프롬프트에서 블랙리스트 항목을 발견했습니다: {0}"
 
-#: app.py:1209 ui/concept_editor_window.py:262 ui/concept_editor_window.py:319 ui/concept_editor_window.py:338
-#: ui/tags_blacklist_window.py:114 ui/tags_blacklist_window.py:269
+#: app.py:1209 ui/concept_editor_window.py:262 ui/concept_editor_window.py:319
+#: ui/concept_editor_window.py:338 ui/tags_blacklist_window.py:114
+#: ui/tags_blacklist_window.py:269
 msgid "Error"
-msgstr ""
+msgstr "오류"
 
 #: app.py:1335 app_qt.py:47
 msgid " ComfyGen "
-msgstr ""
+msgstr " SD 러너 "
 
 #: app_qt.py:225
 msgid "Prompter Configuration"
-msgstr ""
+msgstr "프롬프터 구성"
 
 #: sd_runner/blacklist.py:154
 msgid "Filtering concepts for blacklist: "
-msgstr ""
+msgstr "블랙리스트에 대한 필터링 개념: "
 
 #: sd_runner/run_config.py:53
 msgid "No prompter config found!"
-msgstr ""
+msgstr "프롬프터 구성을 찾을 수 없습니다!"
 
 #: sd_runner/run_config.py:56
-msgid "Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"
-msgstr ""
+msgid ""
+"Ensure configuration is correct - do you really want to create more than 10 "
+"images using the same prompt?"
+msgstr "구성이 올바른지 확인 - 동일한 프롬프트를 사용하여 10개 이상의 이미지를 생성하고 싶으신가요?"
 
 #: sd_runner/run_config.py:61
-msgid "A model switch was detected and the model massage tags don't match. This warning will only be shown once."
-msgstr ""
+msgid ""
+"A model switch was detected and the model massage tags don't match. This "
+"warning will only be shown once."
+msgstr "모델 전환이 감지되었으며 모델 조정용 태그가 일치하지 않습니다. 이 경고는 한 번만 표시됩니다."
 
 #: ui/concept_editor_window.py:104
 msgid "Search/Add Concept:"
-msgstr ""
+msgstr "검색/개념 추가:"
 
 #: ui/concept_editor_window.py:153
 msgid "File:"
-msgstr ""
+msgstr "파일:"
 
-#: ui/concept_editor_window.py:161 ui/concept_editor_window_qt.py:122 ui/expansions_window_qt.py:58
-#: ui/schedules_window_qt.py:95
+#: ui/concept_editor_window.py:161 ui/concept_editor_window_qt.py:122
+#: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
 msgid "Save"
-msgstr ""
+msgstr "저장"
 
-#: ui/concept_editor_window.py:164 ui/concept_editor_window_qt.py:49 ui/expansions_window.py:238 ui/presets_window.py:145
+#: ui/concept_editor_window.py:164 ui/concept_editor_window_qt.py:49
+#: ui/expansions_window.py:238 ui/presets_window.py:145
 #: ui/schedules_windows.py:88 ui/schedules_windows.py:288
 msgid "Delete"
-msgstr ""
+msgstr "삭제"
 
-#: ui/concept_editor_window.py:167 ui/concept_editor_window_qt.py:141 ui/tags_blacklist_window.py:384
+#: ui/concept_editor_window.py:167 ui/concept_editor_window_qt.py:141
+#: ui/tags_blacklist_window.py:384
 msgid "Import"
-msgstr ""
+msgstr "가져오기"
 
 #: ui/concept_editor_window.py:208
 msgid "Enter search text to see concepts..."
-msgstr ""
+msgstr "개념을 보려면 검색 텍스트를 입력하세요..."
 
 #: ui/concept_editor_window.py:262
 msgid "Please select a file to save to"
-msgstr ""
+msgstr "저장할 파일을 선택하세요."
 
 #: ui/concept_editor_window.py:276 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
-msgstr ""
+msgstr "저장된 개념: {0}"
 
 #: ui/concept_editor_window.py:297
 msgid "Confirm"
-msgstr ""
+msgstr "확인"
 
 #: ui/concept_editor_window.py:297
 msgid "Delete concept: {0}?"
-msgstr ""
+msgstr "개념 삭제: {0}?"
 
 #: ui/concept_editor_window.py:303 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
-msgstr ""
+msgstr "삭제된 개념: {0}"
 
 #: ui/concept_editor_window.py:319
 msgid "Please select a target file first"
-msgstr ""
+msgstr "먼저 대상 파일을 선택하세요."
 
 #: ui/concept_editor_window.py:324
 msgid "Select concepts file to import"
-msgstr ""
+msgstr "가져올 컨셉 파일 선택"
 
 #: ui/concept_editor_window.py:325
 msgid "Text files"
-msgstr ""
+msgstr "텍스트 파일"
 
 #: ui/concept_editor_window.py:325
 msgid "All files"
-msgstr ""
+msgstr "모든 파일"
 
 #: ui/concept_editor_window.py:345
 msgid "Successfully imported {0} concepts"
-msgstr ""
+msgstr "{0} 개념을 성공적으로 가져왔습니다."
 
 #: ui/concept_editor_window.py:347
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
-msgstr ""
+msgstr "{0} 개념을 가져오지 못했습니다(자세한 내용은 {1}_failed_import.txt 참조)."
 
 #: ui/concept_editor_window.py:349
 msgid "Import Results"
-msgstr ""
+msgstr "가져오기 결과"
 
 #: ui/concept_editor_window_qt.py:19
 msgid "Concept Editor"
-msgstr ""
+msgstr "컨셉 에디터"
 
 #: ui/concept_editor_window_qt.py:36
 msgid "Search concepts..."
-msgstr ""
+msgstr "검색 개념..."
 
 #: ui/concept_editor_window_qt.py:47 ui/expansions_window_qt.py:68
 msgid "New"
-msgstr ""
+msgstr "신규"
 
 #: ui/concept_editor_window_qt.py:65
 msgid "Name:"
-msgstr ""
+msgstr "이름:"
 
 #: ui/concept_editor_window_qt.py:73
 msgid "Type:"
-msgstr ""
+msgstr "유형:"
 
 #: ui/concept_editor_window_qt.py:82
 msgid "Trigger:"
-msgstr ""
+msgstr "트리거:"
 
 #: ui/concept_editor_window_qt.py:90
 msgid "Weight:"
-msgstr ""
+msgstr "무게:"
 
 #: ui/concept_editor_window_qt.py:100 ui/expansions_window_qt.py:51
 msgid "Value:"
-msgstr ""
+msgstr "가치:"
 
 #: ui/concept_editor_window_qt.py:110
 msgid "Browse"
-msgstr ""
+msgstr "찾아보기"
 
 #: ui/concept_editor_window_qt.py:117
 msgid "Active"
-msgstr ""
+msgstr "활성"
 
 #: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:385
 msgid "Export"
-msgstr ""
+msgstr "내보내기"
 
-#: ui/concept_editor_window_qt.py:143 ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59 ui/schedules_window_qt.py:97
-#: ui/schedules_window_qt.py:169 ui/tags_blacklist_window.py:239 ui/tags_blacklist_window_qt.py:52
+#: ui/concept_editor_window_qt.py:143 ui/expansions_window_qt.py:70
+#: ui/presets_window_qt.py:59 ui/schedules_window_qt.py:97
+#: ui/schedules_window_qt.py:169 ui/tags_blacklist_window.py:239
+#: ui/tags_blacklist_window_qt.py:52
 msgid "Close"
-msgstr ""
+msgstr "닫기"
 
 #: ui/concept_editor_window_qt.py:232
 msgid "Updated concept: {0} -> {1}"
-msgstr ""
+msgstr "업데이트된 개념: {0} -> {1}"
 
 #: ui/concept_editor_window_qt.py:252
 msgid "Select Image"
-msgstr ""
+msgstr "이미지 선택"
 
 #: ui/concept_editor_window_qt.py:254
 msgid "Image Files (*.png *.jpg *.jpeg *.bmp *.gif)"
-msgstr ""
+msgstr "이미지 파일(*.png *.jpg *.jpeg *.bmp *.gif)"
 
 #: ui/concept_editor_window_qt.py:262
 msgid "Import Concepts"
-msgstr ""
+msgstr "개념 가져오기"
 
 #: ui/concept_editor_window_qt.py:264 ui/concept_editor_window_qt.py:286
 msgid "JSON Files (*.json)"
-msgstr ""
+msgstr "JSON 파일(*.json)"
 
 #: ui/concept_editor_window_qt.py:276
 msgid "Imported concepts from: {0}"
-msgstr ""
+msgstr "다음에서 가져온 개념: {0}"
 
 #: ui/concept_editor_window_qt.py:279
 msgid "Error importing concepts: {0}"
-msgstr ""
+msgstr "개념을 가져오는 동안 오류가 발생했습니다: {0}"
 
 #: ui/concept_editor_window_qt.py:284
 msgid "Export Concepts"
-msgstr ""
+msgstr "컨셉 내보내기"
 
 #: ui/concept_editor_window_qt.py:295
 msgid "Exported concepts to: {0}"
-msgstr ""
+msgstr "개념 내보내기를 {0}"
 
 #: ui/concept_editor_window_qt.py:298
 msgid "Error exporting concepts: {0}"
-msgstr ""
+msgstr "개념을 내보내는 동안 오류가 발생했습니다: {0}"
 
 #: ui/expansions_window.py:29
 msgid "Modify Expansion: {0}"
-msgstr ""
+msgstr "확장을 수정합니다: {0}"
 
 #: ui/expansions_window.py:37
 msgid "Expansion ID"
-msgstr ""
+msgstr "확장 ID"
 
 #: ui/expansions_window.py:44
 msgid "Expansion Text"
-msgstr ""
+msgstr "확장 텍스트"
 
 #: ui/expansions_window.py:46
 msgid "New Expansion Text"
-msgstr ""
+msgstr "새로운 확장 텍스트"
 
 #: ui/expansions_window.py:59 ui/tags_blacklist_window.py:92
 msgid "Done"
-msgstr ""
+msgstr "완료"
 
 #: ui/expansions_window.py:67
 msgid ""
-"Warning: This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is "
-"removed or renamed."
+"Warning: This expansion ID matches a wildcard in config.json. Changes will "
+"not take effect until the wildcard is removed or renamed."
 msgstr ""
+"경고: 이 확장 ID는 config.json의 와일드카드와 일치합니다. 와일드카드를 제거하거나 이름을 변경할 때까지 변경 사항이 적용되지"
+" 않습니다."
 
 #: ui/expansions_window.py:78 ui/tags_blacklist_window.py:514
 msgid "Warning"
-msgstr ""
+msgstr "경고"
 
 #: ui/expansions_window.py:79
 msgid ""
-"This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or "
-"renamed.\n"
+"This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
 "\n"
 "Do you want to save anyway?"
 msgstr ""
+"이 확장 ID는 config.json의 와일드카드와 일치합니다. 와일드카드를 제거하거나 이름을 변경할 때까지 변경 사항이 적용되지 않습니다.\n"
+"\n"
+"그래도 저장하시겠습니까?"
 
 #: ui/expansions_window.py:134
 msgid "New Expansion (ERROR no expansions found)"
-msgstr ""
+msgstr "새 확장팩(오류: 확장팩을 찾을 수 없음)"
 
 #: ui/expansions_window.py:165
 msgid "Not enough expansions found."
-msgstr ""
+msgstr "확장팩이 충분하지 않습니다."
 
 #: ui/expansions_window.py:201
 msgid "Add or update expansions"
-msgstr ""
+msgstr "확장 기능 추가 또는 업데이트"
 
 #: ui/expansions_window.py:203
 msgid "Add expansion"
-msgstr ""
+msgstr "확장 추가"
 
 #: ui/expansions_window.py:205
 msgid "Clear expansions"
-msgstr ""
+msgstr "확장팩 지우기"
 
-#: ui/expansions_window.py:231 ui/schedules_windows.py:281 ui/tags_blacklist_window.py:421
+#: ui/expansions_window.py:231 ui/schedules_windows.py:281
+#: ui/tags_blacklist_window.py:421
 msgid "Modify"
-msgstr ""
+msgstr "수정"
 
 #: ui/expansions_window.py:245
 msgid "Copy"
-msgstr ""
+msgstr "복사"
 
 #: ui/expansions_window.py:281
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
-msgstr ""
+msgstr "잘못된 확장 ID “{0}” 또는 텍스트 “{1}”"
 
 #: ui/expansions_window.py:451
 msgid "Copied expansion text to clipboard"
-msgstr ""
+msgstr "확장 텍스트를 클립보드에 복사"
 
 #: ui/expansions_window_qt.py:16
 msgid "Expansions"
-msgstr ""
+msgstr "확장 기능"
 
 #: ui/expansions_window_qt.py:28
 msgid "Search expansions..."
-msgstr ""
+msgstr "검색 확장..."
 
 #: ui/expansions_window_qt.py:43
 msgid "Key:"
-msgstr ""
+msgstr "키:"
 
-#: ui/expansions_window_qt.py:69 ui/presets_window_qt.py:58 ui/schedules_window_qt.py:168 ui/tags_blacklist_window_qt.py:51
+#: ui/expansions_window_qt.py:69 ui/presets_window_qt.py:58
+#: ui/schedules_window_qt.py:168 ui/tags_blacklist_window_qt.py:51
 msgid "Delete Selected"
-msgstr ""
+msgstr "선택 항목 삭제"
 
 #: ui/expansions_window_qt.py:139
 msgid "Updated expansion: {0} -> {1}"
-msgstr ""
+msgstr "확장 업데이트: {0} -> {1}"
 
 #: ui/expansions_window_qt.py:141
 msgid "Saved expansion: {0}"
-msgstr ""
+msgstr "저장된 확장입니다: {0}"
 
 #: ui/expansions_window_qt.py:155
 msgid "Deleted expansion: {0}"
-msgstr ""
+msgstr "확장을 삭제했습니다: {0}"
 
 #: ui/presets_window.py:53 ui/presets_window_qt.py:160
 msgid "New Preset (ERROR no presets found)"
-msgstr ""
+msgstr "새 프리셋(오류 프리셋을 찾을 수 없음)"
 
 #: ui/presets_window.py:84
 msgid "Not enough presets found."
-msgstr ""
+msgstr "사전 설정이 충분하지 않습니다."
 
 #: ui/presets_window.py:113
 msgid "Set a new preset"
-msgstr ""
+msgstr "새 프리셋 설정"
 
 #: ui/presets_window.py:114 ui/presets_window_qt.py:56
 msgid "New Preset"
-msgstr ""
+msgstr "새로운 프리셋"
 
 #: ui/presets_window.py:118
 msgid "Add preset"
-msgstr ""
+msgstr "사전 설정 추가"
 
 #: ui/presets_window.py:120
 msgid "Clear presets"
-msgstr ""
+msgstr "사전 설정 지우기"
 
 #: ui/presets_window.py:138 ui/schedules_windows.py:274
 msgid "Set"
-msgstr ""
+msgstr "설정"
 
 #: ui/presets_window.py:162
 msgid "Invalid preset: {0}"
-msgstr ""
+msgstr "잘못된 사전 설정입니다: {0}"
 
 #: ui/presets_window_qt.py:42
 msgid "Search presets..."
-msgstr ""
+msgstr "사전 설정 검색..."
 
 #: ui/presets_window_qt.py:57
 msgid "Apply Selected"
-msgstr ""
+msgstr "선택 적용"
 
 #: ui/presets_window_qt.py:111
 msgid "Created new preset: {0}"
-msgstr ""
+msgstr "새 프리셋을 만들었습니다: {0}"
 
 #: ui/presets_window_qt.py:124
 msgid "Applied preset: {0}"
-msgstr ""
+msgstr "사전 설정이 적용되었습니다: {0}"
 
 #: ui/presets_window_qt.py:140
 msgid "Deleted preset: {0}"
-msgstr ""
+msgstr "사전 설정을 삭제했습니다: {0}"
 
-#: ui/schedule.py:14 ui/schedules_window_qt.py:54 ui/schedules_window_qt.py:165 ui/schedules_windows.py:40
+#: ui/schedule.py:14 ui/schedules_window_qt.py:54
+#: ui/schedules_window_qt.py:165 ui/schedules_windows.py:40
 msgid "New Schedule"
-msgstr ""
+msgstr "새 일정"
 
 #: ui/schedule.py:72
 msgid "{0} ({1} runs)"
-msgstr ""
+msgstr "{0} ({1} 실행)"
 
 #: ui/schedules_window_qt.py:51 ui/schedules_windows.py:38
 msgid "Modify Schedule"
-msgstr ""
+msgstr "일정 수정"
 
 #: ui/schedules_window_qt.py:62
 msgid "Schedule Name:"
-msgstr ""
+msgstr "일정 이름:"
 
 #: ui/schedules_window_qt.py:76
 msgid "Task name"
-msgstr ""
+msgstr "작업 이름"
 
 #: ui/schedules_window_qt.py:82
 msgid "Add Task"
-msgstr ""
+msgstr "작업 추가"
 
 #: ui/schedules_window_qt.py:96
 msgid "Delete Selected Task"
-msgstr ""
+msgstr "선택한 작업 삭제"
 
 #: ui/schedules_window_qt.py:135
 msgid "Schedules Window"
-msgstr ""
+msgstr "일정 창"
 
 #: ui/schedules_window_qt.py:147
 msgid "Search schedules..."
-msgstr ""
+msgstr "검색 일정..."
 
 #: ui/schedules_window_qt.py:166
 msgid "Modify Selected"
-msgstr ""
+msgstr "선택 항목 수정"
 
 #: ui/schedules_window_qt.py:167
 msgid "Set Selected"
-msgstr ""
+msgstr "선택된 설정"
 
 #: ui/schedules_window_qt.py:205 ui/schedules_windows.py:309
 msgid "Current schedule: {0}"
-msgstr ""
+msgstr "현재 일정입니다: {0}"
 
 #: ui/schedules_window_qt.py:231 ui/schedules_windows.py:314
 msgid "Set schedule: {0}"
-msgstr ""
+msgstr "일정을 설정합니다: {0}"
 
 #: ui/schedules_window_qt.py:246 ui/schedules_windows.py:320
 msgid "Deleted schedule: {0}"
-msgstr ""
+msgstr "일정을 삭제했습니다: {0}"
 
 #: ui/schedules_window_qt.py:265
 msgid "Saved schedule: {0}"
-msgstr ""
+msgstr "일정을 저장했습니다: {0}"
 
 #: ui/schedules_windows.py:27
 msgid "Modify Preset Schedule: {0}"
-msgstr ""
+msgstr "사전 설정 일정을 수정합니다: {0}"
 
 #: ui/schedules_windows.py:45 ui/schedules_windows.py:251
 msgid "Add schedule"
-msgstr ""
+msgstr "일정 추가"
 
 #: ui/schedules_windows.py:48
 msgid "Add Preset Task"
-msgstr ""
+msgstr "사전 설정 작업 추가"
 
 #: ui/schedules_windows.py:96
 msgid "Move Down"
-msgstr ""
+msgstr "아래로 이동"
 
 #: ui/schedules_windows.py:221
 msgid "Not enough schedules found."
-msgstr ""
+msgstr "일정이 충분하지 않습니다."
 
 #: ui/schedules_windows.py:230
 msgid "Preset Schedules"
-msgstr ""
+msgstr "사전 설정 일정"
 
 #: ui/schedules_windows.py:253
 msgid "Clear schedules"
-msgstr ""
+msgstr "일정 지우기"
 
 #: ui/schedules_windows.py:405
 msgid "Cleared schedules"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:29
-msgid "Modify Blacklist Item: {0}"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:46
-msgid "Blacklist String"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:56
-msgid "Enabled"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:68
-msgid "Use glob-based regex"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:80
-msgid "Use word boundary matching"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:91 ui/tags_blacklist_window.py:429
-msgid "Preview"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:114
-msgid "Blacklist string cannot be empty."
-msgstr ""
-
-#: ui/tags_blacklist_window.py:141
-msgid "No changes were made"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:153
-msgid "Unsaved Changes"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:153
-msgid "Do you want to save changes before closing?"
-msgstr ""
+msgstr "일정 지우기"
 
 #: ui/tags_blacklist_window.py:180
 msgid "Blacklist Preview"
-msgstr ""
+msgstr "블랙리스트 미리보기"
 
 #: ui/tags_blacklist_window.py:203
 msgid "Concepts filtered by: {0}"
-msgstr ""
+msgstr "필터링된 개념: {0}"
 
 #: ui/tags_blacklist_window.py:207
 msgid "All filtered concepts"
-msgstr ""
+msgstr "모든 필터링된 개념"
 
 #: ui/tags_blacklist_window.py:258
 msgid "Found {0} filtered concepts"
-msgstr ""
+msgstr "{0} 필터링된 개념을 찾았습니다."
 
 #: ui/tags_blacklist_window.py:266
 msgid "Error loading concepts: {0}"
-msgstr ""
+msgstr "개념을 로드하는 동안 오류가 발생했습니다: {0}"
 
 #: ui/tags_blacklist_window.py:341 ui/tags_blacklist_window_qt.py:16
 msgid "Tags Blacklist"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:373
-msgid "Blacklist items"
-msgstr ""
+msgstr "태그 블랙리스트"
 
 #: ui/tags_blacklist_window.py:375
 msgid "Add to tag blacklist"
-msgstr ""
+msgstr "태그 블랙리스트에 추가"
+
+#: ui/tags_blacklist_window.py:214
+msgid "Add item"
+msgstr "항목 추가"
+
+#: ui/tags_blacklist_window.py:68
+msgid "Use glob-based regex"
+msgstr "글로브 기반 정규식 사용"
 
 #: ui/tags_blacklist_window.py:378
 msgid "Clear items"
-msgstr ""
+msgstr "항목 지우기"
 
 #: ui/tags_blacklist_window.py:386
 msgid "Preview All"
-msgstr ""
+msgstr "모두 보기"
 
-#: ui/tags_blacklist_window.py:406
-msgid "[regex]"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:408
-msgid "[no boundary]"
-msgstr ""
+#: ui/tags_blacklist_window.py:91 ui/tags_blacklist_window.py:429
+msgid "Preview"
+msgstr "미리 보기"
 
 #: ui/tags_blacklist_window.py:437
 msgid "Remove"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:493 ui/tags_blacklist_window.py:520
-msgid "Added item to blacklist: {0}"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:495
-msgid "Modified blacklist item: {0}"
-msgstr ""
+msgstr "제거"
 
 #: ui/tags_blacklist_window.py:504
 msgid "Removed item: {0}"
-msgstr ""
+msgstr "항목을 제거했습니다: {0}"
 
 #: ui/tags_blacklist_window.py:514
 msgid "Please enter a string to add to the blacklist."
-msgstr ""
+msgstr "블랙리스트에 추가할 문자열을 입력하세요."
+
+#: ui/tags_blacklist_window.py:493 ui/tags_blacklist_window.py:520
+msgid "Added item to blacklist: {0}"
+msgstr "블랙리스트에 항목을 추가했습니다: {0}"
 
 #: ui/tags_blacklist_window.py:598
 msgid "Cleared item blacklist"
-msgstr ""
+msgstr "삭제된 항목 블랙리스트"
 
 #: ui/tags_blacklist_window.py:653
 msgid "Item \"{0}\" is now {1}"
-msgstr ""
+msgstr "항목 “{0}”은 이제 {1}입니다."
 
 #: ui/tags_blacklist_window.py:655
 msgid "enabled"
-msgstr ""
+msgstr "활성화"
 
 #: ui/tags_blacklist_window.py:655
 msgid "disabled"
-msgstr ""
+msgstr "장애인"
 
 #: ui/tags_blacklist_window.py:678
 msgid "Import Blacklist"
-msgstr ""
+msgstr "블랙리스트 가져오기"
 
 #: ui/tags_blacklist_window.py:693
 msgid "Successfully imported blacklist"
-msgstr ""
+msgstr "성공적으로 가져온 블랙리스트"
 
 #: ui/tags_blacklist_window.py:695
 msgid "Import Error"
-msgstr ""
+msgstr "가져오기 오류"
 
 #: ui/tags_blacklist_window.py:705
 msgid "Export Blacklist"
-msgstr ""
+msgstr "블랙리스트 내보내기"
 
 #: ui/tags_blacklist_window.py:720
 msgid "Successfully exported blacklist"
-msgstr ""
+msgstr "성공적으로 내보낸 블랙리스트"
 
 #: ui/tags_blacklist_window.py:722
 msgid "Export Error"
-msgstr ""
+msgstr "내보내기 오류"
 
 #: ui/tags_blacklist_window_qt.py:28
 msgid "Search tags..."
-msgstr ""
+msgstr "태그 검색..."
 
 #: ui/tags_blacklist_window_qt.py:40
 msgid "Enter tag to blacklist"
-msgstr ""
+msgstr "블랙리스트에 추가할 태그 입력"
 
 #: ui/tags_blacklist_window_qt.py:41
 msgid "Add Tag"
-msgstr ""
+msgstr "태그 추가"
 
 #: ui/tags_blacklist_window_qt.py:92
 msgid "Added tag to blacklist: {0}"
-msgstr ""
+msgstr "블랙리스트에 태그를 추가했습니다: {0}"
 
 #: ui/tags_blacklist_window_qt.py:104
 msgid "Removed tag from blacklist: {0}"
-msgstr ""
+msgstr "블랙리스트에서 태그를 제거했습니다: {0}"
 
 #: utils/job_queue.py:40
 msgid " (Pending runs: {0})"
-msgstr ""
+msgstr " (보류 중인 실행: {0})"
 
 #: utils/job_queue.py:42
 msgid " (Pending schedules: {0})"
-msgstr ""
+msgstr " (보류 중인 일정: {0})"
 
 #: utils/time_estimator.py:87
 msgid "~{0}d"
-msgstr ""
+msgstr "~{0}일"
 
 #: utils/time_estimator.py:89
 msgid "{0}h"
-msgstr ""
+msgstr "{0}시간"
 
 #: utils/time_estimator.py:91
 msgid "{0}m"
-msgstr ""
+msgstr "{0}분"
 
 #: utils/time_estimator.py:92
 msgid "{0}s"
-msgstr ""
+msgstr "{0}초"
 
+#: ui/tags_blacklist_window.py:29
+msgid "Modify Blacklist Item: {0}"
+msgstr "블랙리스트 항목 수정: {0}"
+
+#: ui/tags_blacklist_window.py:46
+msgid "Blacklist String"
+msgstr "블랙리스트 문자열"
+
+#: ui/tags_blacklist_window.py:56
+msgid "Enabled"
+msgstr "활성화됨"
+
+#: ui/tags_blacklist_window.py:80
+msgid "Use word boundary matching"
+msgstr "단어 경계 일치 사용"
+
+#: ui/tags_blacklist_window.py:114
+msgid "Blacklist string cannot be empty."
+msgstr "블랙리스트 텍스트는 비워둘 수 없습니다."
+
+#: ui/tags_blacklist_window.py:141
+msgid "No changes were made"
+msgstr "변경된 사항 없음"
+
+#: ui/tags_blacklist_window.py:153
+msgid "Unsaved Changes"
+msgstr "저장되지 않은 변경 사항"
+
+#: ui/tags_blacklist_window.py:153
+msgid "Do you want to save changes before closing?"
+msgstr "닫기 전에 변경 사항을 저장하시겠습니까?"
+
+#: ui/tags_blacklist_window.py:373
+msgid "Blacklist items"
+msgstr "블랙리스트 항목"
+
+#: ui/tags_blacklist_window.py:406
+msgid "[regex]"
+msgstr "[정규식]"
+
+#: ui/tags_blacklist_window.py:408
+msgid "[no boundary]"
+msgstr "[단어 경계 없음]"
+
+#: ui/tags_blacklist_window.py:495
+msgid "Modified blacklist item: {0}"
+msgstr "블랙리스트 항목을 수정했습니다: {0}"

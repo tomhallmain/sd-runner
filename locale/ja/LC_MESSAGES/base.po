@@ -2,11 +2,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-01 13:05-0400\n"
-"PO-Revision-Date: 2025-07-01 13:05-0400\n"
+"POT-Creation-Date: 2025-07-01 14:38-0400\n"
+"PO-Revision-Date: 2025-07-01 14:38-0400\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
-"Language-Team: en Team <<EMAIL>>\n"
-"Language: en\n"
+"Language-Team: ja Team <<EMAIL>>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,107 +14,107 @@ msgstr ""
 
 #: app.py:124
 msgid "Run SD Workflows"
-msgstr "Run SD Workflows"
+msgstr "安定拡散ワークフローの実行"
 
 #: app.py:128
 msgid "Run Workflows"
-msgstr "Run Workflows"
+msgstr "ワークフローの実行"
 
 #: app.py:130
 msgid "Cancel Run"
-msgstr "Cancel Run"
+msgstr "キャンセル"
 
 #: app.py:140
 msgid "Software"
-msgstr "Software"
+msgstr "ソフトウェア"
 
 #: app.py:148
 msgid "Workflow"
-msgstr "Workflow"
+msgstr "ワークフロー"
 
 #: app.py:155
 msgid "Set N Latents"
-msgstr "N Latents"
+msgstr "潜在数"
 
 #: app.py:161
 msgid "Set Total"
-msgstr "Total"
+msgstr "合計"
 
 #: app.py:169
 msgid "Delay Seconds"
-msgstr "Delay Seconds"
+msgstr "遅延秒数"
 
 #: app.py:175
 msgid "Resolutions"
-msgstr "Resolutions"
+msgstr "解像度"
 
 #: app.py:182
 msgid "Resolution Group"
-msgstr "Resolution Group"
+msgstr "解像度グループ"
 
 #: app.py:188
 msgid "Model Tags"
-msgstr "Model Tags"
+msgstr "モデルタグ"
 
 #: app.py:203
 msgid "LoRA Tags"
-msgstr "LoRA Tags"
+msgstr "LoRAタグ"
 
 #: app.py:219
 msgid "Default LoRA Strength"
-msgstr "Default LoRA Strength"
+msgstr "デフォルトのLoRAの強さ"
 
 #: app.py:225
 msgid "Prompt Massage Tags"
-msgstr "Prompt Massage Tags"
+msgstr "マッサージ・タグを促す"
 
 #: app.py:233
 msgid "Positive Tags"
-msgstr "Positive Tags"
+msgstr "プロンプトの調整タグ"
 
 #: app.py:240
 msgid "Negative Tags"
-msgstr "Negative Tags"
+msgstr "ネガティブタグ"
 
 #: app.py:248
 msgid "B/W Colorization Tags"
-msgstr "B/W Colorization Tags"
+msgstr "黒/白のカラーリングタグ"
 
 #: app.py:256
 msgid "Control Net or Redo files"
-msgstr "Control Net or Redo files"
+msgstr "コントロールネット、やり直しファイル"
 
 #: app.py:263
 msgid "Default Control Net Strength"
-msgstr "Default Control Net Strength"
+msgstr "デフォルトの制御ネット強度"
 
 #: app.py:269
 msgid "IPAdapter files"
-msgstr "IPAdapter files"
+msgstr "IPAdapter ファイル"
 
 #: app.py:276
 msgid "Default IPAdapter Strength"
-msgstr "Default IPAdapter Strength"
+msgstr "デフォルトの IPAdapter の強さ"
 
 #: app.py:282
 msgid "Redo Parameters"
-msgstr "Redo Parameters"
+msgstr "やり直しパラメータ"
 
 #: app.py:298
 msgid "Sampler"
-msgstr "Sampler"
+msgstr "サンプラー"
 
 #: app.py:304
 msgid "Scheduler"
-msgstr "Scheduler"
+msgstr "スケジューラー"
 
 #: app.py:310
 msgid "Seed"
-msgstr "Seed"
+msgstr "シード"
 
 #: app.py:317
 msgid "Steps"
-msgstr "Steps"
+msgstr "手順"
 
 #: app.py:324
 msgid "CFG"
@@ -122,417 +122,409 @@ msgstr "CFG"
 
 #: app.py:331
 msgid "Denoise"
-msgstr "Denoise"
+msgstr "デノイズ"
 
 #: app.py:338
 msgid "Random Skip Chance"
-msgstr "Random Skip Chance"
+msgstr "ランダムスキップチャンス"
 
 #: app.py:346
 msgid "Prompts Configuration"
-msgstr "Prompts Configuration"
+msgstr "プロンプトの設定"
 
 #: app.py:349
 msgid "Prompt Mode"
-msgstr "Prompt Mode"
+msgstr "プロンプトのモード"
 
 #: app.py:356
 msgid "Edit Concepts"
-msgstr "Edit Concepts"
+msgstr "編集コンセプト"
 
 #: app.py:359
 msgid "Concepts Dir"
-msgstr "Concepts Dir"
+msgstr "コンセプト・ディレクトリ"
 
 #: app.py:368
 msgid "Concepts"
-msgstr "Concepts"
+msgstr "コンセプト"
 
 #: app.py:377
 msgid "Positions"
-msgstr "Positions"
+msgstr "ポジション"
 
 #: app.py:386
 msgid "Locations"
-msgstr "Locations"
+msgstr "所在地"
 
 #: app.py:395
 msgid "Specific Locations Chance"
-msgstr "Specific Locations Chance"
+msgstr "場所を指定するチャンス"
 
 #: app.py:401
 msgid "Animals"
-msgstr "Animals"
+msgstr "動物"
 
 #: app.py:410
 msgid "Colors"
-msgstr "Colors"
+msgstr "カラー"
 
 #: app.py:419
 msgid "Times"
-msgstr "Times"
+msgstr "タイムズ"
 
 #: app.py:428
 msgid "Dress"
-msgstr "Dress"
+msgstr "衣類"
 
 #: app.py:437
 msgid "Expressions"
-msgstr "Expressions"
+msgstr "表現"
 
 #: app.py:446
 msgid "Actions"
-msgstr "Actions"
+msgstr "行動"
 
 #: app.py:455
 msgid "Descriptions"
-msgstr "Descriptions"
+msgstr "内容"
 
 #: app.py:464
 msgid "Characters"
-msgstr "Characters"
+msgstr "登場人物"
 
 #: app.py:473
 msgid "Random Words"
-msgstr "Random Words"
+msgstr "ランダムワード"
 
 #: app.py:482
 msgid "Nonsense"
-msgstr "Nonsense"
+msgstr "ナンセンス"
 
 #: app.py:491
 msgid "Multiplier"
-msgstr "Multiplier"
+msgstr "乗数"
 
 #: app.py:502
 msgid "Specify Humans Chance"
-msgstr "Specify Humans Chance"
+msgstr "人間指定のチャンス"
 
 #: app.py:508
 msgid "Art Styles Chance"
-msgstr "Art Styles Chance"
+msgstr "アートスタイルの確率"
 
 #: app.py:514
 msgid "Emphasis Chance"
-msgstr "Emphasis Chance"
+msgstr "強調のチャンス"
 
 #: app.py:524
 msgid "Override Resolution"
-msgstr "Override Resolution"
+msgstr "画像解像度の上書き"
 
 #: app.py:528
 msgid "Inpainting"
-msgstr "Inpainting"
+msgstr "インテリア・ペインティング"
 
 #: app.py:532
 msgid "Override Base Negative"
-msgstr "Override Base Negative"
+msgstr "ベースネガを上書きする"
 
 #: app.py:536
 msgid "Tags Applied to Prompt Start"
-msgstr "Tags Applied to Prompt Start"
+msgstr "タグはプロンプトの先頭に適用される"
 
 #: app.py:540
 msgid "Sparse Mixed Tags"
-msgstr "Sparse Mixed Tags"
+msgstr "まばらな混合タグ"
 
 #: app.py:544
 msgid "Run Preset Schedule"
-msgstr "Run Preset Schedule"
+msgstr "プリセットスケジュールの実行"
 
 #: app.py:549
 msgid "Preset Schedule Window"
-msgstr "Preset Schedule Window"
+msgstr "プリセットスケジュールウィンドウ"
 
 #: app.py:550 ui/presets_window.py:92 ui/presets_window_qt.py:27
 msgid "Presets Window"
-msgstr "Presets Window"
+msgstr "プリセットウィンドウ"
 
 #: app.py:554
 msgid "Tag Blacklist"
-msgstr "Tag Blacklist"
+msgstr "タグ ブラックリスト"
 
 #: app.py:555 ui/expansions_window.py:173
 msgid "Expansions Window"
-msgstr "Expansions Window"
+msgstr "拡張ウィンドウ"
 
 #: app.py:613
 msgid "Confirm Quit"
-msgstr "Confirm Quit"
+msgstr "終了を確認する"
 
 #: app.py:613
 msgid "Would you like to quit the application?"
-msgstr "Would you like to quit the application?"
+msgstr "アプリを終了しますか？"
 
 #: app.py:847 app.py:864
 msgid "Confirm Run"
-msgstr "Confirm Run"
+msgstr "ランの確認"
 
 #: app.py:848
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
-msgstr ""
-"Starting a new run will cancel the current preset schedule. Are you sure you"
-" want to proceed?"
+msgstr "新しいランを開始すると、現在のプリセットスケジュールはキャンセルされます。本当に続けますか？"
 
 #: app.py:865
 msgid "Are you sure you want to proceed?"
-msgstr "Are you sure you want to proceed?"
+msgstr "このままでいいのか？"
 
 #: app.py:965 app_qt.py:375
 msgid " (unlimited)"
-msgstr " (unlimited)"
+msgstr " (無制限）"
 
 #: app.py:989
 msgid "{0} pending generations"
-msgstr "{0} pending generations"
+msgstr "{0}保留中の世代"
 
 #: app.py:1070
 msgid "Invalid Prompt Tags"
-msgstr "Invalid Prompt Tags"
+msgstr "無効なプロンプトタグ"
 
 #: app.py:1071
 msgid "Blacklisted items found in prompt: {0}"
-msgstr "Blacklisted items found in prompt: {0}"
+msgstr "プロンプトでブラックリストの項目が見つかりました： {0}"
 
 #: app.py:1209 ui/concept_editor_window.py:262 ui/concept_editor_window.py:319
 #: ui/concept_editor_window.py:338 ui/tags_blacklist_window.py:114
 #: ui/tags_blacklist_window.py:269
 msgid "Error"
-msgstr "Error"
+msgstr "エラー"
 
 #: app.py:1335 app_qt.py:47
 msgid " ComfyGen "
-msgstr " SD Runner "
+msgstr " SDランナー "
 
 #: app_qt.py:225
 msgid "Prompter Configuration"
-msgstr "Prompter Configuration"
+msgstr "プロンプターの設定"
 
 #: sd_runner/blacklist.py:154
 msgid "Filtering concepts for blacklist: "
-msgstr "Filtering concepts for blacklist: "
+msgstr "ブラックリストのフィルタリングの概念： "
 
 #: sd_runner/run_config.py:53
 msgid "No prompter config found!"
-msgstr "No prompter config found!"
+msgstr "プロンプターのコンフィグが見つかりません！"
 
 #: sd_runner/run_config.py:56
 msgid ""
 "Ensure configuration is correct - do you really want to create more than 10 "
 "images using the same prompt?"
-msgstr ""
-"Ensure configuration is correct - do you really want to create more than 10 "
-"images using the same prompt?"
+msgstr "同じプロンプトを使って10枚以上の画像を作成したいのですか？"
 
 #: sd_runner/run_config.py:61
 msgid ""
 "A model switch was detected and the model massage tags don't match. This "
 "warning will only be shown once."
-msgstr ""
-"A model switch was detected and the model massage tags don't match. This "
-"warning will only be shown once."
+msgstr "モデル切り替えが検出され、モデル調整のタグが一致しません。この警告は1回のみ表示されます。"
 
 #: ui/concept_editor_window.py:104
 msgid "Search/Add Concept:"
-msgstr "Search/Add Concept:"
+msgstr "検索/追加コンセプト："
 
 #: ui/concept_editor_window.py:153
 msgid "File:"
-msgstr "File:"
+msgstr "ファイル："
 
 #: ui/concept_editor_window.py:161 ui/concept_editor_window_qt.py:122
 #: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
 msgid "Save"
-msgstr "Save"
+msgstr "セーブ"
 
 #: ui/concept_editor_window.py:164 ui/concept_editor_window_qt.py:49
 #: ui/expansions_window.py:238 ui/presets_window.py:145
 #: ui/schedules_windows.py:88 ui/schedules_windows.py:288
 msgid "Delete"
-msgstr "Delete"
+msgstr "削除"
 
 #: ui/concept_editor_window.py:167 ui/concept_editor_window_qt.py:141
 #: ui/tags_blacklist_window.py:384
 msgid "Import"
-msgstr "Import"
+msgstr "輸入"
 
 #: ui/concept_editor_window.py:208
 msgid "Enter search text to see concepts..."
-msgstr "Enter search text to see concepts..."
+msgstr "検索テキストを入力すると、コンセプトが表示されます..."
 
 #: ui/concept_editor_window.py:262
 msgid "Please select a file to save to"
-msgstr "Please select a file to save to"
+msgstr "保存するファイルを選択してください。"
 
 #: ui/concept_editor_window.py:276 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
-msgstr "Saved concept: {0}"
+msgstr "保存されたコンセプト：{0}"
 
 #: ui/concept_editor_window.py:297
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "確認"
 
 #: ui/concept_editor_window.py:297
 msgid "Delete concept: {0}?"
-msgstr "Delete concept: {0}?"
+msgstr "コンセプトの削除：{0}?"
 
 #: ui/concept_editor_window.py:303 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
-msgstr "Deleted concept: {0}"
+msgstr "削除されたコンセプト：{0}"
 
 #: ui/concept_editor_window.py:319
 msgid "Please select a target file first"
-msgstr "Please select a target file first"
+msgstr "最初にターゲットファイルを選択してください。"
 
 #: ui/concept_editor_window.py:324
 msgid "Select concepts file to import"
-msgstr "Select concepts file to import"
+msgstr "インポートするコンセプトファイルを選択"
 
 #: ui/concept_editor_window.py:325
 msgid "Text files"
-msgstr "Text files"
+msgstr "テキストファイル"
 
 #: ui/concept_editor_window.py:325
 msgid "All files"
-msgstr "All files"
+msgstr "すべてのファイル"
 
 #: ui/concept_editor_window.py:345
 msgid "Successfully imported {0} concepts"
-msgstr "Successfully imported {0} concepts"
+msgstr "{0}概念のインポートに成功"
 
 #: ui/concept_editor_window.py:347
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
-msgstr ""
-"{0} concepts were not imported (see {1}_failed_import.txt for details)"
+msgstr "{0}概念がインポートされませんでした（詳細は{1}_failed_import.txtを参照）。"
 
 #: ui/concept_editor_window.py:349
 msgid "Import Results"
-msgstr "Import Results"
+msgstr "インポート結果"
 
 #: ui/concept_editor_window_qt.py:19
 msgid "Concept Editor"
-msgstr "Concept Editor"
+msgstr "コンセプト・エディター"
 
 #: ui/concept_editor_window_qt.py:36
 msgid "Search concepts..."
-msgstr "Search concepts..."
+msgstr "検索コンセプト..."
 
 #: ui/concept_editor_window_qt.py:47 ui/expansions_window_qt.py:68
 msgid "New"
-msgstr "New"
+msgstr "新しい"
 
 #: ui/concept_editor_window_qt.py:65
 msgid "Name:"
-msgstr "Name:"
+msgstr "名前："
 
 #: ui/concept_editor_window_qt.py:73
 msgid "Type:"
-msgstr "Type:"
+msgstr "タイプ："
 
 #: ui/concept_editor_window_qt.py:82
 msgid "Trigger:"
-msgstr "Trigger:"
+msgstr "トリガー："
 
 #: ui/concept_editor_window_qt.py:90
 msgid "Weight:"
-msgstr "Weight:"
+msgstr "体重だ："
 
 #: ui/concept_editor_window_qt.py:100 ui/expansions_window_qt.py:51
 msgid "Value:"
-msgstr "Value:"
+msgstr "価値："
 
 #: ui/concept_editor_window_qt.py:110
 msgid "Browse"
-msgstr "Browse"
+msgstr "ブラウズ"
 
 #: ui/concept_editor_window_qt.py:117
 msgid "Active"
-msgstr "Active"
+msgstr "アクティブ"
 
 #: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:385
 msgid "Export"
-msgstr "Export"
+msgstr "輸出"
 
 #: ui/concept_editor_window_qt.py:143 ui/expansions_window_qt.py:70
 #: ui/presets_window_qt.py:59 ui/schedules_window_qt.py:97
 #: ui/schedules_window_qt.py:169 ui/tags_blacklist_window.py:239
 #: ui/tags_blacklist_window_qt.py:52
 msgid "Close"
-msgstr "Close"
+msgstr "閉じる"
 
 #: ui/concept_editor_window_qt.py:232
 msgid "Updated concept: {0} -> {1}"
-msgstr "Updated concept: {0} -> {1}"
+msgstr "更新コンセプト：{0} -> {1}"
 
 #: ui/concept_editor_window_qt.py:252
 msgid "Select Image"
-msgstr "Select Image"
+msgstr "画像を選択"
 
 #: ui/concept_editor_window_qt.py:254
 msgid "Image Files (*.png *.jpg *.jpeg *.bmp *.gif)"
-msgstr "Image Files (*.png *.jpg *.jpeg *.bmp *.gif)"
+msgstr "画像ファイル (*.png *.jpg *.jpeg *.bmp *.gif)"
 
 #: ui/concept_editor_window_qt.py:262
 msgid "Import Concepts"
-msgstr "Import Concepts"
+msgstr "コンセプトのインポート"
 
 #: ui/concept_editor_window_qt.py:264 ui/concept_editor_window_qt.py:286
 msgid "JSON Files (*.json)"
-msgstr "JSON Files (*.json)"
+msgstr "JSONファイル (*.json)"
 
 #: ui/concept_editor_window_qt.py:276
 msgid "Imported concepts from: {0}"
-msgstr "Imported concepts from: {0}"
+msgstr "インポート元コンセプト： {0}"
 
 #: ui/concept_editor_window_qt.py:279
 msgid "Error importing concepts: {0}"
-msgstr "Error importing concepts: {0}"
+msgstr "概念のインポートに失敗しました： {0}"
 
 #: ui/concept_editor_window_qt.py:284
 msgid "Export Concepts"
-msgstr "Export Concepts"
+msgstr "コンセプトのエクスポート"
 
 #: ui/concept_editor_window_qt.py:295
 msgid "Exported concepts to: {0}"
-msgstr "Exported concepts to: {0}"
+msgstr "コンセプトをエクスポートする {0}"
 
 #: ui/concept_editor_window_qt.py:298
 msgid "Error exporting concepts: {0}"
-msgstr "Error exporting concepts: {0}"
+msgstr "概念のエクスポートエラー： {0}"
 
 #: ui/expansions_window.py:29
 msgid "Modify Expansion: {0}"
-msgstr "Modify Expansion: {0}"
+msgstr "拡張を修正する： {0}"
 
 #: ui/expansions_window.py:37
 msgid "Expansion ID"
-msgstr "Expansion ID"
+msgstr "拡張ID"
 
 #: ui/expansions_window.py:44
 msgid "Expansion Text"
-msgstr "Expansion Text"
+msgstr "拡張テキスト"
 
 #: ui/expansions_window.py:46
 msgid "New Expansion Text"
-msgstr "New Expansion Text"
+msgstr "新しい拡張テキスト"
 
 #: ui/expansions_window.py:59 ui/tags_blacklist_window.py:92
 msgid "Done"
-msgstr "Done"
+msgstr "完了"
 
 #: ui/expansions_window.py:67
 msgid ""
 "Warning: This expansion ID matches a wildcard in config.json. Changes will "
 "not take effect until the wildcard is removed or renamed."
 msgstr ""
-"Warning: This expansion ID matches a wildcard in config.json. Changes will "
-"not take effect until the wildcard is removed or renamed."
+"警告 この拡張IDは、config.json内のワイルドカードと一致します。ワイルドカードが削除されるか、名前が変更されるまで、変更は有効になりません。"
 
 #: ui/expansions_window.py:78 ui/tags_blacklist_window.py:514
 msgid "Warning"
-msgstr "Warning"
+msgstr "警告"
 
 #: ui/expansions_window.py:79
 msgid ""
@@ -540,413 +532,413 @@ msgid ""
 "\n"
 "Do you want to save anyway?"
 msgstr ""
-"This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
+"この拡張IDは、config.json内のワイルドカードと一致します。ワイルドカードが削除されるか、名前が変更されるまで、変更は有効になりません。\n"
 "\n"
-"Do you want to save anyway?"
+"とにかく保存しますか？"
 
 #: ui/expansions_window.py:134
 msgid "New Expansion (ERROR no expansions found)"
-msgstr "New Expansion (ERROR no expansions found)"
+msgstr "新しい拡張 (ERROR 拡張が見つかりません)"
 
 #: ui/expansions_window.py:165
 msgid "Not enough expansions found."
-msgstr "Not enough expansions found."
+msgstr "エクスパンションが足りない。"
 
 #: ui/expansions_window.py:201
 msgid "Add or update expansions"
-msgstr "Add or update expansions"
+msgstr "拡張機能の追加と更新"
 
 #: ui/expansions_window.py:203
 msgid "Add expansion"
-msgstr "Add expansion"
+msgstr "拡張の追加"
 
 #: ui/expansions_window.py:205
 msgid "Clear expansions"
-msgstr "Clear expansions"
+msgstr "明確な拡張"
 
 #: ui/expansions_window.py:231 ui/schedules_windows.py:281
 #: ui/tags_blacklist_window.py:421
 msgid "Modify"
-msgstr "Modify"
+msgstr "修正"
 
 #: ui/expansions_window.py:245
 msgid "Copy"
-msgstr "Copy"
+msgstr "コピー"
 
 #: ui/expansions_window.py:281
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
-msgstr "Invalid expansion ID \"{0}\" or text \"{1}\""
+msgstr "無効な拡張ID 「{0}」 またはテキスト 「{1}」"
 
 #: ui/expansions_window.py:451
 msgid "Copied expansion text to clipboard"
-msgstr "Copied expansion text to clipboard"
+msgstr "拡張テキストをクリップボードにコピー"
 
 #: ui/expansions_window_qt.py:16
 msgid "Expansions"
-msgstr "Expansions"
+msgstr "拡張"
 
 #: ui/expansions_window_qt.py:28
 msgid "Search expansions..."
-msgstr "Search expansions..."
+msgstr "検索拡張..."
 
 #: ui/expansions_window_qt.py:43
 msgid "Key:"
-msgstr "Key:"
+msgstr "鍵だ："
 
 #: ui/expansions_window_qt.py:69 ui/presets_window_qt.py:58
 #: ui/schedules_window_qt.py:168 ui/tags_blacklist_window_qt.py:51
 msgid "Delete Selected"
-msgstr "Delete Selected"
+msgstr "選択削除"
 
 #: ui/expansions_window_qt.py:139
 msgid "Updated expansion: {0} -> {1}"
-msgstr "Updated expansion: {0} -> {1}"
+msgstr "エクスパンションを更新： {0} -> {1}"
 
 #: ui/expansions_window_qt.py:141
 msgid "Saved expansion: {0}"
-msgstr "Saved expansion: {0}"
+msgstr "保存された拡張： {0}"
 
 #: ui/expansions_window_qt.py:155
 msgid "Deleted expansion: {0}"
-msgstr "Deleted expansion: {0}"
+msgstr "削除された拡張： {0}"
 
 #: ui/presets_window.py:53 ui/presets_window_qt.py:160
 msgid "New Preset (ERROR no presets found)"
-msgstr "New Preset (ERROR no presets found)"
+msgstr "新規プリセット (プリセットが見つかりません)"
 
 #: ui/presets_window.py:84
 msgid "Not enough presets found."
-msgstr "Not enough presets found."
+msgstr "プリセットが足りない。"
 
 #: ui/presets_window.py:113
 msgid "Set a new preset"
-msgstr "Set a new preset"
+msgstr "新しいプリセットを設定する"
 
 #: ui/presets_window.py:114 ui/presets_window_qt.py:56
 msgid "New Preset"
-msgstr "New Preset"
+msgstr "新しいプリセット"
 
 #: ui/presets_window.py:118
 msgid "Add preset"
-msgstr "Add preset"
+msgstr "プリセットの追加"
 
 #: ui/presets_window.py:120
 msgid "Clear presets"
-msgstr "Clear presets"
+msgstr "プリセットを消去する"
 
 #: ui/presets_window.py:138 ui/schedules_windows.py:274
 msgid "Set"
-msgstr "Set"
+msgstr "設定"
 
 #: ui/presets_window.py:162
 msgid "Invalid preset: {0}"
-msgstr "Invalid preset: {0}"
+msgstr "無効なプリセットです： {0}"
 
 #: ui/presets_window_qt.py:42
 msgid "Search presets..."
-msgstr "Search presets..."
+msgstr "プリセットを検索..."
 
 #: ui/presets_window_qt.py:57
 msgid "Apply Selected"
-msgstr "Apply Selected"
+msgstr "選択された適用"
 
 #: ui/presets_window_qt.py:111
 msgid "Created new preset: {0}"
-msgstr "Created new preset: {0}"
+msgstr "新しいプリセットを作成しました： {0}"
 
 #: ui/presets_window_qt.py:124
 msgid "Applied preset: {0}"
-msgstr "Applied preset: {0}"
+msgstr "適用されたプリセット {0}"
 
 #: ui/presets_window_qt.py:140
 msgid "Deleted preset: {0}"
-msgstr "Deleted preset: {0}"
+msgstr "削除されたプリセット {0}"
 
 #: ui/schedule.py:14 ui/schedules_window_qt.py:54
 #: ui/schedules_window_qt.py:165 ui/schedules_windows.py:40
 msgid "New Schedule"
-msgstr "New Schedule"
+msgstr "新スケジュール"
 
 #: ui/schedule.py:72
 msgid "{0} ({1} runs)"
-msgstr "{0} ({1} runs)"
+msgstr "{0} ({1}が走る)"
 
 #: ui/schedules_window_qt.py:51 ui/schedules_windows.py:38
 msgid "Modify Schedule"
-msgstr "Modify Schedule"
+msgstr "スケジュールの変更"
 
 #: ui/schedules_window_qt.py:62
 msgid "Schedule Name:"
-msgstr "Schedule Name:"
+msgstr "スケジュール名："
 
 #: ui/schedules_window_qt.py:76
 msgid "Task name"
-msgstr "Task name"
+msgstr "タスク名"
 
 #: ui/schedules_window_qt.py:82
 msgid "Add Task"
-msgstr "Add Task"
+msgstr "タスクの追加"
 
 #: ui/schedules_window_qt.py:96
 msgid "Delete Selected Task"
-msgstr "Delete Selected Task"
+msgstr "選択したタスクの削除"
 
 #: ui/schedules_window_qt.py:135
 msgid "Schedules Window"
-msgstr "Schedules Window"
+msgstr "スケジュール・ウィンドウ"
 
 #: ui/schedules_window_qt.py:147
 msgid "Search schedules..."
-msgstr "Search schedules..."
+msgstr "スケジュールを検索..."
 
 #: ui/schedules_window_qt.py:166
 msgid "Modify Selected"
-msgstr "Modify Selected"
+msgstr "選択したものを変更する"
 
 #: ui/schedules_window_qt.py:167
 msgid "Set Selected"
-msgstr "Set Selected"
+msgstr "セット選択"
 
 #: ui/schedules_window_qt.py:205 ui/schedules_windows.py:309
 msgid "Current schedule: {0}"
-msgstr "Current schedule: {0}"
+msgstr "現在のスケジュール: {0}"
 
 #: ui/schedules_window_qt.py:231 ui/schedules_windows.py:314
 msgid "Set schedule: {0}"
-msgstr "Set schedule: {0}"
+msgstr "スケジュールを設定する: {0}"
 
 #: ui/schedules_window_qt.py:246 ui/schedules_windows.py:320
 msgid "Deleted schedule: {0}"
-msgstr "Deleted schedule: {0}"
+msgstr "削除されたスケジュール: {0}"
 
 #: ui/schedules_window_qt.py:265
 msgid "Saved schedule: {0}"
-msgstr "Saved schedule: {0}"
+msgstr "保存されたスケジュール: {0}"
 
 #: ui/schedules_windows.py:27
 msgid "Modify Preset Schedule: {0}"
-msgstr "Modify Preset Schedule: {0}"
+msgstr "プリセットスケジュールの変更: {0}"
 
 #: ui/schedules_windows.py:45 ui/schedules_windows.py:251
 msgid "Add schedule"
-msgstr "Add schedule"
+msgstr "スケジュール追加"
 
 #: ui/schedules_windows.py:48
 msgid "Add Preset Task"
-msgstr "Add Preset Task"
+msgstr "プリセットタスクの追加"
 
 #: ui/schedules_windows.py:96
 msgid "Move Down"
-msgstr "Move Down"
+msgstr "下に移動"
 
 #: ui/schedules_windows.py:221
 msgid "Not enough schedules found."
-msgstr "Not enough schedules found."
+msgstr "十分なスケジュールが見つからない。"
 
 #: ui/schedules_windows.py:230
 msgid "Preset Schedules"
-msgstr "Preset Schedules"
+msgstr "プリセットのスケジュール"
 
 #: ui/schedules_windows.py:253
 msgid "Clear schedules"
-msgstr "Clear schedules"
+msgstr "スケジュールをクリアする"
 
 #: ui/schedules_windows.py:405
 msgid "Cleared schedules"
-msgstr "Cleared schedules"
+msgstr "スケジュールをクリア"
 
 #: ui/tags_blacklist_window.py:180
 msgid "Blacklist Preview"
-msgstr "Blacklist Preview"
+msgstr "ブラックリスト・プレビュー"
 
 #: ui/tags_blacklist_window.py:203
 msgid "Concepts filtered by: {0}"
-msgstr "Concepts filtered by: {0}"
+msgstr "フィルタリングされた概念: {0}"
 
 #: ui/tags_blacklist_window.py:207
 msgid "All filtered concepts"
-msgstr "All filtered concepts"
+msgstr "フィルタリングされたすべての概念"
 
 #: ui/tags_blacklist_window.py:258
 msgid "Found {0} filtered concepts"
-msgstr "Found {0} filtered concepts"
+msgstr "フィルタリングされたコンセプトが{0}個見つかった"
 
 #: ui/tags_blacklist_window.py:266
 msgid "Error loading concepts: {0}"
-msgstr "Error loading concepts: {0}"
+msgstr "概念の読み込みエラー： {0}"
 
 #: ui/tags_blacklist_window.py:341 ui/tags_blacklist_window_qt.py:16
 msgid "Tags Blacklist"
-msgstr "Tags Blacklist"
+msgstr "タグ ブラックリスト"
 
 #: ui/tags_blacklist_window.py:375
 msgid "Add to tag blacklist"
-msgstr "Add to tag blacklist"
+msgstr "タグのブラックリストに追加"
 
 #: ui/tags_blacklist_window.py:214
 msgid "Add item"
-msgstr "Add item"
+msgstr "項目を追加"
 
 #: ui/tags_blacklist_window.py:68
 msgid "Use glob-based regex"
-msgstr "Use glob-based regex"
+msgstr "グロブベースの正規表現を使用する"
 
 #: ui/tags_blacklist_window.py:378
 msgid "Clear items"
-msgstr "Clear items"
+msgstr "項目をクリアする"
 
 #: ui/tags_blacklist_window.py:386
 msgid "Preview All"
-msgstr "Preview All"
+msgstr "すべてをプレビュー"
 
 #: ui/tags_blacklist_window.py:91 ui/tags_blacklist_window.py:429
 msgid "Preview"
-msgstr "Preview"
+msgstr "プレビュー"
 
 #: ui/tags_blacklist_window.py:437
 msgid "Remove"
-msgstr "Remove"
+msgstr "削除"
 
 #: ui/tags_blacklist_window.py:504
 msgid "Removed item: {0}"
-msgstr "Removed item: {0}"
+msgstr "削除されたアイテム {0}"
 
 #: ui/tags_blacklist_window.py:514
 msgid "Please enter a string to add to the blacklist."
-msgstr "Please enter a string to add to the blacklist."
+msgstr "ブラックリストに追加する文字列を入力してください。"
 
 #: ui/tags_blacklist_window.py:493 ui/tags_blacklist_window.py:520
 msgid "Added item to blacklist: {0}"
-msgstr "Added item to blacklist: {0}"
+msgstr "ブラックリストに項目を追加： {0}"
 
 #: ui/tags_blacklist_window.py:598
 msgid "Cleared item blacklist"
-msgstr "Cleared item blacklist"
+msgstr "アイテムのブラックリストを消去"
 
 #: ui/tags_blacklist_window.py:653
 msgid "Item \"{0}\" is now {1}"
-msgstr "Item \"{0}\" is now {1}"
+msgstr "アイテム「{0}」が{1}になった。"
 
 #: ui/tags_blacklist_window.py:655
 msgid "enabled"
-msgstr "enabled"
+msgstr "使用可能"
 
 #: ui/tags_blacklist_window.py:655
 msgid "disabled"
-msgstr "disabled"
+msgstr "使用不能"
 
 #: ui/tags_blacklist_window.py:678
 msgid "Import Blacklist"
-msgstr "Import Blacklist"
+msgstr "ブラックリストのインポート"
 
 #: ui/tags_blacklist_window.py:693
 msgid "Successfully imported blacklist"
-msgstr "Successfully imported blacklist"
+msgstr "ブラックリストのインポート成功"
 
 #: ui/tags_blacklist_window.py:695
 msgid "Import Error"
-msgstr "Import Error"
+msgstr "インポートエラー"
 
 #: ui/tags_blacklist_window.py:705
 msgid "Export Blacklist"
-msgstr "Export Blacklist"
+msgstr "ブラックリストのエクスポート"
 
 #: ui/tags_blacklist_window.py:720
 msgid "Successfully exported blacklist"
-msgstr "Successfully exported blacklist"
+msgstr "ブラックリストのエクスポートに成功"
 
 #: ui/tags_blacklist_window.py:722
 msgid "Export Error"
-msgstr "Export Error"
+msgstr "エクスポートエラー"
 
 #: ui/tags_blacklist_window_qt.py:28
 msgid "Search tags..."
-msgstr "Search tags..."
+msgstr "タグを検索..."
 
 #: ui/tags_blacklist_window_qt.py:40
 msgid "Enter tag to blacklist"
-msgstr "Enter tag to blacklist"
+msgstr "ブラックリストに入れるタグを入力"
 
 #: ui/tags_blacklist_window_qt.py:41
 msgid "Add Tag"
-msgstr "Add Tag"
+msgstr "タグの追加"
 
 #: ui/tags_blacklist_window_qt.py:92
 msgid "Added tag to blacklist: {0}"
-msgstr "Added tag to blacklist: {0}"
+msgstr "ブラックリストにタグを追加： {0}"
 
 #: ui/tags_blacklist_window_qt.py:104
 msgid "Removed tag from blacklist: {0}"
-msgstr "Removed tag from blacklist: {0}"
+msgstr "ブラックリストからタグを削除した： {0}"
 
 #: utils/job_queue.py:40
 msgid " (Pending runs: {0})"
-msgstr " (Pending runs: {0})"
+msgstr " (保留中: {0})"
 
 #: utils/job_queue.py:42
 msgid " (Pending schedules: {0})"
-msgstr " (Pending schedules: {0})"
+msgstr " (保留中のスケジュール: {0})"
 
 #: utils/time_estimator.py:87
 msgid "~{0}d"
-msgstr "~{0}d"
+msgstr "~{0}日"
 
 #: utils/time_estimator.py:89
 msgid "{0}h"
-msgstr "{0}h"
+msgstr "{0}時"
 
 #: utils/time_estimator.py:91
 msgid "{0}m"
-msgstr "{0}m"
+msgstr "{0}分"
 
 #: utils/time_estimator.py:92
 msgid "{0}s"
-msgstr "{0}s"
+msgstr "{0}秒"
 
 #: ui/tags_blacklist_window.py:29
 msgid "Modify Blacklist Item: {0}"
-msgstr "Modify Blacklist Item: {0}"
+msgstr "ブラックリストの変更 項目: {0}"
 
 #: ui/tags_blacklist_window.py:46
 msgid "Blacklist String"
-msgstr "Blacklist String"
+msgstr "ブラックリスト文字列"
 
 #: ui/tags_blacklist_window.py:56
 msgid "Enabled"
-msgstr "Enabled"
+msgstr "有効"
 
 #: ui/tags_blacklist_window.py:80
 msgid "Use word boundary matching"
-msgstr "Use word boundary matching"
+msgstr "単語境界マッチングを使う"
 
 #: ui/tags_blacklist_window.py:114
 msgid "Blacklist string cannot be empty."
-msgstr "Blacklist string cannot be empty."
+msgstr "ブラックリストのテキストを空にすることはできない。"
 
 #: ui/tags_blacklist_window.py:141
 msgid "No changes were made"
-msgstr "No changes were made"
+msgstr "変更なし"
 
 #: ui/tags_blacklist_window.py:153
 msgid "Unsaved Changes"
-msgstr "Unsaved Changes"
+msgstr "未保存の変更"
 
 #: ui/tags_blacklist_window.py:153
 msgid "Do you want to save changes before closing?"
-msgstr "Do you want to save changes before closing?"
+msgstr "閉じる前に変更を保存しますか？"
 
 #: ui/tags_blacklist_window.py:373
 msgid "Blacklist items"
-msgstr "Blacklist items"
+msgstr "ブラックリスト項目"
 
 #: ui/tags_blacklist_window.py:406
 msgid "[regex]"
-msgstr "[regex]"
+msgstr "[正規表現]"
 
 #: ui/tags_blacklist_window.py:408
 msgid "[no boundary]"
-msgstr "[no boundary]"
+msgstr "[単語境界なし]"
 
 #: ui/tags_blacklist_window.py:495
 msgid "Modified blacklist item: {0}"
-msgstr "Modified blacklist item: {0}"
+msgstr "変更されたブラックリスト項目： {0}"

@@ -424,7 +424,7 @@ class PersonalQuantumEncryptor(BaseEncryptor):
                 print("Keys already exist. Generating new keys.")
                 PersonalQuantumEncryptor.purge_keys(service_name)
                 return PersonalQuantumEncryptor.generate_and_store_keys(service_name, force_new=False)
-            print("Keys already exist. Using existing configuration.")
+            # print("Keys already exist. Using existing configuration.")
             pub_key = BaseEncryptor._retrieve_large_data(service_name, "public_key")
             return pub_key
         

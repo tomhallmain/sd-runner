@@ -1,928 +1,953 @@
-# Translations template for APPLICATION.
-# Copyright (C) 2025 AUTHOR NAME <author@example.com>
-# This file is distributed under the same license as the APPLICATION project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: APPLICATION 1.0\n"
-"Report-Msgid-Bugs-To: Translator Name <translator@example.com>\n"
-"POT-Creation-Date: 2025-07-01 10:28-0400\n"
-"PO-Revision-Date: 2025-07-01 10:28-0400\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: 2025-07-01 14:38-0400\n"
+"PO-Revision-Date: 2025-07-01 14:38-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
+"Language-Team: pt Team <<EMAIL>>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: app.py:124
 msgid "Run SD Workflows"
-msgstr ""
+msgstr "Executar fluxos de trabalho SD"
 
 #: app.py:128
 msgid "Run Workflows"
-msgstr ""
+msgstr "Executar fluxos de trabalho"
 
 #: app.py:130
 msgid "Cancel Run"
-msgstr ""
+msgstr "Cancelar execução"
 
 #: app.py:140
 msgid "Software"
-msgstr ""
+msgstr "Aplicações"
 
 #: app.py:148
 msgid "Workflow"
-msgstr ""
+msgstr "Fluxo de trabalho"
 
 #: app.py:155
 msgid "Set N Latents"
-msgstr ""
+msgstr "Número de latentes"
 
 #: app.py:161
 msgid "Set Total"
-msgstr ""
+msgstr "Total"
 
 #: app.py:169
 msgid "Delay Seconds"
-msgstr ""
+msgstr "Segundos de atraso"
 
 #: app.py:175
 msgid "Resolutions"
-msgstr ""
+msgstr "Resoluções"
 
 #: app.py:182
 msgid "Resolution Group"
-msgstr ""
+msgstr "Grupo de resolução"
 
 #: app.py:188
 msgid "Model Tags"
-msgstr ""
+msgstr "Etiquetas de modelos"
 
 #: app.py:203
 msgid "LoRA Tags"
-msgstr ""
+msgstr "Etiquetas LoRA"
 
 #: app.py:219
 msgid "Default LoRA Strength"
-msgstr ""
+msgstr "Força LoRA por defeito"
 
 #: app.py:225
 msgid "Prompt Massage Tags"
-msgstr ""
+msgstr "Etiquetas de ajustamento de solicitação"
 
 #: app.py:233
 msgid "Positive Tags"
-msgstr ""
+msgstr "Etiquetas positivas"
 
 #: app.py:240
 msgid "Negative Tags"
-msgstr ""
+msgstr "Etiquetas negativas"
 
 #: app.py:248
 msgid "B/W Colorization Tags"
-msgstr ""
+msgstr "Etiquetas de coloração P/B"
 
 #: app.py:256
 msgid "Control Net or Redo files"
-msgstr ""
+msgstr "Controlar a rede ou refazer ficheiros"
 
 #: app.py:263
 msgid "Default Control Net Strength"
-msgstr ""
+msgstr "Força da rede de controlo por defeito"
 
 #: app.py:269
 msgid "IPAdapter files"
-msgstr ""
+msgstr "Ficheiros IPAdapter"
 
 #: app.py:276
 msgid "Default IPAdapter Strength"
-msgstr ""
+msgstr "Força do IPAdapter por defeito"
 
 #: app.py:282
 msgid "Redo Parameters"
-msgstr ""
+msgstr "Parâmetros de repetição"
 
 #: app.py:298
 msgid "Sampler"
-msgstr ""
+msgstr "Amostra"
 
 #: app.py:304
 msgid "Scheduler"
-msgstr ""
+msgstr "Programador"
 
 #: app.py:310
 msgid "Seed"
-msgstr ""
+msgstr "Semente"
 
 #: app.py:317
 msgid "Steps"
-msgstr ""
+msgstr "Etapas"
 
 #: app.py:324
 msgid "CFG"
-msgstr ""
+msgstr "CFG"
 
 #: app.py:331
 msgid "Denoise"
-msgstr ""
+msgstr "Redução de ruído"
 
 #: app.py:338
 msgid "Random Skip Chance"
-msgstr ""
+msgstr "Aleatório Saltar o acaso"
 
 #: app.py:346
 msgid "Prompts Configuration"
-msgstr ""
+msgstr "Configuração de avisos"
 
 #: app.py:349
 msgid "Prompt Mode"
-msgstr ""
+msgstr "Modo de solicitação"
 
 #: app.py:356
 msgid "Edit Concepts"
-msgstr ""
+msgstr "Editar conceitos"
 
 #: app.py:359
 msgid "Concepts Dir"
-msgstr ""
+msgstr "Diretório de conceitos"
 
 #: app.py:368
 msgid "Concepts"
-msgstr ""
+msgstr "Conceitos"
 
 #: app.py:377
 msgid "Positions"
-msgstr ""
+msgstr "Cargos"
 
 #: app.py:386
 msgid "Locations"
-msgstr ""
+msgstr "Localizações"
 
 #: app.py:395
 msgid "Specific Locations Chance"
-msgstr ""
+msgstr "Possibilidade de especificar localizações"
 
 #: app.py:401
 msgid "Animals"
-msgstr ""
+msgstr "Animais"
 
 #: app.py:410
 msgid "Colors"
-msgstr ""
+msgstr "Cores"
 
 #: app.py:419
 msgid "Times"
-msgstr ""
+msgstr "Tempos"
 
 #: app.py:428
 msgid "Dress"
-msgstr ""
+msgstr "Vestuário"
 
 #: app.py:437
 msgid "Expressions"
-msgstr ""
+msgstr "Expressões"
 
 #: app.py:446
 msgid "Actions"
-msgstr ""
+msgstr "Acções"
 
 #: app.py:455
 msgid "Descriptions"
-msgstr ""
+msgstr "Descrições"
 
 #: app.py:464
 msgid "Characters"
-msgstr ""
+msgstr "Personagens"
 
 #: app.py:473
 msgid "Random Words"
-msgstr ""
+msgstr "Palavras aleatórias"
 
 #: app.py:482
 msgid "Nonsense"
-msgstr ""
+msgstr "Disparate"
 
 #: app.py:491
 msgid "Multiplier"
-msgstr ""
+msgstr "Multiplicador"
 
 #: app.py:502
 msgid "Specify Humans Chance"
-msgstr ""
+msgstr "Possibilidade de especificar humanos"
 
 #: app.py:508
 msgid "Art Styles Chance"
-msgstr ""
+msgstr "Possibilidade de estilos artísticos"
 
 #: app.py:514
 msgid "Emphasis Chance"
-msgstr ""
+msgstr "Possibilidade de ênfase"
 
 #: app.py:524
 msgid "Override Resolution"
-msgstr ""
+msgstr "Substituir a resolução"
 
 #: app.py:528
 msgid "Inpainting"
-msgstr ""
+msgstr "Pintura interior"
 
 #: app.py:532
 msgid "Override Base Negative"
-msgstr ""
+msgstr "Anular o negativo de base"
 
 #: app.py:536
 msgid "Tags Applied to Prompt Start"
-msgstr ""
+msgstr "As etiquetas aplicadas no início do prompt"
 
 #: app.py:540
 msgid "Sparse Mixed Tags"
-msgstr ""
+msgstr "Etiquetas mistas esparsas"
 
 #: app.py:544
 msgid "Run Preset Schedule"
-msgstr ""
+msgstr "Executar programa predefinido"
 
 #: app.py:549
 msgid "Preset Schedule Window"
-msgstr ""
+msgstr "Janela Programações predefinidas"
 
 #: app.py:550 ui/presets_window.py:92 ui/presets_window_qt.py:27
 msgid "Presets Window"
-msgstr ""
+msgstr "Janela Predefinições"
 
 #: app.py:554
 msgid "Tag Blacklist"
-msgstr ""
+msgstr "Lista negra de etiquetas"
 
 #: app.py:555 ui/expansions_window.py:173
 msgid "Expansions Window"
-msgstr ""
+msgstr "Janela Expansões"
 
 #: app.py:613
 msgid "Confirm Quit"
-msgstr ""
+msgstr "Confirmar Sair"
 
 #: app.py:613
 msgid "Would you like to quit the application?"
-msgstr ""
+msgstr "Deseja abandonar a aplicação?"
 
 #: app.py:847 app.py:864
 msgid "Confirm Run"
-msgstr ""
+msgstr "Confirmar execução"
 
 #: app.py:848
-msgid "Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"
+msgid ""
+"Starting a new run will cancel the current preset schedule. Are you sure you"
+" want to proceed?"
 msgstr ""
+"O início de um novo ciclo cancelará o programa predefinido atual. Tem a "
+"certeza de que pretende continuar?"
 
 #: app.py:865
 msgid "Are you sure you want to proceed?"
-msgstr ""
+msgstr "Tens a certeza de que queres continuar?"
 
 #: app.py:965 app_qt.py:375
 msgid " (unlimited)"
-msgstr ""
+msgstr " (ilimitado)"
 
 #: app.py:989
 msgid "{0} pending generations"
-msgstr ""
+msgstr "{0} gerações pendentes"
 
 #: app.py:1070
 msgid "Invalid Prompt Tags"
-msgstr ""
+msgstr "Etiquetas de aviso inválidas"
 
 #: app.py:1071
 msgid "Blacklisted items found in prompt: {0}"
-msgstr ""
+msgstr "Itens na lista negra encontrados no prompt: {0}"
 
-#: app.py:1209 ui/concept_editor_window.py:262 ui/concept_editor_window.py:319 ui/concept_editor_window.py:338
-#: ui/tags_blacklist_window.py:114 ui/tags_blacklist_window.py:269
+#: app.py:1209 ui/concept_editor_window.py:262 ui/concept_editor_window.py:319
+#: ui/concept_editor_window.py:338 ui/tags_blacklist_window.py:114
+#: ui/tags_blacklist_window.py:269
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #: app.py:1335 app_qt.py:47
 msgid " ComfyGen "
-msgstr ""
+msgstr " Corredor SD "
 
 #: app_qt.py:225
 msgid "Prompter Configuration"
-msgstr ""
+msgstr "Configuração do prompter"
 
 #: sd_runner/blacklist.py:154
 msgid "Filtering concepts for blacklist: "
-msgstr ""
+msgstr "Conceitos de filtragem para a lista negra: "
 
 #: sd_runner/run_config.py:53
 msgid "No prompter config found!"
-msgstr ""
+msgstr "Não foi encontrada nenhuma configuração do prompter!"
 
 #: sd_runner/run_config.py:56
-msgid "Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"
+msgid ""
+"Ensure configuration is correct - do you really want to create more than 10 "
+"images using the same prompt?"
 msgstr ""
+"Certifique-se de que a configuração está correta - quer mesmo criar mais de "
+"dez imagens utilizando o mesmo prompt?"
 
 #: sd_runner/run_config.py:61
-msgid "A model switch was detected and the model massage tags don't match. This warning will only be shown once."
+msgid ""
+"A model switch was detected and the model massage tags don't match. This "
+"warning will only be shown once."
 msgstr ""
+"Foi detectada uma mudança de modelo e as etiquetas para o ajuste do modelo "
+"não coincidem. Este aviso só é apresentado uma vez."
 
 #: ui/concept_editor_window.py:104
 msgid "Search/Add Concept:"
-msgstr ""
+msgstr "Conceito de pesquisa/adição:"
 
 #: ui/concept_editor_window.py:153
 msgid "File:"
-msgstr ""
+msgstr "Ficheiro:"
 
-#: ui/concept_editor_window.py:161 ui/concept_editor_window_qt.py:122 ui/expansions_window_qt.py:58
-#: ui/schedules_window_qt.py:95
+#: ui/concept_editor_window.py:161 ui/concept_editor_window_qt.py:122
+#: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
-#: ui/concept_editor_window.py:164 ui/concept_editor_window_qt.py:49 ui/expansions_window.py:238 ui/presets_window.py:145
+#: ui/concept_editor_window.py:164 ui/concept_editor_window_qt.py:49
+#: ui/expansions_window.py:238 ui/presets_window.py:145
 #: ui/schedules_windows.py:88 ui/schedules_windows.py:288
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
-#: ui/concept_editor_window.py:167 ui/concept_editor_window_qt.py:141 ui/tags_blacklist_window.py:384
+#: ui/concept_editor_window.py:167 ui/concept_editor_window_qt.py:141
+#: ui/tags_blacklist_window.py:384
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 #: ui/concept_editor_window.py:208
 msgid "Enter search text to see concepts..."
-msgstr ""
+msgstr "Introduzir texto de pesquisa para ver conceitos..."
 
 #: ui/concept_editor_window.py:262
 msgid "Please select a file to save to"
-msgstr ""
+msgstr "Selecione um ficheiro para guardar"
 
 #: ui/concept_editor_window.py:276 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
-msgstr ""
+msgstr "Conceito guardado: {0}"
 
 #: ui/concept_editor_window.py:297
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #: ui/concept_editor_window.py:297
 msgid "Delete concept: {0}?"
-msgstr ""
+msgstr "Eliminar conceito: {0}?"
 
 #: ui/concept_editor_window.py:303 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
-msgstr ""
+msgstr "Conceito eliminado: {0}"
 
 #: ui/concept_editor_window.py:319
 msgid "Please select a target file first"
-msgstr ""
+msgstr "Selecione primeiro um ficheiro de destino"
 
 #: ui/concept_editor_window.py:324
 msgid "Select concepts file to import"
-msgstr ""
+msgstr "Selecionar o ficheiro de conceitos a importar"
 
 #: ui/concept_editor_window.py:325
 msgid "Text files"
-msgstr ""
+msgstr "Ficheiros de texto"
 
 #: ui/concept_editor_window.py:325
 msgid "All files"
-msgstr ""
+msgstr "Todos os ficheiros"
 
 #: ui/concept_editor_window.py:345
 msgid "Successfully imported {0} concepts"
-msgstr ""
+msgstr "Importou com sucesso {0} conceitos"
 
 #: ui/concept_editor_window.py:347
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr ""
+"{0} conceitos não foram importados (ver {1}_failed_import.txt para mais "
+"pormenores)"
 
 #: ui/concept_editor_window.py:349
 msgid "Import Results"
-msgstr ""
+msgstr "Resultados da importação"
 
 #: ui/concept_editor_window_qt.py:19
 msgid "Concept Editor"
-msgstr ""
+msgstr "Editor de conceitos"
 
 #: ui/concept_editor_window_qt.py:36
 msgid "Search concepts..."
-msgstr ""
+msgstr "Conceitos de pesquisa..."
 
 #: ui/concept_editor_window_qt.py:47 ui/expansions_window_qt.py:68
 msgid "New"
-msgstr ""
+msgstr "Novo"
 
 #: ui/concept_editor_window_qt.py:65
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 #: ui/concept_editor_window_qt.py:73
 msgid "Type:"
-msgstr ""
+msgstr "Tipo:"
 
 #: ui/concept_editor_window_qt.py:82
 msgid "Trigger:"
-msgstr ""
+msgstr "Gatilho:"
 
 #: ui/concept_editor_window_qt.py:90
 msgid "Weight:"
-msgstr ""
+msgstr "Peso:"
 
 #: ui/concept_editor_window_qt.py:100 ui/expansions_window_qt.py:51
 msgid "Value:"
-msgstr ""
+msgstr "Valor:"
 
 #: ui/concept_editor_window_qt.py:110
 msgid "Browse"
-msgstr ""
+msgstr "Navegar"
 
 #: ui/concept_editor_window_qt.py:117
 msgid "Active"
-msgstr ""
+msgstr "Ativo"
 
 #: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:385
 msgid "Export"
-msgstr ""
+msgstr "Exportação"
 
-#: ui/concept_editor_window_qt.py:143 ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59 ui/schedules_window_qt.py:97
-#: ui/schedules_window_qt.py:169 ui/tags_blacklist_window.py:239 ui/tags_blacklist_window_qt.py:52
+#: ui/concept_editor_window_qt.py:143 ui/expansions_window_qt.py:70
+#: ui/presets_window_qt.py:59 ui/schedules_window_qt.py:97
+#: ui/schedules_window_qt.py:169 ui/tags_blacklist_window.py:239
+#: ui/tags_blacklist_window_qt.py:52
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: ui/concept_editor_window_qt.py:232
 msgid "Updated concept: {0} -> {1}"
-msgstr ""
+msgstr "Conceito atualizado: {0} -> {1}"
 
 #: ui/concept_editor_window_qt.py:252
 msgid "Select Image"
-msgstr ""
+msgstr "Selecionar imagem"
 
 #: ui/concept_editor_window_qt.py:254
 msgid "Image Files (*.png *.jpg *.jpeg *.bmp *.gif)"
-msgstr ""
+msgstr "Ficheiros de imagem (*.png *.jpg *.jpeg *.bmp *.gif)"
 
 #: ui/concept_editor_window_qt.py:262
 msgid "Import Concepts"
-msgstr ""
+msgstr "Importar os conceitos"
 
 #: ui/concept_editor_window_qt.py:264 ui/concept_editor_window_qt.py:286
 msgid "JSON Files (*.json)"
-msgstr ""
+msgstr "Ficheiros JSON (*.json)"
 
 #: ui/concept_editor_window_qt.py:276
 msgid "Imported concepts from: {0}"
-msgstr ""
+msgstr "Conceitos importados de: {0}"
 
 #: ui/concept_editor_window_qt.py:279
 msgid "Error importing concepts: {0}"
-msgstr ""
+msgstr "Erro ao importar conceitos: {0}"
 
 #: ui/concept_editor_window_qt.py:284
 msgid "Export Concepts"
-msgstr ""
+msgstr "Exportar os conceitos"
 
 #: ui/concept_editor_window_qt.py:295
 msgid "Exported concepts to: {0}"
-msgstr ""
+msgstr "Conceitos exportados para: {0}"
 
 #: ui/concept_editor_window_qt.py:298
 msgid "Error exporting concepts: {0}"
-msgstr ""
+msgstr "Erro ao exportar conceitos: {0}"
 
 #: ui/expansions_window.py:29
 msgid "Modify Expansion: {0}"
-msgstr ""
+msgstr "Modificar a expansão: {0}"
 
 #: ui/expansions_window.py:37
 msgid "Expansion ID"
-msgstr ""
+msgstr "ID de expansão"
 
 #: ui/expansions_window.py:44
 msgid "Expansion Text"
-msgstr ""
+msgstr "Texto de expansão"
 
 #: ui/expansions_window.py:46
 msgid "New Expansion Text"
-msgstr ""
+msgstr "Novo texto de expansão"
 
 #: ui/expansions_window.py:59 ui/tags_blacklist_window.py:92
 msgid "Done"
-msgstr ""
+msgstr "Feito"
 
 #: ui/expansions_window.py:67
 msgid ""
-"Warning: This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is "
-"removed or renamed."
+"Warning: This expansion ID matches a wildcard in config.json. Changes will "
+"not take effect until the wildcard is removed or renamed."
 msgstr ""
+"Aviso: Este ID de expansão corresponde a um curinga em config.json. As "
+"alterações não terão efeito até que o curinga seja removido ou renomeado."
 
 #: ui/expansions_window.py:78 ui/tags_blacklist_window.py:514
 msgid "Warning"
-msgstr ""
+msgstr "Aviso"
 
 #: ui/expansions_window.py:79
 msgid ""
-"This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or "
-"renamed.\n"
+"This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
 "\n"
 "Do you want to save anyway?"
 msgstr ""
+"Esta ID de expansão corresponde a um carácter universal em config.json. As alterações não terão efeito até que o curinga seja removido ou renomeado.\n"
+"\n"
+"Deseja salvar mesmo assim?"
 
 #: ui/expansions_window.py:134
 msgid "New Expansion (ERROR no expansions found)"
-msgstr ""
+msgstr "Nova expansão (ERRO não foram encontradas expansões)"
 
 #: ui/expansions_window.py:165
 msgid "Not enough expansions found."
-msgstr ""
+msgstr "Não foram encontradas expansões suficientes."
 
 #: ui/expansions_window.py:201
 msgid "Add or update expansions"
-msgstr ""
+msgstr "Adicionar ou atualizar expansões"
 
 #: ui/expansions_window.py:203
 msgid "Add expansion"
-msgstr ""
+msgstr "Adicionar expansão"
 
 #: ui/expansions_window.py:205
 msgid "Clear expansions"
-msgstr ""
+msgstr "Limpar expansões"
 
-#: ui/expansions_window.py:231 ui/schedules_windows.py:281 ui/tags_blacklist_window.py:421
+#: ui/expansions_window.py:231 ui/schedules_windows.py:281
+#: ui/tags_blacklist_window.py:421
 msgid "Modify"
-msgstr ""
+msgstr "Modificar"
 
 #: ui/expansions_window.py:245
 msgid "Copy"
-msgstr ""
+msgstr "Cópia"
 
 #: ui/expansions_window.py:281
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
-msgstr ""
+msgstr "ID de expansão inválida “{0}” ou texto “{1}”"
 
 #: ui/expansions_window.py:451
 msgid "Copied expansion text to clipboard"
-msgstr ""
+msgstr "Texto de expansão copiado para a área de transferência"
 
 #: ui/expansions_window_qt.py:16
 msgid "Expansions"
-msgstr ""
+msgstr "Expansões"
 
 #: ui/expansions_window_qt.py:28
 msgid "Search expansions..."
-msgstr ""
+msgstr "Procurar expansões..."
 
 #: ui/expansions_window_qt.py:43
 msgid "Key:"
-msgstr ""
+msgstr "Chave:"
 
-#: ui/expansions_window_qt.py:69 ui/presets_window_qt.py:58 ui/schedules_window_qt.py:168 ui/tags_blacklist_window_qt.py:51
+#: ui/expansions_window_qt.py:69 ui/presets_window_qt.py:58
+#: ui/schedules_window_qt.py:168 ui/tags_blacklist_window_qt.py:51
 msgid "Delete Selected"
-msgstr ""
+msgstr "Apagar selecionado"
 
 #: ui/expansions_window_qt.py:139
 msgid "Updated expansion: {0} -> {1}"
-msgstr ""
+msgstr "Expansão actualizada: {0} -> {1}"
 
 #: ui/expansions_window_qt.py:141
 msgid "Saved expansion: {0}"
-msgstr ""
+msgstr "Expansão guardada: {0}"
 
 #: ui/expansions_window_qt.py:155
 msgid "Deleted expansion: {0}"
-msgstr ""
+msgstr "Expansão eliminada: {0}"
 
 #: ui/presets_window.py:53 ui/presets_window_qt.py:160
 msgid "New Preset (ERROR no presets found)"
-msgstr ""
+msgstr "Nova predefinição (ERRO não foram encontradas predefinições)"
 
 #: ui/presets_window.py:84
 msgid "Not enough presets found."
-msgstr ""
+msgstr "Não foram encontradas predefinições suficientes."
 
 #: ui/presets_window.py:113
 msgid "Set a new preset"
-msgstr ""
+msgstr "Definir uma nova predefinição"
 
 #: ui/presets_window.py:114 ui/presets_window_qt.py:56
 msgid "New Preset"
-msgstr ""
+msgstr "Nova predefinição"
 
 #: ui/presets_window.py:118
 msgid "Add preset"
-msgstr ""
+msgstr "Adicionar predefinição"
 
 #: ui/presets_window.py:120
 msgid "Clear presets"
-msgstr ""
+msgstr "Limpar as predefinições"
 
 #: ui/presets_window.py:138 ui/schedules_windows.py:274
 msgid "Set"
-msgstr ""
+msgstr "Definir"
 
 #: ui/presets_window.py:162
 msgid "Invalid preset: {0}"
-msgstr ""
+msgstr "Predefinição inválida: {0}"
 
 #: ui/presets_window_qt.py:42
 msgid "Search presets..."
-msgstr ""
+msgstr "Procurar predefinições..."
 
 #: ui/presets_window_qt.py:57
 msgid "Apply Selected"
-msgstr ""
+msgstr "Aplicar selecionado"
 
 #: ui/presets_window_qt.py:111
 msgid "Created new preset: {0}"
-msgstr ""
+msgstr "Criada nova predefinição: {0}"
 
 #: ui/presets_window_qt.py:124
 msgid "Applied preset: {0}"
-msgstr ""
+msgstr "Predefinição aplicada: {0}"
 
 #: ui/presets_window_qt.py:140
 msgid "Deleted preset: {0}"
-msgstr ""
+msgstr "Predefinição eliminada: {0}"
 
-#: ui/schedule.py:14 ui/schedules_window_qt.py:54 ui/schedules_window_qt.py:165 ui/schedules_windows.py:40
+#: ui/schedule.py:14 ui/schedules_window_qt.py:54
+#: ui/schedules_window_qt.py:165 ui/schedules_windows.py:40
 msgid "New Schedule"
-msgstr ""
+msgstr "Novo calendário"
 
 #: ui/schedule.py:72
 msgid "{0} ({1} runs)"
-msgstr ""
+msgstr "{0} ({1} corre)"
 
 #: ui/schedules_window_qt.py:51 ui/schedules_windows.py:38
 msgid "Modify Schedule"
-msgstr ""
+msgstr "Modificar o calendário"
 
 #: ui/schedules_window_qt.py:62
 msgid "Schedule Name:"
-msgstr ""
+msgstr "Nome do programa:"
 
 #: ui/schedules_window_qt.py:76
 msgid "Task name"
-msgstr ""
+msgstr "Nome da tarefa"
 
 #: ui/schedules_window_qt.py:82
 msgid "Add Task"
-msgstr ""
+msgstr "Adicionar tarefa"
 
 #: ui/schedules_window_qt.py:96
 msgid "Delete Selected Task"
-msgstr ""
+msgstr "Eliminar a tarefa selecionada"
 
 #: ui/schedules_window_qt.py:135
 msgid "Schedules Window"
-msgstr ""
+msgstr "Janela Programações"
 
 #: ui/schedules_window_qt.py:147
 msgid "Search schedules..."
-msgstr ""
+msgstr "Procurar horários..."
 
 #: ui/schedules_window_qt.py:166
 msgid "Modify Selected"
-msgstr ""
+msgstr "Modificar selecionado"
 
 #: ui/schedules_window_qt.py:167
 msgid "Set Selected"
-msgstr ""
+msgstr "Conjunto Selecionado"
 
 #: ui/schedules_window_qt.py:205 ui/schedules_windows.py:309
 msgid "Current schedule: {0}"
-msgstr ""
+msgstr "Programação atual: {0}"
 
 #: ui/schedules_window_qt.py:231 ui/schedules_windows.py:314
 msgid "Set schedule: {0}"
-msgstr ""
+msgstr "Definir programação: {0}"
 
 #: ui/schedules_window_qt.py:246 ui/schedules_windows.py:320
 msgid "Deleted schedule: {0}"
-msgstr ""
+msgstr "Programação eliminada: {0}"
 
 #: ui/schedules_window_qt.py:265
 msgid "Saved schedule: {0}"
-msgstr ""
+msgstr "Programação guardado: {0}"
 
 #: ui/schedules_windows.py:27
 msgid "Modify Preset Schedule: {0}"
-msgstr ""
+msgstr "Modificar programação predefinido: {0}"
 
 #: ui/schedules_windows.py:45 ui/schedules_windows.py:251
 msgid "Add schedule"
-msgstr ""
+msgstr "Adicionar programação"
 
 #: ui/schedules_windows.py:48
 msgid "Add Preset Task"
-msgstr ""
+msgstr "Adicionar tarefa de predefinições"
 
 #: ui/schedules_windows.py:96
 msgid "Move Down"
-msgstr ""
+msgstr "Mover para baixo"
 
 #: ui/schedules_windows.py:221
 msgid "Not enough schedules found."
-msgstr ""
+msgstr "Não foram encontrados programaçãos suficientes."
 
 #: ui/schedules_windows.py:230
 msgid "Preset Schedules"
-msgstr ""
+msgstr "Programaçãos de predefinições"
 
 #: ui/schedules_windows.py:253
 msgid "Clear schedules"
-msgstr ""
+msgstr "Limpar os programaçãos"
 
 #: ui/schedules_windows.py:405
 msgid "Cleared schedules"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:29
-msgid "Modify Blacklist Item: {0}"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:46
-msgid "Blacklist String"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:56
-msgid "Enabled"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:68
-msgid "Use glob-based regex"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:80
-msgid "Use word boundary matching"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:91 ui/tags_blacklist_window.py:429
-msgid "Preview"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:114
-msgid "Blacklist string cannot be empty."
-msgstr ""
-
-#: ui/tags_blacklist_window.py:141
-msgid "No changes were made"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:153
-msgid "Unsaved Changes"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:153
-msgid "Do you want to save changes before closing?"
-msgstr ""
+msgstr "Limparam os programaçãos"
 
 #: ui/tags_blacklist_window.py:180
 msgid "Blacklist Preview"
-msgstr ""
+msgstr "Prévia da lista negra"
 
 #: ui/tags_blacklist_window.py:203
 msgid "Concepts filtered by: {0}"
-msgstr ""
+msgstr "Conceitos filtrados por: {0}"
 
 #: ui/tags_blacklist_window.py:207
 msgid "All filtered concepts"
-msgstr ""
+msgstr "Todos os conceitos filtrados"
 
 #: ui/tags_blacklist_window.py:258
 msgid "Found {0} filtered concepts"
-msgstr ""
+msgstr "Encontrou {0} conceitos filtrados"
 
 #: ui/tags_blacklist_window.py:266
 msgid "Error loading concepts: {0}"
-msgstr ""
+msgstr "Erro ao carregar conceitos: {0}"
 
 #: ui/tags_blacklist_window.py:341 ui/tags_blacklist_window_qt.py:16
 msgid "Tags Blacklist"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:373
-msgid "Blacklist items"
-msgstr ""
+msgstr "Lista negra de etiquetas"
 
 #: ui/tags_blacklist_window.py:375
 msgid "Add to tag blacklist"
-msgstr ""
+msgstr "Adicionar à lista negra de etiquetas"
+
+#: ui/tags_blacklist_window.py:214
+msgid "Add item"
+msgstr "Adicionar item"
+
+#: ui/tags_blacklist_window.py:68
+msgid "Use glob-based regex"
+msgstr "Utilizar regex baseado em glob"
 
 #: ui/tags_blacklist_window.py:378
 msgid "Clear items"
-msgstr ""
+msgstr "Limpar itens"
 
 #: ui/tags_blacklist_window.py:386
 msgid "Preview All"
-msgstr ""
+msgstr "Pré-visualizar tudo"
 
-#: ui/tags_blacklist_window.py:406
-msgid "[regex]"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:408
-msgid "[no boundary]"
-msgstr ""
+#: ui/tags_blacklist_window.py:91 ui/tags_blacklist_window.py:429
+msgid "Preview"
+msgstr "Prévia"
 
 #: ui/tags_blacklist_window.py:437
 msgid "Remove"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:493 ui/tags_blacklist_window.py:520
-msgid "Added item to blacklist: {0}"
-msgstr ""
-
-#: ui/tags_blacklist_window.py:495
-msgid "Modified blacklist item: {0}"
-msgstr ""
+msgstr "Remover"
 
 #: ui/tags_blacklist_window.py:504
 msgid "Removed item: {0}"
-msgstr ""
+msgstr "Item removido: {0}"
 
 #: ui/tags_blacklist_window.py:514
 msgid "Please enter a string to add to the blacklist."
-msgstr ""
+msgstr "Introduza uma cadeia de caracteres para adicionar à lista negra."
+
+#: ui/tags_blacklist_window.py:493 ui/tags_blacklist_window.py:520
+msgid "Added item to blacklist: {0}"
+msgstr "Item adicionado à lista negra: {0}"
 
 #: ui/tags_blacklist_window.py:598
 msgid "Cleared item blacklist"
-msgstr ""
+msgstr "Lista negra de itens limpa"
 
 #: ui/tags_blacklist_window.py:653
 msgid "Item \"{0}\" is now {1}"
-msgstr ""
+msgstr "O item “{0}” é agora {1}"
 
 #: ui/tags_blacklist_window.py:655
 msgid "enabled"
-msgstr ""
+msgstr "ativado"
 
 #: ui/tags_blacklist_window.py:655
 msgid "disabled"
-msgstr ""
+msgstr "desativado"
 
 #: ui/tags_blacklist_window.py:678
 msgid "Import Blacklist"
-msgstr ""
+msgstr "Importar lista negra"
 
 #: ui/tags_blacklist_window.py:693
 msgid "Successfully imported blacklist"
-msgstr ""
+msgstr "Lista negra importada com êxito"
 
 #: ui/tags_blacklist_window.py:695
 msgid "Import Error"
-msgstr ""
+msgstr "Erro de importação"
 
 #: ui/tags_blacklist_window.py:705
 msgid "Export Blacklist"
-msgstr ""
+msgstr "Exportar a lista negra"
 
 #: ui/tags_blacklist_window.py:720
 msgid "Successfully exported blacklist"
-msgstr ""
+msgstr "Lista negra exportada com êxito"
 
 #: ui/tags_blacklist_window.py:722
 msgid "Export Error"
-msgstr ""
+msgstr "Erro de exportação"
 
 #: ui/tags_blacklist_window_qt.py:28
 msgid "Search tags..."
-msgstr ""
+msgstr "Procurar nas etiquetas..."
 
 #: ui/tags_blacklist_window_qt.py:40
 msgid "Enter tag to blacklist"
-msgstr ""
+msgstr "Introduzir etiqueta na lista negra"
 
 #: ui/tags_blacklist_window_qt.py:41
 msgid "Add Tag"
-msgstr ""
+msgstr "Adicionar etiqueta"
 
 #: ui/tags_blacklist_window_qt.py:92
 msgid "Added tag to blacklist: {0}"
-msgstr ""
+msgstr "Etiqueta adicionada à lista negra: {0}"
 
 #: ui/tags_blacklist_window_qt.py:104
 msgid "Removed tag from blacklist: {0}"
-msgstr ""
+msgstr "Etiqueta removida da lista negra: {0}"
 
 #: utils/job_queue.py:40
 msgid " (Pending runs: {0})"
-msgstr ""
+msgstr " (Execuções pendentes: {0})"
 
 #: utils/job_queue.py:42
 msgid " (Pending schedules: {0})"
-msgstr ""
+msgstr " (Programações pendentes: {0})"
 
 #: utils/time_estimator.py:87
 msgid "~{0}d"
-msgstr ""
+msgstr "~{0}d"
 
 #: utils/time_estimator.py:89
 msgid "{0}h"
-msgstr ""
+msgstr "{0}h"
 
 #: utils/time_estimator.py:91
 msgid "{0}m"
-msgstr ""
+msgstr "{0}m"
 
 #: utils/time_estimator.py:92
 msgid "{0}s"
-msgstr ""
+msgstr "{0}s"
 
+#: ui/tags_blacklist_window.py:29
+msgid "Modify Blacklist Item: {0}"
+msgstr "Modificar o Item da Lista Negra: {0}"
+
+#: ui/tags_blacklist_window.py:46
+msgid "Blacklist String"
+msgstr "Texto da lista negra"
+
+#: ui/tags_blacklist_window.py:56
+msgid "Enabled"
+msgstr "Ativado"
+
+#: ui/tags_blacklist_window.py:80
+msgid "Use word boundary matching"
+msgstr "Utilizar a correspondência de limites de palavras"
+
+#: ui/tags_blacklist_window.py:114
+msgid "Blacklist string cannot be empty."
+msgstr "O texto da lista negra não pode estar vazio."
+
+#: ui/tags_blacklist_window.py:141
+msgid "No changes were made"
+msgstr "Não foram efectuadas alterações"
+
+#: ui/tags_blacklist_window.py:153
+msgid "Unsaved Changes"
+msgstr "Alterações não guardadas"
+
+#: ui/tags_blacklist_window.py:153
+msgid "Do you want to save changes before closing?"
+msgstr "Pretende guardar as alterações antes de as fechar?"
+
+#: ui/tags_blacklist_window.py:373
+msgid "Blacklist items"
+msgstr "Itens da lista negra"
+
+#: ui/tags_blacklist_window.py:406
+msgid "[regex]"
+msgstr "[regex]"
+
+#: ui/tags_blacklist_window.py:408
+msgid "[no boundary]"
+msgstr "[sem limite de palavra]"
+
+#: ui/tags_blacklist_window.py:495
+msgid "Modified blacklist item: {0}"
+msgstr "Item da lista negra modificado: {0}"
