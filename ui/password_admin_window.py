@@ -1,10 +1,11 @@
 import os
-from tkinter import Toplevel, Frame, Label, StringVar, BooleanVar, LEFT, W, E
+from tkinter import Toplevel, Frame, Label, StringVar, BooleanVar, LEFT, W, E, Checkbutton
 import tkinter.font as fnt
-from tkinter.ttk import Entry, Button, Checkbutton
+from tkinter.ttk import Entry, Button
 from tkinter import messagebox
 
 from ui.app_style import AppStyle
+from ui.password_utils import require_password
 from utils.app_info_cache import app_info_cache
 from utils.globals import ProtectedActions
 from utils.translations import I18N
@@ -63,22 +64,16 @@ class PasswordAdminWindow():
     @staticmethod
     def is_action_protected(action_name):
         """Check if a specific action requires password authentication."""
-        if not PasswordAdminWindow.protected_actions:
-            PasswordAdminWindow.protected_actions = PasswordAdminWindow.set_protected_actions()
         return PasswordAdminWindow.protected_actions.get(action_name, False)
 
     @staticmethod
     def is_session_timeout_enabled():
         """Check if session timeout is enabled."""
-        if not hasattr(PasswordAdminWindow, 'session_timeout_enabled'):
-            PasswordAdminWindow.set_session_settings()
         return PasswordAdminWindow.session_timeout_enabled
 
     @staticmethod
     def get_session_timeout_minutes():
         """Get the session timeout duration in minutes."""
-        if not hasattr(PasswordAdminWindow, 'session_timeout_minutes'):
-            PasswordAdminWindow.set_session_settings()
         return PasswordAdminWindow.session_timeout_minutes
 
     @staticmethod
@@ -140,10 +135,10 @@ class PasswordAdminWindow():
             if action in self.action_vars:
                 checkbox = Checkbutton(self.frame, text=action_enum.get_description(), 
                                      variable=self.action_vars[action],
-                                     command=self.update_protected_actions)
+                                     command=self.update_protected_actions,
+                                     bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
+                                     selectcolor=AppStyle.BG_COLOR)
                 checkbox.grid(column=0, row=row, pady=5, sticky="w")
-                checkbox.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
-                              selectcolor=AppStyle.BG_COLOR)
                 row += 1
 
         # Session timeout section
@@ -159,10 +154,10 @@ class PasswordAdminWindow():
         # Enable session timeout checkbox
         session_checkbox = Checkbutton(self.frame, text=_("Enable session timeout (remember password for a period)"), 
                                      variable=self.session_timeout_enabled_var,
-                                     command=self.update_session_settings)
+                                     command=self.update_session_settings,
+                                     bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
+                                     selectcolor=AppStyle.BG_COLOR)
         session_checkbox.grid(column=0, row=row, pady=5, sticky="w")
-        session_checkbox.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
-                              selectcolor=AppStyle.BG_COLOR)
         row += 1
         
         # Timeout duration frame
@@ -176,7 +171,6 @@ class PasswordAdminWindow():
         
         timeout_entry = Entry(timeout_frame, textvariable=self.session_timeout_minutes_var, width=10)
         timeout_entry.grid(column=1, row=0, padx=5, sticky="w")
-        timeout_entry.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
         timeout_entry.bind('<KeyRelease>', self.update_session_settings)
         row += 1
 
@@ -213,6 +207,7 @@ class PasswordAdminWindow():
             # Invalid number entered, revert to current value
             self.session_timeout_minutes_var.set(str(PasswordAdminWindow.session_timeout_minutes))
 
+    @require_password(ProtectedActions.ACCESS_ADMIN)
     def save_settings(self):
         """Save the current settings."""
         self.update_protected_actions()
@@ -220,6 +215,7 @@ class PasswordAdminWindow():
         PasswordAdminWindow.store_protected_actions()
         self.app_actions.toast(_("Password protection settings saved."))
 
+    @require_password(ProtectedActions.ACCESS_ADMIN)
     def reset_to_defaults(self):
         """Reset all settings to their default values."""
         result = messagebox.askyesno(
