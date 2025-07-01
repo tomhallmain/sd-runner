@@ -2,11 +2,103 @@
 Password authentication utilities for the SD Runner application.
 """
 
+import hashlib
+import os
+import keyring
 from ui.password_admin_window import PasswordAdminWindow
 from ui.password_dialog import PasswordDialog
 from ui.password_session_manager import PasswordSessionManager
 from utils.globals import ProtectedActions
+from utils.app_info_cache import app_info_cache
 
+
+class PasswordManager:
+    """Manages password storage and verification."""
+    
+    SERVICE_NAME = "SDRunner"
+    APP_IDENTIFIER = "password_protection"
+    
+    @staticmethod
+    def is_password_configured():
+        """Check if a password is configured."""
+        try:
+            # Check if password hash exists in secure storage
+            password_hash = keyring.get_password(
+                PasswordManager.SERVICE_NAME, 
+                f"{PasswordManager.APP_IDENTIFIER}_hash"
+            )
+            return password_hash is not None and len(password_hash) > 0
+        except:
+            return False
+    
+    @staticmethod
+    def set_password(password):
+        """Set a new password."""
+        try:
+            # Create a salted hash of the password
+            salt = os.urandom(32)
+            password_hash = PasswordManager._hash_password(password, salt)
+            
+            # Store the hash in secure storage
+            keyring.set_password(
+                PasswordManager.SERVICE_NAME,
+                f"{PasswordManager.APP_IDENTIFIER}_hash",
+                salt.hex() + password_hash.hex()
+            )
+            return True
+        except Exception as e:
+            print(f"Error setting password: {e}")
+            return False
+    
+    @staticmethod
+    def verify_password(password):
+        """Verify a password against the stored hash."""
+        try:
+            # Get the stored hash from secure storage
+            stored_data_hex = keyring.get_password(
+                PasswordManager.SERVICE_NAME, 
+                f"{PasswordManager.APP_IDENTIFIER}_hash"
+            )
+            
+            if not stored_data_hex:
+                return False
+            
+            # Convert hex back to bytes
+            stored_data = bytes.fromhex(stored_data_hex)
+            
+            # Extract salt and hash
+            salt = stored_data[:32]
+            stored_hash = stored_data[32:]
+            
+            # Hash the provided password with the same salt
+            password_hash = PasswordManager._hash_password(password, salt)
+            
+            return password_hash == stored_hash
+        except Exception as e:
+            print(f"Error verifying password: {e}")
+            return False
+    
+    @staticmethod
+    def _hash_password(password, salt):
+        """Create a hash of the password with salt."""
+        # Use PBKDF2-like approach with multiple iterations
+        password_bytes = password.encode('utf-8')
+        hash_obj = hashlib.pbkdf2_hmac('sha256', password_bytes, salt, 100000)
+        return hash_obj
+    
+    @staticmethod
+    def clear_password():
+        """Clear the stored password."""
+        try:
+            # Remove the password hash from secure storage
+            keyring.delete_password(
+                PasswordManager.SERVICE_NAME,
+                f"{PasswordManager.APP_IDENTIFIER}_hash"
+            )
+            return True
+        except Exception as e:
+            print(f"Error clearing password: {e}")
+            return False
 
 
 def check_password_required(action_name: ProtectedActions, master, callback=None):

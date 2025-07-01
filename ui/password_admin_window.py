@@ -5,7 +5,7 @@ from tkinter.ttk import Entry, Button
 from tkinter import messagebox
 
 from ui.app_style import AppStyle
-from ui.password_utils import require_password
+from ui.password_utils import require_password, PasswordManager
 from utils.app_info_cache import app_info_cache
 from utils.globals import ProtectedActions
 from utils.translations import I18N
@@ -102,6 +102,10 @@ class PasswordAdminWindow():
         # Create variables for session timeout settings
         self.session_timeout_enabled_var = BooleanVar(value=PasswordAdminWindow.session_timeout_enabled)
         self.session_timeout_minutes_var = StringVar(value=str(PasswordAdminWindow.session_timeout_minutes))
+        
+        # Create variables for password setup
+        self.new_password_var = StringVar()
+        self.confirm_password_var = StringVar()
 
         self.frame = Frame(self.master)
         self.frame.grid(column=0, row=0, sticky="nsew")
@@ -174,6 +178,74 @@ class PasswordAdminWindow():
         timeout_entry.bind('<KeyRelease>', self.update_session_settings)
         row += 1
 
+        # Password setup section
+        row += 1  # Add some spacing
+        
+        # Password setup title
+        password_title = Label(self.frame, text=_("Password Setup"), 
+                              font=fnt.Font(size=11, weight="bold"))
+        password_title.grid(column=0, row=row, pady=(20, 10), sticky="w")
+        password_title.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        row += 1
+        
+        # Check if password is already configured
+        password_configured = PasswordManager.is_password_configured()
+        
+        if password_configured:
+            # Show password status
+            status_label = Label(self.frame, text=_("Password is configured"), 
+                               fg="green")
+            status_label.grid(column=0, row=row, pady=5, sticky="w")
+            status_label.config(bg=AppStyle.BG_COLOR)
+            row += 1
+            
+            # Change password button
+            change_btn = Button(self.frame, text=_("Change Password"), 
+                               command=self.show_change_password_dialog)
+            change_btn.grid(column=0, row=row, pady=5, sticky="w")
+            row += 1
+        else:
+            # Show password setup form
+            setup_label = Label(self.frame, text=_("Set up a password to enable protection:"), 
+                              wraplength=450)
+            setup_label.grid(column=0, row=row, pady=(0, 10), sticky="w")
+            setup_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+            row += 1
+            
+            # New password entry
+            new_pwd_frame = Frame(self.frame)
+            new_pwd_frame.grid(column=0, row=row, pady=5, sticky="w")
+            new_pwd_frame.config(bg=AppStyle.BG_COLOR)
+            
+            new_pwd_label = Label(new_pwd_frame, text=_("New Password:"))
+            new_pwd_label.grid(column=0, row=0, padx=(20, 5), sticky="w")
+            new_pwd_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+            
+            new_pwd_entry = Entry(new_pwd_frame, textvariable=self.new_password_var, 
+                                 show="*", width=20)
+            new_pwd_entry.grid(column=1, row=0, padx=5, sticky="w")
+            row += 1
+            
+            # Confirm password entry
+            confirm_pwd_frame = Frame(self.frame)
+            confirm_pwd_frame.grid(column=0, row=row, pady=5, sticky="w")
+            confirm_pwd_frame.config(bg=AppStyle.BG_COLOR)
+            
+            confirm_pwd_label = Label(confirm_pwd_frame, text=_("Confirm Password:"))
+            confirm_pwd_label.grid(column=0, row=0, padx=(20, 5), sticky="w")
+            confirm_pwd_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+            
+            confirm_pwd_entry = Entry(confirm_pwd_frame, textvariable=self.confirm_password_var, 
+                                     show="*", width=20)
+            confirm_pwd_entry.grid(column=1, row=0, padx=5, sticky="w")
+            row += 1
+            
+            # Set password button
+            set_pwd_btn = Button(self.frame, text=_("Set Password"), 
+                                command=self.set_password)
+            set_pwd_btn.grid(column=0, row=row, pady=5, sticky="w")
+            row += 1
+
         # Buttons
         button_frame = Frame(self.frame)
         button_frame.grid(column=0, row=row, pady=(20, 10), sticky="ew")
@@ -187,9 +259,13 @@ class PasswordAdminWindow():
         reset_btn = Button(button_frame, text=_("Reset to Defaults"), command=self.reset_to_defaults)
         reset_btn.grid(column=1, row=0, padx=(0, 10))
 
+        # Set to current button
+        current_btn = Button(button_frame, text=_("Set to Current"), command=self.set_to_current)
+        current_btn.grid(column=2, row=0, padx=(0, 10))
+
         # Close button
         close_btn = Button(button_frame, text=_("Close"), command=self.close_window)
-        close_btn.grid(column=2, row=0)
+        close_btn.grid(column=3, row=0)
 
     def update_protected_actions(self):
         """Update the protected actions dictionary when checkboxes change."""
@@ -237,6 +313,152 @@ class PasswordAdminWindow():
             self.session_timeout_minutes_var.set(str(PasswordAdminWindow.session_timeout_minutes))
             
             self.app_actions.toast(_("Settings reset to defaults."))
+
+    def set_to_current(self):
+        """Restore settings to their current saved state."""
+        result = messagebox.askyesno(
+            _("Set to Current"),
+            _("Are you sure you want to restore all settings to their current saved state? This will discard any unsaved changes.")
+        )
+        
+        if result:
+            # Reload the current saved state
+            PasswordAdminWindow.protected_actions = PasswordAdminWindow.set_protected_actions()
+            PasswordAdminWindow.set_session_settings()
+            
+            # Update checkboxes to reflect the current saved state
+            for action, var in self.action_vars.items():
+                var.set(PasswordAdminWindow.protected_actions.get(action, False))
+            
+            # Update session timeout controls
+            self.session_timeout_enabled_var.set(PasswordAdminWindow.session_timeout_enabled)
+            self.session_timeout_minutes_var.set(str(PasswordAdminWindow.session_timeout_minutes))
+            
+            self.app_actions.toast(_("Settings restored to current saved state."))
+
+    @require_password(ProtectedActions.ACCESS_ADMIN)
+    def set_password(self):
+        """Set a new password."""
+        new_password = self.new_password_var.get()
+        confirm_password = self.confirm_password_var.get()
+        
+        if not new_password:
+            messagebox.showerror(_("Error"), _("Please enter a password."))
+            return
+        
+        if new_password != confirm_password:
+            messagebox.showerror(_("Error"), _("Passwords do not match."))
+            return
+        
+        if len(new_password) < 6:
+            messagebox.showerror(_("Error"), _("Password must be at least 6 characters long."))
+            return
+        
+        if PasswordManager.set_password(new_password):
+            self.app_actions.toast(_("Password set successfully."))
+            # Clear the password fields
+            self.new_password_var.set("")
+            self.confirm_password_var.set("")
+            # Refresh the UI to show the password is configured
+            self.refresh_ui()
+        else:
+            messagebox.showerror(_("Error"), _("Failed to set password."))
+    
+    def show_change_password_dialog(self):
+        """Show dialog to change password."""
+        # Create a simple dialog for changing password
+        dialog = Toplevel(self.master, bg=AppStyle.BG_COLOR)
+        dialog.title(_("Change Password"))
+        dialog.geometry("400x250")
+        dialog.transient(self.master)
+        dialog.grab_set()
+        
+        # Center the dialog
+        dialog.update_idletasks()
+        x = (dialog.winfo_screenwidth() // 2) - (400 // 2)
+        y = (dialog.winfo_screenheight() // 2) - (250 // 2)
+        dialog.geometry(f"400x250+{x}+{y}")
+        
+        # Main frame
+        main_frame = Frame(dialog, bg=AppStyle.BG_COLOR)
+        main_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        
+        # Title
+        title_label = Label(main_frame, text=_("Change Password"), 
+                           font=fnt.Font(size=12, weight="bold"))
+        title_label.pack(pady=(0, 15))
+        title_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        
+        # Current password
+        current_pwd_var = StringVar()
+        current_label = Label(main_frame, text=_("Current Password:"))
+        current_label.pack(anchor="w")
+        current_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        
+        current_entry = Entry(main_frame, textvariable=current_pwd_var, show="*", width=30)
+        current_entry.pack(fill="x", pady=(5, 10))
+        
+        # New password
+        new_pwd_var = StringVar()
+        new_label = Label(main_frame, text=_("New Password:"))
+        new_label.pack(anchor="w")
+        new_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        
+        new_entry = Entry(main_frame, textvariable=new_pwd_var, show="*", width=30)
+        new_entry.pack(fill="x", pady=(5, 10))
+        
+        # Confirm new password
+        confirm_pwd_var = StringVar()
+        confirm_label = Label(main_frame, text=_("Confirm New Password:"))
+        confirm_label.pack(anchor="w")
+        confirm_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        
+        confirm_entry = Entry(main_frame, textvariable=confirm_pwd_var, show="*", width=30)
+        confirm_entry.pack(fill="x", pady=(5, 15))
+        
+        # Buttons
+        button_frame = Frame(main_frame, bg=AppStyle.BG_COLOR)
+        button_frame.pack(fill="x")
+        
+        def change_password():
+            current_pwd = current_pwd_var.get()
+            new_pwd = new_pwd_var.get()
+            confirm_pwd = confirm_pwd_var.get()
+            
+            if not PasswordManager.verify_password(current_pwd):
+                messagebox.showerror(_("Error"), _("Current password is incorrect."))
+                return
+            
+            if new_pwd != confirm_pwd:
+                messagebox.showerror(_("Error"), _("New passwords do not match."))
+                return
+            
+            if len(new_pwd) < 6:
+                messagebox.showerror(_("Error"), _("Password must be at least 6 characters long."))
+                return
+            
+            if PasswordManager.set_password(new_pwd):
+                self.app_actions.toast(_("Password changed successfully."))
+                dialog.destroy()
+            else:
+                messagebox.showerror(_("Error"), _("Failed to change password."))
+        
+        ok_button = Button(button_frame, text=_("Change Password"), command=change_password)
+        ok_button.pack(side="right", padx=(10, 0))
+        
+        cancel_button = Button(button_frame, text=_("Cancel"), command=dialog.destroy)
+        cancel_button.pack(side="right")
+        
+        # Focus on current password entry
+        current_entry.focus()
+    
+    def refresh_ui(self):
+        """Refresh the UI to reflect current state."""
+        # This is a simple approach - recreate the window
+        # In a more sophisticated implementation, you might update specific widgets
+        self.master.destroy()
+        PasswordAdminWindow.top_level = None
+        PasswordAdminWindow(self.master.master, self.app_actions)
 
     def close_window(self, event=None):
         """Close the window."""
