@@ -6,6 +6,7 @@ from tkinter.ttk import Entry, Button
 
 from ui.app_style import AppStyle
 from ui.expansion import Expansion
+from ui.password_utils import require_password, ProtectedActions
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.translations import I18N
@@ -70,6 +71,7 @@ class ExpansionModifyWindow():
             self._warning_label.config(text="")
             return False
 
+    @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def finalize_expansion(self, event=None):
         if self.check_wildcard_clash():
             self.master.update()
@@ -249,6 +251,7 @@ class ExpansionsWindow():
                 return self.copy_expansion(event, expansion)
             copy_expansion_btn.bind("<Button-1>", copy_expansion_handler)
 
+    @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def open_expansion_modify_window(self, event=None, expansion=None):
         if ExpansionsWindow.expansion_modify_window is not None:
             ExpansionsWindow.expansion_modify_window.master.destroy()
@@ -263,6 +266,7 @@ class ExpansionsWindow():
         self.set_expansion(expansion)
         ExpansionsWindow.store_expansions()
 
+    @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def add_empty_expansion(self, event=None):
         Expansion.expansions.insert(0, Expansion("", ""))
         self.refresh()
@@ -314,6 +318,7 @@ class ExpansionsWindow():
         self.refresh()
 #        self.close_windows()
 
+    @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def delete_expansion(self, event=None, expansion=None):
         if expansion is not None and expansion in Expansion.expansions:
             Expansion.expansions.remove(expansion)
@@ -394,6 +399,7 @@ class ExpansionsWindow():
                 expansion = ExpansionsWindow.last_set_expansion
             self.set_expansion(expansion=expansion)
 
+    @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def clear_expansions(self, event=None):
         self.clear_widget_lists()
         Expansion.expansions.clear()

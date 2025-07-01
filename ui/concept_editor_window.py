@@ -6,6 +6,7 @@ from tkinter.ttk import Button, Combobox
 
 from sd_runner.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
 from ui.app_style import AppStyle
+from ui.password_utils import require_password, ProtectedActions
 from utils.app_info_cache import app_info_cache
 from utils.translations import I18N
 
@@ -251,6 +252,7 @@ class ConceptEditorWindow():
                 self.file_combo.set(filename)
                 break
 
+    @require_password(ProtectedActions.EDIT_CONCEPTS)
     def save_concept(self, event=None):
         """Save a new concept to the selected file"""
         new_concept = self.search_var.get().strip()
@@ -289,6 +291,7 @@ class ConceptEditorWindow():
             # Update current file
             self.current_file = selected_file
 
+    @require_password(ProtectedActions.EDIT_CONCEPTS)
     def delete_concept(self):
         """Delete the current concept from its file"""
         if not self.current_concept or not self.current_file:
@@ -311,6 +314,7 @@ class ConceptEditorWindow():
         """Close the window"""
         self.master.destroy()
 
+    @require_password(ProtectedActions.EDIT_CONCEPTS)
     def import_concepts(self, event=None):
         """Import concepts from a text file"""
         # Get target file

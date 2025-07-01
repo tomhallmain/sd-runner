@@ -7,6 +7,7 @@ from tkinter.ttk import Entry, Button
 from ui.app_style import AppStyle
 from ui.presets_window import PresetsWindow
 from ui.schedule import PresetTask, Schedule
+from ui.password_utils import require_password, ProtectedActions
 from utils.app_info_cache import app_info_cache
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
@@ -89,18 +90,17 @@ class ScheduleModifyWindow():
             self.delete_task_btn_list.append(delete_task_btn)
             delete_task_btn.grid(row=row, column=base_col+3)
             def delete_task_handler(event, self=self, idx=i):
-                self.schedule.delete_index(idx)
-                self.refresh()
+                self._delete_task(idx)
             delete_task_btn.bind("<Button-1>", delete_task_handler)
 
             move_down_btn = Button(self.frame, text=_("Move Down"))
             self.move_down_btn_list.append(move_down_btn)
             move_down_btn.grid(row=row, column=base_col+4)
             def move_down_handler(event, self=self, idx=i):
-                self.schedule.move_index(idx, 1)
-                self.refresh()
+                self._move_task_down(idx)
             move_down_btn.bind("<Button-1>", move_down_handler)
 
+    @require_password(ProtectedActions.EDIT_SCHEDULES)
     def add_preset_task(self):
         self.schedule.add_preset_task(PresetTask(PresetsWindow.get_most_recent_preset_name(), 1))
         self.refresh()
@@ -129,6 +129,17 @@ class ScheduleModifyWindow():
     def move_index(self, idx, direction_count=1):
         self.schedule.move_index(idx, direction_count)
 
+    @require_password(ProtectedActions.EDIT_SCHEDULES)
+    def _delete_task(self, idx):
+        self.schedule.delete_index(idx)
+        self.refresh()
+
+    @require_password(ProtectedActions.EDIT_SCHEDULES)
+    def _move_task_down(self, idx):
+        self.schedule.move_index(idx, 1)
+        self.refresh()
+
+    @require_password(ProtectedActions.EDIT_SCHEDULES)
     def finalize_schedule(self, event=None):
         self.schedule.name = self.new_schedule_name.get()
         self.close_windows()
@@ -292,6 +303,7 @@ class SchedulesWindow():
                 return self.delete_schedule(event, schedule)
             delete_schedule_btn.bind("<Button-1>", delete_schedule_handler)
 
+    @require_password(ProtectedActions.EDIT_SCHEDULES)
     def open_schedule_modify_window(self, event=None, schedule=None):
         if SchedulesWindow.schedule_modify_window is not None:
             SchedulesWindow.schedule_modify_window.master.destroy()
@@ -314,6 +326,7 @@ class SchedulesWindow():
         self.app_actions.toast(_("Set schedule: {0}").format(schedule))
         self.refresh()
 
+    @require_password(ProtectedActions.EDIT_SCHEDULES)
     def delete_schedule(self, event=None, schedule=None):
         if schedule is not None and schedule in SchedulesWindow.recent_schedules:
             SchedulesWindow.recent_schedules.remove(schedule)
@@ -396,6 +409,7 @@ class SchedulesWindow():
                 schedule = SchedulesWindow.last_set_schedule
             self.set_schedule(schedule=schedule)
 
+    @require_password(ProtectedActions.EDIT_SCHEDULES)
     def clear_recent_schedules(self, event=None):
         self.clear_widget_lists()
         SchedulesWindow.recent_schedules.clear()

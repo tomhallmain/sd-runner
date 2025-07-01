@@ -5,6 +5,7 @@ from tkinter.ttk import Button
 from sd_runner.blacklist import BlacklistItem, Blacklist
 from sd_runner.concepts import Concepts
 from ui.app_style import AppStyle
+from ui.password_utils import require_password, ProtectedActions
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.translations import I18N
@@ -122,6 +123,7 @@ class BlacklistModifyWindow():
             use_word_boundary=self.use_word_boundary_var.get()
         )
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def preview_blacklist_item(self, event=None):
         """Preview the effects of the current blacklist item settings"""
         temp_item = self._validate_and_get_item()
@@ -131,6 +133,7 @@ class BlacklistModifyWindow():
         # Open preview window with the temporary item
         BlacklistPreviewWindow(self.master, None, temp_item)
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def finalize_blacklist_item(self, event=None):
         # Check if any changes were made
         if not self._has_changes():
@@ -441,6 +444,7 @@ class BlacklistWindow():
                 return self.remove_item(event, item)
             remove_item_btn.bind("<Button-1>", remove_item_handler)
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def open_blacklist_modify_window(self, event=None, blacklist_item=None):
         if BlacklistWindow.blacklist_modify_window is not None:
             BlacklistWindow.blacklist_modify_window.master.destroy()
@@ -470,10 +474,12 @@ class BlacklistWindow():
         
         self.set_blacklist_item(blacklist_item=blacklist_item, is_new_item=is_new_item)
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def add_new_item(self, event=None):
         """Add a new blacklist item"""
         self.open_blacklist_modify_window(blacklist_item=None)
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def modify_item(self, event=None, item=None):
         """Modify an existing blacklist item"""
         if item is None:
@@ -520,6 +526,7 @@ class BlacklistWindow():
         self.app_actions.toast(_("Added item to blacklist: {0}").format(item))
         return item
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def remove_item(self, event=None, item=None):
         item = self.handle_item(item=item)
         if item is None:
@@ -591,6 +598,7 @@ class BlacklistWindow():
         """
         self.add_new_item()
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def clear_items(self, event=None):
         Blacklist.clear()
         self.filtered_items.clear()
@@ -639,6 +647,7 @@ class BlacklistWindow():
     def new_entry(self, text_variable, text="", width=30, **kw):
         return AwareEntry(self.header_frame, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def toggle_item(self, event=None, item=None, enabled_var=None):
         """Toggle the enabled state of an item."""
         if item is None or enabled_var is None:
@@ -656,16 +665,19 @@ class BlacklistWindow():
                 ))
                 break
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def preview_item(self, event=None, item=None):
         """Show preview of concepts filtered by a specific blacklist item."""
         if item is None:
             return
         BlacklistPreviewWindow(self.master, self.app_actions, item)
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def preview_all(self, event=None):
         """Show preview of all concepts filtered by any blacklist item."""
         BlacklistPreviewWindow(self.master, self.app_actions, None)
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def import_blacklist(self, event=None):
         """Import blacklist from a file."""
         filetypes = [
@@ -694,6 +706,7 @@ class BlacklistWindow():
         except Exception as e:
             self.app_actions.alert(_("Import Error"), str(e), kind="error")
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def export_blacklist(self, event=None):
         """Export blacklist to a file."""
         filetypes = [

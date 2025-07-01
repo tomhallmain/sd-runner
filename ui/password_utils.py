@@ -4,6 +4,7 @@ Password authentication utilities for the SD Runner application.
 
 from ui.password_admin_window import PasswordAdminWindow
 from ui.password_dialog import PasswordDialog
+from ui.password_session_manager import PasswordSessionManager
 from utils.globals import ProtectedActions
 
 
@@ -27,10 +28,23 @@ def check_password_required(action_name: ProtectedActions, master, callback=None
             callback(True)
         return True
     
+    # Check if session timeout is enabled and session is still valid
+    if PasswordAdminWindow.is_session_timeout_enabled():
+        timeout_minutes = PasswordAdminWindow.get_session_timeout_minutes()
+        if PasswordSessionManager.is_session_valid(action_name, timeout_minutes):
+            # Session is still valid, proceed without password prompt
+            if callback:
+                callback(True)
+            return True
+    
     # Password required, show dialog
     description = action_name.get_description()
     
     def password_callback(result):
+        if result:
+            # Password verified successfully, record the session
+            if PasswordAdminWindow.is_session_timeout_enabled():
+                PasswordSessionManager.record_successful_verification(action_name)
         if callback:
             callback(result)
     

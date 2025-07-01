@@ -601,6 +601,7 @@ class App():
     def close_autocomplete_popups(self):
         self.model_tags_box.closeListbox()
         self.lora_tags_box.closeListbox()
+        self.run_btn.focus_force()
 
     def on_closing(self):
         Utils.prevent_sleep(False)
@@ -650,6 +651,7 @@ class App():
             SchedulesWindow.set_schedules()
             ExpansionsWindow.set_expansions()
             PasswordAdminWindow.set_protected_actions()
+            PasswordAdminWindow.set_session_settings()
             return RunnerAppConfig.from_dict(app_info_cache.get_history(0))
         except Exception as e:
             print(e)

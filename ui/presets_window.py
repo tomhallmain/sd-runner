@@ -6,6 +6,7 @@ from tkinter.ttk import Entry, Button
 
 from ui.app_style import AppStyle
 from ui.preset import Preset
+from ui.password_utils import require_password, ProtectedActions
 from utils.app_info_cache import app_info_cache
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
@@ -162,6 +163,7 @@ class PresetsWindow():
                 self.app_actions.toast(_("Invalid preset: {0}").format(preset))
         return self.app_actions.construct_preset(self.new_preset_name.get()), False
 
+    @require_password(ProtectedActions.EDIT_PRESETS)
     def handle_preset(self, event=None, preset=None):
         """
         Have to call this when user is setting a new preset as well, in which case preset will be None.
@@ -194,6 +196,7 @@ class PresetsWindow():
         self.refresh()
 #        self.close_windows()
 
+    @require_password(ProtectedActions.EDIT_PRESETS)
     def delete_preset(self, event=None, preset=None):
         if preset is not None and preset in PresetsWindow.recent_presets:
             PresetsWindow.recent_presets.remove(preset)
@@ -273,6 +276,7 @@ class PresetsWindow():
                 preset = PresetsWindow.last_set_preset
             self.set_preset(preset=preset)
 
+    @require_password(ProtectedActions.EDIT_PRESETS)
     def clear_recent_presets(self, event=None):
         self.clear_widget_lists()
         PresetsWindow.recent_presets.clear()
