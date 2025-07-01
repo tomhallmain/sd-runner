@@ -5,6 +5,7 @@ This code is primarily a custom UI to trigger ComfyUI workflows or SD Web UI fun
 - This was originally developed during early 2024, so many prompts may be out of date with current versions of the respective image generation projects.
 - Though any prompt applied to any model can result in undesirable images despite properly set negative prompts, prompt randomization increases the chance that undesirable images may be generated, even if only innocuous terms are included in the prompt, because the randomness allows for wider traversal of the model's latent space. For this reason it is wise to use a local prevalidation and content filtering tool. I recommend using [simple_image_compare](https://github.com/tomhallmain/simple_image_compare) which has many other features in addition to customizable prevalidations based on CLIP and H5 models.
 - A default English dictionary is used for generating random words, some of which may be found objectionable. A word with a high degree of relation to strong feelings like disgust also tends to carry a lot of prompt weight, even if it is buried in a much larger prompt with no other similar words. As a result you may choose not to use the `random_word` prompt variable, or implement a blacklist using the provided blacklist window which blocks prompts with undesirable strings or otherwise drops them from prompts.
+- If sharing your computer with multiple users, consider setting a password to lock the blacklist and other features.
 - Continuously viewing random images may cause small lapses in sanity. Employ total randomness with caution.
 
 ## Configuration Options
@@ -73,6 +74,21 @@ A UI window for managing your concept files. Search, add, edit, or delete concep
 
 A UI window for managing terms to filter from generated prompts. Add, remove, or toggle terms, and import/export your blacklist in CSV, JSON, or TXT formats. Terms are matched against exact words and their plurals.
 
+## Password Protection
+
+The application includes a password protection system that can be configured to require authentication for sensitive actions. Access the Password Administration window using `<Control-P>` to configure which actions require password verification.
+
+Protected actions include:
+- NSFW/NSFL Prompt Modes
+- Edit Blacklist
+- Edit Schedules
+- Edit Expansions
+- Edit Presets
+- Edit Concepts
+- Access Password Administration
+
+Password settings are stored securely in the encrypted application cache.
+
 ## Server
 
 Set configuration options for a server port to make use of the server while the UI is running. Calls to the server made with Python's multiprocessing client will update the UI as specified, but leave anything unspecified as already set in the UI. This can be helpful to use in conjunction with other applications that involve images. For an example, see [this class](https://github.com/tomhallmain/simple_image_compare/blob/master/extensions/sd_runner_client.py).
@@ -84,4 +100,14 @@ The stable-diffusion-webui img2img workflow is set up as the IP Adapter workflow
 The following locales are supported in the UI: en (English), de (Deutsh), fr (Français), es (Español), it (Italiano). Theoretically the prompt outputs could be set up for any written language that has Unicode support by modifying the existing concepts files or adding a path to the config `concepts_dirs` to override concepts files.
 
 Excepting the concepts files, application data is encrypted for security. Logs are not currently being stored and will not be until they can be encrypted.
+
+## Keyboard Shortcuts
+
+- `<Control-Return>`: Run workflows
+- `<Shift-R>`: Run workflows (alternative)
+- `<Shift-N>`: Next preset
+- `<Control-P>`: Open Password Administration window
+- `<Control-Q>`: Quit application
+- `<Prior>`/`<Next>`: Navigate configuration history
+- `<Home>`/`<End>`: Go to first/last configuration
 

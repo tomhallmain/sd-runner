@@ -11,7 +11,7 @@ from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
 from run import Run
-from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup
+from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup, ProtectedActions
 
 from extensions.sd_runner_server import SDRunnerServer
 
@@ -29,6 +29,8 @@ from ui.app_actions import AppActions
 from ui.app_style import AppStyle
 from ui.concept_editor_window import ConceptEditorWindow
 from ui.expansions_window import ExpansionsWindow
+from ui.password_admin_window import PasswordAdminWindow
+from ui.password_utils import check_password_required, require_password
 from ui.preset import Preset
 from ui.presets_window import PresetsWindow
 from ui.schedules_windows import SchedulesWindow
@@ -349,7 +351,7 @@ class App():
         self.add_label(self.label_prompt_mode, _("Prompt Mode"), column=1, increment_row_counter=False)
         self.prompt_mode = StringVar(master)
         starting_prompt_mode = self.runner_app_config.prompter_config.prompt_mode.name
-        self.prompt_mode_choice = OptionMenu(self.prompter_config_bar, self.prompt_mode, starting_prompt_mode, *PromptMode.__members__.keys())
+        self.prompt_mode_choice = OptionMenu(self.prompter_config_bar, self.prompt_mode, starting_prompt_mode, *PromptMode.__members__.keys(), command=self.check_prompt_mode_password)
         self.apply_to_grid(self.prompt_mode_choice, interior_column=1, sticky=W, column=1)
 
         self.concept_editor_window_btn = None
@@ -551,8 +553,10 @@ class App():
 
         self.tag_blacklist_btn = None
         self.expansions_window_btn = None
+        # self.password_admin_btn = None
         self.add_button("tag_blacklist_btn", text=_("Tag Blacklist"), command=self.show_tag_blacklist, sidebar=False, increment_row_counter=False)
         self.add_button("expansions_window_btn", text=_("Expansions Window"), command=self.open_expansions_window, sidebar=False, interior_column=1)
+        # self.add_button("password_admin_btn", text=_("Password Administration"), command=self.open_password_admin_window, sidebar=False, increment_row_counter=True)
 
         self.master.bind("<Control-Return>", self.run)
         self.master.bind("<Shift-R>", lambda event: self.check_focus(event, self.run))
@@ -562,6 +566,7 @@ class App():
         self.master.bind("<Home>", lambda event: self.first_config())
         self.master.bind("<End>", lambda event: self.first_config(end=True))
         self.master.bind("<Control-q>", self.quit)
+        self.master.bind("<Control-p>", lambda event: self.check_focus(event, self.open_password_admin_window))  # Password Administration
         self.toggle_theme()
         self.master.update()
         self.close_autocomplete_popups()
@@ -634,6 +639,7 @@ class App():
         PresetsWindow.store_recent_presets()
         SchedulesWindow.store_schedules()
         ExpansionsWindow.store_expansions()
+        PasswordAdminWindow.store_protected_actions()
         app_info_cache.store()
 
     def load_info_cache(self):
@@ -643,6 +649,7 @@ class App():
             PresetsWindow.set_recent_presets()
             SchedulesWindow.set_schedules()
             ExpansionsWindow.set_expansions()
+            PasswordAdminWindow.set_protected_actions()
             return RunnerAppConfig.from_dict(app_info_cache.get_history(0))
         except Exception as e:
             print(e)
@@ -1170,27 +1177,45 @@ class App():
 
     def open_window(self, window_class, error_title):
         """Open a window with standard constructor arguments.
-        # TODO: Add support for dynamic constructor arguments if needed in the future
+        ### TODO: Add support for dynamic constructor arguments if needed in the future
         """
         try:
             window = window_class(self.master, self.app_actions)
         except Exception as e:
             self.handle_error(str(e), title=error_title)
 
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
     def show_tag_blacklist(self):
         self.open_window(BlacklistWindow, "Blacklist Window Error")
 
+    @require_password(ProtectedActions.EDIT_PRESETS)
     def open_presets_window(self):
         self.open_window(PresetsWindow, "Presets Window Error")
 
+    @require_password(ProtectedActions.EDIT_SCHEDULES)
     def open_preset_schedules_window(self):
         self.open_window(SchedulesWindow, "Preset Schedules Window Error")
 
+    @require_password(ProtectedActions.EDIT_CONCEPTS)
     def open_concept_editor_window(self, event=None):
         self.open_window(ConceptEditorWindow, "Concept Editor Window Error")
 
+    @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def open_expansions_window(self, event=None):
         self.open_window(ExpansionsWindow, "Expansions Window Error")
+
+    @require_password(ProtectedActions.ACCESS_ADMIN)
+    def open_password_admin_window(self, event=None):
+        self.open_window(PasswordAdminWindow, "Password Administration Window Error")
+
+    def check_prompt_mode_password(self, prompt_mode):
+        """Check if password is required for the selected prompt mode."""
+        if prompt_mode in ["NSFW", "NSFL"]:
+            def password_callback(result):
+                if not result:
+                    self.alert(_("Password Cancelled"), _("Password cancelled or incorrect, revert to previous mode"))
+                    self.prompt_mode.set(self.runner_app_config.prompter_config.prompt_mode.name)
+            check_password_required(ProtectedActions.NSFW_PROMPTS, self.master, password_callback)
 
     def next_preset(self, event=None):
         self.set_widgets_from_preset(PresetsWindow.next_preset(self.alert))

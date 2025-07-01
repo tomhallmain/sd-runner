@@ -29,7 +29,11 @@ from utils.utils import Utils
 
 from lib.autocomplete_line_edit import AutocompleteLineEdit
 from lib.toast_widget import ToastWidget
+from ui.password_admin_window_qt import PasswordAdminWindow
 from ui.presets_window_qt import PresetsWindow
+from ui.tags_blacklist_window_qt import BlacklistWindow
+from ui.schedules_window_qt import SchedulesWindow
+from ui.expansions_window_qt import ExpansionsWindow
 
 _ = I18N._
 
@@ -216,6 +220,7 @@ class App(QMainWindow):
         self.schedules_btn = self.create_button("Preset Schedule Window", on_click=self.open_preset_schedules_window, layout=buttons_layout)
         self.blacklist_btn = self.create_button("Tag Blacklist", on_click=self.show_tag_blacklist, layout=buttons_layout)
         self.expansions_btn = self.create_button("Expansions Window", on_click=self.open_expansions_window, layout=buttons_layout)
+        self.password_admin_btn = self.create_button("Password Administration", on_click=self.open_password_admin_window, layout=buttons_layout)
         self.sidebar.layout.addLayout(buttons_layout)
 
         # Add spacer at the bottom
@@ -415,6 +420,13 @@ class App(QMainWindow):
         from ui.expansions_window_qt import ExpansionsWindow
         ExpansionsWindow(self, toast_callback=self.show_toast).show()
 
+    def open_password_admin_window(self):
+        try:
+            window = PasswordAdminWindow(self, toast_callback=self.show_toast)
+            window.show()
+        except Exception as e:
+            self.handle_error(str(e), "Password Administration Window Error")
+
     def construct_preset(self):
         # Implementation for creating a new preset from current settings
         pass
@@ -584,6 +596,7 @@ class App(QMainWindow):
             PresetsWindow.set_recent_presets()
             SchedulesWindow.set_schedules()
             ExpansionsWindow.set_expansions()
+            PasswordAdminWindow.set_protected_actions()
             return RunnerAppConfig.from_dict(app_info_cache.get_history(0))
         except Exception as e:
             print(e)
@@ -599,6 +612,7 @@ class App(QMainWindow):
         PresetsWindow.store_recent_presets()
         SchedulesWindow.store_schedules()
         ExpansionsWindow.store_expansions()
+        PasswordAdminWindow.store_protected_actions()
         app_info_cache.store()
 
 def main():

@@ -5,6 +5,9 @@ from sd_runner.concepts import PromptMode
 from utils.config import config
 from extensions.image_data_extractor import ImageDataExtractor
 from sd_runner.prompter import Prompter
+from utils.translations import I18N
+
+_ = I18N._
 
 
 class Globals:
@@ -191,4 +194,37 @@ class ResolutionGroup(Enum):
     TEN_TWENTY_FOUR = "1024"
     SEVEN_SIXTY_EIGHT = "768"
     FIVE_ONE_TWO = "512"
+
+
+
+class ProtectedActions(Enum):
+    """Enumeration of actions that can be password protected."""
+    NSFW_PROMPTS = "nsfw_prompts"
+    EDIT_BLACKLIST = "edit_blacklist"
+    EDIT_SCHEDULES = "edit_schedules"
+    EDIT_EXPANSIONS = "edit_expansions"
+    EDIT_PRESETS = "edit_presets"
+    EDIT_CONCEPTS = "edit_concepts"
+    ACCESS_ADMIN = "access_admin"
+    
+    @staticmethod
+    def get_action(action_name: str):
+        """Get the ProtectedActions enum value for a given action name."""
+        try:
+            return ProtectedActions(action_name.lower().replace(" ", "_"))
+        except ValueError:
+            return None
+
+    def get_description(self):
+        """Get the user-friendly description for this action."""
+        descriptions = {
+            ProtectedActions.NSFW_PROMPTS: _("NSFW/NSFL Prompt Modes"),
+            ProtectedActions.EDIT_BLACKLIST: _("Edit Blacklist"),
+            ProtectedActions.EDIT_SCHEDULES: _("Edit Schedules"),
+            ProtectedActions.EDIT_EXPANSIONS: _("Edit Expansions"),
+            ProtectedActions.EDIT_PRESETS: _("Edit Presets"),
+            ProtectedActions.EDIT_CONCEPTS: _("Edit Concepts"),
+            ProtectedActions.ACCESS_ADMIN: _("Access Password Administration")
+        }
+        return descriptions.get(self, self.value)
 
