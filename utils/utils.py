@@ -26,7 +26,7 @@ DARK_GREEN = "\033[92m"
 CYAN = "\033[34m"
 
 # create logger
-logger = logging.getLogger("muse")
+logger = logging.getLogger("sd_runner")
 logger.setLevel(logging.DEBUG if config.debug else logging.INFO)
 logger.propagate = False
 

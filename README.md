@@ -83,3 +83,5 @@ The stable-diffusion-webui img2img workflow is set up as the IP Adapter workflow
 
 The following locales are supported in the UI: en (English), de (Deutsh), fr (Français), es (Español), it (Italiano). Theoretically the prompt outputs could be set up for any written language that has Unicode support by modifying the existing concepts files or adding a path to the config `concepts_dirs` to override concepts files.
 
+Excepting the concepts files, application data is encrypted for security. Logs are not currently being stored and will not be until they can be encrypted.
+
