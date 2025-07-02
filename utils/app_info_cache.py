@@ -33,6 +33,25 @@ class AppInfoCache:
             print(f"Error storing cache: {e}")
             raise e
 
+    def load(self):
+        try:
+            old_json_loc = AppInfoCache.CACHE_LOC.replace(".enc", ".json")
+            if os.path.exists(old_json_loc):
+                print(f"Removing old cache file: {old_json_loc}")
+                # Get the old data first
+                with open(old_json_loc, "r", encoding="utf-8") as f:
+                    self._cache = json.load(f)
+                self.store()
+                os.remove(old_json_loc)
+            else:
+                encrypted_data = decrypt_data_from_file(AppInfoCache.CACHE_LOC, "sd_runner", "app_info_cache")
+                self._cache = json.loads(encrypted_data.decode('utf-8'))
+        except FileNotFoundError:
+            pass
+
+    def validate(self):
+        pass
+
     def _purge_blacklisted_history(self):
         """Remove any history entries that contain blacklisted items in their prompts."""
         if not self._cache.get(AppInfoCache.HISTORY_KEY):
@@ -64,25 +83,6 @@ class AppInfoCache:
             print(f"Truncated history to {AppInfoCache.MAX_HISTORY_ENTRIES} entries")
             
         self._cache[AppInfoCache.HISTORY_KEY] = filtered_history
-
-    def load(self):
-        try:
-            old_json_loc = AppInfoCache.CACHE_LOC.replace(".enc", ".json")
-            if os.path.exists(old_json_loc):
-                print(f"Removing old cache file: {old_json_loc}")
-                # Get the old data first
-                with open(old_json_loc, "r", encoding="utf-8") as f:
-                    self._cache = json.load(f)
-                self.store()
-                os.remove(old_json_loc)
-            else:
-                encrypted_data = decrypt_data_from_file(AppInfoCache.CACHE_LOC, "sd_runner", "app_info_cache")
-                self._cache = json.loads(encrypted_data.decode('utf-8'))
-        except FileNotFoundError:
-            pass
-
-    def validate(self):
-        pass
 
     def _get_history(self) -> list:
         if AppInfoCache.HISTORY_KEY not in self._cache:

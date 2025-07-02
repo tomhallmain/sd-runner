@@ -1,7 +1,7 @@
 import os
 import struct
 import sys
-from typing import Optional
+from typing import Optional, Callable
 import zlib
 
 from cryptography.hazmat.primitives import hashes
@@ -184,9 +184,286 @@ class PassphraseManager:
         return fingerprint.digest()
 
 
-class BaseEncryptor:
+class PasswordManager:
     @staticmethod
-    def _derive_key(passphrase: str, salt: bytes, length=32) -> bytes:
+    def store_password(
+        service_name: str,
+        app_identifier: str,
+        password_id: str,
+        encrypted_password: bytes
+    ):
+        """
+        Store encrypted password using platform-specific secure storage
+        with chunking for large data
+        """
+        # Use the same chunking mechanism as BaseEncryptor
+        BaseEncryptor._store_large_data(
+            service_name, 
+            f"{app_identifier}_{password_id}", 
+            encrypted_password
+        )
+
+    @staticmethod
+    def retrieve_password(
+        service_name: str,
+        app_identifier: str,
+        password_id: str
+    ) -> Optional[bytes]:
+        """
+        Retrieve encrypted password from platform-specific secure storage
+        """
+        return BaseEncryptor._retrieve_large_data(
+            service_name, 
+            f"{app_identifier}_{password_id}"
+        )
+
+    @staticmethod
+    def delete_password(
+        service_name: str,
+        app_identifier: str,
+        password_id: str
+    ):
+        """
+        Delete stored password from all storage locations
+        """
+        # Delete all chunks and count entry
+        key_base = f"{app_identifier}_{password_id}"
+        count_str = keyring.get_password(service_name, f"{key_base}_count")
+        if count_str:
+            try:
+                count = int(count_str)
+                for i in range(count):
+                    keyring.delete_password(service_name, f"{key_base}_{i}")
+                keyring.delete_password(service_name, f"{key_base}_count")
+            except ValueError:
+                pass
+
+
+class BaseEncryptor:
+    @classmethod
+    def encrypt_password(cls, public_key: bytes, password: str) -> bytes:
+        """Encrypt a password string to bytes"""
+        password_bytes = password.encode('utf-8')
+        encapsulated_key, aes_key = cls.encapsulate_secret(public_key)
+        nonce = os.urandom(12)
+        cipher = Cipher(algorithms.AES(aes_key), modes.GCM(nonce), default_backend())
+        encryptor = cipher.encryptor()
+        ciphertext = encryptor.update(password_bytes) + encryptor.finalize()
+        return struct.pack('>I', len(encapsulated_key)) + encapsulated_key + nonce + encryptor.tag + ciphertext
+    
+    @classmethod
+    def decrypt_password(cls, private_key: bytes, encrypted_password: bytes) -> str:
+        """Decrypt bytes back to password string"""
+        key_len = struct.unpack('>I', encrypted_password[:4])[0]
+        index = 4
+        encapsulated_key = encrypted_password[index:index+key_len]
+        index += key_len
+        nonce = encrypted_password[index:index+12]
+        index += 12
+        tag = encrypted_password[index:index+16]
+        index += 16
+        ciphertext = encrypted_password[index:]
+        
+        aes_key = cls.decapsulate_secret(private_key, encapsulated_key)
+        cipher = Cipher(
+            algorithms.AES(aes_key),
+            modes.GCM(nonce, tag),
+            default_backend()
+        )
+        decryptor = cipher.decryptor()
+        password_bytes = decryptor.update(ciphertext) + decryptor.finalize()
+        return password_bytes.decode('utf-8')
+    
+    @classmethod
+    def generate_keypair(cls) -> tuple[bytes, bytes]:
+        """Generate key pair"""
+        raise NotImplementedError("Subclass must implement this method")
+    
+    @classmethod
+    def generate_and_store_keys(
+        cls,
+        service_name: str,
+        app_identifier: str,
+        force_new: bool = False,
+    ) -> bytes:
+        """Generate and store keys"""
+        raise NotImplementedError("Subclass must implement this method")
+
+    @classmethod
+    def encapsulate_secret(cls, public_key: bytes) -> tuple[bytes, bytes]:
+        """Encapsulate secret"""
+        raise NotImplementedError("Subclass must implement this method")
+    
+    @classmethod
+    def decapsulate_secret(cls, private_key: bytes, ciphertext: bytes) -> bytes:
+        """Decapsulate secret"""
+        raise NotImplementedError("Subclass must implement this method")
+
+    @classmethod
+    def load_private_key(
+        cls,
+        service_name: str,
+        app_identifier: str
+    ) -> bytes:
+        """Load private key"""
+        salt = bytes.fromhex(keyring.get_password(service_name, "salt"))
+        nonce = bytes.fromhex(keyring.get_password(service_name, "nonce"))
+        tag = bytes.fromhex(keyring.get_password(service_name, "tag"))
+        encrypted_priv = cls._retrieve_large_data(service_name, "encrypted_priv")
+        
+        if None in (salt, nonce, tag, encrypted_priv):
+            raise ValueError("Failed to retrieve key components from keyring")
+        
+        passphrase = PassphraseManager.get_passphrase(service_name, app_identifier)
+        storage_key = cls._derive_key(passphrase, salt, 32)
+        
+        cipher = Cipher(
+            algorithms.AES(storage_key),
+            modes.GCM(nonce, tag),
+            default_backend()
+        )
+        decryptor = cipher.decryptor()
+        return decryptor.update(encrypted_priv) + decryptor.finalize()
+
+    @classmethod
+    def migrate_keys(
+        cls,
+        source_service: str,
+        source_app: str,
+        target_service: str,
+        target_app: str,
+        delete_source: bool = False
+    ):
+        """
+        Migrate keys from one service/app combination to another
+        - Re-encrypts private key with new passphrase
+        - Transfers all key components to new namespace
+        - Optionally deletes source keys after migration
+        """
+        # Retrieve source keys
+        source_priv = cls.load_private_key(source_service, source_app)
+        source_pub = cls._retrieve_large_data(source_service, "public_key")
+        source_salt = bytes.fromhex(keyring.get_password(source_service, "salt"))
+        source_nonce = bytes.fromhex(keyring.get_password(source_service, "nonce"))
+        source_tag = bytes.fromhex(keyring.get_password(source_service, "tag"))
+        
+        # Get source passphrase
+        source_passphrase = PassphraseManager.get_passphrase(source_service, source_app)
+        
+        # Get target passphrase (will create if doesn't exist)
+        target_passphrase = PassphraseManager.get_passphrase(target_service, target_app)
+        
+        # Re-encrypt private key with new passphrase
+        new_salt = os.urandom(16)
+        storage_key = cls._derive_key(target_passphrase, new_salt, 32)
+        new_nonce = os.urandom(12)
+        
+        cipher = Cipher(algorithms.AES(storage_key), modes.GCM(new_nonce), default_backend())
+        encryptor = cipher.encryptor()
+        reencrypted_priv = encryptor.update(source_priv) + encryptor.finalize()
+        
+        # Store components in target namespace
+        keyring.set_password(target_service, "salt", new_salt.hex())
+        keyring.set_password(target_service, "nonce", new_nonce.hex())
+        keyring.set_password(target_service, "tag", encryptor.tag.hex())
+        
+        cls._store_large_data(target_service, "encrypted_priv", reencrypted_priv)
+        cls._store_large_data(target_service, "public_key", source_pub)
+        
+        # Optionally delete source keys
+        if delete_source:
+            # Delete key components
+            keys_to_delete = ["salt", "nonce", "tag"]
+            for base in ["encrypted_priv", "public_key"]:
+                count_str = keyring.get_password(source_service, f"{base}_count")
+                if count_str:
+                    try:
+                        count = int(count_str)
+                        for i in range(count):
+                            keyring.delete_password(source_service, f"{base}_{i}")
+                    except ValueError:
+                        pass
+                keys_to_delete.append(f"{base}_count")
+            
+            for key in keys_to_delete:
+                try:
+                    keyring.delete_password(source_service, key)
+                except Exception:
+                    pass
+            
+            # Delete source passphrase
+            try:
+                keyring.delete_password(source_service, f"{source_app}_passphrase")
+            except Exception:
+                pass
+
+    @classmethod
+    def encrypt_file(
+        cls,
+        public_key: bytes,
+        input_path: str,
+        output_path: str,
+        compress: bool = True
+    ):
+        """Encrypt file with optional compression"""
+        with open(input_path, 'rb') as f:
+            plaintext = f.read()
+        return cls.encrypt_data(plaintext, public_key, output_path, compress)
+
+    @classmethod
+    def encrypt_data(
+        cls,
+        data: bytes,
+        public_key: bytes,
+        output_path: str,
+        compress: bool = True
+    ):
+        encapsulated_key, aes_key = cls.encapsulate_secret(public_key)
+        return cls._do_encrypt(data, output_path, compress, aes_key, encapsulated_key)
+
+    @classmethod
+    def decrypt_data_from_file(
+        cls,
+        private_key: bytes,
+        encrypted_file: str
+    ) -> bytes:
+        encapsulated_key, nonce, tag, compression_flag, ciphertext = cls._read_encrypted_file_attributes(encrypted_file)
+        aes_key = cls.decapsulate_secret(private_key, encapsulated_key)
+        return cls._do_decrypt(None, aes_key, nonce, tag, compression_flag, ciphertext)
+
+    @classmethod
+    def decrypt_to_file(
+        cls,
+        private_key: bytes,
+        input_path: str,
+        output_path: str
+    ):
+        encapsulated_key, nonce, tag, compression_flag, ciphertext = cls._read_encrypted_file_attributes(input_path)
+        # Decapsulate the shared secret (AES key)
+        aes_key = cls.decapsulate_secret(private_key, encapsulated_key)
+        cls._do_decrypt(output_path, aes_key, nonce, tag, compression_flag, ciphertext)
+
+    @classmethod
+    def purge_keys(
+        cls,
+        service_name: str,
+        purge_files: bool = True
+    ):
+        """
+        Purge all keys and associated data from keyring and local files
+        - service_name: Keyring service namespace
+        - purge_files: Also delete public key file and any encrypted files
+        """
+        purge_files = cls.purge_files if purge_files else []
+        cls._purge_keys(service_name, purge_files)
+
+    @classmethod
+    def _derive_key(
+        cls,
+        passphrase: str,
+        salt: bytes,
+        length: int = 32
+    ) -> bytes:
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=length,
@@ -196,8 +473,13 @@ class BaseEncryptor:
         )
         return kdf.derive(passphrase.encode())
     
-    @staticmethod
-    def _store_large_data(service_name: str, key: str, data: bytes):
+    @classmethod
+    def _store_large_data(
+        cls,
+        service_name: str,
+        key: str,
+        data: bytes
+    ):
         """Store large data in chunks to work around credential size limits"""
         hex_data = data.hex()
         chunk_size = 500
@@ -207,8 +489,12 @@ class BaseEncryptor:
         for i, chunk in enumerate(chunks):
             keyring.set_password(service_name, f"{key}_{i}", chunk)
     
-    @staticmethod
-    def _retrieve_large_data(service_name: str, key: str) -> bytes:
+    @classmethod
+    def _retrieve_large_data(
+        cls,
+        service_name: str,
+        key: str
+    ) -> Optional[bytes]:
         """Retrieve chunked large data"""
         count_str = keyring.get_password(service_name, f"{key}_count")
         if not count_str:
@@ -223,66 +509,16 @@ class BaseEncryptor:
             chunks.append(chunk)
             
         return bytes.fromhex(''.join(chunks))
-    
-    @staticmethod
-    def generate_keypair() -> tuple[bytes, bytes]:
-        """Generate key pair"""
-        raise NotImplementedError("Subclass must implement this method")
-    
-    @staticmethod
-    def generate_and_store_keys(service_name="MyApp", force_new=False, app_identifier="main_app") -> bytes:
-        """Generate and store keys"""
-        raise NotImplementedError("Subclass must implement this method")
 
-    @staticmethod
-    def load_private_key(service_name="MyApp", app_identifier="main_app") -> bytes:
-        """Load private key"""
-        salt = bytes.fromhex(keyring.get_password(service_name, "salt"))
-        nonce = bytes.fromhex(keyring.get_password(service_name, "nonce"))
-        tag = bytes.fromhex(keyring.get_password(service_name, "tag"))
-        encrypted_priv = BaseEncryptor._retrieve_large_data(service_name, "encrypted_priv")
-        
-        if None in (salt, nonce, tag, encrypted_priv):
-            raise ValueError("Failed to retrieve key components from keyring")
-        
-        passphrase = PassphraseManager.get_passphrase(service_name, app_identifier)
-        storage_key = BaseEncryptor._derive_key(passphrase, salt, 32)
-        
-        cipher = Cipher(
-            algorithms.AES(storage_key),
-            modes.GCM(nonce, tag),
-            default_backend()
-        )
-        decryptor = cipher.decryptor()
-        return decryptor.update(encrypted_priv) + decryptor.finalize()
-    
-    @staticmethod
-    def encapsulate_secret(public_key: bytes) -> tuple[bytes, bytes]:
-        """Encapsulate secret"""
-        raise NotImplementedError("Subclass must implement this method")
-    
-    @staticmethod
-    def decapsulate_secret(private_key: bytes, ciphertext: bytes) -> bytes:
-        """Decapsulate secret"""
-        raise NotImplementedError("Subclass must implement this method")
-    
-    @staticmethod
-    def encrypt_file(public_key: bytes, input_path: str, output_path: str, compress=True):
-        """Encrypt file"""
-        raise NotImplementedError("Subclass must implement this method")
-    
-    @staticmethod
-    def decrypt_to_file(private_key: bytes, input_path: str, output_path: str):
-        """Decrypt file"""
-        raise NotImplementedError("Subclass must implement this method")
-    
-    @staticmethod
-    def purge_keys(service_name="MyApp", purge_files=True):
-        """Purge keys"""
-        raise NotImplementedError("Subclass must implement this method")
-
-    @staticmethod
-    def _do_encrypt(plaintext: bytes, output_path: str, compress: bool, aes_key: bytes, encapsulated_key: bytes):
+    @classmethod
+    def _do_encrypt(
+        cls,
+        plaintext: bytes,
+        output_path: str,
+        compress: bool,
+        aes_key: bytes,
+        encapsulated_key: bytes
+    ):
         """Encrypt file"""
         # Apply compression if requested and beneficial
         if compress:
@@ -311,8 +547,10 @@ class BaseEncryptor:
             f.write(compression_flag)  # Compression marker
             f.write(ciphertext)        
 
-    @staticmethod
-    def _read_encrypted_file_attributes(input_path: str) -> tuple[bytes, bytes, bytes, bytes, bytes]:
+    @classmethod
+    def _read_encrypted_file_attributes(
+        cls, input_path: str
+    ) -> tuple[bytes, bytes, bytes, bytes, bytes]:
         """Read encrypted file attributes"""
         with open(input_path, 'rb') as f:
             # Read encapsulated key length
@@ -325,8 +563,16 @@ class BaseEncryptor:
 
             return encapsulated_key, nonce, tag, compression_flag, ciphertext
 
-    @staticmethod
-    def _do_decrypt(output_path: str, aes_key: bytes, nonce: bytes, tag: bytes, compression_flag: bytes, ciphertext: bytes) -> Optional[bytes]:
+    @classmethod
+    def _do_decrypt(
+        cls,
+        output_path: str,
+        aes_key: bytes,
+        nonce: bytes,
+        tag: bytes,
+        compression_flag: bytes,
+        ciphertext: bytes
+    ) -> Optional[bytes]:
         """Decrypt file"""
         # Decrypt content
         cipher = Cipher(
@@ -350,8 +596,12 @@ class BaseEncryptor:
         else:
             return plaintext
 
-    @staticmethod
-    def _purge_keys(service_name="MyApp", purge_files=[]):
+    @classmethod
+    def _purge_keys(
+        cls,
+        service_name: str,
+        purge_files: list[str] = []
+    ):
         """Purge keys"""
         """
         Purge all keys and associated data from keyring and local files
@@ -406,9 +656,10 @@ class BaseEncryptor:
 
 class PersonalQuantumEncryptor(BaseEncryptor):
     KYBER_ALG = "Kyber768"
+    purge_files = ["quantum_pub.key"]
     
-    @staticmethod
-    def generate_keypair():
+    @classmethod
+    def generate_keypair(cls):
         """Generate Kyber key pair using oqs"""
         kem = KeyEncapsulation(PersonalQuantumEncryptor.KYBER_ALG)
         public_key = kem.generate_keypair()
@@ -416,27 +667,32 @@ class PersonalQuantumEncryptor(BaseEncryptor):
         kem.free()  # Free resources
         return public_key, private_key
 
-    @staticmethod
-    def generate_and_store_keys(service_name="MyApp", force_new=False, app_identifier="main_app"):
+    @classmethod
+    def generate_and_store_keys(
+        cls,
+        service_name: str,
+        app_identifier: str,
+        force_new: bool = False,
+    ):
         # Check if keys already exist
         if keyring.get_password(service_name, "salt"):
             if force_new:
                 print("Keys already exist. Generating new keys.")
-                PersonalQuantumEncryptor.purge_keys(service_name)
-                return PersonalQuantumEncryptor.generate_and_store_keys(service_name, force_new=False)
+                cls.purge_keys(service_name)
+                return cls.generate_and_store_keys(service_name, force_new=False)
             # print("Keys already exist. Using existing configuration.")
-            pub_key = BaseEncryptor._retrieve_large_data(service_name, "public_key")
+            pub_key = cls._retrieve_large_data(service_name, "public_key")
             return pub_key
         
         # Generate new keys
-        pub_key, priv_key = PersonalQuantumEncryptor.generate_keypair()
+        pub_key, priv_key = cls.generate_keypair()
         salt = os.urandom(16)
         
         # Get passphrase automatically
         passphrase = PassphraseManager.get_passphrase(service_name, app_identifier)
         
         # Derive storage key
-        storage_key = PersonalQuantumEncryptor._derive_key(passphrase, salt, 32)
+        storage_key = cls._derive_key(passphrase, salt, 32)
         nonce = os.urandom(12)
         
         # Encrypt private key
@@ -450,72 +706,46 @@ class PersonalQuantumEncryptor(BaseEncryptor):
         keyring.set_password(service_name, "tag", encryptor.tag.hex())
         
         # Store large data using chunking
-        BaseEncryptor._store_large_data(service_name, "encrypted_priv", encrypted_priv)
-        BaseEncryptor._store_large_data(service_name, "public_key", pub_key)
+        cls._store_large_data(service_name, "encrypted_priv", encrypted_priv)
+        cls._store_large_data(service_name, "public_key", pub_key)
         
         return pub_key
 
-    @staticmethod
-    def encapsulate_secret(public_key: bytes) -> tuple[bytes, bytes]:
+    @classmethod
+    def encapsulate_secret(
+        cls,
+        public_key: bytes
+    ) -> tuple[bytes, bytes]:
         """Generate a shared secret and its encapsulation using Kyber"""
-        kem = KeyEncapsulation(PersonalQuantumEncryptor.KYBER_ALG)
+        kem = KeyEncapsulation(cls.KYBER_ALG)
         ciphertext, shared_secret = kem.encap_secret(public_key)
         kem.free()
         return ciphertext, shared_secret
 
-    @staticmethod
-    def decapsulate_secret(private_key: bytes, ciphertext: bytes) -> bytes:
+    @classmethod
+    def decapsulate_secret(
+        cls,
+        private_key: bytes,
+        ciphertext: bytes
+    ) -> bytes:
         """Decapsulate the shared secret using Kyber"""
-        kem = KeyEncapsulation(PersonalQuantumEncryptor.KYBER_ALG, private_key)
+        kem = KeyEncapsulation(cls.KYBER_ALG, private_key)
         shared_secret = kem.decap_secret(ciphertext)
         kem.free()
         return shared_secret
 
-    @staticmethod
-    def encrypt_file(public_key: bytes, input_path: str, output_path: str, compress=True):
-        """Encrypt file with optional compression"""
-        with open(input_path, 'rb') as f:
-            plaintext = f.read()
-        return PersonalQuantumEncryptor.encrypt_data(plaintext, public_key, output_path, compress)
-
-    @staticmethod
-    def encrypt_data(data: bytes, public_key: bytes, output_path: str, compress=True):
-        encapsulated_key, aes_key = PersonalQuantumEncryptor.encapsulate_secret(public_key)
-        return BaseEncryptor._do_encrypt(data, output_path, compress, aes_key, encapsulated_key)
-
-    @staticmethod
-    def decrypt_data_from_file(private_key: bytes, encrypted_file: str) -> bytes:
-        encapsulated_key, nonce, tag, compression_flag, ciphertext = BaseEncryptor._read_encrypted_file_attributes(encrypted_file)
-        aes_key = PersonalQuantumEncryptor.decapsulate_secret(private_key, encapsulated_key)
-        return BaseEncryptor._do_decrypt(None, aes_key, nonce, tag, compression_flag, ciphertext)
-
-    @staticmethod
-    def decrypt_to_file(private_key: bytes, input_path: str, output_path: str):
-        encapsulated_key, nonce, tag, compression_flag, ciphertext = BaseEncryptor._read_encrypted_file_attributes(input_path)
-        # Decapsulate the shared secret (AES key)
-        aes_key = PersonalQuantumEncryptor.decapsulate_secret(private_key, encapsulated_key)
-        BaseEncryptor._do_decrypt(output_path, aes_key, nonce, tag, compression_flag, ciphertext)
-    
-    @staticmethod
-    def purge_keys(service_name="MyApp", purge_files=True):
-        """
-        Purge all keys and associated data from keyring and local files
-        - service_name: Keyring service namespace
-        - purge_files: Also delete public key file and any encrypted files
-        """
-        purge_files = ["quantum_pub.key"] if purge_files else []
-        BaseEncryptor._purge_keys(service_name, purge_files)
 
 
 
 class PersonalStandardEncryptor(BaseEncryptor):
     CURVE = ec.SECP384R1()
     HKDF_INFO = b'PersonalStandardEncryptor'
+    purge_files = ["standard_pub.key"]
     
-    @staticmethod
-    def generate_keypair():
+    @classmethod
+    def generate_keypair(cls):
         """Generate ECDH key pair using standard curve"""
-        private_key = ec.generate_private_key(PersonalStandardEncryptor.CURVE, default_backend())
+        private_key = ec.generate_private_key(cls.CURVE, default_backend())
         public_key = private_key.public_key()
         
         pub_bytes = public_key.public_bytes(
@@ -529,19 +759,25 @@ class PersonalStandardEncryptor(BaseEncryptor):
         )
         return pub_bytes, priv_bytes
 
-    @staticmethod
-    def generate_and_store_keys(service_name="MyApp", force_new=False, app_identifier="main_app"):
+    @classmethod
+    def generate_and_store_keys(
+        cls,
+        service_name: str,
+        app_identifier: str,
+        force_new: bool = False,
+    ):
         if keyring.get_password(service_name, "salt"):
             if force_new:
-                PersonalStandardEncryptor.purge_keys(service_name)
-                return PersonalStandardEncryptor.generate_and_store_keys(service_name, force_new=False)
-            pub_key = BaseEncryptor._retrieve_large_data(service_name, "public_key")
+                print("Keys already exist. Generating new keys.")
+                cls.purge_keys(service_name)
+                return cls.generate_and_store_keys(service_name, force_new=False)
+            pub_key = cls._retrieve_large_data(service_name, "public_key")
             return pub_key
         
-        pub_key, priv_key = PersonalStandardEncryptor.generate_keypair()
+        pub_key, priv_key = cls.generate_keypair()
         salt = os.urandom(16)
         passphrase = PassphraseManager.get_passphrase(service_name, app_identifier)
-        storage_key = PersonalStandardEncryptor._derive_key(passphrase, salt, 32)
+        storage_key = cls._derive_key(passphrase, salt, 32)
         nonce = os.urandom(12)
         
         cipher = Cipher(algorithms.AES(storage_key), modes.GCM(nonce), default_backend())
@@ -552,20 +788,23 @@ class PersonalStandardEncryptor(BaseEncryptor):
         keyring.set_password(service_name, "nonce", nonce.hex())
         keyring.set_password(service_name, "tag", encryptor.tag.hex())
         
-        BaseEncryptor._store_large_data(service_name, "encrypted_priv", encrypted_priv)
-        BaseEncryptor._store_large_data(service_name, "public_key", pub_key)
+        cls._store_large_data(service_name, "encrypted_priv", encrypted_priv)
+        cls._store_large_data(service_name, "public_key", pub_key)
         
         return pub_key
 
-    @staticmethod
-    def encapsulate_secret(public_key: bytes) -> tuple[bytes, bytes]:
+    @classmethod
+    def encapsulate_secret(
+        cls,
+        public_key: bytes
+    ) -> tuple[bytes, bytes]:
         """Generate shared secret using ECDH with HKDF derivation"""
         recipient_public_key = serialization.load_der_public_key(
             public_key,
             backend=default_backend()
         )
         ephemeral_private_key = ec.generate_private_key(
-            PersonalStandardEncryptor.CURVE,
+            cls.CURVE,
             default_backend()
         )
         ephemeral_public_key = ephemeral_private_key.public_key()
@@ -578,7 +817,7 @@ class PersonalStandardEncryptor(BaseEncryptor):
             algorithm=hashes.SHA256(),
             length=32,
             salt=None,
-            info=PersonalStandardEncryptor.HKDF_INFO,
+            info=cls.HKDF_INFO,
             backend=default_backend()
         )
         aes_key = hkdf.derive(shared_secret)
@@ -589,8 +828,12 @@ class PersonalStandardEncryptor(BaseEncryptor):
         )
         return ephemeral_pub_bytes, aes_key
 
-    @staticmethod
-    def decapsulate_secret(private_key: bytes, ciphertext: bytes) -> bytes:
+    @classmethod
+    def decapsulate_secret(
+        cls,
+        private_key: bytes,
+        ciphertext: bytes
+    ) -> bytes:
         """Decapsulate shared secret using ECDH with HKDF derivation"""
         recipient_private_key = serialization.load_der_private_key(
             private_key,
@@ -610,43 +853,12 @@ class PersonalStandardEncryptor(BaseEncryptor):
             algorithm=hashes.SHA256(),
             length=32,
             salt=None,
-            info=PersonalStandardEncryptor.HKDF_INFO,
+            info=cls.HKDF_INFO,
             backend=default_backend()
         )
         return hkdf.derive(shared_secret)
 
-    @staticmethod
-    def encrypt_file(public_key: bytes, input_path: str, output_path: str, compress=True):
-        with open(input_path, 'rb') as f:
-            plaintext = f.read()
-        return PersonalStandardEncryptor.encrypt_data(plaintext, public_key, output_path, compress)
 
-    @staticmethod
-    def encrypt_data(data: bytes, public_key: bytes, output_path: str, compress=True):
-        encapsulated_key, aes_key = PersonalStandardEncryptor.encapsulate_secret(public_key)
-        return BaseEncryptor._do_encrypt(data, output_path, compress, aes_key, encapsulated_key)
-
-    @staticmethod
-    def decrypt_data_from_file(private_key: bytes, encrypted_file: str) -> bytes:
-        encapsulated_key, nonce, tag, compression_flag, ciphertext = BaseEncryptor._read_encrypted_file_attributes(encrypted_file)
-        aes_key = PersonalStandardEncryptor.decapsulate_secret(private_key, encapsulated_key)
-        return BaseEncryptor._do_decrypt(None, aes_key, nonce, tag, compression_flag, ciphertext)
-
-    @staticmethod
-    def decrypt_to_file(private_key: bytes, input_path: str, output_path: str):
-        encapsulated_key, nonce, tag, compression_flag, ciphertext = BaseEncryptor._read_encrypted_file_attributes(input_path)
-        aes_key = PersonalStandardEncryptor.decapsulate_secret(private_key, encapsulated_key)
-        BaseEncryptor._do_decrypt(output_path, aes_key, nonce, tag, compression_flag, ciphertext)
-    
-    @staticmethod
-    def purge_keys(service_name="MyApp", purge_files=True):
-        """
-        Purge all keys and associated data from keyring and local files
-        - service_name: Keyring service namespace
-        - purge_files: Also delete public key file and any encrypted files
-        """
-        purge_files = ["standard_pub.key"] if purge_files else []
-        BaseEncryptor._purge_keys(service_name, purge_files)
 
 def secure_delete(path, passes=3):
     with open(path, "ba+") as f:
@@ -703,24 +915,42 @@ def verify_keys(public_key: bytes, private_key: bytes):
         raise ValueError("WARNING: Public/private key mismatch!")
 
 
-def encrypt_data_to_file(data: bytes, service_name: str, app_identifier: str, output_path: str, compress=True, reset_keys=False) -> bytes:
+def encrypt_data_to_file(
+    data: bytes,
+    service_name: str,
+    app_identifier: str,
+    output_path: str,
+    compress: bool = True,
+    reset_keys: bool = False
+) -> bytes:
     """Encrypt data with public key"""
-    public_key = ENCRYPTOR.generate_and_store_keys(service_name=service_name, force_new=reset_keys, app_identifier=app_identifier)
-    private_key = BaseEncryptor.load_private_key(service_name=service_name, app_identifier=app_identifier)
+    public_key = ENCRYPTOR.generate_and_store_keys(
+        service_name=service_name, force_new=reset_keys, app_identifier=app_identifier)
+    private_key = BaseEncryptor.load_private_key(
+        service_name=service_name, app_identifier=app_identifier)
     verify_keys(public_key, private_key)
     return ENCRYPTOR.encrypt_data(data, public_key, output_path, compress)
 
 
 def decrypt_data_from_file(encrypted_file: str, service_name: str, app_identifier: str) -> bytes:
     """Decrypt data with private key"""
-    private_key = BaseEncryptor.load_private_key(service_name=service_name, app_identifier=app_identifier)
+    private_key = BaseEncryptor.load_private_key(
+        service_name=service_name, app_identifier=app_identifier)
     return ENCRYPTOR.decrypt_data_from_file(private_key, encrypted_file)
 
 
-def encrypt_file(input_file: str, output_file: str, service_name: str, app_identifier: str):
+def encrypt_file(
+    input_file: str,
+    output_file: str,
+    service_name: str,
+    app_identifier: str,
+    reset_keys: bool = False
+):
     """Encrypt file with public key"""
-    public_key = ENCRYPTOR.generate_and_store_keys(service_name=service_name, force_new=reset_keys, app_identifier=app_identifier)
-    private_key = BaseEncryptor.load_private_key(service_name=service_name, app_identifier=app_identifier)
+    public_key = ENCRYPTOR.generate_and_store_keys(
+        service_name=service_name, force_new=reset_keys, app_identifier=app_identifier)
+    private_key = BaseEncryptor.load_private_key(
+        service_name=service_name, app_identifier=app_identifier)
     verify_keys(public_key, private_key)
     return ENCRYPTOR.encrypt_file(
         public_key=public_key,
@@ -728,7 +958,13 @@ def encrypt_file(input_file: str, output_file: str, service_name: str, app_ident
         output_path=output_file
     )
 
-def decrypt_to_file(input_file: str, output_file: str, service_name: str, app_identifier: str):
+
+def decrypt_to_file(
+    input_file: str,
+    output_file: str,
+    service_name: str,
+    app_identifier: str
+):
     """Decrypt file with private key"""
     private_key = BaseEncryptor.load_private_key(service_name=service_name, app_identifier=app_identifier)
     return ENCRYPTOR.decrypt_to_file(
@@ -736,6 +972,102 @@ def decrypt_to_file(input_file: str, output_file: str, service_name: str, app_id
         input_path=input_file,
         output_path=output_file
     )
+
+
+def encrypt_password(
+    password: str,
+    service_name: str,
+    app_identifier: str
+) -> bytes:
+    """Encrypt password with public key"""
+    public_key = ENCRYPTOR.generate_and_store_keys(service_name=service_name, app_identifier=app_identifier)
+    return ENCRYPTOR.encrypt_password(public_key, password)
+
+
+def decrypt_password(
+    encrypted_password: bytes,
+    service_name: str,
+    app_identifier: str
+) -> str:
+    """Decrypt password with private key"""
+    private_key = BaseEncryptor.load_private_key(service_name=service_name, app_identifier=app_identifier)
+    return ENCRYPTOR.decrypt_password(private_key, encrypted_password)
+
+def store_encrypted_password(
+    service_name: str, 
+    app_identifier: str, 
+    password_id: str, 
+    password: str
+) -> bool:
+    """
+    Encrypt and store a password securely
+    - password_id: Unique identifier for this password (e.g., "email_password")
+    """
+    import traceback
+    try:
+        encrypted = encrypt_password(password, service_name, app_identifier)
+        PasswordManager.store_password(
+            service_name, app_identifier, password_id, encrypted
+        )
+        return True
+    except Exception as e:
+        print(f"Error storing password: {str(e)}")
+        traceback.print_exc()
+        return False
+
+def retrieve_encrypted_password(
+    service_name: str, 
+    app_identifier: str, 
+    password_id: str
+) -> Optional[str]:
+    """
+    Retrieve and decrypt a stored password
+    """
+    try:
+        encrypted = PasswordManager.retrieve_password(
+            service_name, app_identifier, password_id
+        )
+        if encrypted is None:
+            return None
+        return decrypt_password(encrypted, service_name, app_identifier)
+    except Exception as e:
+        print(f"Error retrieving password: {str(e)}")
+        return None
+
+def delete_stored_password(
+    service_name: str, 
+    app_identifier: str, 
+    password_id: str
+):
+    """
+    Delete a stored password
+    """
+    PasswordManager.delete_password(service_name, app_identifier, password_id)
+
+
+def migrate_keys(
+    source_service: str,
+    source_app: str,
+    target_service: str,
+    target_app: str,
+    delete_source: bool = False
+):
+    """
+    Migrate keys from one service/app combination to another
+    - source_service: Original service name
+    - source_app: Original app identifier
+    - target_service: New service name
+    - target_app: New app identifier
+    - delete_source: Whether to remove source keys after migration
+    """
+    BaseEncryptor.migrate_keys(
+        source_service,
+        source_app,
+        target_service,
+        target_app,
+        delete_source
+    )
+
 
 
 if __name__ == "__main__":
@@ -772,3 +1104,55 @@ if __name__ == "__main__":
             print("Decryption successful! File contents match.")
         else:
             print("WARNING: Decrypted file does not match original!")
+
+
+    
+    # Add password storage/retrieval test
+    test_password = "MySuperSecurePassword123!"
+    password_id = "test_password"
+    
+    # Store password
+    store_encrypted_password(service_name, app_identifier, password_id, test_password)
+    
+    # Retrieve password
+    retrieved_password = retrieve_encrypted_password(service_name, app_identifier, password_id)
+    
+    if test_password == retrieved_password:
+        print("Password storage/retrieval successful!")
+    else:
+        print("Password storage/retrieval failed!")
+    
+    # Cleanup
+    delete_stored_password(service_name, app_identifier, password_id)
+
+    print("\nTesting key migration...")
+    source_service = "TestService"
+    source_app = "main_app"
+    target_service = "MigratedService"
+    target_app = "migrated_app"
+    
+    # Migrate keys
+    migrate_keys(source_service, source_app, target_service, target_app, delete_source=True)
+    
+    # Test migrated keys
+    try:
+        public_key = ENCRYPTOR.generate_and_store_keys(
+            service_name=target_service, 
+            app_identifier=target_app
+        )
+        private_key = BaseEncryptor.load_private_key(
+            service_name=target_service, 
+            app_identifier=target_app
+        )
+        verify_keys(public_key, private_key)
+        print("Key migration successful!")
+    except Exception as e:
+        print(f"Key migration failed: {str(e)}")
+    
+    # Cleanup migrated keys
+    ENCRYPTOR.purge_keys(target_service)
+    keyring.delete_password(target_service, f"{target_app}_passphrase")
+    os.remove(input_file)
+    os.remove(encrypted_file)
+    os.remove(decrypted_file)
+
