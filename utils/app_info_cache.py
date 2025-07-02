@@ -2,6 +2,7 @@ import json
 import os
 
 from sd_runner.blacklist import Blacklist
+from utils.globals import Globals
 from utils.encryptor import encrypt_data_to_file, decrypt_data_from_file
 from utils.runner_app_config import RunnerAppConfig
 
@@ -28,7 +29,12 @@ class AppInfoCache:
         try:
             self._purge_blacklisted_history()
             cache_data = json.dumps(self._cache).encode('utf-8')
-            encrypt_data_to_file(cache_data, "sd_runner", "app_info_cache", AppInfoCache.CACHE_LOC)
+            encrypt_data_to_file(
+                cache_data,
+                Globals.SERVICE_NAME,
+                Globals.APP_IDENTIFIER,
+                AppInfoCache.CACHE_LOC
+            )
         except Exception as e:
             print(f"Error storing cache: {e}")
             raise e
@@ -44,7 +50,11 @@ class AppInfoCache:
                 self.store()
                 os.remove(old_json_loc)
             else:
-                encrypted_data = decrypt_data_from_file(AppInfoCache.CACHE_LOC, "sd_runner", "app_info_cache")
+                encrypted_data = decrypt_data_from_file(
+                    AppInfoCache.CACHE_LOC,
+                    Globals.SERVICE_NAME,
+                    Globals.APP_IDENTIFIER
+                )
                 self._cache = json.loads(encrypted_data.decode('utf-8'))
         except FileNotFoundError:
             pass

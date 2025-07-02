@@ -21,6 +21,15 @@ except ImportError:
     KeyEncapsulation = None
 
 
+def namespaced_key(*keyparts):
+    return f"__".join(str(part) for part in keyparts if part)
+
+def get_key_base(app_identifier, key):
+    if app_identifier:
+        return namespaced_key(app_identifier, key) if key else app_identifier
+    return key
+
+
 class PassphraseManager:
     @staticmethod
     def get_passphrase(service_name="MyApp", app_identifier="main_app"):
@@ -45,12 +54,13 @@ class PassphraseManager:
     def _windows_get_passphrase(service_name, app_identifier):
         """Use Windows Credential Manager with ACL protection"""
         # Try to retrieve from Credential Manager
-        passphrase = keyring.get_password(service_name, f"{app_identifier}_passphrase")
+        key = namespaced_key(app_identifier, "passphrase")
+        passphrase = keyring.get_password(service_name, key)
         
         if not passphrase:
             # Generate and store new passphrase
             passphrase = os.urandom(32).hex()
-            keyring.set_password(service_name, f"{app_identifier}_passphrase", passphrase)
+            keyring.set_password(service_name, key, passphrase)
             
             # Lock down permissions (Windows specific)
             try:
@@ -70,11 +80,13 @@ class PassphraseManager:
     def _macos_get_passphrase(service_name, app_identifier):
         """Use macOS Keychain with Access Control"""
         from Foundation import NSBundle, kSecUseAuthenticationUI
-        passphrase = keyring.get_password(service_name, f"{app_identifier}_passphrase")
+        
+        key = namespaced_key(app_identifier, "passphrase")
+        passphrase = keyring.get_password(service_name, key)
         
         if not passphrase:
             passphrase = os.urandom(32).hex()
-            keyring.set_password(service_name, f"{app_identifier}_passphrase", passphrase)
+            keyring.set_password(service_name, key, passphrase)
             
             # Set keychain item ACL (requires PyObjC)
             try:
@@ -92,11 +104,12 @@ class PassphraseManager:
     @staticmethod
     def _linux_get_passphrase(service_name, app_identifier):
         """Use Linux Secret Service with DBus protection"""
-        passphrase = keyring.get_password(service_name, f"{app_identifier}_passphrase")
+        key = namespaced_key(app_identifier, "passphrase")
+        passphrase = keyring.get_password(service_name, key)
         
         if not passphrase:
             passphrase = os.urandom(32).hex()
-            keyring.set_password(service_name, f"{app_identifier}_passphrase", passphrase)
+            keyring.set_password(service_name, key, passphrase)
             
             # Lock down keyring permissions
             try:
@@ -199,7 +212,8 @@ class PasswordManager:
         # Use the same chunking mechanism as BaseEncryptor
         BaseEncryptor._store_large_data(
             service_name, 
-            f"{app_identifier}_{password_id}", 
+            app_identifier,
+            password_id, 
             encrypted_password
         )
 
@@ -214,7 +228,8 @@ class PasswordManager:
         """
         return BaseEncryptor._retrieve_large_data(
             service_name, 
-            f"{app_identifier}_{password_id}"
+            app_identifier,
+            password_id
         )
 
     @staticmethod
@@ -227,19 +242,27 @@ class PasswordManager:
         Delete stored password from all storage locations
         """
         # Delete all chunks and count entry
-        key_base = f"{app_identifier}_{password_id}"
-        count_str = keyring.get_password(service_name, f"{key_base}_count")
+        key_base = get_key_base(app_identifier, password_id)
+        count_key = namespaced_key(key_base, "count")
+        count_str = keyring.get_password(service_name, count_key)
         if count_str:
             try:
                 count = int(count_str)
                 for i in range(count):
-                    keyring.delete_password(service_name, f"{key_base}_{i}")
-                keyring.delete_password(service_name, f"{key_base}_count")
+                    keyring.delete_password(service_name, namespaced_key(key_base, i))
+                keyring.delete_password(service_name, count_key)
             except ValueError:
                 pass
 
 
 class BaseEncryptor:
+    SALT_KEY = "salt"
+    NONCE_KEY = "nonce"
+    TAG_KEY = "tag"
+    ENCRYPTED_PRIV_KEY = "encrypted_priv"
+    PUBLIC_KEY = "public_key"
+    PASSPHRASE_KEY = "passphrase"
+
     @classmethod
     def encrypt_password(
         cls,
@@ -286,16 +309,6 @@ class BaseEncryptor:
     def generate_keypair(cls) -> tuple[bytes, bytes]:
         """Generate key pair"""
         raise NotImplementedError("Subclass must implement this method")
-    
-    @classmethod
-    def generate_and_store_keys(
-        cls,
-        service_name: str,
-        app_identifier: str,
-        force_new: bool = False,
-    ) -> bytes:
-        """Generate and store keys"""
-        raise NotImplementedError("Subclass must implement this method")
 
     @classmethod
     def encapsulate_secret(
@@ -313,6 +326,47 @@ class BaseEncryptor:
     ) -> bytes:
         """Decapsulate secret"""
         raise NotImplementedError("Subclass must implement this method")
+    
+    @classmethod
+    def generate_and_store_keys(
+        cls,
+        service_name: str,
+        app_identifier: str,
+        force_new: bool = False,
+    ) -> bytes:
+        """Generate and store keys"""
+        # Check if keys already exist
+        if keyring.get_password(service_name, namespaced_key(app_identifier, cls.SALT_KEY)):
+            if force_new:
+                print("Keys already exist. Generating new keys.")
+                cls.purge_keys(service_name, app_identifier)
+                return cls.generate_and_store_keys(service_name, app_identifier, force_new=False)
+            # print("Keys already exist. Using existing configuration.")
+            pub_key = cls._retrieve_large_data(service_name, app_identifier, cls.PUBLIC_KEY)
+            return pub_key
+        
+        # Generate new keys
+        pub_key, priv_key = cls.generate_keypair()
+        salt = os.urandom(16)
+        passphrase = PassphraseManager.get_passphrase(service_name, app_identifier)
+        storage_key = cls._derive_key(passphrase, salt, 32)
+        nonce = os.urandom(12)
+        
+        # Encrypt private key
+        cipher = Cipher(algorithms.AES(storage_key), modes.GCM(nonce), default_backend())
+        encryptor = cipher.encryptor()
+        encrypted_priv = encryptor.update(priv_key) + encryptor.finalize()
+        
+        # Store components
+        keyring.set_password(service_name, namespaced_key(app_identifier, cls.SALT_KEY), salt.hex())
+        keyring.set_password(service_name, namespaced_key(app_identifier, cls.NONCE_KEY), nonce.hex())
+        keyring.set_password(service_name, namespaced_key(app_identifier, cls.TAG_KEY), encryptor.tag.hex())
+        
+        # Store large data using chunking
+        cls._store_large_data(service_name, app_identifier, cls.ENCRYPTED_PRIV_KEY, encrypted_priv)
+        cls._store_large_data(service_name, app_identifier, cls.PUBLIC_KEY, pub_key)
+        
+        return pub_key
 
     @classmethod
     def load_private_key(
@@ -321,10 +375,10 @@ class BaseEncryptor:
         app_identifier: str
     ) -> bytes:
         """Load private key"""
-        salt = bytes.fromhex(keyring.get_password(service_name, "salt"))
-        nonce = bytes.fromhex(keyring.get_password(service_name, "nonce"))
-        tag = bytes.fromhex(keyring.get_password(service_name, "tag"))
-        encrypted_priv = cls._retrieve_large_data(service_name, "encrypted_priv")
+        salt = bytes.fromhex(keyring.get_password(service_name, namespaced_key(app_identifier, cls.SALT_KEY)))
+        nonce = bytes.fromhex(keyring.get_password(service_name, namespaced_key(app_identifier, cls.NONCE_KEY)))
+        tag = bytes.fromhex(keyring.get_password(service_name, namespaced_key(app_identifier, cls.TAG_KEY)))
+        encrypted_priv = cls._retrieve_large_data(service_name, app_identifier, cls.ENCRYPTED_PRIV_KEY)
         
         if None in (salt, nonce, tag, encrypted_priv):
             raise ValueError("Failed to retrieve key components from keyring")
@@ -357,10 +411,10 @@ class BaseEncryptor:
         """
         # Retrieve source keys
         source_priv = cls.load_private_key(source_service, source_app)
-        source_pub = cls._retrieve_large_data(source_service, "public_key")
-        source_salt = bytes.fromhex(keyring.get_password(source_service, "salt"))
-        source_nonce = bytes.fromhex(keyring.get_password(source_service, "nonce"))
-        source_tag = bytes.fromhex(keyring.get_password(source_service, "tag"))
+        source_pub = cls._retrieve_large_data(source_service, source_app, cls.PUBLIC_KEY)
+        source_salt = bytes.fromhex(keyring.get_password(source_service, namespaced_key(source_app, cls.SALT_KEY)))
+        source_nonce = bytes.fromhex(keyring.get_password(source_service, namespaced_key(source_app, cls.NONCE_KEY)))
+        source_tag = bytes.fromhex(keyring.get_password(source_service, namespaced_key(source_app, cls.TAG_KEY)))
         
         # Get source passphrase
         source_passphrase = PassphraseManager.get_passphrase(source_service, source_app)
@@ -378,27 +432,31 @@ class BaseEncryptor:
         reencrypted_priv = encryptor.update(source_priv) + encryptor.finalize()
         
         # Store components in target namespace
-        keyring.set_password(target_service, "salt", new_salt.hex())
-        keyring.set_password(target_service, "nonce", new_nonce.hex())
-        keyring.set_password(target_service, "tag", encryptor.tag.hex())
+        keyring.set_password(target_service, namespaced_key(target_app, cls.SALT_KEY), new_salt.hex())
+        keyring.set_password(target_service, namespaced_key(target_app, cls.NONCE_KEY), new_nonce.hex())
+        keyring.set_password(target_service, namespaced_key(target_app, cls.TAG_KEY), encryptor.tag.hex())
         
-        cls._store_large_data(target_service, "encrypted_priv", reencrypted_priv)
-        cls._store_large_data(target_service, "public_key", source_pub)
+        cls._store_large_data(target_service, target_app, cls.ENCRYPTED_PRIV_KEY, reencrypted_priv)
+        cls._store_large_data(target_service, target_app, cls.PUBLIC_KEY, source_pub)
         
         # Optionally delete source keys
         if delete_source:
             # Delete key components
-            keys_to_delete = ["salt", "nonce", "tag"]
-            for base in ["encrypted_priv", "public_key"]:
-                count_str = keyring.get_password(source_service, f"{base}_count")
+            keys_to_delete = [namespaced_key(source_app, cls.SALT_KEY),
+                              namespaced_key(source_app, cls.NONCE_KEY),
+                              namespaced_key(source_app, cls.TAG_KEY)]
+            for base in [cls.ENCRYPTED_PRIV_KEY, cls.PUBLIC_KEY]:
+                base_key = namespaced_key(source_app, base)
+                count_key = namespaced_key(base_key, "count")
+                count_str = keyring.get_password(source_service, count_key)
                 if count_str:
                     try:
                         count = int(count_str)
                         for i in range(count):
-                            keyring.delete_password(source_service, f"{base}_{i}")
+                            keyring.delete_password(source_service, namespaced_key(base_key, i))
                     except ValueError:
                         pass
-                keys_to_delete.append(f"{base}_count")
+                keys_to_delete.append(count_key)
             
             for key in keys_to_delete:
                 try:
@@ -408,7 +466,7 @@ class BaseEncryptor:
             
             # Delete source passphrase
             try:
-                keyring.delete_password(source_service, f"{source_app}_passphrase")
+                keyring.delete_password(source_service, namespaced_key(source_app, cls.PASSPHRASE_KEY))
             except Exception:
                 pass
 
@@ -462,6 +520,7 @@ class BaseEncryptor:
     def purge_keys(
         cls,
         service_name: str,
+        app_identifier: str,
         purge_files: bool = True
     ):
         """
@@ -470,7 +529,7 @@ class BaseEncryptor:
         - purge_files: Also delete public key file and any encrypted files
         """
         purge_files = cls.purge_files if purge_files else []
-        cls._purge_keys(service_name, purge_files)
+        cls._purge_keys(service_name, app_identifier, purge_files)
 
     @classmethod
     def _derive_key(
@@ -492,33 +551,39 @@ class BaseEncryptor:
     def _store_large_data(
         cls,
         service_name: str,
+        app_identifier: str,
         key: str,
         data: bytes
     ):
         """Store large data in chunks to work around credential size limits"""
+        key_base = get_key_base(app_identifier, key)
         hex_data = data.hex()
         chunk_size = 500
         chunks = [hex_data[i:i+chunk_size] for i in range(0, len(hex_data), chunk_size)]
         
-        keyring.set_password(service_name, f"{key}_count", str(len(chunks)))
+        # print(f"Storing {len(chunks)} chunks for {key_base}")
+        keyring.set_password(service_name, namespaced_key(key_base, "count"), str(len(chunks)))
         for i, chunk in enumerate(chunks):
-            keyring.set_password(service_name, f"{key}_{i}", chunk)
+            keyring.set_password(service_name, namespaced_key(key_base, i), chunk)
     
     @classmethod
     def _retrieve_large_data(
         cls,
         service_name: str,
+        app_identifier: str,
         key: str
     ) -> Optional[bytes]:
         """Retrieve chunked large data"""
-        count_str = keyring.get_password(service_name, f"{key}_count")
+        key_base = get_key_base(app_identifier, key)
+        count_str = keyring.get_password(service_name, namespaced_key(key_base, "count"))
         if not count_str:
             return None
             
+        # print(f"Retrieving {count_str} chunks for {key_base}")
         count = int(count_str)
         chunks = []
         for i in range(count):
-            chunk = keyring.get_password(service_name, f"{key}_{i}")
+            chunk = keyring.get_password(service_name, namespaced_key(key_base, i))
             if not chunk:
                 return None
             chunks.append(chunk)
@@ -615,6 +680,7 @@ class BaseEncryptor:
     def _purge_keys(
         cls,
         service_name: str,
+        app_identifier: str,
         purge_files: list[str] = []
     ):
         """Purge keys"""
@@ -624,22 +690,26 @@ class BaseEncryptor:
         - purge_files: Also delete public key file and any encrypted files
         """
         # Delete all keyring entries
-        keys_to_delete = ["salt", "nonce", "tag"]
+        keys_to_delete = [namespaced_key(app_identifier, cls.SALT_KEY),
+                          namespaced_key(app_identifier, cls.NONCE_KEY),
+                          namespaced_key(app_identifier, cls.TAG_KEY)]
         
         # Add chunked entries
-        for base in ["encrypted_priv", "public_key"]:
+        for base in [cls.ENCRYPTED_PRIV_KEY, cls.PUBLIC_KEY]:
             # Get chunk count
-            count_str = keyring.get_password(service_name, f"{base}_count")
+            key_base = get_key_base(app_identifier, base)
+            count_key = namespaced_key(key_base, "count")
+            count_str = keyring.get_password(service_name, count_key)
             if count_str:
                 try:
                     count = int(count_str)
                     for i in range(count):
-                        keyring.delete_password(service_name, f"{base}_{i}")
-                except ValueError:
+                        keyring.delete_password(service_name, namespaced_key(key_base, i))
+                except Exception:
                     pass
             
             # Delete the count entry
-            keys_to_delete.append(f"{base}_count")
+            keys_to_delete.append(count_key)
         
         # Delete all standard keys
         for key in keys_to_delete:
@@ -666,6 +736,12 @@ class BaseEncryptor:
             #    except Exception:
             #        pass
         
+        # Add passphrase deletion
+        try:
+            keyring.delete_password(service_name, namespaced_key(app_identifier, cls.PASSPHRASE_KEY))
+        except Exception:
+            pass
+
         print("All keys and associated data have been purged")
 
 
@@ -681,50 +757,6 @@ class PersonalQuantumEncryptor(BaseEncryptor):
         private_key = kem.export_secret_key()
         kem.free()  # Free resources
         return public_key, private_key
-
-    @classmethod
-    def generate_and_store_keys(
-        cls,
-        service_name: str,
-        app_identifier: str,
-        force_new: bool = False,
-    ):
-        # Check if keys already exist
-        if keyring.get_password(service_name, "salt"):
-            if force_new:
-                print("Keys already exist. Generating new keys.")
-                cls.purge_keys(service_name)
-                return cls.generate_and_store_keys(service_name, force_new=False)
-            # print("Keys already exist. Using existing configuration.")
-            pub_key = cls._retrieve_large_data(service_name, "public_key")
-            return pub_key
-        
-        # Generate new keys
-        pub_key, priv_key = cls.generate_keypair()
-        salt = os.urandom(16)
-        
-        # Get passphrase automatically
-        passphrase = PassphraseManager.get_passphrase(service_name, app_identifier)
-        
-        # Derive storage key
-        storage_key = cls._derive_key(passphrase, salt, 32)
-        nonce = os.urandom(12)
-        
-        # Encrypt private key
-        cipher = Cipher(algorithms.AES(storage_key), modes.GCM(nonce), default_backend())
-        encryptor = cipher.encryptor()
-        encrypted_priv = encryptor.update(priv_key) + encryptor.finalize()
-        
-        # Store components
-        keyring.set_password(service_name, "salt", salt.hex())
-        keyring.set_password(service_name, "nonce", nonce.hex())
-        keyring.set_password(service_name, "tag", encryptor.tag.hex())
-        
-        # Store large data using chunking
-        cls._store_large_data(service_name, "encrypted_priv", encrypted_priv)
-        cls._store_large_data(service_name, "public_key", pub_key)
-        
-        return pub_key
 
     @classmethod
     def encapsulate_secret(
@@ -773,40 +805,6 @@ class PersonalStandardEncryptor(BaseEncryptor):
             encryption_algorithm=serialization.NoEncryption()
         )
         return pub_bytes, priv_bytes
-
-    @classmethod
-    def generate_and_store_keys(
-        cls,
-        service_name: str,
-        app_identifier: str,
-        force_new: bool = False,
-    ):
-        if keyring.get_password(service_name, "salt"):
-            if force_new:
-                print("Keys already exist. Generating new keys.")
-                cls.purge_keys(service_name)
-                return cls.generate_and_store_keys(service_name, force_new=False)
-            pub_key = cls._retrieve_large_data(service_name, "public_key")
-            return pub_key
-        
-        pub_key, priv_key = cls.generate_keypair()
-        salt = os.urandom(16)
-        passphrase = PassphraseManager.get_passphrase(service_name, app_identifier)
-        storage_key = cls._derive_key(passphrase, salt, 32)
-        nonce = os.urandom(12)
-        
-        cipher = Cipher(algorithms.AES(storage_key), modes.GCM(nonce), default_backend())
-        encryptor = cipher.encryptor()
-        encrypted_priv = encryptor.update(priv_key) + encryptor.finalize()
-        
-        keyring.set_password(service_name, "salt", salt.hex())
-        keyring.set_password(service_name, "nonce", nonce.hex())
-        keyring.set_password(service_name, "tag", encryptor.tag.hex())
-        
-        cls._store_large_data(service_name, "encrypted_priv", encrypted_priv)
-        cls._store_large_data(service_name, "public_key", pub_key)
-        
-        return pub_key
 
     @classmethod
     def encapsulate_secret(
@@ -962,7 +960,7 @@ def encrypt_file(
 ):
     """Encrypt file with public key"""
     public_key = ENCRYPTOR.generate_and_store_keys(
-        service_name=service_name, force_new=reset_keys, app_identifier=app_identifier)
+        service_name=service_name, app_identifier=app_identifier, force_new=reset_keys)
     private_key = BaseEncryptor.load_private_key(
         service_name=service_name, app_identifier=app_identifier)
     verify_keys(public_key, private_key)
@@ -1058,6 +1056,8 @@ def delete_stored_password(
     PasswordManager.delete_password(service_name, app_identifier, password_id)
 
 
+# Management Interfaces
+
 def migrate_keys(
     source_service: str,
     source_app: str,
@@ -1081,11 +1081,58 @@ def migrate_keys(
         delete_source
     )
 
+def purge_legacy_keys(service_name: str):
+    """Remove pre-namespaced keys (if any exist)"""
+    print("Purging legacy keys...")
+    legacy_keys = ["salt", "nonce", "tag", 
+                 "encrypted_priv_count", "public_key_count"]
+    for base in ["encrypted_priv", "public_key"]:
+        if count_str := keyring.get_password(service_name, f"{base}_count"):
+            try:
+                count = int(count_str)
+                for i in range(count):
+                    keyring.delete_password(service_name, f"{base}_{i}")
+            except ValueError:
+                pass
+    for key in legacy_keys:
+        try:
+            keyring.delete_password(service_name, key)
+        except Exception:
+            pass
+
+def purge_all_keys(service_name: str):
+    """Purge ALL keys associated with a service (with confirmation)"""
+    if not sys.stdin.isatty():
+        print("Error: This function requires an interactive terminal")
+        return
+        
+    confirm = input(f"WARNING: This will delete ALL keys for '{service_name}'. Continue? (y/N): ")
+    if confirm.lower() != 'y':
+        print("Operation cancelled")
+        return
+        
+    # Get all credentials for the service
+    try:
+        import keyring.backend
+        backend = keyring.get_keyring()
+        if hasattr(backend, "get_credentials"):
+            creds = backend.get_credentials(service_name)
+            for cred in creds:
+                try:
+                    keyring.delete_password(service_name, cred.username)
+                    print(f"Deleted: {cred.username}")
+                except Exception as e:
+                    print(f"Error deleting {cred.username}: {str(e)}")
+        else:
+            print("Error: Current keyring backend doesn't support credential listing")
+    except Exception as e:
+        print(f"Error accessing keyring: {str(e)}")
+
 
 
 if __name__ == "__main__":
-    # reset_keys = True
-    reset_keys = False
+    reset_keys = True
+    #reset_keys = False
     service_name = "TestService"
     app_identifier = "main_app"
 
@@ -1139,8 +1186,8 @@ if __name__ == "__main__":
     delete_stored_password(service_name, app_identifier, password_id)
 
     print("\nTesting key migration...")
-    source_service = "TestService"
-    source_app = "main_app"
+    source_service = service_name
+    source_app = app_identifier
     target_service = "MigratedService"
     target_app = "migrated_app"
     
@@ -1163,8 +1210,8 @@ if __name__ == "__main__":
         print(f"Key migration failed: {str(e)}")
     
     # Cleanup migrated keys
-    ENCRYPTOR.purge_keys(target_service)
-    keyring.delete_password(target_service, f"{target_app}_passphrase")
+    ENCRYPTOR.purge_keys(target_service, app_identifier)
+    keyring.delete_password(target_service, namespaced_key(target_app, "passphrase"))
     os.remove(input_file)
     os.remove(encrypted_file)
     os.remove(decrypted_file)

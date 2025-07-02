@@ -10,7 +10,10 @@ from utils.translations import I18N
 _ = I18N._
 
 
+
 class Globals:
+    SERVICE_NAME = "MyPersonalApplicationsService"
+    APP_IDENTIFIER = "sd_runner"
     HOME = os.path.expanduser("~")
     DEFAULT_PROMPT_MODE = PromptMode.get(config.dict["default_prompt_mode"])
     DEFAULT_WORKFLOW = config.dict["default_workflow"]

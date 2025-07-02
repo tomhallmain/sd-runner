@@ -53,7 +53,7 @@ class PasswordAdminWindow():
 
     @staticmethod
     def get_geometry(is_gui=True):
-        width = 500
+        width = 700
         height = 850
         return f"{width}x{height}"
 
@@ -89,7 +89,7 @@ class PasswordAdminWindow():
                 
                 # Add note for admin action
                 if is_admin_action:
-                    note_label = Label(self.frame, text=_("(Always protected)"), 
+                    note_label = Label(self.frame, text=_("(Always protected if a password is set)"), 
                                      font=fnt.Font(size=8), fg="gray")
                     note_label.grid(column=1, row=row, pady=5, sticky="w")
                     note_label.config(bg=AppStyle.BG_COLOR)
@@ -208,10 +208,6 @@ class PasswordAdminWindow():
         button_frame.grid(column=0, row=row, pady=(20, 10), sticky="ew")
         button_frame.config(bg=AppStyle.BG_COLOR)
 
-        # Save button
-        save_btn = Button(button_frame, text=_("Save Settings"), command=self.save_settings)
-        save_btn.grid(column=0, row=0, padx=(0, 10))
-
         # Reset to defaults button
         reset_btn = Button(button_frame, text=_("Reset to Defaults"), command=self.reset_to_defaults)
         reset_btn.grid(column=1, row=0, padx=(0, 10))
@@ -224,9 +220,17 @@ class PasswordAdminWindow():
         save_json_btn = Button(button_frame, text=_("Export Cache as JSON"), command=self.export_cache_as_json)
         save_json_btn.grid(column=3, row=0, padx=(0, 10))
 
+        button_frame2 = Frame(self.frame)
+        button_frame2.grid(column=1, row=row, pady=(20, 10), sticky="ew")
+        button_frame2.config(bg=AppStyle.BG_COLOR)
+
+        # Save button
+        save_btn = Button(button_frame2, text=_("Save Settings"), command=self.save_settings)
+        save_btn.grid(column=0, row=0, padx=(0, 10))
+
         # Close button
-        close_btn = Button(button_frame, text=_("Close"), command=self.close_window)
-        close_btn.grid(column=4, row=0)
+        close_btn = Button(button_frame2, text=_("Close"), command=self.close_window)
+        close_btn.grid(column=1, row=0)
 
     def update_protected_actions(self):
         """Update the protected actions dictionary when checkboxes change."""
@@ -458,6 +462,6 @@ class PasswordAdminWindow():
         from utils.app_info_cache import app_info_cache
         try:
             json_path = app_info_cache.export_as_json()
-            self._show_toast_or_messagebox(_("Cache exported as JSON to: ") + json_path)
+            self._show_toast_or_messagebox(_("Cache exported as JSON to:") + "\n" + json_path)
         except Exception as e:
-            self._show_toast_or_messagebox(_("Failed to export cache as JSON: ") + str(e), error=True) 
+            self._show_toast_or_messagebox(_("Failed to export cache as JSON:") + "\n" + str(e), error=True) 
