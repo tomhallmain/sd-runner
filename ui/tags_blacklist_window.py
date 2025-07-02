@@ -5,7 +5,8 @@ from tkinter.ttk import Button
 from sd_runner.blacklist import BlacklistItem, Blacklist
 from sd_runner.concepts import Concepts
 from ui.app_style import AppStyle
-from ui.password_utils import require_password, ProtectedActions
+from ui.auth.password_utils import require_password
+from utils.globals import ProtectedActions
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.translations import I18N

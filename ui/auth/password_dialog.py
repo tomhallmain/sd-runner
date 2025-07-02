@@ -2,8 +2,7 @@ from tkinter import Toplevel, Frame, Label, StringVar, Entry, Button, messagebox
 import tkinter.font as fnt
 
 from ui.app_style import AppStyle
-from ui.password_admin_window import PasswordAdminWindow
-from ui.password_utils import PasswordManager
+from ui.auth.password_core import PasswordManager
 from utils.translations import I18N
 
 _ = I18N._
@@ -12,10 +11,11 @@ _ = I18N._
 class PasswordDialog:
     """Simple password dialog for authentication."""
     
-    def __init__(self, master, action_name, callback=None):
+    def __init__(self, master, action_name, callback=None, app_actions=None):
         self.master = master
         self.action_name = action_name
         self.callback = callback
+        self.app_actions = app_actions
         self.result = False
         
         # Check if password is configured
@@ -51,7 +51,7 @@ class PasswordDialog:
     
     def _is_password_configured(self):
         """Check if a password is configured for the application."""
-        return PasswordManager.is_password_configured()
+        return PasswordManager.is_security_configured()
     
     def setup_ui(self):
         """Set up the UI components."""
@@ -157,11 +157,7 @@ class PasswordDialog:
         """Verify the entered password."""
         password = self.password_var.get()
         
-        # TODO: Implement actual password verification using the encryptor
-        # For now, we'll use a simple check against a stored password
-        # This should be replaced with proper password verification from the encryptor
-        
-        # Check if password is correct (placeholder implementation)
+        # Check if password is correct
         if self.check_password(password):
             self.result = True
             self.dialog.destroy()
@@ -182,8 +178,11 @@ class PasswordDialog:
         if self.callback:
             self.callback(False)  # Cancel the original action
         
-        # Open the password admin window
-        PasswordAdminWindow(self.master, getattr(self.master, 'app_actions', None))
+        # Use app_actions callback to open the password admin window
+        if self.app_actions and self.app_actions.open_password_admin_window:
+            self.app_actions.open_password_admin_window()
+        else:
+            raise Exception("AppActions failed to initialize")
     
     def continue_without_protection(self):
         """Continue without password protection."""
@@ -200,26 +199,7 @@ class PasswordDialog:
             self.callback(False)
     
     @staticmethod
-    def prompt_password(master, action_name, callback=None):
+    def prompt_password(master, action_name, callback=None, app_actions=None):
         """Static method to prompt for password."""
-        dialog = PasswordDialog(master, action_name, callback)
-        return dialog.result
-
-
-# Example usage
-if __name__ == "__main__":
-    import tkinter as tk
-    
-    def password_callback(result):
-        if result:
-            print("Password accepted!")
-        else:
-            print("Password cancelled or incorrect.")
-    
-    root = tk.Tk()
-    root.withdraw()  # Hide the main window
-    
-    result = PasswordDialog.prompt_password(root, "Edit Blacklist", password_callback)
-    print(f"Dialog result: {result}")
-    
-    root.mainloop() 
+        dialog = PasswordDialog(master, action_name, callback, app_actions)
+        return dialog.result 

@@ -29,8 +29,9 @@ from ui.app_actions import AppActions
 from ui.app_style import AppStyle
 from ui.concept_editor_window import ConceptEditorWindow
 from ui.expansions_window import ExpansionsWindow
-from ui.password_admin_window import PasswordAdminWindow
-from ui.password_utils import check_password_required, require_password
+from ui.auth.password_admin_window import PasswordAdminWindow
+from ui.auth.password_utils import check_password_required, require_password
+from ui.auth.password_core import get_security_config
 from ui.preset import Preset
 from ui.presets_window import PresetsWindow
 from ui.schedules_windows import SchedulesWindow
@@ -105,13 +106,14 @@ class App():
         self.current_run = Run(RunConfig())
         Model.load_all()
 
-        self.app_actions = AppActions(self.update_progress,
-                                      self.update_pending,
-                                      self.update_time_estimation,
-                                      self.construct_preset,
-                                      self.set_widgets_from_preset,
-                                      self.toast,
-                                      self.alert)
+        self.app_actions = AppActions({"update_progress": self.update_progress,
+                                      "update_pending": self.update_pending,
+                                      "update_time_estimation": self.update_time_estimation,
+                                      "construct_preset": self.construct_preset,
+                                      "set_widgets_from_preset": self.set_widgets_from_preset,
+                                      "open_password_admin_window": self.open_password_admin_window,
+                                      "toast": self.toast,
+                                      "alert": self.alert,})
 
         # Set UI callbacks for Blacklist filtering notifications
         Blacklist.set_ui_callbacks(self.app_actions)
@@ -640,7 +642,7 @@ class App():
         PresetsWindow.store_recent_presets()
         SchedulesWindow.store_schedules()
         ExpansionsWindow.store_expansions()
-        PasswordAdminWindow.store_protected_actions()
+        get_security_config().save_settings()
         app_info_cache.store()
 
     def load_info_cache(self):
@@ -650,8 +652,8 @@ class App():
             PresetsWindow.set_recent_presets()
             SchedulesWindow.set_schedules()
             ExpansionsWindow.set_expansions()
-            PasswordAdminWindow.set_protected_actions()
-            PasswordAdminWindow.set_session_settings()
+            # Security config is loaded automatically when first accessed
+            get_security_config()
             return RunnerAppConfig.from_dict(app_info_cache.get_history(0))
         except Exception as e:
             print(e)
