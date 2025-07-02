@@ -3,6 +3,8 @@ import tkinter.font as fnt
 
 from ui.app_style import AppStyle
 from ui.auth.password_core import PasswordManager
+from ui.auth.password_session_manager import PasswordSessionManager
+from utils.globals import ProtectedActions
 from utils.translations import I18N
 
 _ = I18N._
@@ -11,11 +13,12 @@ _ = I18N._
 class PasswordDialog:
     """Simple password dialog for authentication."""
     
-    def __init__(self, master, action_name, callback=None, app_actions=None):
+    def __init__(self, master, action_name, callback=None, app_actions=None, action_enum=None):
         self.master = master
         self.action_name = action_name
         self.callback = callback
         self.app_actions = app_actions
+        self.action_enum = action_enum  # Store the action enum for session management
         self.result = False
         
         # Check if password is configured
@@ -186,6 +189,10 @@ class PasswordDialog:
     
     def continue_without_protection(self):
         """Continue without password protection."""
+        # Record an unauthenticated session if we have the action enum
+        if self.action_enum:
+            PasswordSessionManager.record_successful_verification(self.action_enum, is_authenticated=False)
+        
         self.result = True
         self.dialog.destroy()
         if self.callback:
@@ -199,7 +206,7 @@ class PasswordDialog:
             self.callback(False)
     
     @staticmethod
-    def prompt_password(master, action_name, callback=None, app_actions=None):
+    def prompt_password(master, action_name, callback=None, app_actions=None, action_enum=None):
         """Static method to prompt for password."""
-        dialog = PasswordDialog(master, action_name, callback, app_actions)
+        dialog = PasswordDialog(master, action_name, callback, app_actions, action_enum)
         return dialog.result 

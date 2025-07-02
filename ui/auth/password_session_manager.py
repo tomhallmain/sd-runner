@@ -10,14 +10,20 @@ from utils.globals import ProtectedActions
 class PasswordSessionManager:
     """Manages password sessions to avoid repeated password prompts."""
     
-    # Dictionary to store last successful password verification times
-    # Key: action_name (string), Value: timestamp (float)
-    _session_times: Dict[str, float] = {}
+    # Dictionary to store session data
+    # Key: action_name (string), Value: tuple (timestamp, is_authenticated)
+    _session_data: Dict[str, tuple] = {}
     
     @classmethod
-    def record_successful_verification(cls, action: ProtectedActions) -> None:
-        """Record a successful password verification for an action."""
-        cls._session_times[action.value] = time.time()
+    def record_successful_verification(cls, action: ProtectedActions, is_authenticated: bool = True) -> None:
+        """
+        Record a successful verification for an action.
+        
+        Args:
+            action: The action to record
+            is_authenticated: Whether this was a proper password verification (True) or skip without protection (False)
+        """
+        cls._session_data[action.value] = (time.time(), is_authenticated)
     
     @classmethod
     def is_session_valid(cls, action: ProtectedActions, timeout_minutes: int) -> bool:
@@ -35,10 +41,10 @@ class PasswordSessionManager:
             return False
             
         action_name = action.value
-        if action_name not in cls._session_times:
+        if action_name not in cls._session_data:
             return False
             
-        last_verification_time = cls._session_times[action_name]
+        last_verification_time, is_authenticated = cls._session_data[action_name]
         current_time = time.time()
         timeout_seconds = timeout_minutes * 60
         
@@ -53,9 +59,9 @@ class PasswordSessionManager:
             action: Specific action to clear, or None to clear all sessions
         """
         if action is None:
-            cls._session_times.clear()
+            cls._session_data.clear()
         else:
-            cls._session_times.pop(action.value, None)
+            cls._session_data.pop(action.value, None)
     
     @classmethod
     def get_session_age_minutes(cls, action: ProtectedActions) -> Optional[float]:
@@ -69,10 +75,28 @@ class PasswordSessionManager:
             float: Age in minutes, or None if no session exists
         """
         action_name = action.value
-        if action_name not in cls._session_times:
+        if action_name not in cls._session_data:
             return None
             
-        last_verification_time = cls._session_times[action_name]
+        last_verification_time, is_authenticated = cls._session_data[action_name]
         current_time = time.time()
         age_seconds = current_time - last_verification_time
-        return age_seconds / 60 
+        return age_seconds / 60
+    
+    @classmethod
+    def is_session_authenticated(cls, action: ProtectedActions) -> bool:
+        """
+        Check if the current session was authenticated with a password.
+        
+        Args:
+            action: The action to check
+            
+        Returns:
+            bool: True if session was authenticated with password, False if skipped without protection
+        """
+        action_name = action.value
+        if action_name not in cls._session_data:
+            return False
+            
+        _, is_authenticated = cls._session_data[action_name]
+        return is_authenticated 

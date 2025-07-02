@@ -59,7 +59,7 @@ def check_password_required(action_name: ProtectedActions, master, callback=None
         if callback:
             callback(result)
     
-    return PasswordDialog.prompt_password(master, description, password_callback, app_actions)
+    return PasswordDialog.prompt_password(master, description, password_callback, app_actions, action_name)
 
 
 def require_password(action_name: ProtectedActions):

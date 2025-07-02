@@ -155,6 +155,12 @@ class PasswordAdminWindow():
                                command=self.show_change_password_dialog)
             change_btn.grid(column=0, row=row, pady=5, sticky="w")
             row += 1
+            
+            # Remove password button
+            remove_btn = Button(self.frame, text=_("Remove Password"), 
+                               command=self.remove_password)
+            remove_btn.grid(column=0, row=row, pady=5, sticky="w")
+            row += 1
         else:
             # Show password setup form
             setup_label = Label(self.frame, text=_("Set up a password to enable protection:"), 
@@ -398,6 +404,22 @@ class PasswordAdminWindow():
         
         # Focus on current password entry
         current_entry.focus()
+    
+    @require_password(ProtectedActions.ACCESS_ADMIN)
+    def remove_password(self):
+        """Remove the current password."""
+        result = messagebox.askyesno(
+            _("Remove Password"),
+            _("Are you sure you want to remove password protection? This will disable all password requirements.")
+        )
+        
+        if result:
+            if PasswordManager.clear_password():
+                self.app_actions.toast(_("Password removed successfully."))
+                # Refresh the UI to show the password setup form
+                self.refresh_ui()
+            else:
+                messagebox.showerror(_("Error"), _("Failed to remove password."))
     
     def refresh_ui(self):
         """Refresh the UI to reflect current state."""
