@@ -54,7 +54,7 @@ class PasswordAdminWindow():
     @staticmethod
     def get_geometry(is_gui=True):
         width = 500
-        height = 600
+        height = 850
         return f"{width}x{height}"
 
     def setup_ui(self):
@@ -316,15 +316,15 @@ class PasswordAdminWindow():
         # Create a simple dialog for changing password
         dialog = Toplevel(self.master, bg=AppStyle.BG_COLOR)
         dialog.title(_("Change Password"))
-        dialog.geometry("400x250")
+        dialog.geometry("400x320")
         dialog.transient(self.master)
         dialog.grab_set()
         
         # Center the dialog
         dialog.update_idletasks()
         x = (dialog.winfo_screenwidth() // 2) - (400 // 2)
-        y = (dialog.winfo_screenheight() // 2) - (250 // 2)
-        dialog.geometry(f"400x250+{x}+{y}")
+        y = (dialog.winfo_screenheight() // 2) - (320 // 2)
+        dialog.geometry(f"400x320+{x}+{y}")
         
         # Main frame
         main_frame = Frame(dialog, bg=AppStyle.BG_COLOR)

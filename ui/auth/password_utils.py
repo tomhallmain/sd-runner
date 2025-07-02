@@ -4,7 +4,7 @@ This module provides the authentication flow logic and decorators.
 It imports from password_core.py and password_dialog.py to avoid circular dependencies.
 """
 
-from ui.auth.password_core import get_security_config
+from ui.auth.password_core import get_security_config, PasswordManager
 from ui.auth.password_dialog import PasswordDialog
 from ui.auth.password_session_manager import PasswordSessionManager
 from utils.globals import ProtectedActions
@@ -28,6 +28,13 @@ def check_password_required(action_name: ProtectedActions, master, callback=None
     # Check if the action requires password protection
     if not config.is_action_protected(action_name.value):
         # No password required, proceed immediately
+        if callback:
+            callback(True)
+        return True
+    
+    # Special case: If this is the admin action and no password is configured, allow access
+    if action_name == ProtectedActions.ACCESS_ADMIN and not PasswordManager.is_security_configured():
+        # Allow admin access when no password is configured (for initial setup)
         if callback:
             callback(True)
         return True
