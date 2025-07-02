@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 
 from sd_runner.blacklist import Blacklist
 from utils.globals import Globals
@@ -50,12 +51,16 @@ class AppInfoCache:
                 self.store()
                 os.remove(old_json_loc)
             else:
-                encrypted_data = decrypt_data_from_file(
+                decrypted_data = decrypt_data_from_file(
                     AppInfoCache.CACHE_LOC,
                     Globals.SERVICE_NAME,
                     Globals.APP_IDENTIFIER
                 )
-                self._cache = json.loads(encrypted_data.decode('utf-8'))
+                self._cache = json.loads(decrypted_data.decode('utf-8'))
+                # The encrypted file did not fail to decrypt, so preserve a backup
+                backup_loc = AppInfoCache.CACHE_LOC.replace(".enc", ".enc.bak")
+                shutil.copy2(AppInfoCache.CACHE_LOC, backup_loc)
+                print(f"Preserved backup of {AppInfoCache.CACHE_LOC} as {backup_loc}")
         except FileNotFoundError:
             pass
 

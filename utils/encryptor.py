@@ -338,13 +338,15 @@ class BaseEncryptor:
         # Check if keys already exist
         if keyring.get_password(service_name, namespaced_key(app_identifier, cls.SALT_KEY)):
             if force_new:
-                print("Keys already exist. Generating new keys.")
+                print(f"{service_name}:{app_identifier} keys already exist. Generating new keys.")
                 cls.purge_keys(service_name, app_identifier)
                 return cls.generate_and_store_keys(service_name, app_identifier, force_new=False)
             # print("Keys already exist. Using existing configuration.")
             pub_key = cls._retrieve_large_data(service_name, app_identifier, cls.PUBLIC_KEY)
             return pub_key
         
+        print(f"Generating new keys for {service_name}:{app_identifier}")
+
         # Generate new keys
         pub_key, priv_key = cls.generate_keypair()
         salt = os.urandom(16)
@@ -1014,7 +1016,6 @@ def store_encrypted_password(
     Encrypt and store a password securely
     - password_id: Unique identifier for this password (e.g., "email_password")
     """
-    import traceback
     try:
         encrypted = encrypt_password(password, service_name, app_identifier)
         PasswordManager.store_password(
@@ -1023,7 +1024,6 @@ def store_encrypted_password(
         return True
     except Exception as e:
         print(f"Error storing password: {str(e)}")
-        traceback.print_exc()
         return False
 
 def retrieve_encrypted_password(
@@ -1133,8 +1133,10 @@ def purge_all_keys(service_name: str):
 if __name__ == "__main__":
     reset_keys = True
     #reset_keys = False
-    service_name = "TestService"
-    app_identifier = "main_app"
+    # service_name = "TestService"
+    # app_identifier = "main_app"
+    service_name = "MyPersonalApplicationsService"
+    app_identifier = "sd_runner"
 
     # Proceed with file encryption/decryption
     home_dir = os.path.expanduser("~")
