@@ -220,4 +220,12 @@ class AppInfoCache:
     def normalize_directory_key(directory):
         return os.path.normpath(os.path.abspath(directory))
 
+    def export_as_json(self, json_path=None):
+        """Export the current cache as a JSON file (not encoded)."""
+        if json_path is None:
+            json_path = os.path.splitext(self.CACHE_LOC)[0] + ".json"
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(self._cache, f, ensure_ascii=False, indent=2)
+        return json_path
+
 app_info_cache = AppInfoCache()

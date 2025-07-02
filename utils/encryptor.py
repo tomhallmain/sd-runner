@@ -1,16 +1,16 @@
 import os
 import struct
 import sys
-from typing import Optional, Callable
+from typing import Optional
 import zlib
 
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.primitives.kdf.hkdf import HKDF
-from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import keyring
 
 try:
@@ -241,7 +241,11 @@ class PasswordManager:
 
 class BaseEncryptor:
     @classmethod
-    def encrypt_password(cls, public_key: bytes, password: str) -> bytes:
+    def encrypt_password(
+        cls,
+        public_key: bytes,
+        password: str
+    ) -> bytes:
         """Encrypt a password string to bytes"""
         password_bytes = password.encode('utf-8')
         encapsulated_key, aes_key = cls.encapsulate_secret(public_key)
@@ -252,7 +256,11 @@ class BaseEncryptor:
         return struct.pack('>I', len(encapsulated_key)) + encapsulated_key + nonce + encryptor.tag + ciphertext
     
     @classmethod
-    def decrypt_password(cls, private_key: bytes, encrypted_password: bytes) -> str:
+    def decrypt_password(
+        cls,
+        private_key: bytes,
+        encrypted_password: bytes
+    ) -> str:
         """Decrypt bytes back to password string"""
         key_len = struct.unpack('>I', encrypted_password[:4])[0]
         index = 4
@@ -290,12 +298,19 @@ class BaseEncryptor:
         raise NotImplementedError("Subclass must implement this method")
 
     @classmethod
-    def encapsulate_secret(cls, public_key: bytes) -> tuple[bytes, bytes]:
+    def encapsulate_secret(
+        cls,
+        public_key: bytes
+    ) -> tuple[bytes, bytes]:
         """Encapsulate secret"""
         raise NotImplementedError("Subclass must implement this method")
     
     @classmethod
-    def decapsulate_secret(cls, private_key: bytes, ciphertext: bytes) -> bytes:
+    def decapsulate_secret(
+        cls,
+        private_key: bytes,
+        ciphertext: bytes
+    ) -> bytes:
         """Decapsulate secret"""
         raise NotImplementedError("Subclass must implement this method")
 
@@ -643,7 +658,7 @@ class BaseEncryptor:
                     except Exception as e:
                         print(f"Error deleting {purge_file}: {str(e)}")
             
-            # Optional: Add patterns for encrypted files you want to delete
+            # Optional: Add patterns for encrypted files to delete
             # Example: 
             # for purge_file in glob.glob("*.bin"):
             #    try:
@@ -914,6 +929,7 @@ def verify_keys(public_key: bytes, private_key: bytes):
     if shared_secret1 != shared_secret2:
         raise ValueError("WARNING: Public/private key mismatch!")
 
+# File Interfaces
 
 def encrypt_data_to_file(
     data: bytes,
@@ -931,13 +947,11 @@ def encrypt_data_to_file(
     verify_keys(public_key, private_key)
     return ENCRYPTOR.encrypt_data(data, public_key, output_path, compress)
 
-
 def decrypt_data_from_file(encrypted_file: str, service_name: str, app_identifier: str) -> bytes:
     """Decrypt data with private key"""
     private_key = BaseEncryptor.load_private_key(
         service_name=service_name, app_identifier=app_identifier)
     return ENCRYPTOR.decrypt_data_from_file(private_key, encrypted_file)
-
 
 def encrypt_file(
     input_file: str,
@@ -958,7 +972,6 @@ def encrypt_file(
         output_path=output_file
     )
 
-
 def decrypt_to_file(
     input_file: str,
     output_file: str,
@@ -973,6 +986,7 @@ def decrypt_to_file(
         output_path=output_file
     )
 
+# Password Interfaces
 
 def encrypt_password(
     password: str,
@@ -982,7 +996,6 @@ def encrypt_password(
     """Encrypt password with public key"""
     public_key = ENCRYPTOR.generate_and_store_keys(service_name=service_name, app_identifier=app_identifier)
     return ENCRYPTOR.encrypt_password(public_key, password)
-
 
 def decrypt_password(
     encrypted_password: bytes,

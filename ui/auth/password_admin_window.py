@@ -220,9 +220,13 @@ class PasswordAdminWindow():
         current_btn = Button(button_frame, text=_("Set to Current"), command=self.set_to_current)
         current_btn.grid(column=2, row=0, padx=(0, 10))
 
+        # Save as JSON button
+        save_json_btn = Button(button_frame, text=_("Export Cache as JSON"), command=self.export_cache_as_json)
+        save_json_btn.grid(column=3, row=0, padx=(0, 10))
+
         # Close button
         close_btn = Button(button_frame, text=_("Close"), command=self.close_window)
-        close_btn.grid(column=3, row=0)
+        close_btn.grid(column=4, row=0)
 
     def update_protected_actions(self):
         """Update the protected actions dictionary when checkboxes change."""
@@ -245,7 +249,7 @@ class PasswordAdminWindow():
         self.update_protected_actions()
         self.update_session_settings()
         self.config.save_settings()
-        self.app_actions.toast(_("Password protection settings saved."))
+        self._show_toast_or_messagebox(_("Password protection settings saved."))
 
     @require_password(ProtectedActions.ACCESS_ADMIN)
     def reset_to_defaults(self):
@@ -266,7 +270,7 @@ class PasswordAdminWindow():
             self.session_timeout_enabled_var.set(self.config.session_timeout_enabled)
             self.session_timeout_minutes_var.set(str(self.config.session_timeout_minutes))
             
-            self.app_actions.toast(_("Settings reset to defaults."))
+            self._show_toast_or_messagebox(_("Settings reset to defaults."))
 
     def set_to_current(self):
         """Restore settings to their current saved state."""
@@ -287,7 +291,7 @@ class PasswordAdminWindow():
             self.session_timeout_enabled_var.set(self.config.session_timeout_enabled)
             self.session_timeout_minutes_var.set(str(self.config.session_timeout_minutes))
             
-            self.app_actions.toast(_("Settings restored to current saved state."))
+            self._show_toast_or_messagebox(_("Settings restored to current saved state."))
 
     @require_password(ProtectedActions.ACCESS_ADMIN)
     def set_password(self):
@@ -296,26 +300,26 @@ class PasswordAdminWindow():
         confirm_password = self.confirm_password_var.get()
         
         if not new_password:
-            messagebox.showerror(_("Error"), _("Please enter a password."))
+            self._show_toast_or_messagebox(_("Please enter a password."), error=True)
             return
         
         if new_password != confirm_password:
-            messagebox.showerror(_("Error"), _("Passwords do not match."))
+            self._show_toast_or_messagebox(_("Passwords do not match."), error=True)
             return
         
         if len(new_password) < 6:
-            messagebox.showerror(_("Error"), _("Password must be at least 6 characters long."))
+            self._show_toast_or_messagebox(_("Password must be at least 6 characters long."), error=True)
             return
         
         if PasswordManager.set_password(new_password):
-            self.app_actions.toast(_("Password set successfully."))
+            self._show_toast_or_messagebox(_("Password set successfully."))
             # Clear the password fields
             self.new_password_var.set("")
             self.confirm_password_var.set("")
             # Refresh the UI to show the password is configured
             self.refresh_ui()
         else:
-            messagebox.showerror(_("Error"), _("Failed to set password."))
+            self._show_toast_or_messagebox(_("Failed to set password."), error=True)
     
     def show_change_password_dialog(self):
         """Show dialog to change password."""
@@ -379,22 +383,22 @@ class PasswordAdminWindow():
             confirm_pwd = confirm_pwd_var.get()
             
             if not PasswordManager.verify_password(current_pwd):
-                messagebox.showerror(_("Error"), _("Current password is incorrect."))
+                self._show_toast_or_messagebox(_("Current password is incorrect."), error=True)
                 return
             
             if new_pwd != confirm_pwd:
-                messagebox.showerror(_("Error"), _("New passwords do not match."))
+                self._show_toast_or_messagebox(_("New passwords do not match."), error=True)
                 return
             
             if len(new_pwd) < 6:
-                messagebox.showerror(_("Error"), _("Password must be at least 6 characters long."))
+                self._show_toast_or_messagebox(_("Password must be at least 6 characters long."), error=True)
                 return
             
             if PasswordManager.set_password(new_pwd):
-                self.app_actions.toast(_("Password changed successfully."))
+                self._show_toast_or_messagebox(_("Password changed successfully."))
                 dialog.destroy()
             else:
-                messagebox.showerror(_("Error"), _("Failed to change password."))
+                self._show_toast_or_messagebox(_("Failed to change password."), error=True)
         
         ok_button = Button(button_frame, text=_("Change Password"), command=change_password)
         ok_button.pack(side="right", padx=(10, 0))
@@ -415,16 +419,16 @@ class PasswordAdminWindow():
         
         if result:
             if PasswordManager.clear_password():
-                self.app_actions.toast(_("Password removed successfully."))
+                self._show_toast_or_messagebox(_("Password removed successfully."))
                 # Refresh the UI to show the password setup form
                 self.refresh_ui()
             else:
-                messagebox.showerror(_("Error"), _("Failed to remove password."))
+                self._show_toast_or_messagebox(_("Failed to remove password."), error=True)
     
     def refresh_ui(self):
         """Refresh the UI to reflect current state."""
         # This is a simple approach - recreate the window
-        # In a more sophisticated implementation, you might update specific widgets
+        # In a more sophisticated implementation, might update specific widgets
         self.master.destroy()
         PasswordAdminWindow.top_level = None
         PasswordAdminWindow(self.master.master, self.app_actions)
@@ -433,4 +437,27 @@ class PasswordAdminWindow():
         """Close the window."""
         if PasswordAdminWindow.top_level:
             PasswordAdminWindow.top_level.destroy()
-            PasswordAdminWindow.top_level = None 
+            PasswordAdminWindow.top_level = None
+
+    def _show_toast_or_messagebox(self, message, error=False):
+        """Show a toast if available, otherwise use a messagebox (info or error)."""
+        if hasattr(self, 'app_actions') and hasattr(self.app_actions, 'toast'):
+            if error:
+                self.app_actions.alert("Administration Error", message, kind="error")
+            else:
+                self.app_actions.toast(message)
+        else:
+            if error:
+                messagebox.showerror("Error", message)
+            else:
+                messagebox.showinfo("Info", message)
+
+    @require_password(ProtectedActions.ACCESS_ADMIN)
+    def export_cache_as_json(self):
+        """Export the app_info_cache as a JSON file (not encoded)."""
+        from utils.app_info_cache import app_info_cache
+        try:
+            json_path = app_info_cache.export_as_json()
+            self._show_toast_or_messagebox(_("Cache exported as JSON to: ") + json_path)
+        except Exception as e:
+            self._show_toast_or_messagebox(_("Failed to export cache as JSON: ") + str(e), error=True) 
