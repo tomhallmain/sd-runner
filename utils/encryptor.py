@@ -1133,10 +1133,12 @@ def purge_all_keys(service_name: str):
 if __name__ == "__main__":
     reset_keys = True
     #reset_keys = False
-    # service_name = "TestService"
-    # app_identifier = "main_app"
-    service_name = "MyPersonalApplicationsService"
-    app_identifier = "sd_runner"
+    service_name = "TestService"
+    app_identifier = "main_app"
+    # WARNING - Only uncomment below if you want to risk invalidating your
+    # current key, which may invalidate the encryption of your app cache.
+    # service_name = "MyPersonalApplicationsService"
+    # app_identifier = "sd_runner"
 
     # Proceed with file encryption/decryption
     home_dir = os.path.expanduser("~")
