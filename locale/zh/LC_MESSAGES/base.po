@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-01 14:38-0400\n"
-"PO-Revision-Date: 2025-07-01 14:38-0400\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-07-02 21:15-0400\n"
+"PO-Revision-Date: 2025-07-02 21:15-0400\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -12,299 +12,299 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:124
+#: app.py:128
 msgid "Run SD Workflows"
 msgstr "运行稳定扩散工作流程"
 
-#: app.py:128
+#: app.py:132
 msgid "Run Workflows"
 msgstr "运行工作流程"
 
-#: app.py:130
+#: app.py:134
 msgid "Cancel Run"
 msgstr "取消运行"
 
-#: app.py:140
+#: app.py:144
 msgid "Software"
 msgstr "软件"
 
-#: app.py:148
+#: app.py:152
 msgid "Workflow"
 msgstr "工作流程"
 
-#: app.py:155
+#: app.py:159
 msgid "Set N Latents"
 msgstr "潜变量数量"
 
-#: app.py:161
+#: app.py:165
 msgid "Set Total"
 msgstr "总计"
 
-#: app.py:169
+#: app.py:173
 msgid "Delay Seconds"
 msgstr "延迟秒数"
 
-#: app.py:175
+#: app.py:179
 msgid "Resolutions"
 msgstr "图像分辨率"
 
-#: app.py:182
+#: app.py:186
 msgid "Resolution Group"
 msgstr "图像分辨率小组"
 
-#: app.py:188
+#: app.py:192
 msgid "Model Tags"
 msgstr "模型标签"
 
-#: app.py:203
+#: app.py:207
 msgid "LoRA Tags"
 msgstr "LoRA 标签"
 
-#: app.py:219
+#: app.py:223
 msgid "Default LoRA Strength"
 msgstr "默认 LoRA 强度"
 
-#: app.py:225
+#: app.py:229
 msgid "Prompt Massage Tags"
 msgstr "提示的调整标签"
 
-#: app.py:233
+#: app.py:237
 msgid "Positive Tags"
 msgstr "正面标签"
 
-#: app.py:240
+#: app.py:244
 msgid "Negative Tags"
 msgstr "负面标签"
 
-#: app.py:248
+#: app.py:252
 msgid "B/W Colorization Tags"
 msgstr "黑/白色着色标签"
 
-#: app.py:256
+#: app.py:260
 msgid "Control Net or Redo files"
 msgstr "控制网络或重做文件"
 
-#: app.py:263
+#: app.py:267
 msgid "Default Control Net Strength"
 msgstr "默认控制网强度"
 
-#: app.py:269
+#: app.py:273
 msgid "IPAdapter files"
 msgstr "IPAdapter 文件"
 
-#: app.py:276
+#: app.py:280
 msgid "Default IPAdapter Strength"
 msgstr "默认 IPAdapter 强度"
 
-#: app.py:282
+#: app.py:286
 msgid "Redo Parameters"
 msgstr "重做参数"
 
-#: app.py:298
+#: app.py:302
 msgid "Sampler"
 msgstr "采样器"
 
-#: app.py:304
+#: app.py:308
 msgid "Scheduler"
 msgstr "调度员"
 
-#: app.py:310
+#: app.py:314
 msgid "Seed"
 msgstr "种子"
 
-#: app.py:317
+#: app.py:321
 msgid "Steps"
 msgstr "步骤"
 
-#: app.py:324
+#: app.py:328
 msgid "CFG"
 msgstr "CFG"
 
-#: app.py:331
+#: app.py:335
 msgid "Denoise"
 msgstr "去噪"
 
-#: app.py:338
+#: app.py:342
 msgid "Random Skip Chance"
 msgstr "随机跳过机会"
 
-#: app.py:346
+#: app.py:350
 msgid "Prompts Configuration"
 msgstr "提示配置"
 
-#: app.py:349
+#: app.py:353
 msgid "Prompt Mode"
 msgstr "提示方式"
 
-#: app.py:356
+#: app.py:360 utils/globals.py:229
 msgid "Edit Concepts"
 msgstr "编辑概念"
 
-#: app.py:359
+#: app.py:363
 msgid "Concepts Dir"
 msgstr "概念目录"
 
-#: app.py:368
+#: app.py:372
 msgid "Concepts"
 msgstr "概念"
 
-#: app.py:377
+#: app.py:381
 msgid "Positions"
 msgstr "职位"
 
-#: app.py:386
+#: app.py:390
 msgid "Locations"
 msgstr "地点"
 
-#: app.py:395
+#: app.py:399
 msgid "Specific Locations Chance"
 msgstr "指定地点的机会"
 
-#: app.py:401
+#: app.py:405
 msgid "Animals"
 msgstr "动物"
 
-#: app.py:410
+#: app.py:414
 msgid "Colors"
 msgstr "颜色"
 
-#: app.py:419
+#: app.py:423
 msgid "Times"
 msgstr "时代"
 
-#: app.py:428
+#: app.py:432
 msgid "Dress"
 msgstr "服装"
 
-#: app.py:437
+#: app.py:441
 msgid "Expressions"
 msgstr "表达"
 
-#: app.py:446
+#: app.py:450
 msgid "Actions"
 msgstr "行动"
 
-#: app.py:455
+#: app.py:459
 msgid "Descriptions"
 msgstr "说明"
 
-#: app.py:464
+#: app.py:468
 msgid "Characters"
 msgstr "人物"
 
-#: app.py:473
+#: app.py:477
 msgid "Random Words"
 msgstr "随机词语"
 
-#: app.py:482
+#: app.py:486
 msgid "Nonsense"
 msgstr "胡说八道"
 
-#: app.py:491
+#: app.py:495
 msgid "Multiplier"
 msgstr "乘法器"
 
-#: app.py:502
+#: app.py:506
 msgid "Specify Humans Chance"
 msgstr "指定人类的机会"
 
-#: app.py:508
+#: app.py:512
 msgid "Art Styles Chance"
 msgstr "艺术风格的机会"
 
-#: app.py:514
+#: app.py:518
 msgid "Emphasis Chance"
 msgstr "强调的机会"
 
-#: app.py:524
+#: app.py:528
 msgid "Override Resolution"
 msgstr "覆盖图像分辨率"
 
-#: app.py:528
+#: app.py:532
 msgid "Inpainting"
 msgstr "油画"
 
-#: app.py:532
+#: app.py:536
 msgid "Override Base Negative"
 msgstr "覆盖基准负数"
 
-#: app.py:536
+#: app.py:540
 msgid "Tags Applied to Prompt Start"
 msgstr "标签应用于提示符的开始"
 
-#: app.py:540
+#: app.py:544
 msgid "Sparse Mixed Tags"
 msgstr "稀疏混合标签"
 
-#: app.py:544
+#: app.py:548
 msgid "Run Preset Schedule"
 msgstr "运行预设时间表"
 
-#: app.py:549
+#: app.py:553
 msgid "Preset Schedule Window"
 msgstr "预设时间表窗口"
 
-#: app.py:550 ui/presets_window.py:92 ui/presets_window_qt.py:27
+#: app.py:554 ui/presets_window.py:94 ui/presets_window_qt.py:27
 msgid "Presets Window"
 msgstr "预设窗口"
 
-#: app.py:554
+#: app.py:559
 msgid "Tag Blacklist"
 msgstr "标签黑名单"
 
-#: app.py:555 ui/expansions_window.py:173
+#: app.py:560 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "扩展窗口"
 
-#: app.py:613
+#: app.py:621
 msgid "Confirm Quit"
 msgstr "确认退出"
 
-#: app.py:613
+#: app.py:621
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
-#: app.py:847 app.py:864
+#: app.py:858 app.py:875
 msgid "Confirm Run"
 msgstr "确认运行"
 
-#: app.py:848
+#: app.py:859
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "开始新的运行将取消当前的预设时间表。您确定要继续吗？"
 
-#: app.py:865
+#: app.py:876
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
 
-#: app.py:965 app_qt.py:375
+#: app.py:976 app_qt.py:380
 msgid " (unlimited)"
 msgstr " (无限制)"
 
-#: app.py:989
+#: app.py:1000
 msgid "{0} pending generations"
 msgstr "{0}待定世代"
 
-#: app.py:1070
+#: app.py:1081
 msgid "Invalid Prompt Tags"
 msgstr "无效提示标签"
 
-#: app.py:1071
+#: app.py:1082
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "提示中发现黑名单项目： {0}"
 
-#: app.py:1209 ui/concept_editor_window.py:262 ui/concept_editor_window.py:319
-#: ui/concept_editor_window.py:338 ui/tags_blacklist_window.py:114
-#: ui/tags_blacklist_window.py:269
+#: app.py:1238 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:265
+#: ui/concept_editor_window.py:324 ui/concept_editor_window.py:343
+#: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
 msgid "Error"
 msgstr "错误"
 
-#: app.py:1335 app_qt.py:47
+#: app.py:1364 app_qt.py:51
 msgid " ComfyGen "
 msgstr " SD 转轮 "
 
-#: app_qt.py:225
+#: app_qt.py:230
 msgid "Prompter Configuration"
 msgstr "提示器配置"
 
@@ -328,79 +328,79 @@ msgid ""
 "warning will only be shown once."
 msgstr "检测到型号切换，且型号调整的标记不匹配。此警告只显示一次。"
 
-#: ui/concept_editor_window.py:104
+#: ui/concept_editor_window.py:106
 msgid "Search/Add Concept:"
 msgstr "搜索/添加概念："
 
-#: ui/concept_editor_window.py:153
+#: ui/concept_editor_window.py:155
 msgid "File:"
 msgstr "文件："
 
-#: ui/concept_editor_window.py:161 ui/concept_editor_window_qt.py:122
+#: ui/concept_editor_window.py:163 ui/concept_editor_window_qt.py:122
 #: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
 msgid "Save"
 msgstr "节省"
 
-#: ui/concept_editor_window.py:164 ui/concept_editor_window_qt.py:49
-#: ui/expansions_window.py:238 ui/presets_window.py:145
-#: ui/schedules_windows.py:88 ui/schedules_windows.py:288
+#: ui/concept_editor_window.py:166 ui/concept_editor_window_qt.py:49
+#: ui/expansions_window.py:241 ui/presets_window.py:147
+#: ui/schedules_windows.py:90 ui/schedules_windows.py:300
 msgid "Delete"
 msgstr "删除"
 
-#: ui/concept_editor_window.py:167 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:384
+#: ui/concept_editor_window.py:169 ui/concept_editor_window_qt.py:141
+#: ui/tags_blacklist_window.py:388
 msgid "Import"
 msgstr "进口"
 
-#: ui/concept_editor_window.py:208
+#: ui/concept_editor_window.py:210
 msgid "Enter search text to see concepts..."
 msgstr "输入搜索文本查看概念...."
 
-#: ui/concept_editor_window.py:262
+#: ui/concept_editor_window.py:265
 msgid "Please select a file to save to"
 msgstr "请选择要保存的文件"
 
-#: ui/concept_editor_window.py:276 ui/concept_editor_window_qt.py:234
+#: ui/concept_editor_window.py:279 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
 msgstr "保存的概念：{0}"
 
-#: ui/concept_editor_window.py:297
+#: ui/concept_editor_window.py:301
 msgid "Confirm"
 msgstr "确认"
 
-#: ui/concept_editor_window.py:297
+#: ui/concept_editor_window.py:301
 msgid "Delete concept: {0}?"
 msgstr "删除概念：{0}？"
 
-#: ui/concept_editor_window.py:303 ui/concept_editor_window_qt.py:247
+#: ui/concept_editor_window.py:307 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
 msgstr "删除的概念：{0}"
 
-#: ui/concept_editor_window.py:319
+#: ui/concept_editor_window.py:324
 msgid "Please select a target file first"
 msgstr "请先选择目标文件"
 
-#: ui/concept_editor_window.py:324
+#: ui/concept_editor_window.py:329
 msgid "Select concepts file to import"
 msgstr "选择要导入的概念文件"
 
-#: ui/concept_editor_window.py:325
+#: ui/concept_editor_window.py:330
 msgid "Text files"
 msgstr "文本文件"
 
-#: ui/concept_editor_window.py:325
+#: ui/concept_editor_window.py:330
 msgid "All files"
 msgstr "所有文件"
 
-#: ui/concept_editor_window.py:345
+#: ui/concept_editor_window.py:350
 msgid "Successfully imported {0} concepts"
 msgstr "成功导入 {0} 概念"
 
-#: ui/concept_editor_window.py:347
+#: ui/concept_editor_window.py:352
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr "没有导入 {0} 概念（详情请参见 {1}_failed_import.txt）"
 
-#: ui/concept_editor_window.py:349
+#: ui/concept_editor_window.py:354
 msgid "Import Results"
 msgstr "进口结果"
 
@@ -444,14 +444,14 @@ msgstr "浏览"
 msgid "Active"
 msgstr "活跃"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:385
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:389
 msgid "Export"
 msgstr "出口"
 
-#: ui/concept_editor_window_qt.py:143 ui/expansions_window_qt.py:70
-#: ui/presets_window_qt.py:59 ui/schedules_window_qt.py:97
-#: ui/schedules_window_qt.py:169 ui/tags_blacklist_window.py:239
-#: ui/tags_blacklist_window_qt.py:52
+#: ui/auth/password_admin_window.py:232 ui/concept_editor_window_qt.py:143
+#: ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59
+#: ui/schedules_window_qt.py:97 ui/schedules_window_qt.py:169
+#: ui/tags_blacklist_window.py:243 ui/tags_blacklist_window_qt.py:52
 msgid "Close"
 msgstr "关闭"
 
@@ -495,37 +495,37 @@ msgstr "导出概念至 {0}"
 msgid "Error exporting concepts: {0}"
 msgstr "导出概念出错： {0}"
 
-#: ui/expansions_window.py:29
+#: ui/expansions_window.py:31
 msgid "Modify Expansion: {0}"
 msgstr "修改扩展： {0}"
 
-#: ui/expansions_window.py:37
+#: ui/expansions_window.py:39
 msgid "Expansion ID"
 msgstr "扩展 ID"
 
-#: ui/expansions_window.py:44
+#: ui/expansions_window.py:46
 msgid "Expansion Text"
 msgstr "扩展文本"
 
-#: ui/expansions_window.py:46
+#: ui/expansions_window.py:48
 msgid "New Expansion Text"
 msgstr "新扩展文本"
 
-#: ui/expansions_window.py:59 ui/tags_blacklist_window.py:92
+#: ui/expansions_window.py:61 ui/tags_blacklist_window.py:94
 msgid "Done"
 msgstr "已完成"
 
-#: ui/expansions_window.py:67
+#: ui/expansions_window.py:69
 msgid ""
 "Warning: This expansion ID matches a wildcard in config.json. Changes will "
 "not take effect until the wildcard is removed or renamed."
 msgstr "警告： 此扩展 ID 与 config.json 中的通配符匹配。在删除或重命名通配符之前，更改不会生效。"
 
-#: ui/expansions_window.py:78 ui/tags_blacklist_window.py:514
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:521
 msgid "Warning"
 msgstr "警告"
 
-#: ui/expansions_window.py:79
+#: ui/expansions_window.py:82
 msgid ""
 "This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
 "\n"
@@ -535,40 +535,40 @@ msgstr ""
 "\n"
 "无论如何都要保存吗？"
 
-#: ui/expansions_window.py:134
+#: ui/expansions_window.py:137
 msgid "New Expansion (ERROR no expansions found)"
 msgstr "新扩展 (错误, 未找到扩展)"
 
-#: ui/expansions_window.py:165
+#: ui/expansions_window.py:168
 msgid "Not enough expansions found."
 msgstr "没有找到足够的扩展。"
 
-#: ui/expansions_window.py:201
+#: ui/expansions_window.py:204
 msgid "Add or update expansions"
 msgstr "添加或更新扩展"
 
-#: ui/expansions_window.py:203
+#: ui/expansions_window.py:206
 msgid "Add expansion"
 msgstr "增加扩展"
 
-#: ui/expansions_window.py:205
+#: ui/expansions_window.py:208
 msgid "Clear expansions"
 msgstr "清除扩展"
 
-#: ui/expansions_window.py:231 ui/schedules_windows.py:281
-#: ui/tags_blacklist_window.py:421
+#: ui/expansions_window.py:234 ui/schedules_windows.py:293
+#: ui/tags_blacklist_window.py:425
 msgid "Modify"
 msgstr "修改"
 
-#: ui/expansions_window.py:245
+#: ui/expansions_window.py:248
 msgid "Copy"
 msgstr "复制"
 
-#: ui/expansions_window.py:281
+#: ui/expansions_window.py:286
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
 msgstr "无效扩展 ID“{0}”，或文本“{1}”"
 
-#: ui/expansions_window.py:451
+#: ui/expansions_window.py:458
 msgid "Copied expansion text to clipboard"
 msgstr "将扩展文本复制到剪贴板"
 
@@ -601,35 +601,35 @@ msgstr "已保存的扩展： {0}"
 msgid "Deleted expansion: {0}"
 msgstr "删除扩展： {0}"
 
-#: ui/presets_window.py:53 ui/presets_window_qt.py:160
+#: ui/presets_window.py:55 ui/presets_window_qt.py:160
 msgid "New Preset (ERROR no presets found)"
 msgstr "新预置 (错误，未找到预置)"
 
-#: ui/presets_window.py:84
+#: ui/presets_window.py:86
 msgid "Not enough presets found."
 msgstr "没有找到足够的预置。"
 
-#: ui/presets_window.py:113
+#: ui/presets_window.py:115
 msgid "Set a new preset"
 msgstr "设置新预置"
 
-#: ui/presets_window.py:114 ui/presets_window_qt.py:56
+#: ui/presets_window.py:116 ui/presets_window_qt.py:56
 msgid "New Preset"
 msgstr "新预设"
 
-#: ui/presets_window.py:118
+#: ui/presets_window.py:120
 msgid "Add preset"
 msgstr "添加预置"
 
-#: ui/presets_window.py:120
+#: ui/presets_window.py:122
 msgid "Clear presets"
 msgstr "清除预设"
 
-#: ui/presets_window.py:138 ui/schedules_windows.py:274
+#: ui/presets_window.py:140 ui/schedules_windows.py:286
 msgid "Set"
 msgstr "设置"
 
-#: ui/presets_window.py:162
+#: ui/presets_window.py:164
 msgid "Invalid preset: {0}"
 msgstr "预设无效： {0}"
 
@@ -654,7 +654,7 @@ msgid "Deleted preset: {0}"
 msgstr "删除预置： {0}"
 
 #: ui/schedule.py:14 ui/schedules_window_qt.py:54
-#: ui/schedules_window_qt.py:165 ui/schedules_windows.py:40
+#: ui/schedules_window_qt.py:165 ui/schedules_windows.py:42
 msgid "New Schedule"
 msgstr "新时间表"
 
@@ -662,7 +662,7 @@ msgstr "新时间表"
 msgid "{0} ({1} runs)"
 msgstr "{0} ({1}运行)"
 
-#: ui/schedules_window_qt.py:51 ui/schedules_windows.py:38
+#: ui/schedules_window_qt.py:51 ui/schedules_windows.py:40
 msgid "Modify Schedule"
 msgstr "修改时间表"
 
@@ -698,15 +698,15 @@ msgstr "修改所选"
 msgid "Set Selected"
 msgstr "设置已选定"
 
-#: ui/schedules_window_qt.py:205 ui/schedules_windows.py:309
+#: ui/schedules_window_qt.py:205 ui/schedules_windows.py:322
 msgid "Current schedule: {0}"
 msgstr "当前时间表： {0}"
 
-#: ui/schedules_window_qt.py:231 ui/schedules_windows.py:314
+#: ui/schedules_window_qt.py:231 ui/schedules_windows.py:327
 msgid "Set schedule: {0}"
 msgstr "设置时间表： {0}"
 
-#: ui/schedules_window_qt.py:246 ui/schedules_windows.py:320
+#: ui/schedules_window_qt.py:246 ui/schedules_windows.py:334
 msgid "Deleted schedule: {0}"
 msgstr "删除计划： {0}"
 
@@ -714,139 +714,183 @@ msgstr "删除计划： {0}"
 msgid "Saved schedule: {0}"
 msgstr "保存的时间表： {0}"
 
-#: ui/schedules_windows.py:27
+#: ui/schedules_windows.py:29
 msgid "Modify Preset Schedule: {0}"
 msgstr "修改预设时间表： {0}"
 
-#: ui/schedules_windows.py:45 ui/schedules_windows.py:251
+#: ui/schedules_windows.py:47 ui/schedules_windows.py:263
 msgid "Add schedule"
 msgstr "添加时间表"
 
-#: ui/schedules_windows.py:48
+#: ui/schedules_windows.py:50
 msgid "Add Preset Task"
 msgstr "添加预设任务"
 
-#: ui/schedules_windows.py:96
+#: ui/schedules_windows.py:97
 msgid "Move Down"
 msgstr "向下移动"
 
-#: ui/schedules_windows.py:221
+#: ui/schedules_windows.py:233
 msgid "Not enough schedules found."
 msgstr "没有找到足够的时间表。"
 
-#: ui/schedules_windows.py:230
+#: ui/schedules_windows.py:242
 msgid "Preset Schedules"
 msgstr "预设时间表"
 
-#: ui/schedules_windows.py:253
+#: ui/schedules_windows.py:265
 msgid "Clear schedules"
 msgstr "清除时间表"
 
-#: ui/schedules_windows.py:405
+#: ui/schedules_windows.py:420
 msgid "Cleared schedules"
 msgstr "清除时间表"
 
-#: ui/tags_blacklist_window.py:180
-msgid "Blacklist Preview"
-msgstr "预览黑名单"
+#: ui/tags_blacklist_window.py:31
+msgid "Modify Blacklist Item: {0}"
+msgstr "修改黑名单 项目: {0}"
 
-#: ui/tags_blacklist_window.py:203
-msgid "Concepts filtered by: {0}"
-msgstr "筛选的概念： {0}"
+#: ui/tags_blacklist_window.py:48
+msgid "Blacklist String"
+msgstr "黑名单字符串"
 
-#: ui/tags_blacklist_window.py:207
-msgid "All filtered concepts"
-msgstr "所有筛选过的概念"
+#: ui/tags_blacklist_window.py:58
+msgid "Enabled"
+msgstr "已启用"
 
-#: ui/tags_blacklist_window.py:258
-msgid "Found {0} filtered concepts"
-msgstr "发现{0}个过滤概念"
-
-#: ui/tags_blacklist_window.py:266
-msgid "Error loading concepts: {0}"
-msgstr "加载概念时出错： {0}"
-
-#: ui/tags_blacklist_window.py:341 ui/tags_blacklist_window_qt.py:16
-msgid "Tags Blacklist"
-msgstr "标签 黑名单"
-
-#: ui/tags_blacklist_window.py:375
-msgid "Add to tag blacklist"
-msgstr "添加到标签黑名单"
-
-#: ui/tags_blacklist_window.py:214
-msgid "Add item"
-msgstr "添加项目"
-
-#: ui/tags_blacklist_window.py:68
+#: ui/tags_blacklist_window.py:70
 msgid "Use glob-based regex"
 msgstr "使用基于全局的 regex"
 
-#: ui/tags_blacklist_window.py:378
-msgid "Clear items"
-msgstr "清除项目"
+#: ui/tags_blacklist_window.py:82
+msgid "Use word boundary matching"
+msgstr "使用单词边界匹配"
 
-#: ui/tags_blacklist_window.py:386
-msgid "Preview All"
-msgstr "全部预览"
-
-#: ui/tags_blacklist_window.py:91 ui/tags_blacklist_window.py:429
+#: ui/tags_blacklist_window.py:93 ui/tags_blacklist_window.py:433
 msgid "Preview"
 msgstr "预览"
 
-#: ui/tags_blacklist_window.py:437
+#: ui/tags_blacklist_window.py:116
+msgid "Blacklist string cannot be empty."
+msgstr "黑名单文本不能为空。"
+
+#: ui/tags_blacklist_window.py:145
+msgid "No changes were made"
+msgstr "未作改动"
+
+#: ui/tags_blacklist_window.py:157
+msgid "Unsaved Changes"
+msgstr "未保存的更改"
+
+#: ui/tags_blacklist_window.py:157
+msgid "Do you want to save changes before closing?"
+msgstr "您想在关闭前保存更改吗？"
+
+#: ui/tags_blacklist_window.py:184
+msgid "Blacklist Preview"
+msgstr "预览黑名单"
+
+#: ui/tags_blacklist_window.py:207
+msgid "Concepts filtered by: {0}"
+msgstr "筛选的概念： {0}"
+
+#: ui/tags_blacklist_window.py:211
+msgid "All filtered concepts"
+msgstr "所有筛选过的概念"
+
+#: ui/tags_blacklist_window.py:262
+msgid "Found {0} filtered concepts"
+msgstr "发现{0}个过滤概念"
+
+#: ui/tags_blacklist_window.py:270
+msgid "Error loading concepts: {0}"
+msgstr "加载概念时出错： {0}"
+
+#: ui/tags_blacklist_window.py:345 ui/tags_blacklist_window_qt.py:16
+msgid "Tags Blacklist"
+msgstr "标签 黑名单"
+
+#: ui/tags_blacklist_window.py:377
+msgid "Blacklist items"
+msgstr "黑名单项目"
+
+#: ui/tags_blacklist_window.py:379
+msgid "Add to tag blacklist"
+msgstr "添加到标签黑名单"
+
+#: ui/tags_blacklist_window.py:382
+msgid "Clear items"
+msgstr "清除项目"
+
+#: ui/tags_blacklist_window.py:390
+msgid "Preview All"
+msgstr "全部预览"
+
+#: ui/tags_blacklist_window.py:410
+msgid "[regex]"
+msgstr "[regex]"
+
+#: ui/tags_blacklist_window.py:412
+msgid "[no boundary]"
+msgstr "[无字边界]"
+
+#: ui/tags_blacklist_window.py:441
 msgid "Remove"
 msgstr "移除"
 
-#: ui/tags_blacklist_window.py:504
-msgid "Removed item: {0}"
-msgstr "删除的项目： {0}"
-
-#: ui/tags_blacklist_window.py:514
-msgid "Please enter a string to add to the blacklist."
-msgstr "请输入要添加到黑名单的字符串。"
-
-#: ui/tags_blacklist_window.py:493 ui/tags_blacklist_window.py:520
+#: ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:527
 msgid "Added item to blacklist: {0}"
 msgstr "已将项目添加到黑名单： {0}"
 
-#: ui/tags_blacklist_window.py:598
+#: ui/tags_blacklist_window.py:502
+msgid "Modified blacklist item: {0}"
+msgstr "修改了黑名单项目： {0}"
+
+#: ui/tags_blacklist_window.py:511
+msgid "Removed item: {0}"
+msgstr "删除的项目： {0}"
+
+#: ui/tags_blacklist_window.py:521
+msgid "Please enter a string to add to the blacklist."
+msgstr "请输入要添加到黑名单的字符串。"
+
+#: ui/tags_blacklist_window.py:607
 msgid "Cleared item blacklist"
 msgstr "清除项目黑名单"
 
-#: ui/tags_blacklist_window.py:653
+#: ui/tags_blacklist_window.py:663
 msgid "Item \"{0}\" is now {1}"
 msgstr "项目“{0}”现在是{1}"
 
-#: ui/tags_blacklist_window.py:655
+#: ui/tags_blacklist_window.py:665
 msgid "enabled"
 msgstr "启用"
 
-#: ui/tags_blacklist_window.py:655
+#: ui/tags_blacklist_window.py:665
 msgid "disabled"
 msgstr "残"
 
-#: ui/tags_blacklist_window.py:678
+#: ui/tags_blacklist_window.py:691
 msgid "Import Blacklist"
 msgstr "导入黑名单"
 
-#: ui/tags_blacklist_window.py:693
+#: ui/tags_blacklist_window.py:706
 msgid "Successfully imported blacklist"
 msgstr "成功导入黑名单"
 
-#: ui/tags_blacklist_window.py:695
+#: ui/tags_blacklist_window.py:708
 msgid "Import Error"
 msgstr "导入错误"
 
-#: ui/tags_blacklist_window.py:705
+#: ui/tags_blacklist_window.py:719
 msgid "Export Blacklist"
 msgstr "导出黑名单"
 
-#: ui/tags_blacklist_window.py:720
+#: ui/tags_blacklist_window.py:734
 msgid "Successfully exported blacklist"
 msgstr "成功导出黑名单"
 
-#: ui/tags_blacklist_window.py:722
+#: ui/tags_blacklist_window.py:736
 msgid "Export Error"
 msgstr "出口错误"
 
@@ -894,50 +938,258 @@ msgstr "{0}分"
 msgid "{0}s"
 msgstr "{0}秒"
 
-#: ui/tags_blacklist_window.py:29
-msgid "Modify Blacklist Item: {0}"
-msgstr "修改黑名单 项目: {0}"
+#: app.py:1220
+msgid "Password Cancelled"
+msgstr "取消密码"
 
-#: ui/tags_blacklist_window.py:46
-msgid "Blacklist String"
-msgstr "黑名单字符串"
+#: app.py:1220
+msgid "Password cancelled or incorrect, revert to previous mode"
+msgstr "密码被取消或不正确，返回上一模式"
 
-#: ui/tags_blacklist_window.py:56
-msgid "Enabled"
-msgstr "已启用"
+#: ui/auth/password_admin_window.py:21
+msgid "Password Administration"
+msgstr "密码管理"
 
-#: ui/tags_blacklist_window.py:80
-msgid "Use word boundary matching"
-msgstr "使用单词边界匹配"
+#: ui/auth/password_admin_window.py:63
+msgid "Password Protection Settings"
+msgstr "密码保护设置"
 
-#: ui/tags_blacklist_window.py:114
-msgid "Blacklist string cannot be empty."
-msgstr "黑名单文本不能为空。"
+#: ui/auth/password_admin_window.py:69
+msgid "Select which actions require password authentication:"
+msgstr "选择哪些操作需要密码验证："
 
-#: ui/tags_blacklist_window.py:141
-msgid "No changes were made"
-msgstr "未作改动"
+#: ui/auth/password_admin_window.py:92
+msgid "(Always protected if a password is set)"
+msgstr "(如果设置了密码，则始终受保护）"
 
-#: ui/tags_blacklist_window.py:153
-msgid "Unsaved Changes"
-msgstr "未保存的更改"
+#: ui/auth/password_admin_window.py:103
+msgid "Session Timeout Settings"
+msgstr "会话超时设置"
 
-#: ui/tags_blacklist_window.py:153
-msgid "Do you want to save changes before closing?"
-msgstr "您想在关闭前保存更改吗？"
+#: ui/auth/password_admin_window.py:110
+msgid "Enable session timeout (remember password for a period)"
+msgstr "启用会话超时（在一段时间内记住密码）"
 
-#: ui/tags_blacklist_window.py:373
-msgid "Blacklist items"
-msgstr "黑名单项目"
+#: ui/auth/password_admin_window.py:123
+msgid "Session timeout duration (minutes):"
+msgstr "会话超时时间（分钟）："
 
-#: ui/tags_blacklist_window.py:406
-msgid "[regex]"
-msgstr "[regex]"
+#: ui/auth/password_admin_window.py:136
+msgid "Password Setup"
+msgstr "密码设置"
 
-#: ui/tags_blacklist_window.py:408
-msgid "[no boundary]"
-msgstr "[无字边界]"
+#: ui/auth/password_admin_window.py:147
+msgid "Password is configured"
+msgstr "密码已配置"
 
-#: ui/tags_blacklist_window.py:495
-msgid "Modified blacklist item: {0}"
-msgstr "修改了黑名单项目： {0}"
+#: ui/auth/password_admin_window.py:154 ui/auth/password_admin_window.py:332
+#: ui/auth/password_admin_window.py:348 ui/auth/password_admin_window.py:407
+msgid "Change Password"
+msgstr "更改密码"
+
+#: ui/auth/password_admin_window.py:160 ui/auth/password_admin_window.py:420
+msgid "Remove Password"
+msgstr "删除密码"
+
+#: ui/auth/password_admin_window.py:166
+msgid "Set up a password to enable protection:"
+msgstr "设置密码以启用保护："
+
+#: ui/auth/password_admin_window.py:177 ui/auth/password_admin_window.py:364
+msgid "New Password:"
+msgstr "新密码："
+
+#: ui/auth/password_admin_window.py:191
+msgid "Confirm Password:"
+msgstr "确认密码："
+
+#: ui/auth/password_admin_window.py:201
+msgid "Set Password"
+msgstr "设置密码"
+
+#: ui/auth/password_admin_window.py:212 ui/auth/password_admin_window.py:262
+msgid "Reset to Defaults"
+msgstr "重置为默认值"
+
+#: ui/auth/password_admin_window.py:216 ui/auth/password_admin_window.py:282
+msgid "Set to Current"
+msgstr "设置为当前"
+
+#: ui/auth/password_admin_window.py:220
+msgid "Export Cache as JSON"
+msgstr "以 JSON 格式导出缓存"
+
+#: ui/auth/password_admin_window.py:228
+msgid "Save Settings"
+msgstr "保存设置"
+
+#: ui/auth/password_admin_window.py:256
+msgid "Password protection settings saved."
+msgstr "保存密码保护设置。"
+
+#: ui/auth/password_admin_window.py:263
+msgid ""
+"Are you sure you want to reset all password protection settings to their "
+"default values?"
+msgstr "您确定要将所有密码保护设置重置为默认值吗？"
+
+#: ui/auth/password_admin_window.py:277
+msgid "Settings reset to defaults."
+msgstr "设置重置为默认值。"
+
+#: ui/auth/password_admin_window.py:283
+msgid ""
+"Are you sure you want to restore all settings to their current saved state? "
+"This will discard any unsaved changes."
+msgstr "您确定要将所有设置恢复到当前保存的状态吗？这将放弃任何未保存的更改。"
+
+#: ui/auth/password_admin_window.py:298
+msgid "Settings restored to current saved state."
+msgstr "设置恢复到当前保存状态。"
+
+#: ui/auth/password_admin_window.py:307
+msgid "Please enter a password."
+msgstr "请输入密码。"
+
+#: ui/auth/password_admin_window.py:311
+msgid "Passwords do not match."
+msgstr "密码不匹配。"
+
+#: ui/auth/password_admin_window.py:315 ui/auth/password_admin_window.py:398
+msgid "Password must be at least 6 characters long."
+msgstr "密码长度至少为 6 个字符。"
+
+#: ui/auth/password_admin_window.py:319
+msgid "Password set successfully."
+msgstr "密码设置成功。"
+
+#: ui/auth/password_admin_window.py:326
+msgid "Failed to set password."
+msgstr "密码设置失败。"
+
+#: ui/auth/password_admin_window.py:355
+msgid "Current Password:"
+msgstr "当前密码:"
+
+#: ui/auth/password_admin_window.py:373
+msgid "Confirm New Password:"
+msgstr "确认新密码："
+
+#: ui/auth/password_admin_window.py:390
+msgid "Current password is incorrect."
+msgstr "当前密码不正确。"
+
+#: ui/auth/password_admin_window.py:394
+msgid "New passwords do not match."
+msgstr "新密码不匹配。"
+
+#: ui/auth/password_admin_window.py:402
+msgid "Password changed successfully."
+msgstr "密码更改成功。"
+
+#: ui/auth/password_admin_window.py:405
+msgid "Failed to change password."
+msgstr "更改密码失败。"
+
+#: ui/auth/password_admin_window.py:410 ui/auth/password_dialog.py:105
+#: ui/auth/password_dialog.py:156
+msgid "Cancel"
+msgstr "取消"
+
+#: ui/auth/password_admin_window.py:421
+msgid ""
+"Are you sure you want to remove password protection? This will disable all "
+"password requirements."
+msgstr "您确定要取消密码保护吗？这将禁用所有密码要求。"
+
+#: ui/auth/password_admin_window.py:426
+msgid "Password removed successfully."
+msgstr "密码已成功删除。"
+
+#: ui/auth/password_admin_window.py:430
+msgid "Failed to remove password."
+msgstr "删除密码失败。"
+
+#: ui/auth/password_admin_window.py:465
+msgid "Cache exported as JSON to:"
+msgstr "缓存以 JSON 格式导出到:"
+
+#: ui/auth/password_admin_window.py:467
+msgid "Failed to export cache as JSON:"
+msgstr "以 JSON 格式导出缓存失败："
+
+#: ui/auth/password_dialog.py:29 ui/auth/password_dialog.py:73
+msgid "Password Required"
+msgstr "需要密码"
+
+#: ui/auth/password_dialog.py:29
+msgid "Password Protection"
+msgstr "密码保护"
+
+#: ui/auth/password_dialog.py:80
+msgid "Password required for: {0}"
+msgstr "需要密码： {0}"
+
+#: ui/auth/password_dialog.py:89
+msgid "Password:"
+msgstr "密码:"
+
+#: ui/auth/password_dialog.py:102
+msgid "OK"
+msgstr "好的"
+
+#: ui/auth/password_dialog.py:111
+msgid "Password Protection Available"
+msgstr "提供密码保护"
+
+#: ui/auth/password_dialog.py:118
+msgid "This action requires password protection: {0}"
+msgstr "此操作需要密码保护： {0}"
+
+#: ui/auth/password_dialog.py:124
+msgid "Password protection is not currently configured. You can:"
+msgstr "当前未配置密码保护。您可以 :"
+
+#: ui/auth/password_dialog.py:134
+msgid "• Configure password protection for sensitive actions"
+msgstr "• 为敏感操作配置密码保护"
+
+#: ui/auth/password_dialog.py:139
+msgid "• Continue without password protection (less secure)"
+msgstr "• 不使用密码保护（不太安全）"
+
+#: ui/auth/password_dialog.py:148
+msgid "Configure Protection"
+msgstr "配置保护"
+
+#: ui/auth/password_dialog.py:152
+msgid "Continue Without Protection"
+msgstr "在没有保护的情况下继续"
+
+#: ui/auth/password_dialog.py:170
+msgid "Incorrect password"
+msgstr "密码错误"
+
+#: utils/globals.py:224
+msgid "NSFW/NSFL Prompt Modes"
+msgstr "NSFW/NSFL 提示模式"
+
+#: utils/globals.py:225
+msgid "Edit Blacklist"
+msgstr "编辑黑名单"
+
+#: utils/globals.py:226
+msgid "Edit Schedules"
+msgstr "编辑时间表"
+
+#: utils/globals.py:227
+msgid "Edit Expansions"
+msgstr "编辑扩展"
+
+#: utils/globals.py:228
+msgid "Edit Presets"
+msgstr "编辑预置"
+
+#: utils/globals.py:230
+msgid "Access Password Administration"
+msgstr "访问密码管理"

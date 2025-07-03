@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-01 14:38-0400\n"
-"PO-Revision-Date: 2025-07-01 14:38-0400\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-07-02 21:15-0400\n"
+"PO-Revision-Date: 2025-07-02 21:15-0400\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -12,299 +12,299 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:124
+#: app.py:128
 msgid "Run SD Workflows"
 msgstr "安定拡散ワークフローの実行"
 
-#: app.py:128
+#: app.py:132
 msgid "Run Workflows"
 msgstr "워크플로 실행"
 
-#: app.py:130
+#: app.py:134
 msgid "Cancel Run"
 msgstr "실행 취소"
 
-#: app.py:140
+#: app.py:144
 msgid "Software"
 msgstr "소프트웨어"
 
-#: app.py:148
+#: app.py:152
 msgid "Workflow"
 msgstr "워크플로"
 
-#: app.py:155
+#: app.py:159
 msgid "Set N Latents"
 msgstr "잠재 고객 수"
 
-#: app.py:161
+#: app.py:165
 msgid "Set Total"
 msgstr "합계"
 
-#: app.py:169
+#: app.py:173
 msgid "Delay Seconds"
 msgstr "지연 시간(초)"
 
-#: app.py:175
+#: app.py:179
 msgid "Resolutions"
 msgstr "해상도"
 
-#: app.py:182
+#: app.py:186
 msgid "Resolution Group"
 msgstr "이미지 해결 그룹"
 
-#: app.py:188
+#: app.py:192
 msgid "Model Tags"
 msgstr "모델 태그"
 
-#: app.py:203
+#: app.py:207
 msgid "LoRA Tags"
 msgstr "LoRA 태그"
 
-#: app.py:219
+#: app.py:223
 msgid "Default LoRA Strength"
 msgstr "기본 LoRA 강도"
 
-#: app.py:225
+#: app.py:229
 msgid "Prompt Massage Tags"
 msgstr "프롬프트 마사지 태그"
 
-#: app.py:233
+#: app.py:237
 msgid "Positive Tags"
 msgstr "프롬프트 조정 태그"
 
-#: app.py:240
+#: app.py:244
 msgid "Negative Tags"
 msgstr "네거티브 태그"
 
-#: app.py:248
+#: app.py:252
 msgid "B/W Colorization Tags"
 msgstr "블랙/화이트 컬러화 태그"
 
-#: app.py:256
+#: app.py:260
 msgid "Control Net or Redo files"
 msgstr "제어망 또는 파일 다시 실행"
 
-#: app.py:263
+#: app.py:267
 msgid "Default Control Net Strength"
 msgstr "기본 제어망 강도"
 
-#: app.py:269
+#: app.py:273
 msgid "IPAdapter files"
 msgstr "IPAdapter 파일"
 
-#: app.py:276
+#: app.py:280
 msgid "Default IPAdapter Strength"
 msgstr "기본 IPAdapter 강도"
 
-#: app.py:282
+#: app.py:286
 msgid "Redo Parameters"
 msgstr "매개변수 다시 실행"
 
-#: app.py:298
+#: app.py:302
 msgid "Sampler"
 msgstr "샘플러"
 
-#: app.py:304
+#: app.py:308
 msgid "Scheduler"
 msgstr "스케줄러"
 
-#: app.py:310
+#: app.py:314
 msgid "Seed"
 msgstr "씨앗"
 
-#: app.py:317
+#: app.py:321
 msgid "Steps"
 msgstr "단계"
 
-#: app.py:324
+#: app.py:328
 msgid "CFG"
 msgstr "CFG"
 
-#: app.py:331
+#: app.py:335
 msgid "Denoise"
 msgstr "노이즈 제거"
 
-#: app.py:338
+#: app.py:342
 msgid "Random Skip Chance"
 msgstr "무작위 건너뛰기 확률"
 
-#: app.py:346
+#: app.py:350
 msgid "Prompts Configuration"
 msgstr "프롬프트 구성"
 
-#: app.py:349
+#: app.py:353
 msgid "Prompt Mode"
 msgstr "프롬프트 모드"
 
-#: app.py:356
+#: app.py:360 utils/globals.py:229
 msgid "Edit Concepts"
 msgstr "개념 편집"
 
-#: app.py:359
+#: app.py:363
 msgid "Concepts Dir"
 msgstr "개념 디렉토리"
 
-#: app.py:368
+#: app.py:372
 msgid "Concepts"
 msgstr "개념"
 
-#: app.py:377
+#: app.py:381
 msgid "Positions"
 msgstr "포지션"
 
-#: app.py:386
+#: app.py:390
 msgid "Locations"
 msgstr "위치"
 
-#: app.py:395
+#: app.py:399
 msgid "Specific Locations Chance"
 msgstr "위치 지정 기회"
 
-#: app.py:401
+#: app.py:405
 msgid "Animals"
 msgstr "동물"
 
-#: app.py:410
+#: app.py:414
 msgid "Colors"
 msgstr "색상"
 
-#: app.py:419
+#: app.py:423
 msgid "Times"
 msgstr "시간"
 
-#: app.py:428
+#: app.py:432
 msgid "Dress"
 msgstr "의류"
 
-#: app.py:437
+#: app.py:441
 msgid "Expressions"
 msgstr "표현식"
 
-#: app.py:446
+#: app.py:450
 msgid "Actions"
 msgstr "작업"
 
-#: app.py:455
+#: app.py:459
 msgid "Descriptions"
 msgstr "설명"
 
-#: app.py:464
+#: app.py:468
 msgid "Characters"
 msgstr "문자"
 
-#: app.py:473
+#: app.py:477
 msgid "Random Words"
 msgstr "무작위 단어"
 
-#: app.py:482
+#: app.py:486
 msgid "Nonsense"
 msgstr "넌센스"
 
-#: app.py:491
+#: app.py:495
 msgid "Multiplier"
 msgstr "승수"
 
-#: app.py:502
+#: app.py:506
 msgid "Specify Humans Chance"
 msgstr "인간을 지정할 기회"
 
-#: app.py:508
+#: app.py:512
 msgid "Art Styles Chance"
 msgstr "아트 스타일의 기회"
 
-#: app.py:514
+#: app.py:518
 msgid "Emphasis Chance"
 msgstr "강조 확률"
 
-#: app.py:524
+#: app.py:528
 msgid "Override Resolution"
 msgstr "이미지 해상도 재정의"
 
-#: app.py:528
+#: app.py:532
 msgid "Inpainting"
 msgstr "실내 페인팅"
 
-#: app.py:532
+#: app.py:536
 msgid "Override Base Negative"
 msgstr "기본 음수 재정의"
 
-#: app.py:536
+#: app.py:540
 msgid "Tags Applied to Prompt Start"
 msgstr "프롬프트 시작에 태그 적용"
 
-#: app.py:540
+#: app.py:544
 msgid "Sparse Mixed Tags"
 msgstr "희소 혼합 태그"
 
-#: app.py:544
+#: app.py:548
 msgid "Run Preset Schedule"
 msgstr "사전 설정 일정 실행"
 
-#: app.py:549
+#: app.py:553
 msgid "Preset Schedule Window"
 msgstr "사전 설정 일정 창"
 
-#: app.py:550 ui/presets_window.py:92 ui/presets_window_qt.py:27
+#: app.py:554 ui/presets_window.py:94 ui/presets_window_qt.py:27
 msgid "Presets Window"
 msgstr "사전 설정 창"
 
-#: app.py:554
+#: app.py:559
 msgid "Tag Blacklist"
 msgstr "태그 블랙리스트"
 
-#: app.py:555 ui/expansions_window.py:173
+#: app.py:560 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "확장 프로그램 창"
 
-#: app.py:613
+#: app.py:621
 msgid "Confirm Quit"
 msgstr "종료 확인"
 
-#: app.py:613
+#: app.py:621
 msgid "Would you like to quit the application?"
 msgstr "앱을 종료하시겠습니까?"
 
-#: app.py:847 app.py:864
+#: app.py:858 app.py:875
 msgid "Confirm Run"
 msgstr "실행 확인"
 
-#: app.py:848
+#: app.py:859
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "새 실행을 시작하면 현재 미리 설정된 일정이 취소됩니다. 계속 진행하시겠습니까?"
 
-#: app.py:865
+#: app.py:876
 msgid "Are you sure you want to proceed?"
 msgstr "계속 진행하시겠습니까?"
 
-#: app.py:965 app_qt.py:375
+#: app.py:976 app_qt.py:380
 msgid " (unlimited)"
 msgstr " (무제한)"
 
-#: app.py:989
+#: app.py:1000
 msgid "{0} pending generations"
 msgstr "{0} 보류 중인 세대"
 
-#: app.py:1070
+#: app.py:1081
 msgid "Invalid Prompt Tags"
 msgstr "잘못된 프롬프트 태그"
 
-#: app.py:1071
+#: app.py:1082
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "프롬프트에서 블랙리스트 항목을 발견했습니다: {0}"
 
-#: app.py:1209 ui/concept_editor_window.py:262 ui/concept_editor_window.py:319
-#: ui/concept_editor_window.py:338 ui/tags_blacklist_window.py:114
-#: ui/tags_blacklist_window.py:269
+#: app.py:1238 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:265
+#: ui/concept_editor_window.py:324 ui/concept_editor_window.py:343
+#: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
 msgid "Error"
 msgstr "오류"
 
-#: app.py:1335 app_qt.py:47
+#: app.py:1364 app_qt.py:51
 msgid " ComfyGen "
 msgstr " SD 러너 "
 
-#: app_qt.py:225
+#: app_qt.py:230
 msgid "Prompter Configuration"
 msgstr "프롬프터 구성"
 
@@ -328,79 +328,79 @@ msgid ""
 "warning will only be shown once."
 msgstr "모델 전환이 감지되었으며 모델 조정용 태그가 일치하지 않습니다. 이 경고는 한 번만 표시됩니다."
 
-#: ui/concept_editor_window.py:104
+#: ui/concept_editor_window.py:106
 msgid "Search/Add Concept:"
 msgstr "검색/개념 추가:"
 
-#: ui/concept_editor_window.py:153
+#: ui/concept_editor_window.py:155
 msgid "File:"
 msgstr "파일:"
 
-#: ui/concept_editor_window.py:161 ui/concept_editor_window_qt.py:122
+#: ui/concept_editor_window.py:163 ui/concept_editor_window_qt.py:122
 #: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
 msgid "Save"
 msgstr "저장"
 
-#: ui/concept_editor_window.py:164 ui/concept_editor_window_qt.py:49
-#: ui/expansions_window.py:238 ui/presets_window.py:145
-#: ui/schedules_windows.py:88 ui/schedules_windows.py:288
+#: ui/concept_editor_window.py:166 ui/concept_editor_window_qt.py:49
+#: ui/expansions_window.py:241 ui/presets_window.py:147
+#: ui/schedules_windows.py:90 ui/schedules_windows.py:300
 msgid "Delete"
 msgstr "삭제"
 
-#: ui/concept_editor_window.py:167 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:384
+#: ui/concept_editor_window.py:169 ui/concept_editor_window_qt.py:141
+#: ui/tags_blacklist_window.py:388
 msgid "Import"
 msgstr "가져오기"
 
-#: ui/concept_editor_window.py:208
+#: ui/concept_editor_window.py:210
 msgid "Enter search text to see concepts..."
 msgstr "개념을 보려면 검색 텍스트를 입력하세요..."
 
-#: ui/concept_editor_window.py:262
+#: ui/concept_editor_window.py:265
 msgid "Please select a file to save to"
 msgstr "저장할 파일을 선택하세요."
 
-#: ui/concept_editor_window.py:276 ui/concept_editor_window_qt.py:234
+#: ui/concept_editor_window.py:279 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
 msgstr "저장된 개념: {0}"
 
-#: ui/concept_editor_window.py:297
+#: ui/concept_editor_window.py:301
 msgid "Confirm"
 msgstr "확인"
 
-#: ui/concept_editor_window.py:297
+#: ui/concept_editor_window.py:301
 msgid "Delete concept: {0}?"
 msgstr "개념 삭제: {0}?"
 
-#: ui/concept_editor_window.py:303 ui/concept_editor_window_qt.py:247
+#: ui/concept_editor_window.py:307 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
 msgstr "삭제된 개념: {0}"
 
-#: ui/concept_editor_window.py:319
+#: ui/concept_editor_window.py:324
 msgid "Please select a target file first"
 msgstr "먼저 대상 파일을 선택하세요."
 
-#: ui/concept_editor_window.py:324
+#: ui/concept_editor_window.py:329
 msgid "Select concepts file to import"
 msgstr "가져올 컨셉 파일 선택"
 
-#: ui/concept_editor_window.py:325
+#: ui/concept_editor_window.py:330
 msgid "Text files"
 msgstr "텍스트 파일"
 
-#: ui/concept_editor_window.py:325
+#: ui/concept_editor_window.py:330
 msgid "All files"
 msgstr "모든 파일"
 
-#: ui/concept_editor_window.py:345
+#: ui/concept_editor_window.py:350
 msgid "Successfully imported {0} concepts"
 msgstr "{0} 개념을 성공적으로 가져왔습니다."
 
-#: ui/concept_editor_window.py:347
+#: ui/concept_editor_window.py:352
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr "{0} 개념을 가져오지 못했습니다(자세한 내용은 {1}_failed_import.txt 참조)."
 
-#: ui/concept_editor_window.py:349
+#: ui/concept_editor_window.py:354
 msgid "Import Results"
 msgstr "가져오기 결과"
 
@@ -444,14 +444,14 @@ msgstr "찾아보기"
 msgid "Active"
 msgstr "활성"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:385
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:389
 msgid "Export"
 msgstr "내보내기"
 
-#: ui/concept_editor_window_qt.py:143 ui/expansions_window_qt.py:70
-#: ui/presets_window_qt.py:59 ui/schedules_window_qt.py:97
-#: ui/schedules_window_qt.py:169 ui/tags_blacklist_window.py:239
-#: ui/tags_blacklist_window_qt.py:52
+#: ui/auth/password_admin_window.py:232 ui/concept_editor_window_qt.py:143
+#: ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59
+#: ui/schedules_window_qt.py:97 ui/schedules_window_qt.py:169
+#: ui/tags_blacklist_window.py:243 ui/tags_blacklist_window_qt.py:52
 msgid "Close"
 msgstr "닫기"
 
@@ -495,27 +495,27 @@ msgstr "개념 내보내기를 {0}"
 msgid "Error exporting concepts: {0}"
 msgstr "개념을 내보내는 동안 오류가 발생했습니다: {0}"
 
-#: ui/expansions_window.py:29
+#: ui/expansions_window.py:31
 msgid "Modify Expansion: {0}"
 msgstr "확장을 수정합니다: {0}"
 
-#: ui/expansions_window.py:37
+#: ui/expansions_window.py:39
 msgid "Expansion ID"
 msgstr "확장 ID"
 
-#: ui/expansions_window.py:44
+#: ui/expansions_window.py:46
 msgid "Expansion Text"
 msgstr "확장 텍스트"
 
-#: ui/expansions_window.py:46
+#: ui/expansions_window.py:48
 msgid "New Expansion Text"
 msgstr "새로운 확장 텍스트"
 
-#: ui/expansions_window.py:59 ui/tags_blacklist_window.py:92
+#: ui/expansions_window.py:61 ui/tags_blacklist_window.py:94
 msgid "Done"
 msgstr "완료"
 
-#: ui/expansions_window.py:67
+#: ui/expansions_window.py:69
 msgid ""
 "Warning: This expansion ID matches a wildcard in config.json. Changes will "
 "not take effect until the wildcard is removed or renamed."
@@ -523,11 +523,11 @@ msgstr ""
 "경고: 이 확장 ID는 config.json의 와일드카드와 일치합니다. 와일드카드를 제거하거나 이름을 변경할 때까지 변경 사항이 적용되지"
 " 않습니다."
 
-#: ui/expansions_window.py:78 ui/tags_blacklist_window.py:514
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:521
 msgid "Warning"
 msgstr "경고"
 
-#: ui/expansions_window.py:79
+#: ui/expansions_window.py:82
 msgid ""
 "This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
 "\n"
@@ -537,40 +537,40 @@ msgstr ""
 "\n"
 "그래도 저장하시겠습니까?"
 
-#: ui/expansions_window.py:134
+#: ui/expansions_window.py:137
 msgid "New Expansion (ERROR no expansions found)"
 msgstr "새 확장팩(오류: 확장팩을 찾을 수 없음)"
 
-#: ui/expansions_window.py:165
+#: ui/expansions_window.py:168
 msgid "Not enough expansions found."
 msgstr "확장팩이 충분하지 않습니다."
 
-#: ui/expansions_window.py:201
+#: ui/expansions_window.py:204
 msgid "Add or update expansions"
 msgstr "확장 기능 추가 또는 업데이트"
 
-#: ui/expansions_window.py:203
+#: ui/expansions_window.py:206
 msgid "Add expansion"
 msgstr "확장 추가"
 
-#: ui/expansions_window.py:205
+#: ui/expansions_window.py:208
 msgid "Clear expansions"
 msgstr "확장팩 지우기"
 
-#: ui/expansions_window.py:231 ui/schedules_windows.py:281
-#: ui/tags_blacklist_window.py:421
+#: ui/expansions_window.py:234 ui/schedules_windows.py:293
+#: ui/tags_blacklist_window.py:425
 msgid "Modify"
 msgstr "수정"
 
-#: ui/expansions_window.py:245
+#: ui/expansions_window.py:248
 msgid "Copy"
 msgstr "복사"
 
-#: ui/expansions_window.py:281
+#: ui/expansions_window.py:286
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
 msgstr "잘못된 확장 ID “{0}” 또는 텍스트 “{1}”"
 
-#: ui/expansions_window.py:451
+#: ui/expansions_window.py:458
 msgid "Copied expansion text to clipboard"
 msgstr "확장 텍스트를 클립보드에 복사"
 
@@ -603,35 +603,35 @@ msgstr "저장된 확장입니다: {0}"
 msgid "Deleted expansion: {0}"
 msgstr "확장을 삭제했습니다: {0}"
 
-#: ui/presets_window.py:53 ui/presets_window_qt.py:160
+#: ui/presets_window.py:55 ui/presets_window_qt.py:160
 msgid "New Preset (ERROR no presets found)"
 msgstr "새 프리셋(오류 프리셋을 찾을 수 없음)"
 
-#: ui/presets_window.py:84
+#: ui/presets_window.py:86
 msgid "Not enough presets found."
 msgstr "사전 설정이 충분하지 않습니다."
 
-#: ui/presets_window.py:113
+#: ui/presets_window.py:115
 msgid "Set a new preset"
 msgstr "새 프리셋 설정"
 
-#: ui/presets_window.py:114 ui/presets_window_qt.py:56
+#: ui/presets_window.py:116 ui/presets_window_qt.py:56
 msgid "New Preset"
 msgstr "새로운 프리셋"
 
-#: ui/presets_window.py:118
+#: ui/presets_window.py:120
 msgid "Add preset"
 msgstr "사전 설정 추가"
 
-#: ui/presets_window.py:120
+#: ui/presets_window.py:122
 msgid "Clear presets"
 msgstr "사전 설정 지우기"
 
-#: ui/presets_window.py:138 ui/schedules_windows.py:274
+#: ui/presets_window.py:140 ui/schedules_windows.py:286
 msgid "Set"
 msgstr "설정"
 
-#: ui/presets_window.py:162
+#: ui/presets_window.py:164
 msgid "Invalid preset: {0}"
 msgstr "잘못된 사전 설정입니다: {0}"
 
@@ -656,7 +656,7 @@ msgid "Deleted preset: {0}"
 msgstr "사전 설정을 삭제했습니다: {0}"
 
 #: ui/schedule.py:14 ui/schedules_window_qt.py:54
-#: ui/schedules_window_qt.py:165 ui/schedules_windows.py:40
+#: ui/schedules_window_qt.py:165 ui/schedules_windows.py:42
 msgid "New Schedule"
 msgstr "새 일정"
 
@@ -664,7 +664,7 @@ msgstr "새 일정"
 msgid "{0} ({1} runs)"
 msgstr "{0} ({1} 실행)"
 
-#: ui/schedules_window_qt.py:51 ui/schedules_windows.py:38
+#: ui/schedules_window_qt.py:51 ui/schedules_windows.py:40
 msgid "Modify Schedule"
 msgstr "일정 수정"
 
@@ -700,15 +700,15 @@ msgstr "선택 항목 수정"
 msgid "Set Selected"
 msgstr "선택된 설정"
 
-#: ui/schedules_window_qt.py:205 ui/schedules_windows.py:309
+#: ui/schedules_window_qt.py:205 ui/schedules_windows.py:322
 msgid "Current schedule: {0}"
 msgstr "현재 일정입니다: {0}"
 
-#: ui/schedules_window_qt.py:231 ui/schedules_windows.py:314
+#: ui/schedules_window_qt.py:231 ui/schedules_windows.py:327
 msgid "Set schedule: {0}"
 msgstr "일정을 설정합니다: {0}"
 
-#: ui/schedules_window_qt.py:246 ui/schedules_windows.py:320
+#: ui/schedules_window_qt.py:246 ui/schedules_windows.py:334
 msgid "Deleted schedule: {0}"
 msgstr "일정을 삭제했습니다: {0}"
 
@@ -716,139 +716,183 @@ msgstr "일정을 삭제했습니다: {0}"
 msgid "Saved schedule: {0}"
 msgstr "일정을 저장했습니다: {0}"
 
-#: ui/schedules_windows.py:27
+#: ui/schedules_windows.py:29
 msgid "Modify Preset Schedule: {0}"
 msgstr "사전 설정 일정을 수정합니다: {0}"
 
-#: ui/schedules_windows.py:45 ui/schedules_windows.py:251
+#: ui/schedules_windows.py:47 ui/schedules_windows.py:263
 msgid "Add schedule"
 msgstr "일정 추가"
 
-#: ui/schedules_windows.py:48
+#: ui/schedules_windows.py:50
 msgid "Add Preset Task"
 msgstr "사전 설정 작업 추가"
 
-#: ui/schedules_windows.py:96
+#: ui/schedules_windows.py:97
 msgid "Move Down"
 msgstr "아래로 이동"
 
-#: ui/schedules_windows.py:221
+#: ui/schedules_windows.py:233
 msgid "Not enough schedules found."
 msgstr "일정이 충분하지 않습니다."
 
-#: ui/schedules_windows.py:230
+#: ui/schedules_windows.py:242
 msgid "Preset Schedules"
 msgstr "사전 설정 일정"
 
-#: ui/schedules_windows.py:253
+#: ui/schedules_windows.py:265
 msgid "Clear schedules"
 msgstr "일정 지우기"
 
-#: ui/schedules_windows.py:405
+#: ui/schedules_windows.py:420
 msgid "Cleared schedules"
 msgstr "일정 지우기"
 
-#: ui/tags_blacklist_window.py:180
-msgid "Blacklist Preview"
-msgstr "블랙리스트 미리보기"
+#: ui/tags_blacklist_window.py:31
+msgid "Modify Blacklist Item: {0}"
+msgstr "블랙리스트 항목 수정: {0}"
 
-#: ui/tags_blacklist_window.py:203
-msgid "Concepts filtered by: {0}"
-msgstr "필터링된 개념: {0}"
+#: ui/tags_blacklist_window.py:48
+msgid "Blacklist String"
+msgstr "블랙리스트 문자열"
 
-#: ui/tags_blacklist_window.py:207
-msgid "All filtered concepts"
-msgstr "모든 필터링된 개념"
+#: ui/tags_blacklist_window.py:58
+msgid "Enabled"
+msgstr "활성화됨"
 
-#: ui/tags_blacklist_window.py:258
-msgid "Found {0} filtered concepts"
-msgstr "{0} 필터링된 개념을 찾았습니다."
-
-#: ui/tags_blacklist_window.py:266
-msgid "Error loading concepts: {0}"
-msgstr "개념을 로드하는 동안 오류가 발생했습니다: {0}"
-
-#: ui/tags_blacklist_window.py:341 ui/tags_blacklist_window_qt.py:16
-msgid "Tags Blacklist"
-msgstr "태그 블랙리스트"
-
-#: ui/tags_blacklist_window.py:375
-msgid "Add to tag blacklist"
-msgstr "태그 블랙리스트에 추가"
-
-#: ui/tags_blacklist_window.py:214
-msgid "Add item"
-msgstr "항목 추가"
-
-#: ui/tags_blacklist_window.py:68
+#: ui/tags_blacklist_window.py:70
 msgid "Use glob-based regex"
 msgstr "글로브 기반 정규식 사용"
 
-#: ui/tags_blacklist_window.py:378
-msgid "Clear items"
-msgstr "항목 지우기"
+#: ui/tags_blacklist_window.py:82
+msgid "Use word boundary matching"
+msgstr "단어 경계 일치 사용"
 
-#: ui/tags_blacklist_window.py:386
-msgid "Preview All"
-msgstr "모두 보기"
-
-#: ui/tags_blacklist_window.py:91 ui/tags_blacklist_window.py:429
+#: ui/tags_blacklist_window.py:93 ui/tags_blacklist_window.py:433
 msgid "Preview"
 msgstr "미리 보기"
 
-#: ui/tags_blacklist_window.py:437
+#: ui/tags_blacklist_window.py:116
+msgid "Blacklist string cannot be empty."
+msgstr "블랙리스트 텍스트는 비워둘 수 없습니다."
+
+#: ui/tags_blacklist_window.py:145
+msgid "No changes were made"
+msgstr "변경된 사항 없음"
+
+#: ui/tags_blacklist_window.py:157
+msgid "Unsaved Changes"
+msgstr "저장되지 않은 변경 사항"
+
+#: ui/tags_blacklist_window.py:157
+msgid "Do you want to save changes before closing?"
+msgstr "닫기 전에 변경 사항을 저장하시겠습니까?"
+
+#: ui/tags_blacklist_window.py:184
+msgid "Blacklist Preview"
+msgstr "블랙리스트 미리보기"
+
+#: ui/tags_blacklist_window.py:207
+msgid "Concepts filtered by: {0}"
+msgstr "필터링된 개념: {0}"
+
+#: ui/tags_blacklist_window.py:211
+msgid "All filtered concepts"
+msgstr "모든 필터링된 개념"
+
+#: ui/tags_blacklist_window.py:262
+msgid "Found {0} filtered concepts"
+msgstr "{0} 필터링된 개념을 찾았습니다."
+
+#: ui/tags_blacklist_window.py:270
+msgid "Error loading concepts: {0}"
+msgstr "개념을 로드하는 동안 오류가 발생했습니다: {0}"
+
+#: ui/tags_blacklist_window.py:345 ui/tags_blacklist_window_qt.py:16
+msgid "Tags Blacklist"
+msgstr "태그 블랙리스트"
+
+#: ui/tags_blacklist_window.py:377
+msgid "Blacklist items"
+msgstr "블랙리스트 항목"
+
+#: ui/tags_blacklist_window.py:379
+msgid "Add to tag blacklist"
+msgstr "태그 블랙리스트에 추가"
+
+#: ui/tags_blacklist_window.py:382
+msgid "Clear items"
+msgstr "항목 지우기"
+
+#: ui/tags_blacklist_window.py:390
+msgid "Preview All"
+msgstr "모두 보기"
+
+#: ui/tags_blacklist_window.py:410
+msgid "[regex]"
+msgstr "[정규식]"
+
+#: ui/tags_blacklist_window.py:412
+msgid "[no boundary]"
+msgstr "[단어 경계 없음]"
+
+#: ui/tags_blacklist_window.py:441
 msgid "Remove"
 msgstr "제거"
 
-#: ui/tags_blacklist_window.py:504
-msgid "Removed item: {0}"
-msgstr "항목을 제거했습니다: {0}"
-
-#: ui/tags_blacklist_window.py:514
-msgid "Please enter a string to add to the blacklist."
-msgstr "블랙리스트에 추가할 문자열을 입력하세요."
-
-#: ui/tags_blacklist_window.py:493 ui/tags_blacklist_window.py:520
+#: ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:527
 msgid "Added item to blacklist: {0}"
 msgstr "블랙리스트에 항목을 추가했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:598
+#: ui/tags_blacklist_window.py:502
+msgid "Modified blacklist item: {0}"
+msgstr "블랙리스트 항목을 수정했습니다: {0}"
+
+#: ui/tags_blacklist_window.py:511
+msgid "Removed item: {0}"
+msgstr "항목을 제거했습니다: {0}"
+
+#: ui/tags_blacklist_window.py:521
+msgid "Please enter a string to add to the blacklist."
+msgstr "블랙리스트에 추가할 문자열을 입력하세요."
+
+#: ui/tags_blacklist_window.py:607
 msgid "Cleared item blacklist"
 msgstr "삭제된 항목 블랙리스트"
 
-#: ui/tags_blacklist_window.py:653
+#: ui/tags_blacklist_window.py:663
 msgid "Item \"{0}\" is now {1}"
 msgstr "항목 “{0}”은 이제 {1}입니다."
 
-#: ui/tags_blacklist_window.py:655
+#: ui/tags_blacklist_window.py:665
 msgid "enabled"
 msgstr "활성화"
 
-#: ui/tags_blacklist_window.py:655
+#: ui/tags_blacklist_window.py:665
 msgid "disabled"
 msgstr "장애인"
 
-#: ui/tags_blacklist_window.py:678
+#: ui/tags_blacklist_window.py:691
 msgid "Import Blacklist"
 msgstr "블랙리스트 가져오기"
 
-#: ui/tags_blacklist_window.py:693
+#: ui/tags_blacklist_window.py:706
 msgid "Successfully imported blacklist"
 msgstr "성공적으로 가져온 블랙리스트"
 
-#: ui/tags_blacklist_window.py:695
+#: ui/tags_blacklist_window.py:708
 msgid "Import Error"
 msgstr "가져오기 오류"
 
-#: ui/tags_blacklist_window.py:705
+#: ui/tags_blacklist_window.py:719
 msgid "Export Blacklist"
 msgstr "블랙리스트 내보내기"
 
-#: ui/tags_blacklist_window.py:720
+#: ui/tags_blacklist_window.py:734
 msgid "Successfully exported blacklist"
 msgstr "성공적으로 내보낸 블랙리스트"
 
-#: ui/tags_blacklist_window.py:722
+#: ui/tags_blacklist_window.py:736
 msgid "Export Error"
 msgstr "내보내기 오류"
 
@@ -896,50 +940,258 @@ msgstr "{0}분"
 msgid "{0}s"
 msgstr "{0}초"
 
-#: ui/tags_blacklist_window.py:29
-msgid "Modify Blacklist Item: {0}"
-msgstr "블랙리스트 항목 수정: {0}"
+#: app.py:1220
+msgid "Password Cancelled"
+msgstr "비밀번호 취소"
 
-#: ui/tags_blacklist_window.py:46
-msgid "Blacklist String"
-msgstr "블랙리스트 문자열"
+#: app.py:1220
+msgid "Password cancelled or incorrect, revert to previous mode"
+msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되돌리기"
 
-#: ui/tags_blacklist_window.py:56
-msgid "Enabled"
-msgstr "활성화됨"
+#: ui/auth/password_admin_window.py:21
+msgid "Password Administration"
+msgstr "비밀번호 관리"
 
-#: ui/tags_blacklist_window.py:80
-msgid "Use word boundary matching"
-msgstr "단어 경계 일치 사용"
+#: ui/auth/password_admin_window.py:63
+msgid "Password Protection Settings"
+msgstr "비밀번호 보호 설정"
 
-#: ui/tags_blacklist_window.py:114
-msgid "Blacklist string cannot be empty."
-msgstr "블랙리스트 텍스트는 비워둘 수 없습니다."
+#: ui/auth/password_admin_window.py:69
+msgid "Select which actions require password authentication:"
+msgstr "비밀번호 인증이 필요한 작업을 선택합니다:"
 
-#: ui/tags_blacklist_window.py:141
-msgid "No changes were made"
-msgstr "변경된 사항 없음"
+#: ui/auth/password_admin_window.py:92
+msgid "(Always protected if a password is set)"
+msgstr "(비밀번호가 설정된 경우 항상 보호됨)"
 
-#: ui/tags_blacklist_window.py:153
-msgid "Unsaved Changes"
-msgstr "저장되지 않은 변경 사항"
+#: ui/auth/password_admin_window.py:103
+msgid "Session Timeout Settings"
+msgstr "세션 시간 초과 설정"
 
-#: ui/tags_blacklist_window.py:153
-msgid "Do you want to save changes before closing?"
-msgstr "닫기 전에 변경 사항을 저장하시겠습니까?"
+#: ui/auth/password_admin_window.py:110
+msgid "Enable session timeout (remember password for a period)"
+msgstr "세션 시간 초과 사용(일정 기간 동안 비밀번호 기억)"
 
-#: ui/tags_blacklist_window.py:373
-msgid "Blacklist items"
-msgstr "블랙리스트 항목"
+#: ui/auth/password_admin_window.py:123
+msgid "Session timeout duration (minutes):"
+msgstr "세션 시간 초과 기간(분):"
 
-#: ui/tags_blacklist_window.py:406
-msgid "[regex]"
-msgstr "[정규식]"
+#: ui/auth/password_admin_window.py:136
+msgid "Password Setup"
+msgstr "비밀번호 설정"
 
-#: ui/tags_blacklist_window.py:408
-msgid "[no boundary]"
-msgstr "[단어 경계 없음]"
+#: ui/auth/password_admin_window.py:147
+msgid "Password is configured"
+msgstr "비밀번호가 구성되었습니다."
 
-#: ui/tags_blacklist_window.py:495
-msgid "Modified blacklist item: {0}"
-msgstr "블랙리스트 항목을 수정했습니다: {0}"
+#: ui/auth/password_admin_window.py:154 ui/auth/password_admin_window.py:332
+#: ui/auth/password_admin_window.py:348 ui/auth/password_admin_window.py:407
+msgid "Change Password"
+msgstr "비밀번호 변경"
+
+#: ui/auth/password_admin_window.py:160 ui/auth/password_admin_window.py:420
+msgid "Remove Password"
+msgstr "비밀번호 제거"
+
+#: ui/auth/password_admin_window.py:166
+msgid "Set up a password to enable protection:"
+msgstr "보호 기능을 사용하려면 비밀번호를 설정하세요:"
+
+#: ui/auth/password_admin_window.py:177 ui/auth/password_admin_window.py:364
+msgid "New Password:"
+msgstr "새 비밀번호:"
+
+#: ui/auth/password_admin_window.py:191
+msgid "Confirm Password:"
+msgstr "비밀번호를 확인합니다:"
+
+#: ui/auth/password_admin_window.py:201
+msgid "Set Password"
+msgstr "비밀번호 설정"
+
+#: ui/auth/password_admin_window.py:212 ui/auth/password_admin_window.py:262
+msgid "Reset to Defaults"
+msgstr "기본값으로 재설정"
+
+#: ui/auth/password_admin_window.py:216 ui/auth/password_admin_window.py:282
+msgid "Set to Current"
+msgstr "현재로 설정"
+
+#: ui/auth/password_admin_window.py:220
+msgid "Export Cache as JSON"
+msgstr "캐시를 JSON으로 내보내기"
+
+#: ui/auth/password_admin_window.py:228
+msgid "Save Settings"
+msgstr "설정 저장"
+
+#: ui/auth/password_admin_window.py:256
+msgid "Password protection settings saved."
+msgstr "비밀번호 보호 설정이 저장되었습니다."
+
+#: ui/auth/password_admin_window.py:263
+msgid ""
+"Are you sure you want to reset all password protection settings to their "
+"default values?"
+msgstr "모든 비밀번호 보호 설정을 기본값으로 초기화하시겠습니까?"
+
+#: ui/auth/password_admin_window.py:277
+msgid "Settings reset to defaults."
+msgstr "설정이 기본값으로 초기화됩니다."
+
+#: ui/auth/password_admin_window.py:283
+msgid ""
+"Are you sure you want to restore all settings to their current saved state? "
+"This will discard any unsaved changes."
+msgstr "모든 설정을 현재 저장된 상태로 복원하시겠습니까? 이렇게 하면 저장되지 않은 변경 사항이 모두 삭제됩니다."
+
+#: ui/auth/password_admin_window.py:298
+msgid "Settings restored to current saved state."
+msgstr "설정이 현재 저장된 상태로 복원되었습니다."
+
+#: ui/auth/password_admin_window.py:307
+msgid "Please enter a password."
+msgstr "비밀번호를 입력하세요."
+
+#: ui/auth/password_admin_window.py:311
+msgid "Passwords do not match."
+msgstr "비밀번호가 일치하지 않습니다."
+
+#: ui/auth/password_admin_window.py:315 ui/auth/password_admin_window.py:398
+msgid "Password must be at least 6 characters long."
+msgstr "비밀번호는 6자 이상이어야 합니다."
+
+#: ui/auth/password_admin_window.py:319
+msgid "Password set successfully."
+msgstr "비밀번호가 성공적으로 설정되었습니다."
+
+#: ui/auth/password_admin_window.py:326
+msgid "Failed to set password."
+msgstr "비밀번호를 설정하지 못했습니다."
+
+#: ui/auth/password_admin_window.py:355
+msgid "Current Password:"
+msgstr "현재 비밀번호:"
+
+#: ui/auth/password_admin_window.py:373
+msgid "Confirm New Password:"
+msgstr "새 비밀번호를 확인합니다:"
+
+#: ui/auth/password_admin_window.py:390
+msgid "Current password is incorrect."
+msgstr "현재 비밀번호가 올바르지 않습니다."
+
+#: ui/auth/password_admin_window.py:394
+msgid "New passwords do not match."
+msgstr "새 비밀번호가 일치하지 않습니다."
+
+#: ui/auth/password_admin_window.py:402
+msgid "Password changed successfully."
+msgstr "비밀번호가 성공적으로 변경되었습니다."
+
+#: ui/auth/password_admin_window.py:405
+msgid "Failed to change password."
+msgstr "비밀번호를 변경하지 못했습니다."
+
+#: ui/auth/password_admin_window.py:410 ui/auth/password_dialog.py:105
+#: ui/auth/password_dialog.py:156
+msgid "Cancel"
+msgstr "취소"
+
+#: ui/auth/password_admin_window.py:421
+msgid ""
+"Are you sure you want to remove password protection? This will disable all "
+"password requirements."
+msgstr "비밀번호 보호를 제거하시겠습니까? 그러면 모든 비밀번호 요구 사항이 비활성화됩니다."
+
+#: ui/auth/password_admin_window.py:426
+msgid "Password removed successfully."
+msgstr "비밀번호가 성공적으로 제거되었습니다."
+
+#: ui/auth/password_admin_window.py:430
+msgid "Failed to remove password."
+msgstr "비밀번호를 제거하지 못했습니다."
+
+#: ui/auth/password_admin_window.py:465
+msgid "Cache exported as JSON to:"
+msgstr "캐시를 JSON으로 내보냅니다:"
+
+#: ui/auth/password_admin_window.py:467
+msgid "Failed to export cache as JSON:"
+msgstr "캐시를 JSON으로 내보내지 못했습니다:"
+
+#: ui/auth/password_dialog.py:29 ui/auth/password_dialog.py:73
+msgid "Password Required"
+msgstr "비밀번호 필요"
+
+#: ui/auth/password_dialog.py:29
+msgid "Password Protection"
+msgstr "비밀번호 보호"
+
+#: ui/auth/password_dialog.py:80
+msgid "Password required for: {0}"
+msgstr "암호가 필요합니다: {0}"
+
+#: ui/auth/password_dialog.py:89
+msgid "Password:"
+msgstr "비밀번호:"
+
+#: ui/auth/password_dialog.py:102
+msgid "OK"
+msgstr "확인"
+
+#: ui/auth/password_dialog.py:111
+msgid "Password Protection Available"
+msgstr "비밀번호 보호 사용 가능"
+
+#: ui/auth/password_dialog.py:118
+msgid "This action requires password protection: {0}"
+msgstr "이 작업에는 암호 보호가 필요합니다: {0}"
+
+#: ui/auth/password_dialog.py:124
+msgid "Password protection is not currently configured. You can:"
+msgstr "현재 비밀번호 보호가 구성되어 있지 않습니다. 설정할 수 있습니다:"
+
+#: ui/auth/password_dialog.py:134
+msgid "• Configure password protection for sensitive actions"
+msgstr "• 민감한 작업에 대한 비밀번호 보호 구성"
+
+#: ui/auth/password_dialog.py:139
+msgid "• Continue without password protection (less secure)"
+msgstr "• 비밀번호 보호 없이 계속 진행(보안 취약)"
+
+#: ui/auth/password_dialog.py:148
+msgid "Configure Protection"
+msgstr "보호 구성"
+
+#: ui/auth/password_dialog.py:152
+msgid "Continue Without Protection"
+msgstr "보호 없이 계속 진행"
+
+#: ui/auth/password_dialog.py:170
+msgid "Incorrect password"
+msgstr "잘못된 비밀번호"
+
+#: utils/globals.py:224
+msgid "NSFW/NSFL Prompt Modes"
+msgstr "NSFW/NSFL 프롬프트 모드"
+
+#: utils/globals.py:225
+msgid "Edit Blacklist"
+msgstr "블랙리스트 편집"
+
+#: utils/globals.py:226
+msgid "Edit Schedules"
+msgstr "일정 편집"
+
+#: utils/globals.py:227
+msgid "Edit Expansions"
+msgstr "확장 프로그램 편집"
+
+#: utils/globals.py:228
+msgid "Edit Presets"
+msgstr "사전 설정 편집"
+
+#: utils/globals.py:230
+msgid "Access Password Administration"
+msgstr "액세스 비밀번호 관리"
