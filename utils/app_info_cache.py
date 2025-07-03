@@ -48,9 +48,9 @@ class AppInfoCache:
                 # Get the old data first
                 with open(old_json_loc, "r", encoding="utf-8") as f:
                     self._cache = json.load(f)
-                self.store()
+                self.store() # store encrypted cache
                 os.remove(old_json_loc)
-            else:
+            elif os.path.exists(AppInfoCache.CACHE_LOC):
                 decrypted_data = decrypt_data_from_file(
                     AppInfoCache.CACHE_LOC,
                     Globals.SERVICE_NAME,
@@ -58,10 +58,18 @@ class AppInfoCache:
                 )
                 self._cache = json.loads(decrypted_data.decode('utf-8'))
                 # The encrypted file did not fail to decrypt, so preserve a backup
-                backup_loc = AppInfoCache.CACHE_LOC.replace(".enc", ".enc.bak")
+                backup_loc = AppInfoCache.CACHE_LOC + ".bak"
+                backup_loc2 = AppInfoCache.CACHE_LOC + ".bak2"
+                text = f"Loaded cache from {AppInfoCache.CACHE_LOC}, shifted backups to {backup_loc}"
+                if os.path.exists(backup_loc):
+                    shutil.copy2(backup_loc, backup_loc2)
+                    text += f" and {backup_loc2}"
                 shutil.copy2(AppInfoCache.CACHE_LOC, backup_loc)
-                print(f"Preserved backup of {AppInfoCache.CACHE_LOC} as {backup_loc}")
-        except FileNotFoundError:
+                print(text)
+            else:
+                print(f"No cache file found at {AppInfoCache.CACHE_LOC}, creating new cache")
+        except Exception as e:
+            print(f"Error loading cache: {e}")
             pass
 
     def validate(self):
