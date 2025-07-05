@@ -609,6 +609,7 @@ class App():
         Utils.prevent_sleep(False)
         ComfyGen.close_all_connections()
         self.store_info_cache()
+        app_info_cache.wipe_instance()
         if self.server is not None:
             try:
                 self.server.stop()

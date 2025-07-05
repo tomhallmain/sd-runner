@@ -9,6 +9,7 @@ from utils.runner_app_config import RunnerAppConfig
 
 class AppInfoCache:
     CACHE_LOC = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "app_info_cache.enc")
+    JSON_LOC = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "app_info_cache.json")
     INFO_KEY = "info"
     HISTORY_KEY = "run_history"
     PROMPT_HISTORY_KEY = "prompt_history"  # New key for prompt tag history
@@ -26,6 +27,14 @@ class AppInfoCache:
         self.load()
         self.validate()
 
+    def wipe_instance(self):
+        self._cache = {
+            AppInfoCache.INFO_KEY: {},
+            AppInfoCache.HISTORY_KEY: [],
+            AppInfoCache.PROMPT_HISTORY_KEY: [],
+            AppInfoCache.DIRECTORIES_KEY: {}
+        }
+
     def store(self):
         try:
             self._purge_blacklisted_history()
@@ -42,14 +51,13 @@ class AppInfoCache:
 
     def load(self):
         try:
-            old_json_loc = AppInfoCache.CACHE_LOC.replace(".enc", ".json")
-            if os.path.exists(old_json_loc):
-                print(f"Removing old cache file: {old_json_loc}")
+            if os.path.exists(AppInfoCache.JSON_LOC):
+                print(f"Removing old cache file: {AppInfoCache.JSON_LOC}")
                 # Get the old data first
-                with open(old_json_loc, "r", encoding="utf-8") as f:
+                with open(AppInfoCache.JSON_LOC, "r", encoding="utf-8") as f:
                     self._cache = json.load(f)
                 self.store() # store encrypted cache
-                os.remove(old_json_loc)
+                os.remove(AppInfoCache.JSON_LOC)
             elif os.path.exists(AppInfoCache.CACHE_LOC):
                 decrypted_data = decrypt_data_from_file(
                     AppInfoCache.CACHE_LOC,
@@ -244,9 +252,9 @@ class AppInfoCache:
         return os.path.normpath(os.path.abspath(directory))
 
     def export_as_json(self, json_path=None):
-        """Export the current cache as a JSON file (not encoded)."""
+        """Export the current cache as a JSON file (not encrypted)."""
         if json_path is None:
-            json_path = os.path.splitext(self.CACHE_LOC)[0] + ".json"
+            json_path = AppInfoCache.JSON_LOC
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump(self._cache, f, ensure_ascii=False, indent=2)
         return json_path
