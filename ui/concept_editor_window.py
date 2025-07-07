@@ -155,6 +155,11 @@ class ConceptEditorWindow():
         Label(edit_frame, text=_("File:"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR).grid(row=0, column=0, padx=5, sticky="w")
         self.file_combo = Combobox(edit_frame, values=[], state="readonly", width=37)
         self.file_combo.grid(row=0, column=1, padx=5, sticky="ew", pady=5)
+        
+        # Help text for file selection
+        help_label = Label(edit_frame, text=_("(Target file for saving new concepts and importing)"), 
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, font=("TkDefaultFont", 8))
+        help_label.grid(row=1, column=0, columnspan=2, padx=5, sticky="w", pady=(0, 5))
 
         # Buttons
         button_frame = Frame(edit_frame, bg=AppStyle.BG_COLOR)
@@ -351,7 +356,8 @@ class ConceptEditorWindow():
             if failed:
                 msg.append(_("{0} concepts were not imported (see {1}_failed_import.txt for details)").format(
                     len(failed), Path(import_file).stem))
-            messagebox.showinfo(_("Import Results"), "\n".join(msg))
+            msg.append(_("Tip: You can prepend '!' to any concept line to force importation, or use simply use the concept name as a search term to force import."))
+            messagebox.showinfo(_("Import Results"), "\n\n".join(msg))
             
             # Refresh the view
             self.refresh()

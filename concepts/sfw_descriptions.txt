@@ -30,6 +30,7 @@ brilliant
 burdensome
 charade
 charred
+cheap
 crooked
 crumpled
 daft
@@ -56,6 +57,7 @@ famous
 favorable
 feral
 fettered
+fibrous
 firm
 flawed
 flim-flam
@@ -106,8 +108,10 @@ medium-sized
 meritous
 merry
 mild
+miniature
 mint condition
 mired
+miserly
 morose
 most unfavorable
 mulish
@@ -116,11 +120,13 @@ mutated
 mute
 nemisis
 nifty
+no brainer
 no-hassle
 noble
 not a lot
 of great stature
 one of the good ones
+parsimonious
 parted
 particular
 pending
@@ -134,6 +140,7 @@ pricey
 primal
 rather
 ready
+resonant
 riled
 rinky-dink
 roomy
@@ -207,6 +214,7 @@ startled
 steady
 stealthy
 stern
+stingy
 storied
 stormy
 streamlined
@@ -217,6 +225,7 @@ superdry
 superior
 swell
 swole
+synthetic
 tactical
 tall
 tawdry

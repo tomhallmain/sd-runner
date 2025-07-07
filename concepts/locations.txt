@@ -1,18 +1,27 @@
 
 1950s diner retro style
+[[one,two,three,four,six,ten]]-seater
+a galaxy far away
 abbey
+air taxi
 ambulance
 amusement park gate
 apartment
+apiary
 arcade
+archipelago
+area
 arroyo
 at the helm
 auto body shop
 backroads
 ballroom
 bassinet
+battlefield
 below deck
+bike path
 blacksmith's shop
+bleachers
 booth
 buffet
 canal
@@ -29,12 +38,15 @@ corridor
 country road
 covered bridge
 crater
+credit union
 cruiseliner
 dais
+destination
 ditch
 domain
 domicile
 dovecote
+emporium
 end zone
 entryway
 estate grounds
@@ -42,22 +54,34 @@ event horizon
 first floor
 floor
 forge
+foundry
 funicular
+gambling den
 granary
 gravel road
 gulch
 gulley
 hairpin turn
+haven
+here
 historic monument
 hive
 home office
+hoogle
 hummock
 hut
+in orbit
 kiosk
 law practice
 lea
+ledge
 levee
+location
+lot
+lounge
+major metropolitan area
 metal concert
+metro area
 middle of nowhere
 minibar
 minimart
@@ -67,21 +91,30 @@ niche
 nursery
 observation room
 Odeon
+old mill
 on deck
+on-ramp
 open house
 out somewhere
+paper plant
+parking garage
 parterre
 people mover
 pit stop
+platform
 plaza
 pop-up bar
 radio station
 radio tower
+raised platform
 ravine
 rehab
 residence
 rest stop
 rift
+riviera
+rooftop
+roost
 route
 rowhouse
 royal court
@@ -100,19 +133,24 @@ stall
 steppe
 stowed away
 study room
+sump
 tatami mats
 taxi
 terrace
 caverns
+territory
 the bridge [of a spaceship for example]
 the coast
+there
 thicket
 tidewater basin
+tourist trap
 toy stores
 tracts
 tram
 trench
 tropics
+vacation spot
 wagon
 waiting room
 waterfall

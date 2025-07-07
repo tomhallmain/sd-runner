@@ -1,49 +1,100 @@
 
+$$random_word galore
+a real softy
 abbott
+admiral
+advocate
+ain't that a shame
 al-Ṣūfī
+Aloha
+Angus
+Annette
 Antares
 apologist
 are we there yet
+Argonaut
 assassin
 at all costs
 baker
 bandero
+banneret
+banshee
+Barbar the Elephant
 Barnum and Baileys
+baronet
+Bobby McGee
 borzoi
+bouncer
+bronco
 bub
 bureau
 bushel and a peck
 buster
 can I get a true
+canester
 carte blanche
+chamberlain
+chancellor
 charizard
 chud
+churl
+Cirque de Soleil
 claimant
 confessor
+constable
+corsair
+courtier
+cowpoke
+crook
 culprit
+Custos rotulorum
+dean
+Deus Ex
+Deus Ex Machina
+ding dong
 djinn
 Dobby
+donor
+dragoon
+driver
 e'er
 emeratus
+employee
+employer
 EMT
 enemy
 et cetera
 ever
 exarch
+expat
 false mustache
 Family Feud
 Fido
+flash gun
 fly rink
+forester
+gamester
+gateman
 genie
+Ghost in the Shell
 gigglemug
+good grief
+Governor
+hall pass
 Hardy Boys
+heir
+Helmsley
 Hermes Trismegistus
 Hi-Ho, the Derry-o
+holo-$$random_word
 Holy See
+Homer
+Homer Simpson
 Hoth
 how many times do I have to tell you
 hyssop
 iCarly
+iconoclast
 If it is as you say
 ill-gotten gains
 inmate
@@ -51,8 +102,16 @@ intel
 intelligence
 it's only a game
 Jabir ibn Hayyan
+Jane Austen
 just cause
+justiciar
+L'oreal
 lalala
+Lennox
+lieutenant
+Linden
+little ditty
+llanero
 mind over matter
 miner
 mogul
@@ -63,14 +122,21 @@ mutant
 Naboo
 NANI!?
 ne'er
+neener neener
 neighbor
+ninja
+Norton
 numbnut
 oligarch
 One if by land, two if by sea
+one must admit
 opponent
 P.F. Flyers
 P.I.
 P.T. Barnum
+park rangee
+parliamentarian
+Peerage
 PeeWee's Big Adventure
 perhaps
 Philistine
@@ -79,33 +145,60 @@ pick-me-up
 picker-upper
 Pingu
 A Team
+pirate
+pitter patter
 podsnapper
 poet
 poindexter
+Pop-O-Matic
+postman
+prefect
+presdident of $$random_word
+pretender
+primogeniture
+Privy Councillor
+proverbs
+provost
 pugilist
+pupil
+purveyor
 rascal
+rector
 Redwall
+referee
+REO Speedwagon
+rook
 Roomba
+Sayonara
 scout
+scribe
 sea rover
 seadog
 seeker
 seer
+SEGA
+seneschall
 setter
 settler
 Shamu
+Shire reeve
 Sirius
 sleepers
+slugger
 sniper
 so be it
+sonny
 spoilers
 spy
 squidbillies
+steward
+stickler
 stooges
 keystone cops
 Babar
 Imogen
 stowaway
+Tabasco
 talent scout
 Tar Heels
 Tatooine
@@ -145,8 +238,16 @@ The Adoring Fan
 the mechanic
 The Mythic Dawn
 The Secret of Nimh
+ting
+Tony the Tiger
+tutor
+twat
 ulterior motives
+urethane
+villainy
+Vogt
 w rizz
+way to go!
 what's in a name
 whoop-dee-doo
 William the Conqueror
@@ -261,11 +362,17 @@ Elmer Fudd
 Elmo
 Elven
 Entertainment robot
+words to live by
 would I lie?
 wouldn't touch that with a ten-foot pole
+yahoos
 yeah dude like totally hahuh
+yeomanry
 Yogi the Bear
 Yoo-Hoo
+your Honor
+zing
+zinger
 Zip-a-Dee-Doo-Dah
 Ēostre
 Erebus

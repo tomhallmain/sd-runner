@@ -1,3 +1,4 @@
+$$random_word-ware
 abaya
 amulet
 ancient greek dress
@@ -41,8 +42,10 @@ Bermuda shorts
 bib
 biretta
 black gloves
+black-tie
 blazer
 Blazer and Slacks
+bling
 blouse
 Blunt Cut
 boa
@@ -109,6 +112,7 @@ coat
 Cocktail Party Dress
 collar
 Comb Over
+corded-ware
 corset
 costume
 courduroy
@@ -212,6 +216,7 @@ hat
 Hawaiian shirt
 hazmat suit
 head boppers
+headdress
 headscarf
 heavy coat
 helmet
@@ -254,6 +259,7 @@ Knee-Length Skirt
 knickers
 lab coat
 lapel
+laurel wreath
 Layered Haircut
 Leather Backpack
 leather boots
@@ -262,6 +268,7 @@ leather pants
 lederhosen
 leg warmers
 leggings
+lei
 leotard
 life jacket
 Linen Pants
@@ -277,6 +284,7 @@ Long Trench Coat
 long underwear
 loose fit
 Loose Hair Bun
+mane
 maxi skirt
 Midi Dress
 mime outfit
@@ -312,6 +320,7 @@ parka
 Parka Jacket
 pea coat
 Peasant Blouse
+peg leg
 pelisse
 peplum
 Peplum Blouse
@@ -493,6 +502,7 @@ Wavy Lob
 wear
 wedding gown
 wedge heels
+well-clad
 Wellingtons
 Western Boots
 wetsuit
@@ -502,6 +512,7 @@ wig
 windbreaker
 wingtip shoes
 winter clothes
+winter coat
 Wool Coat
 woolens
 wrap

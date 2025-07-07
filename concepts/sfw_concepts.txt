@@ -4,15 +4,19 @@ $$random_word edition
 $$random_word in foreground blocking view
 $$random_word Inc.
 $$random_word LLC
+$$random_word promotional material
 $$random_word thereto
 $$random_word-shaped
 'tis
 [[my,his,her,your,our,their]] very first $$random_word
+[[NULL,null,nil]]
 [[the,my]] rig
 A B and C
 a to b
 abridged edition
+acronym
 adorned
+aeration
 aerosol
 affable
 affixed
@@ -21,24 +25,38 @@ agleam
 airplane safety brochure
 Alert!
 algebraic
+alkene
 alloy
+Alpha
 aluminum foil
 amazing
 ammo box
+analyte
 anatomy
 andante
+andiron
 angle of incidence
+anidolic lighting
+annealing
 anonymous
 antenna
 antennae
+antibody
+antigen
+anything
 apart
 appearances
+apropos of $$random_word
 aqua regia
+arc lamp
 arc length
 archetype
 Arial
 armrest
 ashes
+aspect
+aspects
+assay
 at the same time
 ATP
 axial
@@ -47,40 +65,64 @@ B movie
 B-roll
 backgammon board
 bar of $$random_word
+barbs
 barrel-vaulted
 basin
+bauble
 behemoth
 bells and whistles
+beryl
 bespoke
+bevel
 blackbody radiation
+blade
 blah
 blog screenshot
 boldface
+bollard
 boom
 boombox
 boring
+brand
 breadth
 brighten
 brim
+brushstrokes carefully placed
+brushstrokes finely computed
+brushtrokes
+bullseye
+bullseye window
+bump
 bunched
 burl
+burlap
 buttressing
+caliber
 camouflage
+candelabrum
 canto
 Capodimonte porcelain
 Carborundum mezzotint
 card
 Cartesian coordinates
 carved ivory
+cast iron
 casts
+catadioptric
+catastasis
 catenary
 celestial
+centrifugal force
 channel
 chart
+chiral
 chivalric romance
+choice
 Christogram
 chromagraph
 chronicle
+circuit
+clasp
 clay
 clef
 coaxial
@@ -88,33 +130,51 @@ collagraphy
 combo $$random_word
 comma
 comparative analysis
+component
+concave
 conchoid
 concrete
 conic
+consolidation
+construction crane
 contour rivalry
 contouring
 convection
+convex
 coplanar
+count
 creative commons-licensed
+critter
 crop
 cropped image
+crossbars
+crown glass
+crucible
 curia
 curio
 curl
 curlicues
 currents
+cusp
+cuspidor
 customized
 dado pedestal part
 darken
+daylight redirecting film
 Dear Diary
 debut
 decoration
 decorative arts
 derivative
+design process
+dial
 dime novel
 dimension
+dioptric
+dish
 dislocation
 dissapating
+ditto
 dive
 doodad
 doodly-doo
@@ -129,6 +189,7 @@ earthenware
 echo
 ectoplasm
 edge
+edifice
 Eigenfunction
 eighths
 electrum
@@ -136,68 +197,97 @@ elements
 elision
 ellipse
 emoji
+enamel
 encased in amber
 endnote
 engraved glass
 epic
 epilogue
 epitaph
+epitope
 epoxy
 ergodic
+esoteric
 essence
 eulogy
+everything
 evolute
 exterior structure
+facets
 faience
 figure eight
+finely computed
 fire regulations
+flare
 flaw
+floor lights
+flotsam and jetsam
 fluctuations
 fluid flow
 flux
+foible
 foley soundboard
 force field
 formulaic
 fossilized
 frame
+Fresnel lens
 frets
 friction
+froth
 fugue
 fuse box
 G-force tech
 gaps
+gas lighting
 gas pipes
+gemälde
 geometric forms
 geometry diagram
+God
+googleplex
 government
 gradation
 grade
 graphite
 gravel
+gravimetric
 groupings
+hairline fracture
 halved
 hash
+heap
+hemmed in
+herd
 high energy
 Hilbert space
 hilt
 hoax
+holophotal
+honorific
 hook
 horns
 hourglass
 house of $$random_word
 hydro
+hygroscopic
 hyperbolic manifold
 ice chips
 icing
+ideographic
 idol
 Illumination
 illumination angle
 improvisation
 in error
 in the name of $$random_word
+in unison
 inasmuch as $$random_word
 incorporated
+index
+inference
 inlay
+inside of an hourglass
 inside-out
 integration
 interior structure
@@ -208,13 +298,18 @@ item
 joint
 jug
 knobs
+label
 lampoon
 lanes
 lay of the land
 layering
 Le Nove porcelain
 leaking
+lede
 lemniscate
+lenticular lens
+lenticular print
+level $$number
 level [[$$number,A,B,G]]
 lever
 levitation
@@ -222,16 +317,22 @@ lid
 lidar
 life cycle
 lifestyle
+lightly
 limaçon of Pascal
+limestone
 line work
+linen
 lining
 lint
+list
 LLC
 Lorentz transformation
 losses and debts
 lost and found
 Ltd.
+lumber
 luminiferous aether
+macromolecule
 maelstrom
 maiolica
 mannerism
@@ -240,14 +341,17 @@ mass consumerism
 mass produced
 matching
 materials
+matrix
 meaning
 mechanical
 medallion
+memo
 menagerie
 mere $$random_word
 method
 mezzotint
 miscellany
+moduli
 molecules
 monogram
 mortise and tenon
@@ -255,20 +359,32 @@ motor
 multiperspective
 musical scales
 mutation
+nail
 Naples porcelain
 neurons
 new releases
 noggin
 norm
 normal
+note
+nothing
+nothing else
+novae
+oculus
 odds and ends
+oeil-de-boeuf
 offset
 offset printing
 oil stain
+Omega
 omen
+only $$random_word and nothing else
 onset
+opaion
 open
 open set
+orb
+orbit
 ortho-
 orthography
 outer shell
@@ -278,6 +394,7 @@ padding
 paean
 pair
 palimpsest
+palm
 pamphlet
 panegyric
 panel
@@ -297,9 +414,13 @@ party favors
 passage
 pastiche
 patchwork
+patina
+pattern generation
 pattern poetry
 pause
+pavement lights
 payload
+pegboard
 penny dreadful
 periodic
 periodic table
@@ -598,8 +719,11 @@ photo op
 photochrome
 photocopy
 photograph
+photomask
 photon
 photonegative
+pic
+pics
 pictionary
 pile
 pivot
@@ -609,12 +733,14 @@ pixelated
 placard
 plaid
 plane shearing
+plasm
 playbook markings
 plot
 pointillist
 pointy
 Polar coordinates
 polaroid
+poleaxe
 polished
 polymorph
 post-it notes
@@ -623,22 +749,29 @@ posters
 pouch
 pre-op
 preface
+pretzel shape
 primer
 print art
 print screen image
+prism tile
 prolepsis
 prologue
+promotional material
+prop comic
 proposition
 propriety
 protagonist
 proton
 proverb
+providence
 proxy
 pseudosphere
 public domain image
 pun
 puppy
 purity
+purl
+puzzling
 quadratura
 quartered
 quatrain
@@ -656,6 +789,7 @@ raw photo
 ray of $$random_word
 raytracing
 raytraced image inspired by senior environment artist
+redactions
 refraction
 refractive index
 remix
@@ -670,10 +804,14 @@ revenue and assets
 reverse
 reversed
 rhyme
+rim
 rind
 risograph
 rivalry
 rivets
+RNA
+roentgens
+role-playing game
 rolled
 rosin
 rotated image
@@ -682,9 +820,12 @@ rotoscoped image
 rough
 roulette curve
 rounded
+rubble
+rwo-for-one
 s p a c i n g
 safety brochure
 sand
+sandstone
 saran wrap
 sawtooth wave
 scalable
@@ -692,20 +833,27 @@ scan
 scanning electron microscopy
 scattered
 Schlieren photography
+sconce
 scraped
+scratches
 scribbles
 scrying
 sealed
 sealer
 secant
+sector
 selfie
+semiconductors
 sequence
+serum
+set union
 sets
 sfm
 shades
 shaded
 shadowgraph
 shadows
+shale
 sharding
 sharing
 sharp
@@ -741,11 +889,15 @@ sneak preview
 snippet
 snout
 snowy
+sobriquet
 soft
 soft
+soil
+solenoid
 solid
 soul
 source
+specimen
 speckled
 specks
 Sperrsatz
@@ -758,14 +910,18 @@ sponsored by " $$random_word "
 spray painted
 spree
 spring-loaded
+spritz
 sprocket
 sprouting bud
+spruce
 stack
 staged performance of $$random_word
 stained
 stanchions
 standard model of physics
 static
+statics
+stature
 stem
 stenciling
 step $$number
@@ -776,6 +932,7 @@ stirred
 strands
 strange
 strange magic
+strategy
 streak
 striped
 stripes
@@ -800,27 +957,41 @@ swag bags
 swirls
 symmetrical
 syntax
+synthetic fiber
+tabernacle
+tabs
 tape
 taped
 tapers
 tapestry
 taxonomy diagram
+team
 television aerial
+tensor
 tentacles and creatures
+terracotta
 terrazzo
+test image
 textbook page
+texture
 textured
 the tip
 theatre set backdrop
+thermos
 thingamajig
 this and that
 time stopped
+timer
 Times New Roman
 tin-glazed
 tinge
+tinsel
+tire
 title
 tonal values
 tools
+tornado
+tort
 totem
 thermal camera image
 thick textured paint style impasto
@@ -829,18 +1000,22 @@ tiltshift
 tintype
 toleware
 traced
+tracing
 tractoid
 tractrix
 traditional media
 trait
 transparent background
+treads
 tree bark
 trend
 trictrac board design
+trinity
 tripwire
 Trois crayons
 trompe l'oeil
 trompe-l'œil
+tuner
 turning $$color
 twiddly bits
 typography
@@ -848,17 +1023,21 @@ ultra $$random_word
 ultrasharp
 uneven borders
 universal appeal
+university promotional material
 unopened
 unreal engine
 unrolled
 upsampling
 uwu
+vacation pic
 vacuum
 vase
+vault lights
 vector space
 vectorization
 vectorized
 velvet
+ventilation
 versatile
 vertical axis
 vertical axis
@@ -1746,6 +1925,7 @@ glowing
 halogen
 lens flare
 glare effect
+moonlit
 
 
 # Color Moods

@@ -27,6 +27,7 @@ Impersonal lighting
 Intimate lighting
 Lens flare
 Moody lighting
+moonlit
 Mystical lighting
 Mysterious lighting
 Nightmarish lighting

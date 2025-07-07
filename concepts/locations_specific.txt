@@ -1,7 +1,11 @@
+Anglia
+Iberia
 Jamestown
 lanai
 Oceania
+parliament
 Renfrew
+Troy
 Warped Tour
 Coachella
 Bonaroo
@@ -265,6 +269,7 @@ The Bosphorus
 River Thames
 Peebles
 Varenna Lake Como Italy
+Yukon
 Yvoire France
 Lacoste France
 Najac France

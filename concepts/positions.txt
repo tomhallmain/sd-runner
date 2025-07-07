@@ -15,6 +15,7 @@ arched back
 arms down
 arms extended
 arms up
+around
 around the block
 aside
 assuming a stance
@@ -79,6 +80,7 @@ lying on back
 lying on side
 lying on stomach
 model pose
+mounted
 near
 nearby
 nearest

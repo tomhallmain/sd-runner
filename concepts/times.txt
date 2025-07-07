@@ -1,6 +1,8 @@
 all the time
 always
+circa $$number [[BC,AD,CE]]
 early morning
+ever
 everlasting
 henceforth
 morning

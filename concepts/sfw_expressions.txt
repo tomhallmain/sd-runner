@@ -39,6 +39,7 @@ devious
 Disappointed
 Discontent
 disinterest
+elation
 hiss
 jealous
 mania
@@ -141,6 +142,7 @@ Satisfied
 savoring
 scoff
 scrunched nose
+shame
 Shy
 side-eye
 sighing
