@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-02 21:15-0400\n"
-"PO-Revision-Date: 2025-07-02 21:15-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-07-07 15:57-0400\n"
+"PO-Revision-Date: 2025-07-07 15:57-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -256,51 +256,59 @@ msgstr "태그 블랙리스트"
 msgid "Expansions Window"
 msgstr "확장 프로그램 창"
 
-#: app.py:621
+#: app.py:622
 msgid "Confirm Quit"
 msgstr "종료 확인"
 
-#: app.py:621
+#: app.py:622
 msgid "Would you like to quit the application?"
 msgstr "앱을 종료하시겠습니까?"
 
-#: app.py:858 app.py:875
+#: app.py:859 app.py:876
 msgid "Confirm Run"
 msgstr "실행 확인"
 
-#: app.py:859
+#: app.py:860
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "새 실행을 시작하면 현재 미리 설정된 일정이 취소됩니다. 계속 진행하시겠습니까?"
 
-#: app.py:876
+#: app.py:877
 msgid "Are you sure you want to proceed?"
 msgstr "계속 진행하시겠습니까?"
 
-#: app.py:976 app_qt.py:380
+#: app.py:977 app_qt.py:380
 msgid " (unlimited)"
 msgstr " (무제한)"
 
-#: app.py:1000
+#: app.py:1001
 msgid "{0} pending generations"
 msgstr "{0} 보류 중인 세대"
 
-#: app.py:1081
+#: app.py:1082
 msgid "Invalid Prompt Tags"
 msgstr "잘못된 프롬프트 태그"
 
-#: app.py:1082
+#: app.py:1083
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "프롬프트에서 블랙리스트 항목을 발견했습니다: {0}"
 
-#: app.py:1238 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:265
-#: ui/concept_editor_window.py:324 ui/concept_editor_window.py:343
+#: app.py:1221
+msgid "Password Cancelled"
+msgstr "비밀번호 취소"
+
+#: app.py:1221
+msgid "Password cancelled or incorrect, revert to previous mode"
+msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되돌리기"
+
+#: app.py:1239 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:270
+#: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348
 #: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
 msgid "Error"
 msgstr "오류"
 
-#: app.py:1364 app_qt.py:51
+#: app.py:1365 app_qt.py:51
 msgid " ComfyGen "
 msgstr " SD 러너 "
 
@@ -336,71 +344,71 @@ msgstr "검색/개념 추가:"
 msgid "File:"
 msgstr "파일:"
 
-#: ui/concept_editor_window.py:163 ui/concept_editor_window_qt.py:122
+#: ui/concept_editor_window.py:168 ui/concept_editor_window_qt.py:122
 #: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
 msgid "Save"
 msgstr "저장"
 
-#: ui/concept_editor_window.py:166 ui/concept_editor_window_qt.py:49
+#: ui/concept_editor_window.py:171 ui/concept_editor_window_qt.py:49
 #: ui/expansions_window.py:241 ui/presets_window.py:147
 #: ui/schedules_windows.py:90 ui/schedules_windows.py:300
 msgid "Delete"
 msgstr "삭제"
 
-#: ui/concept_editor_window.py:169 ui/concept_editor_window_qt.py:141
+#: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
 #: ui/tags_blacklist_window.py:388
 msgid "Import"
 msgstr "가져오기"
 
-#: ui/concept_editor_window.py:210
+#: ui/concept_editor_window.py:215
 msgid "Enter search text to see concepts..."
 msgstr "개념을 보려면 검색 텍스트를 입력하세요..."
 
-#: ui/concept_editor_window.py:265
+#: ui/concept_editor_window.py:270
 msgid "Please select a file to save to"
 msgstr "저장할 파일을 선택하세요."
 
-#: ui/concept_editor_window.py:279 ui/concept_editor_window_qt.py:234
+#: ui/concept_editor_window.py:284 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
 msgstr "저장된 개념: {0}"
 
-#: ui/concept_editor_window.py:301
+#: ui/concept_editor_window.py:306
 msgid "Confirm"
 msgstr "확인"
 
-#: ui/concept_editor_window.py:301
+#: ui/concept_editor_window.py:306
 msgid "Delete concept: {0}?"
 msgstr "개념 삭제: {0}?"
 
-#: ui/concept_editor_window.py:307 ui/concept_editor_window_qt.py:247
+#: ui/concept_editor_window.py:312 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
 msgstr "삭제된 개념: {0}"
 
-#: ui/concept_editor_window.py:324
+#: ui/concept_editor_window.py:329
 msgid "Please select a target file first"
 msgstr "먼저 대상 파일을 선택하세요."
 
-#: ui/concept_editor_window.py:329
+#: ui/concept_editor_window.py:334
 msgid "Select concepts file to import"
 msgstr "가져올 컨셉 파일 선택"
 
-#: ui/concept_editor_window.py:330
+#: ui/concept_editor_window.py:335
 msgid "Text files"
 msgstr "텍스트 파일"
 
-#: ui/concept_editor_window.py:330
+#: ui/concept_editor_window.py:335
 msgid "All files"
 msgstr "모든 파일"
 
-#: ui/concept_editor_window.py:350
+#: ui/concept_editor_window.py:355
 msgid "Successfully imported {0} concepts"
 msgstr "{0} 개념을 성공적으로 가져왔습니다."
 
-#: ui/concept_editor_window.py:352
+#: ui/concept_editor_window.py:357
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr "{0} 개념을 가져오지 못했습니다(자세한 내용은 {1}_failed_import.txt 참조)."
 
-#: ui/concept_editor_window.py:354
+#: ui/concept_editor_window.py:360
 msgid "Import Results"
 msgstr "가져오기 결과"
 
@@ -916,38 +924,6 @@ msgstr "블랙리스트에 태그를 추가했습니다: {0}"
 msgid "Removed tag from blacklist: {0}"
 msgstr "블랙리스트에서 태그를 제거했습니다: {0}"
 
-#: utils/job_queue.py:40
-msgid " (Pending runs: {0})"
-msgstr " (보류 중인 실행: {0})"
-
-#: utils/job_queue.py:42
-msgid " (Pending schedules: {0})"
-msgstr " (보류 중인 일정: {0})"
-
-#: utils/time_estimator.py:87
-msgid "~{0}d"
-msgstr "~{0}일"
-
-#: utils/time_estimator.py:89
-msgid "{0}h"
-msgstr "{0}시간"
-
-#: utils/time_estimator.py:91
-msgid "{0}m"
-msgstr "{0}분"
-
-#: utils/time_estimator.py:92
-msgid "{0}s"
-msgstr "{0}초"
-
-#: app.py:1220
-msgid "Password Cancelled"
-msgstr "비밀번호 취소"
-
-#: app.py:1220
-msgid "Password cancelled or incorrect, revert to previous mode"
-msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되돌리기"
-
 #: ui/auth/password_admin_window.py:21
 msgid "Password Administration"
 msgstr "비밀번호 관리"
@@ -1195,3 +1171,37 @@ msgstr "사전 설정 편집"
 #: utils/globals.py:230
 msgid "Access Password Administration"
 msgstr "액세스 비밀번호 관리"
+
+#: utils/job_queue.py:40
+msgid " (Pending runs: {0})"
+msgstr " (보류 중인 실행: {0})"
+
+#: utils/job_queue.py:42
+msgid " (Pending schedules: {0})"
+msgstr " (보류 중인 일정: {0})"
+
+#: utils/time_estimator.py:87
+msgid "~{0}d"
+msgstr "~{0}일"
+
+#: utils/time_estimator.py:89
+msgid "{0}h"
+msgstr "{0}시간"
+
+#: utils/time_estimator.py:91
+msgid "{0}m"
+msgstr "{0}분"
+
+#: utils/time_estimator.py:92
+msgid "{0}s"
+msgstr "{0}초"
+
+#: ui/concept_editor_window.py:160
+msgid "(Target file for saving new concepts and importing)"
+msgstr "(새 개념 저장 및 가져오기를 위한 대상 파일)"
+
+#: ui/concept_editor_window.py:359
+msgid ""
+"Tip: You can prepend '!' to any concept line to force importation, or use "
+"simply use the concept name as a search term to force import."
+msgstr "팁: 개념 줄 앞에 \"!\" 를 추가하여 강제로 가져오거나 개념 이름을 검색어로 사용하여 강제로 가져올 수 있습니다."

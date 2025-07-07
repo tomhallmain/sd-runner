@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-02 21:15-0400\n"
-"PO-Revision-Date: 2025-07-02 21:15-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-07-07 15:57-0400\n"
+"PO-Revision-Date: 2025-07-07 15:57-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ja Team <<EMAIL>>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -256,51 +256,59 @@ msgstr "タグ ブラックリスト"
 msgid "Expansions Window"
 msgstr "拡張ウィンドウ"
 
-#: app.py:621
+#: app.py:622
 msgid "Confirm Quit"
 msgstr "終了を確認する"
 
-#: app.py:621
+#: app.py:622
 msgid "Would you like to quit the application?"
 msgstr "アプリを終了しますか？"
 
-#: app.py:858 app.py:875
+#: app.py:859 app.py:876
 msgid "Confirm Run"
 msgstr "ランの確認"
 
-#: app.py:859
+#: app.py:860
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "新しいランを開始すると、現在のプリセットスケジュールはキャンセルされます。本当に続けますか？"
 
-#: app.py:876
+#: app.py:877
 msgid "Are you sure you want to proceed?"
 msgstr "このままでいいのか？"
 
-#: app.py:976 app_qt.py:380
+#: app.py:977 app_qt.py:380
 msgid " (unlimited)"
 msgstr " (無制限）"
 
-#: app.py:1000
+#: app.py:1001
 msgid "{0} pending generations"
 msgstr "{0}保留中の世代"
 
-#: app.py:1081
+#: app.py:1082
 msgid "Invalid Prompt Tags"
 msgstr "無効なプロンプトタグ"
 
-#: app.py:1082
+#: app.py:1083
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "プロンプトでブラックリストの項目が見つかりました： {0}"
 
-#: app.py:1238 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:265
-#: ui/concept_editor_window.py:324 ui/concept_editor_window.py:343
+#: app.py:1221
+msgid "Password Cancelled"
+msgstr "パスワードのキャンセル"
+
+#: app.py:1221
+msgid "Password cancelled or incorrect, revert to previous mode"
+msgstr "パスワードがキャンセルされたか、間違っている。"
+
+#: app.py:1239 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:270
+#: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348
 #: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
 msgid "Error"
 msgstr "エラー"
 
-#: app.py:1364 app_qt.py:51
+#: app.py:1365 app_qt.py:51
 msgid " ComfyGen "
 msgstr " SDランナー "
 
@@ -336,71 +344,71 @@ msgstr "検索/追加コンセプト："
 msgid "File:"
 msgstr "ファイル："
 
-#: ui/concept_editor_window.py:163 ui/concept_editor_window_qt.py:122
+#: ui/concept_editor_window.py:168 ui/concept_editor_window_qt.py:122
 #: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
 msgid "Save"
 msgstr "セーブ"
 
-#: ui/concept_editor_window.py:166 ui/concept_editor_window_qt.py:49
+#: ui/concept_editor_window.py:171 ui/concept_editor_window_qt.py:49
 #: ui/expansions_window.py:241 ui/presets_window.py:147
 #: ui/schedules_windows.py:90 ui/schedules_windows.py:300
 msgid "Delete"
 msgstr "削除"
 
-#: ui/concept_editor_window.py:169 ui/concept_editor_window_qt.py:141
+#: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
 #: ui/tags_blacklist_window.py:388
 msgid "Import"
 msgstr "輸入"
 
-#: ui/concept_editor_window.py:210
+#: ui/concept_editor_window.py:215
 msgid "Enter search text to see concepts..."
 msgstr "検索テキストを入力すると、コンセプトが表示されます..."
 
-#: ui/concept_editor_window.py:265
+#: ui/concept_editor_window.py:270
 msgid "Please select a file to save to"
 msgstr "保存するファイルを選択してください。"
 
-#: ui/concept_editor_window.py:279 ui/concept_editor_window_qt.py:234
+#: ui/concept_editor_window.py:284 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
 msgstr "保存されたコンセプト：{0}"
 
-#: ui/concept_editor_window.py:301
+#: ui/concept_editor_window.py:306
 msgid "Confirm"
 msgstr "確認"
 
-#: ui/concept_editor_window.py:301
+#: ui/concept_editor_window.py:306
 msgid "Delete concept: {0}?"
 msgstr "コンセプトの削除：{0}?"
 
-#: ui/concept_editor_window.py:307 ui/concept_editor_window_qt.py:247
+#: ui/concept_editor_window.py:312 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
 msgstr "削除されたコンセプト：{0}"
 
-#: ui/concept_editor_window.py:324
+#: ui/concept_editor_window.py:329
 msgid "Please select a target file first"
 msgstr "最初にターゲットファイルを選択してください。"
 
-#: ui/concept_editor_window.py:329
+#: ui/concept_editor_window.py:334
 msgid "Select concepts file to import"
 msgstr "インポートするコンセプトファイルを選択"
 
-#: ui/concept_editor_window.py:330
+#: ui/concept_editor_window.py:335
 msgid "Text files"
 msgstr "テキストファイル"
 
-#: ui/concept_editor_window.py:330
+#: ui/concept_editor_window.py:335
 msgid "All files"
 msgstr "すべてのファイル"
 
-#: ui/concept_editor_window.py:350
+#: ui/concept_editor_window.py:355
 msgid "Successfully imported {0} concepts"
 msgstr "{0}概念のインポートに成功"
 
-#: ui/concept_editor_window.py:352
+#: ui/concept_editor_window.py:357
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr "{0}概念がインポートされませんでした（詳細は{1}_failed_import.txtを参照）。"
 
-#: ui/concept_editor_window.py:354
+#: ui/concept_editor_window.py:360
 msgid "Import Results"
 msgstr "インポート結果"
 
@@ -915,38 +923,6 @@ msgstr "ブラックリストにタグを追加： {0}"
 msgid "Removed tag from blacklist: {0}"
 msgstr "ブラックリストからタグを削除した： {0}"
 
-#: utils/job_queue.py:40
-msgid " (Pending runs: {0})"
-msgstr " (保留中: {0})"
-
-#: utils/job_queue.py:42
-msgid " (Pending schedules: {0})"
-msgstr " (保留中のスケジュール: {0})"
-
-#: utils/time_estimator.py:87
-msgid "~{0}d"
-msgstr "~{0}日"
-
-#: utils/time_estimator.py:89
-msgid "{0}h"
-msgstr "{0}時"
-
-#: utils/time_estimator.py:91
-msgid "{0}m"
-msgstr "{0}分"
-
-#: utils/time_estimator.py:92
-msgid "{0}s"
-msgstr "{0}秒"
-
-#: app.py:1220
-msgid "Password Cancelled"
-msgstr "パスワードのキャンセル"
-
-#: app.py:1220
-msgid "Password cancelled or incorrect, revert to previous mode"
-msgstr "パスワードがキャンセルされたか、間違っている。"
-
 #: ui/auth/password_admin_window.py:21
 msgid "Password Administration"
 msgstr "パスワード管理"
@@ -1194,3 +1170,37 @@ msgstr "プリセットの編集"
 #: utils/globals.py:230
 msgid "Access Password Administration"
 msgstr "アクセスパスワードの管理"
+
+#: utils/job_queue.py:40
+msgid " (Pending runs: {0})"
+msgstr " (保留中: {0})"
+
+#: utils/job_queue.py:42
+msgid " (Pending schedules: {0})"
+msgstr " (保留中のスケジュール: {0})"
+
+#: utils/time_estimator.py:87
+msgid "~{0}d"
+msgstr "~{0}日"
+
+#: utils/time_estimator.py:89
+msgid "{0}h"
+msgstr "{0}時"
+
+#: utils/time_estimator.py:91
+msgid "{0}m"
+msgstr "{0}分"
+
+#: utils/time_estimator.py:92
+msgid "{0}s"
+msgstr "{0}秒"
+
+#: ui/concept_editor_window.py:160
+msgid "(Target file for saving new concepts and importing)"
+msgstr "(新しいコンセプトを保存し、インポートするためのターゲットファイル）"
+
+#: ui/concept_editor_window.py:359
+msgid ""
+"Tip: You can prepend '!' to any concept line to force importation, or use "
+"simply use the concept name as a search term to force import."
+msgstr "ヒント：インポートを強制するには、コンセプト行の先頭に「!」"

@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-02 21:15-0400\n"
-"PO-Revision-Date: 2025-07-02 21:15-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-07-07 15:57-0400\n"
+"PO-Revision-Date: 2025-07-07 15:57-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -256,51 +256,59 @@ msgstr "标签黑名单"
 msgid "Expansions Window"
 msgstr "扩展窗口"
 
-#: app.py:621
+#: app.py:622
 msgid "Confirm Quit"
 msgstr "确认退出"
 
-#: app.py:621
+#: app.py:622
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
-#: app.py:858 app.py:875
+#: app.py:859 app.py:876
 msgid "Confirm Run"
 msgstr "确认运行"
 
-#: app.py:859
+#: app.py:860
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "开始新的运行将取消当前的预设时间表。您确定要继续吗？"
 
-#: app.py:876
+#: app.py:877
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
 
-#: app.py:976 app_qt.py:380
+#: app.py:977 app_qt.py:380
 msgid " (unlimited)"
 msgstr " (无限制)"
 
-#: app.py:1000
+#: app.py:1001
 msgid "{0} pending generations"
 msgstr "{0}待定世代"
 
-#: app.py:1081
+#: app.py:1082
 msgid "Invalid Prompt Tags"
 msgstr "无效提示标签"
 
-#: app.py:1082
+#: app.py:1083
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "提示中发现黑名单项目： {0}"
 
-#: app.py:1238 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:265
-#: ui/concept_editor_window.py:324 ui/concept_editor_window.py:343
+#: app.py:1221
+msgid "Password Cancelled"
+msgstr "取消密码"
+
+#: app.py:1221
+msgid "Password cancelled or incorrect, revert to previous mode"
+msgstr "密码被取消或不正确，返回上一模式"
+
+#: app.py:1239 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:270
+#: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348
 #: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
 msgid "Error"
 msgstr "错误"
 
-#: app.py:1364 app_qt.py:51
+#: app.py:1365 app_qt.py:51
 msgid " ComfyGen "
 msgstr " SD 转轮 "
 
@@ -336,71 +344,71 @@ msgstr "搜索/添加概念："
 msgid "File:"
 msgstr "文件："
 
-#: ui/concept_editor_window.py:163 ui/concept_editor_window_qt.py:122
+#: ui/concept_editor_window.py:168 ui/concept_editor_window_qt.py:122
 #: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
 msgid "Save"
 msgstr "节省"
 
-#: ui/concept_editor_window.py:166 ui/concept_editor_window_qt.py:49
+#: ui/concept_editor_window.py:171 ui/concept_editor_window_qt.py:49
 #: ui/expansions_window.py:241 ui/presets_window.py:147
 #: ui/schedules_windows.py:90 ui/schedules_windows.py:300
 msgid "Delete"
 msgstr "删除"
 
-#: ui/concept_editor_window.py:169 ui/concept_editor_window_qt.py:141
+#: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
 #: ui/tags_blacklist_window.py:388
 msgid "Import"
 msgstr "进口"
 
-#: ui/concept_editor_window.py:210
+#: ui/concept_editor_window.py:215
 msgid "Enter search text to see concepts..."
 msgstr "输入搜索文本查看概念...."
 
-#: ui/concept_editor_window.py:265
+#: ui/concept_editor_window.py:270
 msgid "Please select a file to save to"
 msgstr "请选择要保存的文件"
 
-#: ui/concept_editor_window.py:279 ui/concept_editor_window_qt.py:234
+#: ui/concept_editor_window.py:284 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
 msgstr "保存的概念：{0}"
 
-#: ui/concept_editor_window.py:301
+#: ui/concept_editor_window.py:306
 msgid "Confirm"
 msgstr "确认"
 
-#: ui/concept_editor_window.py:301
+#: ui/concept_editor_window.py:306
 msgid "Delete concept: {0}?"
 msgstr "删除概念：{0}？"
 
-#: ui/concept_editor_window.py:307 ui/concept_editor_window_qt.py:247
+#: ui/concept_editor_window.py:312 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
 msgstr "删除的概念：{0}"
 
-#: ui/concept_editor_window.py:324
+#: ui/concept_editor_window.py:329
 msgid "Please select a target file first"
 msgstr "请先选择目标文件"
 
-#: ui/concept_editor_window.py:329
+#: ui/concept_editor_window.py:334
 msgid "Select concepts file to import"
 msgstr "选择要导入的概念文件"
 
-#: ui/concept_editor_window.py:330
+#: ui/concept_editor_window.py:335
 msgid "Text files"
 msgstr "文本文件"
 
-#: ui/concept_editor_window.py:330
+#: ui/concept_editor_window.py:335
 msgid "All files"
 msgstr "所有文件"
 
-#: ui/concept_editor_window.py:350
+#: ui/concept_editor_window.py:355
 msgid "Successfully imported {0} concepts"
 msgstr "成功导入 {0} 概念"
 
-#: ui/concept_editor_window.py:352
+#: ui/concept_editor_window.py:357
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr "没有导入 {0} 概念（详情请参见 {1}_failed_import.txt）"
 
-#: ui/concept_editor_window.py:354
+#: ui/concept_editor_window.py:360
 msgid "Import Results"
 msgstr "进口结果"
 
@@ -914,38 +922,6 @@ msgstr "已将标签加入黑名单： {0}"
 msgid "Removed tag from blacklist: {0}"
 msgstr "从黑名单中删除标签： {0}"
 
-#: utils/job_queue.py:40
-msgid " (Pending runs: {0})"
-msgstr " (等待运行：{0}）"
-
-#: utils/job_queue.py:42
-msgid " (Pending schedules: {0})"
-msgstr " (待定计划表：{0})"
-
-#: utils/time_estimator.py:87
-msgid "~{0}d"
-msgstr "~{0}天"
-
-#: utils/time_estimator.py:89
-msgid "{0}h"
-msgstr "{0}时"
-
-#: utils/time_estimator.py:91
-msgid "{0}m"
-msgstr "{0}分"
-
-#: utils/time_estimator.py:92
-msgid "{0}s"
-msgstr "{0}秒"
-
-#: app.py:1220
-msgid "Password Cancelled"
-msgstr "取消密码"
-
-#: app.py:1220
-msgid "Password cancelled or incorrect, revert to previous mode"
-msgstr "密码被取消或不正确，返回上一模式"
-
 #: ui/auth/password_admin_window.py:21
 msgid "Password Administration"
 msgstr "密码管理"
@@ -1193,3 +1169,37 @@ msgstr "编辑预置"
 #: utils/globals.py:230
 msgid "Access Password Administration"
 msgstr "访问密码管理"
+
+#: utils/job_queue.py:40
+msgid " (Pending runs: {0})"
+msgstr " (等待运行：{0}）"
+
+#: utils/job_queue.py:42
+msgid " (Pending schedules: {0})"
+msgstr " (待定计划表：{0})"
+
+#: utils/time_estimator.py:87
+msgid "~{0}d"
+msgstr "~{0}天"
+
+#: utils/time_estimator.py:89
+msgid "{0}h"
+msgstr "{0}时"
+
+#: utils/time_estimator.py:91
+msgid "{0}m"
+msgstr "{0}分"
+
+#: utils/time_estimator.py:92
+msgid "{0}s"
+msgstr "{0}秒"
+
+#: ui/concept_editor_window.py:160
+msgid "(Target file for saving new concepts and importing)"
+msgstr "(用于保存新概念和导入的目标文件）"
+
+#: ui/concept_editor_window.py:359
+msgid ""
+"Tip: You can prepend '!' to any concept line to force importation, or use "
+"simply use the concept name as a search term to force import."
+msgstr "提示：您可以在任何概念行前加上“！”来强制导入，或者使用概念名称作为搜索词来强制导入。"

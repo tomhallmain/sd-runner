@@ -1,14 +1,14 @@
 # Translations template for APPLICATION.
-# Copyright (C) 2025 THOMAS HALL <tomhall.main@gmail.com>
+# Copyright (C) 2025 AUTHOR NAME <author@example.com>
 # This file is distributed under the same license as the APPLICATION project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: APPLICATION 1.0\n"
-"Report-Msgid-Bugs-To: Thomas Hall <tomhall.main@gmail.com>\n"
-"POT-Creation-Date: 2025-07-02 16:43-0400\n"
-"PO-Revision-Date: 2025-07-02 16:43-0400\n"
+"Report-Msgid-Bugs-To: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-07-07 15:52-0400\n"
+"PO-Revision-Date: 2025-07-07 15:52-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -260,56 +260,56 @@ msgstr ""
 msgid "Expansions Window"
 msgstr ""
 
-#: app.py:621
+#: app.py:622
 msgid "Confirm Quit"
 msgstr ""
 
-#: app.py:621
+#: app.py:622
 msgid "Would you like to quit the application?"
 msgstr ""
 
-#: app.py:858 app.py:875
+#: app.py:859 app.py:876
 msgid "Confirm Run"
 msgstr ""
 
-#: app.py:859
+#: app.py:860
 msgid "Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"
 msgstr ""
 
-#: app.py:876
+#: app.py:877
 msgid "Are you sure you want to proceed?"
 msgstr ""
 
-#: app.py:976 app_qt.py:380
+#: app.py:977 app_qt.py:380
 msgid " (unlimited)"
 msgstr ""
 
-#: app.py:1000
+#: app.py:1001
 msgid "{0} pending generations"
 msgstr ""
 
-#: app.py:1081
+#: app.py:1082
 msgid "Invalid Prompt Tags"
 msgstr ""
 
-#: app.py:1082
+#: app.py:1083
 msgid "Blacklisted items found in prompt: {0}"
 msgstr ""
 
-#: app.py:1220
+#: app.py:1221
 msgid "Password Cancelled"
 msgstr ""
 
-#: app.py:1220
+#: app.py:1221
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr ""
 
-#: app.py:1238 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:265 ui/concept_editor_window.py:324
-#: ui/concept_editor_window.py:343 ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
+#: app.py:1239 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
+#: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
 msgid "Error"
 msgstr ""
 
-#: app.py:1364 app_qt.py:51
+#: app.py:1365 app_qt.py:51
 msgid " ComfyGen "
 msgstr ""
 
@@ -341,69 +341,79 @@ msgstr ""
 msgid "File:"
 msgstr ""
 
-#: ui/concept_editor_window.py:163 ui/concept_editor_window_qt.py:122 ui/expansions_window_qt.py:58
+#: ui/concept_editor_window.py:160
+msgid "(Target file for saving new concepts and importing)"
+msgstr ""
+
+#: ui/concept_editor_window.py:168 ui/concept_editor_window_qt.py:122 ui/expansions_window_qt.py:58
 #: ui/schedules_window_qt.py:95
 msgid "Save"
 msgstr ""
 
-#: ui/concept_editor_window.py:166 ui/concept_editor_window_qt.py:49 ui/expansions_window.py:241 ui/presets_window.py:147
+#: ui/concept_editor_window.py:171 ui/concept_editor_window_qt.py:49 ui/expansions_window.py:241 ui/presets_window.py:147
 #: ui/schedules_windows.py:90 ui/schedules_windows.py:300
 msgid "Delete"
 msgstr ""
 
-#: ui/concept_editor_window.py:169 ui/concept_editor_window_qt.py:141 ui/tags_blacklist_window.py:388
+#: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141 ui/tags_blacklist_window.py:388
 msgid "Import"
 msgstr ""
 
-#: ui/concept_editor_window.py:210
+#: ui/concept_editor_window.py:215
 msgid "Enter search text to see concepts..."
 msgstr ""
 
-#: ui/concept_editor_window.py:265
+#: ui/concept_editor_window.py:270
 msgid "Please select a file to save to"
 msgstr ""
 
-#: ui/concept_editor_window.py:279 ui/concept_editor_window_qt.py:234
+#: ui/concept_editor_window.py:284 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
 msgstr ""
 
-#: ui/concept_editor_window.py:301
+#: ui/concept_editor_window.py:306
 msgid "Confirm"
 msgstr ""
 
-#: ui/concept_editor_window.py:301
+#: ui/concept_editor_window.py:306
 msgid "Delete concept: {0}?"
 msgstr ""
 
-#: ui/concept_editor_window.py:307 ui/concept_editor_window_qt.py:247
+#: ui/concept_editor_window.py:312 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
 msgstr ""
 
-#: ui/concept_editor_window.py:324
+#: ui/concept_editor_window.py:329
 msgid "Please select a target file first"
 msgstr ""
 
-#: ui/concept_editor_window.py:329
+#: ui/concept_editor_window.py:334
 msgid "Select concepts file to import"
 msgstr ""
 
-#: ui/concept_editor_window.py:330
+#: ui/concept_editor_window.py:335
 msgid "Text files"
 msgstr ""
 
-#: ui/concept_editor_window.py:330
+#: ui/concept_editor_window.py:335
 msgid "All files"
 msgstr ""
 
-#: ui/concept_editor_window.py:350
+#: ui/concept_editor_window.py:355
 msgid "Successfully imported {0} concepts"
 msgstr ""
 
-#: ui/concept_editor_window.py:352
+#: ui/concept_editor_window.py:357
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr ""
 
-#: ui/concept_editor_window.py:354
+#: ui/concept_editor_window.py:359
+msgid ""
+"Tip: You can prepend '!' to any concept line to force importation, or use simply use the concept name as a search "
+"term to force import."
+msgstr ""
+
+#: ui/concept_editor_window.py:360
 msgid "Import Results"
 msgstr ""
 

@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-02 21:15-0400\n"
-"PO-Revision-Date: 2025-07-02 21:15-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-07-07 15:57-0400\n"
+"PO-Revision-Date: 2025-07-07 15:57-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: es Team <<EMAIL>>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -256,19 +256,19 @@ msgstr "Lista negra de etiquetas"
 msgid "Expansions Window"
 msgstr "Ventana de ampliaciones"
 
-#: app.py:621
+#: app.py:622
 msgid "Confirm Quit"
 msgstr "Confirmar Salir"
 
-#: app.py:621
+#: app.py:622
 msgid "Would you like to quit the application?"
 msgstr "¿Desea abandonar la aplicación?"
 
-#: app.py:858 app.py:875
+#: app.py:859 app.py:876
 msgid "Confirm Run"
 msgstr "Confirmar ejecución"
 
-#: app.py:859
+#: app.py:860
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -276,33 +276,41 @@ msgstr ""
 "El inicio de un nuevo recorrido cancelará la programación preestablecida "
 "actual. ¿Está seguro de que desea continuar?"
 
-#: app.py:876
+#: app.py:877
 msgid "Are you sure you want to proceed?"
 msgstr "¿Estás seguro de que quieres continuar?"
 
-#: app.py:976 app_qt.py:380
+#: app.py:977 app_qt.py:380
 msgid " (unlimited)"
 msgstr " (ilimitado)"
 
-#: app.py:1000
+#: app.py:1001
 msgid "{0} pending generations"
 msgstr "{0} generaciones pendientes"
 
-#: app.py:1081
+#: app.py:1082
 msgid "Invalid Prompt Tags"
 msgstr "Etiquetas de aviso no válidas"
 
-#: app.py:1082
+#: app.py:1083
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "Elementos en lista negra encontrados en el prompt: {0}"
 
-#: app.py:1238 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:265
-#: ui/concept_editor_window.py:324 ui/concept_editor_window.py:343
+#: app.py:1221
+msgid "Password Cancelled"
+msgstr "Contraseña cancelada"
+
+#: app.py:1221
+msgid "Password cancelled or incorrect, revert to previous mode"
+msgstr "Contraseña cancelada o incorrecta, volver al modo anterior"
+
+#: app.py:1239 ui/auth/password_dialog.py:170 ui/concept_editor_window.py:270
+#: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348
 #: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
 msgid "Error"
 msgstr "Error"
 
-#: app.py:1364 app_qt.py:51
+#: app.py:1365 app_qt.py:51
 msgid " ComfyGen "
 msgstr " Corredor SD "
 
@@ -342,72 +350,72 @@ msgstr "Buscar/Agregar concepto:"
 msgid "File:"
 msgstr "Archivo:"
 
-#: ui/concept_editor_window.py:163 ui/concept_editor_window_qt.py:122
+#: ui/concept_editor_window.py:168 ui/concept_editor_window_qt.py:122
 #: ui/expansions_window_qt.py:58 ui/schedules_window_qt.py:95
 msgid "Save"
 msgstr "Guardar"
 
-#: ui/concept_editor_window.py:166 ui/concept_editor_window_qt.py:49
+#: ui/concept_editor_window.py:171 ui/concept_editor_window_qt.py:49
 #: ui/expansions_window.py:241 ui/presets_window.py:147
 #: ui/schedules_windows.py:90 ui/schedules_windows.py:300
 msgid "Delete"
 msgstr "Borrar"
 
-#: ui/concept_editor_window.py:169 ui/concept_editor_window_qt.py:141
+#: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
 #: ui/tags_blacklist_window.py:388
 msgid "Import"
 msgstr "Importación"
 
-#: ui/concept_editor_window.py:210
+#: ui/concept_editor_window.py:215
 msgid "Enter search text to see concepts..."
 msgstr "Escriba texto de búsqueda para ver conceptos..."
 
-#: ui/concept_editor_window.py:265
+#: ui/concept_editor_window.py:270
 msgid "Please select a file to save to"
 msgstr "Seleccione un archivo para guardar"
 
-#: ui/concept_editor_window.py:279 ui/concept_editor_window_qt.py:234
+#: ui/concept_editor_window.py:284 ui/concept_editor_window_qt.py:234
 msgid "Saved concept: {0}"
 msgstr "Concepto salvado: {0}"
 
-#: ui/concept_editor_window.py:301
+#: ui/concept_editor_window.py:306
 msgid "Confirm"
 msgstr "Confirmación"
 
-#: ui/concept_editor_window.py:301
+#: ui/concept_editor_window.py:306
 msgid "Delete concept: {0}?"
 msgstr "Eliminar el concepto: {0}?"
 
-#: ui/concept_editor_window.py:307 ui/concept_editor_window_qt.py:247
+#: ui/concept_editor_window.py:312 ui/concept_editor_window_qt.py:247
 msgid "Deleted concept: {0}"
 msgstr "Concepto suprimido: {0}"
 
-#: ui/concept_editor_window.py:324
+#: ui/concept_editor_window.py:329
 msgid "Please select a target file first"
 msgstr "Por favor seleccione un archivo de destino primero"
 
-#: ui/concept_editor_window.py:329
+#: ui/concept_editor_window.py:334
 msgid "Select concepts file to import"
 msgstr "Seleccione el archivo de conceptos para importar"
 
-#: ui/concept_editor_window.py:330
+#: ui/concept_editor_window.py:335
 msgid "Text files"
 msgstr "Archivos de texto"
 
-#: ui/concept_editor_window.py:330
+#: ui/concept_editor_window.py:335
 msgid "All files"
 msgstr "Todos los archivos"
 
-#: ui/concept_editor_window.py:350
+#: ui/concept_editor_window.py:355
 msgid "Successfully imported {0} concepts"
 msgstr "Importados con éxito {0} conceptos"
 
-#: ui/concept_editor_window.py:352
+#: ui/concept_editor_window.py:357
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr ""
 "{0} conceptos no fueron importados (ver {1}_failed_import.txt para detalles)"
 
-#: ui/concept_editor_window.py:354
+#: ui/concept_editor_window.py:360
 msgid "Import Results"
 msgstr "Resultados de importación"
 
@@ -924,38 +932,6 @@ msgstr "Añadida etiqueta a la lista negra: {0}"
 msgid "Removed tag from blacklist: {0}"
 msgstr "Eliminado de la lista negra: {0}"
 
-#: utils/job_queue.py:40
-msgid " (Pending runs: {0})"
-msgstr " (Ejecuciones pendientes: {0})"
-
-#: utils/job_queue.py:42
-msgid " (Pending schedules: {0})"
-msgstr " (Horarios pendientes: {0})"
-
-#: utils/time_estimator.py:87
-msgid "~{0}d"
-msgstr "~{0}d"
-
-#: utils/time_estimator.py:89
-msgid "{0}h"
-msgstr "{0}h"
-
-#: utils/time_estimator.py:91
-msgid "{0}m"
-msgstr "{0}m"
-
-#: utils/time_estimator.py:92
-msgid "{0}s"
-msgstr "{0}s"
-
-#: app.py:1220
-msgid "Password Cancelled"
-msgstr "Contraseña cancelada"
-
-#: app.py:1220
-msgid "Password cancelled or incorrect, revert to previous mode"
-msgstr "Contraseña cancelada o incorrecta, volver al modo anterior"
-
 #: ui/auth/password_admin_window.py:21
 msgid "Password Administration"
 msgstr "Administración de contraseñas"
@@ -1212,3 +1188,40 @@ msgstr "Editar preajustes"
 #: utils/globals.py:230
 msgid "Access Password Administration"
 msgstr "Administración de contraseñas de acceso"
+
+#: utils/job_queue.py:40
+msgid " (Pending runs: {0})"
+msgstr " (Ejecuciones pendientes: {0})"
+
+#: utils/job_queue.py:42
+msgid " (Pending schedules: {0})"
+msgstr " (Horarios pendientes: {0})"
+
+#: utils/time_estimator.py:87
+msgid "~{0}d"
+msgstr "~{0}d"
+
+#: utils/time_estimator.py:89
+msgid "{0}h"
+msgstr "{0}h"
+
+#: utils/time_estimator.py:91
+msgid "{0}m"
+msgstr "{0}m"
+
+#: utils/time_estimator.py:92
+msgid "{0}s"
+msgstr "{0}s"
+
+#: ui/concept_editor_window.py:160
+msgid "(Target file for saving new concepts and importing)"
+msgstr "(Archivo de destino para guardar nuevos conceptos e importarlos)"
+
+#: ui/concept_editor_window.py:359
+msgid ""
+"Tip: You can prepend '!' to any concept line to force importation, or use "
+"simply use the concept name as a search term to force import."
+msgstr ""
+"Consejo: Puede anteponer “!” a cualquier línea de concepto para forzar la "
+"importación, o utilizar simplemente el nombre del concepto como término de "
+"búsqueda para forzar la importación."
