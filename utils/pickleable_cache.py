@@ -3,6 +3,7 @@ import os
 import pickle
 import sys
 import threading
+from pickle import UnpicklingError
 
 class PicklableCache:
     """Thread-safe pickleable LRU cache with file persistence."""
@@ -129,7 +130,7 @@ class PicklableCache:
                 # Cache is outdated, create a new one
                 cache = cls(maxsize, filename)
             return cache
-        except (FileNotFoundError, EOFError):
+        except (FileNotFoundError, UnpicklingError):
             return cls(maxsize, filename)
 
 
@@ -305,7 +306,7 @@ class SizeAwarePicklableCache:
                     max_large_items=max_large_items
                 )
             return cache
-        except (FileNotFoundError, EOFError):
+        except (FileNotFoundError, UnpicklingError):
             return cls(
                 maxsize=maxsize,
                 filename=filename,
