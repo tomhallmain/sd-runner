@@ -685,10 +685,10 @@ class BaseEncryptor:
         app_identifier: str,
         purge_files: list[str] = []
     ):
-        """Purge keys"""
         """
         Purge all keys and associated data from keyring and local files
         - service_name: Keyring service namespace
+        - app_identifier: Keyring app identifier
         - purge_files: Also delete public key file and any encrypted files
         """
         # Delete all keyring entries

@@ -139,9 +139,12 @@ class Blacklist:
     @staticmethod
     def _filter_concepts_cached(concepts_tuple, do_cache=True):
         # Check cache first - use just the concepts tuple as key (no version needed)
-        cached_result = Blacklist._filter_cache.get(concepts_tuple)
-        if cached_result is not None:
-            return cached_result
+        try:
+            cached_result = Blacklist._filter_cache.get(concepts_tuple)
+            if cached_result is not None:
+                return cached_result
+        except Exception as e:
+            raise Exception(f"Error accessing blacklist cache: {e}", e)
         
         concepts_count = len(concepts_tuple)
 
@@ -192,7 +195,10 @@ class Blacklist:
         
         # Cache the result
         if do_cache:
-            Blacklist._filter_cache.put(concepts_tuple, result)
+            try:
+                Blacklist._filter_cache.put(concepts_tuple, result)
+            except Exception as e:
+                raise Exception(f"Error caching blacklist result: {e}", e)
         
         return result
 
@@ -204,17 +210,23 @@ class Blacklist:
     def add_item(item: BlacklistItem):
         Blacklist.TAG_BLACKLIST.append(item)
         Blacklist.sort()
-        Blacklist._filter_cache.clear()
-        Blacklist._filter_cache.save()
+        try:
+            Blacklist._filter_cache.clear()
+            Blacklist._filter_cache.save()
+        except Exception as e:
+            raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
 
     @staticmethod
     def remove_item(item: BlacklistItem, do_save=True):
         """Remove a BlacklistItem from the blacklist."""
         try:
             Blacklist.TAG_BLACKLIST.remove(item)
-            Blacklist._filter_cache.clear()
-            if do_save:
-                Blacklist._filter_cache.save()
+            try:
+                Blacklist._filter_cache.clear()
+                if do_save:
+                    Blacklist._filter_cache.save()
+            except Exception as e:
+                raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
             return True
         except ValueError:
             return False
@@ -226,8 +238,11 @@ class Blacklist:
     @staticmethod
     def clear():
         Blacklist.TAG_BLACKLIST.clear()
-        Blacklist._filter_cache.clear()
-        Blacklist._filter_cache.save()
+        try:
+            Blacklist._filter_cache.clear()
+            Blacklist._filter_cache.save()
+        except Exception as e:
+            raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
 
     @staticmethod
     def set_blacklist(blacklist, clear_cache=False):
@@ -238,9 +253,12 @@ class Blacklist:
             clear_cache: Whether to clear and save the cache (default: False)
         """
         Blacklist.TAG_BLACKLIST = list(blacklist)
-        if clear_cache:
-            Blacklist._filter_cache.clear()
-        Blacklist._filter_cache.save()
+        try:
+            if clear_cache:
+                Blacklist._filter_cache.clear()
+            Blacklist._filter_cache.save()
+        except Exception as e:
+            raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
     
     @staticmethod
     def add_to_blacklist(tag, enabled: bool = True, use_regex: bool = False):
@@ -441,7 +459,10 @@ class Blacklist:
     @staticmethod
     def save_cache():
         """Explicitly save the cache to disk."""
-        Blacklist._filter_cache.save()
+        try:
+            Blacklist._filter_cache.save()
+        except Exception as e:
+            raise Exception(f"Error saving blacklist cache: {e}", e)
 
     @staticmethod
     def clear_cache_file():
