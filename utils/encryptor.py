@@ -21,14 +21,21 @@ except ImportError:
     KeyEncapsulation = None
 
 
+ENCRYPTOR_TYPE_KEY = "encryptor_type"
+
+
 def namespaced_key(*keyparts):
     return f"__".join(str(part) for part in keyparts if part)
 
-def get_key_base(app_identifier, key):
-    if app_identifier:
-        return namespaced_key(app_identifier, key) if key else app_identifier
-    return key
+def get_key_base(app_identifier, key, encryptor_type=None):
+    base = app_identifier if app_identifier else ""
+    if encryptor_type:
+        base = namespaced_key(base, encryptor_type)
+    return namespaced_key(base, key) if key else base
 
+# =============================================================================
+# Passphrases and Passwords
+# =============================================================================
 
 class PassphraseManager:
     @staticmethod
@@ -255,6 +262,10 @@ class PasswordManager:
                 pass
 
 
+# =============================================================================
+# Encryptor classes - Asymmetric
+# =============================================================================
+
 class BaseEncryptor:
     SALT_KEY = "salt"
     NONCE_KEY = "nonce"
@@ -262,6 +273,11 @@ class BaseEncryptor:
     ENCRYPTED_PRIV_KEY = "encrypted_priv"
     PUBLIC_KEY = "public_key"
     PASSPHRASE_KEY = "passphrase"
+
+    @classmethod
+    def _get_key_type(cls):
+        """What type of encryptor is this?"""
+        raise NotImplementedError("Subclass must implement this method")
 
     @classmethod
     def encrypt_password(
@@ -363,7 +379,8 @@ class BaseEncryptor:
         keyring.set_password(service_name, namespaced_key(app_identifier, cls.SALT_KEY), salt.hex())
         keyring.set_password(service_name, namespaced_key(app_identifier, cls.NONCE_KEY), nonce.hex())
         keyring.set_password(service_name, namespaced_key(app_identifier, cls.TAG_KEY), encryptor.tag.hex())
-        
+        keyring.set_password(service_name, namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY), cls._get_key_type())
+
         # Store large data using chunking
         cls._store_large_data(service_name, app_identifier, cls.ENCRYPTED_PRIV_KEY, encrypted_priv)
         cls._store_large_data(service_name, app_identifier, cls.PUBLIC_KEY, pub_key)
@@ -377,6 +394,8 @@ class BaseEncryptor:
         app_identifier: str
     ) -> bytes:
         """Load private key"""
+        cls._check_class_valid(service_name, app_identifier)
+        
         salt = bytes.fromhex(keyring.get_password(service_name, namespaced_key(app_identifier, cls.SALT_KEY)))
         nonce = bytes.fromhex(keyring.get_password(service_name, namespaced_key(app_identifier, cls.NONCE_KEY)))
         tag = bytes.fromhex(keyring.get_password(service_name, namespaced_key(app_identifier, cls.TAG_KEY)))
@@ -397,6 +416,28 @@ class BaseEncryptor:
         return decryptor.update(encrypted_priv) + decryptor.finalize()
 
     @classmethod
+    def _check_class_valid(cls, service_name, app_identifier):
+        stored_type = keyring.get_password(service_name, namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY))
+        if not stored_type:
+            # First run - store current type
+            keyring.set_password(
+                service_name,
+                namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY),
+                cls._get_key_type()
+            )
+            return
+        if stored_type and stored_type != cls._get_key_type():
+            raise ValueError(f"Key type mismatch: Expected {cls._get_key_type()}, found {stored_type}")
+
+    @classmethod
+    def verify_keys(cls, public_key: bytes, private_key: bytes):
+        encapsulated, shared_secret1 = cls.encapsulate_secret(public_key)
+        shared_secret2 = cls.decapsulate_secret(private_key, encapsulated)
+        
+        if shared_secret1 != shared_secret2:
+            raise ValueError("WARNING: Public/private key mismatch!")
+
+    @classmethod
     def migrate_keys(
         cls,
         source_service: str,
@@ -410,6 +451,8 @@ class BaseEncryptor:
         - Re-encrypts private key with new passphrase
         - Transfers all key components to new namespace
         - Optionally deletes source keys after migration
+        
+        NOTE: This does not handle migration from one encryptor type to another.
         """
         # Retrieve source keys
         source_priv = cls.load_private_key(source_service, source_app)
@@ -694,7 +737,8 @@ class BaseEncryptor:
         # Delete all keyring entries
         keys_to_delete = [namespaced_key(app_identifier, cls.SALT_KEY),
                           namespaced_key(app_identifier, cls.NONCE_KEY),
-                          namespaced_key(app_identifier, cls.TAG_KEY)]
+                          namespaced_key(app_identifier, cls.TAG_KEY),
+                          namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY)]
         
         # Add chunked entries
         for base in [cls.ENCRYPTED_PRIV_KEY, cls.PUBLIC_KEY]:
@@ -748,9 +792,15 @@ class BaseEncryptor:
 
 
 class PersonalQuantumEncryptor(BaseEncryptor):
+    KEY_TYPE = "quantum"
     KYBER_ALG = "Kyber768"
     purge_files = ["quantum_pub.key"]
-    
+
+    @classmethod
+    def _get_key_type(cls):
+        """What type of encryptor is this?"""
+        return cls.KEY_TYPE
+
     @classmethod
     def generate_keypair(cls):
         """Generate Kyber key pair using oqs"""
@@ -787,9 +837,15 @@ class PersonalQuantumEncryptor(BaseEncryptor):
 
 
 class PersonalStandardEncryptor(BaseEncryptor):
+    KEY_TYPE = "standard"
     CURVE = ec.SECP384R1()
     HKDF_INFO = b'PersonalStandardEncryptor'
     purge_files = ["standard_pub.key"]
+
+    @classmethod
+    def _get_key_type(cls):
+        """What type of encryptor is this?"""
+        return cls.KEY_TYPE
     
     @classmethod
     def generate_keypair(cls):
@@ -874,6 +930,95 @@ class PersonalStandardEncryptor(BaseEncryptor):
         return hkdf.derive(shared_secret)
 
 
+# =============================================================================
+# Encryptor classes - Symmetric
+# =============================================================================
+
+class SymmetricEncryptor:
+    @staticmethod
+    def encrypt_data(
+        data: bytes,
+        passphrase: bytes,
+        output_path: str,
+        compress: bool = True
+    ):
+        """Encrypt data using provided symmetric passphrase"""
+        salt = os.urandom(16)
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt,
+            iterations=100000,
+            backend=default_backend()
+        )
+        key = kdf.derive(passphrase)
+
+        # Apply compression if beneficial
+        if compress:
+            compressed = zlib.compress(data, level=zlib.Z_BEST_COMPRESSION)
+            if len(compressed) < len(data):
+                data = compressed
+                compression_flag = b'\x01'
+            else:
+                compression_flag = b'\x00'
+        else:
+            compression_flag = b'\x00'
+
+        # Encrypt with AES-GCM
+        nonce = os.urandom(12)
+        cipher = Cipher(algorithms.AES(key), modes.GCM(nonce), backend=default_backend())
+        encryptor = cipher.encryptor()
+        ciphertext = encryptor.update(data) + encryptor.finalize()
+        tag = encryptor.tag
+
+        # Write to file
+        with open(output_path, 'wb') as f:
+            f.write(salt)
+            f.write(nonce)
+            f.write(tag)
+            f.write(compression_flag)
+            f.write(ciphertext)
+
+    @staticmethod
+    def decrypt_data(
+        encrypted_file: str,
+        passphrase: bytes
+    ) -> bytes:
+        """Decrypt data using provided symmetric passphrase"""
+        with open(encrypted_file, 'rb') as f:
+            salt = f.read(16)
+            nonce = f.read(12)
+            tag = f.read(16)
+            compression_flag = f.read(1)
+            ciphertext = f.read()
+
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt,
+            iterations=100000,
+            backend=default_backend()
+        )
+        key = kdf.derive(passphrase)
+
+        cipher = Cipher(
+            algorithms.AES(key),
+            modes.GCM(nonce, tag),
+            backend=default_backend()
+        )
+        decryptor = cipher.decryptor()
+        data = decryptor.update(ciphertext) + decryptor.finalize()
+
+        if compression_flag == b'\x01':
+            data = zlib.decompress(data)
+
+        return data
+
+
+
+# =============================================================================
+# Assorted public methods
+# =============================================================================
 
 def secure_delete(path, passes=3):
     with open(path, "ba+") as f:
@@ -882,7 +1027,6 @@ def secure_delete(path, passes=3):
             f.seek(0)
             f.write(os.urandom(length))
     os.remove(path)
-
 
 # Anti-memory-scraping technique
 def secure_wipe(data):
@@ -895,9 +1039,10 @@ def secure_wipe(data):
 # Usage after key operations
 # secure_wipe(priv_key)
 
-# Self-destructing keys
-def load_key_with_expiry(max_age=3600):
-    priv_key = BaseEncryptor.load_private_key()
+def load_key_with_expiry(service_name, app_identifier, max_age=3600):
+    """Load self-destructing keys"""
+    encryptor = get_encryptor(service_name, app_identifier)
+    priv_key = encryptor.load_private_key(service_name, app_identifier)
     import threading
     threading.Timer(max_age, secure_wipe, [priv_key]).start()
     return priv_key
@@ -914,22 +1059,64 @@ def verify_encrypted_file(path):
         return len(encrypted_aes_key) == key_len and len(nonce) == 12 and len(tag) == 16
 
 
-if KeyEncapsulation:
-    ENCRYPTOR = PersonalQuantumEncryptor
-    print("Using Quantum Encryptor")
-else:
-    ENCRYPTOR = PersonalStandardEncryptor
-    print("Using Standard Encryptor")
+# =============================================================================
+# Encryptor type handling
+# =============================================================================
+
+ENCRYPTOR_CLASSES = {}
+
+def get_encryptor(service_name, app_identifier, use_global=False):
+    key = _get_encryptor_key(service_name, app_identifier)
+    encryptor_class = ENCRYPTOR_CLASSES.get(key, None)
+    if encryptor_class is None:
+        encryptor_class = _determine_encryptor(service_name, app_identifier)
+        if encryptor_class is None:
+            raise RuntimeError("Failed to set an encryptor type!")
+        ENCRYPTOR_CLASSES[key] = encryptor_class
+    return encryptor_class
+
+def _get_encryptor_key(service_name, app_identifier):
+    return service_name + ":::" + app_identifier
+
+def _determine_encryptor(service_name, app_identifier, override_stored_type=False):
+    # Check stored key type, should not throw an exception on not found
+    stored_type = keyring.get_password(
+        service_name,
+        namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY)
+    )
+
+    # Resolve encryptor based on stored type and current capabilities
+    if not override_stored_type and stored_type == "quantum":
+        if KeyEncapsulation:
+            print("OQS available, using Quantum Encryptor")
+            return PersonalQuantumEncryptor
+        else:
+            raise RuntimeError("Warning: Quantum keys found but OQS unavailable. Switching to standard.")
+    elif not override_stored_type and stored_type == "standard":
+        if KeyEncapsulation:
+            print("OQS is available, but the stored type is using Standard Encryptor, consider migration.")
+        else:
+            print("No OQS available, using Standard Encryptor")
+        return PersonalStandardEncryptor
+    else:
+        # No stored keys - use current best available
+        if KeyEncapsulation:
+            if override_stored_type:
+                print("Overriding stored type with Quantum Encryptor")
+            else:
+                print("OQS available, using Quantum Encryptor")
+            return PersonalQuantumEncryptor
+        else:
+            if override_stored_type:
+                print("Overriding stored type with Standard Encryptor")
+            else:
+                print("No OQS available, using Standard Encryptor")
+            return PersonalStandardEncryptor
 
 
-def verify_keys(public_key: bytes, private_key: bytes):
-    encapsulated, shared_secret1 = ENCRYPTOR.encapsulate_secret(public_key)
-    shared_secret2 = ENCRYPTOR.decapsulate_secret(private_key, encapsulated)
-    
-    if shared_secret1 != shared_secret2:
-        raise ValueError("WARNING: Public/private key mismatch!")
-
+# =============================================================================
 # File Interfaces
+# =============================================================================
 
 def encrypt_data_to_file(
     data: bytes,
@@ -939,19 +1126,21 @@ def encrypt_data_to_file(
     compress: bool = True,
     reset_keys: bool = False
 ) -> bytes:
+    encryptor = get_encryptor(service_name, app_identifier)
     """Encrypt data with public key"""
-    public_key = ENCRYPTOR.generate_and_store_keys(
+    public_key = encryptor.generate_and_store_keys(
         service_name=service_name, force_new=reset_keys, app_identifier=app_identifier)
-    private_key = BaseEncryptor.load_private_key(
+    private_key = encryptor.load_private_key(
         service_name=service_name, app_identifier=app_identifier)
-    verify_keys(public_key, private_key)
-    return ENCRYPTOR.encrypt_data(data, public_key, output_path, compress)
+    encryptor.verify_keys(public_key, private_key)
+    return encryptor.encrypt_data(data, public_key, output_path, compress)
 
 def decrypt_data_from_file(encrypted_file: str, service_name: str, app_identifier: str) -> bytes:
     """Decrypt data with private key"""
-    private_key = BaseEncryptor.load_private_key(
+    encryptor = get_encryptor(service_name, app_identifier)
+    private_key = encryptor.load_private_key(
         service_name=service_name, app_identifier=app_identifier)
-    return ENCRYPTOR.decrypt_data_from_file(private_key, encrypted_file)
+    return encryptor.decrypt_data_from_file(private_key, encrypted_file)
 
 def encrypt_file(
     input_file: str,
@@ -961,12 +1150,13 @@ def encrypt_file(
     reset_keys: bool = False
 ):
     """Encrypt file with public key"""
-    public_key = ENCRYPTOR.generate_and_store_keys(
+    encryptor = get_encryptor(service_name, app_identifier)
+    public_key = encryptor.generate_and_store_keys(
         service_name=service_name, app_identifier=app_identifier, force_new=reset_keys)
-    private_key = BaseEncryptor.load_private_key(
+    private_key = encryptor.load_private_key(
         service_name=service_name, app_identifier=app_identifier)
-    verify_keys(public_key, private_key)
-    return ENCRYPTOR.encrypt_file(
+    encryptor.verify_keys(public_key, private_key)
+    return encryptor.encrypt_file(
         public_key=public_key,
         input_path=input_file,
         output_path=output_file
@@ -979,14 +1169,17 @@ def decrypt_to_file(
     app_identifier: str
 ):
     """Decrypt file with private key"""
-    private_key = BaseEncryptor.load_private_key(service_name=service_name, app_identifier=app_identifier)
-    return ENCRYPTOR.decrypt_to_file(
+    encryptor = get_encryptor(service_name, app_identifier)
+    private_key = encryptor.load_private_key(service_name=service_name, app_identifier=app_identifier)
+    return encryptor.decrypt_to_file(
         private_key=private_key,
         input_path=input_file,
         output_path=output_file
     )
 
+# =============================================================================
 # Password Interfaces
+# =============================================================================
 
 def encrypt_password(
     password: str,
@@ -994,8 +1187,9 @@ def encrypt_password(
     app_identifier: str
 ) -> bytes:
     """Encrypt password with public key"""
-    public_key = ENCRYPTOR.generate_and_store_keys(service_name=service_name, app_identifier=app_identifier)
-    return ENCRYPTOR.encrypt_password(public_key, password)
+    encryptor = get_encryptor(service_name, app_identifier)
+    public_key = encryptor.generate_and_store_keys(service_name=service_name, app_identifier=app_identifier)
+    return encryptor.encrypt_password(public_key, password)
 
 def decrypt_password(
     encrypted_password: bytes,
@@ -1003,8 +1197,9 @@ def decrypt_password(
     app_identifier: str
 ) -> str:
     """Decrypt password with private key"""
-    private_key = BaseEncryptor.load_private_key(service_name=service_name, app_identifier=app_identifier)
-    return ENCRYPTOR.decrypt_password(private_key, encrypted_password)
+    encryptor = get_encryptor(service_name, app_identifier)
+    private_key = encryptor.load_private_key(service_name=service_name, app_identifier=app_identifier)
+    return encryptor.decrypt_password(private_key, encrypted_password)
 
 def store_encrypted_password(
     service_name: str, 
@@ -1056,7 +1251,9 @@ def delete_stored_password(
     PasswordManager.delete_password(service_name, app_identifier, password_id)
 
 
+# =============================================================================
 # Management Interfaces
+# =============================================================================
 
 def migrate_keys(
     source_service: str,
@@ -1073,7 +1270,8 @@ def migrate_keys(
     - target_app: New app identifier
     - delete_source: Whether to remove source keys after migration
     """
-    BaseEncryptor.migrate_keys(
+    encryptor = get_encryptor(source_service, source_app)
+    encryptor.migrate_keys(
         source_service,
         source_app,
         target_service,
@@ -1129,16 +1327,38 @@ def purge_all_keys(service_name: str):
         print(f"Error accessing keyring: {str(e)}")
 
 
+# =============================================================================
+# Public Symmetric Interface
+# =============================================================================
+
+def symmetric_encrypt_file(
+    input_path: str, 
+    output_path: str, 
+    passphrase: bytes,
+    compress: bool = True
+):
+    """Encrypt file using symmetric key (portable across installations)"""
+    with open(input_path, 'rb') as f:
+        data = f.read()
+    SymmetricEncryptor.encrypt_data(data, passphrase, output_path, compress)
+
+def symmetric_decrypt_file(
+    input_path: str, 
+    output_path: str, 
+    passphrase: bytes
+):
+    """Decrypt file using symmetric key"""
+    data = SymmetricEncryptor.decrypt_data(input_path, passphrase)
+    with open(output_path, 'wb') as f:
+        f.write(data)
+
+
 
 if __name__ == "__main__":
     reset_keys = True
     #reset_keys = False
     service_name = "TestService"
     app_identifier = "main_app"
-    # WARNING - Only uncomment below if you want to risk invalidating your
-    # current key, which may invalidate the encryption of your app cache.
-    # service_name = "MyPersonalApplicationsService"
-    # app_identifier = "sd_runner"
 
     # Proceed with file encryption/decryption
     home_dir = os.path.expanduser("~")
@@ -1197,25 +1417,51 @@ if __name__ == "__main__":
     
     # Migrate keys
     migrate_keys(source_service, source_app, target_service, target_app, delete_source=True)
+    encryptor = get_encryptor(target_service, target_app)
     
     # Test migrated keys
     try:
-        public_key = ENCRYPTOR.generate_and_store_keys(
+        public_key = encryptor.generate_and_store_keys(
             service_name=target_service, 
             app_identifier=target_app
         )
-        private_key = BaseEncryptor.load_private_key(
+        private_key = encryptor.load_private_key(
             service_name=target_service, 
             app_identifier=target_app
         )
-        verify_keys(public_key, private_key)
+        encryptor.verify_keys(public_key, private_key)
         print("Key migration successful!")
     except Exception as e:
         print(f"Key migration failed: {str(e)}")
     
     # Cleanup migrated keys
-    ENCRYPTOR.purge_keys(target_service, app_identifier)
+    get_encryptor(target_service, app_identifier).purge_keys(target_service, app_identifier)
     keyring.delete_password(target_service, namespaced_key(target_app, "passphrase"))
+    os.remove(input_file)
+    os.remove(encrypted_file)
+    os.remove(decrypted_file)
+
+    # Symmetric encryption test
+    print("\nTesting symmetric encryption...")
+    input_file = os.path.join(home_dir, "test_symmetric.txt")
+    encrypted_file = os.path.join(home_dir, "test_symmetric_encrypted")
+    decrypted_file = os.path.join(home_dir, "test_symmetric_decrypted.txt")
+    
+    with open(input_file, "w") as f:
+        f.write("Test data for symmetric encryption\n")
+    
+    # Use a passphrase provided by the user
+    test_passphrase = b"my_custom_passphrase"
+    
+    symmetric_encrypt_file(input_file, encrypted_file, test_passphrase)
+    symmetric_decrypt_file(encrypted_file, decrypted_file, test_passphrase)
+    
+    with open(input_file) as orig, open(decrypted_file) as dec:
+        if orig.read() == dec.read():
+            print("Symmetric encryption successful!")
+        else:
+            print("Symmetric encryption failed!")
+    
     os.remove(input_file)
     os.remove(encrypted_file)
     os.remove(decrypted_file)
