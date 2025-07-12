@@ -224,6 +224,7 @@ class ProtectedActions(Enum):
     """Enumeration of actions that can be password protected."""
     NSFW_PROMPTS = "nsfw_prompts"
     EDIT_BLACKLIST = "edit_blacklist"
+    REVEAL_BLACKLIST_CONCEPTS = "reveal_blacklist_concepts"
     EDIT_SCHEDULES = "edit_schedules"
     EDIT_EXPANSIONS = "edit_expansions"
     EDIT_PRESETS = "edit_presets"
@@ -243,11 +244,12 @@ class ProtectedActions(Enum):
         descriptions = {
             ProtectedActions.NSFW_PROMPTS: _("NSFW/NSFL Prompt Modes"),
             ProtectedActions.EDIT_BLACKLIST: _("Edit Blacklist"),
+            ProtectedActions.REVEAL_BLACKLIST_CONCEPTS: _("Reveal Blacklist Concepts"),
             ProtectedActions.EDIT_SCHEDULES: _("Edit Schedules"),
             ProtectedActions.EDIT_EXPANSIONS: _("Edit Expansions"),
             ProtectedActions.EDIT_PRESETS: _("Edit Presets"),
             ProtectedActions.EDIT_CONCEPTS: _("Edit Concepts"),
-            ProtectedActions.ACCESS_ADMIN: _("Access Password Administration")
+            ProtectedActions.ACCESS_ADMIN: _("Access Password Administration"),
         }
         return descriptions.get(self, self.value)
 

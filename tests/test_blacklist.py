@@ -520,26 +520,30 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
         # Mark user as having confirmed non-default state
         app_info_cache.set("blacklist_user_confirmed_non_default", True)
         
-        # Call load_default_blacklist - should load default items
-        # Note: This test may fail if the default blacklist file doesn't exist
-        # or can't be decrypted, which is expected behavior
-        try:
-            BlacklistWindow.load_default_blacklist()
-            
-            # Should have loaded some default items (if decryption succeeds)
-            items = Blacklist.get_items()
-            # If decryption succeeded, we should have items
-            # If decryption failed, we should have an empty list
-            # Both are valid outcomes
-            self.assertIsInstance(items, list)
-            
-            # User should still be marked as having confirmed non-default state
-            self.assertTrue(app_info_cache.get("blacklist_user_confirmed_non_default", default_val=False))
-            
-        except Exception as e:
-            # If there's an error loading the default blacklist, that's also valid
-            # The method should handle this gracefully
-            pass
+        # Call load_default_blacklist - should load default blacklist
+        result = BlacklistWindow.load_default_blacklist()
+        self.assertTrue(result)
+        
+        # Should have loaded default blacklist items
+        items = Blacklist.get_items()
+        self.assertGreater(len(items), 0)
+        
+        # Should have reset the user confirmation flag
+        self.assertFalse(app_info_cache.get("blacklist_user_confirmed_non_default", default_val=False))
+
+    def test_reveal_concepts_functionality(self):
+        """Test that the reveal concepts functionality works correctly."""
+        # Test that is_in_default_state works correctly
+        # Start with user not confirmed
+        app_info_cache.set("blacklist_user_confirmed_non_default", False)
+        self.assertTrue(BlacklistWindow.is_in_default_state())
+        
+        # Mark user as confirmed
+        app_info_cache.set("blacklist_user_confirmed_non_default", True)
+        self.assertFalse(BlacklistWindow.is_in_default_state())
+        
+        # Reset for other tests
+        app_info_cache.set("blacklist_user_confirmed_non_default", False)
 
 
 if __name__ == '__main__':

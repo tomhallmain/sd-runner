@@ -17,6 +17,7 @@ class SecurityConfig:
     DEFAULT_PROTECTED_ACTIONS = {
         ProtectedActions.NSFW_PROMPTS.value: True,
         ProtectedActions.EDIT_BLACKLIST.value: True,
+        ProtectedActions.REVEAL_BLACKLIST_CONCEPTS.value: True,
         ProtectedActions.EDIT_SCHEDULES.value: False,
         ProtectedActions.EDIT_EXPANSIONS.value: False,
         ProtectedActions.EDIT_PRESETS.value: False,
@@ -33,13 +34,20 @@ class SecurityConfig:
     
     def _load_settings(self):
         """Load settings from cache or use defaults."""
-        self.protected_actions = app_info_cache.get("protected_actions", default_val=self.DEFAULT_PROTECTED_ACTIONS.copy())
         self.session_timeout_enabled = app_info_cache.get("session_timeout_enabled", default_val=self.DEFAULT_SESSION_TIMEOUT_ENABLED)
         self.session_timeout_minutes = app_info_cache.get("session_timeout_minutes", default_val=self.DEFAULT_SESSION_TIMEOUT_MINUTES)
+        self.protected_actions = app_info_cache.get("protected_actions", default_val=self.DEFAULT_PROTECTED_ACTIONS.copy())
+        
+        # Add any new protected actions that aren't in cache yet
+        for action_enum in ProtectedActions:
+            action = action_enum.value
+            if action not in self.protected_actions:
+                # Default to True for new actions (protected by default)
+                self.protected_actions[action] = True
         
         # Ensure ACCESS_ADMIN always remains protected
         self.protected_actions[ProtectedActions.ACCESS_ADMIN.value] = True
-    
+
     def save_settings(self):
         """Save current settings to cache."""
         app_info_cache.set("protected_actions", self.protected_actions)
@@ -57,6 +65,9 @@ class SecurityConfig:
     
     def is_action_protected(self, action_name):
         """Check if a specific action requires password authentication."""
+        if not action_name or not isinstance(action_name, str) or not action_name in self.protected_actions:
+            print("Invalid action name was not found in protected actions: " + str(action_name))
+            return False
         return self.protected_actions.get(action_name, False)
     
     def is_session_timeout_enabled(self):

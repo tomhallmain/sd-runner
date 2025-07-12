@@ -337,6 +337,11 @@ class BlacklistWindow():
         """Mark that the user has explicitly confirmed they want a non-default blacklist state."""
         app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, True)
 
+    @staticmethod
+    def is_in_default_state():
+        """Check if the blacklist is in default state (user hasn't confirmed non-default)."""
+        return not app_info_cache.get(BlacklistWindow.DEFAULT_BLACKLIST_KEY, default_val=False)
+
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def load_default_blacklist(self, event=None):
         """Load the default encrypted blacklist."""
@@ -391,6 +396,8 @@ class BlacklistWindow():
         self.label_list = []
         self.preview_item_btn_list = []
         self.modify_item_btn_list = []
+        self.reveal_concepts_btn = None
+        self.concepts_revealed = False  # Track whether concepts have been revealed in this window instance
 
         # Create main frame for header and buttons
         self.header_frame = Frame(self.master, bg=AppStyle.BG_COLOR)
@@ -435,6 +442,26 @@ class BlacklistWindow():
         self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
 
     def add_blacklist_widgets(self):
+        # Always show reveal concepts button initially, unless concepts have already been revealed
+        if not self.concepts_revealed:
+            # Show reveal concepts button instead of blacklist items
+            self._label_info = Label(self.frame.viewPort)
+            self.label_list.append(self._label_info)
+            label_text = _("Click below to reveal blacklist concepts.")
+            if BlacklistWindow.is_in_default_state():
+                label_text += "\n\n" + _("Default blacklist is loaded.")
+            self.add_label(self._label_info, label_text, row=1, column=0, wraplength=BlacklistWindow.COL_0_WIDTH)
+            
+            # Add reveal concepts button
+            reveal_btn = Button(self.frame.viewPort, text=_("Reveal Concepts"))
+            self.reveal_concepts_btn = reveal_btn
+            reveal_btn.grid(row=2, column=0, pady=20)
+            def reveal_handler(event, self=self):
+                return self.reveal_concepts(event)
+            reveal_btn.bind("<Button-1>", reveal_handler)
+            return
+        
+        # Normal blacklist items display (after concepts have been revealed)
         base_col = 0
         for i in range(len(self.filtered_items)):
             row = i+1
@@ -670,6 +697,10 @@ class BlacklistWindow():
             btn.destroy()
         for btn in self.modify_item_btn_list:
             btn.destroy()
+        # Clear reveal concepts button if it exists
+        if hasattr(self, 'reveal_concepts_btn') and self.reveal_concepts_btn:
+            self.reveal_concepts_btn.destroy()
+            self.reveal_concepts_btn = None
         self.enable_item_btn_list = []
         self.remove_item_btn_list = []
         self.label_list = []
@@ -719,17 +750,24 @@ class BlacklistWindow():
                 ))
                 break
 
-    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
     def preview_item(self, event=None, item=None):
         """Show preview of concepts filtered by a specific blacklist item."""
         if item is None:
             return
         BlacklistPreviewWindow(self.master, self.app_actions, item)
 
-    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
     def preview_all(self, event=None):
         """Show preview of all concepts filtered by any blacklist item."""
         BlacklistPreviewWindow(self.master, self.app_actions, None)
+
+    @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
+    def reveal_concepts(self, event=None):
+        """Reveal concepts in blacklist - requires additional authentication."""
+        self.concepts_revealed = True  # Set flag to indicate concepts have been revealed
+        self.refresh()  # Refresh to show the blacklist items
+        self.app_actions.toast(_("Concepts revealed"))
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def import_blacklist(self, event=None):

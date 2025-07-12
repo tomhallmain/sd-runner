@@ -81,6 +81,7 @@ def require_password(action_name: ProtectedActions):
                 master = getattr(self.__class__, 'top_level', None)
             
             if not master:
+                print("No master window found - failed to require password")
                 # If we can't find a master window, proceed without password check
                 return func(self, *args, **kwargs)
             
