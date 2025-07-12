@@ -13,4 +13,4 @@ if __name__ == "__main__":
     BlacklistWindow.set_blacklist()
     print("Default blacklist loaded")
     Blacklist.encrypt_blacklist()
-    print("Default blacklist encrypted")
+    print("Default blacklist encrypted: " + Blacklist.DEFAULT_BLACKLIST_FILE_LOC)

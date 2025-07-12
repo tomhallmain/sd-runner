@@ -133,7 +133,7 @@ class Blacklist:
     CACHE_MAXSIZE = 64
     CACHE_LARGE_THRESHOLD = 1024 * 1024 * 8
     CACHE_MAX_LARGE_ITEMS = 4
-    DEFAULT_BLACKLIST_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "configs", "default_blacklist.enc")
+    DEFAULT_BLACKLIST_FILE_LOC = os.path.join(os.path.dirname(__file__), "data", "blacklist_default.enc")
     _ui_callbacks = None  # Static variable to store UI callbacks
     _filter_cache = SizeAwarePicklableCache.load_or_create(
         BLACKLIST_CACHE_FILE, maxsize=CACHE_MAXSIZE,
@@ -473,7 +473,7 @@ class Blacklist:
         try:
             blacklist_dicts = [item.to_dict() for item in Blacklist.get_items()]
             blacklist_json = json.dumps(blacklist_dicts).encode("utf-8")
-            symmetric_encrypt_data_to_file(blacklist_json, Blacklist.DEFAULT_BLACKLIST_FILE, Globals.APP_IDENTIFIER + "_blacklist")
+            symmetric_encrypt_data_to_file(blacklist_json, Blacklist.DEFAULT_BLACKLIST_FILE_LOC, (Globals.APP_IDENTIFIER + "_blacklist").encode("utf-8"))
         except Exception as e:
             raise Exception(f"Error encrypting blacklist: {e}", e)
 
@@ -481,7 +481,7 @@ class Blacklist:
     def decrypt_blacklist():
         """Decrypt the default blacklist items."""
         try:
-            blacklist_dicts = symmetric_decrypt_data_from_file(Blacklist.DEFAULT_BLACKLIST_FILE, Globals.APP_IDENTIFIER + "_blacklist")
+            blacklist_dicts = symmetric_decrypt_data_from_file(Blacklist.DEFAULT_BLACKLIST_FILE_LOC, (Globals.APP_IDENTIFIER + "_blacklist").encode("utf-8"))
             blacklist_dicts = json.loads(blacklist_dicts.decode("utf-8"))
             Blacklist.set_blacklist([BlacklistItem.from_dict(item) for item in blacklist_dicts])
         except Exception as e:

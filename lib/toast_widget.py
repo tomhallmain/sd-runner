@@ -1,6 +1,5 @@
 from PyQt6.QtWidgets import QLabel, QWidget, QVBoxLayout
 from PyQt6.QtCore import Qt, QTimer, QPoint
-from PyQt6.QtGui import QColor, QPalette
 
 class ToastWidget(QWidget):
     def __init__(self, parent=None, message="", duration=2000):
