@@ -5,9 +5,10 @@ import re
 import subprocess
 
 from sd_runner.blacklist import Blacklist
-from sd_runner.concepts import Concepts, PromptMode
+from sd_runner.concepts import Concepts
 from ui.expansion import Expansion
 from utils.config import config
+from utils.globals import PromptMode
 from extensions.image_data_extractor import ImageDataExtractor
 
 

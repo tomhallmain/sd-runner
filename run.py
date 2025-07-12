@@ -3,8 +3,7 @@ from copy import deepcopy
 import time
 import traceback
 
-from utils.globals import Globals, ResolutionGroup, WorkflowType # must import first
-from sd_runner.concepts import PromptMode
+from utils.globals import Globals, PromptMode, ResolutionGroup, WorkflowType # must import first
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.control_nets import get_control_nets, redo_files, ControlNet
 from sd_runner.gen_config import GenConfig, MultiGenProgressTracker

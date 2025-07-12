@@ -286,9 +286,27 @@ class BlacklistWindow():
     N_ITEMS_CUTOFF = 30
     COL_0_WIDTH = 600
 
+    DEFAULT_BLACKLIST_KEY = "blacklist_user_confirmed_non_default"
+
     @staticmethod
     def set_blacklist():
         """Load blacklist from cache and validate items."""
+        # Check if user has explicitly confirmed they want a non-default blacklist state
+        user_confirmed_non_default = app_info_cache.get(BlacklistWindow.DEFAULT_BLACKLIST_KEY, default_val=False)
+        
+        if not user_confirmed_non_default:
+            # First time user opens blacklist window - load default encrypted blacklist
+            # Hopefully, this is before the user has confirmed their intentions
+            # for the defaults, unless they switched back to it.
+            try:
+                Blacklist.decrypt_blacklist()
+                print("Loaded default encrypted blacklist for first-time user")
+                return
+            except Exception as e:
+                print(f"Error loading default blacklist: {e}")
+                # Fall back to normal load (a probably empty blacklist) if decryption fails
+        
+        # User has confirmed non-default state or decryption failed - load from cache
         raw_blacklist = app_info_cache.get("tag_blacklist", default_val=[])
         validated_blacklist = []
         
@@ -313,6 +331,24 @@ class BlacklistWindow():
         Blacklist.save_cache()
         blacklist_dicts = [item.to_dict() for item in Blacklist.get_items()]
         app_info_cache.set("tag_blacklist", blacklist_dicts)
+
+    @staticmethod
+    def mark_user_confirmed_non_default():
+        """Mark that the user has explicitly confirmed they want a non-default blacklist state."""
+        app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, True)
+
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    def load_default_blacklist(self, event=None):
+        """Load the default encrypted blacklist."""
+        try:
+            Blacklist.decrypt_blacklist()
+            print("Loaded default encrypted blacklist")
+            self.refresh()
+            self.app_actions.toast(_("Loaded default blacklist"))
+            # Mark that user has confirmed they want a non-default state
+            app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, False)
+        except Exception as e:
+            self.app_actions.alert(_("Error loading default blacklist"), str(e), kind="error")
 
     @staticmethod
     def get_history_item(start_index=0):
@@ -385,9 +421,11 @@ class BlacklistWindow():
         self.import_btn = None
         self.export_btn = None
         self.preview_all_btn = None
+        self.load_default_btn = None
         self.add_btn("import_btn", _("Import"), self.import_blacklist, row=1, column=0)
         self.add_btn("export_btn", _("Export"), self.export_blacklist, row=1, column=1)
         self.add_btn("preview_all_btn", _("Preview All"), self.preview_all, row=1, column=2)
+        self.add_btn("load_default_btn", _("Load Default"), self.load_default_blacklist, row=1, column=3)
 
         self.frame.after(1, lambda: self.frame.focus_force())
 
@@ -455,6 +493,9 @@ class BlacklistWindow():
         """Callback for when a blacklist item is created or modified"""
         BlacklistWindow.update_history(blacklist_item)
         
+        # Mark that user has confirmed they want a non-default state
+        BlacklistWindow.mark_user_confirmed_non_default()
+        
         if is_new_item:
             # This is a new item, add it to the blacklist
             Blacklist.add_item(blacklist_item)
@@ -508,6 +549,10 @@ class BlacklistWindow():
         if item is not None:
             Blacklist.remove_item(item)
             self.refresh()
+            
+            # Mark that user has confirmed they want a non-default state
+            BlacklistWindow.mark_user_confirmed_non_default()
+            
             self.app_actions.toast(_("Removed item: {0}").format(item))
             return None
         item = self.item_var.get()
@@ -524,6 +569,10 @@ class BlacklistWindow():
         # Add item to blacklist with regex setting from checkbox
         Blacklist.add_to_blacklist(item, enabled=True, use_regex=self.use_regex_var.get())
         self.refresh()
+        
+        # Mark that user has confirmed they want a non-default state
+        BlacklistWindow.mark_user_confirmed_non_default()
+        
         self.app_actions.toast(_("Added item to blacklist: {0}").format(item))
         return item
 
@@ -604,6 +653,10 @@ class BlacklistWindow():
         Blacklist.clear()
         self.filtered_items.clear()
         self.refresh()
+        
+        # Mark that user has confirmed they want a non-default state
+        BlacklistWindow.mark_user_confirmed_non_default()
+        
         self.app_actions.toast(_("Cleared item blacklist"))
 
     def clear_widget_lists(self):
@@ -703,6 +756,10 @@ class BlacklistWindow():
                 Blacklist.import_blacklist_txt(filename)
             
             self.refresh()
+            
+            # Mark that user has confirmed they want a non-default state
+            BlacklistWindow.mark_user_confirmed_non_default()
+            
             self.app_actions.toast(_("Successfully imported blacklist"))
         except Exception as e:
             self.app_actions.alert(_("Import Error"), str(e), kind="error")

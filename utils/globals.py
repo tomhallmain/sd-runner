@@ -1,7 +1,6 @@
 from enum import Enum
 import os
 
-from sd_runner.concepts import PromptMode
 from utils.config import config
 from extensions.image_data_extractor import ImageDataExtractor
 from sd_runner.prompter import Prompter
@@ -9,6 +8,32 @@ from utils.translations import I18N
 
 _ = I18N._
 
+
+class PromptMode(Enum):
+    FIXED = "FIXED"
+    SFW = "SFW"
+    NSFW = "NSFW"
+    NSFL = "NSFL"
+    TAKE = "TAKE"
+    RANDOM = "RANDOM"
+    NONSENSE = "NONSENSE"
+    ANY_ART = "ANY_ART"
+    PAINTERLY = "PAINTERLY"
+    ANIME = "ANIME"
+    GLITCH = "GLITCH"
+    LIST = "LIST"
+    IMPROVE = "IMPROVE"
+
+    def __str__(self):
+        return self.value
+
+    @staticmethod
+    def get(name):
+        for key, value in PromptMode.__members__.items():
+            if key == name:
+                return value
+        
+        raise Exception(f"Not a valid prompt mode: {name}")
 
 
 class Globals:
@@ -72,6 +97,7 @@ class Globals:
     @classmethod
     def set_delay(cls, delay):
         cls.GENERATION_DELAY_TIME_SECONDS = delay
+
 
 class WorkflowType(Enum):
     SIMPLE_IMAGE_GEN = "simple_image_gen.json"

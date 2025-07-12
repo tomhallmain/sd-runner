@@ -1,4 +1,3 @@
-from enum import Enum
 import os
 from pathlib import Path
 import random
@@ -7,35 +6,9 @@ from typing import Dict, Set, List, Tuple
 
 from sd_runner.blacklist import Blacklist
 from utils.config import config
+from utils.globals import PromptMode
 
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-
-
-class PromptMode(Enum):
-    FIXED = "FIXED"
-    SFW = "SFW"
-    NSFW = "NSFW"
-    NSFL = "NSFL"
-    TAKE = "TAKE"
-    RANDOM = "RANDOM"
-    NONSENSE = "NONSENSE"
-    ANY_ART = "ANY_ART"
-    PAINTERLY = "PAINTERLY"
-    ANIME = "ANIME"
-    GLITCH = "GLITCH"
-    LIST = "LIST"
-    IMPROVE = "IMPROVE"
-
-    def __str__(self):
-        return self.value
-
-    @staticmethod
-    def get(name):
-        for key, value in PromptMode.__members__.items():
-            if key == name:
-                return value
-        
-        raise Exception(f"Not a valid prompt mode: {name}")
 
 
 def weighted_sample_without_replacement(population, weights, k=1) -> list:

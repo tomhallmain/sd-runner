@@ -1,5 +1,5 @@
 
-from sd_runner.concepts import PromptMode
+from utils.globals import PromptMode
 
 class Preset:
     def __init__(self, name, prompt_mode, positive_tags, negative_tags) -> None:

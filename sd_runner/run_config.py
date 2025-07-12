@@ -1,5 +1,4 @@
-from utils.globals import Globals # must import first
-from sd_runner.concepts import PromptMode
+from utils.globals import Globals, PromptMode # must import first
 from sd_runner.models import Model
 from utils.time_estimator import TimeEstimator
 

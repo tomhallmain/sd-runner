@@ -1331,6 +1331,22 @@ def purge_all_keys(service_name: str):
 # Public Symmetric Interface
 # =============================================================================
 
+def symmetric_encrypt_data_to_file(
+    data: bytes,
+    output_path: str,
+    passphrase: bytes,
+    compress: bool = True
+):
+    """Encrypt data using symmetric key and store to file"""
+    SymmetricEncryptor.encrypt_data(data, passphrase, output_path, compress)
+
+def symmetric_decrypt_data_from_file(
+    input_path: str,
+    passphrase: bytes
+) -> bytes:
+    """Decrypt data using symmetric key from file"""
+    return SymmetricEncryptor.decrypt_data(input_path, passphrase)
+
 def symmetric_encrypt_file(
     input_path: str, 
     output_path: str, 

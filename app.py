@@ -11,14 +11,13 @@ from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
 from run import Run
-from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup, ProtectedActions
+from utils.globals import Globals, PromptMode, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup, ProtectedActions
 
 from extensions.sd_runner_server import SDRunnerServer
 
 from lib.aware_entry import AwareEntry, AwareText
 from sd_runner.blacklist import Blacklist
 from sd_runner.comfy_gen import ComfyGen
-from sd_runner.concepts import PromptMode
 from sd_runner.gen_config import GenConfig
 from sd_runner.model_adapters import IPAdapter
 from sd_runner.models import Model

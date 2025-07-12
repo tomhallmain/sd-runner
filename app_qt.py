@@ -11,9 +11,8 @@ import traceback
 from copy import deepcopy
 
 from run import Run
-from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType
+from utils.globals import Globals, PromptMode, WorkflowType, Sampler, Scheduler, SoftwareType
 from extensions.sd_runner_server import SDRunnerServer
-from sd_runner.concepts import PromptMode
 from sd_runner.gen_config import GenConfig
 from sd_runner.model_adapters import IPAdapter
 from sd_runner.models import Model
