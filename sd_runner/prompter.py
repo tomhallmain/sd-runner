@@ -469,5 +469,13 @@ class Prompter:
         return str(text)
 
 
+class GlobalPrompter():
+    prompter_instance = Prompter()
+
+    @classmethod
+    def set_prompter(cls, prompter_config: PrompterConfiguration, get_specific_locations: bool, prompt_list: list[str]):
+        cls.prompter_instance = Prompter(prompter_config=prompter_config, get_specific_locations=get_specific_locations, prompt_list=prompt_list)
+
+
 if __name__ == "__main__":
     print(Prompter().generate_prompt())

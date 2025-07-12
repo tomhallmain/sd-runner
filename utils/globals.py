@@ -3,7 +3,6 @@ import os
 
 from utils.config import config
 from extensions.image_data_extractor import ImageDataExtractor
-from sd_runner.prompter import Prompter
 from utils.translations import I18N
 
 _ = I18N._
@@ -59,14 +58,9 @@ class Globals:
     OVERRIDE_BASE_NEGATIVE = config.dict["override_base_negative"]
     SKIP_CONFIRMATIONS = config.dict["skip_confirmations"]
     PRINT_NEGATIVES = config.dict["print_negatives"]
-    PROMPTER = Prompter()
     PROMPTER_GET_SPECIFIC_LOCATIONS = config.dict["prompter_get_specific_locations"]
     GENERATION_DELAY_TIME_SECONDS = 10
     image_data_extractor = None
-
-    @classmethod
-    def set_prompter(cls, prompter=Prompter()):
-        cls.PROMPTER = prompter
 
     @classmethod
     def set_prompt_massage_tags(cls, tags):

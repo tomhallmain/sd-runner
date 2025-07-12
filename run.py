@@ -8,7 +8,7 @@ from sd_runner.comfy_gen import ComfyGen
 from sd_runner.control_nets import get_control_nets, redo_files, ControlNet
 from sd_runner.gen_config import GenConfig, MultiGenProgressTracker
 from sd_runner.ip_adapters import get_ip_adapters, IPAdapter
-from sd_runner.prompter import PrompterConfiguration, Prompter
+from sd_runner.prompter import PrompterConfiguration, GlobalPrompter
 from sd_runner.models import Model
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
@@ -47,7 +47,7 @@ class Run:
 
     def run(self, gen: ComfyGen | SDWebuiGen, original_positive, original_negative):
         gen_config = gen.gen_config
-        prompter = Globals.PROMPTER
+        prompter = GlobalPrompter.prompter_instance
         if not self.editing and not self.switching_params:
             gen_config.positive, gen_config.negative = prompter.generate_prompt(original_positive, original_negative)
 
@@ -192,7 +192,7 @@ class Run:
         positive_prompt = self.args.positive_prompt if self.args.positive_prompt else Globals.DEFAULT_POSITIVE_PROMPT
         base_negative = "" if Globals.OVERRIDE_BASE_NEGATIVE else str(Globals.DEFAULT_NEGATIVE_PROMPT)
         negative_prompt = self.args.negative_prompt if self.args.negative_prompt else base_negative
-        Globals.set_prompter(Prompter(prompter_config=self.prompter_config, get_specific_locations=Globals.PROMPTER_GET_SPECIFIC_LOCATIONS, prompt_list=prompt_list))
+        GlobalPrompter.set_prompter(self.prompter_config, Globals.PROMPTER_GET_SPECIFIC_LOCATIONS, prompt_list)
 
         if self.args.auto_run:
             self.print("Auto-run mode set.")

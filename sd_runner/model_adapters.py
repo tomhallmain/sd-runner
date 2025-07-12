@@ -2,6 +2,7 @@ import os
 
 from utils.config import config
 from utils.globals import Globals
+from sd_runner.prompter import GlobalPrompter
 
 
 class LoraBundle:
@@ -63,7 +64,7 @@ class IPAdapter:
         if "b & w" in self.desc:
             if IPAdapter.B_W_COLORATION and IPAdapter.B_W_COLORATION != "":
                 return positive  + ", " + IPAdapter.B_W_COLORATION
-            return positive + ", " + Globals.PROMPTER.mix_colors()
+            return positive + ", " + GlobalPrompter.prompter_instance.mix_colors()
         return positive
 
     def __str__(self):

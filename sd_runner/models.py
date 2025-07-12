@@ -3,10 +3,9 @@ import os
 import random
 import re
 
-from sd_runner.concepts import PromptMode
 from sd_runner.model_adapters import LoraBundle
 from utils.config import config
-from utils.globals import Globals, WorkflowType, ArchitectureType, ResolutionGroup
+from utils.globals import Globals, PromptMode, WorkflowType, ArchitectureType, ResolutionGroup
 
 
 class Model:
