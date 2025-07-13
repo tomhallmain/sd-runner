@@ -1,10 +1,10 @@
-This code is primarily a custom UI to trigger ComfyUI workflows or SD Web UI functions using presets and prompt randomization.
+This code is primarily a sophisticated prompt engineering application that triggers ComfyUI workflows or SD Web UI functions using advanced prompt randomization, concept management, and intelligent filtering systems.
 
 ## Warnings
 
 - This was originally developed during early 2024, so many prompts may be out of date with current versions of the respective image generation projects.
 - Though any prompt applied to any model can result in undesirable images despite properly set negative prompts, prompt randomization increases the chance that undesirable images may be generated, even if only innocuous terms are included in the prompt, because the randomness allows for wider traversal of the model's latent space. For this reason it is wise to use a local prevalidation and content filtering tool. I recommend using [simple_image_compare](https://github.com/tomhallmain/simple_image_compare) which has many other features in addition to customizable prevalidations based on CLIP and H5 models.
-- A default English dictionary is used for generating random words, some of which may be found objectionable. A word with a high degree of relation to strong feelings like disgust also tends to carry a lot of prompt weight, even if it is buried in a much larger prompt with no other similar words. As a result you may choose not to use the `random_word` prompt variable, or implement a blacklist using the provided blacklist window which blocks prompts with undesirable strings or otherwise drops them from prompts.
+- A default English dictionary is used for generating random words, some of which may be found objectionable. A word with a high degree of relation to strong feelings like disgust also tends to carry a lot of prompt weight, even if it is buried in a much larger prompt with no other similar words. Luckily this will often result in an "incoherent" result with earlier models, or a slightly objectionable result with later models, but there is still a chance of problematic images being generated. As a result you may choose not to use the `random_word` prompt variable, or implement a blacklist using the provided blacklist window which blocks prompts with undesirable strings or otherwise drops them from prompts. There is a default blacklist used if none is provided, which requires extra security to clear and even to reveal its concepts.
 - If sharing your computer with multiple users, consider setting a password to lock the blacklist and other features.
 - Continuously viewing random images may cause small lapses in sanity. Employ total randomness with caution.
 
@@ -74,18 +74,21 @@ A UI window for managing your concept files. Search, add, edit, or delete concep
 
 A UI window for managing terms to filter from generated prompts. Add, remove, or toggle terms, and import/export your blacklist in CSV, JSON, or TXT formats. Terms are matched against exact words and their plurals.
 
+**Enhanced Security**: The blacklist features multi-level password protection with separate permissions for revealing and editing concepts. A default encrypted blacklist is provided for first-time users, and blacklist operations require security to be configured with user confirmation to prevent accidental data loss and exposure of problematic concepts.
+
 ## Password Protection
 
 The application includes a password protection system that can be configured to require authentication for sensitive actions. Access the Password Administration window using `<Control-P>` to configure which actions require password verification.
 
 Protected actions include:
-- NSFW/NSFL Prompt Modes
-- Edit Blacklist
+- Access Password Administration (defaults to protected)
+- NSFW/NSFL Prompt Modes (defaults to protected)
+- Reveal Blacklist Items (defaults to protected)
+- Edit Blacklist (defaults to protected)
 - Edit Schedules
 - Edit Expansions
 - Edit Presets
 - Edit Concepts
-- Access Password Administration
 
 Password settings are stored securely in the encrypted application cache.
 
