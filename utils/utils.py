@@ -309,3 +309,50 @@ class Utils:
             out += f"\t{item}\n"
         out += "]"
         return out
+
+    @staticmethod
+    def preprocess_data_for_encryption(data: str) -> bytes:
+        """
+        Enhanced preprocessing with multiple obfuscation layers.
+        """
+        import zlib
+        import base64
+        
+        data_bytes = data.encode('utf-8')
+        fake_header = "MY_HEADER_v1.0_".encode('utf-8')
+        fake_footer = "_END_DATA".encode('utf-8')
+        wrapped_data = fake_header + data_bytes + fake_footer
+        
+        compressed_data = zlib.compress(wrapped_data, level=zlib.Z_BEST_COMPRESSION)
+        
+        xor_key = "L{ofT/r8tOJp".encode('utf-8')
+        xored_data = bytes(a ^ b for a, b in zip(compressed_data, xor_key * (len(compressed_data) // len(xor_key) + 1)))
+        
+        base64_data = base64.b64encode(xored_data)
+        
+        reversed_data = base64_data[::-1]
+        
+        return reversed_data
+
+    @staticmethod
+    def postprocess_data_from_decryption(encoded_data: bytes) -> str:
+        """
+        Reverse the enhanced preprocessing.
+        """
+        import zlib
+        import base64
+        
+        base64_data = encoded_data[::-1]
+        
+        xored_data = base64.b64decode(base64_data)
+        
+        xor_key = "L{ofT/r8tOJp".encode('utf-8')
+        compressed_data = bytes(a ^ b for a, b in zip(xored_data, xor_key * (len(xored_data) // len(xor_key) + 1)))
+        
+        wrapped_data = zlib.decompress(compressed_data)
+        
+        fake_header = "MY_HEADER_v1.0_".encode('utf-8')
+        fake_footer = "_END_DATA".encode('utf-8')
+        data_bytes = wrapped_data[len(fake_header):-len(fake_footer)]
+        
+        return data_bytes.decode('utf-8')

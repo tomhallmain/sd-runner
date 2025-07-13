@@ -678,8 +678,24 @@ If you are young, not sure, or even an adult, click the close button on this win
         """
         self.add_new_item()
 
-    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    # Extra protection for clearing the blacklist
+    @require_password(ProtectedActions.EDIT_BLACKLIST, ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
     def clear_items(self, event=None):
+        # Show confirmation dialog before clearing
+        response = messagebox.askyesno(
+            _("Confirm Clear Blacklist"),
+            _("Are you sure you want to clear all blacklist items?\n\n"
+              "⚠️ WARNING: This action cannot be undone!\n"
+              "• All blacklist items will be permanently deleted\n"
+              "• The blacklist helps improve image output quality\n"
+              "• You will need to rebuild your blacklist from scratch\n\n"
+              "Do you want to continue?"),
+            icon='warning'
+        )
+        
+        if not response:
+            return  # User cancelled
+        
         Blacklist.clear()
         self.filtered_items.clear()
         self.refresh()
@@ -753,7 +769,7 @@ If you are young, not sure, or even an adult, click the close button on this win
                 ))
                 break
 
-    @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS, warning_text, allow_unauthenticated=False)
+    @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS, custom_text=warning_text, allow_unauthenticated=False)
     def reveal_concepts(self, event=None):
         """Reveal concepts in blacklist - requires additional authentication."""
         self.concepts_revealed = True  # Set flag to indicate concepts have been revealed

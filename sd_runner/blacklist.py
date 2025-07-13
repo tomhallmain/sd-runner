@@ -7,6 +7,7 @@ from utils.globals import Globals
 from utils.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from utils.pickleable_cache import SizeAwarePicklableCache
 from utils.translations import I18N
+from utils.utils import Utils
 
 _ = I18N._
 
@@ -472,8 +473,9 @@ class Blacklist:
         """Encrypt the default blacklist items."""
         try:
             blacklist_dicts = [item.to_dict() for item in Blacklist.get_items()]
-            blacklist_json = json.dumps(blacklist_dicts).encode("utf-8")
-            symmetric_encrypt_data_to_file(blacklist_json, Blacklist.DEFAULT_BLACKLIST_FILE_LOC, (Globals.APP_IDENTIFIER + "_blacklist").encode("utf-8"))
+            blacklist_json = json.dumps(blacklist_dicts)
+            encoded_data = Utils.preprocess_data_for_encryption(blacklist_json)
+            symmetric_encrypt_data_to_file(encoded_data, Blacklist.DEFAULT_BLACKLIST_FILE_LOC, (Globals.APP_IDENTIFIER + "_blacklist").encode("utf-8"))
         except Exception as e:
             raise Exception(f"Error encrypting blacklist: {e}", e)
 
@@ -481,8 +483,9 @@ class Blacklist:
     def decrypt_blacklist():
         """Decrypt the default blacklist items."""
         try:
-            blacklist_dicts = symmetric_decrypt_data_from_file(Blacklist.DEFAULT_BLACKLIST_FILE_LOC, (Globals.APP_IDENTIFIER + "_blacklist").encode("utf-8"))
-            blacklist_dicts = json.loads(blacklist_dicts.decode("utf-8"))
+            encoded_data = symmetric_decrypt_data_from_file(Blacklist.DEFAULT_BLACKLIST_FILE_LOC, (Globals.APP_IDENTIFIER + "_blacklist").encode("utf-8"))
+            blacklist_json = Utils.postprocess_data_from_decryption(encoded_data)
+            blacklist_dicts = json.loads(blacklist_json)
             Blacklist.set_blacklist([BlacklistItem.from_dict(item) for item in blacklist_dicts])
         except Exception as e:
             raise Exception(f"Error decrypting blacklist: {e}", e)
