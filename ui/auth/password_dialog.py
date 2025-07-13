@@ -13,12 +13,22 @@ _ = I18N._
 class PasswordDialog:
     """Simple password dialog for authentication."""
     
-    def __init__(self, master, action_name, callback=None, app_actions=None, action_enum=None):
+    def __init__(self,
+        master,
+        action_name,
+        callback=None,
+        app_actions=None,
+        action_enum=None,
+        custom_text=None,
+        allow_unauthenticated=False
+    ):
         self.master = master
         self.action_name = action_name
         self.callback = callback
         self.app_actions = app_actions
         self.action_enum = action_enum  # Store the action enum for session management
+        self.custom_text = custom_text  # Store custom text for display
+        self.allow_unauthenticated = allow_unauthenticated  # Whether to allow unauthenticated access
         self.result = False
         
         # Check if password is configured
@@ -27,15 +37,26 @@ class PasswordDialog:
         # Create dialog window
         self.dialog = Toplevel(master, bg=AppStyle.BG_COLOR)
         self.dialog.title(_("Password Required") if self.password_configured else _("Password Protection"))
-        self.dialog.geometry("450x300" if self.password_configured else "500x350")
+        
+        # Adjust geometry based on whether custom text is provided
+        if self.custom_text and len(self.custom_text) > 100:
+            # Larger window for long custom text
+            self.dialog.geometry("500x400" if self.password_configured else "550x450")
+        else:
+            self.dialog.geometry("450x300" if self.password_configured else "500x350")
+            
         self.dialog.resizable(False, False)
         self.dialog.transient(master)
         self.dialog.grab_set()
         
         # Center the dialog
         self.dialog.update_idletasks()
-        width = 450 if self.password_configured else 500
-        height = 300 if self.password_configured else 350
+        if self.custom_text and len(self.custom_text) > 100:
+            width = 500 if self.password_configured else 550
+            height = 400 if self.password_configured else 450
+        else:
+            width = 450 if self.password_configured else 500
+            height = 300 if self.password_configured else 350
         x = (self.dialog.winfo_screenwidth() // 2) - (width // 2)
         y = (self.dialog.winfo_screenheight() // 2) - (height // 2)
         self.dialog.geometry(f"{width}x{height}+{x}+{y}")
@@ -79,8 +100,22 @@ class PasswordDialog:
         action_label = Label(main_frame, 
                            text=_("Password required for: {0}").format(self.action_name),
                            wraplength=400)
-        action_label.pack(pady=(0, 20))
+        action_label.pack(pady=(0, 10))
         action_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        
+        # Custom text (if provided)
+        if self.custom_text:
+            custom_label = Label(main_frame, 
+                               text=self.custom_text,
+                               wraplength=400,
+                               font=fnt.Font(size=9))
+            custom_label.pack(pady=(0, 20))
+            custom_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        else:
+            # Add some spacing if no custom text
+            spacer_label = Label(main_frame, text="")
+            spacer_label.pack(pady=(0, 20))
+            spacer_label.config(bg=AppStyle.BG_COLOR)
         
         # Password entry
         password_frame = Frame(main_frame, bg=AppStyle.BG_COLOR)
@@ -117,44 +152,71 @@ class PasswordDialog:
         action_label = Label(main_frame, 
                            text=_("This action requires password protection: {0}").format(self.action_name),
                            wraplength=450)
-        action_label.pack(pady=(0, 15))
+        action_label.pack(pady=(0, 10))
         action_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
         
+        # Custom text (if provided)
+        if self.custom_text:
+            custom_label = Label(main_frame, 
+                               text=self.custom_text,
+                               wraplength=450,
+                               font=fnt.Font(size=9))
+            custom_label.pack(pady=(0, 15))
+            custom_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        
         # Information text
-        info_text = _("Password protection is not currently configured. You can:")
-        info_label = Label(main_frame, text=info_text, wraplength=450)
-        info_label.pack(pady=(0, 10))
-        info_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        
-        # Options list
-        options_frame = Frame(main_frame, bg=AppStyle.BG_COLOR)
-        options_frame.pack(pady=(0, 20))
-        options_frame.config(bg=AppStyle.BG_COLOR)
-        
-        option1 = Label(options_frame, text=_("• Configure password protection for sensitive actions"), 
-                       wraplength=400, justify="left")
-        option1.pack(anchor="w", pady=2)
-        option1.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        
-        option2 = Label(options_frame, text=_("• Continue without password protection (less secure)"), 
-                       wraplength=400, justify="left")
-        option2.pack(anchor="w", pady=2)
-        option2.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        
-        # Buttons
-        button_frame = Frame(main_frame, bg=AppStyle.BG_COLOR)
-        button_frame.pack(fill="x")
-        
-        configure_button = Button(button_frame, text=_("Configure Protection"), 
-                                 command=self.open_password_admin)
-        configure_button.pack(side="right", padx=(10, 0))
-        
-        continue_button = Button(button_frame, text=_("Continue Without Protection"), 
-                                command=self.continue_without_protection)
-        continue_button.pack(side="right", padx=(10, 0))
-        
-        cancel_button = Button(button_frame, text=_("Cancel"), command=self.cancel)
-        cancel_button.pack(side="right")
+        if self.allow_unauthenticated:
+            info_text = _("Password protection is not currently configured. You can:")
+            info_label = Label(main_frame, text=info_text, wraplength=450)
+            info_label.pack(pady=(0, 10))
+            info_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+            
+            # Options list
+            options_frame = Frame(main_frame, bg=AppStyle.BG_COLOR)
+            options_frame.pack(pady=(0, 20))
+            options_frame.config(bg=AppStyle.BG_COLOR)
+            
+            option1 = Label(options_frame, text=_("• Configure password protection for sensitive actions"), 
+                           wraplength=400, justify="left")
+            option1.pack(anchor="w", pady=2)
+            option1.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+            
+            option2 = Label(options_frame, text=_("• Continue without password protection (less secure)"), 
+                           wraplength=400, justify="left")
+            option2.pack(anchor="w", pady=2)
+            option2.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+            
+            # Buttons
+            button_frame = Frame(main_frame, bg=AppStyle.BG_COLOR)
+            button_frame.pack(fill="x")
+            
+            configure_button = Button(button_frame, text=_("Configure Protection"), 
+                                     command=self.open_password_admin)
+            configure_button.pack(side="right", padx=(10, 0))
+            
+            continue_button = Button(button_frame, text=_("Continue Without Protection"), 
+                                    command=self.continue_without_protection)
+            continue_button.pack(side="right", padx=(10, 0))
+            
+            cancel_button = Button(button_frame, text=_("Cancel"), command=self.cancel)
+            cancel_button.pack(side="right")
+        else:
+            # When unauthenticated access is not allowed
+            info_text = _("Password protection is required for this action but is not currently configured.")
+            info_label = Label(main_frame, text=info_text, wraplength=450)
+            info_label.pack(pady=(0, 10))
+            info_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+            
+            # Buttons
+            button_frame = Frame(main_frame, bg=AppStyle.BG_COLOR)
+            button_frame.pack(fill="x")
+            
+            configure_button = Button(button_frame, text=_("Configure Protection"), 
+                                     command=self.open_password_admin)
+            configure_button.pack(side="right", padx=(10, 0))
+            
+            cancel_button = Button(button_frame, text=_("Cancel"), command=self.cancel)
+            cancel_button.pack(side="right")
     
     def verify_password(self, event=None):
         """Verify the entered password."""
@@ -206,7 +268,22 @@ class PasswordDialog:
             self.callback(False)
     
     @staticmethod
-    def prompt_password(master, action_name, callback=None, app_actions=None, action_enum=None):
+    def prompt_password(
+        master,
+        action_name,
+        callback=None,
+        app_actions=None,
+        action_enum=None,
+        custom_text=None,
+        allow_unauthenticated=False
+    ):
         """Static method to prompt for password."""
-        dialog = PasswordDialog(master, action_name, callback, app_actions, action_enum)
+        dialog = PasswordDialog(
+            master,
+            action_name,
+            callback,
+            app_actions,
+            action_enum,
+            custom_text,
+            allow_unauthenticated)
         return dialog.result 

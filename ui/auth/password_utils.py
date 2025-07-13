@@ -10,7 +10,7 @@ from ui.auth.password_session_manager import PasswordSessionManager
 from utils.globals import ProtectedActions
 
 
-def check_password_required(action_name: ProtectedActions, master, callback=None, app_actions=None):
+def check_password_required(action_name: ProtectedActions, master, callback=None, app_actions=None, custom_text=None, allow_unauthenticated=True):
     """
     Check if an action requires password authentication and prompt if needed.
     
@@ -19,6 +19,8 @@ def check_password_required(action_name: ProtectedActions, master, callback=None
         master: The parent window for the password dialog
         callback: Optional callback function to call after password verification
         app_actions: Optional AppActions instance for opening admin window
+        custom_text: Optional custom text to display in the password dialog
+        allow_unauthenticated: Whether to allow proceeding without password if none is configured
         
     Returns:
         bool: True if password was verified or not required, False if cancelled
@@ -27,10 +29,22 @@ def check_password_required(action_name: ProtectedActions, master, callback=None
     
     # Check if the action requires password protection
     if not config.is_action_protected(action_name.value):
-        # No password required, proceed immediately
-        if callback:
-            callback(True)
-        return True
+        # Action is not protected, but check if we need to enforce authentication anyway
+        if not allow_unauthenticated and not PasswordManager.is_security_configured():
+            # Action is not protected but we require authentication and no password is configured
+            # Show the dialog to prompt for password configuration
+            description = action_name.get_description()
+            
+            def password_callback(result):
+                if callback:
+                    callback(result)
+            
+            return PasswordDialog.prompt_password(master, description, password_callback, app_actions, action_name, custom_text, allow_unauthenticated)
+        else:
+            # No password required and unauthenticated access is allowed, proceed immediately
+            if callback:
+                callback(True)
+            return True
     
     # Special case: If this is the admin action and no password is configured, allow access
     if action_name == ProtectedActions.ACCESS_ADMIN and not PasswordManager.is_security_configured():
@@ -40,7 +54,7 @@ def check_password_required(action_name: ProtectedActions, master, callback=None
         return True
     
     # Check if session timeout is enabled and session is still valid
-    if config.is_session_timeout_enabled():
+    if allow_unauthenticated and config.is_session_timeout_enabled():
         timeout_minutes = config.get_session_timeout_minutes()
         if PasswordSessionManager.is_session_valid(action_name, timeout_minutes):
             # Session is still valid, proceed without password prompt
@@ -59,10 +73,10 @@ def check_password_required(action_name: ProtectedActions, master, callback=None
         if callback:
             callback(result)
     
-    return PasswordDialog.prompt_password(master, description, password_callback, app_actions, action_name)
+    return PasswordDialog.prompt_password(master, description, password_callback, app_actions, action_name, custom_text, allow_unauthenticated)
 
 
-def require_password(action_name: ProtectedActions):
+def require_password(action_name: ProtectedActions, custom_text=None, allow_unauthenticated=True):
     """
     Decorator to require password authentication for a function.
     
@@ -70,6 +84,16 @@ def require_password(action_name: ProtectedActions):
         @require_password(ProtectedActions.EDIT_BLACKLIST)
         def edit_blacklist_function(self, *args, **kwargs):
             # Function implementation
+            pass
+            
+        @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS, "This will show all concepts that are filtered by the blacklist")
+        def reveal_concepts_function(self, *args, **kwargs):
+            # Function implementation
+            pass
+            
+        @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS, "Warning text", allow_unauthenticated=False)
+        def sensitive_function(self, *args, **kwargs):
+            # Function that requires password even if none is configured
             pass
     """
     def decorator(func):
@@ -96,7 +120,7 @@ def require_password(action_name: ProtectedActions):
                     # Password cancelled or incorrect
                     return None
             
-            return check_password_required(action_name, master, password_callback, app_actions)
+            return check_password_required(action_name, master, password_callback, app_actions, custom_text, allow_unauthenticated)
         
         return wrapper
     return decorator 

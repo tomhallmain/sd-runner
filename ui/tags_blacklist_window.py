@@ -287,6 +287,9 @@ class BlacklistWindow():
     COL_0_WIDTH = 600
 
     DEFAULT_BLACKLIST_KEY = "blacklist_user_confirmed_non_default"
+    warning_text = _("""WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.
+
+If you are young, not sure, or even an adult, click the close button on this window now and do something fun instead.""")
 
     @staticmethod
     def set_blacklist():
@@ -449,7 +452,7 @@ class BlacklistWindow():
             self.label_list.append(self._label_info)
             label_text = _("Click below to reveal blacklist concepts.")
             if BlacklistWindow.is_in_default_state():
-                label_text += "\n\n" + _("Default blacklist is loaded.")
+                label_text += "\n\n" + _("Default blacklist is loaded. You can load your own blacklist by editing the existing concepts, clearing the blacklist and adding your own, or importing concepts from a file.")
             self.add_label(self._label_info, label_text, row=1, column=0, wraplength=BlacklistWindow.COL_0_WIDTH)
             
             # Add reveal concepts button
@@ -750,6 +753,13 @@ class BlacklistWindow():
                 ))
                 break
 
+    @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS, warning_text, allow_unauthenticated=False)
+    def reveal_concepts(self, event=None):
+        """Reveal concepts in blacklist - requires additional authentication."""
+        self.concepts_revealed = True  # Set flag to indicate concepts have been revealed
+        self.refresh()  # Refresh to show the blacklist items
+        self.app_actions.toast(_("Concepts revealed"))
+
     @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
     def preview_item(self, event=None, item=None):
         """Show preview of concepts filtered by a specific blacklist item."""
@@ -761,13 +771,6 @@ class BlacklistWindow():
     def preview_all(self, event=None):
         """Show preview of all concepts filtered by any blacklist item."""
         BlacklistPreviewWindow(self.master, self.app_actions, None)
-
-    @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
-    def reveal_concepts(self, event=None):
-        """Reveal concepts in blacklist - requires additional authentication."""
-        self.concepts_revealed = True  # Set flag to indicate concepts have been revealed
-        self.refresh()  # Refresh to show the blacklist items
-        self.app_actions.toast(_("Concepts revealed"))
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def import_blacklist(self, event=None):
