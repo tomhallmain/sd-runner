@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-12 20:21-0400\n"
-"PO-Revision-Date: 2025-07-12 20:21-0400\n"
+"POT-Creation-Date: 2025-07-13 02:10-0400\n"
+"PO-Revision-Date: 2025-07-13 02:10-0400\n"
 "Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: en Team <<EMAIL>>\n"
 "Language: en\n"
@@ -304,9 +304,9 @@ msgstr "Password Cancelled"
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "Password cancelled or incorrect, revert to previous mode"
 
-#: app.py:1238 ui/auth/password_dialog.py:194 ui/concept_editor_window.py:270
+#: app.py:1238 ui/auth/password_dialog.py:232 ui/concept_editor_window.py:270
 #: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348
-#: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
+#: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:275
 msgid "Error"
 msgstr "Error"
 
@@ -318,7 +318,7 @@ msgstr " SD Runner "
 msgid "Prompter Configuration"
 msgstr "Prompter Configuration"
 
-#: sd_runner/blacklist.py:160
+#: sd_runner/blacklist.py:161
 msgid "Filtering concepts for blacklist: "
 msgstr "Filtering concepts for blacklist: "
 
@@ -366,7 +366,7 @@ msgid "Delete"
 msgstr "Delete"
 
 #: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:435
+#: ui/tags_blacklist_window.py:437
 msgid "Import"
 msgstr "Import"
 
@@ -471,14 +471,14 @@ msgstr "Browse"
 msgid "Active"
 msgstr "Active"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:436
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:438
 msgid "Export"
 msgstr "Export"
 
 #: ui/auth/password_admin_window.py:240 ui/concept_editor_window_qt.py:143
 #: ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59
 #: ui/schedules_window_qt.py:97 ui/schedules_window_qt.py:169
-#: ui/tags_blacklist_window.py:243 ui/tags_blacklist_window_qt.py:52
+#: ui/tags_blacklist_window.py:245 ui/tags_blacklist_window_qt.py:52
 msgid "Close"
 msgstr "Close"
 
@@ -550,7 +550,7 @@ msgstr ""
 "Warning: This expansion ID matches a wildcard in config.json. Changes will "
 "not take effect until the wildcard is removed or renamed."
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:596
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:598
 msgid "Warning"
 msgstr "Warning"
 
@@ -585,7 +585,7 @@ msgid "Clear expansions"
 msgstr "Clear expansions"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:493
+#: ui/tags_blacklist_window.py:495
 msgid "Modify"
 msgstr "Modify"
 
@@ -795,7 +795,7 @@ msgstr "Use glob-based regex"
 msgid "Use word boundary matching"
 msgstr "Use word boundary matching"
 
-#: ui/tags_blacklist_window.py:93 ui/tags_blacklist_window.py:501
+#: ui/tags_blacklist_window.py:93 ui/tags_blacklist_window.py:503
 msgid "Preview"
 msgstr "Preview"
 
@@ -815,27 +815,27 @@ msgstr "Unsaved Changes"
 msgid "Do you want to save changes before closing?"
 msgstr "Do you want to save changes before closing?"
 
-#: ui/tags_blacklist_window.py:184
+#: ui/tags_blacklist_window.py:186
 msgid "Blacklist Preview"
 msgstr "Blacklist Preview"
 
-#: ui/tags_blacklist_window.py:207
+#: ui/tags_blacklist_window.py:209
 msgid "Concepts filtered by: {0}"
 msgstr "Concepts filtered by: {0}"
 
-#: ui/tags_blacklist_window.py:211
+#: ui/tags_blacklist_window.py:213
 msgid "All filtered concepts"
 msgstr "All filtered concepts"
 
-#: ui/tags_blacklist_window.py:262
+#: ui/tags_blacklist_window.py:264
 msgid "Found {0} filtered concepts"
 msgstr "Found {0} filtered concepts"
 
-#: ui/tags_blacklist_window.py:270
+#: ui/tags_blacklist_window.py:272
 msgid "Error loading concepts: {0}"
 msgstr "Error loading concepts: {0}"
 
-#: ui/tags_blacklist_window.py:290
+#: ui/tags_blacklist_window.py:292
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -845,43 +845,43 @@ msgstr ""
 "\n"
 "If you are young, not sure, or even an adult, click the close button on this window now and do something fun instead."
 
-#: ui/tags_blacklist_window.py:355
+#: ui/tags_blacklist_window.py:357
 msgid "Loaded default blacklist"
 msgstr "Loaded default blacklist"
 
-#: ui/tags_blacklist_window.py:359
+#: ui/tags_blacklist_window.py:361
 msgid "Error loading default blacklist"
 msgstr "Error loading default blacklist"
 
-#: ui/tags_blacklist_window.py:389 ui/tags_blacklist_window_qt.py:16
+#: ui/tags_blacklist_window.py:391 ui/tags_blacklist_window_qt.py:16
 msgid "Tags Blacklist"
 msgstr "Tags Blacklist"
 
-#: ui/tags_blacklist_window.py:423
+#: ui/tags_blacklist_window.py:425
 msgid "Blacklist items"
 msgstr "Blacklist items"
 
-#: ui/tags_blacklist_window.py:425
+#: ui/tags_blacklist_window.py:427
 msgid "Add to tag blacklist"
 msgstr "Add to tag blacklist"
 
-#: ui/tags_blacklist_window.py:428
+#: ui/tags_blacklist_window.py:430
 msgid "Clear items"
 msgstr "Clear items"
 
-#: ui/tags_blacklist_window.py:437
+#: ui/tags_blacklist_window.py:439
 msgid "Preview All"
 msgstr "Preview All"
 
-#: ui/tags_blacklist_window.py:438
+#: ui/tags_blacklist_window.py:440
 msgid "Load Default"
 msgstr "Load Default"
 
-#: ui/tags_blacklist_window.py:453
+#: ui/tags_blacklist_window.py:455
 msgid "Click below to reveal blacklist concepts."
 msgstr "Click below to reveal blacklist concepts."
 
-#: ui/tags_blacklist_window.py:455
+#: ui/tags_blacklist_window.py:457
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
@@ -891,79 +891,79 @@ msgstr ""
 "existing concepts, clearing the blacklist and adding your own, or importing "
 "concepts from a file."
 
-#: ui/tags_blacklist_window.py:459
+#: ui/tags_blacklist_window.py:461
 msgid "Reveal Concepts"
 msgstr "Reveal Concepts"
 
-#: ui/tags_blacklist_window.py:478
+#: ui/tags_blacklist_window.py:480
 msgid "[regex]"
 msgstr "[regex]"
 
-#: ui/tags_blacklist_window.py:480
+#: ui/tags_blacklist_window.py:482
 msgid "[no boundary]"
 msgstr "[no boundary]"
 
-#: ui/tags_blacklist_window.py:509
+#: ui/tags_blacklist_window.py:511
 msgid "Remove"
 msgstr "Remove"
 
-#: ui/tags_blacklist_window.py:571 ui/tags_blacklist_window.py:606
+#: ui/tags_blacklist_window.py:573 ui/tags_blacklist_window.py:608
 msgid "Added item to blacklist: {0}"
 msgstr "Added item to blacklist: {0}"
 
-#: ui/tags_blacklist_window.py:573
+#: ui/tags_blacklist_window.py:575
 msgid "Modified blacklist item: {0}"
 msgstr "Modified blacklist item: {0}"
 
-#: ui/tags_blacklist_window.py:586
+#: ui/tags_blacklist_window.py:588
 msgid "Removed item: {0}"
 msgstr "Removed item: {0}"
 
-#: ui/tags_blacklist_window.py:596
+#: ui/tags_blacklist_window.py:598
 msgid "Please enter a string to add to the blacklist."
 msgstr "Please enter a string to add to the blacklist."
 
-#: ui/tags_blacklist_window.py:690
+#: ui/tags_blacklist_window.py:708
 msgid "Cleared item blacklist"
 msgstr "Cleared item blacklist"
 
-#: ui/tags_blacklist_window.py:750
+#: ui/tags_blacklist_window.py:770
 msgid "Item \"{0}\" is now {1}"
 msgstr "Item \"{0}\" is now {1}"
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:772
 msgid "enabled"
 msgstr "enabled"
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:772
 msgid "disabled"
 msgstr "disabled"
 
-#: ui/tags_blacklist_window.py:761
+#: ui/tags_blacklist_window.py:781
 msgid "Concepts revealed"
 msgstr "Concepts revealed"
 
-#: ui/tags_blacklist_window.py:785
+#: ui/tags_blacklist_window.py:805
 msgid "Import Blacklist"
 msgstr "Import Blacklist"
 
-#: ui/tags_blacklist_window.py:804
+#: ui/tags_blacklist_window.py:824
 msgid "Successfully imported blacklist"
 msgstr "Successfully imported blacklist"
 
-#: ui/tags_blacklist_window.py:806
+#: ui/tags_blacklist_window.py:826
 msgid "Import Error"
 msgstr "Import Error"
 
-#: ui/tags_blacklist_window.py:817
+#: ui/tags_blacklist_window.py:837
 msgid "Export Blacklist"
 msgstr "Export Blacklist"
 
-#: ui/tags_blacklist_window.py:832
+#: ui/tags_blacklist_window.py:852
 msgid "Successfully exported blacklist"
 msgstr "Successfully exported blacklist"
 
-#: ui/tags_blacklist_window.py:834
+#: ui/tags_blacklist_window.py:854
 msgid "Export Error"
 msgstr "Export Error"
 
@@ -1136,8 +1136,8 @@ msgstr "Password changed successfully."
 msgid "Failed to change password."
 msgstr "Failed to change password."
 
-#: ui/auth/password_admin_window.py:418 ui/auth/password_dialog.py:120
-#: ui/auth/password_dialog.py:180
+#: ui/auth/password_admin_window.py:418 ui/auth/password_dialog.py:140
+#: ui/auth/password_dialog.py:201 ui/auth/password_dialog.py:218
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -1165,55 +1165,55 @@ msgstr "Cache exported as JSON to:"
 msgid "Failed to export cache as JSON:"
 msgstr "Failed to export cache as JSON:"
 
-#: ui/auth/password_dialog.py:30 ui/auth/password_dialog.py:74
+#: ui/auth/password_dialog.py:39 ui/auth/password_dialog.py:94
 msgid "Password Required"
 msgstr "Password Required"
 
-#: ui/auth/password_dialog.py:30
+#: ui/auth/password_dialog.py:39
 msgid "Password Protection"
 msgstr "Password Protection"
 
-#: ui/auth/password_dialog.py:81
+#: ui/auth/password_dialog.py:101
 msgid "Password required for: {0}"
 msgstr "Password required for: {0}"
 
-#: ui/auth/password_dialog.py:104
+#: ui/auth/password_dialog.py:124
 msgid "Password:"
 msgstr "Password:"
 
-#: ui/auth/password_dialog.py:117
+#: ui/auth/password_dialog.py:137
 msgid "OK"
 msgstr "OK"
 
-#: ui/auth/password_dialog.py:126
+#: ui/auth/password_dialog.py:146
 msgid "Password Protection Available"
 msgstr "Password Protection Available"
 
-#: ui/auth/password_dialog.py:133
+#: ui/auth/password_dialog.py:153
 msgid "This action requires password protection: {0}"
 msgstr "This action requires password protection: {0}"
 
-#: ui/auth/password_dialog.py:148
+#: ui/auth/password_dialog.py:169
 msgid "Password protection is not currently configured. You can:"
 msgstr "Password protection is not currently configured. You can:"
 
-#: ui/auth/password_dialog.py:158
+#: ui/auth/password_dialog.py:179
 msgid "• Configure password protection for sensitive actions"
 msgstr "• Configure password protection for sensitive actions"
 
-#: ui/auth/password_dialog.py:163
+#: ui/auth/password_dialog.py:184
 msgid "• Continue without password protection (less secure)"
 msgstr "• Continue without password protection (less secure)"
 
-#: ui/auth/password_dialog.py:172
+#: ui/auth/password_dialog.py:193 ui/auth/password_dialog.py:214
 msgid "Configure Protection"
 msgstr "Configure Protection"
 
-#: ui/auth/password_dialog.py:176
+#: ui/auth/password_dialog.py:197
 msgid "Continue Without Protection"
 msgstr "Continue Without Protection"
 
-#: ui/auth/password_dialog.py:194
+#: ui/auth/password_dialog.py:232
 msgid "Incorrect password"
 msgstr "Incorrect password"
 
@@ -1268,3 +1268,35 @@ msgstr "{0}m"
 #: utils/time_estimator.py:92
 msgid "{0}s"
 msgstr "{0}s"
+
+#: ui/tags_blacklist_window.py:688
+msgid "Confirm Clear Blacklist"
+msgstr "Confirm Clear Blacklist"
+
+#: ui/tags_blacklist_window.py:689
+msgid ""
+"Are you sure you want to clear all blacklist items?\n"
+"\n"
+"⚠️ WARNING: This action cannot be undone!\n"
+"• All blacklist items will be permanently deleted\n"
+"• The blacklist helps improve image output quality\n"
+"• You will need to rebuild your blacklist from scratch\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"Are you sure you want to clear all blacklist items?\n"
+"\n"
+"⚠️ WARNING: This action cannot be undone!\n"
+"• All blacklist items will be permanently deleted\n"
+"• The blacklist helps improve image output quality\n"
+"• You will need to rebuild your blacklist from scratch\n"
+"\n"
+"Do you want to continue?"
+
+#: ui/auth/password_dialog.py:205
+msgid ""
+"Password protection is required for this action but is not currently "
+"configured."
+msgstr ""
+"Password protection is required for this action but is not currently "
+"configured."

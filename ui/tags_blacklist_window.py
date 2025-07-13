@@ -163,10 +163,10 @@ class BlacklistModifyWindow():
         else:
             self.master.destroy()
 
-    def add_label(self, label_ref, text, row=0, column=0, wraplength=500):
+    def add_label(self, label_ref, text, row=0, column=0, wraplength=500, columnspan=1, **kw):
         label_ref['text'] = text
-        label_ref.grid(column=column, row=row, sticky=W)
-        label_ref.config(wraplength=wraplength, justify=LEFT, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        label_ref.grid(column=column, row=row, sticky=W, columnspan=columnspan)
+        label_ref.config(wraplength=wraplength, justify=LEFT, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, **kw)
 
     def add_btn(self, button_ref_name, text, command, row=0, column=0):
         if getattr(self, button_ref_name) is None:
@@ -453,7 +453,7 @@ If you are young, not sure, or even an adult, click the close button on this win
             label_text = _("Click below to reveal blacklist concepts.")
             if BlacklistWindow.is_in_default_state():
                 label_text += "\n\n" + _("Default blacklist is loaded. You can load your own blacklist by editing the existing concepts, clearing the blacklist and adding your own, or importing concepts from a file.")
-            self.add_label(self._label_info, label_text, row=1, column=0, wraplength=BlacklistWindow.COL_0_WIDTH)
+            self.add_label(self._label_info, label_text, row=1, column=0, columnspan=4)
             
             # Add reveal concepts button
             reveal_btn = Button(self.frame.viewPort, text=_("Reveal Concepts"))
@@ -736,9 +736,9 @@ If you are young, not sure, or even an adult, click the close button on this win
     def close_windows(self, event=None):
         self.master.destroy()
 
-    def add_label(self, label_ref, text, row=0, column=0, wraplength=500):
+    def add_label(self, label_ref, text, row=0, column=0, wraplength=500, columnspan=1):
         label_ref['text'] = text
-        label_ref.grid(column=column, row=row, sticky=W)
+        label_ref.grid(column=column, row=row, sticky=W, columnspan=columnspan)
         label_ref.config(wraplength=wraplength, justify=LEFT, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
 
     def add_btn(self, button_ref_name, text, command, row=0, column=0):

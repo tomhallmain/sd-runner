@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-12 20:21-0400\n"
-"PO-Revision-Date: 2025-07-12 20:21-0400\n"
+"POT-Creation-Date: 2025-07-13 02:10-0400\n"
+"PO-Revision-Date: 2025-07-13 02:10-0400\n"
 "Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
@@ -302,9 +302,9 @@ msgstr "取消密码"
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "密码被取消或不正确，返回上一模式"
 
-#: app.py:1238 ui/auth/password_dialog.py:194 ui/concept_editor_window.py:270
+#: app.py:1238 ui/auth/password_dialog.py:232 ui/concept_editor_window.py:270
 #: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348
-#: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
+#: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:275
 msgid "Error"
 msgstr "错误"
 
@@ -316,7 +316,7 @@ msgstr " SD 转轮 "
 msgid "Prompter Configuration"
 msgstr "提示器配置"
 
-#: sd_runner/blacklist.py:160
+#: sd_runner/blacklist.py:161
 msgid "Filtering concepts for blacklist: "
 msgstr "黑名单的过滤概念： "
 
@@ -360,7 +360,7 @@ msgid "Delete"
 msgstr "删除"
 
 #: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:435
+#: ui/tags_blacklist_window.py:437
 msgid "Import"
 msgstr "进口"
 
@@ -462,14 +462,14 @@ msgstr "浏览"
 msgid "Active"
 msgstr "活跃"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:436
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:438
 msgid "Export"
 msgstr "出口"
 
 #: ui/auth/password_admin_window.py:240 ui/concept_editor_window_qt.py:143
 #: ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59
 #: ui/schedules_window_qt.py:97 ui/schedules_window_qt.py:169
-#: ui/tags_blacklist_window.py:243 ui/tags_blacklist_window_qt.py:52
+#: ui/tags_blacklist_window.py:245 ui/tags_blacklist_window_qt.py:52
 msgid "Close"
 msgstr "关闭"
 
@@ -539,7 +539,7 @@ msgid ""
 "not take effect until the wildcard is removed or renamed."
 msgstr "警告： 此扩展 ID 与 config.json 中的通配符匹配。在删除或重命名通配符之前，更改不会生效。"
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:596
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:598
 msgid "Warning"
 msgstr "警告"
 
@@ -574,7 +574,7 @@ msgid "Clear expansions"
 msgstr "清除扩展"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:493
+#: ui/tags_blacklist_window.py:495
 msgid "Modify"
 msgstr "修改"
 
@@ -784,7 +784,7 @@ msgstr "使用基于全局的 regex"
 msgid "Use word boundary matching"
 msgstr "使用单词边界匹配"
 
-#: ui/tags_blacklist_window.py:93 ui/tags_blacklist_window.py:501
+#: ui/tags_blacklist_window.py:93 ui/tags_blacklist_window.py:503
 msgid "Preview"
 msgstr "预览"
 
@@ -804,27 +804,27 @@ msgstr "未保存的更改"
 msgid "Do you want to save changes before closing?"
 msgstr "您想在关闭前保存更改吗？"
 
-#: ui/tags_blacklist_window.py:184
+#: ui/tags_blacklist_window.py:186
 msgid "Blacklist Preview"
 msgstr "预览黑名单"
 
-#: ui/tags_blacklist_window.py:207
+#: ui/tags_blacklist_window.py:209
 msgid "Concepts filtered by: {0}"
 msgstr "筛选的概念： {0}"
 
-#: ui/tags_blacklist_window.py:211
+#: ui/tags_blacklist_window.py:213
 msgid "All filtered concepts"
 msgstr "所有筛选过的概念"
 
-#: ui/tags_blacklist_window.py:262
+#: ui/tags_blacklist_window.py:264
 msgid "Found {0} filtered concepts"
 msgstr "发现{0}个过滤概念"
 
-#: ui/tags_blacklist_window.py:270
+#: ui/tags_blacklist_window.py:272
 msgid "Error loading concepts: {0}"
 msgstr "加载概念时出错： {0}"
 
-#: ui/tags_blacklist_window.py:290
+#: ui/tags_blacklist_window.py:292
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -834,122 +834,122 @@ msgstr ""
 "\n"
 "如果您还小，不确定，甚至是成年人，请点击此窗口上的关闭按钮，然后做一些有趣的事情。"
 
-#: ui/tags_blacklist_window.py:355
+#: ui/tags_blacklist_window.py:357
 msgid "Loaded default blacklist"
 msgstr "已加载默认黑名单"
 
-#: ui/tags_blacklist_window.py:359
+#: ui/tags_blacklist_window.py:361
 msgid "Error loading default blacklist"
 msgstr "加载默认黑名单出错"
 
-#: ui/tags_blacklist_window.py:389 ui/tags_blacklist_window_qt.py:16
+#: ui/tags_blacklist_window.py:391 ui/tags_blacklist_window_qt.py:16
 msgid "Tags Blacklist"
 msgstr "标签 黑名单"
 
-#: ui/tags_blacklist_window.py:423
+#: ui/tags_blacklist_window.py:425
 msgid "Blacklist items"
 msgstr "黑名单项目"
 
-#: ui/tags_blacklist_window.py:425
+#: ui/tags_blacklist_window.py:427
 msgid "Add to tag blacklist"
 msgstr "添加到标签黑名单"
 
-#: ui/tags_blacklist_window.py:428
+#: ui/tags_blacklist_window.py:430
 msgid "Clear items"
 msgstr "清除项目"
 
-#: ui/tags_blacklist_window.py:437
+#: ui/tags_blacklist_window.py:439
 msgid "Preview All"
 msgstr "全部预览"
 
-#: ui/tags_blacklist_window.py:438
+#: ui/tags_blacklist_window.py:440
 msgid "Load Default"
 msgstr "加载默认值"
 
-#: ui/tags_blacklist_window.py:453
+#: ui/tags_blacklist_window.py:455
 msgid "Click below to reveal blacklist concepts."
 msgstr "单击下方显示黑名单概念。"
 
-#: ui/tags_blacklist_window.py:455
+#: ui/tags_blacklist_window.py:457
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
 "concepts from a file."
 msgstr "已加载默认黑名单。您可以通过编辑现有概念、清除黑名单并添加自己的概念或从文件中导入概念来加载自己的黑名单。"
 
-#: ui/tags_blacklist_window.py:459
+#: ui/tags_blacklist_window.py:461
 msgid "Reveal Concepts"
 msgstr "揭示概念"
 
-#: ui/tags_blacklist_window.py:478
+#: ui/tags_blacklist_window.py:480
 msgid "[regex]"
 msgstr "[regex]"
 
-#: ui/tags_blacklist_window.py:480
+#: ui/tags_blacklist_window.py:482
 msgid "[no boundary]"
 msgstr "[无字边界]"
 
-#: ui/tags_blacklist_window.py:509
+#: ui/tags_blacklist_window.py:511
 msgid "Remove"
 msgstr "移除"
 
-#: ui/tags_blacklist_window.py:571 ui/tags_blacklist_window.py:606
+#: ui/tags_blacklist_window.py:573 ui/tags_blacklist_window.py:608
 msgid "Added item to blacklist: {0}"
 msgstr "已将项目添加到黑名单： {0}"
 
-#: ui/tags_blacklist_window.py:573
+#: ui/tags_blacklist_window.py:575
 msgid "Modified blacklist item: {0}"
 msgstr "修改了黑名单项目： {0}"
 
-#: ui/tags_blacklist_window.py:586
+#: ui/tags_blacklist_window.py:588
 msgid "Removed item: {0}"
 msgstr "删除的项目： {0}"
 
-#: ui/tags_blacklist_window.py:596
+#: ui/tags_blacklist_window.py:598
 msgid "Please enter a string to add to the blacklist."
 msgstr "请输入要添加到黑名单的字符串。"
 
-#: ui/tags_blacklist_window.py:690
+#: ui/tags_blacklist_window.py:708
 msgid "Cleared item blacklist"
 msgstr "清除项目黑名单"
 
-#: ui/tags_blacklist_window.py:750
+#: ui/tags_blacklist_window.py:770
 msgid "Item \"{0}\" is now {1}"
 msgstr "项目“{0}”现在是{1}"
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:772
 msgid "enabled"
 msgstr "启用"
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:772
 msgid "disabled"
 msgstr "残"
 
-#: ui/tags_blacklist_window.py:761
+#: ui/tags_blacklist_window.py:781
 msgid "Concepts revealed"
 msgstr "揭示的概念"
 
-#: ui/tags_blacklist_window.py:785
+#: ui/tags_blacklist_window.py:805
 msgid "Import Blacklist"
 msgstr "导入黑名单"
 
-#: ui/tags_blacklist_window.py:804
+#: ui/tags_blacklist_window.py:824
 msgid "Successfully imported blacklist"
 msgstr "成功导入黑名单"
 
-#: ui/tags_blacklist_window.py:806
+#: ui/tags_blacklist_window.py:826
 msgid "Import Error"
 msgstr "导入错误"
 
-#: ui/tags_blacklist_window.py:817
+#: ui/tags_blacklist_window.py:837
 msgid "Export Blacklist"
 msgstr "导出黑名单"
 
-#: ui/tags_blacklist_window.py:832
+#: ui/tags_blacklist_window.py:852
 msgid "Successfully exported blacklist"
 msgstr "成功导出黑名单"
 
-#: ui/tags_blacklist_window.py:834
+#: ui/tags_blacklist_window.py:854
 msgid "Export Error"
 msgstr "出口错误"
 
@@ -1118,8 +1118,8 @@ msgstr "密码更改成功。"
 msgid "Failed to change password."
 msgstr "更改密码失败。"
 
-#: ui/auth/password_admin_window.py:418 ui/auth/password_dialog.py:120
-#: ui/auth/password_dialog.py:180
+#: ui/auth/password_admin_window.py:418 ui/auth/password_dialog.py:140
+#: ui/auth/password_dialog.py:201 ui/auth/password_dialog.py:218
 msgid "Cancel"
 msgstr "取消"
 
@@ -1145,55 +1145,55 @@ msgstr "缓存以 JSON 格式导出到:"
 msgid "Failed to export cache as JSON:"
 msgstr "以 JSON 格式导出缓存失败："
 
-#: ui/auth/password_dialog.py:30 ui/auth/password_dialog.py:74
+#: ui/auth/password_dialog.py:39 ui/auth/password_dialog.py:94
 msgid "Password Required"
 msgstr "需要密码"
 
-#: ui/auth/password_dialog.py:30
+#: ui/auth/password_dialog.py:39
 msgid "Password Protection"
 msgstr "密码保护"
 
-#: ui/auth/password_dialog.py:81
+#: ui/auth/password_dialog.py:101
 msgid "Password required for: {0}"
 msgstr "需要密码： {0}"
 
-#: ui/auth/password_dialog.py:104
+#: ui/auth/password_dialog.py:124
 msgid "Password:"
 msgstr "密码:"
 
-#: ui/auth/password_dialog.py:117
+#: ui/auth/password_dialog.py:137
 msgid "OK"
 msgstr "好的"
 
-#: ui/auth/password_dialog.py:126
+#: ui/auth/password_dialog.py:146
 msgid "Password Protection Available"
 msgstr "提供密码保护"
 
-#: ui/auth/password_dialog.py:133
+#: ui/auth/password_dialog.py:153
 msgid "This action requires password protection: {0}"
 msgstr "此操作需要密码保护： {0}"
 
-#: ui/auth/password_dialog.py:148
+#: ui/auth/password_dialog.py:169
 msgid "Password protection is not currently configured. You can:"
 msgstr "当前未配置密码保护。您可以 :"
 
-#: ui/auth/password_dialog.py:158
+#: ui/auth/password_dialog.py:179
 msgid "• Configure password protection for sensitive actions"
 msgstr "• 为敏感操作配置密码保护"
 
-#: ui/auth/password_dialog.py:163
+#: ui/auth/password_dialog.py:184
 msgid "• Continue without password protection (less secure)"
 msgstr "• 不使用密码保护（不太安全）"
 
-#: ui/auth/password_dialog.py:172
+#: ui/auth/password_dialog.py:193 ui/auth/password_dialog.py:214
 msgid "Configure Protection"
 msgstr "配置保护"
 
-#: ui/auth/password_dialog.py:176
+#: ui/auth/password_dialog.py:197
 msgid "Continue Without Protection"
 msgstr "在没有保护的情况下继续"
 
-#: ui/auth/password_dialog.py:194
+#: ui/auth/password_dialog.py:232
 msgid "Incorrect password"
 msgstr "密码错误"
 
@@ -1248,3 +1248,33 @@ msgstr "{0}分"
 #: utils/time_estimator.py:92
 msgid "{0}s"
 msgstr "{0}秒"
+
+#: ui/tags_blacklist_window.py:688
+msgid "Confirm Clear Blacklist"
+msgstr "确认清除黑名单"
+
+#: ui/tags_blacklist_window.py:689
+msgid ""
+"Are you sure you want to clear all blacklist items?\n"
+"\n"
+"⚠️ WARNING: This action cannot be undone!\n"
+"• All blacklist items will be permanently deleted\n"
+"• The blacklist helps improve image output quality\n"
+"• You will need to rebuild your blacklist from scratch\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"您确定要清除所有黑名单项目吗？\n"
+"\n"
+"⚠️ 警告：此操作无法撤销！\n"
+"- 所有黑名单项目将被永久删除\n"
+"- 黑名单有助于提高图像输出质量\n"
+"- 您需要从头开始重建您的黑名单\n"
+"\n"
+"要继续吗？"
+
+#: ui/auth/password_dialog.py:205
+msgid ""
+"Password protection is required for this action but is not currently "
+"configured."
+msgstr "此操作需要密码保护，但目前尚未配置。"

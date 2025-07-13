@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-12 20:21-0400\n"
-"PO-Revision-Date: 2025-07-12 20:21-0400\n"
+"POT-Creation-Date: 2025-07-13 02:10-0400\n"
+"PO-Revision-Date: 2025-07-13 02:10-0400\n"
 "Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
@@ -302,9 +302,9 @@ msgstr "비밀번호 취소"
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되돌리기"
 
-#: app.py:1238 ui/auth/password_dialog.py:194 ui/concept_editor_window.py:270
+#: app.py:1238 ui/auth/password_dialog.py:232 ui/concept_editor_window.py:270
 #: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348
-#: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
+#: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:275
 msgid "Error"
 msgstr "오류"
 
@@ -316,7 +316,7 @@ msgstr " SD 러너 "
 msgid "Prompter Configuration"
 msgstr "프롬프터 구성"
 
-#: sd_runner/blacklist.py:160
+#: sd_runner/blacklist.py:161
 msgid "Filtering concepts for blacklist: "
 msgstr "블랙리스트에 대한 필터링 개념: "
 
@@ -360,7 +360,7 @@ msgid "Delete"
 msgstr "삭제"
 
 #: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:435
+#: ui/tags_blacklist_window.py:437
 msgid "Import"
 msgstr "가져오기"
 
@@ -462,14 +462,14 @@ msgstr "찾아보기"
 msgid "Active"
 msgstr "활성"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:436
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:438
 msgid "Export"
 msgstr "내보내기"
 
 #: ui/auth/password_admin_window.py:240 ui/concept_editor_window_qt.py:143
 #: ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59
 #: ui/schedules_window_qt.py:97 ui/schedules_window_qt.py:169
-#: ui/tags_blacklist_window.py:243 ui/tags_blacklist_window_qt.py:52
+#: ui/tags_blacklist_window.py:245 ui/tags_blacklist_window_qt.py:52
 msgid "Close"
 msgstr "닫기"
 
@@ -541,7 +541,7 @@ msgstr ""
 "경고: 이 확장 ID는 config.json의 와일드카드와 일치합니다. 와일드카드를 제거하거나 이름을 변경할 때까지 변경 사항이 적용되지"
 " 않습니다."
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:596
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:598
 msgid "Warning"
 msgstr "경고"
 
@@ -576,7 +576,7 @@ msgid "Clear expansions"
 msgstr "확장팩 지우기"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:493
+#: ui/tags_blacklist_window.py:495
 msgid "Modify"
 msgstr "수정"
 
@@ -786,7 +786,7 @@ msgstr "글로브 기반 정규식 사용"
 msgid "Use word boundary matching"
 msgstr "단어 경계 일치 사용"
 
-#: ui/tags_blacklist_window.py:93 ui/tags_blacklist_window.py:501
+#: ui/tags_blacklist_window.py:93 ui/tags_blacklist_window.py:503
 msgid "Preview"
 msgstr "미리 보기"
 
@@ -806,27 +806,27 @@ msgstr "저장되지 않은 변경 사항"
 msgid "Do you want to save changes before closing?"
 msgstr "닫기 전에 변경 사항을 저장하시겠습니까?"
 
-#: ui/tags_blacklist_window.py:184
+#: ui/tags_blacklist_window.py:186
 msgid "Blacklist Preview"
 msgstr "블랙리스트 미리보기"
 
-#: ui/tags_blacklist_window.py:207
+#: ui/tags_blacklist_window.py:209
 msgid "Concepts filtered by: {0}"
 msgstr "필터링된 개념: {0}"
 
-#: ui/tags_blacklist_window.py:211
+#: ui/tags_blacklist_window.py:213
 msgid "All filtered concepts"
 msgstr "모든 필터링된 개념"
 
-#: ui/tags_blacklist_window.py:262
+#: ui/tags_blacklist_window.py:264
 msgid "Found {0} filtered concepts"
 msgstr "{0} 필터링된 개념을 찾았습니다."
 
-#: ui/tags_blacklist_window.py:270
+#: ui/tags_blacklist_window.py:272
 msgid "Error loading concepts: {0}"
 msgstr "개념을 로드하는 동안 오류가 발생했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:290
+#: ui/tags_blacklist_window.py:292
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -836,43 +836,43 @@ msgstr ""
 "\n"
 "아직 어리거나 확실하지 않거나 성인이더라도 지금 이 창에서 닫기 버튼을 클릭하고 대신 다른 재미있는 일을 하세요."
 
-#: ui/tags_blacklist_window.py:355
+#: ui/tags_blacklist_window.py:357
 msgid "Loaded default blacklist"
 msgstr "로드된 기본 블랙리스트"
 
-#: ui/tags_blacklist_window.py:359
+#: ui/tags_blacklist_window.py:361
 msgid "Error loading default blacklist"
 msgstr "기본 블랙리스트 로드 중 오류 발생"
 
-#: ui/tags_blacklist_window.py:389 ui/tags_blacklist_window_qt.py:16
+#: ui/tags_blacklist_window.py:391 ui/tags_blacklist_window_qt.py:16
 msgid "Tags Blacklist"
 msgstr "태그 블랙리스트"
 
-#: ui/tags_blacklist_window.py:423
+#: ui/tags_blacklist_window.py:425
 msgid "Blacklist items"
 msgstr "블랙리스트 항목"
 
-#: ui/tags_blacklist_window.py:425
+#: ui/tags_blacklist_window.py:427
 msgid "Add to tag blacklist"
 msgstr "태그 블랙리스트에 추가"
 
-#: ui/tags_blacklist_window.py:428
+#: ui/tags_blacklist_window.py:430
 msgid "Clear items"
 msgstr "항목 지우기"
 
-#: ui/tags_blacklist_window.py:437
+#: ui/tags_blacklist_window.py:439
 msgid "Preview All"
 msgstr "모두 보기"
 
-#: ui/tags_blacklist_window.py:438
+#: ui/tags_blacklist_window.py:440
 msgid "Load Default"
 msgstr "로드 기본값"
 
-#: ui/tags_blacklist_window.py:453
+#: ui/tags_blacklist_window.py:455
 msgid "Click below to reveal blacklist concepts."
 msgstr "아래를 클릭하면 블랙리스트 개념을 확인할 수 있습니다."
 
-#: ui/tags_blacklist_window.py:455
+#: ui/tags_blacklist_window.py:457
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
@@ -881,79 +881,79 @@ msgstr ""
 "기본 블랙리스트가 로드됩니다. 기존 개념을 편집하거나, 블랙리스트를 지우고 자신만의 블랙리스트를 추가하거나, 파일에서 개념을 가져와서 "
 "자신만의 블랙리스트를 로드할 수 있습니다."
 
-#: ui/tags_blacklist_window.py:459
+#: ui/tags_blacklist_window.py:461
 msgid "Reveal Concepts"
 msgstr "컨셉 공개"
 
-#: ui/tags_blacklist_window.py:478
+#: ui/tags_blacklist_window.py:480
 msgid "[regex]"
 msgstr "[정규식]"
 
-#: ui/tags_blacklist_window.py:480
+#: ui/tags_blacklist_window.py:482
 msgid "[no boundary]"
 msgstr "[단어 경계 없음]"
 
-#: ui/tags_blacklist_window.py:509
+#: ui/tags_blacklist_window.py:511
 msgid "Remove"
 msgstr "제거"
 
-#: ui/tags_blacklist_window.py:571 ui/tags_blacklist_window.py:606
+#: ui/tags_blacklist_window.py:573 ui/tags_blacklist_window.py:608
 msgid "Added item to blacklist: {0}"
 msgstr "블랙리스트에 항목을 추가했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:573
+#: ui/tags_blacklist_window.py:575
 msgid "Modified blacklist item: {0}"
 msgstr "블랙리스트 항목을 수정했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:586
+#: ui/tags_blacklist_window.py:588
 msgid "Removed item: {0}"
 msgstr "항목을 제거했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:596
+#: ui/tags_blacklist_window.py:598
 msgid "Please enter a string to add to the blacklist."
 msgstr "블랙리스트에 추가할 문자열을 입력하세요."
 
-#: ui/tags_blacklist_window.py:690
+#: ui/tags_blacklist_window.py:708
 msgid "Cleared item blacklist"
 msgstr "삭제된 항목 블랙리스트"
 
-#: ui/tags_blacklist_window.py:750
+#: ui/tags_blacklist_window.py:770
 msgid "Item \"{0}\" is now {1}"
 msgstr "항목 “{0}”은 이제 {1}입니다."
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:772
 msgid "enabled"
 msgstr "활성화"
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:772
 msgid "disabled"
 msgstr "장애인"
 
-#: ui/tags_blacklist_window.py:761
+#: ui/tags_blacklist_window.py:781
 msgid "Concepts revealed"
 msgstr "콘셉트 공개"
 
-#: ui/tags_blacklist_window.py:785
+#: ui/tags_blacklist_window.py:805
 msgid "Import Blacklist"
 msgstr "블랙리스트 가져오기"
 
-#: ui/tags_blacklist_window.py:804
+#: ui/tags_blacklist_window.py:824
 msgid "Successfully imported blacklist"
 msgstr "성공적으로 가져온 블랙리스트"
 
-#: ui/tags_blacklist_window.py:806
+#: ui/tags_blacklist_window.py:826
 msgid "Import Error"
 msgstr "가져오기 오류"
 
-#: ui/tags_blacklist_window.py:817
+#: ui/tags_blacklist_window.py:837
 msgid "Export Blacklist"
 msgstr "블랙리스트 내보내기"
 
-#: ui/tags_blacklist_window.py:832
+#: ui/tags_blacklist_window.py:852
 msgid "Successfully exported blacklist"
 msgstr "성공적으로 내보낸 블랙리스트"
 
-#: ui/tags_blacklist_window.py:834
+#: ui/tags_blacklist_window.py:854
 msgid "Export Error"
 msgstr "내보내기 오류"
 
@@ -1122,8 +1122,8 @@ msgstr "비밀번호가 성공적으로 변경되었습니다."
 msgid "Failed to change password."
 msgstr "비밀번호를 변경하지 못했습니다."
 
-#: ui/auth/password_admin_window.py:418 ui/auth/password_dialog.py:120
-#: ui/auth/password_dialog.py:180
+#: ui/auth/password_admin_window.py:418 ui/auth/password_dialog.py:140
+#: ui/auth/password_dialog.py:201 ui/auth/password_dialog.py:218
 msgid "Cancel"
 msgstr "취소"
 
@@ -1149,55 +1149,55 @@ msgstr "캐시를 JSON으로 내보냅니다:"
 msgid "Failed to export cache as JSON:"
 msgstr "캐시를 JSON으로 내보내지 못했습니다:"
 
-#: ui/auth/password_dialog.py:30 ui/auth/password_dialog.py:74
+#: ui/auth/password_dialog.py:39 ui/auth/password_dialog.py:94
 msgid "Password Required"
 msgstr "비밀번호 필요"
 
-#: ui/auth/password_dialog.py:30
+#: ui/auth/password_dialog.py:39
 msgid "Password Protection"
 msgstr "비밀번호 보호"
 
-#: ui/auth/password_dialog.py:81
+#: ui/auth/password_dialog.py:101
 msgid "Password required for: {0}"
 msgstr "암호가 필요합니다: {0}"
 
-#: ui/auth/password_dialog.py:104
+#: ui/auth/password_dialog.py:124
 msgid "Password:"
 msgstr "비밀번호:"
 
-#: ui/auth/password_dialog.py:117
+#: ui/auth/password_dialog.py:137
 msgid "OK"
 msgstr "확인"
 
-#: ui/auth/password_dialog.py:126
+#: ui/auth/password_dialog.py:146
 msgid "Password Protection Available"
 msgstr "비밀번호 보호 사용 가능"
 
-#: ui/auth/password_dialog.py:133
+#: ui/auth/password_dialog.py:153
 msgid "This action requires password protection: {0}"
 msgstr "이 작업에는 암호 보호가 필요합니다: {0}"
 
-#: ui/auth/password_dialog.py:148
+#: ui/auth/password_dialog.py:169
 msgid "Password protection is not currently configured. You can:"
 msgstr "현재 비밀번호 보호가 구성되어 있지 않습니다. 설정할 수 있습니다:"
 
-#: ui/auth/password_dialog.py:158
+#: ui/auth/password_dialog.py:179
 msgid "• Configure password protection for sensitive actions"
 msgstr "• 민감한 작업에 대한 비밀번호 보호 구성"
 
-#: ui/auth/password_dialog.py:163
+#: ui/auth/password_dialog.py:184
 msgid "• Continue without password protection (less secure)"
 msgstr "• 비밀번호 보호 없이 계속 진행(보안 취약)"
 
-#: ui/auth/password_dialog.py:172
+#: ui/auth/password_dialog.py:193 ui/auth/password_dialog.py:214
 msgid "Configure Protection"
 msgstr "보호 구성"
 
-#: ui/auth/password_dialog.py:176
+#: ui/auth/password_dialog.py:197
 msgid "Continue Without Protection"
 msgstr "보호 없이 계속 진행"
 
-#: ui/auth/password_dialog.py:194
+#: ui/auth/password_dialog.py:232
 msgid "Incorrect password"
 msgstr "잘못된 비밀번호"
 
@@ -1252,3 +1252,33 @@ msgstr "{0}분"
 #: utils/time_estimator.py:92
 msgid "{0}s"
 msgstr "{0}초"
+
+#: ui/tags_blacklist_window.py:688
+msgid "Confirm Clear Blacklist"
+msgstr "블랙리스트 지우기 확인"
+
+#: ui/tags_blacklist_window.py:689
+msgid ""
+"Are you sure you want to clear all blacklist items?\n"
+"\n"
+"⚠️ WARNING: This action cannot be undone!\n"
+"• All blacklist items will be permanently deleted\n"
+"• The blacklist helps improve image output quality\n"
+"• You will need to rebuild your blacklist from scratch\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"모든 블랙리스트 항목을 삭제하시겠습니까?\n"
+"\n"
+"⚠️ 경고: 이 작업은 취소할 수 없습니다!\n"
+"- 모든 블랙리스트 항목이 영구적으로 삭제됩니다.\n"
+"- 블랙리스트는 이미지 출력 품질을 개선하는 데 도움이 됩니다.\n"
+"- 블랙리스트를 처음부터 다시 작성해야 합니다.\n"
+"\n"
+"계속하시겠습니까?"
+
+#: ui/auth/password_dialog.py:205
+msgid ""
+"Password protection is required for this action but is not currently "
+"configured."
+msgstr "이 작업에는 비밀번호 보호가 필요하지만 현재 구성되어 있지 않습니다."

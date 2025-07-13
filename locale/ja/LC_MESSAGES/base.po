@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-12 20:21-0400\n"
-"PO-Revision-Date: 2025-07-12 20:21-0400\n"
+"POT-Creation-Date: 2025-07-13 02:10-0400\n"
+"PO-Revision-Date: 2025-07-13 02:10-0400\n"
 "Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: ja Team <<EMAIL>>\n"
 "Language: ja\n"
@@ -302,9 +302,9 @@ msgstr "パスワードのキャンセル"
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "パスワードがキャンセルされたか、間違っている。"
 
-#: app.py:1238 ui/auth/password_dialog.py:194 ui/concept_editor_window.py:270
+#: app.py:1238 ui/auth/password_dialog.py:232 ui/concept_editor_window.py:270
 #: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348
-#: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:273
+#: ui/tags_blacklist_window.py:116 ui/tags_blacklist_window.py:275
 msgid "Error"
 msgstr "エラー"
 
@@ -316,7 +316,7 @@ msgstr " SDランナー "
 msgid "Prompter Configuration"
 msgstr "プロンプターの設定"
 
-#: sd_runner/blacklist.py:160
+#: sd_runner/blacklist.py:161
 msgid "Filtering concepts for blacklist: "
 msgstr "ブラックリストのフィルタリングの概念： "
 
@@ -360,7 +360,7 @@ msgid "Delete"
 msgstr "削除"
 
 #: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:435
+#: ui/tags_blacklist_window.py:437
 msgid "Import"
 msgstr "輸入"
 
@@ -462,14 +462,14 @@ msgstr "ブラウズ"
 msgid "Active"
 msgstr "アクティブ"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:436
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:438
 msgid "Export"
 msgstr "輸出"
 
 #: ui/auth/password_admin_window.py:240 ui/concept_editor_window_qt.py:143
 #: ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59
 #: ui/schedules_window_qt.py:97 ui/schedules_window_qt.py:169
-#: ui/tags_blacklist_window.py:243 ui/tags_blacklist_window_qt.py:52
+#: ui/tags_blacklist_window.py:245 ui/tags_blacklist_window_qt.py:52
 msgid "Close"
 msgstr "閉じる"
 
@@ -540,7 +540,7 @@ msgid ""
 msgstr ""
 "警告 この拡張IDは、config.json内のワイルドカードと一致します。ワイルドカードが削除されるか、名前が変更されるまで、変更は有効になりません。"
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:596
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:598
 msgid "Warning"
 msgstr "警告"
 
@@ -575,7 +575,7 @@ msgid "Clear expansions"
 msgstr "明確な拡張"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:493
+#: ui/tags_blacklist_window.py:495
 msgid "Modify"
 msgstr "修正"
 
@@ -785,7 +785,7 @@ msgstr "グロブベースの正規表現を使用する"
 msgid "Use word boundary matching"
 msgstr "単語境界マッチングを使う"
 
-#: ui/tags_blacklist_window.py:93 ui/tags_blacklist_window.py:501
+#: ui/tags_blacklist_window.py:93 ui/tags_blacklist_window.py:503
 msgid "Preview"
 msgstr "プレビュー"
 
@@ -805,27 +805,27 @@ msgstr "未保存の変更"
 msgid "Do you want to save changes before closing?"
 msgstr "閉じる前に変更を保存しますか？"
 
-#: ui/tags_blacklist_window.py:184
+#: ui/tags_blacklist_window.py:186
 msgid "Blacklist Preview"
 msgstr "ブラックリスト・プレビュー"
 
-#: ui/tags_blacklist_window.py:207
+#: ui/tags_blacklist_window.py:209
 msgid "Concepts filtered by: {0}"
 msgstr "フィルタリングされた概念: {0}"
 
-#: ui/tags_blacklist_window.py:211
+#: ui/tags_blacklist_window.py:213
 msgid "All filtered concepts"
 msgstr "フィルタリングされたすべての概念"
 
-#: ui/tags_blacklist_window.py:262
+#: ui/tags_blacklist_window.py:264
 msgid "Found {0} filtered concepts"
 msgstr "フィルタリングされたコンセプトが{0}個見つかった"
 
-#: ui/tags_blacklist_window.py:270
+#: ui/tags_blacklist_window.py:272
 msgid "Error loading concepts: {0}"
 msgstr "概念の読み込みエラー： {0}"
 
-#: ui/tags_blacklist_window.py:290
+#: ui/tags_blacklist_window.py:292
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -835,43 +835,43 @@ msgstr ""
 "\n"
 "もしあなたが未成年で、確信が持てない場合、あるいは成人であっても、今すぐこのウィンドウの閉じるボタンをクリックし、代わりに何か楽しいことをしてください。"
 
-#: ui/tags_blacklist_window.py:355
+#: ui/tags_blacklist_window.py:357
 msgid "Loaded default blacklist"
 msgstr "デフォルトのブラックリストをロード"
 
-#: ui/tags_blacklist_window.py:359
+#: ui/tags_blacklist_window.py:361
 msgid "Error loading default blacklist"
 msgstr "デフォルトのブラックリストの読み込みエラー"
 
-#: ui/tags_blacklist_window.py:389 ui/tags_blacklist_window_qt.py:16
+#: ui/tags_blacklist_window.py:391 ui/tags_blacklist_window_qt.py:16
 msgid "Tags Blacklist"
 msgstr "タグ ブラックリスト"
 
-#: ui/tags_blacklist_window.py:423
+#: ui/tags_blacklist_window.py:425
 msgid "Blacklist items"
 msgstr "ブラックリスト項目"
 
-#: ui/tags_blacklist_window.py:425
+#: ui/tags_blacklist_window.py:427
 msgid "Add to tag blacklist"
 msgstr "タグのブラックリストに追加"
 
-#: ui/tags_blacklist_window.py:428
+#: ui/tags_blacklist_window.py:430
 msgid "Clear items"
 msgstr "項目をクリアする"
 
-#: ui/tags_blacklist_window.py:437
+#: ui/tags_blacklist_window.py:439
 msgid "Preview All"
 msgstr "すべてをプレビュー"
 
-#: ui/tags_blacklist_window.py:438
+#: ui/tags_blacklist_window.py:440
 msgid "Load Default"
 msgstr "デフォルトをロードする"
 
-#: ui/tags_blacklist_window.py:453
+#: ui/tags_blacklist_window.py:455
 msgid "Click below to reveal blacklist concepts."
 msgstr "下記をクリックするとブラックリストのコンセプトが表示されます。"
 
-#: ui/tags_blacklist_window.py:455
+#: ui/tags_blacklist_window.py:457
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
@@ -879,79 +879,79 @@ msgid ""
 msgstr ""
 "デフォルトのブラックリストがロードされます。既存のコンセプトを編集したり、ブラックリストをクリアして独自のコンセプトを追加したり、ファイルからコンセプトをインポートしたりすることで、独自のブラックリストをロードできます。"
 
-#: ui/tags_blacklist_window.py:459
+#: ui/tags_blacklist_window.py:461
 msgid "Reveal Concepts"
 msgstr "コンセプトを明かす"
 
-#: ui/tags_blacklist_window.py:478
+#: ui/tags_blacklist_window.py:480
 msgid "[regex]"
 msgstr "[正規表現]"
 
-#: ui/tags_blacklist_window.py:480
+#: ui/tags_blacklist_window.py:482
 msgid "[no boundary]"
 msgstr "[単語境界なし]"
 
-#: ui/tags_blacklist_window.py:509
+#: ui/tags_blacklist_window.py:511
 msgid "Remove"
 msgstr "削除"
 
-#: ui/tags_blacklist_window.py:571 ui/tags_blacklist_window.py:606
+#: ui/tags_blacklist_window.py:573 ui/tags_blacklist_window.py:608
 msgid "Added item to blacklist: {0}"
 msgstr "ブラックリストに項目を追加： {0}"
 
-#: ui/tags_blacklist_window.py:573
+#: ui/tags_blacklist_window.py:575
 msgid "Modified blacklist item: {0}"
 msgstr "変更されたブラックリスト項目： {0}"
 
-#: ui/tags_blacklist_window.py:586
+#: ui/tags_blacklist_window.py:588
 msgid "Removed item: {0}"
 msgstr "削除されたアイテム {0}"
 
-#: ui/tags_blacklist_window.py:596
+#: ui/tags_blacklist_window.py:598
 msgid "Please enter a string to add to the blacklist."
 msgstr "ブラックリストに追加する文字列を入力してください。"
 
-#: ui/tags_blacklist_window.py:690
+#: ui/tags_blacklist_window.py:708
 msgid "Cleared item blacklist"
 msgstr "アイテムのブラックリストを消去"
 
-#: ui/tags_blacklist_window.py:750
+#: ui/tags_blacklist_window.py:770
 msgid "Item \"{0}\" is now {1}"
 msgstr "アイテム「{0}」が{1}になった。"
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:772
 msgid "enabled"
 msgstr "使用可能"
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:772
 msgid "disabled"
 msgstr "使用不能"
 
-#: ui/tags_blacklist_window.py:761
+#: ui/tags_blacklist_window.py:781
 msgid "Concepts revealed"
 msgstr "コンセプトが明らかになる"
 
-#: ui/tags_blacklist_window.py:785
+#: ui/tags_blacklist_window.py:805
 msgid "Import Blacklist"
 msgstr "ブラックリストのインポート"
 
-#: ui/tags_blacklist_window.py:804
+#: ui/tags_blacklist_window.py:824
 msgid "Successfully imported blacklist"
 msgstr "ブラックリストのインポート成功"
 
-#: ui/tags_blacklist_window.py:806
+#: ui/tags_blacklist_window.py:826
 msgid "Import Error"
 msgstr "インポートエラー"
 
-#: ui/tags_blacklist_window.py:817
+#: ui/tags_blacklist_window.py:837
 msgid "Export Blacklist"
 msgstr "ブラックリストのエクスポート"
 
-#: ui/tags_blacklist_window.py:832
+#: ui/tags_blacklist_window.py:852
 msgid "Successfully exported blacklist"
 msgstr "ブラックリストのエクスポートに成功"
 
-#: ui/tags_blacklist_window.py:834
+#: ui/tags_blacklist_window.py:854
 msgid "Export Error"
 msgstr "エクスポートエラー"
 
@@ -1120,8 +1120,8 @@ msgstr "パスワードの変更に成功しました。"
 msgid "Failed to change password."
 msgstr "パスワードの変更に失敗しました。"
 
-#: ui/auth/password_admin_window.py:418 ui/auth/password_dialog.py:120
-#: ui/auth/password_dialog.py:180
+#: ui/auth/password_admin_window.py:418 ui/auth/password_dialog.py:140
+#: ui/auth/password_dialog.py:201 ui/auth/password_dialog.py:218
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -1147,55 +1147,55 @@ msgstr "キャッシュはJSONとしてエクスポートされる："
 msgid "Failed to export cache as JSON:"
 msgstr "キャッシュを JSON としてエクスポートできませんでした："
 
-#: ui/auth/password_dialog.py:30 ui/auth/password_dialog.py:74
+#: ui/auth/password_dialog.py:39 ui/auth/password_dialog.py:94
 msgid "Password Required"
 msgstr "パスワードが必要"
 
-#: ui/auth/password_dialog.py:30
+#: ui/auth/password_dialog.py:39
 msgid "Password Protection"
 msgstr "パスワード保護"
 
-#: ui/auth/password_dialog.py:81
+#: ui/auth/password_dialog.py:101
 msgid "Password required for: {0}"
 msgstr "パスワードが必要です： {0}"
 
-#: ui/auth/password_dialog.py:104
+#: ui/auth/password_dialog.py:124
 msgid "Password:"
 msgstr "パスワード :"
 
-#: ui/auth/password_dialog.py:117
+#: ui/auth/password_dialog.py:137
 msgid "OK"
 msgstr "オーケー"
 
-#: ui/auth/password_dialog.py:126
+#: ui/auth/password_dialog.py:146
 msgid "Password Protection Available"
 msgstr "パスワード保護あり"
 
-#: ui/auth/password_dialog.py:133
+#: ui/auth/password_dialog.py:153
 msgid "This action requires password protection: {0}"
 msgstr "このアクションにはパスワード保護が必要です： {0}"
 
-#: ui/auth/password_dialog.py:148
+#: ui/auth/password_dialog.py:169
 msgid "Password protection is not currently configured. You can:"
 msgstr "パスワード保護は現在設定されていません。できます："
 
-#: ui/auth/password_dialog.py:158
+#: ui/auth/password_dialog.py:179
 msgid "• Configure password protection for sensitive actions"
 msgstr "• 重要なアクションのパスワード保護を設定する"
 
-#: ui/auth/password_dialog.py:163
+#: ui/auth/password_dialog.py:184
 msgid "• Continue without password protection (less secure)"
 msgstr "• パスワード保護なしで続ける（安全性が低い）"
 
-#: ui/auth/password_dialog.py:172
+#: ui/auth/password_dialog.py:193 ui/auth/password_dialog.py:214
 msgid "Configure Protection"
 msgstr "プロテクションの設定"
 
-#: ui/auth/password_dialog.py:176
+#: ui/auth/password_dialog.py:197
 msgid "Continue Without Protection"
 msgstr "保護なしで続ける"
 
-#: ui/auth/password_dialog.py:194
+#: ui/auth/password_dialog.py:232
 msgid "Incorrect password"
 msgstr "パスワードの誤り"
 
@@ -1250,3 +1250,33 @@ msgstr "{0}分"
 #: utils/time_estimator.py:92
 msgid "{0}s"
 msgstr "{0}秒"
+
+#: ui/tags_blacklist_window.py:688
+msgid "Confirm Clear Blacklist"
+msgstr "ブラックリストの消去を確認する"
+
+#: ui/tags_blacklist_window.py:689
+msgid ""
+"Are you sure you want to clear all blacklist items?\n"
+"\n"
+"⚠️ WARNING: This action cannot be undone!\n"
+"• All blacklist items will be permanently deleted\n"
+"• The blacklist helps improve image output quality\n"
+"• You will need to rebuild your blacklist from scratch\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"ブラックリストの項目をすべて消去してもよろしいですか？\n"
+"\n"
+"⚠️ 警告：この操作は元に戻せません！\n"
+"- すべてのブラックリスト項目は永久に削除されます\n"
+"- ブラックリストは画像出力品質の向上に役立ちます\n"
+"- ブラックリストを一から作り直す必要があります。\n"
+"\n"
+"続けますか？"
+
+#: ui/auth/password_dialog.py:205
+msgid ""
+"Password protection is required for this action but is not currently "
+"configured."
+msgstr "このアクションにはパスワード保護が必要だが、現在は設定されていない。"
