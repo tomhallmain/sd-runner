@@ -4,7 +4,6 @@ This module contains the foundational password management and configuration clas
 It has no dependencies on other password modules to avoid circular imports.
 """
 
-import os
 from utils.globals import Globals, ProtectedActions
 from utils.app_info_cache import app_info_cache
 from utils.encryptor import store_encrypted_password, retrieve_encrypted_password, delete_stored_password

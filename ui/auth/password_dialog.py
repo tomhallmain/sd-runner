@@ -4,7 +4,6 @@ import tkinter.font as fnt
 from ui.app_style import AppStyle
 from ui.auth.password_core import PasswordManager
 from ui.auth.password_session_manager import PasswordSessionManager
-from utils.globals import ProtectedActions
 from utils.translations import I18N
 
 _ = I18N._

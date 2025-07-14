@@ -51,6 +51,7 @@ class PasswordAdminWindow():
         self.frame = Frame(self.master)
         self.frame.grid(column=0, row=0, sticky="nsew")
         self.frame.columnconfigure(0, weight=1)
+        self.frame.columnconfigure(1, weight=1)
         self.frame.rowconfigure(1, weight=1)
         self.frame.config(bg=AppStyle.BG_COLOR)
 
@@ -61,71 +62,82 @@ class PasswordAdminWindow():
 
     @staticmethod
     def get_geometry(is_gui=True):
-        width = 700
-        height = 850
+        width = 900
+        height = 700
         return f"{width}x{height}"
 
     def setup_ui(self):
-        """Set up the UI components."""
-        # Title
+        """Set up the UI components in a two-column layout."""
+        # Title spanning both columns
         title_label = Label(self.frame, text=_("Password Protection Settings"), 
                            font=fnt.Font(size=12, weight="bold"))
-        title_label.grid(column=0, row=0, pady=(10, 20), sticky="w")
+        title_label.grid(column=0, row=0, columnspan=2, pady=(10, 20), sticky="w")
         title_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
 
-        # Description
-        desc_label = Label(self.frame, text=_("Select which actions require password authentication:"), 
-                          wraplength=450)
-        desc_label.grid(column=0, row=1, pady=(0, 10), sticky="w")
-        desc_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        # Left column: Protected Actions
+        left_frame = Frame(self.frame)
+        left_frame.grid(column=0, row=1, sticky="nsew", padx=(0, 10))
+        left_frame.config(bg=AppStyle.BG_COLOR)
+        left_frame.columnconfigure(0, weight=1)
 
-        # Action checkboxes
+        # Left column title
+        left_title = Label(left_frame, text=_("Protected Actions"), 
+                          font=fnt.Font(size=11, weight="bold"))
+        left_title.grid(column=0, row=0, pady=(0, 10), sticky="w")
+        left_title.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+
+        # Left column description
+        left_desc = Label(left_frame, text=_("Select which actions require password authentication:"), 
+                         wraplength=350)
+        left_desc.grid(column=0, row=1, pady=(0, 10), sticky="w")
+        left_desc.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+
+        # Action checkboxes in left column
         row = 2
         for action_enum in ProtectedActions:
             action = action_enum.value
             if action in self.action_vars:
                 # ACCESS_ADMIN should always be protected and cannot be disabled
                 is_admin_action = action == ProtectedActions.ACCESS_ADMIN.value
-                
-                checkbox = Checkbutton(self.frame, text=action_enum.get_description(), 
+                text = action_enum.get_description()
+
+                # Add note for admin action
+                if is_admin_action:
+                    text = text + " " + _("(Always protected if a password is set)")
+
+                checkbox = Checkbutton(left_frame, text=text, 
                                      variable=self.action_vars[action],
                                      command=self.update_protected_actions,
                                      bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
                                      selectcolor=AppStyle.BG_COLOR,
                                      state="disabled" if is_admin_action else "normal")
-                checkbox.grid(column=0, row=row, pady=5, sticky="w")
-                
-                # Add note for admin action
-                if is_admin_action:
-                    note_label = Label(self.frame, text=_("(Always protected if a password is set)"), 
-                                     font=fnt.Font(size=8), fg="gray")
-                    note_label.grid(column=1, row=row, pady=5, sticky="w")
-                    note_label.config(bg=AppStyle.BG_COLOR)
+                checkbox.grid(column=0, row=row, pady=2, sticky="w")
                 
                 row += 1
 
+        # Right column: Other settings
+        right_frame = Frame(self.frame)
+        right_frame.grid(column=1, row=1, sticky="nsew", padx=(10, 0))
+        right_frame.config(bg=AppStyle.BG_COLOR)
+        right_frame.columnconfigure(0, weight=1)
+
         # Session timeout section
-        row += 1  # Add some spacing
-        
-        # Session timeout title
-        session_title = Label(self.frame, text=_("Session Timeout Settings"), 
+        session_title = Label(right_frame, text=_("Session Timeout Settings"), 
                              font=fnt.Font(size=11, weight="bold"))
-        session_title.grid(column=0, row=row, pady=(20, 10), sticky="w")
+        session_title.grid(column=0, row=0, pady=(0, 10), sticky="w")
         session_title.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        row += 1
         
         # Enable session timeout checkbox
-        session_checkbox = Checkbutton(self.frame, text=_("Enable session timeout (remember password for a period)"), 
+        session_checkbox = Checkbutton(right_frame, text=_("Enable session timeout (remember password for a period)"), 
                                      variable=self.session_timeout_enabled_var,
                                      command=self.update_session_settings,
                                      bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
                                      selectcolor=AppStyle.BG_COLOR)
-        session_checkbox.grid(column=0, row=row, pady=5, sticky="w")
-        row += 1
+        session_checkbox.grid(column=0, row=1, pady=5, sticky="w")
         
         # Timeout duration frame
-        timeout_frame = Frame(self.frame)
-        timeout_frame.grid(column=0, row=row, pady=5, sticky="w")
+        timeout_frame = Frame(right_frame)
+        timeout_frame.grid(column=0, row=2, pady=5, sticky="w")
         timeout_frame.config(bg=AppStyle.BG_COLOR)
         
         timeout_label = Label(timeout_frame, text=_("Session timeout duration (minutes):"))
@@ -135,51 +147,42 @@ class PasswordAdminWindow():
         timeout_entry = Entry(timeout_frame, textvariable=self.session_timeout_minutes_var, width=10)
         timeout_entry.grid(column=1, row=0, padx=5, sticky="w")
         timeout_entry.bind('<KeyRelease>', self.update_session_settings)
-        row += 1
 
         # Password setup section
-        row += 1  # Add some spacing
-        
-        # Password setup title
-        password_title = Label(self.frame, text=_("Password Setup"), 
+        password_title = Label(right_frame, text=_("Password Setup"), 
                               font=fnt.Font(size=11, weight="bold"))
-        password_title.grid(column=0, row=row, pady=(20, 10), sticky="w")
+        password_title.grid(column=0, row=3, pady=(30, 10), sticky="w")
         password_title.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        row += 1
         
         # Check if password is already configured
         password_configured = PasswordManager.is_security_configured()
         
         if password_configured:
             # Show password status
-            status_label = Label(self.frame, text=_("Password is configured"), 
+            status_label = Label(right_frame, text=_("Password is configured"), 
                                fg="green")
-            status_label.grid(column=0, row=row, pady=5, sticky="w")
+            status_label.grid(column=0, row=4, pady=5, sticky="w")
             status_label.config(bg=AppStyle.BG_COLOR)
-            row += 1
-            
+
             # Change password button
-            change_btn = Button(self.frame, text=_("Change Password"), 
+            change_btn = Button(right_frame, text=_("Change Password"), 
                                command=self.show_change_password_dialog)
-            change_btn.grid(column=0, row=row, pady=5, sticky="w")
-            row += 1
+            change_btn.grid(column=0, row=5, pady=5, sticky="w")
             
             # Remove password button
-            remove_btn = Button(self.frame, text=_("Remove Password"), 
+            remove_btn = Button(right_frame, text=_("Remove Password"), 
                                command=self.remove_password)
-            remove_btn.grid(column=0, row=row, pady=5, sticky="w")
-            row += 1
+            remove_btn.grid(column=0, row=6, pady=5, sticky="w")
         else:
             # Show password setup form
-            setup_label = Label(self.frame, text=_("Set up a password to enable protection:"), 
-                              wraplength=450)
-            setup_label.grid(column=0, row=row, pady=(0, 10), sticky="w")
+            setup_label = Label(right_frame, text=_("Set up a password to enable protection:"), 
+                              wraplength=350)
+            setup_label.grid(column=0, row=4, pady=(0, 10), sticky="w")
             setup_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-            row += 1
             
             # New password entry
-            new_pwd_frame = Frame(self.frame)
-            new_pwd_frame.grid(column=0, row=row, pady=5, sticky="w")
+            new_pwd_frame = Frame(right_frame)
+            new_pwd_frame.grid(column=0, row=5, pady=5, sticky="w")
             new_pwd_frame.config(bg=AppStyle.BG_COLOR)
             
             new_pwd_label = Label(new_pwd_frame, text=_("New Password:"))
@@ -189,11 +192,10 @@ class PasswordAdminWindow():
             new_pwd_entry = Entry(new_pwd_frame, textvariable=self.new_password_var, 
                                  show="*", width=20)
             new_pwd_entry.grid(column=1, row=0, padx=5, sticky="w")
-            row += 1
             
             # Confirm password entry
-            confirm_pwd_frame = Frame(self.frame)
-            confirm_pwd_frame.grid(column=0, row=row, pady=5, sticky="w")
+            confirm_pwd_frame = Frame(right_frame)
+            confirm_pwd_frame.grid(column=0, row=6, pady=5, sticky="w")
             confirm_pwd_frame.config(bg=AppStyle.BG_COLOR)
             
             confirm_pwd_label = Label(confirm_pwd_frame, text=_("Confirm Password:"))
@@ -203,42 +205,36 @@ class PasswordAdminWindow():
             confirm_pwd_entry = Entry(confirm_pwd_frame, textvariable=self.confirm_password_var, 
                                      show="*", width=20)
             confirm_pwd_entry.grid(column=1, row=0, padx=5, sticky="w")
-            row += 1
-            
-            # Set password button
-            set_pwd_btn = Button(self.frame, text=_("Set Password"), 
-                                command=self.set_password)
-            set_pwd_btn.grid(column=0, row=row, pady=5, sticky="w")
-            row += 1
 
-        # Buttons
+            # Set password button
+            set_pwd_btn = Button(right_frame, text=_("Set Password"), 
+                                command=self.set_password)
+            set_pwd_btn.grid(column=0, row=7, pady=5, sticky="w")
+
+        # Bottom buttons spanning both columns
         button_frame = Frame(self.frame)
-        button_frame.grid(column=0, row=row, pady=(20, 10), sticky="ew")
+        button_frame.grid(column=0, row=2, columnspan=2, pady=(20, 10), sticky="ew")
         button_frame.config(bg=AppStyle.BG_COLOR)
 
         # Reset to defaults button
         reset_btn = Button(button_frame, text=_("Reset to Defaults"), command=self.reset_to_defaults)
-        reset_btn.grid(column=1, row=0, padx=(0, 10))
+        reset_btn.grid(column=0, row=0, padx=(0, 10))
 
         # Set to current button
         current_btn = Button(button_frame, text=_("Set to Current"), command=self.set_to_current)
-        current_btn.grid(column=2, row=0, padx=(0, 10))
+        current_btn.grid(column=1, row=0, padx=(0, 10))
 
         # Save as JSON button
         save_json_btn = Button(button_frame, text=_("Export Cache as JSON"), command=self.export_cache_as_json)
-        save_json_btn.grid(column=3, row=0, padx=(0, 10))
-
-        button_frame2 = Frame(self.frame)
-        button_frame2.grid(column=1, row=row, pady=(20, 10), sticky="ew")
-        button_frame2.config(bg=AppStyle.BG_COLOR)
+        save_json_btn.grid(column=2, row=0, padx=(0, 10))
 
         # Save button
-        save_btn = Button(button_frame2, text=_("Save Settings"), command=self.save_settings)
-        save_btn.grid(column=0, row=0, padx=(0, 10))
+        save_btn = Button(button_frame, text=_("Save Settings"), command=self.save_settings)
+        save_btn.grid(column=3, row=0, padx=(0, 10))
 
         # Close button
-        close_btn = Button(button_frame2, text=_("Close"), command=self.close_window)
-        close_btn.grid(column=1, row=0)
+        close_btn = Button(button_frame, text=_("Close"), command=self.close_window)
+        close_btn.grid(column=4, row=0)
 
     def update_protected_actions(self):
         """Update the protected actions dictionary when checkboxes change."""
