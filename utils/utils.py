@@ -74,7 +74,12 @@ class Utils:
     def start_thread(callable, use_asyncio=True, args=None):
         if use_asyncio:
             def asyncio_wrapper():
-                asyncio.run(callable())
+                result = callable()
+                if result is not None:
+                    if asyncio.iscoroutine(result):
+                        asyncio.run(result)
+                    else:
+                        logger.error(f"Asyncio wrapper called with non-coroutine type: {type(result)} ({result})")
 
             target_func = asyncio_wrapper
         else:
