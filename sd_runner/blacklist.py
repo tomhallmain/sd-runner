@@ -309,6 +309,10 @@ class Blacklist:
             raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
 
     @staticmethod
+    def sort():
+        Blacklist.TAG_BLACKLIST.sort(key=lambda x: x.string.lower())
+
+    @staticmethod
     def set_blacklist(blacklist, clear_cache=False):
         """Set the blacklist to a list of BlacklistItem objects.
         

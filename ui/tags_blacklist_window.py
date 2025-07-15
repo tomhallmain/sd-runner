@@ -12,6 +12,7 @@ from utils.config import config
 from utils.translations import I18N
 from lib.aware_entry import AwareEntry
 from lib.tk_scroll_demo import ScrollFrame
+from lib.tooltip import Tooltip
 
 _ = I18N._
 
@@ -364,6 +365,20 @@ If you are young, not sure, or even an adult, click the close button on this win
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def load_default_blacklist(self, event=None):
         """Load the default encrypted blacklist."""
+        # Show confirmation dialog before loading default if not in default state
+        if not self.is_in_default_state() and len(Blacklist.get_items()) > 0:
+            # There are items in the blacklist, so we need to confirm the user wants to load the default
+            response = messagebox.askyesno(
+                _("Confirm Load Default Blacklist"),
+                _("Are you sure you want to load the default blacklist?\n\n"
+                "⚠️ WARNING: This will erase your current blacklist and replace it with the default items.\n"
+                "• All your current blacklist items will be permanently deleted\n"
+                "• You will need to rebuild your blacklist from scratch if you want to restore it later\n\n"
+                "Do you want to continue?"),
+                icon='warning'
+            )
+            if not response:
+                return  # User cancelled
         try:
             Blacklist.decrypt_blacklist()
             print("Loaded default encrypted blacklist")
@@ -435,37 +450,19 @@ If you are young, not sure, or even an adult, click the close button on this win
 
         self.add_blacklist_widgets()
 
-        self._label_info = Label(self.header_frame)
-        self.add_label(self._label_info, _("Blacklist items"), row=0, wraplength=BlacklistWindow.COL_0_WIDTH)
-        self.add_item_btn = None
-        self.add_btn("add_item_btn", _("Add to tag blacklist"), self.add_new_item, column=1)
-        
-        self.clear_blacklist_btn = None
-        self.add_btn("clear_blacklist_btn", _("Clear items"), self.clear_items, column=2)
-
-        # Add import/export/preview buttons on a new row
-        self.import_btn = None
-        self.export_btn = None
-        self.preview_all_btn = None
-        self.load_default_btn = None
-        self.add_btn("import_btn", _("Import"), self.import_blacklist, row=1, column=0)
-        self.add_btn("export_btn", _("Export"), self.export_blacklist, row=1, column=1)
-        self.add_btn("preview_all_btn", _("Preview All"), self.preview_all, row=1, column=2)
-        self.add_btn("load_default_btn", _("Load Default"), self.load_default_blacklist, row=1, column=3)
-
         # Add a row for the blacklist global settings
         self.settings_label = Label(self.header_frame, text=_('Global Settings:'), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.settings_label.grid(row=2, column=0, sticky=W)
+        self.settings_label.grid(row=0, column=0, sticky=W)
+        Tooltip(self.settings_label, _('These settings affect how the blacklist is applied globally.'))
 
         # Blacklist mode dropdown
         self.blacklist_mode_var = StringVar(self.master)
         self.blacklist_mode_var.set(Blacklist.get_blacklist_mode().display())
-        self.mode_label = Label(self.header_frame, text=_('Blacklist Mode:'), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.mode_label.grid(row=2, column=1, sticky=W)
         self.mode_dropdown = Combobox(self.header_frame, textvariable=self.blacklist_mode_var, state="readonly", width=22)
         self.mode_dropdown['values'] = BlacklistMode.display_values()
-        self.mode_dropdown.grid(row=2, column=2, sticky=W)
+        self.mode_dropdown.grid(row=0, column=1, sticky=W)
         self.mode_dropdown.bind('<<ComboboxSelected>>', self.on_mode_change)
+        Tooltip(self.mode_dropdown, _('Choose how the blacklist is enforced: block, warn, or allow.'))
 
         # Silent removal checkbox
         self.silent_var = BooleanVar(value=Blacklist.get_blacklist_silent_removal())
@@ -478,7 +475,27 @@ If you are young, not sure, or even an adult, click the close button on this win
             selectcolor=AppStyle.BG_COLOR,
             command=self.on_silent_change
         )
-        self.silent_checkbox.grid(row=2, column=3, sticky=W)
+        self.silent_checkbox.grid(row=0, column=2, sticky=W)
+        Tooltip(self.silent_checkbox, _('If enabled, blacklisted words are removed silently without notification.'))
+
+        # Add import/export/preview buttons on a new row
+        self.import_btn = None
+        self.export_btn = None
+        self.preview_all_btn = None
+        self.load_default_btn = None
+        self.add_btn("import_btn", _("Import"), self.import_blacklist, row=1, column=0)
+        self.add_btn("export_btn", _("Export"), self.export_blacklist, row=1, column=1)
+        self.add_btn("preview_all_btn", _("Preview All"), self.preview_all, row=1, column=2)
+        self.add_btn("load_default_btn", _("Load Default"), self.load_default_blacklist, row=1, column=3)
+
+        # Add a row for the interface buttons
+        self._label_info = Label(self.header_frame)
+        self.add_label(self._label_info, _("Blacklist items"), row=2, wraplength=BlacklistWindow.COL_0_WIDTH)
+        self.add_item_btn = None
+        self.add_btn("add_item_btn", _("Add to tag blacklist"), self.add_new_item, row=2, column=1)
+        
+        self.clear_blacklist_btn = None
+        self.add_btn("clear_blacklist_btn", _("Clear items"), self.clear_items, row=2, column=2)
 
         self.frame.after(1, lambda: self.frame.focus_force())
 
@@ -493,11 +510,16 @@ If you are young, not sure, or even an adult, click the close button on this win
             # Show reveal concepts button instead of blacklist items
             self._label_info = Label(self.frame.viewPort)
             self.label_list.append(self._label_info)
-            label_text = _("Click below to reveal blacklist concepts.")
+            if Blacklist.is_empty():
+                label_text = _("No blacklist items found. You can add items by clicking the 'Add to tag blacklist' button below, or load the default blacklist.")
+            else:
+                label_text = _("Click below to reveal blacklist concepts.")
             if BlacklistWindow.is_in_default_state():
                 label_text += "\n\n" + _("Default blacklist is loaded. You can load your own blacklist by editing the existing concepts, clearing the blacklist and adding your own, or importing concepts from a file.")
             self.add_label(self._label_info, label_text, row=1, column=0, columnspan=4)
-            
+            if Blacklist.is_empty():
+                return
+
             # Add reveal concepts button
             reveal_btn = Button(self.frame.viewPort, text=_("Reveal Concepts"))
             self.reveal_concepts_btn = reveal_btn
