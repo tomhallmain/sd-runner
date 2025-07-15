@@ -1,12 +1,12 @@
 from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W, BooleanVar, Checkbutton, Scrollbar, Listbox, IntVar, messagebox
 import tkinter.font as fnt
-from tkinter.ttk import Button
+from tkinter.ttk import Button, Combobox
 
 from sd_runner.blacklist import BlacklistItem, Blacklist
 from sd_runner.concepts import Concepts
 from ui.app_style import AppStyle
 from ui.auth.password_utils import require_password
-from utils.globals import ProtectedActions
+from utils.globals import ProtectedActions, BlacklistMode
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.translations import I18N
@@ -286,16 +286,30 @@ class BlacklistWindow():
     N_ITEMS_CUTOFF = 30
     COL_0_WIDTH = 600
 
+    # Cache keys
+    BLACKLIST_CACHE_KEY = "tag_blacklist"
     DEFAULT_BLACKLIST_KEY = "blacklist_user_confirmed_non_default"
+    BLACKLIST_MODE_KEY = "blacklist_mode"
+    BLACKLIST_SILENT_KEY = "blacklist_silent_removal"
     warning_text = _("""WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.
 
 If you are young, not sure, or even an adult, click the close button on this window now and do something fun instead.""")
 
     @staticmethod
     def set_blacklist():
-        """Load blacklist from cache and validate items."""
+        """Load blacklist from cache, validate items, and load global blacklist settings."""
         # Check if user has explicitly confirmed they want a non-default blacklist state
         user_confirmed_non_default = app_info_cache.get(BlacklistWindow.DEFAULT_BLACKLIST_KEY, default_val=False)
+        # Load blacklist mode
+        mode_str = app_info_cache.get(BlacklistWindow.BLACKLIST_MODE_KEY, default_val=str(Blacklist.get_blacklist_mode()))
+        try:
+            mode = BlacklistMode(mode_str)
+        except Exception:
+            print(f"Invalid blacklist mode: {mode_str}")
+        Blacklist.set_blacklist_mode(mode)
+        # Load silent removal
+        silent = app_info_cache.get(BlacklistWindow.BLACKLIST_SILENT_KEY, default_val=False)
+        Blacklist.set_blacklist_silent_removal(silent)
         
         if not user_confirmed_non_default:
             # First time user opens blacklist window - load default encrypted blacklist
@@ -310,7 +324,7 @@ If you are young, not sure, or even an adult, click the close button on this win
                 # Fall back to normal load (a probably empty blacklist) if decryption fails
         
         # User has confirmed non-default state or decryption failed - load from cache
-        raw_blacklist = app_info_cache.get("tag_blacklist", default_val=[])
+        raw_blacklist = app_info_cache.get(BlacklistWindow.BLACKLIST_CACHE_KEY, default_val=[])
         validated_blacklist = []
         
         # Convert each item to a BlacklistItem
@@ -330,10 +344,12 @@ If you are young, not sure, or even an adult, click the close button on this win
 
     @staticmethod
     def store_blacklist():
-        """Store blacklist to cache, converting items to dictionaries."""
+        """Store blacklist to cache, converting items to dictionaries, and store global blacklist settings."""
         Blacklist.save_cache()
         blacklist_dicts = [item.to_dict() for item in Blacklist.get_items()]
-        app_info_cache.set("tag_blacklist", blacklist_dicts)
+        app_info_cache.set(BlacklistWindow.BLACKLIST_CACHE_KEY, blacklist_dicts)
+        app_info_cache.set(BlacklistWindow.BLACKLIST_MODE_KEY, str(Blacklist.get_blacklist_mode()))
+        app_info_cache.set(BlacklistWindow.BLACKLIST_SILENT_KEY, Blacklist.get_blacklist_silent_removal())
 
     @staticmethod
     def mark_user_confirmed_non_default():
@@ -436,6 +452,33 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.add_btn("export_btn", _("Export"), self.export_blacklist, row=1, column=1)
         self.add_btn("preview_all_btn", _("Preview All"), self.preview_all, row=1, column=2)
         self.add_btn("load_default_btn", _("Load Default"), self.load_default_blacklist, row=1, column=3)
+
+        # Add a row for the blacklist global settings
+        self.settings_label = Label(self.header_frame, text=_('Global Settings:'), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.settings_label.grid(row=2, column=0, sticky=W)
+
+        # Blacklist mode dropdown
+        self.blacklist_mode_var = StringVar(self.master)
+        self.blacklist_mode_var.set(Blacklist.get_blacklist_mode().display())
+        self.mode_label = Label(self.header_frame, text=_('Blacklist Mode:'), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.mode_label.grid(row=2, column=1, sticky=W)
+        self.mode_dropdown = Combobox(self.header_frame, textvariable=self.blacklist_mode_var, state="readonly", width=22)
+        self.mode_dropdown['values'] = BlacklistMode.display_values()
+        self.mode_dropdown.grid(row=2, column=2, sticky=W)
+        self.mode_dropdown.bind('<<ComboboxSelected>>', self.on_mode_change)
+
+        # Silent removal checkbox
+        self.silent_var = BooleanVar(value=Blacklist.get_blacklist_silent_removal())
+        self.silent_checkbox = Checkbutton(
+            self.header_frame,
+            text=_('Silent Removal'),
+            variable=self.silent_var,
+            bg=AppStyle.BG_COLOR,
+            fg=AppStyle.FG_COLOR,
+            selectcolor=AppStyle.BG_COLOR,
+            command=self.on_silent_change
+        )
+        self.silent_checkbox.grid(row=2, column=3, sticky=W)
 
         self.frame.after(1, lambda: self.frame.focus_force())
 
@@ -848,4 +891,20 @@ If you are young, not sure, or even an adult, click the close button on this win
             self.app_actions.toast(_("Successfully exported blacklist"))
         except Exception as e:
             self.app_actions.alert(_("Export Error"), str(e), kind="error")
+
+    def on_mode_change(self, event=None):
+        try:
+            mode = BlacklistMode.from_display(self.blacklist_mode_var.get())
+        except Exception:
+            mode = BlacklistMode.REMOVE_WORD_OR_PHRASE
+        Blacklist.set_blacklist_mode(mode)
+        self.store_blacklist()
+        if self.app_actions:
+            self.app_actions.toast(_("Blacklist mode set to: {0}").format(mode.display()))
+
+    def on_silent_change(self):
+        Blacklist.set_blacklist_silent_removal(self.silent_var.get())
+        self.store_blacklist()
+        if self.app_actions:
+            self.app_actions.toast(_("Silent removal set to: {0}").format(self.silent_var.get()))
 

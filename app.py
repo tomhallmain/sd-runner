@@ -11,12 +11,15 @@ from lib.autocomplete_entry import AutocompleteEntry, matches
 from ttkthemes import ThemedTk
 
 from run import Run
-from utils.globals import Globals, PromptMode, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup, ProtectedActions
+from utils.globals import (
+    Globals, PromptMode, WorkflowType, Sampler, Scheduler, SoftwareType,
+    ResolutionGroup, ProtectedActions, BlacklistMode
+)
 
 from extensions.sd_runner_server import SDRunnerServer
 
 from lib.aware_entry import AwareEntry, AwareText
-from sd_runner.blacklist import Blacklist
+from sd_runner.blacklist import Blacklist, BlacklistException
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.gen_config import GenConfig
 from sd_runner.model_adapters import IPAdapter
@@ -566,6 +569,7 @@ class App():
         self.master.bind("<Next>", lambda event: self.one_config_away(change=-1))
         self.master.bind("<Home>", lambda event: self.first_config())
         self.master.bind("<End>", lambda event: self.first_config(end=True))
+        self.master.bind("<Control-b>", lambda event: self.check_focus(event, self.show_tag_blacklist))
         self.master.bind("<Control-q>", self.quit)
         self.master.bind("<Control-p>", lambda event: self.check_focus(event, self.open_password_admin_window))  # Password Administration
         self.toggle_theme()
@@ -1078,9 +1082,13 @@ class App():
 
         filtered = Blacklist.find_blacklisted_items(text)
         if filtered:
-            self.alert(_("Invalid Prompt Tags"), 
-                      _("Blacklisted items found in prompt: {0}").format(filtered),
-                      kind="error")
+            if not Blacklist.get_blacklist_silent_removal():
+                alert_text = _("Blacklisted items found in prompt: {0}").format(filtered)
+                self.alert(_("Invalid Prompt Tags"), alert_text, kind="error")
+            if Blacklist.get_blacklist_mode() == BlacklistMode.FAIL_PROMPT:
+                if Blacklist.get_blacklist_silent_removal():
+                    self.alert(_("Invalid Prompt Tags"), _("Blacklist validation failed!"), kind="error")
+                raise BlacklistException("Blacklist validation failed", [], filtered)
             return False
         return True
 

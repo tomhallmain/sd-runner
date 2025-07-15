@@ -31,7 +31,7 @@ def main(input_path):
 
     # Use the Blacklist to split the concepts
     BlacklistWindow.set_blacklist()
-    whitelist, filtered = Blacklist.filter_concepts(concepts, do_cache=False)
+    whitelist, filtered = Blacklist.filter_concepts(concepts, do_cache=False, user_prompt=False)
     blacklist = list(filtered.keys())
 
     # Write whitelisted concepts

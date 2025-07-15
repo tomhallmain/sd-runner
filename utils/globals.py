@@ -35,6 +35,38 @@ class PromptMode(Enum):
         raise Exception(f"Not a valid prompt mode: {name}")
 
 
+class BlacklistMode(Enum):
+    REMOVE_WORD_OR_PHRASE = "REMOVE_WORD_OR_PHRASE"
+    REMOVE_ENTIRE_TAG = "REMOVE_ENTIRE_TAG"
+    FAIL_PROMPT = "FAIL_PROMPT"
+    LOG_ONLY = "LOG_ONLY"
+
+    def __str__(self):
+        return self.value
+
+    def display(self):
+        # Use I18N._ for translation
+        _ = I18N._
+        display_map = {
+            BlacklistMode.REMOVE_WORD_OR_PHRASE: _(u"Remove word/phrase (only the blacklisted part)"),
+            BlacklistMode.REMOVE_ENTIRE_TAG: _(u"Remove entire tag (if any part matches)"),
+            BlacklistMode.FAIL_PROMPT: _(u"Fail prompt (block generation)"),
+            BlacklistMode.LOG_ONLY: _(u"Log only (do not remove, just log)"),
+        }
+        return display_map.get(self, str(self))
+
+    @staticmethod
+    def display_values():
+        return [mode.display() for mode in BlacklistMode]
+
+    @staticmethod
+    def from_display(display_str):
+        for mode in BlacklistMode:
+            if mode.display() == display_str:
+                return mode
+        raise ValueError(f"No BlacklistMode with display value '{display_str}'")
+
+
 class Globals:
     SERVICE_NAME = "MyPersonalApplicationsService"
     APP_IDENTIFIER = "sd_runner"

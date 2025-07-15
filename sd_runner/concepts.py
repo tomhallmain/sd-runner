@@ -257,7 +257,7 @@ class Concepts:
         if Blacklist.is_empty():
             return sample(concepts, low, high)
             
-        whitelist, filtered = Blacklist.filter_concepts(concepts)
+        whitelist, filtered = Blacklist.filter_concepts(concepts, user_prompt=False)
         
         # Check if we have enough items after filtering
         if len(whitelist) < low:
@@ -773,7 +773,7 @@ class Concepts:
             return filtered_concepts
         else:
             # Use the actual blacklist filtering logic
-            whitelist, filtered = Blacklist.filter_concepts(all_concepts)
+            whitelist, filtered = Blacklist.filter_concepts(all_concepts, user_prompt=False)
             return list(filtered.keys())
 
 

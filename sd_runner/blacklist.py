@@ -3,7 +3,7 @@ import json
 import os
 import re
 
-from utils.globals import Globals
+from utils.globals import Globals, BlacklistMode
 from utils.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from utils.pickleable_cache import SizeAwarePicklableCache
 from utils.translations import I18N
@@ -14,6 +14,13 @@ _ = I18N._
 # Define cache file path
 CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "configs")
 BLACKLIST_CACHE_FILE = os.path.join(CACHE_DIR, "blacklist_filter_cache.pkl")
+
+class BlacklistException(Exception):
+    def __init__(self, message, whitelist, filtered):
+        self.message = message
+        self.whitelist = whitelist
+        self.filtered = filtered
+        super().__init__(self.message)
 
 
 class BlacklistItem:
@@ -115,6 +122,21 @@ class BlacklistItem:
         
         return regex_pattern
 
+    def remove_blacklisted_content(self, tag: str) -> str:
+        """Remove blacklisted content from a tag.
+        
+        Args:
+            tag: The tag to process
+            
+        Returns:
+            str: The tag with blacklisted content removed
+        """
+        # Remove the matched pattern from the tag (works for both regex and non-regex)
+        cleaned_tag = re.sub(self.regex_pattern, '', tag)
+        # Clean up extra whitespace
+        cleaned_tag = re.sub(r'\s+', ' ', cleaned_tag).strip()
+        return cleaned_tag
+
     def __eq__(self, other):
         if isinstance(other, BlacklistItem):
             return self.string == other.string
@@ -140,8 +162,27 @@ class Blacklist:
         BLACKLIST_CACHE_FILE, maxsize=CACHE_MAXSIZE,
         max_large_items=CACHE_MAX_LARGE_ITEMS, large_threshold=CACHE_LARGE_THRESHOLD)
 
+    blacklist_mode = BlacklistMode.REMOVE_ENTIRE_TAG
+    blacklist_silent_removal = False
+
     @staticmethod
-    def _filter_concepts_cached(concepts_tuple, do_cache=True):
+    def get_blacklist_mode():
+        return Blacklist.blacklist_mode
+
+    @staticmethod
+    def set_blacklist_mode(mode):
+        Blacklist.blacklist_mode = mode
+
+    @staticmethod
+    def get_blacklist_silent_removal():
+        return Blacklist.blacklist_silent_removal
+
+    @staticmethod
+    def set_blacklist_silent_removal(silent):
+        Blacklist.blacklist_silent_removal = silent
+
+    @staticmethod
+    def _filter_concepts_cached(concepts_tuple, do_cache=True, user_prompt=True):
         # Check cache first - use just the concepts tuple as key (no version needed)
         try:
             cached_result = Blacklist._filter_cache.get(concepts_tuple)
@@ -163,6 +204,7 @@ class Blacklist:
                 pass  # Ignore any errors in UI callback
         
         # Convert tuple back to list for processing
+        mode = Blacklist.get_blacklist_mode() if user_prompt else BlacklistMode.REMOVE_ENTIRE_TAG
         concepts = list(concepts_tuple)
         whitelist = []
         filtered = {}
@@ -170,7 +212,9 @@ class Blacklist:
         # Call progress update at the beginning (0)
         do_update_progress(0)
         
-        print(f"Filtering concepts for blacklist: {concepts_count}")
+        print(f"Filtering concepts for blacklist: {concepts_count} - {mode}")
+        
+        # Single loop with different behaviors based on mode
         for i, concept_cased in enumerate(concepts):
             match_found = False
             for blacklist_item in Blacklist.TAG_BLACKLIST:
@@ -180,13 +224,29 @@ class Blacklist:
                     filtered[concept_cased] = blacklist_item.string
                     match_found = True
                     break
-            if not match_found:
+            
+            # Handle different modes
+            if mode == BlacklistMode.REMOVE_WORD_OR_PHRASE and match_found:
+                # Try to remove the blacklisted content from the concept
+                cleaned_concept = blacklist_item.remove_blacklisted_content(concept_cased)
+                if cleaned_concept and cleaned_concept.strip():
+                    whitelist.append(cleaned_concept)
+            elif not match_found or mode == BlacklistMode.LOG_ONLY:
+                # Default behavior: add to whitelist if no blacklist match found
                 whitelist.append(concept_cased)
             
             # Call progress update every 5000 concepts
             if (i + 1) % 5000 == 0:
                 do_update_progress(i + 1)
         
+        # # Handle FAIL_PROMPT mode: clear whitelist if any violations were found
+        # if mode == BlacklistMode.FAIL_PROMPT and filtered:
+        #     whitelist = []
+        if mode == BlacklistMode.LOG_ONLY:
+            print(f"Concepts would have been filtered:")
+            for filtered_concept, blacklist_item in filtered.items():
+                print(f"  {filtered_concept} -> {blacklist_item}")
+            
         # Call progress update at the end
         do_update_progress(concepts_count)
         print(f"Filtered {len(filtered)} concepts for blacklist")
@@ -278,16 +338,14 @@ class Blacklist:
         Blacklist.add_item(tag)
 
     @staticmethod
-    def sort():
-        Blacklist.TAG_BLACKLIST.sort(key=lambda x: x.string)
-
-    @staticmethod
-    def filter_concepts(concepts, filtered_dict=None, do_cache=True) -> tuple[list[str], dict[str, str]]:
+    def filter_concepts(concepts, filtered_dict=None, do_cache=True, user_prompt=True) -> tuple[list[str], dict[str, str]]:
         """Filter a list of concepts against the blacklist.
         
         Args:
             concepts: List of concepts to filter
             filtered_dict: Optional dict to store filtered items. If None, a new dict is created.
+            do_cache: Whether to use caching for filtering
+            user_prompt: Whether this is a user-provided prompt (True) or internal prompt (False)
             
         Returns:
             tuple: (whitelist, filtered_dict) where:
@@ -296,7 +354,7 @@ class Blacklist:
         """
         # Use the LRU cache for filtering
         concepts_tuple = tuple(concepts)
-        whitelist, filtered = Blacklist._filter_concepts_cached(concepts_tuple, do_cache)
+        whitelist, filtered = Blacklist._filter_concepts_cached(concepts_tuple, do_cache, user_prompt)
         # If a filtered_dict is provided, update it
         if filtered_dict is not None:
             filtered_dict.update(filtered)
