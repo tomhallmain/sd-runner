@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-15 13:37-0400\n"
-"PO-Revision-Date: 2025-07-15 13:37-0400\n"
+"POT-Creation-Date: 2025-07-15 18:23-0400\n"
+"PO-Revision-Date: 2025-07-15 18:23-0400\n"
 "Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: fr Team <<EMAIL>>\n"
 "Language: fr\n"
@@ -136,7 +136,7 @@ msgstr "Configuration des invites"
 msgid "Prompt Mode"
 msgstr "Mode invite"
 
-#: app.py:362 utils/globals.py:283
+#: app.py:362 utils/globals.py:304
 msgid "Edit Concepts"
 msgstr "Modifier les concepts"
 
@@ -196,7 +196,7 @@ msgstr "Personnages"
 msgid "Random Words"
 msgstr "Mots aléatoires"
 
-#: app.py:488
+#: app.py:488 utils/globals.py:37
 msgid "Nonsense"
 msgstr "Absurdités"
 
@@ -1334,49 +1334,49 @@ msgstr ""
 msgid "Incorrect password"
 msgstr "Mot de passe incorrect"
 
-#: utils/globals.py:51
+#: utils/globals.py:72
 msgid "Remove word/phrase (only the blacklisted part)"
 msgstr ""
 "Supprimer un mot/une phrase (uniquement la partie figurant sur la liste "
 "noire)"
 
-#: utils/globals.py:52
+#: utils/globals.py:73
 msgid "Remove entire tag (if any part matches)"
 msgstr "Supprimer l'ensemble de la balise (si une partie correspond)"
 
-#: utils/globals.py:53
+#: utils/globals.py:74
 msgid "Fail prompt (block generation)"
 msgstr "Demande d'échec (blocage de les générations)"
 
-#: utils/globals.py:54
+#: utils/globals.py:75
 msgid "Log only (do not remove, just log)"
 msgstr "Enregistrer uniquement (ne pas supprimer, seulement enregistrer)"
 
-#: utils/globals.py:277
+#: utils/globals.py:298
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "Modes d'incitation NSFW/NSFL"
 
-#: utils/globals.py:278
+#: utils/globals.py:299
 msgid "Edit Blacklist"
 msgstr "Modifier la liste noire"
 
-#: utils/globals.py:279
+#: utils/globals.py:300
 msgid "Reveal Blacklist Concepts"
 msgstr "Révéler les concepts de liste noire"
 
-#: utils/globals.py:280
+#: utils/globals.py:301
 msgid "Edit Schedules"
 msgstr "Modifier les horaires"
 
-#: utils/globals.py:281
+#: utils/globals.py:302
 msgid "Edit Expansions"
 msgstr "Modifier les extensions"
 
-#: utils/globals.py:282
+#: utils/globals.py:303
 msgid "Edit Presets"
 msgstr "Modifier les préréglages"
 
-#: utils/globals.py:284
+#: utils/globals.py:305
 msgid "Access Password Administration"
 msgstr "Accès Mot de passe Administration"
 
@@ -1403,3 +1403,51 @@ msgstr "{0}m"
 #: utils/time_estimator.py:92
 msgid "{0}s"
 msgstr "{0}s"
+
+#: utils/globals.py:31
+msgid "Fixed"
+msgstr "Fixé"
+
+#: utils/globals.py:32
+msgid "SFW"
+msgstr "SFW"
+
+#: utils/globals.py:33
+msgid "NSFW"
+msgstr "NSFW"
+
+#: utils/globals.py:34
+msgid "NSFL"
+msgstr "NSFL"
+
+#: utils/globals.py:35
+msgid "Take"
+msgstr "Prenez"
+
+#: utils/globals.py:36
+msgid "Random"
+msgstr "Aléatoire"
+
+#: utils/globals.py:38
+msgid "Any Art"
+msgstr "Tous les arts"
+
+#: utils/globals.py:39
+msgid "Painterly"
+msgstr "Peinture"
+
+#: utils/globals.py:40
+msgid "Anime"
+msgstr "Animal"
+
+#: utils/globals.py:41
+msgid "Glitch"
+msgstr "Glitch"
+
+#: utils/globals.py:42
+msgid "List"
+msgstr "Liste"
+
+#: utils/globals.py:43
+msgid "Improve"
+msgstr "Améliorer"

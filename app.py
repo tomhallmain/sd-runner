@@ -354,8 +354,8 @@ class App():
         self.label_prompt_mode = Label(self.prompter_config_bar)
         self.add_label(self.label_prompt_mode, _("Prompt Mode"), column=1, increment_row_counter=False)
         self.prompt_mode = StringVar(master)
-        starting_prompt_mode = self.runner_app_config.prompter_config.prompt_mode.name
-        self.prompt_mode_choice = OptionMenu(self.prompter_config_bar, self.prompt_mode, starting_prompt_mode, *PromptMode.__members__.keys(), command=self.check_prompt_mode_password)
+        starting_prompt_mode = self.runner_app_config.prompter_config.prompt_mode.display()
+        self.prompt_mode_choice = OptionMenu(self.prompter_config_bar, self.prompt_mode, starting_prompt_mode, *PromptMode.display_values(), command=self.check_prompt_mode_password)
         self.apply_to_grid(self.prompt_mode_choice, interior_column=1, sticky=W, column=1)
 
         self.concept_editor_window_btn = None
@@ -942,7 +942,7 @@ class App():
         args.denoise = float(self.denoise.get())
         args.total = int(self.total.get())
         self.runner_app_config.prompt_massage_tags = self.prompt_massage_tags.get()
-        self.runner_app_config.prompter_config.prompt_mode = PromptMode[self.prompt_mode.get()]
+        self.runner_app_config.prompter_config.prompt_mode = PromptMode.get(self.prompt_mode.get())
         args.prompter_config = deepcopy(self.runner_app_config.prompter_config)
         return args
 
@@ -1053,7 +1053,7 @@ class App():
         self.runner_app_config.prompter_config.nonsense = (int(self.nonsense0.get()), int(self.nonsense1.get()))
 
     def set_model_dependent_fields(self, event=None, model_tags=None, inpainting=None):
-        Model.set_model_presets(PromptMode[self.prompt_mode.get()])
+        Model.set_model_presets(PromptMode.get(self.prompt_mode.get()))
         if model_tags is None:
             model_tags = self.model_tags.get()
         if inpainting is None:
@@ -1222,11 +1222,11 @@ class App():
 
     def check_prompt_mode_password(self, prompt_mode):
         """Check if password is required for the selected prompt mode."""
-        if prompt_mode in ["NSFW", "NSFL"]:
+        if PromptMode.get(prompt_mode) in [PromptMode.NSFW, PromptMode.NSFL]:
             def password_callback(result):
                 if not result:
                     self.alert(_("Password Cancelled"), _("Password cancelled or incorrect, revert to previous mode"))
-                    self.prompt_mode.set(self.runner_app_config.prompter_config.prompt_mode.name)
+                    self.prompt_mode.set(self.runner_app_config.prompter_config.prompt_mode.display())
             check_password_required(ProtectedActions.NSFW_PROMPTS, self.master, password_callback)
 
     def next_preset(self, event=None):

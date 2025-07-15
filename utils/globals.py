@@ -26,10 +26,31 @@ class PromptMode(Enum):
     def __str__(self):
         return self.value
 
+    def display(self):
+        return {
+            PromptMode.FIXED: _("Fixed"),
+            PromptMode.SFW: _("SFW"),
+            PromptMode.NSFW: _("NSFW"),
+            PromptMode.NSFL: _("NSFL"),
+            PromptMode.TAKE: _("Take"),
+            PromptMode.RANDOM: _("Random"),
+            PromptMode.NONSENSE: _("Nonsense"),
+            PromptMode.ANY_ART: _("Any Art"),
+            PromptMode.PAINTERLY: _("Painterly"),
+            PromptMode.ANIME: _("Anime"),
+            PromptMode.GLITCH: _("Glitch"),
+            PromptMode.LIST: _("List"),
+            PromptMode.IMPROVE: _("Improve"),
+        }[self]
+
+    @classmethod
+    def display_values(cls):
+        return [mode.display() for mode in cls]
+
     @staticmethod
     def get(name):
         for key, value in PromptMode.__members__.items():
-            if key == name:
+            if key == name or value.display() == name:
                 return value
         
         raise Exception(f"Not a valid prompt mode: {name}")
