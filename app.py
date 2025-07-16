@@ -613,11 +613,22 @@ class App():
         ComfyGen.close_all_connections()
         self.store_info_cache()
         app_info_cache.wipe_instance()
-        if self.server is not None:
+        if hasattr(self, 'server') and self.server is not None:
             try:
                 self.server.stop()
             except Exception as e:
                 print(f"Error stopping server: {e}")
+        if hasattr(self, 'current_run') and self.current_run is not None:
+            self.current_run.cancel("Application shutdown")
+        if hasattr(self, 'job_queue') and self.job_queue is not None:
+            self.job_queue.cancel()
+        if hasattr(self, 'job_queue_preset_schedules') and self.job_queue_preset_schedules is not None:
+            self.job_queue_preset_schedules.cancel()
+        
+        # Shutdown the thread pool executor to stop all background threads
+        from sd_runner.base_image_generator import BaseImageGenerator
+        BaseImageGenerator.shutdown_executor(wait=False)
+        
         self.master.destroy()
 
 
@@ -1383,16 +1394,51 @@ if __name__ == "__main__":
         # Graceful shutdown handler
         def graceful_shutdown(signum, frame):
             print("Caught signal, shutting down gracefully...")
-            app.on_closing()
+            if 'app' in locals():
+                app.on_closing()
             exit(0)
 
         # Register the signal handlers for graceful shutdown
         signal.signal(signal.SIGINT, graceful_shutdown)
         signal.signal(signal.SIGTERM, graceful_shutdown)
 
-        app = App(root)
+        # Check if startup password is required
+        from ui.auth.app_startup_auth import check_startup_password_required
+        
+        print("DEBUG: Starting application...")
+        
+        # Use a different approach - let the mainloop handle everything
+        app_created = [None]
+        
+        def startup_callback(result):
+            print(f"DEBUG: Startup callback called with result: {result}")
+            if result:
+                print("DEBUG: Password verified or not required, creating application...")
+                # Password verified or not required, create the application
+                global app
+                app = App(root)
+                app_created[0] = True
+                print("DEBUG: App created successfully")
+            else:
+                print("DEBUG: User cancelled password dialog, exiting...")
+                # User cancelled the password dialog, exit
+                app_created[0] = False
+                root.destroy()
+                exit(0)
+        
+        print("DEBUG: About to check startup password...")
+        # Check if startup password is required
+        # This will either call the callback immediately (if no password required)
+        # or show a password dialog and call the callback when done
+        check_startup_password_required(root, startup_callback)
+        print(f"DEBUG: After check_startup_password_required, app_created = {app_created[0]}")
+        
+        # Start the mainloop in all cases
+        # - If no password required: app was created, mainloop runs the app
+        # - If password dialog shown: mainloop handles the dialog
+        # - If user cancelled: exit() was already called in callback
+        print("DEBUG: Starting mainloop...")
         root.mainloop()
-        exit()
     except KeyboardInterrupt:
         pass
     except Exception:

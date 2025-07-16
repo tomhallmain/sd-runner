@@ -26,6 +26,17 @@ class BaseImageGenerator(ABC):
     
     pending_counter = 0
     
+    @classmethod
+    def shutdown_executor(cls, wait: bool = False) -> None:
+        """
+        Shutdown the shared thread pool executor.
+        
+        Args:
+            wait: Whether to wait for all tasks to complete before shutting down
+        """
+        if cls._executor is not None:
+            cls._executor.shutdown(wait=wait)
+    
     def __init__(self, config: GenConfig = GenConfig(), ui_callbacks: Optional[AppActions] = None):
         self.gen_config = config
         self.ui_callbacks = ui_callbacks

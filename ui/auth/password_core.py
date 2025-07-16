@@ -14,6 +14,7 @@ class SecurityConfig:
     
     # Default password-protected actions
     DEFAULT_PROTECTED_ACTIONS = {
+        ProtectedActions.OPEN_APPLICATION.value: False,
         ProtectedActions.NSFW_PROMPTS.value: True,
         ProtectedActions.EDIT_BLACKLIST.value: True,
         ProtectedActions.REVEAL_BLACKLIST_CONCEPTS.value: True,
@@ -41,8 +42,9 @@ class SecurityConfig:
         for action_enum in ProtectedActions:
             action = action_enum.value
             if action not in self.protected_actions:
-                # Default to True for new actions (protected by default)
-                self.protected_actions[action] = True
+                # Use the default value from DEFAULT_PROTECTED_ACTIONS, or True if not specified
+                default_value = self.DEFAULT_PROTECTED_ACTIONS.get(action, True)
+                self.protected_actions[action] = default_value
         
         # Ensure ACCESS_ADMIN always remains protected
         self.protected_actions[ProtectedActions.ACCESS_ADMIN.value] = True

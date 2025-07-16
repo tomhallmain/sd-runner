@@ -275,6 +275,7 @@ class ResolutionGroup(Enum):
 
 class ProtectedActions(Enum):
     """Enumeration of actions that can be password protected."""
+    OPEN_APPLICATION = "open_application"
     NSFW_PROMPTS = "nsfw_prompts"
     EDIT_BLACKLIST = "edit_blacklist"
     REVEAL_BLACKLIST_CONCEPTS = "reveal_blacklist_concepts"
@@ -295,6 +296,7 @@ class ProtectedActions(Enum):
     def get_description(self):
         """Get the user-friendly description for this action."""
         descriptions = {
+            ProtectedActions.OPEN_APPLICATION: _("Open Application"),
             ProtectedActions.NSFW_PROMPTS: _("NSFW/NSFL Prompt Modes"),
             ProtectedActions.EDIT_BLACKLIST: _("Edit Blacklist"),
             ProtectedActions.REVEAL_BLACKLIST_CONCEPTS: _("Reveal Blacklist Concepts"),

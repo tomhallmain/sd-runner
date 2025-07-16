@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-15 18:23-0400\n"
-"PO-Revision-Date: 2025-07-15 18:23-0400\n"
+"POT-Creation-Date: 2025-07-15 20:18-0400\n"
+"PO-Revision-Date: 2025-07-15 20:18-0400\n"
 "Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
@@ -136,7 +136,7 @@ msgstr "提示配置"
 msgid "Prompt Mode"
 msgstr "提示方式"
 
-#: app.py:362 utils/globals.py:304
+#: app.py:362 utils/globals.py:306
 msgid "Edit Concepts"
 msgstr "编辑概念"
 
@@ -256,63 +256,64 @@ msgstr "标签黑名单"
 msgid "Expansions Window"
 msgstr "扩展窗口"
 
-#: app.py:625
+#: app.py:636
 msgid "Confirm Quit"
 msgstr "确认退出"
 
-#: app.py:625
+#: app.py:636
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
-#: app.py:862 app.py:879
+#: app.py:873 app.py:890
 msgid "Confirm Run"
 msgstr "确认运行"
 
-#: app.py:863
+#: app.py:874
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "开始新的运行将取消当前的预设时间表。您确定要继续吗？"
 
-#: app.py:880
+#: app.py:891
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
 
-#: app.py:980 app_qt.py:379
+#: app.py:991 app_qt.py:379
 msgid " (unlimited)"
 msgstr " (无限制)"
 
-#: app.py:1004
+#: app.py:1015
 msgid "{0} pending generations"
 msgstr "{0}待定世代"
 
-#: app.py:1086
+#: app.py:1097
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "提示中发现黑名单项目： {0}"
 
-#: app.py:1087 app.py:1090
+#: app.py:1098 app.py:1101
 msgid "Invalid Prompt Tags"
 msgstr "无效提示标签"
 
-#: app.py:1090
+#: app.py:1101
 msgid "Blacklist validation failed!"
 msgstr "黑名单验证失败！"
 
-#: app.py:1228
+#: app.py:1239
 msgid "Password Cancelled"
 msgstr "取消密码"
 
-#: app.py:1228
+#: app.py:1239
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "密码被取消或不正确，返回上一模式"
 
-#: app.py:1246 ui/auth/password_dialog.py:231 ui/concept_editor_window.py:270
-#: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348
-#: ui/tags_blacklist_window.py:117 ui/tags_blacklist_window.py:274
+#: app.py:1257 ui/auth/app_startup_auth.py:117 ui/auth/password_dialog.py:231
+#: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
+#: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:117
+#: ui/tags_blacklist_window.py:274
 msgid "Error"
 msgstr "错误"
 
-#: app.py:1372 app_qt.py:50
+#: app.py:1383 app_qt.py:50
 msgid " ComfyGen "
 msgstr " SD 转轮 "
 
@@ -470,7 +471,7 @@ msgstr "活跃"
 msgid "Export"
 msgstr "出口"
 
-#: ui/auth/password_admin_window.py:236 ui/concept_editor_window_qt.py:143
+#: ui/auth/password_admin_window.py:232 ui/concept_editor_window_qt.py:143
 #: ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59
 #: ui/schedules_window_qt.py:97 ui/schedules_window_qt.py:169
 #: ui/tags_blacklist_window.py:244 ui/tags_blacklist_window_qt.py:52
@@ -1062,175 +1063,176 @@ msgstr "从黑名单中删除标签： {0}"
 msgid "Password Administration"
 msgstr "密码管理"
 
-#: ui/auth/password_admin_window.py:72
+#: ui/auth/password_admin_window.py:68
 msgid "Password Protection Settings"
 msgstr "密码保护设置"
 
-#: ui/auth/password_admin_window.py:84
+#: ui/auth/password_admin_window.py:80
 msgid "Protected Actions"
 msgstr "受保护的行动"
 
-#: ui/auth/password_admin_window.py:90
+#: ui/auth/password_admin_window.py:86
 msgid "Select which actions require password authentication:"
 msgstr "选择哪些操作需要密码验证："
 
-#: ui/auth/password_admin_window.py:106
+#: ui/auth/password_admin_window.py:102
 msgid "(Always protected if a password is set)"
 msgstr "(如果设置了密码，则始终受保护）"
 
-#: ui/auth/password_admin_window.py:125
+#: ui/auth/password_admin_window.py:121
 msgid "Session Timeout Settings"
 msgstr "会话超时设置"
 
-#: ui/auth/password_admin_window.py:131
+#: ui/auth/password_admin_window.py:127
 msgid "Enable session timeout (remember password for a period)"
 msgstr "启用会话超时（在一段时间内记住密码）"
 
-#: ui/auth/password_admin_window.py:143
+#: ui/auth/password_admin_window.py:139
 msgid "Session timeout duration (minutes):"
 msgstr "会话超时时间（分钟）："
 
-#: ui/auth/password_admin_window.py:152
+#: ui/auth/password_admin_window.py:148
 msgid "Password Setup"
 msgstr "密码设置"
 
-#: ui/auth/password_admin_window.py:162
+#: ui/auth/password_admin_window.py:158
 msgid "Password is configured"
 msgstr "密码已配置"
 
-#: ui/auth/password_admin_window.py:168 ui/auth/password_admin_window.py:336
-#: ui/auth/password_admin_window.py:352 ui/auth/password_admin_window.py:411
+#: ui/auth/password_admin_window.py:164 ui/auth/password_admin_window.py:332
+#: ui/auth/password_admin_window.py:348 ui/auth/password_admin_window.py:407
 msgid "Change Password"
 msgstr "更改密码"
 
-#: ui/auth/password_admin_window.py:173 ui/auth/password_admin_window.py:424
+#: ui/auth/password_admin_window.py:169 ui/auth/password_admin_window.py:420
 msgid "Remove Password"
 msgstr "删除密码"
 
-#: ui/auth/password_admin_window.py:178
+#: ui/auth/password_admin_window.py:174
 msgid "Set up a password to enable protection:"
 msgstr "设置密码以启用保护："
 
-#: ui/auth/password_admin_window.py:188 ui/auth/password_admin_window.py:368
+#: ui/auth/password_admin_window.py:184 ui/auth/password_admin_window.py:364
 msgid "New Password:"
 msgstr "新密码："
 
-#: ui/auth/password_admin_window.py:201
+#: ui/auth/password_admin_window.py:197
 msgid "Confirm Password:"
 msgstr "确认密码："
 
-#: ui/auth/password_admin_window.py:210
+#: ui/auth/password_admin_window.py:206
 msgid "Set Password"
 msgstr "设置密码"
 
-#: ui/auth/password_admin_window.py:220 ui/auth/password_admin_window.py:266
+#: ui/auth/password_admin_window.py:216 ui/auth/password_admin_window.py:262
 msgid "Reset to Defaults"
 msgstr "重置为默认值"
 
-#: ui/auth/password_admin_window.py:224 ui/auth/password_admin_window.py:286
+#: ui/auth/password_admin_window.py:220 ui/auth/password_admin_window.py:282
 msgid "Set to Current"
 msgstr "设置为当前"
 
-#: ui/auth/password_admin_window.py:228
+#: ui/auth/password_admin_window.py:224
 msgid "Export Cache as JSON"
 msgstr "以 JSON 格式导出缓存"
 
-#: ui/auth/password_admin_window.py:232
+#: ui/auth/password_admin_window.py:228
 msgid "Save Settings"
 msgstr "保存设置"
 
-#: ui/auth/password_admin_window.py:260
+#: ui/auth/password_admin_window.py:256
 msgid "Password protection settings saved."
 msgstr "保存密码保护设置。"
 
-#: ui/auth/password_admin_window.py:267
+#: ui/auth/password_admin_window.py:263
 msgid ""
 "Are you sure you want to reset all password protection settings to their "
 "default values?"
 msgstr "您确定要将所有密码保护设置重置为默认值吗？"
 
-#: ui/auth/password_admin_window.py:281
+#: ui/auth/password_admin_window.py:277
 msgid "Settings reset to defaults."
 msgstr "设置重置为默认值。"
 
-#: ui/auth/password_admin_window.py:287
+#: ui/auth/password_admin_window.py:283
 msgid ""
 "Are you sure you want to restore all settings to their current saved state? "
 "This will discard any unsaved changes."
 msgstr "您确定要将所有设置恢复到当前保存的状态吗？这将放弃任何未保存的更改。"
 
-#: ui/auth/password_admin_window.py:302
+#: ui/auth/password_admin_window.py:298
 msgid "Settings restored to current saved state."
 msgstr "设置恢复到当前保存状态。"
 
-#: ui/auth/password_admin_window.py:311
+#: ui/auth/password_admin_window.py:307
 msgid "Please enter a password."
 msgstr "请输入密码。"
 
-#: ui/auth/password_admin_window.py:315
+#: ui/auth/password_admin_window.py:311
 msgid "Passwords do not match."
 msgstr "密码不匹配。"
 
-#: ui/auth/password_admin_window.py:319 ui/auth/password_admin_window.py:402
+#: ui/auth/password_admin_window.py:315 ui/auth/password_admin_window.py:398
 msgid "Password must be at least 6 characters long."
 msgstr "密码长度至少为 6 个字符。"
 
-#: ui/auth/password_admin_window.py:323
+#: ui/auth/password_admin_window.py:319
 msgid "Password set successfully."
 msgstr "密码设置成功。"
 
-#: ui/auth/password_admin_window.py:330
+#: ui/auth/password_admin_window.py:326
 msgid "Failed to set password."
 msgstr "密码设置失败。"
 
-#: ui/auth/password_admin_window.py:359
+#: ui/auth/password_admin_window.py:355
 msgid "Current Password:"
 msgstr "当前密码:"
 
-#: ui/auth/password_admin_window.py:377
+#: ui/auth/password_admin_window.py:373
 msgid "Confirm New Password:"
 msgstr "确认新密码："
 
-#: ui/auth/password_admin_window.py:394
+#: ui/auth/password_admin_window.py:390
 msgid "Current password is incorrect."
 msgstr "当前密码不正确。"
 
-#: ui/auth/password_admin_window.py:398
+#: ui/auth/password_admin_window.py:394
 msgid "New passwords do not match."
 msgstr "新密码不匹配。"
 
-#: ui/auth/password_admin_window.py:406
+#: ui/auth/password_admin_window.py:402
 msgid "Password changed successfully."
 msgstr "密码更改成功。"
 
-#: ui/auth/password_admin_window.py:409
+#: ui/auth/password_admin_window.py:405
 msgid "Failed to change password."
 msgstr "更改密码失败。"
 
-#: ui/auth/password_admin_window.py:414 ui/auth/password_dialog.py:139
-#: ui/auth/password_dialog.py:200 ui/auth/password_dialog.py:217
+#: ui/auth/app_startup_auth.py:98 ui/auth/password_admin_window.py:410
+#: ui/auth/password_dialog.py:139 ui/auth/password_dialog.py:200
+#: ui/auth/password_dialog.py:217
 msgid "Cancel"
 msgstr "取消"
 
-#: ui/auth/password_admin_window.py:425
+#: ui/auth/password_admin_window.py:421
 msgid ""
 "Are you sure you want to remove password protection? This will disable all "
 "password requirements."
 msgstr "您确定要取消密码保护吗？这将禁用所有密码要求。"
 
-#: ui/auth/password_admin_window.py:430
+#: ui/auth/password_admin_window.py:426
 msgid "Password removed successfully."
 msgstr "密码已成功删除。"
 
-#: ui/auth/password_admin_window.py:434
+#: ui/auth/password_admin_window.py:430
 msgid "Failed to remove password."
 msgstr "删除密码失败。"
 
-#: ui/auth/password_admin_window.py:469
+#: ui/auth/password_admin_window.py:465
 msgid "Cache exported as JSON to:"
 msgstr "缓存以 JSON 格式导出到:"
 
-#: ui/auth/password_admin_window.py:471
+#: ui/auth/password_admin_window.py:467
 msgid "Failed to export cache as JSON:"
 msgstr "以 JSON 格式导出缓存失败："
 
@@ -1246,11 +1248,11 @@ msgstr "密码保护"
 msgid "Password required for: {0}"
 msgstr "需要密码： {0}"
 
-#: ui/auth/password_dialog.py:123
+#: ui/auth/app_startup_auth.py:82 ui/auth/password_dialog.py:123
 msgid "Password:"
 msgstr "密码:"
 
-#: ui/auth/password_dialog.py:136
+#: ui/auth/app_startup_auth.py:95 ui/auth/password_dialog.py:136
 msgid "OK"
 msgstr "好的"
 
@@ -1288,77 +1290,9 @@ msgid ""
 "configured."
 msgstr "此操作需要密码保护，但目前尚未配置。"
 
-#: ui/auth/password_dialog.py:231
+#: ui/auth/app_startup_auth.py:117 ui/auth/password_dialog.py:231
 msgid "Incorrect password"
 msgstr "密码错误"
-
-#: utils/globals.py:72
-msgid "Remove word/phrase (only the blacklisted part)"
-msgstr "删除单词/短语（只删除黑名单部分）"
-
-#: utils/globals.py:73
-msgid "Remove entire tag (if any part matches)"
-msgstr "移除整个标签（如果有任何部分匹配）"
-
-#: utils/globals.py:74
-msgid "Fail prompt (block generation)"
-msgstr "失败提示（阻止所有世代）"
-
-#: utils/globals.py:75
-msgid "Log only (do not remove, just log)"
-msgstr "仅记录（不删除，仅记录）"
-
-#: utils/globals.py:298
-msgid "NSFW/NSFL Prompt Modes"
-msgstr "NSFW/NSFL 提示模式"
-
-#: utils/globals.py:299
-msgid "Edit Blacklist"
-msgstr "编辑黑名单"
-
-#: utils/globals.py:300
-msgid "Reveal Blacklist Concepts"
-msgstr "揭示黑名单概念"
-
-#: utils/globals.py:301
-msgid "Edit Schedules"
-msgstr "编辑时间表"
-
-#: utils/globals.py:302
-msgid "Edit Expansions"
-msgstr "编辑扩展"
-
-#: utils/globals.py:303
-msgid "Edit Presets"
-msgstr "编辑预置"
-
-#: utils/globals.py:305
-msgid "Access Password Administration"
-msgstr "访问密码管理"
-
-#: utils/job_queue.py:40
-msgid " (Pending runs: {0})"
-msgstr " (等待运行：{0}）"
-
-#: utils/job_queue.py:42
-msgid " (Pending schedules: {0})"
-msgstr " (待定计划表：{0})"
-
-#: utils/time_estimator.py:87
-msgid "~{0}d"
-msgstr "~{0}天"
-
-#: utils/time_estimator.py:89
-msgid "{0}h"
-msgstr "{0}时"
-
-#: utils/time_estimator.py:91
-msgid "{0}m"
-msgstr "{0}分"
-
-#: utils/time_estimator.py:92
-msgid "{0}s"
-msgstr "{0}秒"
 
 #: utils/globals.py:31
 msgid "Fixed"
@@ -1407,3 +1341,83 @@ msgstr "列表"
 #: utils/globals.py:43
 msgid "Improve"
 msgstr "改进"
+
+#: utils/globals.py:72
+msgid "Remove word/phrase (only the blacklisted part)"
+msgstr "删除单词/短语（只删除黑名单部分）"
+
+#: utils/globals.py:73
+msgid "Remove entire tag (if any part matches)"
+msgstr "移除整个标签（如果有任何部分匹配）"
+
+#: utils/globals.py:74
+msgid "Fail prompt (block generation)"
+msgstr "失败提示（阻止所有世代）"
+
+#: utils/globals.py:75
+msgid "Log only (do not remove, just log)"
+msgstr "仅记录（不删除，仅记录）"
+
+#: utils/globals.py:300
+msgid "NSFW/NSFL Prompt Modes"
+msgstr "NSFW/NSFL 提示模式"
+
+#: utils/globals.py:301
+msgid "Edit Blacklist"
+msgstr "编辑黑名单"
+
+#: utils/globals.py:302
+msgid "Reveal Blacklist Concepts"
+msgstr "揭示黑名单概念"
+
+#: utils/globals.py:303
+msgid "Edit Schedules"
+msgstr "编辑时间表"
+
+#: utils/globals.py:304
+msgid "Edit Expansions"
+msgstr "编辑扩展"
+
+#: utils/globals.py:305
+msgid "Edit Presets"
+msgstr "编辑预置"
+
+#: utils/globals.py:307
+msgid "Access Password Administration"
+msgstr "访问密码管理"
+
+#: utils/job_queue.py:40
+msgid " (Pending runs: {0})"
+msgstr " (等待运行：{0}）"
+
+#: utils/job_queue.py:42
+msgid " (Pending schedules: {0})"
+msgstr " (待定计划表：{0})"
+
+#: utils/time_estimator.py:87
+msgid "~{0}d"
+msgstr "~{0}天"
+
+#: utils/time_estimator.py:89
+msgid "{0}h"
+msgstr "{0}时"
+
+#: utils/time_estimator.py:91
+msgid "{0}m"
+msgstr "{0}分"
+
+#: utils/time_estimator.py:92
+msgid "{0}s"
+msgstr "{0}秒"
+
+#: ui/auth/app_startup_auth.py:31 ui/auth/app_startup_auth.py:66
+msgid "Application Password Required"
+msgstr "需要软件应用密码"
+
+#: ui/auth/app_startup_auth.py:73
+msgid "A password is required to open this application."
+msgstr "打开此软件应用程序需要密码。"
+
+#: utils/globals.py:299
+msgid "Open Application"
+msgstr "打开软件应用程序"
