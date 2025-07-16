@@ -1378,18 +1378,20 @@ class App():
 
 if __name__ == "__main__":
     try:
-        # assets = os.path.join(os.path.dirname(os.path.realpath(__file__)), "assets")
-        root = ThemedTk(theme="black", themebg="black")
-        root.title(_(" ComfyGen "))
-        #root.iconbitmap(bitmap=r"icon.ico")
-        # icon = PhotoImage(file=os.path.join(assets, "icon.png"))
-        # root.iconphoto(False, icon)
-        root.geometry("900x950")
-        # root.attributes('-fullscreen', True)
-        root.resizable(1, 1)
-        root.columnconfigure(0, weight=1)
-        root.columnconfigure(1, weight=1)
-        root.rowconfigure(0, weight=1)
+        def create_root():
+            # assets = os.path.join(os.path.dirname(os.path.realpath(__file__)), "assets")
+            root = ThemedTk(theme="black", themebg="black")
+            root.title(_(" ComfyGen "))
+            #root.iconbitmap(bitmap=r"icon.ico")
+            # icon = PhotoImage(file=os.path.join(assets, "icon.png"))
+            # root.iconphoto(False, icon)
+            root.geometry("900x950")
+            # root.attributes('-fullscreen', True)
+            root.resizable(1, 1)
+            root.columnconfigure(0, weight=1)
+            root.columnconfigure(1, weight=1)
+            root.rowconfigure(0, weight=1)
+            return root
 
         # Graceful shutdown handler
         def graceful_shutdown(signum, frame):
@@ -1402,43 +1404,22 @@ if __name__ == "__main__":
         signal.signal(signal.SIGINT, graceful_shutdown)
         signal.signal(signal.SIGTERM, graceful_shutdown)
 
-        # Check if startup password is required
-        from ui.auth.app_startup_auth import check_startup_password_required
-        
-        print("DEBUG: Starting application...")
-        
-        # Use a different approach - let the mainloop handle everything
-        app_created = [None]
-        
         def startup_callback(result):
-            print(f"DEBUG: Startup callback called with result: {result}")
             if result:
-                print("DEBUG: Password verified or not required, creating application...")
                 # Password verified or not required, create the application
                 global app
+                root = create_root()
                 app = App(root)
-                app_created[0] = True
-                print("DEBUG: App created successfully")
+                root.mainloop()
             else:
-                print("DEBUG: User cancelled password dialog, exiting...")
                 # User cancelled the password dialog, exit
-                app_created[0] = False
-                root.destroy()
                 exit(0)
         
-        print("DEBUG: About to check startup password...")
         # Check if startup password is required
         # This will either call the callback immediately (if no password required)
         # or show a password dialog and call the callback when done
-        check_startup_password_required(root, startup_callback)
-        print(f"DEBUG: After check_startup_password_required, app_created = {app_created[0]}")
-        
-        # Start the mainloop in all cases
-        # - If no password required: app was created, mainloop runs the app
-        # - If password dialog shown: mainloop handles the dialog
-        # - If user cancelled: exit() was already called in callback
-        print("DEBUG: Starting mainloop...")
-        root.mainloop()
+        from ui.auth.app_startup_auth import check_startup_password_required
+        check_startup_password_required(startup_callback)
     except KeyboardInterrupt:
         pass
     except Exception:
