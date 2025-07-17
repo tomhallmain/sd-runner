@@ -1,3 +1,5 @@
+$$number [[minutes,hours]] later
+a while ago
 all the time
 always
 circa $$number [[BC,AD,CE]]
@@ -5,6 +7,8 @@ early morning
 ever
 everlasting
 henceforth
+it's been a minute
+lately
 morning
 morning
 mid-morning
@@ -19,10 +23,12 @@ late afternoon
 evening
 dawn
 dusk
+recently
 since then
 sometime
 sometime [[today,tomorrow,next week,next month,next year]]
 soon
+that day
 twilight
 soft morning light
 golden hour
@@ -36,6 +42,7 @@ midnight
 spring
 summer
 fall
+whenever
 winter
 midday
 midday

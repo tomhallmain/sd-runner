@@ -6,6 +6,7 @@ angry
 Anxious
 Apathetic
 ashamed
+aww
 begging
 Bewildered
 Bitter
@@ -39,10 +40,14 @@ devious
 Disappointed
 Discontent
 disinterest
+dour
 elation
+hah!
+haha
 hiss
 jealous
 mania
+meh
 mild disgust
 disgusted
 Disoriented
@@ -110,6 +115,9 @@ mouth closed
 mouth tightly closed
 Nervous
 nervous look
+oh no
+oof
+ooh
 Optimistic
 Overjoyed
 Overwhelmed
@@ -168,12 +176,14 @@ stoic
 Stressed
 surly
 surprised
+suspicion
 Suspicious
 Tearful
 Tense
 thinking face
 Thoughtful
 tired
+umm..
 unamused
 Uneasy
 unimpressed
@@ -185,5 +195,7 @@ wishing
 woe
 Worried
 yearning
+yeugh
+yikes
 Zealous
 Zestful

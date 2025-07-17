@@ -6,8 +6,11 @@ $$random_word-eve
 [[he's,she's]] coming to
 3D puzzles
 [[I,you,he,she,we,they]] can't
+[[I,you,he,she,we,you all,they]] have no plans
+[[I,You,We,They]]'re free!
 [[set,feast,cast]] [[my,your]] [[gaze,eyes]] on [[this,that,$$random_word]]
 a $$random_word the likes of which have never been seen before
+abjuring
 absorbing
 acceding
 accelerating
@@ -52,6 +55,7 @@ are you sure?
 arguing
 ariding
 arise
+arising
 arraignment
 arrival
 arriving
@@ -90,6 +94,7 @@ becoming
 beer and spirits tasting
 beer run
 begone
+Behold!
 being
 being a $$random_word
 bells
@@ -149,6 +154,7 @@ calisthenics
 call it
 calligraphy
 calling
+calling in to the talk show
 camping
 candle making
 candles
@@ -156,6 +162,7 @@ candlesticks
 cannonball dive
 canter
 canvas art
+car chase
 card games
 card making
 carpentry
@@ -179,6 +186,7 @@ chess
 china patterns
 choosing
 chores
+churning
 churning butter
 clattering
 clay crafts
@@ -191,6 +199,7 @@ co-hosting
 co-opting
 coaxing
 cocktails
+cold calling
 collaborating
 collage
 collage making
@@ -203,8 +212,10 @@ colliding
 coloring
 colonizing
 come forth
+communion
 computer hobbies
 concert or choir photography
+conjuring
 conquering
 consistory
 conversing
@@ -268,10 +279,12 @@ dessert plates, tea cups, china patterns
 detente
 diamond painting kit
 didn't leave a tip
+Didn't see that coming!
 digging
 digging up $$random_word
 dinner party
 dipping
+disbursing
 discovering
 dishing it out
 dismounting
@@ -323,6 +336,7 @@ eating a midnight snack
 eating grapes and drinking wine while reclining on a roman bench
 ecotours
 edit out
+effusing
 egads!
 ego trip
 elevating
@@ -330,6 +344,7 @@ eliciting $$random_word
 emanating
 embargo
 embarking
+embezzling
 embroidery
 emerging
 emitting
@@ -365,6 +380,7 @@ eye rolling
 fakery
 falling
 false alarm
+faring
 farming
 fashion design
 fashion photography
@@ -410,6 +426,7 @@ freaking out
 freezing
 fretting
 frisbee
+frolicking
 fruit-themed decor and items
 frying
 furniture building
@@ -433,6 +450,7 @@ getting [[my,his,her,our,their]] order
 gibing
 giving
 giving a demonstration
+giving a treat to
 giving instructions
 glass blowing
 glass painting
@@ -472,6 +490,7 @@ hard at work
 hark!
 harvesting crops
 hatching
+hath
 hating
 hats
 haunting
@@ -544,6 +563,7 @@ incantantion
 increasing
 inferring
 inhaling
+inquiring
 introducing
 ironing out
 irritating
@@ -634,6 +654,7 @@ loving
 lunge
 lunging
 lurch
+luring in
 lying
 lying down
 lying on a $$random_word
@@ -719,6 +740,7 @@ nosedive
 note taking and research
 nudge
 objection!
+objurating
 observing
 obtaining
 occurrences
@@ -726,9 +748,12 @@ offense
 offering
 officiating
 oh go off
+oh no you [[ain't,didn't]]!
 oil painting
 on a date
 on a field trip
+on a game show
+on assignment
 on break
 on patrol
 on the case
@@ -739,6 +764,7 @@ online games
 opening
 opening a can
 opening a door
+opposite day
 orating
 ordaning
 ordering
@@ -754,6 +780,8 @@ painting a picture
 painting a portrait
 painting a wall
 painting rocks
+palpatations
+palpating
 pangs
 panning
 panpipe
@@ -790,9 +818,11 @@ pinching
 pioneer
 pirouette
 pitching
+planning
 planting
 playing
 playing "duck duck goose"
+playing a prank on $$character
 playing a role
 playing cards
 playing cello
@@ -879,6 +909,7 @@ reading music
 ready--set--go!
 realizing
 reaping
+reassigning
 rebuking
 rebuttal
 recapping
@@ -916,6 +947,7 @@ resting [[my,his,her]] head
 resting up
 retaliating
 retape
+retooling
 revelry
 revering
 revving
@@ -932,8 +964,10 @@ riling
 ring around the rosey
 ripping
 rising
+rites
 roaring
 roasting
+robbing a bank
 rock climbing
 rock tumbling
 rocket-propelled grenade
@@ -954,6 +988,8 @@ running from $$random_word
 running into $$random_word
 running track
 S.O.S.
+Sacrament
+said so
 Salchow jump
 saluting
 same old
@@ -962,6 +998,7 @@ sanctioning
 save
 sawing logs
 say cheese
+say that!
 saying
 saying $$random_word
 saying hi
@@ -1013,6 +1050,7 @@ showing
 showing off
 shrinking
 shuffle along
+shuffleboard
 shunning
 shunting
 shut up
@@ -1179,9 +1217,11 @@ told ya
 toodaloo
 toot toot
 touchdown!
+touting
 traing
 treading
 treadwheel
+treating
 triage
 trialing
 triathalon
@@ -1212,6 +1252,7 @@ understanding
 undoing
 unique spices, teas, coffees
 unrolling
+unseating
 unusual or hard to find candy
 up and about
 up to no good
@@ -1296,6 +1337,7 @@ working out
 wrapping
 wreath making
 wrestling
+wringing
 writing
 writing poetry
 yeesh

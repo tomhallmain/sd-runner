@@ -14,7 +14,10 @@ apologist
 are we there yet
 Argonaut
 assassin
+assessor
 at all costs
+Attila the Hun
+Ayatollah
 baker
 bandero
 banneret
@@ -22,6 +25,7 @@ banshee
 Barbar the Elephant
 Barnum and Baileys
 baronet
+Bender
 Bobby McGee
 borzoi
 bouncer
@@ -36,10 +40,12 @@ carte blanche
 chamberlain
 chancellor
 charizard
+Chicken Run
 chud
 churl
 Cirque de Soleil
 claimant
+composer
 confessor
 constable
 corsair
@@ -73,6 +79,10 @@ Fido
 flash gun
 fly rink
 forester
+French Foreign Legion
+fuddy-duddy
+Futurama
+G'Day M8t
 gamester
 gateman
 genie
@@ -82,6 +92,8 @@ good grief
 Governor
 hall pass
 Hardy Boys
+Hardy har har
+Haw haw haw
 heir
 Helmsley
 Hermes Trismegistus
@@ -92,30 +104,45 @@ Homer
 Homer Simpson
 Hoth
 how many times do I have to tell you
+hussar
 hyssop
+I've been framed!
 iCarly
 iconoclast
 If it is as you say
 ill-gotten gains
 inmate
+Inquisitor
 intel
 intelligence
+interring
+It's a lie!
+It's a setup!
 it's only a game
 Jabir ibn Hayyan
 Jane Austen
 just cause
 justiciar
+Kon-Tiki
 L'oreal
 lalala
 Lennox
+lieabed
 lieutenant
 Linden
 little ditty
 llanero
+LMAO
+lol
+MacGuffin
+mate
+mess mate
 mind over matter
 miner
+mithril
 mogul
 more than you know
+Mr. Cool
 Mr. Game & Watch
 muffin-walloper
 mutant
@@ -127,10 +154,14 @@ neighbor
 ninja
 Norton
 numbnut
+Octavian
+Oingo Boingo
 oligarch
 One if by land, two if by sea
 one must admit
 opponent
+orator
+Ori and the Blind Forest
 P.F. Flyers
 P.I.
 P.T. Barnum
@@ -139,6 +170,7 @@ parliamentarian
 Peerage
 PeeWee's Big Adventure
 perhaps
+Peter Cottontail
 Philistine
 picaresque
 pick-me-up
@@ -152,6 +184,7 @@ poet
 poindexter
 Pop-O-Matic
 postman
+prankster
 prefect
 presdident of $$random_word
 pretender
@@ -167,8 +200,10 @@ rector
 Redwall
 referee
 REO Speedwagon
+Roku
 rook
 Roomba
+sales rep
 Sayonara
 scout
 scribe
@@ -235,15 +270,20 @@ sentinel
 
 thane
 The Adoring Fan
+The Dole
+the Huns
 the mechanic
 The Mythic Dawn
 The Secret of Nimh
 ting
+TiVo
 Tony the Tiger
+trope
 tutor
 twat
 ulterior motives
 urethane
+valkyrie
 villainy
 Vogt
 w rizz

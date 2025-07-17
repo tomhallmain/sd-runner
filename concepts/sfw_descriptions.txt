@@ -43,6 +43,7 @@ done up
 dour
 dreary
 driven
+droopy
 elongated
 elusive
 endorsed
@@ -54,11 +55,13 @@ extra-large
 extra-small
 fabled
 famous
+fastidious
 favorable
 feral
 fettered
 fibrous
 firm
+fixed
 flawed
 flim-flam
 flimsy
@@ -69,12 +72,14 @@ frizzy
 frozen
 fused
 garish
+gaudy
 genius
 goalie
 goofy
 gratis
 habitual
 hale
+hard-hearted
 hazily
 hearty
 honest
@@ -101,6 +106,7 @@ lord
 lousy
 low cost
 loyal
+malted
 maniacal
 manic
 mean
@@ -118,12 +124,14 @@ mulish
 mundane
 mutated
 mute
+nameless
 nemisis
 nifty
 no brainer
 no-hassle
 noble
 not a lot
+obdurate
 of great stature
 one of the good ones
 parsimonious
@@ -140,6 +148,7 @@ pricey
 primal
 rather
 ready
+regal
 resonant
 riled
 rinky-dink
@@ -223,6 +232,7 @@ stubborn
 styled
 superdry
 superior
+susceptible
 swell
 swole
 synthetic
@@ -240,6 +250,8 @@ trifling
 ugly
 ultra
 uneven
+unshakable
+unyielding
 urgent
 used
 venerable

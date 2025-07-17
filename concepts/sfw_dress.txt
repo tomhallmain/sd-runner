@@ -76,6 +76,7 @@ Button-Down Shirt
 button-down sweater
 Button-Up Cardigan
 Buzz Cut
+byrnie
 Caesar Cut
 caftan
 camisole
@@ -129,6 +130,7 @@ Crop Top and High-Waisted Jeans
 crown
 cuff links
 cuffs
+cuirass
 culottes
 cummerbund
 Curly Bob
@@ -140,6 +142,7 @@ deely-boppers
 denim
 Denim Jacket
 Denim Skirt
+dental braces
 detached sleeves
 diadem
 diamond ring
@@ -178,6 +181,7 @@ Floral Maxi Dress
 flower in hair
 Flowy Kimono
 Flowy Palazzo Pants
+forage cap
 formal wear
 French Crop
 frills
@@ -213,6 +217,8 @@ handbag
 handkerchief
 hard hat
 hat
+haubergeon
+hauberk
 Hawaiian shirt
 hazmat suit
 head boppers
@@ -248,6 +254,7 @@ jumper
 jumpsuit
 Jumpsuit
 Kaftan Dress
+kepi
 kerchief
 khaki pants
 khakis
@@ -272,6 +279,7 @@ lei
 leotard
 life jacket
 Linen Pants
+livery
 loafers
 locket
 loincloth
@@ -359,6 +367,8 @@ regalia
 ribbon
 ring
 ripped jeans
+rondel
+shako
 ski cap
 ski mask
 tassle
@@ -482,6 +492,7 @@ tuxedo
 tweed jacket
 twill
 twin set
+Ugg boots
 umbrella
 Undercut
 undershirt
@@ -489,6 +500,7 @@ uniform
 unitard
 Updo
 Utility Jumpsuit
+vamplate
 Varsity Jacket
 veil
 Velcro

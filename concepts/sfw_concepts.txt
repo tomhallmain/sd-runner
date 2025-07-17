@@ -8,12 +8,14 @@ $$random_word promotional material
 $$random_word thereto
 $$random_word-shaped
 'tis
+(flat design, illustrstion, $$random_word promotional material)
 [[my,his,her,your,our,their]] very first $$random_word
 [[NULL,null,nil]]
 [[the,my]] rig
 A B and C
 a to b
 abridged edition
+AC
 acronym
 adorned
 aeration
@@ -21,6 +23,7 @@ aerosol
 affable
 affixed
 aftergame
+agate
 agleam
 airplane safety brochure
 Alert!
@@ -30,6 +33,7 @@ alloy
 Alpha
 aluminum foil
 amazing
+ambry
 ammo box
 analyte
 anatomy
@@ -68,6 +72,7 @@ bar of $$random_word
 barbs
 barrel-vaulted
 basin
+Basse-taille
 bauble
 behemoth
 bells and whistles
@@ -96,7 +101,9 @@ bump
 bunched
 burl
 burlap
+burse
 buttressing
+cage cup
 caliber
 camouflage
 candelabrum
@@ -104,6 +111,7 @@ canto
 Capodimonte porcelain
 Carborundum mezzotint
 card
+carnelian
 Cartesian coordinates
 carved ivory
 cast iron
@@ -113,6 +121,7 @@ catastasis
 catenary
 celestial
 centrifugal force
+Champlevé
 channel
 chart
 chiral
@@ -121,11 +130,14 @@ choice
 Christogram
 chromagraph
 chronicle
+ciborium
 circuit
 clasp
 clay
 clef
+Cloisonné
 coaxial
+cockade
 collagraphy
 combo $$random_word
 comma
@@ -142,6 +154,7 @@ contouring
 convection
 convex
 coplanar
+Coub video
 count
 creative commons-licensed
 critter
@@ -191,13 +204,16 @@ ectoplasm
 edge
 edifice
 Eigenfunction
+eigenvector
 eighths
 electrum
 elements
 elision
 ellipse
 emoji
+En résille
 enamel
+enamelled glass
 encased in amber
 endnote
 engraved glass
@@ -209,12 +225,15 @@ epoxy
 ergodic
 esoteric
 essence
+Eucharist
 eulogy
 everything
 evolute
 exterior structure
 facets
+fader
 faience
+faille fabric
 figure eight
 finely computed
 fire regulations
@@ -222,13 +241,17 @@ flare
 flaw
 floor lights
 flotsam and jetsam
+flubber
 fluctuations
 fluid flow
 flux
 foible
+folded creased paper
 foley soundboard
+forbidden
 force field
 formulaic
+fossil
 fossilized
 frame
 Fresnel lens
@@ -252,10 +275,13 @@ grade
 graphite
 gravel
 gravimetric
+Grisaille
 groupings
 hairline fracture
 halved
+hardstone carving
 hash
+header
 heap
 hemmed in
 herd
@@ -264,11 +290,13 @@ Hilbert space
 hilt
 hoax
 holophotal
+Holy host
 honorific
 hook
 horns
 hourglass
 house of $$random_word
+hub
 hydro
 hygroscopic
 hyperbolic manifold
@@ -278,6 +306,7 @@ ideographic
 idol
 Illumination
 illumination angle
+imprint
 improvisation
 in error
 in the name of $$random_word
@@ -285,6 +314,7 @@ in unison
 inasmuch as $$random_word
 incorporated
 index
+industrial enamel
 inference
 inlay
 inside of an hourglass
@@ -295,12 +325,16 @@ inversion
 inverted $$random_word
 isopropyl
 item
+itreous enamel
+Jacquard card
+jasper
 joint
 jug
 knobs
 label
 lampoon
 lanes
+lapse
 lay of the land
 layering
 Le Nove porcelain
@@ -326,6 +360,7 @@ lining
 lint
 list
 LLC
+loom
 Lorentz transformation
 losses and debts
 lost and found
@@ -333,6 +368,7 @@ Ltd.
 lumber
 luminiferous aether
 macromolecule
+maculations
 maelstrom
 maiolica
 mannerism
@@ -354,7 +390,9 @@ miscellany
 moduli
 molecules
 monogram
+morsel
 mortise and tenon
+motet
 motor
 multiperspective
 musical scales
@@ -380,6 +418,7 @@ Omega
 omen
 only $$random_word and nothing else
 onset
+onyx
 opaion
 open
 open set
@@ -420,6 +459,7 @@ pattern poetry
 pause
 pavement lights
 payload
+peg
 pegboard
 penny dreadful
 periodic
@@ -735,6 +775,7 @@ plaid
 plane shearing
 plasm
 playbook markings
+Plique-à-jour
 plot
 pointillist
 pointy
@@ -772,8 +813,10 @@ puppy
 purity
 purl
 puzzling
+pyx
 quadratura
 quartered
+quaternions
 quatrain
 quite a lot
 quote
@@ -810,16 +853,21 @@ risograph
 rivalry
 rivets
 RNA
+rock crystal (clear quartz)
 roentgens
 role-playing game
 rolled
+Ronde bosse
+rosette
 rosin
 rotated image
 rotational symmetry
 rotoscoped image
 rough
+roulette
 roulette curve
 rounded
+roundel
 rubble
 rwo-for-one
 s p a c i n g
@@ -845,14 +893,18 @@ sector
 selfie
 semiconductors
 sequence
+serigraph
+serpentinite
 serum
 set union
 sets
 sfm
+sgraffito
 shades
 shaded
 shadowgraph
 shadows
+shaduf
 shale
 sharding
 sharing
@@ -864,6 +916,7 @@ sheen
 shimmering
 shut
 sighted scope lens
+signet
 silk screen
 silver nitrate film
 simile
@@ -885,6 +938,7 @@ smooth
 smooth
 smooth curves
 smushed
+Snap screenshot
 sneak preview
 snippet
 snout
@@ -923,6 +977,7 @@ static
 statics
 stature
 stem
+stems
 stenciling
 step $$number
 stereograph
@@ -966,6 +1021,7 @@ tapers
 tapestry
 taxonomy diagram
 team
+Tee-Vee
 television aerial
 tensor
 tentacles and creatures
@@ -975,12 +1031,14 @@ test image
 textbook page
 texture
 textured
+thank you card
 the tip
 theatre set backdrop
 thermos
 thingamajig
 this and that
 time stopped
+timelapse
 timer
 Times New Roman
 tin-glazed
@@ -1028,9 +1086,11 @@ unopened
 unreal engine
 unrolled
 upsampling
+uptime
 uwu
 vacation pic
 vacuum
+vas diatretum
 vase
 vault lights
 vector space
@@ -1055,6 +1115,7 @@ voxel art
 wafer
 wallpaper
 warm
+warp and weft
 washed-out colors
 watercolor
 waves
@@ -1062,6 +1123,7 @@ wax
 webcam
 webcomic style
 weightlessness
+well pole
 western comic book art
 wide-angle shot
 ultra wide-angle shot
@@ -1070,6 +1132,7 @@ wisp
 wood engraving
 word cloud
 wove paper
+wrack and ruin
 x-ray
 zenith
 zentangle art
