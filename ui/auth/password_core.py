@@ -43,8 +43,7 @@ class SecurityConfig:
             action = action_enum.value
             if action not in self.protected_actions:
                 # Use the default value from DEFAULT_PROTECTED_ACTIONS, or True if not specified
-                default_value = self.DEFAULT_PROTECTED_ACTIONS.get(action, True)
-                self.protected_actions[action] = default_value
+                self.protected_actions[action] = self.DEFAULT_PROTECTED_ACTIONS.get(action, True)
         
         # Ensure ACCESS_ADMIN always remains protected
         self.protected_actions[ProtectedActions.ACCESS_ADMIN.value] = True

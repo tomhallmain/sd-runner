@@ -1393,10 +1393,12 @@ if __name__ == "__main__":
             root.rowconfigure(0, weight=1)
             return root
 
+        app = None
+
         # Graceful shutdown handler
         def graceful_shutdown(signum, frame):
             print("Caught signal, shutting down gracefully...")
-            if 'app' in locals():
+            if app is not None:
                 app.on_closing()
             exit(0)
 
@@ -1410,7 +1412,12 @@ if __name__ == "__main__":
                 global app
                 root = create_root()
                 app = App(root)
-                root.mainloop()
+                try:
+                    root.mainloop()
+                except KeyboardInterrupt:
+                    pass
+                except Exception:
+                    traceback.print_exc()
             else:
                 # User cancelled the password dialog, exit
                 exit(0)
