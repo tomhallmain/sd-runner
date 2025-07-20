@@ -1,3 +1,4 @@
+[[I am,you are,he is,she is,we are,they are]] not amused
 Agitated
 alas
 amazement
@@ -6,6 +7,7 @@ angry
 Anxious
 Apathetic
 ashamed
+awestruck
 aww
 begging
 Bewildered
@@ -14,6 +16,7 @@ blah blah
 blank expression
 blank stare
 Blissful
+blithe
 blushing
 Bored
 Calm
@@ -26,6 +29,7 @@ concerned
 confident
 Confused
 Content
+contented
 creepy smile
 cross-eyed
 crying
@@ -42,10 +46,17 @@ Discontent
 disinterest
 dour
 elation
+exultant
+fury
+gratified
+grimace
 hah!
 haha
 hiss
+incredulity
 jealous
+jolly
+jubilant
 mania
 meh
 mild disgust
@@ -69,6 +80,7 @@ eyebrow raised
 eyes closed
 eyes half closed
 eyes wide
+mirthful
 narrowed eyes
 Fatigued
 Festive
@@ -119,12 +131,14 @@ oh no
 oof
 ooh
 Optimistic
+out of it
 Overjoyed
 Overwhelmed
 Panicked
 Pensive
 Perplexed
 Pessimistic
+phooey
 piety
 Playful
 pondering
@@ -160,6 +174,7 @@ slight smile
 smile
 smiling
 smirk
+smitten
 smug
 snarl
 sneering
@@ -173,18 +188,23 @@ staring surreptitiously
 stern look
 stinkeye
 stoic
+straining
 Stressed
 surly
 surprised
 suspicion
 Suspicious
 Tearful
+tedium
 Tense
 thinking face
 Thoughtful
+thrilled
 tired
+tranquil
 umm..
 unamused
+unconscious
 Uneasy
 unimpressed
 Upbeat

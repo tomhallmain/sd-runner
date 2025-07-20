@@ -1,11 +1,14 @@
 
 $$random_word galore
+[[I,you,he,she]] go[[,es]] by $$random_word
 a real softy
 abbott
 admiral
+advertiser
 advocate
 ain't that a shame
 al-Ṣūfī
+Alcaics
 Aloha
 Angus
 Annette
@@ -17,6 +20,7 @@ assassin
 assessor
 at all costs
 Attila the Hun
+auteur
 Ayatollah
 baker
 bandero
@@ -25,18 +29,28 @@ banshee
 Barbar the Elephant
 Barnum and Baileys
 baronet
+been there, done that
 Bender
 Bobby McGee
+bookie
 borzoi
 bouncer
+braggadocio
 bronco
 bub
+buddy
 bureau
 bushel and a peck
 buster
+Byzantine
+Calypso
 can I get a true
 canester
 carte blanche
+Caspar Milquetoast
+Cavalier drama
+Celtic twilight
+centurion
 chamberlain
 chancellor
 charizard
@@ -45,6 +59,7 @@ chud
 churl
 Cirque de Soleil
 claimant
+Clippy
 composer
 confessor
 constable
@@ -52,6 +67,7 @@ corsair
 courtier
 cowpoke
 crook
+Crookshanks
 culprit
 Custos rotulorum
 dean
@@ -62,7 +78,9 @@ djinn
 Dobby
 donor
 dragoon
+dragster
 driver
+Dudley
 e'er
 emeratus
 employee
@@ -70,12 +88,15 @@ employer
 EMT
 enemy
 et cetera
+evacuees
 ever
 exarch
 expat
 false mustache
 Family Feud
 Fido
+Fie
+Firebird
 flash gun
 fly rink
 forester
@@ -90,10 +111,14 @@ Ghost in the Shell
 gigglemug
 good grief
 Governor
+growler
+guy
+gypsy
 hall pass
 Hardy Boys
 Hardy har har
 Haw haw haw
+heathen
 heir
 Helmsley
 Hermes Trismegistus
@@ -125,6 +150,7 @@ just cause
 justiciar
 Kon-Tiki
 L'oreal
+laddie
 lalala
 Lennox
 lieabed
@@ -142,6 +168,7 @@ miner
 mithril
 mogul
 more than you know
+moreover
 Mr. Cool
 Mr. Game & Watch
 muffin-walloper
@@ -151,6 +178,7 @@ NANI!?
 ne'er
 neener neener
 neighbor
+neophyte
 ninja
 Norton
 numbnut
@@ -167,6 +195,7 @@ P.I.
 P.T. Barnum
 park rangee
 parliamentarian
+peddler
 Peerage
 PeeWee's Big Adventure
 perhaps
@@ -182,6 +211,7 @@ pitter patter
 podsnapper
 poet
 poindexter
+Pooh Bear
 Pop-O-Matic
 postman
 prankster
@@ -195,11 +225,13 @@ provost
 pugilist
 pupil
 purveyor
+ranchhand
 rascal
 rector
 Redwall
 referee
 REO Speedwagon
+retard
 Roku
 rook
 Roomba
@@ -213,12 +245,14 @@ seeker
 seer
 SEGA
 seneschall
+sentry
 setter
 settler
 Shamu
 Shire reeve
 Sirius
 sleepers
+sluggard
 slugger
 sniper
 so be it
@@ -274,8 +308,12 @@ The Dole
 the Huns
 the mechanic
 The Mythic Dawn
+The Riddler
+The Sandman
 The Secret of Nimh
+thief
 ting
+tinkerer
 TiVo
 Tony the Tiger
 trope
@@ -284,6 +322,7 @@ twat
 ulterior motives
 urethane
 valkyrie
+villain
 villainy
 Vogt
 w rizz

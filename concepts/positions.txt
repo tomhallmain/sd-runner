@@ -1,4 +1,5 @@
 $$random_word reflected in the window of a $$random_word
+'neath
 3/4 view
 [[on,to]] the left
 [[on,to]] the right
@@ -11,6 +12,7 @@ akimbo
 all along the $$random_word
 all over
 aloft
+alongside
 arched back
 arms down
 arms extended
@@ -23,10 +25,12 @@ at an angle
 back
 back to camera
 beside
+braced
 bunched in
 candid
 close at hand
 closeby
+closest to
 crouched
 direct route
 down below
@@ -41,6 +45,7 @@ facing_eachother
 facing_up
 facing_viewer
 far and away
+farthest from
 fetal position
 fingers
 from across the room
@@ -83,10 +88,12 @@ model pose
 mounted
 near
 nearby
+nearer
 nearest
 neighboring
 nodding off
 not far
+o'er
 on a higher level
 on a lower level
 on end

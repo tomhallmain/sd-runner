@@ -6,9 +6,11 @@ $$random_word Inc.
 $$random_word LLC
 $$random_word promotional material
 $$random_word thereto
+$$random_word vs. $$random_word
 $$random_word-shaped
 'tis
 (flat design, illustrstion, $$random_word promotional material)
+[[mega,giga]]ton
 [[my,his,her,your,our,their]] very first $$random_word
 [[NULL,null,nil]]
 [[the,my]] rig
@@ -17,38 +19,65 @@ a to b
 abridged edition
 AC
 acronym
+acrostic
+acrylic
+act
+addendum
 adorned
 aeration
 aerosol
+aesthetic distance
+aestheticism
 affable
 affixed
 aftergame
 agate
 agleam
+air
 airplane safety brochure
 Alert!
 algebraic
+alignment
 alkene
+allegory
+allegro
+alliteration
 alloy
 Alpha
+als ob
+alternative
 aluminum foil
 amazing
 ambry
 ammo box
+ampersand
+amplification
+analogue
 analyte
 anatomy
 andante
 andiron
+anecdote
 angle of incidence
+angular momentum
 anidolic lighting
+annals
 annealing
+annotation
 anonymous
 antenna
 antennae
+anthology
+anti-novel
+anti-play
 antibody
 antigen
+antimatter
+antinomy
+antiphon
 anything
 apart
+apostrophe
 appearances
 apropos of $$random_word
 aqua regia
@@ -63,26 +92,36 @@ aspects
 assay
 at the same time
 ATP
+Aufklärung
 axial
 azimuth
 B movie
 B-roll
+back-formation
 backgammon board
+ballad
 bar of $$random_word
 barbs
+barcarole
 barrel-vaulted
 basin
 Basse-taille
+batch
 bauble
 behemoth
 bells and whistles
+bend sinister
 beryl
 bespoke
 bevel
+biblio-$$random_word
+Bildungsroman
 blackbody radiation
 blade
 blah
+blazon
 blog screenshot
+blurb
 boldface
 bollard
 boom
@@ -98,6 +137,7 @@ brushtrokes
 bullseye
 bullseye window
 bump
+bunch
 bunched
 burl
 burlap
@@ -107,6 +147,9 @@ cage cup
 caliber
 camouflage
 candelabrum
+canon
+canticum
+cantiga
 canto
 Capodimonte porcelain
 Carborundum mezzotint
@@ -114,16 +157,21 @@ card
 carnelian
 Cartesian coordinates
 carved ivory
+casing
 cast iron
 casts
 catadioptric
 catastasis
 catenary
 celestial
+cento
 centrifugal force
 Champlevé
 channel
+chanson
 chart
+children's book
+chimeric
 chiral
 chivalric romance
 choice
@@ -132,23 +180,31 @@ chromagraph
 chronicle
 ciborium
 circuit
+circular
+Cirencester word square
 clasp
+class path
 clay
 clef
+clip art
 Cloisonné
 coaxial
 cockade
+collage
 collagraphy
 combo $$random_word
 comma
 comparative analysis
 component
 concave
+concave mansard roof
+conceit
 conchoid
 concrete
 conic
 consolidation
 construction crane
+continuum
 contour rivalry
 contouring
 convection
@@ -156,13 +212,16 @@ convex
 coplanar
 Coub video
 count
+courtly love
 creative commons-licensed
 critter
 crop
 cropped image
+cross
 crossbars
 crown glass
 crucible
+crud
 curia
 curio
 curl
@@ -178,15 +237,22 @@ Dear Diary
 debut
 decoration
 decorative arts
+decorum
+deformation
+depiction
 derivative
 design process
+dexter and sinister
 dial
 dime novel
 dimension
 dioptric
 dish
 dislocation
+disorder
 dissapating
+dissonance
+distortion
 ditto
 dive
 doodad
@@ -194,9 +260,12 @@ doodly-doo
 draft
 dram
 drama
+dud
 duty
+dyad
 dynamical system
 dynasty
+dyne
 découpage
 earthenware
 echo
@@ -207,6 +276,7 @@ Eigenfunction
 eigenvector
 eighths
 electrum
+elegy
 elements
 elision
 ellipse
@@ -217,11 +287,14 @@ enamelled glass
 encased in amber
 endnote
 engraved glass
+Enlightenment
 epic
+epigram
 epilogue
 epitaph
 epitope
 epoxy
+epyllion
 ergodic
 esoteric
 essence
@@ -229,16 +302,23 @@ Eucharist
 eulogy
 everything
 evolute
+exegesis
+existentialism
+exposition
+expressionism
 exterior structure
+fable
 facets
 fader
 faience
 faille fabric
+fairy dust
 figure eight
 finely computed
 fire regulations
 flare
 flaw
+flight of fancy
 floor lights
 flotsam and jetsam
 flubber
@@ -254,12 +334,14 @@ formulaic
 fossil
 fossilized
 frame
+frenquency
 Fresnel lens
 frets
 friction
 froth
 fugue
 fuse box
+Futhark
 G-force tech
 gaps
 gas lighting
@@ -267,6 +349,8 @@ gas pipes
 gemälde
 geometric forms
 geometry diagram
+Gestalt
+glass former
 God
 googleplex
 government
@@ -289,6 +373,7 @@ high energy
 Hilbert space
 hilt
 hoax
+hoist and fly
 holophotal
 Holy host
 honorific
@@ -297,9 +382,11 @@ horns
 hourglass
 house of $$random_word
 hub
+Hurdy-Gurdy
 hydro
 hygroscopic
 hyperbolic manifold
+iamb
 ice chips
 icing
 ideographic
@@ -313,21 +400,29 @@ in the name of $$random_word
 in unison
 inasmuch as $$random_word
 incorporated
+increments
 index
 industrial enamel
+inescutcheon
 inference
+inflexion
 inlay
+INRI
 inside of an hourglass
 inside-out
 integration
+interference
 interior structure
 inversion
 inverted $$random_word
+iris
 isopropyl
 item
 itreous enamel
 Jacquard card
+jargon
 jasper
+jigsaw gingerbread victorian style trim
 joint
 jug
 knobs
@@ -335,6 +430,7 @@ label
 lampoon
 lanes
 lapse
+largo
 lay of the land
 layering
 Le Nove porcelain
@@ -359,7 +455,9 @@ linen
 lining
 lint
 list
+liters
 LLC
+logogriph
 loom
 Lorentz transformation
 losses and debts
@@ -367,15 +465,20 @@ lost and found
 Ltd.
 lumber
 luminiferous aether
+lyric
+macramé
 macromolecule
 maculations
 maelstrom
 maiolica
 mannerism
+mansard roof
 margins
+marl
 mass consumerism
 mass produced
 matching
+material
 materials
 matrix
 meaning
@@ -384,21 +487,28 @@ medallion
 memo
 menagerie
 mere $$random_word
+metaphysics
 method
 mezzotint
 miscellany
 moduli
 molecules
+monad
 monogram
 morsel
 mortise and tenon
 motet
+mother-of-pearl
 motor
 multiperspective
 musical scales
 mutation
+nacre
 nail
+nanometer
 Naples porcelain
+Nativity
+nature
 neurons
 new releases
 noggin
@@ -407,15 +517,19 @@ normal
 note
 nothing
 nothing else
+nouvelle
 novae
 oculus
+oddity
 odds and ends
 oeil-de-boeuf
+officialese
 offset
 offset printing
 oil stain
 Omega
 omen
+one-liner
 only $$random_word and nothing else
 onset
 onyx
@@ -424,15 +538,19 @@ open
 open set
 orb
 orbit
+order
 ortho-
 orthography
+ounce
 outer shell
 outline
 oval
+oxymoron
 padding
 paean
 pair
 palimpsest
+palindrome
 palm
 pamphlet
 panegyric
@@ -766,6 +884,7 @@ pic
 pics
 pictionary
 pile
+pith
 pivot
 pixel art
 pixel subtraction result
@@ -774,6 +893,7 @@ placard
 plaid
 plane shearing
 plasm
+plastic
 playbook markings
 Plique-à-jour
 plot
@@ -783,11 +903,14 @@ Polar coordinates
 polaroid
 poleaxe
 polished
+polymer
 polymorph
+port and starboard
 post-it notes
 poster
 posters
 pouch
+prayer
 pre-op
 preface
 pretzel shape
@@ -798,14 +921,17 @@ prism tile
 prolepsis
 prologue
 promotional material
+proof
 prop comic
 proposition
 propriety
+prosody
 protagonist
 proton
 proverb
 providence
 proxy
+psalm
 pseudosphere
 public domain image
 pun
@@ -818,6 +944,8 @@ quadratura
 quartered
 quaternions
 quatrain
+Queen Anne towers
+quid pro quo
 quite a lot
 quote
 radar
@@ -833,14 +961,18 @@ ray of $$random_word
 raytracing
 raytraced image inspired by senior environment artist
 redactions
+reflection in the [[side,windshield,window,glasses]] of $$random_word
 refraction
 refractive index
+remake of classic film
 remix
 remnant
+repitition
 representational
 resampled image
 residue
 restored historic photograph
+retardant
 retro artstyle
 retro game
 revenue and assets
@@ -862,6 +994,7 @@ rosette
 rosin
 rotated image
 rotational symmetry
+rotator
 rotoscoped image
 rough
 roulette
@@ -869,12 +1002,14 @@ roulette curve
 rounded
 roundel
 rubble
+RV design
 rwo-for-one
 s p a c i n g
 safety brochure
 sand
 sandstone
 saran wrap
+SATOR AREPO TENET OPERA ROTAS
 sawtooth wave
 scalable
 scan
@@ -884,14 +1019,17 @@ Schlieren photography
 sconce
 scraped
 scratches
+screws and washers
 scribbles
 scrying
 sealed
 sealer
 secant
 sector
+seedling
 selfie
 semiconductors
+sequel
 sequence
 serigraph
 serpentinite
@@ -908,11 +1046,13 @@ shaduf
 shale
 sharding
 sharing
+sharkstooth and fish scale shingles
 sharp
 sharp edges
 sharpened
 shebang
 sheen
+shield
 shimmering
 shut
 sighted scope lens
@@ -925,6 +1065,8 @@ sinusoidal
 sketchbook
 sketches
 skeuomorph
+slab
+slang
 slanted
 sleet
 slide rule
@@ -949,6 +1091,8 @@ soft
 soil
 solenoid
 solid
+solubility
+sonance
 soul
 source
 specimen
@@ -956,6 +1100,8 @@ speckled
 specks
 Sperrsatz
 spilling
+spinoff
+spinor
 spirit
 spirograph
 splash
@@ -973,6 +1119,8 @@ staged performance of $$random_word
 stained
 stanchions
 standard model of physics
+stanza
+stardust
 static
 statics
 stature
@@ -981,6 +1129,7 @@ stems
 stenciling
 step $$number
 stereograph
+stereotype
 still life
 stippling
 stirred
@@ -991,52 +1140,80 @@ strategy
 streak
 striped
 stripes
+strophe
 stub
 studio photography
 study of $$random_word
 stuff we all get
 stupendous
 style
+sub-plot
+sub-text
 substance
+substitution
 substrate
+subtitle
 suitable for various media
 Sumi-e
 sunny
 super
+superconductor
+superfluidity
 superimposed images
 superposition
 superstition
 supposition
 surrealism
+suspension
+suspension of disbelief
 swag bags
 swirls
+syllogism
+symcopation
 symmetrical
+synecdoche
+synopsis
 syntax
+synthesis
 synthetic fiber
 tabernacle
+table-talk
 tabs
+tag
+tall tale
 tape
 taped
 tapers
 tapestry
 taxonomy diagram
+tchotchke
 team
 Tee-Vee
 television aerial
+tension
 tensor
 tentacles and creatures
 terracotta
 terrazzo
 test image
+testament
 textbook page
+textual
 texture
 textured
 thank you card
 the tip
+the unconscious
+the usual
+Theater of the Absurd
 theatre set backdrop
+thematic
+theme and variations
 thermos
 thingamajig
 this and that
+thriller
+tierce
 time stopped
 timelapse
 timer
@@ -1047,6 +1224,9 @@ tinsel
 tire
 title
 tonal values
+tone
+tonnage
+tool set
 tools
 tornado
 tort
@@ -1057,48 +1237,75 @@ thresholding
 tiltshift
 tintype
 toleware
+touchstone
+tour de force
 traced
 tracing
+tract
 tractoid
 tractrix
+tradition
 traditional media
+tragedy
+tragi-comedy
+tragic flaw
 trait
+transcendentalism
+translation
 transparent background
+travel book
 treads
+treatise
 tree bark
 trend
+triad
 trictrac board design
+trilogy
 trinity
 tripwire
+trochee
 Trois crayons
 trompe l'oeil
 trompe-l'œil
 tuner
 turning $$color
+turning point
 twiddly bits
 typography
 ultra $$random_word
 ultrasharp
+undulation
 uneven borders
+unit
+unity
 universal appeal
 university promotional material
 unopened
 unreal engine
 unrolled
+upholstery
 upsampling
 uptime
+utopia
 uwu
 vacation pic
 vacuum
+variation
 vas diatretum
 vase
+Vaudeville
 vault lights
 vector space
 vectorization
 vectorized
 velvet
 ventilation
+verisimilitude
+vernacular
 versatile
+verse
+verset
+versicle
 vertical axis
 vertical axis
 very detailed
@@ -1106,11 +1313,17 @@ view through a microscope
 view through a telescope
 viewfinder
 vignette
+villanelle
 vinyl
+viscosity
 visualization
 visualization of algorithm
 vivid color
 vocab
+vocalese
+volta
+vox humana
+Vox Populi, Vox Dei
 voxel art
 wafer
 wallpaper
@@ -1125,15 +1338,22 @@ webcomic style
 weightlessness
 well pole
 western comic book art
+whodunit
 wide-angle shot
 ultra wide-angle shot
 windy
 wisp
+wit
 wood engraving
 word cloud
 wove paper
+woven
 wrack and ruin
+wên and wu
 x-ray
+yarn
+yellow jounslism
+Yellow Pages
 zenith
 zentangle art
 
@@ -2032,3 +2252,4 @@ Bohemian Textiles # Colorful textiles and fabrics in a bohemian style.
 # Chinese New Year # A vibrant Chinese New Year celebration with red lanterns.
 (Peaceful Lavender Fields:0.1) # Fields of fragrant lavender in various shades of purple.
 zip tie
+Zitternbewegung

@@ -3,14 +3,24 @@ $$random_word-sized
 [[quite,really]] someone
 a far cry from $$random_word
 A-list
+A-OK
+abundant
+accredited
 acumen
 adorable
 adrift
 akin
 akin to $$random_word
+aligned with $$random_word
+alike
+allegorical
 aloof
+ambiguous
+amphibious
+anisometric
 as thin as a hair
 at a loss
+atonal
 available
 average
 awash
@@ -22,6 +32,7 @@ bereft
 best in the world
 blatant
 boastful
+bombastic
 boorish
 brand new
 brash
@@ -31,23 +42,36 @@ burdensome
 charade
 charred
 cheap
+cleft
+cliché
+committed
+concealed
+conceited
 crooked
 crumpled
 daft
 damning
 daring
+dead-set
 deep
 deftly
+delimited
 dignified
+diligence
 done up
 dour
+drastic
 dreary
 driven
+droll
 droopy
 elongated
 elusive
+emblazoned
 endorsed
+entwined
 equipped
+equivocal
 ersatz
 evanescent
 exorbitant
@@ -74,7 +98,9 @@ fused
 garish
 gaudy
 genius
+glacial
 goalie
+godly
 goofy
 gratis
 habitual
@@ -82,25 +108,35 @@ hale
 hard-hearted
 hazily
 hearty
+heavy-set
+high-strung
 honest
 humane
+imaginary
 imperiled
 in a tizzy
 in high regard
+in shape
+inctremental
 innate
 inspiring
 intact
 integrity
 interim
+interlaced
 intrigue
+isometric
 it has a mind of its own
 it predates $$random_word by $$number years
+just a tad
 juvenile
 keepsake
 laid-back
 lame
 largest in the world
+latent
 lengthy
+like a $$random_word
 loose
 lord
 lousy
@@ -131,9 +167,11 @@ no brainer
 no-hassle
 noble
 not a lot
+nutritious
 obdurate
 of great stature
 one of the good ones
+palacial
 parsimonious
 parted
 particular
@@ -149,11 +187,13 @@ primal
 rather
 ready
 regal
+repetitive
 resonant
 riled
 rinky-dink
 roomy
 sagging
+sanding
 sandy
 alternative style
 ancient
@@ -195,11 +235,13 @@ pedigree
 pompous
 punk style
 round
+sardonic
 sassy
 scandalous
 scar
 scathing
 scrawny
+screwy
 scruff
 semidry
 short
@@ -212,11 +254,14 @@ slick
 slim
 small
 smallest in the world
+snippy
 sober
 sobering
 soulful
+sparkling
 spent
 spry
+spunky
 staid
 stale
 startled
@@ -227,9 +272,11 @@ stingy
 storied
 stormy
 streamlined
+stretchy
 strong
 stubborn
 styled
+sublime
 superdry
 superior
 susceptible
@@ -241,17 +288,28 @@ tall
 tawdry
 ten feet tall
 testy
+theatrical
+thin-set
+thrilling
 tight
 timid
 tiny
 too true
 traditional
+travesty
 trifling
+triplet
+truncated
+twin
 ugly
 ultra
+uncommitted
+unequal
 uneven
+united
 unshakable
 unyielding
+uproarious
 urgent
 used
 venerable
@@ -260,8 +318,10 @@ viking
 vulnerable
 war paint
 waverly
+wayward
 weary
 wicked
+witty
 woolly
 worst in the world
 zany
