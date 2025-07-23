@@ -153,8 +153,8 @@ class App():
         self.label_workflows = Label(self.sidebar)
         self.add_label(self.label_workflows, _("Workflow"), increment_row_counter=False)
         self.workflow = StringVar(master)
-        self.workflows_choice = OptionMenu(self.sidebar, self.workflow, self.runner_app_config.workflow_type,
-                                           *WorkflowType.__members__.keys(), command=self.set_workflow_type)
+        self.workflows_choice = OptionMenu(self.sidebar, self.workflow, WorkflowType.get(self.runner_app_config.workflow_type).get_translation(),
+                                           *[wf.get_translation() for wf in WorkflowType], command=self.set_workflow_type)
         self.apply_to_grid(self.workflows_choice, interior_column=1, sticky=W)
 
         self.label_n_latents = Label(self.sidebar)
@@ -845,8 +845,8 @@ class App():
 
     def set_workflow_type(self, event=None, workflow_tag=None):
         if workflow_tag is None:
-            workflow_tag = self.workflow.get()
-        elif isinstance(workflow_tag, WorkflowType):
+            workflow_tag = WorkflowType.get(self.workflow.get())
+        if isinstance(workflow_tag, WorkflowType):
             workflow_tag = workflow_tag.name
         if workflow_tag == WorkflowType.INPAINT_CLIPSEG.name:
             self.inpainting_var.set(True)
@@ -928,7 +928,7 @@ class App():
 
     def revert_to_simple_gen(self, event=None):
         self.cancel(reason="Revert to simple generation")
-        self.workflow.set(WorkflowType.SIMPLE_IMAGE_GEN_LORA.name)
+        self.workflow.set(WorkflowType.SIMPLE_IMAGE_GEN_LORA.get_translation())
         self.set_workflow_type(WorkflowType.SIMPLE_IMAGE_GEN_LORA)
         self.run()
 
@@ -936,7 +936,7 @@ class App():
         self.set_delay()
         args = RunConfig()
         args.software_type = self.software.get()
-        args.workflow_tag = self.workflow.get()
+        args.workflow_tag = WorkflowType.get(self.workflow.get()).name
         args.auto_run = True
         args.resolution_group = self.resolution_group.get()
         args.override_resolution = self.override_resolution_var.get()
@@ -1017,7 +1017,7 @@ class App():
 
     def server_run_callback(self, workflow_type, args):
         if workflow_type is not None:
-            self.workflow.set(workflow_type.name)
+            self.workflow.set(workflow_type.get_translation())
             self.set_workflow_type(workflow_type)
         elif config.debug:
             print("Rerunning from server request with last settings.")

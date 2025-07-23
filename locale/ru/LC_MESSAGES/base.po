@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-15 20:18-0400\n"
-"PO-Revision-Date: 2025-07-15 20:18-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-07-23 16:05-0400\n"
+"PO-Revision-Date: 2025-07-23 16:05-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ru Team <<EMAIL>>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -136,7 +136,7 @@ msgstr "Конфигурация подсказок"
 msgid "Prompt Mode"
 msgstr "Режим подсказки"
 
-#: app.py:362 utils/globals.py:306
+#: app.py:362 utils/globals.py:331
 msgid "Edit Concepts"
 msgstr "Редактировать концепции"
 
@@ -264,11 +264,11 @@ msgstr "Подтвердите выход"
 msgid "Would you like to quit the application?"
 msgstr "Вы хотите выйти из приложения?"
 
-#: app.py:873 app.py:890
+#: app.py:874 app.py:891
 msgid "Confirm Run"
 msgstr "Подтвердите выполнение"
 
-#: app.py:874
+#: app.py:875
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -276,46 +276,46 @@ msgstr ""
 "Начало нового запуска отменит текущее предустановленное расписание. Вы "
 "уверены, что хотите продолжить?"
 
-#: app.py:891
+#: app.py:892
 msgid "Are you sure you want to proceed?"
 msgstr "Вы уверены, что хотите продолжить?"
 
-#: app.py:991 app_qt.py:379
+#: app.py:992 app_qt.py:379
 msgid " (unlimited)"
 msgstr " (неограниченно)"
 
-#: app.py:1015
+#: app.py:1016
 msgid "{0} pending generations"
 msgstr "{0} ожидающих поколений"
 
-#: app.py:1097
+#: app.py:1098
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "В подсказке найдены элементы из черного списка: {0}"
 
-#: app.py:1098 app.py:1101
+#: app.py:1099 app.py:1102
 msgid "Invalid Prompt Tags"
 msgstr "Неверные теги подсказок"
 
-#: app.py:1101
+#: app.py:1102
 msgid "Blacklist validation failed!"
 msgstr "Проверка черного списка не удалась!"
 
-#: app.py:1239
+#: app.py:1240
 msgid "Password Cancelled"
 msgstr "Пароль отменен"
 
-#: app.py:1239
+#: app.py:1240
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "Пароль отменен или неверен, вернитесь в предыдущий режим"
 
-#: app.py:1257 ui/auth/app_startup_auth.py:117 ui/auth/password_dialog.py:231
+#: app.py:1258 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:231
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:117
 #: ui/tags_blacklist_window.py:274
 msgid "Error"
 msgstr "Ошибка"
 
-#: app.py:1383 app_qt.py:50
+#: app.py:1385 app_qt.py:50
 msgid " ComfyGen "
 msgstr " Бегун SD "
 
@@ -1083,6 +1083,32 @@ msgstr "Добавьте тег в черный список: {0}"
 msgid "Removed tag from blacklist: {0}"
 msgstr "Удален тег из черного списка: {0}"
 
+#: ui/auth/app_startup_auth.py:32 ui/auth/app_startup_auth.py:63
+msgid "Application Password Required"
+msgstr "Требуется пароль к приложению"
+
+#: ui/auth/app_startup_auth.py:70
+msgid "A password is required to open this application."
+msgstr "Для открытия этого программного приложения требуется пароль."
+
+#: ui/auth/app_startup_auth.py:79 ui/auth/password_dialog.py:123
+msgid "Password:"
+msgstr "Пароль:"
+
+#: ui/auth/app_startup_auth.py:92 ui/auth/password_dialog.py:136
+msgid "OK"
+msgstr "OK"
+
+#: ui/auth/app_startup_auth.py:95 ui/auth/password_admin_window.py:410
+#: ui/auth/password_dialog.py:139 ui/auth/password_dialog.py:200
+#: ui/auth/password_dialog.py:217
+msgid "Cancel"
+msgstr "Отмена"
+
+#: ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:231
+msgid "Incorrect password"
+msgstr "Неверный пароль"
+
 #: ui/auth/password_admin_window.py:21
 msgid "Password Administration"
 msgstr "Администрирование паролей"
@@ -1236,12 +1262,6 @@ msgstr "Пароль успешно изменен."
 msgid "Failed to change password."
 msgstr "Не удалось изменить пароль."
 
-#: ui/auth/app_startup_auth.py:98 ui/auth/password_admin_window.py:410
-#: ui/auth/password_dialog.py:139 ui/auth/password_dialog.py:200
-#: ui/auth/password_dialog.py:217
-msgid "Cancel"
-msgstr "Отмена"
-
 #: ui/auth/password_admin_window.py:421
 msgid ""
 "Are you sure you want to remove password protection? This will disable all "
@@ -1278,14 +1298,6 @@ msgstr "Защита паролем"
 msgid "Password required for: {0}"
 msgstr "Требуется пароль для: {0}"
 
-#: ui/auth/app_startup_auth.py:82 ui/auth/password_dialog.py:123
-msgid "Password:"
-msgstr "Пароль:"
-
-#: ui/auth/app_startup_auth.py:95 ui/auth/password_dialog.py:136
-msgid "OK"
-msgstr "OK"
-
 #: ui/auth/password_dialog.py:145
 msgid "Password Protection Available"
 msgstr "Доступна защита паролем"
@@ -1321,10 +1333,6 @@ msgid ""
 msgstr ""
 "Для этого действия требуется защита паролем, но в настоящее время она не "
 "настроена."
-
-#: ui/auth/app_startup_auth.py:117 ui/auth/password_dialog.py:231
-msgid "Incorrect password"
-msgstr "Неверный пароль"
 
 #: utils/globals.py:31
 msgid "Fixed"
@@ -1390,31 +1398,35 @@ msgstr "Отказ (блокировка всех поколений)"
 msgid "Log only (do not remove, just log)"
 msgstr "Только журнал (не удалять, только регистрировать)"
 
-#: utils/globals.py:300
+#: utils/globals.py:324
+msgid "Open Application"
+msgstr "Откройте приложение"
+
+#: utils/globals.py:325
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "Режимы подсказок NSFW/NSFL"
 
-#: utils/globals.py:301
+#: utils/globals.py:326
 msgid "Edit Blacklist"
 msgstr "Редактировать черный список"
 
-#: utils/globals.py:302
+#: utils/globals.py:327
 msgid "Reveal Blacklist Concepts"
 msgstr "Раскрыть концепции черного списка"
 
-#: utils/globals.py:303
+#: utils/globals.py:328
 msgid "Edit Schedules"
 msgstr "Редактирование расписаний"
 
-#: utils/globals.py:304
+#: utils/globals.py:329
 msgid "Edit Expansions"
 msgstr "Редактирование расширений"
 
-#: utils/globals.py:305
+#: utils/globals.py:330
 msgid "Edit Presets"
 msgstr "Редактирование предустановок"
 
-#: utils/globals.py:307
+#: utils/globals.py:332
 msgid "Access Password Administration"
 msgstr "Доступ Пароль Администрирование"
 
@@ -1442,14 +1454,58 @@ msgstr "{0}м"
 msgid "{0}s"
 msgstr "{0}с"
 
-#: ui/auth/app_startup_auth.py:31 ui/auth/app_startup_auth.py:66
-msgid "Application Password Required"
-msgstr "Требуется пароль к приложению"
+#: utils/globals.py:167
+msgid "Simple Image Gen"
+msgstr "Простое создание изображений"
 
-#: ui/auth/app_startup_auth.py:73
-msgid "A password is required to open this application."
-msgstr "Для открытия этого программного приложения требуется пароль."
+#: utils/globals.py:168
+msgid "Simple Image Gen Lora"
+msgstr "Простое создание изображений LoRA"
 
-#: utils/globals.py:299
-msgid "Open Application"
-msgstr "Откройте приложение"
+#: utils/globals.py:169
+msgid "Simple Image Gen Tiled Upscale"
+msgstr "Простое создание мозаичных изображений высокого разрешения"
+
+#: utils/globals.py:170
+msgid "Ella"
+msgstr "ELLA"
+
+#: utils/globals.py:171
+msgid "Instant Lora"
+msgstr "Мгновенный LoRA"
+
+#: utils/globals.py:172
+msgid "IP Adapter"
+msgstr "IP-адаптер"
+
+#: utils/globals.py:173
+msgid "ControlNet"
+msgstr "ControlNet"
+
+#: utils/globals.py:174
+msgid "Inpaint ClipSeg"
+msgstr "Вставка ClipSeg"
+
+#: utils/globals.py:175
+msgid "Animate Diff"
+msgstr "Анимировать разницу"
+
+#: utils/globals.py:176
+msgid "Renoiser"
+msgstr "Ренуазер"
+
+#: utils/globals.py:177
+msgid "Turbo"
+msgstr "Турбо"
+
+#: utils/globals.py:178
+msgid "Upscale Simple"
+msgstr "Увеличить изображение Просто"
+
+#: utils/globals.py:179
+msgid "Upscale Better"
+msgstr "Увеличьте изображение Лучшая версия"
+
+#: utils/globals.py:180
+msgid "Redo Prompt"
+msgstr "Повторить запрос"

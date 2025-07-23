@@ -162,6 +162,31 @@ class WorkflowType(Enum):
     UPSCALE_BETTER = "upscale_better.json"
     REDO_PROMPT = "redo_prompt"
 
+    def get_translation(self):
+        return {
+            WorkflowType.SIMPLE_IMAGE_GEN: _("Simple Image Gen"),
+            WorkflowType.SIMPLE_IMAGE_GEN_LORA: _("Simple Image Gen Lora"),
+            WorkflowType.SIMPLE_IMAGE_GEN_TILED_UPSCALE: _("Simple Image Gen Tiled Upscale"),
+            WorkflowType.ELLA: _("Ella"),
+            WorkflowType.INSTANT_LORA: _("Instant Lora"),
+            WorkflowType.IP_ADAPTER: _("IP Adapter"),
+            WorkflowType.CONTROLNET: _("ControlNet"),
+            WorkflowType.INPAINT_CLIPSEG: _("Inpaint ClipSeg"),
+            WorkflowType.ANIMATE_DIFF: _("Animate Diff"),
+            WorkflowType.RENOISER: _("Renoiser"),
+            WorkflowType.TURBO: _("Turbo"),
+            WorkflowType.UPSCALE_SIMPLE: _("Upscale Simple"),
+            WorkflowType.UPSCALE_BETTER: _("Upscale Better"),
+            WorkflowType.REDO_PROMPT: _("Redo Prompt"),
+        }[self]
+
+    @staticmethod
+    def get(name):
+        for key, value in WorkflowType.__members__.items():
+            if key.upper() == name.upper() or value.get_translation() == name:
+                return value
+        raise Exception(f"Not a valid workflow type: {name}")
+
 
 class PromptTypeSDWebUI(Enum):
     TXT2IMG = "txt2img.json"
