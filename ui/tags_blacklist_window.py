@@ -1,6 +1,6 @@
 from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W, BooleanVar, Checkbutton, Scrollbar, Listbox, IntVar, messagebox
 import tkinter.font as fnt
-from tkinter.ttk import Button, Combobox
+from tkinter.ttk import Button, Combobox, Notebook
 
 from sd_runner.blacklist import BlacklistItem, Blacklist
 from sd_runner.concepts import Concepts
@@ -289,6 +289,7 @@ class BlacklistWindow():
 
     # Cache keys
     BLACKLIST_CACHE_KEY = "tag_blacklist"
+    MODEL_BLACKLIST_CACHE_KEY = "model_blacklist"
     DEFAULT_BLACKLIST_KEY = "blacklist_user_confirmed_non_default"
     BLACKLIST_MODE_KEY = "blacklist_mode"
     BLACKLIST_SILENT_KEY = "blacklist_silent_removal"
@@ -301,14 +302,13 @@ If you are young, not sure, or even an adult, click the close button on this win
         """Load blacklist from cache, validate items, and load global blacklist settings."""
         # Check if user has explicitly confirmed they want a non-default blacklist state
         user_confirmed_non_default = app_info_cache.get(BlacklistWindow.DEFAULT_BLACKLIST_KEY, default_val=False)
-        # Load blacklist mode
+        # Load blacklist mode and silent removal settings
         mode_str = app_info_cache.get(BlacklistWindow.BLACKLIST_MODE_KEY, default_val=str(Blacklist.get_blacklist_mode()))
         try:
             mode = BlacklistMode(mode_str)
         except Exception:
             print(f"Invalid blacklist mode: {mode_str}")
         Blacklist.set_blacklist_mode(mode)
-        # Load silent removal
         silent = app_info_cache.get(BlacklistWindow.BLACKLIST_SILENT_KEY, default_val=False)
         Blacklist.set_blacklist_silent_removal(silent)
         
@@ -326,22 +326,11 @@ If you are young, not sure, or even an adult, click the close button on this win
         
         # User has confirmed non-default state or decryption failed - load from cache
         raw_blacklist = app_info_cache.get(BlacklistWindow.BLACKLIST_CACHE_KEY, default_val=[])
-        validated_blacklist = []
-        
-        # Convert each item to a BlacklistItem
-        for item in raw_blacklist:
-            if isinstance(item, dict):
-                blacklist_item = BlacklistItem.from_dict(item)
-                if blacklist_item:
-                    validated_blacklist.append(blacklist_item)
-            elif isinstance(item, str):
-                validated_blacklist.append(BlacklistItem(item))
-            elif isinstance(item, BlacklistItem):
-                validated_blacklist.append(item)
-            else:
-                print(f"Invalid blacklist item type: {type(item)}")
-                
-        Blacklist.set_blacklist(validated_blacklist)
+        Blacklist.set_blacklist(raw_blacklist)
+
+        # Load model blacklist
+        raw_model_blacklist = app_info_cache.get(BlacklistWindow.MODEL_BLACKLIST_CACHE_KEY, default_val=[])
+        Blacklist.set_model_blacklist(raw_model_blacklist)
 
     @staticmethod
     def store_blacklist():
@@ -349,6 +338,8 @@ If you are young, not sure, or even an adult, click the close button on this win
         Blacklist.save_cache()
         blacklist_dicts = [item.to_dict() for item in Blacklist.get_items()]
         app_info_cache.set(BlacklistWindow.BLACKLIST_CACHE_KEY, blacklist_dicts)
+        model_blacklist_dicts = [item.to_dict() for item in Blacklist.get_model_items()]
+        app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_CACHE_KEY, model_blacklist_dicts)
         app_info_cache.set(BlacklistWindow.BLACKLIST_MODE_KEY, str(Blacklist.get_blacklist_mode()))
         app_info_cache.set(BlacklistWindow.BLACKLIST_SILENT_KEY, Blacklist.get_blacklist_silent_removal())
 
@@ -417,7 +408,7 @@ If you are young, not sure, or even an adult, click the close button on this win
 
     def __init__(self, master, app_actions):
         BlacklistWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        BlacklistWindow.top_level.title(_("Tags Blacklist"))
+        BlacklistWindow.top_level.title(_("Tags/Models Blacklist"))
         BlacklistWindow.top_level.geometry(BlacklistWindow.get_geometry(is_gui=True))
 
         self.master = BlacklistWindow.top_level
@@ -425,6 +416,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.base_item = ""
         self.filter_text = ""
         self.filtered_items = Blacklist.get_items()[:]
+        self.filtered_model_items = Blacklist.get_model_items()[:]
         self.enable_item_btn_list = []
         self.remove_item_btn_list = []
         self.label_list = []
@@ -432,33 +424,51 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.modify_item_btn_list = []
         self.reveal_concepts_btn = None
         self.concepts_revealed = False  # Track whether concepts have been revealed in this window instance
+        self.active_tab = "tags"  # 'tags' or 'models'
 
-        # Create main frame for header and buttons
-        self.header_frame = Frame(self.master, bg=AppStyle.BG_COLOR)
-        self.header_frame.grid(column=0, row=0, sticky="ew")
-        self.header_frame.columnconfigure(0, weight=9)
-        self.header_frame.columnconfigure(1, weight=1)
-        self.header_frame.columnconfigure(2, weight=1)
-        self.header_frame.columnconfigure(3, weight=1)
-        self.header_frame.columnconfigure(4, weight=1)
-
-        # Create scrollable frame for blacklist items
-        self.frame = ScrollFrame(self.master, bg_color=AppStyle.BG_COLOR)
-        self.frame.grid(column=0, row=1, sticky="nsew")
-        self.master.grid_rowconfigure(1, weight=1)
+        # Add notebook (tabs)
+        self.notebook = Notebook(self.master)
+        self.notebook.grid(row=0, column=0, sticky="nsew")
+        self.master.grid_rowconfigure(0, weight=1)
         self.master.grid_columnconfigure(0, weight=1)
 
-        self.add_blacklist_widgets()
+        # Tag blacklist tab
+        self.tag_frame = Frame(self.notebook, bg=AppStyle.BG_COLOR)
+        self.notebook.add(self.tag_frame, text=_('Tag Blacklist'))
+        # Model blacklist tab
+        self.model_frame = Frame(self.notebook, bg=AppStyle.BG_COLOR)
+        self.notebook.add(self.model_frame, text=_('Model Blacklist'))
+        # Set up widgets for each tab
+        self.setup_tag_blacklist_tab()
+        self.setup_model_blacklist_tab()
+        self.notebook.bind("<<NotebookTabChanged>>", self.on_tab_change)
 
-        # Add a row for the blacklist global settings
-        self.settings_label = Label(self.header_frame, text=_('Global Settings:'), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.frame.after(1, lambda: self.frame.focus_force())
+
+        self.master.bind("<Key>", self.filter_items)
+        self.master.bind("<Return>", self.do_action)
+        self.master.bind("<Escape>", self.close_windows)
+        self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
+
+    def setup_tag_blacklist_tab(self):
+        # Use existing logic, but parent is self.tag_frame
+        self.tag_header_frame = Frame(self.tag_frame, bg=AppStyle.BG_COLOR)
+        self.tag_header_frame.grid(column=0, row=0, sticky="ew")
+        self.tag_header_frame.columnconfigure(0, weight=9)
+        self.tag_header_frame.columnconfigure(1, weight=1)
+        self.tag_header_frame.columnconfigure(2, weight=1)
+        self.tag_header_frame.columnconfigure(3, weight=1)
+        self.tag_header_frame.columnconfigure(4, weight=1)
+
+        # Add a row for the blacklist global settings (only in tag tab)
+        self.settings_label = Label(self.tag_header_frame, text=_('Global Settings:'), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
         self.settings_label.grid(row=0, column=0, sticky=W)
         Tooltip(self.settings_label, _('These settings affect how the blacklist is applied globally.'))
 
         # Blacklist mode dropdown
         self.blacklist_mode_var = StringVar(self.master)
         self.blacklist_mode_var.set(Blacklist.get_blacklist_mode().display())
-        self.mode_dropdown = Combobox(self.header_frame, textvariable=self.blacklist_mode_var, state="readonly", width=22)
+        self.mode_dropdown = Combobox(self.tag_header_frame, textvariable=self.blacklist_mode_var, state="readonly", width=22)
         self.mode_dropdown['values'] = BlacklistMode.display_values()
         self.mode_dropdown.grid(row=0, column=1, sticky=W)
         self.mode_dropdown.bind('<<ComboboxSelected>>', self.on_mode_change)
@@ -467,7 +477,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         # Silent removal checkbox
         self.silent_var = BooleanVar(value=Blacklist.get_blacklist_silent_removal())
         self.silent_checkbox = Checkbutton(
-            self.header_frame,
+            self.tag_header_frame,
             text=_('Silent Removal'),
             variable=self.silent_var,
             bg=AppStyle.BG_COLOR,
@@ -478,31 +488,66 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.silent_checkbox.grid(row=0, column=2, sticky=W)
         Tooltip(self.silent_checkbox, _('If enabled, blacklisted words are removed silently without notification.'))
 
-        # Add import/export/preview buttons on a new row
+        # Add import/export/preview/load default buttons
         self.import_btn = None
         self.export_btn = None
         self.preview_all_btn = None
         self.load_default_btn = None
-        self.add_btn("import_btn", _("Import"), self.import_blacklist, row=1, column=0)
-        self.add_btn("export_btn", _("Export"), self.export_blacklist, row=1, column=1)
-        self.add_btn("preview_all_btn", _("Preview All"), self.preview_all, row=1, column=2)
-        self.add_btn("load_default_btn", _("Load Default"), self.load_default_blacklist, row=1, column=3)
+        self.add_btn_to(self.tag_header_frame, "import_btn", _("Import"), self.import_blacklist, row=1, column=0)
+        self.add_btn_to(self.tag_header_frame, "export_btn", _("Export"), self.export_blacklist, row=1, column=1)
+        self.add_btn_to(self.tag_header_frame, "preview_all_btn", _("Preview All"), self.preview_all, row=1, column=2)
+        self.add_btn_to(self.tag_header_frame, "load_default_btn", _("Load Default"), self.load_default_blacklist, row=1, column=3)
 
         # Add a row for the interface buttons
-        self._label_info = Label(self.header_frame)
+        self._label_info = Label(self.tag_header_frame)
         self.add_label(self._label_info, _("Blacklist items"), row=2, wraplength=BlacklistWindow.COL_0_WIDTH)
         self.add_item_btn = None
-        self.add_btn("add_item_btn", _("Add to tag blacklist"), self.add_new_item, row=2, column=1)
-        
+        self.add_btn_to(self.tag_header_frame, "add_item_btn", _("Add to tag blacklist"), self.add_new_item, row=2, column=1)
         self.clear_blacklist_btn = None
-        self.add_btn("clear_blacklist_btn", _("Clear items"), self.clear_items, row=2, column=2)
+        self.add_btn_to(self.tag_header_frame, "clear_blacklist_btn", _("Clear items"), self.clear_items, row=2, column=2)
 
-        self.frame.after(1, lambda: self.frame.focus_force())
+        self.frame = ScrollFrame(self.tag_frame, bg_color=AppStyle.BG_COLOR)
+        self.frame.grid(column=0, row=1, sticky="nsew")
+        self.tag_frame.grid_rowconfigure(1, weight=1)
+        self.tag_frame.grid_columnconfigure(0, weight=1)
+        self.filtered_items = Blacklist.get_items()[:]
+        self.add_blacklist_widgets()
 
-        self.master.bind("<Key>", self.filter_items)
-        self.master.bind("<Return>", self.do_action)
-        self.master.bind("<Escape>", self.close_windows)
-        self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
+    def setup_model_blacklist_tab(self):
+        self.model_header_frame = Frame(self.model_frame, bg=AppStyle.BG_COLOR)
+        self.model_header_frame.grid(column=0, row=0, sticky="ew")
+        self.model_header_frame.columnconfigure(0, weight=9)
+        self.model_header_frame.columnconfigure(1, weight=1)
+        self.model_header_frame.columnconfigure(2, weight=1)
+        self.model_header_frame.columnconfigure(3, weight=1)
+        self.model_header_frame.columnconfigure(4, weight=1)
+
+        # Add model blacklist control buttons (add/clear, optionally import/export for models)
+        self.add_model_item_btn = None
+        self.clear_model_blacklist_btn = None
+        self.add_btn_to(self.model_header_frame, "add_model_item_btn", _( "Add to model blacklist"), self.add_new_model_item, row=0, column=1)
+        self.add_btn_to(self.model_header_frame, "clear_model_blacklist_btn", _( "Clear model items"), self.clear_model_items, row=0, column=2)
+        # Optionally, add import/export for model blacklist here if desired
+        # self.add_btn_to(self.model_header_frame, "import_model_btn", _( "Import Models"), self.import_model_blacklist, row=0, column=3)
+        # self.add_btn_to(self.model_header_frame, "export_model_btn", _( "Export Models"), self.export_model_blacklist, row=0, column=4)
+
+        self.model_scroll_frame = ScrollFrame(self.model_frame, bg_color=AppStyle.BG_COLOR)
+        self.model_scroll_frame.grid(column=0, row=1, sticky="nsew")
+        self.model_frame.grid_rowconfigure(1, weight=1)
+        self.model_frame.grid_columnconfigure(0, weight=1)
+        self.filtered_model_items = Blacklist.get_model_items()[:]
+        self.add_model_blacklist_widgets()
+
+    def on_tab_change(self, event=None):
+        tab = self.notebook.tab(self.notebook.select(), "text")
+        if tab == _('Tag Blacklist'):
+            self.active_tab = "tags"
+            self.filtered_items = Blacklist.get_items()[:]
+            self.add_blacklist_widgets()
+        else:
+            self.active_tab = "models"
+            self.filtered_model_items = Blacklist.get_model_items()[:]
+            self.add_model_blacklist_widgets()
 
     def add_blacklist_widgets(self):
         # Always show reveal concepts button initially, unless concepts have already been revealed
@@ -577,6 +622,38 @@ If you are young, not sure, or even an adult, click the close button on this win
             def remove_item_handler(event, self=self, item=item):
                 return self.remove_item(event, item)
             remove_item_btn.bind("<Button-1>", remove_item_handler)
+
+    def add_model_blacklist_widgets(self):
+        # Clear previous widgets
+        for widget in self.model_scroll_frame.viewPort.winfo_children():
+            widget.destroy()
+        # Add model blacklist items
+        for i, item in enumerate(self.filtered_model_items):
+            row = i+1
+            label = Label(self.model_scroll_frame.viewPort, text=str(item), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+            label.grid(row=row, column=0, sticky=W)
+            # Enable/disable toggle
+            enabled_var = StringVar(value="✓" if item.enabled else _("Disabled"))
+            toggle_btn = Button(self.model_scroll_frame.viewPort, text=enabled_var.get())
+            toggle_btn.grid(row=row, column=1)
+            def toggle_handler(event, self=self, item=item, enabled_var=enabled_var):
+                return self.toggle_model_item(event, item, enabled_var)
+            toggle_btn.bind("<Button-1>", toggle_handler)
+            # Modify button
+            modify_btn = Button(self.model_scroll_frame.viewPort, text=_("Modify"))
+            modify_btn.grid(row=row, column=2)
+            def modify_handler(event, self=self, item=item):
+                return self.modify_model_item(event, item)
+            modify_btn.bind("<Button-1>", modify_handler)
+            # Remove button
+            remove_btn = Button(self.model_scroll_frame.viewPort, text=_("Remove"))
+            remove_btn.grid(row=row, column=3)
+            def remove_handler(event, self=self, item=item):
+                return self.remove_model_item(event, item)
+            remove_btn.bind("<Button-1>", remove_handler)
+        # Add button to add new model blacklist item
+        add_btn = Button(self.model_scroll_frame.viewPort, text=_('Add to model blacklist'), command=self.add_new_model_item)
+        add_btn.grid(row=0, column=0, pady=10, sticky=W)
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def open_blacklist_modify_window(self, event=None, blacklist_item=None):
@@ -806,15 +883,15 @@ If you are young, not sure, or even an adult, click the close button on this win
         label_ref.grid(column=column, row=row, sticky=W, columnspan=columnspan)
         label_ref.config(wraplength=wraplength, justify=LEFT, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
 
-    def add_btn(self, button_ref_name, text, command, row=0, column=0):
+    def add_btn_to(self, frame, button_ref_name, text, command, row=0, column=0):
         if getattr(self, button_ref_name) is None:
-            button = Button(master=self.header_frame, text=text, command=command)
+            button = Button(master=frame, text=text, command=command)
             setattr(self, button_ref_name, button)
             button # for some reason this is necessary to maintain the reference?
             button.grid(row=row, column=column)
 
-    def new_entry(self, text_variable, text="", width=30, **kw):
-        return AwareEntry(self.header_frame, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
+    def new_entry(self, frame, text_variable, text="", width=30, **kw):
+        return AwareEntry(frame, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def toggle_item(self, event=None, item=None, enabled_var=None):
@@ -826,7 +903,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         for blacklist_item in Blacklist.get_items():
             if blacklist_item == item:
                 blacklist_item.enabled = not blacklist_item.enabled
-                enabled_var.set("✓" if blacklist_item.enabled else "✗")
+                enabled_var.set("✓" if blacklist_item.enabled else _("Disabled"))
                 self.store_blacklist()
                 self.app_actions.toast(_("Item \"{0}\" is now {1}").format(
                     blacklist_item.string,
@@ -929,4 +1006,73 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.store_blacklist()
         if self.app_actions:
             self.app_actions.toast(_("Silent removal set to: {0}").format(self.silent_var.get()))
+
+    ### Model blacklist functions ###
+
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    def add_new_model_item(self, event=None):
+        self.open_model_blacklist_modify_window(blacklist_item=None)
+
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    def modify_model_item(self, event=None, item=None):
+        if item is None:
+            return
+        self.open_model_blacklist_modify_window(blacklist_item=item)
+
+    def open_model_blacklist_modify_window(self, event=None, blacklist_item=None):
+        if BlacklistWindow.blacklist_modify_window is not None:
+            BlacklistWindow.blacklist_modify_window.master.destroy()
+        BlacklistWindow.blacklist_modify_window = BlacklistModifyWindow(self.master, self.refresh_model_blacklist_item, blacklist_item)
+        # Set type to model for new items
+        if blacklist_item is None:
+            BlacklistWindow.blacklist_modify_window.blacklist_item.blacklist_type = "model"
+
+    def refresh_model_blacklist_item(self, blacklist_item, is_new_item, original_string):
+        BlacklistWindow.update_history(blacklist_item)
+        BlacklistWindow.mark_user_confirmed_non_default()
+        if is_new_item:
+            Blacklist.add_model_item(blacklist_item)
+        else:
+            original_item = None
+            for item in Blacklist.get_model_items():
+                if item.string == original_string:
+                    original_item = item
+                    break
+            if original_item:
+                Blacklist.remove_model_item(original_item)
+            Blacklist.add_model_item(blacklist_item)
+        self.filtered_model_items = Blacklist.get_model_items()[:]
+        self.add_model_blacklist_widgets()
+        self.app_actions.toast(_("Model blacklist updated: {0}").format(blacklist_item.string))
+
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    def toggle_model_item(self, event=None, item=None, enabled_var=None):
+        if item is None or enabled_var is None:
+            return
+        for model_item in Blacklist.get_model_items():
+            if model_item == item:
+                model_item.enabled = not model_item.enabled
+                enabled_var.set("✓" if model_item.enabled else _("Disabled"))
+                self.app_actions.toast(_("Model item '{0}' is now {1}").format(
+                    model_item.string,
+                    _("enabled") if model_item.enabled else _("disabled")
+                ))
+                break
+        self.filtered_model_items = Blacklist.get_model_items()[:]
+        self.add_model_blacklist_widgets()
+
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    def remove_model_item(self, event=None, item=None):
+        if item is not None:
+            Blacklist.remove_model_item(item)
+            self.filtered_model_items = Blacklist.get_model_items()[:]
+            self.add_model_blacklist_widgets()
+            self.app_actions.toast(_("Removed model blacklist item: {0}").format(item.string))
+
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    def clear_model_items(self, event=None):
+        Blacklist.clear_model()
+        self.filtered_model_items = Blacklist.get_model_items()[:]
+        self.add_model_blacklist_widgets()
+        self.app_actions.toast(_("Cleared model blacklist items"))
 

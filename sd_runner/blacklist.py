@@ -151,8 +151,30 @@ class BlacklistItem:
         return self.string
     
 
+class ModelBlacklistItem(BlacklistItem):
+    def __init__(self, string: str, enabled: bool = True, use_regex: bool = False):
+        # For models, word boundary is not relevant
+        super().__init__(string, enabled, use_regex, use_word_boundary=False)
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        # Ignore use_word_boundary for models
+        if not isinstance(data, dict):
+            return None
+        if "string" not in data or not isinstance(data["string"], str):
+            return None
+        enabled = data.get("enabled", True)
+        if not isinstance(enabled, bool):
+            enabled = True
+        use_regex = data.get("use_regex", False)
+        if not isinstance(use_regex, bool):
+            use_regex = False
+        return cls(data["string"], enabled, use_regex)
+
+
 class Blacklist:
     TAG_BLACKLIST: list[BlacklistItem] = []
+    MODEL_BLACKLIST: list[ModelBlacklistItem] = []
     CACHE_MAXSIZE = 64
     CACHE_LARGE_THRESHOLD = 1024 * 1024 * 8
     CACHE_MAX_LARGE_ITEMS = 4
@@ -320,7 +342,22 @@ class Blacklist:
             blacklist: List of BlacklistItem objects to set
             clear_cache: Whether to clear and save the cache (default: False)
         """
-        Blacklist.TAG_BLACKLIST = list(blacklist)
+        validated_blacklist = []
+        
+        # Convert each item to a BlacklistItem
+        for item in blacklist:
+            if isinstance(item, dict):
+                blacklist_item = BlacklistItem.from_dict(item)
+                if blacklist_item:
+                    validated_blacklist.append(blacklist_item)
+            elif isinstance(item, str):
+                validated_blacklist.append(BlacklistItem(item))
+            elif isinstance(item, BlacklistItem):
+                validated_blacklist.append(item)
+            else:
+                print(f"Invalid blacklist item type: {type(item)}")
+        
+        Blacklist.TAG_BLACKLIST = validated_blacklist
         try:
             if clear_cache:
                 Blacklist._filter_cache.clear()
@@ -567,4 +604,73 @@ class Blacklist:
             Blacklist._filter_cache = SizeAwarePicklableCache.load_or_create(
                 BLACKLIST_CACHE_FILE, maxsize=Blacklist.CACHE_MAXSIZE,
                 max_large_items=Blacklist.CACHE_MAX_LARGE_ITEMS, large_threshold=Blacklist.CACHE_LARGE_THRESHOLD)
+
+    @staticmethod
+    def add_model_item(item: ModelBlacklistItem):
+        if not isinstance(item, ModelBlacklistItem):
+            # Convert if needed
+            item = ModelBlacklistItem(item.string, item.enabled, item.use_regex)
+        Blacklist.MODEL_BLACKLIST.append(item)
+        Blacklist.sort_model()
+
+    @staticmethod
+    def remove_model_item(item: ModelBlacklistItem):
+        try:
+            Blacklist.MODEL_BLACKLIST.remove(item)
+            return True
+        except ValueError:
+            return False
+
+    @staticmethod
+    def get_model_items():
+        return Blacklist.MODEL_BLACKLIST
+
+    @staticmethod
+    def clear_model():
+        Blacklist.MODEL_BLACKLIST.clear()
+
+    @staticmethod
+    def sort_model():
+        Blacklist.MODEL_BLACKLIST.sort(key=lambda x: x.string.lower())
+
+    @staticmethod
+    def set_model_blacklist(blacklist):
+        # Accepts a list of ModelBlacklistItem or dicts
+        items = []
+        for item in blacklist:
+            if isinstance(item, ModelBlacklistItem):
+                items.append(item)
+            elif isinstance(item, dict):
+                mb = ModelBlacklistItem.from_dict(item)
+                if mb:
+                    items.append(mb)
+        Blacklist.MODEL_BLACKLIST = items
+
+    @staticmethod
+    def add_to_model_blacklist(tag, enabled: bool = True, use_regex: bool = False):
+        if isinstance(tag, str):
+            tag = ModelBlacklistItem(tag, enabled=enabled, use_regex=use_regex)
+        elif not isinstance(tag, ModelBlacklistItem):
+            tag = ModelBlacklistItem(tag.string, tag.enabled, tag.use_regex)
+        Blacklist.add_model_item(tag)
+
+    @staticmethod
+    def import_model_blacklist_json(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            if isinstance(data, list):
+                for item in data:
+                    if isinstance(item, str):
+                        Blacklist.add_to_model_blacklist(item)
+                    elif isinstance(item, dict) and 'string' in item:
+                        Blacklist.add_to_model_blacklist(ModelBlacklistItem.from_dict(item))
+                    else:
+                        print(f"Invalid item type in JSON model blacklist import: {type(item)}")
+            else:
+                raise ValueError("Invalid JSON format for model blacklist import")
+
+    @staticmethod
+    def export_model_blacklist_json(filename):
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump([item.to_dict() for item in Blacklist.MODEL_BLACKLIST], f, indent=2)
 
