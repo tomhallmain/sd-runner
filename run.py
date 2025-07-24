@@ -133,6 +133,8 @@ class Run:
         return gen
 
     def do_workflow(self, workflow: str | WorkflowType, positive_prompt: str, negative_prompt: str, control_nets: list[ControlNet], ip_adapters: list[IPAdapter]):
+        if self.is_cancelled:
+            return
         gen = self.construct_gen(workflow, positive_prompt, negative_prompt, control_nets, ip_adapters)
         self.editing = False
         self.switching_params = False
@@ -189,6 +191,8 @@ class Run:
                 time.sleep(1)
 
     def load_and_run(self, control_nets: list[ControlNet], ip_adapters: list[IPAdapter]):
+        if self.is_cancelled:
+            return
         positive_prompt = self.args.positive_prompt if self.args.positive_prompt else Globals.DEFAULT_POSITIVE_PROMPT
         base_negative = "" if Globals.OVERRIDE_BASE_NEGATIVE else str(Globals.DEFAULT_NEGATIVE_PROMPT)
         negative_prompt = self.args.negative_prompt if self.args.negative_prompt else base_negative
