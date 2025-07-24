@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-23 16:05-0400\n"
-"PO-Revision-Date: 2025-07-23 16:05-0400\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-07-24 18:42-0400\n"
+"PO-Revision-Date: 2025-07-24 18:42-0400\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: de Team <<EMAIL>>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -136,7 +136,7 @@ msgstr "Aufforderungen zur Konfiguration"
 msgid "Prompt Mode"
 msgstr "Aufforderungs-Modus"
 
-#: app.py:362 utils/globals.py:331
+#: app.py:362 utils/globals.py:355
 msgid "Edit Concepts"
 msgstr "Konzept bearbeiten"
 
@@ -248,7 +248,7 @@ msgstr "Fenster Voreingestellter Zeitplan"
 msgid "Presets Window"
 msgstr "Fenster Voreinstellungen"
 
-#: app.py:561
+#: app.py:561 ui/tags_blacklist_window.py:446 ui/tags_blacklist_window.py:593
 msgid "Tag Blacklist"
 msgstr "Stichworte-Schwarzliste"
 
@@ -264,11 +264,11 @@ msgstr "Beenden bestätigen"
 msgid "Would you like to quit the application?"
 msgstr "Möchten Sie die Anwendung beenden?"
 
-#: app.py:874 app.py:891
+#: app.py:873 app.py:893
 msgid "Confirm Run"
 msgstr "Lauf bestätigen"
 
-#: app.py:875
+#: app.py:874
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -276,47 +276,47 @@ msgstr ""
 "Wenn Sie einen neuen Lauf starten, wird der aktuelle voreingestellte "
 "Zeitplan gelöscht. Sind Sie sicher, dass Sie fortfahren möchten?"
 
-#: app.py:892
+#: app.py:894
 msgid "Are you sure you want to proceed?"
 msgstr "Sind Sie sicher, dass Sie fortfahren wollen?"
 
-#: app.py:992 app_qt.py:379
+#: app.py:994 app_qt.py:379
 msgid " (unlimited)"
 msgstr " (unbegrenzt)"
 
-#: app.py:1016
+#: app.py:1018
 msgid "{0} pending generations"
 msgstr "{0} ausstehende Generationen"
 
-#: app.py:1098
+#: app.py:1100
 msgid "Blacklisted items found in prompt: {0}"
 msgstr ""
 "Elemente auf der schwarzen Liste in der Eingabeaufforderung gefunden: {0}"
 
-#: app.py:1099 app.py:1102
+#: app.py:1101 app.py:1104
 msgid "Invalid Prompt Tags"
 msgstr "Ungültige Eingabeaufforderung Stichworte"
 
-#: app.py:1102
+#: app.py:1104
 msgid "Blacklist validation failed!"
 msgstr "Validierung der schwarzen Liste fehlgeschlagen!"
 
-#: app.py:1240
+#: app.py:1242
 msgid "Password Cancelled"
 msgstr "Passwort storniert"
 
-#: app.py:1240
+#: app.py:1242
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "Passwort gelöscht oder falsch, zurück zum vorherigen Modus"
 
-#: app.py:1258 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:231
+#: app.py:1260 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:231
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:117
 #: ui/tags_blacklist_window.py:274
 msgid "Error"
 msgstr "Fehler"
 
-#: app.py:1385 app_qt.py:50
+#: app.py:1387 app_qt.py:50
 msgid " ComfyGen "
 msgstr " SD-Läufer "
 
@@ -324,15 +324,15 @@ msgstr " SD-Läufer "
 msgid "Prompter Configuration"
 msgstr "Prompter-Konfiguration"
 
-#: sd_runner/blacklist.py:202
+#: sd_runner/blacklist.py:242
 msgid "Filtering concepts for blacklist: "
 msgstr "Filter-Konzepte für die Schwarzeliste: "
 
-#: sd_runner/run_config.py:52
+#: sd_runner/run_config.py:58
 msgid "No prompter config found!"
 msgstr "Keine Prompter-Konfiguration gefunden!"
 
-#: sd_runner/run_config.py:55
+#: sd_runner/run_config.py:62
 msgid ""
 "Ensure configuration is correct - do you really want to create more than 10 "
 "images using the same prompt?"
@@ -340,13 +340,47 @@ msgstr ""
 "Stellen Sie sicher, dass die Konfiguration korrekt ist - wollen Sie wirklich"
 " mehr als 10 Bilder mit derselben Eingabeaufforderung erstellen?"
 
-#: sd_runner/run_config.py:60
+#: sd_runner/run_config.py:69
 msgid ""
 "A model switch was detected and the model massage tags don't match. This "
 "warning will only be shown once."
 msgstr ""
 "Es wurde ein Modellwechsel erkannt und die Aufforderungs-Anpassungs-"
 "Stichworte stimmen nicht überein. Diese Warnung wird nur einmal angezeigt"
+
+#: sd_runner/run_config.py:77
+msgid ""
+"One or more models are blacklisted. Please try again with a different model."
+msgstr ""
+"Ein oder mehrere Modelle stehen auf der Sperrliste. Bitte versuchen Sie es "
+"erneut mit einem anderen Modell."
+
+#: sd_runner/run_config.py:79
+msgid ""
+"The following models are blacklisted: {0}\n"
+"\n"
+"Please try again with a different model."
+msgstr ""
+"Die folgenden Modelle stehen auf der Sperrliste: {0}\n"
+"\n"
+"Bitte versuchen Sie es erneut mit einem anderen Modell."
+
+#: sd_runner/run_config.py:89
+msgid ""
+"One or more loras are blacklisted. Please try again with a different lora."
+msgstr ""
+"Eine oder mehrere Loras sind auf der schwarzen Liste. Bitte versuchen Sie es"
+" erneut mit einer anderen Lora."
+
+#: sd_runner/run_config.py:91
+msgid ""
+"The following loras are blacklisted: {0}\n"
+"\n"
+"Please try again with a different lora."
+msgstr ""
+"Die folgenden Loras stehen auf der Sperrliste: {0}\n"
+"\n"
+"Bitte versuchen Sie es erneut mit einer anderen Lora."
 
 #: ui/concept_editor_window.py:106
 msgid "Search/Add Concept:"
@@ -372,7 +406,7 @@ msgid "Delete"
 msgstr "Löschen"
 
 #: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:486
+#: ui/tags_blacklist_window.py:505 ui/tags_blacklist_window.py:566
 msgid "Import"
 msgstr "Einfuhr"
 
@@ -479,7 +513,8 @@ msgstr "Nach oben"
 msgid "Active"
 msgstr "Aktiv"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:487
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:506
+#: ui/tags_blacklist_window.py:567
 msgid "Export"
 msgstr "Ausfuhr"
 
@@ -559,7 +594,7 @@ msgstr ""
 " Änderungen treten nicht in Kraft, bis das Wildcard gelöscht oder umbenannt "
 "wird."
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:661
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:795
 msgid "Warning"
 msgstr "Achtung"
 
@@ -594,7 +629,7 @@ msgid "Clear expansions"
 msgstr "Löschen Sie die Erweiterungen"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:558
+#: ui/tags_blacklist_window.py:657 ui/tags_blacklist_window.py:703
 msgid "Modify"
 msgstr "Ändern"
 
@@ -804,7 +839,7 @@ msgstr "Glob-basiert Regex"
 msgid "Use word boundary matching"
 msgstr "Wortgrenzenabgleich verwenden"
 
-#: ui/tags_blacklist_window.py:94 ui/tags_blacklist_window.py:566
+#: ui/tags_blacklist_window.py:94 ui/tags_blacklist_window.py:665
 msgid "Preview"
 msgstr "Voransicht"
 
@@ -844,7 +879,7 @@ msgstr "gefunden {0} gefilterte Konzepte"
 msgid "Error loading concepts: {0}"
 msgstr "Fehler beim Laden von Konzepten: {0}"
 
-#: ui/tags_blacklist_window.py:295
+#: ui/tags_blacklist_window.py:298
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -884,58 +919,72 @@ msgstr "Geladene Standard-Schwarzenliste"
 msgid "Error loading default blacklist"
 msgstr "Fehler beim Laden der Standard-Schwarzenliste"
 
-#: ui/tags_blacklist_window.py:420 ui/tags_blacklist_window_qt.py:16
-msgid "Tags Blacklist"
-msgstr "Stichworte-Schwarzliste"
+#: ui/tags_blacklist_window.py:420
+msgid "Tags/Models Blacklist"
+msgstr "Schwarze Liste von Stichworte und Modellen"
 
-#: ui/tags_blacklist_window.py:454
+#: ui/tags_blacklist_window.py:449
+msgid "Model Blacklist"
+msgstr "Schwarze Liste für Modelle"
+
+#: ui/tags_blacklist_window.py:473 ui/tags_blacklist_window.py:535
 msgid "Global Settings:"
 msgstr "Allgemeine Einstellungen"
 
-#: ui/tags_blacklist_window.py:456
+#: ui/tags_blacklist_window.py:475 ui/tags_blacklist_window.py:537
 msgid "These settings affect how the blacklist is applied globally."
 msgstr ""
 "Diese Einstellungen wirken sich darauf aus, wie die schwarze Liste global "
 "angewendet wird."
 
-#: ui/tags_blacklist_window.py:465
+#: ui/tags_blacklist_window.py:484 ui/tags_blacklist_window.py:546
 msgid "Choose how the blacklist is enforced: block, warn, or allow."
 msgstr ""
 "Wählen Sie, wie die schwarze Liste durchgesetzt werden soll: blockieren, "
 "warnen oder zulassen."
 
-#: ui/tags_blacklist_window.py:471
+#: ui/tags_blacklist_window.py:490 ui/tags_blacklist_window.py:552
 msgid "Silent Removal"
 msgstr "Stille Entfernung"
 
-#: ui/tags_blacklist_window.py:479
+#: ui/tags_blacklist_window.py:498 ui/tags_blacklist_window.py:560
 msgid ""
 "If enabled, blacklisted words are removed silently without notification."
 msgstr ""
 "Wenn diese Option aktiviert ist, werden Wörter, die auf der schwarzen Liste "
 "stehen, stillschweigend und ohne Benachrichtigung entfernt."
 
-#: ui/tags_blacklist_window.py:488
+#: ui/tags_blacklist_window.py:507 ui/tags_blacklist_window.py:568
 msgid "Preview All"
 msgstr "Alle anzeigen"
 
-#: ui/tags_blacklist_window.py:489
+#: ui/tags_blacklist_window.py:508
 msgid "Load Default"
 msgstr "Standard laden"
 
-#: ui/tags_blacklist_window.py:493
+#: ui/tags_blacklist_window.py:512
 msgid "Blacklist items"
 msgstr "Artikel der Schwarzen Liste"
 
-#: ui/tags_blacklist_window.py:495
+#: ui/tags_blacklist_window.py:514
 msgid "Add to tag blacklist"
-msgstr "Zur schwarzen Liste der Stichworte hinzufügen"
+msgstr "Zur Stichworte-Schwarzenliste hinzufügen"
 
-#: ui/tags_blacklist_window.py:498
+#: ui/tags_blacklist_window.py:516 ui/tags_blacklist_window.py:582
 msgid "Clear items"
 msgstr "Löschen Sie die Artikel"
 
-#: ui/tags_blacklist_window.py:514
+#: ui/tags_blacklist_window.py:576
+msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
+msgstr ""
+"Wählen Sie aus, wie die Modell-Schwarzeliste durchgesetzt werden soll: "
+"Verbieten oder Zulassen in NSFW."
+
+#: ui/tags_blacklist_window.py:581
+msgid "Add to model blacklist"
+msgstr "Zur Modell-Schwarzeliste hinzufügen"
+
+#: ui/tags_blacklist_window.py:613
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag "
 "blacklist' button below, or load the default blacklist."
@@ -944,11 +993,11 @@ msgstr ""
 "hinzufügen, indem Sie unten auf die Schaltfläche „Zur schwarzen hinzufügen“ "
 "klicken, oder die Standard-Blacklist laden."
 
-#: ui/tags_blacklist_window.py:516
+#: ui/tags_blacklist_window.py:615
 msgid "Click below to reveal blacklist concepts."
 msgstr "Klicken Sie unten, um die Konzepte der Schwarzen Liste zu sehen."
 
-#: ui/tags_blacklist_window.py:518
+#: ui/tags_blacklist_window.py:617
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
@@ -959,43 +1008,57 @@ msgstr ""
 "Liste löschen und Ihre eigenen hinzufügen oder Konzepte aus einer Datei "
 "importieren."
 
-#: ui/tags_blacklist_window.py:524
+#: ui/tags_blacklist_window.py:623
 msgid "Reveal Concepts"
 msgstr "Konzepte enthüllen"
 
-#: ui/tags_blacklist_window.py:543
+#: ui/tags_blacklist_window.py:642
 msgid "[regex]"
 msgstr "[regex]"
 
-#: ui/tags_blacklist_window.py:545
+#: ui/tags_blacklist_window.py:644
 msgid "[no boundary]"
 msgstr "[keine Wortgrenze]"
 
-#: ui/tags_blacklist_window.py:574
+#: ui/tags_blacklist_window.py:673 ui/tags_blacklist_window.py:709
 msgid "Remove"
 msgstr "Entfernen"
 
-#: ui/tags_blacklist_window.py:636 ui/tags_blacklist_window.py:671
+#: ui/tags_blacklist_window.py:685
+msgid ""
+"No model blacklist items found. You can add items by clicking the 'Add to "
+"model blacklist' button above, or load the default model blacklist."
+msgstr ""
+"Es wurden keine Elemente in der Modell-Schwarzeliste gefunden. Sie können "
+"Elemente hinzufügen, indem Sie oben auf die Schaltfläche „Zur Modell-"
+"Schwarzeliste hinzufügen” klicken, oder die Standard-Modell-Blacklist laden."
+
+#: ui/tags_blacklist_window.py:696 ui/tags_blacklist_window.py:962
+#: ui/tags_blacklist_window.py:1128
+msgid "Disabled"
+msgstr "Nicht aktiviert"
+
+#: ui/tags_blacklist_window.py:770 ui/tags_blacklist_window.py:805
 msgid "Added item to blacklist: {0}"
 msgstr "Element zur schwarzen Liste hinzugefügt: {0}"
 
-#: ui/tags_blacklist_window.py:638
+#: ui/tags_blacklist_window.py:772
 msgid "Modified blacklist item: {0}"
 msgstr "Geändertes Artikel der Schwarzen Liste: {0}"
 
-#: ui/tags_blacklist_window.py:651
+#: ui/tags_blacklist_window.py:785
 msgid "Removed item: {0}"
 msgstr "Artikel entfernen: {0}"
 
-#: ui/tags_blacklist_window.py:661
+#: ui/tags_blacklist_window.py:795
 msgid "Please enter a string to add to the blacklist."
 msgstr "Bitte geben Sie einen String um ihn zur schwarzen Liste hinzuzufügen."
 
-#: ui/tags_blacklist_window.py:751
+#: ui/tags_blacklist_window.py:885
 msgid "Confirm Clear Blacklist"
 msgstr "Bestätigen Sie die Löschung der Schwarzen Liste"
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:886
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
@@ -1015,57 +1078,93 @@ msgstr ""
 "\n"
 "Möchten Sie fortfahren?"
 
-#: ui/tags_blacklist_window.py:771
+#: ui/tags_blacklist_window.py:905
 msgid "Cleared item blacklist"
 msgstr "Gelöschte schwarze Liste"
 
-#: ui/tags_blacklist_window.py:831
+#: ui/tags_blacklist_window.py:964
 msgid "Item \"{0}\" is now {1}"
 msgstr "Artikel \"{0}\" ist jetzt {1}"
 
-#: ui/tags_blacklist_window.py:833
+#: ui/tags_blacklist_window.py:966 ui/tags_blacklist_window.py:1131
 msgid "enabled"
 msgstr "aktiviert"
 
-#: ui/tags_blacklist_window.py:833
+#: ui/tags_blacklist_window.py:966 ui/tags_blacklist_window.py:1131
 msgid "disabled"
 msgstr "deaktiviert"
 
-#: ui/tags_blacklist_window.py:842
+#: ui/tags_blacklist_window.py:975
 msgid "Concepts revealed"
 msgstr "Konzepte werden enthüllt"
 
-#: ui/tags_blacklist_window.py:866
+#: ui/tags_blacklist_window.py:1006 ui/tags_blacklist_window.py:1162
 msgid "Import Blacklist"
 msgstr "Schwarzen Liste importieren"
 
-#: ui/tags_blacklist_window.py:885
+#: ui/tags_blacklist_window.py:1025
 msgid "Successfully imported blacklist"
 msgstr "Erfolgreich importierte schwarze Liste"
 
-#: ui/tags_blacklist_window.py:887
+#: ui/tags_blacklist_window.py:1027 ui/tags_blacklist_window.py:1183
 msgid "Import Error"
 msgstr "Fehler beim Importieren"
 
-#: ui/tags_blacklist_window.py:898
+#: ui/tags_blacklist_window.py:1038
 msgid "Export Blacklist"
 msgstr "Schwarze Liste exportieren"
 
-#: ui/tags_blacklist_window.py:913
+#: ui/tags_blacklist_window.py:1053
 msgid "Successfully exported blacklist"
 msgstr "Erfolgreich exportierte schwarze Liste"
 
-#: ui/tags_blacklist_window.py:915
+#: ui/tags_blacklist_window.py:1055 ui/tags_blacklist_window.py:1204
 msgid "Export Error"
 msgstr "Fehler beim Exportieren"
 
-#: ui/tags_blacklist_window.py:925
+#: ui/tags_blacklist_window.py:1065
+msgid "Model blacklist mode set to: {0}"
+msgstr "Modell-Schwarzeliste-Modus eingestellt auf: {0}"
+
+#: ui/tags_blacklist_window.py:1075
 msgid "Blacklist mode set to: {0}"
 msgstr "Modus der schwarzen Liste auf gesetzt: {0}"
 
-#: ui/tags_blacklist_window.py:931
+#: ui/tags_blacklist_window.py:1081
 msgid "Silent removal set to: {0}"
 msgstr "Stille Entfernung eingestellt auf: {0}"
+
+#: ui/tags_blacklist_window.py:1119
+msgid "Model blacklist updated: {0}"
+msgstr "Modell-Schwarzeliste aktualisiert: {0}"
+
+#: ui/tags_blacklist_window.py:1129
+msgid "Model item '{0}' is now {1}"
+msgstr "Modellartikel ‚{0}‘ ist jetzt {1}"
+
+#: ui/tags_blacklist_window.py:1143
+msgid "Removed model blacklist item: {0}"
+msgstr "Entferntes Modell-Schwarzeliste-Element: {0}"
+
+#: ui/tags_blacklist_window.py:1150
+msgid "Cleared model blacklist items"
+msgstr "Gelöschte Elemente der Modell-Schwarzeliste"
+
+#: ui/tags_blacklist_window.py:1181
+msgid "Successfully imported model blacklist"
+msgstr "Modell-Schwarzeliste erfolgreich importiert"
+
+#: ui/tags_blacklist_window.py:1192
+msgid "Export Model Blacklist"
+msgstr "Exportieren Sie die Modell-Schwarzeliste"
+
+#: ui/tags_blacklist_window.py:1202
+msgid "Successfully exported model blacklist"
+msgstr "Modell-Schwarzeliste erfolgreich exportiert"
+
+#: ui/tags_blacklist_window_qt.py:16
+msgid "Tags Blacklist"
+msgstr "Stichworte-Schwarzliste"
 
 #: ui/tags_blacklist_window_qt.py:28
 msgid "Search tags..."
@@ -1405,35 +1504,99 @@ msgstr "Fehlermeldung (alle Generationen sperren)"
 msgid "Log only (do not remove, just log)"
 msgstr "Nur protokollieren (nicht entfernen, nur protokollieren)"
 
-#: utils/globals.py:324
+#: utils/globals.py:99
+msgid "Disallow"
+msgstr "Verbot"
+
+#: utils/globals.py:100
+msgid "Allow in NSFW"
+msgstr "Im NSFW-Modus zulassen"
+
+#: utils/globals.py:191
+msgid "Simple Image Gen"
+msgstr "Einfaches Gen von Bildern"
+
+#: utils/globals.py:192
+msgid "Simple Image Gen Lora"
+msgstr "Einfaches Gen von Bildern mit LoRA"
+
+#: utils/globals.py:193
+msgid "Simple Image Gen Tiled Upscale"
+msgstr "Einfaches Gen von gekachelten hochauflösenden Bildern"
+
+#: utils/globals.py:194
+msgid "Ella"
+msgstr "ELLA"
+
+#: utils/globals.py:195
+msgid "Instant Lora"
+msgstr "Sofortiges LoRA"
+
+#: utils/globals.py:196
+msgid "IP Adapter"
+msgstr "IP-Adapter"
+
+#: utils/globals.py:197
+msgid "ControlNet"
+msgstr "Steuerungsnetzwerk"
+
+#: utils/globals.py:198
+msgid "Inpaint ClipSeg"
+msgstr "Inpaint ClipSeg"
+
+#: utils/globals.py:199
+msgid "Animate Diff"
+msgstr "Animieren Diff"
+
+#: utils/globals.py:200
+msgid "Renoiser"
+msgstr "Renoiser"
+
+#: utils/globals.py:201
+msgid "Turbo"
+msgstr "Turbo"
+
+#: utils/globals.py:202
+msgid "Upscale Simple"
+msgstr "Bild vergrößern Einfach"
+
+#: utils/globals.py:203
+msgid "Upscale Better"
+msgstr "Bild vergrößern Bessere Version"
+
+#: utils/globals.py:204
+msgid "Redo Prompt"
+msgstr "Die Eingabeaufforderung wiederholen"
+
+#: utils/globals.py:348
 msgid "Open Application"
 msgstr "Anwendung öffnen"
 
-#: utils/globals.py:325
+#: utils/globals.py:349
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFL Aufforderungsmodi"
 
-#: utils/globals.py:326
+#: utils/globals.py:350
 msgid "Edit Blacklist"
 msgstr "Schwarze Liste bearbeiten"
 
-#: utils/globals.py:327
+#: utils/globals.py:351
 msgid "Reveal Blacklist Concepts"
 msgstr "Konzepte für die Schwarze Liste aufdecken"
 
-#: utils/globals.py:328
+#: utils/globals.py:352
 msgid "Edit Schedules"
 msgstr "Zeitpläne bearbeiten"
 
-#: utils/globals.py:329
+#: utils/globals.py:353
 msgid "Edit Expansions"
 msgstr "Erweiterungen bearbeiten"
 
-#: utils/globals.py:330
+#: utils/globals.py:354
 msgid "Edit Presets"
 msgstr "Voreinstellungen bearbeiten"
 
-#: utils/globals.py:332
+#: utils/globals.py:356
 msgid "Access Password Administration"
 msgstr "Zugang Kennwortverwaltung"
 
@@ -1460,59 +1623,3 @@ msgstr "{0}m"
 #: utils/time_estimator.py:92
 msgid "{0}s"
 msgstr "{0}s"
-
-#: utils/globals.py:167
-msgid "Simple Image Gen"
-msgstr "Einfaches Gen von Bildern"
-
-#: utils/globals.py:168
-msgid "Simple Image Gen Lora"
-msgstr "Einfaches Gen von Bildern mit LoRA"
-
-#: utils/globals.py:169
-msgid "Simple Image Gen Tiled Upscale"
-msgstr "Einfaches Gen von gekachelten hochauflösenden Bildern"
-
-#: utils/globals.py:170
-msgid "Ella"
-msgstr "ELLA"
-
-#: utils/globals.py:171
-msgid "Instant Lora"
-msgstr "Sofortiges LoRA"
-
-#: utils/globals.py:172
-msgid "IP Adapter"
-msgstr "IP-Adapter"
-
-#: utils/globals.py:173
-msgid "ControlNet"
-msgstr "Steuerungsnetzwerk"
-
-#: utils/globals.py:174
-msgid "Inpaint ClipSeg"
-msgstr "Inpaint ClipSeg"
-
-#: utils/globals.py:175
-msgid "Animate Diff"
-msgstr "Animieren Diff"
-
-#: utils/globals.py:176
-msgid "Renoiser"
-msgstr "Renoiser"
-
-#: utils/globals.py:177
-msgid "Turbo"
-msgstr "Turbo"
-
-#: utils/globals.py:178
-msgid "Upscale Simple"
-msgstr "Bild vergrößern Einfach"
-
-#: utils/globals.py:179
-msgid "Upscale Better"
-msgstr "Bild vergrößern Bessere Version"
-
-#: utils/globals.py:180
-msgid "Redo Prompt"
-msgstr "Die Eingabeaufforderung wiederholen"

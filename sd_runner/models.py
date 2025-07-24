@@ -3,9 +3,13 @@ import os
 import random
 import re
 
+from sd_runner.blacklist import Blacklist, BlacklistException
 from sd_runner.model_adapters import LoraBundle
 from utils.config import config
-from utils.globals import Globals, PromptMode, WorkflowType, ArchitectureType, ResolutionGroup
+from utils.globals import Globals, PromptMode, ModelBlacklistMode, WorkflowType, ArchitectureType, ResolutionGroup
+from utils.translations import I18N
+
+_ = I18N._
 
 
 class Model:
@@ -348,6 +352,43 @@ class Model:
             if tags_from_model:
                 prompt_massage_tags = tags_from_model
         return prompt_massage_tags, models
+
+    @staticmethod
+    def validate_model_blacklist(tags_str, prompt_mode=PromptMode.SFW, default_tag="analogMadness", is_lora=False, inpainting=False, is_xl=0):
+        if Blacklist.is_model_empty():
+            return {}
+        if Blacklist.get_model_blacklist_mode() == ModelBlacklistMode.ALLOW_IN_NSFW and prompt_mode in [PromptMode.NSFW, PromptMode.NSFL]:
+            return {}
+        models = Model.get_models(tags_str, is_lora=is_lora, default_tag=default_tag, inpainting=inpainting, is_xl=is_xl)
+        whitelist = []
+        violations = {}
+        for model in models:
+            model_violations = Blacklist.get_model_blacklist_violations(model.id)
+            if model_violations:
+                violations[model.id] = model_violations
+            else:
+                whitelist.append(model.id)
+
+        if violations:
+            filtered = list(violations.keys())
+            if is_lora:
+                if Blacklist.get_blacklist_silent_removal():
+                    raise BlacklistException(_("One or more loras are blacklisted. Please try again with a different lora."),
+                                             whitelist=whitelist,
+                                             filtered=filtered)
+                else:
+                    raise BlacklistException(_("The following loras are blacklisted: {0}\n\nPlease try again with a different lora.").format(list(violations.keys())),
+                                             whitelist=whitelist,
+                                             filtered=filtered)
+            else:
+                if Blacklist.get_blacklist_silent_removal():
+                    raise BlacklistException(_("One or more models are blacklisted. Please try again with a different model."),
+                                             whitelist=whitelist,
+                                             filtered=filtered)
+                else:
+                    raise BlacklistException(_("The following models are blacklisted: {0}\n\nPlease try again with a different model.").format(filtered),
+                                             whitelist=whitelist,
+                                             filtered=filtered)
 
 
 

@@ -13,6 +13,8 @@ from utils.globals import ProtectedActions
 
 def _check_all_actions_protection(action_names: list[ProtectedActions], config) -> bool:
     """Check if any actions require password protection."""
+    if isinstance(action_names, ProtectedActions):
+        action_names = [action_names]
     return any(config.is_action_protected(action.value) for action in action_names)
 
 def _check_session_validity(action_names: list[ProtectedActions], config, timeout_minutes: int) -> bool:

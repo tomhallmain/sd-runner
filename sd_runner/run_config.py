@@ -1,4 +1,5 @@
 from utils.globals import Globals, PromptMode # must import first
+
 from sd_runner.models import Model
 from utils.time_estimator import TimeEstimator
 
@@ -50,14 +51,31 @@ class RunConfig:
     def validate(self):
         if self.prompter_config is None:
             raise Exception(_("No prompter config found!"))
+
         # Check here if for example, using FIXED prompt mode and > 6 set total
         if self.prompter_config.prompt_mode == PromptMode.FIXED and self.total > 10:
             raise Exception(_("Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"))
+
+        # Validate prompt massage tags
+        prompt_massage_tags, models = Model.get_first_model_prompt_massage_tags(self.model_tags, prompt_mode=self.prompter_config.prompt_mode, inpainting=self.inpainting)
         if RunConfig.model_switch_detected and not RunConfig.has_warned_about_prompt_massage_text_mismatch:
-            prompt_massage_tags, models = Model.get_first_model_prompt_massage_tags(self.model_tags, prompt_mode=self.prompter_config.prompt_mode, inpainting=self.inpainting)
             if Globals.POSITIVE_PROMPT_MASSAGE_TAGS != prompt_massage_tags:
                 RunConfig.has_warned_about_prompt_massage_text_mismatch = True
                 raise Exception(_("A model switch was detected and the model massage tags don't match. This warning will only be shown once."))
+
+        # Validate models against blacklist
+        Model.validate_model_blacklist(self.model_tags,
+                prompt_mode=self.prompter_config.prompt_mode,
+                inpainting=self.inpainting)
+
+        # Validate loras against blacklist
+        Model.validate_model_blacklist(self.lora_tags,
+                prompt_mode=self.prompter_config.prompt_mode,
+                default_tag=models[0].get_default_lora(),
+                inpainting=self.inpainting,
+                is_lora=True,
+                is_xl=models[0].is_xl())
+
         return True
 
     def __str__(self):

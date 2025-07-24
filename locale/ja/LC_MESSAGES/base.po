@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-23 16:05-0400\n"
-"PO-Revision-Date: 2025-07-23 16:05-0400\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-07-24 18:42-0400\n"
+"PO-Revision-Date: 2025-07-24 18:42-0400\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: ja Team <<EMAIL>>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -136,7 +136,7 @@ msgstr "プロンプトの設定"
 msgid "Prompt Mode"
 msgstr "プロンプトのモード"
 
-#: app.py:362 utils/globals.py:331
+#: app.py:362 utils/globals.py:355
 msgid "Edit Concepts"
 msgstr "編集コンセプト"
 
@@ -248,7 +248,7 @@ msgstr "プリセットスケジュールウィンドウ"
 msgid "Presets Window"
 msgstr "プリセットウィンドウ"
 
-#: app.py:561
+#: app.py:561 ui/tags_blacklist_window.py:446 ui/tags_blacklist_window.py:593
 msgid "Tag Blacklist"
 msgstr "タグ ブラックリスト"
 
@@ -264,56 +264,56 @@ msgstr "終了を確認する"
 msgid "Would you like to quit the application?"
 msgstr "アプリを終了しますか？"
 
-#: app.py:874 app.py:891
+#: app.py:873 app.py:893
 msgid "Confirm Run"
 msgstr "ランの確認"
 
-#: app.py:875
+#: app.py:874
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "新しいランを開始すると、現在のプリセットスケジュールはキャンセルされます。本当に続けますか？"
 
-#: app.py:892
+#: app.py:894
 msgid "Are you sure you want to proceed?"
 msgstr "このままでいいのか？"
 
-#: app.py:992 app_qt.py:379
+#: app.py:994 app_qt.py:379
 msgid " (unlimited)"
 msgstr " (無制限）"
 
-#: app.py:1016
+#: app.py:1018
 msgid "{0} pending generations"
 msgstr "{0}保留中の世代"
 
-#: app.py:1098
+#: app.py:1100
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "プロンプトでブラックリストの項目が見つかりました： {0}"
 
-#: app.py:1099 app.py:1102
+#: app.py:1101 app.py:1104
 msgid "Invalid Prompt Tags"
 msgstr "無効なプロンプトタグ"
 
-#: app.py:1102
+#: app.py:1104
 msgid "Blacklist validation failed!"
 msgstr "ブラックリストの検証に失敗した！"
 
-#: app.py:1240
+#: app.py:1242
 msgid "Password Cancelled"
 msgstr "パスワードのキャンセル"
 
-#: app.py:1240
+#: app.py:1242
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "パスワードがキャンセルされたか、間違っている。"
 
-#: app.py:1258 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:231
+#: app.py:1260 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:231
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:117
 #: ui/tags_blacklist_window.py:274
 msgid "Error"
 msgstr "エラー"
 
-#: app.py:1385 app_qt.py:50
+#: app.py:1387 app_qt.py:50
 msgid " ComfyGen "
 msgstr " SDランナー "
 
@@ -321,25 +321,55 @@ msgstr " SDランナー "
 msgid "Prompter Configuration"
 msgstr "プロンプターの設定"
 
-#: sd_runner/blacklist.py:202
+#: sd_runner/blacklist.py:242
 msgid "Filtering concepts for blacklist: "
 msgstr "ブラックリストのフィルタリングの概念： "
 
-#: sd_runner/run_config.py:52
+#: sd_runner/run_config.py:58
 msgid "No prompter config found!"
 msgstr "プロンプターのコンフィグが見つかりません！"
 
-#: sd_runner/run_config.py:55
+#: sd_runner/run_config.py:62
 msgid ""
 "Ensure configuration is correct - do you really want to create more than 10 "
 "images using the same prompt?"
 msgstr "同じプロンプトを使って10枚以上の画像を作成したいのですか？"
 
-#: sd_runner/run_config.py:60
+#: sd_runner/run_config.py:69
 msgid ""
 "A model switch was detected and the model massage tags don't match. This "
 "warning will only be shown once."
 msgstr "モデル切り替えが検出され、モデル調整のタグが一致しません。この警告は1回のみ表示されます。"
+
+#: sd_runner/run_config.py:77
+msgid ""
+"One or more models are blacklisted. Please try again with a different model."
+msgstr "1つまたは複数のモデルがブラックリストに登録されています。別のモデルで再度お試しください。"
+
+#: sd_runner/run_config.py:79
+msgid ""
+"The following models are blacklisted: {0}\n"
+"\n"
+"Please try again with a different model."
+msgstr ""
+"以下のモデルはブラックリストに登録されています: {0}\n"
+"\n"
+"別のモデルで再度お試しください。"
+
+#: sd_runner/run_config.py:89
+msgid ""
+"One or more loras are blacklisted. Please try again with a different lora."
+msgstr "1つまたは複数のLORAがブラックリストに登録されています。別のLORAを使用して再度お試しください。"
+
+#: sd_runner/run_config.py:91
+msgid ""
+"The following loras are blacklisted: {0}\n"
+"\n"
+"Please try again with a different lora."
+msgstr ""
+"以下のLORAはブラックリストに登録されています：{0}\n"
+"\n"
+"別のLORAを使用して再度お試しください。"
 
 #: ui/concept_editor_window.py:106
 msgid "Search/Add Concept:"
@@ -365,7 +395,7 @@ msgid "Delete"
 msgstr "削除"
 
 #: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:486
+#: ui/tags_blacklist_window.py:505 ui/tags_blacklist_window.py:566
 msgid "Import"
 msgstr "輸入"
 
@@ -467,7 +497,8 @@ msgstr "ブラウズ"
 msgid "Active"
 msgstr "アクティブ"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:487
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:506
+#: ui/tags_blacklist_window.py:567
 msgid "Export"
 msgstr "輸出"
 
@@ -545,7 +576,7 @@ msgid ""
 msgstr ""
 "警告 この拡張IDは、config.json内のワイルドカードと一致します。ワイルドカードが削除されるか、名前が変更されるまで、変更は有効になりません。"
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:661
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:795
 msgid "Warning"
 msgstr "警告"
 
@@ -580,7 +611,7 @@ msgid "Clear expansions"
 msgstr "明確な拡張"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:558
+#: ui/tags_blacklist_window.py:657 ui/tags_blacklist_window.py:703
 msgid "Modify"
 msgstr "修正"
 
@@ -790,7 +821,7 @@ msgstr "グロブベースの正規表現を使用する"
 msgid "Use word boundary matching"
 msgstr "単語境界マッチングを使う"
 
-#: ui/tags_blacklist_window.py:94 ui/tags_blacklist_window.py:566
+#: ui/tags_blacklist_window.py:94 ui/tags_blacklist_window.py:665
 msgid "Preview"
 msgstr "プレビュー"
 
@@ -830,7 +861,7 @@ msgstr "フィルタリングされたコンセプトが{0}個見つかった"
 msgid "Error loading concepts: {0}"
 msgstr "概念の読み込みエラー： {0}"
 
-#: ui/tags_blacklist_window.py:295
+#: ui/tags_blacklist_window.py:298
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -870,63 +901,75 @@ msgstr "デフォルトのブラックリストをロード"
 msgid "Error loading default blacklist"
 msgstr "デフォルトのブラックリストの読み込みエラー"
 
-#: ui/tags_blacklist_window.py:420 ui/tags_blacklist_window_qt.py:16
-msgid "Tags Blacklist"
-msgstr "タグ ブラックリスト"
+#: ui/tags_blacklist_window.py:420
+msgid "Tags/Models Blacklist"
+msgstr "タグとモデルのブラックリスト"
 
-#: ui/tags_blacklist_window.py:454
+#: ui/tags_blacklist_window.py:449
+msgid "Model Blacklist"
+msgstr "モデル用のブラックリスト"
+
+#: ui/tags_blacklist_window.py:473 ui/tags_blacklist_window.py:535
 msgid "Global Settings:"
 msgstr "グローバル設定"
 
-#: ui/tags_blacklist_window.py:456
+#: ui/tags_blacklist_window.py:475 ui/tags_blacklist_window.py:537
 msgid "These settings affect how the blacklist is applied globally."
 msgstr "これらの設定は、ブラックリストがどのようにグローバルに適用されるかに影響する。"
 
-#: ui/tags_blacklist_window.py:465
+#: ui/tags_blacklist_window.py:484 ui/tags_blacklist_window.py:546
 msgid "Choose how the blacklist is enforced: block, warn, or allow."
 msgstr "ブラックリストの適用方法を、ブロック、警告、または許可から選択します。"
 
-#: ui/tags_blacklist_window.py:471
+#: ui/tags_blacklist_window.py:490 ui/tags_blacklist_window.py:552
 msgid "Silent Removal"
 msgstr "サイレント・リムーバル"
 
-#: ui/tags_blacklist_window.py:479
+#: ui/tags_blacklist_window.py:498 ui/tags_blacklist_window.py:560
 msgid ""
 "If enabled, blacklisted words are removed silently without notification."
 msgstr "有効にすると、ブラックリストに登録された単語は通知なしに削除されます。"
 
-#: ui/tags_blacklist_window.py:488
+#: ui/tags_blacklist_window.py:507 ui/tags_blacklist_window.py:568
 msgid "Preview All"
 msgstr "すべてをプレビュー"
 
-#: ui/tags_blacklist_window.py:489
+#: ui/tags_blacklist_window.py:508
 msgid "Load Default"
 msgstr "デフォルトをロードする"
 
-#: ui/tags_blacklist_window.py:493
+#: ui/tags_blacklist_window.py:512
 msgid "Blacklist items"
 msgstr "ブラックリスト項目"
 
-#: ui/tags_blacklist_window.py:495
+#: ui/tags_blacklist_window.py:514
 msgid "Add to tag blacklist"
 msgstr "タグのブラックリストに追加"
 
-#: ui/tags_blacklist_window.py:498
+#: ui/tags_blacklist_window.py:516 ui/tags_blacklist_window.py:582
 msgid "Clear items"
 msgstr "項目をクリアする"
 
-#: ui/tags_blacklist_window.py:514
+#: ui/tags_blacklist_window.py:576
+msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
+msgstr "モデルブラックリストの適用方法を選択してください：NSFWで禁止するか、許可するか。"
+
+#: ui/tags_blacklist_window.py:581
+msgid "Add to model blacklist"
+msgstr "모델 블랙리스트에 추가"
+
+#: ui/tags_blacklist_window.py:613
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag "
 "blacklist' button below, or load the default blacklist."
 msgstr ""
 "ブラックリスト項目が見つかりません。下の「タグのブラックリストに追加」ボタンをクリックしてアイテムを追加するか、デフォルトのブラックリストをロードすることができます。"
 
-#: ui/tags_blacklist_window.py:516
+#: ui/tags_blacklist_window.py:615
 msgid "Click below to reveal blacklist concepts."
 msgstr "下記をクリックするとブラックリストのコンセプトが表示されます。"
 
-#: ui/tags_blacklist_window.py:518
+#: ui/tags_blacklist_window.py:617
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
@@ -934,43 +977,55 @@ msgid ""
 msgstr ""
 "デフォルトのブラックリストがロードされます。既存のコンセプトを編集したり、ブラックリストをクリアして独自のコンセプトを追加したり、ファイルからコンセプトをインポートしたりすることで、独自のブラックリストをロードできます。"
 
-#: ui/tags_blacklist_window.py:524
+#: ui/tags_blacklist_window.py:623
 msgid "Reveal Concepts"
 msgstr "コンセプトを明かす"
 
-#: ui/tags_blacklist_window.py:543
+#: ui/tags_blacklist_window.py:642
 msgid "[regex]"
 msgstr "[正規表現]"
 
-#: ui/tags_blacklist_window.py:545
+#: ui/tags_blacklist_window.py:644
 msgid "[no boundary]"
 msgstr "[単語境界なし]"
 
-#: ui/tags_blacklist_window.py:574
+#: ui/tags_blacklist_window.py:673 ui/tags_blacklist_window.py:709
 msgid "Remove"
 msgstr "削除"
 
-#: ui/tags_blacklist_window.py:636 ui/tags_blacklist_window.py:671
+#: ui/tags_blacklist_window.py:685
+msgid ""
+"No model blacklist items found. You can add items by clicking the 'Add to "
+"model blacklist' button above, or load the default model blacklist."
+msgstr ""
+"モデルブラックリストにアイテムが見つかりませんでした。アイテムを追加するには、上記の「モデルブラックリストに追加」ボタンをクリックするか、デフォルトのモデルブラックリストを読み込むことができます。"
+
+#: ui/tags_blacklist_window.py:696 ui/tags_blacklist_window.py:962
+#: ui/tags_blacklist_window.py:1128
+msgid "Disabled"
+msgstr "無効"
+
+#: ui/tags_blacklist_window.py:770 ui/tags_blacklist_window.py:805
 msgid "Added item to blacklist: {0}"
 msgstr "ブラックリストに項目を追加： {0}"
 
-#: ui/tags_blacklist_window.py:638
+#: ui/tags_blacklist_window.py:772
 msgid "Modified blacklist item: {0}"
 msgstr "変更されたブラックリスト項目： {0}"
 
-#: ui/tags_blacklist_window.py:651
+#: ui/tags_blacklist_window.py:785
 msgid "Removed item: {0}"
 msgstr "削除されたアイテム {0}"
 
-#: ui/tags_blacklist_window.py:661
+#: ui/tags_blacklist_window.py:795
 msgid "Please enter a string to add to the blacklist."
 msgstr "ブラックリストに追加する文字列を入力してください。"
 
-#: ui/tags_blacklist_window.py:751
+#: ui/tags_blacklist_window.py:885
 msgid "Confirm Clear Blacklist"
 msgstr "ブラックリストの消去を確認する"
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:886
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
@@ -990,57 +1045,93 @@ msgstr ""
 "\n"
 "続けますか？"
 
-#: ui/tags_blacklist_window.py:771
+#: ui/tags_blacklist_window.py:905
 msgid "Cleared item blacklist"
 msgstr "アイテムのブラックリストを消去"
 
-#: ui/tags_blacklist_window.py:831
+#: ui/tags_blacklist_window.py:964
 msgid "Item \"{0}\" is now {1}"
 msgstr "アイテム「{0}」が{1}になった。"
 
-#: ui/tags_blacklist_window.py:833
+#: ui/tags_blacklist_window.py:966 ui/tags_blacklist_window.py:1131
 msgid "enabled"
 msgstr "使用可能"
 
-#: ui/tags_blacklist_window.py:833
+#: ui/tags_blacklist_window.py:966 ui/tags_blacklist_window.py:1131
 msgid "disabled"
 msgstr "使用不能"
 
-#: ui/tags_blacklist_window.py:842
+#: ui/tags_blacklist_window.py:975
 msgid "Concepts revealed"
 msgstr "コンセプトが明らかになる"
 
-#: ui/tags_blacklist_window.py:866
+#: ui/tags_blacklist_window.py:1006 ui/tags_blacklist_window.py:1162
 msgid "Import Blacklist"
 msgstr "ブラックリストのインポート"
 
-#: ui/tags_blacklist_window.py:885
+#: ui/tags_blacklist_window.py:1025
 msgid "Successfully imported blacklist"
 msgstr "ブラックリストのインポート成功"
 
-#: ui/tags_blacklist_window.py:887
+#: ui/tags_blacklist_window.py:1027 ui/tags_blacklist_window.py:1183
 msgid "Import Error"
 msgstr "インポートエラー"
 
-#: ui/tags_blacklist_window.py:898
+#: ui/tags_blacklist_window.py:1038
 msgid "Export Blacklist"
 msgstr "ブラックリストのエクスポート"
 
-#: ui/tags_blacklist_window.py:913
+#: ui/tags_blacklist_window.py:1053
 msgid "Successfully exported blacklist"
 msgstr "ブラックリストのエクスポートに成功"
 
-#: ui/tags_blacklist_window.py:915
+#: ui/tags_blacklist_window.py:1055 ui/tags_blacklist_window.py:1204
 msgid "Export Error"
 msgstr "エクスポートエラー"
 
-#: ui/tags_blacklist_window.py:925
+#: ui/tags_blacklist_window.py:1065
+msgid "Model blacklist mode set to: {0}"
+msgstr "モデルブラックリストモードの設定: {0}"
+
+#: ui/tags_blacklist_window.py:1075
 msgid "Blacklist mode set to: {0}"
 msgstr "ブラックリストモードを設定： {0}"
 
-#: ui/tags_blacklist_window.py:931
+#: ui/tags_blacklist_window.py:1081
 msgid "Silent removal set to: {0}"
 msgstr "サイレント除去を設定 {0}"
+
+#: ui/tags_blacklist_window.py:1119
+msgid "Model blacklist updated: {0}"
+msgstr "モデルブラックリストが更新されました: {0}"
+
+#: ui/tags_blacklist_window.py:1129
+msgid "Model item '{0}' is now {1}"
+msgstr "モデルアイテム 『{0}』 は現在 {1} です。"
+
+#: ui/tags_blacklist_window.py:1143
+msgid "Removed model blacklist item: {0}"
+msgstr "削除されたモデルブラックリスト項目: {0}"
+
+#: ui/tags_blacklist_window.py:1150
+msgid "Cleared model blacklist items"
+msgstr "ブラックリストから削除されたモデル項目"
+
+#: ui/tags_blacklist_window.py:1181
+msgid "Successfully imported model blacklist"
+msgstr "モデルブラックリストを正常にインポートしました"
+
+#: ui/tags_blacklist_window.py:1192
+msgid "Export Model Blacklist"
+msgstr "モデルブラックリストのエクスポート"
+
+#: ui/tags_blacklist_window.py:1202
+msgid "Successfully exported model blacklist"
+msgstr "モデルブラックリストのエクスポートに成功しました"
+
+#: ui/tags_blacklist_window_qt.py:16
+msgid "Tags Blacklist"
+msgstr "タグ ブラックリスト"
 
 #: ui/tags_blacklist_window_qt.py:28
 msgid "Search tags..."
@@ -1369,35 +1460,99 @@ msgstr "フェイルプロンプト（全世代をブロック）"
 msgid "Log only (do not remove, just log)"
 msgstr "ログのみ（削除せず、ログのみ残す）"
 
-#: utils/globals.py:324
+#: utils/globals.py:99
+msgid "Disallow"
+msgstr "許可しない"
+
+#: utils/globals.py:100
+msgid "Allow in NSFW"
+msgstr "NSFWモードでの表示を許可する"
+
+#: utils/globals.py:191
+msgid "Simple Image Gen"
+msgstr "画像の簡単な生成"
+
+#: utils/globals.py:192
+msgid "Simple Image Gen Lora"
+msgstr "LoRAによる画像の簡単な生成"
+
+#: utils/globals.py:193
+msgid "Simple Image Gen Tiled Upscale"
+msgstr "タイル状の高解像度画像の簡単な生成"
+
+#: utils/globals.py:194
+msgid "Ella"
+msgstr "ELLA"
+
+#: utils/globals.py:195
+msgid "Instant Lora"
+msgstr "インスタント LoRA"
+
+#: utils/globals.py:196
+msgid "IP Adapter"
+msgstr "IPアダプター"
+
+#: utils/globals.py:197
+msgid "ControlNet"
+msgstr "コントロールネット"
+
+#: utils/globals.py:198
+msgid "Inpaint ClipSeg"
+msgstr "インペイント・クリップセグ"
+
+#: utils/globals.py:199
+msgid "Animate Diff"
+msgstr "アニメーション差分"
+
+#: utils/globals.py:200
+msgid "Renoiser"
+msgstr "レノイザー"
+
+#: utils/globals.py:201
+msgid "Turbo"
+msgstr "ターボ"
+
+#: utils/globals.py:202
+msgid "Upscale Simple"
+msgstr "画像を拡大する 簡単"
+
+#: utils/globals.py:203
+msgid "Upscale Better"
+msgstr "画像を高画質化 より良いバージョン"
+
+#: utils/globals.py:204
+msgid "Redo Prompt"
+msgstr "プロンプトを再表示する"
+
+#: utils/globals.py:348
 msgid "Open Application"
 msgstr "ソフトウェア・アプリケーションを開く"
 
-#: utils/globals.py:325
+#: utils/globals.py:349
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFLプロンプト・モード"
 
-#: utils/globals.py:326
+#: utils/globals.py:350
 msgid "Edit Blacklist"
 msgstr "ブラックリストの編集"
 
-#: utils/globals.py:327
+#: utils/globals.py:351
 msgid "Reveal Blacklist Concepts"
 msgstr "ブラックリストのコンセプトを明らかにする"
 
-#: utils/globals.py:328
+#: utils/globals.py:352
 msgid "Edit Schedules"
 msgstr "スケジュールの編集"
 
-#: utils/globals.py:329
+#: utils/globals.py:353
 msgid "Edit Expansions"
 msgstr "エクスパンションの編集"
 
-#: utils/globals.py:330
+#: utils/globals.py:354
 msgid "Edit Presets"
 msgstr "プリセットの編集"
 
-#: utils/globals.py:332
+#: utils/globals.py:356
 msgid "Access Password Administration"
 msgstr "アクセスパスワードの管理"
 
@@ -1424,59 +1579,3 @@ msgstr "{0}分"
 #: utils/time_estimator.py:92
 msgid "{0}s"
 msgstr "{0}秒"
-
-#: utils/globals.py:167
-msgid "Simple Image Gen"
-msgstr "画像の簡単な生成"
-
-#: utils/globals.py:168
-msgid "Simple Image Gen Lora"
-msgstr "LoRAによる画像の簡単な生成"
-
-#: utils/globals.py:169
-msgid "Simple Image Gen Tiled Upscale"
-msgstr "タイル状の高解像度画像の簡単な生成"
-
-#: utils/globals.py:170
-msgid "Ella"
-msgstr "ELLA"
-
-#: utils/globals.py:171
-msgid "Instant Lora"
-msgstr "インスタント LoRA"
-
-#: utils/globals.py:172
-msgid "IP Adapter"
-msgstr "IPアダプター"
-
-#: utils/globals.py:173
-msgid "ControlNet"
-msgstr "コントロールネット"
-
-#: utils/globals.py:174
-msgid "Inpaint ClipSeg"
-msgstr "インペイント・クリップセグ"
-
-#: utils/globals.py:175
-msgid "Animate Diff"
-msgstr "アニメーション差分"
-
-#: utils/globals.py:176
-msgid "Renoiser"
-msgstr "レノイザー"
-
-#: utils/globals.py:177
-msgid "Turbo"
-msgstr "ターボ"
-
-#: utils/globals.py:178
-msgid "Upscale Simple"
-msgstr "画像を拡大する 簡単"
-
-#: utils/globals.py:179
-msgid "Upscale Better"
-msgstr "画像を高画質化 より良いバージョン"
-
-#: utils/globals.py:180
-msgid "Redo Prompt"
-msgstr "プロンプトを再表示する"

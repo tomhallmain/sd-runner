@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-23 16:05-0400\n"
-"PO-Revision-Date: 2025-07-23 16:05-0400\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-07-24 18:42-0400\n"
+"PO-Revision-Date: 2025-07-24 18:42-0400\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -136,7 +136,7 @@ msgstr "提示配置"
 msgid "Prompt Mode"
 msgstr "提示方式"
 
-#: app.py:362 utils/globals.py:331
+#: app.py:362 utils/globals.py:355
 msgid "Edit Concepts"
 msgstr "编辑概念"
 
@@ -248,7 +248,7 @@ msgstr "预设时间表窗口"
 msgid "Presets Window"
 msgstr "预设窗口"
 
-#: app.py:561
+#: app.py:561 ui/tags_blacklist_window.py:446 ui/tags_blacklist_window.py:593
 msgid "Tag Blacklist"
 msgstr "标签黑名单"
 
@@ -264,56 +264,56 @@ msgstr "确认退出"
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
-#: app.py:874 app.py:891
+#: app.py:873 app.py:893
 msgid "Confirm Run"
 msgstr "确认运行"
 
-#: app.py:875
+#: app.py:874
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "开始新的运行将取消当前的预设时间表。您确定要继续吗？"
 
-#: app.py:892
+#: app.py:894
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
 
-#: app.py:992 app_qt.py:379
+#: app.py:994 app_qt.py:379
 msgid " (unlimited)"
 msgstr " (无限制)"
 
-#: app.py:1016
+#: app.py:1018
 msgid "{0} pending generations"
 msgstr "{0}待定世代"
 
-#: app.py:1098
+#: app.py:1100
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "提示中发现黑名单项目： {0}"
 
-#: app.py:1099 app.py:1102
+#: app.py:1101 app.py:1104
 msgid "Invalid Prompt Tags"
 msgstr "无效提示标签"
 
-#: app.py:1102
+#: app.py:1104
 msgid "Blacklist validation failed!"
 msgstr "黑名单验证失败！"
 
-#: app.py:1240
+#: app.py:1242
 msgid "Password Cancelled"
 msgstr "取消密码"
 
-#: app.py:1240
+#: app.py:1242
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "密码被取消或不正确，返回上一模式"
 
-#: app.py:1258 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:231
+#: app.py:1260 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:231
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:117
 #: ui/tags_blacklist_window.py:274
 msgid "Error"
 msgstr "错误"
 
-#: app.py:1385 app_qt.py:50
+#: app.py:1387 app_qt.py:50
 msgid " ComfyGen "
 msgstr " SD 转轮 "
 
@@ -321,25 +321,55 @@ msgstr " SD 转轮 "
 msgid "Prompter Configuration"
 msgstr "提示器配置"
 
-#: sd_runner/blacklist.py:202
+#: sd_runner/blacklist.py:242
 msgid "Filtering concepts for blacklist: "
 msgstr "黑名单的过滤概念： "
 
-#: sd_runner/run_config.py:52
+#: sd_runner/run_config.py:58
 msgid "No prompter config found!"
 msgstr "未找到提示器配置！"
 
-#: sd_runner/run_config.py:55
+#: sd_runner/run_config.py:62
 msgid ""
 "Ensure configuration is correct - do you really want to create more than 10 "
 "images using the same prompt?"
 msgstr "确保配置正确 - 您真的想使用同一提示创建十多个图像吗？"
 
-#: sd_runner/run_config.py:60
+#: sd_runner/run_config.py:69
 msgid ""
 "A model switch was detected and the model massage tags don't match. This "
 "warning will only be shown once."
 msgstr "检测到型号切换，且型号调整的标记不匹配。此警告只显示一次。"
+
+#: sd_runner/run_config.py:77
+msgid ""
+"One or more models are blacklisted. Please try again with a different model."
+msgstr "一个或多个模型已被列入黑名单。请尝试使用其他模型。"
+
+#: sd_runner/run_config.py:79
+msgid ""
+"The following models are blacklisted: {0}\n"
+"\n"
+"Please try again with a different model."
+msgstr ""
+"以下模型已被列入黑名单：{0}\n"
+"\n"
+"请尝试使用其他模型。"
+
+#: sd_runner/run_config.py:89
+msgid ""
+"One or more loras are blacklisted. Please try again with a different lora."
+msgstr "一个或多个LORA已被列入黑名单。请尝试使用其他LORA。"
+
+#: sd_runner/run_config.py:91
+msgid ""
+"The following loras are blacklisted: {0}\n"
+"\n"
+"Please try again with a different lora."
+msgstr ""
+"以下 LORA 已被列入黑名单：{0}\n"
+"\n"
+"请尝试使用其他 LORA 重新操作。"
 
 #: ui/concept_editor_window.py:106
 msgid "Search/Add Concept:"
@@ -365,7 +395,7 @@ msgid "Delete"
 msgstr "删除"
 
 #: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:486
+#: ui/tags_blacklist_window.py:505 ui/tags_blacklist_window.py:566
 msgid "Import"
 msgstr "进口"
 
@@ -467,7 +497,8 @@ msgstr "浏览"
 msgid "Active"
 msgstr "活跃"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:487
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:506
+#: ui/tags_blacklist_window.py:567
 msgid "Export"
 msgstr "出口"
 
@@ -544,7 +575,7 @@ msgid ""
 "not take effect until the wildcard is removed or renamed."
 msgstr "警告： 此扩展 ID 与 config.json 中的通配符匹配。在删除或重命名通配符之前，更改不会生效。"
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:661
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:795
 msgid "Warning"
 msgstr "警告"
 
@@ -579,7 +610,7 @@ msgid "Clear expansions"
 msgstr "清除扩展"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:558
+#: ui/tags_blacklist_window.py:657 ui/tags_blacklist_window.py:703
 msgid "Modify"
 msgstr "修改"
 
@@ -789,7 +820,7 @@ msgstr "使用基于全局的 regex"
 msgid "Use word boundary matching"
 msgstr "使用单词边界匹配"
 
-#: ui/tags_blacklist_window.py:94 ui/tags_blacklist_window.py:566
+#: ui/tags_blacklist_window.py:94 ui/tags_blacklist_window.py:665
 msgid "Preview"
 msgstr "预览"
 
@@ -829,7 +860,7 @@ msgstr "发现{0}个过滤概念"
 msgid "Error loading concepts: {0}"
 msgstr "加载概念时出错： {0}"
 
-#: ui/tags_blacklist_window.py:295
+#: ui/tags_blacklist_window.py:298
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -869,105 +900,128 @@ msgstr "已加载默认黑名单"
 msgid "Error loading default blacklist"
 msgstr "加载默认黑名单出错"
 
-#: ui/tags_blacklist_window.py:420 ui/tags_blacklist_window_qt.py:16
-msgid "Tags Blacklist"
-msgstr "标签 黑名单"
+#: ui/tags_blacklist_window.py:420
+msgid "Tags/Models Blacklist"
+msgstr "黑名单标签和模型"
 
-#: ui/tags_blacklist_window.py:454
+#: ui/tags_blacklist_window.py:449
+msgid "Model Blacklist"
+msgstr "模特黑名单"
+
+#: ui/tags_blacklist_window.py:473 ui/tags_blacklist_window.py:535
 msgid "Global Settings:"
 msgstr "全局设置"
 
-#: ui/tags_blacklist_window.py:456
+#: ui/tags_blacklist_window.py:475 ui/tags_blacklist_window.py:537
 msgid "These settings affect how the blacklist is applied globally."
 msgstr "这些设置会影响黑名单的全局应用方式。"
 
-#: ui/tags_blacklist_window.py:465
+#: ui/tags_blacklist_window.py:484 ui/tags_blacklist_window.py:546
 msgid "Choose how the blacklist is enforced: block, warn, or allow."
 msgstr "选择执行黑名单的方式：阻止、警告或允许。"
 
-#: ui/tags_blacklist_window.py:471
+#: ui/tags_blacklist_window.py:490 ui/tags_blacklist_window.py:552
 msgid "Silent Removal"
 msgstr "无声搬运"
 
-#: ui/tags_blacklist_window.py:479
+#: ui/tags_blacklist_window.py:498 ui/tags_blacklist_window.py:560
 msgid ""
 "If enabled, blacklisted words are removed silently without notification."
 msgstr "如果启用，黑名单上的词语会在没有通知的情况下被无声删除。"
 
-#: ui/tags_blacklist_window.py:488
+#: ui/tags_blacklist_window.py:507 ui/tags_blacklist_window.py:568
 msgid "Preview All"
 msgstr "全部预览"
 
-#: ui/tags_blacklist_window.py:489
+#: ui/tags_blacklist_window.py:508
 msgid "Load Default"
 msgstr "加载默认值"
 
-#: ui/tags_blacklist_window.py:493
+#: ui/tags_blacklist_window.py:512
 msgid "Blacklist items"
 msgstr "黑名单项目"
 
-#: ui/tags_blacklist_window.py:495
+#: ui/tags_blacklist_window.py:514
 msgid "Add to tag blacklist"
 msgstr "添加到标签黑名单"
 
-#: ui/tags_blacklist_window.py:498
+#: ui/tags_blacklist_window.py:516 ui/tags_blacklist_window.py:582
 msgid "Clear items"
 msgstr "清除项目"
 
-#: ui/tags_blacklist_window.py:514
+#: ui/tags_blacklist_window.py:576
+msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
+msgstr "选择模型黑名单的执行方式：在NSFW环境中禁止或允许。"
+
+#: ui/tags_blacklist_window.py:581
+msgid "Add to model blacklist"
+msgstr "将模型添加到黑名单中"
+
+#: ui/tags_blacklist_window.py:613
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag "
 "blacklist' button below, or load the default blacklist."
 msgstr "未找到黑名单项目。您可以点击下面的 “添加到标签黑名单 ”按钮添加项目，或载入默认黑名单。"
 
-#: ui/tags_blacklist_window.py:516
+#: ui/tags_blacklist_window.py:615
 msgid "Click below to reveal blacklist concepts."
 msgstr "单击下方显示黑名单概念。"
 
-#: ui/tags_blacklist_window.py:518
+#: ui/tags_blacklist_window.py:617
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
 "concepts from a file."
 msgstr "已加载默认黑名单。您可以通过编辑现有概念、清除黑名单并添加自己的概念或从文件中导入概念来加载自己的黑名单。"
 
-#: ui/tags_blacklist_window.py:524
+#: ui/tags_blacklist_window.py:623
 msgid "Reveal Concepts"
 msgstr "揭示概念"
 
-#: ui/tags_blacklist_window.py:543
+#: ui/tags_blacklist_window.py:642
 msgid "[regex]"
 msgstr "[regex]"
 
-#: ui/tags_blacklist_window.py:545
+#: ui/tags_blacklist_window.py:644
 msgid "[no boundary]"
 msgstr "[无字边界]"
 
-#: ui/tags_blacklist_window.py:574
+#: ui/tags_blacklist_window.py:673 ui/tags_blacklist_window.py:709
 msgid "Remove"
 msgstr "移除"
 
-#: ui/tags_blacklist_window.py:636 ui/tags_blacklist_window.py:671
+#: ui/tags_blacklist_window.py:685
+msgid ""
+"No model blacklist items found. You can add items by clicking the 'Add to "
+"model blacklist' button above, or load the default model blacklist."
+msgstr "未找到模型黑名单项。您可以通过点击上方“添加到模型黑名单”按钮添加项，或加载默认模型黑名单。"
+
+#: ui/tags_blacklist_window.py:696 ui/tags_blacklist_window.py:962
+#: ui/tags_blacklist_window.py:1128
+msgid "Disabled"
+msgstr "未启用"
+
+#: ui/tags_blacklist_window.py:770 ui/tags_blacklist_window.py:805
 msgid "Added item to blacklist: {0}"
 msgstr "已将项目添加到黑名单： {0}"
 
-#: ui/tags_blacklist_window.py:638
+#: ui/tags_blacklist_window.py:772
 msgid "Modified blacklist item: {0}"
 msgstr "修改了黑名单项目： {0}"
 
-#: ui/tags_blacklist_window.py:651
+#: ui/tags_blacklist_window.py:785
 msgid "Removed item: {0}"
 msgstr "删除的项目： {0}"
 
-#: ui/tags_blacklist_window.py:661
+#: ui/tags_blacklist_window.py:795
 msgid "Please enter a string to add to the blacklist."
 msgstr "请输入要添加到黑名单的字符串。"
 
-#: ui/tags_blacklist_window.py:751
+#: ui/tags_blacklist_window.py:885
 msgid "Confirm Clear Blacklist"
 msgstr "确认清除黑名单"
 
-#: ui/tags_blacklist_window.py:752
+#: ui/tags_blacklist_window.py:886
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
@@ -987,57 +1041,93 @@ msgstr ""
 "\n"
 "要继续吗？"
 
-#: ui/tags_blacklist_window.py:771
+#: ui/tags_blacklist_window.py:905
 msgid "Cleared item blacklist"
 msgstr "清除项目黑名单"
 
-#: ui/tags_blacklist_window.py:831
+#: ui/tags_blacklist_window.py:964
 msgid "Item \"{0}\" is now {1}"
 msgstr "项目“{0}”现在是{1}"
 
-#: ui/tags_blacklist_window.py:833
+#: ui/tags_blacklist_window.py:966 ui/tags_blacklist_window.py:1131
 msgid "enabled"
 msgstr "启用"
 
-#: ui/tags_blacklist_window.py:833
+#: ui/tags_blacklist_window.py:966 ui/tags_blacklist_window.py:1131
 msgid "disabled"
 msgstr "残"
 
-#: ui/tags_blacklist_window.py:842
+#: ui/tags_blacklist_window.py:975
 msgid "Concepts revealed"
 msgstr "揭示的概念"
 
-#: ui/tags_blacklist_window.py:866
+#: ui/tags_blacklist_window.py:1006 ui/tags_blacklist_window.py:1162
 msgid "Import Blacklist"
 msgstr "导入黑名单"
 
-#: ui/tags_blacklist_window.py:885
+#: ui/tags_blacklist_window.py:1025
 msgid "Successfully imported blacklist"
 msgstr "成功导入黑名单"
 
-#: ui/tags_blacklist_window.py:887
+#: ui/tags_blacklist_window.py:1027 ui/tags_blacklist_window.py:1183
 msgid "Import Error"
 msgstr "导入错误"
 
-#: ui/tags_blacklist_window.py:898
+#: ui/tags_blacklist_window.py:1038
 msgid "Export Blacklist"
 msgstr "导出黑名单"
 
-#: ui/tags_blacklist_window.py:913
+#: ui/tags_blacklist_window.py:1053
 msgid "Successfully exported blacklist"
 msgstr "成功导出黑名单"
 
-#: ui/tags_blacklist_window.py:915
+#: ui/tags_blacklist_window.py:1055 ui/tags_blacklist_window.py:1204
 msgid "Export Error"
 msgstr "出口错误"
 
-#: ui/tags_blacklist_window.py:925
+#: ui/tags_blacklist_window.py:1065
+msgid "Model blacklist mode set to: {0}"
+msgstr "模型黑名单模式设置为：{0}"
+
+#: ui/tags_blacklist_window.py:1075
 msgid "Blacklist mode set to: {0}"
 msgstr "黑名单模式设置为 {0}"
 
-#: ui/tags_blacklist_window.py:931
+#: ui/tags_blacklist_window.py:1081
 msgid "Silent removal set to: {0}"
 msgstr "静音移除设置为： {0}"
+
+#: ui/tags_blacklist_window.py:1119
+msgid "Model blacklist updated: {0}"
+msgstr "模型黑名单已更新：{0}"
+
+#: ui/tags_blacklist_window.py:1129
+msgid "Model item '{0}' is now {1}"
+msgstr "模型项 ‘{0}’ 现为 {1}"
+
+#: ui/tags_blacklist_window.py:1143
+msgid "Removed model blacklist item: {0}"
+msgstr "已移除模型黑名单项：{0}"
+
+#: ui/tags_blacklist_window.py:1150
+msgid "Cleared model blacklist items"
+msgstr "已清除模型黑名单项"
+
+#: ui/tags_blacklist_window.py:1181
+msgid "Successfully imported model blacklist"
+msgstr "成功导入模型黑名单"
+
+#: ui/tags_blacklist_window.py:1192
+msgid "Export Model Blacklist"
+msgstr "导出模型黑名单"
+
+#: ui/tags_blacklist_window.py:1202
+msgid "Successfully exported model blacklist"
+msgstr "成功导出模型黑名单"
+
+#: ui/tags_blacklist_window_qt.py:16
+msgid "Tags Blacklist"
+msgstr "标签 黑名单"
 
 #: ui/tags_blacklist_window_qt.py:28
 msgid "Search tags..."
@@ -1366,35 +1456,99 @@ msgstr "失败提示（阻止所有世代）"
 msgid "Log only (do not remove, just log)"
 msgstr "仅记录（不删除，仅记录）"
 
-#: utils/globals.py:324
+#: utils/globals.py:99
+msgid "Disallow"
+msgstr "禁止"
+
+#: utils/globals.py:100
+msgid "Allow in NSFW"
+msgstr "在不适合工作场所的模式下显示"
+
+#: utils/globals.py:191
+msgid "Simple Image Gen"
+msgstr "简单生成图像"
+
+#: utils/globals.py:192
+msgid "Simple Image Gen Lora"
+msgstr "LoRA 简单图像生成"
+
+#: utils/globals.py:193
+msgid "Simple Image Gen Tiled Upscale"
+msgstr "简单生成拼接放大图像"
+
+#: utils/globals.py:194
+msgid "Ella"
+msgstr "ELLA"
+
+#: utils/globals.py:195
+msgid "Instant Lora"
+msgstr "即时LoRA"
+
+#: utils/globals.py:196
+msgid "IP Adapter"
+msgstr "IP适配器"
+
+#: utils/globals.py:197
+msgid "ControlNet"
+msgstr "控制网"
+
+#: utils/globals.py:198
+msgid "Inpaint ClipSeg"
+msgstr "Inpaint 剪切段"
+
+#: utils/globals.py:199
+msgid "Animate Diff"
+msgstr "动画差异"
+
+#: utils/globals.py:200
+msgid "Renoiser"
+msgstr "雷诺伊瑟"
+
+#: utils/globals.py:201
+msgid "Turbo"
+msgstr "涡轮"
+
+#: utils/globals.py:202
+msgid "Upscale Simple"
+msgstr "提升图像质量 简单"
+
+#: utils/globals.py:203
+msgid "Upscale Better"
+msgstr "提升图像质量 更佳版本"
+
+#: utils/globals.py:204
+msgid "Redo Prompt"
+msgstr "重新提示"
+
+#: utils/globals.py:348
 msgid "Open Application"
 msgstr "打开软件应用程序"
 
-#: utils/globals.py:325
+#: utils/globals.py:349
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFL 提示模式"
 
-#: utils/globals.py:326
+#: utils/globals.py:350
 msgid "Edit Blacklist"
 msgstr "编辑黑名单"
 
-#: utils/globals.py:327
+#: utils/globals.py:351
 msgid "Reveal Blacklist Concepts"
 msgstr "揭示黑名单概念"
 
-#: utils/globals.py:328
+#: utils/globals.py:352
 msgid "Edit Schedules"
 msgstr "编辑时间表"
 
-#: utils/globals.py:329
+#: utils/globals.py:353
 msgid "Edit Expansions"
 msgstr "编辑扩展"
 
-#: utils/globals.py:330
+#: utils/globals.py:354
 msgid "Edit Presets"
 msgstr "编辑预置"
 
-#: utils/globals.py:332
+#: utils/globals.py:356
 msgid "Access Password Administration"
 msgstr "访问密码管理"
 
@@ -1421,59 +1575,3 @@ msgstr "{0}分"
 #: utils/time_estimator.py:92
 msgid "{0}s"
 msgstr "{0}秒"
-
-#: utils/globals.py:167
-msgid "Simple Image Gen"
-msgstr "简单生成图像"
-
-#: utils/globals.py:168
-msgid "Simple Image Gen Lora"
-msgstr "LoRA 简单图像生成"
-
-#: utils/globals.py:169
-msgid "Simple Image Gen Tiled Upscale"
-msgstr "简单生成拼接放大图像"
-
-#: utils/globals.py:170
-msgid "Ella"
-msgstr "ELLA"
-
-#: utils/globals.py:171
-msgid "Instant Lora"
-msgstr "即时LoRA"
-
-#: utils/globals.py:172
-msgid "IP Adapter"
-msgstr "IP适配器"
-
-#: utils/globals.py:173
-msgid "ControlNet"
-msgstr "控制网"
-
-#: utils/globals.py:174
-msgid "Inpaint ClipSeg"
-msgstr "Inpaint 剪切段"
-
-#: utils/globals.py:175
-msgid "Animate Diff"
-msgstr "动画差异"
-
-#: utils/globals.py:176
-msgid "Renoiser"
-msgstr "雷诺伊瑟"
-
-#: utils/globals.py:177
-msgid "Turbo"
-msgstr "涡轮"
-
-#: utils/globals.py:178
-msgid "Upscale Simple"
-msgstr "提升图像质量 简单"
-
-#: utils/globals.py:179
-msgid "Upscale Better"
-msgstr "提升图像质量 更佳版本"
-
-#: utils/globals.py:180
-msgid "Redo Prompt"
-msgstr "重新提示"

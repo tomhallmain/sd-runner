@@ -886,6 +886,9 @@ class App():
 
         try:
             args.validate()
+        except BlacklistException as e:
+            self.handle_error(str(e), "Blacklist Validation Error")
+            return
         except Exception as e:
             res = self.alert(_("Confirm Run"),
                 str(e) + "\n\n" + _("Are you sure you want to proceed?"),

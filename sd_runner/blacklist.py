@@ -3,7 +3,7 @@ import json
 import os
 import re
 
-from utils.globals import Globals, BlacklistMode
+from utils.globals import Globals, BlacklistMode, ModelBlacklistMode
 from utils.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from utils.pickleable_cache import SizeAwarePicklableCache
 from utils.translations import I18N
@@ -185,6 +185,7 @@ class Blacklist:
         max_large_items=CACHE_MAX_LARGE_ITEMS, large_threshold=CACHE_LARGE_THRESHOLD)
 
     blacklist_mode = BlacklistMode.REMOVE_ENTIRE_TAG
+    model_blacklist_mode = ModelBlacklistMode.ALLOW_IN_NSFW
     blacklist_silent_removal = False
     model_blacklist_all_prompt_modes = False
 
@@ -195,6 +196,14 @@ class Blacklist:
     @staticmethod
     def set_blacklist_mode(mode):
         Blacklist.blacklist_mode = mode
+
+    @staticmethod
+    def get_model_blacklist_mode():
+        return Blacklist.model_blacklist_mode
+
+    @staticmethod
+    def set_model_blacklist_mode(mode):
+        Blacklist.model_blacklist_mode = mode
 
     @staticmethod
     def get_blacklist_silent_removal():
@@ -300,6 +309,10 @@ class Blacklist:
     @staticmethod
     def is_empty():
         return len(Blacklist.TAG_BLACKLIST) == 0
+
+    @staticmethod
+    def is_model_empty():
+        return len(Blacklist.MODEL_BLACKLIST) == 0
 
     @staticmethod
     def add_item(item: BlacklistItem):
@@ -620,7 +633,15 @@ class Blacklist:
             # Convert if needed
             item = ModelBlacklistItem(item.string, item.enabled, item.use_regex)
         Blacklist.MODEL_BLACKLIST.append(item)
-        Blacklist.sort_model()
+        Blacklist.sort_model_blacklist()
+
+    @staticmethod
+    def add_to_model_blacklist(tag, enabled: bool = True, use_regex: bool = False):
+        if isinstance(tag, str):
+            tag = ModelBlacklistItem(tag, enabled=enabled, use_regex=use_regex)
+        elif not isinstance(tag, ModelBlacklistItem):
+            tag = ModelBlacklistItem(tag.string, tag.enabled, tag.use_regex)
+        Blacklist.add_model_item(tag)
 
     @staticmethod
     def remove_model_item(item: ModelBlacklistItem):
@@ -635,11 +656,11 @@ class Blacklist:
         return Blacklist.MODEL_BLACKLIST
 
     @staticmethod
-    def clear_model():
+    def clear_model_blacklist():
         Blacklist.MODEL_BLACKLIST.clear()
 
     @staticmethod
-    def sort_model():
+    def sort_model_blacklist():
         Blacklist.MODEL_BLACKLIST.sort(key=lambda x: x.string.lower())
 
     @staticmethod
@@ -656,15 +677,61 @@ class Blacklist:
         Blacklist.MODEL_BLACKLIST = items
 
     @staticmethod
-    def add_to_model_blacklist(tag, enabled: bool = True, use_regex: bool = False):
-        if isinstance(tag, str):
-            tag = ModelBlacklistItem(tag, enabled=enabled, use_regex=use_regex)
-        elif not isinstance(tag, ModelBlacklistItem):
-            tag = ModelBlacklistItem(tag.string, tag.enabled, tag.use_regex)
-        Blacklist.add_model_item(tag)
+    def get_model_blacklist_violations(model_id):
+        violations = []
+        for item in Blacklist.MODEL_BLACKLIST:
+            if item.enabled and item.matches_tag(model_id):
+                return True
+        return False
+
+    @staticmethod
+    def import_model_blacklist_csv(filename):
+        """Import model blacklist from a CSV file.
+        
+        Expected format:
+        string
+        tag1
+        tag2
+        
+        Or with optional enabled state:
+        string,enabled
+        tag1,true
+        tag2,false
+        """
+        with open(filename, 'r', encoding='utf-8') as f:
+            # Read first line to determine format
+            first_line = f.readline().strip()
+            f.seek(0)  # Reset file pointer to start
+            
+            if ',' in first_line:
+                # Two-column format with headers
+                reader = csv.DictReader(f)
+                for row in reader:
+                    enabled = True
+                    if 'enabled' in row:
+                        enabled_str = row['enabled'].lower()
+                        enabled = enabled_str == 'true' or enabled_str == 't' or enabled_str == '1'
+                    Blacklist.add_to_model_blacklist(ModelBlacklistItem(row['string'].strip(), enabled))
+            else:
+                # Single-column format
+                reader = csv.reader(f)
+                for row in reader:
+                    if row and row[0].strip():
+                        Blacklist.add_to_model_blacklist(ModelBlacklistItem(row[0].strip()))
 
     @staticmethod
     def import_model_blacklist_json(filename):
+        """Import model blacklist from a JSON file.
+        
+        Expected format:
+        ["tag1", "tag2", "tag3"]
+        
+        Or with optional enabled state:
+        [
+            {"string": "tag1", "enabled": true},
+            {"string": "tag2", "enabled": false}
+        ]
+        """
         with open(filename, 'r', encoding='utf-8') as f:
             data = json.load(f)
             if isinstance(data, list):
@@ -672,11 +739,28 @@ class Blacklist:
                     if isinstance(item, str):
                         Blacklist.add_to_model_blacklist(item)
                     elif isinstance(item, dict) and 'string' in item:
-                        Blacklist.add_to_model_blacklist(ModelBlacklistItem.from_dict(item))
+                        enabled = item.get('enabled', True)
+                        Blacklist.add_to_model_blacklist(ModelBlacklistItem(item['string'], enabled=enabled))
                     else:
                         print(f"Invalid item type in JSON model blacklist import: {type(item)}")
             else:
                 raise ValueError("Invalid JSON format for model blacklist import")
+
+    @staticmethod
+    def import_model_blacklist_txt(filename):
+        """Import model blacklist from a text file.
+        
+        Expected format:
+        tag1
+        tag2
+        # Comment line
+        tag3
+        """
+        with open(filename, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#'):
+                    Blacklist.add_to_model_blacklist(ModelBlacklistItem(line))
 
     @staticmethod
     def export_model_blacklist_json(filename):
