@@ -293,6 +293,7 @@ class BlacklistWindow():
     DEFAULT_BLACKLIST_KEY = "blacklist_user_confirmed_non_default"
     BLACKLIST_MODE_KEY = "blacklist_mode"
     BLACKLIST_SILENT_KEY = "blacklist_silent_removal"
+    MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY = "model_blacklist_all_prompt_modes"
     warning_text = _("""WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.
 
 If you are young, not sure, or even an adult, click the close button on this window now and do something fun instead.""")
@@ -311,6 +312,8 @@ If you are young, not sure, or even an adult, click the close button on this win
         Blacklist.set_blacklist_mode(mode)
         silent = app_info_cache.get(BlacklistWindow.BLACKLIST_SILENT_KEY, default_val=False)
         Blacklist.set_blacklist_silent_removal(silent)
+        all_prompt_modes = app_info_cache.get(BlacklistWindow.MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY, default_val=False)
+        Blacklist.set_model_blacklist_all_prompt_modes(all_prompt_modes)
         
         if not user_confirmed_non_default:
             # First time user opens blacklist window - load default encrypted blacklist
@@ -342,6 +345,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_CACHE_KEY, model_blacklist_dicts)
         app_info_cache.set(BlacklistWindow.BLACKLIST_MODE_KEY, str(Blacklist.get_blacklist_mode()))
         app_info_cache.set(BlacklistWindow.BLACKLIST_SILENT_KEY, Blacklist.get_blacklist_silent_removal())
+        app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY, Blacklist.get_model_blacklist_all_prompt_modes())
 
     @staticmethod
     def mark_user_confirmed_non_default():
@@ -522,17 +526,45 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.model_header_frame.columnconfigure(3, weight=1)
         self.model_header_frame.columnconfigure(4, weight=1)
 
+        # Blacklist mode dropdown
+        self.blacklist_mode_var = StringVar(self.master)
+        self.blacklist_mode_var.set(Blacklist.get_blacklist_mode().display())
+        self.mode_dropdown = Combobox(self.model_header_frame, textvariable=self.blacklist_mode_var, state="readonly", width=22)
+        self.mode_dropdown['values'] = BlacklistMode.display_values()
+        self.mode_dropdown.grid(row=0, column=1, sticky=W)
+        self.mode_dropdown.bind('<<ComboboxSelected>>', self.on_mode_change)
+        Tooltip(self.mode_dropdown, _('Choose how the blacklist is enforced: block, warn, or allow.'))
+
+        # Silent removal checkbox
+        self.silent_var = BooleanVar(value=Blacklist.get_blacklist_silent_removal())
+        self.silent_checkbox = Checkbutton(
+            self.model_header_frame,
+            text=_('Silent Removal'),
+            variable=self.silent_var,
+            bg=AppStyle.BG_COLOR,
+            fg=AppStyle.FG_COLOR,
+            selectcolor=AppStyle.BG_COLOR,
+            command=self.on_silent_change
+        )
+        self.silent_checkbox.grid(row=0, column=2, sticky=W)
+        Tooltip(self.silent_checkbox, _('If enabled, blacklisted words are removed silently without notification.'))
+
+        # Add import/export/preview buttons
+        self.import_model_btn = None
+        self.export_model_btn = None
+        self.preview_all_btn = None
+        self.add_btn_to(self.model_header_frame, "import_model_btn", _("Import Models"), self.import_model_blacklist, row=1, column=0)
+        self.add_btn_to(self.model_header_frame, "export_model_btn", _("Export Models"), self.export_model_blacklist, row=1, column=1)
+        self.add_btn_to(self.model_header_frame, "preview_all_btn", _("Preview All"), self.preview_all, row=1, column=2)
+
         # Add model blacklist control buttons (add/clear, optionally import/export for models)
         self.add_model_item_btn = None
         self.clear_model_blacklist_btn = None
-        self.add_btn_to(self.model_header_frame, "add_model_item_btn", _( "Add to model blacklist"), self.add_new_model_item, row=0, column=1)
-        self.add_btn_to(self.model_header_frame, "clear_model_blacklist_btn", _( "Clear model items"), self.clear_model_items, row=0, column=2)
-        # Optionally, add import/export for model blacklist here if desired
-        # self.add_btn_to(self.model_header_frame, "import_model_btn", _( "Import Models"), self.import_model_blacklist, row=0, column=3)
-        # self.add_btn_to(self.model_header_frame, "export_model_btn", _( "Export Models"), self.export_model_blacklist, row=0, column=4)
+        self.add_btn_to(self.model_header_frame, "add_model_item_btn", _("Add to model blacklist"), self.add_new_model_item, row=2, column=1)
+        self.add_btn_to(self.model_header_frame, "clear_model_blacklist_btn", _("Clear model items"), self.clear_model_items, row=2, column=2)
 
         self.model_scroll_frame = ScrollFrame(self.model_frame, bg_color=AppStyle.BG_COLOR)
-        self.model_scroll_frame.grid(column=0, row=1, sticky="nsew")
+        self.model_scroll_frame.grid(column=0, row=2, sticky="nsew")
         self.model_frame.grid_rowconfigure(1, weight=1)
         self.model_frame.grid_columnconfigure(0, weight=1)
         self.filtered_model_items = Blacklist.get_model_items()[:]

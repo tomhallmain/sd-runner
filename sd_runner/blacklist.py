@@ -186,6 +186,7 @@ class Blacklist:
 
     blacklist_mode = BlacklistMode.REMOVE_ENTIRE_TAG
     blacklist_silent_removal = False
+    model_blacklist_all_prompt_modes = False
 
     @staticmethod
     def get_blacklist_mode():
@@ -202,6 +203,14 @@ class Blacklist:
     @staticmethod
     def set_blacklist_silent_removal(silent):
         Blacklist.blacklist_silent_removal = silent
+
+    @staticmethod
+    def get_model_blacklist_all_prompt_modes():
+        return Blacklist.model_blacklist_all_prompt_modes
+
+    @staticmethod
+    def set_model_blacklist_all_prompt_modes(all_prompt_modes):
+        Blacklist.model_blacklist_all_prompt_modes = all_prompt_modes
 
     @staticmethod
     def _filter_concepts_cached(concepts_tuple, do_cache=True, user_prompt=True):
