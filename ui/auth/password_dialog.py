@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Frame, Label, StringVar, Entry, Button, messagebox
+from tkinter import Toplevel, Frame, Label, StringVar, Entry, Button, messagebox, Checkbutton, BooleanVar
 import tkinter.font as fnt
 
 from ui.app_style import AppStyle
@@ -14,6 +14,7 @@ class PasswordDialog:
     
     def __init__(self,
         master,
+        config,
         action_name,
         callback=None,
         app_actions=None,
@@ -22,6 +23,7 @@ class PasswordDialog:
         allow_unauthenticated=False
     ):
         self.master = master
+        self.config = config
         self.action_name = action_name
         self.callback = callback
         self.app_actions = app_actions
@@ -75,6 +77,10 @@ class PasswordDialog:
     def _is_password_configured(self):
         """Check if a password is configured for the application."""
         return PasswordManager.is_security_configured()
+
+    def _should_show_security_advice(self):
+        """Check if security advice should be shown."""
+        return self.config.is_security_advice_enabled()
     
     def setup_ui(self):
         """Set up the UI components."""
@@ -85,7 +91,12 @@ class PasswordDialog:
         if self.password_configured:
             self._setup_password_ui(main_frame)
         else:
-            self._setup_advertisement_ui(main_frame)
+            # Check if we should show security advice
+            if self._should_show_security_advice():
+                self._setup_advertisement_ui(main_frame)
+            else:
+                # User has disabled security advice, proceed without showing dialog
+                self.cancel(result=True)
     
     def _setup_password_ui(self, main_frame):
         """Set up UI for password entry."""
@@ -172,7 +183,7 @@ class PasswordDialog:
             
             # Options list
             options_frame = Frame(main_frame, bg=AppStyle.BG_COLOR)
-            options_frame.pack(pady=(0, 20))
+            options_frame.pack(pady=(0, 10))
             options_frame.config(bg=AppStyle.BG_COLOR)
             
             option1 = Label(options_frame, text=_("• Configure password protection for sensitive actions"), 
@@ -184,7 +195,15 @@ class PasswordDialog:
                            wraplength=400, justify="left")
             option2.pack(anchor="w", pady=2)
             option2.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-            
+
+            # Don't show again checkbox
+            self.dont_show_again_var = BooleanVar(value=not self.config.is_security_advice_enabled())
+            dont_show_checkbox = Checkbutton(main_frame, text=_("Don't show this security advice again"),
+                                           variable=self.dont_show_again_var,
+                                           bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                                           selectcolor=AppStyle.BG_COLOR)
+            dont_show_checkbox.pack(pady=(5, 15))
+
             # Buttons
             button_frame = Frame(main_frame, bg=AppStyle.BG_COLOR)
             button_frame.pack(fill="x")
@@ -223,10 +242,7 @@ class PasswordDialog:
         
         # Check if password is correct
         if self.check_password(password):
-            self.result = True
-            self.dialog.destroy()
-            if self.callback:
-                self.callback(True)
+            self.cancel(result=True)
         else:
             messagebox.showerror(_("Error"), _("Incorrect password"))
             self.password_var.set("")
@@ -238,9 +254,7 @@ class PasswordDialog:
     
     def open_password_admin(self):
         """Open the password administration window."""
-        self.dialog.destroy()
-        if self.callback:
-            self.callback(False)  # Cancel the original action
+        self.cancel(result=False)
         
         # Use app_actions callback to open the password admin window
         if self.app_actions and self.app_actions.open_password_admin_window:
@@ -250,25 +264,28 @@ class PasswordDialog:
     
     def continue_without_protection(self):
         """Continue without password protection."""
+        # Check if user wants to disable security advice
+        if hasattr(self, 'dont_show_again_var') and self.dont_show_again_var.get():
+            self.config.set_security_advice_enabled(False)
+            self.config.save_settings()
+
         # Record an unauthenticated session if we have the action enum
         if self.action_enum:
             PasswordSessionManager.record_successful_verification(self.action_enum, is_authenticated=False)
         
-        self.result = True
-        self.dialog.destroy()
-        if self.callback:
-            self.callback(True)
+        self.cancel(result=True)
     
-    def cancel(self, event=None):
+    def cancel(self, event=None, result=False):
         """Cancel the password dialog."""
-        self.result = False
+        self.result = result
         self.dialog.destroy()
         if self.callback:
-            self.callback(False)
+            self.callback(result)
     
     @staticmethod
     def prompt_password(
         master,
+        config,
         action_name,
         callback=None,
         app_actions=None,
@@ -279,6 +296,7 @@ class PasswordDialog:
         """Static method to prompt for password."""
         dialog = PasswordDialog(
             master,
+            config,
             action_name,
             callback,
             app_actions,

@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-07-24 18:42-0400\n"
-"PO-Revision-Date: 2025-07-24 18:42-0400\n"
+"POT-Creation-Date: 2025-07-30 20:45-0400\n"
+"PO-Revision-Date: 2025-07-30 20:45-0400\n"
 "Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
@@ -306,7 +306,7 @@ msgstr "비밀번호 취소"
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되돌리기"
 
-#: app.py:1260 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:231
+#: app.py:1260 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:117
 #: ui/tags_blacklist_window.py:274
@@ -325,28 +325,27 @@ msgstr "프롬프터 구성"
 msgid "Filtering concepts for blacklist: "
 msgstr "블랙리스트에 대한 필터링 개념: "
 
-#: sd_runner/run_config.py:58
-msgid "No prompter config found!"
-msgstr "프롬프터 구성을 찾을 수 없습니다!"
-
-#: sd_runner/run_config.py:62
+#: sd_runner/models.py:376
 msgid ""
-"Ensure configuration is correct - do you really want to create more than 10 "
-"images using the same prompt?"
-msgstr "구성이 올바른지 확인 - 동일한 프롬프트를 사용하여 10개 이상의 이미지를 생성하고 싶으신가요?"
+"One or more loras are blacklisted. Please try again with a different lora."
+msgstr "하나 이상의 LORA가 블랙리스트에 등록되었습니다. 다른 LORA로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/run_config.py:69
+#: sd_runner/models.py:380
 msgid ""
-"A model switch was detected and the model massage tags don't match. This "
-"warning will only be shown once."
-msgstr "모델 전환이 감지되었으며 모델 조정용 태그가 일치하지 않습니다. 이 경고는 한 번만 표시됩니다."
+"The following loras are blacklisted: {0}\n"
+"\n"
+"Please try again with a different lora."
+msgstr ""
+"다음 로라들이 블랙리스트에 등록되었습니다: {0}\n"
+"\n"
+"다른 로라로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/run_config.py:77
+#: sd_runner/models.py:385
 msgid ""
 "One or more models are blacklisted. Please try again with a different model."
 msgstr "하나 이상의 모델이 블랙리스트에 등록되었습니다. 다른 모델로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/run_config.py:79
+#: sd_runner/models.py:389
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
@@ -356,20 +355,21 @@ msgstr ""
 "\n"
 "다른 모델로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/run_config.py:89
-msgid ""
-"One or more loras are blacklisted. Please try again with a different lora."
-msgstr "하나 이상의 LORA가 블랙리스트에 등록되었습니다. 다른 LORA로 다시 시도해 주시기 바랍니다."
+#: sd_runner/run_config.py:53
+msgid "No prompter config found!"
+msgstr "프롬프터 구성을 찾을 수 없습니다!"
 
-#: sd_runner/run_config.py:91
+#: sd_runner/run_config.py:57
 msgid ""
-"The following loras are blacklisted: {0}\n"
-"\n"
-"Please try again with a different lora."
-msgstr ""
-"다음 로라들이 블랙리스트에 등록되었습니다: {0}\n"
-"\n"
-"다른 로라로 다시 시도해 주시기 바랍니다."
+"Ensure configuration is correct - do you really want to create more than 10 "
+"images using the same prompt?"
+msgstr "구성이 올바른지 확인 - 동일한 프롬프트를 사용하여 10개 이상의 이미지를 생성하고 싶으신가요?"
+
+#: sd_runner/run_config.py:64
+msgid ""
+"A model switch was detected and the model massage tags don't match. This "
+"warning will only be shown once."
+msgstr "모델 전환이 감지되었으며 모델 조정용 태그가 일치하지 않습니다. 이 경고는 한 번만 표시됩니다."
 
 #: ui/concept_editor_window.py:106
 msgid "Search/Add Concept:"
@@ -502,7 +502,7 @@ msgstr "활성"
 msgid "Export"
 msgstr "내보내기"
 
-#: ui/auth/password_admin_window.py:232 ui/concept_editor_window_qt.py:143
+#: ui/auth/password_admin_window.py:249 ui/concept_editor_window_qt.py:143
 #: ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59
 #: ui/schedules_window_qt.py:97 ui/schedules_window_qt.py:169
 #: ui/tags_blacklist_window.py:244 ui/tags_blacklist_window_qt.py:52
@@ -1094,12 +1094,12 @@ msgid "Export Error"
 msgstr "내보내기 오류"
 
 #: ui/tags_blacklist_window.py:1065
-msgid "Model blacklist mode set to: {0}"
-msgstr "모델 블랙리스트 모드 설정: {0}"
-
-#: ui/tags_blacklist_window.py:1075
 msgid "Blacklist mode set to: {0}"
 msgstr "블랙리스트 모드가 다음과 같이 설정되었습니다: {0}"
+
+#: ui/tags_blacklist_window.py:1075
+msgid "Model blacklist mode set to: {0}"
+msgstr "모델 블랙리스트 모드 설정: {0}"
 
 #: ui/tags_blacklist_window.py:1081
 msgid "Silent removal set to: {0}"
@@ -1165,21 +1165,21 @@ msgstr "소프트웨어 애플리케이션 암호 필요"
 msgid "A password is required to open this application."
 msgstr "이 소프트웨어 애플리케이션을 열려면 비밀번호가 필요합니다."
 
-#: ui/auth/app_startup_auth.py:79 ui/auth/password_dialog.py:123
+#: ui/auth/app_startup_auth.py:79 ui/auth/password_dialog.py:134
 msgid "Password:"
 msgstr "비밀번호:"
 
-#: ui/auth/app_startup_auth.py:92 ui/auth/password_dialog.py:136
+#: ui/auth/app_startup_auth.py:92 ui/auth/password_dialog.py:147
 msgid "OK"
 msgstr "확인"
 
-#: ui/auth/app_startup_auth.py:95 ui/auth/password_admin_window.py:410
-#: ui/auth/password_dialog.py:139 ui/auth/password_dialog.py:200
-#: ui/auth/password_dialog.py:217
+#: ui/auth/app_startup_auth.py:95 ui/auth/password_admin_window.py:450
+#: ui/auth/password_dialog.py:150 ui/auth/password_dialog.py:219
+#: ui/auth/password_dialog.py:236
 msgid "Cancel"
 msgstr "취소"
 
-#: ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:231
+#: ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
 msgid "Incorrect password"
 msgstr "잘못된 비밀번호"
 
@@ -1187,214 +1187,226 @@ msgstr "잘못된 비밀번호"
 msgid "Password Administration"
 msgstr "비밀번호 관리"
 
-#: ui/auth/password_admin_window.py:68
+#: ui/auth/password_admin_window.py:71
 msgid "Password Protection Settings"
 msgstr "비밀번호 보호 설정"
 
-#: ui/auth/password_admin_window.py:80
+#: ui/auth/password_admin_window.py:83
 msgid "Protected Actions"
 msgstr "보호되는 작업"
 
-#: ui/auth/password_admin_window.py:86
+#: ui/auth/password_admin_window.py:89
 msgid "Select which actions require password authentication:"
 msgstr "비밀번호 인증이 필요한 작업을 선택합니다:"
 
-#: ui/auth/password_admin_window.py:102
+#: ui/auth/password_admin_window.py:105
 msgid "(Always protected if a password is set)"
 msgstr "(비밀번호가 설정된 경우 항상 보호됨)"
 
-#: ui/auth/password_admin_window.py:121
+#: ui/auth/password_admin_window.py:124
 msgid "Session Timeout Settings"
 msgstr "세션 시간 초과 설정"
 
-#: ui/auth/password_admin_window.py:127
+#: ui/auth/password_admin_window.py:130
 msgid "Enable session timeout (remember password for a period)"
 msgstr "세션 시간 초과 사용(일정 기간 동안 비밀번호 기억)"
 
-#: ui/auth/password_admin_window.py:139
+#: ui/auth/password_admin_window.py:142
 msgid "Session timeout duration (minutes):"
 msgstr "세션 시간 초과 기간(분):"
 
-#: ui/auth/password_admin_window.py:148
+#: ui/auth/password_admin_window.py:151
+msgid "Security Advice Settings"
+msgstr "보안 설정 안내"
+
+#: ui/auth/password_admin_window.py:157
+msgid "Show security advice when no password is configured"
+msgstr "비밀번호가 설정되지 않았을 때 보안 안내 메시지를 표시합니다."
+
+#: ui/auth/password_admin_window.py:165
 msgid "Password Setup"
 msgstr "비밀번호 설정"
 
-#: ui/auth/password_admin_window.py:158
+#: ui/auth/password_admin_window.py:175
 msgid "Password is configured"
 msgstr "비밀번호가 구성되었습니다."
 
-#: ui/auth/password_admin_window.py:164 ui/auth/password_admin_window.py:332
-#: ui/auth/password_admin_window.py:348 ui/auth/password_admin_window.py:407
+#: ui/auth/password_admin_window.py:181 ui/auth/password_admin_window.py:371
+#: ui/auth/password_admin_window.py:387 ui/auth/password_admin_window.py:447
 msgid "Change Password"
 msgstr "비밀번호 변경"
 
-#: ui/auth/password_admin_window.py:169 ui/auth/password_admin_window.py:420
+#: ui/auth/password_admin_window.py:186 ui/auth/password_admin_window.py:460
 msgid "Remove Password"
 msgstr "비밀번호 제거"
 
-#: ui/auth/password_admin_window.py:174
+#: ui/auth/password_admin_window.py:191
 msgid "Set up a password to enable protection:"
 msgstr "보호 기능을 사용하려면 비밀번호를 설정하세요:"
 
-#: ui/auth/password_admin_window.py:184 ui/auth/password_admin_window.py:364
+#: ui/auth/password_admin_window.py:201 ui/auth/password_admin_window.py:403
 msgid "New Password:"
 msgstr "새 비밀번호:"
 
-#: ui/auth/password_admin_window.py:197
+#: ui/auth/password_admin_window.py:214
 msgid "Confirm Password:"
 msgstr "비밀번호를 확인합니다:"
 
-#: ui/auth/password_admin_window.py:206
+#: ui/auth/password_admin_window.py:223
 msgid "Set Password"
 msgstr "비밀번호 설정"
 
-#: ui/auth/password_admin_window.py:216 ui/auth/password_admin_window.py:262
+#: ui/auth/password_admin_window.py:233 ui/auth/password_admin_window.py:292
 msgid "Reset to Defaults"
 msgstr "기본값으로 재설정"
 
-#: ui/auth/password_admin_window.py:220 ui/auth/password_admin_window.py:282
+#: ui/auth/password_admin_window.py:237 ui/auth/password_admin_window.py:317
 msgid "Set to Current"
 msgstr "현재로 설정"
 
-#: ui/auth/password_admin_window.py:224
+#: ui/auth/password_admin_window.py:241
 msgid "Export Cache as JSON"
 msgstr "캐시를 JSON으로 내보내기"
 
-#: ui/auth/password_admin_window.py:228
+#: ui/auth/password_admin_window.py:245
 msgid "Save Settings"
 msgstr "설정 저장"
 
-#: ui/auth/password_admin_window.py:256
+#: ui/auth/password_admin_window.py:286
 msgid "Password protection settings saved."
 msgstr "비밀번호 보호 설정이 저장되었습니다."
 
-#: ui/auth/password_admin_window.py:263
+#: ui/auth/password_admin_window.py:293
 msgid ""
 "Are you sure you want to reset all password protection settings to their "
 "default values?"
 msgstr "모든 비밀번호 보호 설정을 기본값으로 초기화하시겠습니까?"
 
-#: ui/auth/password_admin_window.py:277
+#: ui/auth/password_admin_window.py:312
 msgid "Settings reset to defaults."
 msgstr "설정이 기본값으로 초기화됩니다."
 
-#: ui/auth/password_admin_window.py:283
+#: ui/auth/password_admin_window.py:318
 msgid ""
 "Are you sure you want to restore all settings to their current saved state? "
 "This will discard any unsaved changes."
 msgstr "모든 설정을 현재 저장된 상태로 복원하시겠습니까? 이렇게 하면 저장되지 않은 변경 사항이 모두 삭제됩니다."
 
-#: ui/auth/password_admin_window.py:298
+#: ui/auth/password_admin_window.py:336
 msgid "Settings restored to current saved state."
 msgstr "설정이 현재 저장된 상태로 복원되었습니다."
 
-#: ui/auth/password_admin_window.py:307
+#: ui/auth/password_admin_window.py:345
 msgid "Please enter a password."
 msgstr "비밀번호를 입력하세요."
 
-#: ui/auth/password_admin_window.py:311
+#: ui/auth/password_admin_window.py:349
 msgid "Passwords do not match."
 msgstr "비밀번호가 일치하지 않습니다."
 
-#: ui/auth/password_admin_window.py:315 ui/auth/password_admin_window.py:398
+#: ui/auth/password_admin_window.py:353 ui/auth/password_admin_window.py:437
 msgid "Password must be at least 6 characters long."
 msgstr "비밀번호는 6자 이상이어야 합니다."
 
-#: ui/auth/password_admin_window.py:319
+#: ui/auth/password_admin_window.py:358
 msgid "Password set successfully."
 msgstr "비밀번호가 성공적으로 설정되었습니다."
 
-#: ui/auth/password_admin_window.py:326
+#: ui/auth/password_admin_window.py:365
 msgid "Failed to set password."
 msgstr "비밀번호를 설정하지 못했습니다."
 
-#: ui/auth/password_admin_window.py:355
+#: ui/auth/password_admin_window.py:394
 msgid "Current Password:"
 msgstr "현재 비밀번호:"
 
-#: ui/auth/password_admin_window.py:373
+#: ui/auth/password_admin_window.py:412
 msgid "Confirm New Password:"
 msgstr "새 비밀번호를 확인합니다:"
 
-#: ui/auth/password_admin_window.py:390
+#: ui/auth/password_admin_window.py:429
 msgid "Current password is incorrect."
 msgstr "현재 비밀번호가 올바르지 않습니다."
 
-#: ui/auth/password_admin_window.py:394
+#: ui/auth/password_admin_window.py:433
 msgid "New passwords do not match."
 msgstr "새 비밀번호가 일치하지 않습니다."
 
-#: ui/auth/password_admin_window.py:402
+#: ui/auth/password_admin_window.py:442
 msgid "Password changed successfully."
 msgstr "비밀번호가 성공적으로 변경되었습니다."
 
-#: ui/auth/password_admin_window.py:405
+#: ui/auth/password_admin_window.py:445
 msgid "Failed to change password."
 msgstr "비밀번호를 변경하지 못했습니다."
 
-#: ui/auth/password_admin_window.py:421
+#: ui/auth/password_admin_window.py:461
 msgid ""
 "Are you sure you want to remove password protection? This will disable all "
 "password requirements."
 msgstr "비밀번호 보호를 제거하시겠습니까? 그러면 모든 비밀번호 요구 사항이 비활성화됩니다."
 
-#: ui/auth/password_admin_window.py:426
+#: ui/auth/password_admin_window.py:467
 msgid "Password removed successfully."
 msgstr "비밀번호가 성공적으로 제거되었습니다."
 
-#: ui/auth/password_admin_window.py:430
+#: ui/auth/password_admin_window.py:471
 msgid "Failed to remove password."
 msgstr "비밀번호를 제거하지 못했습니다."
 
-#: ui/auth/password_admin_window.py:465
+#: ui/auth/password_admin_window.py:506
 msgid "Cache exported as JSON to:"
 msgstr "캐시를 JSON으로 내보냅니다:"
 
-#: ui/auth/password_admin_window.py:467
+#: ui/auth/password_admin_window.py:508
 msgid "Failed to export cache as JSON:"
 msgstr "캐시를 JSON으로 내보내지 못했습니다:"
 
-#: ui/auth/password_dialog.py:38 ui/auth/password_dialog.py:93
+#: ui/auth/password_dialog.py:40 ui/auth/password_dialog.py:104
 msgid "Password Required"
 msgstr "비밀번호 필요"
 
-#: ui/auth/password_dialog.py:38
+#: ui/auth/password_dialog.py:40
 msgid "Password Protection"
 msgstr "비밀번호 보호"
 
-#: ui/auth/password_dialog.py:100
+#: ui/auth/password_dialog.py:111
 msgid "Password required for: {0}"
 msgstr "암호가 필요합니다: {0}"
 
-#: ui/auth/password_dialog.py:145
+#: ui/auth/password_dialog.py:156
 msgid "Password Protection Available"
 msgstr "비밀번호 보호 사용 가능"
 
-#: ui/auth/password_dialog.py:152
+#: ui/auth/password_dialog.py:163
 msgid "This action requires password protection: {0}"
 msgstr "이 작업에는 암호 보호가 필요합니다: {0}"
 
-#: ui/auth/password_dialog.py:168
+#: ui/auth/password_dialog.py:179
 msgid "Password protection is not currently configured. You can:"
 msgstr "현재 비밀번호 보호가 구성되어 있지 않습니다. 설정할 수 있습니다:"
 
-#: ui/auth/password_dialog.py:178
+#: ui/auth/password_dialog.py:189
 msgid "• Configure password protection for sensitive actions"
 msgstr "• 민감한 작업에 대한 비밀번호 보호 구성"
 
-#: ui/auth/password_dialog.py:183
+#: ui/auth/password_dialog.py:194
 msgid "• Continue without password protection (less secure)"
 msgstr "• 비밀번호 보호 없이 계속 진행(보안 취약)"
 
-#: ui/auth/password_dialog.py:192 ui/auth/password_dialog.py:213
+#: ui/auth/password_dialog.py:201
+msgid "Don't show this security advice again"
+msgstr "이 보안 안내를 다시 표시하지 마세요."
+
+#: ui/auth/password_dialog.py:211 ui/auth/password_dialog.py:232
 msgid "Configure Protection"
 msgstr "보호 구성"
 
-#: ui/auth/password_dialog.py:196
+#: ui/auth/password_dialog.py:215
 msgid "Continue Without Protection"
 msgstr "보호 없이 계속 진행"
 
-#: ui/auth/password_dialog.py:204
+#: ui/auth/password_dialog.py:223
 msgid ""
 "Password protection is required for this action but is not currently "
 "configured."

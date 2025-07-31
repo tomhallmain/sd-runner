@@ -59,19 +59,22 @@ def check_password_required(
         # No actions are protected, but check if we need to enforce authentication anyway
         if not allow_unauthenticated and not PasswordManager.is_security_configured():
             # Actions are not protected but we require authentication and no password is configured
-            # Show the dialog to prompt for password configuration
-            description = action_names[0].get_description()
-            
-            def password_callback(result):
+            # Check if security advice is enabled
+            if config.is_security_advice_enabled():
+                # Show the dialog to prompt for password configuration
+                description = action_names[0].get_description()
+
+                def password_callback(result):
+                    if callback:
+                        callback(result)
+
+                return PasswordDialog.prompt_password(master, config, description, password_callback, app_actions, action_names[0], custom_text, allow_unauthenticated)
+            else:
+                # Security advice is disabled, proceed without showing dialog
+                # No password required and unauthenticated access is allowed, proceed immediately
                 if callback:
-                    callback(result)
-            
-            return PasswordDialog.prompt_password(master, description, password_callback, app_actions, action_names[0], custom_text, allow_unauthenticated)
-        else:
-            # No password required and unauthenticated access is allowed, proceed immediately
-            if callback:
-                callback(True)
-            return True
+                    callback(True)
+                return True
     
     # Special case: If the only action is the admin action and no password is configured, allow access
     if len(action_names) == 1 and action_names[0] == ProtectedActions.ACCESS_ADMIN and not PasswordManager.is_security_configured():
@@ -99,7 +102,7 @@ def check_password_required(
         if callback:
             callback(result)
     
-    return PasswordDialog.prompt_password(master, description, password_callback, app_actions, action_names[0], custom_text, allow_unauthenticated)
+    return PasswordDialog.prompt_password(master, config, description, password_callback, app_actions, action_names[0], custom_text, allow_unauthenticated)
 
 
 def require_password(

@@ -40,6 +40,9 @@ class PasswordAdminWindow():
         self.session_timeout_enabled_var = BooleanVar(value=self.config.session_timeout_enabled)
         self.session_timeout_minutes_var = StringVar(value=str(self.config.session_timeout_minutes))
         
+        # Create variables for security advice settings
+        self.show_security_advice_var = BooleanVar(value=self.config.is_security_advice_enabled())
+        
         # Create variables for password setup
         self.new_password_var = StringVar()
         self.confirm_password_var = StringVar()
@@ -130,7 +133,7 @@ class PasswordAdminWindow():
                                      bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
                                      selectcolor=AppStyle.BG_COLOR)
         session_checkbox.grid(column=0, row=1, pady=5, sticky="w")
-        
+
         # Timeout duration frame
         timeout_frame = Frame(right_frame)
         timeout_frame.grid(column=0, row=2, pady=5, sticky="w")
@@ -144,10 +147,24 @@ class PasswordAdminWindow():
         timeout_entry.grid(column=1, row=0, padx=5, sticky="w")
         timeout_entry.bind('<KeyRelease>', self.update_session_settings)
 
+        # Security advice section
+        advice_title = Label(right_frame, text=_("Security Advice Settings"),
+                            font=fnt.Font(size=11, weight="bold"))
+        advice_title.grid(column=0, row=3, pady=(30, 10), sticky="w")
+        advice_title.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+
+        # Show security advice checkbox
+        advice_checkbox = Checkbutton(right_frame, text=_("Show security advice when no password is configured"),
+                                     variable=self.show_security_advice_var,
+                                     command=self.update_security_advice_settings,
+                                     bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                                     selectcolor=AppStyle.BG_COLOR)
+        advice_checkbox.grid(column=0, row=4, pady=5, sticky="w")
+
         # Password setup section
         password_title = Label(right_frame, text=_("Password Setup"), 
                               font=fnt.Font(size=11, weight="bold"))
-        password_title.grid(column=0, row=3, pady=(30, 10), sticky="w")
+        password_title.grid(column=0, row=5, pady=(30, 10), sticky="w")
         password_title.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
         
         # Check if password is already configured
@@ -157,28 +174,28 @@ class PasswordAdminWindow():
             # Show password status
             status_label = Label(right_frame, text=_("Password is configured"), 
                                fg="green")
-            status_label.grid(column=0, row=4, pady=5, sticky="w")
+            status_label.grid(column=0, row=6, pady=5, sticky="w")
             status_label.config(bg=AppStyle.BG_COLOR)
 
             # Change password button
             change_btn = Button(right_frame, text=_("Change Password"), 
                                command=self.show_change_password_dialog)
-            change_btn.grid(column=0, row=5, pady=5, sticky="w")
+            change_btn.grid(column=0, row=7, pady=5, sticky="w")
             
             # Remove password button
             remove_btn = Button(right_frame, text=_("Remove Password"), 
                                command=self.remove_password)
-            remove_btn.grid(column=0, row=6, pady=5, sticky="w")
+            remove_btn.grid(column=0, row=8, pady=5, sticky="w")
         else:
             # Show password setup form
             setup_label = Label(right_frame, text=_("Set up a password to enable protection:"), 
                               wraplength=350)
-            setup_label.grid(column=0, row=4, pady=(0, 10), sticky="w")
+            setup_label.grid(column=0, row=6, pady=(0, 10), sticky="w")
             setup_label.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
             
             # New password entry
             new_pwd_frame = Frame(right_frame)
-            new_pwd_frame.grid(column=0, row=5, pady=5, sticky="w")
+            new_pwd_frame.grid(column=0, row=7, pady=5, sticky="w")
             new_pwd_frame.config(bg=AppStyle.BG_COLOR)
             
             new_pwd_label = Label(new_pwd_frame, text=_("New Password:"))
@@ -191,7 +208,7 @@ class PasswordAdminWindow():
             
             # Confirm password entry
             confirm_pwd_frame = Frame(right_frame)
-            confirm_pwd_frame.grid(column=0, row=6, pady=5, sticky="w")
+            confirm_pwd_frame.grid(column=0, row=8, pady=5, sticky="w")
             confirm_pwd_frame.config(bg=AppStyle.BG_COLOR)
             
             confirm_pwd_label = Label(confirm_pwd_frame, text=_("Confirm Password:"))
@@ -205,7 +222,7 @@ class PasswordAdminWindow():
             # Set password button
             set_pwd_btn = Button(right_frame, text=_("Set Password"), 
                                 command=self.set_password)
-            set_pwd_btn.grid(column=0, row=7, pady=5, sticky="w")
+            set_pwd_btn.grid(column=0, row=9, pady=5, sticky="w")
 
         # Bottom buttons spanning both columns
         button_frame = Frame(self.frame)
@@ -247,12 +264,25 @@ class PasswordAdminWindow():
             # Invalid number entered, revert to current value
             self.session_timeout_minutes_var.set(str(self.config.session_timeout_minutes))
 
+    def update_security_advice_settings(self):
+        """Update security advice settings."""
+        self.config.set_security_advice_enabled(self.show_security_advice_var.get())
+
+    def clear_sessions(self):
+        """Clear all sessions when settings change to ensure changes take effect immediately."""
+        from ui.auth.password_session_manager import PasswordSessionManager
+        PasswordSessionManager.clear_all_sessions()
+
     @require_password(ProtectedActions.ACCESS_ADMIN)
     def save_settings(self):
         """Save the current settings."""
         self.update_protected_actions()
         self.update_session_settings()
+        self.update_security_advice_settings()
         self.config.save_settings()
+
+        self.clear_sessions()
+
         self._show_toast_or_messagebox(_("Password protection settings saved."))
 
     @require_password(ProtectedActions.ACCESS_ADMIN)
@@ -273,7 +303,12 @@ class PasswordAdminWindow():
             # Update session timeout controls
             self.session_timeout_enabled_var.set(self.config.session_timeout_enabled)
             self.session_timeout_minutes_var.set(str(self.config.session_timeout_minutes))
-            
+
+            # Update security advice controls
+            self.show_security_advice_var.set(self.config.is_security_advice_enabled())
+
+            self.clear_sessions()
+
             self._show_toast_or_messagebox(_("Settings reset to defaults."))
 
     def set_to_current(self):
@@ -294,7 +329,10 @@ class PasswordAdminWindow():
             # Update session timeout controls
             self.session_timeout_enabled_var.set(self.config.session_timeout_enabled)
             self.session_timeout_minutes_var.set(str(self.config.session_timeout_minutes))
-            
+
+            # Update security advice controls
+            self.show_security_advice_var.set(self.config.is_security_advice_enabled())
+
             self._show_toast_or_messagebox(_("Settings restored to current saved state."))
 
     @require_password(ProtectedActions.ACCESS_ADMIN)
@@ -316,6 +354,7 @@ class PasswordAdminWindow():
             return
         
         if PasswordManager.set_password(new_password):
+            self.clear_sessions()
             self._show_toast_or_messagebox(_("Password set successfully."))
             # Clear the password fields
             self.new_password_var.set("")
@@ -399,6 +438,7 @@ class PasswordAdminWindow():
                 return
             
             if PasswordManager.set_password(new_pwd):
+                self.clear_sessions()
                 self._show_toast_or_messagebox(_("Password changed successfully."))
                 dialog.destroy()
             else:
@@ -423,6 +463,7 @@ class PasswordAdminWindow():
         
         if result:
             if PasswordManager.clear_password():
+                self.clear_sessions()
                 self._show_toast_or_messagebox(_("Password removed successfully."))
                 # Refresh the UI to show the password setup form
                 self.refresh_ui()

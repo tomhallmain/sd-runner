@@ -49,7 +49,17 @@ class PasswordSessionManager:
         timeout_seconds = timeout_minutes * 60
         
         return (current_time - last_verification_time) < timeout_seconds
-    
+
+    @classmethod
+    def clear_all_sessions(cls) -> None:
+        """
+        Clear all session data for all actions.
+
+        This is useful when security settings are changed to ensure
+        that all changes take effect immediately.
+        """
+        cls._session_data.clear()
+
     @classmethod
     def clear_session(cls, action: Optional[ProtectedActions] = None) -> None:
         """
