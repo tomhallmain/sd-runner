@@ -2,16 +2,16 @@ import os
 from pathlib import Path
 import random
 import re
-from typing import Dict, Set, List, Tuple
+from typing import Dict, Set
 
-from sd_runner.blacklist import Blacklist
+from sd_runner.blacklist import Blacklist, BlacklistItem
 from utils.config import config
 from utils.globals import PromptMode
 
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
-def weighted_sample_without_replacement(population, weights, k=1) -> list:
+def weighted_sample_without_replacement(population: list[str], weights: list[float], k: int = 1) -> list[str]:
     weights = list(weights)
     positions = range(len(population))
     indices = []
@@ -26,7 +26,7 @@ def weighted_sample_without_replacement(population, weights, k=1) -> list:
     return [population[i] for i in indices]
 
 
-def sample(l, low, high) -> list:
+def sample(l: list[str] | dict[str, float], low: int, high: int) -> list[str]:
     if high > len(l):
         high = len(l) - 1
     k = high if low > high else random.randint(low, high)
@@ -38,7 +38,7 @@ def sample(l, low, high) -> list:
 
 
 class ConceptsFile:
-    def __init__(self, filename):
+    def __init__(self, filename: str):
         self.filename = filename
         self.is_dictionary = filename == Concepts.ALL_WORDS_LIST_FILENAME
         self.lines = []  # Original lines with comments
@@ -46,7 +46,7 @@ class ConceptsFile:
         self.concept_indices = {}  # Map of concept -> line index
         self.load()
 
-    def load(self):
+    def load(self) -> None:
         """Load the file while preserving structure and comments"""
         if os.path.isfile(self.filename):
             filepath = str(self.filename)
@@ -77,7 +77,7 @@ class ConceptsFile:
             self.concepts = []
             self.concept_indices = {}
 
-    def save(self):
+    def save(self) -> None:
         """Save the file while preserving structure and comments"""
         if os.path.isfile(self.filename):
             filepath = str(self.filename)
@@ -91,7 +91,7 @@ class ConceptsFile:
             print(f"Failed to save concepts file: {filepath}")
             print(f"Error: {str(e)}")
 
-    def add_concept(self, concept):
+    def add_concept(self, concept: str) -> bool:
         """Add a new concept to the file, maintaining alphabetical order when possible.
         
         The method will:
@@ -191,7 +191,7 @@ class ConceptsFile:
         self.concept_indices[concept] = last_idx + 1
         return True
 
-    def remove_concept(self, concept):
+    def remove_concept(self, concept: str) -> bool:
         """Remove a concept from the file"""
         if concept not in self.concepts:
             return False
@@ -207,7 +207,7 @@ class ConceptsFile:
                 self.concept_indices[c] = i - 1
         return True
 
-    def get_concepts(self):
+    def get_concepts(self) -> list[str]:
         """Get the list of concepts"""
         return self.concepts.copy()
 
@@ -223,7 +223,7 @@ class Concepts:
     URBAN_DICTIONARY_CORPUS = []
 
     @staticmethod
-    def set_concepts_dir(path="concepts"):
+    def set_concepts_dir(path: str = "concepts") -> bool:
         old_path = Concepts.CONCEPTS_DIR
         if path == "concepts":
             Concepts.CONCEPTS_DIR = os.path.join(BASE_DIR, "concepts")
@@ -234,7 +234,7 @@ class Concepts:
         return old_path != Concepts.CONCEPTS_DIR
 
     @staticmethod
-    def sample_whitelisted(concepts, low, high) -> list[str]:
+    def sample_whitelisted(concepts: list[str], low: int, high: int) -> list[str]:
         """Sample concepts while filtering out blacklisted items.
         
         Args:
@@ -271,7 +271,11 @@ class Concepts:
             
         return sample(whitelist, low, high)
 
-    def __init__(self, prompt_mode, get_specific_locations, concepts_dir="concepts"):
+    def __init__(self,
+        prompt_mode: PromptMode,
+        get_specific_locations: bool,
+        concepts_dir: str = "concepts"
+    ):
         if Concepts.set_concepts_dir(concepts_dir):
             Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
             print(f"Reset all words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
@@ -286,7 +290,7 @@ class Concepts:
         self.get_specific_locations = get_specific_locations
         # Randomly select concepts from the lists
 
-    def extend(self, l, nsfw_file, nsfw_repeats, nsfl_file, nsfl_repeats):
+    def extend(self, l: list[str], nsfw_file: str, nsfw_repeats: int, nsfl_file: str, nsfl_repeats: int) -> None:
         nsfw = Concepts.load(nsfw_file)
         if self.prompt_mode == PromptMode.NSFL:
             nsfl = Concepts.load(nsfl_file)
@@ -295,7 +299,7 @@ class Concepts:
         for i in range(nsfw_repeats):
             l.extend(nsfw)
 
-    def _adjust_range(self, low, high, multiplier=1):
+    def _adjust_range(self, low: int, high: int, multiplier: float = 1.0) -> tuple[int, int]:
         if multiplier == 0:
             return 0, 0
         if multiplier == 1:
@@ -317,14 +321,14 @@ class Concepts:
             
         return new_low, new_high
 
-    def get_concepts(self, low=1, high=3, multiplier=1):
+    def get_concepts(self, low: int = 1, high: int = 3, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         concepts = Concepts.load(SFW.concepts)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
         return Concepts.sample_whitelisted(concepts, low, high)
 
-    def get_positions(self, low=0, high=2, multiplier=1):
+    def get_positions(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         positions = Concepts.load(SFW.positions)
         # if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
@@ -333,17 +337,17 @@ class Concepts:
             del positions[1]
         return Concepts.sample_whitelisted(positions, low, high)
 
-    def get_humans(self, low=1, high=1, multiplier=1):
+    def get_humans(self, low: int = 1, high: int = 1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.humans), low, high)
 
-    def get_animals(self, low=0, high=2, inclusion_chance=0.1, multiplier=1):
+    def get_animals(self, low: int = 0, high: int = 2, inclusion_chance: float = 0.1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         if random.random() > inclusion_chance:
             return []
         return Concepts.sample_whitelisted(Concepts.load(SFW.animals), low, high)
 
-    def get_locations(self, low=0, high=2, specific_inclusion_chance=0.3, multiplier=1):
+    def get_locations(self, low: int = 0, high: int = 2, specific_inclusion_chance: float = 0.3, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         locations = Concepts.load(SFW.locations)
         if self.get_specific_locations:
@@ -353,18 +357,18 @@ class Concepts:
                 locations[l] = specific_inclusion_chance
         return Concepts.sample_whitelisted(locations, low, high)
 
-    def get_colors(self, low=0, high=3, multiplier=1):
+    def get_colors(self, low: int = 0, high: int = 3, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         colors = Concepts.sample_whitelisted(Concepts.load(SFW.colors), low, high)
         if "rainbow" in colors and random.random() > 0.5:
             colors.remove("rainbow")
         return colors
 
-    def get_times(self, low=0, high=1, multiplier=1):
+    def get_times(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.times), low, high)
 
-    def get_dress(self, low=0, high=2, inclusion_chance=0.5, multiplier=1):
+    def get_dress(self, low: int = 0, high: int = 2, inclusion_chance: float = 0.5, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         if random.random() > inclusion_chance:
             return []
@@ -373,35 +377,35 @@ class Concepts:
             self.extend(dress, NSFW.dress, 3, NSFL.dress, 1)
         return Concepts.sample_whitelisted(dress, low, high)
 
-    def get_expressions(self, low=1, high=1, multiplier=1):
+    def get_expressions(self, low: int = 1, high: int = 1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         expressions = Concepts.load(SFW.expressions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(expressions, NSFW.expressions, 6, NSFL.expressions, 3)
         return Concepts.sample_whitelisted(expressions, low, high)
 
-    def get_actions(self, low=0, high=2, multiplier=1):
+    def get_actions(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         actions = Concepts.load(SFW.actions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(actions, NSFW.actions, 8, NSFL.actions, 3)
         return Concepts.sample_whitelisted(actions, low, high)
 
-    def get_descriptions(self, low=0, high=1, multiplier=1):
+    def get_descriptions(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         descriptions = Concepts.load(SFW.descriptions)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(descriptions, NSFW.descriptions, 3, NSFL.descriptions, 2)
         return Concepts.sample_whitelisted(descriptions, low, high)
 
-    def get_characters(self, low=0, high=1, multiplier=1):
+    def get_characters(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         characters = Concepts.load(SFW.characters)
         if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
             self.extend(characters, NSFW.characters, 3, NSFL.characters, 2)
         return Concepts.sample_whitelisted(characters, low, high)
 
-    def get_random_words(self, low=0, high=9, multiplier=1):
+    def get_random_words(self, low: int = 0, high: int = 9, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         if len(Concepts.ALL_WORDS_LIST) == 0:
             print("For some reason, all words list was empty.")
@@ -469,15 +473,15 @@ class Concepts:
             combine_words(random_words, blacklisted_combination_counts, new_chance_to_combine)
         return random_word_strings
 
-    def get_nonsense(self, low=0, high=2, multiplier=1):
+    def get_nonsense(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         nonsense_words = [self.get_nonsense_word() for _ in range(high)]
         return Concepts.sample_whitelisted(nonsense_words, low, high)
 
-    def is_art_style_prompt_mode(self):
+    def is_art_style_prompt_mode(self) -> bool:
         return self.prompt_mode in (PromptMode.ANY_ART, PromptMode.PAINTERLY, PromptMode.ANIME, PromptMode.GLITCH)
 
-    def get_art_styles(self, max_styles=None, multiplier=1):
+    def get_art_styles(self, max_styles: int = -1, multiplier: float = 1.0) -> list[str]:
         m = {PromptMode.ANIME: (ArtStyles.anime, "anime"),
              PromptMode.GLITCH: (ArtStyles.glitch, "glitch"),
              PromptMode.PAINTERLY: (ArtStyles.painters, "painting")}
@@ -491,7 +495,7 @@ class Concepts:
             art_styles.extend(Concepts.load(ArtStyles.painters))
             art_styles.extend(Concepts.load(ArtStyles.artists))
             style_tag = None            
-        if max_styles is None:
+        if max_styles == -1:
             max_styles = min(8, len(art_styles)) if self.prompt_mode in (PromptMode.ANY_ART, PromptMode.GLITCH) else 2
         low = 1
         high = random.randint(1, max_styles)
@@ -502,7 +506,7 @@ class Concepts:
             out[i] = append + out[i]
         return out
 
-    def get_nonsense_word(self):
+    def get_nonsense_word(self) -> str:
         # TODO check other language lists as well
         # TODO check other concept lists
         length = random.randint(3, 15)
@@ -517,7 +521,7 @@ class Concepts:
         return word
 
     @staticmethod
-    def load(filename) -> list[str]:
+    def load(filename: str) -> list[str]:
         # Keeping this separate from the ConceptsFile class to minimize memory
         # usage as this is called every time there's a prompt generation for every file.
         l = []
@@ -541,7 +545,7 @@ class Concepts:
         return l
 
     @staticmethod
-    def save(filename, concepts):
+    def save(filename: str, concepts: list[str]) -> None:
         """Save concepts to a file"""
         file = ConceptsFile(filename)
         current_concepts = set(file.get_concepts())
@@ -605,7 +609,7 @@ class Concepts:
         return sorted(files)
 
     @staticmethod
-    def get_concepts_map(category_states: Dict[str, bool] = {}) -> Dict[str, Set[str]]:
+    def get_concepts_map(category_states: dict[str, bool] = {}) -> dict[str, set[str]]:
         """Get a map of all concept categories to their concepts.
         If category_states is provided, only include enabled categories."""
         existing_concepts = {}
@@ -647,7 +651,10 @@ class Concepts:
         return False
 
     @staticmethod
-    def _check_concept_exists(concept: str, existing_concepts: Dict[str, Set[str]]) -> List[Tuple[str, str]]:
+    def _check_concept_exists(
+        concept: str,
+        existing_concepts: Dict[str, Set[str]]
+    ) -> list[tuple[str, str]]:
         """Check if concept exists in any category, including as part of other concepts."""
         matches = []
         concept_lower = concept.lower()
@@ -664,7 +671,11 @@ class Concepts:
         return matches
     
     @staticmethod
-    def import_concepts(import_file: str, target_category: str, category_states: Dict[str, bool] = None) -> Tuple[List[str], List[str]]:
+    def import_concepts(
+        import_file: str,
+        target_category: str,
+        category_states: dict[str, bool] = None
+    ) -> tuple[list[str], list[str]]:
         """
         Import concepts from a file into a target category.
         Returns (imported_concepts, failed_concepts)
@@ -677,7 +688,7 @@ class Concepts:
             category_states: Dict mapping category names to their enabled state
         """
         # Reset found concepts for this import
-        found_concepts: Dict[str, List[Tuple[str, str]]] = {}
+        found_concepts: dict[str, list[tuple[str, str]]] = {}
         
         # Read and deduplicate concepts from import file
         with open(import_file, 'r', encoding='utf-8') as f:
@@ -737,7 +748,10 @@ class Concepts:
         return imported, failed
 
     @staticmethod
-    def get_filtered_concepts_for_preview(blacklist_item=None, category_states: Dict[str, bool] = None) -> List[str]:
+    def get_filtered_concepts_for_preview(
+        blacklist_item: BlacklistItem = None,
+        category_states: dict[str, bool] = None
+    ) -> list[str]:
         """Get concepts that would be filtered by blacklist items for preview purposes.
         
         Args:

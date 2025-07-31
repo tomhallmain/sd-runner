@@ -24,7 +24,13 @@ class BlacklistException(Exception):
 
 
 class BlacklistItem:
-    def __init__(self, string: str, enabled: bool = True, use_regex: bool = False, use_word_boundary: bool = True):
+    def __init__(
+        self,
+        string: str,
+        enabled: bool = True,
+        use_regex: bool = False,
+        use_word_boundary: bool = True,
+    ):
         self.enabled = enabled
         self.use_regex = use_regex
         self.use_word_boundary = use_word_boundary
@@ -43,7 +49,7 @@ class BlacklistItem:
             else:
                 self.regex_pattern = re.compile(re.escape(self.string))
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return {
             "string": self.string,
             "enabled": self.enabled,
@@ -52,7 +58,7 @@ class BlacklistItem:
         }
 
     @classmethod
-    def from_dict(cls, data: dict):
+    def from_dict(cls, data: dict) -> "BlacklistItem":
         if not isinstance(data, dict):
             return None
         if "string" not in data or not isinstance(data["string"], str):
@@ -137,17 +143,17 @@ class BlacklistItem:
         cleaned_tag = re.sub(r'\s+', ' ', cleaned_tag).strip()
         return cleaned_tag
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         if isinstance(other, BlacklistItem):
             return self.string == other.string
         if isinstance(other, str):
             return self.string == other
         return False
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.string)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.string
     
 
@@ -157,7 +163,7 @@ class ModelBlacklistItem(BlacklistItem):
         super().__init__(string, enabled, use_regex, use_word_boundary=False)
 
     @classmethod
-    def from_dict(cls, data: dict):
+    def from_dict(cls, data: dict) -> "ModelBlacklistItem":
         # Ignore use_word_boundary for models
         if not isinstance(data, dict):
             return None
@@ -190,39 +196,43 @@ class Blacklist:
     model_blacklist_all_prompt_modes = False
 
     @staticmethod
-    def get_blacklist_mode():
+    def get_blacklist_mode() -> BlacklistMode:
         return Blacklist.blacklist_mode
 
     @staticmethod
-    def set_blacklist_mode(mode):
+    def set_blacklist_mode(mode: BlacklistMode) -> None:
         Blacklist.blacklist_mode = mode
 
     @staticmethod
-    def get_model_blacklist_mode():
+    def get_model_blacklist_mode() -> ModelBlacklistMode:
         return Blacklist.model_blacklist_mode
 
     @staticmethod
-    def set_model_blacklist_mode(mode):
+    def set_model_blacklist_mode(mode: ModelBlacklistMode) -> None:
         Blacklist.model_blacklist_mode = mode
 
     @staticmethod
-    def get_blacklist_silent_removal():
+    def get_blacklist_silent_removal() -> bool:
         return Blacklist.blacklist_silent_removal
 
     @staticmethod
-    def set_blacklist_silent_removal(silent):
+    def set_blacklist_silent_removal(silent: bool) -> None:
         Blacklist.blacklist_silent_removal = silent
 
     @staticmethod
-    def get_model_blacklist_all_prompt_modes():
+    def get_model_blacklist_all_prompt_modes() -> bool:
         return Blacklist.model_blacklist_all_prompt_modes
 
     @staticmethod
-    def set_model_blacklist_all_prompt_modes(all_prompt_modes):
+    def set_model_blacklist_all_prompt_modes(all_prompt_modes: bool) -> None:
         Blacklist.model_blacklist_all_prompt_modes = all_prompt_modes
 
     @staticmethod
-    def _filter_concepts_cached(concepts_tuple, do_cache=True, user_prompt=True):
+    def _filter_concepts_cached(
+        concepts_tuple: tuple[str],
+        do_cache: bool = True,
+        user_prompt: bool = True,
+    ) -> tuple[list[str], dict[str, str]]:
         # Check cache first - use just the concepts tuple as key (no version needed)
         try:
             cached_result = Blacklist._filter_cache.get(concepts_tuple)
@@ -233,7 +243,7 @@ class Blacklist:
         
         concepts_count = len(concepts_tuple)
 
-        def do_update_progress(current_concept_index):
+        def do_update_progress(current_concept_index: int) -> None:
             if concepts_count < 20000 or Blacklist._ui_callbacks is None:
                 return
             # Notify UI that filtering is starting
@@ -307,15 +317,15 @@ class Blacklist:
         return result
 
     @staticmethod
-    def is_empty():
+    def is_empty() -> bool:
         return len(Blacklist.TAG_BLACKLIST) == 0
 
     @staticmethod
-    def is_model_empty():
+    def is_model_empty() -> bool:
         return len(Blacklist.MODEL_BLACKLIST) == 0
 
     @staticmethod
-    def add_item(item: BlacklistItem):
+    def add_item(item: BlacklistItem) -> None:
         Blacklist.TAG_BLACKLIST.append(item)
         Blacklist.sort()
         try:
@@ -325,7 +335,7 @@ class Blacklist:
             raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
 
     @staticmethod
-    def remove_item(item: BlacklistItem, do_save=True):
+    def remove_item(item: BlacklistItem, do_save: bool = True) -> bool:
         """Remove a BlacklistItem from the blacklist."""
         try:
             Blacklist.TAG_BLACKLIST.remove(item)
@@ -340,11 +350,11 @@ class Blacklist:
             return False
 
     @staticmethod
-    def get_items():
+    def get_items() -> list[BlacklistItem]:
         return Blacklist.TAG_BLACKLIST
 
     @staticmethod
-    def clear():
+    def clear() -> None:
         Blacklist.TAG_BLACKLIST.clear()
         try:
             Blacklist._filter_cache.clear()
@@ -353,11 +363,11 @@ class Blacklist:
             raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
 
     @staticmethod
-    def sort():
+    def sort() -> None:
         Blacklist.TAG_BLACKLIST.sort(key=lambda x: x.string.lower())
 
     @staticmethod
-    def set_blacklist(blacklist, clear_cache=False):
+    def set_blacklist(blacklist, clear_cache: bool = False) -> None:
         """Set the blacklist to a list of BlacklistItem objects.
         
         Args:
@@ -388,7 +398,7 @@ class Blacklist:
             raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
     
     @staticmethod
-    def add_to_blacklist(tag, enabled: bool = True, use_regex: bool = False):
+    def add_to_blacklist(tag, enabled: bool = True, use_regex: bool = False) -> None:
         """Add a tag to the blacklist. If tag is a string, convert to BlacklistItem.
         
         Args:
@@ -401,7 +411,12 @@ class Blacklist:
         Blacklist.add_item(tag)
 
     @staticmethod
-    def filter_concepts(concepts, filtered_dict=None, do_cache=True, user_prompt=True) -> tuple[list[str], dict[str, str]]:
+    def filter_concepts(
+        concepts: list[str],
+        filtered_dict: dict[str, str] = None,
+        do_cache: bool = True,
+        user_prompt: bool = True,
+    ) -> tuple[list[str], dict[str, str]]:
         """Filter a list of concepts against the blacklist.
         
         Args:
@@ -474,7 +489,7 @@ class Blacklist:
         return None
 
     @staticmethod
-    def import_blacklist_csv(filename):
+    def import_blacklist_csv(filename: str) -> None:
         """Import blacklist from a CSV file.
         
         Expected format:
@@ -509,7 +524,7 @@ class Blacklist:
                         Blacklist.add_to_blacklist(BlacklistItem(row[0].strip()))
 
     @staticmethod
-    def import_blacklist_json(filename):
+    def import_blacklist_json(filename: str) -> None:
         """Import blacklist from a JSON file.
         
         Expected format:
@@ -536,7 +551,7 @@ class Blacklist:
                 raise ValueError("Invalid JSON format for blacklist import")
 
     @staticmethod
-    def import_blacklist_txt(filename):
+    def import_blacklist_txt(filename: str) -> None:
         """Import blacklist from a text file.
         
         Expected format:
@@ -552,7 +567,7 @@ class Blacklist:
                     Blacklist.add_to_blacklist(BlacklistItem(line))
 
     @staticmethod
-    def export_blacklist_csv(filename):
+    def export_blacklist_csv(filename: str) -> None:
         """Export blacklist to a CSV file."""
         with open(filename, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=['string', 'enabled'])
@@ -561,13 +576,13 @@ class Blacklist:
                 writer.writerow(item.to_dict())
 
     @staticmethod
-    def export_blacklist_json(filename):
+    def export_blacklist_json(filename: str) -> None:
         """Export blacklist to a JSON file."""
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump([item.to_dict() for item in Blacklist.TAG_BLACKLIST], f, indent=2)
 
     @staticmethod
-    def export_blacklist_txt(filename):
+    def export_blacklist_txt(filename: str) -> None:
         """Export blacklist to a text file."""
         with open(filename, 'w', encoding='utf-8') as f:
             for item in Blacklist.TAG_BLACKLIST:
@@ -582,7 +597,7 @@ class Blacklist:
         Blacklist._ui_callbacks = ui_callbacks
 
     @staticmethod
-    def save_cache():
+    def save_cache() -> None:
         """Explicitly save the cache to disk."""
         try:
             Blacklist._filter_cache.save()
@@ -590,7 +605,7 @@ class Blacklist:
             raise Exception(f"Error saving blacklist cache: {e}", e)
 
     @staticmethod
-    def encrypt_blacklist():
+    def encrypt_blacklist() -> None:
         """Encrypt the default blacklist items."""
         try:
             blacklist_dicts = [item.to_dict() for item in Blacklist.get_items()]
@@ -601,7 +616,7 @@ class Blacklist:
             raise Exception(f"Error encrypting blacklist: {e}", e)
 
     @staticmethod
-    def decrypt_blacklist():
+    def decrypt_blacklist() -> None:
         """Decrypt the default blacklist items."""
         try:
             encoded_data = symmetric_decrypt_data_from_file(Blacklist.DEFAULT_BLACKLIST_FILE_LOC, (Globals.APP_IDENTIFIER + "_blacklist").encode("utf-8"))
@@ -612,7 +627,7 @@ class Blacklist:
             raise Exception(f"Error decrypting blacklist: {e}", e)
 
     @staticmethod
-    def clear_cache_file():
+    def clear_cache_file() -> None:
         """Clear the cache file and reload the cache."""
         try:
             if os.path.exists(BLACKLIST_CACHE_FILE):
@@ -628,7 +643,7 @@ class Blacklist:
                 max_large_items=Blacklist.CACHE_MAX_LARGE_ITEMS, large_threshold=Blacklist.CACHE_LARGE_THRESHOLD)
 
     @staticmethod
-    def add_model_item(item: ModelBlacklistItem):
+    def add_model_item(item: ModelBlacklistItem) -> None:
         if not isinstance(item, ModelBlacklistItem):
             # Convert if needed
             item = ModelBlacklistItem(item.string, item.enabled, item.use_regex)
@@ -636,7 +651,7 @@ class Blacklist:
         Blacklist.sort_model_blacklist()
 
     @staticmethod
-    def add_to_model_blacklist(tag, enabled: bool = True, use_regex: bool = False):
+    def add_to_model_blacklist(tag, enabled: bool = True, use_regex: bool = False) -> None:
         if isinstance(tag, str):
             tag = ModelBlacklistItem(tag, enabled=enabled, use_regex=use_regex)
         elif not isinstance(tag, ModelBlacklistItem):
@@ -644,7 +659,7 @@ class Blacklist:
         Blacklist.add_model_item(tag)
 
     @staticmethod
-    def remove_model_item(item: ModelBlacklistItem):
+    def remove_model_item(item: ModelBlacklistItem) -> bool:
         try:
             Blacklist.MODEL_BLACKLIST.remove(item)
             return True
@@ -652,20 +667,19 @@ class Blacklist:
             return False
 
     @staticmethod
-    def get_model_items():
+    def get_model_items() -> list[ModelBlacklistItem]:
         return Blacklist.MODEL_BLACKLIST
 
     @staticmethod
-    def clear_model_blacklist():
+    def clear_model_blacklist() -> None:
         Blacklist.MODEL_BLACKLIST.clear()
 
     @staticmethod
-    def sort_model_blacklist():
+    def sort_model_blacklist() -> None:
         Blacklist.MODEL_BLACKLIST.sort(key=lambda x: x.string.lower())
 
     @staticmethod
-    def set_model_blacklist(blacklist):
-        # Accepts a list of ModelBlacklistItem or dicts
+    def set_model_blacklist(blacklist: list[ModelBlacklistItem] | list[dict]) -> None:
         items = []
         for item in blacklist:
             if isinstance(item, ModelBlacklistItem):
@@ -677,7 +691,7 @@ class Blacklist:
         Blacklist.MODEL_BLACKLIST = items
 
     @staticmethod
-    def get_model_blacklist_violations(model_id):
+    def get_model_blacklist_violations(model_id: str) -> bool:
         violations = []
         for item in Blacklist.MODEL_BLACKLIST:
             if item.enabled and item.matches_tag(model_id):
@@ -685,7 +699,7 @@ class Blacklist:
         return False
 
     @staticmethod
-    def import_model_blacklist_csv(filename):
+    def import_model_blacklist_csv(filename: str) -> None:
         """Import model blacklist from a CSV file.
         
         Expected format:
@@ -720,7 +734,7 @@ class Blacklist:
                         Blacklist.add_to_model_blacklist(ModelBlacklistItem(row[0].strip()))
 
     @staticmethod
-    def import_model_blacklist_json(filename):
+    def import_model_blacklist_json(filename: str) -> None:
         """Import model blacklist from a JSON file.
         
         Expected format:
@@ -747,7 +761,7 @@ class Blacklist:
                 raise ValueError("Invalid JSON format for model blacklist import")
 
     @staticmethod
-    def import_model_blacklist_txt(filename):
+    def import_model_blacklist_txt(filename: str) -> None:
         """Import model blacklist from a text file.
         
         Expected format:
@@ -763,7 +777,7 @@ class Blacklist:
                     Blacklist.add_to_model_blacklist(ModelBlacklistItem(line))
 
     @staticmethod
-    def export_model_blacklist_json(filename):
+    def export_model_blacklist_json(filename: str) -> None:
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump([item.to_dict() for item in Blacklist.MODEL_BLACKLIST], f, indent=2)
 

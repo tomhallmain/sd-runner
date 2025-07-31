@@ -2,6 +2,7 @@ import glob
 import os
 import random
 import re
+from typing import TypeVar
 
 from sd_runner.blacklist import Blacklist, BlacklistException
 from sd_runner.model_adapters import LoraBundle
@@ -13,6 +14,7 @@ _ = I18N._
 
 
 class Model:
+    T = TypeVar('T', bound='Model')
     DEFAULT_SD15_MODEL = "analogMadness"
     DEFAULT_XL_MODEL = "realvisXLV20"
     DEFAULT_TURBO_MODEL = "realvisxlV30Turbo"
@@ -39,7 +41,17 @@ class Model:
             architecture_type = ArchitectureType.SD_15
         return architecture_type
 
-    def __init__(self, id, path=None, is_lora=False, is_xl=False, is_turbo=False, is_flux=False, clip_req=None, lora_strength=Globals.DEFAULT_LORA_STRENGTH):
+    def __init__(
+        self,
+        id: str,
+        path: str = None,
+        is_lora: bool = False,
+        is_xl: bool = False,
+        is_turbo: bool = False,
+        is_flux: bool = False,
+        clip_req: float = None,
+        lora_strength: float = Globals.DEFAULT_LORA_STRENGTH
+    ):
         self.id = id
         self.path = path if path else os.path.join(Model.MODELS_DIR, id)
         self.architecture_type = Model.get_architecture_type(id, path, is_xl, is_turbo, is_flux)
@@ -72,19 +84,19 @@ class Model:
     def get_other_default_lora(self):
         return "add-detail" if not self.is_sd_15() else "add-detail-xl"
 
-    def get_standard_resolution_group(self):
+    def get_standard_resolution_group(self) -> ResolutionGroup:
         if self.is_sd_15():
-            return ResolutionGroup.FIVE_ONE_TWO.name
+            return ResolutionGroup.FIVE_ONE_TWO
         elif self.is_illustrious():
-            return ResolutionGroup.FIFTEEN_THIRTY_SIX.name
+            return ResolutionGroup.FIFTEEN_THIRTY_SIX
         elif self.is_xl():
-            return ResolutionGroup.TEN_TWENTY_FOUR.name
+            return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_turbo():
-            return ResolutionGroup.TEN_TWENTY_FOUR.name
+            return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_flux():
-            return ResolutionGroup.TEN_TWENTY_FOUR.name
+            return ResolutionGroup.TEN_TWENTY_FOUR
         else:
-            return ResolutionGroup.FIVE_ONE_TWO.name
+            return ResolutionGroup.FIVE_ONE_TWO
 
     def get_lora_text(self):
         if not self.is_lora:
@@ -178,7 +190,12 @@ class Model:
             return Model.DEFAULT_SD15_MODEL
 
     @staticmethod
-    def get_model(model_tag: str, is_lora=False, inpainting=False, is_xl=0):
+    def get_model(
+        model_tag: str,
+        is_lora=False,
+        inpainting=False,
+        is_xl=0
+    ) -> T:
         if model_tag is None or model_tag.strip() == "":
             return None
 
@@ -234,7 +251,13 @@ class Model:
         return model
 
     @staticmethod
-    def get_models(model_tags_str: str, is_lora=False, default_tag="analogMadness", inpainting=False, is_xl=0):
+    def get_models(
+        model_tags_str: str,
+        is_lora=False,
+        default_tag="analogMadness",
+        inpainting=False,
+        is_xl=0
+    ) -> list[T]:
         if model_tags_str is None or model_tags_str.strip() == "":
             model_tags_str = default_tag
         model_tags = model_tags_str.split(",")
@@ -336,7 +359,12 @@ class Model:
         pass
 
     @staticmethod
-    def get_first_model_prompt_massage_tags(model_tags_str, prompt_mode=PromptMode.SFW, inpainting=False, default_tag=""):
+    def get_first_model_prompt_massage_tags(
+        model_tags_str,
+        prompt_mode=PromptMode.SFW,
+        inpainting=False,
+        default_tag=""
+    ) -> tuple[str, list[T]]:
         Model.load_all_if_unloaded()
         Model.set_model_presets(prompt_mode)
         models = []
@@ -354,41 +382,47 @@ class Model:
         return prompt_massage_tags, models
 
     @staticmethod
-    def validate_model_blacklist(tags_str, prompt_mode=PromptMode.SFW, default_tag="analogMadness", is_lora=False, inpainting=False, is_xl=0):
+    def validate_model_blacklist(
+        tags_str,
+        prompt_mode=PromptMode.SFW,
+        default_tag="analogMadness",
+        is_lora=False,
+        inpainting=False,
+        is_xl=0
+    ) -> dict[str, list[str]]:
         if Blacklist.is_model_empty():
             return {}
         if Blacklist.get_model_blacklist_mode() == ModelBlacklistMode.ALLOW_IN_NSFW and prompt_mode in [PromptMode.NSFW, PromptMode.NSFL]:
             return {}
         models = Model.get_models(tags_str, is_lora=is_lora, default_tag=default_tag, inpainting=inpainting, is_xl=is_xl)
         whitelist = []
-        violations = {}
+        violations = []
         for model in models:
-            model_violations = Blacklist.get_model_blacklist_violations(model.id)
-            if model_violations:
-                violations[model.id] = model_violations
+            model_violates_blacklist = Blacklist.get_model_blacklist_violations(model.id)
+            if model_violates_blacklist:
+                violations.append(model.id)
             else:
                 whitelist.append(model.id)
 
         if violations:
-            filtered = list(violations.keys())
             if is_lora:
                 if Blacklist.get_blacklist_silent_removal():
                     raise BlacklistException(_("One or more loras are blacklisted. Please try again with a different lora."),
                                              whitelist=whitelist,
-                                             filtered=filtered)
+                                             filtered=violations)
                 else:
                     raise BlacklistException(_("The following loras are blacklisted: {0}\n\nPlease try again with a different lora.").format(list(violations.keys())),
                                              whitelist=whitelist,
-                                             filtered=filtered)
+                                             filtered=violations)
             else:
                 if Blacklist.get_blacklist_silent_removal():
                     raise BlacklistException(_("One or more models are blacklisted. Please try again with a different model."),
                                              whitelist=whitelist,
-                                             filtered=filtered)
+                                             filtered=violations)
                 else:
-                    raise BlacklistException(_("The following models are blacklisted: {0}\n\nPlease try again with a different model.").format(filtered),
+                    raise BlacklistException(_("The following models are blacklisted: {0}\n\nPlease try again with a different model.").format(violations),
                                              whitelist=whitelist,
-                                             filtered=filtered)
+                                             filtered=violations)
 
 
 

@@ -40,7 +40,7 @@ class RunConfig:
 
         RunConfig.previous_model_tags = self.model_tags
 
-    def get(self, name):
+    def get(self, name: str):
         if isinstance(self.args, dict):
             return self.args[name]
         elif not self.args:
@@ -48,7 +48,7 @@ class RunConfig:
         else:
             return getattr(self.args, name)
 
-    def validate(self):
+    def validate(self) -> bool:
         if self.prompter_config is None:
             raise Exception(_("No prompter config found!"))
 
@@ -78,10 +78,10 @@ class RunConfig:
 
         return True
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.__dict__)
 
-    def estimate_time(self, gen_config=None) -> int:
+    def estimate_time(self, gen_config = None) -> int:
         """
         Estimate the total time in seconds for this run configuration.
         

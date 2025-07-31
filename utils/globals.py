@@ -320,6 +320,24 @@ class ResolutionGroup(Enum):
     SEVEN_SIXTY_EIGHT = "768"
     FIVE_ONE_TWO = "512"
 
+    def get_description(self):
+        return {
+            ResolutionGroup.FIFTEEN_THIRTY_SIX: _("1536"),
+            ResolutionGroup.TEN_TWENTY_FOUR: _("1024"),
+            ResolutionGroup.SEVEN_SIXTY_EIGHT: _("768"),
+            ResolutionGroup.FIVE_ONE_TWO: _("512"),
+        }[self]
+
+    @classmethod
+    def display_values(cls):
+        return [rg.get_description() for rg in cls]
+
+    @staticmethod
+    def get(name):
+        for key, value in ResolutionGroup.__members__.items():
+            if key.upper() == name.upper() or value.get_description() == name:
+                return value
+        raise Exception(f"Not a valid resolution group: {name}")
 
 
 class ProtectedActions(Enum):

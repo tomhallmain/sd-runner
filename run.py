@@ -2,6 +2,7 @@ import argparse
 from copy import deepcopy
 import time
 import traceback
+from typing import Optional
 
 from utils.globals import Globals, PromptMode, ResolutionGroup, WorkflowType # must import first
 from sd_runner.comfy_gen import ComfyGen
@@ -25,7 +26,12 @@ prompt_list = [
 
 
 class Run:
-    def __init__(self, args, ui_callbacks=None, delay_after_last_run=True):
+    def __init__(
+        self,
+        args: RunConfig,
+        ui_callbacks = None,
+        delay_after_last_run: bool = True,
+    ):
         self.id = str(time.time())
         self.is_complete = False
         self.is_cancelled = False
@@ -45,7 +51,12 @@ class Run:
     def is_infinite(self):
         return self.args.total == -1
 
-    def run(self, gen: ComfyGen | SDWebuiGen, original_positive, original_negative):
+    def run(
+        self,
+        gen: ComfyGen | SDWebuiGen,
+        original_positive: str,
+        original_negative: str,
+    ) -> None:
         gen_config = gen.gen_config
         prompter = GlobalPrompter.prompter_instance
         if not self.editing and not self.switching_params:
@@ -101,23 +112,36 @@ class Run:
 
         self.last_config = deepcopy(gen.gen_config)
 
-    def finalize_gen(self, gen: ComfyGen | SDWebuiGen, original_positive, original_negative):
+    def finalize_gen(
+        self,
+        gen: ComfyGen | SDWebuiGen,
+        original_positive: str,
+        original_negative: str,
+    ) -> None:
         self.print("Filling expected number of generations due to skips.")
         gen.gen_config.set_countdown_mode()
         while gen.gen_config.countdown_value > 0:
             self.run(gen, original_positive, original_negative)
         gen.gen_config.reset_countdown_mode()
 
-    def construct_gen(self, workflow: str | WorkflowType, positive_prompt: str, negative_prompt: str, control_nets: list[ControlNet], ip_adapters: list[IPAdapter]) -> ComfyGen | SDWebuiGen:
+    def construct_gen(
+        self,
+        workflow: str | WorkflowType,
+        positive_prompt: str,
+        negative_prompt: str,
+        control_nets: list[ControlNet],
+        ip_adapters: list[IPAdapter],
+    ) -> ComfyGen | SDWebuiGen:
         models = Model.get_models(self.args.model_tags,
                                   default_tag=Model.get_default_model_tag(workflow),
                                   inpainting=self.args.inpainting)
         loras = Model.get_models(self.args.lora_tags, is_lora=True,
                                  default_tag=models[0].get_default_lora(),
                                  inpainting=self.args.inpainting, is_xl=(2 if models[0].is_sd_15() else 1))
+        resolution_group = ResolutionGroup.get(self.args.resolution_group)
         resolutions = Resolution.get_resolutions(self.args.res_tags,
                                                  architecture_type=models[0].architecture_type,
-                                                 resolution_group=ResolutionGroup[self.args.resolution_group])
+                                                 resolution_group=resolution_group)
         gen_config = GenConfig(
             workflow_id=workflow, models=models, loras=loras, n_latents=self.args.n_latents,
             control_nets=control_nets, ip_adapters=ip_adapters,
@@ -132,7 +156,14 @@ class Run:
             raise Exception(f"Unhandled software type: {self.args.software_type}")
         return gen
 
-    def do_workflow(self, workflow: str | WorkflowType, positive_prompt: str, negative_prompt: str, control_nets: list[ControlNet], ip_adapters: list[IPAdapter]):
+    def do_workflow(
+        self,
+        workflow: str | WorkflowType,
+        positive_prompt: str,
+        negative_prompt: str,
+        control_nets: list[ControlNet],
+        ip_adapters: list[IPAdapter],
+    ) -> None:
         if self.is_cancelled:
             return
         gen = self.construct_gen(workflow, positive_prompt, negative_prompt, control_nets, ip_adapters)
@@ -180,7 +211,7 @@ class Run:
         except KeyboardInterrupt:
             pass
 
-    def _sleep_for_delay(self, maximum_gens=1):
+    def _sleep_for_delay(self, maximum_gens: int = 1) -> None:
         if self.args.auto_run:
             # TODO websocket would be better here to ensure all have finished before starting new gen
             sleep_time = maximum_gens
@@ -190,7 +221,11 @@ class Run:
                 sleep_time -= 1
                 time.sleep(1)
 
-    def load_and_run(self, control_nets: list[ControlNet], ip_adapters: list[IPAdapter]):
+    def load_and_run(
+        self,
+        control_nets: list[ControlNet],
+        ip_adapters: list[IPAdapter],
+    ) -> None:
         if self.is_cancelled:
             return
         positive_prompt = self.args.positive_prompt if self.args.positive_prompt else Globals.DEFAULT_POSITIVE_PROMPT
@@ -214,7 +249,7 @@ class Run:
                 print(e)
                 traceback.print_exc()
 
-    def execute(self):
+    def execute(self) -> None:
         self.is_complete = False
         self.is_cancelled = False
         Model.load_all()
@@ -284,14 +319,14 @@ class Run:
 
         self.is_complete = True
 
-    def cancel(self, reason=None):
+    def cancel(self, reason: Optional[str] = None) -> None:
         self.print("Canceling...")
         self.is_cancelled = True
         if reason is not None:
             self.print(f"Cancel reason: {reason}")
         # TODO send cancel/delete call to ComfyUI for all previously started prompts
 
-def main(args):
+def main(args: RunConfig) -> None:
     run = Run(args)
     run.execute()
 

@@ -645,12 +645,11 @@ If you are young, not sure, or even an adult, click the close button on this win
             self.add_label(self._label_info, display_text, row=row, column=base_col, wraplength=BlacklistWindow.COL_0_WIDTH)
             
             # Add enable/disable toggle
-            enabled_var = StringVar(value="✓" if item.enabled else "✗")
-            toggle_btn = Button(self.tag_scroll_frame.viewPort, text=enabled_var.get())
+            toggle_btn = Button(self.tag_scroll_frame.viewPort, text="✓" if item.enabled else _("Disabled"))
             self.enable_item_btn_list.append(toggle_btn)
             toggle_btn.grid(row=row, column=base_col+1)
-            def toggle_handler(event, self=self, item=item, enabled_var=enabled_var):
-                return self.toggle_item(event, item, enabled_var)
+            def toggle_handler(event, self=self, item=item, toggle_btn=toggle_btn):
+                return self.toggle_item(event, item, toggle_btn)
             toggle_btn.bind("<Button-1>", toggle_handler)
             
             # Add modify button
@@ -693,11 +692,10 @@ If you are young, not sure, or even an adult, click the close button on this win
             label = Label(self.model_scroll_frame.viewPort, text=str(item), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
             label.grid(row=row, column=0, sticky=W)
             # Enable/disable toggle
-            enabled_var = StringVar(value="✓" if item.enabled else _("Disabled"))
-            toggle_btn = Button(self.model_scroll_frame.viewPort, text=enabled_var.get())
+            toggle_btn = Button(self.model_scroll_frame.viewPort, text="✓" if item.enabled else _("Disabled"))
             toggle_btn.grid(row=row, column=1)
-            def toggle_handler(event, self=self, item=item, enabled_var=enabled_var):
-                return self.toggle_model_item(event, item, enabled_var)
+            def toggle_handler(event, self=self, item=item, toggle_btn=toggle_btn):
+                return self.toggle_model_item(event, item, toggle_btn)
             toggle_btn.bind("<Button-1>", toggle_handler)
             # Modify button
             modify_btn = Button(self.model_scroll_frame.viewPort, text=_("Modify"))
@@ -950,21 +948,23 @@ If you are young, not sure, or even an adult, click the close button on this win
         return AwareEntry(frame, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
-    def toggle_item(self, event=None, item=None, enabled_var=None):
+    def toggle_item(self, event=None, item=None, button=None):
         """Toggle the enabled state of an item."""
-        if item is None or enabled_var is None:
+        if item is None or button is None:
             return
             
         # Find the item in the blacklist
         for blacklist_item in Blacklist.get_items():
             if blacklist_item == item:
                 blacklist_item.enabled = not blacklist_item.enabled
-                enabled_var.set("✓" if blacklist_item.enabled else _("Disabled"))
+                new_text = "✓" if blacklist_item.enabled else _("Disabled")
+                button.config(text=new_text)
                 self.store_blacklist()
                 self.app_actions.toast(_("Item \"{0}\" is now {1}").format(
                     blacklist_item.string,
                     _("enabled") if blacklist_item.enabled else _("disabled")
                 ))
+                self.master.update()
                 break
 
     @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS, custom_text=warning_text, allow_unauthenticated=False)
@@ -1119,13 +1119,14 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.app_actions.toast(_("Model blacklist updated: {0}").format(blacklist_item.string))
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
-    def toggle_model_item(self, event=None, item=None, enabled_var=None):
-        if item is None or enabled_var is None:
+    def toggle_model_item(self, event=None, item=None, button=None):
+        if item is None or button is None:
             return
         for model_item in Blacklist.get_model_items():
             if model_item == item:
                 model_item.enabled = not model_item.enabled
-                enabled_var.set("✓" if model_item.enabled else _("Disabled"))
+                new_text = "✓" if model_item.enabled else _("Disabled")
+                button.config(text=new_text)
                 self.app_actions.toast(_("Model item '{0}' is now {1}").format(
                     model_item.string,
                     _("enabled") if model_item.enabled else _("disabled")

@@ -13,10 +13,24 @@ from extensions.image_data_extractor import ImageDataExtractor
 
 
 class PrompterConfiguration:
-    def __init__(self, prompt_mode=PromptMode.SFW, concepts=(1,3), positions=(0,2), locations=(0,1),
-                 animals=(0,1,0.1), colors=(0,2), times=(0,1), dress=(0,2,0.5),
-                 expressions=(1,1), actions=(0,2), descriptions=(0,1), characters=(0,1),
-                 random_words=(0,5), nonsense=(0, 0), art_styles_chance=0.3) -> None:
+    def __init__(
+        self,
+        prompt_mode: PromptMode = PromptMode.SFW,
+        concepts: tuple[int, int] = (1, 3),
+        positions: tuple[int, int] = (0, 2),
+        locations: tuple[int, int] = (0, 1),
+        animals: tuple[int, int, float] = (0, 1, 0.1),
+        colors: tuple[int, int] = (0, 2),
+        times: tuple[int, int] = (0, 1),
+        dress: tuple[int, int, float] = (0, 2, 0.5),
+        expressions: tuple[int, int] = (1, 1),
+        actions: tuple[int, int] = (0, 2),
+        descriptions: tuple[int, int] = (0, 1),
+        characters: tuple[int, int] = (0, 1),
+        random_words: tuple[int, int] = (0, 5),
+        nonsense: tuple[int, int] = (0, 0),
+        art_styles_chance: float = 0.3
+    ):
         self.concepts_dir = config.concepts_dirs[config.default_concepts_dir]
         self.prompt_mode = prompt_mode
         self.concepts = concepts
@@ -64,7 +78,7 @@ class PrompterConfiguration:
             "sparse_mixed_tags": self.sparse_mixed_tags,
         }
 
-    def set_from_dict(self, _dict):
+    def set_from_dict(self, _dict: dict) -> None:
         self.prompt_mode = PromptMode[_dict["prompt_mode"]]
         self.concepts_dir = _dict['concepts_dir'] if 'concepts_dir' in _dict else self.concepts_dir
         self.concepts = _dict['concepts'] if 'concepts' in _dict else self.concepts
@@ -88,23 +102,23 @@ class PrompterConfiguration:
         self.sparse_mixed_tags = _dict['sparse_mixed_tags'] if 'sparse_mixed_tags' in _dict else self.sparse_mixed_tags
         self._handle_old_types()
 
-    def set_from_other(self, other):
+    def set_from_other(self, other: "PrompterConfiguration") -> None:
         if not isinstance(other, PrompterConfiguration):
             raise TypeError("Can't set from non-PrompterConfiguration")
         self.__dict__ = deepcopy(other.__dict__)
         self._handle_old_types()
 
-    def _handle_old_types(self):
+    def _handle_old_types(self) -> None:
         if type(self.expressions) == bool:
             if self.expressions:
                 self.expressions = (1, 1)
             else:
                 self.expressions = (0, 0)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         return self.__dict__ == other.__dict__
     
-    def __hash__(self):
+    def __hash__(self) -> int:
         class PromptModeEncoder(json.JSONEncoder):
             def default(self, z):
                 if isinstance(z, PromptMode):
@@ -124,7 +138,14 @@ class Prompter:
     """
     Has various functions for generating stable diffusion image generation prompts.
     """
-    def __init__(self, reference_image_path="", llava_path="", prompter_config=PrompterConfiguration(), get_specific_locations=False, prompt_list=[]):
+    def __init__(
+        self,
+        reference_image_path: str = "",
+        llava_path: str = "",
+        prompter_config: PrompterConfiguration = PrompterConfiguration(),
+        get_specific_locations: bool = False,
+        prompt_list: list[str] = []
+    ):
         self.reference_image_path = reference_image_path
         self.llava_path = llava_path
         self.prompter_config = prompter_config
@@ -137,23 +158,28 @@ class Prompter:
         if prompter_config == PromptMode.LIST and len(prompt_list) == 0:
             raise Exception("No list items to iterate for prompting.")
 
-    def set_prompt_mode(self, prompt_mode):
+    def set_prompt_mode(self, prompt_mode: PromptMode) -> None:
         self.prompt_mode = prompt_mode
         self.concepts.prompt_mode = prompt_mode
 
     @classmethod
-    def set_positive_tags(cls, tags):
+    def set_positive_tags(cls, tags: str) -> None:
         cls.POSITIVE_TAGS = tags
 
     @classmethod
-    def set_negative_tags(cls, tags):
+    def set_negative_tags(cls, tags: str) -> None:
         cls.NEGATIVE_TAGS = tags
 
     @classmethod
-    def set_tags_apply_to_start(cls, apply):
+    def set_tags_apply_to_start(cls, apply: bool) -> None:
         cls.TAGS_APPLY_TO_START = apply
 
-    def generate_prompt(self, positive: str = "", negative: str = "", related_image_path: str = "") -> tuple[str, str]:
+    def generate_prompt(
+        self,
+        positive: str = "",
+        negative: str = "",
+        related_image_path: str = ""
+    ) -> tuple[str, str]:
         if self.prompt_mode in (PromptMode.SFW, PromptMode.NSFW, PromptMode.NSFL):
             positive = self.mix_concepts()
         elif PromptMode.RANDOM == self.prompt_mode:
@@ -213,29 +239,29 @@ class Prompter:
         self.last_prompt = positive
         return (positive, negative)
 
-    def gather_data(self):
+    def gather_data(self) -> dict:
         # Use subprocess to call local LLaVA installation and gather data about the image
         # Assuming LLaVA outputs JSON data about the image
         result = subprocess.run([self.llava_path, self.reference_image_path], capture_output=True)
         return json.loads(result.stdout)
 
-    def transform_result(self, data):
+    def transform_result(self, data: dict) -> str:
         print(self.last_prompt)
         # Transform the result into a new prompt based on the original
         # This is a placeholder as the transformation will depend on the specific requirements
         return "New prompt based on original image: " + str(data)
 
-    def random(self):
+    def random(self) -> str:
         random_words = self.concepts.get_random_words(*self.prompter_config.random_words)
         Prompter.emphasize(random_words, emphasis_chance=self.prompter_config.emphasis_chance)
         return ', '.join(random_words)
 
-    def nonsense(self):
+    def nonsense(self) -> str:
         nonsense = self.concepts.get_nonsense(*self.prompter_config.nonsense)
         Prompter.emphasize(nonsense, emphasis_chance=self.prompter_config.emphasis_chance)
         return ', '.join(nonsense)
 
-    def _mix_sparse_tags(self, text):
+    def _mix_sparse_tags(self, text: str) -> str:
         if not Prompter.POSITIVE_TAGS or Prompter.POSITIVE_TAGS.strip() == '' or text is None or text.strip() == "":
             return str(text)
         positive_tags = Prompter._get_discretely_emphasized_prompt(Prompter.POSITIVE_TAGS)
@@ -252,7 +278,7 @@ class Prompter:
         return ', '.join(full_prompt)
 
     @staticmethod
-    def _get_discretely_emphasized_prompt(text):
+    def _get_discretely_emphasized_prompt(text: str) -> list[str]:
         assert isinstance(text, str) and len(text) > 0, "Text must be a non-empty string."
         prompt_part = ""
         just_closed = 0
@@ -276,7 +302,7 @@ class Prompter:
                 prompt_part += c
         return positive_tags
 
-    def _mix_concepts(self, humans_chance=0.25):
+    def _mix_concepts(self, humans_chance: float = 0.25) -> list[str]:
         mix = []
         mix.extend(self.concepts.get_concepts(*self.prompter_config.concepts, multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_positions(*self.prompter_config.positions, multiplier=self.prompter_config.multiplier))
@@ -305,13 +331,13 @@ class Prompter:
         self.add_presets(mix)
         return mix
 
-    def mix_concepts(self, emphasis_threshold=0.9):
+    def mix_concepts(self, emphasis_threshold: float = 0.9) -> str:
         return ', '.join(self._mix_concepts(humans_chance=self.prompter_config.specify_humans_chance))
 
-    def mix_colors(self):
+    def mix_colors(self) -> str:
         return ', '.join(self.concepts.get_colors(low=2, high=5))
 
-    def add_presets(self, mix=[]):
+    def add_presets(self, mix: list[str] = []) -> None:
         for preset in config.prompt_presets:
             for prompt_mode_name in preset["prompt_modes"]:
                 if prompt_mode_name in PromptMode.__members__.keys():
@@ -325,7 +351,7 @@ class Prompter:
                 else:
                     raise Exception(f"Invalid prompt mode: {prompt_mode_name}")
 
-    def get_artistic_prompt(self, add_concepts, emphasis_threshold=0.9):
+    def get_artistic_prompt(self, add_concepts: bool, emphasis_threshold: float = 0.9) -> str:
         mix = []
         mix.extend(self.concepts.get_art_styles())
         if add_concepts:
@@ -339,13 +365,13 @@ class Prompter:
         return ', '.join(mix)
 
     @staticmethod
-    def take_prompt_from_image(related_image_path):
+    def take_prompt_from_image(related_image_path: str) -> tuple[str, str]:
         if Prompter.IMAGE_DATA_EXTRACTOR is None:
             Prompter.IMAGE_DATA_EXTRACTOR = ImageDataExtractor()
         return Prompter.IMAGE_DATA_EXTRACTOR.extract(related_image_path)
 
     @staticmethod
-    def emphasize(mix, emphasis_chance=0.1):
+    def emphasize(mix: list[str], emphasis_chance: float = 0.1) -> None:
         # Randomly boost some concepts
         for i in range(len(mix)):
             if random.random() < emphasis_chance and len(mix[i]) > 0:
@@ -362,13 +388,13 @@ class Prompter:
                         mix[i] = f"({mix[i]}:{deemphasis_str})"
 
     @staticmethod
-    def contains_choice_set(text):
+    def contains_choice_set(text: str) -> bool:
         if "[[" not in text or "]]" not in text:
             return False
         return re.search(r"\[\[[^\[\]]*\]\]", text) is not None
 
     @staticmethod
-    def apply_choices(text):
+    def apply_choices(text: str) -> str:
         offset = 0
         for match in re.finditer(r"\[\[[^\[\]]*\]\]", text):
             left = text[:match.start() + offset]
@@ -391,14 +417,14 @@ class Prompter:
         return str(text)
 
     @staticmethod
-    def _expansion_var_pattern(from_ui=False):
+    def _expansion_var_pattern(from_ui: bool = False) -> str:
         if from_ui:
             return r"(\$)[A-Za-z_]+|(\$)?\{[A-Za-z_]+\}"
         else:
             return r"(\$)(\$)?[A-Za-z_]+|(\$)?\{[A-Za-z_]+\}"
 
     @staticmethod
-    def contains_expansion_var(text, from_ui=False):
+    def contains_expansion_var(text: str, from_ui: bool = False) -> bool:
         # if "*" in text or "?" in text:
         #     return True
         if re.search(Prompter._expansion_var_pattern(from_ui), text):
@@ -406,7 +432,12 @@ class Prompter:
         return False
 
     @staticmethod
-    def apply_expansions(text, from_ui=False, concepts=None, specific_locations_chance=0.3):
+    def apply_expansions(
+        text: str,
+        from_ui: bool = False,
+        concepts: Concepts = None,
+        specific_locations_chance: float = 0.3
+    ) -> str:
         # TODO enable recursive expansions
 #        text += " ${}"
         offset = 0
@@ -469,7 +500,7 @@ class Prompter:
         return str(text)
 
 
-class GlobalPrompter():
+class GlobalPrompter:
     prompter_instance = Prompter()
 
     @classmethod

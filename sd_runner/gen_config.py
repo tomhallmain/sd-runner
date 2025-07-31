@@ -14,10 +14,20 @@ from utils.utils import Utils
 class GenConfig:
     REDO_PARAMETERS = config.redo_parameters
 
-    def __init__(self, workflow_id=Globals.DEFAULT_WORKFLOW, n_latents=Globals.DEFAULT_N_LATENTS, positive="",
-                 negative=Globals.DEFAULT_NEGATIVE_PROMPT, models=[Model(Globals.DEFAULT_MODEL)], vaes=[],
-                 control_nets=[], ip_adapters = [], loras = [], resolutions=[Resolution()],
-                 run_config = RunConfig()):
+    def __init__(
+        self,
+        workflow_id: str = Globals.DEFAULT_WORKFLOW,
+        n_latents: int = Globals.DEFAULT_N_LATENTS,
+        positive: str = "",
+        negative: str = Globals.DEFAULT_NEGATIVE_PROMPT,
+        models: list[Model] = [Model(Globals.DEFAULT_MODEL)],
+        vaes: list[str] = [],
+        control_nets: list[str] = [],
+        ip_adapters: list[str] = [],
+        loras: list[str] = [],
+        resolutions: list[Resolution] = [Resolution()],
+        run_config: RunConfig = RunConfig()
+    ):
         assert run_config is not None, "Run config must be provided"
         self.workflow_id = workflow_id
         self.n_latents = n_latents
@@ -126,25 +136,25 @@ class GenConfig:
         return None
 
     @classmethod
-    def set_redo_params(cls, redo_params_str):
+    def set_redo_params(cls, redo_params_str: str) -> None:
         if redo_params_str.strip() == "":
             cls.REDO_PARAMETERS = []
         else:
             cls.REDO_PARAMETERS = [p.strip() for p in redo_params_str.split(",")]
 
     @staticmethod
-    def random_seed():
+    def random_seed() -> int:
         return int(random.random() * 9999999999999)
     
-    def get_seed(self):
+    def get_seed(self) -> int:
         return self.seed if (self.seed is not None and self.seed > -1) else GenConfig.random_seed()
     
-    def get_ip_adapter_models(self):
+    def get_ip_adapter_models(self) -> tuple[str, str]:
         if self.is_xl():
             return IPAdapter.DEFAULT_SDXL_MODEL, IPAdapter.DEFAULT_SDXL_CLIP_VISION_MODEL
         return IPAdapter.DEFAULT_SD15_MODEL, IPAdapter.DEFAULT_SD15_CLIP_VISION_MODEL
 
-    def maximum_gens_per_latent(self, exclude_skipped=True):
+    def maximum_gens_per_latent(self, exclude_skipped: bool = True) -> int:
         count_res = len(self.resolutions)
         if exclude_skipped:
             count_res -= self.resolutions_skipped
@@ -163,19 +173,19 @@ class GenConfig:
         else:
             return n_resolutions * n_models * n_vaes * n_loras
 
-    def maximum_gens(self, exclude_skipped=True):
+    def maximum_gens(self, exclude_skipped: bool = True) -> int:
         return self.maximum_gens_per_latent(exclude_skipped) * self.n_latents
 
-    def has_skipped(self):
+    def has_skipped(self) -> bool:
         return self.resolutions_skipped > 0
 
-    def set_countdown_mode(self):
+    def set_countdown_mode(self) -> None:
         self.countdown_value = self.resolutions_skipped
 
-    def reset_countdown_mode(self):
+    def reset_countdown_mode(self) -> None:
         self.countdown_value = -1
 
-    def register_run(self):
+    def register_run(self) -> bool:
         if self.countdown_value > 0:
             print(f"Registering run - countdown value {self.countdown_value}")
             self.countdown_value -= 1
@@ -186,7 +196,7 @@ class GenConfig:
     def is_set(ls_var):
         return len(ls_var) > 0 and ls_var[0] is not None
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.is_redo_prompt():
             out = Utils.format_white(f"GenConfig: {self.workflow_id}") + "\n"
             out += f"Models: {Utils.print_list_str(self.models)}\n"
@@ -204,7 +214,7 @@ Models: {Utils.print_list_str(self.models)}
 {vae_str}{lora_str}Positive: {Utils.format_green(self.positive)}
 {negative_str}{control_net_str}{ip_adapter_str}"""
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((
             self.workflow_id,
             self.n_latents,
@@ -219,7 +229,7 @@ Models: {Utils.print_list_str(self.models)}
             self.software_type,
         ))
     
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         if isinstance(other, GenConfig):
             if self.seed is None or other.seed is None:
                 return False
@@ -253,21 +263,26 @@ Models: {Utils.print_list_str(self.models)}
                    and self.seed >-1 and other.seed > -1) # Ensure random seed not set.
         return False  # To handle the case when other object is of different type
     
-    def __ne__(self, other):
+    def __ne__(self, other: object) -> bool:
         return not self.__eq__(other)
 
 
 class MultiGenProgressTracker:
     """Tracks progress across multiple gen_config objects when processing directories."""
     
-    def __init__(self, total_adapter_iterations: int, total_per_adapter: int, ui_callbacks=None):
+    def __init__(
+        self,
+        total_adapter_iterations: int,
+        total_per_adapter: int,
+        ui_callbacks = None
+    ):
         self.total_adapter_iterations = total_adapter_iterations
         self.total_per_adapter = total_per_adapter
         self.ui_callbacks = ui_callbacks
         self.current_adapter_iteration = 0
         self.current_count_in_adapter = 0
         
-    def update_progress(self, count: int, total: int, workflow, gen_config):
+    def update_progress(self, count: int, total: int, workflow: WorkflowType, gen_config: GenConfig) -> None:
         """Update progress with the correct display format based on totals."""
         self.current_count_in_adapter = count
         
@@ -288,7 +303,7 @@ class MultiGenProgressTracker:
             remaining += (remaining_adapter_iterations * total)
         self.ui_callbacks.update_time_estimation(workflow, gen_config, remaining)
     
-    def next_adapter(self):
+    def next_adapter(self) -> None:
         """Move to the next adapter iteration."""
         self.current_adapter_iteration += 1
         self.current_count_in_adapter = 0

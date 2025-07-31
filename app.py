@@ -187,7 +187,7 @@ class App():
         self.label_resolution_group = Label(self.sidebar)
         self.add_label(self.label_resolution_group, _("Resolution Group"), increment_row_counter=False)
         self.resolution_group = StringVar(master)
-        self.resolution_group_choice = OptionMenu(self.sidebar, self.resolution_group, str(self.runner_app_config.resolution_group), *ResolutionGroup.__members__.keys())
+        self.resolution_group_choice = OptionMenu(self.sidebar, self.resolution_group, str(self.runner_app_config.resolution_group), *ResolutionGroup.display_values())
         self.apply_to_grid(self.resolution_group_choice, interior_column=1, sticky=W)
 
         self.label_model_tags = Label(self.sidebar)
@@ -1078,8 +1078,8 @@ class App():
         self.prompt_massage_tags.set(prompt_massage_tags)
         self.set_prompt_massage_tags()
         if len(models) > 0:
-            model = models[0]
-            self.resolution_group.set(model.get_standard_resolution_group())
+            model: Model = models[0]
+            self.resolution_group.set(model.get_standard_resolution_group().get_description())
         # TODO
         #    self.lora_tags = Model.get_first_model_lora_tags(self.model_tags, self.lora_tags)
         self.master.update()
