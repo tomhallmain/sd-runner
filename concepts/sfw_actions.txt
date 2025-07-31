@@ -188,6 +188,7 @@ carving
 casting
 casting a spell
 catastrophe
+catching
 catering
 catering to $$character
 celebration

@@ -22,6 +22,8 @@ around the block
 aside
 assuming a stance
 at an angle
+at the end
+at the start
 back
 back to camera
 beside
@@ -37,6 +39,7 @@ down below
 dynamic pose
 ears
 elbow
+ends
 everywhere
 eyelevel
 facing_away
@@ -59,11 +62,16 @@ head propped on hand
 head turned
 hiding place
 high up
+homeward
 in line
 in or out?
 in the middle
 in tow
+inward
+jaw
 jazz hands
+knee
+lateral
 leaning forward
 leaning back
 leaning on side
@@ -84,6 +92,7 @@ lying prone
 lying on back
 lying on side
 lying on stomach
+middle
 model pose
 mounted
 near
@@ -103,10 +112,12 @@ on a display podium
 on the ground
 open arms
 orientation
+outward
 over here
 overhead
 positions
 preceding
+propped up
 quarter turn
 perched
 POV hands
@@ -117,6 +128,7 @@ reaching down
 reaching up
 reclining
 rolling over
+side
 side profile
 sitting around, casual
 sitting back
@@ -126,6 +138,8 @@ squatting
 stances
 stooping
 t-pose
+that
+this
 time out gesture
 to and fro
 toe

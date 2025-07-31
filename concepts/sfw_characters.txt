@@ -3,19 +3,24 @@ $$random_word galore
 [[I,you,he,she]] go[[,es]] by $$random_word
 a real softy
 abbott
+Acme Corp product
 admiral
 advertiser
 advocate
 ain't that a shame
 al-Ṣūfī
 Alcaics
+alias
+ally
 Aloha
 Angus
 Annette
 Antares
 apologist
+ArcheAge
 are we there yet
 Argonaut
+As I live and breath!
 assassin
 assessor
 at all costs
@@ -31,6 +36,7 @@ Barnum and Baileys
 baronet
 been there, done that
 Bender
+Black Desert Online
 Bobby McGee
 bookie
 borzoi
@@ -48,12 +54,15 @@ can I get a true
 canester
 carte blanche
 Caspar Milquetoast
+cast of characters
 Cavalier drama
+Cecilia
 Celtic twilight
 centurion
 chamberlain
 chancellor
 charizard
+Cheep Cheep
 Chicken Run
 chud
 churl
@@ -77,11 +86,14 @@ ding dong
 djinn
 Dobby
 donor
+Dr. Seuss's The Cat in the Hat
 dragoon
 dragster
 driver
 Dudley
 e'er
+Elvis has left the building
+Elvis Presley
 emeratus
 employee
 employer
@@ -97,6 +109,7 @@ Family Feud
 Fido
 Fie
 Firebird
+First Mate
 flash gun
 fly rink
 forester
@@ -112,6 +125,7 @@ gigglemug
 good grief
 Governor
 growler
+guidance counselor
 guy
 gypsy
 hall pass
@@ -128,11 +142,14 @@ Holy See
 Homer
 Homer Simpson
 Hoth
+Houdini
 how many times do I have to tell you
 hussar
 hyssop
 I've been framed!
 iCarly
+Icarus
+Ichabod Crane
 iconoclast
 If it is as you say
 ill-gotten gains
@@ -148,10 +165,13 @@ Jabir ibn Hayyan
 Jane Austen
 just cause
 justiciar
+Kai-El
+Keyboard Cat
 Kon-Tiki
 L'oreal
 laddie
 lalala
+Larry Moe and Curly
 Lennox
 lieabed
 lieutenant
@@ -160,8 +180,11 @@ little ditty
 llanero
 LMAO
 lol
+Lollards
 MacGuffin
 mate
+McNutt
+meme
 mess mate
 mind over matter
 miner
@@ -181,8 +204,11 @@ neighbor
 neophyte
 ninja
 Norton
+notary
 numbnut
 Octavian
+officer
+official
 Oingo Boingo
 oligarch
 One if by land, two if by sea
@@ -193,7 +219,7 @@ Ori and the Blind Forest
 P.F. Flyers
 P.I.
 P.T. Barnum
-park rangee
+park ranger
 parliamentarian
 peddler
 Peerage
@@ -208,6 +234,7 @@ Pingu
 A Team
 pirate
 pitter patter
+PlanetSide 2
 podsnapper
 poet
 poindexter
@@ -215,6 +242,7 @@ Pooh Bear
 Pop-O-Matic
 postman
 prankster
+prat
 prefect
 presdident of $$random_word
 pretender
@@ -250,6 +278,7 @@ setter
 settler
 Shamu
 Shire reeve
+Simon & Garfunkel
 Sirius
 sleepers
 sluggard
@@ -260,13 +289,16 @@ sonny
 spoilers
 spy
 squidbillies
+Squidward
 steward
 stickler
+Stooge
 stooges
 keystone cops
 Babar
 Imogen
 stowaway
+student leader
 Tabasco
 talent scout
 Tar Heels
@@ -309,13 +341,17 @@ the Huns
 the mechanic
 The Mythic Dawn
 The Riddler
+The Roadrunner
 The Sandman
 The Secret of Nimh
 thief
 ting
 tinkerer
+Titan
 TiVo
 Tony the Tiger
+trader
+tradesman
 trope
 tutor
 twat
@@ -447,6 +483,7 @@ wouldn't touch that with a ten-foot pole
 yahoos
 yeah dude like totally hahuh
 yeomanry
+Yeti
 Yogi the Bear
 Yoo-Hoo
 your Honor

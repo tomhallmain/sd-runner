@@ -9,21 +9,26 @@ accredited
 acumen
 adorable
 adrift
+affable
 akin
 akin to $$random_word
 aligned with $$random_word
 alike
 allegorical
 aloof
+aloud
 ambiguous
 amphibious
 anisometric
+arioso
 as thin as a hair
+aspiration
 at a loss
 atonal
 available
 average
 awash
+backdated
 bare-knuckle
 based
 beady
@@ -34,6 +39,7 @@ blatant
 boastful
 bombastic
 boorish
+boudacious
 brand new
 brash
 brazen
@@ -49,6 +55,7 @@ concealed
 conceited
 crooked
 crumpled
+crushed
 daft
 damning
 daring
@@ -56,8 +63,10 @@ dead-set
 deep
 deftly
 delimited
+different
 dignified
 diligence
+diverged
 done up
 dour
 drastic
@@ -90,10 +99,14 @@ flawed
 flim-flam
 flimsy
 floppy
+foolhardy
+foolish
 foreboding
+fortuitous
 frail
 frizzy
 frozen
+fun-size
 fused
 garish
 gaudy
@@ -103,6 +116,7 @@ goalie
 godly
 goofy
 gratis
+groovy
 habitual
 hale
 hard-hearted
@@ -113,18 +127,22 @@ high-strung
 honest
 humane
 imaginary
+imbued
 imperiled
 in a tizzy
 in high regard
 in shape
+incarnate
 inctremental
 innate
+inscrutable
 inspiring
 intact
 integrity
 interim
 interlaced
 intrigue
+intuitive
 isometric
 it has a mind of its own
 it predates $$random_word by $$number years
@@ -135,6 +153,7 @@ laid-back
 lame
 largest in the world
 latent
+legit
 lengthy
 like a $$random_word
 loose
@@ -145,6 +164,7 @@ loyal
 malted
 maniacal
 manic
+marred
 mean
 medium-sized
 meritous
@@ -160,6 +180,7 @@ mulish
 mundane
 mutated
 mute
+mythical
 nameless
 nemisis
 nifty
@@ -171,12 +192,17 @@ nutritious
 obdurate
 of great stature
 one of the good ones
+oomph
+original
+ostentatious
 palacial
 parsimonious
 parted
 particular
 pending
 perilous
+personable
+personal
 petty
 philosophic
 plagiarized
@@ -191,6 +217,7 @@ repetitive
 resonant
 riled
 rinky-dink
+risky
 roomy
 sagging
 sanding
@@ -244,6 +271,7 @@ scrawny
 screwy
 scruff
 semidry
+shaky
 short
 sight for sore eyes
 sight unseen
@@ -275,6 +303,8 @@ streamlined
 stretchy
 strong
 stubborn
+studded
+Stygian
 styled
 sublime
 superdry
@@ -285,6 +315,7 @@ swole
 synthetic
 tactical
 tall
+tangy
 tawdry
 ten feet tall
 testy
@@ -303,27 +334,36 @@ truncated
 twin
 ugly
 ultra
+unassuming
 uncommitted
 unequal
 uneven
+unfit
 united
 unshakable
+unstable
 unyielding
 uproarious
 urgent
 used
 venerable
 very fresh
+vexatious
 viking
 vulnerable
 war paint
 waverly
 wayward
 weary
+webbed
+wellaway
+whiz
 wicked
+wise
 witty
 woolly
 worst in the world
+wry
 zany
 zeal
 overworked

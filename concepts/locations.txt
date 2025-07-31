@@ -13,6 +13,7 @@ $$random_word west
 [[one,two,three,four,six,ten]]-seater
 a galaxy far away
 abbey
+abode
 air taxi
 ambulance
 amusement park gate
@@ -36,6 +37,7 @@ bike path
 blacksmith's shop
 bldg.
 bleachers
+bluff
 blvd.
 booth
 boulevard
@@ -43,14 +45,17 @@ bowsprit
 brewpub
 broad street
 buffet
+bungalow
 canal
 captains hold
 castle keep
 center for $$random_word
 charity dinner
+chute
 citadel
 city bus
 classical concert
+cloudy sky
 co-op
 comedy club
 copse
@@ -61,12 +66,14 @@ covered bridge
 crater
 credit union
 cruiseliner
+curb
 cénacle
 dais
 destination
 diocese
 ditch
 domain
+dome
 domicile
 dovecote
 dropshipper
@@ -79,9 +86,11 @@ facility
 first floor
 floor
 forge
+fork in the road
 fort $$random_word
 foundry
 funicular
+galleria
 gambling den
 gastropub
 granary
@@ -92,6 +101,7 @@ hairpin turn
 haven
 headquarters
 here
+hest wave
 highland
 hiking trail
 historic monument
@@ -131,6 +141,7 @@ niche
 nursery
 observation room
 Odeon
+off-road
 oil rig
 old mill
 on deck
@@ -152,6 +163,7 @@ pop-up bar
 public house
 radio station
 radio tower
+railing
 raised platform
 ravine
 recreation center
@@ -175,12 +187,14 @@ school grounds
 seaport
 seaside
 security office
+shaft
 shore
 side road
 single-lane bridge
 single-lane road
 smithy
 social house
+soiree
 spaces
 spot
 stall
@@ -199,6 +213,8 @@ caverns
 territory
 the bridge [of a spaceship for example]
 the coast
+the field
+the range
 theater-in-the-round
 there
 thicket

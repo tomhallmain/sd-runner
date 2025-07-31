@@ -265,6 +265,7 @@ Knee-High Boots
 Knee-Length Skirt
 knickers
 lab coat
+lanyard
 lapel
 laurel wreath
 Layered Haircut
@@ -330,6 +331,7 @@ pea coat
 Peasant Blouse
 peg leg
 pelisse
+pelt
 peplum
 Peplum Blouse
 perfectly tailored suit
@@ -337,6 +339,7 @@ petticoat
 Phrygian cap
 pinafore
 Pixie Cut
+PJs
 Platform Sandals
 pleat
 pleated skirt
@@ -371,6 +374,7 @@ rondel
 shako
 ski cap
 ski mask
+sleeve
 tassle
 torn shirt
 robe

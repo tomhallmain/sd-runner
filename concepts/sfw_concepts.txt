@@ -1,8 +1,10 @@
 
 
+$$number [[million ,thousand ,]]views
 $$random_word edition
 $$random_word in foreground blocking view
 $$random_word Inc.
+$$random_word incarnate
 $$random_word LLC
 $$random_word promotional material
 $$random_word thereto
@@ -28,7 +30,6 @@ aeration
 aerosol
 aesthetic distance
 aestheticism
-affable
 affixed
 aftergame
 agate
@@ -64,6 +65,7 @@ anidolic lighting
 annals
 annealing
 annotation
+anomaly
 anonymous
 antenna
 antennae
@@ -127,6 +129,7 @@ bollard
 boom
 boombox
 boring
+box set
 brand
 breadth
 brighten
@@ -143,6 +146,7 @@ burl
 burlap
 burse
 buttressing
+Buy one get one free
 cage cup
 caliber
 camouflage
@@ -155,6 +159,7 @@ Capodimonte porcelain
 Carborundum mezzotint
 card
 carnelian
+Carpenter Gothoc
 Cartesian coordinates
 carved ivory
 casing
@@ -181,9 +186,11 @@ chronicle
 ciborium
 circuit
 circular
+circumference
 Cirencester word square
 clasp
 class path
+claw
 clay
 clef
 clip art
@@ -244,6 +251,7 @@ derivative
 design process
 dexter and sinister
 dial
+diameter
 dime novel
 dimension
 dioptric
@@ -260,6 +268,7 @@ doodly-doo
 draft
 dram
 drama
+DRM-protected
 dud
 duty
 dyad
@@ -270,6 +279,7 @@ découpage
 earthenware
 echo
 ectoplasm
+Edda
 edge
 edifice
 Eigenfunction
@@ -301,6 +311,7 @@ essence
 Eucharist
 eulogy
 everything
+evidence
 evolute
 exegesis
 existentialism
@@ -324,12 +335,16 @@ flotsam and jetsam
 flubber
 fluctuations
 fluid flow
+flurry
 flux
 foible
 folded creased paper
 foley soundboard
+folly
 forbidden
+Force = mass * acceleration
 force field
+formula
 formulaic
 fossil
 fossilized
@@ -351,11 +366,13 @@ geometric forms
 geometry diagram
 Gestalt
 glass former
+Glory
 God
 googleplex
 government
 gradation
 grade
+Grandeur
 graphite
 gravel
 gravimetric
@@ -365,6 +382,7 @@ hairline fracture
 halved
 hardstone carving
 hash
+hatch
 header
 heap
 hemmed in
@@ -453,9 +471,11 @@ limestone
 line work
 linen
 lining
+linkage
 lint
 list
 liters
+live video feed
 LLC
 logogriph
 loom
@@ -467,6 +487,7 @@ lumber
 luminiferous aether
 lyric
 macramé
+macro
 macromolecule
 maculations
 maelstrom
@@ -500,6 +521,7 @@ mortise and tenon
 motet
 mother-of-pearl
 motor
+movie trailer
 multiperspective
 musical scales
 mutation
@@ -580,6 +602,7 @@ payload
 peg
 pegboard
 penny dreadful
+perigee
 periodic
 periodic table
 periodical
@@ -912,6 +935,7 @@ posters
 pouch
 prayer
 pre-op
+precious stones
 preface
 pretzel shape
 primer
@@ -934,6 +958,7 @@ proxy
 psalm
 pseudosphere
 public domain image
+pulley
 pun
 puppy
 purity
@@ -944,6 +969,7 @@ quadratura
 quartered
 quaternions
 quatrain
+Queen Anne style
 Queen Anne towers
 quid pro quo
 quite a lot
@@ -955,6 +981,7 @@ radix
 rainy
 rake
 ramp
+range
 rare earth metal
 raw photo
 ray of $$random_word
@@ -981,6 +1008,7 @@ reversed
 rhyme
 rim
 rind
+risk
 risograph
 rivalry
 rivets
@@ -1019,9 +1047,11 @@ Schlieren photography
 sconce
 scraped
 scratches
+screen capture
 screws and washers
 scribbles
 scrying
+SCUD
 sealed
 sealer
 secant
@@ -1043,6 +1073,7 @@ shaded
 shadowgraph
 shadows
 shaduf
+shaky camera view
 shale
 sharding
 sharing
@@ -1055,6 +1086,7 @@ sheen
 shield
 shimmering
 shut
+sidebar
 sighted scope lens
 signet
 silk screen
@@ -1133,11 +1165,13 @@ stereotype
 still life
 stippling
 stirred
+stitchery
 strands
 strange
 strange magic
 strategy
 streak
+streaming video
 striped
 stripes
 strophe
@@ -1149,10 +1183,12 @@ stupendous
 style
 sub-plot
 sub-text
+subroutine
 substance
 substitution
 substrate
 subtitle
+suet
 suitable for various media
 Sumi-e
 sunny
@@ -1203,6 +1239,7 @@ texture
 textured
 thank you card
 the tip
+The Ultimate Collector's Edition
 the unconscious
 the usual
 Theater of the Absurd
@@ -1239,6 +1276,7 @@ tintype
 toleware
 touchstone
 tour de force
+Toxicity face
 traced
 tracing
 tract
@@ -1271,6 +1309,7 @@ tuner
 turning $$color
 turning point
 twiddly bits
+twigs
 typography
 ultra $$random_word
 ultrasharp
@@ -1288,6 +1327,7 @@ upsampling
 uptime
 utopia
 uwu
+V formation
 vacation pic
 vacuum
 variation
@@ -1319,6 +1359,7 @@ viscosity
 visualization
 visualization of algorithm
 vivid color
+Vlog
 vocab
 vocalese
 volta
@@ -1333,10 +1374,12 @@ washed-out colors
 watercolor
 waves
 wax
+web
 webcam
 webcomic style
 weightlessness
 well pole
+weoh
 western comic book art
 whodunit
 wide-angle shot
@@ -1350,6 +1393,7 @@ wove paper
 woven
 wrack and ruin
 wên and wu
+X's and O's
 x-ray
 yarn
 yellow jounslism
