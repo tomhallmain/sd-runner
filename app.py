@@ -550,6 +550,10 @@ class App():
         self.run_preset_schedule_choice = Checkbutton(self.prompter_config_bar, text=_("Run Preset Schedule"), variable=self.run_preset_schedule_var)
         self.apply_to_grid(self.run_preset_schedule_choice, sticky=W, column=1, columnspan=3)
 
+        self.continuous_seed_variation_var = BooleanVar(value=self.runner_app_config.continuous_seed_variation)
+        self.continuous_seed_variation_choice = Checkbutton(self.prompter_config_bar, text=_("Continuous Seed Variation"), variable=self.continuous_seed_variation_var)
+        self.apply_to_grid(self.continuous_seed_variation_choice, sticky=W, column=1, columnspan=3)
+
         self.preset_schedules_window_btn = None
         self.presets_window_btn = None
         self.add_button("preset_schedules_window_btn", text=_("Preset Schedule Window"), command=self.open_preset_schedules_window, sidebar=False, increment_row_counter=False)
@@ -771,6 +775,7 @@ class App():
         self.override_resolution_var.set(self.runner_app_config.override_resolution)
         self.inpainting_var.set(self.runner_app_config.inpainting)
         self.override_negative_var.set(self.runner_app_config.override_negative)
+        self.continuous_seed_variation_var.set(self.runner_app_config.continuous_seed_variation)
 
     def set_widgets_from_preset(self, preset, manual=True):
         self.prompt_mode.set(preset.prompt_mode)
@@ -955,6 +960,7 @@ class App():
         args.scheduler = Scheduler[self.scheduler.get()]
         args.denoise = float(self.denoise.get())
         args.total = int(self.total.get())
+        args.continuous_seed_variation = self.continuous_seed_variation_var.get()
         self.runner_app_config.prompt_massage_tags = self.prompt_massage_tags.get()
         self.runner_app_config.prompter_config.prompt_mode = PromptMode.get(self.prompt_mode.get())
         args.prompter_config = deepcopy(self.runner_app_config.prompter_config)

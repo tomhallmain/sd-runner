@@ -34,6 +34,7 @@ class RunConfig:
         self.resolution_group = self.get("resolution_group")
         self.override_resolution = self.get("override_resolution")
         self.total = self.get("total")
+        self.continuous_seed_variation = self.get("continuous_seed_variation")
 
         if RunConfig.previous_model_tags != self.model_tags:
             RunConfig.model_switch_detected = True

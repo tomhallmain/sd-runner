@@ -86,7 +86,7 @@ class Model:
 
     def get_standard_resolution_group(self) -> ResolutionGroup:
         if self.is_sd_15():
-            return ResolutionGroup.FIVE_ONE_TWO
+            return ResolutionGroup.SEVEN_SIXTY_EIGHT
         elif self.is_illustrious():
             return ResolutionGroup.FIFTEEN_THIRTY_SIX
         elif self.is_xl():

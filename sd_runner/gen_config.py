@@ -50,6 +50,7 @@ class GenConfig:
         self.override_resolution = run_config.override_resolution
         self.countdown_value = -1
         self.software_type = run_config.software_type
+        self.continuous_seed_variation = run_config.continuous_seed_variation
 
     def is_xl(self) -> bool:
         return self.models[0].is_xl()
@@ -147,6 +148,11 @@ class GenConfig:
         return int(random.random() * 9999999999999)
     
     def get_seed(self) -> int:
+        # If continuous seed variation is enabled, always generate a new random seed
+        if self.continuous_seed_variation:
+            return GenConfig.random_seed()
+        
+        # Otherwise, use the current behavior: use the configured seed if it's valid, otherwise random
         return self.seed if (self.seed is not None and self.seed > -1) else GenConfig.random_seed()
     
     def get_ip_adapter_models(self) -> tuple[str, str]:
