@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-08-02 18:28-0400\n"
-"PO-Revision-Date: 2025-08-02 18:28-0400\n"
+"POT-Creation-Date: 2025-08-04 17:15-0400\n"
+"PO-Revision-Date: 2025-08-04 17:15-0400\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
@@ -240,6 +240,10 @@ msgstr "희소 혼합 태그"
 msgid "Run Preset Schedule"
 msgstr "사전 설정 일정 실행"
 
+#: app.py:554
+msgid "Continuous Seed Variation"
+msgstr "연속적인 랜덤 시드 변동"
+
 #: app.py:559
 msgid "Preset Schedule Window"
 msgstr "사전 설정 일정 창"
@@ -248,7 +252,7 @@ msgstr "사전 설정 일정 창"
 msgid "Presets Window"
 msgstr "사전 설정 창"
 
-#: app.py:565 ui/tags_blacklist_window.py:446 ui/tags_blacklist_window.py:593
+#: app.py:565 ui/tags_blacklist_window.py:462 ui/tags_blacklist_window.py:609
 msgid "Tag Blacklist"
 msgstr "태그 블랙리스트"
 
@@ -308,8 +312,8 @@ msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되
 
 #: app.py:1266 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
-#: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:117
-#: ui/tags_blacklist_window.py:274
+#: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:127
+#: ui/tags_blacklist_window.py:290
 msgid "Error"
 msgstr "오류"
 
@@ -321,7 +325,7 @@ msgstr " SD 러너 "
 msgid "Prompter Configuration"
 msgstr "프롬프터 구성"
 
-#: sd_runner/blacklist.py:252
+#: sd_runner/blacklist.py:274
 msgid "Filtering concepts for blacklist: "
 msgstr "블랙리스트에 대한 필터링 개념: "
 
@@ -395,7 +399,7 @@ msgid "Delete"
 msgstr "삭제"
 
 #: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:505 ui/tags_blacklist_window.py:566
+#: ui/tags_blacklist_window.py:521 ui/tags_blacklist_window.py:582
 msgid "Import"
 msgstr "가져오기"
 
@@ -497,15 +501,15 @@ msgstr "찾아보기"
 msgid "Active"
 msgstr "활성"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:506
-#: ui/tags_blacklist_window.py:567
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:522
+#: ui/tags_blacklist_window.py:583
 msgid "Export"
 msgstr "내보내기"
 
 #: ui/auth/password_admin_window.py:249 ui/concept_editor_window_qt.py:143
 #: ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59
 #: ui/schedules_window_qt.py:97 ui/schedules_window_qt.py:169
-#: ui/tags_blacklist_window.py:244 ui/tags_blacklist_window_qt.py:52
+#: ui/tags_blacklist_window.py:260 ui/tags_blacklist_window_qt.py:52
 msgid "Close"
 msgstr "닫기"
 
@@ -565,7 +569,7 @@ msgstr "확장 텍스트"
 msgid "New Expansion Text"
 msgstr "새로운 확장 텍스트"
 
-#: ui/expansions_window.py:61 ui/tags_blacklist_window.py:95
+#: ui/expansions_window.py:61 ui/tags_blacklist_window.py:104
 msgid "Done"
 msgstr "완료"
 
@@ -577,7 +581,7 @@ msgstr ""
 "경고: 이 확장 ID는 config.json의 와일드카드와 일치합니다. 와일드카드를 제거하거나 이름을 변경할 때까지 변경 사항이 적용되지"
 " 않습니다."
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:793
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:817
 msgid "Warning"
 msgstr "경고"
 
@@ -612,7 +616,7 @@ msgid "Clear expansions"
 msgstr "확장팩 지우기"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:656 ui/tags_blacklist_window.py:701
+#: ui/tags_blacklist_window.py:674 ui/tags_blacklist_window.py:725
 msgid "Modify"
 msgstr "수정"
 
@@ -806,63 +810,63 @@ msgstr "일정 지우기"
 msgid "Modify Blacklist Item: {0}"
 msgstr "블랙리스트 항목 수정: {0}"
 
-#: ui/tags_blacklist_window.py:49
+#: ui/tags_blacklist_window.py:50
 msgid "Blacklist String"
 msgstr "블랙리스트 문자열"
 
-#: ui/tags_blacklist_window.py:59
+#: ui/tags_blacklist_window.py:60
 msgid "Enabled"
 msgstr "활성화됨"
 
-#: ui/tags_blacklist_window.py:71
+#: ui/tags_blacklist_window.py:72
 msgid "Use glob-based regex"
 msgstr "글로브 기반 정규식 사용"
 
-#: ui/tags_blacklist_window.py:83
+#: ui/tags_blacklist_window.py:84
 msgid "Use word boundary matching"
 msgstr "단어 경계 일치 사용"
 
-#: ui/tags_blacklist_window.py:94 ui/tags_blacklist_window.py:664
+#: ui/tags_blacklist_window.py:103 ui/tags_blacklist_window.py:682
 msgid "Preview"
 msgstr "미리 보기"
 
-#: ui/tags_blacklist_window.py:117
+#: ui/tags_blacklist_window.py:127
 msgid "Blacklist string cannot be empty."
 msgstr "블랙리스트 텍스트는 비워둘 수 없습니다."
 
-#: ui/tags_blacklist_window.py:146
+#: ui/tags_blacklist_window.py:162
 msgid "No changes were made"
 msgstr "변경된 사항 없음"
 
-#: ui/tags_blacklist_window.py:158
+#: ui/tags_blacklist_window.py:174
 msgid "Unsaved Changes"
 msgstr "저장되지 않은 변경 사항"
 
-#: ui/tags_blacklist_window.py:158
+#: ui/tags_blacklist_window.py:174
 msgid "Do you want to save changes before closing?"
 msgstr "닫기 전에 변경 사항을 저장하시겠습니까?"
 
-#: ui/tags_blacklist_window.py:185
+#: ui/tags_blacklist_window.py:201
 msgid "Blacklist Preview"
 msgstr "블랙리스트 미리보기"
 
-#: ui/tags_blacklist_window.py:208
+#: ui/tags_blacklist_window.py:224
 msgid "Concepts filtered by: {0}"
 msgstr "필터링된 개념: {0}"
 
-#: ui/tags_blacklist_window.py:212
+#: ui/tags_blacklist_window.py:228
 msgid "All filtered concepts"
 msgstr "모든 필터링된 개념"
 
-#: ui/tags_blacklist_window.py:263
+#: ui/tags_blacklist_window.py:279
 msgid "Found {0} filtered concepts"
 msgstr "{0} 필터링된 개념을 찾았습니다."
 
-#: ui/tags_blacklist_window.py:271
+#: ui/tags_blacklist_window.py:287
 msgid "Error loading concepts: {0}"
 msgstr "개념을 로드하는 동안 오류가 발생했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:298
+#: ui/tags_blacklist_window.py:314
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -872,11 +876,11 @@ msgstr ""
 "\n"
 "아직 어리거나 확실하지 않거나 성인이더라도 지금 이 창에서 닫기 버튼을 클릭하고 대신 다른 재미있는 일을 하세요."
 
-#: ui/tags_blacklist_window.py:372
+#: ui/tags_blacklist_window.py:388
 msgid "Confirm Load Default Blacklist"
 msgstr "기본 블랙리스트 로드 확인"
 
-#: ui/tags_blacklist_window.py:373
+#: ui/tags_blacklist_window.py:389
 msgid ""
 "Are you sure you want to load the default blacklist?\n"
 "\n"
@@ -894,72 +898,72 @@ msgstr ""
 "\n"
 "계속하시겠습니까?"
 
-#: ui/tags_blacklist_window.py:386
+#: ui/tags_blacklist_window.py:402
 msgid "Loaded default blacklist"
 msgstr "로드된 기본 블랙리스트"
 
-#: ui/tags_blacklist_window.py:390
+#: ui/tags_blacklist_window.py:406
 msgid "Error loading default blacklist"
 msgstr "기본 블랙리스트 로드 중 오류 발생"
 
-#: ui/tags_blacklist_window.py:420
+#: ui/tags_blacklist_window.py:436
 msgid "Tags/Models Blacklist"
 msgstr "태그 및 모델 블랙리스트"
 
-#: ui/tags_blacklist_window.py:449
+#: ui/tags_blacklist_window.py:465
 msgid "Model Blacklist"
 msgstr "모델 블랙리스트"
 
-#: ui/tags_blacklist_window.py:473 ui/tags_blacklist_window.py:535
+#: ui/tags_blacklist_window.py:489 ui/tags_blacklist_window.py:551
 msgid "Global Settings:"
 msgstr "글로벌 설정"
 
-#: ui/tags_blacklist_window.py:475 ui/tags_blacklist_window.py:537
+#: ui/tags_blacklist_window.py:491 ui/tags_blacklist_window.py:553
 msgid "These settings affect how the blacklist is applied globally."
 msgstr "이러한 설정은 블랙리스트가 전 세계적으로 적용되는 방식에 영향을 줍니다."
 
-#: ui/tags_blacklist_window.py:484 ui/tags_blacklist_window.py:546
+#: ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:562
 msgid "Choose how the blacklist is enforced: block, warn, or allow."
 msgstr "블랙리스트 적용 방법을 차단, 경고, 허용 중에서 선택합니다."
 
-#: ui/tags_blacklist_window.py:490 ui/tags_blacklist_window.py:552
+#: ui/tags_blacklist_window.py:506 ui/tags_blacklist_window.py:568
 msgid "Silent Removal"
 msgstr "자동 제거"
 
-#: ui/tags_blacklist_window.py:498 ui/tags_blacklist_window.py:560
+#: ui/tags_blacklist_window.py:514 ui/tags_blacklist_window.py:576
 msgid ""
 "If enabled, blacklisted words are removed silently without notification."
 msgstr "활성화하면 블랙리스트에 추가된 단어가 알림 없이 자동으로 삭제됩니다."
 
-#: ui/tags_blacklist_window.py:507 ui/tags_blacklist_window.py:568
+#: ui/tags_blacklist_window.py:523 ui/tags_blacklist_window.py:584
 msgid "Preview All"
 msgstr "모두 보기"
 
-#: ui/tags_blacklist_window.py:508
+#: ui/tags_blacklist_window.py:524
 msgid "Load Default"
 msgstr "로드 기본값"
 
-#: ui/tags_blacklist_window.py:512
+#: ui/tags_blacklist_window.py:528
 msgid "Blacklist items"
 msgstr "블랙리스트 항목"
 
-#: ui/tags_blacklist_window.py:514
+#: ui/tags_blacklist_window.py:530
 msgid "Add to tag blacklist"
 msgstr "태그 블랙리스트에 추가"
 
-#: ui/tags_blacklist_window.py:516 ui/tags_blacklist_window.py:582
+#: ui/tags_blacklist_window.py:532 ui/tags_blacklist_window.py:598
 msgid "Clear items"
 msgstr "항목 지우기"
 
-#: ui/tags_blacklist_window.py:576
+#: ui/tags_blacklist_window.py:592
 msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
 msgstr "모델 블랙리스트 적용 방식을 선택하세요: NSFW에서 차단하거나 허용합니다."
 
-#: ui/tags_blacklist_window.py:581
+#: ui/tags_blacklist_window.py:597
 msgid "Add to model blacklist"
 msgstr "모델 블랙리스트에 추가"
 
-#: ui/tags_blacklist_window.py:613
+#: ui/tags_blacklist_window.py:629
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag "
 "blacklist' button below, or load the default blacklist."
@@ -967,11 +971,11 @@ msgstr ""
 "블랙리스트 항목을 찾을 수 없습니다. 아래의 ‘태그 블랙리스트에 추가하기’ 버튼을 클릭하여 항목을 추가하거나 기본 블랙리스트를 불러올 수"
 " 있습니다."
 
-#: ui/tags_blacklist_window.py:615
+#: ui/tags_blacklist_window.py:631
 msgid "Click below to reveal blacklist concepts."
 msgstr "아래를 클릭하면 블랙리스트 개념을 확인할 수 있습니다."
 
-#: ui/tags_blacklist_window.py:617
+#: ui/tags_blacklist_window.py:633
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
@@ -980,28 +984,28 @@ msgstr ""
 "기본 블랙리스트가 로드됩니다. 기존 개념을 편집하거나, 블랙리스트를 지우고 자신만의 블랙리스트를 추가하거나, 파일에서 개념을 가져와서 "
 "자신만의 블랙리스트를 로드할 수 있습니다."
 
-#: ui/tags_blacklist_window.py:623
+#: ui/tags_blacklist_window.py:639
 msgid "Reveal Concepts"
 msgstr "컨셉 공개"
 
-#: ui/tags_blacklist_window.py:642
+#: ui/tags_blacklist_window.py:658 ui/tags_blacklist_window.py:713
 msgid "[regex]"
 msgstr "[정규식]"
 
-#: ui/tags_blacklist_window.py:644
+#: ui/tags_blacklist_window.py:660
 msgid "[no boundary]"
 msgstr "[단어 경계 없음]"
 
-#: ui/tags_blacklist_window.py:648 ui/tags_blacklist_window.py:695
-#: ui/tags_blacklist_window.py:960 ui/tags_blacklist_window.py:1128
+#: ui/tags_blacklist_window.py:666 ui/tags_blacklist_window.py:719
+#: ui/tags_blacklist_window.py:984 ui/tags_blacklist_window.py:1152
 msgid "Disabled"
 msgstr "사용 불가"
 
-#: ui/tags_blacklist_window.py:672 ui/tags_blacklist_window.py:707
+#: ui/tags_blacklist_window.py:690 ui/tags_blacklist_window.py:731
 msgid "Remove"
 msgstr "제거"
 
-#: ui/tags_blacklist_window.py:684
+#: ui/tags_blacklist_window.py:702
 msgid ""
 "No model blacklist items found. You can add items by clicking the 'Add to "
 "model blacklist' button above, or load the default model blacklist."
@@ -1009,27 +1013,27 @@ msgstr ""
 "모델 블랙리스트 항목이 없습니다. 위의 ‘모델 블랙리스트에 추가’ 버튼을 클릭하여 항목을 추가하거나 기본 모델 블랙리스트를 로드할 수 "
 "있습니다."
 
-#: ui/tags_blacklist_window.py:768 ui/tags_blacklist_window.py:803
+#: ui/tags_blacklist_window.py:792 ui/tags_blacklist_window.py:827
 msgid "Added item to blacklist: {0}"
 msgstr "블랙리스트에 항목을 추가했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:770
+#: ui/tags_blacklist_window.py:794
 msgid "Modified blacklist item: {0}"
 msgstr "블랙리스트 항목을 수정했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:783
+#: ui/tags_blacklist_window.py:807
 msgid "Removed item: {0}"
 msgstr "항목을 제거했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:793
+#: ui/tags_blacklist_window.py:817
 msgid "Please enter a string to add to the blacklist."
 msgstr "블랙리스트에 추가할 문자열을 입력하세요."
 
-#: ui/tags_blacklist_window.py:883
+#: ui/tags_blacklist_window.py:907
 msgid "Confirm Clear Blacklist"
 msgstr "블랙리스트 지우기 확인"
 
-#: ui/tags_blacklist_window.py:884
+#: ui/tags_blacklist_window.py:908
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
@@ -1049,87 +1053,87 @@ msgstr ""
 "\n"
 "계속하시겠습니까?"
 
-#: ui/tags_blacklist_window.py:903
+#: ui/tags_blacklist_window.py:927
 msgid "Cleared item blacklist"
 msgstr "삭제된 항목 블랙리스트"
 
-#: ui/tags_blacklist_window.py:963
+#: ui/tags_blacklist_window.py:987
 msgid "Item \"{0}\" is now {1}"
 msgstr "항목 “{0}”은 이제 {1}입니다."
 
-#: ui/tags_blacklist_window.py:965 ui/tags_blacklist_window.py:1132
+#: ui/tags_blacklist_window.py:989 ui/tags_blacklist_window.py:1156
 msgid "enabled"
 msgstr "활성화"
 
-#: ui/tags_blacklist_window.py:965 ui/tags_blacklist_window.py:1132
+#: ui/tags_blacklist_window.py:989 ui/tags_blacklist_window.py:1156
 msgid "disabled"
 msgstr "장애인"
 
-#: ui/tags_blacklist_window.py:975
+#: ui/tags_blacklist_window.py:999
 msgid "Concepts revealed"
 msgstr "콘셉트 공개"
 
-#: ui/tags_blacklist_window.py:1006 ui/tags_blacklist_window.py:1163
+#: ui/tags_blacklist_window.py:1030 ui/tags_blacklist_window.py:1187
 msgid "Import Blacklist"
 msgstr "블랙리스트 가져오기"
 
-#: ui/tags_blacklist_window.py:1025
+#: ui/tags_blacklist_window.py:1049
 msgid "Successfully imported blacklist"
 msgstr "성공적으로 가져온 블랙리스트"
 
-#: ui/tags_blacklist_window.py:1027 ui/tags_blacklist_window.py:1184
+#: ui/tags_blacklist_window.py:1051 ui/tags_blacklist_window.py:1208
 msgid "Import Error"
 msgstr "가져오기 오류"
 
-#: ui/tags_blacklist_window.py:1038
+#: ui/tags_blacklist_window.py:1062
 msgid "Export Blacklist"
 msgstr "블랙리스트 내보내기"
 
-#: ui/tags_blacklist_window.py:1053
+#: ui/tags_blacklist_window.py:1077
 msgid "Successfully exported blacklist"
 msgstr "성공적으로 내보낸 블랙리스트"
 
-#: ui/tags_blacklist_window.py:1055 ui/tags_blacklist_window.py:1205
+#: ui/tags_blacklist_window.py:1079 ui/tags_blacklist_window.py:1229
 msgid "Export Error"
 msgstr "내보내기 오류"
 
-#: ui/tags_blacklist_window.py:1065
+#: ui/tags_blacklist_window.py:1089
 msgid "Blacklist mode set to: {0}"
 msgstr "블랙리스트 모드가 다음과 같이 설정되었습니다: {0}"
 
-#: ui/tags_blacklist_window.py:1075
+#: ui/tags_blacklist_window.py:1099
 msgid "Model blacklist mode set to: {0}"
 msgstr "모델 블랙리스트 모드 설정: {0}"
 
-#: ui/tags_blacklist_window.py:1081
+#: ui/tags_blacklist_window.py:1105
 msgid "Silent removal set to: {0}"
 msgstr "자동 제거로 설정되었습니다: {0}"
 
-#: ui/tags_blacklist_window.py:1119
+#: ui/tags_blacklist_window.py:1143
 msgid "Model blacklist updated: {0}"
 msgstr "모델 블랙리스트 업데이트: {0}"
 
-#: ui/tags_blacklist_window.py:1130
+#: ui/tags_blacklist_window.py:1154
 msgid "Model item '{0}' is now {1}"
 msgstr "모델 항목 '{0}'은 이제 {1}입니다."
 
-#: ui/tags_blacklist_window.py:1144
+#: ui/tags_blacklist_window.py:1168
 msgid "Removed model blacklist item: {0}"
 msgstr "모델 블랙리스트 항목 제거: {0}"
 
-#: ui/tags_blacklist_window.py:1151
+#: ui/tags_blacklist_window.py:1175
 msgid "Cleared model blacklist items"
 msgstr "검토 완료된 모델 블랙리스트 항목"
 
-#: ui/tags_blacklist_window.py:1182
+#: ui/tags_blacklist_window.py:1206
 msgid "Successfully imported model blacklist"
 msgstr "모델 블랙리스트 성공적으로 가져옴"
 
-#: ui/tags_blacklist_window.py:1193
+#: ui/tags_blacklist_window.py:1217
 msgid "Export Model Blacklist"
 msgstr "모델 블랙리스트 내보내기"
 
-#: ui/tags_blacklist_window.py:1203
+#: ui/tags_blacklist_window.py:1227
 msgid "Successfully exported model blacklist"
 msgstr "모델 블랙리스트를 성공적으로 수출했습니다"
 
@@ -1612,6 +1616,10 @@ msgstr "{0}분"
 msgid "{0}s"
 msgstr "{0}초"
 
-#: app.py:554
-msgid "Continuous Seed Variation"
-msgstr "연속적인 랜덤 시드 변동"
+#: ui/tags_blacklist_window.py:94
+msgid "Exception Pattern (optional regex to unfilter tags)"
+msgstr "예외 패턴 (필터링을 해제하기 위한 선택적 정규 표현식)"
+
+#: ui/tags_blacklist_window.py:662 ui/tags_blacklist_window.py:715
+msgid "[exception: {0}]"
+msgstr "[예외: {0}]"

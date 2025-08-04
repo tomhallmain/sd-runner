@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-08-02 18:28-0400\n"
-"PO-Revision-Date: 2025-08-02 18:28-0400\n"
+"POT-Creation-Date: 2025-08-04 17:15-0400\n"
+"PO-Revision-Date: 2025-08-04 17:15-0400\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: pt Team <<EMAIL>>\n"
 "Language: pt\n"
@@ -240,6 +240,10 @@ msgstr "Etiquetas mistas esparsas"
 msgid "Run Preset Schedule"
 msgstr "Executar programa predefinido"
 
+#: app.py:554
+msgid "Continuous Seed Variation"
+msgstr "Variação contínua da semente"
+
 #: app.py:559
 msgid "Preset Schedule Window"
 msgstr "Janela Programações predefinidas"
@@ -248,7 +252,7 @@ msgstr "Janela Programações predefinidas"
 msgid "Presets Window"
 msgstr "Janela Predefinições"
 
-#: app.py:565 ui/tags_blacklist_window.py:446 ui/tags_blacklist_window.py:593
+#: app.py:565 ui/tags_blacklist_window.py:462 ui/tags_blacklist_window.py:609
 msgid "Tag Blacklist"
 msgstr "Lista negra de etiquetas"
 
@@ -310,8 +314,8 @@ msgstr "Palavra-passe cancelada ou incorrecta, voltar ao modo anterior"
 
 #: app.py:1266 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
-#: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:117
-#: ui/tags_blacklist_window.py:274
+#: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:127
+#: ui/tags_blacklist_window.py:290
 msgid "Error"
 msgstr "Erro"
 
@@ -323,7 +327,7 @@ msgstr " Corredor SD "
 msgid "Prompter Configuration"
 msgstr "Configuração do prompter"
 
-#: sd_runner/blacklist.py:252
+#: sd_runner/blacklist.py:274
 msgid "Filtering concepts for blacklist: "
 msgstr "Conceitos de filtragem para a lista negra: "
 
@@ -405,7 +409,7 @@ msgid "Delete"
 msgstr "Eliminar"
 
 #: ui/concept_editor_window.py:174 ui/concept_editor_window_qt.py:141
-#: ui/tags_blacklist_window.py:505 ui/tags_blacklist_window.py:566
+#: ui/tags_blacklist_window.py:521 ui/tags_blacklist_window.py:582
 msgid "Import"
 msgstr "Importar"
 
@@ -512,15 +516,15 @@ msgstr "Navegar"
 msgid "Active"
 msgstr "Ativo"
 
-#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:506
-#: ui/tags_blacklist_window.py:567
+#: ui/concept_editor_window_qt.py:142 ui/tags_blacklist_window.py:522
+#: ui/tags_blacklist_window.py:583
 msgid "Export"
 msgstr "Exportação"
 
 #: ui/auth/password_admin_window.py:249 ui/concept_editor_window_qt.py:143
 #: ui/expansions_window_qt.py:70 ui/presets_window_qt.py:59
 #: ui/schedules_window_qt.py:97 ui/schedules_window_qt.py:169
-#: ui/tags_blacklist_window.py:244 ui/tags_blacklist_window_qt.py:52
+#: ui/tags_blacklist_window.py:260 ui/tags_blacklist_window_qt.py:52
 msgid "Close"
 msgstr "Fechar"
 
@@ -580,7 +584,7 @@ msgstr "Texto de expansão"
 msgid "New Expansion Text"
 msgstr "Novo texto de expansão"
 
-#: ui/expansions_window.py:61 ui/tags_blacklist_window.py:95
+#: ui/expansions_window.py:61 ui/tags_blacklist_window.py:104
 msgid "Done"
 msgstr "Feito"
 
@@ -592,7 +596,7 @@ msgstr ""
 "Aviso: Este ID de expansão corresponde a um curinga em config.json. As "
 "alterações não terão efeito até que o curinga seja removido ou renomeado."
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:793
+#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:817
 msgid "Warning"
 msgstr "Aviso"
 
@@ -627,7 +631,7 @@ msgid "Clear expansions"
 msgstr "Limpar expansões"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:656 ui/tags_blacklist_window.py:701
+#: ui/tags_blacklist_window.py:674 ui/tags_blacklist_window.py:725
 msgid "Modify"
 msgstr "Modificar"
 
@@ -821,63 +825,63 @@ msgstr "Limparam os programaçãos"
 msgid "Modify Blacklist Item: {0}"
 msgstr "Modificar o Item da Lista Negra: {0}"
 
-#: ui/tags_blacklist_window.py:49
+#: ui/tags_blacklist_window.py:50
 msgid "Blacklist String"
 msgstr "Texto da lista negra"
 
-#: ui/tags_blacklist_window.py:59
+#: ui/tags_blacklist_window.py:60
 msgid "Enabled"
 msgstr "Ativado"
 
-#: ui/tags_blacklist_window.py:71
+#: ui/tags_blacklist_window.py:72
 msgid "Use glob-based regex"
 msgstr "Utilizar regex baseado em glob"
 
-#: ui/tags_blacklist_window.py:83
+#: ui/tags_blacklist_window.py:84
 msgid "Use word boundary matching"
 msgstr "Utilizar a correspondência de limites de palavras"
 
-#: ui/tags_blacklist_window.py:94 ui/tags_blacklist_window.py:664
+#: ui/tags_blacklist_window.py:103 ui/tags_blacklist_window.py:682
 msgid "Preview"
 msgstr "Prévia"
 
-#: ui/tags_blacklist_window.py:117
+#: ui/tags_blacklist_window.py:127
 msgid "Blacklist string cannot be empty."
 msgstr "O texto da lista negra não pode estar vazio."
 
-#: ui/tags_blacklist_window.py:146
+#: ui/tags_blacklist_window.py:162
 msgid "No changes were made"
 msgstr "Não foram efectuadas alterações"
 
-#: ui/tags_blacklist_window.py:158
+#: ui/tags_blacklist_window.py:174
 msgid "Unsaved Changes"
 msgstr "Alterações não guardadas"
 
-#: ui/tags_blacklist_window.py:158
+#: ui/tags_blacklist_window.py:174
 msgid "Do you want to save changes before closing?"
 msgstr "Pretende guardar as alterações antes de as fechar?"
 
-#: ui/tags_blacklist_window.py:185
+#: ui/tags_blacklist_window.py:201
 msgid "Blacklist Preview"
 msgstr "Prévia da lista negra"
 
-#: ui/tags_blacklist_window.py:208
+#: ui/tags_blacklist_window.py:224
 msgid "Concepts filtered by: {0}"
 msgstr "Conceitos filtrados por: {0}"
 
-#: ui/tags_blacklist_window.py:212
+#: ui/tags_blacklist_window.py:228
 msgid "All filtered concepts"
 msgstr "Todos os conceitos filtrados"
 
-#: ui/tags_blacklist_window.py:263
+#: ui/tags_blacklist_window.py:279
 msgid "Found {0} filtered concepts"
 msgstr "Encontrou {0} conceitos filtrados"
 
-#: ui/tags_blacklist_window.py:271
+#: ui/tags_blacklist_window.py:287
 msgid "Error loading concepts: {0}"
 msgstr "Erro ao carregar conceitos: {0}"
 
-#: ui/tags_blacklist_window.py:298
+#: ui/tags_blacklist_window.py:314
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -887,11 +891,11 @@ msgstr ""
 "\n"
 "Se és jovem, não tens a certeza, ou mesmo se és adulto, clica no botão fechar desta janela agora e faz algo divertido."
 
-#: ui/tags_blacklist_window.py:372
+#: ui/tags_blacklist_window.py:388
 msgid "Confirm Load Default Blacklist"
 msgstr "Confirmar a carga da lista negra predefinida"
 
-#: ui/tags_blacklist_window.py:373
+#: ui/tags_blacklist_window.py:389
 msgid ""
 "Are you sure you want to load the default blacklist?\n"
 "\n"
@@ -909,77 +913,77 @@ msgstr ""
 "\n"
 "Deseja continuar?"
 
-#: ui/tags_blacklist_window.py:386
+#: ui/tags_blacklist_window.py:402
 msgid "Loaded default blacklist"
 msgstr "Lista negra padrão carregada"
 
-#: ui/tags_blacklist_window.py:390
+#: ui/tags_blacklist_window.py:406
 msgid "Error loading default blacklist"
 msgstr "Erro ao carregar a lista negra predefinida"
 
-#: ui/tags_blacklist_window.py:420
+#: ui/tags_blacklist_window.py:436
 msgid "Tags/Models Blacklist"
 msgstr "Lista negra de tags e modelos"
 
-#: ui/tags_blacklist_window.py:449
+#: ui/tags_blacklist_window.py:465
 msgid "Model Blacklist"
 msgstr "Lista negra para modelos"
 
-#: ui/tags_blacklist_window.py:473 ui/tags_blacklist_window.py:535
+#: ui/tags_blacklist_window.py:489 ui/tags_blacklist_window.py:551
 msgid "Global Settings:"
 msgstr "Definições globais"
 
-#: ui/tags_blacklist_window.py:475 ui/tags_blacklist_window.py:537
+#: ui/tags_blacklist_window.py:491 ui/tags_blacklist_window.py:553
 msgid "These settings affect how the blacklist is applied globally."
 msgstr ""
 "Estas definições afectam a forma como a lista negra é aplicada globalmente."
 
-#: ui/tags_blacklist_window.py:484 ui/tags_blacklist_window.py:546
+#: ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:562
 msgid "Choose how the blacklist is enforced: block, warn, or allow."
 msgstr "Escolha como a lista negra é aplicada: bloquear, avisar ou permitir."
 
-#: ui/tags_blacklist_window.py:490 ui/tags_blacklist_window.py:552
+#: ui/tags_blacklist_window.py:506 ui/tags_blacklist_window.py:568
 msgid "Silent Removal"
 msgstr "Remoção silenciosa"
 
-#: ui/tags_blacklist_window.py:498 ui/tags_blacklist_window.py:560
+#: ui/tags_blacklist_window.py:514 ui/tags_blacklist_window.py:576
 msgid ""
 "If enabled, blacklisted words are removed silently without notification."
 msgstr ""
 "Se activada, as palavras colocadas na lista negra são removidas "
 "silenciosamente sem notificação."
 
-#: ui/tags_blacklist_window.py:507 ui/tags_blacklist_window.py:568
+#: ui/tags_blacklist_window.py:523 ui/tags_blacklist_window.py:584
 msgid "Preview All"
 msgstr "Pré-visualizar tudo"
 
-#: ui/tags_blacklist_window.py:508
+#: ui/tags_blacklist_window.py:524
 msgid "Load Default"
 msgstr "Carregar por defeito"
 
-#: ui/tags_blacklist_window.py:512
+#: ui/tags_blacklist_window.py:528
 msgid "Blacklist items"
 msgstr "Itens da lista negra"
 
-#: ui/tags_blacklist_window.py:514
+#: ui/tags_blacklist_window.py:530
 msgid "Add to tag blacklist"
 msgstr "Adicionar à lista negra de etiquetas"
 
-#: ui/tags_blacklist_window.py:516 ui/tags_blacklist_window.py:582
+#: ui/tags_blacklist_window.py:532 ui/tags_blacklist_window.py:598
 msgid "Clear items"
 msgstr "Limpar itens"
 
-#: ui/tags_blacklist_window.py:576
+#: ui/tags_blacklist_window.py:592
 msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
 msgstr ""
 "Escolha como a lista negra do modelo é aplicada: proibir ou permitir em "
 "NSFW."
 
-#: ui/tags_blacklist_window.py:581
+#: ui/tags_blacklist_window.py:597
 msgid "Add to model blacklist"
 msgstr "Adicionar à lista negra de modelos"
 
-#: ui/tags_blacklist_window.py:613
+#: ui/tags_blacklist_window.py:629
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag "
 "blacklist' button below, or load the default blacklist."
@@ -988,11 +992,11 @@ msgstr ""
 " botão “Adicionar à lista negra de etiquetas” abaixo, ou carregar a lista "
 "negra predefinida."
 
-#: ui/tags_blacklist_window.py:615
+#: ui/tags_blacklist_window.py:631
 msgid "Click below to reveal blacklist concepts."
 msgstr "Clique abaixo para revelar os conceitos da lista negra."
 
-#: ui/tags_blacklist_window.py:617
+#: ui/tags_blacklist_window.py:633
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
@@ -1003,28 +1007,28 @@ msgstr ""
 " e adicionando os seus próprios conceitos ou importando conceitos de um "
 "ficheiro."
 
-#: ui/tags_blacklist_window.py:623
+#: ui/tags_blacklist_window.py:639
 msgid "Reveal Concepts"
 msgstr "Revelar os conceitos"
 
-#: ui/tags_blacklist_window.py:642
+#: ui/tags_blacklist_window.py:658 ui/tags_blacklist_window.py:713
 msgid "[regex]"
 msgstr "[regex]"
 
-#: ui/tags_blacklist_window.py:644
+#: ui/tags_blacklist_window.py:660
 msgid "[no boundary]"
 msgstr "[sem limite de palavra]"
 
-#: ui/tags_blacklist_window.py:648 ui/tags_blacklist_window.py:695
-#: ui/tags_blacklist_window.py:960 ui/tags_blacklist_window.py:1128
+#: ui/tags_blacklist_window.py:666 ui/tags_blacklist_window.py:719
+#: ui/tags_blacklist_window.py:984 ui/tags_blacklist_window.py:1152
 msgid "Disabled"
 msgstr "Não ativado"
 
-#: ui/tags_blacklist_window.py:672 ui/tags_blacklist_window.py:707
+#: ui/tags_blacklist_window.py:690 ui/tags_blacklist_window.py:731
 msgid "Remove"
 msgstr "Remover"
 
-#: ui/tags_blacklist_window.py:684
+#: ui/tags_blacklist_window.py:702
 msgid ""
 "No model blacklist items found. You can add items by clicking the 'Add to "
 "model blacklist' button above, or load the default model blacklist."
@@ -1033,27 +1037,27 @@ msgstr ""
 "clicando no botão «Adicionar à lista negra do modelo» acima ou carregar a "
 "lista negra padrão do modelo."
 
-#: ui/tags_blacklist_window.py:768 ui/tags_blacklist_window.py:803
+#: ui/tags_blacklist_window.py:792 ui/tags_blacklist_window.py:827
 msgid "Added item to blacklist: {0}"
 msgstr "Item adicionado à lista negra: {0}"
 
-#: ui/tags_blacklist_window.py:770
+#: ui/tags_blacklist_window.py:794
 msgid "Modified blacklist item: {0}"
 msgstr "Item da lista negra modificado: {0}"
 
-#: ui/tags_blacklist_window.py:783
+#: ui/tags_blacklist_window.py:807
 msgid "Removed item: {0}"
 msgstr "Item removido: {0}"
 
-#: ui/tags_blacklist_window.py:793
+#: ui/tags_blacklist_window.py:817
 msgid "Please enter a string to add to the blacklist."
 msgstr "Introduza uma cadeia de caracteres para adicionar à lista negra."
 
-#: ui/tags_blacklist_window.py:883
+#: ui/tags_blacklist_window.py:907
 msgid "Confirm Clear Blacklist"
 msgstr "Confirmar a eliminação da lista negra"
 
-#: ui/tags_blacklist_window.py:884
+#: ui/tags_blacklist_window.py:908
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
@@ -1073,87 +1077,87 @@ msgstr ""
 "\n"
 "Deseja continuar?"
 
-#: ui/tags_blacklist_window.py:903
+#: ui/tags_blacklist_window.py:927
 msgid "Cleared item blacklist"
 msgstr "Lista negra de itens limpa"
 
-#: ui/tags_blacklist_window.py:963
+#: ui/tags_blacklist_window.py:987
 msgid "Item \"{0}\" is now {1}"
 msgstr "O item “{0}” é agora {1}"
 
-#: ui/tags_blacklist_window.py:965 ui/tags_blacklist_window.py:1132
+#: ui/tags_blacklist_window.py:989 ui/tags_blacklist_window.py:1156
 msgid "enabled"
 msgstr "ativado"
 
-#: ui/tags_blacklist_window.py:965 ui/tags_blacklist_window.py:1132
+#: ui/tags_blacklist_window.py:989 ui/tags_blacklist_window.py:1156
 msgid "disabled"
 msgstr "desativado"
 
-#: ui/tags_blacklist_window.py:975
+#: ui/tags_blacklist_window.py:999
 msgid "Concepts revealed"
 msgstr "Conceitos revelados"
 
-#: ui/tags_blacklist_window.py:1006 ui/tags_blacklist_window.py:1163
+#: ui/tags_blacklist_window.py:1030 ui/tags_blacklist_window.py:1187
 msgid "Import Blacklist"
 msgstr "Importar lista negra"
 
-#: ui/tags_blacklist_window.py:1025
+#: ui/tags_blacklist_window.py:1049
 msgid "Successfully imported blacklist"
 msgstr "Lista negra importada com êxito"
 
-#: ui/tags_blacklist_window.py:1027 ui/tags_blacklist_window.py:1184
+#: ui/tags_blacklist_window.py:1051 ui/tags_blacklist_window.py:1208
 msgid "Import Error"
 msgstr "Erro de importação"
 
-#: ui/tags_blacklist_window.py:1038
+#: ui/tags_blacklist_window.py:1062
 msgid "Export Blacklist"
 msgstr "Exportar a lista negra"
 
-#: ui/tags_blacklist_window.py:1053
+#: ui/tags_blacklist_window.py:1077
 msgid "Successfully exported blacklist"
 msgstr "Lista negra exportada com êxito"
 
-#: ui/tags_blacklist_window.py:1055 ui/tags_blacklist_window.py:1205
+#: ui/tags_blacklist_window.py:1079 ui/tags_blacklist_window.py:1229
 msgid "Export Error"
 msgstr "Erro de exportação"
 
-#: ui/tags_blacklist_window.py:1065
+#: ui/tags_blacklist_window.py:1089
 msgid "Blacklist mode set to: {0}"
 msgstr "Modo de lista negra definido para: {0}"
 
-#: ui/tags_blacklist_window.py:1075
+#: ui/tags_blacklist_window.py:1099
 msgid "Model blacklist mode set to: {0}"
 msgstr "Modo de lista negra do modelo definido como: {0}"
 
-#: ui/tags_blacklist_window.py:1081
+#: ui/tags_blacklist_window.py:1105
 msgid "Silent removal set to: {0}"
 msgstr "Remoção silenciosa definida para: {0}"
 
-#: ui/tags_blacklist_window.py:1119
+#: ui/tags_blacklist_window.py:1143
 msgid "Model blacklist updated: {0}"
 msgstr "Lista negra de modelos atualizada: {0}"
 
-#: ui/tags_blacklist_window.py:1130
+#: ui/tags_blacklist_window.py:1154
 msgid "Model item '{0}' is now {1}"
 msgstr "O item modelo ‘{0}’ agora é {1}"
 
-#: ui/tags_blacklist_window.py:1144
+#: ui/tags_blacklist_window.py:1168
 msgid "Removed model blacklist item: {0}"
 msgstr "Item removido da lista negra do modelo: {0}"
 
-#: ui/tags_blacklist_window.py:1151
+#: ui/tags_blacklist_window.py:1175
 msgid "Cleared model blacklist items"
 msgstr "Itens da lista negra do modelo eliminados"
 
-#: ui/tags_blacklist_window.py:1182
+#: ui/tags_blacklist_window.py:1206
 msgid "Successfully imported model blacklist"
 msgstr "Lista negra de modelos importada com sucesso"
 
-#: ui/tags_blacklist_window.py:1193
+#: ui/tags_blacklist_window.py:1217
 msgid "Export Model Blacklist"
 msgstr "Exportar a lista negra de modelos"
 
-#: ui/tags_blacklist_window.py:1203
+#: ui/tags_blacklist_window.py:1227
 msgid "Successfully exported model blacklist"
 msgstr "Lista negra de modelos exportada com sucesso"
 
@@ -1648,6 +1652,10 @@ msgstr "{0}m"
 msgid "{0}s"
 msgstr "{0}s"
 
-#: app.py:554
-msgid "Continuous Seed Variation"
-msgstr "Variação contínua da semente"
+#: ui/tags_blacklist_window.py:94
+msgid "Exception Pattern (optional regex to unfilter tags)"
+msgstr "Padrão de exceção (expressão regular opcional para desfiltrar tags)"
+
+#: ui/tags_blacklist_window.py:662 ui/tags_blacklist_window.py:715
+msgid "[exception: {0}]"
+msgstr "[exceção: {0}]"

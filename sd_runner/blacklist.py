@@ -30,10 +30,12 @@ class BlacklistItem:
         enabled: bool = True,
         use_regex: bool = False,
         use_word_boundary: bool = True,
+        exception_pattern: str = None,
     ):
         self.enabled = enabled
         self.use_regex = use_regex
         self.use_word_boundary = use_word_boundary
+        self.exception_pattern = exception_pattern
         
         if use_regex:
             # For regex patterns, store the original string and compile with case-insensitive flag
@@ -48,13 +50,24 @@ class BlacklistItem:
                 self.regex_pattern = re.compile(r'(^|\W)' + re.escape(self.string))
             else:
                 self.regex_pattern = re.compile(re.escape(self.string))
+        
+        # Compile exception pattern if provided
+        self.exception_regex_pattern = None
+        if exception_pattern:
+            try:
+                self.exception_regex_pattern = re.compile(exception_pattern, re.IGNORECASE)
+            except re.error:
+                # If exception pattern is invalid, set it to None
+                self.exception_pattern = None
+                self.exception_regex_pattern = None
 
     def to_dict(self) -> dict:
         return {
             "string": self.string,
             "enabled": self.enabled,
             "use_regex": self.use_regex,
-            "use_word_boundary": self.use_word_boundary
+            "use_word_boundary": self.use_word_boundary,
+            "exception_pattern": self.exception_pattern
         }
 
     @classmethod
@@ -72,7 +85,10 @@ class BlacklistItem:
         use_word_boundary = data.get("use_word_boundary", True)
         if not isinstance(use_word_boundary, bool):
             use_word_boundary = True
-        return cls(data["string"], enabled, use_regex, use_word_boundary)
+        exception_pattern = data.get("exception_pattern", None)
+        if exception_pattern is not None and not isinstance(exception_pattern, str):
+            exception_pattern = None
+        return cls(data["string"], enabled, use_regex, use_word_boundary, exception_pattern)
 
     def matches_tag(self, tag: str) -> bool:
         """Check if a tag matches this blacklist item.
@@ -90,6 +106,9 @@ class BlacklistItem:
             
         # Always use the compiled regex pattern for the base string
         if self.regex_pattern.search(tag):
+            # Check if there's an exception pattern that would unfilter this tag
+            if self.exception_regex_pattern and self.exception_regex_pattern.search(tag):
+                return False  # Exception pattern matches, so don't filter this tag
             return True
                 
         return False
@@ -158,9 +177,9 @@ class BlacklistItem:
     
 
 class ModelBlacklistItem(BlacklistItem):
-    def __init__(self, string: str, enabled: bool = True, use_regex: bool = False):
+    def __init__(self, string: str, enabled: bool = True, use_regex: bool = False, exception_pattern: str = None):
         # For models, word boundary is not relevant
-        super().__init__(string, enabled, use_regex, use_word_boundary=False)
+        super().__init__(string, enabled, use_regex, use_word_boundary=False, exception_pattern=exception_pattern)
 
     @classmethod
     def from_dict(cls, data: dict) -> "ModelBlacklistItem":
@@ -175,7 +194,10 @@ class ModelBlacklistItem(BlacklistItem):
         use_regex = data.get("use_regex", False)
         if not isinstance(use_regex, bool):
             use_regex = False
-        return cls(data["string"], enabled, use_regex)
+        exception_pattern = data.get("exception_pattern", None)
+        if exception_pattern is not None and not isinstance(exception_pattern, str):
+            exception_pattern = None
+        return cls(data["string"], enabled, use_regex, exception_pattern)
 
 
 class Blacklist:
@@ -398,16 +420,17 @@ class Blacklist:
             raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
     
     @staticmethod
-    def add_to_blacklist(tag, enabled: bool = True, use_regex: bool = False) -> None:
+    def add_to_blacklist(tag, enabled: bool = True, use_regex: bool = False, exception_pattern: str = None) -> None:
         """Add a tag to the blacklist. If tag is a string, convert to BlacklistItem.
         
         Args:
             tag: The tag string or BlacklistItem to add
             enabled: Whether the item should be enabled (default: True)
             use_regex: Whether to use regex matching (default: False)
+            exception_pattern: Optional regex pattern to unfilter tags that would otherwise be filtered
         """
         if isinstance(tag, str):
-            tag = BlacklistItem(tag, enabled=enabled, use_regex=use_regex)
+            tag = BlacklistItem(tag, enabled=enabled, use_regex=use_regex, exception_pattern=exception_pattern)
         Blacklist.add_item(tag)
 
     @staticmethod
@@ -651,11 +674,11 @@ class Blacklist:
         Blacklist.sort_model_blacklist()
 
     @staticmethod
-    def add_to_model_blacklist(tag, enabled: bool = True, use_regex: bool = False) -> None:
+    def add_to_model_blacklist(tag, enabled: bool = True, use_regex: bool = False, exception_pattern: str = None) -> None:
         if isinstance(tag, str):
-            tag = ModelBlacklistItem(tag, enabled=enabled, use_regex=use_regex)
+            tag = ModelBlacklistItem(tag, enabled=enabled, use_regex=use_regex, exception_pattern=exception_pattern)
         elif not isinstance(tag, ModelBlacklistItem):
-            tag = ModelBlacklistItem(tag.string, tag.enabled, tag.use_regex)
+            tag = ModelBlacklistItem(tag.string, tag.enabled, tag.use_regex, exception_pattern=getattr(tag, 'exception_pattern', None))
         Blacklist.add_model_item(tag)
 
     @staticmethod

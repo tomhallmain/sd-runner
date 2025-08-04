@@ -72,13 +72,15 @@ A UI window for managing your concept files. Search, add, edit, or delete concep
 
 ## Blacklist Window
 
-A UI window for managing terms to filter from generated prompts. Add, remove, or toggle terms, and import/export your blacklist in CSV, JSON, or TXT formats. Terms are matched against exact words and their plurals.
+A UI window for managing terms to filter from generated prompts. Add, remove, or toggle terms, and import/export your blacklist in CSV, JSON, or TXT formats.
+
+**Exception Patterns**: Each blacklist item can optionally include an exception pattern (regex) that will un-filter tags that would otherwise be filtered by the primary pattern. This allows for fine-grained control - for example, you can blacklist "cat" but use an exception pattern like "cathedral" to allow that specific term through.
 
 **Enhanced Security**: The blacklist features multi-level password protection with separate permissions for revealing and editing concepts. A default encrypted blacklist is provided for first-time users, and blacklist operations require security to be configured with user confirmation to prevent accidental data loss and exposure of problematic concepts.
 
 ## Password Protection
 
-The application includes a password protection system that can be configured to require authentication for sensitive actions. Access the Password Administration window using `<Control-P>` to configure which actions require password verification.
+The application includes a password protection system that can be configured to require authentication for sensitive actions. Password settings are stored securely in the encrypted application cache. Access the Password Administration window using `<Control-P>` to configure which actions require password verification.
 
 Protected actions include:
 - Access Password Administration (defaults to protected)
@@ -90,8 +92,6 @@ Protected actions include:
 - Edit Presets
 - Edit Concepts
 
-Password settings are stored securely in the encrypted application cache.
-
 ## Server
 
 Set configuration options for a server port to make use of the server while the UI is running. Calls to the server made with Python's multiprocessing client will update the UI as specified, but leave anything unspecified as already set in the UI. This can be helpful to use in conjunction with other applications that involve images. For an example, see [this class](https://github.com/tomhallmain/simple_image_compare/blob/master/extensions/sd_runner_client.py).
@@ -100,7 +100,7 @@ Set configuration options for a server port to make use of the server while the 
 
 The stable-diffusion-webui img2img workflow is set up as the IP Adapter workflow. In this case, modifying the IP adapter strength in the UI will inversely modify the denoising strength to produce a similar effect as IP adapter strength would for that workflow.
 
-The following locales are supported in the UI: en (English), de (Deutsh), fr (Français), es (Español), it (Italiano). Theoretically the prompt outputs could be set up for any written language that has Unicode support by modifying the existing concepts files or adding a path to the config `concepts_dirs` to override concepts files.
+The following locales are supported in the UI: en (English), de (Deutsch), es (Español), fr (Français), ja (日本語), ko (한국어), pt (Português), ru (Русский), zh (中文). Theoretically the prompt outputs could be set up for any written language that has Unicode support by modifying the existing concepts files or adding a path to the config `concepts_dirs` to override concepts files.
 
 Excepting the concepts files, application data is encrypted for security. Logs are not currently being stored and will not be until they can be encrypted.
 

@@ -36,7 +36,8 @@ class BlacklistModifyWindow():
             'string': self.original_string,
             'enabled': self.blacklist_item.enabled,
             'use_regex': self.blacklist_item.use_regex,
-            'use_word_boundary': self.blacklist_item.use_word_boundary
+            'use_word_boundary': self.blacklist_item.use_word_boundary,
+            'exception_pattern': getattr(self.blacklist_item, 'exception_pattern', None)
         }
 
         self.frame = Frame(self.master, bg=AppStyle.BG_COLOR)
@@ -88,11 +89,19 @@ class BlacklistModifyWindow():
         )
         self.word_boundary_checkbox.grid(row=4, column=0, sticky="w")
 
+        # Exception pattern field
+        self._label_exception = Label(self.frame, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self._label_exception, _("Exception Pattern (optional regex to unfilter tags)"), row=5, wraplength=BlacklistModifyWindow.COL_0_WIDTH)
+
+        self.exception_pattern = StringVar(self.master, value=getattr(self.blacklist_item, 'exception_pattern', ''))
+        self.exception_pattern_entry = Entry(self.frame, textvariable=self.exception_pattern, width=50, font=fnt.Font(size=8))
+        self.exception_pattern_entry.grid(column=0, row=6, sticky="w")
+
         # Preview and Done buttons
         self.preview_btn = None
         self.done_btn = None
-        self.add_btn("preview_btn", _("Preview"), self.preview_blacklist_item, row=5, column=0)
-        self.add_btn("done_btn", _("Done"), self.finalize_blacklist_item, row=5, column=1)
+        self.add_btn("preview_btn", _("Preview"), self.preview_blacklist_item, row=7, column=0)
+        self.add_btn("done_btn", _("Done"), self.finalize_blacklist_item, row=7, column=1)
 
         # Set up window close protocol to handle unsaved changes
         self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
@@ -105,7 +114,8 @@ class BlacklistModifyWindow():
             'string': self.new_string.get().strip(),
             'enabled': self.enabled_var.get(),
             'use_regex': self.use_regex_var.get(),
-            'use_word_boundary': self.use_word_boundary_var.get()
+            'use_word_boundary': self.use_word_boundary_var.get(),
+            'exception_pattern': self.exception_pattern.get()
         }
         return current_values != self.original_values
 
@@ -117,12 +127,18 @@ class BlacklistModifyWindow():
             messagebox.showerror(_("Error"), _("Blacklist string cannot be empty."))
             return None
 
+        # Get exception pattern, convert empty string to None
+        exception_pattern = self.exception_pattern.get().strip()
+        if not exception_pattern:
+            exception_pattern = None
+
         # Create a blacklist item with current form values
         return BlacklistItem(
             string=string,
             enabled=self.enabled_var.get(),
             use_regex=self.use_regex_var.get(),
-            use_word_boundary=self.use_word_boundary_var.get()
+            use_word_boundary=self.use_word_boundary_var.get(),
+            exception_pattern=exception_pattern
         )
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
@@ -411,7 +427,7 @@ If you are young, not sure, or even an adult, click the close button on this win
 
     @staticmethod
     def get_geometry(is_gui=True):
-        width = 800
+        width = 1000
         height = 800
         return f"{width}x{height}"
 
@@ -642,6 +658,8 @@ If you are young, not sure, or even an adult, click the close button on this win
                 display_text += " " + _("[regex]")
             if not item.use_word_boundary:
                 display_text += " " + _("[no boundary]")
+            if item.exception_pattern:
+                display_text += " " + _("[exception: {0}]").format(item.exception_pattern)
             self.add_label(self._label_info, display_text, row=row, column=base_col, wraplength=BlacklistWindow.COL_0_WIDTH)
             
             # Add enable/disable toggle
@@ -689,7 +707,13 @@ If you are young, not sure, or even an adult, click the close button on this win
         # Add model blacklist items
         for i, item in enumerate(self.filtered_model_items):
             row = i+1
-            label = Label(self.model_scroll_frame.viewPort, text=str(item), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+            # Display item with indicators
+            display_text = str(item)
+            if item.use_regex:
+                display_text += " " + _("[regex]")
+            if item.exception_pattern:
+                display_text += " " + _("[exception: {0}]").format(item.exception_pattern)
+            label = Label(self.model_scroll_frame.viewPort, text=display_text, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
             label.grid(row=row, column=0, sticky=W)
             # Enable/disable toggle
             toggle_btn = Button(self.model_scroll_frame.viewPort, text="✓" if item.enabled else _("Disabled"))
