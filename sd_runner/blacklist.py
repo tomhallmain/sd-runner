@@ -40,12 +40,13 @@ class BlacklistItem:
         self.use_space_as_optional_nonword = use_space_as_optional_nonword
         
         # Process the string based on the new property
-        processed_string = string
-        if use_space_as_optional_nonword:
-            # Convert spaces to optional non-word character patterns
-            processed_string = re.sub(r'\s+', r'(\\W)*', string)
         
         if use_regex:
+            # Start from the original string
+            processed_string = string
+            if use_space_as_optional_nonword:
+                # Convert spaces to optional non-word character patterns
+                processed_string = re.sub(r'\s+', r'(\\W)*', processed_string)
             # For regex patterns, store the original string and compile with case-insensitive flag
             self.string = string  # Keep original case for regex patterns
             # Use glob-to-regex conversion for regex mode with case-insensitive flag
@@ -53,12 +54,19 @@ class BlacklistItem:
         else:
             # For non-regex patterns, convert to lowercase and use simple word boundary pattern
             self.string = string.lower()
-            processed_string = processed_string.lower()
+            # Always build a processed_string
+            if use_space_as_optional_nonword:
+                # Split on whitespace, escape tokens, and join with an optional non-word pattern.
+                # This avoids leaving the backslash that escapes spaces from re.escape() in front of the inserted group.
+                words = re.split(r'\s+', self.string)
+                processed_string = r'(?:\W)*'.join(re.escape(w) for w in words if w)
+            else:
+                processed_string = re.escape(self.string)
             # Use simple word boundary pattern for exact match mode
             if use_word_boundary:
-                self.regex_pattern = re.compile(r'(^|\W)' + re.escape(processed_string))
+                self.regex_pattern = re.compile(r'(^|\W)' + processed_string)
             else:
-                self.regex_pattern = re.compile(re.escape(processed_string))
+                self.regex_pattern = re.compile(processed_string)
         
         # Compile exception pattern if provided
         self.exception_regex_pattern = None
@@ -69,6 +77,8 @@ class BlacklistItem:
                 # If exception pattern is invalid, set it to None
                 self.exception_pattern = None
                 self.exception_regex_pattern = None
+
+        # print(f"BlacklistItem: {self.string} -> {self.regex_pattern}")
 
     def to_dict(self) -> dict:
         return {
@@ -140,7 +150,7 @@ class BlacklistItem:
         two_prev_char = None
         for char in pattern:
             if char == '*':
-                if two_prev_char == '\\' and prev_char == '.':
+                if (two_prev_char == '\\' and prev_char == '.') or prev_char == ')':
                     regex_pattern += '*'
                 else:
                     regex_pattern += '.*'
