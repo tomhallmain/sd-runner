@@ -16,6 +16,7 @@ class AppInfoCache:
     MAX_HISTORY_ENTRIES = 1000
     MAX_PROMPT_HISTORY_ENTRIES = 5000  # Larger limit for prompt history
     DIRECTORIES_KEY = "directories"
+    NUM_BACKUPS = 4  # Number of backup files to maintain
 
     def __init__(self):
         self._cache = {
@@ -70,14 +71,10 @@ class AppInfoCache:
                 return
 
             # Try encrypted cache and backups in order
-            cache_paths = [
-                AppInfoCache.CACHE_LOC,
-                AppInfoCache.CACHE_LOC + ".bak",
-                AppInfoCache.CACHE_LOC + ".bak2"
-            ]
+            cache_paths = [self.CACHE_LOC] + self._get_backup_paths()
             any_exist = any(os.path.exists(path) for path in cache_paths)
             if not any_exist:
-                print(f"No cache file found at {AppInfoCache.CACHE_LOC}, creating new cache")
+                print(f"No cache file found at {self.CACHE_LOC}, creating new cache")
                 return
 
             for path in cache_paths:
@@ -85,13 +82,12 @@ class AppInfoCache:
                     try:
                         self._cache = self._try_load_cache_from_file(path)
                         # Only shift backups if we loaded from the main file
-                        if path == AppInfoCache.CACHE_LOC:
-                            text = f"Loaded cache from {AppInfoCache.CACHE_LOC}, shifted backups to {cache_paths[1]}"
-                            if os.path.exists(cache_paths[1]):
-                                shutil.copy2(cache_paths[1], cache_paths[2])
-                                text += f" and {cache_paths[2]}"
-                            shutil.copy2(AppInfoCache.CACHE_LOC, cache_paths[1])
-                            print(text)
+                        if path == self.CACHE_LOC:
+                            message = f"Loaded cache from {self.CACHE_LOC}"
+                            rotated_count = self._rotate_backups()
+                            if rotated_count > 0:
+                                message += f", rotated {rotated_count} backups"
+                            print(message)
                         else:
                             print(f"WARN: Loaded cache from backup: {path}")
                         return
@@ -282,5 +278,35 @@ class AppInfoCache:
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump(self._cache, f, ensure_ascii=False, indent=2)
         return json_path
+
+    def _get_backup_paths(self):
+        """Get list of backup file paths in order of preference"""
+        backup_paths = []
+        for i in range(1, self.NUM_BACKUPS + 1):
+            index = "" if i == 1 else f"{i}"
+            path = f"{self.CACHE_LOC}.bak{index}"
+            backup_paths.append(path)
+        return backup_paths
+
+    def _rotate_backups(self):
+        """Rotate backup files: move each backup to the next position, oldest gets overwritten"""
+        backup_paths = self._get_backup_paths()
+        rotated_count = 0
+        
+        # Remove the oldest backup if it exists
+        if os.path.exists(backup_paths[-1]):
+            os.remove(backup_paths[-1])
+        
+        # Shift backups: move each backup to the next position
+        for i in range(len(backup_paths) - 1, 0, -1):
+            if os.path.exists(backup_paths[i - 1]):
+                shutil.copy2(backup_paths[i - 1], backup_paths[i])
+                rotated_count += 1
+        
+        # Copy main cache to first backup position
+        shutil.copy2(self.CACHE_LOC, backup_paths[0])
+        
+        return rotated_count
+
 
 app_info_cache = AppInfoCache()

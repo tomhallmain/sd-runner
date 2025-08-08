@@ -1,4 +1,5 @@
 from copy import deepcopy
+import os
 import signal
 import time
 import traceback
@@ -632,8 +633,8 @@ class App():
         # Shutdown the thread pool executor to stop all background threads
         from sd_runner.base_image_generator import BaseImageGenerator
         BaseImageGenerator.shutdown_executor(wait=False)
-        
         self.master.destroy()
+        os._exit(0)
 
 
     def quit(self, event=None):
@@ -1409,7 +1410,8 @@ if __name__ == "__main__":
             print("Caught signal, shutting down gracefully...")
             if app is not None:
                 app.on_closing()
-            exit(0)
+            else:
+                os._exit(0)
 
         # Register the signal handlers for graceful shutdown
         signal.signal(signal.SIGINT, graceful_shutdown)
@@ -1429,7 +1431,8 @@ if __name__ == "__main__":
                     traceback.print_exc()
             else:
                 # User cancelled the password dialog, exit
-                exit(0)
+                print("Startup cancelled, exiting...")
+                os._exit(0)
         
         # Check if startup password is required
         # This will either call the callback immediately (if no password required)
