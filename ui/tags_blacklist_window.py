@@ -1,3 +1,5 @@
+from typing import Callable, Optional
+
 from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W, BooleanVar, Checkbutton, Scrollbar, Listbox, IntVar, messagebox
 import tkinter.font as fnt
 from tkinter.ttk import Button, Combobox, Notebook
@@ -21,14 +23,14 @@ class BlacklistModifyWindow():
     top_level = None
     COL_0_WIDTH = 600
 
-    def __init__(self, master, refresh_callback, blacklist_item, dimensions="600x400"):
+    def __init__(self, master, refresh_callback: Callable, blacklist_item: BlacklistItem, dimensions: str = "600x400"):
         BlacklistModifyWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
         BlacklistModifyWindow.top_level.geometry(dimensions)
         self.master = BlacklistModifyWindow.top_level
         self.refresh_callback = refresh_callback
         self.is_new_item = blacklist_item is None
         self.original_string = "" if self.is_new_item else blacklist_item.string
-        self.blacklist_item = BlacklistItem("", enabled=True, use_regex=False, use_word_boundary=True) if self.is_new_item else blacklist_item
+        self.blacklist_item: BlacklistItem = BlacklistItem("", enabled=True, use_regex=False, use_word_boundary=True, use_space_as_optional_nonword=True) if self.is_new_item else blacklist_item
         BlacklistModifyWindow.top_level.title(_("Modify Blacklist Item: {0}").format(self.blacklist_item.string))
 
         # Store original values for change tracking
@@ -37,7 +39,8 @@ class BlacklistModifyWindow():
             'enabled': self.blacklist_item.enabled,
             'use_regex': self.blacklist_item.use_regex,
             'use_word_boundary': self.blacklist_item.use_word_boundary,
-            'exception_pattern': getattr(self.blacklist_item, 'exception_pattern', None)
+            'exception_pattern': self.blacklist_item.exception_pattern,
+            'use_space_as_optional_nonword': self.blacklist_item.use_space_as_optional_nonword
         }
 
         self.frame = Frame(self.master, bg=AppStyle.BG_COLOR)
@@ -89,19 +92,31 @@ class BlacklistModifyWindow():
         )
         self.word_boundary_checkbox.grid(row=4, column=0, sticky="w")
 
+        # Use space as optional non-word character checkbox
+        self.use_space_as_optional_nonword_var = BooleanVar(value=getattr(self.blacklist_item, 'use_space_as_optional_nonword', False))
+        self.space_as_optional_nonword_checkbox = Checkbutton(
+            self.frame, 
+            text=_("Convert spaces to optional non-word characters"), 
+            variable=self.use_space_as_optional_nonword_var,
+            bg=AppStyle.BG_COLOR,
+            fg=AppStyle.FG_COLOR,
+            selectcolor=AppStyle.BG_COLOR
+        )
+        self.space_as_optional_nonword_checkbox.grid(row=5, column=0, sticky="w")
+
         # Exception pattern field
         self._label_exception = Label(self.frame, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self._label_exception, _("Exception Pattern (optional regex to unfilter tags)"), row=5, wraplength=BlacklistModifyWindow.COL_0_WIDTH)
+        self.add_label(self._label_exception, _("Exception Pattern (optional regex to unfilter tags)"), row=6, wraplength=BlacklistModifyWindow.COL_0_WIDTH)
 
         self.exception_pattern = StringVar(self.master, value=getattr(self.blacklist_item, 'exception_pattern', ''))
         self.exception_pattern_entry = Entry(self.frame, textvariable=self.exception_pattern, width=50, font=fnt.Font(size=8))
-        self.exception_pattern_entry.grid(column=0, row=6, sticky="w")
+        self.exception_pattern_entry.grid(column=0, row=7, sticky="w")
 
         # Preview and Done buttons
         self.preview_btn = None
         self.done_btn = None
-        self.add_btn("preview_btn", _("Preview"), self.preview_blacklist_item, row=7, column=0)
-        self.add_btn("done_btn", _("Done"), self.finalize_blacklist_item, row=7, column=1)
+        self.add_btn("preview_btn", _("Preview"), self.preview_blacklist_item, row=8, column=0)
+        self.add_btn("done_btn", _("Done"), self.finalize_blacklist_item, row=8, column=1)
 
         # Set up window close protocol to handle unsaved changes
         self.master.protocol("WM_DELETE_WINDOW", self.close_windows)
@@ -115,7 +130,8 @@ class BlacklistModifyWindow():
             'enabled': self.enabled_var.get(),
             'use_regex': self.use_regex_var.get(),
             'use_word_boundary': self.use_word_boundary_var.get(),
-            'exception_pattern': self.exception_pattern.get()
+            'use_space_as_optional_nonword': self.use_space_as_optional_nonword_var.get(),
+            'exception_pattern': self.exception_pattern.get(),
         }
         return current_values != self.original_values
 
@@ -138,7 +154,8 @@ class BlacklistModifyWindow():
             enabled=self.enabled_var.get(),
             use_regex=self.use_regex_var.get(),
             use_word_boundary=self.use_word_boundary_var.get(),
-            exception_pattern=exception_pattern
+            use_space_as_optional_nonword=self.use_space_as_optional_nonword_var.get(),
+            exception_pattern=exception_pattern,
         )
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
@@ -196,23 +213,26 @@ class BlacklistModifyWindow():
 class BlacklistPreviewWindow:
     """Minimalist window to show the effects of blacklist items on concepts."""
     
-    def __init__(self, master, app_actions, blacklist_item=None):
+    # Class-level variable to persist category settings across instances
+    _persisted_category_states = {
+        "SFW": True,
+        "NSFW": False,
+        "NSFL": False,
+        "Art Styles": True,
+        "Dictionary": True
+    }
+    
+    def __init__(self, master, app_actions, blacklist_item: Optional[BlacklistItem] = None):
         self.master = Toplevel(master, bg=AppStyle.BG_COLOR)
         self.master.title(_("Blacklist Preview"))
         self.master.geometry("600x400")
         
         self.app_actions = app_actions
-        self.blacklist_item = blacklist_item
+        self.blacklist_item: Optional[BlacklistItem] = blacklist_item
         self.filtered_concepts = []
         
-        # Define categories with their default checked state
-        self.file_categories = {
-            "SFW": True,
-            "NSFW": False,
-            "NSFL": False,
-            "Art Styles": True,
-            "Dictionary": True
-        }
+        # Use persisted category states, with defaults for new categories
+        self.file_categories = self._persisted_category_states.copy()
         self.category_vars = {}  # Store checkbox variables
         
         self.setup_ui()
@@ -237,7 +257,7 @@ class BlacklistPreviewWindow:
         for i, (category, default_checked) in enumerate(self.file_categories.items()):
             var = IntVar(value=1 if default_checked else 0)
             self.category_vars[category] = var
-            cb = Checkbutton(checkbox_frame, text=category, variable=var, command=self.load_concepts,
+            cb = Checkbutton(checkbox_frame, text=category, variable=var, command=self._on_category_changed,
                            bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
             cb.grid(row=0, column=i, padx=5)
         
@@ -263,6 +283,16 @@ class BlacklistPreviewWindow:
     def _get_category_states(self):
         """Get the current state of all category checkboxes"""
         return {name: bool(var.get()) for name, var in self.category_vars.items()}
+    
+    def _on_category_changed(self):
+        """Handle category checkbox changes - update persisted states and reload concepts"""
+        # Update persisted category states
+        current_states = self._get_category_states()
+        for category, state in current_states.items():
+            self._persisted_category_states[category] = state
+        
+        # Reload concepts with new category states
+        self.load_concepts()
         
     def load_concepts(self):
         """Load and filter concepts based on the blacklist item."""
@@ -658,6 +688,8 @@ If you are young, not sure, or even an adult, click the close button on this win
                 display_text += " " + _("[regex]")
             if not item.use_word_boundary:
                 display_text += " " + _("[no boundary]")
+            if not item.use_space_as_optional_nonword:
+                display_text += " " + _("[no space conversion]")
             if item.exception_pattern:
                 display_text += " " + _("[exception: {0}]").format(item.exception_pattern)
             self.add_label(self._label_info, display_text, row=row, column=base_col, wraplength=BlacklistWindow.COL_0_WIDTH)
@@ -711,6 +743,8 @@ If you are young, not sure, or even an adult, click the close button on this win
             display_text = str(item)
             if item.use_regex:
                 display_text += " " + _("[regex]")
+            if not item.use_space_as_optional_nonword:
+                display_text += " " + _("[no space conversion]")
             if item.exception_pattern:
                 display_text += " " + _("[exception: {0}]").format(item.exception_pattern)
             label = Label(self.model_scroll_frame.viewPort, text=display_text, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
@@ -735,12 +769,12 @@ If you are young, not sure, or even an adult, click the close button on this win
             remove_btn.bind("<Button-1>", remove_handler)
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
-    def open_blacklist_modify_window(self, event=None, blacklist_item=None):
+    def open_blacklist_modify_window(self, event=None, blacklist_item: Optional[BlacklistItem] = None):
         if BlacklistWindow.blacklist_modify_window is not None:
             BlacklistWindow.blacklist_modify_window.master.destroy()
         BlacklistWindow.blacklist_modify_window = BlacklistModifyWindow(self.master, self.refresh_blacklist_item, blacklist_item)
 
-    def refresh_blacklist_item(self, blacklist_item, is_new_item, original_string):
+    def refresh_blacklist_item(self, blacklist_item: BlacklistItem, is_new_item: bool, original_string: str):
         """Callback for when a blacklist item is created or modified"""
         BlacklistWindow.update_history(blacklist_item)
         
@@ -793,7 +827,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         else:
             self.app_actions.toast(_("Modified blacklist item: {0}").format(blacklist_item.string))
 
-    def get_item(self, item):
+    def get_item(self, item: Optional[BlacklistItem] = None):
         """
         Add or remove an item from the blacklist
         """
@@ -809,7 +843,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         item = self.item_var.get()
         return item
 
-    def handle_item(self, event=None, item=None):
+    def handle_item(self, event=None, item: Optional[BlacklistItem] = None):
         item = self.get_item(item)
         if item is None:
             return
@@ -828,7 +862,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         return item
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
-    def remove_item(self, event=None, item=None):
+    def remove_item(self, event=None, item: Optional[BlacklistItem] = None):
         item = self.handle_item(item=item)
         if item is None:
             return
@@ -943,7 +977,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.preview_item_btn_list = []
         self.modify_item_btn_list = []
 
-    def refresh(self, refresh_list=True):
+    def refresh(self, refresh_list: bool = True):
         if refresh_list:
             self.filtered_items = Blacklist.get_items()[:]
         self.clear_widget_lists()
@@ -972,7 +1006,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         return AwareEntry(frame, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
-    def toggle_item(self, event=None, item=None, button=None):
+    def toggle_item(self, event=None, item: Optional[BlacklistItem] = None, button: Optional[Button] = None):
         """Toggle the enabled state of an item."""
         if item is None or button is None:
             return
@@ -999,7 +1033,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.app_actions.toast(_("Concepts revealed"))
 
     @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
-    def preview_item(self, event=None, item=None):
+    def preview_item(self, event=None, item: Optional[BlacklistItem] = None):
         """Show preview of concepts filtered by a specific blacklist item."""
         if item is None:
             return
@@ -1111,12 +1145,12 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.open_model_blacklist_modify_window(blacklist_item=None)
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
-    def modify_model_item(self, event=None, item=None):
+    def modify_model_item(self, event=None, item: Optional[BlacklistItem] = None):
         if item is None:
             return
         self.open_model_blacklist_modify_window(blacklist_item=item)
 
-    def open_model_blacklist_modify_window(self, event=None, blacklist_item=None):
+    def open_model_blacklist_modify_window(self, event=None, blacklist_item: Optional[BlacklistItem] = None):
         if BlacklistWindow.blacklist_modify_window is not None:
             BlacklistWindow.blacklist_modify_window.master.destroy()
         BlacklistWindow.blacklist_modify_window = BlacklistModifyWindow(self.master, self.refresh_model_blacklist_item, blacklist_item)
@@ -1124,7 +1158,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         if blacklist_item is None:
             BlacklistWindow.blacklist_modify_window.blacklist_item.blacklist_type = "model"
 
-    def refresh_model_blacklist_item(self, blacklist_item, is_new_item, original_string):
+    def refresh_model_blacklist_item(self, blacklist_item: BlacklistItem, is_new_item: bool, original_string: str):
         BlacklistWindow.update_history(blacklist_item)
         BlacklistWindow.mark_user_confirmed_non_default()
         if is_new_item:
@@ -1143,7 +1177,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.app_actions.toast(_("Model blacklist updated: {0}").format(blacklist_item.string))
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
-    def toggle_model_item(self, event=None, item=None, button=None):
+    def toggle_model_item(self, event=None, item: Optional[BlacklistItem] = None, button: Optional[Button] = None):
         if item is None or button is None:
             return
         for model_item in Blacklist.get_model_items():
@@ -1160,7 +1194,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.add_model_blacklist_widgets()
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
-    def remove_model_item(self, event=None, item=None):
+    def remove_model_item(self, event=None, item: Optional[BlacklistItem] = None):
         if item is not None:
             Blacklist.remove_model_item(item)
             self.filtered_model_items = Blacklist.get_model_items()[:]

@@ -416,6 +416,67 @@ class TestBlacklistItem(unittest.TestCase):
         self.assertTrue(item_char_without_boundary.matches_tag("a word"))
         self.assertTrue(item_char_without_boundary.matches_tag("ba"))  # Now matches anywhere
 
+    def test_space_as_optional_nonword(self):
+        """Test that spaces are converted to optional non-word character patterns when use_space_as_optional_nonword is True"""
+        # Test with space as optional non-word character enabled
+        item = BlacklistItem("blacklist item", use_space_as_optional_nonword=True)
+        
+        # Should match "blacklist item"
+        self.assertTrue(item.matches_tag("blacklist item"))
+        # Should match "blacklist-item"
+        self.assertTrue(item.matches_tag("blacklist-item"))
+        # Should match "blacklist_item"
+        self.assertTrue(item.matches_tag("blacklist_item"))
+        # Should match "blacklist.item"
+        self.assertTrue(item.matches_tag("blacklist.item"))
+        # Should match "blacklist!item"
+        self.assertTrue(item.matches_tag("blacklist!item"))
+        # Should NOT match "blacklistitem" (no space or non-word character)
+        self.assertFalse(item.matches_tag("blacklistitem"))
+        
+        # Test with space as optional non-word character disabled (default)
+        item_disabled = BlacklistItem("blacklist item", use_space_as_optional_nonword=False)
+        
+        # Should match "blacklist item"
+        self.assertTrue(item_disabled.matches_tag("blacklist item"))
+        # Should NOT match "blacklist-item"
+        self.assertFalse(item_disabled.matches_tag("blacklist-item"))
+        # Should NOT match "blacklist_item"
+        self.assertFalse(item_disabled.matches_tag("blacklist_item"))
+        # Should NOT match "blacklist.item"
+        self.assertFalse(item_disabled.matches_tag("blacklist.item"))
+        # Should NOT match "blacklist!item"
+        self.assertFalse(item_disabled.matches_tag("blacklist!item"))
+        # Should NOT match "blacklistitem"
+        self.assertFalse(item_disabled.matches_tag("blacklistitem"))
+
+    def test_space_as_optional_nonword_with_regex(self):
+        """Test that space conversion works with regex patterns"""
+        # Test with regex and space conversion
+        item = BlacklistItem("*blacklist item*", use_regex=True, use_space_as_optional_nonword=True)
+        
+        # Should match various patterns with optional non-word characters
+        self.assertTrue(item.matches_tag("some blacklist-item here"))
+        self.assertTrue(item.matches_tag("some blacklist_item here"))
+        self.assertTrue(item.matches_tag("some blacklist.item here"))
+        self.assertTrue(item.matches_tag("some blacklist!item here"))
+        # Should NOT match without any separator
+        self.assertFalse(item.matches_tag("some blacklistitem here"))
+
+    def test_space_as_optional_nonword_serialization(self):
+        """Test that the new property is properly serialized and deserialized"""
+        original_item = BlacklistItem("test item", use_space_as_optional_nonword=True)
+        
+        # Serialize to dict
+        item_dict = original_item.to_dict()
+        self.assertIn("use_space_as_optional_nonword", item_dict)
+        self.assertTrue(item_dict["use_space_as_optional_nonword"])
+        
+        # Deserialize from dict
+        restored_item = BlacklistItem.from_dict(item_dict)
+        self.assertEqual(original_item.use_space_as_optional_nonword, restored_item.use_space_as_optional_nonword)
+        self.assertTrue(restored_item.use_space_as_optional_nonword)
+
 
 class TestFirstTimeUserBlacklist(unittest.TestCase):
     """Test the first-time user blacklist loading functionality."""

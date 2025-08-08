@@ -778,6 +778,21 @@ class Concepts:
             if concepts:
                 all_concepts.extend(concepts)
         
+        # Handle extended dictionary concepts when Dictionary is selected and NSFW/NSFL are enabled
+        if (category_states.get("Dictionary", False) and 
+            (category_states.get("NSFW", False) or category_states.get("NSFL", False))):
+            
+            # Load urban dictionary corpus if not already loaded
+            if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0:
+                try:
+                    Concepts.URBAN_DICTIONARY_CORPUS = Concepts.load(Concepts.URBAN_DICTIONARY_CORPUS_PATH)
+                except Exception as e:
+                    pass
+            
+            # Add urban dictionary concepts to the list
+            if len(Concepts.URBAN_DICTIONARY_CORPUS) > 0:
+                all_concepts.extend(Concepts.URBAN_DICTIONARY_CORPUS)
+        
         if blacklist_item:
             # Filter for specific blacklist item
             filtered_concepts = []

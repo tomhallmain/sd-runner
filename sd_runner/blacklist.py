@@ -30,26 +30,35 @@ class BlacklistItem:
         enabled: bool = True,
         use_regex: bool = False,
         use_word_boundary: bool = True,
+        use_space_as_optional_nonword: bool = True,
         exception_pattern: str = None,
     ):
         self.enabled = enabled
         self.use_regex = use_regex
         self.use_word_boundary = use_word_boundary
         self.exception_pattern = exception_pattern
+        self.use_space_as_optional_nonword = use_space_as_optional_nonword
+        
+        # Process the string based on the new property
+        processed_string = string
+        if use_space_as_optional_nonword:
+            # Convert spaces to optional non-word character patterns
+            processed_string = re.sub(r'\s+', r'(\\W)*', string)
         
         if use_regex:
             # For regex patterns, store the original string and compile with case-insensitive flag
             self.string = string  # Keep original case for regex patterns
             # Use glob-to-regex conversion for regex mode with case-insensitive flag
-            self.regex_pattern = re.compile(self._glob_to_regex(string), re.IGNORECASE)
+            self.regex_pattern = re.compile(self._glob_to_regex(processed_string), re.IGNORECASE)
         else:
             # For non-regex patterns, convert to lowercase and use simple word boundary pattern
             self.string = string.lower()
+            processed_string = processed_string.lower()
             # Use simple word boundary pattern for exact match mode
             if use_word_boundary:
-                self.regex_pattern = re.compile(r'(^|\W)' + re.escape(self.string))
+                self.regex_pattern = re.compile(r'(^|\W)' + re.escape(processed_string))
             else:
-                self.regex_pattern = re.compile(re.escape(self.string))
+                self.regex_pattern = re.compile(re.escape(processed_string))
         
         # Compile exception pattern if provided
         self.exception_regex_pattern = None
@@ -67,7 +76,8 @@ class BlacklistItem:
             "enabled": self.enabled,
             "use_regex": self.use_regex,
             "use_word_boundary": self.use_word_boundary,
-            "exception_pattern": self.exception_pattern
+            "use_space_as_optional_nonword": self.use_space_as_optional_nonword,
+            "exception_pattern": self.exception_pattern,
         }
 
     @classmethod
@@ -85,10 +95,13 @@ class BlacklistItem:
         use_word_boundary = data.get("use_word_boundary", True)
         if not isinstance(use_word_boundary, bool):
             use_word_boundary = True
+        use_space_as_optional_nonword = data.get("use_space_as_optional_nonword", True)
+        if not isinstance(use_space_as_optional_nonword, bool):
+            use_space_as_optional_nonword = True
         exception_pattern = data.get("exception_pattern", None)
         if exception_pattern is not None and not isinstance(exception_pattern, str):
             exception_pattern = None
-        return cls(data["string"], enabled, use_regex, use_word_boundary, exception_pattern)
+        return cls(data["string"], enabled, use_regex, use_word_boundary, use_space_as_optional_nonword, exception_pattern)
 
     def matches_tag(self, tag: str) -> bool:
         """Check if a tag matches this blacklist item.
@@ -177,9 +190,23 @@ class BlacklistItem:
     
 
 class ModelBlacklistItem(BlacklistItem):
-    def __init__(self, string: str, enabled: bool = True, use_regex: bool = False, exception_pattern: str = None):
+    def __init__(
+        self,
+        string: str,
+        enabled: bool = True,
+        use_regex: bool = False,
+        use_space_as_optional_nonword: bool = True,
+        exception_pattern: str = None,
+    ):
         # For models, word boundary is not relevant
-        super().__init__(string, enabled, use_regex, use_word_boundary=False, exception_pattern=exception_pattern)
+        super().__init__(
+            string,
+            enabled,
+            use_regex,
+            use_word_boundary=False,
+            use_space_as_optional_nonword=use_space_as_optional_nonword,
+            exception_pattern=exception_pattern,
+        )
 
     @classmethod
     def from_dict(cls, data: dict) -> "ModelBlacklistItem":
@@ -194,10 +221,13 @@ class ModelBlacklistItem(BlacklistItem):
         use_regex = data.get("use_regex", False)
         if not isinstance(use_regex, bool):
             use_regex = False
+        use_space_as_optional_nonword = data.get("use_space_as_optional_nonword", True)
+        if not isinstance(use_space_as_optional_nonword, bool):
+            use_space_as_optional_nonword = True
         exception_pattern = data.get("exception_pattern", None)
         if exception_pattern is not None and not isinstance(exception_pattern, str):
             exception_pattern = None
-        return cls(data["string"], enabled, use_regex, exception_pattern)
+        return cls(data["string"], enabled, use_regex, use_space_as_optional_nonword, exception_pattern)
 
 
 class Blacklist:
