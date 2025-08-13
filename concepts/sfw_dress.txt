@@ -136,7 +136,6 @@ cummerbund
 Curly Bob
 Curly Top
 cyborg
-dabbling
 dashiki
 deely-boppers
 denim
@@ -208,6 +207,7 @@ gold-embroidered $$dress
 gown
 Graphic T-Shirt
 guise
+habiliments
 hair band
 hair ornament
 Halloween costume

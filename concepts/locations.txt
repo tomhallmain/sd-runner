@@ -156,6 +156,7 @@ parking garage
 parterre
 peninsula
 people mover
+perch
 pit stop
 platform
 plaza

@@ -87,6 +87,8 @@ augurs
 autographed pictures or other items
 availing
 avoiding
+Awooo!
+aye aye
 bad joke
 badminton
 baking
@@ -130,6 +132,7 @@ blogging
 blowing in
 blurted out
 board games
+boarding up
 boing
 bolstering
 booby trap
@@ -185,6 +188,7 @@ carpentry
 carry me
 cartwheeling
 carving
+cascading
 casting
 casting a spell
 catastrophe
@@ -192,6 +196,7 @@ catching
 catering
 catering to $$character
 celebration
+censure
 ceremony
 chanting
 chariot racing
@@ -216,6 +221,7 @@ cloppity-clop
 closing
 co-hosting
 co-opting
+coasting
 coaxing
 cocktails
 cold calling
@@ -231,6 +237,7 @@ colliding
 coloring
 colonizing
 come forth
+coming up
 communion
 computer hobbies
 concealing
@@ -249,6 +256,7 @@ cost allocation
 counteroffer
 covering
 crafting 
+cramming
 crawling
 create elaborate dessert bars
 creating a podcast
@@ -272,12 +280,14 @@ curtsying
 custom pins
 cutting
 cycling
+dabbling
 dancing
 dancing
 dancing
 dancing a jig
 Danse Macabre
 darn
+darting
 darts
 dashing [[around,forward,away,at us]]
 dating
@@ -312,6 +322,7 @@ discovering
 dishing it out
 dismounting
 diving
+divining
 do one
 do we have a deal?
 doffs
@@ -406,6 +417,7 @@ expecting
 experimenting
 expertly
 explaining
+exploits
 exploring
 extortion
 extravaganza
@@ -429,6 +441,7 @@ felt arts
 fencing
 feud
 fiddlesticks!
+Fie on you Sir!
 field day
 fighting
 fighting
@@ -439,6 +452,7 @@ filling up
 film watching/review
 financing
 fishing
+fitness
 flare up of $$random_word
 fleeing
 fling
@@ -470,6 +484,7 @@ furniture building
 fun
 furor
 gaining
+gaining sentience
 gambling
 game set and match
 games 
@@ -493,6 +508,7 @@ giving a treat to
 giving instructions
 glass blowing
 glass painting
+gliding
 go ballistic
 go see about $$random_word
 go-carts
@@ -512,6 +528,7 @@ gracing
 griping
 growing
 growing bonsai
+growing up
 grr...
 guile
 gunfire
@@ -580,9 +597,11 @@ housing
 how dare you!
 how go ye?
 howling
+hubbub
 hugging
 hugging a friend
 human cannonball
+humming along
 hunting
 hurdling
 hurting
@@ -591,6 +610,7 @@ I double dog dare you
 I haven't the faintest idea!
 I mean it
 I smell a $$random_word
+I try
 I will.
 I'll do it
 I'll do this later
@@ -603,15 +623,19 @@ identifying
 ignoring
 illustrating
 imagination
+imbuing
 implying
 improv
 in a moment! I'm busy
 in jeopardy
 incantantion
+incantation
 increasing
 inferring
 inhaling
 inquiring
+inspecting
+installing
 integrating
 intending
 interview with $$random_word
@@ -684,6 +708,7 @@ leaving
 leeping
 LEGO sets
 leisure
+let 'er rip
 let [[me,it,us,him,her,them]] go!
 let go
 let it slip
@@ -708,6 +733,7 @@ looking over the edge
 looking up
 losing
 loving
+luck of the draw
 lunge
 lunging
 lurch
@@ -752,6 +778,7 @@ merriment
 messing around
 metal detecting
 miling
+military parade
 milking a cow
 milling
 miming
@@ -762,6 +789,7 @@ mirrors
 mission
 mixing
 mixing a potion
+MMA
 mob rule
 mod podge crafts
 model building
@@ -779,6 +807,7 @@ muahahaha... he fell right into my " $random_word trap! "
 mulling it over
 musical instruments
 musing
+Must have been the wind
 my turn
 nabbed
 nail art
@@ -818,6 +847,7 @@ on break
 on leave
 on patrol
 on the case
+on the go
 on the job
 one and done
 online classes
@@ -832,6 +862,7 @@ ordaning
 ordering
 origami
 ouija
+out to lunch
 overruled!
 oversleeping
 overstating
@@ -849,6 +880,7 @@ palpating
 pangs
 panning
 panpipe
+parachuting
 parallel parking
 parole
 participating
@@ -879,6 +911,7 @@ pez dispensers
 photography
 photography
 physics demonstration
+picnic
 pilates
 pinching
 pioneer
@@ -916,6 +949,7 @@ poetry
 poetry writing
 pogo stick
 pointing
+Poof! [[He's,She's,It's,They're]] gone
 pop
 popping a bubble
 popping a wheelie
@@ -998,6 +1032,7 @@ refusing
 refuted
 regaining consciousness
 regatta
+reinstalling
 relaxing
 relaying
 religious icons
@@ -1005,7 +1040,9 @@ reloading
 remaining
 remark
 removing
+repast
 repelling
+requesting
 requiring
 resetting
 resisting
@@ -1017,6 +1054,7 @@ restarting
 resting
 resting [[my,his,her]] head
 resting up
+retaining
 retaliating
 retape
 retooling
@@ -1094,6 +1132,7 @@ sea shells
 seal the deal
 seance
 search and rescue
+see to it that $$random_word
 seeing to $$random_word
 seeking
 seeming
@@ -1131,6 +1170,7 @@ shuffleboard
 shunning
 shunting
 shut up
+shutting down
 sightseeing
 sign up today
 signing [[the,my,]] $$random_word
@@ -1146,6 +1186,7 @@ sketching
 skiing
 skit
 sky diving
+slalom
 sledding
 sleeping
 sleeping in
@@ -1163,6 +1204,7 @@ smoking a cigarette
 smoking a pipe
 smushing
 snacking
+snapping
 snarfing
 sneaking
 snoring
@@ -1214,6 +1256,7 @@ stepping up
 sticker collecting
 sticking
 stickling
+stint
 stirring
 stoking
 stopping
@@ -1405,6 +1448,7 @@ watercolors
 wavering
 waving
 waxing
+way of life
 waylaid
 wearing
 weighing
@@ -1420,6 +1464,7 @@ what of it?
 where'd he go? he was right " $random_word !"
 while noone was looking
 whirr
+whirring
 whitesmithing
 who goes there?
 Who's with me?
@@ -1430,6 +1475,7 @@ wine, beer or spirits tasting
 wines from a certain region of the world
 winking
 winning
+winning [[me,you,him,her,us,them]] over
 wishing
 won't you?
 wondering
@@ -1453,6 +1499,7 @@ yes or no?
 Yessirree
 yippee!
 yoga or pilates
+yoink
 You betcha!
 you're [[a, ]] $$random_word !
 zero in

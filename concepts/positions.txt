@@ -3,6 +3,7 @@ $$random_word reflected in the window of a $$random_word
 3/4 view
 [[on,to]] the left
 [[on,to]] the right
+a quarter of the way
 a stone's throw from
 abutting $$random_word
 across the table
@@ -22,13 +23,18 @@ around the block
 aside
 assuming a stance
 at an angle
+at attention
+at ease
 at the end
 at the start
 back
 back to camera
 beside
+between
+betwixt
 braced
 bunched in
+callus
 candid
 close at hand
 closeby
@@ -36,6 +42,8 @@ closest to
 crouched
 direct route
 down below
+down here
+down there
 dynamic pose
 ears
 elbow
@@ -54,6 +62,7 @@ fingers
 from across the room
 glamour pose
 half turn
+halfway
 hands
 hands on hips
 head down
@@ -67,6 +76,7 @@ in line
 in or out?
 in the middle
 in tow
+inclined
 inward
 jaw
 jazz hands
@@ -114,6 +124,7 @@ open arms
 orientation
 outward
 over here
+over there
 overhead
 positions
 preceding
@@ -126,6 +137,7 @@ POV feet
 profile posing
 reaching down
 reaching up
+reclined
 reclining
 rolling over
 side
@@ -140,6 +152,8 @@ stooping
 t-pose
 that
 this
+three-fourths of the way
+tilted at an angle
 time out gesture
 to and fro
 toe
@@ -158,6 +172,8 @@ hip-level shot
 (distant subject, ultra wide-angle shot)
 surrounding
 up above
+up here
+up there
 upheave
 verge of $$random_word
 view up at $$random_word

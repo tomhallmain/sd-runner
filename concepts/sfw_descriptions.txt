@@ -14,10 +14,13 @@ akin
 akin to $$random_word
 aligned with $$random_word
 alike
+all shook up
+all-time
 allegorical
 aloof
 aloud
 ambiguous
+amped
 amphibious
 anisometric
 arioso
@@ -35,6 +38,7 @@ beady
 bent
 bereft
 best in the world
+bineural
 blatant
 boastful
 bombastic
@@ -45,12 +49,14 @@ brash
 brazen
 brilliant
 burdensome
+callous
 charade
 charred
 cheap
 cleft
 cliché
 committed
+comprehensive
 concealed
 conceited
 crooked
@@ -83,6 +89,7 @@ equipped
 equivocal
 ersatz
 evanescent
+existential
 exorbitant
 extra-large
 extra-small
@@ -93,6 +100,7 @@ favorable
 feral
 fettered
 fibrous
+fine and dandy
 firm
 fixed
 flawed
@@ -108,6 +116,7 @@ frizzy
 frozen
 fun-size
 fused
+gallant
 garish
 gaudy
 genius
@@ -115,6 +124,7 @@ glacial
 goalie
 godly
 goofy
+grand
 gratis
 groovy
 habitual
@@ -129,6 +139,7 @@ humane
 imaginary
 imbued
 imperiled
+imputed
 in a tizzy
 in high regard
 in shape
@@ -139,6 +150,7 @@ inscrutable
 inspiring
 intact
 integrity
+intelligent
 interim
 interlaced
 intrigue
@@ -146,6 +158,7 @@ intuitive
 isometric
 it has a mind of its own
 it predates $$random_word by $$number years
+iterative
 just a tad
 juvenile
 keepsake
@@ -156,11 +169,14 @@ latent
 legit
 lengthy
 like a $$random_word
+likely
+lilting
 loose
 lord
 lousy
 low cost
 loyal
+makeshift
 malted
 maniacal
 manic
@@ -176,6 +192,7 @@ mired
 miserly
 morose
 most unfavorable
+much obliged
 mulish
 mundane
 mutated
@@ -187,6 +204,7 @@ nifty
 no brainer
 no-hassle
 noble
+nonexistent
 not a lot
 nutritious
 obdurate
@@ -210,15 +228,18 @@ porky
 powerful
 pricey
 primal
+pristine
 rather
 ready
 regal
 repetitive
 resonant
+retractable
 riled
 rinky-dink
 risky
 roomy
+rotisserie
 sagging
 sanding
 sandy
@@ -271,6 +292,7 @@ scrawny
 screwy
 scruff
 semidry
+shaken
 shaky
 short
 sight for sore eyes
@@ -282,6 +304,8 @@ slick
 slim
 small
 smallest in the world
+smart
+snappy
 snippy
 sober
 sobering
@@ -293,9 +317,12 @@ spunky
 staid
 stale
 startled
+state-of-the-art
+stately
 steady
 stealthy
 stern
+stilted
 stingy
 storied
 stormy
@@ -317,7 +344,9 @@ tactical
 tall
 tangy
 tawdry
+temporary
 ten feet tall
+tensile
 testy
 theatrical
 thin-set
@@ -350,6 +379,7 @@ venerable
 very fresh
 vexatious
 viking
+vital
 vulnerable
 war paint
 waverly

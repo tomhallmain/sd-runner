@@ -88,12 +88,14 @@ arc length
 archetype
 Arial
 armrest
+art by $$random_word
 ashes
 aspect
 aspects
 assay
 at the same time
 ATP
+audio sound data
 Aufklärung
 axial
 azimuth
@@ -122,6 +124,7 @@ blackbody radiation
 blade
 blah
 blazon
+blinker
 blog screenshot
 blurb
 boldface
@@ -129,6 +132,7 @@ bollard
 boom
 boombox
 boring
+bowl
 box set
 brand
 breadth
@@ -211,16 +215,19 @@ concrete
 conic
 consolidation
 construction crane
+context menu
 continuum
 contour rivalry
 contouring
 convection
 convex
 coplanar
+core
 Coub video
 count
 courtly love
 creative commons-licensed
+credo
 critter
 crop
 cropped image
@@ -239,6 +246,7 @@ cuspidor
 customized
 dado pedestal part
 darken
+database
 daylight redirecting film
 Dear Diary
 debut
@@ -318,6 +326,7 @@ existentialism
 exposition
 expressionism
 exterior structure
+extremity
 fable
 facets
 fader
@@ -399,6 +408,7 @@ hook
 horns
 hourglass
 house of $$random_word
+How-To book
 hub
 Hurdy-Gurdy
 hydro
@@ -407,6 +417,7 @@ hyperbolic manifold
 iamb
 ice chips
 icing
+ID badge
 ideographic
 idol
 Illumination
@@ -434,6 +445,7 @@ interior structure
 inversion
 inverted $$random_word
 iris
+isomer
 isopropyl
 item
 itreous enamel
@@ -445,6 +457,7 @@ joint
 jug
 knobs
 label
+lacunae
 lampoon
 lanes
 lapse
@@ -507,16 +520,19 @@ mechanical
 medallion
 memo
 menagerie
+menu
 mere $$random_word
 metaphysics
 method
 mezzotint
 miscellany
 moduli
+molding
 molecules
 monad
 monogram
 morsel
+mortar
 mortise and tenon
 motet
 mother-of-pearl
@@ -602,6 +618,7 @@ payload
 peg
 pegboard
 penny dreadful
+pentium
 perigee
 periodic
 periodic table
@@ -987,10 +1004,12 @@ raw photo
 ray of $$random_word
 raytracing
 raytraced image inspired by senior environment artist
+real-life dramatic staging of the $$random_word in a bright modern $$location
 redactions
 reflection in the [[side,windshield,window,glasses]] of $$random_word
 refraction
 refractive index
+regression
 remake of classic film
 remix
 remnant
@@ -1000,6 +1019,7 @@ resampled image
 residue
 restored historic photograph
 retardant
+retinue
 retro artstyle
 retro game
 revenue and assets
@@ -1008,6 +1028,7 @@ reversed
 rhyme
 rim
 rind
+ripple
 risk
 risograph
 rivalry
@@ -1016,6 +1037,7 @@ RNA
 rock crystal (clear quartz)
 roentgens
 role-playing game
+roll bar
 rolled
 Ronde bosse
 rosette
@@ -1105,6 +1127,7 @@ slide rule
 slides
 slippery
 slo-mo
+slogan
 sloop
 smeared
 smelted
@@ -1126,6 +1149,7 @@ solid
 solubility
 sonance
 soul
+soundtrack
 source
 specimen
 speckled
@@ -1172,6 +1196,7 @@ strange magic
 strategy
 streak
 streaming video
+striations
 striped
 stripes
 strophe
@@ -1216,6 +1241,7 @@ tabernacle
 table-talk
 tabs
 tag
+talisman
 tall tale
 tape
 taped
@@ -1238,6 +1264,7 @@ textual
 texture
 textured
 thank you card
+The Adventures of $$random_word
 the tip
 The Ultimate Collector's Edition
 the unconscious
@@ -1265,6 +1292,7 @@ tone
 tonnage
 tool set
 tools
+tooltip
 tornado
 tort
 totem
@@ -1281,6 +1309,7 @@ traced
 tracing
 tract
 tractoid
+tractor beam
 tractrix
 tradition
 traditional media
@@ -1298,6 +1327,7 @@ tree bark
 trend
 triad
 trictrac board design
+trill
 trilogy
 trinity
 tripwire
@@ -1305,6 +1335,7 @@ trochee
 Trois crayons
 trompe l'oeil
 trompe-l'œil
+truss
 tuner
 turning $$color
 turning point
@@ -1391,6 +1422,7 @@ wood engraving
 word cloud
 wove paper
 woven
+wow instead of $$random_word [[it is,they are]] $$random_word!
 wrack and ruin
 wên and wu
 X's and O's

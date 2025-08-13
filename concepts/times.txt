@@ -10,6 +10,9 @@ henceforth
 holiday
 it's been a minute
 lately
+minute
+moment
+moments
 morning
 morning
 mid-morning
@@ -24,6 +27,7 @@ late afternoon
 evening
 dawn
 dusk
+prolonged
 recently
 since then
 sometime

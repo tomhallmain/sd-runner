@@ -27,6 +27,7 @@ at all costs
 Attila the Hun
 auteur
 Ayatollah
+Bad News Bears
 baker
 bandero
 banneret
@@ -36,6 +37,7 @@ Barnum and Baileys
 baronet
 been there, done that
 Bender
+Betty Boop
 Black Desert Online
 Bobby McGee
 bookie
@@ -53,6 +55,7 @@ Calypso
 can I get a true
 canester
 carte blanche
+cashier
 Caspar Milquetoast
 cast of characters
 Cavalier drama
@@ -99,6 +102,7 @@ employee
 employer
 EMT
 enemy
+entrant
 et cetera
 evacuees
 ever
@@ -120,8 +124,11 @@ G'Day M8t
 gamester
 gateman
 genie
+Get outta here!
+Get outta town!
 Ghost in the Shell
 gigglemug
+goner
 good grief
 Governor
 growler
@@ -162,6 +169,7 @@ It's a lie!
 It's a setup!
 it's only a game
 Jabir ibn Hayyan
+Jagex
 Jane Austen
 just cause
 justiciar
@@ -169,12 +177,14 @@ Kai-El
 Keyboard Cat
 Kon-Tiki
 L'oreal
+lackey
 laddie
 lalala
 Larry Moe and Curly
 Lennox
 lieabed
 lieutenant
+Lil' $$random_word
 Linden
 little ditty
 llanero
@@ -182,10 +192,12 @@ LMAO
 lol
 Lollards
 MacGuffin
+mariner
 mate
 McNutt
 meme
 mess mate
+Messiah
 mind over matter
 miner
 mithril
@@ -210,6 +222,7 @@ Octavian
 officer
 official
 Oingo Boingo
+Ol' Reliable
 oligarch
 One if by land, two if by sea
 one must admit
@@ -265,6 +278,7 @@ rook
 Roomba
 sales rep
 Sayonara
+scholar
 scout
 scribe
 sea rover
@@ -358,6 +372,7 @@ twat
 ulterior motives
 urethane
 valkyrie
+Viet Cong
 villain
 villainy
 Vogt
