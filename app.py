@@ -14,7 +14,7 @@ from ttkthemes import ThemedTk
 from run import Run
 from utils.globals import (
     Globals, PromptMode, WorkflowType, Sampler, Scheduler, SoftwareType,
-    ResolutionGroup, ProtectedActions, BlacklistMode
+    ResolutionGroup, ProtectedActions, BlacklistMode, BlacklistPromptMode
 )
 
 from extensions.sd_runner_server import SDRunnerServer
@@ -814,7 +814,7 @@ class App():
                     preset = PresetsWindow.get_preset_by_name(preset_task.name)
                     print(f"Running Preset Schedule: {preset}")
                 except Exception as e:
-                    self.handle_error(str(e), "Preset Schedule Error")
+                    self.handle_error(e, "Preset Schedule Error")
                     raise e
                 self.set_widgets_from_preset(preset, manual=False)
                 self.total.set(str(preset_task.count_runs if preset_task.count_runs > 0 else starting_total))
@@ -893,7 +893,7 @@ class App():
         try:
             args.validate()
         except BlacklistException as e:
-            self.handle_error(str(e), "Blacklist Validation Error")
+            self.handle_error(e, "Blacklist Validation Error")
             return
         except Exception as e:
             res = self.alert(_("Confirm Run"),
@@ -1100,6 +1100,10 @@ class App():
         Returns True if validation passes, False if blacklisted items are found."""
         if not config.blacklist_prevent_execution:
             return True
+        
+        prompt_mode = PromptMode.get(self.prompt_mode.get())
+        if prompt_mode.is_nsfw() and Blacklist.get_blacklist_prompt_mode() == BlacklistPromptMode.ALLOW_IN_NSFW:
+            return True
 
         filtered = Blacklist.find_blacklisted_items(text)
         if filtered:
@@ -1215,7 +1219,7 @@ class App():
         try:
             window = window_class(self.master, self.app_actions)
         except Exception as e:
-            self.handle_error(str(e), title=error_title)
+            self.handle_error(e, title=error_title)
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def show_tag_blacklist(self):
@@ -1243,7 +1247,7 @@ class App():
 
     def check_prompt_mode_password(self, prompt_mode):
         """Check if password is required for the selected prompt mode."""
-        if PromptMode.get(prompt_mode) in [PromptMode.NSFW, PromptMode.NSFL]:
+        if PromptMode.get(prompt_mode).is_nsfw():
             def password_callback(result):
                 if not result:
                     self.alert(_("Password Cancelled"), _("Password cancelled or incorrect, revert to previous mode"))
@@ -1261,8 +1265,9 @@ class App():
         show_method = getattr(messagebox, "show{}".format(kind))
         return show_method(title, message)
 
-    def handle_error(self, error_text, title=None, kind="error"):
+    def handle_error(self, error, title=None, kind="error"):
         traceback.print_exc()
+        error_text = str(error)
         if title is None:
             title = _("Error")
         self.alert(title, error_text, kind=kind)

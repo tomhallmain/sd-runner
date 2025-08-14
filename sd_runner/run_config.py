@@ -2,6 +2,9 @@ from utils.globals import Globals, PromptMode # must import first
 
 from sd_runner.models import Model
 from utils.time_estimator import TimeEstimator
+from utils.translations import I18N
+
+_ = I18N._
 
 class RunConfig:
     previous_model_tags = None

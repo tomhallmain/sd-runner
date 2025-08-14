@@ -3,7 +3,7 @@ import json
 import os
 import re
 
-from utils.globals import Globals, BlacklistMode, ModelBlacklistMode
+from utils.globals import Globals, BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, PromptMode
 from utils.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from utils.pickleable_cache import SizeAwarePicklableCache
 from utils.translations import I18N
@@ -253,6 +253,7 @@ class Blacklist:
         max_large_items=CACHE_MAX_LARGE_ITEMS, large_threshold=CACHE_LARGE_THRESHOLD)
 
     blacklist_mode = BlacklistMode.REMOVE_ENTIRE_TAG
+    blacklist_prompt_mode = BlacklistPromptMode.DISALLOW
     model_blacklist_mode = ModelBlacklistMode.ALLOW_IN_NSFW
     blacklist_silent_removal = False
     model_blacklist_all_prompt_modes = False
@@ -264,6 +265,20 @@ class Blacklist:
     @staticmethod
     def set_blacklist_mode(mode: BlacklistMode) -> None:
         Blacklist.blacklist_mode = mode
+
+    @staticmethod
+    def get_blacklist_prompt_mode() -> BlacklistPromptMode:
+        return Blacklist.blacklist_prompt_mode
+
+    @staticmethod
+    def set_blacklist_prompt_mode(mode: BlacklistPromptMode) -> None:
+        Blacklist.blacklist_prompt_mode = mode
+
+    @staticmethod
+    def is_allowed_prompt_mode(prompt_mode: PromptMode) -> bool:
+        if Blacklist.blacklist_prompt_mode == BlacklistPromptMode.ALLOW_IN_NSFW:
+            return prompt_mode.is_nsfw()
+        return False
 
     @staticmethod
     def get_model_blacklist_mode() -> ModelBlacklistMode:
@@ -479,6 +494,7 @@ class Blacklist:
         filtered_dict: dict[str, str] = None,
         do_cache: bool = True,
         user_prompt: bool = True,
+        prompt_mode: PromptMode = PromptMode.SFW,
     ) -> tuple[list[str], dict[str, str]]:
         """Filter a list of concepts against the blacklist.
         
@@ -487,12 +503,15 @@ class Blacklist:
             filtered_dict: Optional dict to store filtered items. If None, a new dict is created.
             do_cache: Whether to use caching for filtering
             user_prompt: Whether this is a user-provided prompt (True) or internal prompt (False)
-            
+            prompt_mode: The current prompt mode
         Returns:
             tuple: (whitelist, filtered_dict) where:
                 - whitelist is a list of concepts that passed the blacklist check
                 - filtered_dict maps filtered concepts to their blacklist items
         """
+        if Blacklist.is_allowed_prompt_mode(prompt_mode):
+            return list(concepts), {}
+
         # Use the LRU cache for filtering
         concepts_tuple = tuple(concepts)
         whitelist, filtered = Blacklist._filter_concepts_cached(concepts_tuple, do_cache, user_prompt)

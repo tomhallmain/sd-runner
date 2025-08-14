@@ -6,7 +6,7 @@ from typing import Dict, Set
 
 from sd_runner.blacklist import Blacklist, BlacklistItem
 from utils.config import config
-from utils.globals import PromptMode
+from utils.globals import PromptMode, BlacklistPromptMode
 
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -234,7 +234,7 @@ class Concepts:
         return old_path != Concepts.CONCEPTS_DIR
 
     @staticmethod
-    def sample_whitelisted(concepts: list[str], low: int, high: int) -> list[str]:
+    def sample_whitelisted(concepts: list[str], low: int, high: int, prompt_mode: PromptMode) -> list[str]:
         """Sample concepts while filtering out blacklisted items.
         
         Args:
@@ -257,7 +257,7 @@ class Concepts:
         if Blacklist.is_empty():
             return sample(concepts, low, high)
             
-        whitelist, filtered = Blacklist.filter_concepts(concepts, user_prompt=False)
+        whitelist, filtered = Blacklist.filter_concepts(concepts, user_prompt=False, prompt_mode=prompt_mode)
         
         # Check if we have enough items after filtering
         if len(whitelist) < low:
@@ -324,28 +324,28 @@ class Concepts:
     def get_concepts(self, low: int = 1, high: int = 3, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         concepts = Concepts.load(SFW.concepts)
-        if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
+        if self.prompt_mode.is_nsfw():
             self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
-        return Concepts.sample_whitelisted(concepts, low, high)
+        return Concepts.sample_whitelisted(concepts, low, high, self.prompt_mode)
 
     def get_positions(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         positions = Concepts.load(SFW.positions)
-        # if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
+        # if self.prompt_mode.is_nsfw():
         #     self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
         if len(positions) > 1 and random.random() > 0.4:
             del positions[1]
-        return Concepts.sample_whitelisted(positions, low, high)
+        return Concepts.sample_whitelisted(positions, low, high, self.prompt_mode)
 
     def get_humans(self, low: int = 1, high: int = 1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
-        return Concepts.sample_whitelisted(Concepts.load(SFW.humans), low, high)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.humans), low, high, self.prompt_mode)
 
     def get_animals(self, low: int = 0, high: int = 2, inclusion_chance: float = 0.1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         if random.random() > inclusion_chance:
             return []
-        return Concepts.sample_whitelisted(Concepts.load(SFW.animals), low, high)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.animals), low, high, self.prompt_mode)
 
     def get_locations(self, low: int = 0, high: int = 2, specific_inclusion_chance: float = 0.3, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
@@ -355,55 +355,55 @@ class Concepts:
             locations = {l: nonspecific_locations_chance for l in locations}
             for l in Concepts.load(SFW.locations_specific):
                 locations[l] = specific_inclusion_chance
-        return Concepts.sample_whitelisted(locations, low, high)
+        return Concepts.sample_whitelisted(locations, low, high, self.prompt_mode)
 
     def get_colors(self, low: int = 0, high: int = 3, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
-        colors = Concepts.sample_whitelisted(Concepts.load(SFW.colors), low, high)
+        colors = Concepts.sample_whitelisted(Concepts.load(SFW.colors), low, high, self.prompt_mode)
         if "rainbow" in colors and random.random() > 0.5:
             colors.remove("rainbow")
         return colors
 
     def get_times(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
-        return Concepts.sample_whitelisted(Concepts.load(SFW.times), low, high)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.times), low, high, self.prompt_mode)
 
     def get_dress(self, low: int = 0, high: int = 2, inclusion_chance: float = 0.5, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         if random.random() > inclusion_chance:
             return []
         dress = Concepts.load(SFW.dress)
-        if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
+        if self.prompt_mode.is_nsfw():
             self.extend(dress, NSFW.dress, 3, NSFL.dress, 1)
-        return Concepts.sample_whitelisted(dress, low, high)
+        return Concepts.sample_whitelisted(dress, low, high, self.prompt_mode)
 
     def get_expressions(self, low: int = 1, high: int = 1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         expressions = Concepts.load(SFW.expressions)
-        if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
+        if self.prompt_mode.is_nsfw():
             self.extend(expressions, NSFW.expressions, 6, NSFL.expressions, 3)
-        return Concepts.sample_whitelisted(expressions, low, high)
+        return Concepts.sample_whitelisted(expressions, low, high, self.prompt_mode)
 
     def get_actions(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         actions = Concepts.load(SFW.actions)
-        if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
+        if self.prompt_mode.is_nsfw():
             self.extend(actions, NSFW.actions, 8, NSFL.actions, 3)
-        return Concepts.sample_whitelisted(actions, low, high)
+        return Concepts.sample_whitelisted(actions, low, high, self.prompt_mode)
 
     def get_descriptions(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         descriptions = Concepts.load(SFW.descriptions)
-        if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
+        if self.prompt_mode.is_nsfw():
             self.extend(descriptions, NSFW.descriptions, 3, NSFL.descriptions, 2)
-        return Concepts.sample_whitelisted(descriptions, low, high)
+        return Concepts.sample_whitelisted(descriptions, low, high, self.prompt_mode)
 
     def get_characters(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         characters = Concepts.load(SFW.characters)
-        if self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
+        if self.prompt_mode.is_nsfw():
             self.extend(characters, NSFW.characters, 3, NSFL.characters, 2)
-        return Concepts.sample_whitelisted(characters, low, high)
+        return Concepts.sample_whitelisted(characters, low, high, self.prompt_mode)
 
     def get_random_words(self, low: int = 0, high: int = 9, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
@@ -420,22 +420,24 @@ class Concepts:
         
         # Get initial whitelisted words and load extra words as needed
         all_words = Concepts.ALL_WORDS_LIST.copy()
-        if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0 and self.prompt_mode in (PromptMode.NSFW, PromptMode.NSFL):
+        if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0 and self.prompt_mode.is_nsfw():
             try:
                 Concepts.URBAN_DICTIONARY_CORPUS = Concepts.load(Concepts.URBAN_DICTIONARY_CORPUS_PATH)
             except Exception as e:
                 pass
         if len(Concepts.URBAN_DICTIONARY_CORPUS) > 0:
             all_words.extend(Concepts.URBAN_DICTIONARY_CORPUS)
-            # random_urban_dictionary_words = Concepts.sample_whitelisted(Concepts.URBAN_DICTIONARY_CORPUS, low, high)
+            # random_urban_dictionary_words = Concepts.sample_whitelisted(Concepts.URBAN_DICTIONARY_CORPUS, low, high, self.prompt_mode)
             # random_words.extend(random_urban_dictionary_words)
-        random_words = Concepts.sample_whitelisted(all_words, low, high)
+        random_words = Concepts.sample_whitelisted(all_words, low, high, self.prompt_mode)
         
         # Generate combinations and filter out blacklisted combinations
         random_word_strings = []
         blacklisted_combination_counts = {}
         def is_blacklisted(combination, combination_counts, current_count):
             if current_count > 1:
+                return False
+            if self.prompt_mode.is_nsfw() and Blacklist.get_blacklist_prompt_mode() == BlacklistPromptMode.ALLOW_IN_NSFW:
                 return False
             if Blacklist.get_violation_item(combination) is None:
                 # Only combinations need to be tested, because the sample 
@@ -468,7 +470,7 @@ class Concepts:
             attempts += 1
             number_required = sum(blacklisted_combination_counts.values())
             # There may be duplication in this resampling but very unlikely for lists of tens of thousands of words
-            random_words = Concepts.sample_whitelisted(all_words, number_required, number_required)
+            random_words = Concepts.sample_whitelisted(all_words, number_required, number_required, self.prompt_mode)
             new_chance_to_combine = 0.75 # we know these failures came from combinations, try to combine their replacements
             combine_words(random_words, blacklisted_combination_counts, new_chance_to_combine)
         return random_word_strings
@@ -476,7 +478,7 @@ class Concepts:
     def get_nonsense(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         nonsense_words = [self.get_nonsense_word() for _ in range(high)]
-        return Concepts.sample_whitelisted(nonsense_words, low, high)
+        return Concepts.sample_whitelisted(nonsense_words, low, high, self.prompt_mode)
 
     def is_art_style_prompt_mode(self) -> bool:
         return self.prompt_mode in (PromptMode.ANY_ART, PromptMode.PAINTERLY, PromptMode.ANIME, PromptMode.GLITCH)
@@ -777,10 +779,11 @@ class Concepts:
             concepts = Concepts.load(filename)
             if concepts:
                 all_concepts.extend(concepts)
-        
+
+        is_nsfw = category_states.get("NSFW", False) or category_states.get("NSFL", False)
+
         # Handle extended dictionary concepts when Dictionary is selected and NSFW/NSFL are enabled
-        if (category_states.get("Dictionary", False) and 
-            (category_states.get("NSFW", False) or category_states.get("NSFL", False))):
+        if category_states.get("Dictionary", False) and is_nsfw:
             
             # Load urban dictionary corpus if not already loaded
             if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0:
@@ -802,7 +805,8 @@ class Concepts:
             return filtered_concepts
         else:
             # Use the actual blacklist filtering logic
-            whitelist, filtered = Blacklist.filter_concepts(all_concepts, user_prompt=False)
+            whitelist, filtered = Blacklist.filter_concepts(all_concepts, user_prompt=False,
+                                                            prompt_mode=PromptMode.NSFW if is_nsfw else PromptMode.SFW)
             return list(filtered.keys())
 
 

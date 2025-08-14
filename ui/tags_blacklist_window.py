@@ -8,7 +8,7 @@ from sd_runner.blacklist import BlacklistItem, Blacklist
 from sd_runner.concepts import Concepts
 from ui.app_style import AppStyle
 from ui.auth.password_utils import require_password
-from utils.globals import ProtectedActions, BlacklistMode, ModelBlacklistMode
+from utils.globals import ProtectedActions, BlacklistMode, BlacklistPromptMode, ModelBlacklistMode
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.translations import I18N
@@ -338,6 +338,7 @@ class BlacklistWindow():
     MODEL_BLACKLIST_CACHE_KEY = "model_blacklist"
     DEFAULT_BLACKLIST_KEY = "blacklist_user_confirmed_non_default"
     BLACKLIST_MODE_KEY = "blacklist_mode"
+    BLACKLIST_PROMPT_MODE_KEY = "blacklist_prompt_mode"
     MODEL_BLACKLIST_MODE_KEY = "model_blacklist_mode"
     BLACKLIST_SILENT_KEY = "blacklist_silent_removal"
     MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY = "model_blacklist_all_prompt_modes"
@@ -352,13 +353,16 @@ If you are young, not sure, or even an adult, click the close button on this win
         user_confirmed_non_default = app_info_cache.get(BlacklistWindow.DEFAULT_BLACKLIST_KEY, default_val=False)
         # Load blacklist mode and silent removal settings
         mode_str = app_info_cache.get(BlacklistWindow.BLACKLIST_MODE_KEY, default_val=str(Blacklist.get_blacklist_mode()))
+        prompt_mode_str = app_info_cache.get(BlacklistWindow.BLACKLIST_PROMPT_MODE_KEY, default_val=str(Blacklist.get_blacklist_prompt_mode()))
         model_mode_str = app_info_cache.get(BlacklistWindow.MODEL_BLACKLIST_MODE_KEY, default_val=str(Blacklist.get_model_blacklist_mode()))
         try:
             mode = BlacklistMode(mode_str)
+            prompt_mode = BlacklistPromptMode(prompt_mode_str)
             model_mode = ModelBlacklistMode(model_mode_str)
         except Exception:
-            print(f"Invalid blacklist mode: {mode_str} or model blacklist mode: {model_mode_str}")
+            print(f"Invalid blacklist mode: {mode_str} or prompt mode: {prompt_mode_str} or model blacklist mode: {model_mode_str}")
         Blacklist.set_blacklist_mode(mode)
+        Blacklist.set_blacklist_prompt_mode(prompt_mode)
         Blacklist.set_model_blacklist_mode(model_mode)
         silent = app_info_cache.get(BlacklistWindow.BLACKLIST_SILENT_KEY, default_val=False)
         Blacklist.set_blacklist_silent_removal(silent)
@@ -394,6 +398,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         model_blacklist_dicts = [item.to_dict() for item in Blacklist.get_model_items()]
         app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_CACHE_KEY, model_blacklist_dicts)
         app_info_cache.set(BlacklistWindow.BLACKLIST_MODE_KEY, str(Blacklist.get_blacklist_mode()))
+        app_info_cache.set(BlacklistWindow.BLACKLIST_PROMPT_MODE_KEY, str(Blacklist.get_blacklist_prompt_mode()))
         app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_MODE_KEY, str(Blacklist.get_model_blacklist_mode()))
         app_info_cache.set(BlacklistWindow.BLACKLIST_SILENT_KEY, Blacklist.get_blacklist_silent_removal())
         app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY, Blacklist.get_model_blacklist_all_prompt_modes())
@@ -554,8 +559,14 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.add_btn_to(self.tag_header_frame, "load_default_btn", _("Load Default"), self.load_default_blacklist, row=1, column=3)
 
         # Add a row for the interface buttons
-        self._label_info = Label(self.tag_header_frame)
-        self.add_label(self._label_info, _("Blacklist items"), row=2, wraplength=BlacklistWindow.COL_0_WIDTH)
+        self.blacklist_prompt_mode = StringVar(self.master)
+        self.blacklist_prompt_mode.set(Blacklist.get_blacklist_prompt_mode().display())
+        self.blacklist_prompt_mode_dropdown = Combobox(self.tag_header_frame, textvariable=self.blacklist_prompt_mode, state="readonly", width=22)
+        self.blacklist_prompt_mode_dropdown['values'] = BlacklistPromptMode.display_values()
+        self.blacklist_prompt_mode_dropdown.grid(row=2, column=0, sticky=W)
+        self.blacklist_prompt_mode_dropdown.bind('<<ComboboxSelected>>', self.on_blacklist_prompt_mode_change)
+        Tooltip(self.blacklist_prompt_mode_dropdown, _('Choose how the blacklist is enforced: disallow or allow in NSFW.'))
+
         self.add_item_btn = None
         self.add_btn_to(self.tag_header_frame, "add_item_btn", _("Add to tag blacklist"), self.add_new_item, row=2, column=1)
         self.clear_blacklist_btn = None
@@ -1121,6 +1132,16 @@ If you are young, not sure, or even an adult, click the close button on this win
         self.store_blacklist()
         if self.app_actions:
             self.app_actions.toast(_("Blacklist mode set to: {0}").format(mode.display()))
+
+    def on_blacklist_prompt_mode_change(self, event=None):
+        try:
+            mode = BlacklistPromptMode.from_display(self.blacklist_prompt_mode.get())
+        except Exception:
+            mode = BlacklistPromptMode.REMOVE_WORD_OR_PHRASE
+        Blacklist.set_blacklist_prompt_mode(mode)
+        self.store_blacklist()
+        if self.app_actions:
+            self.app_actions.toast(_("Blacklist prompt mode set to: {0}").format(self.blacklist_prompt_mode.get()))
 
     def on_model_blacklist_mode_change(self, event=None):
         try:

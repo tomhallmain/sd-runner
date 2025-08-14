@@ -3,7 +3,7 @@ import random
 
 from sd_runner.concepts import HardConcepts
 from utils.config import config
-from utils.globals import Globals, WorkflowType, ArchitectureType
+from utils.globals import Globals, WorkflowType, ArchitectureType, PromptMode
 from sd_runner.model_adapters import IPAdapter
 from sd_runner.models import Model
 from sd_runner.resolution import Resolution
@@ -51,12 +51,16 @@ class GenConfig:
         self.countdown_value = -1
         self.software_type = run_config.software_type
         self.continuous_seed_variation = run_config.continuous_seed_variation
+        self.run_config = run_config
 
     def is_xl(self) -> bool:
         return self.models[0].is_xl()
 
     def architecture_type(self) -> ArchitectureType:
         return self.models[0].architecture_type
+
+    def get_prompt_mode(self) -> PromptMode:
+        return self.run_config.prompter_config.prompt_mode
 
     def max_image_scale_to_side(self) -> int:
         if self.architecture_type() == ArchitectureType.ILLUSTRIOUS:

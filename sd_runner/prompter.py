@@ -229,7 +229,7 @@ class Prompter:
         
         # Validate final prompts against blacklist
         positive_concepts = [c.strip() for c in positive.split(',')]
-        positive_whitelist, positive_filtered = Blacklist.filter_concepts(positive_concepts)
+        positive_whitelist, positive_filtered = Blacklist.filter_concepts(positive_concepts, prompt_mode=self.prompt_mode)
         
         # Reconstruct the prompts with only whitelisted concepts if needed
         if len(positive_filtered) > 0:

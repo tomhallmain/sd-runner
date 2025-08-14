@@ -392,7 +392,7 @@ class Model:
     ) -> dict[str, list[str]]:
         if Blacklist.is_model_empty():
             return {}
-        if Blacklist.get_model_blacklist_mode() == ModelBlacklistMode.ALLOW_IN_NSFW and prompt_mode in [PromptMode.NSFW, PromptMode.NSFL]:
+        if Blacklist.get_model_blacklist_mode() == ModelBlacklistMode.ALLOW_IN_NSFW and prompt_mode.is_nsfw():
             return {}
         models = Model.get_models(tags_str, is_lora=is_lora, default_tag=default_tag, inpainting=inpainting, is_xl=is_xl)
         whitelist = []

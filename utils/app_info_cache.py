@@ -3,7 +3,7 @@ import os
 import shutil
 
 from sd_runner.blacklist import Blacklist
-from utils.globals import Globals
+from utils.globals import Globals, PromptMode, BlacklistPromptMode
 from utils.encryptor import encrypt_data_to_file, decrypt_data_from_file
 from utils.runner_app_config import RunnerAppConfig
 
@@ -106,6 +106,10 @@ class AppInfoCache:
     def _purge_blacklisted_history(self):
         """Remove any history entries that contain blacklisted items in their prompts."""
         if not self._cache.get(AppInfoCache.HISTORY_KEY):
+            return
+
+        prompt_mode = PromptMode.get(self.get("prompt_mode", default_val=PromptMode.SFW.name))
+        if prompt_mode.is_nsfw() and Blacklist.get_blacklist_prompt_mode() == BlacklistPromptMode.ALLOW_IN_NSFW:
             return
             
         filtered_history = []

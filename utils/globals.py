@@ -53,7 +53,10 @@ class PromptMode(Enum):
             if key == name or value.display() == name:
                 return value
         
-        raise Exception(f"Not a valid prompt mode: {name}")
+        raise Exception(f"Not a valid prompt mode: {name} (type: {type(name)})")
+
+    def is_nsfw(self):
+        return self in [PromptMode.NSFW, PromptMode.NSFL]
 
 
 class BlacklistMode(Enum):
@@ -86,6 +89,31 @@ class BlacklistMode(Enum):
             if mode.display() == display_str:
                 return mode
         raise ValueError(f"No BlacklistMode with display value '{display_str}'")
+
+class BlacklistPromptMode(Enum):
+    DISALLOW = "DISALLOW"
+    ALLOW_IN_NSFW = "ALLOW_IN_NSFW"
+
+    def __str__(self):
+        return self.value
+    
+    def display(self):
+        return {
+            BlacklistPromptMode.DISALLOW: _("Disallow"),
+            BlacklistPromptMode.ALLOW_IN_NSFW: _("Allow in NSFW"),
+        }[self]
+    
+    @classmethod
+    def display_values(cls):
+        return [mode.display() for mode in cls]
+    
+    @staticmethod
+    def from_display(display_str):
+        for mode in BlacklistPromptMode:
+            if mode.display() == display_str:
+                return mode
+        raise ValueError(f"No BlacklistPromptMode with display value '{display_str}'")
+
 
 class ModelBlacklistMode(Enum):
     DISALLOW = "DISALLOW"
