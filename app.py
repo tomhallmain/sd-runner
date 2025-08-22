@@ -108,7 +108,6 @@ class App():
         self.runner_app_config = self.load_info_cache()
         self.config_history_index = 0
         self.current_run = Run(RunConfig())
-        self.prompt_config_window = None  # Reference to the detailed prompt configuration window
         Model.load_all()
 
         self.app_actions = AppActions({"update_progress": self.update_progress,
@@ -230,29 +229,6 @@ class App():
         self.set_widget_value(self.lora_strength_slider, self.runner_app_config.lora_strength)
         self.apply_to_grid(self.lora_strength_slider, interior_column=1, sticky=W)
 
-        self.label_prompt_tags = Label(self.sidebar)
-        self.add_label(self.label_prompt_tags, _("Prompt Massage Tags"), columnspan=2)
-        self.prompt_massage_tags = StringVar()
-        self.prompt_massage_tags_box = self.new_entry(self.prompt_massage_tags)
-        self.prompt_massage_tags_box.insert(0, self.runner_app_config.prompt_massage_tags)
-        self.apply_to_grid(self.prompt_massage_tags_box, sticky=W, columnspan=2)
-        self.prompt_massage_tags_box.bind("<Return>", self.set_prompt_massage_tags)
-
-        self.label_positive_tags = Label(self.sidebar)
-        self.add_label(self.label_positive_tags, _("Positive Tags"), columnspan=2)
-        self.positive_tags_box = AwareText(self.sidebar, height=10, width=55, font=fnt.Font(size=8))
-        self.positive_tags_box.insert("0.0", self.runner_app_config.positive_tags)
-        self.apply_to_grid(self.positive_tags_box, sticky=W, columnspan=2)
-        self.positive_tags_box.bind("<Return>", self.set_positive_tags)
-
-        self.label_negative_tags = Label(self.sidebar)
-        self.add_label(self.label_negative_tags, _("Negative Tags"), columnspan=2)
-        self.negative_tags = StringVar()
-        self.negative_tags_box = AwareText(self.sidebar, height=5, width=55, font=fnt.Font(size=8))
-        self.negative_tags_box.insert("0.0", self.runner_app_config.negative_tags)
-        self.apply_to_grid(self.negative_tags_box, sticky=W, columnspan=2)
-        self.negative_tags_box.bind("<Return>", self.set_negative_tags)
-
         self.label_bw_colorization = Label(self.sidebar)
         self.add_label(self.label_bw_colorization, _("B/W Colorization Tags"), increment_row_counter=False)
         self.bw_colorization = StringVar()
@@ -295,110 +271,16 @@ class App():
         self.apply_to_grid(self.redo_params_box, interior_column=1, sticky=W)
         self.redo_params_box.bind("<Return>", self.set_redo_params)
 
-        # Prompter Config
+        # Second Column
         self.row_counter1 = 0
-        self.prompter_config_bar = Sidebar(self.master)
-        self.prompter_config_bar.columnconfigure(0, weight=1)
-        self.prompter_config_bar.columnconfigure(1, weight=1)
-        self.prompter_config_bar.columnconfigure(2, weight=1)
-        self.prompter_config_bar.grid(column=1, row=self.row_counter1)
-
-        self.label_sampler = Label(self.prompter_config_bar)
-        self.add_label(self.label_sampler, _("Sampler"), column=1, increment_row_counter=False)
-        self.sampler = StringVar(master)
-        self.sampler_choice = OptionMenu(self.prompter_config_bar, self.sampler, str(self.runner_app_config.sampler), *Sampler.__members__.keys())
-        self.apply_to_grid(self.sampler_choice, column=1, interior_column=1, sticky=W)
-
-        self.label_scheduler = Label(self.prompter_config_bar)
-        self.add_label(self.label_scheduler, _("Scheduler"), column=1, increment_row_counter=False)
-        self.scheduler = StringVar(master)
-        self.scheduler_choice = OptionMenu(self.prompter_config_bar, self.scheduler, str(self.runner_app_config.scheduler), *Scheduler.__members__.keys())
-        self.apply_to_grid(self.scheduler_choice, column=1, interior_column=1, sticky=W)
-
-        self.label_seed = Label(self.prompter_config_bar)
-        self.add_label(self.label_seed, _("Seed"), column=1, increment_row_counter=False)
-        self.seed = StringVar()
-        self.seed_box = self.new_entry(self.seed, width=10, sidebar=False)
-        self.seed_box.insert(0, self.runner_app_config.seed)
-        self.apply_to_grid(self.seed_box, column=1, interior_column=1, sticky=W)
-
-        self.label_steps = Label(self.prompter_config_bar)
-        self.add_label(self.label_steps, _("Steps"), column=1, increment_row_counter=False)
-        self.steps = StringVar()
-        self.steps_box = self.new_entry(self.steps, width=10, sidebar=False)
-        self.steps_box.insert(0, self.runner_app_config.steps) 
-        self.apply_to_grid(self.steps_box, column=1, interior_column=1, sticky=W)
-
-        self.label_cfg = Label(self.prompter_config_bar)
-        self.add_label(self.label_cfg, _("CFG"), column=1, increment_row_counter=False)
-        self.cfg = StringVar()
-        self.cfg_box = self.new_entry(self.cfg, width=10, sidebar=False)
-        self.cfg_box.insert(0, self.runner_app_config.cfg)
-        self.apply_to_grid(self.cfg_box, column=1, interior_column=1, sticky=W)
-
-        self.label_denoise = Label(self.prompter_config_bar)
-        self.add_label(self.label_denoise, _("Denoise"), column=1, increment_row_counter=False)
-        self.denoise = StringVar()
-        self.denoise_box = self.new_entry(self.denoise, width=10, sidebar=False)
-        self.denoise_box.insert(0, self.runner_app_config.denoise)
-        self.apply_to_grid(self.denoise_box, column=1, interior_column=1, sticky=W)
-
-        self.label_random_skip = Label(self.prompter_config_bar)
-        self.add_label(self.label_random_skip, _("Random Skip Chance"), column=1, increment_row_counter=False)
-        self.random_skip = StringVar()
-        self.random_skip_box = self.new_entry(self.random_skip, width=10, sidebar=False)
-        self.random_skip_box.insert(0, self.runner_app_config.random_skip_chance)
-        self.apply_to_grid(self.random_skip_box, column=1, interior_column=1, sticky=W)
-        self.random_skip_box.bind("<Return>", self.set_random_skip)
-
-        self.label_title_config = Label(self.prompter_config_bar)
+        self.second_column = Sidebar(self.master)
+        self.second_column.columnconfigure(0, weight=1)
+        self.second_column.columnconfigure(1, weight=1)
+        self.second_column.columnconfigure(2, weight=1)
+        self.second_column.grid(column=1, row=self.row_counter1)
+        
+        self.label_title_config = Label(self.second_column)
         self.add_label(self.label_title_config, _("Prompts Configuration"), column=1, columnspan=3, sticky=W+E)
-
-        self.prompt_config_window_btn = None
-        self.add_button("prompt_config_window_btn", text=_("Prompts Configuration"), command=self.open_prompt_config_window, sidebar=False, increment_row_counter=False, interior_column=2)
-
-        self.label_prompt_mode = Label(self.prompter_config_bar)
-        self.add_label(self.label_prompt_mode, _("Prompt Mode"), column=1, increment_row_counter=False)
-        self.prompt_mode = StringVar(master)
-        starting_prompt_mode = self.runner_app_config.prompter_config.prompt_mode.display()
-        self.prompt_mode_choice = OptionMenu(self.prompter_config_bar, self.prompt_mode, starting_prompt_mode, *PromptMode.display_values(), command=self.check_prompt_mode_password)
-        self.apply_to_grid(self.prompt_mode_choice, interior_column=1, sticky=W, column=1)
-
-        self.concept_editor_window_btn = None
-        self.add_button("concept_editor_window_btn", text=_("Edit Concepts"), command=self.open_concept_editor_window, sidebar=False, increment_row_counter=False, interior_column=2)
-
-        self.label_concepts_dir = Label(self.prompter_config_bar)
-        self.add_label(self.label_concepts_dir, _("Concepts Dir"), column=1, increment_row_counter=False)
-        self.concepts_dir = StringVar(master)
-        self.concepts_dir_choice = OptionMenu(self.prompter_config_bar, self.concepts_dir, config.default_concepts_dir,
-                                              *config.concepts_dirs.keys(), command=self.set_concepts_dir)
-        self.apply_to_grid(self.concepts_dir_choice, interior_column=1, sticky=W, column=1)
-
-        prompter_config = self.runner_app_config.prompter_config
-
-        # self.auto_run_var = BooleanVar(value=True) TODO at some point add in a way to approve prompts before running in the UI.
-        # self.auto_run_choice = Checkbutton(self.prompter_config_bar, text=_('Auto Run'), variable=self.auto_run_var)
-        # self.apply_to_grid(self.auto_run_choice, sticky=W, column=1)
-
-        self.override_resolution_var = BooleanVar(value=self.runner_app_config.override_resolution)
-        self.override_resolution_choice = Checkbutton(self.prompter_config_bar, text=_('Override Resolution'), variable=self.override_resolution_var)
-        self.apply_to_grid(self.override_resolution_choice, sticky=W, column=1)
-
-        self.inpainting_var = BooleanVar(value=False)
-        self.inpainting_choice = Checkbutton(self.prompter_config_bar, text=_('Inpainting'), variable=self.inpainting_var)
-        self.apply_to_grid(self.inpainting_choice, sticky=W, column=1)
-
-        self.override_negative_var = BooleanVar(value=False)
-        self.override_negative_choice = Checkbutton(self.prompter_config_bar, text=_("Override Base Negative"), variable=self.override_negative_var, command=self.set_override_negative)
-        self.apply_to_grid(self.override_negative_choice, sticky=W, column=1, columnspan=3)
-
-        self.run_preset_schedule_var = BooleanVar(value=False)
-        self.run_preset_schedule_choice = Checkbutton(self.prompter_config_bar, text=_("Run Preset Schedule"), variable=self.run_preset_schedule_var)
-        self.apply_to_grid(self.run_preset_schedule_choice, sticky=W, column=1, columnspan=3)
-
-        self.continuous_seed_variation_var = BooleanVar(value=self.runner_app_config.continuous_seed_variation)
-        self.continuous_seed_variation_choice = Checkbutton(self.prompter_config_bar, text=_("Continuous Seed Variation"), variable=self.continuous_seed_variation_var)
-        self.apply_to_grid(self.continuous_seed_variation_choice, sticky=W, column=1, columnspan=3)
 
         self.preset_schedules_window_btn = None
         self.presets_window_btn = None
@@ -411,6 +293,75 @@ class App():
         self.add_button("tag_blacklist_btn", text=_("Tag Blacklist"), command=self.show_tag_blacklist, sidebar=False, increment_row_counter=False)
         self.add_button("expansions_window_btn", text=_("Expansions Window"), command=self.open_expansions_window, sidebar=False, interior_column=1)
         # self.add_button("password_admin_btn", text=_("Password Administration"), command=self.open_password_admin_window, sidebar=False, increment_row_counter=True)
+
+        self.prompt_config_window_btn = None
+        self.add_button("prompt_config_window_btn", text=_("Prompts Configuration"), command=self.open_prompt_config_window, sidebar=False, increment_row_counter=False, interior_column=2)
+
+        self.label_prompt_mode = Label(self.second_column)
+        self.add_label(self.label_prompt_mode, _("Prompt Mode"), column=1, increment_row_counter=False)
+        self.prompt_mode = StringVar(master)
+        starting_prompt_mode = self.runner_app_config.prompter_config.prompt_mode.display()
+        self.prompt_mode_choice = OptionMenu(self.second_column, self.prompt_mode, starting_prompt_mode, *PromptMode.display_values(), command=self.check_prompt_mode_password)
+        self.apply_to_grid(self.prompt_mode_choice, interior_column=1, sticky=W, column=1)
+
+        self.concept_editor_window_btn = None
+        self.add_button("concept_editor_window_btn", text=_("Edit Concepts"), command=self.open_concept_editor_window, sidebar=False, increment_row_counter=False, interior_column=2)
+
+        self.label_concepts_dir = Label(self.second_column)
+        self.add_label(self.label_concepts_dir, _("Concepts Dir"), column=1, increment_row_counter=False)
+        self.concepts_dir = StringVar(master)
+        self.concepts_dir_choice = OptionMenu(self.second_column, self.concepts_dir, config.default_concepts_dir,
+                                              *config.concepts_dirs.keys(), command=self.set_concepts_dir)
+        self.apply_to_grid(self.concepts_dir_choice, interior_column=1, sticky=W, column=1)
+
+        prompter_config = self.runner_app_config.prompter_config
+
+        # self.auto_run_var = BooleanVar(value=True) TODO at some point add in a way to approve prompts before running in the UI.
+        # self.auto_run_choice = Checkbutton(self.second_column, text=_('Auto Run'), variable=self.auto_run_var)
+        # self.apply_to_grid(self.auto_run_choice, sticky=W, column=1)
+
+        self.override_resolution_var = BooleanVar(value=self.runner_app_config.override_resolution)
+        self.override_resolution_choice = Checkbutton(self.second_column, text=_('Override Resolution'), variable=self.override_resolution_var)
+        self.apply_to_grid(self.override_resolution_choice, sticky=W, column=1)
+
+        self.inpainting_var = BooleanVar(value=False)
+        self.inpainting_choice = Checkbutton(self.second_column, text=_('Inpainting'), variable=self.inpainting_var)
+        self.apply_to_grid(self.inpainting_choice, sticky=W, column=1)
+
+        self.override_negative_var = BooleanVar(value=False)
+        self.override_negative_choice = Checkbutton(self.second_column, text=_("Override Base Negative"), variable=self.override_negative_var, command=self.set_override_negative)
+        self.apply_to_grid(self.override_negative_choice, sticky=W, column=1, columnspan=3)
+
+        self.run_preset_schedule_var = BooleanVar(value=False)
+        self.run_preset_schedule_choice = Checkbutton(self.second_column, text=_("Run Preset Schedule"), variable=self.run_preset_schedule_var)
+        self.apply_to_grid(self.run_preset_schedule_choice, sticky=W, column=1, columnspan=3)
+
+        self.continuous_seed_variation_var = BooleanVar(value=self.runner_app_config.continuous_seed_variation)
+        self.continuous_seed_variation_choice = Checkbutton(self.second_column, text=_("Continuous Seed Variation"), variable=self.continuous_seed_variation_var)
+        self.apply_to_grid(self.continuous_seed_variation_choice, sticky=W, column=1, columnspan=3)
+
+        self.label_prompt_tags = Label(self.second_column)
+        self.add_label(self.label_prompt_tags, _("Prompt Massage Tags"), columnspan=2)
+        self.prompt_massage_tags = StringVar()
+        self.prompt_massage_tags_box = self.new_entry(self.prompt_massage_tags, self.second_column)
+        self.prompt_massage_tags_box.insert(0, self.runner_app_config.prompt_massage_tags)
+        self.apply_to_grid(self.prompt_massage_tags_box, sticky=W, columnspan=2)
+        self.prompt_massage_tags_box.bind("<Return>", self.set_prompt_massage_tags)
+
+        self.label_positive_tags = Label(self.second_column)
+        self.add_label(self.label_positive_tags, _("Positive Tags"), columnspan=2)
+        self.positive_tags_box = AwareText(self.second_column, height=10, width=55, font=fnt.Font(size=8))
+        self.positive_tags_box.insert("0.0", self.runner_app_config.positive_tags)
+        self.apply_to_grid(self.positive_tags_box, sticky=W, columnspan=2)
+        self.positive_tags_box.bind("<Return>", self.set_positive_tags)
+
+        self.label_negative_tags = Label(self.second_column)
+        self.add_label(self.label_negative_tags, _("Negative Tags"), columnspan=2)
+        self.negative_tags = StringVar()
+        self.negative_tags_box = AwareText(self.second_column, height=5, width=55, font=fnt.Font(size=8))
+        self.negative_tags_box.insert("0.0", self.runner_app_config.negative_tags)
+        self.apply_to_grid(self.negative_tags_box, sticky=W, columnspan=2)
+        self.negative_tags_box.bind("<Return>", self.set_negative_tags)
 
         self.master.bind("<Control-Return>", self.run)
         self.master.bind("<Shift-R>", lambda event: self.check_focus(event, self.run))
@@ -441,7 +392,7 @@ class App():
                                      == AppStyle.DARK_THEME) and to_theme != AppStyle.LIGHT_THEME
         self.master.config(bg=AppStyle.BG_COLOR)
         self.sidebar.config(bg=AppStyle.BG_COLOR)
-        self.prompter_config_bar.config(bg=AppStyle.BG_COLOR)
+        self.second_column.config(bg=AppStyle.BG_COLOR)
         for name, attr in self.__dict__.items():
             if isinstance(attr, Label):
                 attr.config(bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
@@ -584,7 +535,6 @@ class App():
         self.set_widget_value(self.ipadapter_file_box, self.runner_app_config.ip_adapter_file)
         self.set_widget_value(self.ipadapter_strength_slider, self.runner_app_config.ip_adapter_strength)
         self.set_widget_value(self.redo_params_box, self.runner_app_config.redo_params)
-        self.set_widget_value(self.random_skip_box, self.runner_app_config.random_skip_chance)
 
         # Prompter Config
         prompter_config = self.runner_app_config.prompter_config
@@ -778,14 +728,8 @@ class App():
         self.runner_app_config.prompt_massage_tags = self.prompt_massage_tags.get()
         self.runner_app_config.prompter_config.prompt_mode = PromptMode.get(self.prompt_mode.get())
 
-        # Use values directly from runner_app_config
-        args.seed = int(self.runner_app_config.seed)
-        args.steps = int(self.runner_app_config.steps)
-        args.cfg = float(self.runner_app_config.cfg)
-        args.sampler = Sampler[self.runner_app_config.sampler]
-        args.scheduler = Scheduler[self.runner_app_config.scheduler]
-        args.denoise = float(self.runner_app_config.denoise)
-        args.continuous_seed_variation = self.runner_app_config.continuous_seed_variation
+        # Use the PromptConfigWindow class method to set values from prompter config
+        PromptConfigWindow.set_args_from_prompter_config(args)
         args.prompter_config = self.runner_app_config.get_prompter_config_copy()
         
         return args
@@ -814,11 +758,7 @@ class App():
         self.set_controlnet_strength()
         args.ip_adapters = clear_quotes(self.ipadapter_file.get())
         self.set_ipadapter_strength()
-        self.set_random_skip()
 
-        # Update prompter config from the detailed configuration window if it exists
-        if self.prompt_config_window is not None and not self.prompt_config_window.has_closed:
-            self.prompt_config_window.set_prompter_config()
         return args, args_copy
 
     def update_progress(self, current_index=-1, total=-1, pending_adapters=0, prepend_text=None):
@@ -975,10 +915,6 @@ class App():
     def set_concepts_dir(self, event=None):
         self.runner_app_config.prompter_config.concepts_dir = config.concepts_dirs[self.concepts_dir.get()]
 
-    def set_random_skip(self, event=None):
-        self.runner_app_config.random_skip_chance = self.random_skip.get().strip()
-        ComfyGen.RANDOM_SKIP_CHANCE = float(self.runner_app_config.random_skip_chance)
-
     def set_override_negative(self, event=None):
         self.runner_app_config.override_negative = self.override_negative_var.get()
         Globals.set_override_base_negative(self.runner_app_config.override_negative)
@@ -1026,7 +962,7 @@ class App():
     def open_prompt_config_window(self, event=None):
         """Open the detailed prompt configuration window."""
         try:
-            self.prompt_config_window = PromptConfigWindow(self.master, self.app_actions, self.runner_app_config)
+            PromptConfigWindow(self.master, self.app_actions, self.runner_app_config)
         except Exception as e:
             self.handle_error(e, title="Prompt Configuration Window Error")
 
@@ -1120,14 +1056,14 @@ class App():
 
     def add_button(self, button_ref_name, text, command, sidebar=True, interior_column=0, increment_row_counter=True):
         if getattr(self, button_ref_name) is None:
-            master = self.sidebar if sidebar else self.prompter_config_bar
+            master = self.sidebar if sidebar else self.second_column
             button = Button(master=master, text=text, command=command)
             setattr(self, button_ref_name, button)
             button
             self.apply_to_grid(button, column=(0 if sidebar else 1), interior_column=interior_column, increment_row_counter=increment_row_counter)
 
     def new_entry(self, text_variable, text="", width=55, sidebar=True, **kw):
-        master = self.sidebar if sidebar else self.prompter_config_bar
+        master = self.sidebar if sidebar else self.second_column
         return AwareEntry(master, text=text, textvariable=text_variable, width=width, font=fnt.Font(size=8), **kw)
 
     def destroy_grid_element(self, element_ref_name):
@@ -1189,7 +1125,7 @@ if __name__ == "__main__":
             #root.iconbitmap(bitmap=r"icon.ico")
             # icon = PhotoImage(file=os.path.join(assets, "icon.png"))
             # root.iconphoto(False, icon)
-            root.geometry("900x950")
+            root.geometry("900x600")
             # root.attributes('-fullscreen', True)
             root.resizable(1, 1)
             root.columnconfigure(0, weight=1)

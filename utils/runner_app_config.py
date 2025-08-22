@@ -4,7 +4,7 @@ import datetime
 
 from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup
 
-from sd_runner.comfy_gen import ComfyGen
+from sd_runner.base_image_generator import BaseImageGenerator
 from sd_runner.prompter import PrompterConfiguration
 
 
@@ -30,7 +30,7 @@ class RunnerAppConfig:
         self.ip_adapter_file = ""
         self.ip_adapter_strength = str(Globals.DEFAULT_IPADAPTER_STRENGTH)
         self.redo_params = "models,resolutions,seed,n_latents"
-        self.random_skip_chance = str(ComfyGen.RANDOM_SKIP_CHANCE)
+        self.random_skip_chance = str(BaseImageGenerator.RANDOM_SKIP_CHANCE)
         self.delay_time_seconds = str(Globals.GENERATION_DELAY_TIME_SECONDS)
         self.timestamp = datetime.datetime.now().isoformat()  # Add timestamp field
         self.continuous_seed_variation = False  # Whether to vary seed between every generation

@@ -5,11 +5,11 @@ from tkinter.ttk import Button, OptionMenu, Scale
 from tkinter.font import Font
 
 from lib.aware_entry import AwareEntry
-from sd_runner.comfy_gen import ComfyGen
-from sd_runner.prompter import PrompterConfiguration
+from sd_runner.base_image_generator import BaseImageGenerator
+from sd_runner.prompter import PrompterConfiguration, Prompter
+from sd_runner.run_config import RunConfig
 from ui.app_style import AppStyle
-from utils.config import config
-from utils.globals import PromptMode, Sampler, Scheduler
+from utils.globals import Sampler, Scheduler
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
 
@@ -23,8 +23,9 @@ class PromptConfigWindow:
     in the main application window's prompter_config_bar frame.
     """
     
-    # Class variable to store the runner_app_config reference
     _runner_app_config: RunnerAppConfig = RunnerAppConfig()
+    
+    _prompt_config_window_instance: Optional['PromptConfigWindow'] = None
     
     @classmethod
     def set_runner_app_config(cls, runner_app_config: RunnerAppConfig):
@@ -36,6 +37,35 @@ class PromptConfigWindow:
         """Get the runner_app_config reference for the class."""
         return cls._runner_app_config
     
+    @classmethod
+    def set_prompt_config_window_instance(cls, instance):
+        """Set the prompt_config_window instance reference."""
+        cls._prompt_config_window_instance = instance
+    
+    @classmethod
+    def get_prompt_config_window_instance(cls):
+        """Get the prompt_config_window instance reference."""
+        return cls._prompt_config_window_instance
+    
+    @classmethod
+    def set_args_from_prompter_config(cls, args: RunConfig):
+        """Set appropriate values from the prompter config to the args object."""
+        # Update prompter config from the detailed configuration window if it exists
+        if cls._prompt_config_window_instance is not None:
+            cls._prompt_config_window_instance.set_prompter_config()
+        
+        # Set values from runner_app_config to args
+        args.seed = int(cls._runner_app_config.seed)
+        args.steps = int(cls._runner_app_config.steps)
+        args.cfg = float(cls._runner_app_config.cfg)
+        args.sampler = Sampler[cls._runner_app_config.sampler]
+        args.scheduler = Scheduler[cls._runner_app_config.scheduler]
+        args.denoise = float(cls._runner_app_config.denoise)
+        BaseImageGenerator.RANDOM_SKIP_CHANCE = float(cls._runner_app_config.random_skip_chance)
+        Prompter.set_tags_apply_to_start(cls._runner_app_config.tags_apply_to_start)
+        args.continuous_seed_variation = cls._runner_app_config.continuous_seed_variation
+        cls._runner_app_config.prompter_config.sparse_mixed_tags = cls._runner_app_config.sparse_mixed_tags
+    
     def __init__(self, master, app_actions, runner_app_config: RunnerAppConfig):
         self.master = master
         self.app_actions = app_actions
@@ -44,8 +74,8 @@ class PromptConfigWindow:
         # Set the class reference to the runner_app_config
         self.__class__.set_runner_app_config(runner_app_config)
         
-        # Reset the closed flag since we're creating a new window
-        self.has_closed = False
+        # Set the class instance reference
+        self.__class__.set_prompt_config_window_instance(self)
         
         # Create the top-level window
         self.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
@@ -681,4 +711,4 @@ class PromptConfigWindow:
     def close_window(self):
         """Close the prompt configuration window."""
         self.top_level.destroy()
-        self.has_closed = True
+        self.__class__.set_prompt_config_window_instance(None)
