@@ -46,6 +46,13 @@ class RunnerAppConfig:
         self.inpainting = False
         self.override_negative = False
         self.tags_apply_to_start = True
+        self.sparse_mixed_tags = False  # Whether to use sparse mixed tags for prompt generation
+
+    def get_prompter_config_copy(self):
+        """Get a copy of the prompter_config to avoid modifying the original instance."""
+        if self.prompter_config is None:
+            return None
+        return deepcopy(self.prompter_config)
 
     def set_from_run_config(self, args):
         self.workflow_type = args.workflow_tag
@@ -87,6 +94,8 @@ class RunnerAppConfig:
             app_config.timestamp = datetime.datetime.now().isoformat()  # Add timestamp for old entries
         if not hasattr(app_config, 'continuous_seed_variation'):
             app_config.continuous_seed_variation = False  # Default to False for backward compatibility
+        if not hasattr(app_config, 'sparse_mixed_tags'):
+            app_config.sparse_mixed_tags = False  # Default to False for backward compatibility
         if not isinstance(app_config.prompter_config, dict):
             raise Exception("Prompter config is not a dict")
         prompter_config_dict = deepcopy(app_config.prompter_config)
