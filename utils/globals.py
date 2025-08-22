@@ -283,6 +283,14 @@ class Sampler(Enum):
 
     def __str__(self):
         return self.name
+    
+    @classmethod
+    def get(cls, name):
+        if isinstance(name, cls):
+            return name
+        elif isinstance(name, str):
+            return cls[name]
+        raise ValueError(f"Invalid enum value for class {cls.__name__}: {name} (type: {type(name)})")
 
 
 class Scheduler(Enum):
@@ -296,6 +304,15 @@ class Scheduler(Enum):
 
     def __str__(self):
         return self.name
+    
+    @classmethod
+    def get(cls, name):
+        if isinstance(name, cls):
+            return name
+        elif isinstance(name, str):
+            return cls[name]
+        raise ValueError(f"Invalid enum value for class {cls.__name__}: {name} (type: {type(name)})")
+
 
 class ComfyNodeName:
     LOAD_CHECKPOINT = "CheckpointLoaderSimple"

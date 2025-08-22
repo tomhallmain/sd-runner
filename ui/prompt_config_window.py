@@ -58,8 +58,8 @@ class PromptConfigWindow:
         args.seed = int(cls._runner_app_config.seed)
         args.steps = int(cls._runner_app_config.steps)
         args.cfg = float(cls._runner_app_config.cfg)
-        args.sampler = Sampler[cls._runner_app_config.sampler]
-        args.scheduler = Scheduler[cls._runner_app_config.scheduler]
+        args.sampler = Sampler.get(cls._runner_app_config.sampler)
+        args.scheduler = Scheduler.get(cls._runner_app_config.scheduler)
         args.denoise = float(cls._runner_app_config.denoise)
         BaseImageGenerator.RANDOM_SKIP_CHANCE = float(cls._runner_app_config.random_skip_chance)
         Prompter.set_tags_apply_to_start(cls._runner_app_config.tags_apply_to_start)
@@ -179,8 +179,8 @@ class PromptConfigWindow:
             prompter_config.sparse_mixed_tags = self.tags_sparse_mix_var.get()
             
             # Update other settings
-            self.runner_app_config.sampler = Sampler[self.sampler.get()]
-            self.runner_app_config.scheduler = Scheduler[self.scheduler.get()]
+            self.runner_app_config.sampler = Sampler.get(self.sampler.get())
+            self.runner_app_config.scheduler = Scheduler.get(self.scheduler.get())
             self.runner_app_config.seed = int(self.seed.get())
             self.runner_app_config.steps = int(self.steps.get())
             self.runner_app_config.cfg = float(self.cfg.get())
@@ -568,27 +568,27 @@ class PromptConfigWindow:
         self.override_negative_var = BooleanVar(value=self.runner_app_config.override_negative)
         self.override_negative_choice = Checkbutton(self.main_frame, text=_("Override Base Negative"), 
                                                    variable=self.override_negative_var, command=self.set_override_negative, 
-                                                   bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+                                                   bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
         self.apply_to_grid(self.override_negative_choice, sticky=W, columnspan=3)
         
         # Tags Applied to Prompt Start
         self.tags_at_start_var = BooleanVar(value=self.runner_app_config.tags_apply_to_start)
         self.tags_at_start_choice = Checkbutton(self.main_frame, text=_("Tags Applied to Prompt Start"), 
                                                variable=self.tags_at_start_var, command=self.set_tags_apply_to_start, 
-                                               bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+                                               bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
         self.apply_to_grid(self.tags_at_start_choice, sticky=W, columnspan=3)
         
         # Sparse Mixed Tags
         self.tags_sparse_mix_var = BooleanVar(value=self.runner_app_config.prompter_config.sparse_mixed_tags)
         self.tags_sparse_mix_choice = Checkbutton(self.main_frame, text=_("Sparse Mixed Tags"), 
                                                   variable=self.tags_sparse_mix_var, command=self.set_tags_sparse_mix, 
-                                                  bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+                                                  bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
         self.apply_to_grid(self.tags_sparse_mix_choice, sticky=W, columnspan=3)
          
         # Continuous Seed Variation
         self.continuous_seed_variation_var = BooleanVar(value=self.runner_app_config.continuous_seed_variation)
         self.continuous_seed_variation_choice = Checkbutton(self.main_frame, text=_("Continuous Seed Variation"), 
-                                                            variable=self.continuous_seed_variation_var, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+                                                            variable=self.continuous_seed_variation_var, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
         self.apply_to_grid(self.continuous_seed_variation_choice, sticky=W, columnspan=3)
         
     def add_section_header(self, text, columnspan=1, sticky=W):
@@ -636,13 +636,17 @@ class PromptConfigWindow:
         """Apply the current theme colors to all widgets."""
         self.top_level.config(bg=AppStyle.BG_COLOR)
         self.main_frame.config(bg=AppStyle.BG_COLOR)
+        # Refresh selectcolor for all Checkbutton widgets
+        for widget in self.main_frame.winfo_children():
+            if isinstance(widget, Checkbutton):
+                widget.config(selectcolor=AppStyle.BG_COLOR)
         
     # Implemented setter methods that update the runner_app_config directly
     def set_random_skip(self, event=None):
         """Set random skip chance."""
         value = self.random_skip.get().strip()
         self.runner_app_config.random_skip_chance = value
-        ComfyGen.RANDOM_SKIP_CHANCE = float(value)
+        BaseImageGenerator.RANDOM_SKIP_CHANCE = float(value)
         
     def set_multiplier(self, event=None):
         """Set multiplier value."""
