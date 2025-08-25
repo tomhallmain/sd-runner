@@ -15,6 +15,7 @@ a galaxy far away
 abbey
 abode
 air taxi
+airship
 ambulance
 amusement park gate
 animal hospital
@@ -59,6 +60,7 @@ cloudy sky
 co-op
 comedy club
 copse
+cordoned off
 corral
 corridor
 country road
@@ -66,6 +68,7 @@ covered bridge
 crater
 credit union
 cruiseliner
+cupola
 curb
 cénacle
 dais
@@ -89,10 +92,12 @@ forge
 fork in the road
 fort $$random_word
 foundry
+frigate
 funicular
 galleria
 gambling den
 gastropub
+gone
 granary
 gravel road
 gulch
@@ -114,6 +119,7 @@ hut
 in orbit
 kiosk
 kitchenette
+lane
 law practice
 lea
 ledge
@@ -133,6 +139,7 @@ metro area
 middle of nowhere
 minibar
 minimart
+misty mountains
 monsoon
 mount $$random_word
 municipality
@@ -148,6 +155,7 @@ on deck
 on-ramp
 open house
 out somewhere
+outfitters
 outlets
 palace
 palisades
@@ -174,6 +182,7 @@ reservoir
 residence
 rest stop
 retailer
+riffle
 rift
 riviera
 roadside
@@ -228,6 +237,7 @@ trench
 tropics
 upper atmosphere
 vacation spot
+vestibule
 wagon
 waiting room
 waterfall
@@ -734,6 +744,7 @@ VIP room
 walk-in closet
 warehouse
 waypoint
+weir
 wetlands
 whaling ship
 wharf
@@ -743,4 +754,5 @@ worksite
 yard
 yard sale
 yonder
+zeppelin
 zoo

@@ -1,6 +1,7 @@
 $$number [[minutes,hours]] later
 a while ago
 all the time
+all the while
 always
 circa $$number [[BC,AD,CE]]
 early morning
@@ -8,6 +9,7 @@ ever
 everlasting
 henceforth
 holiday
+instant
 it's been a minute
 lately
 minute
@@ -34,6 +36,7 @@ sometime
 sometime [[today,tomorrow,next week,next month,next year]]
 soon
 that day
+too soon
 twilight
 soft morning light
 golden hour

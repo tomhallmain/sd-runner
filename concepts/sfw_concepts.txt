@@ -103,6 +103,7 @@ B movie
 B-roll
 back-formation
 backgammon board
+bag of $$random_word
 ballad
 bar of $$random_word
 barbs
@@ -111,6 +112,7 @@ barrel-vaulted
 basin
 Basse-taille
 batch
+battalion
 bauble
 behemoth
 bells and whistles
@@ -120,11 +122,13 @@ bespoke
 bevel
 biblio-$$random_word
 Bildungsroman
+bisecting
 blackbody radiation
 blade
 blah
 blazon
 blinker
+bloc
 blog screenshot
 blurb
 boldface
@@ -178,6 +182,7 @@ centrifugal force
 Champlevé
 channel
 chanson
+chapter
 chart
 children's book
 chimeric
@@ -258,6 +263,7 @@ depiction
 derivative
 design process
 dexter and sinister
+diacritic
 dial
 diameter
 dime novel
@@ -289,7 +295,9 @@ echo
 ectoplasm
 Edda
 edge
+edict
 edifice
+edition
 Eigenfunction
 eigenvector
 eighths
@@ -340,6 +348,7 @@ flare
 flaw
 flight of fancy
 floor lights
+floor plan
 flotsam and jetsam
 flubber
 fluctuations
@@ -374,6 +383,7 @@ gemälde
 geometric forms
 geometry diagram
 Gestalt
+gift
 glass former
 Glory
 God
@@ -396,13 +406,16 @@ header
 heap
 hemmed in
 herd
+heresy
 high energy
+high voltage
 Hilbert space
 hilt
 hoax
 hoist and fly
 holophotal
 Holy host
+honor
 honorific
 hook
 horns
@@ -411,6 +424,7 @@ house of $$random_word
 How-To book
 hub
 Hurdy-Gurdy
+HVAC
 hydro
 hygroscopic
 hyperbolic manifold
@@ -443,10 +457,12 @@ integration
 interference
 interior structure
 inversion
+invertebrate
 inverted $$random_word
 iris
 isomer
 isopropyl
+issue $$number
 item
 itreous enamel
 Jacquard card
@@ -474,6 +490,7 @@ level $$number
 level [[$$number,A,B,G]]
 lever
 levitation
+lexicon
 lid
 lidar
 life cycle
@@ -505,6 +522,7 @@ macromolecule
 maculations
 maelstrom
 maiolica
+manner
 mannerism
 mansard roof
 margins
@@ -526,7 +544,9 @@ metaphysics
 method
 mezzotint
 miscellany
+mist
 moduli
+mohair
 molding
 molecules
 monad
@@ -583,10 +603,12 @@ ounce
 outer shell
 outline
 oval
+overlapping
 oxymoron
 padding
 paean
 pair
+palette
 palimpsest
 palindrome
 palm
@@ -599,12 +621,14 @@ parabolic
 paradigm
 paradox
 paragraph
+parallel
 parallelism
 paranormal
 parenthesis
 parody
 part
 part-song
+participle
 party favors
 passage
 pastiche
@@ -624,6 +648,7 @@ periodic
 periodic table
 periodical
 periscope
+perpendicular
 person in foreground blocking view
 (morphological operation)
 (scenic nature, misty)
@@ -945,6 +970,7 @@ poleaxe
 polished
 polymer
 polymorph
+poptop
 port and starboard
 post-it notes
 poster
@@ -1010,6 +1036,7 @@ reflection in the [[side,windshield,window,glasses]] of $$random_word
 refraction
 refractive index
 regression
+reissue
 remake of classic film
 remix
 remnant
@@ -1018,6 +1045,7 @@ representational
 resampled image
 residue
 restored historic photograph
+result
 retardant
 retinue
 retro artstyle
@@ -1045,6 +1073,7 @@ rosin
 rotated image
 rotational symmetry
 rotator
+rotor
 rotoscoped image
 rough
 roulette
@@ -1067,6 +1096,7 @@ scanning electron microscopy
 scattered
 Schlieren photography
 sconce
+scoop
 scraped
 scratches
 screen capture
@@ -1110,6 +1140,7 @@ shimmering
 shut
 sidebar
 sighted scope lens
+sigil
 signet
 silk screen
 silver nitrate film
@@ -1151,6 +1182,7 @@ sonance
 soul
 soundtrack
 source
+spackle
 specimen
 speckled
 specks
@@ -1163,6 +1195,7 @@ spirograph
 splash
 splashiness
 sponsored by " $$random_word "
+spore
 spray painted
 spree
 spring-loaded
@@ -1173,6 +1206,7 @@ spruce
 stack
 staged performance of $$random_word
 stained
+staining
 stanchions
 standard model of physics
 stanza
@@ -1347,6 +1381,7 @@ ultrasharp
 undulation
 uneven borders
 unit
+units
 unity
 universal appeal
 university promotional material
@@ -1361,6 +1396,7 @@ uwu
 V formation
 vacation pic
 vacuum
+valour
 variation
 vas diatretum
 vase
@@ -1415,6 +1451,7 @@ western comic book art
 whodunit
 wide-angle shot
 ultra wide-angle shot
+winch
 windy
 wisp
 wit
@@ -1424,6 +1461,7 @@ wove paper
 woven
 wow instead of $$random_word [[it is,they are]] $$random_word!
 wrack and ruin
+wrench
 wên and wu
 X's and O's
 x-ray

@@ -10,6 +10,7 @@ $$random_word-eve
 [[I,You,We,They]]'re free!
 [[set,feast,cast]] [[my,your]] [[gaze,eyes]] on [[this,that,$$random_word]]
 a $$random_word the likes of which have never been seen before
+abandoning
 abjuring
 absconding
 absorbing
@@ -25,6 +26,7 @@ acting
 acting in a play
 acting up
 addressing
+administering
 admitting
 adoring
 advancing
@@ -60,6 +62,7 @@ appearing
 appeasement
 appointing
 appreciated
+approaching
 archeological dig
 archery
 are you sure?
@@ -81,6 +84,7 @@ assuaging
 at war
 atoning
 attempt
+attempting
 attending
 auditing
 augurs
@@ -193,12 +197,14 @@ casting
 casting a spell
 catastrophe
 catching
+catching a glimpse
 catering
 catering to $$character
 celebration
 censure
 ceremony
 chanting
+charging
 chariot racing
 chasing
 chatter
@@ -206,15 +212,18 @@ chatting
 checkers
 cheerleading
 chemical species
+cherishing
 chess
 china patterns
 choosing
 chores
 churning
 churning butter
+clamor
 clattering
 clay crafts
 cleaning
+cleansing
 cliff diving
 clinging
 cloppity-clop
@@ -296,9 +305,13 @@ dealing
 debating
 deceiving
 deciding
+decking the halls
 decoding
 defending
 defense
+dehumidification
+deifying
+delivering
 delving
 demoing
 demurring
@@ -375,6 +388,7 @@ eating dinner
 eating a midnight snack
 eating grapes and drinking wine while reclining on a roman bench
 ecotours
+edifying
 edit out
 edited out
 effusing
@@ -392,6 +406,7 @@ emitting
 emote
 employing
 emulation
+en garde
 encoding
 encouraging
 end up $$random_word
@@ -483,6 +498,7 @@ fuming
 furniture building
 fun
 furor
+fussing
 gaining
 gaining sentience
 gambling
@@ -500,15 +516,20 @@ get ready
 get real
 gettin' gains
 getting [[my,his,her,our,their]] order
+getting old
 gibing
+gifting
 giving
 giving a demonstration
 giving a sermon
 giving a treat to
+giving an oath
 giving instructions
+glancing
 glass blowing
 glass painting
 gliding
+glimpsing
 go ballistic
 go see about $$random_word
 go-carts
@@ -532,6 +553,7 @@ growing up
 grr...
 guile
 gunfire
+gusts
 gymnastics
 Hail!
 hair styling
@@ -568,6 +590,7 @@ heralding
 herding
 here [[he,she,it]] comes!
 Here [[I am,you are,he is,she is,you all are,we are,they are]]
+Here [[I go,we go,they go]]
 here they come!
 hiding
 hiding from $$random_word
@@ -593,6 +616,7 @@ host a supper club
 hostage situation
 hosting
 house painting
+house tour
 housing
 how dare you!
 how go ye?
@@ -620,6 +644,7 @@ I've had it!
 ice hockey
 ice skating
 identifying
+idling
 ignoring
 illustrating
 imagination
@@ -630,11 +655,13 @@ in a moment! I'm busy
 in jeopardy
 incantantion
 incantation
+incoming
 increasing
 inferring
 inhaling
 inquiring
 inspecting
+installation
 installing
 integrating
 intending
@@ -691,6 +718,7 @@ larceny
 lassoing
 last lap
 lasting
+lauding
 laughing
 laundry
 lawn games
@@ -708,6 +736,7 @@ leaving
 leeping
 LEGO sets
 leisure
+lend-lease
 let 'er rip
 let [[me,it,us,him,her,them]] go!
 let go
@@ -721,10 +750,12 @@ levitating
 lickety split
 lie to
 lifting
+lingering
 lip reading
 listening
 listening to music
 living
+loafing
 log rolling
 looking
 looking at $$random_word
@@ -748,12 +779,14 @@ maintaining
 maintenance
 makeup art
 making
+making a beeline for $$random_word
 making a big fuss
 making a scene
 making allegations
 making breakfast
 making dolls
 making dream catchers
+making fun of $$random_word
 making money
 maligning
 malingering
@@ -791,6 +824,7 @@ mixing
 mixing a potion
 MMA
 mob rule
+mocking
 mod podge crafts
 model building
 model cars
@@ -805,6 +839,7 @@ moving
 mowing the lawn
 muahahaha... he fell right into my " $random_word trap! "
 mulling it over
+murmur
 musical instruments
 musing
 Must have been the wind
@@ -892,6 +927,7 @@ passing around
 passing the ball
 passing through
 pastels
+patronising
 paving
 paying
 paying dues
@@ -949,6 +985,7 @@ poetry
 poetry writing
 pogo stick
 pointing
+pollinating
 Poof! [[He's,She's,It's,They're]] gone
 pop
 popping a bubble
@@ -982,6 +1019,7 @@ pulling down
 pulling up
 punching
 puppetry
+purging
 purveying
 pushing
 putting
@@ -1020,6 +1058,7 @@ recapping
 receding
 receiving
 recess
+reciting
 records
 recovering
 red shoe/high heel/glamour items
@@ -1040,8 +1079,10 @@ reloading
 remaining
 remark
 removing
+rent to own
 repast
 repelling
+repenting
 requesting
 requiring
 resetting
@@ -1054,12 +1095,15 @@ restarting
 resting
 resting [[my,his,her]] head
 resting up
+restoring
 retaining
 retaliating
 retape
 retooling
+retribution
 revelry
 revering
+revival
 revving
 ribbon cutting ceremony
 ricochet
@@ -1147,13 +1191,16 @@ sent for $$random_word
 serrate
 serving
 setting
+setting up
 settling
 sewing
 sewing/crochet/knitting
 shaking
+shaking hands
 shaming
 shaving his beard
 sheet music
+shielding
 shimmying
 shocking
 shoes
@@ -1179,6 +1226,7 @@ singing (solo)
 singing sea shanties
 sipping
 sitting
+sitting in on
 sitting on a $$random_word
 sitting on a throne
 skateboarding
@@ -1249,10 +1297,12 @@ standing in for $$random_word
 standing ovation
 star gazing
 stationed at his post
+staving off $$random_word
 stealing
 step aside!
 stepping
 stepping up
+sterilizing
 sticker collecting
 sticking
 stickling
@@ -1287,6 +1337,7 @@ surprise ending
 surprising
 surveying
 swarm
+swearing in
 swimming
 swimming
 swinging
@@ -1305,6 +1356,7 @@ taking a picture
 taking a shine to
 taking a trip
 taking attendance
+taking fingerprints
 taking it easy
 taking notes
 taking pills
@@ -1355,6 +1407,7 @@ told ya
 toodaloo
 toot toot
 touchdown!
+tour
 touting
 tracking
 traing
@@ -1362,6 +1415,7 @@ tranquillizing
 treading
 treadwheel
 treating
+tremor
 triage
 trialing
 triathalon
@@ -1371,6 +1425,7 @@ trueing
 try [[this,it]]
 tsking a detour
 tumbling
+tuning
 tutoring
 twiddle
 twirling
@@ -1391,6 +1446,7 @@ typing on a keyboard
 ultimatum
 under a spell
 under siege
+undergoing
 understanding
 understating
 undoing
@@ -1413,6 +1469,7 @@ vases or ceramics
 vaunting
 veering
 venting
+vertigo
 video games
 vintage bottles
 vintage costume design
@@ -1476,6 +1533,7 @@ wines from a certain region of the world
 winking
 winning
 winning [[me,you,him,her,us,them]] over
+wipeout
 wishing
 won't you?
 wondering

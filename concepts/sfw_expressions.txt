@@ -19,11 +19,13 @@ Blissful
 blithe
 blushing
 Bored
+brrr...
 Calm
 Carefree
 Cautious
 chagrin
 Cheerful
+chortle
 Composed
 concerned
 confident
@@ -45,20 +47,25 @@ Disappointed
 Discontent
 disinterest
 dour
+drowsy
 elation
 exultant
+flabbergasted
 fury
 gratified
 grimace
 hah!
 haha
+hatred
 hiss
 incredulity
+intuition
 jealous
 jolly
 jubilant
 mania
 meh
+miffed
 mild disgust
 disgusted
 Disoriented
@@ -127,7 +134,10 @@ mouth closed
 mouth tightly closed
 Nervous
 nervous look
+no way
+none the wiser
 oh no
+Oho!
 oof
 ooh
 Optimistic
@@ -215,6 +225,7 @@ wishing
 woe
 Worried
 yearning
+yes please
 yeugh
 yikes
 Zealous

@@ -375,6 +375,7 @@ shako
 ski cap
 ski mask
 sleeve
+streetwear
 tassle
 torn shirt
 robe
@@ -511,6 +512,7 @@ Velcro
 vest
 vestments
 Vintage A-Line Dress
+vintage clothes
 visor
 waders
 waistcoat

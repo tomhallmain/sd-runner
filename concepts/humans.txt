@@ -1,5 +1,6 @@
 # TODO expand this list
 anyone
+bystanders
 gals
 gentleman
 gentlemen
@@ -15,6 +16,7 @@ lads and lasses
 lady
 lass
 lasses
+onlookers
 people
 someone
 you

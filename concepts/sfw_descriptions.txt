@@ -10,6 +10,7 @@ acumen
 adorable
 adrift
 affable
+affirmative
 akin
 akin to $$random_word
 aligned with $$random_word
@@ -26,6 +27,7 @@ anisometric
 arioso
 as thin as a hair
 aspiration
+astute
 at a loss
 atonal
 available
@@ -33,8 +35,10 @@ average
 awash
 backdated
 bare-knuckle
+barren
 based
 beady
+begotten
 bent
 bereft
 best in the world
@@ -46,15 +50,19 @@ boorish
 boudacious
 brand new
 brash
+brassy
 brazen
 brilliant
+bulbous
 burdensome
 callous
+certain
 charade
 charred
 cheap
 cleft
 cliché
+coherent
 committed
 comprehensive
 concealed
@@ -68,21 +76,26 @@ daring
 dead-set
 deep
 deftly
+deific
 delimited
+deluxe
 different
 dignified
 diligence
 diverged
+divine
 done up
 dour
 drastic
 dreary
+dried out
 driven
 droll
 droopy
 elongated
 elusive
 emblazoned
+eminent
 endorsed
 entwined
 equipped
@@ -97,6 +110,7 @@ fabled
 famous
 fastidious
 favorable
+feeble
 feral
 fettered
 fibrous
@@ -120,22 +134,29 @@ gallant
 garish
 gaudy
 genius
+gifted
 glacial
 goalie
+godlike
 godly
 goofy
 grand
 gratis
 groovy
+guarded
 habitual
 hale
 hard-hearted
 hazily
 hearty
 heavy-set
+hidden
 high-strung
 honest
+honorable
 humane
+hydraulic
+hyper
 imaginary
 imbued
 imperiled
@@ -144,15 +165,20 @@ in a tizzy
 in high regard
 in shape
 incarnate
+incendiary?
 inctremental
+infernal
 innate
 inscrutable
 inspiring
+instantaneous
+instinctive
 intact
 integrity
 intelligent
 interim
 interlaced
+intrepid
 intrigue
 intuitive
 isometric
@@ -178,6 +204,7 @@ low cost
 loyal
 makeshift
 malted
+Mammalia
 maniacal
 manic
 marred
@@ -189,6 +216,7 @@ mild
 miniature
 mint condition
 mired
+misbegotten
 miserly
 morose
 most unfavorable
@@ -218,6 +246,7 @@ parsimonious
 parted
 particular
 pending
+performative
 perilous
 personable
 personal
@@ -226,20 +255,26 @@ philosophic
 plagiarized
 porky
 powerful
+precipitous
 pricey
 primal
 pristine
+promontory
 rather
 ready
 regal
+remastered
 repetitive
 resonant
+restored
 retractable
 riled
 rinky-dink
 risky
 roomy
+rotary
 rotisserie
+routine
 sagging
 sanding
 sandy
@@ -294,7 +329,9 @@ scruff
 semidry
 shaken
 shaky
+shielded
 short
+shrill
 sight for sore eyes
 sight unseen
 sincere
@@ -347,10 +384,12 @@ tawdry
 temporary
 ten feet tall
 tensile
+terrestrial
 testy
 theatrical
 thin-set
 thrilling
+tidal
 tight
 timid
 tiny
@@ -364,10 +403,12 @@ twin
 ugly
 ultra
 unassuming
+unbecoming
 uncommitted
 unequal
 uneven
 unfit
+unguarded
 united
 unshakable
 unstable
@@ -375,6 +416,7 @@ unyielding
 uproarious
 urgent
 used
+valourous
 venerable
 very fresh
 vexatious
@@ -387,6 +429,7 @@ wayward
 weary
 webbed
 wellaway
+whiskers
 whiz
 wicked
 wise
