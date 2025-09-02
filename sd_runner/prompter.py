@@ -234,7 +234,8 @@ class Prompter:
         # Reconstruct the prompts with only whitelisted concepts if needed
         if len(positive_filtered) > 0:
             positive = ', '.join(positive_whitelist)
-            print(f"Filtered concepts from blacklist tags: {positive_filtered}")
+            if config.debug:
+                print(f"Filtered concepts from blacklist tags: {positive_filtered}")
         
         self.last_prompt = positive
         return (positive, negative)

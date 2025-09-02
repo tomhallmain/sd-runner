@@ -1,6 +1,10 @@
 import json
 import os
 
+from utils.logging_setup import get_logger
+
+logger = get_logger("config")
+
 
 class Config:
     CONFIGS_DIR_LOC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "configs")
@@ -61,8 +65,8 @@ class Config:
         try:
             self.dict = json.load(open(self.config_path, "r"))
         except Exception as e:
-            print(e)
-            print("Unable to load config. Ensure config.json file settings are correct.")
+            logger.error(e)
+            logger.warning("Unable to load config. Ensure config.json file settings are correct.")
 
         self.set_values(int,
                         "max_executor_threads",
@@ -163,8 +167,8 @@ class Config:
             # try:
             setattr(self, directory, self.validate_and_set_directory(directory))
             # except Exception as e:
-            #     print(e)
-            #     print(f"Failed to set {directory} from config.json file. Ensure the key is set.")
+            #     logger.error(e)
+            #     logger.warning(f"Failed to set {directory} from config.json file. Ensure the key is set.")
 
     def set_filepaths(self, *filepaths):
         for filepath in filepaths:
@@ -172,8 +176,8 @@ class Config:
                 setattr(self, filepath, self.validate_and_set_filepath(filepath))
             except Exception as e:
                 pass
-#                print(e)
-#                print(f"Failed to set {filepath} from config.json file. Ensure the key is set.")
+#                logger.error(e)
+#                logger.warning(f"Failed to set {filepath} from config.json file. Ensure the key is set.")
 
     def set_values(self, type, *names):
         for name in names:
@@ -182,15 +186,15 @@ class Config:
                     setattr(self, name, type(self.dict[name]))
                 except Exception as e:
                     pass
-#                    print(e)
-#                    print(f"Failed to set {name} from config.json file. Ensure the value is set and of the correct type.")
+#                    logger.error(e)
+#                    logger.warning(f"Failed to set {name} from config.json file. Ensure the value is set and of the correct type.")
             else:
                 try:
                     setattr(self, name, self.dict[name])
                 except Exception as e:
                     pass
-#                    print(e)
-#                    print(f"Failed to set {name} from config.json file. Ensure the key is set.")
+#                    logger.error(e)
+#                    logger.warning(f"Failed to set {name} from config.json file. Ensure the key is set.")
 
 
 

@@ -4,6 +4,9 @@ import time
 
 from utils.config import config
 from utils.globals import WorkflowType
+from utils.logging_setup import get_logger
+
+logger = get_logger("sd_runner_server")
 
 
 class CommandType(Enum):
@@ -51,14 +54,15 @@ class SDRunnerServer:
         while self._running and not self._is_stopping:
             try:
                 self._conn = self.listener.accept()
-                print('connection accepted from', self.listener.last_accepted)
+                logger.debug('connection accepted from: ' + str(self.listener.last_accepted))
 
                 while not self._is_stopping:
                     try:
                         msg = self._conn.recv()
                         if msg is None:
                             continue
-                        print(msg)
+                        if config.debug:
+                            print(msg)
                         if msg == 'close server' or msg == 'close connection':
                             self._conn.close()
                             if msg == 'close server':
@@ -74,17 +78,17 @@ class SDRunnerServer:
                     except KeyboardInterrupt:
                         pass
                     except Exception as e:
-                        print(e)
+                        logger.error(e)
                         self._conn.send({'error': 'server error', 'data': str(e)})
                         self._conn.close()
                     time.sleep(0.5)
             except OSError as e:
                 if not self._is_stopping:
-                    print(f"Socket error: {e}")
+                    logger.error(f"Socket error: {e}")
                     break
             except Exception as e:
                 if not self._is_stopping:
-                    print(f"Unexpected error: {e}")
+                    logger.error(f"Unexpected error: {e}")
                     break
         if self.listener:
             try:
@@ -127,7 +131,7 @@ class SDRunnerServer:
         except ValueError as e:
             self._conn.send({"error": "invalid command type", 'data': _type})
         except Exception as e:
-            print(e)
+            logger.error(e)
             self._conn.send({'error': 'run error', 'data': str(e)})
 
     def stop(self) -> None:

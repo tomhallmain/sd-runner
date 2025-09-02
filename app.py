@@ -43,13 +43,14 @@ from ui.prompt_config_window import PromptConfigWindow
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.job_queue import SDRunsQueue, PresetSchedulesQueue
+from utils.logging_setup import get_logger, set_logger_level
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
 from utils.utils import Utils
 
 _ = I18N._
 
-# TODO implement logging
+logger = get_logger("app")
 
 def set_attr_if_not_empty(text_box):
     current_value = text_box.get()
@@ -373,9 +374,16 @@ class App():
         self.master.bind("<Control-b>", lambda event: self.check_focus(event, self.show_tag_blacklist))
         self.master.bind("<Control-q>", self.quit)
         self.master.bind("<Control-p>", lambda event: self.check_focus(event, self.open_password_admin_window))  # Password Administration
+        self.master.bind("<Control-d>", lambda event: self.toggle_debug())
         self.toggle_theme()
         self.master.update()
         self.close_autocomplete_popups()
+
+    def toggle_debug(self):
+        config.debug = not config.debug
+        set_logger_level(config.debug)
+        self.master.title(_(" ComfyGen ") + (" (Debug)" if config.debug else ""))
+        self.toast(_("Debug mode toggled.") + (" (Enabled)" if config.debug else " (Disabled)"))
 
     def toggle_theme(self, to_theme=None, do_toast=True):
         if (to_theme is None and AppStyle.IS_DEFAULT_THEME) or to_theme == AppStyle.LIGHT_THEME:
@@ -418,7 +426,7 @@ class App():
             try:
                 self.server.stop()
             except Exception as e:
-                print(f"Error stopping server: {e}")
+                logger.error(f"Error stopping server: {e}")
         if hasattr(self, 'current_run') and self.current_run is not None:
             self.current_run.cancel("Application shutdown")
         if hasattr(self, 'job_queue') and self.job_queue is not None:
@@ -436,7 +444,7 @@ class App():
     def quit(self, event=None):
         res = self.alert(_("Confirm Quit"), _("Would you like to quit the application?"), kind="askokcancel")
         if res == messagebox.OK or res == True:
-            print("Exiting application")
+            logger.info("Exiting application")
             self.on_closing()
 
 
@@ -446,7 +454,7 @@ class App():
             Utils.start_thread(server.start)
             return server
         except Exception as e:
-            print(f"Failed to start server: {e}")
+            logger.error(f"Failed to start server: {e}")
 
     def store_info_cache(self):
         if self.runner_app_config is not None:
@@ -477,7 +485,7 @@ class App():
             
             return config
         except Exception as e:
-            print(e)
+            logger.error(e)
             return RunnerAppConfig()
 
     def one_config_away(self, change=1):
@@ -565,15 +573,20 @@ class App():
             self.job_queue_preset_schedules.job_running = True
             if "control_net" in override_args:
                 self.controlnet_file.set(override_args["control_net"])
-                print(f"Updated Control Net for next preset schedule: " + str(override_args["control_net"]))
+                if config.debug:
+                    print(f"Updated Control Net for next preset schedule: " + str(override_args["control_net"]))
             if "ip_adapter" in override_args:
                 self.ipadapter_file.set(override_args["ip_adapter"])
-                print(f"Updated IP Adapater for next preset schedule: " + str(override_args["ip_adapter"]))
+                if config.debug:
+                    print(f"Updated IP Adapater for next preset schedule: " + str(override_args["ip_adapter"]))
             starting_total = int(self.total.get())
             schedule = SchedulesWindow.current_schedule
             if schedule is None:
                 raise Exception("No Schedule Selected")
-            print(f"Running Preset Schedule: {schedule}")
+            if config.debug:
+                print(f"Running Preset Schedule: {schedule}")
+            else:
+                logger.info(f"Running preset schedule")
             for preset_task in schedule.get_tasks():
                 if not self.job_queue_preset_schedules.has_pending() or not self.run_preset_schedule_var.get() or \
                         (self.current_run is not None and not self.current_run.is_infinite() and self.current_run.is_cancelled):
@@ -581,7 +594,10 @@ class App():
                     return
                 try:
                     preset = PresetsWindow.get_preset_by_name(preset_task.name)
-                    print(f"Running Preset Schedule: {preset}")
+                    if config.debug:
+                        print(f"Running Preset Schedule: {preset}")
+                    else:
+                        logger.info(f"Running preset schedule")
                 except Exception as e:
                     self.handle_error(e, "Preset Schedule Error")
                     raise e
@@ -752,7 +768,8 @@ class App():
             args.workflow_tag = controlnet_file
             self.set_redo_params()
         else:
-            print(controlnet_file)
+            if config.debug:
+                print("Control Net file: " + controlnet_file)
             args.control_nets = controlnet_file
 
         self.set_controlnet_strength()
@@ -799,7 +816,8 @@ class App():
         if len(args) > 0:
             if "image" in args:
                 image_path = args["image"].replace(",", "\\,")
-                print(image_path)
+                if config.debug:
+                    print("Image path received from client: " + image_path)
                 if workflow_type in [WorkflowType.CONTROLNET, WorkflowType.RENOISER, WorkflowType.REDO_PROMPT]:
                     if self.run_preset_schedule_var.get() and self.job_queue_preset_schedules.has_pending():
                         self.job_queue_preset_schedules.add({"control_net": image_path})
@@ -817,7 +835,7 @@ class App():
                     else:
                         self.ipadapter_file.set(image_path)
                 else:
-                    print(f"Unhandled workflow type for server connection: {workflow_type}")
+                    logger.warning(f"Unhandled workflow type for server connection: {workflow_type}")
                 
             self.master.update()
         self.run()
@@ -986,7 +1004,7 @@ class App():
         if kind not in ("error", "warning", "info"):
             raise ValueError("Unsupported alert kind.")
 
-        print(f"Alert - Title: \"{title}\" Message: {message}")
+        logger.info(f"Alert - Title: \"{title}\" Message: {message}")
         show_method = getattr(messagebox, "show{}".format(kind))
         return show_method(title, message)
 
@@ -1095,22 +1113,22 @@ class App():
         total_jobs = gen_config.maximum_gens_per_latent()
         current_job_time = TimeEstimator.estimate_queue_time(total_jobs * remaining_count, gen_config.n_latents)
         total_seconds += current_job_time
-        print(f"App.update_time_estimation - current job: {total_jobs} jobs, {remaining_count} remaining, time: {current_job_time}s")
+        logger.debug(f"App.update_time_estimation - current job: {total_jobs} jobs, {remaining_count} remaining, time: {current_job_time}s")
         
         # Add time for jobs in standard run queue
         if self.job_queue.has_pending():
             queue_time = self.job_queue.estimate_time(gen_config)
             total_seconds += queue_time
-            print(f"App.update_time_estimation - standard queue time: {queue_time}s")
+            logger.debug(f"App.update_time_estimation - standard queue time: {queue_time}s")
                 
         # Add time for jobs in preset schedule queue
         if self.job_queue_preset_schedules.has_pending():
             preset_time = self.job_queue_preset_schedules.estimate_time(gen_config)
             total_seconds += preset_time
-            print(f"App.update_time_estimation - preset queue time: {preset_time}s")
+            logger.debug(f"App.update_time_estimation - preset queue time: {preset_time}s")
             
         current_estimate = TimeEstimator.format_time(total_seconds)
-        print(f"App.update_time_estimation - total time: {total_seconds}s, formatted: {current_estimate}")
+        logger.debug(f"App.update_time_estimation - total time: {total_seconds}s, formatted: {current_estimate}")
         self.label_time_est["text"] = current_estimate            
         self.master.update()
 
@@ -1121,7 +1139,7 @@ if __name__ == "__main__":
         def create_root():
             # assets = os.path.join(os.path.dirname(os.path.realpath(__file__)), "assets")
             root = ThemedTk(theme="black", themebg="black")
-            root.title(_(" ComfyGen "))
+            root.title(_(" ComfyGen ") + (" (Debug)" if config.debug else ""))
             #root.iconbitmap(bitmap=r"icon.ico")
             # icon = PhotoImage(file=os.path.join(assets, "icon.png"))
             # root.iconphoto(False, icon)
@@ -1137,7 +1155,7 @@ if __name__ == "__main__":
 
         # Graceful shutdown handler
         def graceful_shutdown(signum, frame):
-            print("Caught signal, shutting down gracefully...")
+            logger.info("Caught signal, shutting down gracefully...")
             if app is not None:
                 app.on_closing()
             else:
@@ -1161,7 +1179,7 @@ if __name__ == "__main__":
                     traceback.print_exc()
             else:
                 # User cancelled the password dialog, exit
-                print("Startup cancelled, exiting...")
+                logger.info("Startup cancelled, exiting...")
                 os._exit(0)
         
         # Check if startup password is required

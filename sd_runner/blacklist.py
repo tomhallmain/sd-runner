@@ -5,11 +5,14 @@ import re
 
 from utils.globals import Globals, BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, PromptMode
 from utils.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
+from utils.logging_setup import get_logger
 from utils.pickleable_cache import SizeAwarePicklableCache
 from utils.translations import I18N
 from utils.utils import Utils
 
 _ = I18N._
+
+logger = get_logger("blacklist")
 
 # Define cache file path
 CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "configs")
@@ -339,7 +342,7 @@ class Blacklist:
         # Call progress update at the beginning (0)
         do_update_progress(0)
         
-        print(f"Filtering concepts for blacklist: {concepts_count} - {mode}")
+        logger.debug(f"Filtering concepts for blacklist: {concepts_count} - {mode}")
         
         # Single loop with different behaviors based on mode
         for i, concept_cased in enumerate(concepts):
@@ -376,11 +379,11 @@ class Blacklist:
             
         # Call progress update at the end
         do_update_progress(concepts_count)
-        print(f"Filtered {len(filtered)} concepts for blacklist")
+        logger.debug(f"Filtered {len(filtered)} concepts for blacklist")
 
         # Uncomment to see filtered concepts                    
         # if len(filtered) != 0:
-            # print(f"Filtered concepts from blacklist tags: {filtered}")
+            # logger.debug(f"Filtered concepts from blacklist tags: {filtered}")
 
         result = (whitelist, filtered)
         
@@ -464,7 +467,7 @@ class Blacklist:
             elif isinstance(item, BlacklistItem):
                 validated_blacklist.append(item)
             else:
-                print(f"Invalid blacklist item type: {type(item)}")
+                logger.error(f"Invalid blacklist item type: {type(item)}")
         
         Blacklist.TAG_BLACKLIST = validated_blacklist
         try:
@@ -628,7 +631,7 @@ class Blacklist:
                         enabled = item.get('enabled', True)
                         Blacklist.add_to_blacklist(BlacklistItem(item['string'], enabled))
                     else:
-                        print(f"Invalid item type in JSON blacklist import: {type(item)}")
+                        logger.error(f"Invalid item type in JSON blacklist import: {type(item)}")
             else:
                 raise ValueError("Invalid JSON format for blacklist import")
 
@@ -718,7 +721,7 @@ class Blacklist:
                 BLACKLIST_CACHE_FILE, maxsize=Blacklist.CACHE_MAXSIZE,
                 max_large_items=Blacklist.CACHE_MAX_LARGE_ITEMS, large_threshold=Blacklist.CACHE_LARGE_THRESHOLD)
         except Exception as e:
-            print(f"Error clearing cache file: {e}")
+            logger.error(f"Error clearing cache file: {e}")
             # Fallback to creating a new cache
             Blacklist._filter_cache = SizeAwarePicklableCache.load_or_create(
                 BLACKLIST_CACHE_FILE, maxsize=Blacklist.CACHE_MAXSIZE,
@@ -838,7 +841,7 @@ class Blacklist:
                         enabled = item.get('enabled', True)
                         Blacklist.add_to_model_blacklist(ModelBlacklistItem(item['string'], enabled=enabled))
                     else:
-                        print(f"Invalid item type in JSON model blacklist import: {type(item)}")
+                        logger.error(f"Invalid item type in JSON model blacklist import: {type(item)}")
             else:
                 raise ValueError("Invalid JSON format for model blacklist import")
 

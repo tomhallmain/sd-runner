@@ -18,6 +18,8 @@ except ImportError as e:
     print("Failed to import WinDLL, skipping sleep prevention.")
 
 
+from utils.logging_setup import get_logger
+
 RESET = "\033[m"
 GRAY = "\033[90m"
 WHITE = "\033[37m"
@@ -26,22 +28,7 @@ DARK_GREEN = "\033[92m"
 CYAN = "\033[34m"
 
 # create logger
-logger = logging.getLogger("sd_runner")
-logger.setLevel(logging.DEBUG if config.debug else logging.INFO)
-logger.propagate = False
-
-# create console handler and set level to debug
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG if config.debug else logging.INFO)
-
-# create formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-# add formatter to ch
-ch.setFormatter(formatter) # TODO use custom formatter
-
-# add ch to logger
-logger.addHandler(ch)
+logger = get_logger("sd_runner")
 
 
 class Utils:
@@ -90,22 +77,6 @@ class Utils:
         u"\u301B",  # Right white square bracket (ã)
     }
 
-    @staticmethod
-    def log(message, level=logging.INFO):
-        logger.log(level, message)
-    
-    @staticmethod
-    def log_debug(message):
-        Utils.log(message, level=logging.DEBUG)
-
-    @staticmethod
-    def log_red(message):
-        Utils.log(message, level=logging.ERROR)
-    
-    @staticmethod
-    def log_yellow(message):
-        Utils.log(message, level=logging.WARNING)
-
     sleep_prevented = False
 
     @staticmethod
@@ -147,7 +118,7 @@ class Utils:
                     period = int(run_obj) if isinstance(run_obj, int) else getattr(run_obj, sleep_attr)
                     await asyncio.sleep(period)
                     if run_obj and run_attr and not getattr(run_obj, run_attr):
-                        print(f"Ending periodic task: {run_obj.__name__}.{run_attr} = False")
+                        logger.info(f"Ending periodic task: {run_obj.__name__}.{run_attr} = False")
                         break
             return wrapper
         return scheduler
@@ -230,11 +201,11 @@ class Utils:
         if end_index >= len(string) or start_index >= len(string):
             raise Exception("Start or end index were too high for string: " + string)
         if start_index == 0:
-            print("Removed: " + string[:end_index+1])
+            logger.debug("Removed: " + string[:end_index+1])
             return string[end_index+1:]
         left_part = string[:start_index]
         right_part = string[end_index+1:]
-        print("Removed: " + string[start_index:end_index+1])
+        logger.debug("Removed: " + string[start_index:end_index+1])
         return left_part + right_part
 
     @staticmethod

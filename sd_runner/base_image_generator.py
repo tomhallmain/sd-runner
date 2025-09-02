@@ -15,7 +15,10 @@ from sd_runner.models import Model
 from sd_runner.workflow_prompt import WorkflowPrompt
 from ui.app_actions import AppActions
 from utils.config import config
+from utils.logging_setup import get_logger
 from utils.utils import Utils
+
+logger = get_logger("base_image_generator")
 
 class BaseImageGenerator(ABC):
     ORDER = config.gen_order
@@ -68,13 +71,13 @@ class BaseImageGenerator(ABC):
     def random_skip(self) -> bool:
         skip_chance = getattr(self, 'RANDOM_SKIP_CHANCE', 0.0)
         if skip_chance > 0 and random.random() < skip_chance:
-            print(f"Skipping by random chance ({skip_chance*100}%)")
+            logger.debug(f"Skipping by random chance ({skip_chance*100}%)")
             return True
         return False
 
     def print_stats(self) -> None:
         with self._lock:
-            print(f"Started {self.counter} prompts, {self.latent_counter} images to be saved if all complete")
+            logger.debug(f"Started {self.counter} prompts, {self.latent_counter} images to be saved if all complete")
             self.reset_counters()
 
     def print_pre(self, action: str, **kw):
@@ -87,7 +90,8 @@ class BaseImageGenerator(ABC):
                 continue
             if item[0] != "negative" or Globals.PRINT_NEGATIVES:
                 out += f"\n{Utils.format_white(item[0])}: {item[1]}"
-        print(out)
+        if config.debug:
+           print(out)
 
     def run(self):
         self.has_run_one_workflow = False
@@ -124,7 +128,7 @@ class BaseImageGenerator(ABC):
                                 vae = args[BaseImageGenerator.ORDER.index("vaes")]
                                 if vae is None:
                                     vae = model.get_default_vae()
-                                    Utils.log(f"Set default VAE: {vae}")
+                                    logger.debug(f"Set default VAE: {vae}")
                                 model.validate_vae(vae)
                                 lora = args[BaseImageGenerator.ORDER.index("loras")]
                                 positive_copy = str(positive)
@@ -195,10 +199,10 @@ class BaseImageGenerator(ABC):
         """Add common error handling and logging"""
         def wrapped(*args, **kwargs):
             try:
-                print(f"Starting {task_fn.__name__}")
+                logger.debug(f"Starting {task_fn.__name__}")
                 start_time = time.time()
                 result = task_fn(*args, **kwargs)
-                print(f"Completed {task_fn.__name__} in {time.time()-start_time:.2f}s")
+                logger.debug(f"Completed {task_fn.__name__} in {time.time()-start_time:.2f}s")
                 return result
             except Exception as e:
                 self._handle_error(e, task_fn.__name__)
@@ -206,8 +210,9 @@ class BaseImageGenerator(ABC):
         return wrapped
 
     def _handle_error(self, error: Exception, task_name: str) -> None:
-        print(f"Error in {task_name}: {str(error)}")
-        traceback.print_exc()
+        logger.warning(f"Error in {task_name}: {str(error)}")
+        if config.debug:
+            traceback.print_exc()
 
     def validate_prompt_against_blacklist(self, prompt: str) -> str:
         """Validate a prompt against the blacklist and return the filtered version.
@@ -222,7 +227,8 @@ class BaseImageGenerator(ABC):
         whitelist, filtered = Blacklist.filter_concepts(concepts, prompt_mode=self.gen_config.get_prompt_mode())
         
         if len(filtered) > 0:
-            print(f"Filtered concepts from blacklisted tags: {filtered}")        
+            if config.debug:
+                print(f"Filtered concepts from blacklisted tags: {filtered}")        
             return ', '.join(whitelist)
         else:
             return prompt

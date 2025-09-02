@@ -13,8 +13,10 @@ from sd_runner.base_image_generator import BaseImageGenerator
 from sd_runner.models import Model, LoraBundle
 from sd_runner.workflow_prompt import WorkflowPrompt, WorkflowPromptComfy
 from utils.config import config
+from utils.logging_setup import get_logger
 from utils.utils import Utils
 
+logger = get_logger("comfy_gen")
 
 class ComfyGen(BaseImageGenerator):
     BASE_URL = config.comfyui_url.replace("http://", "").replace("https://", "")
@@ -24,32 +26,32 @@ class ComfyGen(BaseImageGenerator):
 
     def __init__(self, config=GenConfig(), ui_callbacks=None):
         super().__init__(config, ui_callbacks)
-        Utils.log_debug(f"ComfyGen initialized with config: {config}")
+        logger.debug(f"ComfyGen initialized with config: {config}")
 
     @classmethod
     def add_connection(cls, ws):
         """Add a websocket connection to the tracking list"""
         cls._active_connections.append(ws)
-        Utils.log_debug(f"Added websocket connection. Total active connections: {len(cls._active_connections)}")
+        logger.debug(f"Added websocket connection. Total active connections: {len(cls._active_connections)}")
 
     @classmethod
     def remove_connection(cls, ws):
         """Remove a websocket connection from the tracking list"""
         if ws in cls._active_connections:
             cls._active_connections.remove(ws)
-            Utils.log_debug(f"Removed websocket connection. Total active connections: {len(cls._active_connections)}")
+            logger.debug(f"Removed websocket connection. Total active connections: {len(cls._active_connections)}")
 
     @classmethod
     def close_all_connections(cls):
         """Close all active websocket connections"""
-        Utils.log_debug(f"Closing all {len(cls._active_connections)} websocket connections...")
+        logger.info(f"Closing all {len(cls._active_connections)} websocket connections...")
         for ws in cls._active_connections[:]:  # Use a copy of the list to avoid modification during iteration
             try:
                 ws.close()
                 cls.remove_connection(ws)
             except Exception as e:
-                Utils.log_debug(f"Error closing websocket connection: {e}")
-        Utils.log_debug("All websocket connections closed")
+                logger.warning(f"Error closing websocket connection: {e}")
+        logger.info("All websocket connections closed")
 
     def prompt_setup(self, workflow_type: WorkflowType, action: str, prompt: Optional[WorkflowPrompt], model: Model, vae=None, resolution=None, **kw):
         if prompt:
@@ -96,6 +98,8 @@ class ComfyGen(BaseImageGenerator):
 
     def queue_prompt(self, prompt: WorkflowPromptComfy):
         data = prompt.get_json()
+        if config.debug:
+            print(data.decode("utf-8"))
         images = None
         try:
             ws = websocket.WebSocket()
@@ -134,15 +138,15 @@ class ComfyGen(BaseImageGenerator):
         
         for attempt in range(max_retries):
             try:
-                Utils.log_debug(f"Getting history for prompt (attempt {attempt + 1}/{max_retries})...")
+                logger.debug(f"Getting history for prompt (attempt {attempt + 1}/{max_retries})...")
                 with request.urlopen("http://{}/history/{}".format(ComfyGen.BASE_URL, prompt_id)) as response:
                     history = json.loads(response.read())
                     if prompt_id in history:
                         return history
-                    Utils.log_debug(f"Prompt ID not found in history, waiting {retry_delay} seconds...")
+                    logger.debug(f"Prompt ID not found in history, waiting {retry_delay} seconds...")
                     time.sleep(retry_delay)
             except Exception as e:
-                Utils.log_debug(f"Error getting history (attempt {attempt + 1}): {e}")
+                logger.error(f"Error getting history (attempt {attempt + 1}): {e}")
                 if attempt < max_retries - 1:
                     time.sleep(retry_delay)
                 else:
@@ -162,9 +166,9 @@ class ComfyGen(BaseImageGenerator):
         #     raise Exception("Failed to connect to ComfyUI. Is ComfyUI running?")
     @staticmethod
     def get_images(ws, prompt):
-        Utils.log_debug("Queueing prompt to ComfyUI...")
+        logger.debug("Queueing prompt to ComfyUI...")
         prompt_id = ComfyGen._queue_prompt(prompt)['prompt_id']
-        Utils.log_debug(f"Got prompt ID: {prompt_id}")
+        logger.debug(f"Got prompt ID: {prompt_id}")
         output_images = {}
         current_node = None
         websocket_error = None
@@ -174,40 +178,40 @@ class ComfyGen(BaseImageGenerator):
                 try:
                     # Check if websocket is still connected before trying to receive
                     if not ws.connected:
-                        Utils.log_debug("WebSocket connection closed")
+                        logger.debug("WebSocket connection closed")
                         break
                         
                     out = ws.recv()
                     if isinstance(out, str):
                         message = json.loads(out)
-                        Utils.log_debug(f"Received message: {message}")
+                        logger.debug(f"Received message: {message}")
                         if message['type'] == 'executing':
                             data = message['data']
                             if data['node'] is None and data['prompt_id'] == prompt_id:
-                                Utils.log_debug("Execution completed")
+                                logger.debug("Execution completed")
                                 break #Execution is done
                             else:
                                 current_node = data['node']
-                                Utils.log_debug(f"Executing node: {current_node}")
+                                logger.debug(f"Executing node: {current_node}")
                         elif message['type'] == 'progress':
                             data = message['data']
                             if data['prompt_id'] == prompt_id and data['value'] == data['max']:
-                                Utils.log_debug("Progress reached 100%")
+                                logger.debug("Progress reached 100%")
                                 # Wait a bit to ensure all messages are processed
                                 time.sleep(1)
                                 break
                     else:
-                        Utils.log_debug(f"Received binary data from node: {current_node}")
+                        logger.debug(f"Received binary data from node: {current_node}")
                         # If you want to be able to decode the binary stream for latent previews, here is how you can do it:
                         # bytesIO = BytesIO(out[8:])
                         # preview_image = Image.open(bytesIO) # This is your preview in PIL image format, store it in a global
                         continue #previews are binary data
                 except websocket.WebSocketConnectionClosedException as e:
-                    Utils.log_debug("WebSocket connection closed unexpectedly")
+                    logger.debug("WebSocket connection closed unexpectedly")
                     websocket_error = e
                     break
                 except Exception as e:
-                    Utils.log_debug(f"Error processing websocket message: {e}")
+                    logger.error(f"Error processing websocket message: {e}")
                     websocket_error = e
                     break
 
@@ -215,7 +219,7 @@ class ComfyGen(BaseImageGenerator):
             if websocket_error:
                 raise websocket_error
 
-            Utils.log_debug("Getting history for prompt...")
+            logger.debug("Getting history for prompt...")
             history = ComfyGen.get_history(prompt_id)[prompt_id]
             # NOTE: If we want to do something with the images, uncomment this
             # for node_id in history['outputs']:
@@ -223,7 +227,7 @@ class ComfyGen(BaseImageGenerator):
             #     images_output = []
             #     if 'images' in node_output:
             #         for image in node_output['images']:
-            #             Utils.log_debug(f"Getting image: {image['filename']}")
+            #             logger.debug(f"Getting image: {image['filename']}")
             #             image_data = ComfyGen.get_image(image['filename'], image['subfolder'], image['type'])
             #             images_output.append(image_data)
             #     output_images[node_id] = images_output
@@ -231,10 +235,10 @@ class ComfyGen(BaseImageGenerator):
             ComfyGen.clear_history(prompt_id)
             return output_images
         except Exception as e:
-            Utils.log_debug(f"Error in get_images: {e}")
+            logger.error(f"Error in get_images: {e}")
             raise
         finally:
-            Utils.log_debug("Closing websocket connection...")
+            logger.debug("Closing websocket connection...")
             try:
                 if ws.connected:
                     ws.close()
@@ -506,7 +510,8 @@ class ComfyGen(BaseImageGenerator):
 
         # If this is not an API prompt, handle in an annoying way
         if not prompt.validate_api_prompt():
-            print("Not an API prompt image: " + source_file)
+            if config.debug:
+                print("Not an API prompt image: " + source_file)
             try:
                 if prompt.try_set_workflow_non_api_prompt():
                     resolution = prompt.temp_redo_inputs.resolution
@@ -531,7 +536,7 @@ class ComfyGen(BaseImageGenerator):
         try:
             prompt.set_empty_latents(n_latents)
         except Exception:
-            print("Failed to set number of empty latents")
+            logger.error("Failed to set number of empty latents")
 
         has_made_one_change = False
         if "model" not in GenConfig.REDO_PARAMETERS and "models" not in GenConfig.REDO_PARAMETERS:
@@ -561,12 +566,13 @@ class ComfyGen(BaseImageGenerator):
                     prompt.set_seed(self.get_seed())
                 else:
                     raise Exception("Unhandled redo parameter: " + attr)
-                print("Redoing parameter with different value: " + attr)
+                if config.debug:
+                    print("Redoing parameter with different value: " + attr)
                 has_made_one_change = True
             except Exception as e:
-                print(e)
+                logger.error(e)
 
-        if not has_made_one_change:
+        if not has_made_one_change and config.debug:
             print("Did not make any changes to prompt for image: " + source_file)
         
         self.queue_prompt(prompt)

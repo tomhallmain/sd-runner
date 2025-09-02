@@ -7,8 +7,11 @@ from typing import Dict, Set
 from sd_runner.blacklist import Blacklist, BlacklistItem
 from utils.config import config
 from utils.globals import PromptMode, BlacklistPromptMode
+from utils.logging_setup import get_logger
 
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
+logger = get_logger("concepts")
 
 
 def weighted_sample_without_replacement(population: list[str], weights: list[float], k: int = 1) -> list[str]:
@@ -71,8 +74,8 @@ class ConceptsFile:
                     self.concepts.append(val)
                     self.concept_indices[val] = i
         except Exception as e:
-            print(f"Failed to load concepts file: {filepath}")
-            print(f"Error: {str(e)}")
+            logger.error(f"Failed to load concepts file: {filepath}")
+            logger.error(f"Error: {str(e)}")
             self.lines = []
             self.concepts = []
             self.concept_indices = {}
@@ -88,8 +91,8 @@ class ConceptsFile:
             with open(filepath, 'w', encoding="utf-8") as f:
                 f.writelines(self.lines)
         except Exception as e:
-            print(f"Failed to save concepts file: {filepath}")
-            print(f"Error: {str(e)}")
+            logger.error(f"Failed to save concepts file: {filepath}")
+            logger.error(f"Error: {str(e)}")
 
     def add_concept(self, concept: str) -> bool:
         """Add a new concept to the file, maintaining alphabetical order when possible.
@@ -99,11 +102,12 @@ class ConceptsFile:
         2. Allow for 4-5 consecutive out-of-order concepts before giving up
         3. If no suitable position is found, append to the end
         """
-        print(f"\nAdding concept: {concept}")
-        print(f"Number of lines: {len(self.lines)}")
+        if config.debug:
+            print(f"\nAdding concept: {concept}")
+            print(f"Number of lines: {len(self.lines)}")
         
         if concept in self.concepts:
-            print("Concept already exists, returning False")
+            logger.info("Concept already exists, returning False")
             return False
             
         # Find the first concept line to start our ordering from
@@ -111,17 +115,19 @@ class ConceptsFile:
         while first_concept_idx < len(self.lines):
             line = self.lines[first_concept_idx].strip()
             if not self.is_dictionary:
-                print(f"Checking line {first_concept_idx}: '{line}'")
+                if config.debug:
+                    print(f"Checking line {first_concept_idx}: '{line}'")
             # Only break if we find an actual concept (non-empty, non-comment line)
             if line and not line.startswith('#'):
                 # Found a concept line
-                print(f"Found first concept at index {first_concept_idx}: '{line}'")
+                if config.debug:
+                    print(f"Found first concept at index {first_concept_idx}: '{line}'")
                 break
             first_concept_idx += 1
 
         if first_concept_idx >= len(self.lines):
             # No concepts found, append to end
-            print("No concepts found, appending to end")
+            logger.debug("No concepts found, appending to end")
             self.lines.append(f"{concept}\n")
             self.concepts.append(concept)
             self.concept_indices[concept] = len(self.lines) - 1
@@ -133,25 +139,28 @@ class ConceptsFile:
         max_consecutive_out_of_order = 5  # Increased from 3 to 5
 
         if not self.is_dictionary:
-            print(f"\nLooking for insertion point starting from index {current_idx}")
+            logger.debug(f"Looking for insertion point starting from index {current_idx}")
         while current_idx < len(self.lines):
             line = self.lines[current_idx].strip()
             if not self.is_dictionary:
-                print(f"Checking line {current_idx}: '{line}'")
+                if config.debug:
+                    print(f"Checking line {current_idx}: '{line}'")
             
             # Skip comments and empty lines
             if not line or line.startswith('#'):
-                if not self.is_dictionary:
+                if not self.is_dictionary and config.debug:
                     print("Skipping comment/empty line")
                 current_idx += 1
                 continue
                 
             # Compare with current concept
             if not self.is_dictionary:
-                print(f"Comparing '{concept.lower()}' with '{line.lower()}'")
+                if config.debug:
+                    print(f"Comparing '{concept.lower()}' with '{line.lower()}'")
             if concept.lower() < line.lower():
                 # Found insertion point
-                print(f"Found insertion point at index {current_idx} (before line \"{line}\")")
+                if config.debug:
+                    print(f"Found insertion point at index {current_idx} (before line \"{line}\")")
                 self.lines.insert(current_idx, f"{concept}\n")
                 self.concepts.append(concept)
                 self.concept_indices[concept] = current_idx
@@ -167,10 +176,12 @@ class ConceptsFile:
                 prev_line = self.lines[current_idx - 1].strip()
                 if prev_line and not prev_line.startswith('#') and line.lower() < prev_line.lower():
                     consecutive_out_of_order += 1
-                    print(f"Found consecutive out-of-order entry. Count: {consecutive_out_of_order}")
+                    if config.debug:
+                        print(f"Found consecutive out-of-order entry. Count: {consecutive_out_of_order}")
                     if consecutive_out_of_order >= max_consecutive_out_of_order:
                         # Too many consecutive out-of-order entries, append to end
-                        print("Too many consecutive out-of-order entries, breaking")
+                        if config.debug:
+                            print("Too many consecutive out-of-order entries, breaking")
                         break
                 else:
                     # Reset counter if we find an in-order entry
@@ -184,7 +195,8 @@ class ConceptsFile:
         while last_idx >= 0 and not self.lines[last_idx].strip():
             last_idx -= 1
             
-        print(f"\nAppending concept after index {last_idx}")
+        if config.debug:
+            print(f"\nAppending concept after index {last_idx}")
         # Add new concept after the last non-empty line
         self.lines.insert(last_idx + 1, f"{concept}\n")
         self.concepts.append(concept)
@@ -261,7 +273,7 @@ class Concepts:
         
         # Check if we have enough items after filtering
         if len(whitelist) < low:
-            print(f"Warning: Not enough non-blacklisted items to satisfy range {low}-{high}. "
+            logger.warning(f"Warning: Not enough non-blacklisted items to satisfy range {low}-{high}. "
                   f"Got {len(whitelist)} items after filtering out {len(filtered)} blacklisted items.")
             if len(whitelist) == 0:
                 raise Exception(f"No non-blacklisted items available. Filtered out {len(filtered)} blacklisted items.")
@@ -278,14 +290,14 @@ class Concepts:
     ):
         if Concepts.set_concepts_dir(concepts_dir):
             Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
-            print(f"Reset all words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
+            logger.info(f"Reset all words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
             if config.override_dictionary_path is not config.override_dictionary_path.strip() != "":
                 if config.override_dictionary_append:
                     Concepts.ALL_WORDS_LIST.extend(Concepts.load(config.override_dictionary_path))
-                    print(f"Added override dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
+                    logger.info(f"Added override dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
                 else:
                     Concepts.ALL_WORDS_LIST = Concepts.load(config.override_dictionary_path)
-                    print(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
+                    logger.info(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
         self.prompt_mode = prompt_mode
         self.get_specific_locations = get_specific_locations
         # Randomly select concepts from the lists
@@ -408,15 +420,15 @@ class Concepts:
     def get_random_words(self, low: int = 0, high: int = 9, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         if len(Concepts.ALL_WORDS_LIST) == 0:
-            print("For some reason, all words list was empty.")
+            logger.warning("For some reason, all words list was empty.")
             Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
             if config.override_dictionary_path is not None and config.override_dictionary_path.strip() != "":
                 if config.override_dictionary_append:
                     Concepts.ALL_WORDS_LIST.extend(Concepts.load(config.override_dictionary_path))
-                    print(f"Added override dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
+                    logger.info(f"Added override dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
                 else:
                     Concepts.ALL_WORDS_LIST = Concepts.load(config.override_dictionary_path)
-                    print(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
+                    logger.info(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
         
         # Get initial whitelisted words and load extra words as needed
         all_words = Concepts.ALL_WORDS_LIST.copy()
@@ -466,7 +478,7 @@ class Concepts:
         combine_words(random_words, blacklisted_combination_counts)
         attempts = 0
         while len(blacklisted_combination_counts) > 0 and attempts < 10:
-            print(f"Hit {len(blacklisted_combination_counts)} blacklist violations on attempt {attempts} to combine words")
+            logger.debug(f"Hit {len(blacklisted_combination_counts)} blacklist violations on attempt {attempts} to combine words")
             attempts += 1
             number_required = sum(blacklisted_combination_counts.values())
             # There may be duplication in this resampling but very unlikely for lists of tens of thousands of words
@@ -516,7 +528,7 @@ class Concepts:
         counter = 0
         while word in Concepts.ALL_WORDS_LIST and Blacklist.get_violation_item(word) is not None:
             if counter > 100:
-                print("Failed to generate a nonsense word!")
+                logger.error("Failed to generate a nonsense word!")
                 break
             word = ''.join([random.choice(Concepts.ALPHABET) for i in range(length)])
             counter += 1
@@ -543,7 +555,8 @@ class Concepts:
                     if len(val) > 0:
                         l.append(val)
         except Exception:
-            print("Failed to load concepts file: " + filepath)
+            if config.debug:
+                logger.warning("Failed to load concepts file: " + filepath)
         return l
 
     @staticmethod

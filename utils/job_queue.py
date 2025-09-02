@@ -1,7 +1,11 @@
+from utils.config import config
+from utils.logging_setup import get_logger
 from utils.time_estimator import TimeEstimator
 from utils.translations import I18N
 
 _ = I18N._
+
+logger = get_logger("job_queue")
 
 class JobQueue:
     JOB_QUEUE_SD_RUNS_KEY = "Stable Diffusion Runs"
@@ -27,7 +31,8 @@ class JobQueue:
         if len(self.pending_jobs) > self.max_size:
             raise Exception(f"Reached limit of pending runs: {self.max_size} - wait until current run has completed.")
         self.pending_jobs.append(job_args)
-        print(f"JobQueue {self.name} - Added pending job: {job_args}")
+        if config.debug:
+            print(f"JobQueue {self.name} - Added pending job: {job_args}")
 
     def cancel(self):
         self.pending_jobs = []
@@ -75,11 +80,11 @@ class SDRunsQueue(JobQueue):
             Estimated time in seconds
         """
         total_time = 0
-        print(f"SDRunsQueue.estimate_time - pending jobs: {len(self.pending_jobs)}")
+        logger.debug(f"SDRunsQueue.estimate_time - pending jobs: {len(self.pending_jobs)}")
         for run_config in self.pending_jobs:
             job_time = run_config.estimate_time(gen_config)
             total_time += job_time
-            print(f"SDRunsQueue.estimate_time - job time: {job_time}s, total so far: {total_time}s")
+            logger.debug(f"SDRunsQueue.estimate_time - job time: {job_time}s, total so far: {total_time}s")
         return total_time
 
 
@@ -106,7 +111,7 @@ class PresetSchedulesQueue(JobQueue):
             
         total_time = 0
         run_config = self.get_run_config_callback()
-        print(f"PresetSchedulesQueue.estimate_time - pending schedules: {len(self.pending_jobs)}")
+        logger.debug(f"PresetSchedulesQueue.estimate_time - pending schedules: {len(self.pending_jobs)}")
         
         for schedule_args in self.pending_jobs:
             try:
@@ -116,11 +121,11 @@ class PresetSchedulesQueue(JobQueue):
                     
                 # Get total generations for this schedule
                 total_generations = schedule.total_generations(run_config.total)
-                print(f"PresetSchedulesQueue.estimate_time - schedule total_generations: {total_generations}")
+                logger.debug(f"PresetSchedulesQueue.estimate_time - schedule total_generations: {total_generations}")
                 
                 # Calculate total jobs by dividing maximum_gens by n_latents
                 total_jobs = gen_config.maximum_gens_per_latent() if gen_config else 1
-                print(f"PresetSchedulesQueue.estimate_time - total_jobs: {total_jobs}, n_latents: {run_config.n_latents}")
+                logger.debug(f"PresetSchedulesQueue.estimate_time - total_jobs: {total_jobs}, n_latents: {run_config.n_latents}")
                 
                 # Get time estimate for all jobs
                 schedule_time = TimeEstimator.estimate_queue_time(total_jobs * total_generations, run_config.n_latents)

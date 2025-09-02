@@ -62,7 +62,7 @@ class Run:
         if not self.editing and not self.switching_params:
             gen_config.positive, gen_config.negative = prompter.generate_prompt(original_positive, original_negative)
 
-        self.print(gen_config)
+        print(str(gen_config))
         if gen_config.is_redo_prompt():
             confirm_text = "\n\nRedo Prompt (y/n/[space to quit]): "
         else:
@@ -320,10 +320,11 @@ class Run:
         self.is_complete = True
 
     def cancel(self, reason: Optional[str] = None) -> None:
-        self.print("Canceling...")
-        self.is_cancelled = True
+        cancel_message = "Canceling..."
         if reason is not None:
-            self.print(f"Cancel reason: {reason}")
+            cancel_message += f" {reason}"
+        self.print(cancel_message)
+        self.is_cancelled = True
         # TODO send cancel/delete call to ComfyUI for all previously started prompts
 
 def main(args: RunConfig) -> None:

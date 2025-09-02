@@ -1,10 +1,13 @@
 from utils.globals import Globals, PromptMode # must import first
 
 from sd_runner.models import Model
+from utils.logging_setup import get_logger
 from utils.time_estimator import TimeEstimator
 from utils.translations import I18N
 
 _ = I18N._
+
+logger = get_logger("run_config")
 
 class RunConfig:
     previous_model_tags = None
@@ -97,9 +100,9 @@ class RunConfig:
         """
         # Calculate total jobs using gen_config if available
         total_jobs = gen_config.maximum_gens_per_latent() if gen_config else 1
-        print(f"RunConfig.estimate_time - total_jobs: {total_jobs}, total: {self.total}, n_latents: {self.n_latents}")
+        logger.debug(f"RunConfig.estimate_time - total_jobs: {total_jobs}, total: {self.total}, n_latents: {self.n_latents}")
         
         # Get time for all jobs
         total_time = TimeEstimator.estimate_queue_time(total_jobs * self.total, self.n_latents)
-        print(f"RunConfig.estimate_time - total_time: {total_time}s")
+        logger.debug(f"RunConfig.estimate_time - total_time: {total_time}s")
         return total_time
