@@ -41,6 +41,7 @@ close at hand
 closeby
 closest to
 contiguous
+corner
 crouched
 direct route
 down below
@@ -49,6 +50,7 @@ down there
 dynamic pose
 ears
 elbow
+encompassing
 ends
 everywhere
 eyelevel
@@ -82,6 +84,7 @@ inclined
 inward
 jaw
 jazz hands
+just as far
 knee
 lateral
 leaning forward
@@ -108,11 +111,13 @@ middle
 model pose
 mounted
 near
+near the $$random_word
 nearby
 nearer
 nearest
 neighboring
 nodding off
+nonetheless
 not far
 o'er
 on a higher level

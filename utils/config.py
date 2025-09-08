@@ -72,6 +72,7 @@ class Config:
                         "max_executor_threads",
         )
         self.set_values(bool,
+                        "debug",
                         "override_dictionary_append",
                         "blacklist_prevent_execution",
         )

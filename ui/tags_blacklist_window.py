@@ -125,8 +125,11 @@ class BlacklistModifyWindow():
 
     def _has_changes(self):
         """Check if any changes have been made to the form"""
+        string = self.new_string.get().strip()
+        if self.is_new_item:
+            return string != ""
         current_values = {
-            'string': self.new_string.get().strip(),
+            'string': string,
             'enabled': self.enabled_var.get(),
             'use_regex': self.use_regex_var.get(),
             'use_word_boundary': self.use_word_boundary_var.get(),

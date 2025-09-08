@@ -20,20 +20,24 @@ all-time
 allegorical
 aloof
 aloud
+amazing
 ambiguous
 amped
 amphibious
 anisometric
+arduous
 arioso
 as thin as a hair
 aspiration
 astute
 at a loss
+athwart
 atonal
 available
 average
 awash
 backdated
+ballistic
 bare-knuckle
 barren
 based
@@ -64,9 +68,11 @@ cleft
 cliché
 coherent
 committed
+complementary
 comprehensive
 concealed
 conceited
+conditional
 crooked
 crumpled
 crushed
@@ -92,16 +98,20 @@ dried out
 driven
 droll
 droopy
+elementary
 elongated
 elusive
 emblazoned
 eminent
 endorsed
 entwined
+epic
 equipped
 equivocal
 ersatz
+eternal
 evanescent
+evasive
 existential
 exorbitant
 extra-large
@@ -114,6 +124,7 @@ feeble
 feral
 fettered
 fibrous
+fine
 fine and dandy
 firm
 fixed
@@ -126,6 +137,7 @@ foolish
 foreboding
 fortuitous
 frail
+fresh
 frizzy
 frozen
 fun-size
@@ -133,12 +145,14 @@ fused
 gallant
 garish
 gaudy
+gaunt
 genius
 gifted
 glacial
 goalie
 godlike
 godly
+good-tempered
 goofy
 grand
 gratis
@@ -147,10 +161,12 @@ guarded
 habitual
 hale
 hard-hearted
+hasty
 hazily
 hearty
 heavy-set
 hidden
+high cheekbones
 high-strung
 honest
 honorable
@@ -165,6 +181,7 @@ in a tizzy
 in high regard
 in shape
 incarnate
+incedental
 incendiary?
 inctremental
 infernal
@@ -192,6 +209,7 @@ laid-back
 lame
 largest in the world
 latent
+legendary
 legit
 lengthy
 like a $$random_word
@@ -200,6 +218,7 @@ lilting
 loose
 lord
 lousy
+low cheekbones
 low cost
 loyal
 makeshift
@@ -209,6 +228,7 @@ maniacal
 manic
 marred
 mean
+medial
 medium-sized
 meritous
 merry
@@ -225,6 +245,7 @@ mulish
 mundane
 mutated
 mute
+mythic
 mythical
 nameless
 nemisis
@@ -260,14 +281,18 @@ pricey
 primal
 pristine
 promontory
+quaint
+rare
 rather
 ready
+redoubtable
 regal
 remastered
 repetitive
 resonant
 restored
 retractable
+ridiculous
 riled
 rinky-dink
 risky
@@ -318,6 +343,7 @@ pedigree
 pompous
 punk style
 round
+sappy
 sardonic
 sassy
 scandalous
@@ -331,6 +357,7 @@ shaken
 shaky
 shielded
 short
+short-tempered
 shrill
 sight for sore eyes
 sight unseen
@@ -371,12 +398,15 @@ studded
 Stygian
 styled
 sublime
+subtle
 superdry
 superior
 susceptible
 swell
 swole
+sympathetic
 synthetic
+tacky
 tactical
 tall
 tangy
@@ -395,6 +425,7 @@ timid
 tiny
 too true
 traditional
+transient
 travesty
 trifling
 triplet
@@ -428,6 +459,7 @@ waverly
 wayward
 weary
 webbed
+well-mannered
 wellaway
 whiskers
 whiz

@@ -18,6 +18,7 @@ acceding
 accelerating
 accentuating
 accepting
+accolade
 accompanying
 accosting
 acing a test
@@ -75,6 +76,7 @@ arrival
 arriving
 art from around the world
 art or coffee table books
+as I suspected
 as long as $$random_word is $$random_word
 asking
 assaying
@@ -110,13 +112,18 @@ bearing
 bearing witness
 beckoning
 becoming
+been busy
+beeping
 beer and spirits tasting
 beer run
+begat
 begone
 Behold!
 being
 being a $$random_word
+bellowing
 bells
+belonging
 berating
 beset
 bestowing
@@ -133,6 +140,7 @@ blabs
 bless
 blinking
 blogging
+bloopers
 blowing in
 blurted out
 board games
@@ -141,6 +149,7 @@ boing
 bolstering
 booby trap
 book club
+boss fight
 bossing
 bottle caps
 bouncing
@@ -248,9 +257,11 @@ colonizing
 come forth
 coming up
 communion
+complementing
 computer hobbies
 concealing
 concert or choir photography
+conjecture
 conjuring
 conquering
 consistory
@@ -266,6 +277,7 @@ counteroffer
 covering
 crafting 
 cramming
+crashing
 crawling
 create elaborate dessert bars
 creating a podcast
@@ -294,6 +306,7 @@ dancing
 dancing
 dancing
 dancing a jig
+dangling
 Danse Macabre
 darn
 darting
@@ -315,6 +328,7 @@ delivering
 delving
 demoing
 demurring
+denouement
 departure
 depositing
 depreciating
@@ -334,6 +348,7 @@ disbursing
 discovering
 dishing it out
 dismounting
+diversification
 diving
 divining
 do one
@@ -421,11 +436,13 @@ evading
 evaporating
 even I knew that
 evening out
+exacting
 examination
 examining
 exams
 excitation
 excoriating
+exfiltration
 exhaling
 exile
 expecting
@@ -465,6 +482,7 @@ figurines
 filing
 filling up
 film watching/review
+finale
 financing
 fishing
 fitness
@@ -495,6 +513,7 @@ frolicking
 fruit-themed decor and items
 frying
 fuming
+fundraiser
 furniture building
 fun
 furor
@@ -536,6 +555,7 @@ go-carts
 goading
 going
 going down
+going fishing
 going to $$random_word
 going to museums
 going to work
@@ -563,6 +583,7 @@ handing out $$random_word
 hanggliding
 hanging
 hanging out
+hanging up
 happening
 harassing
 hard at work
@@ -608,6 +629,7 @@ holing up
 home decorating
 homework
 honing
+honking
 hop on
 hopping
 hornswoggled
@@ -657,7 +679,9 @@ incantantion
 incantation
 incoming
 increasing
+indictment
 inferring
+infiltration
 inhaling
 inquiring
 inspecting
@@ -665,6 +689,7 @@ installation
 installing
 integrating
 intending
+intercepting
 interview with $$random_word
 interview with bystander
 introducing
@@ -810,6 +835,7 @@ mergers and acquisitions
 merriment
 messing around
 metal detecting
+meting out
 miling
 military parade
 milking a cow
@@ -1026,14 +1052,17 @@ putting
 putting on an act
 putting out $$random_word
 puzzles
+pwning
 quacking
 on a quest
 questing
 quilting
 quitting
 quoting
+raffle
 rah rah!
 raid
+raid group
 raising
 raking
 raking in
@@ -1057,6 +1086,7 @@ rebuttal
 recapping
 receding
 receiving
+reception
 recess
 reciting
 records
@@ -1177,6 +1207,7 @@ seal the deal
 seance
 search and rescue
 see to it that $$random_word
+seeing
 seeing to $$random_word
 seeking
 seeming
@@ -1252,6 +1283,7 @@ smoking a cigarette
 smoking a pipe
 smushing
 snacking
+snagging
 snapping
 snarfing
 sneaking
@@ -1259,6 +1291,7 @@ snoring
 snow globes
 snowboarding
 snuggling
+so there!
 soap making and soap packaging
 soaring
 sobbing
@@ -1335,6 +1368,7 @@ summiting
 surfing
 surprise ending
 surprising
+surrendering
 surveying
 swarm
 swearing in
@@ -1397,6 +1431,7 @@ thundering
 thwarted
 thwarting
 tickling
+tidings
 tie dyeing
 time out
 tinkering
@@ -1449,6 +1484,7 @@ under siege
 undergoing
 understanding
 understating
+undertaking
 undoing
 unique spices, teas, coffees
 unrolling

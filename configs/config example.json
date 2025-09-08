@@ -1,4 +1,5 @@
 {
+    "debug": false,
     "foreground_color": "white",
     "background_color": "#05342C",
     "default_prompt_mode": "FIXED",

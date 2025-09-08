@@ -212,7 +212,7 @@ class GenConfig:
     def __str__(self) -> str:
         title_str = Utils.format_white(f"GenConfig: {self.workflow_id}\n")
         if not config.debug:
-            resolution_str = f"Resolutions: {Utils.print_list_str(self.resolutions)}"
+            resolution_str = f"Resolutions: {self.resolutions}"
             return title_str + resolution_str
         if self.is_redo_prompt():
             out = title_str

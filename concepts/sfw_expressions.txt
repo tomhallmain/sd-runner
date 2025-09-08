@@ -1,11 +1,13 @@
 [[I am,you are,he is,she is,we are,they are]] not amused
 Agitated
 alas
+Allllrighty then!
 amazement
 amused
 angry
 Anxious
 Apathetic
+ardor
 ashamed
 awestruck
 aww
@@ -46,6 +48,7 @@ devious
 Disappointed
 Discontent
 disinterest
+dizzy
 dour
 drowsy
 elation
@@ -58,6 +61,9 @@ hah!
 haha
 hatred
 hiss
+How?
+Huh?
+I beg your pardon?
 incredulity
 intuition
 jealous
@@ -138,6 +144,7 @@ no way
 none the wiser
 oh no
 Oho!
+Okay...
 oof
 ooh
 Optimistic
@@ -186,6 +193,7 @@ smiling
 smirk
 smitten
 smug
+snark
 snarl
 sneering
 snort
@@ -221,6 +229,8 @@ Upbeat
 Uplifted
 Vexed
 well I never!
+What?
+Why?
 wishing
 woe
 Worried

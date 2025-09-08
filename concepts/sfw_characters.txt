@@ -36,6 +36,7 @@ Barbar the Elephant
 Barnum and Baileys
 baronet
 been there, done that
+bellhop
 Bender
 Betty Boop
 Black Desert Online
@@ -54,6 +55,7 @@ Byzantine
 Calypso
 can I get a true
 canester
+Captain Haddock
 carte blanche
 cashier
 Caspar Milquetoast
@@ -81,6 +83,7 @@ cowpoke
 crook
 Crookshanks
 culprit
+curmudgeon
 Custos rotulorum
 dean
 Deus Ex
@@ -95,6 +98,7 @@ dragster
 driver
 Dudley
 e'er
+elitist
 Elvis has left the building
 Elvis Presley
 emeratus
@@ -116,6 +120,7 @@ Firebird
 First Mate
 flash gun
 fly rink
+foofaraw
 forester
 French Foreign Legion
 fuddy-duddy
@@ -142,12 +147,15 @@ Haw haw haw
 heathen
 heir
 Helmsley
+herald
 Hermes Trismegistus
 Hi-Ho, the Derry-o
 holo-$$random_word
 Holy See
 Homer
 Homer Simpson
+hooligan
+hootenanny
 Hoth
 Houdini
 how many times do I have to tell you
@@ -228,6 +236,7 @@ One if by land, two if by sea
 one must admit
 opponent
 orator
+orderly
 Ori and the Blind Forest
 P.F. Flyers
 P.I.
@@ -240,6 +249,7 @@ PeeWee's Big Adventure
 perhaps
 Peter Cottontail
 Philistine
+Phineas T. Barnum
 picaresque
 pick-me-up
 picker-upper
@@ -266,6 +276,7 @@ provost
 pugilist
 pupil
 purveyor
+pyromancer
 ranchhand
 rascal
 rector
@@ -283,6 +294,7 @@ scout
 scribe
 sea rover
 seadog
+Seeburg Wall-O-Matic 200
 seeker
 seer
 SEGA
@@ -365,12 +377,14 @@ tinkerer
 Titan
 TiVo
 Tony the Tiger
+town crier
 trader
 tradesman
 trope
 tutor
 twat
 ulterior motives
+undertaker
 urethane
 valkyrie
 Viet Cong

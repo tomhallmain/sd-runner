@@ -324,7 +324,8 @@ class Prompter:
                 mix.extend(self.concepts.get_humans(multiplier=self.prompter_config.multiplier))
         # Small chance to add artist style
         if not self.concepts.is_art_style_prompt_mode() and random.random() < self.prompter_config.art_styles_chance:
-            print("Adding art styles")
+            if config.debug:
+                print("Adding art styles")
             mix.extend(self.concepts.get_art_styles(max_styles=2, multiplier=self.prompter_config.multiplier))
         random.shuffle(mix)
         Prompter.emphasize(mix, emphasis_chance=self.prompter_config.emphasis_chance)

@@ -1,6 +1,9 @@
 # TODO expand this list
 anyone
 bystanders
+elder
+fellow
+friend
 gals
 gentleman
 gentlemen
@@ -59,4 +62,6 @@ different people
 2girls 2boys
 3girls
 3boys
+youth
+youths
 

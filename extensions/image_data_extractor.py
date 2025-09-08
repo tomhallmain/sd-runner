@@ -253,7 +253,8 @@ class ImageDataExtractor:
         png_info.add_text(ImageDataExtractor.RELATED_IMAGE_KEY, str(related_image_path))
         image.save(image_path, pnginfo=png_info)
         image.close()
-        print("Added related image path: " + related_image_path)
+        if config.debug:
+            print("Added related image path: " + related_image_path)
 
 
 def main():

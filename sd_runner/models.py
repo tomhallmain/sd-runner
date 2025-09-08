@@ -281,7 +281,8 @@ class Model:
         models = {}
         lora_or_sd = "Lora" if is_lora else "Stable-diffusion"
         root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
-        print(f"Loading models from {root_dir}")
+        if config.debug:
+            print(f"Loading models from {root_dir}")
         for file in glob.glob(pathname="**/*", root_dir=root_dir, recursive=True):
             if not file.endswith("ckpt") and not file.endswith("safetensors") and not file.endswith("pth") and not file.endswith("pt"):
                 continue
@@ -332,7 +333,8 @@ class Model:
             try:
                 models = Model.get_models(model_tags)
             except Exception as e:
-                print(f"Failed to get model to set presets with exception: {e}")
+                if config.debug:
+                    print(f"Failed to get model to set presets with exception: {e}")
             for model in models:
                 if "architecture_type" in preset_config:
                     architecture_type_str = preset_config["architecture_type"]

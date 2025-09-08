@@ -27,6 +27,7 @@ archive
 area
 arroyo
 at the helm
+atoll
 auto body shop
 avenue
 backroads
@@ -41,6 +42,7 @@ bleachers
 bluff
 blvd.
 booth
+bough
 boulevard
 bowsprit
 brewpub
@@ -50,6 +52,7 @@ bungalow
 canal
 captains hold
 castle keep
+cellar
 center for $$random_word
 charity dinner
 chute
@@ -63,10 +66,12 @@ copse
 cordoned off
 corral
 corridor
+coulee
 country road
 covered bridge
 crater
 credit union
+crow's nest
 cruiseliner
 cupola
 curb
@@ -107,6 +112,7 @@ haven
 headquarters
 here
 hest wave
+high altitude
 highland
 hiking trail
 historic monument
@@ -128,12 +134,14 @@ liquor store
 location
 lot
 lounge
+low altitude
 lower atmosphere
 lowland
 main hall
 Main Street
 major metropolitan area
 manufacturer
+massif
 metal concert
 metro area
 middle of nowhere
@@ -141,11 +149,13 @@ minibar
 minimart
 misty mountains
 monsoon
+moraine
 mount $$random_word
 municipality
 my old haunt
 niche
 nursery
+observation platform
 observation room
 Odeon
 off-road
@@ -199,6 +209,7 @@ seaside
 security office
 shaft
 shore
+shoreline
 side road
 single-lane bridge
 single-lane road
@@ -228,11 +239,13 @@ the range
 theater-in-the-round
 there
 thicket
+thoroughfare
 tidewater basin
 tourist trap
 toy stores
 tracts
 tram
+treetop
 trench
 tropics
 upper atmosphere

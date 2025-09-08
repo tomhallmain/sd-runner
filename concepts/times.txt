@@ -3,10 +3,13 @@ a while ago
 all the time
 all the while
 always
+at last
 circa $$number [[BC,AD,CE]]
 early morning
 ever
 everlasting
+first of all
+first up
 henceforth
 holiday
 instant
@@ -20,6 +23,7 @@ morning
 mid-morning
 late morning
 never
+next up
 noon
 early afternoon
 afternoon
@@ -29,6 +33,7 @@ late afternoon
 evening
 dawn
 dusk
+parsec
 prolonged
 recently
 since then
@@ -50,6 +55,7 @@ midnight
 spring
 summer
 fall
+until then
 whenever
 winter
 midday
