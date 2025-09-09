@@ -39,6 +39,7 @@ class RunnerAppConfig:
         self.scheduler = Scheduler.ACCEPT_ANY.name
         self.n_latents = 1
         self.total = 2
+        self.batch_limit = -1  # -1 means no limit
         self.prompter_config = PrompterConfiguration()
 
         self.auto_run = True
@@ -71,6 +72,7 @@ class RunnerAppConfig:
         self.scheduler = args.scheduler.name
         self.n_latents = args.n_latents
         self.total = args.total
+        self.batch_limit = args.batch_limit
         self.auto_run = args.auto_run
         self.override_resolution = args.override_resolution
         self.inpainting = args.inpainting
@@ -96,6 +98,8 @@ class RunnerAppConfig:
             app_config.continuous_seed_variation = False  # Default to False for backward compatibility
         if not hasattr(app_config, 'sparse_mixed_tags'):
             app_config.sparse_mixed_tags = False  # Default to False for backward compatibility
+        if not hasattr(app_config, 'batch_limit'):
+            app_config.batch_limit = -1  # Default to -1 (no limit) for backward compatibility
         if not isinstance(app_config.prompter_config, dict):
             raise Exception("Prompter config is not a dict")
         prompter_config_dict = deepcopy(app_config.prompter_config)

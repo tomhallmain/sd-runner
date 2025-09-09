@@ -40,6 +40,7 @@ class RunConfig:
         self.resolution_group = self.get("resolution_group")
         self.override_resolution = self.get("override_resolution")
         self.total = self.get("total")
+        self.batch_limit = self.get("batch_limit")
         self.continuous_seed_variation = self.get("continuous_seed_variation")
 
         if RunConfig.previous_model_tags != self.model_tags:

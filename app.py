@@ -174,6 +174,13 @@ class App():
         self.total_choice = OptionMenu(self.sidebar, self.total, str(self.runner_app_config.total), *total_options)
         self.apply_to_grid(self.total_choice, interior_column=1, sticky=W)
 
+        self.label_batch_limit = Label(self.sidebar)
+        self.add_label(self.label_batch_limit, _("Batch Limit"), increment_row_counter=False)
+        self.batch_limit = StringVar(master)
+        batch_limit_options = ['-1', '1', '5', '10', '20', '50', '100', '200', '500', '1000', '2000', '5000', '10000']
+        self.batch_limit_choice = OptionMenu(self.sidebar, self.batch_limit, str(self.runner_app_config.batch_limit), *batch_limit_options)
+        self.apply_to_grid(self.batch_limit_choice, interior_column=1, sticky=W)
+
         self.label_delay = Label(self.sidebar)
         self.add_label(self.label_delay, _("Delay Seconds"), increment_row_counter=False)
         self.delay = StringVar(master)
@@ -528,6 +535,7 @@ class App():
         self.set_workflow_type(self.runner_app_config.workflow_type)
         self.n_latents.set(str(self.runner_app_config.n_latents))
         self.total.set(str(self.runner_app_config.total))
+        self.batch_limit.set(str(self.runner_app_config.batch_limit))
         self.delay.set(str(self.runner_app_config.delay_time_seconds))
         self.set_widget_value(self.resolutions_box, self.runner_app_config.resolutions)
         self.set_widget_value(self.model_tags_box, self.runner_app_config.model_tags)
@@ -741,6 +749,7 @@ class App():
         args.n_latents = int(self.n_latents.get())
 
         args.total = int(self.total.get())
+        args.batch_limit = int(self.batch_limit.get())
         self.runner_app_config.prompt_massage_tags = self.prompt_massage_tags.get()
         self.runner_app_config.prompter_config.prompt_mode = PromptMode.get(self.prompt_mode.get())
 

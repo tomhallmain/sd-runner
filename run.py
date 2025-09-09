@@ -276,16 +276,23 @@ class Run:
         self.progress_tracker = MultiGenProgressTracker(
             total_adapter_iterations=total_adapter_iterations,
             total_per_adapter=self.args.total,
-            ui_callbacks=self.ui_callbacks
+            ui_callbacks=self.ui_callbacks,
+            batch_limit=self.args.batch_limit
         )
 
         if is_dir_ipadapter and is_dir_controlnet:
             for i in range(len(control_nets)):
+                if self.is_cancelled or not self.progress_tracker.should_continue():
+                    if not self.progress_tracker.should_continue():
+                        self.print(f"Batch limit reached: {self.progress_tracker.current_adapter_iteration}/{self.progress_tracker.batch_limit}")
+                    break
                 control_net = control_nets[i]
                 if not control_net.is_valid():
                     continue
                 for j in range(len(ip_adapters)):
-                    if self.is_cancelled:
+                    if self.is_cancelled or not self.progress_tracker.should_continue():
+                        if not self.progress_tracker.should_continue():
+                            self.print(f"Batch limit reached: {self.progress_tracker.current_adapter_iteration}/{self.progress_tracker.batch_limit}")
                         break
                     ip_adapter = ip_adapters[j]
                     if not ip_adapter.is_valid():
@@ -296,7 +303,9 @@ class Run:
                     self.progress_tracker.next_adapter()
         elif is_dir_controlnet:
             for i in range(len(control_nets)):
-                if self.is_cancelled:
+                if self.is_cancelled or not self.progress_tracker.should_continue():
+                    if not self.progress_tracker.should_continue():
+                        self.print(f"Batch limit reached: {self.progress_tracker.current_adapter_iteration}/{self.progress_tracker.batch_limit}")
                     break
                 control_net = control_nets[i]
                 if not control_net.is_valid():
@@ -306,7 +315,9 @@ class Run:
                 self.progress_tracker.next_adapter()
         elif is_dir_ipadapter:
             for i in range(len(ip_adapters)):
-                if self.is_cancelled:
+                if self.is_cancelled or not self.progress_tracker.should_continue():
+                    if not self.progress_tracker.should_continue():
+                        self.print(f"Batch limit reached: {self.progress_tracker.current_adapter_iteration}/{self.progress_tracker.batch_limit}")
                     break
                 ip_adapter = ip_adapters[i]
                 if not ip_adapter.is_valid():

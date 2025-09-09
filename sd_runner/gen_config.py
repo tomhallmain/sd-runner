@@ -54,6 +54,7 @@ class GenConfig:
         self.countdown_value = -1
         self.software_type = run_config.software_type
         self.continuous_seed_variation = run_config.continuous_seed_variation
+        self.batch_limit = run_config.batch_limit
         self.run_config = run_config
 
     def is_xl(self) -> bool:
@@ -290,11 +291,13 @@ class MultiGenProgressTracker:
         self,
         total_adapter_iterations: int,
         total_per_adapter: int,
-        ui_callbacks = None
+        ui_callbacks = None,
+        batch_limit: int = -1
     ):
         self.total_adapter_iterations = total_adapter_iterations
         self.total_per_adapter = total_per_adapter
         self.ui_callbacks = ui_callbacks
+        self.batch_limit = batch_limit
         self.current_adapter_iteration = 0
         self.current_count_in_adapter = 0
         
@@ -323,3 +326,16 @@ class MultiGenProgressTracker:
         """Move to the next adapter iteration."""
         self.current_adapter_iteration += 1
         self.current_count_in_adapter = 0
+    
+    def should_continue(self) -> bool:
+        """Check if processing should continue based on batch limit."""
+        if self.batch_limit == -1:  # No limit
+            return True
+        return self.current_adapter_iteration < self.batch_limit
+    
+    
+    def get_remaining_batch_slots(self) -> int:
+        """Get the number of remaining batch slots."""
+        if self.batch_limit == -1:  # No limit
+            return -1
+        return max(0, self.batch_limit - self.current_adapter_iteration)
