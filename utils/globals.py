@@ -165,6 +165,7 @@ class Globals:
     PRINT_NEGATIVES = config.dict["print_negatives"]
     PROMPTER_GET_SPECIFIC_LOCATIONS = config.dict["prompter_get_specific_locations"]
     GENERATION_DELAY_TIME_SECONDS = 10
+    TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS = 7200  # 2 hours default threshold
     image_data_extractor = None
 
     @classmethod
@@ -196,6 +197,10 @@ class Globals:
     @classmethod
     def set_delay(cls, delay):
         cls.GENERATION_DELAY_TIME_SECONDS = delay
+
+    @classmethod
+    def set_time_estimation_threshold(cls, threshold_seconds):
+        cls.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS = threshold_seconds
 
 
 class WorkflowType(Enum):

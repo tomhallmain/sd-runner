@@ -26,6 +26,7 @@ from sd_runner.gen_config import GenConfig
 from sd_runner.model_adapters import IPAdapter
 from sd_runner.models import Model
 from sd_runner.prompter import Prompter
+from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from utils.time_estimator import TimeEstimator
 from ui.app_actions import AppActions
@@ -687,10 +688,52 @@ class App():
             args.validate()
         except BlacklistException as e:
             self.handle_error(e, "Blacklist Validation Error")
-            return
+            return None
         except Exception as e:
             res = self.alert(_("Confirm Run"),
                 str(e) + "\n\n" + _("Are you sure you want to proceed?"),
+                kind="warning")
+            if res != messagebox.OK:
+                return None
+
+        # Check if estimated time exceeds threshold and show confirmation dialog
+        # Create a temporary GenConfig for time estimation (similar to Run.construct_gen)
+        # TODO: Handle adapter complications - this only estimates time for a single gen config,
+        # but runs can have multiple gen configs due to control nets, IP adapters, and other variations
+        # that create different combinations. The actual run time could be much longer.
+        
+        # Get basic configuration for time estimation
+        workflow_type = args.workflow_tag
+        models = Model.get_models(args.model_tags, default_tag=Model.get_default_model_tag(workflow_type), inpainting=args.inpainting)
+        resolution_group = ResolutionGroup.get(args.resolution_group)
+        resolutions = Resolution.get_resolutions(args.res_tags, architecture_type=models[0].architecture_type, resolution_group=resolution_group)
+        
+        # Create a minimal GenConfig for time estimation
+        gen_config = GenConfig(
+            workflow_id=workflow_type,
+            models=models,
+            n_latents=args.n_latents,
+            resolutions=resolutions,
+            run_config=args
+        )
+        
+        estimated_seconds = self.calculate_current_run_estimated_time(workflow_type, gen_config)
+        
+        if estimated_seconds > Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS:
+            formatted_time = TimeEstimator.format_time(estimated_seconds)
+            threshold_formatted = TimeEstimator.format_time(Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS)
+            
+            res = self.alert(_("Long Running Job Confirmation"),
+                _("The estimated time for this run is {0}, which exceeds the threshold of {1}.\n\n"
+                  "This run will generate {2} images.\n\n"
+                  "Note: This estimate is for a single generation configuration. "
+                  "If you have multiple control nets, IP adapters, or other variations, "
+                  "the actual run time could be significantly longer.\n\n"
+                  "Are you sure you want to proceed?").format(
+                    formatted_time,
+                    threshold_formatted,
+                    gen_config.maximum_gens_per_latent()
+                ),
                 kind="warning")
             if res != messagebox.OK:
                 return None
@@ -1106,6 +1149,23 @@ class App():
             return
         if func:
             func()
+
+    def calculate_current_run_estimated_time(self, workflow_type: str, gen_config: GenConfig) -> int:
+        """
+        Calculate the estimated time in seconds for the current run only.
+        
+        Args:
+            workflow_type: The type of workflow being run
+            gen_config: The current generation configuration
+            
+        Returns:
+            Estimated time in seconds for current run
+        """
+        # Calculate time for current job only
+        total_jobs = gen_config.maximum_gens_per_latent()
+        current_job_time = TimeEstimator.estimate_queue_time(total_jobs, gen_config.n_latents)
+        logger.debug(f"App.calculate_current_run_estimated_time - current job: {total_jobs} jobs, time: {current_job_time}s")
+        return current_job_time
 
     def update_time_estimation(self, workflow_type: str, gen_config: GenConfig, remaining_count: int = 1):
         """

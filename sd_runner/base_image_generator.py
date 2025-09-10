@@ -71,13 +71,13 @@ class BaseImageGenerator(ABC):
     def random_skip(self) -> bool:
         skip_chance = getattr(self, 'RANDOM_SKIP_CHANCE', 0.0)
         if skip_chance > 0 and random.random() < skip_chance:
-            logger.debug(f"Skipping by random chance ({skip_chance*100}%)")
+            logger.info(f"Skipping by random chance ({skip_chance*100}%)")
             return True
         return False
 
     def print_stats(self) -> None:
         with self._lock:
-            logger.debug(f"Started {self.counter} prompts, {self.latent_counter} images to be saved if all complete")
+            logger.info(f"Started {self.counter} prompts, {self.latent_counter} images to be saved if all complete")
             self.reset_counters()
 
     def print_pre(self, action: str, **kw):
