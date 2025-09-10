@@ -186,9 +186,12 @@ class PresetsWindow():
             PresetsWindow.recent_presets.remove(preset)
         PresetsWindow.recent_presets.insert(0, preset)
         self.set_preset(preset=preset)
+        return preset
 
     def set_preset(self, event=None, preset=None):
-        preset = self.handle_preset(preset=preset)
+        if preset is None:
+            # If no preset provided, get one from handle_preset
+            preset = self.handle_preset(preset=preset)
         if self.filter_text is not None and self.filter_text.strip() != "":
             print(f"Filtered by string: {self.filter_text}")
         PresetsWindow.update_history(preset)

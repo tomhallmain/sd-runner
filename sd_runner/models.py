@@ -376,8 +376,8 @@ class Model:
             print(e)
         prompt_massage_tags = ""
         if len(models) == 1:
-            print(models[0])
-            print(models[0].positive_tags)
+            # print(models[0])
+            # print(models[0].positive_tags)
             tags_from_model = models[0].positive_tags
             if tags_from_model:
                 prompt_massage_tags = tags_from_model

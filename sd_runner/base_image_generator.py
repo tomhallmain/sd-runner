@@ -108,13 +108,14 @@ class BaseImageGenerator(ABC):
                     for _4 in getattr(self.gen_config, BaseImageGenerator.ORDER[3]):
                         for _5 in getattr(self.gen_config, BaseImageGenerator.ORDER[4]):
                             for _6 in getattr(self.gen_config, BaseImageGenerator.ORDER[5]):
-                                if self.random_skip():
-                                    continue
-
                                 args = [_1, _2, _3, _4, _5, _6]
                                 resolution = args[BaseImageGenerator.ORDER.index("resolutions")]
                                 control_net = args[BaseImageGenerator.ORDER.index("control_nets")]
                                 ip_adapter = args[BaseImageGenerator.ORDER.index("ip_adapters")]
+
+                                if self.random_skip():
+                                    self.gen_config.resolutions_skipped += 1
+                                    continue
 
                                 if resolution.should_be_randomly_skipped() or \
                                         self.should_skip_resolution(workflow_id, resolution, control_net, ip_adapter):

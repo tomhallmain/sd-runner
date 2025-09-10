@@ -16,10 +16,13 @@ from sd_runner.run_config import RunConfig
 from sd_runner.sdwebui_gen import SDWebuiGen
 from sd_runner.workflow_prompt import WorkflowPrompt
 from utils.config import config
+from utils.logging_setup import get_logger
 from utils.translations import I18N
 from utils.utils import Utils
 
 _ = I18N._
+
+logger = get_logger("run")
 
 prompt_list = [
 ]
@@ -250,6 +253,7 @@ class Run:
                 traceback.print_exc()
 
     def execute(self) -> None:
+        logger.info("Executing run submitted by user at " + time.strftime("%Y-%m-%d %H:%M:%S", self.args.start_time))
         self.is_complete = False
         self.is_cancelled = False
         Model.load_all()

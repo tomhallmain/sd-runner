@@ -1,3 +1,5 @@
+import time
+
 from utils.globals import Globals, PromptMode # must import first
 
 from sd_runner.models import Model
@@ -16,6 +18,7 @@ class RunConfig:
 
     def __init__(self, args=None):
         self.args = args
+        self.start_time = time.localtime()
         self.software_type = self.get("software_type")
         self.workflow_tag = self.get("workflow_tag")
         self.res_tags = self.get("res_tags")

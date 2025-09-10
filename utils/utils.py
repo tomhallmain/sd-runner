@@ -324,11 +324,21 @@ class Utils:
         return f"{CYAN}{s}{RESET}"
 
     @staticmethod
-    def print_list_str(ls):
-        out = "[\n"
-        for item in ls:
-            out += f"\t{item}\n"
-        out += "]"
+    def print_list_str(ls, newlines=True):
+        out = f"["
+        if newlines:
+            out += "\n"
+            for item in ls:
+                out += f"\t{item}\n"
+            out += "]"
+        else:
+            for i in range(len(ls)):
+                item = ls[i]
+                if i == len(ls) - 1:
+                    out += f"{item}"
+                else:
+                    out += f"{item}, "
+            out += "]"
         return out
 
     @staticmethod
