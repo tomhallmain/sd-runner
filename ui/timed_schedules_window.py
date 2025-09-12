@@ -147,7 +147,7 @@ class TimedSchedulesWindow():
 
     @staticmethod
     def get_geometry(is_gui=True):
-        width = 700
+        width = 900
         height = 400
         return f"{width}x{height}"
 
@@ -158,11 +158,12 @@ class TimedSchedulesWindow():
         self.master = TimedSchedulesWindow.top_level
         self.app_actions = app_actions
         self.filter_text = ""
-        self.filtered_schedules = timed_schedules_manager.recent_schedules[:]
+        self.filtered_schedules = timed_schedules_manager.recent_timed_schedules[:]
         self.label_list = []
         self.set_schedule_btn_list = []
         self.modify_schedule_btn_list = []
         self.delete_schedule_btn_list = []
+        self.enabled_checkbutton_list = []
 
         self.frame = Frame(self.master)
         self.frame.grid(column=0, row=0)
@@ -170,14 +171,15 @@ class TimedSchedulesWindow():
         self.frame.columnconfigure(1, weight=1)
         self.frame.columnconfigure(2, weight=1)
         self.frame.columnconfigure(3, weight=1)
+        self.frame.columnconfigure(4, weight=1)
         self.frame.config(bg=AppStyle.BG_COLOR)
 
         self._label_info = Label(self.frame)
         self.add_label(self._label_info, _("Create and modify schedules"), row=0, wraplength=TimedSchedulesWindow.COL_0_WIDTH)
         self.add_schedule_btn = None
         self.add_btn("add_schedule_btn", _("Add schedule"), self.open_schedule_modify_window, column=1)
-        self.clear_recent_schedules_btn = None
-        self.add_btn("clear_recent_schedules_btn", _("Clear schedules"), self.clear_recent_schedules, column=2)
+        self.clear_recent_timed_schedules_btn = None
+        self.add_btn("clear_recent_timed_schedules_btn", _("Clear schedules"), self.clear_recent_timed_schedules, column=2)
 
         self.add_schedule_widgets()
 
@@ -212,6 +214,17 @@ class TimedSchedulesWindow():
                 return self.delete_schedule(event, schedule)
             delete_schedule_btn.bind("<Button-1>", delete_schedule_handler)
 
+            # Add enabled/disabled checkbutton
+            enabled_var = BooleanVar(self.master, value=schedule.enabled)
+            enabled_checkbutton = Checkbutton(self.frame, text=_("Enabled"), variable=enabled_var)
+            self.enabled_checkbutton_list.append((enabled_checkbutton, enabled_var, schedule))
+            enabled_checkbutton.grid(row=row, column=base_col+3)
+            def toggle_enabled_handler(event, self=self, schedule=schedule, var=enabled_var):
+                schedule.enabled = var.get()
+                timed_schedules_manager.store_schedules()
+                return None
+            enabled_checkbutton.bind("<Button-1>", toggle_enabled_handler)
+
     @require_password(ProtectedActions.EDIT_TIMED_SCHEDULES)
     def open_schedule_modify_window(self, event=None, schedule=None):
         if TimedSchedulesWindow.schedule_modify_window is not None:
@@ -220,7 +233,7 @@ class TimedSchedulesWindow():
 
     def refresh_schedules(self, schedule):
         timed_schedules_manager.refresh_schedule(schedule)
-        self.filtered_schedules = timed_schedules_manager.recent_schedules[:]
+        self.filtered_schedules = timed_schedules_manager.recent_timed_schedules[:]
         self.refresh()
 
     def set_schedule(self, schedule):
@@ -263,11 +276,11 @@ class TimedSchedulesWindow():
             print("Filter unset")
             # Restore the list of target directories to the full list
             self.filtered_schedules.clear()
-            self.filtered_schedules = timed_schedules_manager.recent_schedules[:]
+            self.filtered_schedules = timed_schedules_manager.recent_timed_schedules[:]
         else:
             temp = []
             return # TODO
-            for schedule in timed_schedules_manager.recent_schedules:
+            for schedule in timed_schedules_manager.recent_timed_schedules:
                 if schedule not in temp:
                     if schedule and (f" {self.filter_text}" in schedule.lower() or f"_{self.filter_text}" in schedule.lower()):
                         temp.append(schedule)
@@ -309,7 +322,7 @@ class TimedSchedulesWindow():
             self.set_schedule(schedule=schedule)
 
     @require_password(ProtectedActions.EDIT_TIMED_SCHEDULES)
-    def clear_recent_schedules(self, event=None):
+    def clear_recent_timed_schedules(self, event=None):
         self.clear_widget_lists()
         timed_schedules_manager.clear_all_schedules()
         self.filtered_schedules.clear()
@@ -325,13 +338,16 @@ class TimedSchedulesWindow():
             btn.destroy()
         for btn in self.delete_schedule_btn_list:
             btn.destroy()
+        for checkbutton, var, schedule in self.enabled_checkbutton_list:
+            checkbutton.destroy()
         self.set_schedule_btn_list = []
         self.modify_schedule_btn_list = []
         self.delete_schedule_btn_list = []
         self.label_list = []
+        self.enabled_checkbutton_list = []
 
     def refresh(self, refresh_list=True):
-        self.filtered_schedules = timed_schedules_manager.recent_schedules[:]
+        self.filtered_schedules = timed_schedules_manager.recent_timed_schedules[:]
         self.clear_widget_lists()
         self.add_schedule_widgets()
         self.master.update()

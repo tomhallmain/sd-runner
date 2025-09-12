@@ -1,14 +1,14 @@
 # Translations template for APPLICATION.
-# Copyright (C) 2025 AUTHOR NAME <author@example.com>
+# Copyright (C) 2025 THOMAS HALL <tomhall.main@gmail.com>
 # This file is distributed under the same license as the APPLICATION project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: APPLICATION 1.0\n"
-"Report-Msgid-Bugs-To: Translator Name <translator@example.com>\n"
-"POT-Creation-Date: 2025-09-09 16:46-0400\n"
-"PO-Revision-Date: 2025-09-09 16:46-0400\n"
+"Report-Msgid-Bugs-To: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-09-12 16:44-0400\n"
+"PO-Revision-Date: 2025-09-12 16:44-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,207 +16,227 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app.py:133
+#: app.py:135
 msgid "Run SD Workflows"
 msgstr ""
 
-#: app.py:137
+#: app.py:139
 msgid "Run Workflows"
 msgstr ""
 
-#: app.py:139
+#: app.py:141
 msgid "Cancel Run"
 msgstr ""
 
-#: app.py:149
+#: app.py:151
 msgid "Software"
 msgstr ""
 
-#: app.py:157
+#: app.py:159
 msgid "Workflow"
 msgstr ""
 
-#: app.py:164
+#: app.py:166
 msgid "Set N Latents"
 msgstr ""
 
-#: app.py:170
+#: app.py:172
 msgid "Set Total"
 msgstr ""
 
-#: app.py:178
+#: app.py:180
 msgid "Batch Limit"
 msgstr ""
 
-#: app.py:185
+#: app.py:187
 msgid "Delay Seconds"
 msgstr ""
 
-#: app.py:191
+#: app.py:193
 msgid "Resolutions"
 msgstr ""
 
-#: app.py:198
+#: app.py:200
 msgid "Resolution Group"
 msgstr ""
 
-#: app.py:204
+#: app.py:206
 msgid "Model Tags"
 msgstr ""
 
-#: app.py:219
+#: app.py:221
 msgid "LoRA Tags"
 msgstr ""
 
-#: app.py:235
+#: app.py:237
 msgid "Default LoRA Strength"
 msgstr ""
 
-#: app.py:241
+#: app.py:243
 msgid "B/W Colorization Tags"
 msgstr ""
 
-#: app.py:249
+#: app.py:251
 msgid "Control Net or Redo files"
 msgstr ""
 
-#: app.py:256
+#: app.py:258
 msgid "Default Control Net Strength"
 msgstr ""
 
-#: app.py:262
+#: app.py:264
 msgid "IPAdapter files"
 msgstr ""
 
-#: app.py:269
+#: app.py:271
 msgid "Default IPAdapter Strength"
 msgstr ""
 
-#: app.py:275
+#: app.py:277
 msgid "Redo Parameters"
 msgstr ""
 
-#: app.py:291 app.py:306 ui/prompt_config_window.py:267
+#: app.py:293 app.py:310 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr ""
 
-#: app.py:295
+#: app.py:298
 msgid "Preset Schedule Window"
 msgstr ""
 
-#: app.py:296 ui/presets_window.py:94
+#: app.py:299 ui/presets_window.py:94
 msgid "Presets Window"
 msgstr ""
 
-#: app.py:301 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:300
+msgid "Timed Schedules Window"
+msgstr ""
+
+#: app.py:305 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr ""
 
-#: app.py:302 ui/expansions_window.py:176
+#: app.py:306 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr ""
 
-#: app.py:309
+#: app.py:313
 msgid "Prompt Mode"
 msgstr ""
 
-#: app.py:316 utils/globals.py:418
+#: app.py:320 utils/globals.py:431
 msgid "Edit Concepts"
 msgstr ""
 
-#: app.py:319
+#: app.py:323
 msgid "Concepts Dir"
 msgstr ""
 
-#: app.py:332
+#: app.py:336
 msgid "Override Resolution"
 msgstr ""
 
-#: app.py:336
+#: app.py:340
 msgid "Inpainting"
 msgstr ""
 
-#: app.py:340 ui/prompt_config_window.py:569
+#: app.py:344 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr ""
 
-#: app.py:344
+#: app.py:348
 msgid "Run Preset Schedule"
 msgstr ""
 
-#: app.py:348 ui/prompt_config_window.py:590
+#: app.py:352 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr ""
 
-#: app.py:352
+#: app.py:356
 msgid "Prompt Massage Tags"
 msgstr ""
 
-#: app.py:360
+#: app.py:364
 msgid "Positive Tags"
 msgstr ""
 
-#: app.py:367
+#: app.py:371
 msgid "Negative Tags"
 msgstr ""
 
-#: app.py:392 app.py:1151
+#: app.py:396 app.py:1229
 msgid " ComfyGen "
 msgstr ""
 
-#: app.py:393
+#: app.py:397
 msgid "Debug mode toggled."
 msgstr ""
 
-#: app.py:452
+#: app.py:456
 msgid "Confirm Quit"
 msgstr ""
 
-#: app.py:452
+#: app.py:456
 msgid "Would you like to quit the application?"
 msgstr ""
 
-#: app.py:672 app.py:692
+#: app.py:678 app.py:698
 msgid "Confirm Run"
 msgstr ""
 
-#: app.py:673
+#: app.py:679
 msgid "Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"
 msgstr ""
 
-#: app.py:693
+#: app.py:699
 msgid "Are you sure you want to proceed?"
 msgstr ""
 
-#: app.py:792
+#: app.py:734
+msgid "Long Running Job Confirmation"
+msgstr ""
+
+#: app.py:735
+msgid ""
+"The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
+"\n"
+"This run will generate {2} images.\n"
+"\n"
+"Note: This estimate is for a single generation configuration. If you have multiple control nets, IP adapters, or "
+"other variations, the actual run time could be significantly longer.\n"
+"\n"
+"Are you sure you want to proceed?"
+msgstr ""
+
+#: app.py:844
 msgid " (unlimited)"
 msgstr ""
 
-#: app.py:816
+#: app.py:873
 msgid "{0} pending generations"
 msgstr ""
 
-#: app.py:888
+#: app.py:945
 msgid "Blacklisted items found in prompt: {0}"
 msgstr ""
 
-#: app.py:889 app.py:892
+#: app.py:946 app.py:949
 msgid "Invalid Prompt Tags"
 msgstr ""
 
-#: app.py:892
+#: app.py:949
 msgid "Blacklist validation failed!"
 msgstr ""
 
-#: app.py:1005
+#: app.py:1066
 msgid "Password Cancelled"
 msgstr ""
 
-#: app.py:1005
+#: app.py:1066
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr ""
 
-#: app.py:1024 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247 ui/concept_editor_window.py:270
+#: app.py:1085 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247 ui/concept_editor_window.py:270
 #: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
 msgid "Error"
@@ -248,16 +268,44 @@ msgid ""
 "Please try again with a different model."
 msgstr ""
 
-#: sd_runner/run_config.py:61
+#: sd_runner/run_config.py:64
 msgid "No prompter config found!"
 msgstr ""
 
-#: sd_runner/run_config.py:65
+#: sd_runner/run_config.py:68
 msgid "Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"
 msgstr ""
 
-#: sd_runner/run_config.py:72
+#: sd_runner/run_config.py:75
 msgid "A model switch was detected and the model massage tags don't match. This warning will only be shown once."
+msgstr ""
+
+#: sd_runner/timed_schedule.py:8 ui/schedule.py:14 ui/schedules_windows.py:42 ui/timed_schedules_window.py:39
+msgid "New Schedule"
+msgstr ""
+
+#: sd_runner/timed_schedule.py:40
+msgid "Tomorrow"
+msgstr ""
+
+#: sd_runner/timed_schedule.py:75 ui/timed_schedules_window.py:52
+msgid "Every day"
+msgstr ""
+
+#: sd_runner/timed_schedule.py:78
+msgid "{0} - Days: {1} - Times: {2}-{3} - Shutdown: {4}"
+msgstr ""
+
+#: sd_runner/timed_schedules_manager.py:19
+msgid "Default"
+msgstr ""
+
+#: sd_runner/timed_schedules_manager.py:46
+msgid "Default Shutdown"
+msgstr ""
+
+#: sd_runner/timed_schedules_manager.py:91 ui/schedules_windows.py:233
+msgid "Not enough schedules found."
 msgstr ""
 
 #: ui/concept_editor_window.py:106
@@ -277,7 +325,7 @@ msgid "Save"
 msgstr ""
 
 #: ui/concept_editor_window.py:171 ui/expansions_window.py:241 ui/presets_window.py:147 ui/schedules_windows.py:90
-#: ui/schedules_windows.py:300
+#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:208
 msgid "Delete"
 msgstr ""
 
@@ -402,6 +450,7 @@ msgid "Clear expansions"
 msgstr ""
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293 ui/tags_blacklist_window.py:720 ui/tags_blacklist_window.py:773
+#: ui/timed_schedules_window.py:201
 msgid "Modify"
 msgstr ""
 
@@ -573,15 +622,11 @@ msgstr ""
 msgid "Sparse Mixed Tags"
 msgstr ""
 
-#: ui/schedule.py:14 ui/schedules_windows.py:42
-msgid "New Schedule"
-msgstr ""
-
 #: ui/schedule.py:72
 msgid "{0} ({1} runs)"
 msgstr ""
 
-#: ui/schedules_windows.py:29
+#: ui/schedules_windows.py:29 ui/timed_schedules_window.py:29
 msgid "Modify Preset Schedule: {0}"
 msgstr ""
 
@@ -589,7 +634,7 @@ msgstr ""
 msgid "Modify Schedule"
 msgstr ""
 
-#: ui/schedules_windows.py:47 ui/schedules_windows.py:263
+#: ui/schedules_windows.py:47 ui/schedules_windows.py:263 ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:178
 msgid "Add schedule"
 msgstr ""
 
@@ -601,15 +646,11 @@ msgstr ""
 msgid "Move Down"
 msgstr ""
 
-#: ui/schedules_windows.py:233
-msgid "Not enough schedules found."
-msgstr ""
-
-#: ui/schedules_windows.py:242
+#: ui/schedules_windows.py:242 ui/timed_schedules_window.py:157
 msgid "Preset Schedules"
 msgstr ""
 
-#: ui/schedules_windows.py:265
+#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:180
 msgid "Clear schedules"
 msgstr ""
 
@@ -959,6 +1000,26 @@ msgstr ""
 msgid "Successfully exported model blacklist"
 msgstr ""
 
+#: ui/timed_schedules_window.py:38
+msgid "Schedule Name"
+msgstr ""
+
+#: ui/timed_schedules_window.py:66
+msgid "Start Time"
+msgstr ""
+
+#: ui/timed_schedules_window.py:76
+msgid "End Time"
+msgstr ""
+
+#: ui/timed_schedules_window.py:86
+msgid "Shutdown Time"
+msgstr ""
+
+#: ui/timed_schedules_window.py:176
+msgid "Create and modify schedules"
+msgstr ""
+
 #: ui/auth/app_startup_auth.py:32 ui/auth/app_startup_auth.py:63
 msgid "Application Password Required"
 msgstr ""
@@ -1277,107 +1338,111 @@ msgstr ""
 msgid "Allow in NSFW"
 msgstr ""
 
-#: utils/globals.py:219
+#: utils/globals.py:224
 msgid "Simple Image Gen"
 msgstr ""
 
-#: utils/globals.py:220
+#: utils/globals.py:225
 msgid "Simple Image Gen Lora"
 msgstr ""
 
-#: utils/globals.py:221
+#: utils/globals.py:226
 msgid "Simple Image Gen Tiled Upscale"
 msgstr ""
 
-#: utils/globals.py:222
+#: utils/globals.py:227
 msgid "Ella"
 msgstr ""
 
-#: utils/globals.py:223
+#: utils/globals.py:228
 msgid "Instant Lora"
 msgstr ""
 
-#: utils/globals.py:224
+#: utils/globals.py:229
 msgid "IP Adapter"
 msgstr ""
 
-#: utils/globals.py:225
+#: utils/globals.py:230
 msgid "ControlNet"
 msgstr ""
 
-#: utils/globals.py:226
+#: utils/globals.py:231
 msgid "Inpaint ClipSeg"
 msgstr ""
 
-#: utils/globals.py:227
+#: utils/globals.py:232
 msgid "Animate Diff"
 msgstr ""
 
-#: utils/globals.py:228
+#: utils/globals.py:233
 msgid "Renoiser"
 msgstr ""
 
-#: utils/globals.py:229
+#: utils/globals.py:234
 msgid "Turbo"
 msgstr ""
 
-#: utils/globals.py:230
+#: utils/globals.py:235
 msgid "Upscale Simple"
 msgstr ""
 
-#: utils/globals.py:231
+#: utils/globals.py:236
 msgid "Upscale Better"
 msgstr ""
 
-#: utils/globals.py:232
+#: utils/globals.py:237
 msgid "Redo Prompt"
 msgstr ""
 
-#: utils/globals.py:370
+#: utils/globals.py:381
 msgid "1536"
 msgstr ""
 
-#: utils/globals.py:371
+#: utils/globals.py:382
 msgid "1024"
 msgstr ""
 
-#: utils/globals.py:372
+#: utils/globals.py:383
 msgid "768"
 msgstr ""
 
-#: utils/globals.py:373
+#: utils/globals.py:384
 msgid "512"
 msgstr ""
 
-#: utils/globals.py:411
+#: utils/globals.py:423
 msgid "Open Application"
 msgstr ""
 
-#: utils/globals.py:412
+#: utils/globals.py:424
 msgid "NSFW/NSFL Prompt Modes"
 msgstr ""
 
-#: utils/globals.py:413
+#: utils/globals.py:425
 msgid "Edit Blacklist"
 msgstr ""
 
-#: utils/globals.py:414
+#: utils/globals.py:426
 msgid "Reveal Blacklist Concepts"
 msgstr ""
 
-#: utils/globals.py:415
+#: utils/globals.py:427
 msgid "Edit Schedules"
 msgstr ""
 
-#: utils/globals.py:416
+#: utils/globals.py:428
+msgid "Edit Timed Schedules"
+msgstr ""
+
+#: utils/globals.py:429
 msgid "Edit Expansions"
 msgstr ""
 
-#: utils/globals.py:417
+#: utils/globals.py:430
 msgid "Edit Presets"
 msgstr ""
 
-#: utils/globals.py:419
+#: utils/globals.py:432
 msgid "Access Password Administration"
 msgstr ""
 
@@ -1403,5 +1468,61 @@ msgstr ""
 
 #: utils/time_estimator.py:92
 msgid "{0}s"
+msgstr ""
+
+#: utils/translations.py:32
+msgid "Monday"
+msgstr ""
+
+#: utils/translations.py:34
+msgid "Tuesday"
+msgstr ""
+
+#: utils/translations.py:36
+msgid "Wednesday"
+msgstr ""
+
+#: utils/translations.py:38
+msgid "Thursday"
+msgstr ""
+
+#: utils/translations.py:40
+msgid "Friday"
+msgstr ""
+
+#: utils/translations.py:42
+msgid "Saturday"
+msgstr ""
+
+#: utils/translations.py:44
+msgid "Sunday"
+msgstr ""
+
+#: utils/translations.py:56
+msgid "seconds"
+msgstr ""
+
+#: utils/translations.py:58
+msgid "minutes"
+msgstr ""
+
+#: utils/translations.py:60
+msgid "hours"
+msgstr ""
+
+#: utils/translations.py:62
+msgid "days"
+msgstr ""
+
+#: utils/translations.py:64
+msgid "weeks"
+msgstr ""
+
+#: utils/translations.py:66
+msgid "months"
+msgstr ""
+
+#: utils/translations.py:68
+msgid "years"
 msgstr ""
 

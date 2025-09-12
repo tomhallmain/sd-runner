@@ -17,7 +17,7 @@ class ScheduledShutdownException(Exception):
 
 class TimedSchedulesManager:
     default_schedule = TimedSchedule(name=_("Default"), enabled=True, weekday_options=[0,1,2,3,4,5,6])
-    recent_schedules = []
+    recent_timed_schedules = []
     last_set_schedule = None
     MAX_PRESETS = 50
     schedule_history = []
@@ -37,30 +37,30 @@ class TimedSchedulesManager:
 
     @staticmethod
     def set_schedules():
-        for schedule_dict in list(app_info_cache.get("recent_schedules", default_val=[])):
-            TimedSchedulesManager.recent_schedules.append(TimedSchedule.from_dict(schedule_dict))
+        for schedule_dict in list(app_info_cache.get("recent_timed_schedules", default_val=[])):
+            TimedSchedulesManager.recent_timed_schedules.append(TimedSchedule.from_dict(schedule_dict))
         
         # Add default shutdown schedule if no schedules exist
-        if len(TimedSchedulesManager.recent_schedules) == 0:
+        if len(TimedSchedulesManager.recent_timed_schedules) == 0:
             default_shutdown_schedule = TimedSchedule(
                 name=_("Default Shutdown"),
                 enabled=False,
                 weekday_options=[0, 1, 2, 3, 4, 5, 6],  # Every day
                 shutdown_time=TimedSchedule.get_time(23, 0)  # 11:00 PM
             )
-            TimedSchedulesManager.recent_schedules.append(default_shutdown_schedule)
+            TimedSchedulesManager.recent_timed_schedules.append(default_shutdown_schedule)
             TimedSchedulesManager.store_schedules()
 
     @staticmethod
     def store_schedules():
         schedule_dicts = []
-        for schedule in TimedSchedulesManager.recent_schedules:
+        for schedule in TimedSchedulesManager.recent_timed_schedules:
             schedule_dicts.append(schedule.to_dict())
-        app_info_cache.set("recent_schedules", schedule_dicts)
+        app_info_cache.set("recent_timed_schedules", schedule_dicts)
 
     @staticmethod
     def get_schedule_by_name(name):
-        for schedule in TimedSchedulesManager.recent_schedules:
+        for schedule in TimedSchedulesManager.recent_timed_schedules:
             if name == schedule.name:
                 return schedule
         raise Exception(f"No schedule found with name: {name}. Set it on the Schedules Window.")
@@ -87,30 +87,30 @@ class TimedSchedulesManager:
 
     @staticmethod
     def next_schedule(alert_callback):
-        if len(TimedSchedulesManager.recent_schedules) == 0:
+        if len(TimedSchedulesManager.recent_timed_schedules) == 0:
             alert_callback(_("Not enough schedules found."))
-        next_schedule = TimedSchedulesManager.recent_schedules[-1]
-        TimedSchedulesManager.recent_schedules.remove(next_schedule)
-        TimedSchedulesManager.recent_schedules.insert(0, next_schedule)
+        next_schedule = TimedSchedulesManager.recent_timed_schedules[-1]
+        TimedSchedulesManager.recent_timed_schedules.remove(next_schedule)
+        TimedSchedulesManager.recent_timed_schedules.insert(0, next_schedule)
         return next_schedule
 
     @staticmethod
     def refresh_schedule(schedule):
         TimedSchedulesManager.update_history(schedule)
-        if schedule in TimedSchedulesManager.recent_schedules:
-            TimedSchedulesManager.recent_schedules.remove(schedule)
-        TimedSchedulesManager.recent_schedules.insert(0, schedule)
+        if schedule in TimedSchedulesManager.recent_timed_schedules:
+            TimedSchedulesManager.recent_timed_schedules.remove(schedule)
+        TimedSchedulesManager.recent_timed_schedules.insert(0, schedule)
         TimedSchedulesManager.store_schedules()
 
     @staticmethod
     def delete_schedule(schedule):
-        if schedule is not None and schedule in TimedSchedulesManager.recent_schedules:
-            TimedSchedulesManager.recent_schedules.remove(schedule)
+        if schedule is not None and schedule in TimedSchedulesManager.recent_timed_schedules:
+            TimedSchedulesManager.recent_timed_schedules.remove(schedule)
             TimedSchedulesManager.store_schedules()
 
     @staticmethod
     def clear_all_schedules():
-        TimedSchedulesManager.recent_schedules.clear()
+        TimedSchedulesManager.recent_timed_schedules.clear()
         TimedSchedulesManager.store_schedules()
 
     @staticmethod
@@ -120,7 +120,7 @@ class TimedSchedulesManager:
         current_time = TimedSchedule.get_time(datetime.hour, datetime.minute)
         partially_applicable = []
         no_specific_times = []
-        for schedule in TimedSchedulesManager.recent_schedules:
+        for schedule in TimedSchedulesManager.recent_timed_schedules:
             skip = False
             if not schedule.enabled:
                 skip = True
@@ -179,7 +179,7 @@ class TimedSchedulesManager:
         assert datetime is not None
         day_index = datetime.weekday()
         current_time = TimedSchedule.get_time(datetime.hour, datetime.minute)
-        for schedule in TimedSchedulesManager.recent_schedules:
+        for schedule in TimedSchedulesManager.recent_timed_schedules:
             if not schedule.enabled or schedule.shutdown_time is None or day_index not in schedule.weekday_options:
                 continue
             if schedule.shutdown_time < current_time:

@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-09 16:58-0400\n"
-"PO-Revision-Date: 2025-09-09 16:58-0400\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-09-12 16:59-0400\n"
+"PO-Revision-Date: 2025-09-12 16:59-0400\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -12,318 +12,240 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:133
+#: app.py:135
 msgid "Run SD Workflows"
 msgstr "运行稳定扩散工作流程"
 
-#: app.py:137
+#: app.py:139
 msgid "Run Workflows"
 msgstr "运行工作流程"
 
-#: app.py:139
+#: app.py:141
 msgid "Cancel Run"
 msgstr "取消运行"
 
-#: app.py:149
+#: app.py:151
 msgid "Software"
 msgstr "软件"
 
-#: app.py:157
+#: app.py:159
 msgid "Workflow"
 msgstr "工作流程"
 
-#: app.py:164
+#: app.py:166
 msgid "Set N Latents"
 msgstr "潜变量数量"
 
-#: app.py:170
+#: app.py:172
 msgid "Set Total"
 msgstr "总计"
 
-#: app.py:185
+#: app.py:180
+msgid "Batch Limit"
+msgstr "批次限制"
+
+#: app.py:187
 msgid "Delay Seconds"
 msgstr "延迟秒数"
 
-#: app.py:191
+#: app.py:193
 msgid "Resolutions"
 msgstr "图像分辨率"
 
-#: app.py:198
+#: app.py:200
 msgid "Resolution Group"
 msgstr "图像分辨率小组"
 
-#: app.py:204
+#: app.py:206
 msgid "Model Tags"
 msgstr "模型标签"
 
-#: app.py:219
+#: app.py:221
 msgid "LoRA Tags"
 msgstr "LoRA 标签"
 
-#: app.py:235
+#: app.py:237
 msgid "Default LoRA Strength"
 msgstr "默认 LoRA 强度"
 
-#: app.py:352
-msgid "Prompt Massage Tags"
-msgstr "提示的调整标签"
-
-#: app.py:360
-msgid "Positive Tags"
-msgstr "正面标签"
-
-#: app.py:367
-msgid "Negative Tags"
-msgstr "负面标签"
-
-#: app.py:241
+#: app.py:243
 msgid "B/W Colorization Tags"
 msgstr "黑/白色着色标签"
 
-#: app.py:249
+#: app.py:251
 msgid "Control Net or Redo files"
 msgstr "控制网络或重做文件"
 
-#: app.py:256
+#: app.py:258
 msgid "Default Control Net Strength"
 msgstr "默认控制网强度"
 
-#: app.py:262
+#: app.py:264
 msgid "IPAdapter files"
 msgstr "IPAdapter 文件"
 
-#: app.py:269
+#: app.py:271
 msgid "Default IPAdapter Strength"
 msgstr "默认 IPAdapter 强度"
 
-#: app.py:275
+#: app.py:277
 msgid "Redo Parameters"
 msgstr "重做参数"
 
-#: ui/prompt_config_window.py:210
-msgid "Sampler"
-msgstr "采样器"
-
-#: ui/prompt_config_window.py:218
-msgid "Scheduler"
-msgstr "调度员"
-
-#: ui/prompt_config_window.py:226
-msgid "Seed"
-msgstr "种子"
-
-#: ui/prompt_config_window.py:234
-msgid "Steps"
-msgstr "步骤"
-
-#: ui/prompt_config_window.py:242
-msgid "CFG"
-msgstr "CFG"
-
-#: ui/prompt_config_window.py:250
-msgid "Denoise"
-msgstr "去噪"
-
-#: ui/prompt_config_window.py:258
-msgid "Random Skip Chance"
-msgstr "随机跳过机会"
-
-#: app.py:291 app.py:306 ui/prompt_config_window.py:267
+#: app.py:293 app.py:310 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr "提示配置"
 
-#: app.py:309
-msgid "Prompt Mode"
-msgstr "提示方式"
-
-#: app.py:316 utils/globals.py:418
-msgid "Edit Concepts"
-msgstr "编辑概念"
-
-#: app.py:319
-msgid "Concepts Dir"
-msgstr "概念目录"
-
-#: ui/prompt_config_window.py:334
-msgid "Concepts"
-msgstr "概念"
-
-#: ui/prompt_config_window.py:349
-msgid "Positions"
-msgstr "职位"
-
-#: ui/prompt_config_window.py:364
-msgid "Locations"
-msgstr "地点"
-
-#: ui/prompt_config_window.py:530
-msgid "Specific Locations Chance"
-msgstr "指定地点的机会"
-
-#: ui/prompt_config_window.py:379
-msgid "Animals"
-msgstr "动物"
-
-#: ui/prompt_config_window.py:394
-msgid "Colors"
-msgstr "颜色"
-
-#: ui/prompt_config_window.py:409
-msgid "Times"
-msgstr "时代"
-
-#: ui/prompt_config_window.py:424
-msgid "Dress"
-msgstr "服装"
-
-#: ui/prompt_config_window.py:439
-msgid "Expressions"
-msgstr "表达"
-
-#: ui/prompt_config_window.py:454
-msgid "Actions"
-msgstr "行动"
-
-#: ui/prompt_config_window.py:469
-msgid "Descriptions"
-msgstr "说明"
-
-#: ui/prompt_config_window.py:484
-msgid "Characters"
-msgstr "人物"
-
-#: ui/prompt_config_window.py:499
-msgid "Random Words"
-msgstr "随机词语"
-
-#: ui/prompt_config_window.py:514 utils/globals.py:37
-msgid "Nonsense"
-msgstr "胡说八道"
-
-#: ui/prompt_config_window.py:309
-msgid "Multiplier"
-msgstr "乘法器"
-
-#: ui/prompt_config_window.py:539
-msgid "Specify Humans Chance"
-msgstr "指定人类的机会"
-
-#: ui/prompt_config_window.py:548
-msgid "Art Styles Chance"
-msgstr "艺术风格的机会"
-
-#: ui/prompt_config_window.py:557
-msgid "Emphasis Chance"
-msgstr "强调的机会"
-
-#: app.py:332
-msgid "Override Resolution"
-msgstr "覆盖图像分辨率"
-
-#: app.py:336
-msgid "Inpainting"
-msgstr "油画"
-
-#: app.py:340 ui/prompt_config_window.py:569
-msgid "Override Base Negative"
-msgstr "覆盖基准负数"
-
-#: ui/prompt_config_window.py:576
-msgid "Tags Applied to Prompt Start"
-msgstr "标签应用于提示符的开始"
-
-#: ui/prompt_config_window.py:583
-msgid "Sparse Mixed Tags"
-msgstr "稀疏混合标签"
-
-#: app.py:344
-msgid "Run Preset Schedule"
-msgstr "运行预设时间表"
-
-#: app.py:348 ui/prompt_config_window.py:590
-msgid "Continuous Seed Variation"
-msgstr "连续随机种子变异"
-
-#: app.py:295
+#: app.py:298
 msgid "Preset Schedule Window"
 msgstr "预设时间表窗口"
 
-#: app.py:296 ui/presets_window.py:94
+#: app.py:299 ui/presets_window.py:94
 msgid "Presets Window"
 msgstr "预设窗口"
 
-#: app.py:301 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:300
+msgid "Timed Schedules Window"
+msgstr "定时计划窗口"
+
+#: app.py:305 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr "标签黑名单"
 
-#: app.py:302 ui/expansions_window.py:176
+#: app.py:306 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "扩展窗口"
 
-#: app.py:452
+#: app.py:313
+msgid "Prompt Mode"
+msgstr "提示方式"
+
+#: app.py:320 utils/globals.py:431
+msgid "Edit Concepts"
+msgstr "编辑概念"
+
+#: app.py:323
+msgid "Concepts Dir"
+msgstr "概念目录"
+
+#: app.py:336
+msgid "Override Resolution"
+msgstr "覆盖图像分辨率"
+
+#: app.py:340
+msgid "Inpainting"
+msgstr "油画"
+
+#: app.py:344 ui/prompt_config_window.py:569
+msgid "Override Base Negative"
+msgstr "覆盖基准负数"
+
+#: app.py:348
+msgid "Run Preset Schedule"
+msgstr "运行预设时间表"
+
+#: app.py:352 ui/prompt_config_window.py:590
+msgid "Continuous Seed Variation"
+msgstr "连续随机种子变异"
+
+#: app.py:356
+msgid "Prompt Massage Tags"
+msgstr "提示的调整标签"
+
+#: app.py:364
+msgid "Positive Tags"
+msgstr "正面标签"
+
+#: app.py:371
+msgid "Negative Tags"
+msgstr "负面标签"
+
+#: app.py:396 app.py:1229
+msgid " ComfyGen "
+msgstr " SD 转轮 "
+
+#: app.py:397
+msgid "Debug mode toggled."
+msgstr "调试模式已切换。"
+
+#: app.py:456
 msgid "Confirm Quit"
 msgstr "确认退出"
 
-#: app.py:452
+#: app.py:456
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
-#: app.py:672 app.py:692
+#: app.py:678 app.py:698
 msgid "Confirm Run"
 msgstr "确认运行"
 
-#: app.py:673
+#: app.py:679
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "开始新的运行将取消当前的预设时间表。您确定要继续吗？"
 
-#: app.py:693
+#: app.py:699
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
 
-#: app.py:792
+#: app.py:734
+msgid "Long Running Job Confirmation"
+msgstr "长期运行作业确认"
+
+#: app.py:735
+msgid ""
+"The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
+"\n"
+"This run will generate {2} images.\n"
+"\n"
+"Note: This estimate is for a single generation configuration. If you have multiple control nets, IP adapters, or other variations, the actual run time could be significantly longer.\n"
+"\n"
+"Are you sure you want to proceed?"
+msgstr ""
+"本次运行预计耗时{0}，超过阈值{1}。\n"
+"\n"
+"本次运行将生成{2}张图像。\n"
+"\n"
+"注意：此估算基于单生成配置。若存在多个控制网络、IP适配器或其他变体，实际运行时间可能显著延长。\n"
+"\n"
+"是否确定继续？"
+
+#: app.py:844
 msgid " (unlimited)"
 msgstr " (无限制)"
 
-#: app.py:816
+#: app.py:873
 msgid "{0} pending generations"
 msgstr "{0}待定世代"
 
-#: app.py:888
+#: app.py:945
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "提示中发现黑名单项目： {0}"
 
-#: app.py:889 app.py:892
+#: app.py:946 app.py:949
 msgid "Invalid Prompt Tags"
 msgstr "无效提示标签"
 
-#: app.py:892
+#: app.py:949
 msgid "Blacklist validation failed!"
 msgstr "黑名单验证失败！"
 
-#: app.py:1005
+#: app.py:1066
 msgid "Password Cancelled"
 msgstr "取消密码"
 
-#: app.py:1005
+#: app.py:1066
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "密码被取消或不正确，返回上一模式"
 
-#: app.py:1024 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
+#: app.py:1085 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
 msgid "Error"
 msgstr "错误"
-
-#: app.py:392 app.py:1151
-msgid " ComfyGen "
-msgstr " SD 转轮 "
-
-#: app_qt.py:229
-msgid "Prompter Configuration"
-msgstr "提示器配置"
 
 #: sd_runner/blacklist.py:332
 msgid "Filtering concepts for blacklist: "
@@ -359,21 +281,50 @@ msgstr ""
 "\n"
 "请尝试使用其他模型。"
 
-#: sd_runner/run_config.py:61
+#: sd_runner/run_config.py:64
 msgid "No prompter config found!"
 msgstr "未找到提示器配置！"
 
-#: sd_runner/run_config.py:65
+#: sd_runner/run_config.py:68
 msgid ""
 "Ensure configuration is correct - do you really want to create more than 10 "
 "images using the same prompt?"
 msgstr "确保配置正确 - 您真的想使用同一提示创建十多个图像吗？"
 
-#: sd_runner/run_config.py:72
+#: sd_runner/run_config.py:75
 msgid ""
 "A model switch was detected and the model massage tags don't match. This "
 "warning will only be shown once."
 msgstr "检测到型号切换，且型号调整的标记不匹配。此警告只显示一次。"
+
+#: sd_runner/timed_schedule.py:8 ui/schedule.py:14 ui/schedules_windows.py:42
+#: ui/timed_schedules_window.py:39
+msgid "New Schedule"
+msgstr "新时间表"
+
+#: sd_runner/timed_schedule.py:40
+msgid "Tomorrow"
+msgstr "明天"
+
+#: sd_runner/timed_schedule.py:75 ui/timed_schedules_window.py:52
+msgid "Every day"
+msgstr "每天"
+
+#: sd_runner/timed_schedule.py:78
+msgid "{0} - Days: {1} - Times: {2}-{3} - Shutdown: {4}"
+msgstr "{0} - 天数：{1} - 次数：{2}-{3} - 关机：{4}"
+
+#: sd_runner/timed_schedules_manager.py:19
+msgid "Default"
+msgstr "默认"
+
+#: sd_runner/timed_schedules_manager.py:46
+msgid "Default Shutdown"
+msgstr "默认关机"
+
+#: sd_runner/timed_schedules_manager.py:91 ui/schedules_windows.py:233
+msgid "Not enough schedules found."
+msgstr "没有找到足够的时间表。"
 
 #: ui/concept_editor_window.py:106
 msgid "Search/Add Concept:"
@@ -393,7 +344,7 @@ msgstr "节省"
 
 #: ui/concept_editor_window.py:171 ui/expansions_window.py:241
 #: ui/presets_window.py:147 ui/schedules_windows.py:90
-#: ui/schedules_windows.py:300
+#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:208
 msgid "Delete"
 msgstr "删除"
 
@@ -460,95 +411,6 @@ msgstr "提示：您可以在任何概念行前加上“！”来强制导入，
 msgid "Import Results"
 msgstr "进口结果"
 
-#: ui/concept_editor_window_qt.py:19
-msgid "Concept Editor"
-msgstr "概念编辑"
-
-#: ui/concept_editor_window_qt.py:36
-msgid "Search concepts..."
-msgstr "搜索概念..."
-
-#: ui/concept_editor_window_qt.py:47 ui/expansions_window_qt.py:68
-msgid "New"
-msgstr "新"
-
-#: ui/concept_editor_window_qt.py:65
-msgid "Name:"
-msgstr "名称："
-
-#: ui/concept_editor_window_qt.py:73
-msgid "Type:"
-msgstr "类型："
-
-#: ui/concept_editor_window_qt.py:82
-msgid "Trigger:"
-msgstr "触发器："
-
-#: ui/concept_editor_window_qt.py:90
-msgid "Weight:"
-msgstr "重量："
-
-#: ui/concept_editor_window_qt.py:100 ui/expansions_window_qt.py:51
-msgid "Value:"
-msgstr "价值："
-
-#: ui/concept_editor_window_qt.py:110
-msgid "Browse"
-msgstr "浏览"
-
-#: ui/concept_editor_window_qt.py:117
-msgid "Active"
-msgstr "活跃"
-
-#: ui/tags_blacklist_window.py:560 ui/tags_blacklist_window.py:627
-msgid "Export"
-msgstr "出口"
-
-#: ui/auth/password_admin_window.py:249 ui/prompt_config_window.py:329
-#: ui/tags_blacklist_window.py:283
-msgid "Close"
-msgstr "关闭"
-
-#: ui/concept_editor_window_qt.py:232
-msgid "Updated concept: {0} -> {1}"
-msgstr "更新概念：{0} -> {1}"
-
-#: ui/concept_editor_window_qt.py:252
-msgid "Select Image"
-msgstr "选择图像"
-
-#: ui/concept_editor_window_qt.py:254
-msgid "Image Files (*.png *.jpg *.jpeg *.bmp *.gif)"
-msgstr "图像文件 (*.png *.jpg *.jpeg *.bmp *.gif)"
-
-#: ui/concept_editor_window_qt.py:262
-msgid "Import Concepts"
-msgstr "导入概念"
-
-#: ui/concept_editor_window_qt.py:264 ui/concept_editor_window_qt.py:286
-msgid "JSON Files (*.json)"
-msgstr "JSON 文件 (*.json)"
-
-#: ui/concept_editor_window_qt.py:276
-msgid "Imported concepts from: {0}"
-msgstr "导入的概念来自： {0}"
-
-#: ui/concept_editor_window_qt.py:279
-msgid "Error importing concepts: {0}"
-msgstr "导入概念出错： {0}"
-
-#: ui/concept_editor_window_qt.py:284
-msgid "Export Concepts"
-msgstr "导出概念"
-
-#: ui/concept_editor_window_qt.py:295
-msgid "Exported concepts to: {0}"
-msgstr "导出概念至 {0}"
-
-#: ui/concept_editor_window_qt.py:298
-msgid "Error exporting concepts: {0}"
-msgstr "导出概念出错： {0}"
-
 #: ui/expansions_window.py:31
 msgid "Modify Expansion: {0}"
 msgstr "修改扩展： {0}"
@@ -611,6 +473,7 @@ msgstr "清除扩展"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
 #: ui/tags_blacklist_window.py:720 ui/tags_blacklist_window.py:773
+#: ui/timed_schedules_window.py:201
 msgid "Modify"
 msgstr "修改"
 
@@ -625,35 +488,6 @@ msgstr "无效扩展 ID“{0}”，或文本“{1}”"
 #: ui/expansions_window.py:458
 msgid "Copied expansion text to clipboard"
 msgstr "将扩展文本复制到剪贴板"
-
-#: ui/expansions_window_qt.py:16
-msgid "Expansions"
-msgstr "扩展"
-
-#: ui/expansions_window_qt.py:28
-msgid "Search expansions..."
-msgstr "搜索扩展..."
-
-#: ui/expansions_window_qt.py:43
-msgid "Key:"
-msgstr "关键："
-
-#: ui/expansions_window_qt.py:69 ui/presets_window_qt.py:58
-#: ui/schedules_window_qt.py:168 ui/tags_blacklist_window_qt.py:51
-msgid "Delete Selected"
-msgstr "删除选定"
-
-#: ui/expansions_window_qt.py:139
-msgid "Updated expansion: {0} -> {1}"
-msgstr "更新扩展： {0} -> {1}"
-
-#: ui/expansions_window_qt.py:141
-msgid "Saved expansion: {0}"
-msgstr "已保存的扩展： {0}"
-
-#: ui/expansions_window_qt.py:155
-msgid "Deleted expansion: {0}"
-msgstr "删除扩展： {0}"
 
 #: ui/presets_window.py:55
 msgid "New Preset (ERROR no presets found)"
@@ -687,69 +521,163 @@ msgstr "设置"
 msgid "Invalid preset: {0}"
 msgstr "预设无效： {0}"
 
-#: ui/presets_window_qt.py:42
-msgid "Search presets..."
-msgstr "搜索预置..."
+#: ui/prompt_config_window.py:82
+msgid "Prompt Configuration"
+msgstr "提示配置"
 
-#: ui/presets_window_qt.py:57
-msgid "Apply Selected"
-msgstr "申请已选择"
+#: ui/prompt_config_window.py:202
+msgid "Detailed Prompt Configuration"
+msgstr "详细提示配置"
 
-#: ui/presets_window_qt.py:111
-msgid "Created new preset: {0}"
-msgstr "创建新预置： {0}"
+#: ui/prompt_config_window.py:207
+msgid "Basic Generation Settings"
+msgstr "基本生成设置"
 
-#: ui/presets_window_qt.py:124
-msgid "Applied preset: {0}"
-msgstr "已应用预设： {0}"
+#: ui/prompt_config_window.py:210
+msgid "Sampler"
+msgstr "采样器"
 
-#: ui/presets_window_qt.py:140
-msgid "Deleted preset: {0}"
-msgstr "删除预置： {0}"
+#: ui/prompt_config_window.py:218
+msgid "Scheduler"
+msgstr "调度员"
 
-#: ui/schedule.py:14 ui/schedules_windows.py:42
-msgid "New Schedule"
-msgstr "新时间表"
+#: ui/prompt_config_window.py:226
+msgid "Seed"
+msgstr "种子"
+
+#: ui/prompt_config_window.py:234
+msgid "Steps"
+msgstr "步骤"
+
+#: ui/prompt_config_window.py:242
+msgid "CFG"
+msgstr "CFG"
+
+#: ui/prompt_config_window.py:250
+msgid "Denoise"
+msgstr "去噪"
+
+#: ui/prompt_config_window.py:258
+msgid "Random Skip Chance"
+msgstr "随机跳过机会"
+
+#: ui/prompt_config_window.py:309
+msgid "Multiplier"
+msgstr "乘法器"
+
+#: ui/auth/password_admin_window.py:249 ui/prompt_config_window.py:329
+#: ui/tags_blacklist_window.py:283
+msgid "Close"
+msgstr "关闭"
+
+#: ui/prompt_config_window.py:334
+msgid "Concepts"
+msgstr "概念"
+
+#: ui/prompt_config_window.py:349
+msgid "Positions"
+msgstr "职位"
+
+#: ui/prompt_config_window.py:364
+msgid "Locations"
+msgstr "地点"
+
+#: ui/prompt_config_window.py:379
+msgid "Animals"
+msgstr "动物"
+
+#: ui/prompt_config_window.py:394
+msgid "Colors"
+msgstr "颜色"
+
+#: ui/prompt_config_window.py:409
+msgid "Times"
+msgstr "时代"
+
+#: ui/prompt_config_window.py:424
+msgid "Dress"
+msgstr "服装"
+
+#: ui/prompt_config_window.py:439
+msgid "Expressions"
+msgstr "表达"
+
+#: ui/prompt_config_window.py:454
+msgid "Actions"
+msgstr "行动"
+
+#: ui/prompt_config_window.py:469
+msgid "Descriptions"
+msgstr "说明"
+
+#: ui/prompt_config_window.py:484
+msgid "Characters"
+msgstr "人物"
+
+#: ui/prompt_config_window.py:499
+msgid "Random Words"
+msgstr "随机词语"
+
+#: ui/prompt_config_window.py:514 utils/globals.py:37
+msgid "Nonsense"
+msgstr "胡说八道"
+
+#: ui/prompt_config_window.py:530
+msgid "Specific Locations Chance"
+msgstr "指定地点的机会"
+
+#: ui/prompt_config_window.py:539
+msgid "Specify Humans Chance"
+msgstr "指定人类的机会"
+
+#: ui/prompt_config_window.py:548
+msgid "Art Styles Chance"
+msgstr "艺术风格的机会"
+
+#: ui/prompt_config_window.py:557
+msgid "Emphasis Chance"
+msgstr "强调的机会"
+
+#: ui/prompt_config_window.py:576
+msgid "Tags Applied to Prompt Start"
+msgstr "标签应用于提示符的开始"
+
+#: ui/prompt_config_window.py:583
+msgid "Sparse Mixed Tags"
+msgstr "稀疏混合标签"
 
 #: ui/schedule.py:72
 msgid "{0} ({1} runs)"
 msgstr "{0} ({1}运行)"
 
+#: ui/schedules_windows.py:29 ui/timed_schedules_window.py:29
+msgid "Modify Preset Schedule: {0}"
+msgstr "修改预设时间表： {0}"
+
 #: ui/schedules_windows.py:40
 msgid "Modify Schedule"
 msgstr "修改时间表"
 
-#: ui/schedules_window_qt.py:62
-msgid "Schedule Name:"
-msgstr "附表名称："
+#: ui/schedules_windows.py:47 ui/schedules_windows.py:263
+#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:178
+msgid "Add schedule"
+msgstr "添加时间表"
 
-#: ui/schedules_window_qt.py:76
-msgid "Task name"
-msgstr "任务名称"
+#: ui/schedules_windows.py:50
+msgid "Add Preset Task"
+msgstr "添加预设任务"
 
-#: ui/schedules_window_qt.py:82
-msgid "Add Task"
-msgstr "添加任务"
+#: ui/schedules_windows.py:97
+msgid "Move Down"
+msgstr "向下移动"
 
-#: ui/schedules_window_qt.py:96
-msgid "Delete Selected Task"
-msgstr "删除选定任务"
+#: ui/schedules_windows.py:242 ui/timed_schedules_window.py:157
+msgid "Preset Schedules"
+msgstr "预设时间表"
 
-#: ui/schedules_window_qt.py:135
-msgid "Schedules Window"
-msgstr "日程安排窗口"
-
-#: ui/schedules_window_qt.py:147
-msgid "Search schedules..."
-msgstr "搜索时间表..."
-
-#: ui/schedules_window_qt.py:166
-msgid "Modify Selected"
-msgstr "修改所选"
-
-#: ui/schedules_window_qt.py:167
-msgid "Set Selected"
-msgstr "设置已选定"
+#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:180
+msgid "Clear schedules"
+msgstr "清除时间表"
 
 #: ui/schedules_windows.py:322
 msgid "Current schedule: {0}"
@@ -762,38 +690,6 @@ msgstr "设置时间表： {0}"
 #: ui/schedules_windows.py:334
 msgid "Deleted schedule: {0}"
 msgstr "删除计划： {0}"
-
-#: ui/schedules_window_qt.py:265
-msgid "Saved schedule: {0}"
-msgstr "保存的时间表： {0}"
-
-#: ui/schedules_windows.py:29
-msgid "Modify Preset Schedule: {0}"
-msgstr "修改预设时间表： {0}"
-
-#: ui/schedules_windows.py:47 ui/schedules_windows.py:263
-msgid "Add schedule"
-msgstr "添加时间表"
-
-#: ui/schedules_windows.py:50
-msgid "Add Preset Task"
-msgstr "添加预设任务"
-
-#: ui/schedules_windows.py:97
-msgid "Move Down"
-msgstr "向下移动"
-
-#: ui/schedules_windows.py:233
-msgid "Not enough schedules found."
-msgstr "没有找到足够的时间表。"
-
-#: ui/schedules_windows.py:242
-msgid "Preset Schedules"
-msgstr "预设时间表"
-
-#: ui/schedules_windows.py:265
-msgid "Clear schedules"
-msgstr "清除时间表"
 
 #: ui/schedules_windows.py:420
 msgid "Cleared schedules"
@@ -818,6 +714,10 @@ msgstr "使用基于全局的 regex"
 #: ui/tags_blacklist_window.py:87
 msgid "Use word boundary matching"
 msgstr "使用单词边界匹配"
+
+#: ui/tags_blacklist_window.py:99
+msgid "Convert spaces to optional non-word characters"
+msgstr "将空格转换为可选的非单词字符"
 
 #: ui/tags_blacklist_window.py:109
 msgid "Exception Pattern (optional regex to unfilter tags)"
@@ -932,6 +832,10 @@ msgid ""
 "If enabled, blacklisted words are removed silently without notification."
 msgstr "如果启用，黑名单上的词语会在没有通知的情况下被无声删除。"
 
+#: ui/tags_blacklist_window.py:560 ui/tags_blacklist_window.py:627
+msgid "Export"
+msgstr "出口"
+
 #: ui/tags_blacklist_window.py:561 ui/tags_blacklist_window.py:628
 msgid "Preview All"
 msgstr "全部预览"
@@ -940,9 +844,9 @@ msgstr "全部预览"
 msgid "Load Default"
 msgstr "加载默认值"
 
-#: ui/tags_blacklist_window.py:528
-msgid "Blacklist items"
-msgstr "黑名单项目"
+#: ui/tags_blacklist_window.py:571
+msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
+msgstr "选择黑名单的执行方式：在NSFW中禁止或允许。"
 
 #: ui/tags_blacklist_window.py:574
 msgid "Add to tag blacklist"
@@ -988,6 +892,10 @@ msgstr "[regex]"
 #: ui/tags_blacklist_window.py:704
 msgid "[no boundary]"
 msgstr "[无字边界]"
+
+#: ui/tags_blacklist_window.py:706 ui/tags_blacklist_window.py:761
+msgid "[no space conversion]"
+msgstr "[不进行空格转换]"
 
 #: ui/tags_blacklist_window.py:708 ui/tags_blacklist_window.py:763
 msgid "[exception: {0}]"
@@ -1096,6 +1004,10 @@ msgstr "出口错误"
 msgid "Blacklist mode set to: {0}"
 msgstr "黑名单模式设置为 {0}"
 
+#: ui/tags_blacklist_window.py:1147
+msgid "Blacklist prompt mode set to: {0}"
+msgstr "黑名单提示模式设置为：{0}"
+
 #: ui/tags_blacklist_window.py:1157
 msgid "Model blacklist mode set to: {0}"
 msgstr "模型黑名单模式设置为：{0}"
@@ -1132,29 +1044,25 @@ msgstr "导出模型黑名单"
 msgid "Successfully exported model blacklist"
 msgstr "成功导出模型黑名单"
 
-#: ui/tags_blacklist_window_qt.py:16
-msgid "Tags Blacklist"
-msgstr "标签 黑名单"
+#: ui/timed_schedules_window.py:38
+msgid "Schedule Name"
+msgstr "日程名称"
 
-#: ui/tags_blacklist_window_qt.py:28
-msgid "Search tags..."
-msgstr "搜索标签..."
+#: ui/timed_schedules_window.py:66
+msgid "Start Time"
+msgstr "开始时间"
 
-#: ui/tags_blacklist_window_qt.py:40
-msgid "Enter tag to blacklist"
-msgstr "输入要列入黑名单的标签"
+#: ui/timed_schedules_window.py:76
+msgid "End Time"
+msgstr "结束时间"
 
-#: ui/tags_blacklist_window_qt.py:41
-msgid "Add Tag"
-msgstr "添加标签"
+#: ui/timed_schedules_window.py:86
+msgid "Shutdown Time"
+msgstr "应用程序关闭时间"
 
-#: ui/tags_blacklist_window_qt.py:92
-msgid "Added tag to blacklist: {0}"
-msgstr "已将标签加入黑名单： {0}"
-
-#: ui/tags_blacklist_window_qt.py:104
-msgid "Removed tag from blacklist: {0}"
-msgstr "从黑名单中删除标签： {0}"
+#: ui/timed_schedules_window.py:176
+msgid "Create and modify schedules"
+msgstr "创建和修改日程安排"
 
 #: ui/auth/app_startup_auth.py:32 ui/auth/app_startup_auth.py:63
 msgid "Application Password Required"
@@ -1483,107 +1391,111 @@ msgstr "禁止"
 msgid "Allow in NSFW"
 msgstr "在不适合工作场所的模式下显示"
 
-#: utils/globals.py:219
+#: utils/globals.py:224
 msgid "Simple Image Gen"
 msgstr "简单生成图像"
 
-#: utils/globals.py:220
+#: utils/globals.py:225
 msgid "Simple Image Gen Lora"
 msgstr "LoRA 简单图像生成"
 
-#: utils/globals.py:221
+#: utils/globals.py:226
 msgid "Simple Image Gen Tiled Upscale"
 msgstr "简单生成拼接放大图像"
 
-#: utils/globals.py:222
+#: utils/globals.py:227
 msgid "Ella"
 msgstr "ELLA"
 
-#: utils/globals.py:223
+#: utils/globals.py:228
 msgid "Instant Lora"
 msgstr "即时LoRA"
 
-#: utils/globals.py:224
+#: utils/globals.py:229
 msgid "IP Adapter"
 msgstr "IP适配器"
 
-#: utils/globals.py:225
+#: utils/globals.py:230
 msgid "ControlNet"
 msgstr "控制网"
 
-#: utils/globals.py:226
+#: utils/globals.py:231
 msgid "Inpaint ClipSeg"
 msgstr "Inpaint 剪切段"
 
-#: utils/globals.py:227
+#: utils/globals.py:232
 msgid "Animate Diff"
 msgstr "动画差异"
 
-#: utils/globals.py:228
+#: utils/globals.py:233
 msgid "Renoiser"
 msgstr "雷诺伊瑟"
 
-#: utils/globals.py:229
+#: utils/globals.py:234
 msgid "Turbo"
 msgstr "涡轮"
 
-#: utils/globals.py:230
+#: utils/globals.py:235
 msgid "Upscale Simple"
 msgstr "提升图像质量 简单"
 
-#: utils/globals.py:231
+#: utils/globals.py:236
 msgid "Upscale Better"
 msgstr "提升图像质量 更佳版本"
 
-#: utils/globals.py:232
+#: utils/globals.py:237
 msgid "Redo Prompt"
 msgstr "重新提示"
 
-#: utils/globals.py:370
+#: utils/globals.py:381
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:371
+#: utils/globals.py:382
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:372
+#: utils/globals.py:383
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:373
+#: utils/globals.py:384
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:411
+#: utils/globals.py:423
 msgid "Open Application"
 msgstr "打开软件应用程序"
 
-#: utils/globals.py:412
+#: utils/globals.py:424
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFL 提示模式"
 
-#: utils/globals.py:413
+#: utils/globals.py:425
 msgid "Edit Blacklist"
 msgstr "编辑黑名单"
 
-#: utils/globals.py:414
+#: utils/globals.py:426
 msgid "Reveal Blacklist Concepts"
 msgstr "揭示黑名单概念"
 
-#: utils/globals.py:415
+#: utils/globals.py:427
 msgid "Edit Schedules"
 msgstr "编辑时间表"
 
-#: utils/globals.py:416
+#: utils/globals.py:428
+msgid "Edit Timed Schedules"
+msgstr "编辑定时计划"
+
+#: utils/globals.py:429
 msgid "Edit Expansions"
 msgstr "编辑扩展"
 
-#: utils/globals.py:417
+#: utils/globals.py:430
 msgid "Edit Presets"
 msgstr "编辑预置"
 
-#: utils/globals.py:419
+#: utils/globals.py:432
 msgid "Access Password Administration"
 msgstr "访问密码管理"
 
@@ -1611,38 +1523,58 @@ msgstr "{0}分"
 msgid "{0}s"
 msgstr "{0}秒"
 
-#: app.py:178
-msgid "Batch Limit"
-msgstr "批次限制"
+#: utils/translations.py:32
+msgid "Monday"
+msgstr "星期一"
 
-#: app.py:393
-msgid "Debug mode toggled."
-msgstr "调试模式已切换。"
+#: utils/translations.py:34
+msgid "Tuesday"
+msgstr "星期二"
 
-#: ui/prompt_config_window.py:82
-msgid "Prompt Configuration"
-msgstr "提示配置"
+#: utils/translations.py:36
+msgid "Wednesday"
+msgstr "星期三"
 
-#: ui/prompt_config_window.py:202
-msgid "Detailed Prompt Configuration"
-msgstr "详细提示配置"
+#: utils/translations.py:38
+msgid "Thursday"
+msgstr "星期四"
 
-#: ui/prompt_config_window.py:207
-msgid "Basic Generation Settings"
-msgstr "基本生成设置"
+#: utils/translations.py:40
+msgid "Friday"
+msgstr "星期五"
 
-#: ui/tags_blacklist_window.py:99
-msgid "Convert spaces to optional non-word characters"
-msgstr "将空格转换为可选的非单词字符"
+#: utils/translations.py:42
+msgid "Saturday"
+msgstr "星期六"
 
-#: ui/tags_blacklist_window.py:571
-msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
-msgstr "选择黑名单的执行方式：在NSFW中禁止或允许。"
+#: utils/translations.py:44
+msgid "Sunday"
+msgstr "礼拜"
 
-#: ui/tags_blacklist_window.py:706 ui/tags_blacklist_window.py:761
-msgid "[no space conversion]"
-msgstr "[不进行空格转换]"
+#: utils/translations.py:56
+msgid "seconds"
+msgstr "秒数"
 
-#: ui/tags_blacklist_window.py:1147
-msgid "Blacklist prompt mode set to: {0}"
-msgstr "黑名单提示模式设置为：{0}"
+#: utils/translations.py:58
+msgid "minutes"
+msgstr "分钟"
+
+#: utils/translations.py:60
+msgid "hours"
+msgstr "小时"
+
+#: utils/translations.py:62
+msgid "days"
+msgstr "天数"
+
+#: utils/translations.py:64
+msgid "weeks"
+msgstr "周数"
+
+#: utils/translations.py:66
+msgid "months"
+msgstr "月数"
+
+#: utils/translations.py:68
+msgid "years"
+msgstr "年份"

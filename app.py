@@ -28,6 +28,7 @@ from sd_runner.models import Model
 from sd_runner.prompter import Prompter
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
+from sd_runner.timed_schedules_manager import timed_schedules_manager
 from utils.time_estimator import TimeEstimator
 from ui.app_actions import AppActions
 from ui.app_style import AppStyle
@@ -477,6 +478,7 @@ class App():
         PresetsWindow.store_recent_presets()
         SchedulesWindow.store_schedules()
         ExpansionsWindow.store_expansions()
+        timed_schedules_manager.store_schedules()
         get_security_config().save_settings()
         app_info_cache.store()
 
@@ -487,6 +489,7 @@ class App():
             PresetsWindow.set_recent_presets()
             SchedulesWindow.set_schedules()
             ExpansionsWindow.set_expansions()
+            timed_schedules_manager.set_schedules()
             # Security config is loaded automatically when first accessed
             get_security_config()
             config = RunnerAppConfig.from_dict(app_info_cache.get_history(0))
@@ -536,6 +539,7 @@ class App():
     def set_widgets_from_config(self):
         if self.runner_app_config is None:
             raise Exception("No config to set widgets from")
+        self.software.set(self.runner_app_config.software_type)
         self.set_workflow_type(self.runner_app_config.workflow_type)
         self.n_latents.set(str(self.runner_app_config.n_latents))
         self.total.set(str(self.runner_app_config.total))
@@ -769,6 +773,8 @@ class App():
                 Utils.start_thread(run_async, use_asyncio=False, args=[next_job_args])
             else:
                 Utils.prevent_sleep(False)
+                # Clear time estimation when all runs are complete
+                self.label_time_est["text"] = ""
 
         if self.job_queue.has_pending():
             self.job_queue.add(args)
@@ -778,6 +784,8 @@ class App():
 
     def cancel(self, event=None, reason=None):
         self.current_run.cancel(reason=reason)
+        # Clear time estimation when run is cancelled
+        self.label_time_est["text"] = ""
 
     def revert_to_simple_gen(self, event=None):
         self.cancel(reason="Revert to simple generation")
@@ -821,7 +829,6 @@ class App():
         self.set_lora_strength()
         controlnet_file = clear_quotes(self.controlnet_file.get())
         self.runner_app_config.control_net_file = str(controlnet_file)
-        args_copy = deepcopy(args)
 
         if args.workflow_tag == WorkflowType.REDO_PROMPT.name:
             args.workflow_tag = controlnet_file
@@ -837,6 +844,7 @@ class App():
         args.ip_adapters = ipadapter_file
         self.set_ipadapter_strength()
 
+        args_copy = deepcopy(args)
         return args, args_copy
 
     def update_progress(self, current_index=-1, total=-1, pending_adapters=0, prepend_text=None, batch_limit=None):
