@@ -296,7 +296,7 @@ class App():
         self.presets_window_btn = None
         self.timed_schedules_window_btn = None
         self.add_button("preset_schedules_window_btn", text=_("Preset Schedule Window"), command=self.open_preset_schedules_window, sidebar=False, increment_row_counter=False)
-        self.add_button("presets_window_btn", text=_("Presets Window"), command=self.open_presets_window, sidebar=False, interior_column=1)
+        self.add_button("presets_window_btn", text=_("Presets Window"), command=self.open_presets_window, sidebar=False, interior_column=1, increment_row_counter=False)
         self.add_button("timed_schedules_window_btn", text=_("Timed Schedules Window"), command=self.open_timed_schedules_window, sidebar=False, interior_column=2)
 
         self.tag_blacklist_btn = None
@@ -833,7 +833,7 @@ class App():
 
         return args, args_copy
 
-    def update_progress(self, current_index=-1, total=-1, pending_adapters=0, prepend_text=None):
+    def update_progress(self, current_index=-1, total=-1, pending_adapters=0, prepend_text=None, batch_limit=None):
         if total == -1:
             text = str(current_index) + _(" (unlimited)")
         else:
@@ -842,7 +842,12 @@ class App():
                 pending_text = self.job_queue.pending_text()
             if pending_text is None:
                 pending_text = ""
-            text = str(current_index) + "/" + str(total) + pending_text
+            
+            # If batch limit is set and is lower than total, show both effective total and actual total
+            if batch_limit is not None and batch_limit > 0 and batch_limit < total:
+                text = str(current_index) + "/" + str(batch_limit) + f" (of {total})" + pending_text
+            else:
+                text = str(current_index) + "/" + str(total) + pending_text
         
         if prepend_text is not None:
             self.label_progress["text"] = prepend_text + text

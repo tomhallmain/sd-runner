@@ -192,7 +192,7 @@ class Run:
                         if self.progress_tracker:
                             self.progress_tracker.update_progress(count, self.args.total, workflow, gen.gen_config)
                         elif self.ui_callbacks is not None:
-                            self.ui_callbacks.update_progress(count, self.args.total)
+                            self.ui_callbacks.update_progress(count, self.args.total, batch_limit=self.args.batch_limit)
                             remaining = self.args.total - count + 1 if self.args.total > 0 else 0
                             self.ui_callbacks.update_time_estimation(workflow, gen.gen_config, remaining)
                         if self.delay_after_last_run:
@@ -207,7 +207,7 @@ class Run:
                         if self.progress_tracker:
                             self.progress_tracker.update_progress(count, self.args.total, workflow, gen.gen_config)
                         elif self.ui_callbacks is not None:
-                            self.ui_callbacks.update_progress(count, self.args.total)
+                            self.ui_callbacks.update_progress(count, self.args.total, batch_limit=self.args.batch_limit)
                             remaining = self.args.total - count + 1 if self.args.total > 0 else 0
                             self.ui_callbacks.update_time_estimation(workflow, gen.gen_config, remaining)
                 self._sleep_for_delay(maximum_gens=gen.gen_config.maximum_gens())

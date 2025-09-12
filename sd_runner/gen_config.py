@@ -314,10 +314,10 @@ class MultiGenProgressTracker:
             # Display: current_adapter_iteration / total_adapter_iterations
             display_count = self.current_adapter_iteration + 1
             display_total = self.total_adapter_iterations
-            self.ui_callbacks.update_progress(display_count, display_total)
+            self.ui_callbacks.update_progress(display_count, display_total, batch_limit=self.batch_limit)
         else:
             # Display: current_count / total (remaining_adapter_iterations)
-            self.ui_callbacks.update_progress(count, total, pending_adapters=remaining_adapter_iterations)
+            self.ui_callbacks.update_progress(count, total, pending_adapters=remaining_adapter_iterations, batch_limit=self.batch_limit)
         if remaining_adapter_iterations > 0:
             remaining += (remaining_adapter_iterations * total)
         self.ui_callbacks.update_time_estimation(workflow, gen_config, remaining)
