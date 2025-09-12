@@ -179,11 +179,26 @@ class TimedSchedulesManager:
         assert datetime is not None
         day_index = datetime.weekday()
         current_time = TimedSchedule.get_time(datetime.hour, datetime.minute)
+        
         for schedule in TimedSchedulesManager.recent_timed_schedules:
-            if not schedule.enabled or schedule.shutdown_time is None or day_index not in schedule.weekday_options:
+            if not schedule.enabled or schedule.shutdown_time is None:
                 continue
-            if schedule.shutdown_time < current_time:
-                return schedule
+            
+            # Check if current day is in the schedule's weekday options
+            if day_index in schedule.weekday_options:
+                # Check if current time is past the shutdown time on the same day
+                # This covers the period from shutdown time until midnight
+                if schedule.shutdown_time < current_time:
+                    return schedule
+            
+            # Check if we're in the shutdown period of the previous day
+            # This covers the period from midnight until 6 AM (6 * 60 = 360 minutes)
+            previous_day_index = (day_index - 1) % 7
+            if previous_day_index in schedule.weekday_options:
+                # If current time is before 6 AM (360 minutes), we're still in the shutdown period
+                if current_time < 6 * 60:  # 6 AM = 360 minutes
+                    return schedule
+        
         return None
 
     @staticmethod

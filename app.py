@@ -1,4 +1,5 @@
 from copy import deepcopy
+import datetime
 import os
 import signal
 import time
@@ -28,7 +29,7 @@ from sd_runner.models import Model
 from sd_runner.prompter import Prompter
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
-from sd_runner.timed_schedules_manager import timed_schedules_manager
+from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
 from utils.time_estimator import TimeEstimator
 from ui.app_actions import AppActions
 from ui.app_style import AppStyle
@@ -588,6 +589,13 @@ class App():
 
     def run_preset_schedule(self, override_args={}):
         def run_preset_async():
+            # Check for scheduled shutdown before starting preset schedule
+            try:
+                timed_schedules_manager.check_for_shutdown_request(datetime.datetime.now())
+            except ScheduledShutdownException as e:
+                self.handle_error(e, "Scheduled Shutdown")
+                self.on_closing()
+            
             self.job_queue_preset_schedules.job_running = True
             if "control_net" in override_args:
                 self.controlnet_file.set(override_args["control_net"])
@@ -678,6 +686,14 @@ class App():
     def run(self, event=None):
         if self.current_run.is_infinite():
             self.current_run.cancel("Infinite run switch")
+
+        # Check for scheduled shutdown before validating arguments
+        try:
+            timed_schedules_manager.check_for_shutdown_request(datetime.datetime.now())
+        except ScheduledShutdownException as e:
+            self.handle_error(e, "Scheduled Shutdown")
+            self.on_closing()
+
         if event is not None and self.job_queue_preset_schedules.has_pending():
             res = self.alert(_("Confirm Run"),
                 _("Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"),
@@ -761,6 +777,9 @@ class App():
             self.current_run = Run(args, ui_callbacks=self.app_actions, delay_after_last_run=self.has_runs_pending())
             try:
                 self.current_run.execute()
+            except ScheduledShutdownException as e:
+                self.handle_error(e, "Scheduled Shutdown")
+                self.on_closing()
             except Exception:
                 traceback.print_exc()
                 self.current_run.cancel("Run failure")

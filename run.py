@@ -14,6 +14,7 @@ from sd_runner.models import Model
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from sd_runner.sdwebui_gen import SDWebuiGen
+from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
 from sd_runner.workflow_prompt import WorkflowPrompt
 from utils.config import config
 from utils.logging_setup import get_logger
@@ -254,6 +255,15 @@ class Run:
 
     def execute(self) -> None:
         logger.info("Executing run submitted by user at " + time.strftime("%Y-%m-%d %H:%M:%S", self.args.start_time))
+        
+        # Check for scheduled shutdown before starting execution
+        try:
+            import datetime
+            timed_schedules_manager.check_for_shutdown_request(datetime.datetime.now())
+        except ScheduledShutdownException as e:
+            logger.error(f"Scheduled shutdown requested: {e}")
+            raise e
+        
         self.is_complete = False
         self.is_cancelled = False
         Model.load_all()

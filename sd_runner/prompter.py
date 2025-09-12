@@ -9,8 +9,10 @@ from sd_runner.concepts import Concepts
 from ui.expansion import Expansion
 from utils.config import config
 from utils.globals import PromptMode
+from utils.logging_setup import get_logger
 from extensions.image_data_extractor import ImageDataExtractor
 
+logger = get_logger("prompter")
 
 class PrompterConfiguration:
     def __init__(
@@ -495,7 +497,7 @@ class Prompter:
                 elif name.startswith("number"):
                     replacement = str(random.randint(1, 999))
             if replacement is None:
-                print(f"Invalid prompt replacement ID: \"{name}\"")
+                logger.error(f"Invalid prompt replacement ID: \"{name}\"")
                 continue
             text = left + replacement + right
             offset += len(replacement) - original_length
