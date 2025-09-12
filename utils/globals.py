@@ -242,6 +242,12 @@ class WorkflowType(Enum):
         for key, value in WorkflowType.__members__.items():
             if key.upper() == name.upper() or value.get_translation() == name:
                 return value
+        
+        # Fallback: try to match by partial value (e.g., "instant_lora" matches "instant_lora.json")
+        for workflow_type in WorkflowType.__members__.values():
+            if name.lower() in workflow_type.value.lower():
+                return workflow_type
+                
         raise Exception(f"Not a valid workflow type: {name}")
 
 

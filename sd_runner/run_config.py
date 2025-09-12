@@ -1,6 +1,6 @@
 import time
 
-from utils.globals import Globals, PromptMode # must import first
+from utils.globals import Globals, PromptMode, WorkflowType # must import first
 
 from sd_runner.models import Model
 from utils.logging_setup import get_logger
@@ -87,6 +87,9 @@ class RunConfig:
                 is_lora=True,
                 is_xl=models[0].is_xl())
 
+        # Validate workflow-specific requirements
+        self._validate_workflow_requirements()
+
         return True
 
     def __str__(self) -> str:
@@ -110,3 +113,50 @@ class RunConfig:
         total_time = TimeEstimator.estimate_queue_time(total_jobs * self.total, self.n_latents)
         logger.debug(f"RunConfig.estimate_time - total_time: {total_time}s")
         return total_time
+
+    def _get_workflow_type(self) -> WorkflowType:
+        """Convert workflow_tag to WorkflowType for validation."""
+        if not self.workflow_tag:
+            return None
+        
+        try:
+            return WorkflowType.get(self.workflow_tag)
+        except Exception:
+            return None
+
+    def _is_ip_adapter_missing(self) -> bool:
+        """Check if IP adapters are missing or empty."""
+        return not self.ip_adapters or self.ip_adapters.strip() == ""
+
+    def _is_control_net_missing(self) -> bool:
+        """Check if control nets are missing or empty."""
+        return not self.control_nets or self.control_nets.strip() == ""
+
+    def _validate_workflow_requirements(self) -> None:
+        """Validate workflow-specific requirements for IP adapters and control nets."""
+        workflow_type = self._get_workflow_type()
+        if not workflow_type:
+            return
+
+        # Workflows that require IP adapters
+        ip_adapter_required_workflows = [
+            WorkflowType.INSTANT_LORA,
+            WorkflowType.IP_ADAPTER
+        ]
+
+        # Workflows that require control nets
+        control_net_required_workflows = [
+            WorkflowType.INSTANT_LORA,
+            WorkflowType.CONTROLNET,
+            WorkflowType.INPAINT_CLIPSEG,
+            WorkflowType.RENOISER,
+            WorkflowType.REDO_PROMPT
+        ]
+
+        # Validate IP adapter requirements
+        if workflow_type in ip_adapter_required_workflows and self._is_ip_adapter_missing():
+            raise Exception(_(f"Workflow '{workflow_type.get_translation()}' requires an IP adapter to be specified."))
+
+        # Validate control net requirements
+        if workflow_type in control_net_required_workflows and self._is_control_net_missing():
+            raise Exception(_(f"Workflow '{workflow_type.get_translation()}' requires a control net to be specified."))
