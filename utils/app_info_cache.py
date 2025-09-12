@@ -5,7 +5,10 @@ import shutil
 from sd_runner.blacklist import Blacklist
 from utils.globals import Globals, PromptMode, BlacklistPromptMode
 from utils.encryptor import encrypt_data_to_file, decrypt_data_from_file
+from utils.logging_setup import get_logger
 from utils.runner_app_config import RunnerAppConfig
+
+logger = get_logger("app_info_cache")
 
 class AppInfoCache:
     CACHE_LOC = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "app_info_cache.enc")
@@ -47,7 +50,7 @@ class AppInfoCache:
                 AppInfoCache.CACHE_LOC
             )
         except Exception as e:
-            print(f"Error storing cache: {e}")
+            logger.error(f"Error storing cache: {e}")
             raise e
 
     def _try_load_cache_from_file(self, path):
@@ -62,7 +65,7 @@ class AppInfoCache:
     def load(self):
         try:
             if os.path.exists(AppInfoCache.JSON_LOC):
-                print(f"Removing old cache file: {AppInfoCache.JSON_LOC}")
+                logger.info(f"Removing old cache file: {AppInfoCache.JSON_LOC}")
                 # Get the old data first
                 with open(AppInfoCache.JSON_LOC, "r", encoding="utf-8") as f:
                     self._cache = json.load(f)
@@ -74,7 +77,7 @@ class AppInfoCache:
             cache_paths = [self.CACHE_LOC] + self._get_backup_paths()
             any_exist = any(os.path.exists(path) for path in cache_paths)
             if not any_exist:
-                print(f"No cache file found at {self.CACHE_LOC}, creating new cache")
+                logger.info(f"No cache file found at {self.CACHE_LOC}, creating new cache")
                 return
 
             for path in cache_paths:
@@ -87,17 +90,17 @@ class AppInfoCache:
                             rotated_count = self._rotate_backups()
                             if rotated_count > 0:
                                 message += f", rotated {rotated_count} backups"
-                            print(message)
+                            logger.info(message)
                         else:
-                            print(f"WARN: Loaded cache from backup: {path}")
+                            logger.warning(f"Loaded cache from backup: {path}")
                         return
                     except Exception as e:
-                        print(f"ERROR: Failed to load cache from {path}: {e}")
+                        logger.error(f"Failed to load cache from {path}: {e}")
                         continue
             # If we get here, all attempts failed (but at least one file existed)
             raise Exception(f"Failed to load cache from all locations: {cache_paths}")
         except Exception as e:
-            print(f"Error loading cache: {e}")
+            logger.error(f"Error loading cache: {e}")
             pass
 
     def validate(self):
@@ -129,13 +132,13 @@ class AppInfoCache:
                 count_removed += 1
 
         if count_removed > 0:
-            print(f"Removed {count_removed} history entries with blacklisted items.")
-            print(f"Remaining history entries: {len(filtered_history)}")
+            logger.info(f"Removed {count_removed} history entries with blacklisted items.")
+            logger.info(f"Remaining history entries: {len(filtered_history)}")
             
         # Ensure we don't exceed MAX_HISTORY_ENTRIES after filtering
         if len(filtered_history) > AppInfoCache.MAX_HISTORY_ENTRIES:
             filtered_history = filtered_history[:AppInfoCache.MAX_HISTORY_ENTRIES]
-            print(f"Truncated history to {AppInfoCache.MAX_HISTORY_ENTRIES} entries")
+            logger.info(f"Truncated history to {AppInfoCache.MAX_HISTORY_ENTRIES} entries")
             
         self._cache[AppInfoCache.HISTORY_KEY] = filtered_history
 
@@ -165,20 +168,21 @@ class AppInfoCache:
             return default_val
         return self._cache[AppInfoCache.INFO_KEY][key]
 
-    def set_history(self, runner_config):
+    def set_history(self, runner_app_config):
         history = self._get_history()
-        if len(history) > 0 and runner_config == RunnerAppConfig.from_dict(history[0]):
+        if len(history) > 0 and runner_app_config == RunnerAppConfig.from_dict(history[0]):
+            logger.debug("History already contains this config")
             return False
             
-        config_dict = runner_config.to_dict()
+        config_dict = runner_app_config.to_dict()
         history.insert(0, config_dict)
         
         # Add to prompt history if there are positive tags
-        if runner_config.positive_tags and runner_config.positive_tags.strip():
+        if runner_app_config.positive_tags and runner_app_config.positive_tags.strip():
             prompt_history = self._get_prompt_history()
             prompt_entry = {
-                "positive_tags": runner_config.positive_tags,
-                "negative_tags": runner_config.negative_tags,
+                "positive_tags": runner_app_config.positive_tags,
+                "negative_tags": runner_app_config.negative_tags,
                 "timestamp": config_dict.get("timestamp", "")  # Preserve timestamp if available
             }
             prompt_history.insert(0, prompt_entry)

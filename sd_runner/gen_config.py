@@ -316,10 +316,8 @@ class MultiGenProgressTracker:
             # Display: current_adapter_iteration / total_adapter_iterations
             display_count = self.current_adapter_iteration + 1
             display_total = self.total_adapter_iterations
-            print(f"11111 - Display count: {display_count}, display total: {display_total}, batch limit: {self.batch_limit}")
             self.ui_callbacks.update_progress(display_count, display_total, batch_limit=self.batch_limit)
         else:
-            print(f"22222 - Display count: {count}, display total: {total}, batch limit: {self.batch_limit}")
             # Display: current_count / total (remaining_adapter_iterations)
             self.ui_callbacks.update_progress(count, total, pending_adapters=nonlimited_remaining_adapter_iterations, batch_limit=self.batch_limit)
         if nonlimited_remaining_adapter_iterations > 0:

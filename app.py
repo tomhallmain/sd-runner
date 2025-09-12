@@ -578,6 +578,8 @@ class App():
     def construct_preset(self, name):
         args, args_copy = self.get_args()
         self.runner_app_config.set_from_run_config(args)
+        # Store the configuration to cache when creating presets
+        self.store_info_cache()
         return Preset.from_runner_app_config(name, self.runner_app_config)
 
     def run_preset_schedule(self, override_args={}):
@@ -699,6 +701,9 @@ class App():
             if res != messagebox.OK:
                 return None
 
+        # Store the configuration to cache after validation
+        self.store_info_cache()
+
         # Check if estimated time exceeds threshold and show confirmation dialog
         # Create a temporary GenConfig for time estimation (similar to Run.construct_gen)
         # TODO: Handle adapter complications - this only estimates time for a single gen config,
@@ -806,7 +811,6 @@ class App():
         return args
 
     def get_args(self):
-        self.store_info_cache()
         self.set_concepts_dir()
         args = self.get_basic_run_config()
 #        self.set_prompt_massage_tags_box_from_model_tags(args.model_tags, args.inpainting)
@@ -816,7 +820,7 @@ class App():
         self.set_bw_colorization()
         self.set_lora_strength()
         controlnet_file = clear_quotes(self.controlnet_file.get())
-        self.runner_app_config.control_net_file = controlnet_file
+        self.runner_app_config.control_net_file = str(controlnet_file)
         args_copy = deepcopy(args)
 
         if args.workflow_tag == WorkflowType.REDO_PROMPT.name:
@@ -828,7 +832,9 @@ class App():
             args.control_nets = controlnet_file
 
         self.set_controlnet_strength()
-        args.ip_adapters = clear_quotes(self.ipadapter_file.get())
+        ipadapter_file = clear_quotes(self.ipadapter_file.get())
+        self.runner_app_config.ip_adapter_file = str(ipadapter_file)
+        args.ip_adapters = ipadapter_file
         self.set_ipadapter_strength()
 
         return args, args_copy
