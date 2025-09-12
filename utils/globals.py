@@ -397,6 +397,7 @@ class ProtectedActions(Enum):
     EDIT_BLACKLIST = "edit_blacklist"
     REVEAL_BLACKLIST_CONCEPTS = "reveal_blacklist_concepts"
     EDIT_SCHEDULES = "edit_schedules"
+    EDIT_TIMED_SCHEDULES = "edit_timed_schedules"
     EDIT_EXPANSIONS = "edit_expansions"
     EDIT_PRESETS = "edit_presets"
     EDIT_CONCEPTS = "edit_concepts"
@@ -418,6 +419,7 @@ class ProtectedActions(Enum):
             ProtectedActions.EDIT_BLACKLIST: _("Edit Blacklist"),
             ProtectedActions.REVEAL_BLACKLIST_CONCEPTS: _("Reveal Blacklist Concepts"),
             ProtectedActions.EDIT_SCHEDULES: _("Edit Schedules"),
+            ProtectedActions.EDIT_TIMED_SCHEDULES: _("Edit Timed Schedules"),
             ProtectedActions.EDIT_EXPANSIONS: _("Edit Expansions"),
             ProtectedActions.EDIT_PRESETS: _("Edit Presets"),
             ProtectedActions.EDIT_CONCEPTS: _("Edit Concepts"),

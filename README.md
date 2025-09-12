@@ -7,6 +7,7 @@ This code is primarily a sophisticated prompt engineering application that trigg
 - A default English dictionary is used for generating random words, some of which may be found objectionable. A word with a high degree of relation to strong feelings like disgust also tends to carry a lot of prompt weight, even if it is buried in a much larger prompt with no other similar words. Luckily this will often result in an "incoherent" result with earlier models, or a slightly objectionable result with later models, but there is still a chance of problematic images being generated. As a result you may choose not to use the `random_word` prompt variable, or implement a blacklist using the provided blacklist window which blocks prompts with undesirable strings or otherwise drops them from prompts. There is a default blacklist used if none is provided, which requires extra security to clear and even to reveal its concepts.
 - If sharing your computer with multiple users, consider setting a password to lock the blacklist and other features.
 - Continuously viewing random images may cause small lapses in sanity. Employ total randomness with caution.
+- The application can be addictive due to its infinite generation capabilities and random prompt variations. Consider enabling a timed shutdown schedule to automatically stop generation at a reasonable hour and prevent excessive usage.
 
 ## Configuration Options
 
