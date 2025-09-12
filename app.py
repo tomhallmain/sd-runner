@@ -179,7 +179,7 @@ class App():
         self.label_batch_limit = Label(self.sidebar)
         self.add_label(self.label_batch_limit, _("Batch Limit"), increment_row_counter=False)
         self.batch_limit = StringVar(master)
-        batch_limit_options = ['-1', '1', '5', '10', '20', '50', '100', '200', '500', '1000', '2000', '5000', '10000']
+        batch_limit_options = ['-1', '1', '2', '5', '10', '20', '50', '100', '200', '500', '1000', '2000', '5000', '10000']
         self.batch_limit_choice = OptionMenu(self.sidebar, self.batch_limit, str(self.runner_app_config.batch_limit), *batch_limit_options)
         self.apply_to_grid(self.batch_limit_choice, interior_column=1, sticky=W)
 
