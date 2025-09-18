@@ -11,6 +11,8 @@ ardor
 ashamed
 awestruck
 aww
+aye
+baffled
 begging
 Bewildered
 Bitter
@@ -52,21 +54,28 @@ dizzy
 dour
 drowsy
 elation
+enthralled
 exultant
 flabbergasted
 fury
+fussy
 gratified
 grimace
+grr
 hah!
 haha
 hatred
+hiccup
 hiss
 How?
 Huh?
 I beg your pardon?
 incredulity
 intuition
+it's alright
+it's fine
 jealous
+jocund
 jolly
 jubilant
 mania
@@ -203,11 +212,13 @@ sourpuss
 Spirited
 staring intensely
 staring surreptitiously
+starstruck
 stern look
 stinkeye
 stoic
 straining
 Stressed
+sulk
 surly
 surprised
 suspicion
@@ -220,6 +231,7 @@ Thoughtful
 thrilled
 tired
 tranquil
+uh-oh
 umm..
 unamused
 unconscious

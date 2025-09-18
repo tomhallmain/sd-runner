@@ -1,3 +1,4 @@
+$$character costume
 $$random_word-ware
 abaya
 amulet
@@ -215,6 +216,7 @@ Halter Neck Dress
 halter top
 handbag
 handkerchief
+hanky
 hard hat
 hat
 haubergeon
@@ -375,6 +377,7 @@ shako
 ski cap
 ski mask
 sleeve
+spectacles
 streetwear
 tassle
 torn shirt

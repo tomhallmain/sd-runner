@@ -15,6 +15,7 @@ a galaxy far away
 abbey
 abode
 air taxi
+airbnb
 airship
 ambulance
 amusement park gate
@@ -51,6 +52,7 @@ buffet
 bungalow
 canal
 captains hold
+cargo hold
 castle keep
 cellar
 center for $$random_word
@@ -77,6 +79,7 @@ cupola
 curb
 cénacle
 dais
+depths
 destination
 diocese
 ditch
@@ -91,6 +94,7 @@ entryway
 estate grounds
 event horizon
 facility
+fathoms
 first floor
 floor
 forge
@@ -106,6 +110,7 @@ gone
 granary
 gravel road
 gulch
+gulf
 gulley
 hairpin turn
 haven
@@ -140,6 +145,7 @@ lowland
 main hall
 Main Street
 major metropolitan area
+manhole
 manufacturer
 massif
 metal concert
@@ -211,6 +217,7 @@ shaft
 shore
 shoreline
 side road
+silo
 single-lane bridge
 single-lane road
 smithy
@@ -251,6 +258,7 @@ tropics
 upper atmosphere
 vacation spot
 vestibule
+villa
 wagon
 waiting room
 waterfall

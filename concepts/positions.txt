@@ -37,6 +37,7 @@ braced
 bunched in
 callus
 candid
+chin
 close at hand
 closeby
 closest to
@@ -64,6 +65,7 @@ farthest from
 fetal position
 fingers
 from across the room
+from around
 glamour pose
 half turn
 halfway
@@ -74,6 +76,7 @@ head forward
 head propped on hand
 head turned
 hiding place
+high
 high up
 homeward
 in line
@@ -132,6 +135,7 @@ orientation
 outward
 over here
 over there
+over yonder
 overhead
 packed in
 positions
@@ -166,6 +170,7 @@ time out gesture
 to and fro
 toe
 together
+topsy-turvy
 tucked in
 turning away
 turning back
@@ -256,4 +261,5 @@ Street, 35mm, f/2.8
 Astrophotography, 14mm, f/2.8
 Product, 50mm, f/8
 yoga poses
+yon $$random_word
 

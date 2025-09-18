@@ -3,6 +3,7 @@ $$random_word galore
 [[I,you,he,she]] go[[,es]] by $$random_word
 a real softy
 abbott
+Achilles
 Acme Corp product
 admiral
 advertiser
@@ -16,6 +17,7 @@ Aloha
 Angus
 Annette
 Antares
+Apollo
 apologist
 ArcheAge
 are we there yet
@@ -24,6 +26,7 @@ As I live and breath!
 assassin
 assessor
 at all costs
+Atari
 Attila the Hun
 auteur
 Ayatollah
@@ -52,6 +55,7 @@ bureau
 bushel and a peck
 buster
 Byzantine
+caddy
 Calypso
 can I get a true
 canester
@@ -73,6 +77,7 @@ chud
 churl
 Cirque de Soleil
 claimant
+clerk
 Clippy
 composer
 confessor
@@ -88,6 +93,7 @@ Custos rotulorum
 dean
 Deus Ex
 Deus Ex Machina
+didact
 ding dong
 djinn
 Dobby
@@ -114,14 +120,17 @@ exarch
 expat
 false mustache
 Family Feud
+family friend
 Fido
 Fie
 Firebird
 First Mate
+flagger
 flash gun
 fly rink
 foofaraw
 forester
+Frank Zappa
 French Foreign Legion
 fuddy-duddy
 Futurama
@@ -152,8 +161,11 @@ Hermes Trismegistus
 Hi-Ho, the Derry-o
 holo-$$random_word
 Holy See
+homeboy
+homegirl
 Homer
 Homer Simpson
+homie
 hooligan
 hootenanny
 Hoth
@@ -179,6 +191,7 @@ it's only a game
 Jabir ibn Hayyan
 Jagex
 Jane Austen
+John Deere
 just cause
 justiciar
 Kai-El
@@ -313,6 +326,7 @@ sniper
 so be it
 sonny
 sorcerer
+Space Invaders
 spoilers
 spy
 squidbillies
@@ -376,7 +390,9 @@ ting
 tinkerer
 Titan
 TiVo
+Tonka trucks
 Tony the Tiger
+Toreador
 town crier
 trader
 tradesman
@@ -384,6 +400,7 @@ trope
 tutor
 twat
 ulterior motives
+umpire
 undertaker
 urethane
 valkyrie

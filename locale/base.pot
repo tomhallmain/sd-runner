@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: APPLICATION 1.0\n"
 "Report-Msgid-Bugs-To: Thomas Hall <tomhall.main@gmail.com>\n"
-"POT-Creation-Date: 2025-09-12 16:44-0400\n"
-"PO-Revision-Date: 2025-09-12 16:44-0400\n"
+"POT-Creation-Date: 2025-09-12 18:00-0400\n"
+"PO-Revision-Date: 2025-09-12 18:00-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,187 +16,187 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app.py:135
+#: app.py:137
 msgid "Run SD Workflows"
 msgstr ""
 
-#: app.py:139
+#: app.py:141
 msgid "Run Workflows"
 msgstr ""
 
-#: app.py:141
+#: app.py:143
 msgid "Cancel Run"
 msgstr ""
 
-#: app.py:151
+#: app.py:153
 msgid "Software"
 msgstr ""
 
-#: app.py:159
+#: app.py:161
 msgid "Workflow"
 msgstr ""
 
-#: app.py:166
+#: app.py:168
 msgid "Set N Latents"
 msgstr ""
 
-#: app.py:172
+#: app.py:174
 msgid "Set Total"
 msgstr ""
 
-#: app.py:180
+#: app.py:182
 msgid "Batch Limit"
 msgstr ""
 
-#: app.py:187
+#: app.py:189
 msgid "Delay Seconds"
 msgstr ""
 
-#: app.py:193
+#: app.py:195
 msgid "Resolutions"
 msgstr ""
 
-#: app.py:200
+#: app.py:202
 msgid "Resolution Group"
 msgstr ""
 
-#: app.py:206
+#: app.py:208
 msgid "Model Tags"
 msgstr ""
 
-#: app.py:221
+#: app.py:223
 msgid "LoRA Tags"
 msgstr ""
 
-#: app.py:237
+#: app.py:239
 msgid "Default LoRA Strength"
 msgstr ""
 
-#: app.py:243
+#: app.py:245
 msgid "B/W Colorization Tags"
 msgstr ""
 
-#: app.py:251
+#: app.py:253
 msgid "Control Net or Redo files"
 msgstr ""
 
-#: app.py:258
+#: app.py:260
 msgid "Default Control Net Strength"
 msgstr ""
 
-#: app.py:264
+#: app.py:266
 msgid "IPAdapter files"
 msgstr ""
 
-#: app.py:271
+#: app.py:273
 msgid "Default IPAdapter Strength"
 msgstr ""
 
-#: app.py:277
+#: app.py:279
 msgid "Redo Parameters"
 msgstr ""
 
-#: app.py:293 app.py:310 ui/prompt_config_window.py:267
+#: app.py:295 app.py:312 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr ""
 
-#: app.py:298
+#: app.py:300
 msgid "Preset Schedule Window"
 msgstr ""
 
-#: app.py:299 ui/presets_window.py:94
+#: app.py:301 ui/presets_window.py:94
 msgid "Presets Window"
 msgstr ""
 
-#: app.py:300
+#: app.py:302
 msgid "Timed Schedules Window"
 msgstr ""
 
-#: app.py:305 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:307 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr ""
 
-#: app.py:306 ui/expansions_window.py:176
+#: app.py:308 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr ""
 
-#: app.py:313
+#: app.py:315
 msgid "Prompt Mode"
 msgstr ""
 
-#: app.py:320 utils/globals.py:431
+#: app.py:322 utils/globals.py:431
 msgid "Edit Concepts"
 msgstr ""
 
-#: app.py:323
+#: app.py:325
 msgid "Concepts Dir"
 msgstr ""
 
-#: app.py:336
+#: app.py:338
 msgid "Override Resolution"
 msgstr ""
 
-#: app.py:340
+#: app.py:342
 msgid "Inpainting"
 msgstr ""
 
-#: app.py:344 ui/prompt_config_window.py:569
+#: app.py:346 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr ""
 
-#: app.py:348
+#: app.py:350
 msgid "Run Preset Schedule"
 msgstr ""
 
-#: app.py:352 ui/prompt_config_window.py:590
+#: app.py:354 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr ""
 
-#: app.py:356
+#: app.py:358
 msgid "Prompt Massage Tags"
 msgstr ""
 
-#: app.py:364
+#: app.py:366
 msgid "Positive Tags"
 msgstr ""
 
-#: app.py:371
+#: app.py:373
 msgid "Negative Tags"
 msgstr ""
 
-#: app.py:396 app.py:1229
+#: app.py:398 app.py:1256
 msgid " ComfyGen "
 msgstr ""
 
-#: app.py:397
+#: app.py:399
 msgid "Debug mode toggled."
 msgstr ""
 
-#: app.py:456
+#: app.py:458
 msgid "Confirm Quit"
 msgstr ""
 
-#: app.py:456
+#: app.py:458
 msgid "Would you like to quit the application?"
 msgstr ""
 
-#: app.py:678 app.py:698
+#: app.py:698 app.py:718
 msgid "Confirm Run"
 msgstr ""
 
-#: app.py:679
+#: app.py:699
 msgid "Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"
 msgstr ""
 
-#: app.py:699
+#: app.py:719
 msgid "Are you sure you want to proceed?"
 msgstr ""
 
-#: app.py:734
+#: app.py:754
 msgid "Long Running Job Confirmation"
 msgstr ""
 
-#: app.py:735
+#: app.py:755
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -208,35 +208,35 @@ msgid ""
 "Are you sure you want to proceed?"
 msgstr ""
 
-#: app.py:844
+#: app.py:871
 msgid " (unlimited)"
 msgstr ""
 
-#: app.py:873
+#: app.py:900
 msgid "{0} pending generations"
 msgstr ""
 
-#: app.py:945
+#: app.py:972
 msgid "Blacklisted items found in prompt: {0}"
 msgstr ""
 
-#: app.py:946 app.py:949
+#: app.py:973 app.py:976
 msgid "Invalid Prompt Tags"
 msgstr ""
 
-#: app.py:949
+#: app.py:976
 msgid "Blacklist validation failed!"
 msgstr ""
 
-#: app.py:1066
+#: app.py:1093
 msgid "Password Cancelled"
 msgstr ""
 
-#: app.py:1066
+#: app.py:1093
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr ""
 
-#: app.py:1085 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247 ui/concept_editor_window.py:270
+#: app.py:1112 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247 ui/concept_editor_window.py:270
 #: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
 msgid "Error"
@@ -325,7 +325,7 @@ msgid "Save"
 msgstr ""
 
 #: ui/concept_editor_window.py:171 ui/expansions_window.py:241 ui/presets_window.py:147 ui/schedules_windows.py:90
-#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:208
+#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:210
 msgid "Delete"
 msgstr ""
 
@@ -450,7 +450,7 @@ msgid "Clear expansions"
 msgstr ""
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293 ui/tags_blacklist_window.py:720 ui/tags_blacklist_window.py:773
-#: ui/timed_schedules_window.py:201
+#: ui/timed_schedules_window.py:203
 msgid "Modify"
 msgstr ""
 
@@ -634,7 +634,7 @@ msgstr ""
 msgid "Modify Schedule"
 msgstr ""
 
-#: ui/schedules_windows.py:47 ui/schedules_windows.py:263 ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:178
+#: ui/schedules_windows.py:47 ui/schedules_windows.py:263 ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:180
 msgid "Add schedule"
 msgstr ""
 
@@ -650,7 +650,7 @@ msgstr ""
 msgid "Preset Schedules"
 msgstr ""
 
-#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:180
+#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:182
 msgid "Clear schedules"
 msgstr ""
 
@@ -678,7 +678,7 @@ msgstr ""
 msgid "Blacklist String"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:63
+#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:219
 msgid "Enabled"
 msgstr ""
 
@@ -1016,7 +1016,7 @@ msgstr ""
 msgid "Shutdown Time"
 msgstr ""
 
-#: ui/timed_schedules_window.py:176
+#: ui/timed_schedules_window.py:178
 msgid "Create and modify schedules"
 msgstr ""
 

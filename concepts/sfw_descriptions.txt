@@ -11,6 +11,7 @@ adorable
 adrift
 affable
 affirmative
+age-old
 akin
 akin to $$random_word
 aligned with $$random_word
@@ -47,6 +48,7 @@ bent
 bereft
 best in the world
 bineural
+bizarre
 blatant
 boastful
 bombastic
@@ -73,6 +75,7 @@ comprehensive
 concealed
 conceited
 conditional
+consecutive
 crooked
 crumpled
 crushed
@@ -104,6 +107,7 @@ elusive
 emblazoned
 eminent
 endorsed
+enhanced
 entwined
 epic
 equipped
@@ -114,10 +118,12 @@ evanescent
 evasive
 existential
 exorbitant
+extemporaneous
 extra-large
 extra-small
 fabled
 famous
+far-out
 fastidious
 favorable
 feeble
@@ -198,6 +204,7 @@ interlaced
 intrepid
 intrigue
 intuitive
+invariable
 isometric
 it has a mind of its own
 it predates $$random_word by $$number years
@@ -228,6 +235,7 @@ maniacal
 manic
 marred
 mean
+measly
 medial
 medium-sized
 meritous
@@ -242,6 +250,7 @@ morose
 most unfavorable
 much obliged
 mulish
+multilane
 mundane
 mutated
 mute
@@ -262,6 +271,7 @@ one of the good ones
 oomph
 original
 ostentatious
+overloaded
 palacial
 parsimonious
 parted
@@ -287,6 +297,7 @@ rather
 ready
 redoubtable
 regal
+remarkable
 remastered
 repetitive
 resonant
@@ -386,6 +397,7 @@ stately
 steady
 stealthy
 stern
+stiff
 stilted
 stingy
 storied
@@ -399,6 +411,7 @@ Stygian
 styled
 sublime
 subtle
+such and such
 superdry
 superior
 susceptible
@@ -448,6 +461,7 @@ uproarious
 urgent
 used
 valourous
+variable
 venerable
 very fresh
 vexatious

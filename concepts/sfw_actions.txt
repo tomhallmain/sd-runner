@@ -26,6 +26,7 @@ acrylic painting
 acting
 acting in a play
 acting up
+ad lib
 addressing
 administering
 admitting
@@ -76,6 +77,7 @@ arrival
 arriving
 art from around the world
 art or coffee table books
+arts and crafts
 as I suspected
 as long as $$random_word is $$random_word
 asking
@@ -95,6 +97,7 @@ availing
 avoiding
 Awooo!
 aye aye
+babbling
 bad joke
 badminton
 baking
@@ -149,6 +152,7 @@ boing
 bolstering
 booby trap
 book club
+bookkeeping
 boss fight
 bossing
 bottle caps
@@ -199,6 +203,7 @@ card games
 card making
 carpentry
 carry me
+carrying
 cartwheeling
 carving
 cascading
@@ -426,11 +431,14 @@ encoding
 encouraging
 end up $$random_word
 endeavor
+enhance!
 enlivening
 entering
 entertaining
 equippong
 establishing
+estop
+et tu?
 evacuating
 evading
 evaporating
@@ -464,11 +472,13 @@ faring
 farming
 fashion design
 fashion photography
+fathoming
 feat
 feeding
 feeling
 feeling cramped
 feigning
+fell swoop
 felt arts
 fencing
 feud
@@ -486,6 +496,7 @@ finale
 financing
 fishing
 fitness
+flagging
 flare up of $$random_word
 fleeing
 fling
@@ -504,6 +515,7 @@ foist
 follow steps $$number through $$number
 following
 football
+forging
 found [[you,it]] !
 freaking out
 freezing
@@ -556,6 +568,7 @@ goading
 going
 going down
 going fishing
+going haywire
 going to $$random_word
 going to museums
 going to work
@@ -575,6 +588,7 @@ guile
 gunfire
 gusts
 gymnastics
+haggling
 Hail!
 hair styling
 halt!
@@ -624,9 +638,11 @@ hitching
 hits home
 holding
 holding $$random_word
+holding on
 holiday books
 holing up
 home decorating
+Homecoming
 homework
 honing
 honking
@@ -671,10 +687,12 @@ ignoring
 illustrating
 imagination
 imbuing
+imitating $$character
 implying
 improv
 in a moment! I'm busy
 in jeopardy
+in pursuit of
 incantantion
 incantation
 incoming
@@ -683,6 +701,7 @@ indictment
 inferring
 infiltration
 inhaling
+inheritance
 inquiring
 inspecting
 installation
@@ -924,6 +943,7 @@ ordering
 origami
 ouija
 out to lunch
+overloading
 overruled!
 oversleeping
 overstating
@@ -1003,6 +1023,7 @@ playing video games
 playing violin
 playing with friends
 pleading
+plop
 plowing
 plundering
 plunging
@@ -1057,6 +1078,7 @@ quacking
 on a quest
 questing
 quilting
+quip
 quitting
 quoting
 raffle
@@ -1182,6 +1204,7 @@ same old
 sanctify
 sanctioning
 save
+sawing
 sawing logs
 say cheese
 say that!
@@ -1211,6 +1234,7 @@ seeing
 seeing to $$random_word
 seeking
 seeming
+seesaw
 selling
 selling baked goods
 selling items you've created
@@ -1236,6 +1260,7 @@ shimmying
 shocking
 shoes
 shooting a gun
+shooting an RPG
 shooting the breeze
 shoplifting
 shoulda woulda coulda
@@ -1303,6 +1328,7 @@ sowing seeds
 sparing
 speaking
 special ops
+spectating
 speeding
 spelunking
 spending
@@ -1405,6 +1431,7 @@ tango
 tapping
 tapping in
 tapping out
+tarrying
 tasting
 taunt
 tea items
@@ -1461,6 +1488,7 @@ try [[this,it]]
 tsking a detour
 tumbling
 tuning
+turning to stone
 tutoring
 twiddle
 twirling
@@ -1551,6 +1579,7 @@ well done
 wham
 whap
 what a blast
+what a ripoff
 What in the world!?
 what now?
 what of it?

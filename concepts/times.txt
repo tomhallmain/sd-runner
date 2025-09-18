@@ -33,6 +33,7 @@ late afternoon
 evening
 dawn
 dusk
+one more time
 parsec
 prolonged
 recently
@@ -41,7 +42,10 @@ sometime
 sometime [[today,tomorrow,next week,next month,next year]]
 soon
 that day
+three times
+thrice
 too soon
+twice
 twilight
 soft morning light
 golden hour
@@ -55,6 +59,7 @@ midnight
 spring
 summer
 fall
+two times
 until then
 whenever
 winter
