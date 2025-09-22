@@ -1,4 +1,5 @@
 import argparse
+import datetime
 from copy import deepcopy
 import time
 import traceback
@@ -258,7 +259,6 @@ class Run:
         
         # Check for scheduled shutdown before starting execution
         try:
-            import datetime
             timed_schedules_manager.check_for_shutdown_request(datetime.datetime.now())
         except ScheduledShutdownException as e:
             logger.error(f"Scheduled shutdown requested: {e}")

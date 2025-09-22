@@ -12,7 +12,10 @@ logger = get_logger(__name__)
 
 class ScheduledShutdownException(Exception):
     """Exception raised when a scheduled shutdown is requested."""
-    pass
+    
+    def __init__(self, message, schedule=None):
+        super().__init__(message)
+        self.schedule = schedule
 
 
 class TimedSchedulesManager:
@@ -44,7 +47,7 @@ class TimedSchedulesManager:
         if len(TimedSchedulesManager.recent_timed_schedules) == 0:
             default_shutdown_schedule = TimedSchedule(
                 name=_("Default Shutdown"),
-                enabled=False,
+                enabled=True,
                 weekday_options=[0, 1, 2, 3, 4, 5, 6],  # Every day
                 shutdown_time=TimedSchedule.get_time(23, 0)  # 11:00 PM
             )
@@ -172,7 +175,7 @@ class TimedSchedulesManager:
     def check_for_shutdown_request(datetime):
         schedule_requesting_shutdown = TimedSchedulesManager._check_for_shutdown_request(datetime)
         if schedule_requesting_shutdown is not None:
-            raise ScheduledShutdownException(f"Shutdown scheduled: {schedule_requesting_shutdown}")
+            raise ScheduledShutdownException(f"Shutdown scheduled: {schedule_requesting_shutdown.name}", schedule_requesting_shutdown)
 
     @staticmethod
     def _check_for_shutdown_request(datetime):

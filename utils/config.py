@@ -11,7 +11,7 @@ class Config:
 
     def __init__(self):
         self.dict = {}
-        self.debug = True
+        self.debug = False
         self.foreground_color = None
         self.background_color = None
         self.comfyui_url = None

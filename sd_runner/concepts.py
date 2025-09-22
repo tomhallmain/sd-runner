@@ -127,7 +127,8 @@ class ConceptsFile:
 
         if first_concept_idx >= len(self.lines):
             # No concepts found, append to end
-            logger.debug("No concepts found, appending to end")
+            if config.debug:
+                print("No concepts found, appending to end")
             self.lines.append(f"{concept}\n")
             self.concepts.append(concept)
             self.concept_indices[concept] = len(self.lines) - 1
@@ -139,7 +140,8 @@ class ConceptsFile:
         max_consecutive_out_of_order = 5  # Increased from 3 to 5
 
         if not self.is_dictionary:
-            logger.debug(f"Looking for insertion point starting from index {current_idx}")
+            if config.debug:
+                print(f"Looking for insertion point starting from index {current_idx}")
         while current_idx < len(self.lines):
             line = self.lines[current_idx].strip()
             if not self.is_dictionary:

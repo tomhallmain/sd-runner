@@ -44,6 +44,7 @@ from ui.schedules_windows import SchedulesWindow
 from ui.timed_schedules_window import TimedSchedulesWindow
 from ui.tags_blacklist_window import BlacklistWindow
 from ui.prompt_config_window import PromptConfigWindow
+from ui.scheduled_shutdown_dialog import ScheduledShutdownDialog
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.job_queue import SDRunsQueue, PresetSchedulesQueue
@@ -593,8 +594,7 @@ class App():
             try:
                 timed_schedules_manager.check_for_shutdown_request(datetime.datetime.now())
             except ScheduledShutdownException as e:
-                self.handle_error(e, "Scheduled Shutdown")
-                self.on_closing()
+                self._handle_scheduled_shutdown(e)
             
             self.job_queue_preset_schedules.job_running = True
             if "control_net" in override_args:
@@ -778,8 +778,7 @@ class App():
             try:
                 self.current_run.execute()
             except ScheduledShutdownException as e:
-                self.handle_error(e, "Scheduled Shutdown")
-                self.on_closing()
+                self._handle_scheduled_shutdown(e)
             except Exception:
                 traceback.print_exc()
                 self.current_run.cancel("Run failure")
@@ -1111,6 +1110,20 @@ class App():
         if title is None:
             title = _("Error")
         self.alert(title, error_text, kind=kind)
+
+    def _handle_scheduled_shutdown(self, e):
+        """Handle a scheduled shutdown exception by showing a countdown dialog."""
+        # Extract schedule name from the exception
+        schedule_name = e.schedule.name if e.schedule else "Unknown Schedule"
+        
+        # Show countdown dialog instead of immediate shutdown
+        logger.info(f"Scheduled shutdown requested: {e}")
+        shutdown_dialog = ScheduledShutdownDialog(self.master, schedule_name, countdown_seconds=6)
+        cancelled = shutdown_dialog.show()
+        
+        if not cancelled:
+            # User didn't cancel, proceed with shutdown
+            self.on_closing()
 
     def toast(self, message):
         print("Toast message: " + message)

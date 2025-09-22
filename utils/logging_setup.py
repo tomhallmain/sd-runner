@@ -50,7 +50,7 @@ def get_logger(module_name: str) -> logging.Logger:
     """
     # Create logger with module name
     logger: logging.Logger = logging.getLogger(f"sd_runner.{module_name}")
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     logger.propagate = False
 
     # If handlers are already set up, return the logger
@@ -59,7 +59,7 @@ def get_logger(module_name: str) -> logging.Logger:
 
     # create console handler with a higher log level
     ch: logging.StreamHandler = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
+    ch.setLevel(logging.INFO)
     ch.setFormatter(CustomFormatter())
     logger.addHandler(ch)
 
@@ -76,7 +76,7 @@ def get_logger(module_name: str) -> logging.Logger:
 
     # Add file handler
     fh: logging.FileHandler = logging.FileHandler(log_file, mode='a', encoding='utf-8')
-    fh.setLevel(logging.DEBUG)
+    fh.setLevel(logging.INFO)
     fh.setFormatter(CustomFormatter())
     logger.addHandler(fh)
 
