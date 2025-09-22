@@ -150,6 +150,12 @@ class App():
         self.label_time_est = Label(self.sidebar)
         self.add_label(self.label_time_est, "", sticky=None, interior_column=1)
 
+        # Additional progress information row
+        self.label_pending_adapters = Label(self.sidebar)
+        self.add_label(self.label_pending_adapters, "", sticky=None, increment_row_counter=False)
+        self.label_pending_preset_schedules = Label(self.sidebar)
+        self.add_label(self.label_pending_preset_schedules, "", sticky=None, interior_column=1)
+
         self.label_software = Label(self.sidebar)
         self.add_label(self.label_software, _("Software"), increment_row_counter=False)
         self.software = StringVar(master)
@@ -869,22 +875,27 @@ class App():
         if total == -1:
             text = str(current_index) + _(" (unlimited)")
         else:
-            pending_text = self.job_queue_preset_schedules.pending_text()
-            if pending_text is None or pending_text == "":
-                pending_text = self.job_queue.pending_text()
-            if pending_text is None:
-                pending_text = ""
-            
             # If batch limit is set and is lower than total, show both effective total and actual total
             if batch_limit is not None and batch_limit > 0 and batch_limit < total:
-                text = str(current_index) + "/" + str(batch_limit) + f" (of {total})" + pending_text
+                text = str(current_index) + "/" + str(batch_limit) + f" (of {total})"
             else:
-                text = str(current_index) + "/" + str(total) + pending_text
-        
+                text = str(current_index) + "/" + str(total)
+
         if prepend_text is not None:
             self.label_progress["text"] = prepend_text + text
         else:
             self.label_progress["text"] = text
+        
+        # Update adapters info label if provided
+        if pending_adapters is not None:
+            if isinstance(pending_adapters, int) and pending_adapters > 0:
+                self.label_pending_adapters["text"] = _("{0} remaining adapters").format(pending_adapters)
+            else:
+                self.label_pending_adapters["text"] = ""
+
+        preset_text = self.job_queue_preset_schedules.pending_text()
+        self.label_pending_preset_schedules["text"] = preset_text if preset_text is not None else ""
+
         self.master.update()
     
     def update_pending(self, count_pending):
@@ -895,6 +906,8 @@ class App():
             self.label_pending["text"] = ""
             if not self.job_queue_preset_schedules.has_pending() and self.current_run.is_complete:
                 Utils.play_sound()
+                # Clear adapters info when runs complete
+                self.label_pending_adapters["text"] = ""
         else:
             self.label_pending["text"] = _("{0} pending generations").format(count_pending)
         self.master.update()

@@ -44,7 +44,7 @@ class JobQueue:
         if self.name == JobQueue.JOB_QUEUE_SD_RUNS_KEY:
             return _(" (Pending runs: {0})").format(len(self.pending_jobs))
         elif self.name == JobQueue.JOB_QUEUE_PRESETS_KEY:
-            return _(" (Pending schedules: {0})").format(len(self.pending_jobs))
+            return _("Pending schedules: {0}").format(len(self.pending_jobs))
 
     def estimate_time(self, gen_config=None) -> int:
         """
