@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-12 16:59-0400\n"
-"PO-Revision-Date: 2025-09-12 16:59-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-09-22 18:23-0400\n"
+"PO-Revision-Date: 2025-09-22 18:23-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -12,189 +12,189 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:135
+#: app.py:138
 msgid "Run SD Workflows"
 msgstr "安定拡散ワークフローの実行"
 
-#: app.py:139
+#: app.py:142
 msgid "Run Workflows"
 msgstr "워크플로 실행"
 
-#: app.py:141
+#: app.py:144
 msgid "Cancel Run"
 msgstr "실행 취소"
 
-#: app.py:151
+#: app.py:160
 msgid "Software"
 msgstr "소프트웨어"
 
-#: app.py:159
+#: app.py:168
 msgid "Workflow"
 msgstr "워크플로"
 
-#: app.py:166
+#: app.py:175
 msgid "Set N Latents"
 msgstr "잠재 고객 수"
 
-#: app.py:172
+#: app.py:181
 msgid "Set Total"
 msgstr "합계"
 
-#: app.py:180
+#: app.py:189
 msgid "Batch Limit"
 msgstr "배치 제한"
 
-#: app.py:187
+#: app.py:196
 msgid "Delay Seconds"
 msgstr "지연 시간(초)"
 
-#: app.py:193
+#: app.py:202
 msgid "Resolutions"
 msgstr "해상도"
 
-#: app.py:200
+#: app.py:209
 msgid "Resolution Group"
 msgstr "이미지 해결 그룹"
 
-#: app.py:206
+#: app.py:215
 msgid "Model Tags"
 msgstr "모델 태그"
 
-#: app.py:221
+#: app.py:230
 msgid "LoRA Tags"
 msgstr "LoRA 태그"
 
-#: app.py:237
+#: app.py:246
 msgid "Default LoRA Strength"
 msgstr "기본 LoRA 강도"
 
-#: app.py:243
+#: app.py:252
 msgid "B/W Colorization Tags"
 msgstr "블랙/화이트 컬러화 태그"
 
-#: app.py:251
+#: app.py:260
 msgid "Control Net or Redo files"
 msgstr "제어망 또는 파일 다시 실행"
 
-#: app.py:258
+#: app.py:267
 msgid "Default Control Net Strength"
 msgstr "기본 제어망 강도"
 
-#: app.py:264
+#: app.py:273
 msgid "IPAdapter files"
 msgstr "IPAdapter 파일"
 
-#: app.py:271
+#: app.py:280
 msgid "Default IPAdapter Strength"
 msgstr "기본 IPAdapter 강도"
 
-#: app.py:277
+#: app.py:286
 msgid "Redo Parameters"
 msgstr "매개변수 다시 실행"
 
-#: app.py:293 app.py:310 ui/prompt_config_window.py:267
+#: app.py:302 app.py:319 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr "프롬프트 구성"
 
-#: app.py:298
+#: app.py:307
 msgid "Preset Schedule Window"
 msgstr "사전 설정 일정 창"
 
-#: app.py:299 ui/presets_window.py:94
+#: app.py:308 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "사전 설정 창"
 
-#: app.py:300
+#: app.py:309
 msgid "Timed Schedules Window"
 msgstr "시간별 일정 창"
 
-#: app.py:305 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:314 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr "태그 블랙리스트"
 
-#: app.py:306 ui/expansions_window.py:176
+#: app.py:315 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "확장 프로그램 창"
 
-#: app.py:313
+#: app.py:322
 msgid "Prompt Mode"
 msgstr "프롬프트 모드"
 
-#: app.py:320 utils/globals.py:431
+#: app.py:329 utils/globals.py:431
 msgid "Edit Concepts"
 msgstr "개념 편집"
 
-#: app.py:323
+#: app.py:332
 msgid "Concepts Dir"
 msgstr "개념 디렉토리"
 
-#: app.py:336
+#: app.py:345
 msgid "Override Resolution"
 msgstr "이미지 해상도 재정의"
 
-#: app.py:340
+#: app.py:349
 msgid "Inpainting"
 msgstr "실내 페인팅"
 
-#: app.py:344 ui/prompt_config_window.py:569
+#: app.py:353 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr "기본 음수 재정의"
 
-#: app.py:348
+#: app.py:357
 msgid "Run Preset Schedule"
 msgstr "사전 설정 일정 실행"
 
-#: app.py:352 ui/prompt_config_window.py:590
+#: app.py:361 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr "연속적인 랜덤 시드 변동"
 
-#: app.py:356
+#: app.py:365
 msgid "Prompt Massage Tags"
 msgstr "프롬프트 마사지 태그"
 
-#: app.py:364
+#: app.py:373
 msgid "Positive Tags"
 msgstr "프롬프트 조정 태그"
 
-#: app.py:371
+#: app.py:380
 msgid "Negative Tags"
 msgstr "네거티브 태그"
 
-#: app.py:396 app.py:1229
+#: app.py:405 app.py:1282
 msgid " ComfyGen "
 msgstr " SD 러너 "
 
-#: app.py:397
+#: app.py:406
 msgid "Debug mode toggled."
 msgstr "디버그 모드 토글됨."
 
-#: app.py:456
+#: app.py:465
 msgid "Confirm Quit"
 msgstr "종료 확인"
 
-#: app.py:456
+#: app.py:465
 msgid "Would you like to quit the application?"
 msgstr "앱을 종료하시겠습니까?"
 
-#: app.py:678 app.py:698
+#: app.py:704 app.py:724
 msgid "Confirm Run"
 msgstr "실행 확인"
 
-#: app.py:679
+#: app.py:705
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "새 실행을 시작하면 현재 미리 설정된 일정이 취소됩니다. 계속 진행하시겠습니까?"
 
-#: app.py:699
+#: app.py:725
 msgid "Are you sure you want to proceed?"
 msgstr "계속 진행하시겠습니까?"
 
-#: app.py:734
+#: app.py:760
 msgid "Long Running Job Confirmation"
 msgstr "장시간 실행 작업 확인"
 
-#: app.py:735
+#: app.py:761
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -212,35 +212,35 @@ msgstr ""
 "\n"
 "계속 진행하시겠습니까?"
 
-#: app.py:844
+#: app.py:876
 msgid " (unlimited)"
 msgstr " (무제한)"
 
-#: app.py:873
+#: app.py:912
 msgid "{0} pending generations"
 msgstr "{0} 보류 중인 세대"
 
-#: app.py:945
+#: app.py:984
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "프롬프트에서 블랙리스트 항목을 발견했습니다: {0}"
 
-#: app.py:946 app.py:949
+#: app.py:985 app.py:988
 msgid "Invalid Prompt Tags"
 msgstr "잘못된 프롬프트 태그"
 
-#: app.py:949
+#: app.py:988
 msgid "Blacklist validation failed!"
 msgstr "블랙리스트 유효성 검사에 실패했습니다!"
 
-#: app.py:1066
+#: app.py:1105
 msgid "Password Cancelled"
 msgstr "비밀번호 취소"
 
-#: app.py:1066
+#: app.py:1105
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되돌리기"
 
-#: app.py:1085 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
+#: app.py:1124 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
@@ -314,15 +314,15 @@ msgstr "매일"
 msgid "{0} - Days: {1} - Times: {2}-{3} - Shutdown: {4}"
 msgstr "{0} - 일: {1} - 시간: {2}-{3} - 종료: {4}"
 
-#: sd_runner/timed_schedules_manager.py:19
+#: sd_runner/timed_schedules_manager.py:22
 msgid "Default"
 msgstr "기본값"
 
-#: sd_runner/timed_schedules_manager.py:46
+#: sd_runner/timed_schedules_manager.py:49
 msgid "Default Shutdown"
 msgstr "기본 종료"
 
-#: sd_runner/timed_schedules_manager.py:91 ui/schedules_windows.py:233
+#: sd_runner/timed_schedules_manager.py:94 ui/schedules_windows.py:233
 msgid "Not enough schedules found."
 msgstr "일정이 충분하지 않습니다."
 
@@ -343,8 +343,8 @@ msgid "Save"
 msgstr "저장"
 
 #: ui/concept_editor_window.py:171 ui/expansions_window.py:241
-#: ui/presets_window.py:147 ui/schedules_windows.py:90
-#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:208
+#: ui/presets_window.py:151 ui/schedules_windows.py:90
+#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:210
 msgid "Delete"
 msgstr "삭제"
 
@@ -475,7 +475,7 @@ msgstr "확장팩 지우기"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
 #: ui/tags_blacklist_window.py:720 ui/tags_blacklist_window.py:773
-#: ui/timed_schedules_window.py:201
+#: ui/timed_schedules_window.py:203
 msgid "Modify"
 msgstr "수정"
 
@@ -491,35 +491,35 @@ msgstr "잘못된 확장 ID “{0}” 또는 텍스트 “{1}”"
 msgid "Copied expansion text to clipboard"
 msgstr "확장 텍스트를 클립보드에 복사"
 
-#: ui/presets_window.py:55
+#: ui/presets_window.py:58
 msgid "New Preset (ERROR no presets found)"
 msgstr "새 프리셋(오류 프리셋을 찾을 수 없음)"
 
-#: ui/presets_window.py:86
+#: ui/presets_window.py:90
 msgid "Not enough presets found."
 msgstr "사전 설정이 충분하지 않습니다."
 
-#: ui/presets_window.py:115
+#: ui/presets_window.py:119
 msgid "Set a new preset"
 msgstr "새 프리셋 설정"
 
-#: ui/presets_window.py:116
+#: ui/presets_window.py:120
 msgid "New Preset"
 msgstr "새로운 프리셋"
 
-#: ui/presets_window.py:120
+#: ui/presets_window.py:124
 msgid "Add preset"
 msgstr "사전 설정 추가"
 
-#: ui/presets_window.py:122
+#: ui/presets_window.py:126
 msgid "Clear presets"
 msgstr "사전 설정 지우기"
 
-#: ui/presets_window.py:140 ui/schedules_windows.py:286
+#: ui/presets_window.py:144 ui/schedules_windows.py:286
 msgid "Set"
 msgstr "설정"
 
-#: ui/presets_window.py:164
+#: ui/presets_window.py:168
 msgid "Invalid preset: {0}"
 msgstr "잘못된 사전 설정입니다: {0}"
 
@@ -661,7 +661,7 @@ msgid "Modify Schedule"
 msgstr "일정 수정"
 
 #: ui/schedules_windows.py:47 ui/schedules_windows.py:263
-#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:178
+#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:180
 msgid "Add schedule"
 msgstr "일정 추가"
 
@@ -677,7 +677,7 @@ msgstr "아래로 이동"
 msgid "Preset Schedules"
 msgstr "사전 설정 일정"
 
-#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:180
+#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:182
 msgid "Clear schedules"
 msgstr "일정 지우기"
 
@@ -705,7 +705,7 @@ msgstr "블랙리스트 항목 수정: {0}"
 msgid "Blacklist String"
 msgstr "블랙리스트 문자열"
 
-#: ui/tags_blacklist_window.py:63
+#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:219
 msgid "Enabled"
 msgstr "활성화됨"
 
@@ -1068,7 +1068,7 @@ msgstr "종료 시간"
 msgid "Shutdown Time"
 msgstr "애플리케이션 종료 시간"
 
-#: ui/timed_schedules_window.py:176
+#: ui/timed_schedules_window.py:178
 msgid "Create and modify schedules"
 msgstr "일정 생성 및 수정"
 
@@ -1586,3 +1586,27 @@ msgstr "개월"
 #: utils/translations.py:68
 msgid "years"
 msgstr "년"
+
+#: app.py:892
+msgid "{0} remaining adapters"
+msgstr "{0} 남은 어댑터"
+
+#: ui/scheduled_shutdown_dialog.py:25 ui/scheduled_shutdown_dialog.py:41
+msgid "Scheduled Shutdown"
+msgstr "예정된 종료"
+
+#: ui/scheduled_shutdown_dialog.py:48
+msgid "Schedule: {}"
+msgstr "일정: {}"
+
+#: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
+msgid "Shutting down in {} seconds..."
+msgstr "{}초 후 종료됩니다..."
+
+#: ui/scheduled_shutdown_dialog.py:70
+msgid "Shutdown Now"
+msgstr "지금 종료"
+
+#: utils/job_queue.py:47
+msgid "Pending schedules: {0}"
+msgstr "보류 중인 일정: {0}"

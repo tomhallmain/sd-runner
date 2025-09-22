@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-12 16:59-0400\n"
-"PO-Revision-Date: 2025-09-12 16:59-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-09-22 18:23-0400\n"
+"PO-Revision-Date: 2025-09-22 18:23-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ja Team <<EMAIL>>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -12,189 +12,189 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:135
+#: app.py:138
 msgid "Run SD Workflows"
 msgstr "安定拡散ワークフローの実行"
 
-#: app.py:139
+#: app.py:142
 msgid "Run Workflows"
 msgstr "ワークフローの実行"
 
-#: app.py:141
+#: app.py:144
 msgid "Cancel Run"
 msgstr "キャンセル"
 
-#: app.py:151
+#: app.py:160
 msgid "Software"
 msgstr "ソフトウェア"
 
-#: app.py:159
+#: app.py:168
 msgid "Workflow"
 msgstr "ワークフロー"
 
-#: app.py:166
+#: app.py:175
 msgid "Set N Latents"
 msgstr "潜在数"
 
-#: app.py:172
+#: app.py:181
 msgid "Set Total"
 msgstr "合計"
 
-#: app.py:180
+#: app.py:189
 msgid "Batch Limit"
 msgstr "バッチ制限"
 
-#: app.py:187
+#: app.py:196
 msgid "Delay Seconds"
 msgstr "遅延秒数"
 
-#: app.py:193
+#: app.py:202
 msgid "Resolutions"
 msgstr "解像度"
 
-#: app.py:200
+#: app.py:209
 msgid "Resolution Group"
 msgstr "解像度グループ"
 
-#: app.py:206
+#: app.py:215
 msgid "Model Tags"
 msgstr "モデルタグ"
 
-#: app.py:221
+#: app.py:230
 msgid "LoRA Tags"
 msgstr "LoRAタグ"
 
-#: app.py:237
+#: app.py:246
 msgid "Default LoRA Strength"
 msgstr "デフォルトのLoRAの強さ"
 
-#: app.py:243
+#: app.py:252
 msgid "B/W Colorization Tags"
 msgstr "黒/白のカラーリングタグ"
 
-#: app.py:251
+#: app.py:260
 msgid "Control Net or Redo files"
 msgstr "コントロールネット、やり直しファイル"
 
-#: app.py:258
+#: app.py:267
 msgid "Default Control Net Strength"
 msgstr "デフォルトの制御ネット強度"
 
-#: app.py:264
+#: app.py:273
 msgid "IPAdapter files"
 msgstr "IPAdapter ファイル"
 
-#: app.py:271
+#: app.py:280
 msgid "Default IPAdapter Strength"
 msgstr "デフォルトの IPAdapter の強さ"
 
-#: app.py:277
+#: app.py:286
 msgid "Redo Parameters"
 msgstr "やり直しパラメータ"
 
-#: app.py:293 app.py:310 ui/prompt_config_window.py:267
+#: app.py:302 app.py:319 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr "プロンプトの設定"
 
-#: app.py:298
+#: app.py:307
 msgid "Preset Schedule Window"
 msgstr "プリセットスケジュールウィンドウ"
 
-#: app.py:299 ui/presets_window.py:94
+#: app.py:308 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "プリセットウィンドウ"
 
-#: app.py:300
+#: app.py:309
 msgid "Timed Schedules Window"
 msgstr "時間指定スケジュールウィンドウ"
 
-#: app.py:305 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:314 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr "タグ ブラックリスト"
 
-#: app.py:306 ui/expansions_window.py:176
+#: app.py:315 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "拡張ウィンドウ"
 
-#: app.py:313
+#: app.py:322
 msgid "Prompt Mode"
 msgstr "プロンプトのモード"
 
-#: app.py:320 utils/globals.py:431
+#: app.py:329 utils/globals.py:431
 msgid "Edit Concepts"
 msgstr "編集コンセプト"
 
-#: app.py:323
+#: app.py:332
 msgid "Concepts Dir"
 msgstr "コンセプト・ディレクトリ"
 
-#: app.py:336
+#: app.py:345
 msgid "Override Resolution"
 msgstr "画像解像度の上書き"
 
-#: app.py:340
+#: app.py:349
 msgid "Inpainting"
 msgstr "インテリア・ペインティング"
 
-#: app.py:344 ui/prompt_config_window.py:569
+#: app.py:353 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr "ベースネガを上書きする"
 
-#: app.py:348
+#: app.py:357
 msgid "Run Preset Schedule"
 msgstr "プリセットスケジュールの実行"
 
-#: app.py:352 ui/prompt_config_window.py:590
+#: app.py:361 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr "連続的な乱数シードの変動"
 
-#: app.py:356
+#: app.py:365
 msgid "Prompt Massage Tags"
 msgstr "マッサージ・タグを促す"
 
-#: app.py:364
+#: app.py:373
 msgid "Positive Tags"
 msgstr "プロンプトの調整タグ"
 
-#: app.py:371
+#: app.py:380
 msgid "Negative Tags"
 msgstr "ネガティブタグ"
 
-#: app.py:396 app.py:1229
+#: app.py:405 app.py:1282
 msgid " ComfyGen "
 msgstr " SDランナー "
 
-#: app.py:397
+#: app.py:406
 msgid "Debug mode toggled."
 msgstr "デバッグモードが切り替えられました。"
 
-#: app.py:456
+#: app.py:465
 msgid "Confirm Quit"
 msgstr "終了を確認する"
 
-#: app.py:456
+#: app.py:465
 msgid "Would you like to quit the application?"
 msgstr "アプリを終了しますか？"
 
-#: app.py:678 app.py:698
+#: app.py:704 app.py:724
 msgid "Confirm Run"
 msgstr "ランの確認"
 
-#: app.py:679
+#: app.py:705
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "新しいランを開始すると、現在のプリセットスケジュールはキャンセルされます。本当に続けますか？"
 
-#: app.py:699
+#: app.py:725
 msgid "Are you sure you want to proceed?"
 msgstr "このままでいいのか？"
 
-#: app.py:734
+#: app.py:760
 msgid "Long Running Job Confirmation"
 msgstr "長時間実行ジョブ確認"
 
-#: app.py:735
+#: app.py:761
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -212,35 +212,35 @@ msgstr ""
 "\n"
 "続行してもよろしいですか？"
 
-#: app.py:844
+#: app.py:876
 msgid " (unlimited)"
 msgstr " (無制限）"
 
-#: app.py:873
+#: app.py:912
 msgid "{0} pending generations"
 msgstr "{0}保留中の世代"
 
-#: app.py:945
+#: app.py:984
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "プロンプトでブラックリストの項目が見つかりました： {0}"
 
-#: app.py:946 app.py:949
+#: app.py:985 app.py:988
 msgid "Invalid Prompt Tags"
 msgstr "無効なプロンプトタグ"
 
-#: app.py:949
+#: app.py:988
 msgid "Blacklist validation failed!"
 msgstr "ブラックリストの検証に失敗した！"
 
-#: app.py:1066
+#: app.py:1105
 msgid "Password Cancelled"
 msgstr "パスワードのキャンセル"
 
-#: app.py:1066
+#: app.py:1105
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "パスワードがキャンセルされたか、間違っている。"
 
-#: app.py:1085 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
+#: app.py:1124 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
@@ -314,15 +314,15 @@ msgstr "毎日"
 msgid "{0} - Days: {1} - Times: {2}-{3} - Shutdown: {4}"
 msgstr "{0} - 日数: {1} - 回数: {2}-{3} - 停止: {4}"
 
-#: sd_runner/timed_schedules_manager.py:19
+#: sd_runner/timed_schedules_manager.py:22
 msgid "Default"
 msgstr "デフォルト"
 
-#: sd_runner/timed_schedules_manager.py:46
+#: sd_runner/timed_schedules_manager.py:49
 msgid "Default Shutdown"
 msgstr "デフォルトシャットダウン"
 
-#: sd_runner/timed_schedules_manager.py:91 ui/schedules_windows.py:233
+#: sd_runner/timed_schedules_manager.py:94 ui/schedules_windows.py:233
 msgid "Not enough schedules found."
 msgstr "十分なスケジュールが見つからない。"
 
@@ -343,8 +343,8 @@ msgid "Save"
 msgstr "セーブ"
 
 #: ui/concept_editor_window.py:171 ui/expansions_window.py:241
-#: ui/presets_window.py:147 ui/schedules_windows.py:90
-#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:208
+#: ui/presets_window.py:151 ui/schedules_windows.py:90
+#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:210
 msgid "Delete"
 msgstr "削除"
 
@@ -474,7 +474,7 @@ msgstr "明確な拡張"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
 #: ui/tags_blacklist_window.py:720 ui/tags_blacklist_window.py:773
-#: ui/timed_schedules_window.py:201
+#: ui/timed_schedules_window.py:203
 msgid "Modify"
 msgstr "修正"
 
@@ -490,35 +490,35 @@ msgstr "無効な拡張ID 「{0}」 またはテキスト 「{1}」"
 msgid "Copied expansion text to clipboard"
 msgstr "拡張テキストをクリップボードにコピー"
 
-#: ui/presets_window.py:55
+#: ui/presets_window.py:58
 msgid "New Preset (ERROR no presets found)"
 msgstr "新規プリセット (プリセットが見つかりません)"
 
-#: ui/presets_window.py:86
+#: ui/presets_window.py:90
 msgid "Not enough presets found."
 msgstr "プリセットが足りない。"
 
-#: ui/presets_window.py:115
+#: ui/presets_window.py:119
 msgid "Set a new preset"
 msgstr "新しいプリセットを設定する"
 
-#: ui/presets_window.py:116
+#: ui/presets_window.py:120
 msgid "New Preset"
 msgstr "新しいプリセット"
 
-#: ui/presets_window.py:120
+#: ui/presets_window.py:124
 msgid "Add preset"
 msgstr "プリセットの追加"
 
-#: ui/presets_window.py:122
+#: ui/presets_window.py:126
 msgid "Clear presets"
 msgstr "プリセットを消去する"
 
-#: ui/presets_window.py:140 ui/schedules_windows.py:286
+#: ui/presets_window.py:144 ui/schedules_windows.py:286
 msgid "Set"
 msgstr "設定"
 
-#: ui/presets_window.py:164
+#: ui/presets_window.py:168
 msgid "Invalid preset: {0}"
 msgstr "無効なプリセットです： {0}"
 
@@ -660,7 +660,7 @@ msgid "Modify Schedule"
 msgstr "スケジュールの変更"
 
 #: ui/schedules_windows.py:47 ui/schedules_windows.py:263
-#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:178
+#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:180
 msgid "Add schedule"
 msgstr "スケジュール追加"
 
@@ -676,7 +676,7 @@ msgstr "下に移動"
 msgid "Preset Schedules"
 msgstr "プリセットのスケジュール"
 
-#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:180
+#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:182
 msgid "Clear schedules"
 msgstr "スケジュールをクリアする"
 
@@ -704,7 +704,7 @@ msgstr "ブラックリストの変更 項目: {0}"
 msgid "Blacklist String"
 msgstr "ブラックリスト文字列"
 
-#: ui/tags_blacklist_window.py:63
+#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:219
 msgid "Enabled"
 msgstr "有効"
 
@@ -1064,7 +1064,7 @@ msgstr "終了時刻"
 msgid "Shutdown Time"
 msgstr "アプリケーション終了時刻"
 
-#: ui/timed_schedules_window.py:176
+#: ui/timed_schedules_window.py:178
 msgid "Create and modify schedules"
 msgstr "スケジュールを作成および変更する"
 
@@ -1582,3 +1582,27 @@ msgstr "か月"
 #: utils/translations.py:68
 msgid "years"
 msgstr "年間"
+
+#: app.py:892
+msgid "{0} remaining adapters"
+msgstr "{0} 個のアダプターが残っています"
+
+#: ui/scheduled_shutdown_dialog.py:25 ui/scheduled_shutdown_dialog.py:41
+msgid "Scheduled Shutdown"
+msgstr "計画停止"
+
+#: ui/scheduled_shutdown_dialog.py:48
+msgid "Schedule: {}"
+msgstr "スケジュール: {}"
+
+#: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
+msgid "Shutting down in {} seconds..."
+msgstr "{}秒後にシャットダウンします..."
+
+#: ui/scheduled_shutdown_dialog.py:70
+msgid "Shutdown Now"
+msgstr "今すぐシャットダウン"
+
+#: utils/job_queue.py:47
+msgid "Pending schedules: {0}"
+msgstr "保留中のスケジュール: {0}"

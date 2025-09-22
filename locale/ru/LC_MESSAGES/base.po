@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-12 16:59-0400\n"
-"PO-Revision-Date: 2025-09-12 16:59-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-09-22 18:23-0400\n"
+"PO-Revision-Date: 2025-09-22 18:23-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ru Team <<EMAIL>>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -12,175 +12,175 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:135
+#: app.py:138
 msgid "Run SD Workflows"
 msgstr "Запуск рабочих процессов стабильной диффузии"
 
-#: app.py:139
+#: app.py:142
 msgid "Run Workflows"
 msgstr "Запуск рабочих процессов"
 
-#: app.py:141
+#: app.py:144
 msgid "Cancel Run"
 msgstr "Отменить запуск"
 
-#: app.py:151
+#: app.py:160
 msgid "Software"
 msgstr "Программное"
 
-#: app.py:159
+#: app.py:168
 msgid "Workflow"
 msgstr "Рабочий процесс"
 
-#: app.py:166
+#: app.py:175
 msgid "Set N Latents"
 msgstr "Количество латентов"
 
-#: app.py:172
+#: app.py:181
 msgid "Set Total"
 msgstr "Всего"
 
-#: app.py:180
+#: app.py:189
 msgid "Batch Limit"
 msgstr "Ограничение партии"
 
-#: app.py:187
+#: app.py:196
 msgid "Delay Seconds"
 msgstr "Секунды задержки"
 
-#: app.py:193
+#: app.py:202
 msgid "Resolutions"
 msgstr "Разрешения изображений"
 
-#: app.py:200
+#: app.py:209
 msgid "Resolution Group"
 msgstr "Группа разрешения изображений"
 
-#: app.py:206
+#: app.py:215
 msgid "Model Tags"
 msgstr "Теги модели"
 
-#: app.py:221
+#: app.py:230
 msgid "LoRA Tags"
 msgstr "Теги LoRA"
 
-#: app.py:237
+#: app.py:246
 msgid "Default LoRA Strength"
 msgstr "Сила LoRA по умолчанию"
 
-#: app.py:243
+#: app.py:252
 msgid "B/W Colorization Tags"
 msgstr "Теги Черно-белая расцветка"
 
-#: app.py:251
+#: app.py:260
 msgid "Control Net or Redo files"
 msgstr "Управление сетью или переделка файлов"
 
-#: app.py:258
+#: app.py:267
 msgid "Default Control Net Strength"
 msgstr "Управление по умолчанию Сила сети"
 
-#: app.py:264
+#: app.py:273
 msgid "IPAdapter files"
 msgstr "Файлы IPAdapter"
 
-#: app.py:271
+#: app.py:280
 msgid "Default IPAdapter Strength"
 msgstr "Сила IPAdapter по умолчанию"
 
-#: app.py:277
+#: app.py:286
 msgid "Redo Parameters"
 msgstr "Параметры повторного выполнения"
 
-#: app.py:293 app.py:310 ui/prompt_config_window.py:267
+#: app.py:302 app.py:319 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr "Конфигурация подсказок"
 
-#: app.py:298
+#: app.py:307
 msgid "Preset Schedule Window"
 msgstr "Окно предустановленных расписаний"
 
-#: app.py:299 ui/presets_window.py:94
+#: app.py:308 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "Окно предустановок"
 
-#: app.py:300
+#: app.py:309
 msgid "Timed Schedules Window"
 msgstr "Окно Временные расписания"
 
-#: app.py:305 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:314 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr "Черный список тегов"
 
-#: app.py:306 ui/expansions_window.py:176
+#: app.py:315 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "Окно расширений"
 
-#: app.py:313
+#: app.py:322
 msgid "Prompt Mode"
 msgstr "Режим подсказки"
 
-#: app.py:320 utils/globals.py:431
+#: app.py:329 utils/globals.py:431
 msgid "Edit Concepts"
 msgstr "Редактировать концепции"
 
-#: app.py:323
+#: app.py:332
 msgid "Concepts Dir"
 msgstr "Каталог концепций"
 
-#: app.py:336
+#: app.py:345
 msgid "Override Resolution"
 msgstr "Изменить разрешение"
 
-#: app.py:340
+#: app.py:349
 msgid "Inpainting"
 msgstr "Инкрустация"
 
-#: app.py:344 ui/prompt_config_window.py:569
+#: app.py:353 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr "Переопределение базового отрицательного"
 
-#: app.py:348
+#: app.py:357
 msgid "Run Preset Schedule"
 msgstr "Запуск предустановленного расписания"
 
-#: app.py:352 ui/prompt_config_window.py:590
+#: app.py:361 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr "Непрерывное изменение случайного семени"
 
-#: app.py:356
+#: app.py:365
 msgid "Prompt Massage Tags"
 msgstr "Теги корректировки подсказки"
 
-#: app.py:364
+#: app.py:373
 msgid "Positive Tags"
 msgstr "Позитивные теги"
 
-#: app.py:371
+#: app.py:380
 msgid "Negative Tags"
 msgstr "Отрицательные теги"
 
-#: app.py:396 app.py:1229
+#: app.py:405 app.py:1282
 msgid " ComfyGen "
 msgstr " Бегун SD "
 
-#: app.py:397
+#: app.py:406
 msgid "Debug mode toggled."
 msgstr "Режим отладки включен."
 
-#: app.py:456
+#: app.py:465
 msgid "Confirm Quit"
 msgstr "Подтвердите выход"
 
-#: app.py:456
+#: app.py:465
 msgid "Would you like to quit the application?"
 msgstr "Вы хотите выйти из приложения?"
 
-#: app.py:678 app.py:698
+#: app.py:704 app.py:724
 msgid "Confirm Run"
 msgstr "Подтвердите выполнение"
 
-#: app.py:679
+#: app.py:705
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -188,15 +188,15 @@ msgstr ""
 "Начало нового запуска отменит текущее предустановленное расписание. Вы "
 "уверены, что хотите продолжить?"
 
-#: app.py:699
+#: app.py:725
 msgid "Are you sure you want to proceed?"
 msgstr "Вы уверены, что хотите продолжить?"
 
-#: app.py:734
+#: app.py:760
 msgid "Long Running Job Confirmation"
 msgstr "Подтверждение длительной работы"
 
-#: app.py:735
+#: app.py:761
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -214,35 +214,35 @@ msgstr ""
 "\n"
 "Вы уверены, что хотите продолжить?"
 
-#: app.py:844
+#: app.py:876
 msgid " (unlimited)"
 msgstr " (неограниченно)"
 
-#: app.py:873
+#: app.py:912
 msgid "{0} pending generations"
 msgstr "{0} ожидающих поколений"
 
-#: app.py:945
+#: app.py:984
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "В подсказке найдены элементы из черного списка: {0}"
 
-#: app.py:946 app.py:949
+#: app.py:985 app.py:988
 msgid "Invalid Prompt Tags"
 msgstr "Неверные теги подсказок"
 
-#: app.py:949
+#: app.py:988
 msgid "Blacklist validation failed!"
 msgstr "Проверка черного списка не удалась!"
 
-#: app.py:1066
+#: app.py:1105
 msgid "Password Cancelled"
 msgstr "Пароль отменен"
 
-#: app.py:1066
+#: app.py:1105
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "Пароль отменен или неверен, вернитесь в предыдущий режим"
 
-#: app.py:1085 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
+#: app.py:1124 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
@@ -324,15 +324,15 @@ msgstr "Каждый день"
 msgid "{0} - Days: {1} - Times: {2}-{3} - Shutdown: {4}"
 msgstr "{0} - Дни: {1} - Время: {2}-{3} - Выключение: {4}"
 
-#: sd_runner/timed_schedules_manager.py:19
+#: sd_runner/timed_schedules_manager.py:22
 msgid "Default"
 msgstr "По умолчанию"
 
-#: sd_runner/timed_schedules_manager.py:46
+#: sd_runner/timed_schedules_manager.py:49
 msgid "Default Shutdown"
 msgstr "Выключение по умолчанию"
 
-#: sd_runner/timed_schedules_manager.py:91 ui/schedules_windows.py:233
+#: sd_runner/timed_schedules_manager.py:94 ui/schedules_windows.py:233
 msgid "Not enough schedules found."
 msgstr "Не найдено достаточного количества расписаний."
 
@@ -353,8 +353,8 @@ msgid "Save"
 msgstr "Сохранить"
 
 #: ui/concept_editor_window.py:171 ui/expansions_window.py:241
-#: ui/presets_window.py:147 ui/schedules_windows.py:90
-#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:208
+#: ui/presets_window.py:151 ui/schedules_windows.py:90
+#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:210
 msgid "Delete"
 msgstr "Удалить"
 
@@ -491,7 +491,7 @@ msgstr "Четкие расширения"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
 #: ui/tags_blacklist_window.py:720 ui/tags_blacklist_window.py:773
-#: ui/timed_schedules_window.py:201
+#: ui/timed_schedules_window.py:203
 msgid "Modify"
 msgstr "Изменить"
 
@@ -507,35 +507,35 @@ msgstr "Недопустимый идентификатор расширения
 msgid "Copied expansion text to clipboard"
 msgstr "Копирование текста расширения в буфер обмена"
 
-#: ui/presets_window.py:55
+#: ui/presets_window.py:58
 msgid "New Preset (ERROR no presets found)"
 msgstr "Новая предустановка (ОШИБКА не найдено предустановок)"
 
-#: ui/presets_window.py:86
+#: ui/presets_window.py:90
 msgid "Not enough presets found."
 msgstr "Не найдено достаточного количества предустановок."
 
-#: ui/presets_window.py:115
+#: ui/presets_window.py:119
 msgid "Set a new preset"
 msgstr "Установите новую предустановку"
 
-#: ui/presets_window.py:116
+#: ui/presets_window.py:120
 msgid "New Preset"
 msgstr "Новая предустановка"
 
-#: ui/presets_window.py:120
+#: ui/presets_window.py:124
 msgid "Add preset"
 msgstr "Добавить предустановку"
 
-#: ui/presets_window.py:122
+#: ui/presets_window.py:126
 msgid "Clear presets"
 msgstr "Очистить предустановки"
 
-#: ui/presets_window.py:140 ui/schedules_windows.py:286
+#: ui/presets_window.py:144 ui/schedules_windows.py:286
 msgid "Set"
 msgstr "Установите"
 
-#: ui/presets_window.py:164
+#: ui/presets_window.py:168
 msgid "Invalid preset: {0}"
 msgstr "Неверная предустановка: {0}"
 
@@ -677,7 +677,7 @@ msgid "Modify Schedule"
 msgstr "Изменить расписание"
 
 #: ui/schedules_windows.py:47 ui/schedules_windows.py:263
-#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:178
+#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:180
 msgid "Add schedule"
 msgstr "Добавить расписание"
 
@@ -693,7 +693,7 @@ msgstr "Двигайтесь вниз"
 msgid "Preset Schedules"
 msgstr "Расписания предустановок"
 
-#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:180
+#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:182
 msgid "Clear schedules"
 msgstr "Очистите расписания"
 
@@ -721,7 +721,7 @@ msgstr "Изменить черный список Предмет: {0}"
 msgid "Blacklist String"
 msgstr "Строка черного списка"
 
-#: ui/tags_blacklist_window.py:63
+#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:219
 msgid "Enabled"
 msgstr "Включено"
 
@@ -1097,7 +1097,7 @@ msgstr "Время конца"
 msgid "Shutdown Time"
 msgstr "Время отключения"
 
-#: ui/timed_schedules_window.py:176
+#: ui/timed_schedules_window.py:178
 msgid "Create and modify schedules"
 msgstr "Создание и изменение расписаний"
 
@@ -1623,3 +1623,27 @@ msgstr "месяца"
 #: utils/translations.py:68
 msgid "years"
 msgstr "года"
+
+#: app.py:892
+msgid "{0} remaining adapters"
+msgstr "{0} оставшихся адаптеров"
+
+#: ui/scheduled_shutdown_dialog.py:25 ui/scheduled_shutdown_dialog.py:41
+msgid "Scheduled Shutdown"
+msgstr "Плановое отключение"
+
+#: ui/scheduled_shutdown_dialog.py:48
+msgid "Schedule: {}"
+msgstr "Расписание: {}"
+
+#: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
+msgid "Shutting down in {} seconds..."
+msgstr "Выключение через {} секунды..."
+
+#: ui/scheduled_shutdown_dialog.py:70
+msgid "Shutdown Now"
+msgstr "Завершить работу сейчас"
+
+#: utils/job_queue.py:47
+msgid "Pending schedules: {0}"
+msgstr "Ожидающие расписания: {0}"

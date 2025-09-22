@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-12 16:59-0400\n"
-"PO-Revision-Date: 2025-09-12 16:59-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-09-22 18:23-0400\n"
+"PO-Revision-Date: 2025-09-22 18:23-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: es Team <<EMAIL>>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -12,175 +12,175 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:135
+#: app.py:138
 msgid "Run SD Workflows"
 msgstr "Ejecutar flujos de trabajo SD"
 
-#: app.py:139
+#: app.py:142
 msgid "Run Workflows"
 msgstr "Ejecutar flujos de trabajo"
 
-#: app.py:141
+#: app.py:144
 msgid "Cancel Run"
 msgstr "Cancelar ejecución"
 
-#: app.py:151
+#: app.py:160
 msgid "Software"
 msgstr "Programa"
 
-#: app.py:159
+#: app.py:168
 msgid "Workflow"
 msgstr "Flujo de trabajo"
 
-#: app.py:166
+#: app.py:175
 msgid "Set N Latents"
 msgstr "Conjunto N Latentes"
 
-#: app.py:172
+#: app.py:181
 msgid "Set Total"
 msgstr "Total"
 
-#: app.py:180
+#: app.py:189
 msgid "Batch Limit"
 msgstr "Límite por lote"
 
-#: app.py:187
+#: app.py:196
 msgid "Delay Seconds"
 msgstr "Segundos de retraso"
 
-#: app.py:193
+#: app.py:202
 msgid "Resolutions"
 msgstr "Resoluciones"
 
-#: app.py:200
+#: app.py:209
 msgid "Resolution Group"
 msgstr "Grupo de resolución"
 
-#: app.py:206
+#: app.py:215
 msgid "Model Tags"
 msgstr "Etiquetas de modelos"
 
-#: app.py:221
+#: app.py:230
 msgid "LoRA Tags"
 msgstr "Etiquetas LoRA"
 
-#: app.py:237
+#: app.py:246
 msgid "Default LoRA Strength"
 msgstr "Fuerza LoRA por defecto"
 
-#: app.py:243
+#: app.py:252
 msgid "B/W Colorization Tags"
 msgstr "Etiquetas de coloración en blanco y negro"
 
-#: app.py:251
+#: app.py:260
 msgid "Control Net or Redo files"
 msgstr "Archivos Control Net o Rehacer"
 
-#: app.py:258
+#: app.py:267
 msgid "Default Control Net Strength"
 msgstr "Fuerza ControlNet por defecto"
 
-#: app.py:264
+#: app.py:273
 msgid "IPAdapter files"
 msgstr "Archivos IPAdapter"
 
-#: app.py:271
+#: app.py:280
 msgid "Default IPAdapter Strength"
 msgstr "Fuerza IPAdapter por defecto"
 
-#: app.py:277
+#: app.py:286
 msgid "Redo Parameters"
 msgstr "Rehacer parámetros"
 
-#: app.py:293 app.py:310 ui/prompt_config_window.py:267
+#: app.py:302 app.py:319 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr "Configuración de avisos"
 
-#: app.py:298
+#: app.py:307
 msgid "Preset Schedule Window"
 msgstr "Ventana de programación predefinida"
 
-#: app.py:299 ui/presets_window.py:94
+#: app.py:308 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "Ventana de preajustes"
 
-#: app.py:300
+#: app.py:309
 msgid "Timed Schedules Window"
 msgstr "Ventana de horarios programados"
 
-#: app.py:305 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:314 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr "Lista negra de etiquetas"
 
-#: app.py:306 ui/expansions_window.py:176
+#: app.py:315 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "Ventana de ampliaciones"
 
-#: app.py:313
+#: app.py:322
 msgid "Prompt Mode"
 msgstr "Modo Preguntar"
 
-#: app.py:320 utils/globals.py:431
+#: app.py:329 utils/globals.py:431
 msgid "Edit Concepts"
 msgstr "Editar conceptos"
 
-#: app.py:323
+#: app.py:332
 msgid "Concepts Dir"
 msgstr "Directorio de conceptos"
 
-#: app.py:336
+#: app.py:345
 msgid "Override Resolution"
 msgstr "Anular la Resolución"
 
-#: app.py:340
+#: app.py:349
 msgid "Inpainting"
 msgstr "Pintar por dentro"
 
-#: app.py:344 ui/prompt_config_window.py:569
+#: app.py:353 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr "Anular Base Negativa"
 
-#: app.py:348
+#: app.py:357
 msgid "Run Preset Schedule"
 msgstr "Ejecutar programa preestablecido"
 
-#: app.py:352 ui/prompt_config_window.py:590
+#: app.py:361 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr "Variación continua de la semilla"
 
-#: app.py:356
+#: app.py:365
 msgid "Prompt Massage Tags"
 msgstr "Etiquetas de ajuste de  la incitación"
 
-#: app.py:364
+#: app.py:373
 msgid "Positive Tags"
 msgstr "Etiquetas positivas"
 
-#: app.py:371
+#: app.py:380
 msgid "Negative Tags"
 msgstr "Etiquetas negativas"
 
-#: app.py:396 app.py:1229
+#: app.py:405 app.py:1282
 msgid " ComfyGen "
 msgstr " Corredor SD "
 
-#: app.py:397
+#: app.py:406
 msgid "Debug mode toggled."
 msgstr "Modo de depuración activado."
 
-#: app.py:456
+#: app.py:465
 msgid "Confirm Quit"
 msgstr "Confirmar Salir"
 
-#: app.py:456
+#: app.py:465
 msgid "Would you like to quit the application?"
 msgstr "¿Desea abandonar la aplicación?"
 
-#: app.py:678 app.py:698
+#: app.py:704 app.py:724
 msgid "Confirm Run"
 msgstr "Confirmar ejecución"
 
-#: app.py:679
+#: app.py:705
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -188,15 +188,15 @@ msgstr ""
 "El inicio de un nuevo recorrido cancelará la programación preestablecida "
 "actual. ¿Está seguro de que desea continuar?"
 
-#: app.py:699
+#: app.py:725
 msgid "Are you sure you want to proceed?"
 msgstr "¿Estás seguro de que quieres continuar?"
 
-#: app.py:734
+#: app.py:760
 msgid "Long Running Job Confirmation"
 msgstr "Confirmación de trabajo prolongado"
 
-#: app.py:735
+#: app.py:761
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -214,35 +214,35 @@ msgstr ""
 "\n"
 "¿Está seguro de que desea continuar?"
 
-#: app.py:844
+#: app.py:876
 msgid " (unlimited)"
 msgstr " (ilimitado)"
 
-#: app.py:873
+#: app.py:912
 msgid "{0} pending generations"
 msgstr "{0} generaciones pendientes"
 
-#: app.py:945
+#: app.py:984
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "Elementos en lista negra encontrados en el prompt: {0}"
 
-#: app.py:946 app.py:949
+#: app.py:985 app.py:988
 msgid "Invalid Prompt Tags"
 msgstr "Etiquetas de aviso no válidas"
 
-#: app.py:949
+#: app.py:988
 msgid "Blacklist validation failed!"
 msgstr "¡Validación de la lista negra fallida!"
 
-#: app.py:1066
+#: app.py:1105
 msgid "Password Cancelled"
 msgstr "Contraseña cancelada"
 
-#: app.py:1066
+#: app.py:1105
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "Contraseña cancelada o incorrecta, volver al modo anterior"
 
-#: app.py:1085 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
+#: app.py:1124 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
@@ -324,15 +324,15 @@ msgstr "Cada día"
 msgid "{0} - Days: {1} - Times: {2}-{3} - Shutdown: {4}"
 msgstr "{0} - Días: {1} - Horas: {2}-{3} - Apagado: {4}"
 
-#: sd_runner/timed_schedules_manager.py:19
+#: sd_runner/timed_schedules_manager.py:22
 msgid "Default"
 msgstr "Por defecto"
 
-#: sd_runner/timed_schedules_manager.py:46
+#: sd_runner/timed_schedules_manager.py:49
 msgid "Default Shutdown"
 msgstr "Apagado predeterminado"
 
-#: sd_runner/timed_schedules_manager.py:91 ui/schedules_windows.py:233
+#: sd_runner/timed_schedules_manager.py:94 ui/schedules_windows.py:233
 msgid "Not enough schedules found."
 msgstr "No se han encontrado suficientes horarios."
 
@@ -353,8 +353,8 @@ msgid "Save"
 msgstr "Guardar"
 
 #: ui/concept_editor_window.py:171 ui/expansions_window.py:241
-#: ui/presets_window.py:147 ui/schedules_windows.py:90
-#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:208
+#: ui/presets_window.py:151 ui/schedules_windows.py:90
+#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:210
 msgid "Delete"
 msgstr "Borrar"
 
@@ -490,7 +490,7 @@ msgstr "Borrar las ampliaciónes"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
 #: ui/tags_blacklist_window.py:720 ui/tags_blacklist_window.py:773
-#: ui/timed_schedules_window.py:201
+#: ui/timed_schedules_window.py:203
 msgid "Modify"
 msgstr "Modifique"
 
@@ -506,35 +506,35 @@ msgstr "Expansión no válida ID «{0}» o texto «{1}»"
 msgid "Copied expansion text to clipboard"
 msgstr "Texto de expansión copiado a portapapeles"
 
-#: ui/presets_window.py:55
+#: ui/presets_window.py:58
 msgid "New Preset (ERROR no presets found)"
 msgstr "Nuevo preajuste (ERROR no se han encontrado preajustes)"
 
-#: ui/presets_window.py:86
+#: ui/presets_window.py:90
 msgid "Not enough presets found."
 msgstr "No se han encontrado suficientes preajustes."
 
-#: ui/presets_window.py:115
+#: ui/presets_window.py:119
 msgid "Set a new preset"
 msgstr "Establecer un nuevo preajuste"
 
-#: ui/presets_window.py:116
+#: ui/presets_window.py:120
 msgid "New Preset"
 msgstr "Nuevo preajuste"
 
-#: ui/presets_window.py:120
+#: ui/presets_window.py:124
 msgid "Add preset"
 msgstr "Añadir preajuste"
 
-#: ui/presets_window.py:122
+#: ui/presets_window.py:126
 msgid "Clear presets"
 msgstr "Borrar preajustes"
 
-#: ui/presets_window.py:140 ui/schedules_windows.py:286
+#: ui/presets_window.py:144 ui/schedules_windows.py:286
 msgid "Set"
 msgstr "Fije"
 
-#: ui/presets_window.py:164
+#: ui/presets_window.py:168
 msgid "Invalid preset: {0}"
 msgstr "Preajuste inválido: {0}"
 
@@ -676,7 +676,7 @@ msgid "Modify Schedule"
 msgstr "Modificar el horario"
 
 #: ui/schedules_windows.py:47 ui/schedules_windows.py:263
-#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:178
+#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:180
 msgid "Add schedule"
 msgstr "Añadir horario"
 
@@ -692,7 +692,7 @@ msgstr "Bajar"
 msgid "Preset Schedules"
 msgstr "Horarios de preselecciones"
 
-#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:180
+#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:182
 msgid "Clear schedules"
 msgstr "Borrar los horarios"
 
@@ -720,7 +720,7 @@ msgstr "Modificar artículo de la lista negra: {0}"
 msgid "Blacklist String"
 msgstr "Texto de la lista negra"
 
-#: ui/tags_blacklist_window.py:63
+#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:219
 msgid "Enabled"
 msgstr "Activado"
 
@@ -1091,7 +1091,7 @@ msgstr "Hora de fin"
 msgid "Shutdown Time"
 msgstr "Tiempo de apagado"
 
-#: ui/timed_schedules_window.py:176
+#: ui/timed_schedules_window.py:178
 msgid "Create and modify schedules"
 msgstr "Crear y modificar horarios"
 
@@ -1621,3 +1621,27 @@ msgstr "meses"
 #: utils/translations.py:68
 msgid "years"
 msgstr "años"
+
+#: app.py:892
+msgid "{0} remaining adapters"
+msgstr "{0} adaptadores restantes"
+
+#: ui/scheduled_shutdown_dialog.py:25 ui/scheduled_shutdown_dialog.py:41
+msgid "Scheduled Shutdown"
+msgstr "Apagado programado"
+
+#: ui/scheduled_shutdown_dialog.py:48
+msgid "Schedule: {}"
+msgstr "Horario: {}"
+
+#: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
+msgid "Shutting down in {} seconds..."
+msgstr "Apagándose en {} segundos..."
+
+#: ui/scheduled_shutdown_dialog.py:70
+msgid "Shutdown Now"
+msgstr "Apagar ahora"
+
+#: utils/job_queue.py:47
+msgid "Pending schedules: {0}"
+msgstr "Horarios pendientes: {0}"

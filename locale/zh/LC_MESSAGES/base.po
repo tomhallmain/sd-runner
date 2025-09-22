@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-12 16:59-0400\n"
-"PO-Revision-Date: 2025-09-12 16:59-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-09-22 18:23-0400\n"
+"PO-Revision-Date: 2025-09-22 18:23-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -12,189 +12,189 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:135
+#: app.py:138
 msgid "Run SD Workflows"
 msgstr "运行稳定扩散工作流程"
 
-#: app.py:139
+#: app.py:142
 msgid "Run Workflows"
 msgstr "运行工作流程"
 
-#: app.py:141
+#: app.py:144
 msgid "Cancel Run"
 msgstr "取消运行"
 
-#: app.py:151
+#: app.py:160
 msgid "Software"
 msgstr "软件"
 
-#: app.py:159
+#: app.py:168
 msgid "Workflow"
 msgstr "工作流程"
 
-#: app.py:166
+#: app.py:175
 msgid "Set N Latents"
 msgstr "潜变量数量"
 
-#: app.py:172
+#: app.py:181
 msgid "Set Total"
 msgstr "总计"
 
-#: app.py:180
+#: app.py:189
 msgid "Batch Limit"
 msgstr "批次限制"
 
-#: app.py:187
+#: app.py:196
 msgid "Delay Seconds"
 msgstr "延迟秒数"
 
-#: app.py:193
+#: app.py:202
 msgid "Resolutions"
 msgstr "图像分辨率"
 
-#: app.py:200
+#: app.py:209
 msgid "Resolution Group"
 msgstr "图像分辨率小组"
 
-#: app.py:206
+#: app.py:215
 msgid "Model Tags"
 msgstr "模型标签"
 
-#: app.py:221
+#: app.py:230
 msgid "LoRA Tags"
 msgstr "LoRA 标签"
 
-#: app.py:237
+#: app.py:246
 msgid "Default LoRA Strength"
 msgstr "默认 LoRA 强度"
 
-#: app.py:243
+#: app.py:252
 msgid "B/W Colorization Tags"
 msgstr "黑/白色着色标签"
 
-#: app.py:251
+#: app.py:260
 msgid "Control Net or Redo files"
 msgstr "控制网络或重做文件"
 
-#: app.py:258
+#: app.py:267
 msgid "Default Control Net Strength"
 msgstr "默认控制网强度"
 
-#: app.py:264
+#: app.py:273
 msgid "IPAdapter files"
 msgstr "IPAdapter 文件"
 
-#: app.py:271
+#: app.py:280
 msgid "Default IPAdapter Strength"
 msgstr "默认 IPAdapter 强度"
 
-#: app.py:277
+#: app.py:286
 msgid "Redo Parameters"
 msgstr "重做参数"
 
-#: app.py:293 app.py:310 ui/prompt_config_window.py:267
+#: app.py:302 app.py:319 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr "提示配置"
 
-#: app.py:298
+#: app.py:307
 msgid "Preset Schedule Window"
 msgstr "预设时间表窗口"
 
-#: app.py:299 ui/presets_window.py:94
+#: app.py:308 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "预设窗口"
 
-#: app.py:300
+#: app.py:309
 msgid "Timed Schedules Window"
 msgstr "定时计划窗口"
 
-#: app.py:305 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:314 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr "标签黑名单"
 
-#: app.py:306 ui/expansions_window.py:176
+#: app.py:315 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "扩展窗口"
 
-#: app.py:313
+#: app.py:322
 msgid "Prompt Mode"
 msgstr "提示方式"
 
-#: app.py:320 utils/globals.py:431
+#: app.py:329 utils/globals.py:431
 msgid "Edit Concepts"
 msgstr "编辑概念"
 
-#: app.py:323
+#: app.py:332
 msgid "Concepts Dir"
 msgstr "概念目录"
 
-#: app.py:336
+#: app.py:345
 msgid "Override Resolution"
 msgstr "覆盖图像分辨率"
 
-#: app.py:340
+#: app.py:349
 msgid "Inpainting"
 msgstr "油画"
 
-#: app.py:344 ui/prompt_config_window.py:569
+#: app.py:353 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr "覆盖基准负数"
 
-#: app.py:348
+#: app.py:357
 msgid "Run Preset Schedule"
 msgstr "运行预设时间表"
 
-#: app.py:352 ui/prompt_config_window.py:590
+#: app.py:361 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr "连续随机种子变异"
 
-#: app.py:356
+#: app.py:365
 msgid "Prompt Massage Tags"
 msgstr "提示的调整标签"
 
-#: app.py:364
+#: app.py:373
 msgid "Positive Tags"
 msgstr "正面标签"
 
-#: app.py:371
+#: app.py:380
 msgid "Negative Tags"
 msgstr "负面标签"
 
-#: app.py:396 app.py:1229
+#: app.py:405 app.py:1282
 msgid " ComfyGen "
 msgstr " SD 转轮 "
 
-#: app.py:397
+#: app.py:406
 msgid "Debug mode toggled."
 msgstr "调试模式已切换。"
 
-#: app.py:456
+#: app.py:465
 msgid "Confirm Quit"
 msgstr "确认退出"
 
-#: app.py:456
+#: app.py:465
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
-#: app.py:678 app.py:698
+#: app.py:704 app.py:724
 msgid "Confirm Run"
 msgstr "确认运行"
 
-#: app.py:679
+#: app.py:705
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "开始新的运行将取消当前的预设时间表。您确定要继续吗？"
 
-#: app.py:699
+#: app.py:725
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
 
-#: app.py:734
+#: app.py:760
 msgid "Long Running Job Confirmation"
 msgstr "长期运行作业确认"
 
-#: app.py:735
+#: app.py:761
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -212,35 +212,35 @@ msgstr ""
 "\n"
 "是否确定继续？"
 
-#: app.py:844
+#: app.py:876
 msgid " (unlimited)"
 msgstr " (无限制)"
 
-#: app.py:873
+#: app.py:912
 msgid "{0} pending generations"
 msgstr "{0}待定世代"
 
-#: app.py:945
+#: app.py:984
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "提示中发现黑名单项目： {0}"
 
-#: app.py:946 app.py:949
+#: app.py:985 app.py:988
 msgid "Invalid Prompt Tags"
 msgstr "无效提示标签"
 
-#: app.py:949
+#: app.py:988
 msgid "Blacklist validation failed!"
 msgstr "黑名单验证失败！"
 
-#: app.py:1066
+#: app.py:1105
 msgid "Password Cancelled"
 msgstr "取消密码"
 
-#: app.py:1066
+#: app.py:1105
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "密码被取消或不正确，返回上一模式"
 
-#: app.py:1085 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
+#: app.py:1124 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
@@ -314,15 +314,15 @@ msgstr "每天"
 msgid "{0} - Days: {1} - Times: {2}-{3} - Shutdown: {4}"
 msgstr "{0} - 天数：{1} - 次数：{2}-{3} - 关机：{4}"
 
-#: sd_runner/timed_schedules_manager.py:19
+#: sd_runner/timed_schedules_manager.py:22
 msgid "Default"
 msgstr "默认"
 
-#: sd_runner/timed_schedules_manager.py:46
+#: sd_runner/timed_schedules_manager.py:49
 msgid "Default Shutdown"
 msgstr "默认关机"
 
-#: sd_runner/timed_schedules_manager.py:91 ui/schedules_windows.py:233
+#: sd_runner/timed_schedules_manager.py:94 ui/schedules_windows.py:233
 msgid "Not enough schedules found."
 msgstr "没有找到足够的时间表。"
 
@@ -343,8 +343,8 @@ msgid "Save"
 msgstr "节省"
 
 #: ui/concept_editor_window.py:171 ui/expansions_window.py:241
-#: ui/presets_window.py:147 ui/schedules_windows.py:90
-#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:208
+#: ui/presets_window.py:151 ui/schedules_windows.py:90
+#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:210
 msgid "Delete"
 msgstr "删除"
 
@@ -473,7 +473,7 @@ msgstr "清除扩展"
 
 #: ui/expansions_window.py:234 ui/schedules_windows.py:293
 #: ui/tags_blacklist_window.py:720 ui/tags_blacklist_window.py:773
-#: ui/timed_schedules_window.py:201
+#: ui/timed_schedules_window.py:203
 msgid "Modify"
 msgstr "修改"
 
@@ -489,35 +489,35 @@ msgstr "无效扩展 ID“{0}”，或文本“{1}”"
 msgid "Copied expansion text to clipboard"
 msgstr "将扩展文本复制到剪贴板"
 
-#: ui/presets_window.py:55
+#: ui/presets_window.py:58
 msgid "New Preset (ERROR no presets found)"
 msgstr "新预置 (错误，未找到预置)"
 
-#: ui/presets_window.py:86
+#: ui/presets_window.py:90
 msgid "Not enough presets found."
 msgstr "没有找到足够的预置。"
 
-#: ui/presets_window.py:115
+#: ui/presets_window.py:119
 msgid "Set a new preset"
 msgstr "设置新预置"
 
-#: ui/presets_window.py:116
+#: ui/presets_window.py:120
 msgid "New Preset"
 msgstr "新预设"
 
-#: ui/presets_window.py:120
+#: ui/presets_window.py:124
 msgid "Add preset"
 msgstr "添加预置"
 
-#: ui/presets_window.py:122
+#: ui/presets_window.py:126
 msgid "Clear presets"
 msgstr "清除预设"
 
-#: ui/presets_window.py:140 ui/schedules_windows.py:286
+#: ui/presets_window.py:144 ui/schedules_windows.py:286
 msgid "Set"
 msgstr "设置"
 
-#: ui/presets_window.py:164
+#: ui/presets_window.py:168
 msgid "Invalid preset: {0}"
 msgstr "预设无效： {0}"
 
@@ -659,7 +659,7 @@ msgid "Modify Schedule"
 msgstr "修改时间表"
 
 #: ui/schedules_windows.py:47 ui/schedules_windows.py:263
-#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:178
+#: ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:180
 msgid "Add schedule"
 msgstr "添加时间表"
 
@@ -675,7 +675,7 @@ msgstr "向下移动"
 msgid "Preset Schedules"
 msgstr "预设时间表"
 
-#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:180
+#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:182
 msgid "Clear schedules"
 msgstr "清除时间表"
 
@@ -703,7 +703,7 @@ msgstr "修改黑名单 项目: {0}"
 msgid "Blacklist String"
 msgstr "黑名单字符串"
 
-#: ui/tags_blacklist_window.py:63
+#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:219
 msgid "Enabled"
 msgstr "已启用"
 
@@ -1060,7 +1060,7 @@ msgstr "结束时间"
 msgid "Shutdown Time"
 msgstr "应用程序关闭时间"
 
-#: ui/timed_schedules_window.py:176
+#: ui/timed_schedules_window.py:178
 msgid "Create and modify schedules"
 msgstr "创建和修改日程安排"
 
@@ -1578,3 +1578,27 @@ msgstr "月数"
 #: utils/translations.py:68
 msgid "years"
 msgstr "年份"
+
+#: app.py:892
+msgid "{0} remaining adapters"
+msgstr "{0} 个剩余适配器"
+
+#: ui/scheduled_shutdown_dialog.py:25 ui/scheduled_shutdown_dialog.py:41
+msgid "Scheduled Shutdown"
+msgstr "计划停机"
+
+#: ui/scheduled_shutdown_dialog.py:48
+msgid "Schedule: {}"
+msgstr "日程安排：{}"
+
+#: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
+msgid "Shutting down in {} seconds..."
+msgstr "{}秒后关闭..."
+
+#: ui/scheduled_shutdown_dialog.py:70
+msgid "Shutdown Now"
+msgstr "立即关闭"
+
+#: utils/job_queue.py:47
+msgid "Pending schedules: {0}"
+msgstr "待定日程：{0}"

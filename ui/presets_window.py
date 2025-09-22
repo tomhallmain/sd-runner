@@ -52,7 +52,11 @@ class PresetsWindow():
 
     @staticmethod
     def get_most_recent_preset_name():
-        PresetsWindow.recent_presets[0] if len(PresetsWindow.recent_presets) > 0 else _("New Preset (ERROR no presets found)")
+        return (
+            PresetsWindow.recent_presets[0].name
+            if len(PresetsWindow.recent_presets) > 0
+            else _("New Preset (ERROR no presets found)")
+        )
 
     @staticmethod
     def get_history_preset(start_index=0):
