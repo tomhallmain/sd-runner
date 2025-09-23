@@ -15,7 +15,7 @@ class ModelsWindow:
     def __init__(self, master, app_actions):
         ModelsWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
         ModelsWindow.top_level.title(_("Models"))
-        ModelsWindow.top_level.geometry("800x600")
+        ModelsWindow.top_level.geometry("600x450")
 
         self.master = ModelsWindow.top_level
         self.app_actions = app_actions

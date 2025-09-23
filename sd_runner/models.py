@@ -8,9 +8,12 @@ from sd_runner.blacklist import Blacklist, BlacklistException
 from sd_runner.model_adapters import LoraBundle
 from utils.config import config
 from utils.globals import Globals, PromptMode, ModelBlacklistMode, WorkflowType, ArchitectureType, ResolutionGroup
+from utils.logging_setup import get_logger
 from utils.translations import I18N
 
 _ = I18N._
+
+logger = get_logger("models")
 
 
 class Model:
@@ -263,17 +266,33 @@ class Model:
         model_tags = model_tags_str.split(",")
         models = []
         for model_tag in model_tags:
+            tag = model_tag.strip()
+            if tag == "":
+                continue
             try:
-                if "+" in model_tag:
+                if "+" in tag:
                     if not is_lora:
-                        raise Exception("Expected lora for use of Lora bundle token \"+\"")
-                    bundle_model_tags = model_tag.replace("+", ",")
-                    models.append(LoraBundle(Model.get_models(bundle_model_tags, is_lora=is_lora, default_tag=default_tag, inpainting=inpainting, is_xl=is_xl)))
+                        raise Exception("Expected lora for use of Lora bundle token '+'")
+                    bundle_model_tags = tag.replace("+", ",")
+                    try:
+                        bundle = Model.get_models(bundle_model_tags, is_lora=is_lora, default_tag=default_tag, inpainting=inpainting, is_xl=is_xl)
+                        if len(bundle) > 0:
+                            models.append(LoraBundle(bundle))
+                        else:
+                            if config.debug:
+                                print(f"No models found for bundle tag: {tag}")
+                    except Exception as e:
+                        if config.debug:
+                            print(f"Failed to resolve bundle tag '{tag}': {e}")
                 else:
-                    models.append(Model.get_model(model_tag, is_lora, inpainting=inpainting, is_xl=is_xl))
-            except Exception:
-                model_tag = model_tag.replace("-", "_") if "-" in model_tag else model_tag.replace("_", "-")
-                models.append(Model.get_model(model_tag, is_lora, inpainting=inpainting, is_xl=is_xl))
+                    try:
+                        models.append(Model.get_model(tag, is_lora, inpainting=inpainting, is_xl=is_xl))
+                    except Exception:
+                        alt_tag = tag.replace("-", "_") if "-" in tag else tag.replace("_", "-")
+                        models.append(Model.get_model(alt_tag, is_lora, inpainting=inpainting, is_xl=is_xl))
+            except Exception as e:
+                if config.debug:
+                    print(f"Failed to find model for tag '{tag}' - skipping")
         return models
 
     @staticmethod
@@ -333,27 +352,26 @@ class Model:
             try:
                 models = Model.get_models(model_tags)
             except Exception as e:
-                if config.debug:
-                    print(f"Failed to get model to set presets with exception: {e}")
+                logger.warning(f"Failed to get model to set presets with exception: {e}")
             for model in models:
                 if "architecture_type" in preset_config:
-                    architecture_type_str = preset_config["architecture_type"]
+                    architecture_type_str = preset_config.get("architecture_type", None)
                     try:
                         model.architecture_type = ArchitectureType[architecture_type_str]
                     except Exception as e:
                         print(f"Failed to set architecture_type {architecture_type_str} for model {model}: {e}")
                 if "clip_req" in preset_config:
-                    model.clip_req = preset_config["clip_req"]
+                    model.clip_req = preset_config.get("clip_req", None)
                 if "prompt_tags" in preset_config:
                     for prompt_mode_name, prompt_config in preset_config["prompt_tags"].items():
                         if prompt_mode_name in PromptMode.__members__.keys():
                             prompt_mode_config = PromptMode[prompt_mode_name]
                             if prompt_mode_config == prompt_mode:
-                                model.positive_tags = prompt_config["positive"]
-                                model.negative_tags = prompt_config["negative"]
+                                model.positive_tags = prompt_config.get("positive", None)
+                                model.negative_tags = prompt_config.get("negative", None)
                         else:
-                            model.positive_tags = prompt_config["positive"]
-                            model.negative_tags = prompt_config["negative"]
+                            model.positive_tags = prompt_config.get("positive", None)
+                            model.negative_tags = prompt_config.get("negative", None)
 
     @staticmethod
     def get_first_model_lora_tags(model_tags, lora_tags):

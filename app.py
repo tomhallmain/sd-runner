@@ -367,11 +367,11 @@ class App():
         self.apply_to_grid(self.continuous_seed_variation_choice, sticky=W, column=1, columnspan=3)
 
         self.label_prompt_tags = Label(self.second_column)
-        self.add_label(self.label_prompt_tags, _("Prompt Massage Tags"), columnspan=2)
+        self.add_label(self.label_prompt_tags, _("Prompt Massage Tags"), column=1, columnspan=2)
         self.prompt_massage_tags = StringVar()
-        self.prompt_massage_tags_box = self.new_entry(self.prompt_massage_tags, self.second_column)
+        self.prompt_massage_tags_box = self.new_entry(self.prompt_massage_tags, sidebar=False)
         self.prompt_massage_tags_box.insert(0, self.runner_app_config.prompt_massage_tags)
-        self.apply_to_grid(self.prompt_massage_tags_box, sticky=W, columnspan=2)
+        self.apply_to_grid(self.prompt_massage_tags_box, sticky=W, column=1, columnspan=2)
         self.prompt_massage_tags_box.bind("<Return>", self.set_prompt_massage_tags)
 
         self.label_positive_tags = Label(self.second_column)
@@ -957,7 +957,11 @@ class App():
             model_tags = self.model_tags.get()
         if inpainting is None:
             inpainting = self.inpainting_var.get()
-        prompt_massage_tags, models = Model.get_first_model_prompt_massage_tags(model_tags, prompt_mode=self.prompt_mode.get(), inpainting=inpainting)
+        prompt_massage_tags, models = Model.get_first_model_prompt_massage_tags(
+            model_tags,
+            prompt_mode=PromptMode.get(self.prompt_mode.get()),
+            inpainting=inpainting
+        )
         self.prompt_massage_tags_box.delete(0, 'end')
         self.prompt_massage_tags_box.insert(0, prompt_massage_tags)
         self.prompt_massage_tags.set(prompt_massage_tags)
