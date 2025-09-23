@@ -6,6 +6,8 @@ class AppActions:
         "update_progress", "update_pending", "update_time_estimation", 
         "construct_preset", "set_widgets_from_preset", "open_password_admin_window",
         "toast", "alert",
+        # Models window callbacks
+        "set_model_from_models_window",
     }
     
     def __init__(self, actions: Dict[str, Callable[..., Any]]):

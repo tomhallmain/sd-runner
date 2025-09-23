@@ -38,6 +38,7 @@ from ui.expansions_window import ExpansionsWindow
 from ui.auth.password_admin_window import PasswordAdminWindow
 from ui.auth.password_utils import check_password_required, require_password
 from ui.auth.password_core import get_security_config
+from ui.models_window import ModelsWindow
 from ui.preset import Preset
 from ui.presets_window import PresetsWindow
 from ui.schedules_windows import SchedulesWindow
@@ -123,7 +124,9 @@ class App():
                                       "set_widgets_from_preset": self.set_widgets_from_preset,
                                       "open_password_admin_window": self.open_password_admin_window,
                                       "toast": self.toast,
-                                      "alert": self.alert,})
+                                      "alert": self.alert,
+                                      # Models window callbacks
+                                      "set_model_from_models_window": self.set_model_from_models_window,})
 
         # Set UI callbacks for Blacklist filtering notifications
         Blacklist.set_ui_callbacks(self.app_actions)
@@ -212,7 +215,9 @@ class App():
         self.apply_to_grid(self.resolution_group_choice, interior_column=1, sticky=W)
 
         self.label_model_tags = Label(self.sidebar)
-        self.add_label(self.label_model_tags, _("Model Tags"))
+        self.add_label(self.label_model_tags, _("Model Tags"), increment_row_counter=False)
+        self.models_window_btn = None
+        self.add_button("models_window_btn", text=_("Models"), command=self.open_models_window, sidebar=True, interior_column=1)
         self.model_tags = StringVar()
         model_names = list(map(lambda l: str(l).split('.')[0], Model.CHECKPOINTS))
         self.model_tags_box = AutocompleteEntry(model_names,
@@ -1092,6 +1097,38 @@ class App():
             PromptConfigWindow(self.master, self.app_actions, self.runner_app_config)
         except Exception as e:
             self.handle_error(e, title="Prompt Configuration Window Error")
+
+    def open_models_window(self, event=None):
+        # Wrapper to use the common open_window pattern
+        self.open_window(ModelsWindow, "Models Window Error")
+
+    def set_model_from_models_window(self, value: str, is_lora: bool, replace: bool):
+        box = self.lora_tags_box if is_lora else self.model_tags_box
+        current = box.get().strip()
+        if is_lora:
+            if replace or current == "":
+                new_val = value
+            else:
+                sep = "+" if current.endswith("+") or "+" in current else ","
+                if not current.endswith(sep):
+                    new_val = current + sep + value
+                else:
+                    new_val = current + value
+        else:
+            if replace or current.strip() == "":
+                new_val = value
+            else:
+                # Append with comma for models to keep multiple model tags if desired
+                sep = ","
+                if not current.endswith(sep):
+                    new_val = current + sep + value
+                else:
+                    new_val = current + value
+        box.delete(0, "end")
+        box.insert(0, new_val)
+        if not is_lora:
+            self.set_model_dependent_fields()
+        self.master.update()
 
     @require_password(ProtectedActions.ACCESS_ADMIN)
     def open_password_admin_window(self, event=None):
