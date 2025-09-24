@@ -11,6 +11,7 @@ from tkinter import messagebox
 import tkinter.font as fnt
 from ttkthemes import ThemedTk
 
+from lib.caps_lock_mixin import CapsLockMixin
 from ui.app_style import AppStyle
 from ui.auth.password_core import PasswordManager
 from ui.auth.password_session_manager import PasswordSessionManager
@@ -20,7 +21,7 @@ from utils.translations import I18N
 _ = I18N._
 
 
-class StartupPasswordDialog:
+class StartupPasswordDialog(CapsLockMixin):
     """Password dialog for application startup authentication."""
     
     def __init__(self, root, callback=None):
@@ -85,6 +86,9 @@ class StartupPasswordDialog:
                                       show="*", width=30, font=fnt.Font(size=10))
         self.password_entry.pack(fill="x", pady=(5, 0))
         
+        # Set up caps lock detection using mixin
+        self.setup_caps_lock_detection(password_frame, self.password_entry, self.root)
+
         # Buttons
         button_frame = tk.Frame(main_frame, bg=AppStyle.BG_COLOR)
         button_frame.pack(fill="x")

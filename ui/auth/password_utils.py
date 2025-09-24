@@ -24,6 +24,38 @@ def _check_session_validity(action_names: list[ProtectedActions], config, timeou
         return True  # No protected actions, so session is valid
     return all(PasswordSessionManager.is_session_valid(action, timeout_minutes) for action in protected_actions)
 
+def check_session_expired(*action_names: ProtectedActions) -> bool:
+    """
+    Check if any of the provided protected actions have expired sessions.
+
+    Args:
+        *action_names: Variable number of ProtectedActions to check
+
+    Returns:
+        bool: True if any action has an expired session, False if all current sessions are valid
+    """
+    try:
+        config = get_security_config()
+
+        # If session timeout is disabled, sessions are always valid
+        if not config.is_session_timeout_enabled():
+            return False
+
+        # Check each action for session validity
+        for action in action_names:
+            # Only check actions that are actually protected
+            if config.is_action_protected(action.value):
+                timeout_minutes = config.get_session_timeout_minutes()
+                if not PasswordSessionManager.is_session_valid(action, timeout_minutes):
+                    return True  # Found an expired session
+
+        return False  # Current sessions are valid
+
+    except Exception as e:
+        # If we can't determine session status, assume it's expired for security
+        # logger.error(f"Error checking session expiry: {e}")
+        return True
+
 def _record_sessions_for_all_actions(action_names: list[ProtectedActions], config):
     """Record successful verification for all actions."""
     if config.is_session_timeout_enabled():

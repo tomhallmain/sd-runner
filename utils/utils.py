@@ -496,3 +496,10 @@ class Utils:
         # This is a placeholder and should be replaced with the actual implementation
         return True
 
+from enum import Enum
+
+class ModifierKey(Enum):
+    SHIFT = 0x1
+    CAPS_LOCK = 0x2
+    CTRL = 0x4
+    ALT = 0x20000

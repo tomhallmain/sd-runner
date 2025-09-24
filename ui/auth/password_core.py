@@ -7,6 +7,9 @@ It has no dependencies on other password modules to avoid circular imports.
 from utils.globals import Globals, ProtectedActions
 from utils.app_info_cache import app_info_cache
 from utils.encryptor import store_encrypted_password, retrieve_encrypted_password, delete_stored_password
+from utils.logging_setup import get_logger
+
+logger = get_logger("password_core")
 
 
 class SecurityConfig:
@@ -72,7 +75,7 @@ class SecurityConfig:
     def is_action_protected(self, action_name):
         """Check if a specific action requires password authentication."""
         if not action_name or not isinstance(action_name, str) or not action_name in self.protected_actions:
-            print("Invalid action name was not found in protected actions: " + str(action_name))
+            logger.error("Invalid action name was not found in protected actions: " + str(action_name))
             return False
         return self.protected_actions.get(action_name, False)
     

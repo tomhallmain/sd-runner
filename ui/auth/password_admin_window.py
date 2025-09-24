@@ -30,9 +30,9 @@ class PasswordAdminWindow():
         # Create variables for checkboxes
         self.action_vars = {}
         
-        # Add any new protected actions that aren't in config yet
         for action_enum in ProtectedActions:
             action = action_enum.value
+            # Add any new protected actions that aren't in config yet
             # Default to True for new actions (protected by default)
             self.action_vars[action] = BooleanVar(value=self.config.protected_actions.get(action, True))
         
