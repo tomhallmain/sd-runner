@@ -175,7 +175,8 @@ class TimedSchedulesManager:
     def check_for_shutdown_request(datetime):
         schedule_requesting_shutdown = TimedSchedulesManager._check_for_shutdown_request(datetime)
         if schedule_requesting_shutdown is not None:
-            raise ScheduledShutdownException(f"Shutdown scheduled: {schedule_requesting_shutdown.name}", schedule_requesting_shutdown)
+            message = _("Shutdown scheduled: {}").format(schedule_requesting_shutdown.name)
+            raise ScheduledShutdownException(message, schedule_requesting_shutdown)
 
     @staticmethod
     def _check_for_shutdown_request(datetime):

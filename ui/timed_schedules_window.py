@@ -216,14 +216,14 @@ class TimedSchedulesWindow():
 
             # Add enabled/disabled checkbutton
             enabled_var = BooleanVar(self.master, value=schedule.enabled)
-            enabled_checkbutton = Checkbutton(self.frame, text=_("Enabled"), variable=enabled_var)
-            self.enabled_checkbutton_list.append((enabled_checkbutton, enabled_var, schedule))
-            enabled_checkbutton.grid(row=row, column=base_col+3)
-            def toggle_enabled_handler(event, self=self, schedule=schedule, var=enabled_var):
+            def on_enabled_toggle(var=enabled_var, schedule=schedule):
                 schedule.enabled = var.get()
                 timed_schedules_manager.store_schedules()
-                return None
-            enabled_checkbutton.bind("<Button-1>", toggle_enabled_handler)
+
+            enabled_checkbutton = Checkbutton(self.frame, text=_("Enabled"), variable=enabled_var, command=on_enabled_toggle)
+            self.enabled_checkbutton_list.append((enabled_checkbutton, enabled_var, schedule))
+            enabled_checkbutton.grid(row=row, column=base_col+3)
+            
 
     @require_password(ProtectedActions.EDIT_TIMED_SCHEDULES)
     def open_schedule_modify_window(self, event=None, schedule=None):
