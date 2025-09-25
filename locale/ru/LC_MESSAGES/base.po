@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-22 18:23-0400\n"
-"PO-Revision-Date: 2025-09-22 18:23-0400\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-09-25 16:12-0400\n"
+"PO-Revision-Date: 2025-09-25 16:12-0400\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: ru Team <<EMAIL>>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -12,175 +12,175 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:138
+#: app.py:141
 msgid "Run SD Workflows"
 msgstr "Запуск рабочих процессов стабильной диффузии"
 
-#: app.py:142
+#: app.py:145
 msgid "Run Workflows"
 msgstr "Запуск рабочих процессов"
 
-#: app.py:144
+#: app.py:147
 msgid "Cancel Run"
 msgstr "Отменить запуск"
 
-#: app.py:160
+#: app.py:163
 msgid "Software"
 msgstr "Программное"
 
-#: app.py:168
+#: app.py:171
 msgid "Workflow"
 msgstr "Рабочий процесс"
 
-#: app.py:175
+#: app.py:178
 msgid "Set N Latents"
 msgstr "Количество латентов"
 
-#: app.py:181
+#: app.py:184
 msgid "Set Total"
 msgstr "Всего"
 
-#: app.py:189
+#: app.py:192
 msgid "Batch Limit"
 msgstr "Ограничение партии"
 
-#: app.py:196
+#: app.py:199
 msgid "Delay Seconds"
 msgstr "Секунды задержки"
 
-#: app.py:202
+#: app.py:205
 msgid "Resolutions"
 msgstr "Разрешения изображений"
 
-#: app.py:209
+#: app.py:212
 msgid "Resolution Group"
 msgstr "Группа разрешения изображений"
 
-#: app.py:215
+#: app.py:218
 msgid "Model Tags"
 msgstr "Теги модели"
 
-#: app.py:230
+#: app.py:235
 msgid "LoRA Tags"
 msgstr "Теги LoRA"
 
-#: app.py:246
+#: app.py:251
 msgid "Default LoRA Strength"
 msgstr "Сила LoRA по умолчанию"
 
-#: app.py:252
+#: app.py:257
 msgid "B/W Colorization Tags"
 msgstr "Теги Черно-белая расцветка"
 
-#: app.py:260
+#: app.py:265
 msgid "Control Net or Redo files"
 msgstr "Управление сетью или переделка файлов"
 
-#: app.py:267
+#: app.py:272
 msgid "Default Control Net Strength"
 msgstr "Управление по умолчанию Сила сети"
 
-#: app.py:273
+#: app.py:278
 msgid "IPAdapter files"
 msgstr "Файлы IPAdapter"
 
-#: app.py:280
+#: app.py:285
 msgid "Default IPAdapter Strength"
 msgstr "Сила IPAdapter по умолчанию"
 
-#: app.py:286
+#: app.py:291
 msgid "Redo Parameters"
 msgstr "Параметры повторного выполнения"
 
-#: app.py:302 app.py:319 ui/prompt_config_window.py:267
+#: app.py:307 app.py:324 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr "Конфигурация подсказок"
 
-#: app.py:307
+#: app.py:312
 msgid "Preset Schedule Window"
 msgstr "Окно предустановленных расписаний"
 
-#: app.py:308 ui/presets_window.py:98
+#: app.py:313 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "Окно предустановок"
 
-#: app.py:309
+#: app.py:314
 msgid "Timed Schedules Window"
 msgstr "Окно Временные расписания"
 
-#: app.py:314 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:319 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr "Черный список тегов"
 
-#: app.py:315 ui/expansions_window.py:176
+#: app.py:320 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "Окно расширений"
 
-#: app.py:322
+#: app.py:327
 msgid "Prompt Mode"
 msgstr "Режим подсказки"
 
-#: app.py:329 utils/globals.py:431
+#: app.py:334 utils/globals.py:431
 msgid "Edit Concepts"
 msgstr "Редактировать концепции"
 
-#: app.py:332
+#: app.py:337
 msgid "Concepts Dir"
 msgstr "Каталог концепций"
 
-#: app.py:345
+#: app.py:348
 msgid "Override Resolution"
 msgstr "Изменить разрешение"
 
-#: app.py:349
+#: app.py:352
 msgid "Inpainting"
 msgstr "Инкрустация"
 
-#: app.py:353 ui/prompt_config_window.py:569
+#: app.py:356 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr "Переопределение базового отрицательного"
 
-#: app.py:357
+#: app.py:360
 msgid "Run Preset Schedule"
 msgstr "Запуск предустановленного расписания"
 
-#: app.py:361 ui/prompt_config_window.py:590
+#: app.py:364 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr "Непрерывное изменение случайного семени"
 
-#: app.py:365
+#: app.py:368
 msgid "Prompt Massage Tags"
 msgstr "Теги корректировки подсказки"
 
-#: app.py:373
+#: app.py:375
 msgid "Positive Tags"
 msgstr "Позитивные теги"
 
-#: app.py:380
+#: app.py:382
 msgid "Negative Tags"
 msgstr "Отрицательные теги"
 
-#: app.py:405 app.py:1282
+#: app.py:407 app.py:1323
 msgid " ComfyGen "
 msgstr " Бегун SD "
 
-#: app.py:406
+#: app.py:408
 msgid "Debug mode toggled."
 msgstr "Режим отладки включен."
 
-#: app.py:465
+#: app.py:467
 msgid "Confirm Quit"
 msgstr "Подтвердите выход"
 
-#: app.py:465
+#: app.py:467
 msgid "Would you like to quit the application?"
 msgstr "Вы хотите выйти из приложения?"
 
-#: app.py:704 app.py:724
+#: app.py:715 app.py:735
 msgid "Confirm Run"
 msgstr "Подтвердите выполнение"
 
-#: app.py:705
+#: app.py:716
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -188,15 +188,15 @@ msgstr ""
 "Начало нового запуска отменит текущее предустановленное расписание. Вы "
 "уверены, что хотите продолжить?"
 
-#: app.py:725
+#: app.py:736
 msgid "Are you sure you want to proceed?"
 msgstr "Вы уверены, что хотите продолжить?"
 
-#: app.py:760
+#: app.py:771
 msgid "Long Running Job Confirmation"
 msgstr "Подтверждение длительной работы"
 
-#: app.py:761
+#: app.py:772
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -214,35 +214,39 @@ msgstr ""
 "\n"
 "Вы уверены, что хотите продолжить?"
 
-#: app.py:876
+#: app.py:887
 msgid " (unlimited)"
 msgstr " (неограниченно)"
 
-#: app.py:912
+#: app.py:903
+msgid "{0} remaining adapters"
+msgstr "{0} оставшихся адаптеров"
+
+#: app.py:923
 msgid "{0} pending generations"
 msgstr "{0} ожидающих поколений"
 
-#: app.py:984
+#: app.py:998
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "В подсказке найдены элементы из черного списка: {0}"
 
-#: app.py:985 app.py:988
+#: app.py:999 app.py:1002
 msgid "Invalid Prompt Tags"
 msgstr "Неверные теги подсказок"
 
-#: app.py:988
+#: app.py:1002
 msgid "Blacklist validation failed!"
 msgstr "Проверка черного списка не удалась!"
 
-#: app.py:1105
+#: app.py:1146
 msgid "Password Cancelled"
 msgstr "Пароль отменен"
 
-#: app.py:1105
+#: app.py:1146
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "Пароль отменен или неверен, вернитесь в предыдущий режим"
 
-#: app.py:1124 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
+#: app.py:1165 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
@@ -253,14 +257,14 @@ msgstr "Ошибка"
 msgid "Filtering concepts for blacklist: "
 msgstr "Концепции фильтрации для черного списка: "
 
-#: sd_runner/models.py:412
+#: sd_runner/models.py:430
 msgid ""
 "One or more loras are blacklisted. Please try again with a different lora."
 msgstr ""
 "Один или несколько лора включены в черный список. Повторите попытку с другим"
 " лора."
 
-#: sd_runner/models.py:416
+#: sd_runner/models.py:434
 msgid ""
 "The following loras are blacklisted: {0}\n"
 "\n"
@@ -270,14 +274,14 @@ msgstr ""
 "\n"
 "Попробуйте еще раз с другой лорой."
 
-#: sd_runner/models.py:421
+#: sd_runner/models.py:439
 msgid ""
 "One or more models are blacklisted. Please try again with a different model."
 msgstr ""
 "Одна или несколько моделей занесены в черный список. Повторите попытку с "
 "другой моделью."
 
-#: sd_runner/models.py:425
+#: sd_runner/models.py:443
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
@@ -583,7 +587,8 @@ msgstr "Случайный шанс пропустить"
 msgid "Multiplier"
 msgstr "Множитель"
 
-#: ui/auth/password_admin_window.py:249 ui/prompt_config_window.py:329
+#: ui/auth/password_admin_window.py:249 ui/models_window.py:68
+#: ui/models_window.py:94 ui/prompt_config_window.py:329
 #: ui/tags_blacklist_window.py:283
 msgid "Close"
 msgstr "Закрыть"
@@ -668,6 +673,22 @@ msgstr "Разрозненные смешанные теги"
 msgid "{0} ({1} runs)"
 msgstr "{0} ({1} работает)"
 
+#: ui/scheduled_shutdown_dialog.py:25 ui/scheduled_shutdown_dialog.py:41
+msgid "Scheduled Shutdown"
+msgstr "Плановое отключение"
+
+#: ui/scheduled_shutdown_dialog.py:48
+msgid "Schedule: {}"
+msgstr "Расписание: {}"
+
+#: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
+msgid "Shutting down in {} seconds..."
+msgstr "Выключение через {} секунды..."
+
+#: ui/scheduled_shutdown_dialog.py:70
+msgid "Shutdown Now"
+msgstr "Завершить работу сейчас"
+
 #: ui/schedules_windows.py:29 ui/timed_schedules_window.py:29
 msgid "Modify Preset Schedule: {0}"
 msgstr "Изменить предустановленное расписание: {0}"
@@ -721,7 +742,7 @@ msgstr "Изменить черный список Предмет: {0}"
 msgid "Blacklist String"
 msgstr "Строка черного списка"
 
-#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:219
+#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:223
 msgid "Enabled"
 msgstr "Включено"
 
@@ -1101,29 +1122,29 @@ msgstr "Время отключения"
 msgid "Create and modify schedules"
 msgstr "Создание и изменение расписаний"
 
-#: ui/auth/app_startup_auth.py:32 ui/auth/app_startup_auth.py:63
+#: ui/auth/app_startup_auth.py:33 ui/auth/app_startup_auth.py:64
 msgid "Application Password Required"
 msgstr "Требуется пароль к приложению"
 
-#: ui/auth/app_startup_auth.py:70
+#: ui/auth/app_startup_auth.py:71
 msgid "A password is required to open this application."
 msgstr "Для открытия этого программного приложения требуется пароль."
 
-#: ui/auth/app_startup_auth.py:79 ui/auth/password_dialog.py:134
+#: ui/auth/app_startup_auth.py:80 ui/auth/password_dialog.py:135
 msgid "Password:"
 msgstr "Пароль:"
 
-#: ui/auth/app_startup_auth.py:92 ui/auth/password_dialog.py:147
+#: ui/auth/app_startup_auth.py:96 ui/auth/password_dialog.py:151
 msgid "OK"
 msgstr "OK"
 
-#: ui/auth/app_startup_auth.py:95 ui/auth/password_admin_window.py:450
-#: ui/auth/password_dialog.py:150 ui/auth/password_dialog.py:219
-#: ui/auth/password_dialog.py:236
+#: ui/auth/app_startup_auth.py:99 ui/auth/password_admin_window.py:450
+#: ui/auth/password_dialog.py:154 ui/auth/password_dialog.py:223
+#: ui/auth/password_dialog.py:240
 msgid "Cancel"
 msgstr "Отмена"
 
-#: ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
+#: ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
 msgid "Incorrect password"
 msgstr "Неверный пароль"
 
@@ -1312,51 +1333,51 @@ msgstr "Кэш экспортируется в формате JSON в:"
 msgid "Failed to export cache as JSON:"
 msgstr "Не удалось экспортировать кэш в формате JSON:"
 
-#: ui/auth/password_dialog.py:40 ui/auth/password_dialog.py:104
+#: ui/auth/password_dialog.py:41 ui/auth/password_dialog.py:105
 msgid "Password Required"
 msgstr "Требуется пароль"
 
-#: ui/auth/password_dialog.py:40
+#: ui/auth/password_dialog.py:41
 msgid "Password Protection"
 msgstr "Защита паролем"
 
-#: ui/auth/password_dialog.py:111
+#: ui/auth/password_dialog.py:112
 msgid "Password required for: {0}"
 msgstr "Требуется пароль для: {0}"
 
-#: ui/auth/password_dialog.py:156
+#: ui/auth/password_dialog.py:160
 msgid "Password Protection Available"
 msgstr "Доступна защита паролем"
 
-#: ui/auth/password_dialog.py:163
+#: ui/auth/password_dialog.py:167
 msgid "This action requires password protection: {0}"
 msgstr "Это действие требует защиты паролем: {0}"
 
-#: ui/auth/password_dialog.py:179
+#: ui/auth/password_dialog.py:183
 msgid "Password protection is not currently configured. You can:"
 msgstr "В настоящее время защита паролем не настроена. Вы можете:"
 
-#: ui/auth/password_dialog.py:189
+#: ui/auth/password_dialog.py:193
 msgid "• Configure password protection for sensitive actions"
 msgstr "• Настройте защиту паролем для важных действий"
 
-#: ui/auth/password_dialog.py:194
+#: ui/auth/password_dialog.py:198
 msgid "• Continue without password protection (less secure)"
 msgstr "• Продолжить без защиты паролем (менее безопасно)"
 
-#: ui/auth/password_dialog.py:201
+#: ui/auth/password_dialog.py:205
 msgid "Don't show this security advice again"
 msgstr "Не показывать больше это предупреждение о безопасности"
 
-#: ui/auth/password_dialog.py:211 ui/auth/password_dialog.py:232
+#: ui/auth/password_dialog.py:215 ui/auth/password_dialog.py:236
 msgid "Configure Protection"
 msgstr "Настройка защиты"
 
-#: ui/auth/password_dialog.py:215
+#: ui/auth/password_dialog.py:219
 msgid "Continue Without Protection"
 msgstr "Продолжайте работать без защиты"
 
-#: ui/auth/password_dialog.py:223
+#: ui/auth/password_dialog.py:227
 msgid ""
 "Password protection is required for this action but is not currently "
 "configured."
@@ -1549,8 +1570,8 @@ msgid " (Pending runs: {0})"
 msgstr " (Ожидающие выполнения: {0})"
 
 #: utils/job_queue.py:47
-msgid " (Pending schedules: {0})"
-msgstr " (Ожидающие расписания: {0})"
+msgid "Pending schedules: {0}"
+msgstr "Ожидающие расписания: {0}"
 
 #: utils/time_estimator.py:87
 msgid "~{0}d"
@@ -1624,26 +1645,34 @@ msgstr "месяца"
 msgid "years"
 msgstr "года"
 
-#: app.py:892
-msgid "{0} remaining adapters"
-msgstr "{0} оставшихся адаптеров"
+#: app.py:220 ui/models_window.py:17
+msgid "Models"
+msgstr "Модели"
 
-#: ui/scheduled_shutdown_dialog.py:25 ui/scheduled_shutdown_dialog.py:41
-msgid "Scheduled Shutdown"
-msgstr "Плановое отключение"
+#: lib/caps_lock_mixin.py:64
+msgid "⚠ Caps Lock is ON"
+msgstr "⚠ Caps Lock включен"
 
-#: ui/scheduled_shutdown_dialog.py:48
-msgid "Schedule: {}"
-msgstr "Расписание: {}"
+#: sd_runner/timed_schedules_manager.py:178
+msgid "Shutdown scheduled: {}"
+msgstr "Запланированное отключение: {}"
 
-#: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
-msgid "Shutting down in {} seconds..."
-msgstr "Выключение через {} секунды..."
+#: ui/models_window.py:39
+msgid "Checkpoints"
+msgstr "Контрольные точки"
 
-#: ui/scheduled_shutdown_dialog.py:70
-msgid "Shutdown Now"
-msgstr "Завершить работу сейчас"
+#: ui/models_window.py:40
+msgid "LoRAs & Adapters"
+msgstr "LoRA и адаптеры"
 
-#: utils/job_queue.py:47
-msgid "Pending schedules: {0}"
-msgstr "Ожидающие расписания: {0}"
+#: ui/models_window.py:54 ui/models_window.py:80
+msgid "Filter"
+msgstr "Фильтр"
+
+#: ui/models_window.py:64 ui/models_window.py:90
+msgid "Replace"
+msgstr "Заменить"
+
+#: ui/models_window.py:66 ui/models_window.py:92
+msgid "Add"
+msgstr "Добавить"

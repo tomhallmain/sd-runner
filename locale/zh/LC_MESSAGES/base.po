@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-22 18:23-0400\n"
-"PO-Revision-Date: 2025-09-22 18:23-0400\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-09-25 16:12-0400\n"
+"PO-Revision-Date: 2025-09-25 16:12-0400\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -12,189 +12,189 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:138
+#: app.py:141
 msgid "Run SD Workflows"
 msgstr "运行稳定扩散工作流程"
 
-#: app.py:142
+#: app.py:145
 msgid "Run Workflows"
 msgstr "运行工作流程"
 
-#: app.py:144
+#: app.py:147
 msgid "Cancel Run"
 msgstr "取消运行"
 
-#: app.py:160
+#: app.py:163
 msgid "Software"
 msgstr "软件"
 
-#: app.py:168
+#: app.py:171
 msgid "Workflow"
 msgstr "工作流程"
 
-#: app.py:175
+#: app.py:178
 msgid "Set N Latents"
 msgstr "潜变量数量"
 
-#: app.py:181
+#: app.py:184
 msgid "Set Total"
 msgstr "总计"
 
-#: app.py:189
+#: app.py:192
 msgid "Batch Limit"
 msgstr "批次限制"
 
-#: app.py:196
+#: app.py:199
 msgid "Delay Seconds"
 msgstr "延迟秒数"
 
-#: app.py:202
+#: app.py:205
 msgid "Resolutions"
 msgstr "图像分辨率"
 
-#: app.py:209
+#: app.py:212
 msgid "Resolution Group"
 msgstr "图像分辨率小组"
 
-#: app.py:215
+#: app.py:218
 msgid "Model Tags"
 msgstr "模型标签"
 
-#: app.py:230
+#: app.py:235
 msgid "LoRA Tags"
 msgstr "LoRA 标签"
 
-#: app.py:246
+#: app.py:251
 msgid "Default LoRA Strength"
 msgstr "默认 LoRA 强度"
 
-#: app.py:252
+#: app.py:257
 msgid "B/W Colorization Tags"
 msgstr "黑/白色着色标签"
 
-#: app.py:260
+#: app.py:265
 msgid "Control Net or Redo files"
 msgstr "控制网络或重做文件"
 
-#: app.py:267
+#: app.py:272
 msgid "Default Control Net Strength"
 msgstr "默认控制网强度"
 
-#: app.py:273
+#: app.py:278
 msgid "IPAdapter files"
 msgstr "IPAdapter 文件"
 
-#: app.py:280
+#: app.py:285
 msgid "Default IPAdapter Strength"
 msgstr "默认 IPAdapter 强度"
 
-#: app.py:286
+#: app.py:291
 msgid "Redo Parameters"
 msgstr "重做参数"
 
-#: app.py:302 app.py:319 ui/prompt_config_window.py:267
+#: app.py:307 app.py:324 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr "提示配置"
 
-#: app.py:307
+#: app.py:312
 msgid "Preset Schedule Window"
 msgstr "预设时间表窗口"
 
-#: app.py:308 ui/presets_window.py:98
+#: app.py:313 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "预设窗口"
 
-#: app.py:309
+#: app.py:314
 msgid "Timed Schedules Window"
 msgstr "定时计划窗口"
 
-#: app.py:314 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:319 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr "标签黑名单"
 
-#: app.py:315 ui/expansions_window.py:176
+#: app.py:320 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "扩展窗口"
 
-#: app.py:322
+#: app.py:327
 msgid "Prompt Mode"
 msgstr "提示方式"
 
-#: app.py:329 utils/globals.py:431
+#: app.py:334 utils/globals.py:431
 msgid "Edit Concepts"
 msgstr "编辑概念"
 
-#: app.py:332
+#: app.py:337
 msgid "Concepts Dir"
 msgstr "概念目录"
 
-#: app.py:345
+#: app.py:348
 msgid "Override Resolution"
 msgstr "覆盖图像分辨率"
 
-#: app.py:349
+#: app.py:352
 msgid "Inpainting"
 msgstr "油画"
 
-#: app.py:353 ui/prompt_config_window.py:569
+#: app.py:356 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr "覆盖基准负数"
 
-#: app.py:357
+#: app.py:360
 msgid "Run Preset Schedule"
 msgstr "运行预设时间表"
 
-#: app.py:361 ui/prompt_config_window.py:590
+#: app.py:364 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr "连续随机种子变异"
 
-#: app.py:365
+#: app.py:368
 msgid "Prompt Massage Tags"
 msgstr "提示的调整标签"
 
-#: app.py:373
+#: app.py:375
 msgid "Positive Tags"
 msgstr "正面标签"
 
-#: app.py:380
+#: app.py:382
 msgid "Negative Tags"
 msgstr "负面标签"
 
-#: app.py:405 app.py:1282
+#: app.py:407 app.py:1323
 msgid " ComfyGen "
 msgstr " SD 转轮 "
 
-#: app.py:406
+#: app.py:408
 msgid "Debug mode toggled."
 msgstr "调试模式已切换。"
 
-#: app.py:465
+#: app.py:467
 msgid "Confirm Quit"
 msgstr "确认退出"
 
-#: app.py:465
+#: app.py:467
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
-#: app.py:704 app.py:724
+#: app.py:715 app.py:735
 msgid "Confirm Run"
 msgstr "确认运行"
 
-#: app.py:705
+#: app.py:716
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "开始新的运行将取消当前的预设时间表。您确定要继续吗？"
 
-#: app.py:725
+#: app.py:736
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
 
-#: app.py:760
+#: app.py:771
 msgid "Long Running Job Confirmation"
 msgstr "长期运行作业确认"
 
-#: app.py:761
+#: app.py:772
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -212,35 +212,39 @@ msgstr ""
 "\n"
 "是否确定继续？"
 
-#: app.py:876
+#: app.py:887
 msgid " (unlimited)"
 msgstr " (无限制)"
 
-#: app.py:912
+#: app.py:903
+msgid "{0} remaining adapters"
+msgstr "{0} 个剩余适配器"
+
+#: app.py:923
 msgid "{0} pending generations"
 msgstr "{0}待定世代"
 
-#: app.py:984
+#: app.py:998
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "提示中发现黑名单项目： {0}"
 
-#: app.py:985 app.py:988
+#: app.py:999 app.py:1002
 msgid "Invalid Prompt Tags"
 msgstr "无效提示标签"
 
-#: app.py:988
+#: app.py:1002
 msgid "Blacklist validation failed!"
 msgstr "黑名单验证失败！"
 
-#: app.py:1105
+#: app.py:1146
 msgid "Password Cancelled"
 msgstr "取消密码"
 
-#: app.py:1105
+#: app.py:1146
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "密码被取消或不正确，返回上一模式"
 
-#: app.py:1124 ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
+#: app.py:1165 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
@@ -251,12 +255,12 @@ msgstr "错误"
 msgid "Filtering concepts for blacklist: "
 msgstr "黑名单的过滤概念： "
 
-#: sd_runner/models.py:412
+#: sd_runner/models.py:430
 msgid ""
 "One or more loras are blacklisted. Please try again with a different lora."
 msgstr "一个或多个LORA已被列入黑名单。请尝试使用其他LORA。"
 
-#: sd_runner/models.py:416
+#: sd_runner/models.py:434
 msgid ""
 "The following loras are blacklisted: {0}\n"
 "\n"
@@ -266,12 +270,12 @@ msgstr ""
 "\n"
 "请尝试使用其他 LORA 重新操作。"
 
-#: sd_runner/models.py:421
+#: sd_runner/models.py:439
 msgid ""
 "One or more models are blacklisted. Please try again with a different model."
 msgstr "一个或多个模型已被列入黑名单。请尝试使用其他模型。"
 
-#: sd_runner/models.py:425
+#: sd_runner/models.py:443
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
@@ -565,7 +569,8 @@ msgstr "随机跳过机会"
 msgid "Multiplier"
 msgstr "乘法器"
 
-#: ui/auth/password_admin_window.py:249 ui/prompt_config_window.py:329
+#: ui/auth/password_admin_window.py:249 ui/models_window.py:68
+#: ui/models_window.py:94 ui/prompt_config_window.py:329
 #: ui/tags_blacklist_window.py:283
 msgid "Close"
 msgstr "关闭"
@@ -650,6 +655,22 @@ msgstr "稀疏混合标签"
 msgid "{0} ({1} runs)"
 msgstr "{0} ({1}运行)"
 
+#: ui/scheduled_shutdown_dialog.py:25 ui/scheduled_shutdown_dialog.py:41
+msgid "Scheduled Shutdown"
+msgstr "计划停机"
+
+#: ui/scheduled_shutdown_dialog.py:48
+msgid "Schedule: {}"
+msgstr "日程安排：{}"
+
+#: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
+msgid "Shutting down in {} seconds..."
+msgstr "{}秒后关闭..."
+
+#: ui/scheduled_shutdown_dialog.py:70
+msgid "Shutdown Now"
+msgstr "立即关闭"
+
 #: ui/schedules_windows.py:29 ui/timed_schedules_window.py:29
 msgid "Modify Preset Schedule: {0}"
 msgstr "修改预设时间表： {0}"
@@ -703,7 +724,7 @@ msgstr "修改黑名单 项目: {0}"
 msgid "Blacklist String"
 msgstr "黑名单字符串"
 
-#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:219
+#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:223
 msgid "Enabled"
 msgstr "已启用"
 
@@ -1064,29 +1085,29 @@ msgstr "应用程序关闭时间"
 msgid "Create and modify schedules"
 msgstr "创建和修改日程安排"
 
-#: ui/auth/app_startup_auth.py:32 ui/auth/app_startup_auth.py:63
+#: ui/auth/app_startup_auth.py:33 ui/auth/app_startup_auth.py:64
 msgid "Application Password Required"
 msgstr "需要软件应用密码"
 
-#: ui/auth/app_startup_auth.py:70
+#: ui/auth/app_startup_auth.py:71
 msgid "A password is required to open this application."
 msgstr "打开此软件应用程序需要密码。"
 
-#: ui/auth/app_startup_auth.py:79 ui/auth/password_dialog.py:134
+#: ui/auth/app_startup_auth.py:80 ui/auth/password_dialog.py:135
 msgid "Password:"
 msgstr "密码:"
 
-#: ui/auth/app_startup_auth.py:92 ui/auth/password_dialog.py:147
+#: ui/auth/app_startup_auth.py:96 ui/auth/password_dialog.py:151
 msgid "OK"
 msgstr "好的"
 
-#: ui/auth/app_startup_auth.py:95 ui/auth/password_admin_window.py:450
-#: ui/auth/password_dialog.py:150 ui/auth/password_dialog.py:219
-#: ui/auth/password_dialog.py:236
+#: ui/auth/app_startup_auth.py:99 ui/auth/password_admin_window.py:450
+#: ui/auth/password_dialog.py:154 ui/auth/password_dialog.py:223
+#: ui/auth/password_dialog.py:240
 msgid "Cancel"
 msgstr "取消"
 
-#: ui/auth/app_startup_auth.py:109 ui/auth/password_dialog.py:247
+#: ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
 msgid "Incorrect password"
 msgstr "密码错误"
 
@@ -1269,51 +1290,51 @@ msgstr "缓存以 JSON 格式导出到:"
 msgid "Failed to export cache as JSON:"
 msgstr "以 JSON 格式导出缓存失败："
 
-#: ui/auth/password_dialog.py:40 ui/auth/password_dialog.py:104
+#: ui/auth/password_dialog.py:41 ui/auth/password_dialog.py:105
 msgid "Password Required"
 msgstr "需要密码"
 
-#: ui/auth/password_dialog.py:40
+#: ui/auth/password_dialog.py:41
 msgid "Password Protection"
 msgstr "密码保护"
 
-#: ui/auth/password_dialog.py:111
+#: ui/auth/password_dialog.py:112
 msgid "Password required for: {0}"
 msgstr "需要密码： {0}"
 
-#: ui/auth/password_dialog.py:156
+#: ui/auth/password_dialog.py:160
 msgid "Password Protection Available"
 msgstr "提供密码保护"
 
-#: ui/auth/password_dialog.py:163
+#: ui/auth/password_dialog.py:167
 msgid "This action requires password protection: {0}"
 msgstr "此操作需要密码保护： {0}"
 
-#: ui/auth/password_dialog.py:179
+#: ui/auth/password_dialog.py:183
 msgid "Password protection is not currently configured. You can:"
 msgstr "当前未配置密码保护。您可以 :"
 
-#: ui/auth/password_dialog.py:189
+#: ui/auth/password_dialog.py:193
 msgid "• Configure password protection for sensitive actions"
 msgstr "• 为敏感操作配置密码保护"
 
-#: ui/auth/password_dialog.py:194
+#: ui/auth/password_dialog.py:198
 msgid "• Continue without password protection (less secure)"
 msgstr "• 不使用密码保护（不太安全）"
 
-#: ui/auth/password_dialog.py:201
+#: ui/auth/password_dialog.py:205
 msgid "Don't show this security advice again"
 msgstr "不再显示此安全提示"
 
-#: ui/auth/password_dialog.py:211 ui/auth/password_dialog.py:232
+#: ui/auth/password_dialog.py:215 ui/auth/password_dialog.py:236
 msgid "Configure Protection"
 msgstr "配置保护"
 
-#: ui/auth/password_dialog.py:215
+#: ui/auth/password_dialog.py:219
 msgid "Continue Without Protection"
 msgstr "在没有保护的情况下继续"
 
-#: ui/auth/password_dialog.py:223
+#: ui/auth/password_dialog.py:227
 msgid ""
 "Password protection is required for this action but is not currently "
 "configured."
@@ -1504,8 +1525,8 @@ msgid " (Pending runs: {0})"
 msgstr " (等待运行：{0}）"
 
 #: utils/job_queue.py:47
-msgid " (Pending schedules: {0})"
-msgstr " (待定计划表：{0})"
+msgid "Pending schedules: {0}"
+msgstr "待定日程：{0}"
 
 #: utils/time_estimator.py:87
 msgid "~{0}d"
@@ -1579,26 +1600,34 @@ msgstr "月数"
 msgid "years"
 msgstr "年份"
 
-#: app.py:892
-msgid "{0} remaining adapters"
-msgstr "{0} 个剩余适配器"
+#: app.py:220 ui/models_window.py:17
+msgid "Models"
+msgstr "模型"
 
-#: ui/scheduled_shutdown_dialog.py:25 ui/scheduled_shutdown_dialog.py:41
-msgid "Scheduled Shutdown"
-msgstr "计划停机"
+#: lib/caps_lock_mixin.py:64
+msgid "⚠ Caps Lock is ON"
+msgstr "⚠ 大写锁定键已开启"
 
-#: ui/scheduled_shutdown_dialog.py:48
-msgid "Schedule: {}"
-msgstr "日程安排：{}"
+#: sd_runner/timed_schedules_manager.py:178
+msgid "Shutdown scheduled: {}"
+msgstr "计划关机时间：{}"
 
-#: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
-msgid "Shutting down in {} seconds..."
-msgstr "{}秒后关闭..."
+#: ui/models_window.py:39
+msgid "Checkpoints"
+msgstr "检查点"
 
-#: ui/scheduled_shutdown_dialog.py:70
-msgid "Shutdown Now"
-msgstr "立即关闭"
+#: ui/models_window.py:40
+msgid "LoRAs & Adapters"
+msgstr "LoRa模块与适配器"
 
-#: utils/job_queue.py:47
-msgid "Pending schedules: {0}"
-msgstr "待定日程：{0}"
+#: ui/models_window.py:54 ui/models_window.py:80
+msgid "Filter"
+msgstr "过滤器"
+
+#: ui/models_window.py:64 ui/models_window.py:90
+msgid "Replace"
+msgstr "替换"
+
+#: ui/models_window.py:66 ui/models_window.py:92
+msgid "Add"
+msgstr "添加"
