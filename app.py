@@ -340,8 +340,6 @@ class App():
                                               *config.concepts_dirs.keys(), command=self.set_concepts_dir)
         self.apply_to_grid(self.concepts_dir_choice, interior_column=1, sticky=W, column=1)
 
-        prompter_config = self.runner_app_config.prompter_config
-
         # self.auto_run_var = BooleanVar(value=True) TODO at some point add in a way to approve prompts before running in the UI.
         # self.auto_run_choice = Checkbutton(self.second_column, text=_('Auto Run'), variable=self.auto_run_var)
         # self.apply_to_grid(self.auto_run_choice, sticky=W, column=1)
@@ -368,25 +366,24 @@ class App():
 
         self.label_prompt_tags = Label(self.second_column)
         self.add_label(self.label_prompt_tags, _("Prompt Massage Tags"), column=1, columnspan=2)
-        self.prompt_massage_tags = StringVar()
-        self.prompt_massage_tags_box = self.new_entry(self.prompt_massage_tags, sidebar=False)
-        self.prompt_massage_tags_box.insert(0, self.runner_app_config.prompt_massage_tags)
-        self.apply_to_grid(self.prompt_massage_tags_box, sticky=W, column=1, columnspan=2)
+        self.prompt_massage_tags_box = AwareText(self.second_column, height=4, width=70, font=fnt.Font(size=8))
+        self.prompt_massage_tags_box.insert("0.0", self.runner_app_config.prompt_massage_tags)
+        self.apply_to_grid(self.prompt_massage_tags_box, column=1, columnspan=3)
         self.prompt_massage_tags_box.bind("<Return>", self.set_prompt_massage_tags)
 
         self.label_positive_tags = Label(self.second_column)
-        self.add_label(self.label_positive_tags, _("Positive Tags"), columnspan=2)
-        self.positive_tags_box = AwareText(self.second_column, height=10, width=55, font=fnt.Font(size=8))
+        self.add_label(self.label_positive_tags, _("Positive Tags"), columnspan=3)
+        self.positive_tags_box = AwareText(self.second_column, height=11, width=70, font=fnt.Font(size=8))
         self.positive_tags_box.insert("0.0", self.runner_app_config.positive_tags)
-        self.apply_to_grid(self.positive_tags_box, sticky=W, columnspan=2)
+        self.apply_to_grid(self.positive_tags_box, columnspan=3)
         self.positive_tags_box.bind("<Return>", self.set_positive_tags)
 
         self.label_negative_tags = Label(self.second_column)
-        self.add_label(self.label_negative_tags, _("Negative Tags"), columnspan=2)
+        self.add_label(self.label_negative_tags, _("Negative Tags"), columnspan=3)
         self.negative_tags = StringVar()
-        self.negative_tags_box = AwareText(self.second_column, height=5, width=55, font=fnt.Font(size=8))
+        self.negative_tags_box = AwareText(self.second_column, height=4, width=70, font=fnt.Font(size=8))
         self.negative_tags_box.insert("0.0", self.runner_app_config.negative_tags)
-        self.apply_to_grid(self.negative_tags_box, sticky=W, columnspan=2)
+        self.apply_to_grid(self.negative_tags_box, columnspan=3)
         self.negative_tags_box.bind("<Return>", self.set_negative_tags)
 
         self.master.bind("<Control-Return>", self.run)
@@ -548,6 +545,15 @@ class App():
         else:
             widget.delete(0, "end")
             widget.insert(0, value)
+
+    def get_widget_value(self, widget):
+        if isinstance(widget, Text):
+            text = widget.get("1.0", END)
+            if text.endswith("\n"):
+                text = text[:-1]
+            return text
+        else:
+            return widget.get()
 
     def set_widgets_from_config(self):
         if self.runner_app_config is None:
@@ -838,7 +844,7 @@ class App():
 
         args.total = int(self.total.get())
         args.batch_limit = int(self.batch_limit.get())
-        self.runner_app_config.prompt_massage_tags = self.prompt_massage_tags.get()
+        self.runner_app_config.prompt_massage_tags = self.get_widget_value(self.prompt_massage_tags_box)
         self.runner_app_config.prompter_config.prompt_mode = PromptMode.get(self.prompt_mode.get())
 
         # Use the PromptConfigWindow class method to set values from prompter config
@@ -962,9 +968,7 @@ class App():
             prompt_mode=PromptMode.get(self.prompt_mode.get()),
             inpainting=inpainting
         )
-        self.prompt_massage_tags_box.delete(0, 'end')
-        self.prompt_massage_tags_box.insert(0, prompt_massage_tags)
-        self.prompt_massage_tags.set(prompt_massage_tags)
+        self.set_widget_value(self.prompt_massage_tags_box, prompt_massage_tags)
         self.set_prompt_massage_tags()
         if len(models) > 0:
             model: Model = models[0]
@@ -974,7 +978,8 @@ class App():
         self.master.update()
 
     def set_prompt_massage_tags(self, event=None):
-        self.runner_app_config.prompt_massage_tags = self.prompt_massage_tags.get()
+        text = self.get_widget_value(self.prompt_massage_tags_box)
+        self.runner_app_config.prompt_massage_tags = text
         Globals.set_prompt_massage_tags(self.runner_app_config.prompt_massage_tags)
 
     def validate_blacklist(self, text):
@@ -1000,9 +1005,7 @@ class App():
         return True
 
     def set_positive_tags(self, event=None):
-        text = self.positive_tags_box.get("1.0", END)
-        if text.endswith("\n"):
-            text = text[:-1]
+        text = self.get_widget_value(self.positive_tags_box)
         if not self.validate_blacklist(text):
             return
         text = self.apply_expansions(text, positive=True)
@@ -1010,9 +1013,7 @@ class App():
         Prompter.set_positive_tags(text)
 
     def set_negative_tags(self, event=None):
-        text = self.negative_tags_box.get("1.0", END)
-        if text.endswith("\n"):
-            text = text[:-1]
+        text = self.get_widget_value(self.negative_tags_box)
         text = self.apply_expansions(text, positive=False)
         self.runner_app_config.negative_tags = text
         Prompter.set_negative_tags(text)
@@ -1055,8 +1056,7 @@ class App():
         if Prompter.contains_expansion_var(text, from_ui=True):
             text = Prompter.apply_expansions(text, from_ui=True)
             if positive:
-                self.positive_tags_box.delete("0.0", END)
-                self.positive_tags_box.insert("0.0", text)
+                self.set_widget_value(self.positive_tags_box, text)
             else:
                 self.negative_tags.set(text)
             self.master.update()
