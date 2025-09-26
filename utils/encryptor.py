@@ -86,7 +86,7 @@ class PassphraseManager:
     @staticmethod
     def _macos_get_passphrase(service_name, app_identifier):
         """Use macOS Keychain with Access Control"""
-        from Foundation import NSBundle, kSecUseAuthenticationUI
+        from Foundation import NSBundle
         
         key = namespaced_key(app_identifier, "passphrase")
         passphrase = keyring.get_password(service_name, key)
