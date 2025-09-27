@@ -137,6 +137,25 @@ class Model:
         except Exception:
             return "Unknown"
 
+    def is_blacklisted(self, prompt_mode: PromptMode = PromptMode.SFW) -> bool:
+        """Check if this model is blacklisted.
+        
+        Args:
+            prompt_mode: The current prompt mode to check against blacklist settings
+            
+        Returns:
+            bool: True if the model is blacklisted, False otherwise
+        """
+        if Blacklist.is_model_empty():
+            return False
+        
+        # Check if blacklist allows this prompt mode
+        if Blacklist.get_model_blacklist_mode() == ModelBlacklistMode.ALLOW_IN_NSFW and prompt_mode.is_nsfw():
+            return False
+        
+        # Check if model violates blacklist
+        return Blacklist.get_model_blacklist_violations(self.id)
+
     def get_lora_text(self):
         if not self.is_lora:
             raise Exception("Model is not of type LoRA")
