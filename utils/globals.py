@@ -369,6 +369,29 @@ class ArchitectureType(Enum):
     def is_xl(self):
         return self == ArchitectureType.SDXL or self == ArchitectureType.ILLUSTRIOUS
 
+    def display(self):
+        """Get the display value for this architecture type."""
+        return {
+            ArchitectureType.SD_15: _("SD 1.5"),
+            ArchitectureType.SDXL: _("SDXL"),
+            ArchitectureType.ILLUSTRIOUS: _("Illustrious"),
+            ArchitectureType.TURBO: _("Turbo"),
+            ArchitectureType.FLUX: _("Flux"),
+        }[self]
+
+    @classmethod
+    def display_values(cls):
+        """Get all display values for architecture types."""
+        return [arch_type.display() for arch_type in cls]
+
+    @staticmethod
+    def from_display(display_str):
+        """Get ArchitectureType from display string."""
+        for arch_type in ArchitectureType:
+            if arch_type.display() == display_str:
+                return arch_type
+        raise ValueError(f"No ArchitectureType with display value '{display_str}'")
+
 
 class ResolutionGroup(Enum):
     FIFTEEN_THIRTY_SIX = "1536"

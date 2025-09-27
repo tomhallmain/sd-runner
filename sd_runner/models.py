@@ -29,7 +29,7 @@ class Model:
     LORAS = {}
 
     @staticmethod
-    def get_architecture_type(model_id, path, is_xl, is_turbo, is_flux):
+    def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux):
         # NOTE this can be overridden by the presets
         if "Illustrious" in model_id:
             # print(f"Assuming model is based on IllustriousXL architecture: {model_id}")
@@ -57,7 +57,7 @@ class Model:
     ):
         self.id = id
         self.path = path if path else os.path.join(Model.MODELS_DIR, id)
-        self.architecture_type = Model.get_architecture_type(id, path, is_xl, is_turbo, is_flux)
+        self.architecture_type = Model.determine_architecture_type(id, path, is_xl, is_turbo, is_flux)
         self.is_lora = is_lora
         self.positive_tags = None
         self.negative_tags = None
@@ -100,6 +100,42 @@ class Model:
             return ResolutionGroup.TEN_TWENTY_FOUR
         else:
             return ResolutionGroup.FIVE_ONE_TWO
+
+    def get_architecture_type(self) -> ArchitectureType:
+        """Get the architecture type as a string."""
+        return self.architecture_type
+
+    def get_file_creation_date(self) -> str:
+        """Get the creation date of a model file."""
+        try:
+            from datetime import datetime
+            
+            # Construct full file path
+            if self.path:
+                if os.path.isabs(self.path):
+                    file_path = self.path
+                else:
+                    # Relative path from models directory
+                    lora_or_sd = "Lora" if self.is_lora else "Stable-diffusion"
+                    root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
+                    file_path = os.path.join(root_dir, self.path)
+            else:
+                # Fallback to model name
+                lora_or_sd = "Lora" if self.is_lora else "Stable-diffusion"
+                root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
+                file_path = os.path.join(root_dir, self.id)
+            
+            if os.path.exists(file_path):
+                # Get file creation time
+                stat = os.stat(file_path)
+                # Use st_ctime (creation time on Windows, change time on Unix)
+                creation_time = stat.st_ctime
+                dt = datetime.fromtimestamp(creation_time)
+                return dt.strftime("%Y-%m-%d %H:%M")
+            else:
+                return "Unknown"
+        except Exception:
+            return "Unknown"
 
     def get_lora_text(self):
         if not self.is_lora:
