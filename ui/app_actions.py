@@ -8,6 +8,8 @@ class AppActions:
         "toast", "alert",
         # Models window callbacks
         "set_model_from_models_window",
+        # Recent adapters window callbacks
+        "set_adapter_from_adapters_window",
     }
     
     def __init__(self, actions: Dict[str, Callable[..., Any]]):

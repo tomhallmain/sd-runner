@@ -39,6 +39,7 @@ from ui.auth.password_admin_window import PasswordAdminWindow
 from ui.auth.password_utils import check_password_required, require_password
 from ui.auth.password_core import get_security_config
 from ui.models_window import ModelsWindow
+from ui.recent_adapters_window import RecentAdaptersWindow
 from ui.preset import Preset
 from ui.presets_window import PresetsWindow
 from ui.schedules_windows import SchedulesWindow
@@ -126,7 +127,9 @@ class App():
                                       "toast": self.toast,
                                       "alert": self.alert,
                                       # Models window callbacks
-                                      "set_model_from_models_window": self.set_model_from_models_window,})
+                                      "set_model_from_models_window": self.set_model_from_models_window,
+                                      # Recent adapters window callbacks
+                                      "set_adapter_from_adapters_window": self.set_adapter_from_adapters_window,})
 
         # Set UI callbacks for Blacklist filtering notifications
         Blacklist.set_ui_callbacks(self.app_actions)
@@ -232,7 +235,9 @@ class App():
         self.apply_to_grid(self.model_tags_box, sticky=W, columnspan=2)
 
         self.label_lora_tags = Label(self.sidebar)
-        self.add_label(self.label_lora_tags, _("LoRA Tags"))
+        self.add_label(self.label_lora_tags, _("LoRA Tags"), increment_row_counter=False)
+        self.lora_models_window_btn = None
+        self.add_button("lora_models_window_btn", text=_("Models"), command=self.open_lora_models_window, sidebar=True, interior_column=1)
         self.lora_tags = StringVar()
         lora_names = list(map(lambda l: str(l).split('.')[0], Model.LORAS))
 
@@ -262,7 +267,9 @@ class App():
         self.bw_colorization_box.bind("<Return>", self.set_bw_colorization)
 
         self.label_controlnet_file = Label(self.sidebar)
-        self.add_label(self.label_controlnet_file, _("Control Net or Redo files"), columnspan=2)
+        self.add_label(self.label_controlnet_file, _("Control Net or Redo files"), increment_row_counter=False)
+        self.controlnet_adapters_window_btn = None
+        self.add_button("controlnet_adapters_window_btn", text=_("Recent"), command=self.open_controlnet_adapters_window, sidebar=True, interior_column=1)
         self.controlnet_file = StringVar()
         self.controlnet_file_box = self.new_entry(self.controlnet_file)
         self.controlnet_file_box.insert(0, self.runner_app_config.control_net_file)
@@ -275,7 +282,9 @@ class App():
         self.apply_to_grid(self.controlnet_strength_slider, interior_column=1, sticky=W)
 
         self.label_ipadapter_file = Label(self.sidebar)
-        self.add_label(self.label_ipadapter_file, _("IPAdapter files"))
+        self.add_label(self.label_ipadapter_file, _("IPAdapter files"), increment_row_counter=False)
+        self.ipadapter_adapters_window_btn = None
+        self.add_button("ipadapter_adapters_window_btn", text=_("Recent"), command=self.open_ipadapter_adapters_window, sidebar=True, interior_column=1)
         self.ipadapter_file = StringVar()
         self.ipadapter_file_box = self.new_entry(self.ipadapter_file)
         self.ipadapter_file_box.insert(0, self.runner_app_config.ip_adapter_file)
@@ -489,6 +498,7 @@ class App():
         SchedulesWindow.store_schedules()
         ExpansionsWindow.store_expansions()
         timed_schedules_manager.store_schedules()
+        RecentAdaptersWindow.save_recent_adapters()
         get_security_config().save_settings()
         app_info_cache.store()
 
@@ -500,6 +510,7 @@ class App():
             SchedulesWindow.set_schedules()
             ExpansionsWindow.set_expansions()
             timed_schedules_manager.set_schedules()
+            RecentAdaptersWindow.load_recent_adapters()
             # Security config is loaded automatically when first accessed
             get_security_config()
             config = RunnerAppConfig.from_dict(app_info_cache.get_history(0))
@@ -1106,6 +1117,33 @@ class App():
         # Wrapper to use the common open_window pattern
         self.open_window(ModelsWindow, "Models Window Error")
 
+    def open_lora_models_window(self, event=None):
+        """Open the models window directly to the LoRAs/Adapters tab."""
+        try:
+            window = ModelsWindow(self.master, self.app_actions)
+            # Switch to the adapters tab (index 1)
+            window.notebook.select(1)
+        except Exception as e:
+            self.handle_error(e, title="LoRA Models Window Error")
+
+    def open_controlnet_adapters_window(self, event=None):
+        """Open the recent adapters window directly to the ControlNets tab."""
+        try:
+            window = RecentAdaptersWindow(self.master, self.app_actions)
+            # Switch to the controlnet tab (index 0)
+            window.notebook.select(0)
+        except Exception as e:
+            self.handle_error(e, title="ControlNet Adapters Window Error")
+
+    def open_ipadapter_adapters_window(self, event=None):
+        """Open the recent adapters window directly to the IP Adapters tab."""
+        try:
+            window = RecentAdaptersWindow(self.master, self.app_actions)
+            # Switch to the ipadapter tab (index 1)
+            window.notebook.select(1)
+        except Exception as e:
+            self.handle_error(e, title="IP Adapter Adapters Window Error")
+
     def set_model_from_models_window(self, value: str, is_lora: bool, replace: bool):
         box = self.lora_tags_box if is_lora else self.model_tags_box
         current = box.get().strip()
@@ -1132,6 +1170,33 @@ class App():
         box.insert(0, new_val)
         if not is_lora:
             self.set_model_dependent_fields()
+        self.master.update()
+
+    def set_adapter_from_adapters_window(self, value: str, is_controlnet: bool, replace: bool = True) -> None:
+        """Set adapter file from recent adapters window selection.
+        
+        Args:
+            value: The file path to set
+            is_controlnet: True for control net, False for IP adapter
+            replace: Whether to replace current value or append
+        """
+        if is_controlnet:
+            current = self.controlnet_file.get().strip()
+            widget = self.controlnet_file
+        else:
+            current = self.ipadapter_file.get().strip()
+            widget = self.ipadapter_file
+            
+        if replace or current == "":
+            new_val = value
+        else:
+            # Append with comma for multiple files
+            sep = ","
+            if not current.endswith(sep):
+                new_val = current + sep + value
+            else:
+                new_val = current + value
+        widget.set(new_val)
         self.master.update()
 
     @require_password(ProtectedActions.ACCESS_ADMIN)
