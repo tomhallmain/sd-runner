@@ -179,7 +179,12 @@ class ModelsWindow:
         tree._sort_state = {column: reverse}
         
         # Get all items and sort them
-        items = [(tree.set(item, column), item) for item in tree.get_children('')]
+        if column == "#0":
+            # For the display column (#0), get the text directly
+            items = [(tree.item(item, "text"), item) for item in tree.get_children('')]
+        else:
+            # For data columns, use tree.set()
+            items = [(tree.set(item, column), item) for item in tree.get_children('')]
         
         # Special handling for date column
         if column == "created":
