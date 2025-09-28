@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-25 16:12-0400\n"
-"PO-Revision-Date: 2025-09-25 16:12-0400\n"
+"POT-Creation-Date: 2025-09-28 03:49-0400\n"
+"PO-Revision-Date: 2025-09-28 03:49-0400\n"
 "Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: de Team <<EMAIL>>\n"
 "Language: de\n"
@@ -12,175 +12,183 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:141
+#: app.py:144
 msgid "Run SD Workflows"
 msgstr "SD-Workflows ausführen"
 
-#: app.py:145
+#: app.py:148
 msgid "Run Workflows"
 msgstr "Arbeitsabläufen ausführen"
 
-#: app.py:147
+#: app.py:150
 msgid "Cancel Run"
 msgstr "Lauf abbrechen"
 
-#: app.py:163
+#: app.py:166
 msgid "Software"
 msgstr "Programmausstattung"
 
-#: app.py:171
+#: app.py:174
 msgid "Workflow"
 msgstr "Arbeitsabläufe"
 
-#: app.py:178
+#: app.py:181
 msgid "Set N Latents"
 msgstr "N Latenzbilder"
 
-#: app.py:184
+#: app.py:187
 msgid "Set Total"
 msgstr "Gesamt"
 
-#: app.py:192
+#: app.py:195
 msgid "Batch Limit"
 msgstr "Stapelgrenze"
 
-#: app.py:199
+#: app.py:202
 msgid "Delay Seconds"
 msgstr "Verzögerung Sekunden"
 
-#: app.py:205
+#: app.py:208
 msgid "Resolutions"
 msgstr "Bildauflösungen"
 
-#: app.py:212
+#: app.py:215
 msgid "Resolution Group"
 msgstr "Auflösungsgruppe"
 
-#: app.py:218
+#: app.py:221
 msgid "Model Tags"
 msgstr "Modell-Stichworte"
 
-#: app.py:235
+#: app.py:223 app.py:240 ui/models_window.py:25
+msgid "Models"
+msgstr "Modelle"
+
+#: app.py:238
 msgid "LoRA Tags"
 msgstr "LoRA-Stichworte"
 
-#: app.py:251
+#: app.py:256
 msgid "Default LoRA Strength"
 msgstr "Standard-LoRA-Stärke"
 
-#: app.py:257
+#: app.py:262
 msgid "B/W Colorization Tags"
 msgstr "Schwarz-Weiß-Färbung Stichworte"
 
-#: app.py:265
+#: app.py:270
 msgid "Control Net or Redo files"
 msgstr "Dateien Control Net oder wiederherstellen"
 
-#: app.py:272
+#: app.py:272 app.py:287
+msgid "Recent"
+msgstr "Kürzlich"
+
+#: app.py:279
 msgid "Default Control Net Strength"
 msgstr "Standard-Control Net-Stärke"
 
-#: app.py:278
+#: app.py:285
 msgid "IPAdapter files"
 msgstr "Dateien IPAdapter"
 
-#: app.py:285
+#: app.py:294
 msgid "Default IPAdapter Strength"
 msgstr "Standard-IPAdapter-Stärke"
 
-#: app.py:291
+#: app.py:300
 msgid "Redo Parameters"
 msgstr "Wiederherstellungsparameter"
 
-#: app.py:307 app.py:324 ui/prompt_config_window.py:267
+#: app.py:316 app.py:333 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr "Aufforderungen zur Konfiguration"
 
-#: app.py:312
+#: app.py:321
 msgid "Preset Schedule Window"
 msgstr "Fenster Voreingestellter Zeitplan"
 
-#: app.py:313 ui/presets_window.py:98
+#: app.py:322 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "Fenster Voreinstellungen"
 
-#: app.py:314
+#: app.py:323
 msgid "Timed Schedules Window"
 msgstr "Fenster Zeitpläne"
 
-#: app.py:319 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:328 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr "Stichworte-Schwarzliste"
 
-#: app.py:320 ui/expansions_window.py:176
+#: app.py:329 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "Fenster Erweiterungen"
 
-#: app.py:327
+#: app.py:336
 msgid "Prompt Mode"
 msgstr "Aufforderungs-Modus"
 
-#: app.py:334 utils/globals.py:431
+#: app.py:343 utils/globals.py:454
 msgid "Edit Concepts"
 msgstr "Konzept bearbeiten"
 
-#: app.py:337
+#: app.py:346
 msgid "Concepts Dir"
 msgstr "Konzepte-Verzeichnis"
 
-#: app.py:348
+#: app.py:357
 msgid "Override Resolution"
 msgstr "Aufhebung der Auflösung"
 
-#: app.py:352
+#: app.py:361
 msgid "Inpainting"
 msgstr "Übermalen"
 
-#: app.py:356 ui/prompt_config_window.py:569
+#: app.py:365 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr "Überschreiben Basis Negativ"
 
-#: app.py:360
+#: app.py:369
 msgid "Run Preset Schedule"
 msgstr "Voreingestellten Zeitplan ausführen"
 
-#: app.py:364 ui/prompt_config_window.py:590
+#: app.py:373 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr "Kontinuierliche Startwertänderung"
 
-#: app.py:368
+#: app.py:377
 msgid "Prompt Massage Tags"
 msgstr "Aufforderungs-Anpassungs-Stichworte"
 
-#: app.py:375
+#: app.py:384
 msgid "Positive Tags"
 msgstr "Positiv Stichworte"
 
-#: app.py:382
+#: app.py:391
 msgid "Negative Tags"
 msgstr "Negativ Stichworte"
 
-#: app.py:407 app.py:1323
+#: app.py:416 app.py:1388
 msgid " ComfyGen "
 msgstr " SD-Läufer "
 
-#: app.py:408
+#: app.py:417
 msgid "Debug mode toggled."
 msgstr "Debug-Modus umgeschaltet."
 
-#: app.py:467
+#: app.py:476
 msgid "Confirm Quit"
 msgstr "Beenden bestätigen"
 
-#: app.py:467
+#: app.py:476
 msgid "Would you like to quit the application?"
 msgstr "Möchten Sie die Anwendung beenden?"
 
-#: app.py:715 app.py:735
+#: app.py:726 app.py:746
 msgid "Confirm Run"
 msgstr "Lauf bestätigen"
 
-#: app.py:716
+#: app.py:727
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -188,15 +196,15 @@ msgstr ""
 "Wenn Sie einen neuen Lauf starten, wird der aktuelle voreingestellte "
 "Zeitplan gelöscht. Sind Sie sicher, dass Sie fortfahren möchten?"
 
-#: app.py:736
+#: app.py:747
 msgid "Are you sure you want to proceed?"
 msgstr "Sind Sie sicher, dass Sie fortfahren wollen?"
 
-#: app.py:771
+#: app.py:782
 msgid "Long Running Job Confirmation"
 msgstr "Bestätigung eines lang laufenden Auftrags"
 
-#: app.py:772
+#: app.py:783
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -214,58 +222,62 @@ msgstr ""
 "\n"
 "Möchten Sie wirklich fortfahren?"
 
-#: app.py:887
+#: app.py:898
 msgid " (unlimited)"
 msgstr " (unbegrenzt)"
 
-#: app.py:903
+#: app.py:914
 msgid "{0} remaining adapters"
 msgstr "{0} verbleibende Adapter"
 
-#: app.py:923
+#: app.py:934
 msgid "{0} pending generations"
 msgstr "{0} ausstehende Generationen"
 
-#: app.py:998
+#: app.py:1009
 msgid "Blacklisted items found in prompt: {0}"
 msgstr ""
 "Elemente auf der schwarzen Liste in der Eingabeaufforderung gefunden: {0}"
 
-#: app.py:999 app.py:1002
+#: app.py:1010 app.py:1013
 msgid "Invalid Prompt Tags"
 msgstr "Ungültige Eingabeaufforderung Stichworte"
 
-#: app.py:1002
+#: app.py:1013
 msgid "Blacklist validation failed!"
 msgstr "Validierung der schwarzen Liste fehlgeschlagen!"
 
-#: app.py:1146
+#: app.py:1211
 msgid "Password Cancelled"
 msgstr "Passwort storniert"
 
-#: app.py:1146
+#: app.py:1211
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "Passwort gelöscht oder falsch, zurück zum vorherigen Modus"
 
-#: app.py:1165 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
+#: app.py:1230 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
 msgid "Error"
 msgstr "Fehler"
 
+#: lib/caps_lock_mixin.py:64
+msgid "⚠ Caps Lock is ON"
+msgstr "⚠ Die Feststelltaste ist aktiviert"
+
 #: sd_runner/blacklist.py:332
 msgid "Filtering concepts for blacklist: "
 msgstr "Filter-Konzepte für die Schwarzeliste: "
 
-#: sd_runner/models.py:430
+#: sd_runner/models.py:485
 msgid ""
 "One or more loras are blacklisted. Please try again with a different lora."
 msgstr ""
 "Eine oder mehrere Loras sind auf der schwarzen Liste. Bitte versuchen Sie es"
 " erneut mit einer anderen Lora."
 
-#: sd_runner/models.py:434
+#: sd_runner/models.py:489
 msgid ""
 "The following loras are blacklisted: {0}\n"
 "\n"
@@ -275,14 +287,14 @@ msgstr ""
 "\n"
 "Bitte versuchen Sie es erneut mit einer anderen Lora."
 
-#: sd_runner/models.py:439
+#: sd_runner/models.py:494
 msgid ""
 "One or more models are blacklisted. Please try again with a different model."
 msgstr ""
 "Ein oder mehrere Modelle stehen auf der Sperrliste. Bitte versuchen Sie es "
 "erneut mit einem anderen Modell."
 
-#: sd_runner/models.py:443
+#: sd_runner/models.py:498
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
@@ -340,6 +352,10 @@ msgstr "Standardmäßiges Herunterfahren"
 #: sd_runner/timed_schedules_manager.py:94 ui/schedules_windows.py:233
 msgid "Not enough schedules found."
 msgstr "Es wurden nicht genügend Zeitpläne gefunden."
+
+#: sd_runner/timed_schedules_manager.py:178
+msgid "Shutdown scheduled: {}"
+msgstr "Geplante Abschaltung: {}"
 
 #: ui/concept_editor_window.py:106
 msgid "Search/Add Concept:"
@@ -512,6 +528,71 @@ msgstr "Ungültige Erweiterungs-ID \"{0}\" oder Text \"{1}\""
 msgid "Copied expansion text to clipboard"
 msgstr "Kopieren von Erweiterungstext in die Zwischenablage"
 
+#: ui/models_window.py:48
+msgid "Checkpoints"
+msgstr "Kontrollpunkte"
+
+#: ui/models_window.py:49
+msgid "LoRAs & Adapters"
+msgstr "LoRAs und Netzteile"
+
+#: ui/models_window.py:63 ui/models_window.py:119
+#: ui/recent_adapters_window.py:63 ui/recent_adapters_window.py:118
+msgid "Filter"
+msgstr "Filter"
+
+#: ui/models_window.py:79
+msgid "Model Name"
+msgstr "Modellname"
+
+#: ui/models_window.py:80 ui/models_window.py:136
+msgid "Architecture"
+msgstr "Architektur"
+
+#: ui/models_window.py:81 ui/models_window.py:137
+#: ui/recent_adapters_window.py:81 ui/recent_adapters_window.py:136
+msgid "Created"
+msgstr "Erstellt"
+
+#: ui/models_window.py:96 ui/models_window.py:152
+#: ui/recent_adapters_window.py:96 ui/recent_adapters_window.py:151
+msgid "Replace"
+msgstr "Ersetzen"
+
+#: ui/models_window.py:98 ui/models_window.py:154
+#: ui/recent_adapters_window.py:98 ui/recent_adapters_window.py:153
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: ui/models_window.py:100 ui/models_window.py:156
+#: ui/recent_adapters_window.py:100 ui/recent_adapters_window.py:155
+msgid "Refresh"
+msgstr "Aktualisieren"
+
+#: ui/models_window.py:102 ui/models_window.py:158 ui/models_window.py:406
+#: ui/models_window.py:408
+msgid "Show Blacklisted"
+msgstr "Schwarzliste anzeigen"
+
+#: ui/auth/password_admin_window.py:249 ui/models_window.py:104
+#: ui/models_window.py:160 ui/prompt_config_window.py:329
+#: ui/recent_adapters_window.py:102 ui/recent_adapters_window.py:157
+#: ui/tags_blacklist_window.py:283
+msgid "Close"
+msgstr "Schließen"
+
+#: ui/models_window.py:135
+msgid "LoRA/Adapter Name"
+msgstr "LoRA/Adapter-Name"
+
+#: ui/models_window.py:368 ui/recent_adapters_window.py:405
+msgid "Cache"
+msgstr "Cache"
+
+#: ui/models_window.py:401 ui/models_window.py:403
+msgid "Hide Blacklisted"
+msgstr "Auf der schwarzen Liste verstecken"
+
 #: ui/presets_window.py:58
 msgid "New Preset (ERROR no presets found)"
 msgstr "Neue Voreinstellung (keine Voreinstellungen gefunden)"
@@ -587,12 +668,6 @@ msgstr "Zufällige Übersprungmöglichkeit"
 #: ui/prompt_config_window.py:309
 msgid "Multiplier"
 msgstr "Vervielfacher"
-
-#: ui/auth/password_admin_window.py:249 ui/models_window.py:68
-#: ui/models_window.py:94 ui/prompt_config_window.py:329
-#: ui/tags_blacklist_window.py:283
-msgid "Close"
-msgstr "Schließen"
 
 #: ui/prompt_config_window.py:334
 msgid "Concepts"
@@ -670,6 +745,30 @@ msgstr "Stichworte für den sofortigen Start"
 msgid "Sparse Mixed Tags"
 msgstr "Spärliche gemischte Stichworte"
 
+#: ui/recent_adapters_window.py:28
+msgid "Recent Adapters"
+msgstr "Aktuelle Adapter"
+
+#: ui/recent_adapters_window.py:47
+msgid "Recent ControlNets"
+msgstr "Aktuelle ControlNet"
+
+#: ui/recent_adapters_window.py:48
+msgid "Recent IP Adapters"
+msgstr "Aktuelle IP-Adapter"
+
+#: ui/recent_adapters_window.py:79
+msgid "ControlNet File"
+msgstr "ControlNet-Datei"
+
+#: ui/recent_adapters_window.py:80 ui/recent_adapters_window.py:135
+msgid "Type"
+msgstr "Typ"
+
+#: ui/recent_adapters_window.py:134
+msgid "IP Adapter File"
+msgstr "IP-Adapter-Datei"
+
 #: ui/schedule.py:72
 msgid "{0} ({1} runs)"
 msgstr "{0} ({1} Läufe)"
@@ -684,7 +783,7 @@ msgstr "Zeitplan: {}"
 
 #: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
 msgid "Shutting down in {} seconds..."
-msgstr "In {] Sekunden wird das Gerät ausgeschaltet..."
+msgstr "In {} Sekunden wird das Gerät ausgeschaltet..."
 
 #: ui/scheduled_shutdown_dialog.py:70
 msgid "Shutdown Now"
@@ -1503,7 +1602,7 @@ msgstr "Animieren Diff"
 msgid "Renoiser"
 msgstr "Renoiser"
 
-#: utils/globals.py:234
+#: utils/globals.py:234 utils/globals.py:378
 msgid "Turbo"
 msgstr "Turbo"
 
@@ -1519,55 +1618,71 @@ msgstr "Bild vergrößern Bessere Version"
 msgid "Redo Prompt"
 msgstr "Die Eingabeaufforderung wiederholen"
 
-#: utils/globals.py:381
+#: utils/globals.py:375
+msgid "SD 1.5"
+msgstr "SD 1.5"
+
+#: utils/globals.py:376
+msgid "SDXL"
+msgstr "SDXL"
+
+#: utils/globals.py:377
+msgid "Illustrious"
+msgstr "Illustrious"
+
+#: utils/globals.py:379
+msgid "Flux"
+msgstr "Flux"
+
+#: utils/globals.py:404
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:382
+#: utils/globals.py:405
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:383
+#: utils/globals.py:406
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:384
+#: utils/globals.py:407
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:423
+#: utils/globals.py:446
 msgid "Open Application"
 msgstr "Anwendung öffnen"
 
-#: utils/globals.py:424
+#: utils/globals.py:447
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFL Aufforderungsmodi"
 
-#: utils/globals.py:425
+#: utils/globals.py:448
 msgid "Edit Blacklist"
 msgstr "Schwarze Liste bearbeiten"
 
-#: utils/globals.py:426
+#: utils/globals.py:449
 msgid "Reveal Blacklist Concepts"
 msgstr "Konzepte für die Schwarze Liste aufdecken"
 
-#: utils/globals.py:427
+#: utils/globals.py:450
 msgid "Edit Schedules"
 msgstr "Zeitpläne bearbeiten"
 
-#: utils/globals.py:428
+#: utils/globals.py:451
 msgid "Edit Timed Schedules"
 msgstr "Zeitpläne bearbeiten"
 
-#: utils/globals.py:429
+#: utils/globals.py:452
 msgid "Edit Expansions"
 msgstr "Erweiterungen bearbeiten"
 
-#: utils/globals.py:430
+#: utils/globals.py:453
 msgid "Edit Presets"
 msgstr "Voreinstellungen bearbeiten"
 
-#: utils/globals.py:432
+#: utils/globals.py:455
 msgid "Access Password Administration"
 msgstr "Zugang Kennwortverwaltung"
 
@@ -1650,35 +1765,3 @@ msgstr "Monate"
 #: utils/translations.py:68
 msgid "years"
 msgstr "Jahre"
-
-#: app.py:220 ui/models_window.py:17
-msgid "Models"
-msgstr "Modelle"
-
-#: lib/caps_lock_mixin.py:64
-msgid "⚠ Caps Lock is ON"
-msgstr "⚠ Die Feststelltaste ist aktiviert"
-
-#: sd_runner/timed_schedules_manager.py:178
-msgid "Shutdown scheduled: {}"
-msgstr "Geplante Abschaltung: {}"
-
-#: ui/models_window.py:39
-msgid "Checkpoints"
-msgstr "Kontrollpunkte"
-
-#: ui/models_window.py:40
-msgid "LoRAs & Adapters"
-msgstr "LoRAs und Netzteile"
-
-#: ui/models_window.py:54 ui/models_window.py:80
-msgid "Filter"
-msgstr "Filter"
-
-#: ui/models_window.py:64 ui/models_window.py:90
-msgid "Replace"
-msgstr "Ersetzen"
-
-#: ui/models_window.py:66 ui/models_window.py:92
-msgid "Add"
-msgstr "Hinzufügen"

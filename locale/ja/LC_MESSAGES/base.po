@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-25 16:12-0400\n"
-"PO-Revision-Date: 2025-09-25 16:12-0400\n"
+"POT-Creation-Date: 2025-09-28 03:49-0400\n"
+"PO-Revision-Date: 2025-09-28 03:49-0400\n"
 "Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: ja Team <<EMAIL>>\n"
 "Language: ja\n"
@@ -12,189 +12,197 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:141
+#: app.py:144
 msgid "Run SD Workflows"
 msgstr "安定拡散ワークフローの実行"
 
-#: app.py:145
+#: app.py:148
 msgid "Run Workflows"
 msgstr "ワークフローの実行"
 
-#: app.py:147
+#: app.py:150
 msgid "Cancel Run"
 msgstr "キャンセル"
 
-#: app.py:163
+#: app.py:166
 msgid "Software"
 msgstr "ソフトウェア"
 
-#: app.py:171
+#: app.py:174
 msgid "Workflow"
 msgstr "ワークフロー"
 
-#: app.py:178
+#: app.py:181
 msgid "Set N Latents"
 msgstr "潜在数"
 
-#: app.py:184
+#: app.py:187
 msgid "Set Total"
 msgstr "合計"
 
-#: app.py:192
+#: app.py:195
 msgid "Batch Limit"
 msgstr "バッチ制限"
 
-#: app.py:199
+#: app.py:202
 msgid "Delay Seconds"
 msgstr "遅延秒数"
 
-#: app.py:205
+#: app.py:208
 msgid "Resolutions"
 msgstr "解像度"
 
-#: app.py:212
+#: app.py:215
 msgid "Resolution Group"
 msgstr "解像度グループ"
 
-#: app.py:218
+#: app.py:221
 msgid "Model Tags"
 msgstr "モデルタグ"
 
-#: app.py:235
+#: app.py:223 app.py:240 ui/models_window.py:25
+msgid "Models"
+msgstr "モデル"
+
+#: app.py:238
 msgid "LoRA Tags"
 msgstr "LoRAタグ"
 
-#: app.py:251
+#: app.py:256
 msgid "Default LoRA Strength"
 msgstr "デフォルトのLoRAの強さ"
 
-#: app.py:257
+#: app.py:262
 msgid "B/W Colorization Tags"
 msgstr "黒/白のカラーリングタグ"
 
-#: app.py:265
+#: app.py:270
 msgid "Control Net or Redo files"
 msgstr "コントロールネット、やり直しファイル"
 
-#: app.py:272
+#: app.py:272 app.py:287
+msgid "Recent"
+msgstr "最近"
+
+#: app.py:279
 msgid "Default Control Net Strength"
 msgstr "デフォルトの制御ネット強度"
 
-#: app.py:278
+#: app.py:285
 msgid "IPAdapter files"
 msgstr "IPAdapter ファイル"
 
-#: app.py:285
+#: app.py:294
 msgid "Default IPAdapter Strength"
 msgstr "デフォルトの IPAdapter の強さ"
 
-#: app.py:291
+#: app.py:300
 msgid "Redo Parameters"
 msgstr "やり直しパラメータ"
 
-#: app.py:307 app.py:324 ui/prompt_config_window.py:267
+#: app.py:316 app.py:333 ui/prompt_config_window.py:267
 msgid "Prompts Configuration"
 msgstr "プロンプトの設定"
 
-#: app.py:312
+#: app.py:321
 msgid "Preset Schedule Window"
 msgstr "プリセットスケジュールウィンドウ"
 
-#: app.py:313 ui/presets_window.py:98
+#: app.py:322 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "プリセットウィンドウ"
 
-#: app.py:314
+#: app.py:323
 msgid "Timed Schedules Window"
 msgstr "時間指定スケジュールウィンドウ"
 
-#: app.py:319 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:328 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
 msgid "Tag Blacklist"
 msgstr "タグ ブラックリスト"
 
-#: app.py:320 ui/expansions_window.py:176
+#: app.py:329 ui/expansions_window.py:176
 msgid "Expansions Window"
 msgstr "拡張ウィンドウ"
 
-#: app.py:327
+#: app.py:336
 msgid "Prompt Mode"
 msgstr "プロンプトのモード"
 
-#: app.py:334 utils/globals.py:431
+#: app.py:343 utils/globals.py:454
 msgid "Edit Concepts"
 msgstr "編集コンセプト"
 
-#: app.py:337
+#: app.py:346
 msgid "Concepts Dir"
 msgstr "コンセプト・ディレクトリ"
 
-#: app.py:348
+#: app.py:357
 msgid "Override Resolution"
 msgstr "画像解像度の上書き"
 
-#: app.py:352
+#: app.py:361
 msgid "Inpainting"
 msgstr "インテリア・ペインティング"
 
-#: app.py:356 ui/prompt_config_window.py:569
+#: app.py:365 ui/prompt_config_window.py:569
 msgid "Override Base Negative"
 msgstr "ベースネガを上書きする"
 
-#: app.py:360
+#: app.py:369
 msgid "Run Preset Schedule"
 msgstr "プリセットスケジュールの実行"
 
-#: app.py:364 ui/prompt_config_window.py:590
+#: app.py:373 ui/prompt_config_window.py:590
 msgid "Continuous Seed Variation"
 msgstr "連続的な乱数シードの変動"
 
-#: app.py:368
+#: app.py:377
 msgid "Prompt Massage Tags"
 msgstr "マッサージ・タグを促す"
 
-#: app.py:375
+#: app.py:384
 msgid "Positive Tags"
 msgstr "プロンプトの調整タグ"
 
-#: app.py:382
+#: app.py:391
 msgid "Negative Tags"
 msgstr "ネガティブタグ"
 
-#: app.py:407 app.py:1323
+#: app.py:416 app.py:1388
 msgid " ComfyGen "
 msgstr " SDランナー "
 
-#: app.py:408
+#: app.py:417
 msgid "Debug mode toggled."
 msgstr "デバッグモードが切り替えられました。"
 
-#: app.py:467
+#: app.py:476
 msgid "Confirm Quit"
 msgstr "終了を確認する"
 
-#: app.py:467
+#: app.py:476
 msgid "Would you like to quit the application?"
 msgstr "アプリを終了しますか？"
 
-#: app.py:715 app.py:735
+#: app.py:726 app.py:746
 msgid "Confirm Run"
 msgstr "ランの確認"
 
-#: app.py:716
+#: app.py:727
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "新しいランを開始すると、現在のプリセットスケジュールはキャンセルされます。本当に続けますか？"
 
-#: app.py:736
+#: app.py:747
 msgid "Are you sure you want to proceed?"
 msgstr "このままでいいのか？"
 
-#: app.py:771
+#: app.py:782
 msgid "Long Running Job Confirmation"
 msgstr "長時間実行ジョブ確認"
 
-#: app.py:772
+#: app.py:783
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -212,55 +220,59 @@ msgstr ""
 "\n"
 "続行してもよろしいですか？"
 
-#: app.py:887
+#: app.py:898
 msgid " (unlimited)"
 msgstr " (無制限）"
 
-#: app.py:903
+#: app.py:914
 msgid "{0} remaining adapters"
 msgstr "{0} 個のアダプターが残っています"
 
-#: app.py:923
+#: app.py:934
 msgid "{0} pending generations"
 msgstr "{0}保留中の世代"
 
-#: app.py:998
+#: app.py:1009
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "プロンプトでブラックリストの項目が見つかりました： {0}"
 
-#: app.py:999 app.py:1002
+#: app.py:1010 app.py:1013
 msgid "Invalid Prompt Tags"
 msgstr "無効なプロンプトタグ"
 
-#: app.py:1002
+#: app.py:1013
 msgid "Blacklist validation failed!"
 msgstr "ブラックリストの検証に失敗した！"
 
-#: app.py:1146
+#: app.py:1211
 msgid "Password Cancelled"
 msgstr "パスワードのキャンセル"
 
-#: app.py:1146
+#: app.py:1211
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "パスワードがキャンセルされたか、間違っている。"
 
-#: app.py:1165 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
+#: app.py:1230 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
 #: ui/tags_blacklist_window.py:323
 msgid "Error"
 msgstr "エラー"
 
+#: lib/caps_lock_mixin.py:64
+msgid "⚠ Caps Lock is ON"
+msgstr "⚠ キャプスロックがオンになっています"
+
 #: sd_runner/blacklist.py:332
 msgid "Filtering concepts for blacklist: "
 msgstr "ブラックリストのフィルタリングの概念： "
 
-#: sd_runner/models.py:430
+#: sd_runner/models.py:485
 msgid ""
 "One or more loras are blacklisted. Please try again with a different lora."
 msgstr "1つまたは複数のLORAがブラックリストに登録されています。別のLORAを使用して再度お試しください。"
 
-#: sd_runner/models.py:434
+#: sd_runner/models.py:489
 msgid ""
 "The following loras are blacklisted: {0}\n"
 "\n"
@@ -270,12 +282,12 @@ msgstr ""
 "\n"
 "別のLORAを使用して再度お試しください。"
 
-#: sd_runner/models.py:439
+#: sd_runner/models.py:494
 msgid ""
 "One or more models are blacklisted. Please try again with a different model."
 msgstr "1つまたは複数のモデルがブラックリストに登録されています。別のモデルで再度お試しください。"
 
-#: sd_runner/models.py:443
+#: sd_runner/models.py:498
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
@@ -329,6 +341,10 @@ msgstr "デフォルトシャットダウン"
 #: sd_runner/timed_schedules_manager.py:94 ui/schedules_windows.py:233
 msgid "Not enough schedules found."
 msgstr "十分なスケジュールが見つからない。"
+
+#: sd_runner/timed_schedules_manager.py:178
+msgid "Shutdown scheduled: {}"
+msgstr "シャットダウン予定時刻: {}"
 
 #: ui/concept_editor_window.py:106
 msgid "Search/Add Concept:"
@@ -494,6 +510,71 @@ msgstr "無効な拡張ID 「{0}」 またはテキスト 「{1}」"
 msgid "Copied expansion text to clipboard"
 msgstr "拡張テキストをクリップボードにコピー"
 
+#: ui/models_window.py:48
+msgid "Checkpoints"
+msgstr "チェックポイント"
+
+#: ui/models_window.py:49
+msgid "LoRAs & Adapters"
+msgstr "LoRAとアダプター"
+
+#: ui/models_window.py:63 ui/models_window.py:119
+#: ui/recent_adapters_window.py:63 ui/recent_adapters_window.py:118
+msgid "Filter"
+msgstr "フィルター"
+
+#: ui/models_window.py:79
+msgid "Model Name"
+msgstr "モデル名"
+
+#: ui/models_window.py:80 ui/models_window.py:136
+msgid "Architecture"
+msgstr "建築"
+
+#: ui/models_window.py:81 ui/models_window.py:137
+#: ui/recent_adapters_window.py:81 ui/recent_adapters_window.py:136
+msgid "Created"
+msgstr "作成された"
+
+#: ui/models_window.py:96 ui/models_window.py:152
+#: ui/recent_adapters_window.py:96 ui/recent_adapters_window.py:151
+msgid "Replace"
+msgstr "置換"
+
+#: ui/models_window.py:98 ui/models_window.py:154
+#: ui/recent_adapters_window.py:98 ui/recent_adapters_window.py:153
+msgid "Add"
+msgstr "追加"
+
+#: ui/models_window.py:100 ui/models_window.py:156
+#: ui/recent_adapters_window.py:100 ui/recent_adapters_window.py:155
+msgid "Refresh"
+msgstr "更新"
+
+#: ui/models_window.py:102 ui/models_window.py:158 ui/models_window.py:406
+#: ui/models_window.py:408
+msgid "Show Blacklisted"
+msgstr "ブラックリスト表示"
+
+#: ui/auth/password_admin_window.py:249 ui/models_window.py:104
+#: ui/models_window.py:160 ui/prompt_config_window.py:329
+#: ui/recent_adapters_window.py:102 ui/recent_adapters_window.py:157
+#: ui/tags_blacklist_window.py:283
+msgid "Close"
+msgstr "閉じる"
+
+#: ui/models_window.py:135
+msgid "LoRA/Adapter Name"
+msgstr "アダプター"
+
+#: ui/models_window.py:368 ui/recent_adapters_window.py:405
+msgid "Cache"
+msgstr "キャッシュ"
+
+#: ui/models_window.py:401 ui/models_window.py:403
+msgid "Hide Blacklisted"
+msgstr "隠す ブラックリスト登録済み"
+
 #: ui/presets_window.py:58
 msgid "New Preset (ERROR no presets found)"
 msgstr "新規プリセット (プリセットが見つかりません)"
@@ -570,12 +651,6 @@ msgstr "ランダムスキップチャンス"
 msgid "Multiplier"
 msgstr "乗数"
 
-#: ui/auth/password_admin_window.py:249 ui/models_window.py:68
-#: ui/models_window.py:94 ui/prompt_config_window.py:329
-#: ui/tags_blacklist_window.py:283
-msgid "Close"
-msgstr "閉じる"
-
 #: ui/prompt_config_window.py:334
 msgid "Concepts"
 msgstr "コンセプト"
@@ -651,6 +726,30 @@ msgstr "タグはプロンプトの先頭に適用される"
 #: ui/prompt_config_window.py:583
 msgid "Sparse Mixed Tags"
 msgstr "まばらな混合タグ"
+
+#: ui/recent_adapters_window.py:28
+msgid "Recent Adapters"
+msgstr "最近の適応者"
+
+#: ui/recent_adapters_window.py:47
+msgid "Recent ControlNets"
+msgstr "最近のControlNets"
+
+#: ui/recent_adapters_window.py:48
+msgid "Recent IP Adapters"
+msgstr "最近のIPアダプター"
+
+#: ui/recent_adapters_window.py:79
+msgid "ControlNet File"
+msgstr "ControlNetファイル"
+
+#: ui/recent_adapters_window.py:80 ui/recent_adapters_window.py:135
+msgid "Type"
+msgstr "タイプ:"
+
+#: ui/recent_adapters_window.py:134
+msgid "IP Adapter File"
+msgstr "IPアダプタファイル"
 
 #: ui/schedule.py:72
 msgid "{0} ({1} runs)"
@@ -1456,7 +1555,7 @@ msgstr "アニメーション差分"
 msgid "Renoiser"
 msgstr "レノイザー"
 
-#: utils/globals.py:234
+#: utils/globals.py:234 utils/globals.py:378
 msgid "Turbo"
 msgstr "ターボ"
 
@@ -1472,55 +1571,71 @@ msgstr "画像を高画質化 より良いバージョン"
 msgid "Redo Prompt"
 msgstr "プロンプトを再表示する"
 
-#: utils/globals.py:381
+#: utils/globals.py:375
+msgid "SD 1.5"
+msgstr "SD 1.5"
+
+#: utils/globals.py:376
+msgid "SDXL"
+msgstr "SDXL"
+
+#: utils/globals.py:377
+msgid "Illustrious"
+msgstr "Illustrious"
+
+#: utils/globals.py:379
+msgid "Flux"
+msgstr "Flux"
+
+#: utils/globals.py:404
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:382
+#: utils/globals.py:405
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:383
+#: utils/globals.py:406
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:384
+#: utils/globals.py:407
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:423
+#: utils/globals.py:446
 msgid "Open Application"
 msgstr "ソフトウェア・アプリケーションを開く"
 
-#: utils/globals.py:424
+#: utils/globals.py:447
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFLプロンプト・モード"
 
-#: utils/globals.py:425
+#: utils/globals.py:448
 msgid "Edit Blacklist"
 msgstr "ブラックリストの編集"
 
-#: utils/globals.py:426
+#: utils/globals.py:449
 msgid "Reveal Blacklist Concepts"
 msgstr "ブラックリストのコンセプトを明らかにする"
 
-#: utils/globals.py:427
+#: utils/globals.py:450
 msgid "Edit Schedules"
 msgstr "スケジュールの編集"
 
-#: utils/globals.py:428
+#: utils/globals.py:451
 msgid "Edit Timed Schedules"
 msgstr "タイムドスケジュールの編集"
 
-#: utils/globals.py:429
+#: utils/globals.py:452
 msgid "Edit Expansions"
 msgstr "エクスパンションの編集"
 
-#: utils/globals.py:430
+#: utils/globals.py:453
 msgid "Edit Presets"
 msgstr "プリセットの編集"
 
-#: utils/globals.py:432
+#: utils/globals.py:455
 msgid "Access Password Administration"
 msgstr "アクセスパスワードの管理"
 
@@ -1603,35 +1718,3 @@ msgstr "か月"
 #: utils/translations.py:68
 msgid "years"
 msgstr "年間"
-
-#: app.py:220 ui/models_window.py:17
-msgid "Models"
-msgstr "モデル"
-
-#: lib/caps_lock_mixin.py:64
-msgid "⚠ Caps Lock is ON"
-msgstr "⚠ キャプスロックがオンになっています"
-
-#: sd_runner/timed_schedules_manager.py:178
-msgid "Shutdown scheduled: {}"
-msgstr "シャットダウン予定時刻: {}"
-
-#: ui/models_window.py:39
-msgid "Checkpoints"
-msgstr "チェックポイント"
-
-#: ui/models_window.py:40
-msgid "LoRAs & Adapters"
-msgstr "LoRAとアダプター"
-
-#: ui/models_window.py:54 ui/models_window.py:80
-msgid "Filter"
-msgstr "フィルター"
-
-#: ui/models_window.py:64 ui/models_window.py:90
-msgid "Replace"
-msgstr "置換"
-
-#: ui/models_window.py:66 ui/models_window.py:92
-msgid "Add"
-msgstr "追加"
