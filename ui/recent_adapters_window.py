@@ -8,9 +8,12 @@ from typing import Optional, Any
 
 from ui.app_style import AppStyle
 from utils.app_info_cache import app_info_cache
+from utils.logging_setup import get_logger
 from utils.translations import I18N
 
 _ = I18N._
+
+logger = get_logger("recent_adapters_window")
 
 
 class RecentAdaptersWindow:
@@ -22,6 +25,9 @@ class RecentAdaptersWindow:
     # Persistent storage for recent adapters (just file paths)
     _recent_controlnets: list[str] = []
     _recent_ipadapters: list[str] = []
+    
+    # Constants
+    MAX_RECENT_ITEMS = 50
 
     def __init__(self, master: Toplevel, app_actions: Any) -> None:
         RecentAdaptersWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
@@ -433,13 +439,14 @@ class RecentAdaptersWindow:
             RecentAdaptersWindow._recent_ipadapters = app_info_cache.get("recent_ipadapters", [])
             
             # Ensure lists don't exceed reasonable limits
-            MAX_RECENT_ITEMS = 50
-            if len(RecentAdaptersWindow._recent_controlnets) > MAX_RECENT_ITEMS:
-                RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:MAX_RECENT_ITEMS]
-            if len(RecentAdaptersWindow._recent_ipadapters) > MAX_RECENT_ITEMS:
-                RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:MAX_RECENT_ITEMS]
+            if len(RecentAdaptersWindow._recent_controlnets) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
+                RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:RecentAdaptersWindow.MAX_RECENT_ITEMS]
+            if len(RecentAdaptersWindow._recent_ipadapters) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
+                RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:RecentAdaptersWindow.MAX_RECENT_ITEMS]
         except Exception as e:
-            # If loading fails, start with empty lists
+            # Log the error but don't raise to avoid breaking the app
+            logger.error(f"Failed to load recent adapters from cache: {e}")
+            # Initialize with empty lists as fallback
             RecentAdaptersWindow._recent_controlnets = []
             RecentAdaptersWindow._recent_ipadapters = []
 
@@ -450,35 +457,61 @@ class RecentAdaptersWindow:
             app_info_cache.set("recent_controlnets", RecentAdaptersWindow._recent_controlnets)
             app_info_cache.set("recent_ipadapters", RecentAdaptersWindow._recent_ipadapters)
         except Exception as e:
-            # Log error but don't raise to avoid breaking the app
-            pass
+            # Log the error but don't raise to avoid breaking the app
+            logger.error(f"Failed to save recent adapters to cache: {e}")
+
+    @staticmethod
+    def _validate_and_process_file_paths(file_paths: str) -> list[str]:
+        """Validate file paths and return list of valid existing files.
+        
+        Args:
+            file_paths: Comma-separated string of file paths
+            
+        Returns:
+            List of valid existing file paths
+        """
+        if not file_paths or file_paths.strip() == "":
+            return []
+        
+        valid_paths = []
+        for file_path in file_paths.split(","):
+            file_path = file_path.strip()
+            if file_path and os.path.exists(file_path):
+                valid_paths.append(file_path)
+        return valid_paths
 
     @staticmethod
     def add_recent_controlnet(file_path: str) -> None:
         """Add a controlnet to recent adapters list."""
-        # Remove if already exists
-        if file_path in RecentAdaptersWindow._recent_controlnets:
-            RecentAdaptersWindow._recent_controlnets.remove(file_path)
+        # Validate and process file paths
+        valid_paths = RecentAdaptersWindow._validate_and_process_file_paths(file_path)
         
-        # Add to beginning
-        RecentAdaptersWindow._recent_controlnets.insert(0, file_path)
+        for path in valid_paths:
+            # Remove if already exists
+            if path in RecentAdaptersWindow._recent_controlnets:
+                RecentAdaptersWindow._recent_controlnets.remove(path)
+            
+            # Add to beginning
+            RecentAdaptersWindow._recent_controlnets.insert(0, path)
         
         # Limit to reasonable number
-        MAX_RECENT_ITEMS = 50
-        if len(RecentAdaptersWindow._recent_controlnets) > MAX_RECENT_ITEMS:
-            RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:MAX_RECENT_ITEMS]
+        if len(RecentAdaptersWindow._recent_controlnets) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
+            RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:RecentAdaptersWindow.MAX_RECENT_ITEMS]
 
     @staticmethod
     def add_recent_ipadapter(file_path: str) -> None:
         """Add an IP adapter to recent adapters list."""
-        # Remove if already exists
-        if file_path in RecentAdaptersWindow._recent_ipadapters:
-            RecentAdaptersWindow._recent_ipadapters.remove(file_path)
+        # Validate and process file paths
+        valid_paths = RecentAdaptersWindow._validate_and_process_file_paths(file_path)
         
-        # Add to beginning
-        RecentAdaptersWindow._recent_ipadapters.insert(0, file_path)
+        for path in valid_paths:
+            # Remove if already exists
+            if path in RecentAdaptersWindow._recent_ipadapters:
+                RecentAdaptersWindow._recent_ipadapters.remove(path)
+            
+            # Add to beginning
+            RecentAdaptersWindow._recent_ipadapters.insert(0, path)
         
         # Limit to reasonable number
-        MAX_RECENT_ITEMS = 50
-        if len(RecentAdaptersWindow._recent_ipadapters) > MAX_RECENT_ITEMS:
-            RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:MAX_RECENT_ITEMS]
+        if len(RecentAdaptersWindow._recent_ipadapters) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
+            RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:RecentAdaptersWindow.MAX_RECENT_ITEMS]

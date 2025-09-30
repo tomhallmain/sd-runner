@@ -488,19 +488,22 @@ class App():
             logger.error(f"Failed to start server: {e}")
 
     def store_info_cache(self):
-        if self.runner_app_config is not None:
-            if app_info_cache.set_history(self.runner_app_config):
-                if self.config_history_index > 0:
-                    self.config_history_index -= 1
-        app_info_cache.set("config_history_index", self.config_history_index)
-        BlacklistWindow.store_blacklist()
-        PresetsWindow.store_recent_presets()
-        SchedulesWindow.store_schedules()
-        ExpansionsWindow.store_expansions()
-        timed_schedules_manager.store_schedules()
-        RecentAdaptersWindow.save_recent_adapters()
-        get_security_config().save_settings()
-        app_info_cache.store()
+        try:
+            if self.runner_app_config is not None:
+                if app_info_cache.set_history(self.runner_app_config):
+                    if self.config_history_index > 0:
+                        self.config_history_index -= 1
+            app_info_cache.set("config_history_index", self.config_history_index)
+            BlacklistWindow.store_blacklist()
+            PresetsWindow.store_recent_presets()
+            SchedulesWindow.store_schedules()
+            ExpansionsWindow.store_expansions()
+            timed_schedules_manager.store_schedules()
+            RecentAdaptersWindow.save_recent_adapters()
+            get_security_config().save_settings()
+            app_info_cache.store()
+        except Exception as e:
+            logger.error(f"Failed to store info cache: {e}")
 
     def load_info_cache(self):
         try:
@@ -875,6 +878,7 @@ class App():
         self.set_lora_strength()
         controlnet_file = clear_quotes(self.controlnet_file.get())
         self.runner_app_config.control_net_file = str(controlnet_file)
+        RecentAdaptersWindow.add_recent_controlnet(controlnet_file)
 
         if args.workflow_tag == WorkflowType.REDO_PROMPT.name:
             args.workflow_tag = controlnet_file
@@ -888,6 +892,7 @@ class App():
         ipadapter_file = clear_quotes(self.ipadapter_file.get())
         self.runner_app_config.ip_adapter_file = str(ipadapter_file)
         args.ip_adapters = ipadapter_file
+        RecentAdaptersWindow.add_recent_ipadapter(ipadapter_file)
         self.set_ipadapter_strength()
 
         args_copy = deepcopy(args)
