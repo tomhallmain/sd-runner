@@ -10,6 +10,9 @@ class AppActions:
         "set_model_from_models_window",
         # Recent adapters window callbacks
         "set_adapter_from_adapters_window",
+        # Unified recent adapter files callbacks
+        "add_recent_adapter_file",
+        "contains_recent_adapter_file",
     }
     
     def __init__(self, actions: Dict[str, Callable[..., Any]]):

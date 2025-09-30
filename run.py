@@ -272,8 +272,8 @@ class Run:
         Model.set_model_presets(prompter_config.prompt_mode)
         Globals.SKIP_CONFIRMATIONS = self.args.auto_run
 
-        control_nets, is_dir_controlnet = get_control_nets(Utils.split(self.args.control_nets, ",") if self.args.control_nets and self.args.control_nets != "" else None)
-        ip_adapters, is_dir_ipadapter = get_ip_adapters(Utils.split(self.args.ip_adapters, ",") if self.args.ip_adapters and self.args.ip_adapters != "" else None)
+        control_nets, is_dir_controlnet = get_control_nets(Utils.split(self.args.control_nets, ",") if self.args.control_nets and self.args.control_nets != "" else None, app_actions=self.ui_callbacks)
+        ip_adapters, is_dir_ipadapter = get_ip_adapters(Utils.split(self.args.ip_adapters, ",") if self.args.ip_adapters and self.args.ip_adapters != "" else None, app_actions=self.ui_callbacks)
 
         total_adapter_iterations = 1
         if is_dir_controlnet or is_dir_ipadapter:

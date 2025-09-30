@@ -204,11 +204,27 @@ class BaseImageGenerator(ABC):
                 start_time = time.time()
                 result = task_fn(*args, **kwargs)
                 logger.debug(f"Completed {task_fn.__name__} in {time.time()-start_time:.2f}s")
+                # Record recently used adapter files when a task completes
+                try:
+                    control_net = kwargs.get("control_net")
+                    ip_adapter = kwargs.get("ip_adapter")
+                    self._record_recent_adapters(control_net, ip_adapter)
+                except Exception:
+                    pass
                 return result
             except Exception as e:
                 self._handle_error(e, task_fn.__name__)
                 raise
         return wrapped
+
+    def _record_recent_adapters(self, control_net, ip_adapter) -> None:
+        """Record adapters used for a completed generation to the unified recent list."""
+        if self.ui_callbacks is None:
+            return
+        if control_net is not None and hasattr(control_net, "id") and control_net.id:
+            self.ui_callbacks.add_recent_adapter_file(control_net.id)
+        if ip_adapter is not None and hasattr(ip_adapter, "id") and ip_adapter.id:
+            self.ui_callbacks.add_recent_adapter_file(ip_adapter.id)
 
     def _handle_error(self, error: Exception, task_name: str) -> None:
         logger.warning(f"Error in {task_name}: {str(error)}")

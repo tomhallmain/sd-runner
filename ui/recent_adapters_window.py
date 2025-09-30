@@ -25,21 +25,24 @@ class RecentAdaptersWindow:
     # Persistent storage for recent adapters (just file paths)
     _recent_controlnets: list[str] = []
     _recent_ipadapters: list[str] = []
+    # Unified recent adapter files list (directories expanded to individual files)
+    _recent_adapter_files_split: list[str] = []
     
     # Constants
-    MAX_RECENT_ITEMS = 50
+    MAX_RECENT_ITEMS = 100
+    MAX_RECENT_SPLIT_ITEMS = 500
 
     def __init__(self, master: Toplevel, app_actions: Any) -> None:
         RecentAdaptersWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
         RecentAdaptersWindow.top_level.title(_("Recent Adapters"))
-        RecentAdaptersWindow.top_level.geometry("800x450")
+        RecentAdaptersWindow.top_level.geometry("1000x500")
 
         self.master: Toplevel = RecentAdaptersWindow.top_level
         self.app_actions: Any = app_actions
 
         # Main frame
         self.frame: Frame = Frame(self.master, bg=AppStyle.BG_COLOR)
-        self.frame.grid(column=0, row=0, sticky="nsew", padx=10, pady=10)
+        self.frame.grid(column=0, row=0, sticky="nsew", padx=15, pady=15)
         self.frame.columnconfigure(0, weight=1)
         self.frame.rowconfigure(0, weight=1)
 
@@ -50,12 +53,15 @@ class RecentAdaptersWindow:
         # Tabs
         self.controlnet_tab = Frame(self.notebook, bg=AppStyle.BG_COLOR)
         self.ipadapter_tab = Frame(self.notebook, bg=AppStyle.BG_COLOR)
+        self.all_tab = Frame(self.notebook, bg=AppStyle.BG_COLOR)
         self.notebook.add(self.controlnet_tab, text=_("Recent ControlNets"))
         self.notebook.add(self.ipadapter_tab, text=_("Recent IP Adapters"))
+        self.notebook.add(self.all_tab, text=_("All Recent Adapters"))
 
         # Build each tab
         self._build_controlnet_tab()
         self._build_ipadapter_tab()
+        self._build_all_tab()
 
         # Close binding
         self.master.bind("<Escape>", lambda e: self.master.destroy())
@@ -85,7 +91,7 @@ class RecentAdaptersWindow:
         self.cn_tree.heading("#0", text=_("ControlNet File"), command=lambda: self._sort_tree(self.cn_tree, "#0"))
         self.cn_tree.heading("type", text=_("Type"), command=lambda: self._sort_tree(self.cn_tree, "type"))
         self.cn_tree.heading("created", text=_("Created"), command=lambda: self._sort_tree(self.cn_tree, "created"))
-        self.cn_tree.column("#0", width=400, minwidth=200)
+        self.cn_tree.column("#0", width=600, minwidth=300)
         self.cn_tree.column("type", width=150, minwidth=100)
         self.cn_tree.column("created", width=150, minwidth=100)
         
@@ -140,7 +146,7 @@ class RecentAdaptersWindow:
         self.ip_tree.heading("#0", text=_("IP Adapter File"), command=lambda: self._sort_tree(self.ip_tree, "#0"))
         self.ip_tree.heading("type", text=_("Type"), command=lambda: self._sort_tree(self.ip_tree, "type"))
         self.ip_tree.heading("created", text=_("Created"), command=lambda: self._sort_tree(self.ip_tree, "created"))
-        self.ip_tree.column("#0", width=400, minwidth=200)
+        self.ip_tree.column("#0", width=600, minwidth=300)
         self.ip_tree.column("type", width=150, minwidth=100)
         self.ip_tree.column("created", width=150, minwidth=100)
         
@@ -167,6 +173,68 @@ class RecentAdaptersWindow:
         self._refresh_ipadapter_list()
         self.ip_filter.trace_add("write", lambda *_: self._refresh_ipadapter_list())
         self.ip_tree.bind("<Double-Button-1>", lambda e: self._select_ipadapter())
+        
+        # Update cache status display
+        self._update_cache_status_display()
+
+    def _build_all_tab(self) -> None:
+        self.all_tab.columnconfigure(0, weight=1)
+        self.all_tab.rowconfigure(3, weight=1)
+        
+        # Info label
+        info_label = Label(self.all_tab, text=_("Individual files, including from directory-split runs (no directories)"), 
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, font=fnt.Font(size=8, slant="italic"))
+        info_label.grid(column=0, row=0, sticky="w", pady=(0, 4))
+        
+        # Filter
+        Label(self.all_tab, text=_("Filter"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR).grid(column=0, row=1, sticky="w")
+        self.all_filter = StringVar(self.master)
+        self.all_filter_entry = Entry(self.all_tab, textvariable=self.all_filter, width=40, font=fnt.Font(size=9))
+        self.all_filter_entry.grid(column=0, row=2, sticky="we", pady=(0, 6))
+        
+        # Cache status
+        self.all_cache_status = Label(self.all_tab, text="", bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, font=fnt.Font(size=8))
+        self.all_cache_status.grid(column=0, row=3, sticky="w", pady=(0, 6))
+        
+        # Treeview with scrollbar
+        tree_frame = Frame(self.all_tab, bg=AppStyle.BG_COLOR)
+        tree_frame.grid(column=0, row=4, sticky="nsew")
+        tree_frame.columnconfigure(0, weight=1)
+        tree_frame.rowconfigure(0, weight=1)
+        
+        self.all_tree = Treeview(tree_frame, columns=("type", "created"), show="tree headings", height=15)
+        self.all_tree.heading("#0", text=_("Adapter File"), command=lambda: self._sort_tree(self.all_tree, "#0"))
+        self.all_tree.heading("type", text=_("Type"), command=lambda: self._sort_tree(self.all_tree, "type"))
+        self.all_tree.heading("created", text=_("Created"), command=lambda: self._sort_tree(self.all_tree, "created"))
+        self.all_tree.column("#0", width=600, minwidth=300)
+        self.all_tree.column("type", width=150, minwidth=100)
+        self.all_tree.column("created", width=150, minwidth=100)
+        
+        all_scrollbar = Scrollbar(tree_frame, orient="vertical", command=self.all_tree.yview)
+        self.all_tree.configure(yscrollcommand=all_scrollbar.set)
+        self.all_tree.grid(column=0, row=0, sticky="nsew")
+        all_scrollbar.grid(column=1, row=0, sticky="ns")
+        
+        # Buttons
+        btn_frame = Frame(self.all_tab, bg=AppStyle.BG_COLOR)
+        btn_frame.grid(column=0, row=5, sticky="we", pady=(6, 0))
+        # ControlNet
+        cn_replace_btn = Button(btn_frame, text=_("Apply to ControlNet (Replace)"), command=lambda: self._select_all_adapter(is_controlnet=True, replace=True))
+        cn_replace_btn.grid(column=0, row=0, padx=(0, 6))
+        cn_add_btn = Button(btn_frame, text=_("Apply to ControlNet (Add)"), command=lambda: self._select_all_adapter(is_controlnet=True, replace=False))
+        cn_add_btn.grid(column=1, row=0, padx=(0, 6))
+        # IP Adapter
+        ip_replace_btn = Button(btn_frame, text=_("Apply to IP Adapter (Replace)"), command=lambda: self._select_all_adapter(is_controlnet=False, replace=True))
+        ip_replace_btn.grid(column=2, row=0, padx=(0, 6))
+        ip_add_btn = Button(btn_frame, text=_("Apply to IP Adapter (Add)"), command=lambda: self._select_all_adapter(is_controlnet=False, replace=False))
+        ip_add_btn.grid(column=3, row=0, padx=(0, 6))
+        close_btn = Button(btn_frame, text=_("Close"), command=self.master.destroy)
+        close_btn.grid(column=4, row=0)
+        
+        # Populate
+        self._refresh_all_list()
+        self.all_filter.trace_add("write", lambda *_: self._refresh_all_list())
+        # No default double-click action; the user must choose which target to apply
         
         # Update cache status display
         self._update_cache_status_display()
@@ -276,6 +344,49 @@ class RecentAdaptersWindow:
         
         # Apply default sort: type, then name
         self._apply_default_sort(self.ip_tree)
+
+    def _refresh_all_list(self) -> None:
+        filter_text = (self.all_filter.get() or "").lower()
+        
+        # Build cached data from unified recent list
+        cached_data = []
+        for file_path in RecentAdaptersWindow._recent_adapter_files_split:
+            created_date = self._get_file_creation_date(file_path)
+            adapter_type = self._get_adapter_type(file_path, is_controlnet=False)
+            cached_data.append((file_path, adapter_type, created_date))
+        
+        # Filter
+        if filter_text:
+            filtered_data = [(name, type_val, created_date) for name, type_val, created_date in cached_data 
+                           if filter_text in name.lower()]
+        else:
+            filtered_data = cached_data
+        
+        # Clear and repopulate
+        for item in self.all_tree.get_children():
+            self.all_tree.delete(item)
+        for name, type_val, created_date in filtered_data:
+            self.all_tree.insert("", "end", text=name, values=(type_val, created_date))
+        
+        # Default sort
+        self._apply_default_sort(self.all_tree)
+
+    def _select_all_adapter(self, is_controlnet: bool, replace: bool) -> None:
+        try:
+            selection = self.all_tree.selection()
+            if not selection:
+                return
+            file_path: str = self.all_tree.item(selection[0])["text"]
+            # Add to proper recent lists based on user's application
+            if is_controlnet:
+                RecentAdaptersWindow.add_recent_controlnet(file_path)
+            else:
+                RecentAdaptersWindow.add_recent_ipadapter(file_path)
+            # Unified recent list already contains this
+            self.app_actions.set_adapter_from_adapters_window(file_path, is_controlnet=is_controlnet, replace=replace)
+            self.master.destroy()
+        except Exception:
+            pass
 
     def _select_controlnet(self, replace: bool = True) -> None:
         try:
@@ -438,17 +549,23 @@ class RecentAdaptersWindow:
             # Load recent ipadapters (just file paths)
             RecentAdaptersWindow._recent_ipadapters = app_info_cache.get("recent_ipadapters", [])
             
+            # Load unified split adapter files list
+            RecentAdaptersWindow._recent_adapter_files_split = app_info_cache.get("recent_adapter_files_split", [])
+            
             # Ensure lists don't exceed reasonable limits
             if len(RecentAdaptersWindow._recent_controlnets) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
                 RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:RecentAdaptersWindow.MAX_RECENT_ITEMS]
             if len(RecentAdaptersWindow._recent_ipadapters) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
                 RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:RecentAdaptersWindow.MAX_RECENT_ITEMS]
+            if len(RecentAdaptersWindow._recent_adapter_files_split) > RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS:
+                RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS]
         except Exception as e:
             # Log the error but don't raise to avoid breaking the app
             logger.error(f"Failed to load recent adapters from cache: {e}")
             # Initialize with empty lists as fallback
             RecentAdaptersWindow._recent_controlnets = []
             RecentAdaptersWindow._recent_ipadapters = []
+            RecentAdaptersWindow._recent_adapter_files_split = []
 
     @staticmethod
     def save_recent_adapters() -> None:
@@ -456,6 +573,7 @@ class RecentAdaptersWindow:
         try:
             app_info_cache.set("recent_controlnets", RecentAdaptersWindow._recent_controlnets)
             app_info_cache.set("recent_ipadapters", RecentAdaptersWindow._recent_ipadapters)
+            app_info_cache.set("recent_adapter_files_split", RecentAdaptersWindow._recent_adapter_files_split)
         except Exception as e:
             # Log the error but don't raise to avoid breaking the app
             logger.error(f"Failed to save recent adapters to cache: {e}")
@@ -515,3 +633,38 @@ class RecentAdaptersWindow:
         # Limit to reasonable number
         if len(RecentAdaptersWindow._recent_ipadapters) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
             RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:RecentAdaptersWindow.MAX_RECENT_ITEMS]
+
+    @staticmethod
+    def add_recent_adapter_file(file_path: str) -> None:
+        """Add a single adapter file path to the unified list (no directory expansion)."""
+        if not file_path or file_path.strip() == "":
+            return
+        path = file_path.strip()
+        try:
+            if not os.path.isfile(path):
+                return
+        except Exception:
+            return
+
+        try:
+            norm = os.path.abspath(path)
+        except Exception:
+            norm = path
+
+        if norm in RecentAdaptersWindow._recent_adapter_files_split:
+            RecentAdaptersWindow._recent_adapter_files_split.remove(norm)
+        RecentAdaptersWindow._recent_adapter_files_split.insert(0, norm)
+
+        if len(RecentAdaptersWindow._recent_adapter_files_split) > RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS:
+            RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS]
+
+    @staticmethod
+    def contains_recent_adapter_file(file_path: str) -> bool:
+        """Return True only if the provided file path is present in the unified list."""
+        if not file_path or file_path.strip() == "":
+            return False
+        try:
+            norm = os.path.abspath(file_path.strip())
+        except Exception:
+            norm = file_path.strip()
+        return norm in RecentAdaptersWindow._recent_adapter_files_split

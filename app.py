@@ -124,12 +124,12 @@ class App():
                                       "construct_preset": self.construct_preset,
                                       "set_widgets_from_preset": self.set_widgets_from_preset,
                                       "open_password_admin_window": self.open_password_admin_window,
-                                      "toast": self.toast,
-                                      "alert": self.alert,
-                                      # Models window callbacks
                                       "set_model_from_models_window": self.set_model_from_models_window,
-                                      # Recent adapters window callbacks
-                                      "set_adapter_from_adapters_window": self.set_adapter_from_adapters_window,})
+                                      "set_adapter_from_adapters_window": self.set_adapter_from_adapters_window,
+                                      "add_recent_adapter_file": RecentAdaptersWindow.add_recent_adapter_file,
+                                      "contains_recent_adapter_file": RecentAdaptersWindow.contains_recent_adapter_file,
+                                      "toast": self.toast,
+                                      "alert": self.alert,})
 
         # Set UI callbacks for Blacklist filtering notifications
         Blacklist.set_ui_callbacks(self.app_actions)
