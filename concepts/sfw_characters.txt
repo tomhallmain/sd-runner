@@ -5,6 +5,7 @@ a real softy
 abbott
 Achilles
 Acme Corp product
+adjunct
 admiral
 advertiser
 advocate
@@ -14,6 +15,7 @@ Alcaics
 alias
 ally
 Aloha
+angler
 Angus
 Annette
 Antares
@@ -43,6 +45,7 @@ bellhop
 Bender
 Betty Boop
 Black Desert Online
+Boba Fett
 Bobby McGee
 bookie
 borzoi
@@ -60,6 +63,7 @@ Calypso
 can I get a true
 canester
 Captain Haddock
+Carnifex
 carte blanche
 cashier
 Caspar Milquetoast
@@ -94,6 +98,7 @@ dean
 Deus Ex
 Deus Ex Machina
 didact
+diddly-squat
 ding dong
 djinn
 Dobby
@@ -104,6 +109,7 @@ dragster
 driver
 Dudley
 e'er
+easy peasy
 elitist
 Elvis has left the building
 Elvis Presley
@@ -150,6 +156,7 @@ guidance counselor
 guy
 gypsy
 hall pass
+Han Solo
 Hardy Boys
 Hardy har har
 Haw haw haw
@@ -159,6 +166,7 @@ Helmsley
 herald
 Hermes Trismegistus
 Hi-Ho, the Derry-o
+Hocus Pocus
 holo-$$random_word
 Holy See
 homeboy
@@ -192,6 +200,7 @@ Jabir ibn Hayyan
 Jagex
 Jane Austen
 John Deere
+Jolly Roger
 just cause
 justiciar
 Kai-El
@@ -207,6 +216,7 @@ lieabed
 lieutenant
 Lil' $$random_word
 Linden
+Little Bo Peep
 little ditty
 llanero
 LMAO
@@ -235,9 +245,11 @@ ne'er
 neener neener
 neighbor
 neophyte
+Neurothrope
 ninja
 Norton
 notary
+NPC
 numbnut
 Octavian
 officer
@@ -300,6 +312,7 @@ retard
 Roku
 rook
 Roomba
+Rumplestiltskin
 sales rep
 Sayonara
 scholar
@@ -317,8 +330,10 @@ setter
 settler
 Shamu
 Shire reeve
+ShyGuy
 Simon & Garfunkel
 Sirius
+Skull and Crossbones
 sleepers
 sluggard
 slugger

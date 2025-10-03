@@ -1,6 +1,7 @@
 [[I am,you are,he is,she is,we are,they are]] not amused
 Agitated
 alas
+alert
 Allllrighty then!
 amazement
 amused
@@ -40,6 +41,7 @@ creepy smile
 cross-eyed
 crying
 Curious
+defiant
 Delighted
 delirious
 Depressed
@@ -52,16 +54,20 @@ Discontent
 disinterest
 dizzy
 dour
+drat!
 drowsy
+dunno
 elation
 enthralled
 exultant
 flabbergasted
 fury
 fussy
+gibe
 gratified
 grimace
 grr
+guileful expression
 hah!
 haha
 hatred
@@ -70,6 +76,7 @@ hiss
 How?
 Huh?
 I beg your pardon?
+idk
 incredulity
 intuition
 it's alright
@@ -78,6 +85,7 @@ jealous
 jocund
 jolly
 jubilant
+loony
 mania
 meh
 miffed
@@ -164,6 +172,7 @@ Panicked
 Pensive
 Perplexed
 Pessimistic
+pfft..
 phooey
 piety
 Playful
@@ -175,7 +184,6 @@ questioning
 quizzical look
 rage
 rapt
-rats!
 Regretful
 Relaxed
 relieved
@@ -197,6 +205,7 @@ sighing
 Silly face
 skeptical
 slight smile
+smarm
 smile
 smiling
 smirk
@@ -226,6 +235,7 @@ Suspicious
 Tearful
 tedium
 Tense
+then again
 thinking face
 Thoughtful
 thrilled

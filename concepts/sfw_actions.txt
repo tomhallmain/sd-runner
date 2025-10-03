@@ -39,6 +39,7 @@ afoot
 ahoy!
 aid
 aiding
+aiming
 aiming at $$random_word
 air drop
 airbrushing
@@ -55,13 +56,16 @@ amnesty
 analyzing
 and how!
 and so, [[I,you,he,she,we,they]] $$random_word
+angling
 animal-themed items
+announcing
 annoy
 anointing
 Any questions?
 apologizing
 appearing
 appeasement
+applying
 appointing
 appreciated
 approaching
@@ -81,6 +85,7 @@ arts and crafts
 as I suspected
 as long as $$random_word is $$random_word
 asking
+aspiring
 assaying
 assessing
 assisting
@@ -129,6 +134,7 @@ bells
 belonging
 berating
 beset
+beset by $$random_word
 bestowing
 betrayal
 bidding
@@ -261,6 +267,7 @@ coloring
 colonizing
 come forth
 coming up
+commissioning
 communion
 complementing
 computer hobbies
@@ -279,6 +286,7 @@ coopting
 corks
 cost allocation
 counteroffer
+cover story
 covering
 crafting 
 cramming
@@ -325,6 +333,7 @@ deceiving
 deciding
 decking the halls
 decoding
+decommissioning
 defending
 defense
 dehumidification
@@ -334,17 +343,21 @@ delving
 demoing
 demurring
 denouement
+denouncing
 departure
 depositing
 depreciating
+deriding
 deriving
 designing clothes
 designing graphics
 dessert plates, tea cups, china patterns
 detente
 diamond painting kit
+diatribe
 didn't leave a tip
 Didn't see that coming!
+dieting
 digging
 digging up $$random_word
 dinner party
@@ -496,6 +509,7 @@ finale
 financing
 fishing
 fitness
+fixing to $$random_word
 flagging
 flare up of $$random_word
 fleeing
@@ -515,6 +529,7 @@ foist
 follow steps $$number through $$number
 following
 football
+foresaking
 forging
 found [[you,it]] !
 freaking out
@@ -582,6 +597,7 @@ gracing
 griping
 growing
 growing bonsai
+growing crops
 growing up
 grr...
 guile
@@ -693,16 +709,19 @@ improv
 in a moment! I'm busy
 in jeopardy
 in pursuit of
+in touch with [[him,her,us,them,$$random_word]]
 incantantion
 incantation
 incoming
 increasing
+incurring
 indictment
 inferring
 infiltration
 inhaling
 inheritance
 inquiring
+inscribing
 inspecting
 installation
 installing
@@ -755,6 +774,7 @@ knitting
 knock knock
 knocking
 know what I'm saying?
+lagging
 lamenting
 lapping
 lapsing
@@ -801,6 +821,7 @@ listening to music
 living
 loafing
 log rolling
+logging
 looking
 looking at $$random_word
 looking down
@@ -974,6 +995,7 @@ passing the ball
 passing through
 pastels
 patronising
+patronizing
 paving
 paying
 paying dues
@@ -981,6 +1003,7 @@ paying the toll
 peel
 peering
 people watching
+pepping up
 performing
 perks
 permit
@@ -1014,6 +1037,7 @@ playing cricket
 playing drums
 playing in a leaf pile
 playing keyboard or piano
+playing lacrosse
 playing pool
 playing sport
 playing tag
@@ -1073,6 +1097,8 @@ putting
 putting on an act
 putting out $$random_word
 puzzles
+PvE
+PvP
 pwning
 quacking
 on a quest
@@ -1090,6 +1116,7 @@ raking
 raking in
 rallying
 ran past
+ranting
 ratatat
 rationing
 reaching
@@ -1102,6 +1129,7 @@ reading music
 ready--set--go!
 realizing
 reaping
+reapplying
 reassigning
 rebuking
 rebuttal
@@ -1131,12 +1159,14 @@ reloading
 remaining
 remark
 removing
+renouncing
 rent to own
 repast
 repelling
 repenting
 requesting
 requiring
+rescuing
 resetting
 resisting
 resonating
@@ -1148,6 +1178,7 @@ resting
 resting [[my,his,her]] head
 resting up
 restoring
+resurrecting
 retaining
 retaliating
 retape
@@ -1200,6 +1231,7 @@ Sacrament
 said so
 Salchow jump
 saluting
+salvo
 same old
 sanctify
 sanctioning
@@ -1312,6 +1344,7 @@ snagging
 snapping
 snarfing
 sneaking
+sniggling
 snoring
 snow globes
 snowboarding
@@ -1572,6 +1605,7 @@ waxing
 way of life
 waylaid
 wearing
+weaving
 weighing
 weight lifting
 welcome to $$random_word
@@ -1621,10 +1655,12 @@ yelling
 yes or no?
 Yessirree
 yippee!
+yodeling
 yoga or pilates
 yoink
 You betcha!
 you're [[a, ]] $$random_word !
+Your time is up!
 zero in
 zip line
 zounds!

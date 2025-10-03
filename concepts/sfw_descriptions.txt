@@ -25,9 +25,12 @@ amazing
 ambiguous
 amped
 amphibious
+angled
 anisometric
+archaic
 arduous
 arioso
+arisen
 as thin as a hair
 aspiration
 astute
@@ -79,11 +82,15 @@ consecutive
 crooked
 crumpled
 crushed
+cylindrical
 daft
 damning
 daring
 dead-set
+declaring
+decorative
 deep
+definite
 deftly
 deific
 delimited
@@ -91,6 +98,8 @@ deluxe
 different
 dignified
 diligence
+disengaged
+distinctive
 diverged
 divine
 done up
@@ -101,6 +110,7 @@ dried out
 driven
 droll
 droopy
+easy
 elementary
 elongated
 elusive
@@ -138,15 +148,19 @@ flawed
 flim-flam
 flimsy
 floppy
+foliate
 foolhardy
 foolish
 foreboding
+foresaken
 fortuitous
+fragmented
 frail
 fresh
 frizzy
 frozen
 fun-size
+functional
 fused
 gallant
 garish
@@ -171,9 +185,11 @@ hasty
 hazily
 hearty
 heavy-set
+helical
 hidden
 high cheekbones
 high-strung
+hollow
 honest
 honorable
 humane
@@ -181,6 +197,8 @@ hydraulic
 hyper
 imaginary
 imbued
+immortal
+imperative
 imperiled
 imputed
 in a tizzy
@@ -190,6 +208,7 @@ incarnate
 incedental
 incendiary?
 inctremental
+indefinite
 infernal
 innate
 inscrutable
@@ -257,9 +276,12 @@ mute
 mythic
 mythical
 nameless
+natural
 nemisis
 nifty
 no brainer
+no-contest
+no-fee
 no-hassle
 noble
 nonexistent
@@ -272,6 +294,7 @@ oomph
 original
 ostentatious
 overloaded
+overt
 palacial
 parsimonious
 parted
@@ -296,6 +319,7 @@ rare
 rather
 ready
 redoubtable
+refined
 regal
 remarkable
 remastered
@@ -306,6 +330,7 @@ retractable
 ridiculous
 riled
 rinky-dink
+ripe
 risky
 roomy
 rotary
@@ -381,6 +406,7 @@ small
 smallest in the world
 smart
 snappy
+snazzy
 snippy
 sober
 sobering
@@ -402,6 +428,7 @@ stilted
 stingy
 storied
 stormy
+stray
 streamlined
 stretchy
 strong
@@ -421,7 +448,9 @@ sympathetic
 synthetic
 tacky
 tactical
+taken
 tall
+tangled
 tangy
 tawdry
 temporary
@@ -449,6 +478,7 @@ ultra
 unassuming
 unbecoming
 uncommitted
+undefined
 unequal
 uneven
 unfit
@@ -480,6 +510,7 @@ whiz
 wicked
 wise
 witty
+woolen
 woolly
 worst in the world
 wry

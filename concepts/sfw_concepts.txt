@@ -24,6 +24,7 @@ absence
 AC
 acronym
 acrostic
+acroteria
 acrylic
 act
 addendum
@@ -36,6 +37,7 @@ affixed
 aftergame
 agate
 agleam
+agrafe
 aim
 air
 airplane safety brochure
@@ -69,6 +71,7 @@ anecdote
 angle of incidence
 angular momentum
 anidolic lighting
+animated GIF
 annals
 annealing
 annotation
@@ -112,6 +115,7 @@ back-formation
 backgammon board
 bag of $$random_word
 ballad
+balustrade
 bar chart
 bar of $$random_word
 barbs
@@ -123,8 +127,10 @@ Basse-taille
 batch
 battalion
 bauble
+Beaux-Arts style
 behemoth
 bells and whistles
+bend
 bend sinister
 beryl
 bespoke
@@ -149,13 +155,16 @@ boombox
 boring
 bowl
 box set
+bracket
 brand
 breadth
 brighten
 brim
+bronze
 brushstrokes carefully placed
 brushstrokes finely computed
 brushtrokes
+bucranium
 bullseye
 bullseye window
 bump
@@ -185,6 +194,7 @@ cargo
 carnelian
 Carpenter Gothoc
 Cartesian coordinates
+cartouche
 carved ivory
 casing
 cast iron
@@ -201,6 +211,7 @@ chanson
 chapter
 chart
 chatelaine
+chatroom
 children's book
 chimeric
 chiral
@@ -217,6 +228,7 @@ Cirencester word square
 clasp
 class build tree
 class path
+classical
 classification
 claw
 clay
@@ -241,6 +253,7 @@ conchoid
 concrete
 condition
 conic
+console
 consolidation
 construction crane
 context menu
@@ -249,6 +262,8 @@ contour rivalry
 contouring
 convection
 convex
+coordinates
+coordination
 coplanar
 corbel
 core
@@ -276,6 +291,7 @@ curtain
 cusp
 cuspidor
 customized
+cutscene
 dado pedestal part
 darken
 database
@@ -293,6 +309,7 @@ dexter and sinister
 diacritic
 dial
 diameter
+diamond rustication
 dime novel
 dimension
 dioptric
@@ -343,6 +360,7 @@ encased in amber
 endnote
 engraved glass
 Enlightenment
+entablature
 epic
 epigram
 epilogue
@@ -371,6 +389,7 @@ fader
 faience
 faille fabric
 fairy dust
+festoon
 figure eight
 finely computed
 fins
@@ -399,6 +418,7 @@ formulaic
 forthright
 fossil
 fossilized
+fragmentation
 frame
 frenquency
 Fresnel lens
@@ -409,6 +429,7 @@ fugue
 fuse box
 Futhark
 G-force tech
+gameplay screenshot
 gaps
 gas lighting
 gas pipes
@@ -416,6 +437,7 @@ gemälde
 geometric forms
 geometry diagram
 Gestalt
+Gibbs surround
 gift
 gills
 glass former
@@ -432,7 +454,9 @@ gravel
 gravimetric
 Grisaille
 groupings
+gueridon
 gum
+gyroscope
 haiku
 hairline fracture
 halved
@@ -444,6 +468,8 @@ heap
 hemmed in
 herd
 heresy
+hi-hat
+hierarchy
 high energy
 high voltage
 Hilbert space
@@ -474,6 +500,7 @@ ideographic
 idol
 Illumination
 illumination angle
+immortality
 imprint
 improvisation
 in error
@@ -489,6 +516,7 @@ inference
 inflexion
 inlay
 INRI
+inscription
 inside of an hourglass
 inside-out
 integration
@@ -509,7 +537,10 @@ jargon
 jasper
 jigsaw gingerbread victorian style trim
 joint
+JPEG
+JPG
 jug
+keyframes
 knobs
 label
 lacunae
@@ -568,8 +599,10 @@ majesty
 manner
 mannerism
 mansard roof
+marble
 margins
 marl
+mascaron
 mass consumerism
 mass produced
 matching
@@ -586,6 +619,7 @@ mere $$random_word
 metaphysics
 method
 mezzotint
+mica
 military standard
 miscellany
 mist
@@ -622,6 +656,7 @@ new releases
 nobility
 noble gas
 noggin
+noil
 norm
 normal
 note
@@ -663,6 +698,8 @@ overlapping
 oxymoron
 padding
 paean
+page
+pages
 pair
 palette
 palimpsest
@@ -695,6 +732,8 @@ pattern poetry
 pause
 pavement lights
 payload
+pedestal
+pediment
 peg
 pegboard
 penny dreadful
@@ -1008,6 +1047,7 @@ pics
 pictionary
 pie chart
 pigment
+pilaster
 pile
 piston
 pith
@@ -1023,6 +1063,7 @@ plastic
 playbook markings
 Plique-à-jour
 plot
+PNG
 pointillist
 pointy
 Polar coordinates
@@ -1037,6 +1078,7 @@ port and starboard
 post-it notes
 poster
 posters
+potpourri
 pouch
 prayer
 pre-op
@@ -1126,6 +1168,7 @@ reverse
 reversed
 rhyme
 riff raff
+right angles
 rim
 rind
 ripple
@@ -1153,6 +1196,7 @@ roulette curve
 rounded
 roundel
 rubble
+rustication
 RV design
 rwo-for-one
 s p a c i n g
@@ -1160,6 +1204,7 @@ safety brochure
 sand
 sandstone
 saran wrap
+satire
 SATOR AREPO TENET OPERA ROTAS
 sawtooth wave
 scalable
@@ -1222,7 +1267,9 @@ silk screen
 silver nitrate film
 simile
 simple sketch
+simulacrum
 sinusoidal
+situla
 sketchbook
 sketches
 skeuomorph
@@ -1268,6 +1315,7 @@ specimen
 speckled
 specks
 Sperrsatz
+SPF
 spilling
 spinoff
 spinor
@@ -1283,6 +1331,7 @@ spree
 spring-loaded
 spritz
 sprocket
+sprockets
 sprouting bud
 spruce
 stack
@@ -1306,6 +1355,7 @@ still life
 stippling
 stirred
 stitchery
+stoma
 strands
 strange
 strange magic
@@ -1451,6 +1501,7 @@ treatise
 tree bark
 trend
 triad
+trichrome
 trictrac board design
 trill
 trilogy
@@ -1542,6 +1593,7 @@ well pole
 weoh
 western comic book art
 whodunit
+wicker
 wide-angle shot
 ultra wide-angle shot
 willow tree
@@ -1550,6 +1602,7 @@ windy
 wisp
 wit
 wood engraving
+wool
 word cloud
 wove paper
 woven
@@ -2461,3 +2514,4 @@ Bohemian Textiles # Colorful textiles and fabrics in a bohemian style.
 (Peaceful Lavender Fields:0.1) # Fields of fragrant lavender in various shades of purple.
 zip tie
 Zitternbewegung
+zest

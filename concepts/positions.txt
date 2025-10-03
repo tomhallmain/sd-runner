@@ -9,11 +9,14 @@ abutting $$random_word
 across the table
 adjacent to
 afar
+ahead
 akimbo
 all along the $$random_word
 all over
 aloft
 alongside
+ankle
+approaching
 arched back
 arms down
 arms extended
@@ -33,6 +36,7 @@ back to camera
 beside
 between
 betwixt
+billowing
 braced
 bunched in
 callus
@@ -48,6 +52,7 @@ direct route
 down below
 down here
 down there
+ducking under
 dynamic pose
 ears
 elbow
@@ -149,6 +154,7 @@ POV feet
 profile posing
 reaching down
 reaching up
+receding
 reclined
 reclining
 rolling over
@@ -158,6 +164,7 @@ sitting around, casual
 sitting back
 sitting up
 sitting
+sprawled
 squatting
 stances
 stooping
