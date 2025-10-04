@@ -54,6 +54,8 @@ class PrompterConfiguration:
         self.specify_humans_chance = 0.25
         self.emphasis_chance = 0.1
         self.sparse_mixed_tags = False
+        self.original_positive_tags = ""
+        self.original_negative_tags = ""
 
     def to_dict(self) -> dict:
         return {
@@ -78,6 +80,8 @@ class PrompterConfiguration:
             "specify_humans_chance": self.specify_humans_chance,
             "emphasis_chance": self.emphasis_chance,
             "sparse_mixed_tags": self.sparse_mixed_tags,
+            "original_positive_tags": self.original_positive_tags,
+            "original_negative_tags": self.original_negative_tags,
         }
 
     def set_from_dict(self, _dict: dict) -> None:
@@ -102,6 +106,8 @@ class PrompterConfiguration:
         self.specify_humans_chance = _dict['specify_humans_chance'] if'specify_humans_chance' in  _dict else self.specify_humans_chance
         self.emphasis_chance = _dict['emphasis_chance'] if 'emphasis_chance' in _dict else self.emphasis_chance
         self.sparse_mixed_tags = _dict['sparse_mixed_tags'] if 'sparse_mixed_tags' in _dict else self.sparse_mixed_tags
+        self.original_positive_tags = _dict['original_positive_tags'] if 'original_positive_tags' in _dict else self.original_positive_tags
+        self.original_negative_tags = _dict['original_negative_tags'] if 'original_negative_tags' in _dict else self.original_negative_tags
         self._handle_old_types()
 
     def set_from_other(self, other: "PrompterConfiguration") -> None:
@@ -116,9 +122,23 @@ class PrompterConfiguration:
                 self.expressions = (1, 1)
             else:
                 self.expressions = (0, 0)
+        
+        # Handle missing original tags keys
+        if not hasattr(self, 'original_positive_tags'):
+            self.original_positive_tags = ""
+        if not hasattr(self, 'original_negative_tags'):
+            self.original_negative_tags = ""
 
     def __eq__(self, other: object) -> bool:
-        return self.__dict__ == other.__dict__
+        if not isinstance(other, PrompterConfiguration):
+            return False
+        
+        # Compare all attributes except original tags
+        self_dict = {k: v for k, v in self.__dict__.items() 
+                    if k not in ['original_positive_tags', 'original_negative_tags']}
+        other_dict = {k: v for k, v in other.__dict__.items() 
+                     if k not in ['original_positive_tags', 'original_negative_tags']}
+        return self_dict == other_dict
     
     def __hash__(self) -> int:
         class PromptModeEncoder(json.JSONEncoder):
@@ -127,7 +147,11 @@ class PrompterConfiguration:
                     return (str(z.name))
                 else:
                     return super().default(z)
-        return hash(json.dumps(self, cls=PromptModeEncoder, sort_keys=True))
+        
+        # Create dict excluding original tags for hashing
+        hash_dict = {k: v for k, v in self.__dict__.items() 
+                    if k not in ['original_positive_tags', 'original_negative_tags']}
+        return hash(json.dumps(hash_dict, cls=PromptModeEncoder, sort_keys=True))
 
 
 class Prompter:

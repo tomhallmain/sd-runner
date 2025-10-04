@@ -6,6 +6,7 @@ from utils.config import config
 from utils.globals import Globals, WorkflowType, ArchitectureType, PromptMode
 from sd_runner.model_adapters import IPAdapter
 from sd_runner.models import Model
+from sd_runner.prompter import PrompterConfiguration
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from utils.logging_setup import get_logger
@@ -65,6 +66,10 @@ class GenConfig:
 
     def get_prompt_mode(self) -> PromptMode:
         return self.run_config.prompter_config.prompt_mode
+
+    def get_prompter_config(self) -> PrompterConfiguration:
+        """Get the PrompterConfiguration from the run config."""
+        return self.run_config.prompter_config
 
     def max_image_scale_to_side(self) -> int:
         if self.architecture_type() == ArchitectureType.ILLUSTRIOUS:

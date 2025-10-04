@@ -197,6 +197,12 @@ class Config:
 #                    logger.error(e)
 #                    logger.warning(f"Failed to set {name} from config.json file. Ensure the key is set.")
 
+    def get_comfyui_save_path(self):
+        """Get the ComfyUI output directory path."""
+        if self.comfyui_loc:
+            return os.path.join(self.comfyui_loc, "output")
+        return "."
+
 
 
 config = Config()

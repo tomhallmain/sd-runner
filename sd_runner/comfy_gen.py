@@ -1,4 +1,5 @@
 import json
+import os
 import traceback
 from typing import Optional
 from urllib import request, response, parse, error
@@ -11,6 +12,7 @@ from utils.globals import Globals, WorkflowType, ComfyNodeName
 
 from sd_runner.base_image_generator import BaseImageGenerator
 from sd_runner.models import Model, LoraBundle
+from sd_runner.prompter import PrompterConfiguration
 from sd_runner.workflow_prompt import WorkflowPrompt, WorkflowPromptComfy
 from utils.config import config
 from utils.logging_setup import get_logger
@@ -105,8 +107,7 @@ class ComfyGen(BaseImageGenerator):
             ws = websocket.WebSocket()
             ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, ComfyGen.CLIENT_ID))
             ComfyGen.add_connection(ws)  # Track the new connection
-            images = ComfyGen.get_images(ws, json.loads(data.decode('utf-8')))
-            # TODO do something with the images
+            images = ComfyGen.get_images(ws, json.loads(data.decode('utf-8')), self.gen_config.get_prompter_config())
             try:
                 ws.close() # Need this to avoid random timeouts, memory leaks, etc.
             except Exception:
@@ -165,7 +166,7 @@ class ComfyGen(BaseImageGenerator):
         # except error.URLError:
         #     raise Exception("Failed to connect to ComfyUI. Is ComfyUI running?")
     @staticmethod
-    def get_images(ws, prompt):
+    def get_images(ws, prompt, prompter_config: Optional[PrompterConfiguration]=None):
         logger.debug("Queueing prompt to ComfyUI...")
         prompt_id = ComfyGen._queue_prompt(prompt)['prompt_id']
         logger.debug(f"Got prompt ID: {prompt_id}")
@@ -221,16 +222,23 @@ class ComfyGen(BaseImageGenerator):
 
             logger.debug("Getting history for prompt...")
             history = ComfyGen.get_history(prompt_id)[prompt_id]
-            # NOTE: If we want to do something with the images, uncomment this
-            # for node_id in history['outputs']:
-            #     node_output = history['outputs'][node_id]
-            #     images_output = []
-            #     if 'images' in node_output:
-            #         for image in node_output['images']:
-            #             logger.debug(f"Getting image: {image['filename']}")
-            #             image_data = ComfyGen.get_image(image['filename'], image['subfolder'], image['type'])
-            #             images_output.append(image_data)
-            #     output_images[node_id] = images_output
+            
+            # Process images and add EXIF data with original prompt decomposition
+            for node_id in history['outputs']:
+                node_output = history['outputs'][node_id]
+                images_output = []
+                if 'images' in node_output:
+                    for image in node_output['images']:
+                        logger.debug(f"Getting image: {image['filename']}")
+                        image_data = ComfyGen.get_image(image['filename'], image['subfolder'], image['type'])
+                        images_output.append(image_data)
+                        
+                        # Save image with EXIF data containing original prompt decomposition
+                        if prompter_config is not None:
+                            # Construct the expected file path where ComfyUI saves the image
+                            save_path = os.path.join(config.get_comfyui_save_path(), f'ComfyUI_{image["filename"]}')
+                            Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(save_path, prompter_config.original_positive_tags, original_negative_tags=None)
+                output_images[node_id] = images_output
 
             ComfyGen.clear_history(prompt_id)
             return output_images

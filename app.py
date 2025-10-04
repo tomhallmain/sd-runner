@@ -865,6 +865,10 @@ class App():
         PromptConfigWindow.set_args_from_prompter_config(args)
         args.prompter_config = self.runner_app_config.get_prompter_config_copy()
         
+        # Store original prompt decomposition in prompter config before any processing
+        args.prompter_config.original_positive_tags = self.runner_app_config.positive_tags
+        args.prompter_config.original_negative_tags = self.runner_app_config.negative_tags
+        
         return args
 
     def get_args(self):

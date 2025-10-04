@@ -12,6 +12,7 @@ from utils.globals import Globals, WorkflowType, PromptTypeSDWebUI
 
 from sd_runner.base_image_generator import BaseImageGenerator
 from sd_runner.models import Model, LoraBundle
+from sd_runner.prompter import PrompterConfiguration
 from sd_runner.workflow_prompt import WorkflowPromptSDWebUI
 from utils.config import config
 from utils.utils import Utils
@@ -88,12 +89,12 @@ class SDWebuiGen(BaseImageGenerator):
         )
         try:
             resp = request.urlopen(req)
-            result = self.save_image_data(resp, related_image_path, workflow)
+            result = self.save_image_data(resp, related_image_path, workflow, self.gen_config.get_prompter_config())
         except error.URLError:
             raise Exception("Failed to connect to SD Web UI. Is SD Web UI running?")
         return result
 
-    def save_image_data(self, response: response, related_image_path: Optional[str]=None, workflow: Optional[WorkflowType]=None):
+    def save_image_data(self, response: response, related_image_path: Optional[str]=None, workflow: Optional[WorkflowType]=None, prompter_config: Optional[PrompterConfiguration]=None):
         resp_json = json.loads(response.read().decode('utf-8'))
         for index, image in enumerate(resp_json.get('images')):
             if workflow == PromptTypeSDWebUI.CONTROLNET and index % 2 == 1:
@@ -102,6 +103,9 @@ class SDWebuiGen(BaseImageGenerator):
             decode_and_save_base64(image, save_path)
             if related_image_path is not None:
                 Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
+            # Add original prompt decomposition to EXIF data
+            if prompter_config is not None:
+                Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(save_path, prompter_config.original_positive_tags, original_negative_tags=None)
         with self._lock:
             self.pending_counter -= 1
             self.update_ui_pending()

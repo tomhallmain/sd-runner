@@ -27,6 +27,8 @@ class ImageDataExtractor:
     POSITIVE = "positive"
     NEGATIVE = "negative"
     RELATED_IMAGE_KEY = "related_image"
+    ORIGINAL_POSITIVE_TAGS_KEY = "SDR_OriginalPositiveTags"
+    ORIGINAL_NEGATIVE_TAGS_KEY = "SDR_OriginalNegativeTags"
 
     def __init__(self):
         pass
@@ -255,6 +257,31 @@ class ImageDataExtractor:
         image.close()
         if config.debug:
             print("Added related image path: " + related_image_path)
+
+    def add_prompt_decomposition_to_exif(self, image_path: str, original_positive_tags: str = None, original_negative_tags: str = None):
+        """Add original prompt decomposition to EXIF data of the generated image."""
+        try:
+            image = Image.open(image_path)
+            png_info = PngInfo()
+            
+            # Copy existing EXIF data
+            for k, v in image.info.items():
+                png_info.add_text(str(k), str(v))
+            
+            # Add original prompt decomposition
+            if original_positive_tags is not None:
+                png_info.add_text(ImageDataExtractor.ORIGINAL_POSITIVE_TAGS_KEY, str(original_positive_tags))
+            if original_negative_tags is not None:
+                png_info.add_text(ImageDataExtractor.ORIGINAL_NEGATIVE_TAGS_KEY, str(original_negative_tags))
+            
+            # Save with updated EXIF data
+            image.save(image_path, pnginfo=png_info)
+            image.close()
+            
+            if config.debug:
+                print(f"Added original prompt decomposition to EXIF: {image_path}")
+        except Exception as e:
+            print(f"Failed to add prompt decomposition to EXIF for {image_path}: {e}")
 
 
 def main():

@@ -262,31 +262,31 @@ class BaseImageGenerator(ABC):
         pass
 
     @abstractmethod
-    def simple_image_gen(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None):
+    def simple_image_gen(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, **kw):
         pass
 
     @abstractmethod
-    def simple_image_gen_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None):
+    def simple_image_gen_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, **kw):
         pass
 
     @abstractmethod
-    def upscale_simple(self, prompt="", model=None, control_net=None):
+    def upscale_simple(self, prompt="", model=None, control_net=None, **kw):
         pass
 
     @abstractmethod
-    def control_net(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None):
+    def control_net(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, **kw):
         pass
 
     @abstractmethod
-    def ip_adapter(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None):
+    def ip_adapter(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         pass
 
     @abstractmethod
-    def instant_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None):
+    def instant_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         pass
 
     @abstractmethod
     def redo_with_different_parameter(self, source_file="", resolution=None, model=None, vae=None,
                                       lora=None, positive=None, negative=None, n_latents=None,
-                                      control_net=None, ip_adapter=None):
+                                      control_net=None, ip_adapter=None, **kw):
         pass
