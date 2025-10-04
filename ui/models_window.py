@@ -1,6 +1,7 @@
 from datetime import datetime
 import time
-from tkinter import Toplevel, Frame, Label, StringVar, Entry, Scrollbar
+import os
+from tkinter import Toplevel, Frame, Label, StringVar, Entry, Scrollbar, messagebox, Text
 import tkinter.font as fnt
 from tkinter.ttk import Button, Notebook, Treeview
 from typing import Optional, Any
@@ -10,6 +11,7 @@ from ui.app_style import AppStyle
 from ui.auth.password_utils import require_password
 from utils.globals import ArchitectureType, ProtectedActions, PromptMode
 from utils.translations import I18N
+from lib.lora_trigger_extractor import get_trigger_info, create_safetriggers_file, TriggerInfo, is_safetriggers_available
 
 _ = I18N._
 
@@ -153,12 +155,18 @@ class ModelsWindow:
         replace_btn.grid(column=0, row=0, padx=(0, 6))
         add_btn = Button(btn_frame, text=_("Add"), command=lambda: self._select_adapter(replace=False))
         add_btn.grid(column=1, row=0, padx=(0, 6))
+        lora_info_btn = Button(btn_frame, text=_("LoRA Info"), command=self._show_lora_info)
+        lora_info_btn.grid(column=2, row=0, padx=(0, 6))
+        
+        # Disable LoRA Info button if safetriggers is not available
+        if not is_safetriggers_available():
+            lora_info_btn.config(state="disabled", text=_("LoRA Info"))
         refresh_btn = Button(btn_frame, text=_("Refresh"), command=self._refresh_cache)
-        refresh_btn.grid(column=2, row=0, padx=(0, 6))
+        refresh_btn.grid(column=3, row=0, padx=(0, 6))
         self.show_blacklisted_btn_ad = Button(btn_frame, text=_("Show Blacklisted"), command=self._toggle_blacklisted)
-        self.show_blacklisted_btn_ad.grid(column=3, row=0, padx=(0, 6))
+        self.show_blacklisted_btn_ad.grid(column=4, row=0, padx=(0, 6))
         close_btn = Button(btn_frame, text=_("Close"), command=self.master.destroy)
-        close_btn.grid(column=4, row=0)
+        close_btn.grid(column=5, row=0)
 
         # Populate
         self._refresh_adapter_list()
@@ -411,5 +419,271 @@ class ModelsWindow:
         self._refresh_checkpoint_list()
         self._refresh_adapter_list()
         self._update_cache_status_display()
+
+    def _show_lora_info(self) -> None:
+        """Show LoRA information window for the selected LoRA."""
+        # Check if safetriggers functionality is available
+        if not is_safetriggers_available():
+            messagebox.showwarning(_("Feature Unavailable"), 
+                                 _("LoRA trigger extraction is not available.\n\nThis may be due to missing dependencies or import errors."))
+            return
+            
+        try:
+            selection = self.ad_tree.selection()
+            if not selection:
+                messagebox.showwarning(_("No Selection"), _("Please select a LoRA to view information."))
+                return
+            
+            # Get the selected item's text (model name)
+            model_name: str = self.ad_tree.item(selection[0])["text"]
+            
+            # Find the model
+            model = Model.LORAS.get(model_name)
+            if not model:
+                messagebox.showerror(_("Error"), _("Model not found: {0}").format(model_name))
+                return
+            
+            # Open the LoRA info window
+            LoRAInfoWindow(self.master, model)
+                
+        except Exception as e:
+            messagebox.showerror(_("Error"), _("Failed to show LoRA information: {0}").format(str(e)))
+
+
+class LoRAInfoWindow:
+    """Window for displaying detailed LoRA information including triggers."""
+    
+    def __init__(self, master: Toplevel, model: Model):
+        self.master = master
+        self.model = model
+        
+        # Create the window
+        self.window = Toplevel(master, bg=AppStyle.BG_COLOR)
+        self.window.title(_("LoRA Information: {0}").format(model.id))
+        self.window.geometry("800x600")
+        
+        # Main frame
+        self.main_frame = Frame(self.window, bg=AppStyle.BG_COLOR)
+        self.main_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        
+        # Build the interface
+        self._build_interface()
+        
+        # Load trigger information
+        self._load_trigger_info()
+        
+        # Close binding
+        self.window.bind("<Escape>", lambda e: self.window.destroy())
+        self.window.protocol("WM_DELETE_WINDOW", self.window.destroy)
+    
+    def _build_interface(self) -> None:
+        """Build the LoRA information interface."""
+        # Title
+        title_label = Label(self.main_frame, text=_("LoRA Information"), 
+                           bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
+                           font=fnt.Font(size=16, weight="bold"))
+        title_label.pack(pady=(0, 15))
+        
+        # Model information section
+        info_frame = Frame(self.main_frame, bg=AppStyle.BG_COLOR)
+        info_frame.pack(fill="x", pady=(0, 15))
+        
+        # Model name
+        name_label = Label(info_frame, text=_("Name:"), 
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                          font=fnt.Font(size=12, weight="bold"))
+        name_label.grid(column=0, row=0, sticky="w", padx=(0, 10))
+        
+        name_value = Label(info_frame, text=self.model.id,
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                          font=fnt.Font(size=12))
+        name_value.grid(column=1, row=0, sticky="w")
+        
+        # Architecture type
+        arch_label = Label(info_frame, text=_("Architecture:"), 
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                          font=fnt.Font(size=12, weight="bold"))
+        arch_label.grid(column=0, row=1, sticky="w", padx=(0, 10), pady=(5, 0))
+        
+        arch_value = Label(info_frame, text=self.model.get_architecture_type().display(),
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                          font=fnt.Font(size=12))
+        arch_value.grid(column=1, row=1, sticky="w", pady=(5, 0))
+        
+        # File path
+        path_label = Label(info_frame, text=_("File Path:"), 
+                           bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                           font=fnt.Font(size=12, weight="bold"))
+        path_label.grid(column=0, row=2, sticky="w", padx=(0, 10), pady=(5, 0))
+        
+        file_path = self._get_model_file_path()
+        path_value = Label(info_frame, text=file_path,
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                          font=fnt.Font(size=10))
+        path_value.grid(column=1, row=2, sticky="w", pady=(5, 0))
+        
+        # Created date
+        date_label = Label(info_frame, text=_("Created:"), 
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.BG_COLOR,
+                          font=fnt.Font(size=12, weight="bold"))
+        date_label.grid(column=0, row=3, sticky="w", padx=(0, 10), pady=(5, 0))
+        
+        date_value = Label(info_frame, text=self.model.get_file_creation_date(),
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                          font=fnt.Font(size=12))
+        date_value.grid(column=1, row=3, sticky="w", pady=(5, 0))
+        
+        # LoRA strength
+        strength_label = Label(info_frame, text=_("Strength:"), 
+                             bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                             font=fnt.Font(size=12, weight="bold"))
+        strength_label.grid(column=0, row=4, sticky="w", padx=(0, 10), pady=(5, 0))
+        
+        strength_value = Label(info_frame, text=f"{self.model.lora_strength:.2f}",
+                             bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                             font=fnt.Font(size=12))
+        strength_value.grid(column=1, row=4, sticky="w", pady=(5, 0))
+        
+        # Separator line
+        separator = Frame(self.main_frame, height=2, bg=AppStyle.FG_COLOR)
+        separator.pack(fill="x", pady=15)
+        
+        # Trigger information section
+        trigger_title = Label(self.main_frame, text=_("Trigger Information"), 
+                             bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
+                             font=fnt.Font(size=14, weight="bold"))
+        trigger_title.pack(pady=(0, 10))
+        
+        # Trigger status
+        self.trigger_status = Label(self.main_frame, text=_("Loading trigger information..."), 
+                                  bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                                  font=fnt.Font(size=11))
+        self.trigger_status.pack(pady=(0, 10))
+        
+        # Trigger list frame
+        self.trigger_frame = Frame(self.main_frame, bg=AppStyle.BG_COLOR)
+        self.trigger_frame.pack(fill="both", expand=True)
+        
+        # Buttons frame
+        button_frame = Frame(self.main_frame, bg=AppStyle.BG_COLOR)
+        button_frame.pack(fill="x", pady=(15, 0))
+        
+        # Create .safetriggers file button
+        self.create_file_btn = Button(button_frame, text=_("Create .safetriggers File"), 
+                                    command=self._create_safetriggers_file,
+                                    state="disabled")
+        self.create_file_btn.pack(side="left", padx=(0, 10))
+        
+        # Close button
+        close_btn = Button(button_frame, text=_("Close"), command=self.window.destroy)
+        close_btn.pack(side="right")
+    
+    def _get_model_file_path(self) -> str:
+        """Get the full file path for the model."""
+        try:
+            lora_or_sd = "Lora" if self.model.is_lora else "Stable-diffusion"
+            root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
+            
+            if self.model.path:
+                if os.path.isabs(self.model.path):
+                    return self.model.path
+                else:
+                    return os.path.join(root_dir, self.model.path)
+            else:
+                return os.path.join(root_dir, self.model.id)
+        except Exception:
+            return _("Unknown")
+    
+    def _load_trigger_info(self) -> None:
+        """Load trigger information for the LoRA."""
+        # Check if safetriggers functionality is available
+        if not is_safetriggers_available():
+            self.trigger_status.config(text=_("Trigger extraction not available"))
+            return
+            
+        try:
+            file_path = self._get_model_file_path()
+            
+            # Ensure it's a .safetensors file
+            if not file_path.endswith('.safetensors'):
+                file_path += '.safetensors'
+            
+            if not os.path.exists(file_path):
+                self.trigger_status.config(text=_("LoRA file not found"))
+                return
+            
+            # Get trigger information
+            trigger_info = get_trigger_info(file_path, force_refresh=True)
+            
+            if trigger_info.has_triggers and trigger_info.triggers:
+                self._display_triggers(trigger_info)
+            else:
+                error_msg = trigger_info.error_message if trigger_info.error_message else _("No triggers found")
+                self.trigger_status.config(text=_("No triggers found: {0}").format(error_msg))
+                
+        except Exception as e:
+            self.trigger_status.config(text=_("Error loading triggers: {0}").format(str(e)))
+    
+    def _display_triggers(self, trigger_info: TriggerInfo) -> None:
+        """Display the trigger information."""
+        # Update status
+        self.trigger_status.config(text=_("Found {0} triggers").format(trigger_info.trigger_count))
+        
+        # Enable create file button
+        self.create_file_btn.config(state="normal")
+        
+        # Create scrollable text area for triggers
+        text_widget = Text(self.trigger_frame, wrap="word", height=12, width=80,
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR,
+                          font=fnt.Font(size=9))
+        text_scrollbar = Scrollbar(self.trigger_frame, orient="vertical", command=text_widget.yview)
+        text_widget.configure(yscrollcommand=text_scrollbar.set)
+        
+        text_widget.pack(side="left", fill="both", expand=True)
+        text_scrollbar.pack(side="right", fill="y")
+        
+        # Populate triggers (sorted by frequency)
+        sorted_triggers = sorted(trigger_info.triggers.items(), key=lambda x: x[1], reverse=True)
+        
+        # Add header
+        text_widget.insert("end", f"{'Count':>6}  {'Trigger Word/Phrase':<50}\n")
+        text_widget.insert("end", "-" * 60 + "\n")
+        
+        for trigger, count in sorted_triggers:
+            text_widget.insert("end", f"{count:>6}  {trigger:<50}\n")
+        
+        text_widget.config(state="disabled")
+    
+    def _create_safetriggers_file(self) -> None:
+        """Create a .safetriggers file for the LoRA."""
+        # Check if safetriggers functionality is available
+        if not is_safetriggers_available():
+            messagebox.showerror(_("Feature Unavailable"), 
+                               _("Cannot create .safetriggers file: trigger extraction is not available."))
+            return
+            
+        try:
+            file_path = self._get_model_file_path()
+            
+            # Ensure it's a .safetensors file
+            if not file_path.endswith('.safetensors'):
+                file_path += '.safetensors'
+            
+            if not os.path.exists(file_path):
+                messagebox.showerror(_("Error"), _("LoRA file not found: {0}").format(file_path))
+                return
+            
+            # Create the .safetriggers file
+            success = create_safetriggers_file(file_path)
+            
+            if success:
+                safetriggers_path = file_path.replace('.safetensors', '.safetriggers')
+                messagebox.showinfo(_("Success"), 
+                                 _("Created .safetriggers file:\n{0}").format(safetriggers_path))
+            else:
+                messagebox.showerror(_("Error"), _("Failed to create .safetriggers file"))
+                
+        except Exception as e:
+            messagebox.showerror(_("Error"), _("Failed to create .safetriggers file: {0}").format(str(e)))
 
 
