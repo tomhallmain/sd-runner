@@ -1,7 +1,7 @@
 from datetime import datetime
 import os
 import time
-from tkinter import Toplevel, Frame, Label, StringVar, Entry, Scrollbar
+from tkinter import Toplevel, Frame, Label, StringVar, Entry, Scrollbar, IntVar
 import tkinter.font as fnt
 from tkinter.ttk import Button, Notebook, Treeview
 from typing import Optional, Any
@@ -28,9 +28,13 @@ class RecentAdaptersWindow:
     # Unified recent adapter files list (directories expanded to individual files)
     _recent_adapter_files_split: list[str] = []
     
-    # Constants
-    MAX_RECENT_ITEMS = 100
-    MAX_RECENT_SPLIT_ITEMS = 500
+    # Default constants (can be overridden by user configuration)
+    DEFAULT_MAX_RECENT_ITEMS = 1000
+    DEFAULT_MAX_RECENT_SPLIT_ITEMS = 2000
+    
+    # Configuration keys for app_info_cache
+    MAX_RECENT_ITEMS_KEY = "max_recent_items"
+    MAX_RECENT_SPLIT_ITEMS_KEY = "max_recent_split_items"
 
     def __init__(self, master: Toplevel, app_actions: Any) -> None:
         RecentAdaptersWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
@@ -39,6 +43,10 @@ class RecentAdaptersWindow:
 
         self.master: Toplevel = RecentAdaptersWindow.top_level
         self.app_actions: Any = app_actions
+        
+        # Load configuration values from cache
+        self.max_recent_items = RecentAdaptersWindow._get_max_recent_items()
+        self.max_recent_split_items = RecentAdaptersWindow._get_max_recent_split_items()
 
         # Main frame
         self.frame: Frame = Frame(self.master, bg=AppStyle.BG_COLOR)
@@ -54,14 +62,17 @@ class RecentAdaptersWindow:
         self.controlnet_tab = Frame(self.notebook, bg=AppStyle.BG_COLOR)
         self.ipadapter_tab = Frame(self.notebook, bg=AppStyle.BG_COLOR)
         self.all_tab = Frame(self.notebook, bg=AppStyle.BG_COLOR)
+        self.config_tab = Frame(self.notebook, bg=AppStyle.BG_COLOR)
         self.notebook.add(self.controlnet_tab, text=_("Recent ControlNets"))
         self.notebook.add(self.ipadapter_tab, text=_("Recent IP Adapters"))
         self.notebook.add(self.all_tab, text=_("All Recent Adapters"))
+        self.notebook.add(self.config_tab, text=_("Configuration"))
 
         # Build each tab
         self._build_controlnet_tab()
         self._build_ipadapter_tab()
         self._build_all_tab()
+        self._build_config_tab()
 
         # Close binding
         self.master.bind("<Escape>", lambda e: self.master.destroy())
@@ -238,6 +249,59 @@ class RecentAdaptersWindow:
         
         # Update cache status display
         self._update_cache_status_display()
+
+    def _build_config_tab(self) -> None:
+        """Build the configuration tab for setting limits."""
+        self.config_tab.columnconfigure(0, weight=1)
+        self.config_tab.rowconfigure(0, weight=1)
+        
+        # Main configuration frame
+        config_frame = Frame(self.config_tab, bg=AppStyle.BG_COLOR)
+        config_frame.grid(column=0, row=0, sticky="nsew", padx=20, pady=20)
+        config_frame.columnconfigure(1, weight=1)
+        
+        # Title
+        title_label = Label(config_frame, text=_("Recent Adapters Configuration"), 
+                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
+                          font=fnt.Font(size=12, weight="bold"))
+        title_label.grid(column=0, row=0, columnspan=2, sticky="w", pady=(0, 20))
+        
+        # Max Recent Items
+        Label(config_frame, text=_("Max Recent Items:"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR).grid(column=0, row=1, sticky="w", pady=(0, 10))
+        self.max_recent_items_var = IntVar(value=self.max_recent_items)
+        max_recent_entry = Entry(config_frame, textvariable=self.max_recent_items_var, width=10, font=fnt.Font(size=9))
+        max_recent_entry.grid(column=1, row=1, sticky="w", pady=(0, 10))
+        
+        # Max Recent Split Items
+        Label(config_frame, text=_("Max Recent Split Items:"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR).grid(column=0, row=2, sticky="w", pady=(0, 10))
+        self.max_recent_split_items_var = IntVar(value=self.max_recent_split_items)
+        max_recent_split_entry = Entry(config_frame, textvariable=self.max_recent_split_items_var, width=10, font=fnt.Font(size=9))
+        max_recent_split_entry.grid(column=1, row=2, sticky="w", pady=(0, 20))
+        
+        # Description
+        desc_text = _("These settings control how many recent adapters are kept in memory.\n"
+                     "Higher values use more memory but keep more history.\n"
+                     "Changes take effect immediately and are saved automatically.")
+        desc_label = Label(config_frame, text=desc_text, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, 
+                          font=fnt.Font(size=8), justify="left")
+        desc_label.grid(column=0, row=3, columnspan=2, sticky="w", pady=(0, 20))
+        
+        # Buttons
+        btn_frame = Frame(config_frame, bg=AppStyle.BG_COLOR)
+        btn_frame.grid(column=0, row=4, columnspan=2, sticky="w")
+        
+        save_btn = Button(btn_frame, text=_("Save Settings"), command=self._save_config)
+        save_btn.grid(column=0, row=0, padx=(0, 6))
+        
+        reset_btn = Button(btn_frame, text=_("Reset to Defaults"), command=self._reset_config)
+        reset_btn.grid(column=1, row=0, padx=(0, 6))
+        
+        close_btn = Button(btn_frame, text=_("Close"), command=self.master.destroy)
+        close_btn.grid(column=2, row=0)
+        
+        # Bind changes to auto-save
+        self.max_recent_items_var.trace_add("write", lambda *_: self._auto_save_config())
+        self.max_recent_split_items_var.trace_add("write", lambda *_: self._auto_save_config())
 
     def _sort_tree(self, tree: Treeview, column: str) -> None:
         """Sort treeview by column. Toggle between ascending and descending."""
@@ -539,10 +603,107 @@ class RecentAdaptersWindow:
             return True
         return (time.time() - RecentAdaptersWindow._cache_timestamp) > max_age_seconds
 
+    def _save_config(self) -> None:
+        """Save configuration to app_info_cache."""
+        try:
+            # Validate values
+            max_recent_items = max(1, self.max_recent_items_var.get())
+            max_recent_split_items = max(1, self.max_recent_split_items_var.get())
+            
+            # Update instance variables
+            self.max_recent_items = max_recent_items
+            self.max_recent_split_items = max_recent_split_items
+            
+            # Save to cache
+            app_info_cache.set(RecentAdaptersWindow.MAX_RECENT_ITEMS_KEY, max_recent_items)
+            app_info_cache.set(RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS_KEY, max_recent_split_items)
+            
+            # Apply limits to existing lists
+            self._apply_limits_to_lists()
+            
+            logger.info(f"Saved recent adapters configuration: max_recent_items={max_recent_items}, max_recent_split_items={max_recent_split_items}")
+        except Exception as e:
+            logger.error(f"Failed to save configuration: {e}")
+
+    def _auto_save_config(self) -> None:
+        """Auto-save configuration when values change."""
+        try:
+            # Validate and update values
+            max_recent_items = max(1, self.max_recent_items_var.get())
+            max_recent_split_items = max(1, self.max_recent_split_items_var.get())
+            
+            # Update instance variables
+            self.max_recent_items = max_recent_items
+            self.max_recent_split_items = max_recent_split_items
+            
+            # Save to cache
+            app_info_cache.set(RecentAdaptersWindow.MAX_RECENT_ITEMS_KEY, max_recent_items)
+            app_info_cache.set(RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS_KEY, max_recent_split_items)
+            
+            # Apply limits to existing lists
+            self._apply_limits_to_lists()
+        except Exception as e:
+            logger.error(f"Failed to auto-save configuration: {e}")
+
+    def _reset_config(self) -> None:
+        """Reset configuration to default values."""
+        try:
+            # Reset to defaults
+            self.max_recent_items = RecentAdaptersWindow.DEFAULT_MAX_RECENT_ITEMS
+            self.max_recent_split_items = RecentAdaptersWindow.DEFAULT_MAX_RECENT_SPLIT_ITEMS
+            
+            # Update UI variables
+            self.max_recent_items_var.set(self.max_recent_items)
+            self.max_recent_split_items_var.set(self.max_recent_split_items)
+            
+            # Save to cache
+            app_info_cache.set(RecentAdaptersWindow.MAX_RECENT_ITEMS_KEY, self.max_recent_items)
+            app_info_cache.set(RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS_KEY, self.max_recent_split_items)
+            
+            # Apply limits to existing lists
+            self._apply_limits_to_lists()
+            
+            logger.info("Reset recent adapters configuration to defaults")
+        except Exception as e:
+            logger.error(f"Failed to reset configuration: {e}")
+
+    def _apply_limits_to_lists(self) -> None:
+        """Apply current limits to existing recent adapter lists."""
+        try:
+            # Trim lists to current limits
+            if len(RecentAdaptersWindow._recent_controlnets) > self.max_recent_items:
+                RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:self.max_recent_items]
+            if len(RecentAdaptersWindow._recent_ipadapters) > self.max_recent_items:
+                RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:self.max_recent_items]
+            if len(RecentAdaptersWindow._recent_adapter_files_split) > self.max_recent_split_items:
+                RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:self.max_recent_split_items]
+        except Exception as e:
+            logger.error(f"Failed to apply limits to lists: {e}")
+
+    @staticmethod
+    def _get_max_recent_items() -> int:
+        """Get the maximum recent items limit from cache."""
+        return app_info_cache.get(
+            RecentAdaptersWindow.MAX_RECENT_ITEMS_KEY, 
+            default_val=RecentAdaptersWindow.DEFAULT_MAX_RECENT_ITEMS
+        )
+
+    @staticmethod
+    def _get_max_recent_split_items() -> int:
+        """Get the maximum recent split items limit from cache."""
+        return app_info_cache.get(
+            RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS_KEY, 
+            default_val=RecentAdaptersWindow.DEFAULT_MAX_RECENT_SPLIT_ITEMS
+        )
+
     @staticmethod
     def load_recent_adapters() -> None:
         """Load recent adapters from app info cache."""
         try:
+            # Load configuration values
+            max_recent_items = RecentAdaptersWindow._get_max_recent_items()
+            max_recent_split_items = RecentAdaptersWindow._get_max_recent_split_items()
+            
             # Load recent controlnets (just file paths)
             RecentAdaptersWindow._recent_controlnets = app_info_cache.get("recent_controlnets", [])
             
@@ -552,13 +713,13 @@ class RecentAdaptersWindow:
             # Load unified split adapter files list
             RecentAdaptersWindow._recent_adapter_files_split = app_info_cache.get("recent_adapter_files_split", [])
             
-            # Ensure lists don't exceed reasonable limits
-            if len(RecentAdaptersWindow._recent_controlnets) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
-                RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:RecentAdaptersWindow.MAX_RECENT_ITEMS]
-            if len(RecentAdaptersWindow._recent_ipadapters) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
-                RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:RecentAdaptersWindow.MAX_RECENT_ITEMS]
-            if len(RecentAdaptersWindow._recent_adapter_files_split) > RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS:
-                RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS]
+            # Ensure lists don't exceed configured limits
+            if len(RecentAdaptersWindow._recent_controlnets) > max_recent_items:
+                RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:max_recent_items]
+            if len(RecentAdaptersWindow._recent_ipadapters) > max_recent_items:
+                RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:max_recent_items]
+            if len(RecentAdaptersWindow._recent_adapter_files_split) > max_recent_split_items:
+                RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:max_recent_split_items]
         except Exception as e:
             # Log the error but don't raise to avoid breaking the app
             logger.error(f"Failed to load recent adapters from cache: {e}")
@@ -601,6 +762,9 @@ class RecentAdaptersWindow:
     @staticmethod
     def add_recent_controlnet(file_path: str) -> None:
         """Add a controlnet to recent adapters list."""
+        # Get current limit from cache
+        max_recent_items = RecentAdaptersWindow._get_max_recent_items()
+        
         # Validate and process file paths
         valid_paths = RecentAdaptersWindow._validate_and_process_file_paths(file_path)
         
@@ -612,13 +776,16 @@ class RecentAdaptersWindow:
             # Add to beginning
             RecentAdaptersWindow._recent_controlnets.insert(0, path)
         
-        # Limit to reasonable number
-        if len(RecentAdaptersWindow._recent_controlnets) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
-            RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:RecentAdaptersWindow.MAX_RECENT_ITEMS]
+        # Limit to configured number
+        if len(RecentAdaptersWindow._recent_controlnets) > max_recent_items:
+            RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:max_recent_items]
 
     @staticmethod
     def add_recent_ipadapter(file_path: str) -> None:
         """Add an IP adapter to recent adapters list."""
+        # Get current limit from cache
+        max_recent_items = RecentAdaptersWindow._get_max_recent_items()
+        
         # Validate and process file paths
         valid_paths = RecentAdaptersWindow._validate_and_process_file_paths(file_path)
         
@@ -630,9 +797,9 @@ class RecentAdaptersWindow:
             # Add to beginning
             RecentAdaptersWindow._recent_ipadapters.insert(0, path)
         
-        # Limit to reasonable number
-        if len(RecentAdaptersWindow._recent_ipadapters) > RecentAdaptersWindow.MAX_RECENT_ITEMS:
-            RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:RecentAdaptersWindow.MAX_RECENT_ITEMS]
+        # Limit to configured number
+        if len(RecentAdaptersWindow._recent_ipadapters) > max_recent_items:
+            RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:max_recent_items]
 
     @staticmethod
     def add_recent_adapter_file(file_path: str) -> None:
@@ -655,8 +822,11 @@ class RecentAdaptersWindow:
             RecentAdaptersWindow._recent_adapter_files_split.remove(norm)
         RecentAdaptersWindow._recent_adapter_files_split.insert(0, norm)
 
-        if len(RecentAdaptersWindow._recent_adapter_files_split) > RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS:
-            RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS]
+        # Get current limit from cache
+        max_recent_split_items = RecentAdaptersWindow._get_max_recent_split_items()
+
+        if len(RecentAdaptersWindow._recent_adapter_files_split) > max_recent_split_items:
+            RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:max_recent_split_items]
 
     @staticmethod
     def contains_recent_adapter_file(file_path: str) -> bool:
