@@ -829,12 +829,15 @@ class RecentAdaptersWindow:
             RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:max_recent_split_items]
 
     @staticmethod
-    def contains_recent_adapter_file(file_path: str) -> bool:
-        """Return True only if the provided file path is present in the unified list."""
+    def contains_recent_adapter_file(file_path: str) -> int:
+        """Return the index position if the provided file path is present in the unified list, -1 if not found."""
         if not file_path or file_path.strip() == "":
-            return False
+            return -1
         try:
             norm = os.path.abspath(file_path.strip())
         except Exception:
             norm = file_path.strip()
-        return norm in RecentAdaptersWindow._recent_adapter_files_split
+        try:
+            return RecentAdaptersWindow._recent_adapter_files_split.index(norm)
+        except ValueError:
+            return -1
