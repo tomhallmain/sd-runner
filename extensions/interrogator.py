@@ -8,6 +8,7 @@ import time
 from blip.blip import WAS_BLIP_Model_Loader, WAS_BLIP_Analyze_Image
 
 from utils.config import config
+from utils.utils import Utils
 
 
 class AnswerType(Enum):
@@ -60,7 +61,7 @@ class ImageData:
 class Interrogator:
     IMG_TEMPS_DIR = config.img_temps_dir
     DEFAULT_ANSWER_TYPE = AnswerType.YES_NO
-    allowed_extensions = [".jpg", ".jpeg", ".png", ".webp", ".tiff"]
+    allowed_extensions = Utils.IMAGE_EXTENSIONS
 
     def __init__(self, directory="."):
         self.directory = directory

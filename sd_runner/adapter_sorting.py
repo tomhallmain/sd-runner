@@ -2,6 +2,16 @@ from typing import Callable, TypeVar, List, Any
 
 T = TypeVar('T')
 
+
+# TODO: Add handling for image-like files (videos, PDFs, HTML, etc.) to extract frames
+# - Extract first frame or random frame from videos (mp4, avi, mov, etc.)
+# - Extract first page as image from PDFs
+# - Extract screenshot from HTML files
+# - Create temporary directory to hold extracted reference images
+# - Maintain frame/page information for EXIF data inclusion
+# - Ensure temporary files persist for duration of API calls
+
+
 def _sort_adapters_by_recency(
     adapter_files: List[str], 
     random_sort: bool, 

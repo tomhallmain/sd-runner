@@ -21,7 +21,7 @@ def get_ip_adapters(ip_adapter_files=[], random_sort=True, app_actions=None) -> 
     
     is_dir = False
     if len(ip_adapter_files) == 1 and os.path.isdir(ip_adapter_files[0]):
-        ip_adapter_files = Utils.get_files_from_dir(ip_adapter_files[0], recursive=False, random_sort=random_sort)
+        ip_adapter_files = Utils.get_files_from_dir(ip_adapter_files[0], recursive=False, random_sort=random_sort, allowed_extensions=Utils.IMAGE_EXTENSIONS)
         is_dir = True
     
     def ip_adapter_factory(path: str) -> IPAdapter:

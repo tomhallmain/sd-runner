@@ -285,12 +285,42 @@ class Utils:
             kernel32.SetThreadExecutionState(ES_CONTINUOUS)
         Utils.sleep_prevented = prevent_sleep
 
+    # Comprehensive list of image file extensions
+    IMAGE_EXTENSIONS = [
+        ".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi",  # JPEG variants
+        ".png",  # PNG
+        ".gif",  # GIF
+        ".bmp", ".dib",  # BMP variants
+        ".tiff", ".tif",  # TIFF variants
+        ".webp",  # WebP
+        ".svg", ".svgz",  # SVG variants
+        ".ico", ".cur",  # Icon variants
+        ".psd",  # Photoshop
+        ".raw", ".arw", ".cr2", ".nrw", ".k25",  # RAW variants
+        ".heic", ".heif",  # HEIF variants
+        ".avif",  # AVIF
+        ".jp2", ".j2k", ".jpf", ".jpx", ".jpm", ".mj2",  # JPEG 2000 variants
+    ]
+
     @staticmethod
-    def get_files_from_dir(dirpath, recursive=False, random_sort=False):
+    def get_files_from_dir(dirpath, recursive=False, random_sort=False, allowed_extensions=None):
         if not os.path.isdir(dirpath):
             raise Exception(f"Not a directory: {dirpath}")
         glob_pattern = "**/*" if recursive else "*"
         files = glob.glob(os.path.join(dirpath, glob_pattern), recursive=recursive)
+
+        # Filter by file extensions if provided
+        if allowed_extensions:
+            # Convert extensions to lowercase for case-insensitive comparison
+            allowed_ext_lower = [ext.lower() for ext in allowed_extensions]
+            filtered_files = []
+            for file in files:
+                # Get file extension (including the dot) and convert to lowercase
+                file_ext = os.path.splitext(file)[1].lower()
+                if file_ext in allowed_ext_lower:
+                    filtered_files.append(file)
+            files = filtered_files
+
         if random_sort:
             random.shuffle(files)
         else:
@@ -298,14 +328,14 @@ class Utils:
         return files
 
     @staticmethod
-    def get_random_file_from_dir(dirpath, recursive=False):
-        files = Utils.get_files_from_dir(dirpath, recursive, random_sort=True)
-        allowed_ext = [".jpg", ".jpeg", ".png", ".webp"]
-        random.shuffle(allowed_ext)
-        for f in files:
-            for ext in allowed_ext:
-                if f.endswith(ext):
-                    return f
+    def get_random_file_from_dir(dirpath, recursive=False, allowed_extensions=None):
+        files = Utils.get_files_from_dir(dirpath, recursive, random_sort=True, allowed_extensions=allowed_extensions)
+        
+        if not files:
+            return None
+        
+        # Since files are already shuffled and filtered, just return the first one
+        return files[0]
 
     @staticmethod
     def format_red(s):

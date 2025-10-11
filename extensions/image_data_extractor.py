@@ -9,6 +9,7 @@ from PIL.PngImagePlugin import PngInfo
 import pprint
 
 from utils.config import config
+from utils.utils import Utils
 
 has_imported_sd_prompt_reader = False
 try:
@@ -21,7 +22,7 @@ except Exception as e:
 
 
 class ImageDataExtractor:
-    EXTENSIONS = [".png", ".jpg", ".jpeg", ".tiff", ".webp"]
+    EXTENSIONS = Utils.IMAGE_EXTENSIONS
     CLASS_TYPE = "class_type"
     INPUTS = "inputs"
     POSITIVE = "positive"
@@ -231,7 +232,16 @@ class ImageDataExtractor:
 
     def copy_dir_images_no_exif(self, source_dir, target_dir=None, max_count=5000):
         count = 0
-        images = glob.glob(source_dir + "**/*", recursive=True)
+        all_files = glob.glob(source_dir + "**/*", recursive=True)
+        
+        # Filter to only image files
+        images = []
+        for filepath in all_files:
+            for ext in ImageDataExtractor.EXTENSIONS:
+                if filepath.lower().endswith(ext.lower()):
+                    images.append(filepath)
+                    break
+        
         if target_dir is not None and not os.path.isdir(target_dir):
             os.makedirs(target_dir)
 

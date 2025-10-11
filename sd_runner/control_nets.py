@@ -22,7 +22,7 @@ def get_control_nets(control_net_files=[], random_sort=True, app_actions=None) -
     
     is_dir = False
     if len(control_net_files) == 1 and os.path.isdir(control_net_files[0]):
-        control_net_files = Utils.get_files_from_dir(control_net_files[0], recursive=False, random_sort=random_sort)
+        control_net_files = Utils.get_files_from_dir(control_net_files[0], recursive=False, random_sort=random_sort, allowed_extensions=Utils.IMAGE_EXTENSIONS)
         is_dir = True
     
     def control_net_factory(path: str) -> ControlNet:

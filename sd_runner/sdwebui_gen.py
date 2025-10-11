@@ -25,8 +25,25 @@ def timestamp_str():
     return time_str
 
 def encode_file_to_base64(path):
-    with open(path, 'rb') as file:
-        return base64.b64encode(file.read()).decode('utf-8')
+    try:
+        print(f"[CLIENT] Encoding file to base64: {path}")
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"File does not exist: {path}")
+        
+        file_size = os.path.getsize(path)
+        print(f"[CLIENT] File size: {file_size} bytes")
+        
+        if file_size == 0:
+            raise ValueError(f"File is empty: {path}")
+        
+        with open(path, 'rb') as file:
+            data = file.read()
+            encoded = base64.b64encode(data).decode('utf-8')
+            print(f"[CLIENT] Successfully encoded {path} to base64 ({len(encoded)} characters)")
+            return encoded
+    except Exception as e:
+        print(f"[CLIENT ERROR] Failed to encode file {path}: {type(e).__name__}: {e}")
+        raise
 
 
 def decode_and_save_base64(base64_str, save_path):
@@ -90,8 +107,14 @@ class SDWebuiGen(BaseImageGenerator):
         try:
             resp = request.urlopen(req)
             result = self.save_image_data(resp, related_image_path, workflow, self.gen_config.get_prompter_config())
-        except error.URLError:
+        except error.URLError as e:
+            print(f"[CLIENT ERROR] URLError: {e}")
+            if related_image_path:
+                print(f"[CLIENT ERROR] Related image path: {related_image_path}")
             raise Exception("Failed to connect to SD Web UI. Is SD Web UI running?")
+        except Exception as e:
+            print(f"[CLIENT ERROR] Unexpected error: {type(e).__name__}: {e}")
+            raise
         return result
 
     def save_image_data(self, response: response, related_image_path: Optional[str]=None, workflow: Optional[WorkflowType]=None, prompter_config: Optional[PrompterConfiguration]=None):
