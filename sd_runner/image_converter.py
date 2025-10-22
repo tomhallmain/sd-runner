@@ -23,8 +23,16 @@ from utils.logging_setup import get_logger
 
 logger = get_logger("image_converter")
 
-class ConversionFailedError(RuntimeError):
+class ImageHandlingError(RuntimeError):
+    """Base exception for image handling errors that should not show tracebacks."""
+    pass
+
+class ConversionFailedError(ImageHandlingError):
     """Custom exception for image conversion failures that should not show tracebacks."""
+    pass
+
+class ImageTooLargeError(ImageHandlingError):
+    """Custom exception for images that are too large to process."""
     pass
 
 class ImageConverter:
@@ -144,6 +152,46 @@ class ImageConverter:
         # Check file extension
         extension = file_path.suffix.lower()
         return extension in self.CONVERTIBLE_FORMATS
+    
+    def check_image_size(self, file_path: Union[str, Path], max_pixels: int = 178956970) -> None:
+        """
+        Check if an image is too large to process safely.
+        
+        Args:
+            file_path: Path to the image file
+            max_pixels: Maximum allowed pixels (default: PIL's limit)
+            
+        Raises:
+            ImageTooLargeError: If the image exceeds the pixel limit
+        """
+        if not file_path:
+            return
+        
+        file_path = Path(file_path)
+        if not file_path.exists():
+            return
+        
+        try:
+            # Try to get image dimensions without loading the full image
+            if 'pil' in self._conversion_methods:
+                from PIL import Image
+                try:
+                    with Image.open(file_path) as img:
+                        width, height = img.size
+                        total_pixels = width * height
+                        if total_pixels > max_pixels:
+                            raise ImageTooLargeError(f"Image size ({total_pixels:,} pixels) exceeds limit of {max_pixels:,} pixels. Image dimensions: {width}x{height}")
+                except Image.DecompressionBombError as e:
+                    # PIL's decompression bomb protection triggered
+                    raise ImageTooLargeError(f"Image is too large to process safely: {str(e)}")
+            else:
+                # If PIL not available, we can't check size, so skip validation
+                logger.debug(f"Cannot check image size - PIL not available for {file_path}")
+        except Exception as e:
+            if isinstance(e, ImageTooLargeError):
+                raise
+            # For other errors (like unsupported format), just log and continue
+            logger.debug(f"Could not check image size for {file_path}: {e}")
     
     def convert_image(self, input_path: Union[str, Path], output_path: Optional[Union[str, Path]] = None) -> Optional[str]:
         """
@@ -407,6 +455,20 @@ def get_converter() -> ImageConverter:
         _converter = ImageConverter()
     return _converter
 
+def check_image_size(file_path: Union[str, Path], max_pixels: int = 178956970) -> None:
+    """
+    Check if an image is too large to process safely.
+    
+    Args:
+        file_path: Path to the image file
+        max_pixels: Maximum allowed pixels (default: PIL's limit)
+        
+    Raises:
+        ImageTooLargeError: If the image exceeds the pixel limit
+    """
+    converter = get_converter()
+    converter.check_image_size(file_path, max_pixels)
+
 def convert_image_if_needed(file_path: Union[str, Path]) -> Optional[str]:
     """
     Convert an image file if it needs conversion.
@@ -419,8 +481,12 @@ def convert_image_if_needed(file_path: Union[str, Path]) -> Optional[str]:
         
     Raises:
         ConversionFailedError: If conversion is required but fails or libraries are missing
+        ImageTooLargeError: If the image is too large to process
     """
     converter = get_converter()
+    
+    # First check if the image is too large
+    converter.check_image_size(file_path)
     
     if not converter.needs_conversion(file_path):
         return str(file_path)

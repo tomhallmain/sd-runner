@@ -251,8 +251,8 @@ class Run:
             try:
                 self.do_workflow(workflow, positive_prompt, negative_prompt, control_nets, ip_adapters)
             except Exception as e:
-                from sd_runner.image_converter import ConversionFailedError
-                if not isinstance(e, ConversionFailedError):
+                from sd_runner.image_converter import ImageHandlingError
+                if not isinstance(e, ImageHandlingError):
                     print(e)
                     traceback.print_exc()
 

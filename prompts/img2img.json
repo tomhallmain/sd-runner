@@ -95,16 +95,18 @@
   },
   "12": {
     "inputs": {
-      "upscale_method": "nearest-exact",
-      "megapixels": 0.5,
+      "width": 1024,
+      "height": 1024,
+      "upscale_method": "lanczos",
+      "crop": "disabled",
       "image": [
         "10",
         0
       ]
     },
-    "class_type": "ImageScaleToTotalPixels",
+    "class_type": "ImageScale",
     "_meta": {
-      "title": "Image Scale To Total Pixels"
+      "title": "Image Scale"
     }
   },
   "13": {

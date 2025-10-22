@@ -247,10 +247,10 @@ class BaseImageGenerator(ABC):
             self.ui_callbacks.add_recent_adapter_file(ip_adapter.id)
 
     def _handle_error(self, error: Exception, task_name: str) -> None:
-        from sd_runner.image_converter import ConversionFailedError
+        from sd_runner.image_converter import ImageHandlingError
         
-        if isinstance(error, ConversionFailedError):
-            # For conversion failures, they should already be logged by the converter
+        if isinstance(error, ImageHandlingError):
+            # For image handling errors, they should already be logged by the converter
             pass
         else:
             # For other errors, log and show traceback in debug mode

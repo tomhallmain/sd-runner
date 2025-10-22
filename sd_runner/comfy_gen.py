@@ -494,7 +494,7 @@ class ComfyGen(BaseImageGenerator):
     def img2img(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
         if not self.gen_config.override_resolution:
-            resolution = resolution.get_closest_to_image(ip_adapter.generation_path)
+            resolution = resolution.get_closest_to_image(ip_adapter.generation_path, round_to=16)
         prompt, model, vae = self.prompt_setup(WorkflowType.IMG2IMG, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
@@ -509,6 +509,11 @@ class ComfyGen(BaseImageGenerator):
             return
         prompt.set_by_id("10", "image", ip_adapter.generation_path)  # LoadImage node
         prompt.set_by_id("3", "denoise", 1 - ip_adapter.strength)  # Inverse of ip_adapter strength like SDWebUI
+        # Set the target resolution for the ImageScale node
+        resolution = self.gen_config.redo_param("resolution", resolution)
+        if resolution:
+            prompt.set_by_id("12", "width", resolution.width)  # ImageScale node
+            prompt.set_by_id("12", "height", resolution.height)  # ImageScale node
         # prompt.set_image_duplicator(self.gen_config.redo_param("n_latents", n_latents))
         # TODO: Figure out how to handle the image duplicator
         self.queue_prompt(prompt)
