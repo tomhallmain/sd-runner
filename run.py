@@ -251,8 +251,10 @@ class Run:
             try:
                 self.do_workflow(workflow, positive_prompt, negative_prompt, control_nets, ip_adapters)
             except Exception as e:
-                print(e)
-                traceback.print_exc()
+                from sd_runner.image_converter import ConversionFailedError
+                if not isinstance(e, ConversionFailedError):
+                    print(e)
+                    traceback.print_exc()
 
     def execute(self) -> None:
         logger.info("Executing run submitted by user at " + time.strftime("%Y-%m-%d %H:%M:%S", self.args.start_time))

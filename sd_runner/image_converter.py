@@ -7,7 +7,7 @@ dependencies are missing, it will gracefully fail rather than breaking the core 
 
 Supported formats:
 - RAW formats: .raw, .cr2, .nef, .arw, .dng
-- Image formats: .bmp, .svg
+- Image formats: .bmp, .svg, .avif
 - Video formats: .mp4, .avi, .mov, .mkv, .webm, .gif (extracts random frame)
 - Document formats: .pdf (first page), .html/.htm (rendered snapshot)
 """
@@ -35,7 +35,7 @@ class ImageConverter:
         # RAW formats
         '.raw', '.cr2', '.nef', '.arw', '.dng',
         # Image formats
-        '.bmp', '.svg',
+        '.bmp', '.svg', '.avif',
         # Video formats
         '.mp4', '.avi', '.mov', '.mkv', '.webm', '.gif',
         # Document formats
@@ -209,11 +209,11 @@ class ImageConverter:
                     result = self._convert_html(input_path, output_path)
                 else:
                     raise ConversionFailedError("HTML conversion requires pyppeteer library")
-            elif extension == '.bmp':
+            elif extension in ['.bmp', '.avif']:
                 if 'pil' in self._conversion_methods:
                     result = self._convert_with_pil(input_path, output_path)
                 else:
-                    raise ConversionFailedError("BMP conversion requires PIL library")
+                    raise ConversionFailedError(f"{extension.upper()} conversion requires PIL library")
             else:
                 raise ConversionFailedError(f"Unsupported format: {extension}")
             
