@@ -962,7 +962,7 @@ class App():
                         self.controlnet_file.set(self.controlnet_file.get() + "," + image_path)
                     else:
                         self.controlnet_file.set(image_path)
-                elif workflow_type == WorkflowType.IP_ADAPTER:
+                elif workflow_type in [WorkflowType.IP_ADAPTER, WorkflowType.IMG2IMG]:
                     if self.run_preset_schedule_var.get() and self.job_queue_preset_schedules.has_pending():
                         self.job_queue_preset_schedules.add({"ip_adapter": image_path})
                         return {}

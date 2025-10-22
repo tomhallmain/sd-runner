@@ -46,7 +46,7 @@ def _sort_adapters_by_recency(
             adapters.append(adapter_factory(path))
     
     # Sort recent adapters by recency with optional jitter
-    if random_sort and len(adapter_files) > 0:
+    if random_sort and len(adapter_files) > 1:
         # Add jitter based on original position (normalized by file list size)
         jitter_weight = 0.1  # Adjust this to control jitter strength
         max_position = len(adapter_files) - 1

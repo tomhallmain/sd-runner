@@ -282,6 +282,10 @@ class BaseImageGenerator(ABC):
         pass
 
     @abstractmethod
+    def img2img(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
+        pass
+
+    @abstractmethod
     def instant_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         pass
 

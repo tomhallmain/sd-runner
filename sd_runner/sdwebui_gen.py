@@ -26,12 +26,10 @@ def timestamp_str():
 
 def encode_file_to_base64(path):
     try:
-        print(f"[CLIENT] Encoding file to base64: {path}")
         if not os.path.exists(path):
             raise FileNotFoundError(f"File does not exist: {path}")
         
         file_size = os.path.getsize(path)
-        print(f"[CLIENT] File size: {file_size} bytes")
         
         if file_size == 0:
             raise ValueError(f"File is empty: {path}")
@@ -39,7 +37,6 @@ def encode_file_to_base64(path):
         with open(path, 'rb') as file:
             data = file.read()
             encoded = base64.b64encode(data).decode('utf-8')
-            print(f"[CLIENT] Successfully encoded {path} to base64 ({len(encoded)} characters)")
             return encoded
     except Exception as e:
         print(f"[CLIENT ERROR] Failed to encode file {path}: {type(e).__name__}: {e}")
@@ -82,6 +79,7 @@ class SDWebuiGen(BaseImageGenerator):
             WorkflowType.INPAINT_CLIPSEG: None,
             WorkflowType.INSTANT_LORA: self.instant_lora,
             WorkflowType.IP_ADAPTER: self.ip_adapter,
+            WorkflowType.IMG2IMG: self.img2img,
             WorkflowType.REDO_PROMPT: self.redo_with_different_parameter,
             WorkflowType.RENOISER: None,
             WorkflowType.SIMPLE_IMAGE_GEN_LORA: self.simple_image_gen_lora,
@@ -271,6 +269,36 @@ class SDWebuiGen(BaseImageGenerator):
         # prompt.set_ip_adapter_model(ip_adapter_model)
         # prompt.set_clip_vision_model(clip_vision_model)
         prompt.set_denoise(1 - ip_adapter.strength)
+        image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.id)
+        prompt.set_img2img_image(encode_file_to_base64(image_path))
+        prompt.set_latent_dimensions(resolution)
+        prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
+
+        # Run fake txt2img if needed to fix the SD WebUI bug
+        self._run_fake_txt2img(model, vae)
+
+        self.queue_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
+
+    def img2img(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
+        resolution = resolution.convert_for_model_type(model.architecture_type)
+        if not self.gen_config.override_resolution:
+            resolution = resolution.get_closest_to_image(ip_adapter.id)
+        prompt, model, vae = self.prompt_setup(WorkflowType.IMG2IMG, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
+        model = self.gen_config.redo_param("model", model)
+        vae = self.gen_config.redo_param("vae", vae)
+        lora = model.validate_loras(lora)
+        prompt.set_model(model)
+        prompt.set_vae(vae)
+        prompt.set_clip_texts(
+            self.gen_config.redo_param("positive", positive),
+            self.gen_config.redo_param("negative", negative), model=model)
+        if lora is not None and lora!= "":
+            prompt.set_lora(self.gen_config.redo_param("lora", lora))
+        prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
+        prompt.set_other_sampler_inputs(self.gen_config)
+        if ip_adapter.id is None:
+            return
+        prompt.set_denoise(1 - ip_adapter.strength)  # Inverse of ip_adapter strength
         image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.id)
         prompt.set_img2img_image(encode_file_to_base64(image_path))
         prompt.set_latent_dimensions(resolution)

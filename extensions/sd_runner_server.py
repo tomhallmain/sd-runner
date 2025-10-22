@@ -15,6 +15,7 @@ class CommandType(Enum):
     RENOISER = 'renoiser'
     CONTROL_NET = 'control_net'
     IP_ADAPTER = 'ip_adapter'
+    IMG2IMG = 'img2img'
     LAST_SETTINGS = 'last_settings'
     CANCEL = 'cancel'
     REVERT_TO_SIMPLE_GEN = 'revert_to_simple_gen'
@@ -122,6 +123,8 @@ class SDRunnerServer:
                 resp = self.run_callback(WorkflowType.CONTROLNET, args)
             elif command_type == CommandType.IP_ADAPTER:
                 resp = self.run_callback(WorkflowType.IP_ADAPTER, args)
+            elif command_type == CommandType.IMG2IMG:
+                resp = self.run_callback(WorkflowType.IMG2IMG, args)
             elif command_type == CommandType.REDO_PROMPT:
                 resp = self.run_callback(WorkflowType.REDO_PROMPT, args)
             else:

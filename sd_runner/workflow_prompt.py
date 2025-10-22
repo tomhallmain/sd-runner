@@ -72,7 +72,8 @@ class WorkflowPrompt:
             raise Exception("Invalid workflow tag: " + workflow_tag)
         if workflow not in [
                 WorkflowType.INSTANT_LORA,
-                WorkflowType.IP_ADAPTER]:
+                WorkflowType.IP_ADAPTER,
+                WorkflowType.IMG2IMG]:
             if workflow != WorkflowType.ANIMATE_DIFF or len(ip_adapters) > 1:
                 ip_adapters.clear()
                 ip_adapters.append(None)

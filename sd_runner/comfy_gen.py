@@ -88,6 +88,7 @@ class ComfyGen(BaseImageGenerator):
             WorkflowType.INPAINT_CLIPSEG: self.inpaint_clipseg,
             WorkflowType.INSTANT_LORA: self.instant_lora,
             WorkflowType.IP_ADAPTER: self.ip_adapter,
+            WorkflowType.IMG2IMG: self.img2img,
             WorkflowType.REDO_PROMPT: self.redo_with_different_parameter,
             WorkflowType.RENOISER: self.renoiser,
             WorkflowType.SIMPLE_IMAGE_GEN_LORA: self.simple_image_gen_lora,
@@ -488,6 +489,28 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_ip_adapter_image(self.gen_config.redo_param("ip_adapter", ip_adapter.id))
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
+        self.queue_prompt(prompt)
+
+    def img2img(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
+        resolution = resolution.convert_for_model_type(model.architecture_type)
+        if not self.gen_config.override_resolution:
+            resolution = resolution.get_closest_to_image(ip_adapter.id)
+        prompt, model, vae = self.prompt_setup(WorkflowType.IMG2IMG, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
+        model = self.gen_config.redo_param("model", model)
+        prompt.set_model(model)
+        prompt.set_vae(self.gen_config.redo_param("vae", vae))
+        prompt.set_clip_text_by_id(
+            self.gen_config.redo_param("positive", positive),
+            self.gen_config.redo_param("negative", negative),
+            positive_id="6", negative_id="7", model=model)
+        prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
+        prompt.set_other_sampler_inputs(self.gen_config)
+        if ip_adapter.id is None:
+            return
+        prompt.set_by_id("10", "image", ip_adapter.id)  # LoadImage node
+        prompt.set_by_id("3", "denoise", 1 - ip_adapter.strength)  # Inverse of ip_adapter strength like SDWebUI
+        # prompt.set_image_duplicator(self.gen_config.redo_param("n_latents", n_latents))
+        # TODO: Figure out how to handle the image duplicator
         self.queue_prompt(prompt)
 
     def animate_diff(self, prompt="", resolution=None, model=None, vae=None, lora=None, n_latents=None, positive=None, negative=None, control_net=None, ip_adapter=None, **kw):
