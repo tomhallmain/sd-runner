@@ -465,9 +465,12 @@ class App():
         if hasattr(self, 'job_queue_preset_schedules') and self.job_queue_preset_schedules is not None:
             self.job_queue_preset_schedules.cancel()
         
-        # Shutdown the thread pool executor to stop all background threads
         from sd_runner.base_image_generator import BaseImageGenerator
+        # Shutdown the thread pool executor to stop all background threads
         BaseImageGenerator.shutdown_executor(wait=False)
+        # Clean up image converter temporary files on shutdown
+        BaseImageGenerator.cleanup_image_converter()
+        
         self.master.destroy()
         os._exit(0)
 
@@ -1424,6 +1427,11 @@ if __name__ == "__main__":
             if result:
                 # Password verified or not required, create the application
                 global app
+                
+                # Clean up any old image converter temporary files on startup
+                from sd_runner.base_image_generator import BaseImageGenerator
+                BaseImageGenerator.cleanup_image_converter()
+                
                 root = create_root()
                 app = App(root)
                 try:

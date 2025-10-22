@@ -222,7 +222,7 @@ class SDWebuiGen(BaseImageGenerator):
         # t2i-adapter_diffusers_xl_depth_midas [9c183166]
         # t2i-adapter_diffusers_xl_depth_zoe [cc102381]
         if not self.gen_config.override_resolution:
-            resolution = resolution.get_closest_to_image(control_net.id, round_to=16)
+            resolution = resolution.get_closest_to_image(control_net.generation_path, round_to=16)
         resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
         model = self.gen_config.redo_param("model", model)
@@ -236,7 +236,7 @@ class SDWebuiGen(BaseImageGenerator):
             prompt.set_lora(self.gen_config.redo_param("lora", lora))
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
-        image_path = self.gen_config.redo_param("control_net", control_net.id)
+        image_path = self.gen_config.redo_param("control_net", control_net.generation_path)
         if image_path is None:
             return
         prompt.set_control_net_image(encode_file_to_base64(image_path))
@@ -249,7 +249,7 @@ class SDWebuiGen(BaseImageGenerator):
     def ip_adapter(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
         if not self.gen_config.override_resolution:
-            resolution = resolution.get_closest_to_image(ip_adapter.id)
+            resolution = resolution.get_closest_to_image(ip_adapter.generation_path)
         prompt, model, vae = self.prompt_setup(WorkflowType.IP_ADAPTER, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
         vae = self.gen_config.redo_param("vae", vae)
@@ -269,7 +269,7 @@ class SDWebuiGen(BaseImageGenerator):
         # prompt.set_ip_adapter_model(ip_adapter_model)
         # prompt.set_clip_vision_model(clip_vision_model)
         prompt.set_denoise(1 - ip_adapter.strength)
-        image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.id)
+        image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.generation_path)
         prompt.set_img2img_image(encode_file_to_base64(image_path))
         prompt.set_latent_dimensions(resolution)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
@@ -282,7 +282,7 @@ class SDWebuiGen(BaseImageGenerator):
     def img2img(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
         if not self.gen_config.override_resolution:
-            resolution = resolution.get_closest_to_image(ip_adapter.id)
+            resolution = resolution.get_closest_to_image(ip_adapter.generation_path)
         prompt, model, vae = self.prompt_setup(WorkflowType.IMG2IMG, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
         vae = self.gen_config.redo_param("vae", vae)
@@ -299,7 +299,7 @@ class SDWebuiGen(BaseImageGenerator):
         if ip_adapter.id is None:
             return
         prompt.set_denoise(1 - ip_adapter.strength)  # Inverse of ip_adapter strength
-        image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.id)
+        image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.generation_path)
         prompt.set_img2img_image(encode_file_to_base64(image_path))
         prompt.set_latent_dimensions(resolution)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
@@ -310,7 +310,7 @@ class SDWebuiGen(BaseImageGenerator):
         self.queue_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
 
     def instant_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
-        resolution = resolution.get_closest_to_image(ip_adapter.id)
+        resolution = resolution.get_closest_to_image(ip_adapter.generation_path)
         resolution = resolution.convert_for_model_type(model.architecture_type)
         prompt, model, vae = self.prompt_setup(WorkflowType.INSTANT_LORA, "Assembling Img2Img ControlNet prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
@@ -333,7 +333,7 @@ class SDWebuiGen(BaseImageGenerator):
  #       prompt.set_ip_adapter_model(ip_adapter_model)
  #       prompt.set_clip_vision_model(clip_vision_model) TODO update these
         prompt.set_denoise(1 - ip_adapter.strength)
-        image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.id)
+        image_path = self.gen_config.redo_param("ip_adapter", ip_adapter.generation_path)
         prompt.set_img2img_image(encode_file_to_base64(image_path))
         prompt.set_latent_dimensions(resolution)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))

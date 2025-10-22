@@ -5,3 +5,12 @@ ttkthemes
 PyQt6>=6.4.0
 PyQt6-Qt6>=6.4.0
 PyQt6-sip>=13.4.0 
+
+# Optional dependencies for image format conversion
+# Uncomment the following lines to enable image conversion capabilities:
+# Pillow>=9.0.0  # For general image format conversion (BMP)
+# opencv-python>=4.5.0  # For video frame extraction (MP4, AVI, MOV, MKV, WebM, GIF)
+# rawpy>=0.17.0  # For RAW camera file conversion (CR2, NEF, ARW, DNG, RAW)
+# pypdfium2>=4.0.0  # For PDF first page extraction
+# cairosvg>=2.5.0  # For SVG to PNG conversion
+# pyppeteer>=1.0.0  # For HTML to image conversion

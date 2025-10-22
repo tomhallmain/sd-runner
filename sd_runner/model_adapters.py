@@ -53,6 +53,7 @@ class IPAdapter:
             self.id = id
         else:
             self.id = os.path.join(IPAdapter.BASE_DIR, id)
+        self.generation_path = self.id  # Initially same as id, will be updated if converted
         self.desc = desc
         self.modifiers = modifiers
         self.strength = strength
@@ -102,6 +103,7 @@ class ControlNet:
         strength: float = Globals.DEFAULT_CONTROL_NET_STRENGTH,
     ):
         self.id = id
+        self.generation_path = self.id  # Initially same as id, will be updated if converted
         self.desc = desc
         self.strength = strength
 

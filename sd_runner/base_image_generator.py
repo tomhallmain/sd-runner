@@ -11,6 +11,7 @@ from utils.globals import Globals, WorkflowType
 from sd_runner.blacklist import Blacklist
 from sd_runner.captioner import Captioner
 from sd_runner.gen_config import GenConfig
+from sd_runner.image_converter import convert_image_if_needed, cleanup_converter, clear_converter_cache
 from sd_runner.models import Model
 from sd_runner.workflow_prompt import WorkflowPrompt
 from ui.app_actions import AppActions
@@ -39,6 +40,16 @@ class BaseImageGenerator(ABC):
         """
         if cls._executor is not None:
             cls._executor.shutdown(wait=wait)
+    
+    @classmethod
+    def cleanup_image_converter(cls) -> None:
+        """Clean up the image converter temporary files."""
+        cleanup_converter()
+    
+    @classmethod
+    def clear_image_converter_cache(cls) -> None:
+        """Clear the image converter cache."""
+        clear_converter_cache()
     
     def __init__(self, config: GenConfig = GenConfig(), ui_callbacks: Optional[AppActions] = None):
         self.gen_config = config
@@ -164,6 +175,15 @@ class BaseImageGenerator(ABC):
         if self.random_skip():
             return
 
+        # Convert adapter images if needed
+        control_net = kwargs.get('control_net')
+        ip_adapter = kwargs.get('ip_adapter')
+        converted_control_net, converted_ip_adapter = self.convert_adapter_images(control_net, ip_adapter)
+        
+        # Update kwargs with converted images
+        kwargs['control_net'] = converted_control_net
+        kwargs['ip_adapter'] = converted_ip_adapter
+
         workflow_method = self.validate_workflow(workflow_id, **kwargs)
         self.schedule_generation(workflow_method, **kwargs)
         with self._lock:
@@ -227,9 +247,16 @@ class BaseImageGenerator(ABC):
             self.ui_callbacks.add_recent_adapter_file(ip_adapter.id)
 
     def _handle_error(self, error: Exception, task_name: str) -> None:
-        logger.warning(f"Error in {task_name}: {str(error)}")
-        if config.debug:
-            traceback.print_exc()
+        from sd_runner.image_converter import ConversionFailedError
+        
+        if isinstance(error, ConversionFailedError):
+            # For conversion failures, they should already be logged by the converter
+            pass
+        else:
+            # For other errors, log and show traceback in debug mode
+            logger.warning(f"Error in {task_name}: {str(error)}")
+            if config.debug:
+                traceback.print_exc()
 
     def validate_prompt_against_blacklist(self, prompt: str) -> str:
         """Validate a prompt against the blacklist and return the filtered version.
@@ -249,6 +276,39 @@ class BaseImageGenerator(ABC):
             return ', '.join(whitelist)
         else:
             return prompt
+
+    def convert_adapter_images(self, control_net=None, ip_adapter=None) -> tuple:
+        """
+        Convert adapter images to standard formats if needed.
+        
+        Args:
+            control_net: ControlNet adapter object
+            ip_adapter: IP Adapter object
+            
+        Returns:
+            tuple: (converted_control_net, converted_ip_adapter) with converted file paths
+            
+        Raises:
+            ConversionFailedError: If image conversion fails and is required
+        """
+        converted_control_net = control_net
+        converted_ip_adapter = ip_adapter
+        
+        # Convert control_net image if needed
+        if control_net and hasattr(control_net, 'id') and control_net.id:
+            converted_path = convert_image_if_needed(control_net.id)
+            control_net.generation_path = converted_path
+            if converted_path != control_net.id:
+                logger.info(f"Converted control_net image: {control_net.id} -> {converted_path}")
+        
+        # Convert ip_adapter image if needed
+        if ip_adapter and hasattr(ip_adapter, 'id') and ip_adapter.id:
+            converted_path = convert_image_if_needed(ip_adapter.id)
+            ip_adapter.generation_path = converted_path
+            if converted_path != ip_adapter.id:
+                logger.info(f"Converted ip_adapter image: {ip_adapter.id} -> {converted_path}")
+        
+        return control_net, ip_adapter
 
     # Abstract methods to be implemented per generator -------------------------
 

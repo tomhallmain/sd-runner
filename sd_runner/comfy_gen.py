@@ -446,7 +446,7 @@ class ComfyGen(BaseImageGenerator):
     def control_net(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
         if not self.gen_config.override_resolution:
-            resolution = resolution.get_closest_to_image(control_net.id)
+            resolution = resolution.get_closest_to_image(control_net.generation_path)
         prompt, model, vae = self.prompt_setup(WorkflowType.CONTROLNET, "Assembling Control Net prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, lora=lora)
         model = self.gen_config.redo_param("model", model)
         model.validate_loras(lora)
@@ -461,7 +461,7 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_other_sampler_inputs(self.gen_config)
         if control_net.id is None:
             return
-        prompt.set_control_net_image(self.gen_config.redo_param("control_net", control_net.id))
+        prompt.set_control_net_image(self.gen_config.redo_param("control_net", control_net.generation_path))
         prompt.set_control_net_strength(control_net.strength)
         prompt.set_latent_dimensions(resolution)
 #        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
@@ -486,7 +486,7 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_ip_adapter_model(ip_adapter_model)
         prompt.set_clip_vision_model(clip_vision_model)
         prompt.set_ip_adapter_strength(ip_adapter.strength)
-        prompt.set_ip_adapter_image(self.gen_config.redo_param("ip_adapter", ip_adapter.id))
+        prompt.set_ip_adapter_image(self.gen_config.redo_param("ip_adapter", ip_adapter.generation_path))
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         self.queue_prompt(prompt)
@@ -494,7 +494,7 @@ class ComfyGen(BaseImageGenerator):
     def img2img(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
         if not self.gen_config.override_resolution:
-            resolution = resolution.get_closest_to_image(ip_adapter.id)
+            resolution = resolution.get_closest_to_image(ip_adapter.generation_path)
         prompt, model, vae = self.prompt_setup(WorkflowType.IMG2IMG, "Assembling Img2Img prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, lora=lora, ip_adapter=ip_adapter)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
@@ -507,7 +507,7 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_other_sampler_inputs(self.gen_config)
         if ip_adapter.id is None:
             return
-        prompt.set_by_id("10", "image", ip_adapter.id)  # LoadImage node
+        prompt.set_by_id("10", "image", ip_adapter.generation_path)  # LoadImage node
         prompt.set_by_id("3", "denoise", 1 - ip_adapter.strength)  # Inverse of ip_adapter strength like SDWebUI
         # prompt.set_image_duplicator(self.gen_config.redo_param("n_latents", n_latents))
         # TODO: Figure out how to handle the image duplicator
@@ -526,8 +526,8 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_for_class_type(ComfyNodeName.IMAGE_SCALE_TO_SIDE, "side_length", 1024 if self.gen_config.is_xl() else 768)
 #        ip_adapter_model, clip_vision_model = self.gen_config.get_ip_adapter_models()
         if control_net:
-            prompt.set_by_id("73", "image", control_net.id) # There are two control nets in this workflow, not easy to find right linked input node
-            prompt.set_by_id("75", "image", control_net.id if ip_adapter is None else ip_adapter.id) # There are two control nets in this workflow, not easy to find right linked input node
+            prompt.set_by_id("73", "image", control_net.generation_path) # There are two control nets in this workflow, not easy to find right linked input node
+            prompt.set_by_id("75", "image", control_net.generation_path if ip_adapter is None else ip_adapter.generation_path) # There are two control nets in this workflow, not easy to find right linked input node
         prompt.set_ip_adapter_model("ip-adapter-plus_sdxl_vit-h.safetensors" if self.gen_config.is_xl() else "ip-adapter-plus_sd15.safetensors")
         prompt.set_clip_vision_model("XL\\clip_vision_g.safetensors" if self.gen_config.is_xl() else"IPAdapter_image_encoder_sd15.safetensors")
 #        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
@@ -586,7 +586,7 @@ class ComfyGen(BaseImageGenerator):
                 elif attr.startswith("control_net"):
                     prompt.set_control_net(control_net)
                 elif attr.startswith("ip_adapter"):
-                    prompt.set_ip_adapter_image(ip_adapter.id)
+                    prompt.set_ip_adapter_image(ip_adapter.generation_path)
                 elif attr == "positive":
                     prompt.set_clip_text(positive, model, positive=True)
                 elif attr == "negative":
