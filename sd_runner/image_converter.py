@@ -155,7 +155,7 @@ class ImageConverter:
     
     def check_image_size(self, file_path: Union[str, Path], max_pixels: int = 178956970) -> None:
         """
-        Check if an image is too large to process safely.
+        Check if an image is too large to process safely and validate multi-frame images.
         
         Args:
             file_path: Path to the image file
@@ -163,6 +163,7 @@ class ImageConverter:
             
         Raises:
             ImageTooLargeError: If the image exceeds the pixel limit
+            ConversionFailedError: If the image is corrupted or has frame issues
         """
         if not file_path:
             return
@@ -174,13 +175,25 @@ class ImageConverter:
         try:
             # Try to get image dimensions without loading the full image
             if 'pil' in self._conversion_methods:
-                from PIL import Image
+                from PIL import Image, ImageSequence
                 try:
                     with Image.open(file_path) as img:
                         width, height = img.size
                         total_pixels = width * height
                         if total_pixels > max_pixels:
                             raise ImageTooLargeError(f"Image size ({total_pixels:,} pixels) exceeds limit of {max_pixels:,} pixels. Image dimensions: {width}x{height}")
+                        
+                        # Check if this is a multi-frame image and validate frames
+                        if hasattr(img, 'n_frames') and img.n_frames > 1:
+                            try:
+                                # Try to iterate through all frames to detect corruption
+                                for i, frame in enumerate(ImageSequence.Iterator(img)):
+                                    if i >= 10:  # Only check first 10 frames to avoid long delays
+                                        break
+                            except ValueError as e:
+                                if "No data found for frame" in str(e):
+                                    raise ConversionFailedError(f"Image has corrupted frame data: {file_path}")
+                                raise
                 except Image.DecompressionBombError as e:
                     # PIL's decompression bomb protection triggered
                     raise ImageTooLargeError(f"Image is too large to process safely: {str(e)}")
@@ -188,7 +201,7 @@ class ImageConverter:
                 # If PIL not available, we can't check size, so skip validation
                 logger.debug(f"Cannot check image size - PIL not available for {file_path}")
         except Exception as e:
-            if isinstance(e, ImageTooLargeError):
+            if isinstance(e, ImageHandlingError):
                 raise
             # For other errors (like unsupported format), just log and continue
             logger.debug(f"Could not check image size for {file_path}: {e}")

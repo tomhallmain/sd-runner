@@ -195,6 +195,12 @@ class ComfyGen(BaseImageGenerator):
                             else:
                                 current_node = data['node']
                                 logger.debug(f"Executing node: {current_node}")
+                        elif message['type'] == 'execution_error':
+                            data = message['data']
+                            if data['prompt_id'] == prompt_id:
+                                error_msg = data.get('message', 'Unknown execution error')
+                                websocket_error = Exception(f"ComfyUI execution error: {error_msg}")
+                                break
                         elif message['type'] == 'progress':
                             data = message['data']
                             if data['prompt_id'] == prompt_id and data['value'] == data['max']:
