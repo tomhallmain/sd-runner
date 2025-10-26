@@ -1,3 +1,5 @@
+"Holy Smokes!"
+...or not
 [[I am,you are,he is,she is,we are,they are]] not amused
 Agitated
 alas
@@ -10,10 +12,12 @@ Anxious
 Apathetic
 ardor
 ashamed
+askance
 awestruck
 aww
 aye
 baffled
+batting eyelids
 begging
 Bewildered
 Bitter
@@ -35,6 +39,7 @@ Composed
 concerned
 confident
 Confused
+contempt
 Content
 contented
 creepy smile
@@ -59,6 +64,7 @@ drowsy
 dunno
 elation
 enthralled
+even so...
 exultant
 flabbergasted
 fury
@@ -73,8 +79,10 @@ haha
 hatred
 hiccup
 hiss
+Ho-Hum
 How?
 Huh?
+hush-hush
 I beg your pardon?
 idk
 incredulity
@@ -159,12 +167,14 @@ Nervous
 nervous look
 no way
 none the wiser
+nope
 oh no
 Oho!
 Okay...
 oof
 ooh
 Optimistic
+or is it?
 out of it
 Overjoyed
 Overwhelmed
@@ -241,6 +251,7 @@ Thoughtful
 thrilled
 tired
 tranquil
+transfixed
 uh-oh
 umm..
 unamused
@@ -257,8 +268,10 @@ wishing
 woe
 Worried
 yearning
+yep
 yes please
 yeugh
 yikes
+You don't say
 Zealous
 Zestful

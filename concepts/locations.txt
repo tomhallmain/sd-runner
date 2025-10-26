@@ -49,8 +49,10 @@ bowsprit
 brewpub
 broad street
 buffet
+bullpen
 bungalow
 canal
+canyon
 captains hold
 cargo hold
 castle keep
@@ -58,6 +60,7 @@ cellar
 center for $$random_word
 charity dinner
 chute
+cistern
 citadel
 city bus
 classical concert
@@ -95,6 +98,8 @@ estate grounds
 event horizon
 facility
 fathoms
+firehouse
+fireside
 first floor
 floor
 forge
@@ -120,6 +125,7 @@ here
 hest wave
 high altitude
 highland
+highway berm
 hiking trail
 historic monument
 historic site
@@ -177,6 +183,7 @@ out somewhere
 outfitters
 outlets
 palace
+palatka
 palisades
 paper plant
 parking garage
@@ -212,7 +219,9 @@ route $$number
 rowhouse
 royal court
 sand dunes
+sandbox
 school grounds
+sea lane
 seaport
 seaside
 security office

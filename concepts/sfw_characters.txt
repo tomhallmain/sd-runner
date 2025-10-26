@@ -47,6 +47,7 @@ Betty Boop
 Black Desert Online
 Boba Fett
 Bobby McGee
+bogatyr
 bookie
 borzoi
 bouncer
@@ -75,10 +76,12 @@ centurion
 chamberlain
 chancellor
 charizard
+Charlie Dog
 Cheep Cheep
 Chicken Run
 chud
 churl
+Cindy Lou
 Cirque de Soleil
 claimant
 clerk
@@ -87,6 +90,7 @@ composer
 confessor
 constable
 corsair
+countryman
 courtier
 cowpoke
 crook
@@ -94,7 +98,10 @@ Crookshanks
 culprit
 curmudgeon
 Custos rotulorum
+Daffy Duck
+deacon
 dean
+defendant
 Deus Ex
 Deus Ex Machina
 didact
@@ -118,10 +125,13 @@ employee
 employer
 EMT
 enemy
+engineer
 entrant
 et cetera
 evacuees
 ever
+evoker
+Ewoks
 exarch
 expat
 false mustache
@@ -153,6 +163,7 @@ good grief
 Governor
 growler
 guidance counselor
+gumshoe
 guy
 gypsy
 hall pass
@@ -163,6 +174,7 @@ Haw haw haw
 heathen
 heir
 Helmsley
+Henery Hawk
 herald
 Hermes Trismegistus
 Hi-Ho, the Derry-o
@@ -176,6 +188,7 @@ Homer Simpson
 homie
 hooligan
 hootenanny
+hotelier
 Hoth
 Houdini
 how many times do I have to tell you
@@ -222,15 +235,19 @@ llanero
 LMAO
 lol
 Lollards
+loudmouth
 MacGuffin
 mariner
 mate
 McNutt
+medic
 meme
+mentor
 mess mate
 Messiah
 mind over matter
 miner
+minister
 mithril
 mogul
 more than you know
@@ -260,6 +277,7 @@ oligarch
 One if by land, two if by sea
 one must admit
 opponent
+Oracle
 orator
 orderly
 Ori and the Blind Forest
@@ -288,20 +306,24 @@ poet
 poindexter
 Pooh Bear
 Pop-O-Matic
+Porky Pig
 postman
 prankster
 prat
 prefect
 presdident of $$random_word
+press agent
 pretender
 primogeniture
 Privy Councillor
+prosecutor
 proverbs
 provost
 pugilist
 pupil
 purveyor
 pyromancer
+quest marker exclamation point over NPC's head
 ranchhand
 rascal
 rector
@@ -312,6 +334,7 @@ retard
 Roku
 rook
 Roomba
+rube
 Rumplestiltskin
 sales rep
 Sayonara
@@ -355,6 +378,7 @@ Babar
 Imogen
 stowaway
 student leader
+Sylvester the Cat
 Tabasco
 talent scout
 Tar Heels
@@ -392,6 +416,7 @@ sentinel
 
 thane
 The Adoring Fan
+The doctor is in
 The Dole
 the Huns
 the mechanic
@@ -549,6 +574,7 @@ Yeti
 Yogi the Bear
 Yoo-Hoo
 your Honor
+Ysmir
 zing
 zinger
 Zip-a-Dee-Doo-Dah

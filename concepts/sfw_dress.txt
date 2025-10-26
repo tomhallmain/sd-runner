@@ -1,6 +1,7 @@
 $$character costume
 $$random_word-ware
 abaya
+Akubra
 amulet
 ancient greek dress
 ancient minoan dress
@@ -30,6 +31,7 @@ bandanna
 banyan
 barrister's robes
 baseball cap
+bashlyk
 bathing suit
 bathrobe
 Beach Cover-Up
@@ -50,12 +52,15 @@ bling
 blouse
 Blunt Cut
 boa
+boater hat
 Bob Cut
 Bohemian Skirt
 bolo
 Bomber Jacket
 bonnet
+boonie hat
 boot
+boss of the plains hat
 bow
 bow tie
 boxer shorts
@@ -67,7 +72,9 @@ breeches
 briefs
 brownshirt
 bubble dress
+bucket hat
 buckle
+budenovka
 burqa
 Business Casual Outfit
 Business Suit
@@ -85,16 +92,21 @@ camouflage
 cap
 cap and gown
 cape
+capotain
 cappa magna
+cappello romano
 Capri Pants
 capris
 cardigan
 Cardigan Sweater
 Cargo Pants
+Cartwheel hat
 Cashmere Scarf
+Casquette
 Casual Blazer
 Casual Denim Shorts
 cat costume
+cavalier hat
 caveman outfit
 chain mail
 Chelsea Boots
@@ -106,14 +118,18 @@ Classic White Blouse
 Classic White T-Shirt
 cloak
 cloche
+Cloche hat
 clogs
 cloning
 clothes
 clothing
 coat
 Cocktail Party Dress
+coif
 collar
 Comb Over
+Constable custodian hat
+coolie hat
 corded-ware
 corset
 costume
@@ -137,6 +153,7 @@ cummerbund
 Curly Bob
 Curly Top
 cyborg
+Damao hat
 dashiki
 deely-boppers
 denim
@@ -190,6 +207,7 @@ fur
 fur coat
 gaberdine
 gabardine
+Gainsborough hat
 gaiters
 galero
 galoshes
@@ -201,6 +219,7 @@ gilet
 Gladiator Sandals
 glasses
 glasses
+Glengarry
 gloves
 goggles
 gold ring
@@ -212,12 +231,14 @@ habiliments
 hair band
 hair ornament
 Halloween costume
+halo hat
 Halter Neck Dress
 halter top
 handbag
 handkerchief
 hanky
 hard hat
+Hardee hat
 hat
 haubergeon
 hauberk
@@ -229,10 +250,12 @@ headscarf
 heavy coat
 helmet
 hem
+Hennin
 High and Tight
 high heels
 hijab
 holster
+Homburg hat
 hooded cloak
 Hooded Poncho
 hoodie
@@ -256,6 +279,7 @@ jumper
 jumpsuit
 Jumpsuit
 Kaftan Dress
+kalpak
 kepi
 kerchief
 khaki pants
@@ -269,6 +293,7 @@ knickers
 lab coat
 lanyard
 lapel
+lappets
 laurel wreath
 Layered Haircut
 Leather Backpack
@@ -309,6 +334,7 @@ muumuu
 name tag
 neckerchief
 necklace
+Newsboy cap
 nightgown
 nightshirt
 Nun's habit
@@ -340,6 +366,7 @@ perfectly tailored suit
 petticoat
 Phrygian cap
 pinafore
+Pith helmet
 Pixie Cut
 PJs
 Platform Sandals
@@ -374,6 +401,7 @@ ring
 ripped jeans
 rondel
 shako
+shovel hat
 ski cap
 ski mask
 sleeve
@@ -488,6 +516,7 @@ trunks
 tshirt
 tube skirt
 tube top
+Tudor bonnet
 Tulle Skirt
 tunic
 tuque
@@ -528,6 +557,7 @@ Wellingtons
 Western Boots
 wetsuit
 white tie
+Whoopee cap
 wifebeater
 wig
 windbreaker

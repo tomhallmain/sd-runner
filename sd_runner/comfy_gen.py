@@ -68,8 +68,6 @@ class ComfyGen(BaseImageGenerator):
                     prompt = WorkflowPromptComfy("simple_image_gen_lora2.json")
             if workflow_type == WorkflowType.INSTANT_LORA and model.is_xl():
                 prompt = WorkflowPromptComfy("instant_lora_xl.json")
-            if workflow_type == WorkflowType.CONTROLNET and model.is_xl():
-                prompt = WorkflowPromptComfy("controlnet_sdxl.json")
             if model.is_flux():
                 if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
                     prompt = WorkflowPromptComfy("simple_image_gen_flux.json")
@@ -457,18 +455,30 @@ class ComfyGen(BaseImageGenerator):
         model = self.gen_config.redo_param("model", model)
         model.validate_loras(lora)
         prompt.set_model(model)
-        prompt.set_vae(self.gen_config.redo_param("vae", vae))
+        
+        # vae = self.gen_config.redo_param("vae", vae)
+        # if vae:
+        #     if model.is_xl():
+        #         prompt.set_by_id("8", "vae_name", vae)
+        #     else:
+        #         prompt.set_by_id("16", "vae_name", vae)
+        #         prompt.set_by_id("31", "vae", ["16", 0])
+                
         prompt.set_lora(self.gen_config.redo_param("lora", lora))
         prompt.set_clip_text_by_id(
             self.gen_config.redo_param("positive", positive),
             self.gen_config.redo_param("negative", negative),
-            positive_id=None, negative_id="18", model=model)
+            positive_id="30", negative_id="18", model=model)
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
         if control_net.id is None:
             return
-        prompt.set_control_net_image(self.gen_config.redo_param("control_net", control_net.generation_path))
+        prompt.set_control_net_image2(self.gen_config.redo_param("control_net", control_net.generation_path))
         prompt.set_control_net_strength(control_net.strength)
+        
+        # Set ControlNet model - this should be set dynamically based on model type and control net type
+        # For now, using default - can be enhanced to detect based on control_net parameter
+        
         prompt.set_latent_dimensions(resolution)
 #        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))

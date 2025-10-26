@@ -50,6 +50,7 @@ begotten
 bent
 bereft
 best in the world
+bimonthly
 bineural
 bizarre
 blatant
@@ -64,6 +65,7 @@ brazen
 brilliant
 bulbous
 burdensome
+by-the-book
 callous
 certain
 charade
@@ -74,11 +76,13 @@ cliché
 coherent
 committed
 complementary
+complimentary
 comprehensive
 concealed
 conceited
 conditional
 consecutive
+crafty
 crooked
 crumpled
 crushed
@@ -122,12 +126,16 @@ entwined
 epic
 equipped
 equivocal
+errant
 ersatz
 eternal
 evanescent
 evasive
+ever so
 existential
 exorbitant
+expeditious
+expidited
 extemporaneous
 extra-large
 extra-small
@@ -201,6 +209,7 @@ immortal
 imperative
 imperiled
 imputed
+in a league of [my,his,her,our,their] own
 in a tizzy
 in high regard
 in shape
@@ -228,6 +237,7 @@ isometric
 it has a mind of its own
 it predates $$random_word by $$number years
 iterative
+itsy bitsy
 just a tad
 juvenile
 keepsake
@@ -235,6 +245,7 @@ laid-back
 lame
 largest in the world
 latent
+least of all
 legendary
 legit
 lengthy
@@ -243,6 +254,7 @@ likely
 lilting
 loose
 lord
+loud
 lousy
 low cheekbones
 low cost
@@ -253,12 +265,14 @@ Mammalia
 maniacal
 manic
 marred
+matter-of-fact
 mean
 measly
 medial
 medium-sized
 meritous
 merry
+middling
 mild
 miniature
 mint condition
@@ -275,6 +289,7 @@ mutated
 mute
 mythic
 mythical
+n-ary
 nameless
 natural
 nemisis
@@ -285,7 +300,9 @@ no-fee
 no-hassle
 noble
 nonexistent
+nonsensical
 not a lot
+numerous
 nutritious
 obdurate
 of great stature
@@ -308,10 +325,13 @@ petty
 philosophic
 plagiarized
 porky
+potted
 powerful
 precipitous
 pricey
 primal
+primeval
+primordial
 pristine
 promontory
 quaint
@@ -407,6 +427,8 @@ smallest in the world
 smart
 snappy
 snazzy
+sneaky
+snide
 snippy
 sober
 sobering
@@ -448,6 +470,7 @@ sympathetic
 synthetic
 tacky
 tactical
+tagged
 taken
 tall
 tangled
@@ -456,6 +479,7 @@ tawdry
 temporary
 ten feet tall
 tensile
+terete
 terrestrial
 testy
 theatrical
@@ -482,6 +506,7 @@ undefined
 unequal
 uneven
 unfit
+unforeseen
 unguarded
 united
 unshakable

@@ -6,6 +6,7 @@ $$random_word reflected in the window of a $$random_word
 a quarter of the way
 a stone's throw from
 abutting $$random_word
+across from
 across the table
 adjacent to
 afar
@@ -33,6 +34,7 @@ at the end
 at the start
 back
 back to camera
+behind it
 beside
 between
 betwixt
@@ -55,9 +57,11 @@ down there
 ducking under
 dynamic pose
 ears
+edgewise
 elbow
 encompassing
 ends
+endwise
 everywhere
 eyelevel
 facing_away
@@ -76,6 +80,7 @@ half turn
 halfway
 hands
 hands on hips
+head
 head down
 head forward
 head propped on hand
@@ -84,6 +89,7 @@ hiding place
 high
 high up
 homeward
+in front of
 in line
 in or out?
 in the middle
@@ -136,7 +142,9 @@ on tiptoes
 on a display podium
 on the ground
 open arms
+opposite
 orientation
+outer
 outward
 over here
 over there

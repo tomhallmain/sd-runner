@@ -18,9 +18,11 @@ acceding
 accelerating
 accentuating
 accepting
+accession
 accolade
 accompanying
 accosting
+accruing
 acing a test
 acrylic painting
 acting
@@ -58,9 +60,11 @@ and how!
 and so, [[I,you,he,she,we,they]] $$random_word
 angling
 animal-themed items
+animating
 announcing
 annoy
 anointing
+answer
 Any questions?
 apologizing
 appearing
@@ -81,6 +85,7 @@ arrival
 arriving
 art from around the world
 art or coffee table books
+artful dodge
 arts and crafts
 as I suspected
 as long as $$random_word is $$random_word
@@ -100,10 +105,13 @@ augurs
 autographed pictures or other items
 availing
 avoiding
+awakening
 Awooo!
 aye aye
 babbling
+backpedaling
 bad joke
+badgering
 badminton
 baking
 baking a cake
@@ -157,6 +165,7 @@ boarding up
 boing
 bolstering
 booby trap
+booing
 book club
 bookkeeping
 boss fight
@@ -270,6 +279,7 @@ coming up
 commissioning
 communion
 complementing
+complimenting
 computer hobbies
 concealing
 concert or choir photography
@@ -338,10 +348,13 @@ defending
 defense
 dehumidification
 deifying
+delighting
 delivering
 delving
 demoing
+demoting
 demurring
+denoting
 denouement
 denouncing
 departure
@@ -373,6 +386,7 @@ do one
 do we have a deal?
 doffs
 dog show
+doing
 doing $$random_word
 doing a t pose
 doing a trick
@@ -394,6 +408,7 @@ don't sweat it
 donating
 doodling
 dousing the $$random_word
+dovetailing
 drafted
 drafting
 drag racing
@@ -434,6 +449,7 @@ embargo
 embarking
 embezzling
 embroidery
+emergency
 emerging
 emitting
 emote
@@ -444,10 +460,12 @@ encoding
 encouraging
 end up $$random_word
 endeavor
+endorsing
 enhance!
 enlivening
 entering
 entertaining
+envisioning
 equippong
 establishing
 estop
@@ -457,6 +475,7 @@ evading
 evaporating
 even I knew that
 evening out
+evoking
 exacting
 examination
 examining
@@ -467,6 +486,8 @@ exfiltration
 exhaling
 exile
 expecting
+expediting
+expedition
 experimenting
 expertly
 explaining
@@ -507,6 +528,7 @@ filling up
 film watching/review
 finale
 financing
+firing
 fishing
 fitness
 fixing to $$random_word
@@ -537,6 +559,7 @@ freezing
 fretting
 frisbee
 frolicking
+from: $$random_word to: $$random_word
 fruit-themed decor and items
 frying
 fuming
@@ -545,6 +568,8 @@ furniture building
 fun
 furor
 fussing
+gadding about
+gaffe
 gaining
 gaining sentience
 gambling
@@ -635,6 +660,7 @@ hearing
 heed my warning
 heist
 Hello Kitty items or collectibles
+help is on the way!
 helping
 helping a customer
 heralding
@@ -657,11 +683,13 @@ holding $$random_word
 holding on
 holiday books
 holing up
+hollering
 home decorating
 Homecoming
 homework
 honing
 honking
+honoring
 hop on
 hopping
 hornswoggled
@@ -728,6 +756,7 @@ installing
 integrating
 intending
 intercepting
+intertia
 interview with $$random_word
 interview with bystander
 introducing
@@ -760,6 +789,7 @@ juggling
 jumping
 jumping in a leaf pile
 jumping up in the air
+just for the [[thrill,heck]] of it
 karate
 kawai or Japanese items or collectibles
 kayaking
@@ -828,6 +858,7 @@ looking down
 looking over the edge
 looking up
 losing
+loud thud
 loving
 luck of the draw
 lunge
@@ -842,6 +873,7 @@ magic
 magnets
 maintaining
 maintenance
+make it snappy
 makeup art
 making
 making a beeline for $$random_word
@@ -872,6 +904,7 @@ memorabilia from a specific decade
 memorizing music lyrics
 mentoring
 mergers and acquisitions
+merging
 merriment
 messing around
 metal detecting
@@ -884,7 +917,9 @@ miming
 Minecraft
 miniatures
 mining
+miracle
 mirrors
+misquoting
 mission
 mixing
 mixing a potion
@@ -896,6 +931,8 @@ model building
 model cars
 model kits
 mollifying
+mollycoddling
+momentum
 morphing
 mosh pit
 motocross
@@ -962,6 +999,7 @@ orating
 ordaning
 ordering
 origami
+oscillating
 ouija
 out to lunch
 overloading
@@ -970,7 +1008,9 @@ oversleeping
 overstating
 overstepping
 owning
+pacing
 packing
+pact
 pageant
 painting a fence
 painting a picture
@@ -1094,6 +1134,7 @@ purging
 purveying
 pushing
 putting
+putting it in the kiln
 putting on an act
 putting out $$random_word
 puzzles
@@ -1103,6 +1144,7 @@ pwning
 quacking
 on a quest
 questing
+question
 quilting
 quip
 quitting
@@ -1128,11 +1170,14 @@ reading literature
 reading music
 ready--set--go!
 realizing
+reanimating
 reaping
 reapplying
 reassigning
+reawakening
 rebuking
 rebuttal
+recanting
 recapping
 receding
 receiving
@@ -1142,6 +1187,7 @@ reciting
 records
 recovering
 red shoe/high heel/glamour items
+redoing
 redoubling
 reducing
 reels
@@ -1154,6 +1200,7 @@ regatta
 reinstalling
 relaxing
 relaying
+relenting
 religious icons
 reloading
 remaining
@@ -1164,10 +1211,12 @@ rent to own
 repast
 repelling
 repenting
+replacing
 requesting
 requiring
 rescuing
 resetting
+resigning
 resisting
 resonating
 resource allocation
@@ -1322,6 +1371,8 @@ sketching
 skiing
 skit
 sky diving
+slacking
+slaking
 slalom
 sledding
 sleeping
@@ -1344,6 +1395,7 @@ snagging
 snapping
 snarfing
 sneaking
+sneezing
 sniggling
 snoring
 snow globes
@@ -1425,6 +1477,7 @@ substituting
 suggesting
 summiting
 surfing
+surging
 surprise ending
 surprising
 surrendering
@@ -1472,6 +1525,7 @@ tea party
 teaching
 teaching a foreign language
 teaching a musical instrument
+team spirit
 tearing
 tee hee
 tell it to the judge
@@ -1507,6 +1561,7 @@ touting
 tracking
 traing
 tranquillizing
+transplanting
 treading
 treadwheel
 treating
@@ -1560,6 +1615,7 @@ upkeep
 uproar
 using an ATM
 uttering
+vacating
 vacuuming
 varying
 vases or ceramics
@@ -1575,6 +1631,7 @@ vintage milk glass
 visiting
 visiting and walking around area gardens
 visiting museums
+Voila!
 Voilà!
 volleyball
 volunteering
@@ -1650,6 +1707,7 @@ wrestling
 wringing
 writing
 writing poetry
+yeaning
 yeesh
 yelling
 yes or no?

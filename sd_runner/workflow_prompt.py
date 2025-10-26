@@ -378,14 +378,45 @@ class WorkflowPromptComfy(WorkflowPrompt):
         self.set_for_class_type("UpscaleModelLoader", "model_name", model)
 
     def set_control_net_image(self, image_path):
+        # NOTE: This method worked with old prompts that used ControlNetApply
+        # It backtraces from ControlNetApply node to find the LoadImage node
         if not image_path:
             return
         self.set_linked_input_node(image_path, ComfyNodeName.CONTROL_NET)
 
+    def set_control_net_image2(self, image_path):
+        # New method for workflows using ControlNetApplyAdvanced
+        # Sets the image directly on LoadImage node (typically node 182 in new controlnet.json workflow)
+        if not image_path:
+            return
+        # Find the LoadImage node that's part of the control net workflow
+        for node_id, node in self.json.items():
+            if node.get(WorkflowPromptComfy.CLASS_TYPE) == ComfyNodeName.LOAD_IMAGE:
+                # Check if this LoadImage connects to nodes used by control net workflow
+                for check_node_id, check_node in self.json.items():
+                    inputs = check_node.get(WorkflowPromptComfy.INPUTS, {})
+                    # Check all inputs in this node
+                    for key, value in inputs.items():
+                        if isinstance(value, list) and len(value) >= 2 and value[0] == node_id:
+                            # This node uses our LoadImage as input
+                            class_type = check_node.get(WorkflowPromptComfy.CLASS_TYPE, "").lower()
+                            # Check if it's connected to control net, depth, or scale nodes
+                            if any(x in class_type for x in ["control", "depth", "scale", "preprocessor"]):
+                                node[WorkflowPromptComfy.INPUTS]["image"] = image_path
+                                return
+                # Fallback: if no control net connection found, use the first LoadImage
+                node[WorkflowPromptComfy.INPUTS]["image"] = image_path
+                return
+
     def set_control_net_strength(self, strength):
         if not strength:
             return
-        self.set_for_class_type(ComfyNodeName.CONTROL_NET, "strength", strength)
+        # Try to set strength on ControlNetApply first, then ControlNetApplyAdvanced
+        try:
+            self.set_for_class_type(ComfyNodeName.CONTROL_NET, "strength", strength)
+        except Exception:
+            # Fallback to ControlNetApplyAdvanced
+            self.set_for_class_type("ControlNetApplyAdvanced", "strength", strength)
 
     def set_control_net(self, control_net):
         if not control_net:
