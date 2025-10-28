@@ -1,7 +1,7 @@
 from datetime import datetime
 import time
 import os
-from tkinter import Toplevel, Frame, Label, StringVar, Entry, Scrollbar, messagebox, Text
+from tkinter import Toplevel, Frame, Label, StringVar, Entry, Scrollbar, Text
 import tkinter.font as fnt
 from tkinter.ttk import Button, Notebook, Treeview
 from typing import Optional, Any
@@ -424,14 +424,16 @@ class ModelsWindow:
         """Show LoRA information window for the selected LoRA."""
         # Check if safetriggers functionality is available
         if not is_safetriggers_available():
-            messagebox.showwarning(_("Feature Unavailable"), 
-                                 _("LoRA trigger extraction is not available.\n\nThis may be due to missing dependencies or import errors."))
+            self.app_actions.alert(_("Feature Unavailable"), 
+                                 _("LoRA trigger extraction is not available.\n\nThis may be due to missing dependencies or import errors."),
+                                 kind="warning", master=self.master)
             return
             
         try:
             selection = self.ad_tree.selection()
             if not selection:
-                messagebox.showwarning(_("No Selection"), _("Please select a LoRA to view information."))
+                self.app_actions.alert(_("No Selection"), _("Please select a LoRA to view information."),
+                                      kind="warning", master=self.master)
                 return
             
             # Get the selected item's text (model name)
@@ -440,22 +442,25 @@ class ModelsWindow:
             # Find the model
             model = Model.LORAS.get(model_name)
             if not model:
-                messagebox.showerror(_("Error"), _("Model not found: {0}").format(model_name))
+                self.app_actions.alert(_("Error"), _("Model not found: {0}").format(model_name),
+                                      kind="error", master=self.master)
                 return
             
             # Open the LoRA info window
-            LoRAInfoWindow(self.master, model)
+            LoRAInfoWindow(self.master, model, self.app_actions)
                 
         except Exception as e:
-            messagebox.showerror(_("Error"), _("Failed to show LoRA information: {0}").format(str(e)))
+            self.app_actions.alert(_("Error"), _("Failed to show LoRA information: {0}").format(str(e)),
+                                   kind="error", master=self.master)
 
 
 class LoRAInfoWindow:
     """Window for displaying detailed LoRA information including triggers."""
     
-    def __init__(self, master: Toplevel, model: Model):
+    def __init__(self, master: Toplevel, model: Model, app_actions: Any):
         self.master = master
         self.model = model
+        self.app_actions = app_actions
         
         # Create the window
         self.window = Toplevel(master, bg=AppStyle.BG_COLOR)
@@ -658,8 +663,9 @@ class LoRAInfoWindow:
         """Create a .safetriggers file for the LoRA."""
         # Check if safetriggers functionality is available
         if not is_safetriggers_available():
-            messagebox.showerror(_("Feature Unavailable"), 
-                               _("Cannot create .safetriggers file: trigger extraction is not available."))
+            self.app_actions.alert(_("Feature Unavailable"), 
+                               _("Cannot create .safetriggers file: trigger extraction is not available."),
+                               kind="error", master=self.window)
             return
             
         try:
@@ -670,7 +676,8 @@ class LoRAInfoWindow:
                 file_path += '.safetensors'
             
             if not os.path.exists(file_path):
-                messagebox.showerror(_("Error"), _("LoRA file not found: {0}").format(file_path))
+                self.app_actions.alert(_("Error"), _("LoRA file not found: {0}").format(file_path),
+                                      kind="error", master=self.window)
                 return
             
             # Create the .safetriggers file
@@ -678,12 +685,15 @@ class LoRAInfoWindow:
             
             if success:
                 safetriggers_path = file_path.replace('.safetensors', '.safetriggers')
-                messagebox.showinfo(_("Success"), 
-                                 _("Created .safetriggers file:\n{0}").format(safetriggers_path))
+                self.app_actions.alert(_("Success"), 
+                                 _("Created .safetriggers file:\n{0}").format(safetriggers_path),
+                                 kind="info", master=self.window)
             else:
-                messagebox.showerror(_("Error"), _("Failed to create .safetriggers file"))
+                self.app_actions.alert(_("Error"), _("Failed to create .safetriggers file"),
+                                      kind="error", master=self.window)
                 
         except Exception as e:
-            messagebox.showerror(_("Error"), _("Failed to create .safetriggers file: {0}").format(str(e)))
+            self.app_actions.alert(_("Error"), _("Failed to create .safetriggers file: {0}").format(str(e)),
+                                   kind="error", master=self.window)
 
 

@@ -488,7 +488,7 @@ class PasswordAdminWindow():
         """Show a toast if available, otherwise use a messagebox (info or error)."""
         if hasattr(self, 'app_actions') and hasattr(self.app_actions, 'toast'):
             if error:
-                self.app_actions.alert("Administration Error", message, kind="error")
+                self.app_actions.alert("Administration Error", message, kind="error", master=self.master)
             else:
                 self.app_actions.toast(message)
         else:

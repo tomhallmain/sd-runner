@@ -22,11 +22,12 @@ class ExpansionModifyWindow():
     top_level = None
     COL_0_WIDTH = 600
 
-    def __init__(self, master, refresh_callback, expansion, dimensions="600x600"):
+    def __init__(self, master, refresh_callback, expansion, app_actions, dimensions="600x600"):
         ExpansionModifyWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
         ExpansionModifyWindow.top_level.geometry(dimensions)
         self.master = ExpansionModifyWindow.top_level
         self.refresh_callback = refresh_callback
+        self.app_actions = app_actions
         self.expansion = expansion if expansion is not None else Expansion("", "")
         ExpansionModifyWindow.top_level.title(_("Modify Expansion: {0}").format(self.expansion.id))
 
@@ -77,9 +78,12 @@ class ExpansionModifyWindow():
         if self.check_wildcard_clash():
             self.master.update()
             # Show confirmation dialog
-            from tkinter import messagebox
-            if not messagebox.askyesno(_("Warning"), 
-                _("This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n\nDo you want to save anyway?")):
+            if not self.app_actions.alert(
+                _("Warning"), 
+                _("This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n\nDo you want to save anyway?"),
+                kind="askyesno",
+                master=self.master
+            ):
                 return  # User chose not to save
 
         self.expansion.id = self.new_expansion_name.get()
@@ -256,7 +260,7 @@ class ExpansionsWindow():
     def open_expansion_modify_window(self, event=None, expansion=None):
         if ExpansionsWindow.expansion_modify_window is not None:
             ExpansionsWindow.expansion_modify_window.master.destroy()
-        ExpansionsWindow.expansion_modify_window = ExpansionModifyWindow(self.master, self.refresh_expansions, expansion)
+        ExpansionsWindow.expansion_modify_window = ExpansionModifyWindow(self.master, self.refresh_expansions, expansion, self.app_actions)
 
     def refresh_expansions(self, expansion):
         ExpansionsWindow.update_history(expansion)

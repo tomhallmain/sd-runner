@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Dict
 
-from tkinter import Entry, Frame, Label, StringVar, messagebox, LEFT, W, Listbox, END, SINGLE, BOTH, Y, Scrollbar, Checkbutton, IntVar, Toplevel, filedialog
+from tkinter import Entry, Frame, Label, StringVar, LEFT, W, Listbox, END, SINGLE, BOTH, Y, Scrollbar, Checkbutton, IntVar, Toplevel, filedialog
 from tkinter.ttk import Button, Combobox
 
 from sd_runner.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
@@ -267,7 +267,7 @@ class ConceptEditorWindow():
             
         selected_file = self.file_combo.get()
         if not selected_file:
-            messagebox.showerror(_("Error"), _("Please select a file to save to"))
+            self.app_actions.alert(_("Error"), _("Please select a file to save to"), kind="error", master=self.master)
             return
             
         # Load current concepts from file
@@ -303,7 +303,7 @@ class ConceptEditorWindow():
         if not self.current_concept or not self.current_file:
             return
             
-        if messagebox.askyesno(_("Confirm"), _("Delete concept: {0}?").format(self.current_concept)):
+        if self.app_actions.alert(_("Confirm"), _("Delete concept: {0}?").format(self.current_concept), kind="askyesno", master=self.master):
             concepts = self.get_concepts_from_file(self.current_file)
             if self.current_concept in concepts:
                 concepts.remove(self.current_concept)
@@ -326,7 +326,7 @@ class ConceptEditorWindow():
         # Get target file
         target_file = self.file_combo.get()
         if not target_file:
-            messagebox.showerror(_("Error"), _("Please select a target file first"))
+            self.app_actions.alert(_("Error"), _("Please select a target file first"), kind="error", master=self.master)
             return
             
         # Open file dialog
@@ -345,7 +345,7 @@ class ConceptEditorWindow():
         try:    
             imported, failed = Concepts.import_concepts(import_file, target_file, category_states)
         except Exception as e:
-            messagebox.showerror(_("Error"), str(e))
+            self.app_actions.alert(_("Error"), str(e), kind="error", master=self.master)
             return
         
         # Show results
@@ -357,7 +357,7 @@ class ConceptEditorWindow():
                 msg.append(_("{0} concepts were not imported (see {1}_failed_import.txt for details)").format(
                     len(failed), Path(import_file).stem))
             msg.append(_("Tip: You can prepend '!' to any concept line to force importation, or use simply use the concept name as a search term to force import."))
-            messagebox.showinfo(_("Import Results"), "\n\n".join(msg))
+            self.app_actions.alert(_("Import Results"), "\n\n".join(msg), kind="info", master=self.master)
             
             # Refresh the view
             self.refresh()

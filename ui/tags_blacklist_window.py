@@ -1,6 +1,6 @@
 from typing import Callable, Optional
 
-from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W, BooleanVar, Checkbutton, Scrollbar, Listbox, IntVar, messagebox
+from tkinter import Toplevel, Entry, Frame, Label, StringVar, filedialog, LEFT, W, BooleanVar, Checkbutton, Scrollbar, Listbox, IntVar
 import tkinter.font as fnt
 from tkinter.ttk import Button, Combobox, Notebook
 
@@ -23,11 +23,12 @@ class BlacklistModifyWindow():
     top_level = None
     COL_0_WIDTH = 600
 
-    def __init__(self, master, refresh_callback: Callable, blacklist_item: BlacklistItem, dimensions: str = "600x400"):
+    def __init__(self, master, refresh_callback: Callable, blacklist_item: BlacklistItem, app_actions, dimensions: str = "600x400"):
         BlacklistModifyWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
         BlacklistModifyWindow.top_level.geometry(dimensions)
         self.master = BlacklistModifyWindow.top_level
         self.refresh_callback = refresh_callback
+        self.app_actions = app_actions
         self.is_new_item = blacklist_item is None
         self.original_string = "" if self.is_new_item else blacklist_item.string
         self.blacklist_item: BlacklistItem = BlacklistItem("", enabled=True, use_regex=False, use_word_boundary=True, use_space_as_optional_nonword=True) if self.is_new_item else blacklist_item
@@ -143,7 +144,7 @@ class BlacklistModifyWindow():
         string = self.new_string.get().strip()
         if not string:
             self.master.update()
-            messagebox.showerror(_("Error"), _("Blacklist string cannot be empty."))
+            self.app_actions.alert(_("Error"), _("Blacklist string cannot be empty."), kind="error", master=self.master)
             return None
 
         # Get exception pattern, convert empty string to None
@@ -191,7 +192,7 @@ class BlacklistModifyWindow():
 
     def close_windows(self, event=None, override_check=False):
         if not override_check and self._has_changes():
-            response = messagebox.askyesnocancel(_("Unsaved Changes"), _("Do you want to save changes before closing?"))
+            response = self.app_actions.alert(_("Unsaved Changes"), _("Do you want to save changes before closing?"), kind="askyesnocancel", master=self.master)
             if response is True:  # User clicked Yes
                 self.finalize_blacklist_item()
             elif response is False:  # User clicked No
@@ -320,7 +321,7 @@ class BlacklistPreviewWindow:
             error_msg = _("Error loading concepts: {0}").format(str(e))
             self.count_label.config(text=error_msg)
             if self.app_actions:
-                self.app_actions.alert(_("Error"), error_msg, kind="error")
+                self.app_actions.alert(_("Error"), error_msg, kind="error", master=self.master)
 
 
 class BlacklistWindow():
@@ -422,14 +423,15 @@ If you are young, not sure, or even an adult, click the close button on this win
         # Show confirmation dialog before loading default if not in default state
         if not self.is_in_default_state() and len(Blacklist.get_items()) > 0:
             # There are items in the blacklist, so we need to confirm the user wants to load the default
-            response = messagebox.askyesno(
+            response = self.app_actions.alert(
                 _("Confirm Load Default Blacklist"),
                 _("Are you sure you want to load the default blacklist?\n\n"
                 "⚠️ WARNING: This will erase your current blacklist and replace it with the default items.\n"
                 "• All your current blacklist items will be permanently deleted\n"
                 "• You will need to rebuild your blacklist from scratch if you want to restore it later\n\n"
                 "Do you want to continue?"),
-                icon='warning'
+                kind="askyesno",
+                master=self.master
             )
             if not response:
                 return  # User cancelled
@@ -441,7 +443,7 @@ If you are young, not sure, or even an adult, click the close button on this win
             # Mark that user has confirmed they want a non-default state
             app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, False)
         except Exception as e:
-            self.app_actions.alert(_("Error loading default blacklist"), str(e), kind="error")
+            self.app_actions.alert(_("Error loading default blacklist"), str(e), kind="error", master=self.master)
 
     @staticmethod
     def get_history_item(start_index=0):
@@ -786,7 +788,7 @@ If you are young, not sure, or even an adult, click the close button on this win
     def open_blacklist_modify_window(self, event=None, blacklist_item: Optional[BlacklistItem] = None):
         if BlacklistWindow.blacklist_modify_window is not None:
             BlacklistWindow.blacklist_modify_window.master.destroy()
-        BlacklistWindow.blacklist_modify_window = BlacklistModifyWindow(self.master, self.refresh_blacklist_item, blacklist_item)
+        BlacklistWindow.blacklist_modify_window = BlacklistModifyWindow(self.master, self.refresh_blacklist_item, blacklist_item, self.app_actions)
 
     def refresh_blacklist_item(self, blacklist_item: BlacklistItem, is_new_item: bool, original_string: str):
         """Callback for when a blacklist item is created or modified"""
@@ -862,7 +864,7 @@ If you are young, not sure, or even an adult, click the close button on this win
         if item is None:
             return
         if item.strip() == "":
-            self.app_actions.alert(_("Warning"), _("Please enter a string to add to the blacklist."), kind="warning")
+            self.app_actions.alert(_("Warning"), _("Please enter a string to add to the blacklist."), kind="warning", master=self.master)
             return
 
         # Add item to blacklist with regex setting from checkbox
@@ -951,7 +953,7 @@ If you are young, not sure, or even an adult, click the close button on this win
     @require_password(ProtectedActions.EDIT_BLACKLIST, ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
     def clear_items(self, event=None):
         # Show confirmation dialog before clearing
-        response = messagebox.askyesno(
+        response = self.app_actions.alert(
             _("Confirm Clear Blacklist"),
             _("Are you sure you want to clear all blacklist items?\n\n"
               "⚠️ WARNING: This action cannot be undone!\n"
@@ -959,7 +961,8 @@ If you are young, not sure, or even an adult, click the close button on this win
               "• The blacklist helps improve image output quality\n"
               "• You will need to rebuild your blacklist from scratch\n\n"
               "Do you want to continue?"),
-            icon='warning'
+            kind="askyesno",
+            master=self.master
         )
         
         if not response:
@@ -1061,7 +1064,7 @@ If you are young, not sure, or even an adult, click the close button on this win
     @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
     def preview_all_models(self, event=None):
         """Show preview of all models filtered by any model blacklist item."""
-        self.app_actions.alert("Preview all models not implemented yet", kind="error")
+        self.app_actions.alert("Preview all models not implemented yet", kind="error", master=self.master)
         # TODO: Implement this
         # BlacklistPreviewWindow(self.master, self.app_actions, None, blacklist_type="model")
 
@@ -1096,7 +1099,7 @@ If you are young, not sure, or even an adult, click the close button on this win
             
             self.app_actions.toast(_("Successfully imported blacklist"))
         except Exception as e:
-            self.app_actions.alert(_("Import Error"), str(e), kind="error")
+            self.app_actions.alert(_("Import Error"), str(e), kind="error", master=self.master)
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def export_blacklist(self, event=None):
@@ -1124,7 +1127,7 @@ If you are young, not sure, or even an adult, click the close button on this win
             
             self.app_actions.toast(_("Successfully exported blacklist"))
         except Exception as e:
-            self.app_actions.alert(_("Export Error"), str(e), kind="error")
+            self.app_actions.alert(_("Export Error"), str(e), kind="error", master=self.master)
 
     def on_mode_change(self, event=None):
         try:
@@ -1177,7 +1180,7 @@ If you are young, not sure, or even an adult, click the close button on this win
     def open_model_blacklist_modify_window(self, event=None, blacklist_item: Optional[BlacklistItem] = None):
         if BlacklistWindow.blacklist_modify_window is not None:
             BlacklistWindow.blacklist_modify_window.master.destroy()
-        BlacklistWindow.blacklist_modify_window = BlacklistModifyWindow(self.master, self.refresh_model_blacklist_item, blacklist_item)
+        BlacklistWindow.blacklist_modify_window = BlacklistModifyWindow(self.master, self.refresh_model_blacklist_item, blacklist_item, self.app_actions)
         # Set type to model for new items
         if blacklist_item is None:
             BlacklistWindow.blacklist_modify_window.blacklist_item.blacklist_type = "model"
@@ -1263,7 +1266,7 @@ If you are young, not sure, or even an adult, click the close button on this win
             
             self.app_actions.toast(_("Successfully imported model blacklist"))
         except Exception as e:
-            self.app_actions.alert(_("Import Error"), str(e), kind="error")
+            self.app_actions.alert(_("Import Error"), str(e), kind="error", master=self.master)
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def export_model_blacklist(self, event=None):
@@ -1284,4 +1287,4 @@ If you are young, not sure, or even an adult, click the close button on this win
             
             self.app_actions.toast(_("Successfully exported model blacklist"))
         except Exception as e:
-            self.app_actions.alert(_("Export Error"), str(e), kind="error")
+            self.app_actions.alert(_("Export Error"), str(e), kind="error", master=self.master)

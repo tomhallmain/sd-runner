@@ -1,6 +1,6 @@
 import os
 
-from tkinter import Frame, Label, filedialog, messagebox, LEFT, W
+from tkinter import Frame, Label, filedialog, LEFT, W
 from tkinter.ttk import Button
 
 from utils.app_info_cache import app_info_cache
