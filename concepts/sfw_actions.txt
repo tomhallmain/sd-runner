@@ -5,6 +5,7 @@ $$random_word-a-thon
 $$random_word-eve
 [[he's,she's]] coming to
 3D puzzles
+[[I hope,you hope,he hopes,she hopes,we hope,they hope]] so
 [[I,you,he,she,we,they]] can't
 [[I,you,he,she,we,you all,they]] have no plans
 [[I,You,We,They]]'re free!
@@ -14,6 +15,7 @@ abandoning
 abjuring
 absconding
 absorbing
+absorption
 acceding
 accelerating
 accentuating
@@ -28,7 +30,9 @@ acrylic painting
 acting
 acting in a play
 acting up
+acupuncture
 ad lib
+adding on to
 addressing
 administering
 admitting
@@ -50,6 +54,7 @@ alienated
 aligning
 alive and kicking
 all thumbs
+alleging
 allowing
 altering
 amaze
@@ -57,6 +62,7 @@ ambushed
 amnesty
 analyzing
 and how!
+And now without further ado, the moment you've all been waiting for
 and so, [[I,you,he,she,we,they]] $$random_word
 angling
 animal-themed items
@@ -65,6 +71,7 @@ announcing
 annoy
 anointing
 answer
+antics
 Any questions?
 apologizing
 appearing
@@ -92,6 +99,7 @@ as long as $$random_word is $$random_word
 asking
 aspiring
 assaying
+assembling
 assessing
 assisting
 assuaging
@@ -102,10 +110,13 @@ attempting
 attending
 auditing
 augurs
+aura farming
 autographed pictures or other items
 availing
 avoiding
+await
 awakening
+awarding
 Awooo!
 aye aye
 babbling
@@ -117,6 +128,7 @@ baking
 baking a cake
 baking cookies
 balancing
+banter
 barging into a room
 baring
 barre
@@ -141,6 +153,7 @@ bellowing
 bells
 belonging
 berating
+beseeching
 beset
 beset by $$random_word
 bestowing
@@ -164,6 +177,7 @@ board games
 boarding up
 boing
 bolstering
+bombardment
 booby trap
 booing
 book club
@@ -185,6 +199,7 @@ breastfeeding
 brewery games
 bringing
 budget hearing
+bugling
 building
 building dollhouses
 building wooden toys
@@ -212,6 +227,7 @@ candles
 candlesticks
 cannonball dive
 canter
+cantilevering
 canvas art
 car chase
 card games
@@ -244,6 +260,7 @@ chemical species
 cherishing
 chess
 china patterns
+chirping
 choosing
 chores
 churning
@@ -266,6 +283,7 @@ cold calling
 collaborating
 collage
 collage making
+collapse
 collecting
 collecting model airplanes, matchbox cars, model cars
 collecting tea cups
@@ -275,6 +293,7 @@ colliding
 coloring
 colonizing
 come forth
+coming to
 coming up
 commissioning
 communion
@@ -289,6 +308,7 @@ conquering
 consistory
 conversing
 convincing
+cooing
 cookbooks
 cooking
 cooling down
@@ -300,6 +320,7 @@ cover story
 covering
 crafting 
 cramming
+crash and burn
 crashing
 crawling
 create elaborate dessert bars
@@ -376,6 +397,7 @@ digging up $$random_word
 dinner party
 dipping
 disbursing
+disclosing
 discovering
 dishing it out
 dismounting
@@ -386,6 +408,7 @@ do one
 do we have a deal?
 doffs
 dog show
+dog sledding
 doing
 doing $$random_word
 doing a t pose
@@ -413,6 +436,7 @@ drafted
 drafting
 drag racing
 dragging
+draining
 drat
 drawing
 dressing up
@@ -472,6 +496,7 @@ estop
 et tu?
 evacuating
 evading
+evaluating
 evaporating
 even I knew that
 evening out
@@ -493,10 +518,13 @@ expertly
 explaining
 exploits
 exploring
+extolling
 extortion
 extravaganza
 extreme sports
+exuding
 eye rolling
+fail compilation
 fakery
 falling
 false alarm
@@ -512,6 +540,7 @@ feeding
 feeling
 feeling cramped
 feigning
+feint
 fell swoop
 felt arts
 fencing
@@ -537,6 +566,7 @@ flare up of $$random_word
 fleeing
 fling
 flip [[your,my]] lid
+Flip-cup
 flipping
 flipping out
 flitting about
@@ -553,6 +583,7 @@ following
 football
 foresaking
 forging
+fought
 found [[you,it]] !
 freaking out
 freezing
@@ -619,6 +650,7 @@ Good riddance
 gossiping
 got the morbs
 gracing
+grand slam
 griping
 growing
 growing bonsai
@@ -643,6 +675,7 @@ happening
 harassing
 hard at work
 hark!
+harmonizing
 harvesting crops
 hastening
 hatching
@@ -658,6 +691,7 @@ headbanging
 healing
 hearing
 heed my warning
+Heh-gotcha!
 heist
 Hello Kitty items or collectibles
 help is on the way!
@@ -678,6 +712,7 @@ hit paydirt
 hit the ceiling
 hitching
 hits home
+hitting a drive
 holding
 holding $$random_word
 holding on
@@ -688,6 +723,7 @@ home decorating
 Homecoming
 homework
 honing
+honing in
 honking
 honoring
 hop on
@@ -723,6 +759,7 @@ I'll do this later
 I'll say
 I'm out
 I've had it!
+I've seen enough
 ice hockey
 ice skating
 identifying
@@ -731,6 +768,7 @@ ignoring
 illustrating
 imagination
 imbuing
+imitating
 imitating $$character
 implying
 improv
@@ -782,6 +820,7 @@ joining a choir
 joke
 joking
 jotting
+Jubilee
 judging
 judo
 juggling
@@ -805,6 +844,7 @@ knock knock
 knocking
 know what I'm saying?
 lagging
+laid to rest
 lamenting
 lapping
 lapsing
@@ -844,6 +884,7 @@ levitating
 lickety split
 lie to
 lifting
+limbering up
 lingering
 lip reading
 listening
@@ -858,6 +899,7 @@ looking down
 looking over the edge
 looking up
 losing
+lost pet
 loud thud
 loving
 luck of the draw
@@ -977,6 +1019,7 @@ officiating
 oh go off
 oh no you [[ain't,didn't]]!
 oil painting
+OK--now!
 on a date
 on a field trip
 on a game show
@@ -1002,6 +1045,7 @@ origami
 oscillating
 ouija
 out to lunch
+overflowing
 overloading
 overruled!
 oversleeping
@@ -1040,6 +1084,7 @@ paving
 paying
 paying dues
 paying the toll
+pedantry
 peel
 peering
 people watching
@@ -1049,6 +1094,7 @@ perks
 permit
 persisting
 pestering
+pet adoption
 pet care
 petting cat
 petting dog
@@ -1082,6 +1128,7 @@ playing pool
 playing sport
 playing tag
 playing the lottery
+playing the oboe
 playing trumpet
 playing video games
 playing violin
@@ -1106,6 +1153,7 @@ postcards
 pottery/ceramics
 pouring
 powerwashing
+prattling
 praying
 presenting
 preserving florals and stems such as drying eucalyptus 
@@ -1145,6 +1193,7 @@ quacking
 on a quest
 questing
 question
+quibbling
 quilting
 quip
 quitting
@@ -1177,6 +1226,7 @@ reassigning
 reawakening
 rebuking
 rebuttal
+rebutting
 recanting
 recapping
 receding
@@ -1187,11 +1237,14 @@ reciting
 records
 recovering
 red shoe/high heel/glamour items
+redo
 redoing
 redoubling
 reducing
 reels
 reentering
+referring
+refitting
 reflecting
 refusing
 refuted
@@ -1200,6 +1253,7 @@ regatta
 reinstalling
 relaxing
 relaying
+releasing
 relenting
 religious icons
 reloading
@@ -1215,6 +1269,7 @@ replacing
 requesting
 requiring
 rescuing
+resealing
 resetting
 resigning
 resisting
@@ -1237,6 +1292,7 @@ revelry
 revering
 revival
 revving
+ribbing
 ribbon cutting ceremony
 ricochet
 riding
@@ -1308,6 +1364,7 @@ scuba diving
 sculpture
 sea shells
 seal the deal
+sealing
 seance
 search and rescue
 see to it that $$random_word
@@ -1336,6 +1393,7 @@ shaking hands
 shaming
 shaving his beard
 sheet music
+shenanigans
 shielding
 shimmying
 shocking
@@ -1355,12 +1413,14 @@ shunning
 shunting
 shut up
 shutting down
+sidling
 sightseeing
 sign up today
 signing [[the,my,]] $$random_word
 singing
 singing (solo)
 singing sea shanties
+sinking in
 sipping
 sitting
 sitting in on
@@ -1379,6 +1439,8 @@ sleeping
 sleeping in
 slide
 sliding
+slipping in
+slithering
 sloshing
 slot machines
 slowing down
@@ -1409,6 +1471,7 @@ so then I says to the guy I says " $random_word !"
 soccer
 solving
 song and dance
+sought
 sowing seeds
 sparing
 speaking
@@ -1450,6 +1513,7 @@ sterilizing
 sticker collecting
 sticking
 stickling
+stifling
 stint
 stirring
 stoking
@@ -1461,6 +1525,7 @@ straddling
 straightening
 stressing [[me,myself,you,him,her,us,them]] out
 stretching
+striding
 striking
 striking flint
 string art
@@ -1483,11 +1548,14 @@ surprising
 surrendering
 surveying
 swarm
+swaying
 swearing in
+sweeping up
 swimming
 swimming
 swinging
 switching
+swiveling
 sword dance
 table tennis
 tabletop games
@@ -1529,18 +1597,22 @@ team spirit
 tearing
 tee hee
 tell it to the judge
+tell me
 telling
 tending
 tennis
 testing
 themed model kits
+Think again
 thinking
+thinking about it
 throwing
 throwing a ball
 throwing a grenade
 throwing a javelin
 throwing the first pitch
 thud
+thump
 thundering
 thwarted
 thwarting
@@ -1576,6 +1648,8 @@ try [[this,it]]
 tsking a detour
 tumbling
 tuning
+tuning in
+turning in
 turning to stone
 tutoring
 twiddle
@@ -1601,11 +1675,13 @@ undergoing
 understanding
 understating
 undertaking
+undo
 undoing
 unique spices, teas, coffees
 unrolling
 unseating
 unusual or hard to find candy
+unwrapping
 up and about
 up to no good
 up to something
@@ -1613,10 +1689,12 @@ upcycled art
 upend
 upkeep
 uproar
+ushering in
 using an ATM
 uttering
 vacating
 vacuuming
+vaporizing
 varying
 vases or ceramics
 vaunting
@@ -1624,6 +1702,7 @@ veering
 venting
 vertigo
 video games
+viewing
 vintage bottles
 vintage costume design
 vintage glass
@@ -1670,7 +1749,9 @@ well done
 wham
 whap
 what a blast
+What a day
 what a ripoff
+what does this portend?
 What in the world!?
 what now?
 what of it?
@@ -1681,6 +1762,7 @@ whirring
 whitesmithing
 who goes there?
 Who's with me?
+wicking
 wield
 wiggling
 wind surfing
@@ -1709,8 +1791,10 @@ writing
 writing poetry
 yeaning
 yeesh
+yeeting
 yelling
 yes or no?
+yes you
 Yessirree
 yippee!
 yodeling

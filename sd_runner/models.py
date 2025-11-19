@@ -275,6 +275,11 @@ class Model:
             lora_strength = float(parts[1])
             if len(parts) > 2:
                 lora_strength_clip = float(parts[2])
+        # Strip common file extensions to support lookup with or without extension
+        if '.' in model_tag:
+            ext = model_tag.lower().split('.')[-1]
+            if ext in ('safetensors', 'ckpt', 'pth', 'pt'):
+                model_tag = model_tag.rsplit('.', 1)[0]
         model_tag = model_tag.lower()
         model = None
         for _model_name in models:

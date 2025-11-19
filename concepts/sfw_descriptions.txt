@@ -4,9 +4,13 @@ $$random_word-sized
 a far cry from $$random_word
 A-list
 A-OK
+absentminded
+absentmindedly
 abundant
+acceptable
 accredited
 acumen
+add-on
 adorable
 adrift
 affable
@@ -32,6 +36,7 @@ arduous
 arioso
 arisen
 as thin as a hair
+ascendant
 aspiration
 astute
 at a loss
@@ -39,6 +44,7 @@ athwart
 atonal
 available
 average
+aware
 awash
 backdated
 ballistic
@@ -65,6 +71,7 @@ brazen
 brilliant
 bulbous
 burdensome
+bushy-tailed
 by-the-book
 callous
 certain
@@ -73,7 +80,9 @@ charred
 cheap
 cleft
 cliché
+cognizant
 coherent
+collapsed
 committed
 complementary
 complimentary
@@ -122,6 +131,7 @@ emblazoned
 eminent
 endorsed
 enhanced
+enlarged
 entwined
 epic
 equipped
@@ -136,10 +146,12 @@ existential
 exorbitant
 expeditious
 expidited
+extant
 extemporaneous
 extra-large
 extra-small
 fabled
+failsafe
 famous
 far-out
 fastidious
@@ -152,10 +164,12 @@ fine
 fine and dandy
 firm
 fixed
+flattened
 flawed
 flim-flam
 flimsy
 floppy
+floppy-eared
 foliate
 foolhardy
 foolish
@@ -164,6 +178,7 @@ foresaken
 fortuitous
 fragmented
 frail
+frenetic
 fresh
 frizzy
 frozen
@@ -177,6 +192,7 @@ gaunt
 genius
 gifted
 glacial
+glistening
 goalie
 godlike
 godly
@@ -198,11 +214,13 @@ hidden
 high cheekbones
 high-strung
 hollow
+honed
 honest
 honorable
 humane
 hydraulic
 hyper
+iffy
 imaginary
 imbued
 immortal
@@ -218,6 +236,7 @@ incedental
 incendiary?
 inctremental
 indefinite
+inexact
 infernal
 innate
 inscrutable
@@ -240,6 +259,7 @@ iterative
 itsy bitsy
 just a tad
 juvenile
+keen
 keepsake
 laid-back
 lame
@@ -287,6 +307,7 @@ multilane
 mundane
 mutated
 mute
+myriad
 mythic
 mythical
 n-ary
@@ -295,9 +316,11 @@ natural
 nemisis
 nifty
 no brainer
+no less
 no-contest
 no-fee
 no-hassle
+no-name
 noble
 nonexistent
 nonsensical
@@ -305,17 +328,21 @@ not a lot
 numerous
 nutritious
 obdurate
+oblate
 of great stature
 one of the good ones
 oomph
+opportunistic
 original
 ostentatious
+overbearing
 overloaded
 overt
 palacial
 parsimonious
 parted
 particular
+pedantic
 pending
 performative
 perilous
@@ -323,7 +350,9 @@ personable
 personal
 petty
 philosophic
+placid
 plagiarized
+poetic
 porky
 potted
 powerful
@@ -336,6 +365,7 @@ pristine
 promontory
 quaint
 rare
+raspy
 rather
 ready
 redoubtable
@@ -356,6 +386,7 @@ roomy
 rotary
 rotisserie
 routine
+ruffled
 sagging
 sanding
 sandy
@@ -409,6 +440,8 @@ scrawny
 screwy
 scruff
 semidry
+serious
+serious-minded
 shaken
 shaky
 shielded
@@ -425,6 +458,7 @@ slim
 small
 smallest in the world
 smart
+smushed
 snappy
 snazzy
 sneaky
@@ -434,9 +468,11 @@ sober
 sobering
 soulful
 sparkling
+speckled
 spent
 spry
 spunky
+squished
 staid
 stale
 startled
@@ -509,6 +545,7 @@ unfit
 unforeseen
 unguarded
 united
+unserious
 unshakable
 unstable
 unyielding

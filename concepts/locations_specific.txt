@@ -2,21 +2,31 @@ Anglia
 Arcadia
 Catalonia
 Cheltenham
+City of Troy
 Dinaric Alps
 Dixie
 Dolomites
+Econo Lodge
+Home Depot
 Iberia
 Jamestown
 La Zarzuela
+Lake Huron
 lanai
 Oceania
 Ojai California
 parliament
+Pier One
 Renfrew
+Sandringham Estate
+Sheetz
+South Pacific
 The Globe Theatre
 The Hundred-Acre Wood
+The Pale
 the Pyrenees
 Troy
+Twin Cities
 Walden Pond
 Warped Tour
 Coachella
@@ -26,6 +36,7 @@ agartha
 atlantis
 siberia
 transylvania
+Wawa
 Yellow River
 Blue Danube
 Osterreich

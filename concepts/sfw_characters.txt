@@ -9,6 +9,7 @@ adjunct
 admiral
 advertiser
 advocate
+aficionado
 ain't that a shame
 al-Ṣūfī
 Alcaics
@@ -21,6 +22,7 @@ Annette
 Antares
 Apollo
 apologist
+apothecary
 ArcheAge
 are we there yet
 Argonaut
@@ -55,6 +57,9 @@ braggadocio
 bronco
 bub
 buddy
+bugaboo
+bugler
+Bunny Foo-Foo
 bureau
 bushel and a peck
 buster
@@ -84,6 +89,7 @@ churl
 Cindy Lou
 Cirque de Soleil
 claimant
+Claude Cat
 clerk
 Clippy
 composer
@@ -107,6 +113,7 @@ Deus Ex Machina
 didact
 diddly-squat
 ding dong
+diver
 djinn
 Dobby
 donor
@@ -139,6 +146,7 @@ Family Feud
 family friend
 Fido
 Fie
+Fire Emblem
 Firebird
 First Mate
 flagger
@@ -158,6 +166,7 @@ Get outta here!
 Get outta town!
 Ghost in the Shell
 gigglemug
+Giles
 goner
 good grief
 Governor
@@ -199,7 +208,9 @@ iCarly
 Icarus
 Ichabod Crane
 iconoclast
+Idomeneo
 If it is as you say
+Ilia
 ill-gotten gains
 inmate
 Inquisitor
@@ -234,6 +245,7 @@ little ditty
 llanero
 LMAO
 lol
+lolcat
 Lollards
 loudmouth
 MacGuffin
@@ -243,6 +255,7 @@ McNutt
 medic
 meme
 mentor
+Merle
 mess mate
 Messiah
 mind over matter
@@ -261,8 +274,10 @@ NANI!?
 ne'er
 neener neener
 neighbor
+Nelson
 neophyte
 Neurothrope
+Niles
 ninja
 Norton
 notary
@@ -280,6 +295,7 @@ opponent
 Oracle
 orator
 orderly
+Oreos
 Ori and the Blind Forest
 P.F. Flyers
 P.I.
@@ -287,15 +303,20 @@ P.T. Barnum
 park ranger
 parliamentarian
 peddler
+peer group
 Peerage
 PeeWee's Big Adventure
+Pepe Le Pew
+Pepto-Bismol
 perhaps
 Peter Cottontail
 Philistine
 Phineas T. Barnum
+picador
 picaresque
 pick-me-up
 picker-upper
+Picts
 Pingu
 A Team
 pirate
@@ -356,10 +377,12 @@ Shire reeve
 ShyGuy
 Simon & Garfunkel
 Sirius
+skater
 Skull and Crossbones
 sleepers
 sluggard
 slugger
+Snert
 sniper
 so be it
 sonny
@@ -431,6 +454,7 @@ tinkerer
 Titan
 TiVo
 Tonka trucks
+Tonto
 Tony the Tiger
 Toreador
 town crier
@@ -438,12 +462,15 @@ trader
 tradesman
 trope
 tutor
+tuxedo cat
 twat
 ulterior motives
+Ultima Online
 umpire
 undertaker
 urethane
 valkyrie
+vermouth
 Viet Cong
 villain
 villainy
@@ -573,6 +600,7 @@ yeomanry
 Yeti
 Yogi the Bear
 Yoo-Hoo
+Yosemite Sam
 your Honor
 Ysmir
 zing

@@ -17,11 +17,13 @@ abode
 air taxi
 airbnb
 airship
+alee
 ambulance
 amusement park gate
 animal hospital
 apartment
 apiary
+apothecarium
 arcade
 archipelago
 archive
@@ -29,6 +31,7 @@ area
 arroyo
 at the helm
 atoll
+atrium
 auto body shop
 avenue
 backroads
@@ -64,6 +67,7 @@ cistern
 citadel
 city bus
 classical concert
+closet
 cloudy sky
 co-op
 comedy club
@@ -72,6 +76,7 @@ cordoned off
 corral
 corridor
 coulee
+country house
 country road
 covered bridge
 crater
@@ -130,11 +135,16 @@ hiking trail
 historic monument
 historic site
 hive
+home
 home office
+home site
+home turf
 hoogle
+house on stilts
 hummock
 hut
 in orbit
+jetty
 kiosk
 kitchenette
 lane
@@ -142,6 +152,7 @@ law practice
 lea
 ledge
 levee
+lifted house
 limousine
 liquor store
 location
@@ -199,8 +210,11 @@ public house
 radio station
 radio tower
 railing
+raised house
 raised platform
+raised porch
 ravine
+realm
 recreation center
 recreational vehicle - RV
 rehab
@@ -214,6 +228,7 @@ riviera
 roadside
 rooftop
 roost
+rostrum
 route
 route $$number
 rowhouse
@@ -221,6 +236,7 @@ royal court
 sand dunes
 sandbox
 school grounds
+sea lab
 sea lane
 seaport
 seaside
@@ -244,6 +260,8 @@ store
 stowed away
 streetside
 study room
+subdivision
+substation
 suite
 sump
 tatami mats

@@ -43,10 +43,12 @@ braced
 bunched in
 callus
 candid
+cantilevered at
 chin
 close at hand
 closeby
 closest to
+clustered together
 contiguous
 corner
 crouched
@@ -90,9 +92,11 @@ high
 high up
 homeward
 in front of
+in here
 in line
 in or out?
 in the middle
+in there
 in tow
 inclined
 inward
@@ -138,6 +142,7 @@ on a higher level
 on a lower level
 on end
 on target
+on the side
 on tiptoes
 on a display podium
 on the ground
@@ -151,6 +156,7 @@ over there
 over yonder
 overhead
 packed in
+pivoted
 positions
 preceding
 propped up
@@ -165,6 +171,7 @@ reaching up
 receding
 reclined
 reclining
+resting on elbows
 rolling over
 side
 side profile
@@ -175,9 +182,15 @@ sitting
 sprawled
 squatting
 stances
+standing on one foot
+standing up straight
+standing with both hands raised
+standing with one hand raised
+standing with one hand up resting on one foot
 stooping
 t-pose
 that
+therein
 this
 three-fourths of the way
 tilted at an angle
@@ -187,6 +200,8 @@ toe
 together
 topsy-turvy
 tucked in
+turned inward
+turned outward
 turning away
 turning back
 hand up

@@ -11,13 +11,16 @@ angry
 Anxious
 Apathetic
 ardor
+Aren't I?
 ashamed
 askance
 awestruck
 aww
 aye
 baffled
+Bah!
 batting eyelids
+because why
 begging
 Bewildered
 Bitter
@@ -67,6 +70,7 @@ enthralled
 even so...
 exultant
 flabbergasted
+frenzied
 fury
 fussy
 gibe
@@ -84,6 +88,7 @@ How?
 Huh?
 hush-hush
 I beg your pardon?
+I dare say
 idk
 incredulity
 intuition
@@ -175,6 +180,7 @@ oof
 ooh
 Optimistic
 or is it?
+ornery
 out of it
 Overjoyed
 Overwhelmed
@@ -188,6 +194,8 @@ piety
 Playful
 pondering
 pouting
+pshaw
+pssh...
 puckered lips
 pursed lips
 questioning
@@ -198,6 +206,7 @@ Regretful
 Relaxed
 relieved
 Relieved
+resolve
 resting bitch face
 Restless
 revulsion

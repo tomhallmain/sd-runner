@@ -92,6 +92,7 @@ antiphon
 anything
 AoE spell effects
 apart
+aperture
 apostrophe
 appearances
 apropos of $$random_word
@@ -107,6 +108,7 @@ ashes
 aspect
 aspects
 assay
+assemblage
 at the same time
 ATP
 audio sound data
@@ -145,6 +147,7 @@ biblio-$$random_word
 Bildungsroman
 birthright
 bisecting
+bismuth
 blackbody radiation
 blade
 blah
@@ -158,6 +161,7 @@ boldface
 bollard
 boom
 boombox
+boon
 boring
 bowl
 box set
@@ -175,6 +179,7 @@ bucranium
 bullseye
 bullseye window
 bump
+bumper sticker
 bunch
 bunched
 bundle
@@ -213,6 +218,8 @@ catenary
 celestial
 cento
 centrifugal force
+chalk on asphalt
+chalk on cement
 Champlevé
 channel
 chanson
@@ -222,6 +229,7 @@ chatelaine
 chatroom
 children's book
 chimeric
+Chino
 chiral
 chivalric romance
 choice
@@ -242,6 +250,7 @@ classification
 claw
 clay
 clayware
+clear water
 clef
 clip art
 Cloisonné
@@ -278,6 +287,7 @@ coplanar
 corbel
 core
 corrugation
+cortex
 Coub video
 count
 counter-$$random_word
@@ -294,6 +304,7 @@ crown glass
 crucible
 crud
 crystallisation
+curb
 curia
 curio
 curl
@@ -314,6 +325,7 @@ decor
 decoration
 decorative arts
 decorum
+decoy
 deformation
 depiction
 derivative
@@ -334,6 +346,7 @@ dissonance
 distortion
 ditto
 dive
+docket
 doodad
 doodly-doo
 dot
@@ -373,6 +386,7 @@ enamelled glass
 encased in amber
 endnote
 endoplasmic reticulum
+energy
 engraved glass
 Enlightenment
 entablature
@@ -385,12 +399,14 @@ epoxy
 epyllion
 ergodic
 esoteric
+essay
 essence
 Eucharist
 eulogy
 everything
 evidence
 evolute
+exchange rate
 exegesis
 existentialism
 exposition
@@ -429,8 +445,10 @@ folly
 forbidden
 Force = mass * acceleration
 force field
+forgery
 formula
 formulaic
+Forsythia
 forthright
 fossil
 fossilized
@@ -443,12 +461,14 @@ friction
 froth
 fugue
 fuse box
+fusebox
 Futhark
 G-force tech
 gameplay screenshot
 gaps
 gas lighting
 gas pipes
+gases
 gazette
 gemälde
 geometric forms
@@ -458,8 +478,11 @@ Gibbs surround
 gift
 gills
 glass former
+gleam
+globules
 Glory
 God
+going rate
 googleplex
 government
 gradation
@@ -470,8 +493,10 @@ graphite
 gravel
 gravimetric
 Grisaille
+grit
 groupings
 gueridon
+Guiness Book of World Records record for [biggest,tallest,smallest,longest,widest,most] $$random_word
 gum
 gyroscope
 haiku
@@ -498,12 +523,16 @@ holophotal
 Holy host
 honor
 honorific
+hoof
 hook
+horn
 horns
+horseshoe
 hourglass
 house of $$random_word
 How-To book
 hub
+hump
 Hurdy-Gurdy
 HVAC
 hydro
@@ -537,9 +566,11 @@ INRI
 inscription
 inside of an hourglass
 inside-out
+instructions
 integration
 interference
 interior structure
+interlude
 inversion
 invertebrate
 inverted $$random_word
@@ -565,6 +596,8 @@ lacunae
 lampoon
 lanes
 lapse
+large graphical advertisement on side of truck
+large photograph on wall
 largo
 lay of the land
 layer
@@ -572,6 +605,7 @@ layering
 Le Nove porcelain
 leaking
 lede
+lemma
 lemniscate
 lenticular lens
 lenticular print
@@ -588,6 +622,7 @@ lightly
 limaçon of Pascal
 limerick
 limestone
+limit
 line work
 linen
 liner
@@ -600,6 +635,7 @@ liters
 live video feed
 LLC
 loading screen
+lock
 logogriph
 loom
 Lorentz transformation
@@ -614,6 +650,7 @@ macro
 macromolecule
 maculations
 maelstrom
+Magnolia
 mail order catalog
 maiolica
 majesty
@@ -639,6 +676,7 @@ menu
 mere $$random_word
 metaphysics
 method
+metronome
 mezzotint
 mica
 military standard
@@ -726,6 +764,8 @@ padding
 paean
 page
 pages
+paint on asphalt
+paint on cement
 pair
 palette
 palimpsest
@@ -752,6 +792,7 @@ participle
 party favors
 passage
 pastiche
+patch
 patchwork
 patina
 pattern generation
@@ -1058,6 +1099,7 @@ pencil sketch
 perfect composition
 persona
 personification
+petiole
 petrified wood
 phase
 phial
@@ -1068,6 +1110,7 @@ photograph
 photomask
 photon
 photonegative
+photoprint
 photoshop
 photostream
 pic
@@ -1092,6 +1135,7 @@ playbook markings
 Plique-à-jour
 plot
 PNG
+poetic license
 pointillist
 pointy
 Polar coordinates
@@ -1117,6 +1161,7 @@ primer
 print art
 print screen image
 prism tile
+projection
 prolepsis
 prologue
 promotional material
@@ -1174,7 +1219,9 @@ receptor
 recipe
 redactions
 reeds
+reference
 reflection in the [[side,windshield,window,glasses]] of $$random_word
+reflection on clear water
 refraction
 refractive index
 regression
@@ -1182,6 +1229,7 @@ reissue
 remake of classic film
 remix
 remnant
+repertoire
 repitition
 representational
 reprint
@@ -1203,6 +1251,7 @@ right angles
 rim
 rind
 ripple
+ripples
 risk
 risograph
 rivalry
@@ -1255,6 +1304,7 @@ scrying
 SCUD
 sealed
 sealer
+seam
 secant
 sector
 seedling
@@ -1287,12 +1337,15 @@ sharpened
 shebang
 sheen
 shield
+shim
 shimmering
 shut
 shutters
 sidebar
+siding
 sighted scope lens
 sigil
+sign on storefront
 signet
 silk screen
 silver nitrate film
@@ -1300,6 +1353,7 @@ simile
 simple sketch
 simulacrum
 sinusoidal
+sitrep
 situla
 sketchbook
 sketches
@@ -1320,6 +1374,7 @@ sloop
 slope
 smeared
 smelted
+smithereens
 smooth
 smooth
 smooth curves
@@ -1329,6 +1384,7 @@ sneak preview
 snippet
 snout
 snowy
+soapstone
 sobriquet
 socialist
 soft
@@ -1342,8 +1398,11 @@ soul
 soundtrack
 source
 spackle
+spackles
+spatter
 specimen
 speckled
+speckles
 specks
 Sperrsatz
 SPF
@@ -1354,6 +1413,7 @@ spirit
 spirograph
 splash
 splashiness
+splat
 sponsored by " $$random_word "
 spore
 sprawl
@@ -1383,6 +1443,7 @@ stenciling
 step $$number
 stereograph
 stereotype
+sticker
 still life
 stippling
 stirred
@@ -1424,11 +1485,13 @@ superimposed images
 superposition
 superstition
 supposition
+surface grooves
 surrealism
 suspension
 suspension of disbelief
 swag bags
 swirls
+swivel
 syllogism
 symcopation
 symmetrical
@@ -1481,6 +1544,7 @@ Theater of the Absurd
 theatre set backdrop
 thematic
 theme and variations
+theory
 thermos
 thingamajig
 this and that
@@ -1498,6 +1562,7 @@ tire
 title
 tonal values
 tone
+toner
 tonnage
 tool set
 tools
@@ -1547,7 +1612,9 @@ Trois crayons
 trompe l'oeil
 trompe-l'œil
 truss
+trusses
 tuner
+turf
 turning $$color
 turning point
 tutorial
@@ -1578,6 +1645,7 @@ vacuum
 valour
 variance
 variation
+varnish resin
 vas diatretum
 vase
 Vaudeville
@@ -1645,6 +1713,7 @@ wove paper
 woven
 wow instead of $$random_word [[it is,they are]] $$random_word!
 wrack and ruin
+wrapper
 wrench
 wên and wu
 X's and O's
