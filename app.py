@@ -478,7 +478,7 @@ class App():
 
     def quit(self, event=None):
         res = self.alert(_("Confirm Quit"), _("Would you like to quit the application?"), kind="askokcancel")
-        if res == messagebox.OK or res == True:
+        if self.is_alert_confirmed(res):
             logger.info("Exiting application")
             self.on_closing()
 
@@ -733,7 +733,7 @@ class App():
             res = self.alert(_("Confirm Run"),
                 _("Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"),
                 kind="warning")
-            if res != messagebox.OK:
+            if not self.is_alert_confirmed(res):
                 return
             self.job_queue_preset_schedules.cancel()
         if self.run_preset_schedule_var.get():
@@ -752,9 +752,11 @@ class App():
         except Exception as e:
             res = self.alert(_("Confirm Run"),
                 str(e) + "\n\n" + _("Are you sure you want to proceed?"),
-                kind="warning")
-            if res != messagebox.OK:
+                kind="askokcancel")
+            if not self.is_alert_confirmed(res):
+                logger.info("User did not confirm run, returning")
                 return None
+            logger.info("User confirmed run, continuing")
 
         # Store the configuration to cache after validation
         self.store_info_cache()
@@ -798,7 +800,7 @@ class App():
                     gen_config.maximum_gens_per_latent()
                 ),
                 kind="warning")
-            if res != messagebox.OK:
+            if not self.is_alert_confirmed(res):
                 return None
 
         def run_async(args) -> None:
@@ -1243,6 +1245,22 @@ class App():
         else:
             alert_method = getattr(messagebox, f"show{kind}")
         return alert_method(title=title, message=message, parent=parent_window)
+    
+    def is_alert_confirmed(self, alert_result) -> bool:
+        """
+        Check if an alert result indicates a positive/confirmed response.
+        Handles all possible return values from tkinter messagebox functions.
+        
+        Args:
+            alert_result: The return value from a messagebox function
+            
+        Returns:
+            True if the result indicates confirmation/OK/Yes, False otherwise
+        """
+        # Check all possible positive return values
+        # messagebox functions can return "ok"/"yes" (strings), messagebox.OK/YES constants,
+        # True (boolean), or 1 (integer) depending on platform and messagebox type
+        return alert_result in (messagebox.OK, messagebox.YES, True, "ok", "yes", 1)
 
     def handle_error(self, error, title=None, kind="error"):
         traceback.print_exc()

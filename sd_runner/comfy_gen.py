@@ -68,6 +68,8 @@ class ComfyGen(BaseImageGenerator):
                     prompt = WorkflowPromptComfy("simple_image_gen_lora2.json")
             if workflow_type == WorkflowType.INSTANT_LORA and model.is_xl():
                 prompt = WorkflowPromptComfy("instant_lora_xl.json")
+            if workflow_type == WorkflowType.RENOISER and model.is_xl():
+                prompt = WorkflowPromptComfy("renoiser_xl.json")
             if model.is_flux():
                 if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
                     prompt = WorkflowPromptComfy("simple_image_gen_flux.json")
@@ -370,13 +372,31 @@ class ComfyGen(BaseImageGenerator):
             self.gen_config.redo_param("positive", positive),
             self.gen_config.redo_param("negative", negative),
             positive_id="21", negative_id="24", model=model)
-        prompt.set_seed(0) # changing seed is basically useless for this workflow
-#        prompt.set_other_sampler_inputs(self.gen_config)
+        
         control_net = self.gen_config.redo_param("control_net", control_net)
         if control_net:
-            prompt.set_by_id("56", "image", control_net.id) # There are two control nets in this workflow, not easy to find right linked input node
+            # Use generation_path instead of id to match control_net workflow behavior
+            image_path = control_net.generation_path if hasattr(control_net, 'generation_path') else control_net.id
+            prompt.set_by_id("56", "image", image_path) # There are two control nets in this workflow, not easy to find right linked input node
             prompt.set_by_id("25", "strength", control_net.strength)
             prompt.set_by_id("30", "strength", control_net.strength)
+        
+        # Use existing seed logic to ensure uniqueness and prevent ComfyUI caching
+        # Note: While seed may not significantly affect output quality for this workflow,
+        # varying it prevents ComfyUI from treating prompts as identical and caching/skipping them
+        prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
+        prompt.set_other_sampler_inputs(self.gen_config)
+        
+        # Set ControlNet models based on model type
+        if model.is_xl():
+            # SDXL ControlNet models
+            prompt.set_by_id("19", "control_net_name", "t2i-adapter_diffusers_xl_depth_zoe.safetensors")
+            prompt.set_by_id("29", "control_net_name", "t2i-adapter_diffusers_xl_lineart.safetensors")
+        else:
+            # SD15 ControlNet models
+            prompt.set_by_id("19", "control_net_name", "control_v11f1p_sd15_depth.pth")
+            prompt.set_by_id("29", "control_net_name", "control_v11p_sd15_lineart.pth")
+        
         self.queue_prompt(prompt)
 
     def inpaint_clipseg(self, prompt="", model=None, vae=None, n_latents=None, positive=None, negative=None, control_net=None, **kw):

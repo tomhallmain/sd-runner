@@ -130,9 +130,12 @@ class GenConfig:
             for concept in HardConcepts.boring_concepts:
                 if concept in self.positive:
                     confirm_messages.append(f"You are using BORING concept {concept} in prompt.")
-        if self.workflow_id == "renoiser.json":
+        if self.workflow_id == "renoiser.json" or self.workflow_id == "renoiser_xl.json":
             if "dark" not in self.positive and "night" not in self.positive and "shadows" not in self.positive:
                 confirm_messages.append("The renoiser workflow creates images that are fairly bright, but no dark keywords detected.")
+            # Warn about multiple resolutions causing duplicate outputs
+            if len(self.resolutions) > 1:
+                confirm_messages.append(f"WARNING: The renoiser workflow is configured with {len(self.resolutions)} resolutions. Since seed variation has minimal effect on renoiser output, this will result in effectively duplicate entries for the same control net image. Each resolution will produce nearly identical results.")
         if len(confirm_messages) == 0:
             return True
         confirm_str = ""

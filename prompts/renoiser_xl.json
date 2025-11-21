@@ -1,9 +1,12 @@
 {
   "4": {
     "inputs": {
-      "ckpt_name": "analogMadness_v60.safetensors"
+      "ckpt_name": "XL\\analogMadnessSDXL_sdxlV11.safetensors"
     },
-    "class_type": "CheckpointLoaderSimple"
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
   },
   "6": {
     "inputs": {
@@ -13,7 +16,10 @@
         1
       ]
     },
-    "class_type": "CLIPTextEncode"
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
   },
   "7": {
     "inputs": {
@@ -23,7 +29,10 @@
         1
       ]
     },
-    "class_type": "CLIPTextEncode"
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
   },
   "8": {
     "inputs": {
@@ -36,7 +45,10 @@
         0
       ]
     },
-    "class_type": "VAEDecode"
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
   },
   "13": {
     "inputs": {
@@ -63,7 +75,10 @@
         0
       ]
     },
-    "class_type": "BNK_Unsampler"
+    "class_type": "BNK_Unsampler",
+    "_meta": {
+      "title": "Unsampler"
+    }
   },
   "15": {
     "inputs": {
@@ -76,12 +91,15 @@
         0
       ]
     },
-    "class_type": "VAEEncode"
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
   },
   "16": {
     "inputs": {
       "add_noise": "disable",
-      "noise_seed": 0,
+      "noise_seed": 434317530210531,
       "steps": 40,
       "cfg": 3,
       "sampler_name": "dpmpp_2m",
@@ -106,7 +124,10 @@
         0
       ]
     },
-    "class_type": "KSamplerAdvanced"
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Advanced)"
+    }
   },
   "18": {
     "inputs": {
@@ -115,13 +136,19 @@
         0
       ]
     },
-    "class_type": "PreviewImage"
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
   },
   "19": {
     "inputs": {
-      "control_net_name": "control_v11f1p_sd15_depth.pth"
+      "control_net_name": "t2i-adapter_diffusers_xl_depth_zoe.safetensors"
     },
-    "class_type": "ControlNetLoader"
+    "class_type": "ControlNetLoader",
+    "_meta": {
+      "title": "Load ControlNet Model"
+    }
   },
   "21": {
     "inputs": {
@@ -131,7 +158,10 @@
         1
       ]
     },
-    "class_type": "CLIPTextEncode"
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
   },
   "24": {
     "inputs": {
@@ -141,11 +171,14 @@
         1
       ]
     },
-    "class_type": "CLIPTextEncode"
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
   },
   "25": {
     "inputs": {
-      "strength": 0.5,
+      "strength": 0.13000000000000003,
       "start_percent": 0,
       "end_percent": 1,
       "positive": [
@@ -165,25 +198,34 @@
         0
       ]
     },
-    "class_type": "ControlNetApplyAdvanced"
+    "class_type": "ControlNetApplyAdvanced",
+    "_meta": {
+      "title": "Apply ControlNet"
+    }
   },
   "26": {
     "inputs": {
-      "vae_name": "vae-ft-mse-840000-ema-pruned.ckpt"
+      "vae_name": "sdxl_vae.safetensors"
     },
-    "class_type": "VAELoader"
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
   },
   "29": {
     "inputs": {
-      "control_net_name": "control_v11p_sd15_lineart.pth"
+      "control_net_name": "t2i-adapter_diffusers_xl_lineart.safetensors"
     },
-    "class_type": "ControlNetLoader"
+    "class_type": "ControlNetLoader",
+    "_meta": {
+      "title": "Load ControlNet Model"
+    }
   },
   "30": {
     "inputs": {
-      "strength": 0.5,
+      "strength": 0.13000000000000003,
       "start_percent": 0,
-      "end_percent": 0.2,
+      "end_percent": 0.20000000000000004,
       "positive": [
         "25",
         0
@@ -201,18 +243,24 @@
         0
       ]
     },
-    "class_type": "ControlNetApplyAdvanced"
+    "class_type": "ControlNetApplyAdvanced",
+    "_meta": {
+      "title": "Apply ControlNet"
+    }
   },
   "32": {
     "inputs": {
       "coarse": "disable",
-      "resolution": 512,
+      "resolution": 1024,
       "image": [
         "56",
         0
       ]
     },
-    "class_type": "LineArtPreprocessor"
+    "class_type": "LineArtPreprocessor",
+    "_meta": {
+      "title": "Realistic Lineart"
+    }
   },
   "34": {
     "inputs": {
@@ -225,45 +273,36 @@
         0
       ]
     },
-    "class_type": "VAEDecode"
-  },
-  "35": {
-    "inputs": {
-      "images": [
-        "34",
-        0
-      ]
-    },
-    "class_type": "PreviewImage"
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
   },
   "38": {
     "inputs": {
-      "filename_prefix": "Renoiser",
+      "filename_prefix": "RN",
       "images": [
         "8",
         0
       ]
     },
-    "class_type": "SaveImage"
-  },
-  "43": {
-    "inputs": {
-      "images": [
-        "32",
-        0
-      ]
-    },
-    "class_type": "PreviewImage"
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
   },
   "49": {
     "inputs": {
-      "resolution": 512,
+      "resolution": 1024,
       "image": [
         "56",
         0
       ]
     },
-    "class_type": "Zoe-DepthMapPreprocessor"
+    "class_type": "Zoe-DepthMapPreprocessor",
+    "_meta": {
+      "title": "Zoe Depth Map"
+    }
   },
   "53": {
     "inputs": {
@@ -274,13 +313,18 @@
         0
       ]
     },
-    "class_type": "ImageScaleToTotalPixels"
+    "class_type": "ImageScaleToTotalPixels",
+    "_meta": {
+      "title": "Scale Image to Total Pixels"
+    }
   },
   "56": {
     "inputs": {
-      "image": "",
-      "upload": "image"
+      "image": ""
     },
-    "class_type": "LoadImage"
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
   }
 }

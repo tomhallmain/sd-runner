@@ -133,7 +133,7 @@ class RunConfig:
         return not self.control_nets or self.control_nets.strip() == ""
 
     def _validate_workflow_requirements(self) -> None:
-        """Validate workflow-specific requirements for IP adapters and control nets."""
+        """Validate workflow-specific requirements (IP adapters, control nets, etc.)"""
         workflow_type = self._get_workflow_type()
         if not workflow_type:
             return
@@ -161,3 +161,9 @@ class RunConfig:
         # Validate control net requirements
         if workflow_type in control_net_required_workflows and self._is_control_net_missing():
             raise Exception(_(f"Workflow '{workflow_type.get_translation()}' requires a control net to be specified."))
+        
+        # Validate renoiser workflow with multiple resolutions
+        if workflow_type == WorkflowType.RENOISER and self.res_tags and "," in self.res_tags:
+            raise Exception(_(
+                "WARNING: Multiple resolutions in renoiser workflow will produce nearly identical results (duplicates)."
+            ))
