@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-28 03:49-0400\n"
-"PO-Revision-Date: 2025-09-28 03:49-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-11-21 17:10-0500\n"
+"PO-Revision-Date: 2025-11-21 17:10-0500\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -12,197 +12,197 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:144
+#: app.py:145
 msgid "Run SD Workflows"
 msgstr "运行稳定扩散工作流程"
 
-#: app.py:148
+#: app.py:149
 msgid "Run Workflows"
 msgstr "运行工作流程"
 
-#: app.py:150
+#: app.py:151
 msgid "Cancel Run"
 msgstr "取消运行"
 
-#: app.py:166
+#: app.py:167
 msgid "Software"
 msgstr "软件"
 
-#: app.py:174
+#: app.py:175
 msgid "Workflow"
 msgstr "工作流程"
 
-#: app.py:181
+#: app.py:182
 msgid "Set N Latents"
 msgstr "潜变量数量"
 
-#: app.py:187
+#: app.py:188
 msgid "Set Total"
 msgstr "总计"
 
-#: app.py:195
+#: app.py:196
 msgid "Batch Limit"
 msgstr "批次限制"
 
-#: app.py:202
+#: app.py:203
 msgid "Delay Seconds"
 msgstr "延迟秒数"
 
-#: app.py:208
+#: app.py:209
 msgid "Resolutions"
 msgstr "图像分辨率"
 
-#: app.py:215
+#: app.py:216
 msgid "Resolution Group"
 msgstr "图像分辨率小组"
 
-#: app.py:221
+#: app.py:222
 msgid "Model Tags"
 msgstr "模型标签"
 
-#: app.py:223 app.py:240 ui/models_window.py:25
+#: app.py:224 app.py:241 ui/models_window.py:27
 msgid "Models"
 msgstr "模型"
 
-#: app.py:238
+#: app.py:239
 msgid "LoRA Tags"
 msgstr "LoRA 标签"
 
-#: app.py:256
+#: app.py:257
 msgid "Default LoRA Strength"
 msgstr "默认 LoRA 强度"
 
-#: app.py:262
+#: app.py:263
 msgid "B/W Colorization Tags"
 msgstr "黑/白色着色标签"
 
-#: app.py:270
+#: app.py:271
 msgid "Control Net or Redo files"
 msgstr "控制网络或重做文件"
 
-#: app.py:272 app.py:287
+#: app.py:273 app.py:288
 msgid "Recent"
 msgstr "近期"
 
-#: app.py:279
+#: app.py:280
 msgid "Default Control Net Strength"
 msgstr "默认控制网强度"
 
-#: app.py:285
+#: app.py:286
 msgid "IPAdapter files"
 msgstr "IPAdapter 文件"
 
-#: app.py:294
+#: app.py:295
 msgid "Default IPAdapter Strength"
 msgstr "默认 IPAdapter 强度"
 
-#: app.py:300
+#: app.py:301
 msgid "Redo Parameters"
 msgstr "重做参数"
 
-#: app.py:316 app.py:333 ui/prompt_config_window.py:267
+#: app.py:317 app.py:334 ui/prompt_config_window.py:273
 msgid "Prompts Configuration"
 msgstr "提示配置"
 
-#: app.py:321
+#: app.py:322
 msgid "Preset Schedule Window"
 msgstr "预设时间表窗口"
 
-#: app.py:322 ui/presets_window.py:98
+#: app.py:323 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "预设窗口"
 
-#: app.py:323
+#: app.py:324
 msgid "Timed Schedules Window"
 msgstr "定时计划窗口"
 
-#: app.py:328 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:329 ui/tags_blacklist_window.py:502 ui/tags_blacklist_window.py:655
 msgid "Tag Blacklist"
 msgstr "标签黑名单"
 
-#: app.py:329 ui/expansions_window.py:176
+#: app.py:330 ui/expansions_window.py:180
 msgid "Expansions Window"
 msgstr "扩展窗口"
 
-#: app.py:336
+#: app.py:337
 msgid "Prompt Mode"
 msgstr "提示方式"
 
-#: app.py:343 utils/globals.py:454
+#: app.py:344 utils/globals.py:456
 msgid "Edit Concepts"
 msgstr "编辑概念"
 
-#: app.py:346
+#: app.py:347
 msgid "Concepts Dir"
 msgstr "概念目录"
 
-#: app.py:357
+#: app.py:358
 msgid "Override Resolution"
 msgstr "覆盖图像分辨率"
 
-#: app.py:361
+#: app.py:362
 msgid "Inpainting"
 msgstr "油画"
 
-#: app.py:365 ui/prompt_config_window.py:569
+#: app.py:366 ui/prompt_config_window.py:611
 msgid "Override Base Negative"
 msgstr "覆盖基准负数"
 
-#: app.py:369
+#: app.py:370
 msgid "Run Preset Schedule"
 msgstr "运行预设时间表"
 
-#: app.py:373 ui/prompt_config_window.py:590
+#: app.py:374 ui/prompt_config_window.py:632
 msgid "Continuous Seed Variation"
 msgstr "连续随机种子变异"
 
-#: app.py:377
+#: app.py:378
 msgid "Prompt Massage Tags"
 msgstr "提示的调整标签"
 
-#: app.py:384
+#: app.py:385
 msgid "Positive Tags"
 msgstr "正面标签"
 
-#: app.py:391
+#: app.py:392
 msgid "Negative Tags"
 msgstr "负面标签"
 
-#: app.py:416 app.py:1388
+#: app.py:417 app.py:1427
 msgid " ComfyGen "
 msgstr " SD 转轮 "
 
-#: app.py:417
+#: app.py:418
 msgid "Debug mode toggled."
 msgstr "调试模式已切换。"
 
-#: app.py:476
+#: app.py:480
 msgid "Confirm Quit"
 msgstr "确认退出"
 
-#: app.py:476
+#: app.py:480
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
-#: app.py:726 app.py:746
+#: app.py:733 app.py:753
 msgid "Confirm Run"
 msgstr "确认运行"
 
-#: app.py:727
+#: app.py:734
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "开始新的运行将取消当前的预设时间表。您确定要继续吗？"
 
-#: app.py:747
+#: app.py:754
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
 
-#: app.py:782
+#: app.py:791
 msgid "Long Running Job Confirmation"
 msgstr "长期运行作业确认"
 
-#: app.py:783
+#: app.py:792
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -220,42 +220,44 @@ msgstr ""
 "\n"
 "是否确定继续？"
 
-#: app.py:898
+#: app.py:913
 msgid " (unlimited)"
 msgstr " (无限制)"
 
-#: app.py:914
+#: app.py:929
 msgid "{0} remaining adapters"
 msgstr "{0} 个剩余适配器"
 
-#: app.py:934
+#: app.py:949
 msgid "{0} pending generations"
 msgstr "{0}待定世代"
 
-#: app.py:1009
+#: app.py:1024
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "提示中发现黑名单项目： {0}"
 
-#: app.py:1010 app.py:1013
+#: app.py:1025 app.py:1028
 msgid "Invalid Prompt Tags"
 msgstr "无效提示标签"
 
-#: app.py:1013
+#: app.py:1028
 msgid "Blacklist validation failed!"
 msgstr "黑名单验证失败！"
 
-#: app.py:1211
+#: app.py:1226
 msgid "Password Cancelled"
 msgstr "取消密码"
 
-#: app.py:1211
+#: app.py:1226
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "密码被取消或不正确，返回上一模式"
 
-#: app.py:1230 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
+#: app.py:1269 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
-#: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
-#: ui/tags_blacklist_window.py:323
+#: ui/concept_editor_window.py:348 ui/models_window.py:445
+#: ui/models_window.py:453 ui/models_window.py:679 ui/models_window.py:692
+#: ui/models_window.py:696 ui/tags_blacklist_window.py:147
+#: ui/tags_blacklist_window.py:324
 msgid "Error"
 msgstr "错误"
 
@@ -263,16 +265,16 @@ msgstr "错误"
 msgid "⚠ Caps Lock is ON"
 msgstr "⚠ 大写锁定键已开启"
 
-#: sd_runner/blacklist.py:332
+#: sd_runner/blacklist.py:447
 msgid "Filtering concepts for blacklist: "
 msgstr "黑名单的过滤概念： "
 
-#: sd_runner/models.py:485
+#: sd_runner/models.py:490
 msgid ""
 "One or more loras are blacklisted. Please try again with a different lora."
 msgstr "一个或多个LORA已被列入黑名单。请尝试使用其他LORA。"
 
-#: sd_runner/models.py:489
+#: sd_runner/models.py:494
 msgid ""
 "The following loras are blacklisted: {0}\n"
 "\n"
@@ -282,12 +284,12 @@ msgstr ""
 "\n"
 "请尝试使用其他 LORA 重新操作。"
 
-#: sd_runner/models.py:494
+#: sd_runner/models.py:499
 msgid ""
 "One or more models are blacklisted. Please try again with a different model."
 msgstr "一个或多个模型已被列入黑名单。请尝试使用其他模型。"
 
-#: sd_runner/models.py:498
+#: sd_runner/models.py:503
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
@@ -362,14 +364,14 @@ msgstr "(用于保存新概念和导入的目标文件）"
 msgid "Save"
 msgstr "节省"
 
-#: ui/concept_editor_window.py:171 ui/expansions_window.py:241
+#: ui/concept_editor_window.py:171 ui/expansions_window.py:245
 #: ui/presets_window.py:151 ui/schedules_windows.py:90
 #: ui/schedules_windows.py:300 ui/timed_schedules_window.py:210
 msgid "Delete"
 msgstr "删除"
 
-#: ui/concept_editor_window.py:174 ui/tags_blacklist_window.py:559
-#: ui/tags_blacklist_window.py:626
+#: ui/concept_editor_window.py:174 ui/tags_blacklist_window.py:561
+#: ui/tags_blacklist_window.py:628
 msgid "Import"
 msgstr "进口"
 
@@ -431,37 +433,37 @@ msgstr "提示：您可以在任何概念行前加上“！”来强制导入，
 msgid "Import Results"
 msgstr "进口结果"
 
-#: ui/expansions_window.py:31
+#: ui/expansions_window.py:32
 msgid "Modify Expansion: {0}"
 msgstr "修改扩展： {0}"
 
-#: ui/expansions_window.py:39
+#: ui/expansions_window.py:40
 msgid "Expansion ID"
 msgstr "扩展 ID"
 
-#: ui/expansions_window.py:46
+#: ui/expansions_window.py:47
 msgid "Expansion Text"
 msgstr "扩展文本"
 
-#: ui/expansions_window.py:48
+#: ui/expansions_window.py:49
 msgid "New Expansion Text"
 msgstr "新扩展文本"
 
-#: ui/expansions_window.py:61 ui/tags_blacklist_window.py:119
+#: ui/expansions_window.py:62 ui/tags_blacklist_window.py:120
 msgid "Done"
 msgstr "已完成"
 
-#: ui/expansions_window.py:69
+#: ui/expansions_window.py:70
 msgid ""
 "Warning: This expansion ID matches a wildcard in config.json. Changes will "
 "not take effect until the wildcard is removed or renamed."
 msgstr "警告： 此扩展 ID 与 config.json 中的通配符匹配。在删除或重命名通配符之前，更改不会生效。"
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:865
+#: ui/expansions_window.py:82 ui/tags_blacklist_window.py:867
 msgid "Warning"
 msgstr "警告"
 
-#: ui/expansions_window.py:82
+#: ui/expansions_window.py:83
 msgid ""
 "This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
 "\n"
@@ -471,106 +473,109 @@ msgstr ""
 "\n"
 "无论如何都要保存吗？"
 
-#: ui/expansions_window.py:137
+#: ui/expansions_window.py:141
 msgid "New Expansion (ERROR no expansions found)"
 msgstr "新扩展 (错误, 未找到扩展)"
 
-#: ui/expansions_window.py:168
+#: ui/expansions_window.py:172
 msgid "Not enough expansions found."
 msgstr "没有找到足够的扩展。"
 
-#: ui/expansions_window.py:204
+#: ui/expansions_window.py:208
 msgid "Add or update expansions"
 msgstr "添加或更新扩展"
 
-#: ui/expansions_window.py:206
+#: ui/expansions_window.py:210
 msgid "Add expansion"
 msgstr "增加扩展"
 
-#: ui/expansions_window.py:208
+#: ui/expansions_window.py:212
 msgid "Clear expansions"
 msgstr "清除扩展"
 
-#: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:720 ui/tags_blacklist_window.py:773
+#: ui/expansions_window.py:238 ui/schedules_windows.py:293
+#: ui/tags_blacklist_window.py:722 ui/tags_blacklist_window.py:775
 #: ui/timed_schedules_window.py:203
 msgid "Modify"
 msgstr "修改"
 
-#: ui/expansions_window.py:248
+#: ui/expansions_window.py:252
 msgid "Copy"
 msgstr "复制"
 
-#: ui/expansions_window.py:286
+#: ui/expansions_window.py:290
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
 msgstr "无效扩展 ID“{0}”，或文本“{1}”"
 
-#: ui/expansions_window.py:458
+#: ui/expansions_window.py:462
 msgid "Copied expansion text to clipboard"
 msgstr "将扩展文本复制到剪贴板"
 
-#: ui/models_window.py:48
+#: ui/models_window.py:50
 msgid "Checkpoints"
 msgstr "检查点"
 
-#: ui/models_window.py:49
+#: ui/models_window.py:51
 msgid "LoRAs & Adapters"
 msgstr "LoRa模块与适配器"
 
-#: ui/models_window.py:63 ui/models_window.py:119
-#: ui/recent_adapters_window.py:63 ui/recent_adapters_window.py:118
+#: ui/models_window.py:65 ui/models_window.py:121
+#: ui/recent_adapters_window.py:86 ui/recent_adapters_window.py:141
+#: ui/recent_adapters_window.py:201
 msgid "Filter"
 msgstr "过滤器"
 
-#: ui/models_window.py:79
+#: ui/models_window.py:81
 msgid "Model Name"
 msgstr "型号名称"
 
-#: ui/models_window.py:80 ui/models_window.py:136
+#: ui/models_window.py:82 ui/models_window.py:138
 msgid "Architecture"
 msgstr "建筑"
 
-#: ui/models_window.py:81 ui/models_window.py:137
-#: ui/recent_adapters_window.py:81 ui/recent_adapters_window.py:136
+#: ui/models_window.py:83 ui/models_window.py:139
+#: ui/recent_adapters_window.py:104 ui/recent_adapters_window.py:159
+#: ui/recent_adapters_window.py:219
 msgid "Created"
 msgstr "创建"
 
-#: ui/models_window.py:96 ui/models_window.py:152
-#: ui/recent_adapters_window.py:96 ui/recent_adapters_window.py:151
+#: ui/models_window.py:98 ui/models_window.py:154
+#: ui/recent_adapters_window.py:119 ui/recent_adapters_window.py:174
 msgid "Replace"
 msgstr "替换"
 
-#: ui/models_window.py:98 ui/models_window.py:154
-#: ui/recent_adapters_window.py:98 ui/recent_adapters_window.py:153
+#: ui/models_window.py:100 ui/models_window.py:156
+#: ui/recent_adapters_window.py:121 ui/recent_adapters_window.py:176
 msgid "Add"
 msgstr "添加"
 
-#: ui/models_window.py:100 ui/models_window.py:156
-#: ui/recent_adapters_window.py:100 ui/recent_adapters_window.py:155
+#: ui/models_window.py:102 ui/models_window.py:164
+#: ui/recent_adapters_window.py:123 ui/recent_adapters_window.py:178
 msgid "Refresh"
 msgstr "刷新"
 
-#: ui/models_window.py:102 ui/models_window.py:158 ui/models_window.py:406
-#: ui/models_window.py:408
+#: ui/models_window.py:104 ui/models_window.py:166 ui/models_window.py:414
+#: ui/models_window.py:416
 msgid "Show Blacklisted"
 msgstr "显示黑名单"
 
-#: ui/auth/password_admin_window.py:249 ui/models_window.py:104
-#: ui/models_window.py:160 ui/prompt_config_window.py:329
-#: ui/recent_adapters_window.py:102 ui/recent_adapters_window.py:157
-#: ui/tags_blacklist_window.py:283
+#: ui/auth/password_admin_window.py:249 ui/models_window.py:106
+#: ui/models_window.py:168 ui/models_window.py:583
+#: ui/prompt_config_window.py:341 ui/recent_adapters_window.py:125
+#: ui/recent_adapters_window.py:180 ui/recent_adapters_window.py:242
+#: ui/recent_adapters_window.py:299 ui/tags_blacklist_window.py:284
 msgid "Close"
 msgstr "关闭"
 
-#: ui/models_window.py:135
+#: ui/models_window.py:137
 msgid "LoRA/Adapter Name"
 msgstr "适配器"
 
-#: ui/models_window.py:368 ui/recent_adapters_window.py:405
+#: ui/models_window.py:376 ui/recent_adapters_window.py:586
 msgid "Cache"
 msgstr "缓存"
 
-#: ui/models_window.py:401 ui/models_window.py:403
+#: ui/models_window.py:409 ui/models_window.py:411
 msgid "Hide Blacklisted"
 msgstr "隐藏黑名单"
 
@@ -610,143 +615,144 @@ msgstr "预设无效： {0}"
 msgid "Prompt Configuration"
 msgstr "提示配置"
 
-#: ui/prompt_config_window.py:202
+#: ui/prompt_config_window.py:208
 msgid "Detailed Prompt Configuration"
 msgstr "详细提示配置"
 
-#: ui/prompt_config_window.py:207
+#: ui/prompt_config_window.py:213
 msgid "Basic Generation Settings"
 msgstr "基本生成设置"
 
-#: ui/prompt_config_window.py:210
+#: ui/prompt_config_window.py:216
 msgid "Sampler"
 msgstr "采样器"
 
-#: ui/prompt_config_window.py:218
+#: ui/prompt_config_window.py:224
 msgid "Scheduler"
 msgstr "调度员"
 
-#: ui/prompt_config_window.py:226
+#: ui/prompt_config_window.py:232
 msgid "Seed"
 msgstr "种子"
 
-#: ui/prompt_config_window.py:234
+#: ui/prompt_config_window.py:240
 msgid "Steps"
 msgstr "步骤"
 
-#: ui/prompt_config_window.py:242
+#: ui/prompt_config_window.py:248
 msgid "CFG"
 msgstr "CFG"
 
-#: ui/prompt_config_window.py:250
+#: ui/prompt_config_window.py:256
 msgid "Denoise"
 msgstr "去噪"
 
-#: ui/prompt_config_window.py:258
+#: ui/prompt_config_window.py:264
 msgid "Random Skip Chance"
 msgstr "随机跳过机会"
 
-#: ui/prompt_config_window.py:309
+#: ui/prompt_config_window.py:321
 msgid "Multiplier"
 msgstr "乘法器"
 
-#: ui/prompt_config_window.py:334
+#: ui/prompt_config_window.py:346
 msgid "Concepts"
 msgstr "概念"
 
-#: ui/prompt_config_window.py:349
+#: ui/prompt_config_window.py:361
 msgid "Positions"
 msgstr "职位"
 
-#: ui/prompt_config_window.py:364
+#: ui/prompt_config_window.py:376
 msgid "Locations"
 msgstr "地点"
 
-#: ui/prompt_config_window.py:379
+#: ui/prompt_config_window.py:391
 msgid "Animals"
 msgstr "动物"
 
-#: ui/prompt_config_window.py:394
+#: ui/prompt_config_window.py:406
 msgid "Colors"
 msgstr "颜色"
 
-#: ui/prompt_config_window.py:409
+#: ui/prompt_config_window.py:421
 msgid "Times"
 msgstr "时代"
 
-#: ui/prompt_config_window.py:424
+#: ui/prompt_config_window.py:436
 msgid "Dress"
 msgstr "服装"
 
-#: ui/prompt_config_window.py:439
+#: ui/prompt_config_window.py:451
 msgid "Expressions"
 msgstr "表达"
 
-#: ui/prompt_config_window.py:454
+#: ui/prompt_config_window.py:466
 msgid "Actions"
 msgstr "行动"
 
-#: ui/prompt_config_window.py:469
+#: ui/prompt_config_window.py:481
 msgid "Descriptions"
 msgstr "说明"
 
-#: ui/prompt_config_window.py:484
+#: ui/prompt_config_window.py:496
 msgid "Characters"
 msgstr "人物"
 
-#: ui/prompt_config_window.py:499
+#: ui/prompt_config_window.py:511
 msgid "Random Words"
 msgstr "随机词语"
 
-#: ui/prompt_config_window.py:514 utils/globals.py:37
+#: ui/prompt_config_window.py:526 utils/globals.py:37
 msgid "Nonsense"
 msgstr "胡说八道"
 
-#: ui/prompt_config_window.py:530
+#: ui/prompt_config_window.py:572
 msgid "Specific Locations Chance"
 msgstr "指定地点的机会"
 
-#: ui/prompt_config_window.py:539
+#: ui/prompt_config_window.py:581
 msgid "Specify Humans Chance"
 msgstr "指定人类的机会"
 
-#: ui/prompt_config_window.py:548
+#: ui/prompt_config_window.py:590
 msgid "Art Styles Chance"
 msgstr "艺术风格的机会"
 
-#: ui/prompt_config_window.py:557
+#: ui/prompt_config_window.py:599
 msgid "Emphasis Chance"
 msgstr "强调的机会"
 
-#: ui/prompt_config_window.py:576
+#: ui/prompt_config_window.py:618
 msgid "Tags Applied to Prompt Start"
 msgstr "标签应用于提示符的开始"
 
-#: ui/prompt_config_window.py:583
+#: ui/prompt_config_window.py:625
 msgid "Sparse Mixed Tags"
 msgstr "稀疏混合标签"
 
-#: ui/recent_adapters_window.py:28
+#: ui/recent_adapters_window.py:41
 msgid "Recent Adapters"
 msgstr "近期适配器"
 
-#: ui/recent_adapters_window.py:47
+#: ui/recent_adapters_window.py:66
 msgid "Recent ControlNets"
 msgstr "近期ControlNets"
 
-#: ui/recent_adapters_window.py:48
+#: ui/recent_adapters_window.py:67
 msgid "Recent IP Adapters"
 msgstr "近期IP适配器"
 
-#: ui/recent_adapters_window.py:79
+#: ui/recent_adapters_window.py:102
 msgid "ControlNet File"
 msgstr "ControlNet 文件"
 
-#: ui/recent_adapters_window.py:80 ui/recent_adapters_window.py:135
+#: ui/recent_adapters_window.py:103 ui/recent_adapters_window.py:158
+#: ui/recent_adapters_window.py:218
 msgid "Type"
 msgstr "类型"
 
-#: ui/recent_adapters_window.py:134
+#: ui/recent_adapters_window.py:157
 msgid "IP Adapter File"
 msgstr "IP适配器文件"
 
@@ -815,75 +821,75 @@ msgstr "删除计划： {0}"
 msgid "Cleared schedules"
 msgstr "清除时间表"
 
-#: ui/tags_blacklist_window.py:34
+#: ui/tags_blacklist_window.py:35
 msgid "Modify Blacklist Item: {0}"
 msgstr "修改黑名单 项目: {0}"
 
-#: ui/tags_blacklist_window.py:53
+#: ui/tags_blacklist_window.py:54
 msgid "Blacklist String"
 msgstr "黑名单字符串"
 
-#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:223
+#: ui/tags_blacklist_window.py:64 ui/timed_schedules_window.py:223
 msgid "Enabled"
 msgstr "已启用"
 
-#: ui/tags_blacklist_window.py:75
+#: ui/tags_blacklist_window.py:76
 msgid "Use glob-based regex"
 msgstr "使用基于全局的 regex"
 
-#: ui/tags_blacklist_window.py:87
+#: ui/tags_blacklist_window.py:88
 msgid "Use word boundary matching"
 msgstr "使用单词边界匹配"
 
-#: ui/tags_blacklist_window.py:99
+#: ui/tags_blacklist_window.py:100
 msgid "Convert spaces to optional non-word characters"
 msgstr "将空格转换为可选的非单词字符"
 
-#: ui/tags_blacklist_window.py:109
+#: ui/tags_blacklist_window.py:110
 msgid "Exception Pattern (optional regex to unfilter tags)"
 msgstr "异常模式（可选正则表达式用于取消过滤标签）"
 
-#: ui/tags_blacklist_window.py:118 ui/tags_blacklist_window.py:728
+#: ui/tags_blacklist_window.py:119 ui/tags_blacklist_window.py:730
 msgid "Preview"
 msgstr "预览"
 
-#: ui/tags_blacklist_window.py:146
+#: ui/tags_blacklist_window.py:147
 msgid "Blacklist string cannot be empty."
 msgstr "黑名单文本不能为空。"
 
-#: ui/tags_blacklist_window.py:182
+#: ui/tags_blacklist_window.py:183
 msgid "No changes were made"
 msgstr "未作改动"
 
-#: ui/tags_blacklist_window.py:194
+#: ui/tags_blacklist_window.py:195
 msgid "Unsaved Changes"
 msgstr "未保存的更改"
 
-#: ui/tags_blacklist_window.py:194
+#: ui/tags_blacklist_window.py:195
 msgid "Do you want to save changes before closing?"
 msgstr "您想在关闭前保存更改吗？"
 
-#: ui/tags_blacklist_window.py:230
+#: ui/tags_blacklist_window.py:231
 msgid "Blacklist Preview"
 msgstr "预览黑名单"
 
-#: ui/tags_blacklist_window.py:247
+#: ui/tags_blacklist_window.py:248
 msgid "Concepts filtered by: {0}"
 msgstr "筛选的概念： {0}"
 
-#: ui/tags_blacklist_window.py:251
+#: ui/tags_blacklist_window.py:252
 msgid "All filtered concepts"
 msgstr "所有筛选过的概念"
 
-#: ui/tags_blacklist_window.py:312
+#: ui/tags_blacklist_window.py:313
 msgid "Found {0} filtered concepts"
 msgstr "发现{0}个过滤概念"
 
-#: ui/tags_blacklist_window.py:320
+#: ui/tags_blacklist_window.py:321
 msgid "Error loading concepts: {0}"
 msgstr "加载概念时出错： {0}"
 
-#: ui/tags_blacklist_window.py:348
+#: ui/tags_blacklist_window.py:349
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -893,11 +899,11 @@ msgstr ""
 "\n"
 "如果您还小，不确定，甚至是成年人，请点击此窗口上的关闭按钮，然后做一些有趣的事情。"
 
-#: ui/tags_blacklist_window.py:426
+#: ui/tags_blacklist_window.py:427
 msgid "Confirm Load Default Blacklist"
 msgstr "确认加载默认黑名单"
 
-#: ui/tags_blacklist_window.py:427
+#: ui/tags_blacklist_window.py:428
 msgid ""
 "Are you sure you want to load the default blacklist?\n"
 "\n"
@@ -915,148 +921,148 @@ msgstr ""
 "\n"
 "要继续吗？"
 
-#: ui/tags_blacklist_window.py:440
+#: ui/tags_blacklist_window.py:442
 msgid "Loaded default blacklist"
 msgstr "已加载默认黑名单"
 
-#: ui/tags_blacklist_window.py:444
+#: ui/tags_blacklist_window.py:446
 msgid "Error loading default blacklist"
 msgstr "加载默认黑名单出错"
 
-#: ui/tags_blacklist_window.py:474
+#: ui/tags_blacklist_window.py:476
 msgid "Tags/Models Blacklist"
 msgstr "黑名单标签和模型"
 
-#: ui/tags_blacklist_window.py:503
+#: ui/tags_blacklist_window.py:505
 msgid "Model Blacklist"
 msgstr "模特黑名单"
 
-#: ui/tags_blacklist_window.py:527 ui/tags_blacklist_window.py:595
+#: ui/tags_blacklist_window.py:529 ui/tags_blacklist_window.py:597
 msgid "Global Settings:"
 msgstr "全局设置"
 
-#: ui/tags_blacklist_window.py:529 ui/tags_blacklist_window.py:597
+#: ui/tags_blacklist_window.py:531 ui/tags_blacklist_window.py:599
 msgid "These settings affect how the blacklist is applied globally."
 msgstr "这些设置会影响黑名单的全局应用方式。"
 
-#: ui/tags_blacklist_window.py:538 ui/tags_blacklist_window.py:606
+#: ui/tags_blacklist_window.py:540 ui/tags_blacklist_window.py:608
 msgid "Choose how the blacklist is enforced: block, warn, or allow."
 msgstr "选择执行黑名单的方式：阻止、警告或允许。"
 
-#: ui/tags_blacklist_window.py:544 ui/tags_blacklist_window.py:612
+#: ui/tags_blacklist_window.py:546 ui/tags_blacklist_window.py:614
 msgid "Silent Removal"
 msgstr "无声搬运"
 
-#: ui/tags_blacklist_window.py:552 ui/tags_blacklist_window.py:620
+#: ui/tags_blacklist_window.py:554 ui/tags_blacklist_window.py:622
 msgid ""
 "If enabled, blacklisted words are removed silently without notification."
 msgstr "如果启用，黑名单上的词语会在没有通知的情况下被无声删除。"
 
-#: ui/tags_blacklist_window.py:560 ui/tags_blacklist_window.py:627
+#: ui/tags_blacklist_window.py:562 ui/tags_blacklist_window.py:629
 msgid "Export"
 msgstr "出口"
 
-#: ui/tags_blacklist_window.py:561 ui/tags_blacklist_window.py:628
+#: ui/tags_blacklist_window.py:563 ui/tags_blacklist_window.py:630
 msgid "Preview All"
 msgstr "全部预览"
 
-#: ui/tags_blacklist_window.py:562
+#: ui/tags_blacklist_window.py:564
 msgid "Load Default"
 msgstr "加载默认值"
 
-#: ui/tags_blacklist_window.py:571
+#: ui/tags_blacklist_window.py:573
 msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
 msgstr "选择黑名单的执行方式：在NSFW中禁止或允许。"
 
-#: ui/tags_blacklist_window.py:574
+#: ui/tags_blacklist_window.py:576
 msgid "Add to tag blacklist"
 msgstr "添加到标签黑名单"
 
-#: ui/tags_blacklist_window.py:576 ui/tags_blacklist_window.py:642
+#: ui/tags_blacklist_window.py:578 ui/tags_blacklist_window.py:644
 msgid "Clear items"
 msgstr "清除项目"
 
-#: ui/tags_blacklist_window.py:636
+#: ui/tags_blacklist_window.py:638
 msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
 msgstr "选择模型黑名单的执行方式：在NSFW环境中禁止或允许。"
 
-#: ui/tags_blacklist_window.py:641
+#: ui/tags_blacklist_window.py:643
 msgid "Add to model blacklist"
 msgstr "将模型添加到黑名单中"
 
-#: ui/tags_blacklist_window.py:673
+#: ui/tags_blacklist_window.py:675
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag "
 "blacklist' button below, or load the default blacklist."
 msgstr "未找到黑名单项目。您可以点击下面的 “添加到标签黑名单 ”按钮添加项目，或载入默认黑名单。"
 
-#: ui/tags_blacklist_window.py:675
+#: ui/tags_blacklist_window.py:677
 msgid "Click below to reveal blacklist concepts."
 msgstr "单击下方显示黑名单概念。"
 
-#: ui/tags_blacklist_window.py:677
+#: ui/tags_blacklist_window.py:679
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
 "concepts from a file."
 msgstr "已加载默认黑名单。您可以通过编辑现有概念、清除黑名单并添加自己的概念或从文件中导入概念来加载自己的黑名单。"
 
-#: ui/tags_blacklist_window.py:683
+#: ui/tags_blacklist_window.py:685
 msgid "Reveal Concepts"
 msgstr "揭示概念"
 
-#: ui/tags_blacklist_window.py:702 ui/tags_blacklist_window.py:759
+#: ui/tags_blacklist_window.py:704 ui/tags_blacklist_window.py:761
 msgid "[regex]"
 msgstr "[regex]"
 
-#: ui/tags_blacklist_window.py:704
+#: ui/tags_blacklist_window.py:706
 msgid "[no boundary]"
 msgstr "[无字边界]"
 
-#: ui/tags_blacklist_window.py:706 ui/tags_blacklist_window.py:761
+#: ui/tags_blacklist_window.py:708 ui/tags_blacklist_window.py:763
 msgid "[no space conversion]"
 msgstr "[不进行空格转换]"
 
-#: ui/tags_blacklist_window.py:708 ui/tags_blacklist_window.py:763
+#: ui/tags_blacklist_window.py:710 ui/tags_blacklist_window.py:765
 msgid "[exception: {0}]"
 msgstr "[异常：{0}]"
 
-#: ui/tags_blacklist_window.py:712 ui/tags_blacklist_window.py:767
-#: ui/tags_blacklist_window.py:1032 ui/tags_blacklist_window.py:1210
+#: ui/tags_blacklist_window.py:714 ui/tags_blacklist_window.py:769
+#: ui/tags_blacklist_window.py:1035 ui/tags_blacklist_window.py:1213
 msgid "Disabled"
 msgstr "未启用"
 
-#: ui/tags_blacklist_window.py:736 ui/tags_blacklist_window.py:779
+#: ui/tags_blacklist_window.py:738 ui/tags_blacklist_window.py:781
 msgid "Remove"
 msgstr "移除"
 
-#: ui/tags_blacklist_window.py:748
+#: ui/tags_blacklist_window.py:750
 msgid ""
 "No model blacklist items found. You can add items by clicking the 'Add to "
 "model blacklist' button above, or load the default model blacklist."
 msgstr "未找到模型黑名单项。您可以通过点击上方“添加到模型黑名单”按钮添加项，或加载默认模型黑名单。"
 
-#: ui/tags_blacklist_window.py:840 ui/tags_blacklist_window.py:875
+#: ui/tags_blacklist_window.py:842 ui/tags_blacklist_window.py:877
 msgid "Added item to blacklist: {0}"
 msgstr "已将项目添加到黑名单： {0}"
 
-#: ui/tags_blacklist_window.py:842
+#: ui/tags_blacklist_window.py:844
 msgid "Modified blacklist item: {0}"
 msgstr "修改了黑名单项目： {0}"
 
-#: ui/tags_blacklist_window.py:855
+#: ui/tags_blacklist_window.py:857
 msgid "Removed item: {0}"
 msgstr "删除的项目： {0}"
 
-#: ui/tags_blacklist_window.py:865
+#: ui/tags_blacklist_window.py:867
 msgid "Please enter a string to add to the blacklist."
 msgstr "请输入要添加到黑名单的字符串。"
 
-#: ui/tags_blacklist_window.py:955
+#: ui/tags_blacklist_window.py:957
 msgid "Confirm Clear Blacklist"
 msgstr "确认清除黑名单"
 
-#: ui/tags_blacklist_window.py:956
+#: ui/tags_blacklist_window.py:958
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
@@ -1076,91 +1082,91 @@ msgstr ""
 "\n"
 "要继续吗？"
 
-#: ui/tags_blacklist_window.py:975
+#: ui/tags_blacklist_window.py:978
 msgid "Cleared item blacklist"
 msgstr "清除项目黑名单"
 
-#: ui/tags_blacklist_window.py:1035
+#: ui/tags_blacklist_window.py:1038
 msgid "Item \"{0}\" is now {1}"
 msgstr "项目“{0}”现在是{1}"
 
-#: ui/tags_blacklist_window.py:1037 ui/tags_blacklist_window.py:1214
+#: ui/tags_blacklist_window.py:1040 ui/tags_blacklist_window.py:1217
 msgid "enabled"
 msgstr "启用"
 
-#: ui/tags_blacklist_window.py:1037 ui/tags_blacklist_window.py:1214
+#: ui/tags_blacklist_window.py:1040 ui/tags_blacklist_window.py:1217
 msgid "disabled"
 msgstr "残"
 
-#: ui/tags_blacklist_window.py:1047
+#: ui/tags_blacklist_window.py:1050
 msgid "Concepts revealed"
 msgstr "揭示的概念"
 
-#: ui/tags_blacklist_window.py:1078 ui/tags_blacklist_window.py:1245
+#: ui/tags_blacklist_window.py:1081 ui/tags_blacklist_window.py:1248
 msgid "Import Blacklist"
 msgstr "导入黑名单"
 
-#: ui/tags_blacklist_window.py:1097
+#: ui/tags_blacklist_window.py:1100
 msgid "Successfully imported blacklist"
 msgstr "成功导入黑名单"
 
-#: ui/tags_blacklist_window.py:1099 ui/tags_blacklist_window.py:1266
+#: ui/tags_blacklist_window.py:1102 ui/tags_blacklist_window.py:1269
 msgid "Import Error"
 msgstr "导入错误"
 
-#: ui/tags_blacklist_window.py:1110
+#: ui/tags_blacklist_window.py:1113
 msgid "Export Blacklist"
 msgstr "导出黑名单"
 
-#: ui/tags_blacklist_window.py:1125
+#: ui/tags_blacklist_window.py:1128
 msgid "Successfully exported blacklist"
 msgstr "成功导出黑名单"
 
-#: ui/tags_blacklist_window.py:1127 ui/tags_blacklist_window.py:1287
+#: ui/tags_blacklist_window.py:1130 ui/tags_blacklist_window.py:1290
 msgid "Export Error"
 msgstr "出口错误"
 
-#: ui/tags_blacklist_window.py:1137
+#: ui/tags_blacklist_window.py:1140
 msgid "Blacklist mode set to: {0}"
 msgstr "黑名单模式设置为 {0}"
 
-#: ui/tags_blacklist_window.py:1147
+#: ui/tags_blacklist_window.py:1150
 msgid "Blacklist prompt mode set to: {0}"
 msgstr "黑名单提示模式设置为：{0}"
 
-#: ui/tags_blacklist_window.py:1157
+#: ui/tags_blacklist_window.py:1160
 msgid "Model blacklist mode set to: {0}"
 msgstr "模型黑名单模式设置为：{0}"
 
-#: ui/tags_blacklist_window.py:1163
+#: ui/tags_blacklist_window.py:1166
 msgid "Silent removal set to: {0}"
 msgstr "静音移除设置为： {0}"
 
-#: ui/tags_blacklist_window.py:1201
+#: ui/tags_blacklist_window.py:1204
 msgid "Model blacklist updated: {0}"
 msgstr "模型黑名单已更新：{0}"
 
-#: ui/tags_blacklist_window.py:1212
+#: ui/tags_blacklist_window.py:1215
 msgid "Model item '{0}' is now {1}"
 msgstr "模型项 ‘{0}’ 现为 {1}"
 
-#: ui/tags_blacklist_window.py:1226
+#: ui/tags_blacklist_window.py:1229
 msgid "Removed model blacklist item: {0}"
 msgstr "已移除模型黑名单项：{0}"
 
-#: ui/tags_blacklist_window.py:1233
+#: ui/tags_blacklist_window.py:1236
 msgid "Cleared model blacklist items"
 msgstr "已清除模型黑名单项"
 
-#: ui/tags_blacklist_window.py:1264
+#: ui/tags_blacklist_window.py:1267
 msgid "Successfully imported model blacklist"
 msgstr "成功导入模型黑名单"
 
-#: ui/tags_blacklist_window.py:1275
+#: ui/tags_blacklist_window.py:1278
 msgid "Export Model Blacklist"
 msgstr "导出模型黑名单"
 
-#: ui/tags_blacklist_window.py:1285
+#: ui/tags_blacklist_window.py:1288
 msgid "Successfully exported model blacklist"
 msgstr "成功导出模型黑名单"
 
@@ -1284,6 +1290,7 @@ msgid "Set Password"
 msgstr "设置密码"
 
 #: ui/auth/password_admin_window.py:233 ui/auth/password_admin_window.py:292
+#: ui/recent_adapters_window.py:296
 msgid "Reset to Defaults"
 msgstr "重置为默认值"
 
@@ -1295,7 +1302,7 @@ msgstr "设置为当前"
 msgid "Export Cache as JSON"
 msgstr "以 JSON 格式导出缓存"
 
-#: ui/auth/password_admin_window.py:245
+#: ui/auth/password_admin_window.py:245 ui/recent_adapters_window.py:293
 msgid "Save Settings"
 msgstr "保存设置"
 
@@ -1511,127 +1518,127 @@ msgstr "禁止"
 msgid "Allow in NSFW"
 msgstr "在不适合工作场所的模式下显示"
 
-#: utils/globals.py:224
+#: utils/globals.py:225
 msgid "Simple Image Gen"
 msgstr "简单生成图像"
 
-#: utils/globals.py:225
+#: utils/globals.py:226
 msgid "Simple Image Gen Lora"
 msgstr "LoRA 简单图像生成"
 
-#: utils/globals.py:226
+#: utils/globals.py:227
 msgid "Simple Image Gen Tiled Upscale"
 msgstr "简单生成拼接放大图像"
 
-#: utils/globals.py:227
+#: utils/globals.py:228
 msgid "Ella"
 msgstr "ELLA"
 
-#: utils/globals.py:228
+#: utils/globals.py:229
 msgid "Instant Lora"
 msgstr "即时LoRA"
 
-#: utils/globals.py:229
+#: utils/globals.py:230
 msgid "IP Adapter"
 msgstr "IP适配器"
 
-#: utils/globals.py:230
+#: utils/globals.py:232
 msgid "ControlNet"
 msgstr "控制网"
 
-#: utils/globals.py:231
+#: utils/globals.py:233
 msgid "Inpaint ClipSeg"
 msgstr "Inpaint 剪切段"
 
-#: utils/globals.py:232
+#: utils/globals.py:234
 msgid "Animate Diff"
 msgstr "动画差异"
 
-#: utils/globals.py:233
+#: utils/globals.py:235
 msgid "Renoiser"
 msgstr "雷诺伊瑟"
 
-#: utils/globals.py:234 utils/globals.py:378
+#: utils/globals.py:236 utils/globals.py:380
 msgid "Turbo"
 msgstr "涡轮"
 
-#: utils/globals.py:235
+#: utils/globals.py:237
 msgid "Upscale Simple"
 msgstr "提升图像质量 简单"
 
-#: utils/globals.py:236
+#: utils/globals.py:238
 msgid "Upscale Better"
 msgstr "提升图像质量 更佳版本"
 
-#: utils/globals.py:237
+#: utils/globals.py:239
 msgid "Redo Prompt"
 msgstr "重新提示"
 
-#: utils/globals.py:375
+#: utils/globals.py:377
 msgid "SD 1.5"
 msgstr "SD 1.5"
 
-#: utils/globals.py:376
+#: utils/globals.py:378
 msgid "SDXL"
 msgstr "SDXL"
 
-#: utils/globals.py:377
+#: utils/globals.py:379
 msgid "Illustrious"
 msgstr "Illustrious"
 
-#: utils/globals.py:379
+#: utils/globals.py:381
 msgid "Flux"
 msgstr "Flux"
 
-#: utils/globals.py:404
+#: utils/globals.py:406
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:405
+#: utils/globals.py:407
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:406
+#: utils/globals.py:408
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:407
+#: utils/globals.py:409
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:446
+#: utils/globals.py:448
 msgid "Open Application"
 msgstr "打开软件应用程序"
 
-#: utils/globals.py:447
+#: utils/globals.py:449
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFL 提示模式"
 
-#: utils/globals.py:448
+#: utils/globals.py:450
 msgid "Edit Blacklist"
 msgstr "编辑黑名单"
 
-#: utils/globals.py:449
+#: utils/globals.py:451
 msgid "Reveal Blacklist Concepts"
 msgstr "揭示黑名单概念"
 
-#: utils/globals.py:450
+#: utils/globals.py:452
 msgid "Edit Schedules"
 msgstr "编辑时间表"
 
-#: utils/globals.py:451
+#: utils/globals.py:453
 msgid "Edit Timed Schedules"
 msgstr "编辑定时计划"
 
-#: utils/globals.py:452
+#: utils/globals.py:454
 msgid "Edit Expansions"
 msgstr "编辑扩展"
 
-#: utils/globals.py:453
+#: utils/globals.py:455
 msgid "Edit Presets"
 msgstr "编辑预置"
 
-#: utils/globals.py:455
+#: utils/globals.py:457
 msgid "Access Password Administration"
 msgstr "访问密码管理"
 
@@ -1714,3 +1721,200 @@ msgstr "月数"
 #: utils/translations.py:68
 msgid "years"
 msgstr "年份"
+
+#: sd_runner/run_config.py:168
+msgid ""
+"WARNING: Multiple resolutions in renoiser workflow will produce nearly "
+"identical results (duplicates)."
+msgstr "警告：在Renoiser工作流程中使用多个分辨率将产生几乎相同的输出结果（重复项）。"
+
+#: ui/models_window.py:158 ui/models_window.py:163
+msgid "LoRA Info"
+msgstr ""
+
+#: ui/models_window.py:427 ui/models_window.py:666
+msgid "Feature Unavailable"
+msgstr ""
+
+#: ui/models_window.py:428
+msgid ""
+"LoRA trigger extraction is not available.\n"
+"\n"
+"This may be due to missing dependencies or import errors."
+msgstr ""
+
+#: ui/models_window.py:435
+msgid "No Selection"
+msgstr ""
+
+#: ui/models_window.py:435
+msgid "Please select a LoRA to view information."
+msgstr ""
+
+#: ui/models_window.py:445
+msgid "Model not found: {0}"
+msgstr ""
+
+#: ui/models_window.py:453
+msgid "Failed to show LoRA information: {0}"
+msgstr ""
+
+#: ui/models_window.py:467
+msgid "LoRA Information: {0}"
+msgstr ""
+
+#: ui/models_window.py:487
+msgid "LoRA Information"
+msgstr ""
+
+#: ui/models_window.py:497
+msgid "Name:"
+msgstr ""
+
+#: ui/models_window.py:508
+msgid "Architecture:"
+msgstr ""
+
+#: ui/models_window.py:519
+msgid "File Path:"
+msgstr ""
+
+#: ui/models_window.py:531
+msgid "Created:"
+msgstr ""
+
+#: ui/models_window.py:542
+msgid "Strength:"
+msgstr ""
+
+#: ui/models_window.py:557
+msgid "Trigger Information"
+msgstr ""
+
+#: ui/models_window.py:563
+msgid "Loading trigger information..."
+msgstr ""
+
+#: ui/models_window.py:577
+msgid "Create .safetriggers File"
+msgstr ""
+
+#: ui/models_window.py:600
+msgid "Unknown"
+msgstr ""
+
+#: ui/models_window.py:606
+msgid "Trigger extraction not available"
+msgstr ""
+
+#: ui/models_window.py:617
+msgid "LoRA file not found"
+msgstr ""
+
+#: ui/models_window.py:626
+msgid "No triggers found"
+msgstr ""
+
+#: ui/models_window.py:627
+msgid "No triggers found: {0}"
+msgstr ""
+
+#: ui/models_window.py:630
+msgid "Error loading triggers: {0}"
+msgstr ""
+
+#: ui/models_window.py:635
+msgid "Found {0} triggers"
+msgstr ""
+
+#: ui/models_window.py:667
+msgid "Cannot create .safetriggers file: trigger extraction is not available."
+msgstr ""
+
+#: ui/models_window.py:679
+msgid "LoRA file not found: {0}"
+msgstr ""
+
+#: ui/models_window.py:688
+msgid "Success"
+msgstr ""
+
+#: ui/models_window.py:689
+msgid ""
+"Created .safetriggers file:\n"
+"{0}"
+msgstr ""
+
+#: ui/models_window.py:692
+msgid "Failed to create .safetriggers file"
+msgstr ""
+
+#: ui/models_window.py:696
+msgid "Failed to create .safetriggers file: {0}"
+msgstr ""
+
+#: ui/prompt_config_window.py:541
+msgid "Jargon"
+msgstr "行话"
+
+#: ui/prompt_config_window.py:556
+msgid "Sayings"
+msgstr "箴言"
+
+#: ui/recent_adapters_window.py:68
+msgid "All Recent Adapters"
+msgstr "所有近期适配器"
+
+#: ui/recent_adapters_window.py:69
+msgid "Configuration"
+msgstr "配置"
+
+#: ui/recent_adapters_window.py:196
+msgid "Individual files, including from directory-split runs (no directories)"
+msgstr "单个文件，包括来自目录分割运行（不含目录）的文件"
+
+#: ui/recent_adapters_window.py:217
+msgid "Adapter File"
+msgstr "适配器文件"
+
+#: ui/recent_adapters_window.py:233
+msgid "Apply to ControlNet (Replace)"
+msgstr "应用于ControlNet（替换）"
+
+#: ui/recent_adapters_window.py:235
+msgid "Apply to ControlNet (Add)"
+msgstr "应用于ControlNet（添加）"
+
+#: ui/recent_adapters_window.py:238
+msgid "Apply to IP Adapter (Replace)"
+msgstr "应用于IP适配器（替换）"
+
+#: ui/recent_adapters_window.py:240
+msgid "Apply to IP Adapter (Add)"
+msgstr "应用于IP适配器（添加）"
+
+#: ui/recent_adapters_window.py:264
+msgid "Recent Adapters Configuration"
+msgstr "近期适配器配置"
+
+#: ui/recent_adapters_window.py:270
+msgid "Max Recent Items:"
+msgstr "最近项目上限："
+
+#: ui/recent_adapters_window.py:276
+msgid "Max Recent Split Items:"
+msgstr "最近拆分项目上限："
+
+#: ui/recent_adapters_window.py:282
+msgid ""
+"These settings control how many recent adapters are kept in memory.\n"
+"Higher values use more memory but keep more history.\n"
+"Changes take effect immediately and are saved automatically."
+msgstr ""
+"这些设置控制内存中保留的最近适配器数量。\n"
+"数值越高，占用内存越多，但可保留更多历史记录。\n"
+"更改立即生效并自动保存。"
+
+#: utils/globals.py:231
+msgid "Image to Image"
+msgstr "图像到图像"

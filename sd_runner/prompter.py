@@ -31,6 +31,8 @@ class PrompterConfiguration:
         characters: tuple[int, int] = (0, 1),
         random_words: tuple[int, int] = (0, 5),
         nonsense: tuple[int, int] = (0, 0),
+        jargon: tuple[int, int] = (0, 2),
+        sayings: tuple[int, int] = (0, 2),
         art_styles_chance: float = 0.3
     ):
         self.concepts_dir = config.concepts_dirs[config.default_concepts_dir]
@@ -49,6 +51,8 @@ class PrompterConfiguration:
         self.characters = characters
         self.random_words = random_words
         self.nonsense = nonsense
+        self.jargon = jargon
+        self.sayings = sayings
         self.multiplier = 1
         self.art_styles_chance = art_styles_chance
         self.specify_humans_chance = 0.25
@@ -75,6 +79,8 @@ class PrompterConfiguration:
             "characters": self.characters,
             "random_words": self.random_words,
             "nonsense": self.nonsense,
+            "jargon": self.jargon,
+            "sayings": self.sayings,
             "multiplier": self.multiplier,
             "art_styles_chance": self.art_styles_chance,
             "specify_humans_chance": self.specify_humans_chance,
@@ -101,6 +107,8 @@ class PrompterConfiguration:
         self.characters = _dict["characters"] if "characters" in _dict else self.characters
         self.random_words = _dict['random_words'] if 'random_words' in _dict else self.random_words
         self.nonsense = _dict['nonsense'] if 'nonsense' in _dict else self.nonsense
+        self.jargon = _dict['jargon'] if 'jargon' in _dict else self.jargon
+        self.sayings = _dict['sayings'] if 'sayings' in _dict else self.sayings
         self.multiplier = _dict["multiplier"] if "multiplier" in _dict else self.multiplier
         self.art_styles_chance = _dict['art_styles_chance'] if 'art_styles_chance' in _dict else self.art_styles_chance
         self.specify_humans_chance = _dict['specify_humans_chance'] if'specify_humans_chance' in  _dict else self.specify_humans_chance
@@ -344,6 +352,8 @@ class Prompter:
         mix.extend(self.concepts.get_characters(*self.prompter_config.characters, multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_random_words(*self.prompter_config.random_words, multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_nonsense(*self.prompter_config.nonsense, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_jargon(*self.prompter_config.jargon, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_sayings(*self.prompter_config.sayings, multiplier=self.prompter_config.multiplier))
         # Humans might not always be desirable so only add some randomly
         if self.prompt_mode == PromptMode.SFW:
             if random.random() < humans_chance:

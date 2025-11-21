@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-09-28 03:49-0400\n"
-"PO-Revision-Date: 2025-09-28 03:49-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2025-11-21 17:10-0500\n"
+"PO-Revision-Date: 2025-11-21 17:10-0500\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -12,197 +12,197 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:144
+#: app.py:145
 msgid "Run SD Workflows"
 msgstr "安定拡散ワークフローの実行"
 
-#: app.py:148
+#: app.py:149
 msgid "Run Workflows"
 msgstr "워크플로 실행"
 
-#: app.py:150
+#: app.py:151
 msgid "Cancel Run"
 msgstr "실행 취소"
 
-#: app.py:166
+#: app.py:167
 msgid "Software"
 msgstr "소프트웨어"
 
-#: app.py:174
+#: app.py:175
 msgid "Workflow"
 msgstr "워크플로"
 
-#: app.py:181
+#: app.py:182
 msgid "Set N Latents"
 msgstr "잠재 고객 수"
 
-#: app.py:187
+#: app.py:188
 msgid "Set Total"
 msgstr "합계"
 
-#: app.py:195
+#: app.py:196
 msgid "Batch Limit"
 msgstr "배치 제한"
 
-#: app.py:202
+#: app.py:203
 msgid "Delay Seconds"
 msgstr "지연 시간(초)"
 
-#: app.py:208
+#: app.py:209
 msgid "Resolutions"
 msgstr "해상도"
 
-#: app.py:215
+#: app.py:216
 msgid "Resolution Group"
 msgstr "이미지 해결 그룹"
 
-#: app.py:221
+#: app.py:222
 msgid "Model Tags"
 msgstr "모델 태그"
 
-#: app.py:223 app.py:240 ui/models_window.py:25
+#: app.py:224 app.py:241 ui/models_window.py:27
 msgid "Models"
 msgstr "모델"
 
-#: app.py:238
+#: app.py:239
 msgid "LoRA Tags"
 msgstr "LoRA 태그"
 
-#: app.py:256
+#: app.py:257
 msgid "Default LoRA Strength"
 msgstr "기본 LoRA 강도"
 
-#: app.py:262
+#: app.py:263
 msgid "B/W Colorization Tags"
 msgstr "블랙/화이트 컬러화 태그"
 
-#: app.py:270
+#: app.py:271
 msgid "Control Net or Redo files"
 msgstr "제어망 또는 파일 다시 실행"
 
-#: app.py:272 app.py:287
+#: app.py:273 app.py:288
 msgid "Recent"
 msgstr "최근"
 
-#: app.py:279
+#: app.py:280
 msgid "Default Control Net Strength"
 msgstr "기본 제어망 강도"
 
-#: app.py:285
+#: app.py:286
 msgid "IPAdapter files"
 msgstr "IPAdapter 파일"
 
-#: app.py:294
+#: app.py:295
 msgid "Default IPAdapter Strength"
 msgstr "기본 IPAdapter 강도"
 
-#: app.py:300
+#: app.py:301
 msgid "Redo Parameters"
 msgstr "매개변수 다시 실행"
 
-#: app.py:316 app.py:333 ui/prompt_config_window.py:267
+#: app.py:317 app.py:334 ui/prompt_config_window.py:273
 msgid "Prompts Configuration"
 msgstr "프롬프트 구성"
 
-#: app.py:321
+#: app.py:322
 msgid "Preset Schedule Window"
 msgstr "사전 설정 일정 창"
 
-#: app.py:322 ui/presets_window.py:98
+#: app.py:323 ui/presets_window.py:98
 msgid "Presets Window"
 msgstr "사전 설정 창"
 
-#: app.py:323
+#: app.py:324
 msgid "Timed Schedules Window"
 msgstr "시간별 일정 창"
 
-#: app.py:328 ui/tags_blacklist_window.py:500 ui/tags_blacklist_window.py:653
+#: app.py:329 ui/tags_blacklist_window.py:502 ui/tags_blacklist_window.py:655
 msgid "Tag Blacklist"
 msgstr "태그 블랙리스트"
 
-#: app.py:329 ui/expansions_window.py:176
+#: app.py:330 ui/expansions_window.py:180
 msgid "Expansions Window"
 msgstr "확장 프로그램 창"
 
-#: app.py:336
+#: app.py:337
 msgid "Prompt Mode"
 msgstr "프롬프트 모드"
 
-#: app.py:343 utils/globals.py:454
+#: app.py:344 utils/globals.py:456
 msgid "Edit Concepts"
 msgstr "개념 편집"
 
-#: app.py:346
+#: app.py:347
 msgid "Concepts Dir"
 msgstr "개념 디렉토리"
 
-#: app.py:357
+#: app.py:358
 msgid "Override Resolution"
 msgstr "이미지 해상도 재정의"
 
-#: app.py:361
+#: app.py:362
 msgid "Inpainting"
 msgstr "실내 페인팅"
 
-#: app.py:365 ui/prompt_config_window.py:569
+#: app.py:366 ui/prompt_config_window.py:611
 msgid "Override Base Negative"
 msgstr "기본 음수 재정의"
 
-#: app.py:369
+#: app.py:370
 msgid "Run Preset Schedule"
 msgstr "사전 설정 일정 실행"
 
-#: app.py:373 ui/prompt_config_window.py:590
+#: app.py:374 ui/prompt_config_window.py:632
 msgid "Continuous Seed Variation"
 msgstr "연속적인 랜덤 시드 변동"
 
-#: app.py:377
+#: app.py:378
 msgid "Prompt Massage Tags"
 msgstr "프롬프트 마사지 태그"
 
-#: app.py:384
+#: app.py:385
 msgid "Positive Tags"
 msgstr "프롬프트 조정 태그"
 
-#: app.py:391
+#: app.py:392
 msgid "Negative Tags"
 msgstr "네거티브 태그"
 
-#: app.py:416 app.py:1388
+#: app.py:417 app.py:1427
 msgid " ComfyGen "
 msgstr " SD 러너 "
 
-#: app.py:417
+#: app.py:418
 msgid "Debug mode toggled."
 msgstr "디버그 모드 토글됨."
 
-#: app.py:476
+#: app.py:480
 msgid "Confirm Quit"
 msgstr "종료 확인"
 
-#: app.py:476
+#: app.py:480
 msgid "Would you like to quit the application?"
 msgstr "앱을 종료하시겠습니까?"
 
-#: app.py:726 app.py:746
+#: app.py:733 app.py:753
 msgid "Confirm Run"
 msgstr "실행 확인"
 
-#: app.py:727
+#: app.py:734
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "새 실행을 시작하면 현재 미리 설정된 일정이 취소됩니다. 계속 진행하시겠습니까?"
 
-#: app.py:747
+#: app.py:754
 msgid "Are you sure you want to proceed?"
 msgstr "계속 진행하시겠습니까?"
 
-#: app.py:782
+#: app.py:791
 msgid "Long Running Job Confirmation"
 msgstr "장시간 실행 작업 확인"
 
-#: app.py:783
+#: app.py:792
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -220,42 +220,44 @@ msgstr ""
 "\n"
 "계속 진행하시겠습니까?"
 
-#: app.py:898
+#: app.py:913
 msgid " (unlimited)"
 msgstr " (무제한)"
 
-#: app.py:914
+#: app.py:929
 msgid "{0} remaining adapters"
 msgstr "{0} 남은 어댑터"
 
-#: app.py:934
+#: app.py:949
 msgid "{0} pending generations"
 msgstr "{0} 보류 중인 세대"
 
-#: app.py:1009
+#: app.py:1024
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "프롬프트에서 블랙리스트 항목을 발견했습니다: {0}"
 
-#: app.py:1010 app.py:1013
+#: app.py:1025 app.py:1028
 msgid "Invalid Prompt Tags"
 msgstr "잘못된 프롬프트 태그"
 
-#: app.py:1013
+#: app.py:1028
 msgid "Blacklist validation failed!"
 msgstr "블랙리스트 유효성 검사에 실패했습니다!"
 
-#: app.py:1211
+#: app.py:1226
 msgid "Password Cancelled"
 msgstr "비밀번호 취소"
 
-#: app.py:1211
+#: app.py:1226
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되돌리기"
 
-#: app.py:1230 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
+#: app.py:1269 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
-#: ui/concept_editor_window.py:348 ui/tags_blacklist_window.py:146
-#: ui/tags_blacklist_window.py:323
+#: ui/concept_editor_window.py:348 ui/models_window.py:445
+#: ui/models_window.py:453 ui/models_window.py:679 ui/models_window.py:692
+#: ui/models_window.py:696 ui/tags_blacklist_window.py:147
+#: ui/tags_blacklist_window.py:324
 msgid "Error"
 msgstr "오류"
 
@@ -263,16 +265,16 @@ msgstr "오류"
 msgid "⚠ Caps Lock is ON"
 msgstr "⚠ 대문자 잠금 상태입니다"
 
-#: sd_runner/blacklist.py:332
+#: sd_runner/blacklist.py:447
 msgid "Filtering concepts for blacklist: "
 msgstr "블랙리스트에 대한 필터링 개념: "
 
-#: sd_runner/models.py:485
+#: sd_runner/models.py:490
 msgid ""
 "One or more loras are blacklisted. Please try again with a different lora."
 msgstr "하나 이상의 LORA가 블랙리스트에 등록되었습니다. 다른 LORA로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/models.py:489
+#: sd_runner/models.py:494
 msgid ""
 "The following loras are blacklisted: {0}\n"
 "\n"
@@ -282,12 +284,12 @@ msgstr ""
 "\n"
 "다른 로라로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/models.py:494
+#: sd_runner/models.py:499
 msgid ""
 "One or more models are blacklisted. Please try again with a different model."
 msgstr "하나 이상의 모델이 블랙리스트에 등록되었습니다. 다른 모델로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/models.py:498
+#: sd_runner/models.py:503
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
@@ -362,14 +364,14 @@ msgstr "(새 개념 저장 및 가져오기를 위한 대상 파일)"
 msgid "Save"
 msgstr "저장"
 
-#: ui/concept_editor_window.py:171 ui/expansions_window.py:241
+#: ui/concept_editor_window.py:171 ui/expansions_window.py:245
 #: ui/presets_window.py:151 ui/schedules_windows.py:90
 #: ui/schedules_windows.py:300 ui/timed_schedules_window.py:210
 msgid "Delete"
 msgstr "삭제"
 
-#: ui/concept_editor_window.py:174 ui/tags_blacklist_window.py:559
-#: ui/tags_blacklist_window.py:626
+#: ui/concept_editor_window.py:174 ui/tags_blacklist_window.py:561
+#: ui/tags_blacklist_window.py:628
 msgid "Import"
 msgstr "가져오기"
 
@@ -431,27 +433,27 @@ msgstr "팁: 개념 줄 앞에 \"!\" 를 추가하여 강제로 가져오거나 
 msgid "Import Results"
 msgstr "가져오기 결과"
 
-#: ui/expansions_window.py:31
+#: ui/expansions_window.py:32
 msgid "Modify Expansion: {0}"
 msgstr "확장을 수정합니다: {0}"
 
-#: ui/expansions_window.py:39
+#: ui/expansions_window.py:40
 msgid "Expansion ID"
 msgstr "확장 ID"
 
-#: ui/expansions_window.py:46
+#: ui/expansions_window.py:47
 msgid "Expansion Text"
 msgstr "확장 텍스트"
 
-#: ui/expansions_window.py:48
+#: ui/expansions_window.py:49
 msgid "New Expansion Text"
 msgstr "새로운 확장 텍스트"
 
-#: ui/expansions_window.py:61 ui/tags_blacklist_window.py:119
+#: ui/expansions_window.py:62 ui/tags_blacklist_window.py:120
 msgid "Done"
 msgstr "완료"
 
-#: ui/expansions_window.py:69
+#: ui/expansions_window.py:70
 msgid ""
 "Warning: This expansion ID matches a wildcard in config.json. Changes will "
 "not take effect until the wildcard is removed or renamed."
@@ -459,11 +461,11 @@ msgstr ""
 "경고: 이 확장 ID는 config.json의 와일드카드와 일치합니다. 와일드카드를 제거하거나 이름을 변경할 때까지 변경 사항이 적용되지"
 " 않습니다."
 
-#: ui/expansions_window.py:81 ui/tags_blacklist_window.py:865
+#: ui/expansions_window.py:82 ui/tags_blacklist_window.py:867
 msgid "Warning"
 msgstr "경고"
 
-#: ui/expansions_window.py:82
+#: ui/expansions_window.py:83
 msgid ""
 "This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
 "\n"
@@ -473,106 +475,109 @@ msgstr ""
 "\n"
 "그래도 저장하시겠습니까?"
 
-#: ui/expansions_window.py:137
+#: ui/expansions_window.py:141
 msgid "New Expansion (ERROR no expansions found)"
 msgstr "새 확장팩(오류: 확장팩을 찾을 수 없음)"
 
-#: ui/expansions_window.py:168
+#: ui/expansions_window.py:172
 msgid "Not enough expansions found."
 msgstr "확장팩이 충분하지 않습니다."
 
-#: ui/expansions_window.py:204
+#: ui/expansions_window.py:208
 msgid "Add or update expansions"
 msgstr "확장 기능 추가 또는 업데이트"
 
-#: ui/expansions_window.py:206
+#: ui/expansions_window.py:210
 msgid "Add expansion"
 msgstr "확장 추가"
 
-#: ui/expansions_window.py:208
+#: ui/expansions_window.py:212
 msgid "Clear expansions"
 msgstr "확장팩 지우기"
 
-#: ui/expansions_window.py:234 ui/schedules_windows.py:293
-#: ui/tags_blacklist_window.py:720 ui/tags_blacklist_window.py:773
+#: ui/expansions_window.py:238 ui/schedules_windows.py:293
+#: ui/tags_blacklist_window.py:722 ui/tags_blacklist_window.py:775
 #: ui/timed_schedules_window.py:203
 msgid "Modify"
 msgstr "수정"
 
-#: ui/expansions_window.py:248
+#: ui/expansions_window.py:252
 msgid "Copy"
 msgstr "복사"
 
-#: ui/expansions_window.py:286
+#: ui/expansions_window.py:290
 msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
 msgstr "잘못된 확장 ID “{0}” 또는 텍스트 “{1}”"
 
-#: ui/expansions_window.py:458
+#: ui/expansions_window.py:462
 msgid "Copied expansion text to clipboard"
 msgstr "확장 텍스트를 클립보드에 복사"
 
-#: ui/models_window.py:48
+#: ui/models_window.py:50
 msgid "Checkpoints"
 msgstr "검문소"
 
-#: ui/models_window.py:49
+#: ui/models_window.py:51
 msgid "LoRAs & Adapters"
 msgstr "LoRA 및 어댑터"
 
-#: ui/models_window.py:63 ui/models_window.py:119
-#: ui/recent_adapters_window.py:63 ui/recent_adapters_window.py:118
+#: ui/models_window.py:65 ui/models_window.py:121
+#: ui/recent_adapters_window.py:86 ui/recent_adapters_window.py:141
+#: ui/recent_adapters_window.py:201
 msgid "Filter"
 msgstr "필터"
 
-#: ui/models_window.py:79
+#: ui/models_window.py:81
 msgid "Model Name"
 msgstr "모델명"
 
-#: ui/models_window.py:80 ui/models_window.py:136
+#: ui/models_window.py:82 ui/models_window.py:138
 msgid "Architecture"
 msgstr "건축"
 
-#: ui/models_window.py:81 ui/models_window.py:137
-#: ui/recent_adapters_window.py:81 ui/recent_adapters_window.py:136
+#: ui/models_window.py:83 ui/models_window.py:139
+#: ui/recent_adapters_window.py:104 ui/recent_adapters_window.py:159
+#: ui/recent_adapters_window.py:219
 msgid "Created"
 msgstr "생성됨"
 
-#: ui/models_window.py:96 ui/models_window.py:152
-#: ui/recent_adapters_window.py:96 ui/recent_adapters_window.py:151
+#: ui/models_window.py:98 ui/models_window.py:154
+#: ui/recent_adapters_window.py:119 ui/recent_adapters_window.py:174
 msgid "Replace"
 msgstr "바꾸다"
 
-#: ui/models_window.py:98 ui/models_window.py:154
-#: ui/recent_adapters_window.py:98 ui/recent_adapters_window.py:153
+#: ui/models_window.py:100 ui/models_window.py:156
+#: ui/recent_adapters_window.py:121 ui/recent_adapters_window.py:176
 msgid "Add"
 msgstr "추가"
 
-#: ui/models_window.py:100 ui/models_window.py:156
-#: ui/recent_adapters_window.py:100 ui/recent_adapters_window.py:155
+#: ui/models_window.py:102 ui/models_window.py:164
+#: ui/recent_adapters_window.py:123 ui/recent_adapters_window.py:178
 msgid "Refresh"
 msgstr "새로 고침"
 
-#: ui/models_window.py:102 ui/models_window.py:158 ui/models_window.py:406
-#: ui/models_window.py:408
+#: ui/models_window.py:104 ui/models_window.py:166 ui/models_window.py:414
+#: ui/models_window.py:416
 msgid "Show Blacklisted"
 msgstr "블랙리스트 표시"
 
-#: ui/auth/password_admin_window.py:249 ui/models_window.py:104
-#: ui/models_window.py:160 ui/prompt_config_window.py:329
-#: ui/recent_adapters_window.py:102 ui/recent_adapters_window.py:157
-#: ui/tags_blacklist_window.py:283
+#: ui/auth/password_admin_window.py:249 ui/models_window.py:106
+#: ui/models_window.py:168 ui/models_window.py:583
+#: ui/prompt_config_window.py:341 ui/recent_adapters_window.py:125
+#: ui/recent_adapters_window.py:180 ui/recent_adapters_window.py:242
+#: ui/recent_adapters_window.py:299 ui/tags_blacklist_window.py:284
 msgid "Close"
 msgstr "닫기"
 
-#: ui/models_window.py:135
+#: ui/models_window.py:137
 msgid "LoRA/Adapter Name"
 msgstr "어댑터"
 
-#: ui/models_window.py:368 ui/recent_adapters_window.py:405
+#: ui/models_window.py:376 ui/recent_adapters_window.py:586
 msgid "Cache"
 msgstr "캐시"
 
-#: ui/models_window.py:401 ui/models_window.py:403
+#: ui/models_window.py:409 ui/models_window.py:411
 msgid "Hide Blacklisted"
 msgstr "블랙리스트 숨기기"
 
@@ -612,143 +617,144 @@ msgstr "잘못된 사전 설정입니다: {0}"
 msgid "Prompt Configuration"
 msgstr "프롬프트 구성"
 
-#: ui/prompt_config_window.py:202
+#: ui/prompt_config_window.py:208
 msgid "Detailed Prompt Configuration"
 msgstr "상세 프롬프트 구성"
 
-#: ui/prompt_config_window.py:207
+#: ui/prompt_config_window.py:213
 msgid "Basic Generation Settings"
 msgstr "기본 생성 설정"
 
-#: ui/prompt_config_window.py:210
+#: ui/prompt_config_window.py:216
 msgid "Sampler"
 msgstr "샘플러"
 
-#: ui/prompt_config_window.py:218
+#: ui/prompt_config_window.py:224
 msgid "Scheduler"
 msgstr "스케줄러"
 
-#: ui/prompt_config_window.py:226
+#: ui/prompt_config_window.py:232
 msgid "Seed"
 msgstr "씨앗"
 
-#: ui/prompt_config_window.py:234
+#: ui/prompt_config_window.py:240
 msgid "Steps"
 msgstr "단계"
 
-#: ui/prompt_config_window.py:242
+#: ui/prompt_config_window.py:248
 msgid "CFG"
 msgstr "CFG"
 
-#: ui/prompt_config_window.py:250
+#: ui/prompt_config_window.py:256
 msgid "Denoise"
 msgstr "노이즈 제거"
 
-#: ui/prompt_config_window.py:258
+#: ui/prompt_config_window.py:264
 msgid "Random Skip Chance"
 msgstr "무작위 건너뛰기 확률"
 
-#: ui/prompt_config_window.py:309
+#: ui/prompt_config_window.py:321
 msgid "Multiplier"
 msgstr "승수"
 
-#: ui/prompt_config_window.py:334
+#: ui/prompt_config_window.py:346
 msgid "Concepts"
 msgstr "개념"
 
-#: ui/prompt_config_window.py:349
+#: ui/prompt_config_window.py:361
 msgid "Positions"
 msgstr "포지션"
 
-#: ui/prompt_config_window.py:364
+#: ui/prompt_config_window.py:376
 msgid "Locations"
 msgstr "위치"
 
-#: ui/prompt_config_window.py:379
+#: ui/prompt_config_window.py:391
 msgid "Animals"
 msgstr "동물"
 
-#: ui/prompt_config_window.py:394
+#: ui/prompt_config_window.py:406
 msgid "Colors"
 msgstr "색상"
 
-#: ui/prompt_config_window.py:409
+#: ui/prompt_config_window.py:421
 msgid "Times"
 msgstr "시간"
 
-#: ui/prompt_config_window.py:424
+#: ui/prompt_config_window.py:436
 msgid "Dress"
 msgstr "의류"
 
-#: ui/prompt_config_window.py:439
+#: ui/prompt_config_window.py:451
 msgid "Expressions"
 msgstr "표현식"
 
-#: ui/prompt_config_window.py:454
+#: ui/prompt_config_window.py:466
 msgid "Actions"
 msgstr "작업"
 
-#: ui/prompt_config_window.py:469
+#: ui/prompt_config_window.py:481
 msgid "Descriptions"
 msgstr "설명"
 
-#: ui/prompt_config_window.py:484
+#: ui/prompt_config_window.py:496
 msgid "Characters"
 msgstr "문자"
 
-#: ui/prompt_config_window.py:499
+#: ui/prompt_config_window.py:511
 msgid "Random Words"
 msgstr "무작위 단어"
 
-#: ui/prompt_config_window.py:514 utils/globals.py:37
+#: ui/prompt_config_window.py:526 utils/globals.py:37
 msgid "Nonsense"
 msgstr "넌센스"
 
-#: ui/prompt_config_window.py:530
+#: ui/prompt_config_window.py:572
 msgid "Specific Locations Chance"
 msgstr "위치 지정 기회"
 
-#: ui/prompt_config_window.py:539
+#: ui/prompt_config_window.py:581
 msgid "Specify Humans Chance"
 msgstr "인간을 지정할 기회"
 
-#: ui/prompt_config_window.py:548
+#: ui/prompt_config_window.py:590
 msgid "Art Styles Chance"
 msgstr "아트 스타일의 기회"
 
-#: ui/prompt_config_window.py:557
+#: ui/prompt_config_window.py:599
 msgid "Emphasis Chance"
 msgstr "강조 확률"
 
-#: ui/prompt_config_window.py:576
+#: ui/prompt_config_window.py:618
 msgid "Tags Applied to Prompt Start"
 msgstr "프롬프트 시작에 태그 적용"
 
-#: ui/prompt_config_window.py:583
+#: ui/prompt_config_window.py:625
 msgid "Sparse Mixed Tags"
 msgstr "희소 혼합 태그"
 
-#: ui/recent_adapters_window.py:28
+#: ui/recent_adapters_window.py:41
 msgid "Recent Adapters"
 msgstr "최근 어댑터"
 
-#: ui/recent_adapters_window.py:47
+#: ui/recent_adapters_window.py:66
 msgid "Recent ControlNets"
 msgstr "최근 ControlNets"
 
-#: ui/recent_adapters_window.py:48
+#: ui/recent_adapters_window.py:67
 msgid "Recent IP Adapters"
 msgstr "최근 IP 어댑터"
 
-#: ui/recent_adapters_window.py:79
+#: ui/recent_adapters_window.py:102
 msgid "ControlNet File"
 msgstr "ControlNet 파일"
 
-#: ui/recent_adapters_window.py:80 ui/recent_adapters_window.py:135
+#: ui/recent_adapters_window.py:103 ui/recent_adapters_window.py:158
+#: ui/recent_adapters_window.py:218
 msgid "Type"
 msgstr "제품정보"
 
-#: ui/recent_adapters_window.py:134
+#: ui/recent_adapters_window.py:157
 msgid "IP Adapter File"
 msgstr "IP 어댑터 파일"
 
@@ -817,75 +823,75 @@ msgstr "일정을 삭제했습니다: {0}"
 msgid "Cleared schedules"
 msgstr "일정 지우기"
 
-#: ui/tags_blacklist_window.py:34
+#: ui/tags_blacklist_window.py:35
 msgid "Modify Blacklist Item: {0}"
 msgstr "블랙리스트 항목 수정: {0}"
 
-#: ui/tags_blacklist_window.py:53
+#: ui/tags_blacklist_window.py:54
 msgid "Blacklist String"
 msgstr "블랙리스트 문자열"
 
-#: ui/tags_blacklist_window.py:63 ui/timed_schedules_window.py:223
+#: ui/tags_blacklist_window.py:64 ui/timed_schedules_window.py:223
 msgid "Enabled"
 msgstr "활성화됨"
 
-#: ui/tags_blacklist_window.py:75
+#: ui/tags_blacklist_window.py:76
 msgid "Use glob-based regex"
 msgstr "글로브 기반 정규식 사용"
 
-#: ui/tags_blacklist_window.py:87
+#: ui/tags_blacklist_window.py:88
 msgid "Use word boundary matching"
 msgstr "단어 경계 일치 사용"
 
-#: ui/tags_blacklist_window.py:99
+#: ui/tags_blacklist_window.py:100
 msgid "Convert spaces to optional non-word characters"
 msgstr "공백을 선택적 비단어 문자로 변환"
 
-#: ui/tags_blacklist_window.py:109
+#: ui/tags_blacklist_window.py:110
 msgid "Exception Pattern (optional regex to unfilter tags)"
 msgstr "예외 패턴 (필터링을 해제하기 위한 선택적 정규 표현식)"
 
-#: ui/tags_blacklist_window.py:118 ui/tags_blacklist_window.py:728
+#: ui/tags_blacklist_window.py:119 ui/tags_blacklist_window.py:730
 msgid "Preview"
 msgstr "미리 보기"
 
-#: ui/tags_blacklist_window.py:146
+#: ui/tags_blacklist_window.py:147
 msgid "Blacklist string cannot be empty."
 msgstr "블랙리스트 텍스트는 비워둘 수 없습니다."
 
-#: ui/tags_blacklist_window.py:182
+#: ui/tags_blacklist_window.py:183
 msgid "No changes were made"
 msgstr "변경된 사항 없음"
 
-#: ui/tags_blacklist_window.py:194
+#: ui/tags_blacklist_window.py:195
 msgid "Unsaved Changes"
 msgstr "저장되지 않은 변경 사항"
 
-#: ui/tags_blacklist_window.py:194
+#: ui/tags_blacklist_window.py:195
 msgid "Do you want to save changes before closing?"
 msgstr "닫기 전에 변경 사항을 저장하시겠습니까?"
 
-#: ui/tags_blacklist_window.py:230
+#: ui/tags_blacklist_window.py:231
 msgid "Blacklist Preview"
 msgstr "블랙리스트 미리보기"
 
-#: ui/tags_blacklist_window.py:247
+#: ui/tags_blacklist_window.py:248
 msgid "Concepts filtered by: {0}"
 msgstr "필터링된 개념: {0}"
 
-#: ui/tags_blacklist_window.py:251
+#: ui/tags_blacklist_window.py:252
 msgid "All filtered concepts"
 msgstr "모든 필터링된 개념"
 
-#: ui/tags_blacklist_window.py:312
+#: ui/tags_blacklist_window.py:313
 msgid "Found {0} filtered concepts"
 msgstr "{0} 필터링된 개념을 찾았습니다."
 
-#: ui/tags_blacklist_window.py:320
+#: ui/tags_blacklist_window.py:321
 msgid "Error loading concepts: {0}"
 msgstr "개념을 로드하는 동안 오류가 발생했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:348
+#: ui/tags_blacklist_window.py:349
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -895,11 +901,11 @@ msgstr ""
 "\n"
 "아직 어리거나 확실하지 않거나 성인이더라도 지금 이 창에서 닫기 버튼을 클릭하고 대신 다른 재미있는 일을 하세요."
 
-#: ui/tags_blacklist_window.py:426
+#: ui/tags_blacklist_window.py:427
 msgid "Confirm Load Default Blacklist"
 msgstr "기본 블랙리스트 로드 확인"
 
-#: ui/tags_blacklist_window.py:427
+#: ui/tags_blacklist_window.py:428
 msgid ""
 "Are you sure you want to load the default blacklist?\n"
 "\n"
@@ -917,76 +923,76 @@ msgstr ""
 "\n"
 "계속하시겠습니까?"
 
-#: ui/tags_blacklist_window.py:440
+#: ui/tags_blacklist_window.py:442
 msgid "Loaded default blacklist"
 msgstr "로드된 기본 블랙리스트"
 
-#: ui/tags_blacklist_window.py:444
+#: ui/tags_blacklist_window.py:446
 msgid "Error loading default blacklist"
 msgstr "기본 블랙리스트 로드 중 오류 발생"
 
-#: ui/tags_blacklist_window.py:474
+#: ui/tags_blacklist_window.py:476
 msgid "Tags/Models Blacklist"
 msgstr "태그 및 모델 블랙리스트"
 
-#: ui/tags_blacklist_window.py:503
+#: ui/tags_blacklist_window.py:505
 msgid "Model Blacklist"
 msgstr "모델 블랙리스트"
 
-#: ui/tags_blacklist_window.py:527 ui/tags_blacklist_window.py:595
+#: ui/tags_blacklist_window.py:529 ui/tags_blacklist_window.py:597
 msgid "Global Settings:"
 msgstr "글로벌 설정"
 
-#: ui/tags_blacklist_window.py:529 ui/tags_blacklist_window.py:597
+#: ui/tags_blacklist_window.py:531 ui/tags_blacklist_window.py:599
 msgid "These settings affect how the blacklist is applied globally."
 msgstr "이러한 설정은 블랙리스트가 전 세계적으로 적용되는 방식에 영향을 줍니다."
 
-#: ui/tags_blacklist_window.py:538 ui/tags_blacklist_window.py:606
+#: ui/tags_blacklist_window.py:540 ui/tags_blacklist_window.py:608
 msgid "Choose how the blacklist is enforced: block, warn, or allow."
 msgstr "블랙리스트 적용 방법을 차단, 경고, 허용 중에서 선택합니다."
 
-#: ui/tags_blacklist_window.py:544 ui/tags_blacklist_window.py:612
+#: ui/tags_blacklist_window.py:546 ui/tags_blacklist_window.py:614
 msgid "Silent Removal"
 msgstr "자동 제거"
 
-#: ui/tags_blacklist_window.py:552 ui/tags_blacklist_window.py:620
+#: ui/tags_blacklist_window.py:554 ui/tags_blacklist_window.py:622
 msgid ""
 "If enabled, blacklisted words are removed silently without notification."
 msgstr "활성화하면 블랙리스트에 추가된 단어가 알림 없이 자동으로 삭제됩니다."
 
-#: ui/tags_blacklist_window.py:560 ui/tags_blacklist_window.py:627
+#: ui/tags_blacklist_window.py:562 ui/tags_blacklist_window.py:629
 msgid "Export"
 msgstr "내보내기"
 
-#: ui/tags_blacklist_window.py:561 ui/tags_blacklist_window.py:628
+#: ui/tags_blacklist_window.py:563 ui/tags_blacklist_window.py:630
 msgid "Preview All"
 msgstr "모두 보기"
 
-#: ui/tags_blacklist_window.py:562
+#: ui/tags_blacklist_window.py:564
 msgid "Load Default"
 msgstr "로드 기본값"
 
-#: ui/tags_blacklist_window.py:571
+#: ui/tags_blacklist_window.py:573
 msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
 msgstr "블랙리스트 적용 방식 선택: NSFW에서 차단 또는 허용"
 
-#: ui/tags_blacklist_window.py:574
+#: ui/tags_blacklist_window.py:576
 msgid "Add to tag blacklist"
 msgstr "태그 블랙리스트에 추가"
 
-#: ui/tags_blacklist_window.py:576 ui/tags_blacklist_window.py:642
+#: ui/tags_blacklist_window.py:578 ui/tags_blacklist_window.py:644
 msgid "Clear items"
 msgstr "항목 지우기"
 
-#: ui/tags_blacklist_window.py:636
+#: ui/tags_blacklist_window.py:638
 msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
 msgstr "모델 블랙리스트 적용 방식을 선택하세요: NSFW에서 차단하거나 허용합니다."
 
-#: ui/tags_blacklist_window.py:641
+#: ui/tags_blacklist_window.py:643
 msgid "Add to model blacklist"
 msgstr "모델 블랙리스트에 추가"
 
-#: ui/tags_blacklist_window.py:673
+#: ui/tags_blacklist_window.py:675
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag "
 "blacklist' button below, or load the default blacklist."
@@ -994,11 +1000,11 @@ msgstr ""
 "블랙리스트 항목을 찾을 수 없습니다. 아래의 ‘태그 블랙리스트에 추가하기’ 버튼을 클릭하여 항목을 추가하거나 기본 블랙리스트를 불러올 수"
 " 있습니다."
 
-#: ui/tags_blacklist_window.py:675
+#: ui/tags_blacklist_window.py:677
 msgid "Click below to reveal blacklist concepts."
 msgstr "아래를 클릭하면 블랙리스트 개념을 확인할 수 있습니다."
 
-#: ui/tags_blacklist_window.py:677
+#: ui/tags_blacklist_window.py:679
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
@@ -1007,36 +1013,36 @@ msgstr ""
 "기본 블랙리스트가 로드됩니다. 기존 개념을 편집하거나, 블랙리스트를 지우고 자신만의 블랙리스트를 추가하거나, 파일에서 개념을 가져와서 "
 "자신만의 블랙리스트를 로드할 수 있습니다."
 
-#: ui/tags_blacklist_window.py:683
+#: ui/tags_blacklist_window.py:685
 msgid "Reveal Concepts"
 msgstr "컨셉 공개"
 
-#: ui/tags_blacklist_window.py:702 ui/tags_blacklist_window.py:759
+#: ui/tags_blacklist_window.py:704 ui/tags_blacklist_window.py:761
 msgid "[regex]"
 msgstr "[정규식]"
 
-#: ui/tags_blacklist_window.py:704
+#: ui/tags_blacklist_window.py:706
 msgid "[no boundary]"
 msgstr "[단어 경계 없음]"
 
-#: ui/tags_blacklist_window.py:706 ui/tags_blacklist_window.py:761
+#: ui/tags_blacklist_window.py:708 ui/tags_blacklist_window.py:763
 msgid "[no space conversion]"
 msgstr "[공백 변환 없음]"
 
-#: ui/tags_blacklist_window.py:708 ui/tags_blacklist_window.py:763
+#: ui/tags_blacklist_window.py:710 ui/tags_blacklist_window.py:765
 msgid "[exception: {0}]"
 msgstr "[예외: {0}]"
 
-#: ui/tags_blacklist_window.py:712 ui/tags_blacklist_window.py:767
-#: ui/tags_blacklist_window.py:1032 ui/tags_blacklist_window.py:1210
+#: ui/tags_blacklist_window.py:714 ui/tags_blacklist_window.py:769
+#: ui/tags_blacklist_window.py:1035 ui/tags_blacklist_window.py:1213
 msgid "Disabled"
 msgstr "사용 불가"
 
-#: ui/tags_blacklist_window.py:736 ui/tags_blacklist_window.py:779
+#: ui/tags_blacklist_window.py:738 ui/tags_blacklist_window.py:781
 msgid "Remove"
 msgstr "제거"
 
-#: ui/tags_blacklist_window.py:748
+#: ui/tags_blacklist_window.py:750
 msgid ""
 "No model blacklist items found. You can add items by clicking the 'Add to "
 "model blacklist' button above, or load the default model blacklist."
@@ -1044,27 +1050,27 @@ msgstr ""
 "모델 블랙리스트 항목이 없습니다. 위의 ‘모델 블랙리스트에 추가’ 버튼을 클릭하여 항목을 추가하거나 기본 모델 블랙리스트를 로드할 수 "
 "있습니다."
 
-#: ui/tags_blacklist_window.py:840 ui/tags_blacklist_window.py:875
+#: ui/tags_blacklist_window.py:842 ui/tags_blacklist_window.py:877
 msgid "Added item to blacklist: {0}"
 msgstr "블랙리스트에 항목을 추가했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:842
+#: ui/tags_blacklist_window.py:844
 msgid "Modified blacklist item: {0}"
 msgstr "블랙리스트 항목을 수정했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:855
+#: ui/tags_blacklist_window.py:857
 msgid "Removed item: {0}"
 msgstr "항목을 제거했습니다: {0}"
 
-#: ui/tags_blacklist_window.py:865
+#: ui/tags_blacklist_window.py:867
 msgid "Please enter a string to add to the blacklist."
 msgstr "블랙리스트에 추가할 문자열을 입력하세요."
 
-#: ui/tags_blacklist_window.py:955
+#: ui/tags_blacklist_window.py:957
 msgid "Confirm Clear Blacklist"
 msgstr "블랙리스트 지우기 확인"
 
-#: ui/tags_blacklist_window.py:956
+#: ui/tags_blacklist_window.py:958
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
@@ -1084,91 +1090,91 @@ msgstr ""
 "\n"
 "계속하시겠습니까?"
 
-#: ui/tags_blacklist_window.py:975
+#: ui/tags_blacklist_window.py:978
 msgid "Cleared item blacklist"
 msgstr "삭제된 항목 블랙리스트"
 
-#: ui/tags_blacklist_window.py:1035
+#: ui/tags_blacklist_window.py:1038
 msgid "Item \"{0}\" is now {1}"
 msgstr "항목 “{0}”은 이제 {1}입니다."
 
-#: ui/tags_blacklist_window.py:1037 ui/tags_blacklist_window.py:1214
+#: ui/tags_blacklist_window.py:1040 ui/tags_blacklist_window.py:1217
 msgid "enabled"
 msgstr "활성화"
 
-#: ui/tags_blacklist_window.py:1037 ui/tags_blacklist_window.py:1214
+#: ui/tags_blacklist_window.py:1040 ui/tags_blacklist_window.py:1217
 msgid "disabled"
 msgstr "장애인"
 
-#: ui/tags_blacklist_window.py:1047
+#: ui/tags_blacklist_window.py:1050
 msgid "Concepts revealed"
 msgstr "콘셉트 공개"
 
-#: ui/tags_blacklist_window.py:1078 ui/tags_blacklist_window.py:1245
+#: ui/tags_blacklist_window.py:1081 ui/tags_blacklist_window.py:1248
 msgid "Import Blacklist"
 msgstr "블랙리스트 가져오기"
 
-#: ui/tags_blacklist_window.py:1097
+#: ui/tags_blacklist_window.py:1100
 msgid "Successfully imported blacklist"
 msgstr "성공적으로 가져온 블랙리스트"
 
-#: ui/tags_blacklist_window.py:1099 ui/tags_blacklist_window.py:1266
+#: ui/tags_blacklist_window.py:1102 ui/tags_blacklist_window.py:1269
 msgid "Import Error"
 msgstr "가져오기 오류"
 
-#: ui/tags_blacklist_window.py:1110
+#: ui/tags_blacklist_window.py:1113
 msgid "Export Blacklist"
 msgstr "블랙리스트 내보내기"
 
-#: ui/tags_blacklist_window.py:1125
+#: ui/tags_blacklist_window.py:1128
 msgid "Successfully exported blacklist"
 msgstr "성공적으로 내보낸 블랙리스트"
 
-#: ui/tags_blacklist_window.py:1127 ui/tags_blacklist_window.py:1287
+#: ui/tags_blacklist_window.py:1130 ui/tags_blacklist_window.py:1290
 msgid "Export Error"
 msgstr "내보내기 오류"
 
-#: ui/tags_blacklist_window.py:1137
+#: ui/tags_blacklist_window.py:1140
 msgid "Blacklist mode set to: {0}"
 msgstr "블랙리스트 모드가 다음과 같이 설정되었습니다: {0}"
 
-#: ui/tags_blacklist_window.py:1147
+#: ui/tags_blacklist_window.py:1150
 msgid "Blacklist prompt mode set to: {0}"
 msgstr "블랙리스트 프롬프트 모드 설정: {0}"
 
-#: ui/tags_blacklist_window.py:1157
+#: ui/tags_blacklist_window.py:1160
 msgid "Model blacklist mode set to: {0}"
 msgstr "모델 블랙리스트 모드 설정: {0}"
 
-#: ui/tags_blacklist_window.py:1163
+#: ui/tags_blacklist_window.py:1166
 msgid "Silent removal set to: {0}"
 msgstr "자동 제거로 설정되었습니다: {0}"
 
-#: ui/tags_blacklist_window.py:1201
+#: ui/tags_blacklist_window.py:1204
 msgid "Model blacklist updated: {0}"
 msgstr "모델 블랙리스트 업데이트: {0}"
 
-#: ui/tags_blacklist_window.py:1212
+#: ui/tags_blacklist_window.py:1215
 msgid "Model item '{0}' is now {1}"
 msgstr "모델 항목 '{0}'은 이제 {1}입니다."
 
-#: ui/tags_blacklist_window.py:1226
+#: ui/tags_blacklist_window.py:1229
 msgid "Removed model blacklist item: {0}"
 msgstr "모델 블랙리스트 항목 제거: {0}"
 
-#: ui/tags_blacklist_window.py:1233
+#: ui/tags_blacklist_window.py:1236
 msgid "Cleared model blacklist items"
 msgstr "검토 완료된 모델 블랙리스트 항목"
 
-#: ui/tags_blacklist_window.py:1264
+#: ui/tags_blacklist_window.py:1267
 msgid "Successfully imported model blacklist"
 msgstr "모델 블랙리스트 성공적으로 가져옴"
 
-#: ui/tags_blacklist_window.py:1275
+#: ui/tags_blacklist_window.py:1278
 msgid "Export Model Blacklist"
 msgstr "모델 블랙리스트 내보내기"
 
-#: ui/tags_blacklist_window.py:1285
+#: ui/tags_blacklist_window.py:1288
 msgid "Successfully exported model blacklist"
 msgstr "모델 블랙리스트를 성공적으로 수출했습니다"
 
@@ -1292,6 +1298,7 @@ msgid "Set Password"
 msgstr "비밀번호 설정"
 
 #: ui/auth/password_admin_window.py:233 ui/auth/password_admin_window.py:292
+#: ui/recent_adapters_window.py:296
 msgid "Reset to Defaults"
 msgstr "기본값으로 재설정"
 
@@ -1303,7 +1310,7 @@ msgstr "현재로 설정"
 msgid "Export Cache as JSON"
 msgstr "캐시를 JSON으로 내보내기"
 
-#: ui/auth/password_admin_window.py:245
+#: ui/auth/password_admin_window.py:245 ui/recent_adapters_window.py:293
 msgid "Save Settings"
 msgstr "설정 저장"
 
@@ -1519,127 +1526,127 @@ msgstr "허용하지 않음"
 msgid "Allow in NSFW"
 msgstr "NSFW 모드에서 허용"
 
-#: utils/globals.py:224
+#: utils/globals.py:225
 msgid "Simple Image Gen"
 msgstr "이미지 생성 방법"
 
-#: utils/globals.py:225
+#: utils/globals.py:226
 msgid "Simple Image Gen Lora"
 msgstr "LoRA를 활용한 이미지 생성 방법"
 
-#: utils/globals.py:226
+#: utils/globals.py:227
 msgid "Simple Image Gen Tiled Upscale"
 msgstr "타일링된 고해상도 이미지 생성"
 
-#: utils/globals.py:227
+#: utils/globals.py:228
 msgid "Ella"
 msgstr "ELLA"
 
-#: utils/globals.py:228
+#: utils/globals.py:229
 msgid "Instant Lora"
 msgstr "즉시 LoRA"
 
-#: utils/globals.py:229
+#: utils/globals.py:230
 msgid "IP Adapter"
 msgstr "IP 어댑터"
 
-#: utils/globals.py:230
+#: utils/globals.py:232
 msgid "ControlNet"
 msgstr "컨트롤넷"
 
-#: utils/globals.py:231
+#: utils/globals.py:233
 msgid "Inpaint ClipSeg"
 msgstr "인페인팅 클립세그"
 
-#: utils/globals.py:232
+#: utils/globals.py:234
 msgid "Animate Diff"
 msgstr "애니메이트 디프"
 
-#: utils/globals.py:233
+#: utils/globals.py:235
 msgid "Renoiser"
 msgstr "레노이저"
 
-#: utils/globals.py:234 utils/globals.py:378
+#: utils/globals.py:236 utils/globals.py:380
 msgid "Turbo"
 msgstr "터보"
 
-#: utils/globals.py:235
+#: utils/globals.py:237
 msgid "Upscale Simple"
 msgstr "이미지 업스케일링 간단히"
 
-#: utils/globals.py:236
+#: utils/globals.py:238
 msgid "Upscale Better"
 msgstr "이미지 품질을 높이기 더 나은 버전"
 
-#: utils/globals.py:237
+#: utils/globals.py:239
 msgid "Redo Prompt"
 msgstr "프롬프트를 다시 입력하세요"
 
-#: utils/globals.py:375
+#: utils/globals.py:377
 msgid "SD 1.5"
 msgstr "SD 1.5"
 
-#: utils/globals.py:376
+#: utils/globals.py:378
 msgid "SDXL"
 msgstr "SDXL"
 
-#: utils/globals.py:377
+#: utils/globals.py:379
 msgid "Illustrious"
 msgstr "Illustrious"
 
-#: utils/globals.py:379
+#: utils/globals.py:381
 msgid "Flux"
 msgstr "Flux"
 
-#: utils/globals.py:404
+#: utils/globals.py:406
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:405
+#: utils/globals.py:407
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:406
+#: utils/globals.py:408
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:407
+#: utils/globals.py:409
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:446
+#: utils/globals.py:448
 msgid "Open Application"
 msgstr "소프트웨어 애플리케이션 열기"
 
-#: utils/globals.py:447
+#: utils/globals.py:449
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFL 프롬프트 모드"
 
-#: utils/globals.py:448
+#: utils/globals.py:450
 msgid "Edit Blacklist"
 msgstr "블랙리스트 편집"
 
-#: utils/globals.py:449
+#: utils/globals.py:451
 msgid "Reveal Blacklist Concepts"
 msgstr "블랙리스트 개념 공개"
 
-#: utils/globals.py:450
+#: utils/globals.py:452
 msgid "Edit Schedules"
 msgstr "일정 편집"
 
-#: utils/globals.py:451
+#: utils/globals.py:453
 msgid "Edit Timed Schedules"
 msgstr "시간별 일정 편집"
 
-#: utils/globals.py:452
+#: utils/globals.py:454
 msgid "Edit Expansions"
 msgstr "확장 프로그램 편집"
 
-#: utils/globals.py:453
+#: utils/globals.py:455
 msgid "Edit Presets"
 msgstr "사전 설정 편집"
 
-#: utils/globals.py:455
+#: utils/globals.py:457
 msgid "Access Password Administration"
 msgstr "액세스 비밀번호 관리"
 
@@ -1722,3 +1729,200 @@ msgstr "개월"
 #: utils/translations.py:68
 msgid "years"
 msgstr "년"
+
+#: sd_runner/run_config.py:168
+msgid ""
+"WARNING: Multiple resolutions in renoiser workflow will produce nearly "
+"identical results (duplicates)."
+msgstr "경고: Renoiser 워크플로우에서 여러 해상도를 사용하면 거의 동일한 결과(중복)가 생성됩니다."
+
+#: ui/models_window.py:158 ui/models_window.py:163
+msgid "LoRA Info"
+msgstr ""
+
+#: ui/models_window.py:427 ui/models_window.py:666
+msgid "Feature Unavailable"
+msgstr ""
+
+#: ui/models_window.py:428
+msgid ""
+"LoRA trigger extraction is not available.\n"
+"\n"
+"This may be due to missing dependencies or import errors."
+msgstr ""
+
+#: ui/models_window.py:435
+msgid "No Selection"
+msgstr ""
+
+#: ui/models_window.py:435
+msgid "Please select a LoRA to view information."
+msgstr ""
+
+#: ui/models_window.py:445
+msgid "Model not found: {0}"
+msgstr ""
+
+#: ui/models_window.py:453
+msgid "Failed to show LoRA information: {0}"
+msgstr ""
+
+#: ui/models_window.py:467
+msgid "LoRA Information: {0}"
+msgstr ""
+
+#: ui/models_window.py:487
+msgid "LoRA Information"
+msgstr ""
+
+#: ui/models_window.py:497
+msgid "Name:"
+msgstr ""
+
+#: ui/models_window.py:508
+msgid "Architecture:"
+msgstr ""
+
+#: ui/models_window.py:519
+msgid "File Path:"
+msgstr ""
+
+#: ui/models_window.py:531
+msgid "Created:"
+msgstr ""
+
+#: ui/models_window.py:542
+msgid "Strength:"
+msgstr ""
+
+#: ui/models_window.py:557
+msgid "Trigger Information"
+msgstr ""
+
+#: ui/models_window.py:563
+msgid "Loading trigger information..."
+msgstr ""
+
+#: ui/models_window.py:577
+msgid "Create .safetriggers File"
+msgstr ""
+
+#: ui/models_window.py:600
+msgid "Unknown"
+msgstr ""
+
+#: ui/models_window.py:606
+msgid "Trigger extraction not available"
+msgstr ""
+
+#: ui/models_window.py:617
+msgid "LoRA file not found"
+msgstr ""
+
+#: ui/models_window.py:626
+msgid "No triggers found"
+msgstr ""
+
+#: ui/models_window.py:627
+msgid "No triggers found: {0}"
+msgstr ""
+
+#: ui/models_window.py:630
+msgid "Error loading triggers: {0}"
+msgstr ""
+
+#: ui/models_window.py:635
+msgid "Found {0} triggers"
+msgstr ""
+
+#: ui/models_window.py:667
+msgid "Cannot create .safetriggers file: trigger extraction is not available."
+msgstr ""
+
+#: ui/models_window.py:679
+msgid "LoRA file not found: {0}"
+msgstr ""
+
+#: ui/models_window.py:688
+msgid "Success"
+msgstr ""
+
+#: ui/models_window.py:689
+msgid ""
+"Created .safetriggers file:\n"
+"{0}"
+msgstr ""
+
+#: ui/models_window.py:692
+msgid "Failed to create .safetriggers file"
+msgstr ""
+
+#: ui/models_window.py:696
+msgid "Failed to create .safetriggers file: {0}"
+msgstr ""
+
+#: ui/prompt_config_window.py:541
+msgid "Jargon"
+msgstr "전문 용어"
+
+#: ui/prompt_config_window.py:556
+msgid "Sayings"
+msgstr "격언"
+
+#: ui/recent_adapters_window.py:68
+msgid "All Recent Adapters"
+msgstr "최근 모든 어댑터"
+
+#: ui/recent_adapters_window.py:69
+msgid "Configuration"
+msgstr "구성"
+
+#: ui/recent_adapters_window.py:196
+msgid "Individual files, including from directory-split runs (no directories)"
+msgstr "개별 파일들, 디렉터리 분할 실행 결과 포함 (디렉터리 없음)"
+
+#: ui/recent_adapters_window.py:217
+msgid "Adapter File"
+msgstr "어댑터 파일"
+
+#: ui/recent_adapters_window.py:233
+msgid "Apply to ControlNet (Replace)"
+msgstr "ControlNet에 적용(교체)"
+
+#: ui/recent_adapters_window.py:235
+msgid "Apply to ControlNet (Add)"
+msgstr "ControlNet에 적용(추가)"
+
+#: ui/recent_adapters_window.py:238
+msgid "Apply to IP Adapter (Replace)"
+msgstr "IP 어댑터에 적용(교체)"
+
+#: ui/recent_adapters_window.py:240
+msgid "Apply to IP Adapter (Add)"
+msgstr "IP 어댑터에 적용 (추가)"
+
+#: ui/recent_adapters_window.py:264
+msgid "Recent Adapters Configuration"
+msgstr "최근 어댑터 구성"
+
+#: ui/recent_adapters_window.py:270
+msgid "Max Recent Items:"
+msgstr "최대 최근 항목:"
+
+#: ui/recent_adapters_window.py:276
+msgid "Max Recent Split Items:"
+msgstr "최근 분할 항목 최대 개수:"
+
+#: ui/recent_adapters_window.py:282
+msgid ""
+"These settings control how many recent adapters are kept in memory.\n"
+"Higher values use more memory but keep more history.\n"
+"Changes take effect immediately and are saved automatically."
+msgstr ""
+"이 설정은 메모리에 보관되는 최근 어댑터의 수를 제어합니다.\n"
+"값이 높을수록 더 많은 메모리를 사용하지만 더 많은 기록을 보관합니다.\n"
+"변경 사항은 즉시 적용되며 자동으로 저장됩니다."
+
+#: utils/globals.py:231
+msgid "Image to Image"
+msgstr "이미지에서 이미지로"

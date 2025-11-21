@@ -419,6 +419,14 @@ class Concepts:
             self.extend(characters, NSFW.characters, 3, NSFL.characters, 2)
         return Concepts.sample_whitelisted(characters, low, high, self.prompt_mode)
 
+    def get_jargon(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
+        low, high = self._adjust_range(low, high, multiplier)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.jargon), low, high, self.prompt_mode)
+
+    def get_sayings(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
+        low, high = self._adjust_range(low, high, multiplier)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.sayings), low, high, self.prompt_mode)
+
     def get_random_words(self, low: int = 0, high: int = 9, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         if len(Concepts.ALL_WORDS_LIST) == 0:
@@ -841,10 +849,12 @@ class SFW:
     dress = "sfw_dress.txt"
     expressions = "sfw_expressions.txt"
     humans = "humans.txt"
+    jargon = "jargon.txt"
     lighting = "lighting.txt"
     locations = "locations.txt"
     locations_specific = "locations_specific.txt"
     positions = "positions.txt"
+    sayings = "sayings.txt"
     times = "times.txt"
 
 class NSFW:
