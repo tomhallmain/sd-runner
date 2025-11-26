@@ -248,6 +248,24 @@ class Concepts:
         return old_path != Concepts.CONCEPTS_DIR
 
     @staticmethod
+    def ensure_dictionary_loaded() -> None:
+        """Ensure the dictionary is loaded, including any override dictionary.
+        
+        This method loads the default dictionary file and applies any override
+        dictionary path if configured. It's safe to call multiple times.
+        """
+        if len(Concepts.ALL_WORDS_LIST) == 0:
+            Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
+            logger.info(f"Loaded dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
+            if config.override_dictionary_path is not None and config.override_dictionary_path.strip() != "":
+                if config.override_dictionary_append:
+                    Concepts.ALL_WORDS_LIST.extend(Concepts.load(config.override_dictionary_path))
+                    logger.info(f"Added override dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
+                else:
+                    Concepts.ALL_WORDS_LIST = Concepts.load(config.override_dictionary_path)
+                    logger.info(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
+
+    @staticmethod
     def sample_whitelisted(concepts: list[str], low: int, high: int, prompt_mode: PromptMode) -> list[str]:
         """Sample concepts while filtering out blacklisted items.
         
@@ -291,18 +309,24 @@ class Concepts:
         concepts_dir: str = "concepts"
     ):
         if Concepts.set_concepts_dir(concepts_dir):
-            Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
-            logger.info(f"Reset all words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
-            if config.override_dictionary_path is not config.override_dictionary_path.strip() != "":
-                if config.override_dictionary_append:
-                    Concepts.ALL_WORDS_LIST.extend(Concepts.load(config.override_dictionary_path))
-                    logger.info(f"Added override dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
-                else:
-                    Concepts.ALL_WORDS_LIST = Concepts.load(config.override_dictionary_path)
-                    logger.info(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
+            Concepts.ALL_WORDS_LIST = []
+            Concepts.ensure_dictionary_loaded()
         self.prompt_mode = prompt_mode
         self.get_specific_locations = get_specific_locations
         # Randomly select concepts from the lists
+
+    @staticmethod
+    def get_dictionary_set() -> set[str]:
+        """Get a case-insensitive set of all dictionary words for fast lookups.
+        
+        Ensures the dictionary is loaded and handles override dictionary paths.
+        
+        Returns:
+            set[str]: A set of lowercase dictionary words
+        """
+        Concepts.ensure_dictionary_loaded()
+        # Create and return a set for faster dictionary lookups (case-insensitive)
+        return {word.lower() for word in Concepts.ALL_WORDS_LIST}
 
     def extend(self, l: list[str], nsfw_file: str, nsfw_repeats: int, nsfl_file: str, nsfl_repeats: int) -> None:
         nsfw = Concepts.load(nsfw_file)
@@ -431,14 +455,7 @@ class Concepts:
         low, high = self._adjust_range(low, high, multiplier)
         if len(Concepts.ALL_WORDS_LIST) == 0:
             logger.warning("For some reason, all words list was empty.")
-            Concepts.ALL_WORDS_LIST = Concepts.load(Concepts.ALL_WORDS_LIST_FILENAME)
-            if config.override_dictionary_path is not None and config.override_dictionary_path.strip() != "":
-                if config.override_dictionary_append:
-                    Concepts.ALL_WORDS_LIST.extend(Concepts.load(config.override_dictionary_path))
-                    logger.info(f"Added override dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
-                else:
-                    Concepts.ALL_WORDS_LIST = Concepts.load(config.override_dictionary_path)
-                    logger.info(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
+            Concepts.ensure_dictionary_loaded()
         
         # Get initial whitelisted words and load extra words as needed
         all_words = Concepts.ALL_WORDS_LIST.copy()

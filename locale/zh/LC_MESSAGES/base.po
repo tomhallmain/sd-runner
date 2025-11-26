@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-11-21 17:10-0500\n"
-"PO-Revision-Date: 2025-11-21 17:10-0500\n"
+"POT-Creation-Date: 2025-11-26 14:36-0500\n"
+"PO-Revision-Date: 2025-11-26 14:36-0500\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
@@ -168,7 +168,7 @@ msgstr "正面标签"
 msgid "Negative Tags"
 msgstr "负面标签"
 
-#: app.py:417 app.py:1427
+#: app.py:417 app.py:1442
 msgid " ComfyGen "
 msgstr " SD 转轮 "
 
@@ -184,25 +184,25 @@ msgstr "确认退出"
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
-#: app.py:733 app.py:753
+#: app.py:734 app.py:754
 msgid "Confirm Run"
 msgstr "确认运行"
 
-#: app.py:734
+#: app.py:735
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "开始新的运行将取消当前的预设时间表。您确定要继续吗？"
 
-#: app.py:754
+#: app.py:755
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
 
-#: app.py:791
+#: app.py:793
 msgid "Long Running Job Confirmation"
 msgstr "长期运行作业确认"
 
-#: app.py:792
+#: app.py:794
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -220,39 +220,39 @@ msgstr ""
 "\n"
 "是否确定继续？"
 
-#: app.py:913
+#: app.py:921
 msgid " (unlimited)"
 msgstr " (无限制)"
 
-#: app.py:929
+#: app.py:938
 msgid "{0} remaining adapters"
 msgstr "{0} 个剩余适配器"
 
-#: app.py:949
+#: app.py:958
 msgid "{0} pending generations"
 msgstr "{0}待定世代"
 
-#: app.py:1024
+#: app.py:1039
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "提示中发现黑名单项目： {0}"
 
-#: app.py:1025 app.py:1028
+#: app.py:1040 app.py:1043
 msgid "Invalid Prompt Tags"
 msgstr "无效提示标签"
 
-#: app.py:1028
+#: app.py:1043
 msgid "Blacklist validation failed!"
 msgstr "黑名单验证失败！"
 
-#: app.py:1226
+#: app.py:1241
 msgid "Password Cancelled"
 msgstr "取消密码"
 
-#: app.py:1226
+#: app.py:1241
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "密码被取消或不正确，返回上一模式"
 
-#: app.py:1269 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
+#: app.py:1284 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/models_window.py:445
 #: ui/models_window.py:453 ui/models_window.py:679 ui/models_window.py:692
@@ -265,7 +265,7 @@ msgstr "错误"
 msgid "⚠ Caps Lock is ON"
 msgstr "⚠ 大写锁定键已开启"
 
-#: sd_runner/blacklist.py:447
+#: sd_runner/blacklist.py:501
 msgid "Filtering concepts for blacklist: "
 msgstr "黑名单的过滤概念： "
 
@@ -314,6 +314,12 @@ msgid ""
 "A model switch was detected and the model massage tags don't match. This "
 "warning will only be shown once."
 msgstr "检测到型号切换，且型号调整的标记不匹配。此警告只显示一次。"
+
+#: sd_runner/run_config.py:168
+msgid ""
+"WARNING: Multiple resolutions in renoiser workflow will produce nearly "
+"identical results (duplicates)."
+msgstr "警告：在Renoiser工作流程中使用多个分辨率将产生几乎相同的输出结果（重复项）。"
 
 #: sd_runner/timed_schedule.py:8 ui/schedule.py:14 ui/schedules_windows.py:42
 #: ui/timed_schedules_window.py:39
@@ -571,6 +577,10 @@ msgstr "关闭"
 msgid "LoRA/Adapter Name"
 msgstr "适配器"
 
+#: ui/models_window.py:158 ui/models_window.py:163
+msgid "LoRA Info"
+msgstr ""
+
 #: ui/models_window.py:376 ui/recent_adapters_window.py:586
 msgid "Cache"
 msgstr "缓存"
@@ -578,6 +588,127 @@ msgstr "缓存"
 #: ui/models_window.py:409 ui/models_window.py:411
 msgid "Hide Blacklisted"
 msgstr "隐藏黑名单"
+
+#: ui/models_window.py:427 ui/models_window.py:666
+msgid "Feature Unavailable"
+msgstr ""
+
+#: ui/models_window.py:428
+msgid ""
+"LoRA trigger extraction is not available.\n"
+"\n"
+"This may be due to missing dependencies or import errors."
+msgstr ""
+
+#: ui/models_window.py:435
+msgid "No Selection"
+msgstr ""
+
+#: ui/models_window.py:435
+msgid "Please select a LoRA to view information."
+msgstr ""
+
+#: ui/models_window.py:445
+msgid "Model not found: {0}"
+msgstr ""
+
+#: ui/models_window.py:453
+msgid "Failed to show LoRA information: {0}"
+msgstr ""
+
+#: ui/models_window.py:467
+msgid "LoRA Information: {0}"
+msgstr ""
+
+#: ui/models_window.py:487
+msgid "LoRA Information"
+msgstr ""
+
+#: ui/models_window.py:497
+msgid "Name:"
+msgstr ""
+
+#: ui/models_window.py:508
+msgid "Architecture:"
+msgstr ""
+
+#: ui/models_window.py:519
+msgid "File Path:"
+msgstr ""
+
+#: ui/models_window.py:531
+msgid "Created:"
+msgstr ""
+
+#: ui/models_window.py:542
+msgid "Strength:"
+msgstr ""
+
+#: ui/models_window.py:557
+msgid "Trigger Information"
+msgstr ""
+
+#: ui/models_window.py:563
+msgid "Loading trigger information..."
+msgstr ""
+
+#: ui/models_window.py:577
+msgid "Create .safetriggers File"
+msgstr ""
+
+#: ui/models_window.py:600
+msgid "Unknown"
+msgstr ""
+
+#: ui/models_window.py:606
+msgid "Trigger extraction not available"
+msgstr ""
+
+#: ui/models_window.py:617
+msgid "LoRA file not found"
+msgstr ""
+
+#: ui/models_window.py:626
+msgid "No triggers found"
+msgstr ""
+
+#: ui/models_window.py:627
+msgid "No triggers found: {0}"
+msgstr ""
+
+#: ui/models_window.py:630
+msgid "Error loading triggers: {0}"
+msgstr ""
+
+#: ui/models_window.py:635
+msgid "Found {0} triggers"
+msgstr ""
+
+#: ui/models_window.py:667
+msgid "Cannot create .safetriggers file: trigger extraction is not available."
+msgstr ""
+
+#: ui/models_window.py:679
+msgid "LoRA file not found: {0}"
+msgstr ""
+
+#: ui/models_window.py:688
+msgid "Success"
+msgstr ""
+
+#: ui/models_window.py:689
+msgid ""
+"Created .safetriggers file:\n"
+"{0}"
+msgstr ""
+
+#: ui/models_window.py:692
+msgid "Failed to create .safetriggers file"
+msgstr ""
+
+#: ui/models_window.py:696
+msgid "Failed to create .safetriggers file: {0}"
+msgstr ""
 
 #: ui/presets_window.py:58
 msgid "New Preset (ERROR no presets found)"
@@ -707,6 +838,14 @@ msgstr "随机词语"
 msgid "Nonsense"
 msgstr "胡说八道"
 
+#: ui/prompt_config_window.py:541
+msgid "Jargon"
+msgstr "行话"
+
+#: ui/prompt_config_window.py:556
+msgid "Sayings"
+msgstr "箴言"
+
 #: ui/prompt_config_window.py:572
 msgid "Specific Locations Chance"
 msgstr "指定地点的机会"
@@ -743,6 +882,14 @@ msgstr "近期ControlNets"
 msgid "Recent IP Adapters"
 msgstr "近期IP适配器"
 
+#: ui/recent_adapters_window.py:68
+msgid "All Recent Adapters"
+msgstr "所有近期适配器"
+
+#: ui/recent_adapters_window.py:69
+msgid "Configuration"
+msgstr "配置"
+
 #: ui/recent_adapters_window.py:102
 msgid "ControlNet File"
 msgstr "ControlNet 文件"
@@ -755,6 +902,61 @@ msgstr "类型"
 #: ui/recent_adapters_window.py:157
 msgid "IP Adapter File"
 msgstr "IP适配器文件"
+
+#: ui/recent_adapters_window.py:196
+msgid "Individual files, including from directory-split runs (no directories)"
+msgstr "单个文件，包括来自目录分割运行（不含目录）的文件"
+
+#: ui/recent_adapters_window.py:217
+msgid "Adapter File"
+msgstr "适配器文件"
+
+#: ui/recent_adapters_window.py:233
+msgid "Apply to ControlNet (Replace)"
+msgstr "应用于ControlNet（替换）"
+
+#: ui/recent_adapters_window.py:235
+msgid "Apply to ControlNet (Add)"
+msgstr "应用于ControlNet（添加）"
+
+#: ui/recent_adapters_window.py:238
+msgid "Apply to IP Adapter (Replace)"
+msgstr "应用于IP适配器（替换）"
+
+#: ui/recent_adapters_window.py:240
+msgid "Apply to IP Adapter (Add)"
+msgstr "应用于IP适配器（添加）"
+
+#: ui/recent_adapters_window.py:264
+msgid "Recent Adapters Configuration"
+msgstr "近期适配器配置"
+
+#: ui/recent_adapters_window.py:270
+msgid "Max Recent Items:"
+msgstr "最近项目上限："
+
+#: ui/recent_adapters_window.py:276
+msgid "Max Recent Split Items:"
+msgstr "最近拆分项目上限："
+
+#: ui/recent_adapters_window.py:282
+msgid ""
+"These settings control how many recent adapters are kept in memory.\n"
+"Higher values use more memory but keep more history.\n"
+"Changes take effect immediately and are saved automatically."
+msgstr ""
+"这些设置控制内存中保留的最近适配器数量。\n"
+"数值越高，占用内存越多，但可保留更多历史记录。\n"
+"更改立即生效并自动保存。"
+
+#: ui/auth/password_admin_window.py:245 ui/recent_adapters_window.py:293
+msgid "Save Settings"
+msgstr "保存设置"
+
+#: ui/auth/password_admin_window.py:233 ui/auth/password_admin_window.py:292
+#: ui/recent_adapters_window.py:296
+msgid "Reset to Defaults"
+msgstr "重置为默认值"
 
 #: ui/schedule.py:72
 msgid "{0} ({1} runs)"
@@ -1289,11 +1491,6 @@ msgstr "确认密码："
 msgid "Set Password"
 msgstr "设置密码"
 
-#: ui/auth/password_admin_window.py:233 ui/auth/password_admin_window.py:292
-#: ui/recent_adapters_window.py:296
-msgid "Reset to Defaults"
-msgstr "重置为默认值"
-
 #: ui/auth/password_admin_window.py:237 ui/auth/password_admin_window.py:317
 msgid "Set to Current"
 msgstr "设置为当前"
@@ -1301,10 +1498,6 @@ msgstr "设置为当前"
 #: ui/auth/password_admin_window.py:241
 msgid "Export Cache as JSON"
 msgstr "以 JSON 格式导出缓存"
-
-#: ui/auth/password_admin_window.py:245 ui/recent_adapters_window.py:293
-msgid "Save Settings"
-msgstr "保存设置"
 
 #: ui/auth/password_admin_window.py:286
 msgid "Password protection settings saved."
@@ -1542,6 +1735,10 @@ msgstr "即时LoRA"
 msgid "IP Adapter"
 msgstr "IP适配器"
 
+#: utils/globals.py:231
+msgid "Image to Image"
+msgstr "图像到图像"
+
 #: utils/globals.py:232
 msgid "ControlNet"
 msgstr "控制网"
@@ -1722,199 +1919,10 @@ msgstr "月数"
 msgid "years"
 msgstr "年份"
 
-#: sd_runner/run_config.py:168
-msgid ""
-"WARNING: Multiple resolutions in renoiser workflow will produce nearly "
-"identical results (duplicates)."
-msgstr "警告：在Renoiser工作流程中使用多个分辨率将产生几乎相同的输出结果（重复项）。"
+#: app.py:501
+msgid "Storing caches..."
+msgstr "正在存储缓存..."
 
-#: ui/models_window.py:158 ui/models_window.py:163
-msgid "LoRA Info"
-msgstr ""
-
-#: ui/models_window.py:427 ui/models_window.py:666
-msgid "Feature Unavailable"
-msgstr ""
-
-#: ui/models_window.py:428
-msgid ""
-"LoRA trigger extraction is not available.\n"
-"\n"
-"This may be due to missing dependencies or import errors."
-msgstr ""
-
-#: ui/models_window.py:435
-msgid "No Selection"
-msgstr ""
-
-#: ui/models_window.py:435
-msgid "Please select a LoRA to view information."
-msgstr ""
-
-#: ui/models_window.py:445
-msgid "Model not found: {0}"
-msgstr ""
-
-#: ui/models_window.py:453
-msgid "Failed to show LoRA information: {0}"
-msgstr ""
-
-#: ui/models_window.py:467
-msgid "LoRA Information: {0}"
-msgstr ""
-
-#: ui/models_window.py:487
-msgid "LoRA Information"
-msgstr ""
-
-#: ui/models_window.py:497
-msgid "Name:"
-msgstr ""
-
-#: ui/models_window.py:508
-msgid "Architecture:"
-msgstr ""
-
-#: ui/models_window.py:519
-msgid "File Path:"
-msgstr ""
-
-#: ui/models_window.py:531
-msgid "Created:"
-msgstr ""
-
-#: ui/models_window.py:542
-msgid "Strength:"
-msgstr ""
-
-#: ui/models_window.py:557
-msgid "Trigger Information"
-msgstr ""
-
-#: ui/models_window.py:563
-msgid "Loading trigger information..."
-msgstr ""
-
-#: ui/models_window.py:577
-msgid "Create .safetriggers File"
-msgstr ""
-
-#: ui/models_window.py:600
-msgid "Unknown"
-msgstr ""
-
-#: ui/models_window.py:606
-msgid "Trigger extraction not available"
-msgstr ""
-
-#: ui/models_window.py:617
-msgid "LoRA file not found"
-msgstr ""
-
-#: ui/models_window.py:626
-msgid "No triggers found"
-msgstr ""
-
-#: ui/models_window.py:627
-msgid "No triggers found: {0}"
-msgstr ""
-
-#: ui/models_window.py:630
-msgid "Error loading triggers: {0}"
-msgstr ""
-
-#: ui/models_window.py:635
-msgid "Found {0} triggers"
-msgstr ""
-
-#: ui/models_window.py:667
-msgid "Cannot create .safetriggers file: trigger extraction is not available."
-msgstr ""
-
-#: ui/models_window.py:679
-msgid "LoRA file not found: {0}"
-msgstr ""
-
-#: ui/models_window.py:688
-msgid "Success"
-msgstr ""
-
-#: ui/models_window.py:689
-msgid ""
-"Created .safetriggers file:\n"
-"{0}"
-msgstr ""
-
-#: ui/models_window.py:692
-msgid "Failed to create .safetriggers file"
-msgstr ""
-
-#: ui/models_window.py:696
-msgid "Failed to create .safetriggers file: {0}"
-msgstr ""
-
-#: ui/prompt_config_window.py:541
-msgid "Jargon"
-msgstr "行话"
-
-#: ui/prompt_config_window.py:556
-msgid "Sayings"
-msgstr "箴言"
-
-#: ui/recent_adapters_window.py:68
-msgid "All Recent Adapters"
-msgstr "所有近期适配器"
-
-#: ui/recent_adapters_window.py:69
-msgid "Configuration"
-msgstr "配置"
-
-#: ui/recent_adapters_window.py:196
-msgid "Individual files, including from directory-split runs (no directories)"
-msgstr "单个文件，包括来自目录分割运行（不含目录）的文件"
-
-#: ui/recent_adapters_window.py:217
-msgid "Adapter File"
-msgstr "适配器文件"
-
-#: ui/recent_adapters_window.py:233
-msgid "Apply to ControlNet (Replace)"
-msgstr "应用于ControlNet（替换）"
-
-#: ui/recent_adapters_window.py:235
-msgid "Apply to ControlNet (Add)"
-msgstr "应用于ControlNet（添加）"
-
-#: ui/recent_adapters_window.py:238
-msgid "Apply to IP Adapter (Replace)"
-msgstr "应用于IP适配器（替换）"
-
-#: ui/recent_adapters_window.py:240
-msgid "Apply to IP Adapter (Add)"
-msgstr "应用于IP适配器（添加）"
-
-#: ui/recent_adapters_window.py:264
-msgid "Recent Adapters Configuration"
-msgstr "近期适配器配置"
-
-#: ui/recent_adapters_window.py:270
-msgid "Max Recent Items:"
-msgstr "最近项目上限："
-
-#: ui/recent_adapters_window.py:276
-msgid "Max Recent Split Items:"
-msgstr "最近拆分项目上限："
-
-#: ui/recent_adapters_window.py:282
-msgid ""
-"These settings control how many recent adapters are kept in memory.\n"
-"Higher values use more memory but keep more history.\n"
-"Changes take effect immediately and are saved automatically."
-msgstr ""
-"这些设置控制内存中保留的最近适配器数量。\n"
-"数值越高，占用内存越多，但可保留更多历史记录。\n"
-"更改立即生效并自动保存。"
-
-#: utils/globals.py:231
-msgid "Image to Image"
-msgstr "图像到图像"
+#: app.py:764
+msgid "Setting up run..."
+msgstr "正在设置运行..."

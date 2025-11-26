@@ -1,7 +1,9 @@
 import csv
+import hashlib
 import json
 import os
 import re
+import string
 
 from utils.globals import Globals, BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, PromptMode
 from utils.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
@@ -423,6 +425,58 @@ class Blacklist:
         Blacklist.model_blacklist_all_prompt_modes = all_prompt_modes
 
     @staticmethod
+    def get_version() -> str:
+        """Get a version string that changes when the blacklist changes.
+        
+        This version is computed from the blacklist items themselves, so it will
+        change whenever items are added, removed, or modified. This can be used
+        to invalidate caches that depend on the blacklist state.
+        
+        The version cache is persisted as part of the filter cache.
+        
+        Returns:
+            str: A version string (hash) representing the current blacklist state
+        """
+        # Use cached version from filter cache if available and blacklist hasn't changed
+        # Handle case where old cache files don't have this attribute
+        if not hasattr(Blacklist._filter_cache, 'version_cache'):
+            Blacklist._filter_cache.version_cache = None
+        
+        version_cache = Blacklist._filter_cache.version_cache
+        if version_cache is not None:
+            # Quick check: if the list length changed, version definitely changed
+            if len(Blacklist.TAG_BLACKLIST) != version_cache[0]:
+                version_cache = None
+                Blacklist._filter_cache.version_cache = None
+        
+        if version_cache is None:
+            # Compute version from blacklist items
+            # Include enabled state, string, and regex settings in the hash
+            version_data = []
+            for item in Blacklist.TAG_BLACKLIST:
+                version_data.append((
+                    item.string,
+                    item.enabled,
+                    item.use_regex,
+                    item.use_word_boundary,
+                    item.use_space_as_optional_nonword,
+                    item.exception_pattern
+                ))
+            # Sort to ensure consistent ordering
+            version_data.sort()
+            
+            # Create a hash from the version data
+            version_str = json.dumps(version_data, sort_keys=True)
+            version_hash = hashlib.md5(version_str.encode('utf-8')).hexdigest()
+            
+            # Cache the version along with the list length for quick invalidation
+            # Store in filter cache so it persists across sessions
+            version_cache = (len(Blacklist.TAG_BLACKLIST), version_hash)
+            Blacklist._filter_cache.version_cache = version_cache
+        
+        return version_cache[1]
+
+    @staticmethod
     def _filter_concepts_cached(
         concepts_tuple: tuple[str],
         do_cache: bool = True,
@@ -670,6 +724,77 @@ class Blacklist:
                 if blacklist_item.matches_tag(tag):
                     filtered[tag] = blacklist_item.string
                     break
+                    
+        return filtered
+
+    @staticmethod
+    def check_user_prompt_detailed(text: str) -> dict:
+        """Perform detailed blacklist checking on user-provided positive tags.
+        
+        This method performs additional scrutiny by checking truncated versions of words
+        that are not found in the dictionary, to counter filter evasion attempts.
+        
+        Args:
+            text: The user-provided positive tags text to check
+            
+        Returns:
+            dict: A dictionary mapping found blacklisted items to their blacklist strings.
+                 Empty if no blacklisted items are found.
+        """
+        # Import here to avoid circular import (concepts.py imports Blacklist)
+        from sd_runner.concepts import Concepts
+        
+        filtered = {}
+        
+        # Get dictionary set for fast lookups
+        dictionary_set = Concepts.get_dictionary_set()
+        
+        # Break prompt parts up by commas
+        prompt_parts = text.split(',')
+        
+        for part in prompt_parts:
+            # Clean the part by removing parentheses and extra whitespace
+            part = part.strip()
+            if not part:
+                continue
+                
+            # Remove outer parentheses if they exist
+            while part.startswith('(') or part.startswith('['):
+                part = part[1:].strip()
+            while part.endswith(')') or part.endswith(']'):
+                part = part[:-1].strip()
+            
+            # Break prompt parts up by word
+            # Split on whitespace and punctuation, but keep the words
+            words = re.split(r'[\s' + re.escape(string.punctuation) + r']+', part)
+            
+            for word in words:
+                word = word.strip()
+                if not word or len(word) < 2:
+                    continue
+                
+                word_lower = word.lower()
+                
+                # For each word that is NOT found in the dictionary, run detailed check
+                if word_lower not in dictionary_set:
+                    # Starting from index 1 (second character), construct truncated words
+                    for start_idx in range(1, len(word)):
+                        truncated = word[start_idx:]
+                        if len(truncated) < 1:
+                            break
+                        
+                        # Check truncated word against blacklist
+                        for blacklist_item in Blacklist.TAG_BLACKLIST:
+                            if not blacklist_item.enabled:
+                                continue
+                            if blacklist_item.matches_tag(truncated):
+                                # Found a match - store it and break (one match per word is enough)
+                                filtered[word] = blacklist_item.string
+                                break
+                        
+                        # If we found a match, no need to check further truncations of this word
+                        if word in filtered:
+                            break
                     
         return filtered
 

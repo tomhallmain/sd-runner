@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-11-21 17:10-0500\n"
-"PO-Revision-Date: 2025-11-21 17:10-0500\n"
+"POT-Creation-Date: 2025-11-26 14:36-0500\n"
+"PO-Revision-Date: 2025-11-26 14:36-0500\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: de Team <<EMAIL>>\n"
 "Language: de\n"
@@ -168,7 +168,7 @@ msgstr "Positiv Stichworte"
 msgid "Negative Tags"
 msgstr "Negativ Stichworte"
 
-#: app.py:417 app.py:1427
+#: app.py:417 app.py:1442
 msgid " ComfyGen "
 msgstr " SD-Läufer "
 
@@ -184,11 +184,11 @@ msgstr "Beenden bestätigen"
 msgid "Would you like to quit the application?"
 msgstr "Möchten Sie die Anwendung beenden?"
 
-#: app.py:733 app.py:753
+#: app.py:734 app.py:754
 msgid "Confirm Run"
 msgstr "Lauf bestätigen"
 
-#: app.py:734
+#: app.py:735
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -196,15 +196,15 @@ msgstr ""
 "Wenn Sie einen neuen Lauf starten, wird der aktuelle voreingestellte "
 "Zeitplan gelöscht. Sind Sie sicher, dass Sie fortfahren möchten?"
 
-#: app.py:754
+#: app.py:755
 msgid "Are you sure you want to proceed?"
 msgstr "Sind Sie sicher, dass Sie fortfahren wollen?"
 
-#: app.py:791
+#: app.py:793
 msgid "Long Running Job Confirmation"
 msgstr "Bestätigung eines lang laufenden Auftrags"
 
-#: app.py:792
+#: app.py:794
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -222,40 +222,40 @@ msgstr ""
 "\n"
 "Möchten Sie wirklich fortfahren?"
 
-#: app.py:913
+#: app.py:921
 msgid " (unlimited)"
 msgstr " (unbegrenzt)"
 
-#: app.py:929
+#: app.py:938
 msgid "{0} remaining adapters"
 msgstr "{0} verbleibende Adapter"
 
-#: app.py:949
+#: app.py:958
 msgid "{0} pending generations"
 msgstr "{0} ausstehende Generationen"
 
-#: app.py:1024
+#: app.py:1039
 msgid "Blacklisted items found in prompt: {0}"
 msgstr ""
 "Elemente auf der schwarzen Liste in der Eingabeaufforderung gefunden: {0}"
 
-#: app.py:1025 app.py:1028
+#: app.py:1040 app.py:1043
 msgid "Invalid Prompt Tags"
 msgstr "Ungültige Eingabeaufforderung Stichworte"
 
-#: app.py:1028
+#: app.py:1043
 msgid "Blacklist validation failed!"
 msgstr "Validierung der schwarzen Liste fehlgeschlagen!"
 
-#: app.py:1226
+#: app.py:1241
 msgid "Password Cancelled"
 msgstr "Passwort storniert"
 
-#: app.py:1226
+#: app.py:1241
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "Passwort gelöscht oder falsch, zurück zum vorherigen Modus"
 
-#: app.py:1269 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
+#: app.py:1284 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
 #: ui/concept_editor_window.py:270 ui/concept_editor_window.py:329
 #: ui/concept_editor_window.py:348 ui/models_window.py:445
 #: ui/models_window.py:453 ui/models_window.py:679 ui/models_window.py:692
@@ -268,7 +268,7 @@ msgstr "Fehler"
 msgid "⚠ Caps Lock is ON"
 msgstr "⚠ Die Feststelltaste ist aktiviert"
 
-#: sd_runner/blacklist.py:447
+#: sd_runner/blacklist.py:501
 msgid "Filtering concepts for blacklist: "
 msgstr "Filter-Konzepte für die Schwarzeliste: "
 
@@ -325,6 +325,14 @@ msgid ""
 msgstr ""
 "Es wurde ein Modellwechsel erkannt und die Aufforderungs-Anpassungs-"
 "Stichworte stimmen nicht überein. Diese Warnung wird nur einmal angezeigt"
+
+#: sd_runner/run_config.py:168
+msgid ""
+"WARNING: Multiple resolutions in renoiser workflow will produce nearly "
+"identical results (duplicates)."
+msgstr ""
+"WARNUNG: Mehrere Auflösungen im Renoiser-Workflow führen zu nahezu "
+"identischen Ergebnissen (Duplikaten)."
 
 #: sd_runner/timed_schedule.py:8 ui/schedule.py:14 ui/schedules_windows.py:42
 #: ui/timed_schedules_window.py:39
@@ -590,6 +598,10 @@ msgstr "Schließen"
 msgid "LoRA/Adapter Name"
 msgstr "LoRA/Adapter-Name"
 
+#: ui/models_window.py:158 ui/models_window.py:163
+msgid "LoRA Info"
+msgstr ""
+
 #: ui/models_window.py:376 ui/recent_adapters_window.py:586
 msgid "Cache"
 msgstr "Cache"
@@ -597,6 +609,127 @@ msgstr "Cache"
 #: ui/models_window.py:409 ui/models_window.py:411
 msgid "Hide Blacklisted"
 msgstr "Auf der schwarzen Liste verstecken"
+
+#: ui/models_window.py:427 ui/models_window.py:666
+msgid "Feature Unavailable"
+msgstr ""
+
+#: ui/models_window.py:428
+msgid ""
+"LoRA trigger extraction is not available.\n"
+"\n"
+"This may be due to missing dependencies or import errors."
+msgstr ""
+
+#: ui/models_window.py:435
+msgid "No Selection"
+msgstr ""
+
+#: ui/models_window.py:435
+msgid "Please select a LoRA to view information."
+msgstr ""
+
+#: ui/models_window.py:445
+msgid "Model not found: {0}"
+msgstr ""
+
+#: ui/models_window.py:453
+msgid "Failed to show LoRA information: {0}"
+msgstr ""
+
+#: ui/models_window.py:467
+msgid "LoRA Information: {0}"
+msgstr ""
+
+#: ui/models_window.py:487
+msgid "LoRA Information"
+msgstr ""
+
+#: ui/models_window.py:497
+msgid "Name:"
+msgstr ""
+
+#: ui/models_window.py:508
+msgid "Architecture:"
+msgstr ""
+
+#: ui/models_window.py:519
+msgid "File Path:"
+msgstr ""
+
+#: ui/models_window.py:531
+msgid "Created:"
+msgstr ""
+
+#: ui/models_window.py:542
+msgid "Strength:"
+msgstr ""
+
+#: ui/models_window.py:557
+msgid "Trigger Information"
+msgstr ""
+
+#: ui/models_window.py:563
+msgid "Loading trigger information..."
+msgstr ""
+
+#: ui/models_window.py:577
+msgid "Create .safetriggers File"
+msgstr ""
+
+#: ui/models_window.py:600
+msgid "Unknown"
+msgstr ""
+
+#: ui/models_window.py:606
+msgid "Trigger extraction not available"
+msgstr ""
+
+#: ui/models_window.py:617
+msgid "LoRA file not found"
+msgstr ""
+
+#: ui/models_window.py:626
+msgid "No triggers found"
+msgstr ""
+
+#: ui/models_window.py:627
+msgid "No triggers found: {0}"
+msgstr ""
+
+#: ui/models_window.py:630
+msgid "Error loading triggers: {0}"
+msgstr ""
+
+#: ui/models_window.py:635
+msgid "Found {0} triggers"
+msgstr ""
+
+#: ui/models_window.py:667
+msgid "Cannot create .safetriggers file: trigger extraction is not available."
+msgstr ""
+
+#: ui/models_window.py:679
+msgid "LoRA file not found: {0}"
+msgstr ""
+
+#: ui/models_window.py:688
+msgid "Success"
+msgstr ""
+
+#: ui/models_window.py:689
+msgid ""
+"Created .safetriggers file:\n"
+"{0}"
+msgstr ""
+
+#: ui/models_window.py:692
+msgid "Failed to create .safetriggers file"
+msgstr ""
+
+#: ui/models_window.py:696
+msgid "Failed to create .safetriggers file: {0}"
+msgstr ""
 
 #: ui/presets_window.py:58
 msgid "New Preset (ERROR no presets found)"
@@ -726,6 +859,14 @@ msgstr "Zufällige Wörter"
 msgid "Nonsense"
 msgstr "Quatsch"
 
+#: ui/prompt_config_window.py:541
+msgid "Jargon"
+msgstr "Fachjargon"
+
+#: ui/prompt_config_window.py:556
+msgid "Sayings"
+msgstr "Sprichwörter"
+
 #: ui/prompt_config_window.py:572
 msgid "Specific Locations Chance"
 msgstr "Spezifische Standorte-Möglichkeit"
@@ -762,6 +903,14 @@ msgstr "Aktuelle ControlNet"
 msgid "Recent IP Adapters"
 msgstr "Aktuelle IP-Adapter"
 
+#: ui/recent_adapters_window.py:68
+msgid "All Recent Adapters"
+msgstr "Alle aktuellen Adapter"
+
+#: ui/recent_adapters_window.py:69
+msgid "Configuration"
+msgstr "Konfiguration"
+
 #: ui/recent_adapters_window.py:102
 msgid "ControlNet File"
 msgstr "ControlNet-Datei"
@@ -774,6 +923,63 @@ msgstr "Typ"
 #: ui/recent_adapters_window.py:157
 msgid "IP Adapter File"
 msgstr "IP-Adapter-Datei"
+
+#: ui/recent_adapters_window.py:196
+msgid "Individual files, including from directory-split runs (no directories)"
+msgstr ""
+"Einzelne Dateien, einschließlich solcher aus Verzeichnisaufteilungsläufen "
+"(keine Verzeichnisse)"
+
+#: ui/recent_adapters_window.py:217
+msgid "Adapter File"
+msgstr "Adapterdatei"
+
+#: ui/recent_adapters_window.py:233
+msgid "Apply to ControlNet (Replace)"
+msgstr "Auf ControlNet anwenden (ersetzen)"
+
+#: ui/recent_adapters_window.py:235
+msgid "Apply to ControlNet (Add)"
+msgstr "Auf ControlNet anwenden (Hinzufügen)"
+
+#: ui/recent_adapters_window.py:238
+msgid "Apply to IP Adapter (Replace)"
+msgstr "Auf IP-Adapter anwenden (ersetzen)"
+
+#: ui/recent_adapters_window.py:240
+msgid "Apply to IP Adapter (Add)"
+msgstr "Auf IP-Adapter anwenden (Hinzufügen)"
+
+#: ui/recent_adapters_window.py:264
+msgid "Recent Adapters Configuration"
+msgstr "Konfiguration der neuesten Adapter"
+
+#: ui/recent_adapters_window.py:270
+msgid "Max Recent Items:"
+msgstr "Max. letzten Elemente:"
+
+#: ui/recent_adapters_window.py:276
+msgid "Max Recent Split Items:"
+msgstr "Max. aktuelle geteilte Elemente:"
+
+#: ui/recent_adapters_window.py:282
+msgid ""
+"These settings control how many recent adapters are kept in memory.\n"
+"Higher values use more memory but keep more history.\n"
+"Changes take effect immediately and are saved automatically."
+msgstr ""
+"Diese Einstellungen legen fest, wie viele der zuletzt verwendeten Adapter im Speicher verbleiben.\n"
+"Höhere Werte beanspruchen mehr Speicherplatz, speichern jedoch mehr Verlaufsdaten.\n"
+"Änderungen werden sofort wirksam und automatisch gespeichert."
+
+#: ui/auth/password_admin_window.py:245 ui/recent_adapters_window.py:293
+msgid "Save Settings"
+msgstr "Einstellungen speichern"
+
+#: ui/auth/password_admin_window.py:233 ui/auth/password_admin_window.py:292
+#: ui/recent_adapters_window.py:296
+msgid "Reset to Defaults"
+msgstr "Auf Standardwerte zurücksetzen"
 
 #: ui/schedule.py:72
 msgid "{0} ({1} runs)"
@@ -1330,11 +1536,6 @@ msgstr "Bestätigen Sie das Kennwort:"
 msgid "Set Password"
 msgstr "Kennwort festlegen"
 
-#: ui/auth/password_admin_window.py:233 ui/auth/password_admin_window.py:292
-#: ui/recent_adapters_window.py:296
-msgid "Reset to Defaults"
-msgstr "Auf Standardwerte zurücksetzen"
-
 #: ui/auth/password_admin_window.py:237 ui/auth/password_admin_window.py:317
 msgid "Set to Current"
 msgstr "Auf Strom einstellen"
@@ -1342,10 +1543,6 @@ msgstr "Auf Strom einstellen"
 #: ui/auth/password_admin_window.py:241
 msgid "Export Cache as JSON"
 msgstr "Cache als JSON exportieren"
-
-#: ui/auth/password_admin_window.py:245 ui/recent_adapters_window.py:293
-msgid "Save Settings"
-msgstr "Einstellungen speichern"
 
 #: ui/auth/password_admin_window.py:286
 msgid "Password protection settings saved."
@@ -1593,6 +1790,10 @@ msgstr "Sofortiges LoRA"
 msgid "IP Adapter"
 msgstr "IP-Adapter"
 
+#: utils/globals.py:231
+msgid "Image to Image"
+msgstr "Bild zu Bild"
+
 #: utils/globals.py:232
 msgid "ControlNet"
 msgstr "Steuerungsnetzwerk"
@@ -1773,203 +1974,10 @@ msgstr "Monate"
 msgid "years"
 msgstr "Jahre"
 
-#: sd_runner/run_config.py:168
-msgid ""
-"WARNING: Multiple resolutions in renoiser workflow will produce nearly "
-"identical results (duplicates)."
-msgstr ""
-"WARNUNG: Mehrere Auflösungen im Renoiser-Workflow führen zu nahezu "
-"identischen Ergebnissen (Duplikaten)."
+#: app.py:501
+msgid "Storing caches..."
+msgstr "Caches speichern..."
 
-#: ui/models_window.py:158 ui/models_window.py:163
-msgid "LoRA Info"
-msgstr ""
-
-#: ui/models_window.py:427 ui/models_window.py:666
-msgid "Feature Unavailable"
-msgstr ""
-
-#: ui/models_window.py:428
-msgid ""
-"LoRA trigger extraction is not available.\n"
-"\n"
-"This may be due to missing dependencies or import errors."
-msgstr ""
-
-#: ui/models_window.py:435
-msgid "No Selection"
-msgstr ""
-
-#: ui/models_window.py:435
-msgid "Please select a LoRA to view information."
-msgstr ""
-
-#: ui/models_window.py:445
-msgid "Model not found: {0}"
-msgstr ""
-
-#: ui/models_window.py:453
-msgid "Failed to show LoRA information: {0}"
-msgstr ""
-
-#: ui/models_window.py:467
-msgid "LoRA Information: {0}"
-msgstr ""
-
-#: ui/models_window.py:487
-msgid "LoRA Information"
-msgstr ""
-
-#: ui/models_window.py:497
-msgid "Name:"
-msgstr ""
-
-#: ui/models_window.py:508
-msgid "Architecture:"
-msgstr ""
-
-#: ui/models_window.py:519
-msgid "File Path:"
-msgstr ""
-
-#: ui/models_window.py:531
-msgid "Created:"
-msgstr ""
-
-#: ui/models_window.py:542
-msgid "Strength:"
-msgstr ""
-
-#: ui/models_window.py:557
-msgid "Trigger Information"
-msgstr ""
-
-#: ui/models_window.py:563
-msgid "Loading trigger information..."
-msgstr ""
-
-#: ui/models_window.py:577
-msgid "Create .safetriggers File"
-msgstr ""
-
-#: ui/models_window.py:600
-msgid "Unknown"
-msgstr ""
-
-#: ui/models_window.py:606
-msgid "Trigger extraction not available"
-msgstr ""
-
-#: ui/models_window.py:617
-msgid "LoRA file not found"
-msgstr ""
-
-#: ui/models_window.py:626
-msgid "No triggers found"
-msgstr ""
-
-#: ui/models_window.py:627
-msgid "No triggers found: {0}"
-msgstr ""
-
-#: ui/models_window.py:630
-msgid "Error loading triggers: {0}"
-msgstr ""
-
-#: ui/models_window.py:635
-msgid "Found {0} triggers"
-msgstr ""
-
-#: ui/models_window.py:667
-msgid "Cannot create .safetriggers file: trigger extraction is not available."
-msgstr ""
-
-#: ui/models_window.py:679
-msgid "LoRA file not found: {0}"
-msgstr ""
-
-#: ui/models_window.py:688
-msgid "Success"
-msgstr ""
-
-#: ui/models_window.py:689
-msgid ""
-"Created .safetriggers file:\n"
-"{0}"
-msgstr ""
-
-#: ui/models_window.py:692
-msgid "Failed to create .safetriggers file"
-msgstr ""
-
-#: ui/models_window.py:696
-msgid "Failed to create .safetriggers file: {0}"
-msgstr ""
-
-#: ui/prompt_config_window.py:541
-msgid "Jargon"
-msgstr "Fachjargon"
-
-#: ui/prompt_config_window.py:556
-msgid "Sayings"
-msgstr "Sprichwörter"
-
-#: ui/recent_adapters_window.py:68
-msgid "All Recent Adapters"
-msgstr "Alle aktuellen Adapter"
-
-#: ui/recent_adapters_window.py:69
-msgid "Configuration"
-msgstr "Konfiguration"
-
-#: ui/recent_adapters_window.py:196
-msgid "Individual files, including from directory-split runs (no directories)"
-msgstr ""
-"Einzelne Dateien, einschließlich solcher aus Verzeichnisaufteilungsläufen "
-"(keine Verzeichnisse)"
-
-#: ui/recent_adapters_window.py:217
-msgid "Adapter File"
-msgstr "Adapterdatei"
-
-#: ui/recent_adapters_window.py:233
-msgid "Apply to ControlNet (Replace)"
-msgstr "Auf ControlNet anwenden (ersetzen)"
-
-#: ui/recent_adapters_window.py:235
-msgid "Apply to ControlNet (Add)"
-msgstr "Auf ControlNet anwenden (Hinzufügen)"
-
-#: ui/recent_adapters_window.py:238
-msgid "Apply to IP Adapter (Replace)"
-msgstr "Auf IP-Adapter anwenden (ersetzen)"
-
-#: ui/recent_adapters_window.py:240
-msgid "Apply to IP Adapter (Add)"
-msgstr "Auf IP-Adapter anwenden (Hinzufügen)"
-
-#: ui/recent_adapters_window.py:264
-msgid "Recent Adapters Configuration"
-msgstr "Konfiguration der neuesten Adapter"
-
-#: ui/recent_adapters_window.py:270
-msgid "Max Recent Items:"
-msgstr "Max. letzten Elemente:"
-
-#: ui/recent_adapters_window.py:276
-msgid "Max Recent Split Items:"
-msgstr "Max. aktuelle geteilte Elemente:"
-
-#: ui/recent_adapters_window.py:282
-msgid ""
-"These settings control how many recent adapters are kept in memory.\n"
-"Higher values use more memory but keep more history.\n"
-"Changes take effect immediately and are saved automatically."
-msgstr ""
-"Diese Einstellungen legen fest, wie viele der zuletzt verwendeten Adapter im Speicher verbleiben.\n"
-"Höhere Werte beanspruchen mehr Speicherplatz, speichern jedoch mehr Verlaufsdaten.\n"
-"Änderungen werden sofort wirksam und automatisch gespeichert."
-
-#: utils/globals.py:231
-msgid "Image to Image"
-msgstr "Bild zu Bild"
+#: app.py:764
+msgid "Setting up run..."
+msgstr "Ausführen einrichten..."

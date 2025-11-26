@@ -154,6 +154,7 @@ class SizeAwarePicklableCache:
         self.large_count = 0
         self.total_size = 0
         self.version = 2
+        self.version_cache = None  # Cache for version computation
         self._lock = threading.Lock()
 
     def verify_cache_version(self, version=1):
@@ -228,11 +229,12 @@ class SizeAwarePicklableCache:
         return sys.getsizeof(value)
 
     def clear(self):
-        """Clear all items from cache."""
+        """Clear all items from cache and invalidate version cache."""
         with self._lock:
             self.cache.clear()
             self.large_count = 0
             self.total_size = 0
+            self.version_cache = None
 
     def __len__(self):
         with self._lock:
@@ -250,6 +252,9 @@ class SizeAwarePicklableCache:
         self.__dict__.update(state)
         # Reinitialize the lock after unpickling
         self._lock = threading.Lock()
+        # Ensure version_cache exists for backward compatibility with old cache files
+        if not hasattr(self, 'version_cache'):
+            self.version_cache = None
 
     def save(self, filename=None):
         """Persist cache to file using pickle."""
@@ -258,6 +263,9 @@ class SizeAwarePicklableCache:
             raise ValueError("Missing filename for persistence")
         
         with self._lock:
+            # Ensure version_cache exists before saving (backward compatibility)
+            if not hasattr(self, 'version_cache'):
+                self.version_cache = None
             # Atomic state capture
             state = (
                 self.maxsize,
@@ -266,7 +274,8 @@ class SizeAwarePicklableCache:
                 self.max_large_items,
                 OrderedDict(self.cache),  # OrderedDict copy
                 self.large_count,
-                self.total_size
+                self.total_size,
+                self.version_cache
             )
         
         # Create temporary object
@@ -276,6 +285,7 @@ class SizeAwarePicklableCache:
         temp_cache.cache = state[4]
         temp_cache.large_count = state[5]
         temp_cache.total_size = state[6]
+        temp_cache.version_cache = state[7]
         
         with open(save_file, 'wb') as f:
             pickle.dump(temp_cache, f)

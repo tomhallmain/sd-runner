@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import shutil
@@ -19,6 +20,7 @@ class AppInfoCache:
     MAX_HISTORY_ENTRIES = 1000
     MAX_PROMPT_HISTORY_ENTRIES = 5000  # Larger limit for prompt history
     DIRECTORIES_KEY = "directories"
+    HISTORY_PURGE_CACHE_KEY = "history_purge_cache"  # Cache for history purge results
     NUM_BACKUPS = 4  # Number of backup files to maintain
 
     def __init__(self):
@@ -36,7 +38,8 @@ class AppInfoCache:
             AppInfoCache.INFO_KEY: {},
             AppInfoCache.HISTORY_KEY: [],
             AppInfoCache.PROMPT_HISTORY_KEY: [],
-            AppInfoCache.DIRECTORIES_KEY: {}
+            AppInfoCache.DIRECTORIES_KEY: {},
+            AppInfoCache.HISTORY_PURGE_CACHE_KEY: {}
         }
 
     def store(self):
@@ -107,14 +110,35 @@ class AppInfoCache:
         pass
 
     def _purge_blacklisted_history(self):
-        """Remove any history entries that contain blacklisted items in their prompts."""
+        """Remove any history entries that contain blacklisted items in their prompts.
+        
+        Uses per-entry caching to avoid re-checking history entries that have already
+        been checked. The cache is keyed by entry content hash and blacklist version
+        to ensure consistency. Only clears cache when blacklist version changes.
+        """
         if not self._cache.get(AppInfoCache.HISTORY_KEY):
             return
 
         prompt_mode = PromptMode.get(self.get("prompt_mode", default_val=PromptMode.SFW.name))
         if prompt_mode.is_nsfw() and Blacklist.get_blacklist_prompt_mode() == BlacklistPromptMode.ALLOW_IN_NSFW:
             return
-            
+        
+        # Get current blacklist version
+        current_version = Blacklist.get_version()
+        
+        # Initialize purge cache if it doesn't exist
+        if AppInfoCache.HISTORY_PURGE_CACHE_KEY not in self._cache:
+            self._cache[AppInfoCache.HISTORY_PURGE_CACHE_KEY] = {}
+        
+        purge_cache = self._cache[AppInfoCache.HISTORY_PURGE_CACHE_KEY]
+        
+        # Check if cache version matches current version, clear if not
+        cached_version = purge_cache.get("_version")
+        if cached_version != current_version:
+            # Version changed, clear the cache (but keep the version marker)
+            purge_cache.clear()
+            purge_cache["_version"] = current_version
+        
         filtered_history = []
         count_removed = 0
 
@@ -123,10 +147,29 @@ class AppInfoCache:
             if not config.positive_tags or not config.positive_tags.strip():
                 filtered_history.append(config_dict)
                 continue
+            
+            # Create cache key from entry content and blacklist version
+            entry_content = config.positive_tags.strip()
+            entry_hash = hashlib.md5(entry_content.encode('utf-8')).hexdigest()
+            cache_key = f"{entry_hash}_{current_version}"
+            
+            # Check cache first
+            if cache_key in purge_cache:
+                # Use cached result
+                is_blacklisted = purge_cache[cache_key]
+            else:
+                # Not in cache, perform the check
+                # First do standard check, then detailed check if standard check passes
+                blacklisted = Blacklist.find_blacklisted_items(config.positive_tags)
+                if not blacklisted:
+                    # Perform detailed check for filter evasion attempts
+                    blacklisted = Blacklist.check_user_prompt_detailed(config.positive_tags)
                 
-            # Check if any tags in the prompt are blacklisted
-            blacklisted = Blacklist.find_blacklisted_items(config.positive_tags)
-            if not blacklisted:
+                is_blacklisted = len(blacklisted) > 0
+                # Cache the result
+                purge_cache[cache_key] = is_blacklisted
+            
+            if not is_blacklisted:
                 filtered_history.append(config_dict)
             else:
                 count_removed += 1

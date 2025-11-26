@@ -498,6 +498,7 @@ class App():
                     if self.config_history_index > 0:
                         self.config_history_index -= 1
             app_info_cache.set("config_history_index", self.config_history_index)
+            self.update_progress(override_text=_("Storing caches..."))
             BlacklistWindow.store_blacklist()
             PresetsWindow.store_recent_presets()
             SchedulesWindow.store_schedules()
@@ -760,6 +761,7 @@ class App():
 
         # Store the configuration to cache after validation
         self.store_info_cache()
+        self.update_progress(override_text=_("Setting up run..."))  # will be cleared during run execution
 
         # Check if estimated time exceeds threshold and show confirmation dialog
         # Create a temporary GenConfig for time estimation (similar to Run.construct_gen)
@@ -882,7 +884,7 @@ class App():
         args = self.get_basic_run_config()
 #        self.set_prompt_massage_tags_box_from_model_tags(args.model_tags, args.inpainting)
         self.set_prompt_massage_tags()
-        self.set_positive_tags()
+        self.set_positive_tags()  # Blacklist is checked here for user defined positive tags
         self.set_negative_tags()
         self.set_bw_colorization()
         self.set_lora_strength()
@@ -908,30 +910,37 @@ class App():
         args_copy = deepcopy(args)
         return args, args_copy
 
-    def update_progress(self, current_index=-1, total=-1, pending_adapters=0, prepend_text=None, batch_limit=None):
-        if total == -1:
-            text = str(current_index) + _(" (unlimited)")
+    def update_progress(self, current_index: int = -1, total: int = -1, pending_adapters: int = 0,
+            prepend_text: str = None, batch_limit: int = None, override_text: Optional[str] = None):
+
+        # If override_text is provided and a run is currently executing, return immediately
+        if override_text is not None:
+            text = override_text
         else:
-            # If batch limit is set and is lower than total, show both effective total and actual total
-            if batch_limit is not None and batch_limit > 0 and batch_limit < total:
-                text = str(current_index) + "/" + str(batch_limit) + f" (of {total})"
+            if total == -1:
+                text = str(current_index) + _(" (unlimited)")
             else:
-                text = str(current_index) + "/" + str(total)
+                # If batch limit is set and is lower than total, show both effective total and actual total
+                if batch_limit is not None and batch_limit > 0 and batch_limit < total:
+                    text = str(current_index) + "/" + str(batch_limit) + f" (of {total})"
+                else:
+                    text = str(current_index) + "/" + str(total)
 
         if prepend_text is not None:
             self.label_progress["text"] = prepend_text + text
         else:
             self.label_progress["text"] = text
-        
-        # Update adapters info label if provided
-        if pending_adapters is not None:
-            if isinstance(pending_adapters, int) and pending_adapters > 0:
-                self.label_pending_adapters["text"] = _("{0} remaining adapters").format(pending_adapters)
-            else:
-                self.label_pending_adapters["text"] = ""
 
-        preset_text = self.job_queue_preset_schedules.pending_text()
-        self.label_pending_preset_schedules["text"] = preset_text if preset_text is not None else ""
+        if override_text is None:            
+            # Update adapters info label if provided
+            if pending_adapters is not None:
+                if isinstance(pending_adapters, int) and pending_adapters > 0:
+                    self.label_pending_adapters["text"] = _("{0} remaining adapters").format(pending_adapters)
+                else:
+                    self.label_pending_adapters["text"] = ""
+
+            preset_text = self.job_queue_preset_schedules.pending_text()
+            self.label_pending_preset_schedules["text"] = preset_text if preset_text is not None else ""
 
         self.master.update()
     
@@ -1018,7 +1027,13 @@ class App():
         if prompt_mode.is_nsfw() and Blacklist.get_blacklist_prompt_mode() == BlacklistPromptMode.ALLOW_IN_NSFW:
             return True
 
+        # Step 1: Standard blacklist check
         filtered = Blacklist.find_blacklisted_items(text)
+        
+        # Step 2: Detailed check for user-provided positive tags (only if standard check passed)
+        if not filtered:
+            filtered = Blacklist.check_user_prompt_detailed(text)
+        
         if filtered:
             if not Blacklist.get_blacklist_silent_removal():
                 alert_text = _("Blacklisted items found in prompt: {0}").format(filtered)
