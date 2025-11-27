@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-11-26 14:36-0500\n"
-"PO-Revision-Date: 2025-11-26 14:36-0500\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-11-27 17:10-0500\n"
+"PO-Revision-Date: 2025-11-27 17:10-0500\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "默认 IPAdapter 强度"
 msgid "Redo Parameters"
 msgstr "重做参数"
 
-#: app.py:317 app.py:334 ui/prompt_config_window.py:273
+#: app.py:317 app.py:334 ui/prompt_config_window.py:274
 msgid "Prompts Configuration"
 msgstr "提示配置"
 
@@ -128,7 +128,7 @@ msgstr "扩展窗口"
 msgid "Prompt Mode"
 msgstr "提示方式"
 
-#: app.py:344 utils/globals.py:456
+#: app.py:344 utils/globals.py:457
 msgid "Edit Concepts"
 msgstr "编辑概念"
 
@@ -144,7 +144,7 @@ msgstr "覆盖图像分辨率"
 msgid "Inpainting"
 msgstr "油画"
 
-#: app.py:366 ui/prompt_config_window.py:611
+#: app.py:366 ui/prompt_config_window.py:621
 msgid "Override Base Negative"
 msgstr "覆盖基准负数"
 
@@ -152,7 +152,7 @@ msgstr "覆盖基准负数"
 msgid "Run Preset Schedule"
 msgstr "运行预设时间表"
 
-#: app.py:374 ui/prompt_config_window.py:632
+#: app.py:374 ui/prompt_config_window.py:642
 msgid "Continuous Seed Variation"
 msgstr "连续随机种子变异"
 
@@ -184,6 +184,10 @@ msgstr "确认退出"
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
+#: app.py:501
+msgid "Storing caches..."
+msgstr "正在存储缓存..."
+
 #: app.py:734 app.py:754
 msgid "Confirm Run"
 msgstr "确认运行"
@@ -197,6 +201,10 @@ msgstr "开始新的运行将取消当前的预设时间表。您确定要继续
 #: app.py:755
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
+
+#: app.py:764
+msgid "Setting up run..."
+msgstr "正在设置运行..."
 
 #: app.py:793
 msgid "Long Running Job Confirmation"
@@ -567,7 +575,7 @@ msgstr "显示黑名单"
 
 #: ui/auth/password_admin_window.py:249 ui/models_window.py:106
 #: ui/models_window.py:168 ui/models_window.py:583
-#: ui/prompt_config_window.py:341 ui/recent_adapters_window.py:125
+#: ui/prompt_config_window.py:342 ui/recent_adapters_window.py:125
 #: ui/recent_adapters_window.py:180 ui/recent_adapters_window.py:242
 #: ui/recent_adapters_window.py:299 ui/tags_blacklist_window.py:284
 msgid "Close"
@@ -746,127 +754,127 @@ msgstr "预设无效： {0}"
 msgid "Prompt Configuration"
 msgstr "提示配置"
 
-#: ui/prompt_config_window.py:208
+#: ui/prompt_config_window.py:209
 msgid "Detailed Prompt Configuration"
 msgstr "详细提示配置"
 
-#: ui/prompt_config_window.py:213
+#: ui/prompt_config_window.py:214
 msgid "Basic Generation Settings"
 msgstr "基本生成设置"
 
-#: ui/prompt_config_window.py:216
+#: ui/prompt_config_window.py:217
 msgid "Sampler"
 msgstr "采样器"
 
-#: ui/prompt_config_window.py:224
+#: ui/prompt_config_window.py:225
 msgid "Scheduler"
 msgstr "调度员"
 
-#: ui/prompt_config_window.py:232
+#: ui/prompt_config_window.py:233
 msgid "Seed"
 msgstr "种子"
 
-#: ui/prompt_config_window.py:240
+#: ui/prompt_config_window.py:241
 msgid "Steps"
 msgstr "步骤"
 
-#: ui/prompt_config_window.py:248
+#: ui/prompt_config_window.py:249
 msgid "CFG"
 msgstr "CFG"
 
-#: ui/prompt_config_window.py:256
+#: ui/prompt_config_window.py:257
 msgid "Denoise"
 msgstr "去噪"
 
-#: ui/prompt_config_window.py:264
+#: ui/prompt_config_window.py:265
 msgid "Random Skip Chance"
 msgstr "随机跳过机会"
 
-#: ui/prompt_config_window.py:321
+#: ui/prompt_config_window.py:322
 msgid "Multiplier"
 msgstr "乘法器"
 
-#: ui/prompt_config_window.py:346
+#: ui/prompt_config_window.py:347
 msgid "Concepts"
 msgstr "概念"
 
-#: ui/prompt_config_window.py:361
+#: ui/prompt_config_window.py:362
 msgid "Positions"
 msgstr "职位"
 
-#: ui/prompt_config_window.py:376
+#: ui/prompt_config_window.py:377
 msgid "Locations"
 msgstr "地点"
 
-#: ui/prompt_config_window.py:391
+#: ui/prompt_config_window.py:392
 msgid "Animals"
 msgstr "动物"
 
-#: ui/prompt_config_window.py:406
+#: ui/prompt_config_window.py:407
 msgid "Colors"
 msgstr "颜色"
 
-#: ui/prompt_config_window.py:421
+#: ui/prompt_config_window.py:422
 msgid "Times"
 msgstr "时代"
 
-#: ui/prompt_config_window.py:436
+#: ui/prompt_config_window.py:437
 msgid "Dress"
 msgstr "服装"
 
-#: ui/prompt_config_window.py:451
+#: ui/prompt_config_window.py:452
 msgid "Expressions"
 msgstr "表达"
 
-#: ui/prompt_config_window.py:466
+#: ui/prompt_config_window.py:467
 msgid "Actions"
 msgstr "行动"
 
-#: ui/prompt_config_window.py:481
+#: ui/prompt_config_window.py:482
 msgid "Descriptions"
 msgstr "说明"
 
-#: ui/prompt_config_window.py:496
+#: ui/prompt_config_window.py:497
 msgid "Characters"
 msgstr "人物"
 
-#: ui/prompt_config_window.py:511
+#: ui/prompt_config_window.py:512
 msgid "Random Words"
 msgstr "随机词语"
 
-#: ui/prompt_config_window.py:526 utils/globals.py:37
+#: ui/prompt_config_window.py:527 utils/globals.py:37
 msgid "Nonsense"
 msgstr "胡说八道"
 
-#: ui/prompt_config_window.py:541
+#: ui/prompt_config_window.py:542
 msgid "Jargon"
 msgstr "行话"
 
-#: ui/prompt_config_window.py:556
+#: ui/prompt_config_window.py:557
 msgid "Sayings"
 msgstr "箴言"
 
-#: ui/prompt_config_window.py:572
+#: ui/prompt_config_window.py:573
 msgid "Specific Locations Chance"
 msgstr "指定地点的机会"
 
-#: ui/prompt_config_window.py:581
+#: ui/prompt_config_window.py:591
 msgid "Specify Humans Chance"
 msgstr "指定人类的机会"
 
-#: ui/prompt_config_window.py:590
+#: ui/prompt_config_window.py:600
 msgid "Art Styles Chance"
 msgstr "艺术风格的机会"
 
-#: ui/prompt_config_window.py:599
+#: ui/prompt_config_window.py:609
 msgid "Emphasis Chance"
 msgstr "强调的机会"
 
-#: ui/prompt_config_window.py:618
+#: ui/prompt_config_window.py:628
 msgid "Tags Applied to Prompt Start"
 msgstr "标签应用于提示符的开始"
 
-#: ui/prompt_config_window.py:625
+#: ui/prompt_config_window.py:635
 msgid "Sparse Mixed Tags"
 msgstr "稀疏混合标签"
 
@@ -1711,131 +1719,131 @@ msgstr "禁止"
 msgid "Allow in NSFW"
 msgstr "在不适合工作场所的模式下显示"
 
-#: utils/globals.py:225
+#: utils/globals.py:226
 msgid "Simple Image Gen"
 msgstr "简单生成图像"
 
-#: utils/globals.py:226
+#: utils/globals.py:227
 msgid "Simple Image Gen Lora"
 msgstr "LoRA 简单图像生成"
 
-#: utils/globals.py:227
+#: utils/globals.py:228
 msgid "Simple Image Gen Tiled Upscale"
 msgstr "简单生成拼接放大图像"
 
-#: utils/globals.py:228
+#: utils/globals.py:229
 msgid "Ella"
 msgstr "ELLA"
 
-#: utils/globals.py:229
+#: utils/globals.py:230
 msgid "Instant Lora"
 msgstr "即时LoRA"
 
-#: utils/globals.py:230
+#: utils/globals.py:231
 msgid "IP Adapter"
 msgstr "IP适配器"
 
-#: utils/globals.py:231
+#: utils/globals.py:232
 msgid "Image to Image"
 msgstr "图像到图像"
 
-#: utils/globals.py:232
+#: utils/globals.py:233
 msgid "ControlNet"
 msgstr "控制网"
 
-#: utils/globals.py:233
+#: utils/globals.py:234
 msgid "Inpaint ClipSeg"
 msgstr "Inpaint 剪切段"
 
-#: utils/globals.py:234
+#: utils/globals.py:235
 msgid "Animate Diff"
 msgstr "动画差异"
 
-#: utils/globals.py:235
+#: utils/globals.py:236
 msgid "Renoiser"
 msgstr "雷诺伊瑟"
 
-#: utils/globals.py:236 utils/globals.py:380
+#: utils/globals.py:237 utils/globals.py:381
 msgid "Turbo"
 msgstr "涡轮"
 
-#: utils/globals.py:237
+#: utils/globals.py:238
 msgid "Upscale Simple"
 msgstr "提升图像质量 简单"
 
-#: utils/globals.py:238
+#: utils/globals.py:239
 msgid "Upscale Better"
 msgstr "提升图像质量 更佳版本"
 
-#: utils/globals.py:239
+#: utils/globals.py:240
 msgid "Redo Prompt"
 msgstr "重新提示"
 
-#: utils/globals.py:377
+#: utils/globals.py:378
 msgid "SD 1.5"
 msgstr "SD 1.5"
 
-#: utils/globals.py:378
+#: utils/globals.py:379
 msgid "SDXL"
 msgstr "SDXL"
 
-#: utils/globals.py:379
+#: utils/globals.py:380
 msgid "Illustrious"
 msgstr "Illustrious"
 
-#: utils/globals.py:381
+#: utils/globals.py:382
 msgid "Flux"
 msgstr "Flux"
 
-#: utils/globals.py:406
+#: utils/globals.py:407
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:407
+#: utils/globals.py:408
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:408
+#: utils/globals.py:409
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:409
+#: utils/globals.py:410
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:448
+#: utils/globals.py:449
 msgid "Open Application"
 msgstr "打开软件应用程序"
 
-#: utils/globals.py:449
+#: utils/globals.py:450
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFL 提示模式"
 
-#: utils/globals.py:450
+#: utils/globals.py:451
 msgid "Edit Blacklist"
 msgstr "编辑黑名单"
 
-#: utils/globals.py:451
+#: utils/globals.py:452
 msgid "Reveal Blacklist Concepts"
 msgstr "揭示黑名单概念"
 
-#: utils/globals.py:452
+#: utils/globals.py:453
 msgid "Edit Schedules"
 msgstr "编辑时间表"
 
-#: utils/globals.py:453
+#: utils/globals.py:454
 msgid "Edit Timed Schedules"
 msgstr "编辑定时计划"
 
-#: utils/globals.py:454
+#: utils/globals.py:455
 msgid "Edit Expansions"
 msgstr "编辑扩展"
 
-#: utils/globals.py:455
+#: utils/globals.py:456
 msgid "Edit Presets"
 msgstr "编辑预置"
 
-#: utils/globals.py:457
+#: utils/globals.py:458
 msgid "Access Password Administration"
 msgstr "访问密码管理"
 
@@ -1919,10 +1927,6 @@ msgstr "月数"
 msgid "years"
 msgstr "年份"
 
-#: app.py:501
-msgid "Storing caches..."
-msgstr "正在存储缓存..."
-
-#: app.py:764
-msgid "Setting up run..."
-msgstr "正在设置运行..."
+#: ui/prompt_config_window.py:582
+msgid "Specific Times Chance"
+msgstr "特定时间机会"

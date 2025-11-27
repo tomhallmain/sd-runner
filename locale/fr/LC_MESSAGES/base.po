@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-11-26 14:36-0500\n"
-"PO-Revision-Date: 2025-11-26 14:36-0500\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-11-27 17:10-0500\n"
+"PO-Revision-Date: 2025-11-27 17:10-0500\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: fr Team <<EMAIL>>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "Force de IPAdapter par défaut"
 msgid "Redo Parameters"
 msgstr "Paramètres de rétablissement"
 
-#: app.py:317 app.py:334 ui/prompt_config_window.py:273
+#: app.py:317 app.py:334 ui/prompt_config_window.py:274
 msgid "Prompts Configuration"
 msgstr "Configuration des invites"
 
@@ -128,7 +128,7 @@ msgstr "Fenêtre d'expansion"
 msgid "Prompt Mode"
 msgstr "Mode invite"
 
-#: app.py:344 utils/globals.py:456
+#: app.py:344 utils/globals.py:457
 msgid "Edit Concepts"
 msgstr "Modifier les concepts"
 
@@ -144,7 +144,7 @@ msgstr "Ignorer la résolution"
 msgid "Inpainting"
 msgstr "Peinture"
 
-#: app.py:366 ui/prompt_config_window.py:611
+#: app.py:366 ui/prompt_config_window.py:621
 msgid "Override Base Negative"
 msgstr "Annulation Négatif"
 
@@ -152,7 +152,7 @@ msgstr "Annulation Négatif"
 msgid "Run Preset Schedule"
 msgstr "Exécution d'un programme prédéfini"
 
-#: app.py:374 ui/prompt_config_window.py:632
+#: app.py:374 ui/prompt_config_window.py:642
 msgid "Continuous Seed Variation"
 msgstr "Variation continue de la graine"
 
@@ -184,6 +184,10 @@ msgstr "Confirmer Quitter"
 msgid "Would you like to quit the application?"
 msgstr "Souhaitez-vous quitter l'application ?"
 
+#: app.py:501
+msgid "Storing caches..."
+msgstr "Enregistrement des caches..."
+
 #: app.py:734 app.py:754
 msgid "Confirm Run"
 msgstr "Confirmer l'exécution"
@@ -199,6 +203,10 @@ msgstr ""
 #: app.py:755
 msgid "Are you sure you want to proceed?"
 msgstr "Êtes-vous sûr de vouloir continuer ?"
+
+#: app.py:764
+msgid "Setting up run..."
+msgstr "Préparation de l'exécution..."
 
 #: app.py:793
 msgid "Long Running Job Confirmation"
@@ -588,7 +596,7 @@ msgstr "Afficher la liste noire"
 
 #: ui/auth/password_admin_window.py:249 ui/models_window.py:106
 #: ui/models_window.py:168 ui/models_window.py:583
-#: ui/prompt_config_window.py:341 ui/recent_adapters_window.py:125
+#: ui/prompt_config_window.py:342 ui/recent_adapters_window.py:125
 #: ui/recent_adapters_window.py:180 ui/recent_adapters_window.py:242
 #: ui/recent_adapters_window.py:299 ui/tags_blacklist_window.py:284
 msgid "Close"
@@ -767,127 +775,127 @@ msgstr "Préréglage non valide : {0}"
 msgid "Prompt Configuration"
 msgstr "Configuration des invites"
 
-#: ui/prompt_config_window.py:208
+#: ui/prompt_config_window.py:209
 msgid "Detailed Prompt Configuration"
 msgstr "Configuration détaillée des invites"
 
-#: ui/prompt_config_window.py:213
+#: ui/prompt_config_window.py:214
 msgid "Basic Generation Settings"
 msgstr "Paramètres de génération de base"
 
-#: ui/prompt_config_window.py:216
+#: ui/prompt_config_window.py:217
 msgid "Sampler"
 msgstr "Échantillon"
 
-#: ui/prompt_config_window.py:224
+#: ui/prompt_config_window.py:225
 msgid "Scheduler"
 msgstr "Planificateur"
 
-#: ui/prompt_config_window.py:232
+#: ui/prompt_config_window.py:233
 msgid "Seed"
 msgstr "Semence"
 
-#: ui/prompt_config_window.py:240
+#: ui/prompt_config_window.py:241
 msgid "Steps"
 msgstr "Étapes"
 
-#: ui/prompt_config_window.py:248
+#: ui/prompt_config_window.py:249
 msgid "CFG"
 msgstr "CFG"
 
-#: ui/prompt_config_window.py:256
+#: ui/prompt_config_window.py:257
 msgid "Denoise"
 msgstr "Dénoisement"
 
-#: ui/prompt_config_window.py:264
+#: ui/prompt_config_window.py:265
 msgid "Random Skip Chance"
 msgstr "Hasard du saut de puce"
 
-#: ui/prompt_config_window.py:321
+#: ui/prompt_config_window.py:322
 msgid "Multiplier"
 msgstr "Multiplicateur"
 
-#: ui/prompt_config_window.py:346
+#: ui/prompt_config_window.py:347
 msgid "Concepts"
 msgstr "Concepts"
 
-#: ui/prompt_config_window.py:361
+#: ui/prompt_config_window.py:362
 msgid "Positions"
 msgstr "Postes"
 
-#: ui/prompt_config_window.py:376
+#: ui/prompt_config_window.py:377
 msgid "Locations"
 msgstr "Lieux"
 
-#: ui/prompt_config_window.py:391
+#: ui/prompt_config_window.py:392
 msgid "Animals"
 msgstr "Animaux"
 
-#: ui/prompt_config_window.py:406
+#: ui/prompt_config_window.py:407
 msgid "Colors"
 msgstr "Couleurs"
 
-#: ui/prompt_config_window.py:421
+#: ui/prompt_config_window.py:422
 msgid "Times"
 msgstr "Temps"
 
-#: ui/prompt_config_window.py:436
+#: ui/prompt_config_window.py:437
 msgid "Dress"
 msgstr "Robe"
 
-#: ui/prompt_config_window.py:451
+#: ui/prompt_config_window.py:452
 msgid "Expressions"
 msgstr "Expressions"
 
-#: ui/prompt_config_window.py:466
+#: ui/prompt_config_window.py:467
 msgid "Actions"
 msgstr "Actions"
 
-#: ui/prompt_config_window.py:481
+#: ui/prompt_config_window.py:482
 msgid "Descriptions"
 msgstr "Descriptions"
 
-#: ui/prompt_config_window.py:496
+#: ui/prompt_config_window.py:497
 msgid "Characters"
 msgstr "Personnages"
 
-#: ui/prompt_config_window.py:511
+#: ui/prompt_config_window.py:512
 msgid "Random Words"
 msgstr "Mots aléatoires"
 
-#: ui/prompt_config_window.py:526 utils/globals.py:37
+#: ui/prompt_config_window.py:527 utils/globals.py:37
 msgid "Nonsense"
 msgstr "Absurdités"
 
-#: ui/prompt_config_window.py:541
+#: ui/prompt_config_window.py:542
 msgid "Jargon"
 msgstr "Jargon"
 
-#: ui/prompt_config_window.py:556
+#: ui/prompt_config_window.py:557
 msgid "Sayings"
 msgstr "Proverbes"
 
-#: ui/prompt_config_window.py:572
+#: ui/prompt_config_window.py:573
 msgid "Specific Locations Chance"
 msgstr "Chance des lieux spécifiques"
 
-#: ui/prompt_config_window.py:581
+#: ui/prompt_config_window.py:591
 msgid "Specify Humans Chance"
 msgstr "Chance de spécifier les humains"
 
-#: ui/prompt_config_window.py:590
+#: ui/prompt_config_window.py:600
 msgid "Art Styles Chance"
 msgstr "Chance des styles d'art"
 
-#: ui/prompt_config_window.py:599
+#: ui/prompt_config_window.py:609
 msgid "Emphasis Chance"
 msgstr "Chance de l'emphase"
 
-#: ui/prompt_config_window.py:618
+#: ui/prompt_config_window.py:628
 msgid "Tags Applied to Prompt Start"
 msgstr "Étiquettes appliqués à l'appel à invite"
 
-#: ui/prompt_config_window.py:625
+#: ui/prompt_config_window.py:635
 msgid "Sparse Mixed Tags"
 msgstr "Étiquettes mixtes épars"
 
@@ -1774,131 +1782,131 @@ msgstr "Interdire"
 msgid "Allow in NSFW"
 msgstr "Autoriser en mode NSFW"
 
-#: utils/globals.py:225
+#: utils/globals.py:226
 msgid "Simple Image Gen"
 msgstr "Gén simple d'images"
 
-#: utils/globals.py:226
+#: utils/globals.py:227
 msgid "Simple Image Gen Lora"
 msgstr "Gén simple d'images avec LoRA"
 
-#: utils/globals.py:227
+#: utils/globals.py:228
 msgid "Simple Image Gen Tiled Upscale"
 msgstr "Gén simple d'images mosaïquées à haute résolution"
 
-#: utils/globals.py:228
+#: utils/globals.py:229
 msgid "Ella"
 msgstr "ELLA"
 
-#: utils/globals.py:229
+#: utils/globals.py:230
 msgid "Instant Lora"
 msgstr "LoRA instantané"
 
-#: utils/globals.py:230
+#: utils/globals.py:231
 msgid "IP Adapter"
 msgstr "Adaptateur IP"
 
-#: utils/globals.py:231
+#: utils/globals.py:232
 msgid "Image to Image"
 msgstr "Image à image"
 
-#: utils/globals.py:232
+#: utils/globals.py:233
 msgid "ControlNet"
 msgstr "Réseau de contrôle"
 
-#: utils/globals.py:233
+#: utils/globals.py:234
 msgid "Inpaint ClipSeg"
 msgstr "ClipSeg de retouche"
 
-#: utils/globals.py:234
+#: utils/globals.py:235
 msgid "Animate Diff"
 msgstr "Animer Diff"
 
-#: utils/globals.py:235
+#: utils/globals.py:236
 msgid "Renoiser"
 msgstr "Renoiser"
 
-#: utils/globals.py:236 utils/globals.py:380
+#: utils/globals.py:237 utils/globals.py:381
 msgid "Turbo"
 msgstr "Turbo"
 
-#: utils/globals.py:237
+#: utils/globals.py:238
 msgid "Upscale Simple"
 msgstr "Améliorer l'image Simple"
 
-#: utils/globals.py:238
+#: utils/globals.py:239
 msgid "Upscale Better"
 msgstr "Améliorer l'image Meilleure version"
 
-#: utils/globals.py:239
+#: utils/globals.py:240
 msgid "Redo Prompt"
 msgstr "Refaire l'invite"
 
-#: utils/globals.py:377
+#: utils/globals.py:378
 msgid "SD 1.5"
 msgstr "SD 1.5"
 
-#: utils/globals.py:378
+#: utils/globals.py:379
 msgid "SDXL"
 msgstr "SDXL"
 
-#: utils/globals.py:379
+#: utils/globals.py:380
 msgid "Illustrious"
 msgstr "Illustrious"
 
-#: utils/globals.py:381
+#: utils/globals.py:382
 msgid "Flux"
 msgstr "Flux"
 
-#: utils/globals.py:406
+#: utils/globals.py:407
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:407
+#: utils/globals.py:408
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:408
+#: utils/globals.py:409
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:409
+#: utils/globals.py:410
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:448
+#: utils/globals.py:449
 msgid "Open Application"
 msgstr "Ouvrir l'application"
 
-#: utils/globals.py:449
+#: utils/globals.py:450
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "Modes d'incitation NSFW/NSFL"
 
-#: utils/globals.py:450
+#: utils/globals.py:451
 msgid "Edit Blacklist"
 msgstr "Modifier la liste noire"
 
-#: utils/globals.py:451
+#: utils/globals.py:452
 msgid "Reveal Blacklist Concepts"
 msgstr "Révéler les concepts de liste noire"
 
-#: utils/globals.py:452
+#: utils/globals.py:453
 msgid "Edit Schedules"
 msgstr "Modifier les horaires"
 
-#: utils/globals.py:453
+#: utils/globals.py:454
 msgid "Edit Timed Schedules"
 msgstr "Modifier les horaires programmés"
 
-#: utils/globals.py:454
+#: utils/globals.py:455
 msgid "Edit Expansions"
 msgstr "Modifier les extensions"
 
-#: utils/globals.py:455
+#: utils/globals.py:456
 msgid "Edit Presets"
 msgstr "Modifier les préréglages"
 
-#: utils/globals.py:457
+#: utils/globals.py:458
 msgid "Access Password Administration"
 msgstr "Accès Mot de passe Administration"
 
@@ -1982,10 +1990,6 @@ msgstr "mois"
 msgid "years"
 msgstr "années"
 
-#: app.py:501
-msgid "Storing caches..."
-msgstr "Enregistrement des caches..."
-
-#: app.py:764
-msgid "Setting up run..."
-msgstr "Préparation de l'exécution..."
+#: ui/prompt_config_window.py:582
+msgid "Specific Times Chance"
+msgstr "Heures spécifiques Chance"

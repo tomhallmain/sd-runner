@@ -179,6 +179,7 @@ class PromptConfigWindow:
             # Update other prompter config values
             prompter_config.multiplier = float(self.multiplier.get())
             prompter_config.specific_locations_chance = float(self.specific_locations_slider.get()) / 100
+            prompter_config.specific_times_chance = float(self.specific_times_slider.get()) / 100
             prompter_config.specify_humans_chance = float(self.specify_humans_chance_slider.get()) / 100
             prompter_config.art_styles_chance = float(self.art_style_chance_slider.get()) / 100
             prompter_config.emphasis_chance = float(self.emphasis_chance_slider.get()) / 100
@@ -577,6 +578,15 @@ class PromptConfigWindow:
         self.set_widget_value(self.specific_locations_slider, self.runner_app_config.prompter_config.specific_locations_chance)
         self.apply_to_grid(self.specific_locations_slider, interior_column=2, sticky=W)
         
+        # Specific Times Chance
+        self.label_specific_times = Label(self.main_frame, text=_("Specific Times Chance"), 
+                                         bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_specific_times, increment_row_counter=False, columnspan=2)
+        self.specific_times_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
+                                          command=self.set_specific_times)
+        self.set_widget_value(self.specific_times_slider, self.runner_app_config.prompter_config.specific_times_chance)
+        self.apply_to_grid(self.specific_times_slider, interior_column=2, sticky=W)
+        
         # Specify Humans Chance
         self.label_specify_humans_chance = Label(self.main_frame, text=_("Specify Humans Chance"), 
                                                 bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
@@ -699,6 +709,11 @@ class PromptConfigWindow:
         """Set specific locations chance."""
         value = float(self.specific_locations_slider.get()) / 100
         self.runner_app_config.prompter_config.specific_locations_chance = value
+    
+    def set_specific_times(self, event=None):
+        """Set specific times chance."""
+        value = float(self.specific_times_slider.get()) / 100
+        self.runner_app_config.prompter_config.specific_times_chance = value
         
     def set_specify_humans_chance(self, event=None):
         """Set specify humans chance."""

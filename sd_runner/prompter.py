@@ -56,6 +56,7 @@ class PrompterConfiguration:
         self.multiplier = 1
         self.art_styles_chance = art_styles_chance
         self.specify_humans_chance = 0.25
+        self.specific_times_chance = 0.25
         self.emphasis_chance = 0.1
         self.sparse_mixed_tags = False
         self.original_positive_tags = ""
@@ -69,6 +70,7 @@ class PrompterConfiguration:
             "positions": self.positions,
             "locations": self.locations,
             "specific_locations_chance": self.specific_locations_chance,
+            "specific_times_chance": self.specific_times_chance,
             "animals": self.animals,
             "colors": self.colors,
             "times": self.times,
@@ -97,6 +99,7 @@ class PrompterConfiguration:
         self.positions = _dict['positions'] if 'positions' in _dict else self.positions
         self.locations = _dict['locations'] if 'locations' in _dict else self.locations
         self.specific_locations_chance = _dict['specific_locations_chance'] if 'specific_locations_chance' in _dict else self.specific_locations_chance
+        self.specific_times_chance = _dict['specific_times_chance'] if 'specific_times_chance' in _dict else self.specific_times_chance
         self.animals = _dict['animals'] if 'animals' in _dict else self.animals
         self.colors = _dict['colors'] if 'colors' in _dict else self.colors
         self.times = _dict['times'] if 'times' in _dict else self.times
@@ -178,13 +181,14 @@ class Prompter:
         llava_path: str = "",
         prompter_config: PrompterConfiguration = PrompterConfiguration(),
         get_specific_locations: bool = False,
+        get_specific_times: bool = False,
         prompt_list: list[str] = []
     ):
         self.reference_image_path = reference_image_path
         self.llava_path = llava_path
         self.prompter_config = prompter_config
         self.prompt_mode = prompter_config.prompt_mode
-        self.concepts = Concepts(prompter_config.prompt_mode, get_specific_locations=get_specific_locations, concepts_dir=prompter_config.concepts_dir)
+        self.concepts = Concepts(prompter_config.prompt_mode, get_specific_locations=get_specific_locations, get_specific_times=get_specific_times, concepts_dir=prompter_config.concepts_dir)
         self.count = 0
         self.prompt_list = prompt_list
         self.last_prompt = ""
@@ -344,7 +348,7 @@ class Prompter:
         mix.extend(self.concepts.get_locations(*self.prompter_config.locations, specific_inclusion_chance=self.prompter_config.specific_locations_chance, multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_animals(*self.prompter_config.animals, multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_colors(*self.prompter_config.colors, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_times(*self.prompter_config.times, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_times(*self.prompter_config.times, specific_inclusion_chance=self.prompter_config.specific_times_chance, multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_dress(*self.prompter_config.dress, multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_expressions(*self.prompter_config.expressions, multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_actions(*self.prompter_config.actions, multiplier=self.prompter_config.multiplier))
@@ -542,8 +546,8 @@ class GlobalPrompter:
     prompter_instance = Prompter()
 
     @classmethod
-    def set_prompter(cls, prompter_config: PrompterConfiguration, get_specific_locations: bool, prompt_list: list[str]):
-        cls.prompter_instance = Prompter(prompter_config=prompter_config, get_specific_locations=get_specific_locations, prompt_list=prompt_list)
+    def set_prompter(cls, prompter_config: PrompterConfiguration, get_specific_locations: bool, get_specific_times: bool = False, prompt_list: list[str] = []):
+        cls.prompter_instance = Prompter(prompter_config=prompter_config, get_specific_locations=get_specific_locations, get_specific_times=get_specific_times, prompt_list=prompt_list)
 
 
 if __name__ == "__main__":

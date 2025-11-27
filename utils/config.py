@@ -197,6 +197,22 @@ class Config:
 #                    logger.error(e)
 #                    logger.warning(f"Failed to set {name} from config.json file. Ensure the key is set.")
 
+    def get(self, key: str, default=None):
+        """Safely get a value from config.dict with a default if the key doesn't exist.
+        
+        Args:
+            key: The key to look up in config.dict
+            default: The default value to return if the key is not found
+            
+        Returns:
+            The value from config.dict if the key exists, otherwise the default value
+        """
+        try:
+            return self.dict[key]
+        except KeyError:
+            logger.warning(f"Config key '{key}' not found in config.json, using default value: {default}")
+            return default
+
     def get_comfyui_save_path(self):
         """Get the ComfyUI output directory path."""
         if self.comfyui_loc:

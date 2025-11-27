@@ -85,7 +85,7 @@ def get_logger(module_name: str) -> logging.Logger:
 def set_logger_level(debug: bool) -> None:
     """
     Set the logger level to DEBUG if debug is True, otherwise set it to INFO.
-    This updates all existing loggers in the sd_runner hierarchy.
+    This updates all existing loggers in the sd_runner hierarchy and their handlers.
     """
     level = logging.DEBUG if debug else logging.INFO
     
@@ -94,10 +94,16 @@ def set_logger_level(debug: bool) -> None:
         if logger_name.startswith('sd_runner'):
             logger = logging.getLogger(logger_name)
             logger.setLevel(level)
+            # Also update all handlers for this logger
+            for handler in logger.handlers:
+                handler.setLevel(level)
     
     # Also update the root logger for backward compatibility
     root_logger = get_logger("root")
     root_logger.setLevel(level)
+    # Update all handlers for root logger
+    for handler in root_logger.handlers:
+        handler.setLevel(level)
 
 # Initialize root logger for backward compatibility
 root_logger: logging.Logger = get_logger("root") 

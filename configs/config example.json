@@ -24,6 +24,7 @@
     "print_negatives": false,
     "blacklist_prevent_execution": true,
     "prompter_get_specific_locations": true,
+    "prompter_get_specific_times": true,
     "random_skip_chance": 0,
     "gen_order": [
         "control_nets",

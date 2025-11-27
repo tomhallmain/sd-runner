@@ -26,6 +26,7 @@ gray
 platinum
 steel
 sepia
+taupe
 teal
 lilac-colored
 pink
@@ -53,6 +54,7 @@ monochrome orange-pink
 monochrome deep green
 monochrome teal
 duotone
+polychrome
 limited palette
 amaranth # reddish-rose or reddish-purple color, named after the flower of the amaranth plant
 #    cardinal # vivid red, like the bird

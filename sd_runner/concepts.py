@@ -266,11 +266,11 @@ class Concepts:
                     logger.info(f"Overwrote dictionary words list. Length: {len(Concepts.ALL_WORDS_LIST)}")
 
     @staticmethod
-    def sample_whitelisted(concepts: list[str], low: int, high: int, prompt_mode: PromptMode) -> list[str]:
+    def sample_whitelisted(concepts: list[str] | dict[str, float], low: int, high: int, prompt_mode: PromptMode) -> list[str]:
         """Sample concepts while filtering out blacklisted items.
         
         Args:
-            concepts: List or dict of concepts to sample from
+            concepts: List or dict of concepts to sample from. If dict, keys are concepts and values are probability weights.
             low: Minimum number of items to sample
             high: Maximum number of items to sample
             
@@ -288,24 +288,47 @@ class Concepts:
             return []
         if Blacklist.is_empty():
             return sample(concepts, low, high)
-            
-        whitelist, filtered = Blacklist.filter_concepts(concepts, user_prompt=False, prompt_mode=prompt_mode)
         
-        # Check if we have enough items after filtering
-        if len(whitelist) < low:
-            logger.warning(f"Warning: Not enough non-blacklisted items to satisfy range {low}-{high}. "
-                  f"Got {len(whitelist)} items after filtering out {len(filtered)} blacklisted items.")
-            if len(whitelist) == 0:
-                raise Exception(f"No non-blacklisted items available. Filtered out {len(filtered)} blacklisted items.")
-            # Adjust the range to what we can actually provide
-            high = min(high, len(whitelist))
-            low = min(low, high)
+        # Handle dictionary case (weighted sampling)
+        if isinstance(concepts, dict):
+            # Filter the dictionary keys, then reconstruct dictionary with original weights
+            concepts_list = list(concepts.keys())
+            whitelist, filtered = Blacklist.filter_concepts(concepts_list, user_prompt=False, prompt_mode=prompt_mode)
             
-        return sample(whitelist, low, high)
+            # Reconstruct dictionary with only whitelisted items, preserving their original weights
+            whitelist_dict = {concept: concepts[concept] for concept in whitelist if concept in concepts}
+            
+            # Check if we have enough items after filtering
+            if len(whitelist_dict) < low:
+                logger.warning(f"Warning: Not enough non-blacklisted items to satisfy range {low}-{high}. "
+                      f"Got {len(whitelist_dict)} items after filtering out {len(filtered)} blacklisted items.")
+                if len(whitelist_dict) == 0:
+                    raise Exception(f"No non-blacklisted items available. Filtered out {len(filtered)} blacklisted items.")
+                # Adjust the range to what we can actually provide
+                high = min(high, len(whitelist_dict))
+                low = min(low, high)
+            
+            return sample(whitelist_dict, low, high)
+        else:
+            # Handle list case (uniform sampling)
+            whitelist, filtered = Blacklist.filter_concepts(concepts, user_prompt=False, prompt_mode=prompt_mode)
+            
+            # Check if we have enough items after filtering
+            if len(whitelist) < low:
+                logger.warning(f"Warning: Not enough non-blacklisted items to satisfy range {low}-{high}. "
+                      f"Got {len(whitelist)} items after filtering out {len(filtered)} blacklisted items.")
+                if len(whitelist) == 0:
+                    raise Exception(f"No non-blacklisted items available. Filtered out {len(filtered)} blacklisted items.")
+                # Adjust the range to what we can actually provide
+                high = min(high, len(whitelist))
+                low = min(low, high)
+            
+            return sample(whitelist, low, high)
 
     def __init__(self,
         prompt_mode: PromptMode,
         get_specific_locations: bool,
+        get_specific_times: bool = False,
         concepts_dir: str = "concepts"
     ):
         if Concepts.set_concepts_dir(concepts_dir):
@@ -313,6 +336,7 @@ class Concepts:
             Concepts.ensure_dictionary_loaded()
         self.prompt_mode = prompt_mode
         self.get_specific_locations = get_specific_locations
+        self.get_specific_times = get_specific_times
         # Randomly select concepts from the lists
 
     @staticmethod
@@ -402,9 +426,15 @@ class Concepts:
             colors.remove("rainbow")
         return colors
 
-    def get_times(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
+    def get_times(self, low: int = 0, high: int = 1, specific_inclusion_chance: float = 0.3, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
-        return Concepts.sample_whitelisted(Concepts.load(SFW.times), low, high, self.prompt_mode)
+        times = Concepts.load(SFW.times)
+        if self.get_specific_times:
+            nonspecific_times_chance = 1 - specific_inclusion_chance
+            times = {t: nonspecific_times_chance for t in times}
+            for t in Concepts.load(SFW.times_specific):
+                times[t] = specific_inclusion_chance
+        return Concepts.sample_whitelisted(times, low, high, self.prompt_mode)
 
     def get_dress(self, low: int = 0, high: int = 2, inclusion_chance: float = 0.5, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
@@ -553,7 +583,9 @@ class Concepts:
         length = random.randint(3, 15)
         word = ''.join([random.choice(Concepts.ALPHABET) for i in range(length)])
         counter = 0
-        while word in Concepts.ALL_WORDS_LIST and Blacklist.get_violation_item(word) is not None:
+        while word in Concepts.ALL_WORDS_LIST or \
+                Blacklist.get_violation_item(word) is not None or \
+                len(Blacklist.check_user_prompt_detailed(word)) > 0:
             if counter > 100:
                 logger.error("Failed to generate a nonsense word!")
                 break
@@ -873,6 +905,7 @@ class SFW:
     positions = "positions.txt"
     sayings = "sayings.txt"
     times = "times.txt"
+    times_specific = "times_specific.txt"
 
 class NSFW:
     characters = "nsfw_characters.txt"

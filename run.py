@@ -236,7 +236,7 @@ class Run:
         positive_prompt = self.args.positive_prompt if self.args.positive_prompt else Globals.DEFAULT_POSITIVE_PROMPT
         base_negative = "" if Globals.OVERRIDE_BASE_NEGATIVE else str(Globals.DEFAULT_NEGATIVE_PROMPT)
         negative_prompt = self.args.negative_prompt if self.args.negative_prompt else base_negative
-        GlobalPrompter.set_prompter(self.prompter_config, Globals.PROMPTER_GET_SPECIFIC_LOCATIONS, prompt_list)
+        GlobalPrompter.set_prompter(self.prompter_config, Globals.PROMPTER_GET_SPECIFIC_LOCATIONS, Globals.PROMPTER_GET_SPECIFIC_TIMES, prompt_list)
 
         if self.args.auto_run:
             self.print("Auto-run mode set.")

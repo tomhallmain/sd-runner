@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2025-11-26 14:36-0500\n"
-"PO-Revision-Date: 2025-11-26 14:36-0500\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2025-11-27 17:10-0500\n"
+"PO-Revision-Date: 2025-11-27 17:10-0500\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "기본 IPAdapter 강도"
 msgid "Redo Parameters"
 msgstr "매개변수 다시 실행"
 
-#: app.py:317 app.py:334 ui/prompt_config_window.py:273
+#: app.py:317 app.py:334 ui/prompt_config_window.py:274
 msgid "Prompts Configuration"
 msgstr "프롬프트 구성"
 
@@ -128,7 +128,7 @@ msgstr "확장 프로그램 창"
 msgid "Prompt Mode"
 msgstr "프롬프트 모드"
 
-#: app.py:344 utils/globals.py:456
+#: app.py:344 utils/globals.py:457
 msgid "Edit Concepts"
 msgstr "개념 편집"
 
@@ -144,7 +144,7 @@ msgstr "이미지 해상도 재정의"
 msgid "Inpainting"
 msgstr "실내 페인팅"
 
-#: app.py:366 ui/prompt_config_window.py:611
+#: app.py:366 ui/prompt_config_window.py:621
 msgid "Override Base Negative"
 msgstr "기본 음수 재정의"
 
@@ -152,7 +152,7 @@ msgstr "기본 음수 재정의"
 msgid "Run Preset Schedule"
 msgstr "사전 설정 일정 실행"
 
-#: app.py:374 ui/prompt_config_window.py:632
+#: app.py:374 ui/prompt_config_window.py:642
 msgid "Continuous Seed Variation"
 msgstr "연속적인 랜덤 시드 변동"
 
@@ -184,6 +184,10 @@ msgstr "종료 확인"
 msgid "Would you like to quit the application?"
 msgstr "앱을 종료하시겠습니까?"
 
+#: app.py:501
+msgid "Storing caches..."
+msgstr "캐시 저장 중..."
+
 #: app.py:734 app.py:754
 msgid "Confirm Run"
 msgstr "실행 확인"
@@ -197,6 +201,10 @@ msgstr "새 실행을 시작하면 현재 미리 설정된 일정이 취소됩�
 #: app.py:755
 msgid "Are you sure you want to proceed?"
 msgstr "계속 진행하시겠습니까?"
+
+#: app.py:764
+msgid "Setting up run..."
+msgstr "실행 설정 중..."
 
 #: app.py:793
 msgid "Long Running Job Confirmation"
@@ -569,7 +577,7 @@ msgstr "블랙리스트 표시"
 
 #: ui/auth/password_admin_window.py:249 ui/models_window.py:106
 #: ui/models_window.py:168 ui/models_window.py:583
-#: ui/prompt_config_window.py:341 ui/recent_adapters_window.py:125
+#: ui/prompt_config_window.py:342 ui/recent_adapters_window.py:125
 #: ui/recent_adapters_window.py:180 ui/recent_adapters_window.py:242
 #: ui/recent_adapters_window.py:299 ui/tags_blacklist_window.py:284
 msgid "Close"
@@ -748,127 +756,127 @@ msgstr "잘못된 사전 설정입니다: {0}"
 msgid "Prompt Configuration"
 msgstr "프롬프트 구성"
 
-#: ui/prompt_config_window.py:208
+#: ui/prompt_config_window.py:209
 msgid "Detailed Prompt Configuration"
 msgstr "상세 프롬프트 구성"
 
-#: ui/prompt_config_window.py:213
+#: ui/prompt_config_window.py:214
 msgid "Basic Generation Settings"
 msgstr "기본 생성 설정"
 
-#: ui/prompt_config_window.py:216
+#: ui/prompt_config_window.py:217
 msgid "Sampler"
 msgstr "샘플러"
 
-#: ui/prompt_config_window.py:224
+#: ui/prompt_config_window.py:225
 msgid "Scheduler"
 msgstr "스케줄러"
 
-#: ui/prompt_config_window.py:232
+#: ui/prompt_config_window.py:233
 msgid "Seed"
 msgstr "씨앗"
 
-#: ui/prompt_config_window.py:240
+#: ui/prompt_config_window.py:241
 msgid "Steps"
 msgstr "단계"
 
-#: ui/prompt_config_window.py:248
+#: ui/prompt_config_window.py:249
 msgid "CFG"
 msgstr "CFG"
 
-#: ui/prompt_config_window.py:256
+#: ui/prompt_config_window.py:257
 msgid "Denoise"
 msgstr "노이즈 제거"
 
-#: ui/prompt_config_window.py:264
+#: ui/prompt_config_window.py:265
 msgid "Random Skip Chance"
 msgstr "무작위 건너뛰기 확률"
 
-#: ui/prompt_config_window.py:321
+#: ui/prompt_config_window.py:322
 msgid "Multiplier"
 msgstr "승수"
 
-#: ui/prompt_config_window.py:346
+#: ui/prompt_config_window.py:347
 msgid "Concepts"
 msgstr "개념"
 
-#: ui/prompt_config_window.py:361
+#: ui/prompt_config_window.py:362
 msgid "Positions"
 msgstr "포지션"
 
-#: ui/prompt_config_window.py:376
+#: ui/prompt_config_window.py:377
 msgid "Locations"
 msgstr "위치"
 
-#: ui/prompt_config_window.py:391
+#: ui/prompt_config_window.py:392
 msgid "Animals"
 msgstr "동물"
 
-#: ui/prompt_config_window.py:406
+#: ui/prompt_config_window.py:407
 msgid "Colors"
 msgstr "색상"
 
-#: ui/prompt_config_window.py:421
+#: ui/prompt_config_window.py:422
 msgid "Times"
 msgstr "시간"
 
-#: ui/prompt_config_window.py:436
+#: ui/prompt_config_window.py:437
 msgid "Dress"
 msgstr "의류"
 
-#: ui/prompt_config_window.py:451
+#: ui/prompt_config_window.py:452
 msgid "Expressions"
 msgstr "표현식"
 
-#: ui/prompt_config_window.py:466
+#: ui/prompt_config_window.py:467
 msgid "Actions"
 msgstr "작업"
 
-#: ui/prompt_config_window.py:481
+#: ui/prompt_config_window.py:482
 msgid "Descriptions"
 msgstr "설명"
 
-#: ui/prompt_config_window.py:496
+#: ui/prompt_config_window.py:497
 msgid "Characters"
 msgstr "문자"
 
-#: ui/prompt_config_window.py:511
+#: ui/prompt_config_window.py:512
 msgid "Random Words"
 msgstr "무작위 단어"
 
-#: ui/prompt_config_window.py:526 utils/globals.py:37
+#: ui/prompt_config_window.py:527 utils/globals.py:37
 msgid "Nonsense"
 msgstr "넌센스"
 
-#: ui/prompt_config_window.py:541
+#: ui/prompt_config_window.py:542
 msgid "Jargon"
 msgstr "전문 용어"
 
-#: ui/prompt_config_window.py:556
+#: ui/prompt_config_window.py:557
 msgid "Sayings"
 msgstr "격언"
 
-#: ui/prompt_config_window.py:572
+#: ui/prompt_config_window.py:573
 msgid "Specific Locations Chance"
 msgstr "위치 지정 기회"
 
-#: ui/prompt_config_window.py:581
+#: ui/prompt_config_window.py:591
 msgid "Specify Humans Chance"
 msgstr "인간을 지정할 기회"
 
-#: ui/prompt_config_window.py:590
+#: ui/prompt_config_window.py:600
 msgid "Art Styles Chance"
 msgstr "아트 스타일의 기회"
 
-#: ui/prompt_config_window.py:599
+#: ui/prompt_config_window.py:609
 msgid "Emphasis Chance"
 msgstr "강조 확률"
 
-#: ui/prompt_config_window.py:618
+#: ui/prompt_config_window.py:628
 msgid "Tags Applied to Prompt Start"
 msgstr "프롬프트 시작에 태그 적용"
 
-#: ui/prompt_config_window.py:625
+#: ui/prompt_config_window.py:635
 msgid "Sparse Mixed Tags"
 msgstr "희소 혼합 태그"
 
@@ -1719,131 +1727,131 @@ msgstr "허용하지 않음"
 msgid "Allow in NSFW"
 msgstr "NSFW 모드에서 허용"
 
-#: utils/globals.py:225
+#: utils/globals.py:226
 msgid "Simple Image Gen"
 msgstr "이미지 생성 방법"
 
-#: utils/globals.py:226
+#: utils/globals.py:227
 msgid "Simple Image Gen Lora"
 msgstr "LoRA를 활용한 이미지 생성 방법"
 
-#: utils/globals.py:227
+#: utils/globals.py:228
 msgid "Simple Image Gen Tiled Upscale"
 msgstr "타일링된 고해상도 이미지 생성"
 
-#: utils/globals.py:228
+#: utils/globals.py:229
 msgid "Ella"
 msgstr "ELLA"
 
-#: utils/globals.py:229
+#: utils/globals.py:230
 msgid "Instant Lora"
 msgstr "즉시 LoRA"
 
-#: utils/globals.py:230
+#: utils/globals.py:231
 msgid "IP Adapter"
 msgstr "IP 어댑터"
 
-#: utils/globals.py:231
+#: utils/globals.py:232
 msgid "Image to Image"
 msgstr "이미지에서 이미지로"
 
-#: utils/globals.py:232
+#: utils/globals.py:233
 msgid "ControlNet"
 msgstr "컨트롤넷"
 
-#: utils/globals.py:233
+#: utils/globals.py:234
 msgid "Inpaint ClipSeg"
 msgstr "인페인팅 클립세그"
 
-#: utils/globals.py:234
+#: utils/globals.py:235
 msgid "Animate Diff"
 msgstr "애니메이트 디프"
 
-#: utils/globals.py:235
+#: utils/globals.py:236
 msgid "Renoiser"
 msgstr "레노이저"
 
-#: utils/globals.py:236 utils/globals.py:380
+#: utils/globals.py:237 utils/globals.py:381
 msgid "Turbo"
 msgstr "터보"
 
-#: utils/globals.py:237
+#: utils/globals.py:238
 msgid "Upscale Simple"
 msgstr "이미지 업스케일링 간단히"
 
-#: utils/globals.py:238
+#: utils/globals.py:239
 msgid "Upscale Better"
 msgstr "이미지 품질을 높이기 더 나은 버전"
 
-#: utils/globals.py:239
+#: utils/globals.py:240
 msgid "Redo Prompt"
 msgstr "프롬프트를 다시 입력하세요"
 
-#: utils/globals.py:377
+#: utils/globals.py:378
 msgid "SD 1.5"
 msgstr "SD 1.5"
 
-#: utils/globals.py:378
+#: utils/globals.py:379
 msgid "SDXL"
 msgstr "SDXL"
 
-#: utils/globals.py:379
+#: utils/globals.py:380
 msgid "Illustrious"
 msgstr "Illustrious"
 
-#: utils/globals.py:381
+#: utils/globals.py:382
 msgid "Flux"
 msgstr "Flux"
 
-#: utils/globals.py:406
+#: utils/globals.py:407
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:407
+#: utils/globals.py:408
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:408
+#: utils/globals.py:409
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:409
+#: utils/globals.py:410
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:448
+#: utils/globals.py:449
 msgid "Open Application"
 msgstr "소프트웨어 애플리케이션 열기"
 
-#: utils/globals.py:449
+#: utils/globals.py:450
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFL 프롬프트 모드"
 
-#: utils/globals.py:450
+#: utils/globals.py:451
 msgid "Edit Blacklist"
 msgstr "블랙리스트 편집"
 
-#: utils/globals.py:451
+#: utils/globals.py:452
 msgid "Reveal Blacklist Concepts"
 msgstr "블랙리스트 개념 공개"
 
-#: utils/globals.py:452
+#: utils/globals.py:453
 msgid "Edit Schedules"
 msgstr "일정 편집"
 
-#: utils/globals.py:453
+#: utils/globals.py:454
 msgid "Edit Timed Schedules"
 msgstr "시간별 일정 편집"
 
-#: utils/globals.py:454
+#: utils/globals.py:455
 msgid "Edit Expansions"
 msgstr "확장 프로그램 편집"
 
-#: utils/globals.py:455
+#: utils/globals.py:456
 msgid "Edit Presets"
 msgstr "사전 설정 편집"
 
-#: utils/globals.py:457
+#: utils/globals.py:458
 msgid "Access Password Administration"
 msgstr "액세스 비밀번호 관리"
 
@@ -1927,10 +1935,6 @@ msgstr "개월"
 msgid "years"
 msgstr "년"
 
-#: app.py:501
-msgid "Storing caches..."
-msgstr "캐시 저장 중..."
-
-#: app.py:764
-msgid "Setting up run..."
-msgstr "실행 설정 중..."
+#: ui/prompt_config_window.py:582
+msgid "Specific Times Chance"
+msgstr "특정 시간 확률"
