@@ -1,9 +1,10 @@
 from pathlib import Path
 from typing import Dict
 
-from tkinter import Entry, Frame, Label, StringVar, LEFT, W, Listbox, END, SINGLE, BOTH, Y, Scrollbar, Checkbutton, IntVar, Toplevel, filedialog
+from tkinter import Entry, Frame, Label, StringVar, LEFT, W, Listbox, END, SINGLE, BOTH, Y, Scrollbar, Checkbutton, IntVar, filedialog
 from tkinter.ttk import Button, Combobox
 
+from lib.multi_display import SmartToplevel
 from sd_runner.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
 from ui.app_style import AppStyle
 from ui.auth.password_utils import require_password
@@ -57,8 +58,7 @@ class ConceptEditorWindow():
         return f"{width}x{height}"
 
     def __init__(self, master, app_actions):
-        ConceptEditorWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        ConceptEditorWindow.top_level.geometry(self.get_geometry())
+        ConceptEditorWindow.top_level = SmartToplevel(persistent_parent=master, geometry=self.get_geometry())
         self.master = ConceptEditorWindow.top_level
         self.app_actions = app_actions
         self.search_text = ""
@@ -77,12 +77,16 @@ class ConceptEditorWindow():
         self.category_vars = {}  # Store checkbox variables
         self.loaded_concepts = {}  # Cache for loaded concepts by file
 
+        # Configure window grid to allow frame expansion
+        self.master.columnconfigure(0, weight=1)
+        self.master.rowconfigure(0, weight=1)
+        self.master.config(bg=AppStyle.BG_COLOR)
+        
         # Setup main frame
-        self.frame = Frame(self.master)
+        self.frame = Frame(self.master, bg=AppStyle.BG_COLOR)
         self.frame.grid(column=0, row=0, sticky="nsew")
         self.frame.columnconfigure(0, weight=1)
         self.frame.rowconfigure(0, weight=1)
-        self.frame.config(bg=AppStyle.BG_COLOR)
 
         # Create main layout
         self.setup_ui()

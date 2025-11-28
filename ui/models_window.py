@@ -1,11 +1,12 @@
 from datetime import datetime
 import time
 import os
-from tkinter import Toplevel, Frame, Label, StringVar, Entry, Scrollbar, Text
+from tkinter import Frame, Label, StringVar, Entry, Scrollbar, Text
 import tkinter.font as fnt
 from tkinter.ttk import Button, Notebook, Treeview
 from typing import Optional, Any
 
+from lib.multi_display import SmartToplevel
 from sd_runner.models import Model
 from ui.app_style import AppStyle
 from ui.auth.password_utils import require_password
@@ -17,17 +18,14 @@ _ = I18N._
 
 
 class ModelsWindow:
-    top_level: Optional[Toplevel] = None
+    top_level: Optional[SmartToplevel] = None
     _checkpoints_cache: Optional[list[tuple[str, str, str]]] = None  # (name, arch_type, created_date)
     _adapters_cache: Optional[list[tuple[str, str, str]]] = None    # (name, arch_type, created_date)
     _cache_timestamp: Optional[float] = None
 
-    def __init__(self, master: Toplevel, app_actions: Any) -> None:
-        ModelsWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        ModelsWindow.top_level.title(_("Models"))
-        ModelsWindow.top_level.geometry("800x450")
-
-        self.master: Toplevel = ModelsWindow.top_level
+    def __init__(self, master, app_actions: Any) -> None:
+        ModelsWindow.top_level = SmartToplevel(persistent_parent=master, title=_("Models"), geometry="800x450")
+        self.master: SmartToplevel = ModelsWindow.top_level
         self.app_actions: Any = app_actions
         self.show_blacklisted: bool = False
 
@@ -457,15 +455,14 @@ class ModelsWindow:
 class LoRAInfoWindow:
     """Window for displaying detailed LoRA information including triggers."""
     
-    def __init__(self, master: Toplevel, model: Model, app_actions: Any):
+    def __init__(self, master, model: Model, app_actions: Any):
         self.master = master
         self.model = model
         self.app_actions = app_actions
         
         # Create the window
-        self.window = Toplevel(master, bg=AppStyle.BG_COLOR)
-        self.window.title(_("LoRA Information: {0}").format(model.id))
-        self.window.geometry("800x600")
+        self.window = SmartToplevel(persistent_parent=master, title=_("LoRA Information: {0}").format(model.id),
+                                   geometry="800x600")
         
         # Main frame
         self.main_frame = Frame(self.window, bg=AppStyle.BG_COLOR)

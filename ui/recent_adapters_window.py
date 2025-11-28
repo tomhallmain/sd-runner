@@ -1,11 +1,12 @@
 from datetime import datetime
 import os
 import time
-from tkinter import Toplevel, Frame, Label, StringVar, Entry, Scrollbar, IntVar
+from tkinter import Frame, Label, StringVar, Entry, Scrollbar, IntVar
 import tkinter.font as fnt
 from tkinter.ttk import Button, Notebook, Treeview
 from typing import Optional, Any
 
+from lib.multi_display import SmartToplevel
 from ui.app_style import AppStyle
 from utils.app_info_cache import app_info_cache
 from utils.logging_setup import get_logger
@@ -17,7 +18,7 @@ logger = get_logger("recent_adapters_window")
 
 
 class RecentAdaptersWindow:
-    top_level: Optional[Toplevel] = None
+    top_level: Optional[SmartToplevel] = None
     _controlnet_cache: Optional[list[tuple[str, str, str]]] = None  # (name, type, created_date)
     _ipadapter_cache: Optional[list[tuple[str, str, str]]] = None    # (name, type, created_date)
     _cache_timestamp: Optional[float] = None
@@ -36,12 +37,12 @@ class RecentAdaptersWindow:
     MAX_RECENT_ITEMS_KEY = "max_recent_items"
     MAX_RECENT_SPLIT_ITEMS_KEY = "max_recent_split_items"
 
-    def __init__(self, master: Toplevel, app_actions: Any) -> None:
-        RecentAdaptersWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        RecentAdaptersWindow.top_level.title(_("Recent Adapters"))
-        RecentAdaptersWindow.top_level.geometry("1000x500")
+    def __init__(self, master, app_actions: Any) -> None:
+        RecentAdaptersWindow.top_level = SmartToplevel(persistent_parent=master,
+                                                      title=_("Recent Adapters"),
+                                                      geometry="1000x500")
 
-        self.master: Toplevel = RecentAdaptersWindow.top_level
+        self.master: SmartToplevel = RecentAdaptersWindow.top_level
         self.app_actions: Any = app_actions
         
         # Load configuration values from cache

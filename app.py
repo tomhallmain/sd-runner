@@ -6,11 +6,12 @@ import time
 import traceback
 from typing import Optional
 
-from tkinter import messagebox, Toplevel, Frame, Label, Checkbutton, Text, StringVar, BooleanVar, END, HORIZONTAL, NW, BOTH, YES, N, E, W
+from tkinter import messagebox, Frame, Label, Checkbutton, Text, StringVar, BooleanVar, END, HORIZONTAL, NW, BOTH, YES, N, E, W
 from tkinter.constants import W
 import tkinter.font as fnt
 from tkinter.ttk import Button, OptionMenu, Progressbar, Scale
 from lib.autocomplete_entry import AutocompleteEntry, matches
+from lib.multi_display import SmartToplevel
 from ttkthemes import ThemedTk
 
 from run import Run
@@ -1308,8 +1309,7 @@ class App():
         y = 0
 
         # Create the toast on the top level
-        toast = Toplevel(self.master, bg=AppStyle.BG_COLOR)
-        toast.geometry(f'{width}x{height}+{int(x)}+{int(y)}')
+        toast = SmartToplevel(persistent_parent=self.master, geometry=f'{width}x{height}+{int(x)}+{int(y)}', auto_position=False)
         self.container = Frame(toast, bg=AppStyle.BG_COLOR)
         self.container.pack(fill=BOTH, expand=YES)
         label = Label(

@@ -1,9 +1,10 @@
 import os
 
-from tkinter import Toplevel, Frame, Label, Checkbutton, OptionMenu, StringVar, BooleanVar, LEFT, W
+from tkinter import Frame, Label, Checkbutton, OptionMenu, StringVar, BooleanVar, LEFT, W
 import tkinter.font as fnt
 from tkinter.ttk import Entry, Button
 
+from lib.multi_display import SmartToplevel
 from sd_runner.timed_schedule import TimedSchedule
 from sd_runner.timed_schedules_manager import timed_schedules_manager
 from ui.auth.password_utils import require_password
@@ -21,12 +22,12 @@ class TimedScheduleModifyWindow():
     COL_0_WIDTH = 600
 
     def __init__(self, master, refresh_callback, schedule, dimensions="600x600"):
-        TimedScheduleModifyWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        TimedScheduleModifyWindow.top_level.geometry(dimensions)
+        self.schedule = schedule if schedule is not None else TimedSchedule()
+        TimedScheduleModifyWindow.top_level = SmartToplevel(persistent_parent=master,
+                                                           title=_("Modify Preset Schedule: {0}").format(self.schedule.name),
+                                                           geometry=dimensions)
         self.master = TimedScheduleModifyWindow.top_level
         self.refresh_callback = refresh_callback
-        self.schedule = schedule if schedule is not None else TimedSchedule()
-        TimedScheduleModifyWindow.top_level.title(_("Modify Preset Schedule: {0}").format(self.schedule.name))
 
         self.frame = Frame(self.master)
         self.frame.grid(column=0, row=0)
@@ -152,9 +153,9 @@ class TimedSchedulesWindow():
         return f"{width}x{height}"
 
     def __init__(self, master, app_actions, runner_app_config=RunnerAppConfig()):
-        TimedSchedulesWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        TimedSchedulesWindow.top_level.geometry(TimedSchedulesWindow.get_geometry())
-        TimedSchedulesWindow.top_level.title(_("Preset Schedules"))
+        TimedSchedulesWindow.top_level = SmartToplevel(persistent_parent=master,
+                                                       title=_("Preset Schedules"),
+                                                       geometry=TimedSchedulesWindow.get_geometry())
         self.master = TimedSchedulesWindow.top_level
         self.app_actions = app_actions
         self.filter_text = ""
@@ -165,14 +166,18 @@ class TimedSchedulesWindow():
         self.delete_schedule_btn_list = []
         self.enabled_checkbutton_list = []
 
-        self.frame = Frame(self.master)
-        self.frame.grid(column=0, row=0)
+        # Configure window grid to allow frame expansion
+        self.master.columnconfigure(0, weight=1)
+        self.master.rowconfigure(0, weight=1)
+        self.master.config(bg=AppStyle.BG_COLOR)
+        
+        self.frame = Frame(self.master, bg=AppStyle.BG_COLOR)
+        self.frame.grid(column=0, row=0, sticky="nsew")
         self.frame.columnconfigure(0, weight=9)
         self.frame.columnconfigure(1, weight=1)
         self.frame.columnconfigure(2, weight=1)
         self.frame.columnconfigure(3, weight=1)
         self.frame.columnconfigure(4, weight=1)
-        self.frame.config(bg=AppStyle.BG_COLOR)
 
         self._label_info = Label(self.frame)
         self.add_label(self._label_info, _("Create and modify schedules"), row=0, wraplength=TimedSchedulesWindow.COL_0_WIDTH)

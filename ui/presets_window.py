@@ -1,9 +1,10 @@
 import os
 
-from tkinter import Toplevel, Frame, Label, StringVar, LEFT, W
+from tkinter import Frame, Label, StringVar, LEFT, W
 import tkinter.font as fnt
 from tkinter.ttk import Entry, Button
 
+from lib.multi_display import SmartToplevel
 from ui.app_style import AppStyle
 from ui.preset import Preset
 from ui.auth.password_utils import require_password
@@ -94,9 +95,9 @@ class PresetsWindow():
         return next_preset
 
     def __init__(self, master, app_actions, runner_app_config=RunnerAppConfig()):
-        PresetsWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        PresetsWindow.top_level.title(_("Presets Window"))
-        PresetsWindow.top_level.geometry(PresetsWindow.get_geometry(is_gui=True))
+        PresetsWindow.top_level = SmartToplevel(persistent_parent=master,
+                                               title=_("Presets Window"),
+                                               geometry=PresetsWindow.get_geometry(is_gui=True))
 
         self.master = PresetsWindow.top_level
         self.app_actions = app_actions

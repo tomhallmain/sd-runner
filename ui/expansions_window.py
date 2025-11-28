@@ -1,9 +1,10 @@
 import os
 
-from tkinter import Toplevel, Frame, Label, StringVar, LEFT, W
+from tkinter import Frame, Label, StringVar, LEFT, W
 import tkinter.font as fnt
 from tkinter.ttk import Entry, Button
 
+from lib.multi_display import SmartToplevel
 from ui.app_style import AppStyle
 from ui.expansion import Expansion
 from ui.auth.password_utils import require_password
@@ -23,8 +24,7 @@ class ExpansionModifyWindow():
     COL_0_WIDTH = 600
 
     def __init__(self, master, refresh_callback, expansion, app_actions, dimensions="600x600"):
-        ExpansionModifyWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        ExpansionModifyWindow.top_level.geometry(dimensions)
+        ExpansionModifyWindow.top_level = SmartToplevel(persistent_parent=master, geometry=dimensions)
         self.master = ExpansionModifyWindow.top_level
         self.refresh_callback = refresh_callback
         self.app_actions = app_actions
@@ -176,9 +176,9 @@ class ExpansionsWindow():
         return next_expansion
 
     def __init__(self, master, app_actions):
-        ExpansionsWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        ExpansionsWindow.top_level.title(_("Expansions Window"))
-        ExpansionsWindow.top_level.geometry(ExpansionsWindow.get_geometry(is_gui=True))
+        ExpansionsWindow.top_level = SmartToplevel(persistent_parent=master, 
+                                                   title=_("Expansions Window"),
+                                                   geometry=ExpansionsWindow.get_geometry(is_gui=True))
 
         self.master = ExpansionsWindow.top_level
         self.app_actions = app_actions

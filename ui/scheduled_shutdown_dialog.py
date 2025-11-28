@@ -1,7 +1,8 @@
 import threading
 import time
-from tkinter import Toplevel, Frame, Label, Button, BOTH, YES, LEFT
+from tkinter import Frame, Label, Button, BOTH, YES, LEFT
 
+from lib.multi_display import SmartToplevel
 from ui.app_style import AppStyle
 from utils.translations import I18N
 
@@ -21,9 +22,10 @@ class ScheduledShutdownDialog:
         
     def show(self):
         """Show the countdown dialog and start the countdown."""
-        self.dialog = Toplevel(self.parent, bg=AppStyle.BG_COLOR)
-        self.dialog.title(_("Scheduled Shutdown"))
-        self.dialog.geometry("400x200")
+        self.dialog = SmartToplevel(persistent_parent=self.parent,
+                                   title=_("Scheduled Shutdown"),
+                                   geometry="400x200",
+                                   center=True)
         self.dialog.resizable(False, False)
         
         # Center the dialog

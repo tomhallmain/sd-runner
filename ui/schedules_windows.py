@@ -1,9 +1,10 @@
 import os
 
-from tkinter import Toplevel, Frame, Label, OptionMenu, StringVar, LEFT, W
+from tkinter import Frame, Label, OptionMenu, StringVar, LEFT, W
 import tkinter.font as fnt
 from tkinter.ttk import Entry, Button
 
+from lib.multi_display import SmartToplevel
 from ui.app_style import AppStyle
 from ui.presets_window import PresetsWindow
 from ui.schedule import PresetTask, Schedule
@@ -21,12 +22,12 @@ class ScheduleModifyWindow():
     COL_0_WIDTH = 600
 
     def __init__(self, master, refresh_callback, schedule, dimensions="600x600"):
-        ScheduleModifyWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        ScheduleModifyWindow.top_level.geometry(dimensions)
+        self.schedule = schedule if schedule is not None else Schedule()
+        ScheduleModifyWindow.top_level = SmartToplevel(persistent_parent=master,
+                                                      title=_("Modify Preset Schedule: {0}").format(self.schedule.name),
+                                                      geometry=dimensions)
         self.master = ScheduleModifyWindow.top_level
         self.refresh_callback = refresh_callback
-        self.schedule = schedule if schedule is not None else Schedule()
-        ScheduleModifyWindow.top_level.title(_("Modify Preset Schedule: {0}").format(self.schedule.name))
 
         self.frame = Frame(self.master)
         self.frame.grid(column=0, row=0)
@@ -237,9 +238,9 @@ class SchedulesWindow():
         return next_schedule
 
     def __init__(self, master, app_actions, runner_app_config=RunnerAppConfig()):
-        SchedulesWindow.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        SchedulesWindow.top_level.geometry(SchedulesWindow.get_geometry())
-        SchedulesWindow.top_level.title(_("Preset Schedules"))
+        SchedulesWindow.top_level = SmartToplevel(persistent_parent=master,
+                                                title=_("Preset Schedules"),
+                                                geometry=SchedulesWindow.get_geometry())
         self.master = SchedulesWindow.top_level
         self.app_actions = app_actions
         self.filter_text = ""
@@ -249,13 +250,17 @@ class SchedulesWindow():
         self.modify_schedule_btn_list = []
         self.delete_schedule_btn_list = []
 
-        self.frame = Frame(self.master)
-        self.frame.grid(column=0, row=0)
+        # Configure window grid to allow frame expansion
+        self.master.columnconfigure(0, weight=1)
+        self.master.rowconfigure(0, weight=1)
+        self.master.config(bg=AppStyle.BG_COLOR)
+        
+        self.frame = Frame(self.master, bg=AppStyle.BG_COLOR)
+        self.frame.grid(column=0, row=0, sticky="nsew")
         self.frame.columnconfigure(0, weight=9)
         self.frame.columnconfigure(1, weight=1)
         self.frame.columnconfigure(2, weight=1)
         self.frame.columnconfigure(3, weight=1)
-        self.frame.config(bg=AppStyle.BG_COLOR)
 
         self._label_info = Label(self.frame)
         self.add_label(self._label_info, self.get_current_schedule_label_text(), row=0, wraplength=SchedulesWindow.COL_0_WIDTH)

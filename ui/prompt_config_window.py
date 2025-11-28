@@ -1,10 +1,11 @@
 from typing import Optional
 
-from tkinter import Frame, Label, StringVar, BooleanVar, Checkbutton, Toplevel, W, E, HORIZONTAL, END
+from tkinter import Frame, Label, StringVar, BooleanVar, Checkbutton, W, E, HORIZONTAL, END
 from tkinter.ttk import Button, OptionMenu, Scale
 from tkinter.font import Font
 
 from lib.aware_entry import AwareEntry
+from lib.multi_display import SmartToplevel
 from sd_runner.base_image_generator import BaseImageGenerator
 from sd_runner.prompter import PrompterConfiguration, Prompter
 from sd_runner.run_config import RunConfig
@@ -78,9 +79,8 @@ class PromptConfigWindow:
         self.__class__.set_prompt_config_window_instance(self)
         
         # Create the top-level window
-        self.top_level = Toplevel(master, bg=AppStyle.BG_COLOR)
-        self.top_level.title(_("Prompt Configuration"))
-        self.top_level.geometry("800x900")
+        self.top_level = SmartToplevel(persistent_parent=master, title=_("Prompt Configuration"),
+                                       geometry="800x900")
         self.top_level.protocol("WM_DELETE_WINDOW", self.close_window)
         
         # Setup main frame
