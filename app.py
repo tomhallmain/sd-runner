@@ -453,6 +453,12 @@ class App():
     def on_closing(self):
         Utils.prevent_sleep(False)
         ComfyGen.close_all_connections()
+        # Store display position and virtual screen info before storing cache
+        try:
+            app_info_cache.set_display_position(self.master)
+            app_info_cache.set_virtual_screen_info(self.master)
+        except Exception as e:
+            logger.warning(f"Failed to store display position info: {e}")
         self.store_info_cache()
         app_info_cache.wipe_instance()
         if hasattr(self, 'server') and self.server is not None:
@@ -1443,7 +1449,37 @@ if __name__ == "__main__":
             #root.iconbitmap(bitmap=r"icon.ico")
             # icon = PhotoImage(file=os.path.join(assets, "icon.png"))
             # root.iconphoto(False, icon)
-            root.geometry("900x600")
+            
+            # Try to restore saved window position
+            try:
+                position_data = app_info_cache.get_display_position()
+                virtual_screen_info = app_info_cache.get_virtual_screen_info()
+                
+                if position_data and position_data.is_valid():
+                    # Update window to ensure it's ready for visibility check
+                    root.update_idletasks()
+                    
+                    # Check if the saved position is still visible on current display setup
+                    if virtual_screen_info:
+                        is_visible = position_data.is_visible_on_display(root, virtual_screen_info)
+                    else:
+                        is_visible = position_data.is_visible_on_display(root)
+                    
+                    if is_visible:
+                        root.geometry(position_data.get_geometry())
+                        logger.debug(f"Restored window position: {position_data}")
+                    else:
+                        # Position not visible, use default
+                        root.geometry("900x600")
+                        logger.debug(f"Saved position not visible on current display, using default")
+                else:
+                    # No saved position or invalid, use default
+                    root.geometry("900x600")
+            except Exception as e:
+                logger.warning(f"Failed to restore window position: {e}")
+                # Fallback to default geometry
+                root.geometry("900x600")
+            
             # root.attributes('-fullscreen', True)
             root.resizable(1, 1)
             root.columnconfigure(0, weight=1)

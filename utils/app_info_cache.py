@@ -3,6 +3,7 @@ import json
 import os
 import shutil
 
+from lib.position_data import PositionData
 from sd_runner.blacklist import Blacklist
 from utils.globals import Globals, PromptMode, BlacklistPromptMode
 from utils.encryptor import encrypt_data_to_file, decrypt_data_from_file
@@ -210,6 +211,31 @@ class AppInfoCache:
         if AppInfoCache.INFO_KEY not in self._cache or key not in self._cache[AppInfoCache.INFO_KEY]:
             return default_val
         return self._cache[AppInfoCache.INFO_KEY][key]
+
+    def set_display_position(self, master):
+        """Store the main window's display position and size."""
+        self.set("display_position", PositionData.from_master(master).to_dict())
+
+    def set_virtual_screen_info(self, master):
+        """Store the virtual screen information."""
+        try:
+            self.set("virtual_screen_info", PositionData.from_master_virtual_screen(master).to_dict())
+        except Exception as e:
+            logger.warning(f"Failed to store virtual screen info: {e}")
+
+    def get_virtual_screen_info(self):
+        """Get the cached virtual screen info, returns None if not set or invalid."""
+        virtual_screen_data = self.get("virtual_screen_info")
+        if not virtual_screen_data:
+            return None
+        return PositionData.from_dict(virtual_screen_data)
+
+    def get_display_position(self):
+        """Get the cached display position, returns None if not set or invalid."""
+        position_data = self.get("display_position")
+        if not position_data:
+            return None
+        return PositionData.from_dict(position_data)
 
     def set_history(self, runner_app_config):
         history = self._get_history()
