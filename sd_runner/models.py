@@ -24,16 +24,19 @@ class Model:
     DEFAULT_ILLUSTRIOUS_MODEL = "Illustrious-XL-v1.0"
     DEFAULT_SDXL_VAE = "sdxl_vae.safetensors"
     DEFAULT_SD15_VAE = "vae-ft-mse-840000-ema-pruned.ckpt"
+    DEFAULT_CHROMA_VAE = "ae.safetensors"
     MODELS_DIR = config.models_dir
     CHECKPOINTS = {}
     LORAS = {}
 
     @staticmethod
-    def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux):
+    def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux, is_chroma):
         # NOTE this can be overridden by the presets
         if "Illustrious" in model_id:
             # print(f"Assuming model is based on IllustriousXL architecture: {model_id}")
             architecture_type = ArchitectureType.ILLUSTRIOUS
+        elif path is not None and (path.lower().startswith("chroma") or "chroma" in path.lower()) or is_chroma:
+            architecture_type = ArchitectureType.CHROMA
         elif path is not None and path.startswith("XL") or is_xl:
             architecture_type = ArchitectureType.SDXL
         elif path is not None and path.startswith("Turbo") or is_turbo:
@@ -52,12 +55,13 @@ class Model:
         is_xl: bool = False,
         is_turbo: bool = False,
         is_flux: bool = False,
+        is_chroma: bool = False,
         clip_req: float = None,
         lora_strength: float = Globals.DEFAULT_LORA_STRENGTH
     ):
         self.id = id
         self.path = path if path else os.path.join(Model.MODELS_DIR, id)
-        self.architecture_type = Model.determine_architecture_type(id, path, is_xl, is_turbo, is_flux)
+        self.architecture_type = Model.determine_architecture_type(id, path, is_xl, is_turbo, is_flux, is_chroma)
         self.is_lora = is_lora
         self.positive_tags = None
         self.negative_tags = None
@@ -81,6 +85,9 @@ class Model:
     def is_flux(self):
         return not self.is_lora and self.architecture_type == ArchitectureType.FLUX
 
+    def is_chroma(self):
+        return not self.is_lora and self.architecture_type == ArchitectureType.CHROMA
+
     def get_default_lora(self):
         return "add_detail" if self.is_sd_15() else "add-detail-xl"
 
@@ -97,6 +104,8 @@ class Model:
         elif self.is_turbo():
             return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_flux():
+            return ResolutionGroup.TEN_TWENTY_FOUR
+        elif self.is_chroma():
             return ResolutionGroup.TEN_TWENTY_FOUR
         else:
             return ResolutionGroup.FIVE_ONE_TWO
@@ -166,11 +175,17 @@ class Model:
             return f" <lora:{name}:{self.lora_strength}>"
 
     def get_default_vae(self):
+        if self.is_chroma():
+            return Model.DEFAULT_CHROMA_VAE
         return Model.DEFAULT_SD15_VAE if self.is_sd_15() else Model.DEFAULT_SDXL_VAE
 
     def validate_vae(self, vae):
         if self.is_flux():
             return # Flux models use their own VAE
+        if self.is_chroma():
+            if vae != Model.DEFAULT_CHROMA_VAE:
+                raise Exception(f"Invalid VAE {vae} for Chroma model {self.id}. Expected {Model.DEFAULT_CHROMA_VAE}")
+            return
         if self.is_xl() or self.is_turbo():
             if vae != Model.DEFAULT_SDXL_VAE: # TODO update if more
                 raise Exception(f"Invalid VAE {vae} for SDXL model {self.id}")
@@ -369,7 +384,8 @@ class Model:
             is_xl = file.startswith("XL")
             is_turbo = file.startswith("Turbo")
             is_flux = file.startswith("Flux")
-            model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo, is_flux=is_flux)
+            is_chroma = file.lower().startswith("chroma") or "chroma" in file.lower()
+            model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo, is_flux=is_flux, is_chroma=is_chroma)
             models[model_name] = model
             # print(model)
         if is_lora:

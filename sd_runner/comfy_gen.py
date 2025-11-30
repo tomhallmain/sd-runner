@@ -75,6 +75,11 @@ class ComfyGen(BaseImageGenerator):
                     prompt = WorkflowPromptComfy("simple_image_gen_flux.json")
                 else:
                     raise Exception("Flux workflows other than simple image gen are not supported in SDRunner's ComfyUI implementation at this time")
+            if model.is_chroma():
+                if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
+                    prompt = WorkflowPromptComfy("image_chroma_text_to_image.json")
+                else:
+                    raise Exception("Chroma workflows other than simple image gen are not supported in SDRunner's ComfyUI implementation at this time")
             if not prompt:
                 prompt = WorkflowPromptComfy(workflow_type.value)
         return prompt, model, vae
@@ -278,6 +283,13 @@ class ComfyGen(BaseImageGenerator):
             prompt.set_clip_text_by_id(
                 self.gen_config.redo_param("positive", positive),
                 None, positive_id="6", model=model)
+        elif model.is_chroma():
+            # NOTE Chroma uses different node IDs: positive="748", negative="749"
+            prompt.set_vae(self.gen_config.redo_param("vae", vae))
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                self.gen_config.redo_param("negative", negative),
+                positive_id="748", negative_id="749", model=model)
         else:
             prompt.set_vae(self.gen_config.redo_param("vae", vae))
             prompt.set_clip_text_by_id(

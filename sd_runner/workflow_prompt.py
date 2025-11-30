@@ -306,6 +306,11 @@ class WorkflowPromptComfy(WorkflowPrompt):
     def set_seed(self, seed_val):
         if not seed_val:
             return
+        # Check for RandomNoise node (used in Chroma workflows)
+        random_noise_node = self.find_node_of_class_type("RandomNoise", raise_exc=False)
+        if random_noise_node:
+            random_noise_node[WorkflowPromptComfy.INPUTS]["noise_seed"] = seed_val
+        # Set seed on sampler node (standard behavior)
         node = self.get_sampler_node()
         if node[WorkflowPromptComfy.CLASS_TYPE] == ComfyNodeName.SAMPLER_CUSTOM:
             node[WorkflowPromptComfy.INPUTS]["noise_seed"] = seed_val

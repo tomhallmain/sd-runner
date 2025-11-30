@@ -141,6 +141,10 @@ class BaseImageGenerator(ABC):
                                 if vae is None:
                                     vae = model.get_default_vae()
                                     logger.debug(f"Set default VAE: {vae}")
+                                # Chroma models must use their specific VAE, override if needed
+                                if model.is_chroma():
+                                    vae = model.get_default_vae()
+                                    logger.debug(f"Overriding VAE for Chroma model to default: {vae}")
                                 model.validate_vae(vae)
                                 lora = args[BaseImageGenerator.ORDER.index("loras")]
                                 positive_copy = str(positive)
