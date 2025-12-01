@@ -78,8 +78,10 @@ class ComfyGen(BaseImageGenerator):
             if model.is_chroma():
                 if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
                     prompt = WorkflowPromptComfy("image_chroma_text_to_image.json")
+                elif workflow_type == WorkflowType.SIMPLE_IMAGE_GEN_LORA:
+                    prompt = WorkflowPromptComfy("image_chroma_text_to_image_lora.json")
                 else:
-                    raise Exception("Chroma workflows other than simple image gen are not supported in SDRunner's ComfyUI implementation at this time")
+                    raise Exception("Chroma workflows other than simple image gen and simple image gen lora are not supported in SDRunner's ComfyUI implementation at this time")
             if not prompt:
                 prompt = WorkflowPromptComfy(workflow_type.value)
         return prompt, model, vae
@@ -275,7 +277,7 @@ class ComfyGen(BaseImageGenerator):
 
     def simple_image_gen(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
-        prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN, "Assembling Simple Image Gen prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative)
+        prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN, "Assembling Simple Image Gen prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, **kw)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
         if model.is_flux():
@@ -310,10 +312,17 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_model(model)
         prompt.set_vae(self.gen_config.redo_param("vae", vae))
         prompt.set_lora(self.gen_config.redo_param("lora", lora))
-        prompt.set_clip_text_by_id(
-            self.gen_config.redo_param("positive", positive),
-            self.gen_config.redo_param("negative", negative),
-            positive_id="3", negative_id="4", model=model)
+        if model.is_chroma():
+            # NOTE Chroma uses different node IDs: positive="748", negative="749"
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                self.gen_config.redo_param("negative", negative),
+                positive_id="748", negative_id="749", model=model)
+        else:
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                self.gen_config.redo_param("negative", negative),
+                positive_id="3", negative_id="4", model=model)
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))

@@ -365,12 +365,22 @@ class WorkflowPromptComfy(WorkflowPrompt):
             node = self.find_node_of_class_type(ComfyNodeName.LOAD_LORA, i=1)
             self.set_lora_node(node, lora.loras[1])
         else:
-            node = self.find_node_of_class_type(ComfyNodeName.LOAD_LORA)
-            self.set_lora_node(node, lora)
+            # Set first LoRA node with the actual LoRA
+            node = self.find_node_of_class_type(ComfyNodeName.LOAD_LORA, i=0, raise_exc=False)
+            if node:
+                self.set_lora_node(node, lora)
+            # Set second LoRA node with zero strength (disable it)
+            # This is needed for workflows like Chroma that chain two LoRA nodes
+            node = self.find_node_of_class_type(ComfyNodeName.LOAD_LORA, i=1, raise_exc=False)
+            if node:
+                self.set_lora_node(node, lora, override_strength=0)
 
-    def set_lora_node(self, node, lora):
+    def set_lora_node(self, node, lora, override_strength=-1):
         node[WorkflowPromptComfy.INPUTS]["lora_name"] = lora.path
-        if lora.lora_strength is not None:
+        if override_strength != -1:
+            node[WorkflowPromptComfy.INPUTS]["strength_model"] = override_strength
+            node[WorkflowPromptComfy.INPUTS]["strength_clip"] = override_strength
+        elif lora.lora_strength is not None:
             node[WorkflowPromptComfy.INPUTS]["strength_model"] = lora.lora_strength
             if lora.lora_strength_clip is not None:
                 node[WorkflowPromptComfy.INPUTS]["strength_clip"] = lora.lora_strength_clip

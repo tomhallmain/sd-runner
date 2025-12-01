@@ -89,6 +89,8 @@ class Model:
         return not self.is_lora and self.architecture_type == ArchitectureType.CHROMA
 
     def get_default_lora(self):
+        if self.is_chroma():
+            return "lenovo_chroma"
         return "add_detail" if self.is_sd_15() else "add-detail-xl"
 
     def get_other_default_lora(self):
