@@ -30,13 +30,15 @@ class Model:
     LORAS = {}
 
     @staticmethod
-    def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux, is_chroma):
+    def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo):
         # NOTE this can be overridden by the presets
         if "Illustrious" in model_id:
             # print(f"Assuming model is based on IllustriousXL architecture: {model_id}")
             architecture_type = ArchitectureType.ILLUSTRIOUS
         elif path is not None and (path.lower().startswith("chroma") or "chroma" in path.lower()) or is_chroma:
             architecture_type = ArchitectureType.CHROMA
+        elif path is not None and (path.lower().startswith("zimage") or "z_image" in path.lower() or "zimage" in path.lower()) or is_z_image_turbo:
+            architecture_type = ArchitectureType.Z_IMAGE_TURBO
         elif path is not None and path.startswith("XL") or is_xl:
             architecture_type = ArchitectureType.SDXL
         elif path is not None and path.startswith("Turbo") or is_turbo:
@@ -56,12 +58,13 @@ class Model:
         is_turbo: bool = False,
         is_flux: bool = False,
         is_chroma: bool = False,
+        is_z_image_turbo: bool = False,
         clip_req: float = None,
         lora_strength: float = Globals.DEFAULT_LORA_STRENGTH
     ):
         self.id = id
         self.path = path if path else os.path.join(Model.MODELS_DIR, id)
-        self.architecture_type = Model.determine_architecture_type(id, path, is_xl, is_turbo, is_flux, is_chroma)
+        self.architecture_type = Model.determine_architecture_type(id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo)
         self.is_lora = is_lora
         self.positive_tags = None
         self.negative_tags = None
@@ -88,6 +91,9 @@ class Model:
     def is_chroma(self):
         return not self.is_lora and self.architecture_type == ArchitectureType.CHROMA
 
+    def is_z_image_turbo(self):
+        return not self.is_lora and self.architecture_type == ArchitectureType.Z_IMAGE_TURBO
+
     def get_default_lora(self):
         if self.is_chroma():
             return "lenovo_chroma"
@@ -108,6 +114,8 @@ class Model:
         elif self.is_flux():
             return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_chroma():
+            return ResolutionGroup.TEN_TWENTY_FOUR
+        elif self.is_z_image_turbo():
             return ResolutionGroup.TEN_TWENTY_FOUR
         else:
             return ResolutionGroup.FIVE_ONE_TWO
@@ -177,7 +185,7 @@ class Model:
             return f" <lora:{name}:{self.lora_strength}>"
 
     def get_default_vae(self):
-        if self.is_chroma():
+        if self.is_chroma() or self.is_z_image_turbo():
             return Model.DEFAULT_CHROMA_VAE
         return Model.DEFAULT_SD15_VAE if self.is_sd_15() else Model.DEFAULT_SDXL_VAE
 
@@ -187,6 +195,10 @@ class Model:
         if self.is_chroma():
             if vae != Model.DEFAULT_CHROMA_VAE:
                 raise Exception(f"Invalid VAE {vae} for Chroma model {self.id}. Expected {Model.DEFAULT_CHROMA_VAE}")
+            return
+        if self.is_z_image_turbo():
+            if vae != Model.DEFAULT_CHROMA_VAE:
+                raise Exception(f"Invalid VAE {vae} for ZImageTurbo model {self.id}. Expected {Model.DEFAULT_CHROMA_VAE}")
             return
         if self.is_xl() or self.is_turbo():
             if vae != Model.DEFAULT_SDXL_VAE: # TODO update if more
@@ -387,7 +399,8 @@ class Model:
             is_turbo = file.startswith("Turbo")
             is_flux = file.startswith("Flux")
             is_chroma = file.lower().startswith("chroma") or "chroma" in file.lower()
-            model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo, is_flux=is_flux, is_chroma=is_chroma)
+            is_z_image_turbo = file.lower().startswith("zimage") or "z_image" in file.lower() or "zimage" in file.lower()
+            model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo, is_flux=is_flux, is_chroma=is_chroma, is_z_image_turbo=is_z_image_turbo)
             models[model_name] = model
             # print(model)
         if is_lora:

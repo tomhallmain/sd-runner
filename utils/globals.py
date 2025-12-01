@@ -369,6 +369,7 @@ class ArchitectureType(Enum):
     TURBO = "TURBO"
     FLUX = "FLUX"
     CHROMA = "CHROMA"
+    Z_IMAGE_TURBO = "Z_IMAGE_TURBO"
 
     def is_xl(self):
         return self == ArchitectureType.SDXL or self == ArchitectureType.ILLUSTRIOUS
@@ -382,6 +383,7 @@ class ArchitectureType(Enum):
             ArchitectureType.TURBO: _("Turbo"),
             ArchitectureType.FLUX: _("Flux"),
             ArchitectureType.CHROMA: _("Chroma"),
+            ArchitectureType.Z_IMAGE_TURBO: _("ZImageTurbo"),
         }[self]
 
     @classmethod

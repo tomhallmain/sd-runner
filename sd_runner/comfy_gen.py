@@ -82,6 +82,14 @@ class ComfyGen(BaseImageGenerator):
                     prompt = WorkflowPromptComfy("image_chroma_text_to_image_lora.json")
                 else:
                     raise Exception("Chroma workflows other than simple image gen and simple image gen lora are not supported in SDRunner's ComfyUI implementation at this time")
+            if model.is_z_image_turbo():
+                if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
+                    prompt = WorkflowPromptComfy("image_z_image_turbo.json")
+                elif workflow_type == WorkflowType.SIMPLE_IMAGE_GEN_LORA:
+                    # ZImageTurbo LoRA workflow would need to be created if needed
+                    raise Exception("ZImageTurbo LoRA workflows are not supported in SDRunner's ComfyUI implementation at this time")
+                else:
+                    raise Exception("ZImageTurbo workflows other than simple image gen are not supported in SDRunner's ComfyUI implementation at this time")
             if not prompt:
                 prompt = WorkflowPromptComfy(workflow_type.value)
         return prompt, model, vae
@@ -292,6 +300,13 @@ class ComfyGen(BaseImageGenerator):
                 self.gen_config.redo_param("positive", positive),
                 self.gen_config.redo_param("negative", negative),
                 positive_id="748", negative_id="749", model=model)
+        elif model.is_z_image_turbo():
+            # NOTE ZImageTurbo uses node ID: positive="45" (negative is automatically zeroed via ConditioningZeroOut node 42)
+            prompt.set_vae(self.gen_config.redo_param("vae", vae))
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                None,  # Negative is handled automatically via ConditioningZeroOut
+                positive_id="45", negative_id=None, model=model)
         else:
             prompt.set_vae(self.gen_config.redo_param("vae", vae))
             prompt.set_clip_text_by_id(
