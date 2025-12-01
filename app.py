@@ -1247,7 +1247,7 @@ class App():
                 if not result:
                     self.alert(_("Password Cancelled"), _("Password cancelled or incorrect, revert to previous mode"))
                     self.prompt_mode.set(self.runner_app_config.prompter_config.prompt_mode.display())
-            check_password_required(ProtectedActions.NSFW_PROMPTS, self.master, password_callback)
+            check_password_required(list(ProtectedActions.NSFW_PROMPTS), self.master, password_callback)
 
     def next_preset(self, event=None):
         self.set_widgets_from_preset(PresetsWindow.next_preset(self.alert))

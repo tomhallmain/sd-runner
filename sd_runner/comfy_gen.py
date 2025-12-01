@@ -86,10 +86,17 @@ class ComfyGen(BaseImageGenerator):
                 if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
                     prompt = WorkflowPromptComfy("image_z_image_turbo.json")
                 elif workflow_type == WorkflowType.SIMPLE_IMAGE_GEN_LORA:
-                    # ZImageTurbo LoRA workflow would need to be created if needed
-                    raise Exception("ZImageTurbo LoRA workflows are not supported in SDRunner's ComfyUI implementation at this time")
+                    # Use the ZImageTurbo LoRA workflow
+                    prompt = WorkflowPromptComfy("image_z_image_turbo_lora.json")
                 else:
                     raise Exception("ZImageTurbo workflows other than simple image gen are not supported in SDRunner's ComfyUI implementation at this time")
+            if model.is_qwen():
+                if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
+                    prompt = WorkflowPromptComfy("qwen_t2i_subgraphed.json")
+                elif workflow_type == WorkflowType.SIMPLE_IMAGE_GEN_LORA:
+                    prompt = WorkflowPromptComfy("qwen_t2i_subgraphed_lora.json")
+                else:
+                    raise Exception("Qwen workflows other than simple image gen and simple image gen lora are not supported in SDRunner's ComfyUI implementation at this time")
             if not prompt:
                 prompt = WorkflowPromptComfy(workflow_type.value)
         return prompt, model, vae
@@ -300,6 +307,13 @@ class ComfyGen(BaseImageGenerator):
                 self.gen_config.redo_param("positive", positive),
                 self.gen_config.redo_param("negative", negative),
                 positive_id="748", negative_id="749", model=model)
+        elif model.is_qwen():
+            # Qwen workflow uses CLIPTextEncode nodes 75:6 (positive) and 75:7 (negative)
+            # Don't override VAE; workflow JSON already has the correct VAE
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                self.gen_config.redo_param("negative", negative),
+                positive_id="75:6", negative_id="75:7", model=model)
         elif model.is_z_image_turbo():
             # NOTE ZImageTurbo uses node ID: positive="45" (negative is automatically zeroed via ConditioningZeroOut node 42)
             prompt.set_vae(self.gen_config.redo_param("vae", vae))
@@ -333,6 +347,18 @@ class ComfyGen(BaseImageGenerator):
                 self.gen_config.redo_param("positive", positive),
                 self.gen_config.redo_param("negative", negative),
                 positive_id="748", negative_id="749", model=model)
+        elif model.is_qwen():
+            # NOTE Qwen uses subgraph IDs: positive="75:6", negative="75:7"
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                self.gen_config.redo_param("negative", negative),
+                positive_id="75:6", negative_id="75:7", model=model)
+        elif model.is_z_image_turbo():
+            # NOTE ZImageTurbo uses node ID: positive="45" (negative is automatically zeroed via ConditioningZeroOut node 42)
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                None,  # Negative is handled automatically via ConditioningZeroOut
+                positive_id="45", negative_id=None, model=model)
         else:
             prompt.set_clip_text_by_id(
                 self.gen_config.redo_param("positive", positive),

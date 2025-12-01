@@ -85,7 +85,7 @@ class RunConfig:
                 default_tag=models[0].get_default_lora(),
                 inpainting=self.inpainting,
                 is_lora=True,
-                is_xl=models[0].is_xl())
+                architecture_type=models[0].architecture_type)
 
         # Validate workflow-specific requirements
         self._validate_workflow_requirements()

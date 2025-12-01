@@ -370,6 +370,7 @@ class ArchitectureType(Enum):
     FLUX = "FLUX"
     CHROMA = "CHROMA"
     Z_IMAGE_TURBO = "Z_IMAGE_TURBO"
+    QWEN = "QWEN"
 
     def is_xl(self):
         return self == ArchitectureType.SDXL or self == ArchitectureType.ILLUSTRIOUS
@@ -384,6 +385,7 @@ class ArchitectureType(Enum):
             ArchitectureType.FLUX: _("Flux"),
             ArchitectureType.CHROMA: _("Chroma"),
             ArchitectureType.Z_IMAGE_TURBO: _("ZImageTurbo"),
+            ArchitectureType.QWEN: _("Qwen"),
         }[self]
 
     @classmethod
@@ -402,6 +404,7 @@ class ArchitectureType(Enum):
 
 class ResolutionGroup(Enum):
     FIFTEEN_THIRTY_SIX = "1536"
+    THIRTEEN_TWENTY_EIGHT = "1328"
     TEN_TWENTY_FOUR = "1024"
     SEVEN_SIXTY_EIGHT = "768"
     FIVE_ONE_TWO = "512"
@@ -409,6 +412,7 @@ class ResolutionGroup(Enum):
     def get_description(self):
         return {
             ResolutionGroup.FIFTEEN_THIRTY_SIX: _("1536"),
+            ResolutionGroup.THIRTEEN_TWENTY_EIGHT: _("1328"),
             ResolutionGroup.TEN_TWENTY_FOUR: _("1024"),
             ResolutionGroup.SEVEN_SIXTY_EIGHT: _("768"),
             ResolutionGroup.FIVE_ONE_TWO: _("512"),

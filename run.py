@@ -142,7 +142,8 @@ class Run:
                                   inpainting=self.args.inpainting)
         loras = Model.get_models(self.args.lora_tags, is_lora=True,
                                  default_tag=models[0].get_default_lora(),
-                                 inpainting=self.args.inpainting, is_xl=(2 if models[0].is_sd_15() else 1))
+                                 inpainting=self.args.inpainting,
+                                 architecture_type=models[0].architecture_type)
         resolution_group = ResolutionGroup.get(self.args.resolution_group)
         resolutions = Resolution.get_resolutions(self.args.res_tags,
                                                  architecture_type=models[0].architecture_type,

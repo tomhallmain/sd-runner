@@ -11,6 +11,7 @@ class Resolution:
     TOTAL_PIXELS_TOLERANCE_RANGE = []
     XL_TOTAL_PIXELS_TOLERANCE_RANGE = []
     ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE = []
+    QWEN_TOTAL_PIXELS_TOLERANCE_RANGE = []
 
     def __init__(
         self,
@@ -140,6 +141,41 @@ class Resolution:
         return 1024
 
     @staticmethod
+    def get_qwen_long_scale(scale: int = 2) -> int:
+        """
+        Qwen-specific long side scale.
+        Uses discrete steps similar to XL/Illustrious so that:
+          - All non-square scales are larger than the square size (1328),
+          - Values increase as scale increases,
+          - The final value (default case) converges to the square dimension (1328).
+        """
+        if scale <= 1:
+            return 1472   # 1472x1200 ≈ 1.77M pixels
+        if scale == 2:
+            return 1664   # 1664x1072 ≈ 1.78M pixels
+        if scale == 3:
+            return 1792   # 1792x992 ≈ 1.78M pixels
+        return 1328       # 1328x1328 = 1,763,584 pixels (square target)
+
+    @staticmethod
+    def get_qwen_short_scale(scale: int = 2) -> int:
+        """
+        Qwen-specific short side scale.
+        Paired with get_qwen_long_scale() so that:
+          - All non-square scales are smaller than the square size (1328),
+          - Values decrease as scale increases,
+          - The final value (default case) converges to the square dimension (1328),
+          - long * short stays close to 1328x1328 and both sides are multiples of 16.
+        """
+        if scale <= 1:
+            return 1200   # 1472x1200
+        if scale == 2:
+            return 1072   # 1664x1072
+        if scale == 3:
+            return 992    # 1792x992
+        return 1328       # 1328x1328
+
+    @staticmethod
     def get_illustrious_long_scale(scale: int = 2) -> int:
         if scale == 1:
             return 1664
@@ -215,6 +251,9 @@ class Resolution:
         elif self.resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
             self.height = Resolution.get_xl_long_scale(self.scale-2)
             self.width = self.height
+        elif self.resolution_group == ResolutionGroup.THIRTEEN_TWENTY_EIGHT:
+            self.height = Resolution.get_qwen_long_scale(self.scale-2)
+            self.width = self.height
         else:
             raise Exception(f"Unhandled architecture type: {architecture_type} and resolution group: {self.resolution_group}")
 
@@ -228,6 +267,9 @@ class Resolution:
         elif self.resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
             self.height = Resolution.get_xl_long_scale(self.scale)
             self.width = Resolution.get_xl_short_scale(self.scale)
+        elif self.resolution_group == ResolutionGroup.THIRTEEN_TWENTY_EIGHT:
+            self.height = Resolution.get_qwen_long_scale(self.scale)
+            self.width = Resolution.get_qwen_short_scale(self.scale)
         else:
             raise Exception(f"Unhandled architecture type: {architecture_type} and resolution group: {self.resolution_group}")
 
@@ -275,14 +317,18 @@ class Resolution:
             tolerance_range = Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE
         elif resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
             tolerance_range = Resolution.ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE
+        elif resolution_group == ResolutionGroup.THIRTEEN_TWENTY_EIGHT:
+            tolerance_range = Resolution.QWEN_TOTAL_PIXELS_TOLERANCE_RANGE
         else:
             tolerance_range = Resolution.TOTAL_PIXELS_TOLERANCE_RANGE
         if len(tolerance_range) == 0:
             tolerance_range = Resolution.construct_tolerance_range(architecture_type=architecture_type, resolution_group=resolution_group)
             if resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
                 Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
-            elif resolution_group == ResolutionGroup.ILLUSTRIOUS:
+            elif resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
                 Resolution.ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
+            elif resolution_group == ResolutionGroup.THIRTEEN_TWENTY_EIGHT:
+                Resolution.QWEN_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
             else:
                 Resolution.TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
         return tolerance_range

@@ -30,7 +30,7 @@ class Model:
     LORAS = {}
 
     @staticmethod
-    def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo):
+    def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo, is_qwen):
         # NOTE this can be overridden by the presets
         if "Illustrious" in model_id:
             # print(f"Assuming model is based on IllustriousXL architecture: {model_id}")
@@ -39,6 +39,8 @@ class Model:
             architecture_type = ArchitectureType.CHROMA
         elif path is not None and (path.lower().startswith("zimage") or "z_image" in path.lower() or "zimage" in path.lower()) or is_z_image_turbo:
             architecture_type = ArchitectureType.Z_IMAGE_TURBO
+        elif path is not None and ("qwen" in path.lower()) or is_qwen:
+            architecture_type = ArchitectureType.QWEN
         elif path is not None and path.startswith("XL") or is_xl:
             architecture_type = ArchitectureType.SDXL
         elif path is not None and path.startswith("Turbo") or is_turbo:
@@ -59,12 +61,15 @@ class Model:
         is_flux: bool = False,
         is_chroma: bool = False,
         is_z_image_turbo: bool = False,
+        is_qwen: bool = False,
         clip_req: float = None,
         lora_strength: float = Globals.DEFAULT_LORA_STRENGTH
     ):
         self.id = id
         self.path = path if path else os.path.join(Model.MODELS_DIR, id)
-        self.architecture_type = Model.determine_architecture_type(id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo)
+        self.architecture_type = Model.determine_architecture_type(
+            id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo, is_qwen
+        )
         self.is_lora = is_lora
         self.positive_tags = None
         self.negative_tags = None
@@ -94,6 +99,9 @@ class Model:
     def is_z_image_turbo(self):
         return not self.is_lora and self.architecture_type == ArchitectureType.Z_IMAGE_TURBO
 
+    def is_qwen(self):
+        return not self.is_lora and self.architecture_type == ArchitectureType.QWEN
+
     def get_default_lora(self):
         if self.is_chroma():
             return "lenovo_chroma"
@@ -117,6 +125,8 @@ class Model:
             return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_z_image_turbo():
             return ResolutionGroup.TEN_TWENTY_FOUR
+        elif self.is_qwen():
+            return ResolutionGroup.THIRTEEN_TWENTY_EIGHT
         else:
             return ResolutionGroup.FIVE_ONE_TWO
 
@@ -187,6 +197,9 @@ class Model:
     def get_default_vae(self):
         if self.is_chroma() or self.is_z_image_turbo():
             return Model.DEFAULT_CHROMA_VAE
+        if self.is_qwen():
+            # Qwen uses its own VAE in ComfyUI; we don't enforce a specific SD VAE
+            return None
         return Model.DEFAULT_SD15_VAE if self.is_sd_15() else Model.DEFAULT_SDXL_VAE
 
     def validate_vae(self, vae):
@@ -200,6 +213,9 @@ class Model:
             if vae != Model.DEFAULT_CHROMA_VAE:
                 raise Exception(f"Invalid VAE {vae} for ZImageTurbo model {self.id}. Expected {Model.DEFAULT_CHROMA_VAE}")
             return
+        if self.is_qwen():
+            # Don't enforce a specific VAE for Qwen models
+            return
         if self.is_xl() or self.is_turbo():
             if vae != Model.DEFAULT_SDXL_VAE: # TODO update if more
                 raise Exception(f"Invalid VAE {vae} for SDXL model {self.id}")
@@ -211,13 +227,13 @@ class Model:
         if self.is_xl() or self.is_turbo():
             if not lora_bundle.is_xl(): # TODO update if more
                 if isinstance(lora_bundle, Model) and self.get_other_default_lora() in lora_bundle.id:
-                    return Model.get_model(self.get_default_lora(), is_lora=True, is_xl=self.is_xl())
+                    return Model.get_model(self.get_default_lora(), is_lora=True, architecture_type=self.architecture_type)
                 else:
                     raise Exception(f"Invalid non-SDXL Lora {lora_bundle} for SDXL model {self.id}")
         else:
             if lora_bundle.is_xl():
                 if isinstance(lora_bundle, Model) and self.get_other_default_lora() in lora_bundle.id:
-                    return Model.get_model(self.get_default_lora(), is_lora=True, is_xl=self.is_xl())
+                    return Model.get_model(self.get_default_lora(), is_lora=True, architecture_type=self.architecture_type)
                 else:
                     raise Exception(f"Invalid SDXL lora {lora_bundle} for non-SDXL model {self.id}")
         return lora_bundle
@@ -281,7 +297,7 @@ class Model:
         model_tag: str,
         is_lora=False,
         inpainting=False,
-        is_xl=0
+        architecture_type=None
     ) -> T:
         if model_tag is None or model_tag.strip() == "":
             return None
@@ -289,8 +305,23 @@ class Model:
         models = Model.LORAS if is_lora else Model.CHECKPOINTS
 
         if model_tag == "*":
-            filtered_list = [model_name for model_name, model in models.items() if (model.is_xl() == (is_xl == 1))]
+            if is_lora:
+                # For loras, architecture_type is required since a model has already been established
+                if architecture_type is None:
+                    raise Exception("architecture_type is required for wildcard '*' when is_lora=True")
+                filtered_list = [model_name for model_name, model in models.items() 
+                                if model.get_architecture_type() == architecture_type]
+            else:
+                # For checkpoints, architecture_type is optional (caller can provide if needed)
+                if architecture_type is not None:
+                    filtered_list = [model_name for model_name, model in models.items() 
+                                    if model.get_architecture_type() == architecture_type]
+                else:
+                    # No filtering - return any random model
+                    filtered_list = list(models.keys())
             # print(filtered_list)
+            if not filtered_list:
+                raise Exception(f"No models found matching architecture type {architecture_type} for wildcard '*'")
             random_model_name = random.sample(filtered_list, 1)
             return models[random_model_name[0]]
 
@@ -316,11 +347,9 @@ class Model:
             if model_name.startswith(model_tag):
                 if not is_lora and inpainting:
                     if "inpaint" in model_name:
-                        if is_xl == 0 or is_xl == 1 or "xl" not in model_name.lower():
-                            model = models[_model_name]
-                elif is_lora or "inpaint" not in model_name:
-                    if is_xl == 0 or is_xl == 1 or "xl" not in model_name.lower():
                         model = models[_model_name]
+                elif is_lora or "inpaint" not in model_name:
+                    model = models[_model_name]
 
         if model is None:
             for _model_name in models:
@@ -328,11 +357,9 @@ class Model:
                 if model_tag in model_name:
                     if inpainting:
                         if "inpainting" in model_name:
-                            if is_xl == 0 or is_xl == 1 or "xl" not in model_name.lower():
-                                model = models[_model_name]
-                    elif "inpainting" not in model_name:
-                        if is_xl == 0 or is_xl == 1 or "xl" not in model_name.lower():
                             model = models[_model_name]
+                    elif "inpainting" not in model_name:
+                        model = models[_model_name]
 
         if model is None:
             raise Exception(f"Failed to find model for tag {model_tag}, inpainting={inpainting}")        
@@ -348,7 +375,7 @@ class Model:
         is_lora=False,
         default_tag="analogMadness",
         inpainting=False,
-        is_xl=0
+        architecture_type=None
     ) -> list[T]:
         if model_tags_str is None or model_tags_str.strip() == "":
             model_tags_str = default_tag
@@ -364,7 +391,7 @@ class Model:
                         raise Exception("Expected lora for use of Lora bundle token '+'")
                     bundle_model_tags = tag.replace("+", ",")
                     try:
-                        bundle = Model.get_models(bundle_model_tags, is_lora=is_lora, default_tag=default_tag, inpainting=inpainting, is_xl=is_xl)
+                        bundle = Model.get_models(bundle_model_tags, is_lora=is_lora, default_tag=default_tag, inpainting=inpainting, architecture_type=architecture_type)
                         if len(bundle) > 0:
                             models.append(LoraBundle(bundle))
                         else:
@@ -375,10 +402,10 @@ class Model:
                             print(f"Failed to resolve bundle tag '{tag}': {e}")
                 else:
                     try:
-                        models.append(Model.get_model(tag, is_lora, inpainting=inpainting, is_xl=is_xl))
+                        models.append(Model.get_model(tag, is_lora, inpainting=inpainting, architecture_type=architecture_type))
                     except Exception:
                         alt_tag = tag.replace("-", "_") if "-" in tag else tag.replace("_", "-")
-                        models.append(Model.get_model(alt_tag, is_lora, inpainting=inpainting, is_xl=is_xl))
+                        models.append(Model.get_model(alt_tag, is_lora, inpainting=inpainting, architecture_type=architecture_type))
             except Exception as e:
                 if config.debug:
                     print(f"Failed to find model for tag '{tag}' - skipping")
@@ -400,7 +427,18 @@ class Model:
             is_flux = file.startswith("Flux")
             is_chroma = file.lower().startswith("chroma") or "chroma" in file.lower()
             is_z_image_turbo = file.lower().startswith("zimage") or "z_image" in file.lower() or "zimage" in file.lower()
-            model = Model(model_name, file, is_xl=is_xl, is_lora=is_lora, is_turbo=is_turbo, is_flux=is_flux, is_chroma=is_chroma, is_z_image_turbo=is_z_image_turbo)
+            is_qwen = "qwen" in file.lower()
+            model = Model(
+                model_name,
+                file,
+                is_xl=is_xl,
+                is_lora=is_lora,
+                is_turbo=is_turbo,
+                is_flux=is_flux,
+                is_chroma=is_chroma,
+                is_z_image_turbo=is_z_image_turbo,
+                is_qwen=is_qwen,
+            )
             models[model_name] = model
             # print(model)
         if is_lora:
@@ -499,13 +537,13 @@ class Model:
         default_tag="analogMadness",
         is_lora=False,
         inpainting=False,
-        is_xl=0
+        architecture_type=None
     ) -> dict[str, list[str]]:
         if Blacklist.is_model_empty():
             return {}
         if Blacklist.get_model_blacklist_mode() == ModelBlacklistMode.ALLOW_IN_NSFW and prompt_mode.is_nsfw():
             return {}
-        models = Model.get_models(tags_str, is_lora=is_lora, default_tag=default_tag, inpainting=inpainting, is_xl=is_xl)
+        models = Model.get_models(tags_str, is_lora=is_lora, default_tag=default_tag, inpainting=inpainting, architecture_type=architecture_type)
         whitelist = []
         violations = []
         for model in models:
