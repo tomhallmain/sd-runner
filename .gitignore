@@ -13,6 +13,7 @@ configs/*
 prompts/stableDiffusion3*
 prompts/test.json
 sdg_script.py
+puns_books*.py
 temp*.py
 temp*.txt
 test_multiselect.py

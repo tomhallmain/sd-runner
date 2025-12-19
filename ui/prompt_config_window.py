@@ -326,6 +326,7 @@ class PromptConfigWindow:
         multiplier_options.insert(1, "0.75")
         multiplier_options.insert(1, "0.5")
         multiplier_options.insert(1, "0.25")
+        multiplier_options.insert(1, "0.1")
         self.multiplier = StringVar(self.master)
         self.multiplier_choice = OptionMenu(self.main_frame, self.multiplier, 
                                            str(self.runner_app_config.prompter_config.multiplier), 

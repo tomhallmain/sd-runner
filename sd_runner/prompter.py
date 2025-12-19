@@ -524,6 +524,8 @@ class Prompter:
                     replacement = random.choice(concepts.get_random_words(low=1, high=1))
                 elif name == "nonsense":
                     replacement = random.choice(concepts.get_nonsense(low=1, high=1))
+                elif name == "pun":
+                    replacement = random.choice(concepts.get_puns(low=1, high=1))
                 elif name.startswith("color"):
                     replacement = random.choice(concepts.get_colors(low=1, high=1))
                 elif name.startswith("location"):

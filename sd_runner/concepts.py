@@ -477,6 +477,10 @@ class Concepts:
         low, high = self._adjust_range(low, high, multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.jargon), low, high, self.prompt_mode)
 
+    def get_puns(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
+        low, high = self._adjust_range(low, high, multiplier)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.puns), low, high, self.prompt_mode)
+
     def get_sayings(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
         low, high = self._adjust_range(low, high, multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.sayings), low, high, self.prompt_mode)
@@ -903,6 +907,7 @@ class SFW:
     locations = "locations.txt"
     locations_specific = "locations_specific.txt"
     positions = "positions.txt"
+    puns = "puns.txt"
     sayings = "sayings.txt"
     times = "times.txt"
     times_specific = "times_specific.txt"

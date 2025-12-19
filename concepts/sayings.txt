@@ -1,8 +1,10 @@
 A bird in the hand is worth two in the bush
 A blessing in disguise
+A cut above
 A chain is only as strong as its weakest link
 A day late and a dollar short
 A dime a dozen
+Book it
 A friend in need is a friend indeed
 A leopard can't change its spots
 A penny saved is a penny earned
@@ -61,6 +63,7 @@ Call it a day
 Call it quits
 Can't make an omelet without breaking eggs
 Catch-22
+Catch my drift
 Close but no cigar
 Come rain or shine
 Cost an arm and a leg
@@ -92,6 +95,7 @@ Every man for himself
 Face the music
 Fair and square
 Fight fire with fire
+Feeling a bit rusty
 Find your feet
 Fish out of water
 Fit as a fiddle
@@ -106,6 +110,8 @@ Get cold feet
 Get out of hand
 Get the ball rolling
 Get your act together
+Get the point
+Gilding the lily
 Give it a shot
 Give it to me straight
 Give someone the benefit of the doubt
@@ -119,6 +125,7 @@ Good things come to those who wait
 Green with envy
 Haste makes waste
 Have a bone to pick
+Hear me out
 Have a heart
 Have your head in the clouds
 Head over heels
@@ -127,6 +134,9 @@ Hit the road
 Hit the sack
 Hold your horses
 I'm all ears
+I'm having a whale of a time
+I'm in a pickle
+I'm stumped
 If it ain't broke, don't fix it
 If the cap fits, wear it
 If the shoe fits, wear it
@@ -151,6 +161,7 @@ It's the thought that counts
 Jack of all trades, master of none
 Jump on the bandwagon
 Jump the gun
+Just winging it
 Keep it under your hat
 Keep your chin up
 Keep your eyes peeled
@@ -167,6 +178,7 @@ Let bygones be bygones
 Let sleeping dogs lie
 Let the cat out of the bag
 Let the chips fall where they may
+Let's get this straight
 Lightning never strikes twice
 Like a fish out of water
 Like two peas in a pod
@@ -188,6 +200,8 @@ Necessity is the mother of invention
 Needle in a haystack
 Never say never
 No news is good news
+No bones about it
+No cap
 No pain, no gain
 No strings attached
 Not my cup of tea
@@ -333,5 +347,6 @@ You get what you pay for
 You reap what you sow
 You scratch my back, I'll scratch yours
 You're on thin ice
+You're toast
 Your guess is as good as mine
 Zero tolerance
