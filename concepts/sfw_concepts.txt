@@ -63,6 +63,7 @@ ambience
 ambry
 ammo box
 ampersand
+amphibole
 amplification
 analogue
 analyte
@@ -200,6 +201,7 @@ cantiga
 canto
 capitalist
 Capodimonte porcelain
+captivating visual narrative
 Carborundum mezzotint
 card
 care package
@@ -216,8 +218,10 @@ catadioptric
 catastasis
 catenary
 celestial
+cellophane
 cento
 centrifugal force
+CGI
 chalk on asphalt
 chalk on cement
 Champlevé
@@ -226,6 +230,7 @@ chanson
 chapter
 chart
 chatelaine
+chatoyancy
 chatroom
 children's book
 chimeric
@@ -281,6 +286,7 @@ contour rivalry
 contouring
 convection
 convex
+conveyor belt
 coordinates
 coordination
 coplanar
@@ -288,6 +294,7 @@ corbel
 core
 corrugation
 cortex
+cosine
 Coub video
 count
 counter-$$random_word
@@ -318,6 +325,7 @@ cutscene
 dado pedestal part
 darken
 database
+datastream
 daylight redirecting film
 Dear Diary
 debut
@@ -338,6 +346,7 @@ diamond rustication
 dime novel
 dimension
 dioptric
+directions
 dish
 dislocation
 disorder
@@ -354,6 +363,9 @@ draft
 dram
 drama
 DRM-protected
+drum
+dry ice
+duct
 dud
 due date
 duty
@@ -378,6 +390,7 @@ elegy
 elements
 elision
 ellipse
+Emery cloth
 emoji
 emulsification
 En résille
@@ -420,6 +433,7 @@ fader
 faience
 faille fabric
 fairy dust
+feldspar
 festoon
 figure eight
 fine print
@@ -460,6 +474,7 @@ frets
 friction
 froth
 fugue
+Fujifilm
 fuse box
 fusebox
 Futhark
@@ -508,13 +523,16 @@ haste
 hatch
 header
 heap
+heirloom
 hemmed in
 herd
 heresy
 hi-hat
 hierarchy
 high energy
+high production value
 high voltage
+high-definition rendering
 Hilbert space
 hilt
 hoax
@@ -547,6 +565,7 @@ ideographic
 idol
 Illumination
 illumination angle
+Image projected into polar coordinatrs
 immortality
 imprint
 improvisation
@@ -590,8 +609,11 @@ JPEG
 JPG
 jug
 keyframes
+kinesis
+King
 knobs
 label
+labels
 lacunae
 lampoon
 lanes
@@ -605,6 +627,7 @@ layering
 Le Nove porcelain
 leaking
 lede
+legend inset
 lemma
 lemniscate
 lenticular lens
@@ -618,6 +641,7 @@ lid
 lidar
 life cycle
 lifestyle
+light scattering
 lightly
 limaçon of Pascal
 limerick
@@ -636,6 +660,7 @@ live video feed
 LLC
 loading screen
 lock
+logarithm
 logogriph
 loom
 Lorentz transformation
@@ -654,6 +679,7 @@ Magnolia
 mail order catalog
 maiolica
 majesty
+mandate of Heaven
 manner
 mannerism
 mansard roof
@@ -688,8 +714,10 @@ mohair
 molding
 molecules
 monad
+Monarch
 moniker
 monogram
+monster truck
 morsel
 mortar
 mortise and tenon
@@ -699,6 +727,7 @@ motor
 movie trailer
 mulch
 multiperspective
+multiple exposure technique
 muscle
 music box
 musical scales
@@ -711,6 +740,7 @@ Nation
 national
 Nativity
 nature
+nephrite
 neurons
 new releases
 nobility
@@ -727,6 +757,7 @@ nouvelle
 novae
 nuclei
 oblong
+obsidian
 oculus
 oddity
 odds and ends
@@ -756,6 +787,7 @@ ossification
 ounce
 outer shell
 outline
+outlook
 oval
 overlapping
 oxbow
@@ -806,6 +838,7 @@ peg
 pegboard
 penny dreadful
 pentium
+peridot
 perigee
 periodic
 periodic table
@@ -1131,6 +1164,7 @@ plaid
 plane shearing
 plasm
 plastic
+plasticity
 playbook markings
 Plique-à-jour
 plot
@@ -1161,6 +1195,8 @@ primer
 print art
 print screen image
 prism tile
+prismatic effect
+pro
 projection
 prolepsis
 prologue
@@ -1181,17 +1217,21 @@ psalm
 pseudosphere
 public domain image
 pulley
+pumice
 pun
+puppet show
 puppy
 purity
 purl
 puzzling
+pyroxene
 pyx
 quadratura
 quality
 quartered
 quaternions
 quatrain
+Queen
 Queen Anne style
 Queen Anne towers
 quest marker
@@ -1225,6 +1265,7 @@ reflection on clear water
 refraction
 refractive index
 regression
+regular day
 reissue
 remake of classic film
 remix
@@ -1275,6 +1316,7 @@ roulette
 roulette curve
 rounded
 roundel
+Royalty
 rubble
 rustication
 RV design
@@ -1282,6 +1324,7 @@ rwo-for-one
 s p a c i n g
 safety brochure
 sand
+sandpaper
 sandstone
 saran wrap
 satire
@@ -1334,6 +1377,7 @@ sharkstooth and fish scale shingles
 sharp
 sharp edges
 sharpened
+shattering light
 shebang
 sheen
 shield
@@ -1367,6 +1411,7 @@ sleet
 sleeve
 slide rule
 slides
+slinky
 slippery
 slo-mo
 slogan
@@ -1378,8 +1423,10 @@ smithereens
 smooth
 smooth
 smooth curves
+smudge
 smushed
 Snap screenshot
+snath
 sneak preview
 snippet
 snout
@@ -1387,6 +1434,7 @@ snowy
 soapstone
 sobriquet
 socialist
+socket
 soft
 soft
 soil
@@ -1518,6 +1566,7 @@ tarpaulin
 taxonomy diagram
 tchotchke
 team
+technicolor pallette
 Tee-Vee
 teetotum
 television aerial
@@ -1550,11 +1599,14 @@ thingamajig
 this and that
 thriller
 tierce
+Tigerseye
+tileset
 timbre
 time stopped
 timelapse
 timer
 Times New Roman
+tin
 tin-glazed
 tinge
 tinsel
@@ -1596,10 +1648,12 @@ transcendentalism
 translation
 transparent background
 travel book
+tray
 treads
 treatise
 tree bark
 trend
+trending on CGSociety
 triad
 trichrome
 trictrac board design
@@ -1625,6 +1679,7 @@ typography
 ultra $$random_word
 ultrasharp
 undulation
+undulations
 uneven borders
 unit
 units
@@ -1637,6 +1692,7 @@ unrolled
 upholstery
 upsampling
 uptime
+user error
 utopia
 uwu
 V formation
@@ -1696,6 +1752,7 @@ weightlessness
 well pole
 weoh
 western comic book art
+wetplate
 wheel
 whodunit
 wicker

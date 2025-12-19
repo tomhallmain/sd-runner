@@ -1,5 +1,7 @@
 
+"Dagnabbit!"
 $$random_word galore
+[[his,her]] trusty sidekick
 [[I,you,he,she]] go[[,es]] by $$random_word
 a real softy
 abbott
@@ -12,8 +14,10 @@ advocate
 aficionado
 ain't that a shame
 al-Ṣūfī
+Albert The Alligator
 Alcaics
 alias
+All the King's horses and all the King's men
 ally
 Aloha
 angler
@@ -68,6 +72,7 @@ caddy
 Calypso
 can I get a true
 canester
+Capri Sun
 Captain Haddock
 Carnifex
 carte blanche
@@ -113,6 +118,7 @@ Deus Ex Machina
 didact
 diddly-squat
 ding dong
+Director
 diver
 djinn
 Dobby
@@ -154,6 +160,7 @@ flash gun
 fly rink
 foofaraw
 forester
+FoxTrot
 Frank Zappa
 French Foreign Legion
 fuddy-duddy
@@ -183,6 +190,7 @@ Haw haw haw
 heathen
 heir
 Helmsley
+helot
 Henery Hawk
 herald
 Hermes Trismegistus
@@ -201,6 +209,7 @@ hotelier
 Hoth
 Houdini
 how many times do I have to tell you
+Howland the Owl
 hussar
 hyssop
 I've been framed!
@@ -221,8 +230,10 @@ It's a lie!
 It's a setup!
 it's only a game
 Jabir ibn Hayyan
+jack-in-the-box
 Jagex
 Jane Austen
+jester
 John Deere
 Jolly Roger
 just cause
@@ -236,6 +247,8 @@ laddie
 lalala
 Larry Moe and Curly
 Lennox
+Leroy
+Lester
 lieabed
 lieutenant
 Lil' $$random_word
@@ -324,6 +337,7 @@ pitter patter
 PlanetSide 2
 podsnapper
 poet
+Pogo the Possum
 poindexter
 Pooh Bear
 Pop-O-Matic
@@ -358,6 +372,7 @@ Roomba
 rube
 Rumplestiltskin
 sales rep
+sawyer
 Sayonara
 scholar
 scout
@@ -441,7 +456,9 @@ thane
 The Adoring Fan
 The doctor is in
 The Dole
+The Fool
 the Huns
+The Lone Ranger
 the mechanic
 The Mythic Dawn
 The Riddler
@@ -478,6 +495,7 @@ Vogt
 w rizz
 way to go!
 what's in a name
+whippoorwill
 whoop-dee-doo
 William the Conqueror
 Ivan the Terrible

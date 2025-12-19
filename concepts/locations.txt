@@ -59,6 +59,7 @@ canyon
 captains hold
 cargo hold
 castle keep
+catamaran
 cellar
 center for $$random_word
 charity dinner
@@ -126,6 +127,7 @@ gulley
 hairpin turn
 haven
 headquarters
+helipad
 here
 hest wave
 high altitude
@@ -273,20 +275,25 @@ the bridge [of a spaceship for example]
 the coast
 the field
 the range
+the tarmac
 theater-in-the-round
 there
 thicket
 thoroughfare
 tidewater basin
 tourist trap
+town on the $$location
+town on the pass
 toy stores
 tracts
 tram
 treetop
 trench
 tropics
+undergrowth
 upper atmosphere
 vacation spot
+ventilation shaft
 vestibule
 villa
 wagon

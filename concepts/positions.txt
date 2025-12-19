@@ -16,6 +16,8 @@ all along the $$random_word
 all over
 aloft
 alongside
+angled down
+angled up
 ankle
 approaching
 arched back
@@ -138,10 +140,12 @@ nodding off
 nonetheless
 not far
 o'er
+obscured
 on a higher level
 on a lower level
 on end
 on target
+on the edge
 on the side
 on tiptoes
 on a display podium
@@ -156,6 +160,7 @@ over there
 over yonder
 overhead
 packed in
+perfectly positioned
 pivoted
 positions
 preceding
@@ -214,6 +219,7 @@ off-center view
 hip-level shot
 (distant subject, ultra wide-angle shot)
 surrounding
+unusual position
 up above
 up here
 up there

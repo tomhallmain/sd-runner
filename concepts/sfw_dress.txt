@@ -116,6 +116,7 @@ Chin-Length Bob
 clasp
 Classic White Blouse
 Classic White T-Shirt
+cleat
 cloak
 cloche
 Cloche hat
@@ -142,6 +143,7 @@ cowboy hat
 cowl
 cravat
 Crew Cut
+Crocs shoes
 crop top
 Crop Top and High-Waisted Jeans
 crown
@@ -405,8 +407,10 @@ shovel hat
 ski cap
 ski mask
 sleeve
+sling
 spectacles
 streetwear
+sweat pants
 tassle
 torn shirt
 robe

@@ -9,6 +9,7 @@ $$random_word-eve
 [[I,you,he,she,we,they]] can't
 [[I,you,he,she,we,you all,they]] have no plans
 [[I,You,We,They]]'re free!
+[[me,you,him,her,us,them]] bade [[me,you,him,her,us,them]] do it
 [[set,feast,cast]] [[my,your]] [[gaze,eyes]] on [[this,that,$$random_word]]
 a $$random_word the likes of which have never been seen before
 abandoning
@@ -109,6 +110,7 @@ attempt
 attempting
 attending
 auditing
+auguring
 augurs
 aura farming
 autographed pictures or other items
@@ -152,6 +154,7 @@ being a $$random_word
 bellowing
 bells
 belonging
+bequeathing
 berating
 beseeching
 beset
@@ -176,6 +179,7 @@ blurted out
 board games
 boarding up
 boing
+boistering
 bolstering
 bombardment
 booby trap
@@ -207,6 +211,7 @@ bullet journaling
 bungee jumping
 burning
 busking
+bustling
 butterfly art or items
 buying
 buzz off
@@ -279,6 +284,7 @@ co-opting
 coasting
 coaxing
 cocktails
+coiling
 cold calling
 collaborating
 collage
@@ -304,9 +310,11 @@ concealing
 concert or choir photography
 conjecture
 conjuring
+conning
 conquering
 consistory
 conversing
+conveying
 convincing
 cooing
 cookbooks
@@ -336,6 +344,7 @@ cross country
 cross stitch
 crossword puzzles
 crossword puzzles/sudoku
+crumbling
 crying
 cupcake wrappers
 cupcake/muffin pans
@@ -396,6 +405,7 @@ digging
 digging up $$random_word
 dinner party
 dipping
+directing
 disbursing
 disclosing
 discovering
@@ -534,6 +544,7 @@ faring
 farming
 fashion design
 fashion photography
+fashioning a $$random_word
 fathoming
 feat
 feeding
@@ -637,6 +648,8 @@ go see about $$random_word
 go-carts
 goading
 going
+going along
+going by
 going down
 going fishing
 going haywire
@@ -646,6 +659,7 @@ going to work
 going up
 golf
 gone astray
+good day
 Good riddance
 gossiping
 got the morbs
@@ -690,6 +704,7 @@ head over heels for $$random_word
 headbanging
 healing
 hearing
+heat transfer
 heed my warning
 Heh-gotcha!
 heist
@@ -713,6 +728,7 @@ hit the ceiling
 hitching
 hits home
 hitting a drive
+hitting up
 holding
 holding $$random_word
 holding on
@@ -794,10 +810,12 @@ installing
 integrating
 intending
 intercepting
+interning
 intertia
 interview with $$random_word
 interview with bystander
 introducing
+inveighing
 ironing out
 irritating
 inventing
@@ -811,6 +829,7 @@ itching
 its on me
 jazzercise/aerobics
 jeering
+jesting
 jet skiing
 jewelry design
 jewelry making
@@ -963,6 +982,7 @@ miracle
 mirrors
 misquoting
 mission
+mitigating
 mixing
 mixing a potion
 MMA
@@ -974,6 +994,7 @@ model cars
 model kits
 mollifying
 mollycoddling
+moment of impact
 momentum
 morphing
 mosh pit
@@ -1025,6 +1046,7 @@ on a field trip
 on a game show
 on assignment
 on break
+on hiatus
 on leave
 on patrol
 on the case
@@ -1039,6 +1061,7 @@ opening a door
 operating
 opposite day
 orating
+orchestration
 ordaning
 ordering
 origami
@@ -1084,6 +1107,7 @@ paving
 paying
 paying dues
 paying the toll
+pedalling
 pedantry
 peel
 peering
@@ -1133,6 +1157,7 @@ playing trumpet
 playing video games
 playing violin
 playing with friends
+pleaded
 pleading
 plop
 plowing
@@ -1162,8 +1187,10 @@ pretending to be a ghost
 prevailing
 preying
 printmaking
+production
 progressing
 prolonged silence
+prolonging
 promising
 pronto
 prose writing
@@ -1205,6 +1232,7 @@ raid group
 raising
 raking
 raking in
+Rally show
 rallying
 ran past
 ranting
@@ -1258,10 +1286,13 @@ relenting
 religious icons
 reloading
 remaining
+remanding
 remark
+remonstrating
 removing
 renouncing
 rent to own
+reopening
 repast
 repelling
 repenting
@@ -1270,6 +1301,7 @@ requesting
 requiring
 rescuing
 resealing
+reselling
 resetting
 resigning
 resisting
@@ -1324,6 +1356,7 @@ routing
 rug beaters
 rugby
 rum whiskey bourbon or other spirits
+rumbling
 running
 running
 running away
@@ -1420,6 +1453,7 @@ signing [[the,my,]] $$random_word
 singing
 singing (solo)
 singing sea shanties
+sinking
 sinking in
 sipping
 sitting
@@ -1439,6 +1473,7 @@ sleeping
 sleeping in
 slide
 sliding
+slinking
 slipping in
 slithering
 sloshing
@@ -1459,6 +1494,7 @@ snarfing
 sneaking
 sneezing
 sniggling
+sniping
 snoring
 snow globes
 snowboarding
@@ -1633,6 +1669,7 @@ touting
 tracking
 traing
 tranquillizing
+transferring
 transplanting
 treading
 treadwheel
@@ -1672,6 +1709,7 @@ ultimatum
 under a spell
 under siege
 undergoing
+undergrowth clearing
 understanding
 understating
 undertaking
@@ -1759,7 +1797,9 @@ where'd he go? he was right " $random_word !"
 while noone was looking
 whirr
 whirring
+whirring by
 whitesmithing
+whizzing by
 who goes there?
 Who's with me?
 wicking

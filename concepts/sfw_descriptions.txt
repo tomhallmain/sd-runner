@@ -1,9 +1,11 @@
+$$random_word complimented by $$random_word
 $$random_word-ish
 $$random_word-sized
 [[quite,really]] someone
 a far cry from $$random_word
 A-list
 A-OK
+abrasive
 absentminded
 absentmindedly
 abundant
@@ -12,6 +14,7 @@ accredited
 acumen
 add-on
 adorable
+adorbs
 adrift
 affable
 affirmative
@@ -40,10 +43,14 @@ ascendant
 aspiration
 astute
 at a loss
+at rest
 athwart
+atmospheric
 atonal
+auxiliary
 available
 average
+award-winning
 aware
 awash
 backdated
@@ -51,6 +58,7 @@ ballistic
 bare-knuckle
 barren
 based
+battle-worn
 beady
 begotten
 bent
@@ -74,15 +82,18 @@ burdensome
 bushy-tailed
 by-the-book
 callous
+cantankerous
 certain
 charade
 charred
+chatlyant
 cheap
 cleft
 cliché
 cognizant
 coherent
 collapsed
+color-coded
 committed
 complementary
 complimentary
@@ -111,6 +122,7 @@ deluxe
 different
 dignified
 diligence
+direct
 disengaged
 distinctive
 diverged
@@ -118,6 +130,7 @@ divine
 done up
 dour
 drastic
+dreamlike
 dreary
 dried out
 driven
@@ -146,6 +159,7 @@ existential
 exorbitant
 expeditious
 expidited
+exponential
 extant
 extemporaneous
 extra-large
@@ -153,6 +167,7 @@ extra-small
 fabled
 failsafe
 famous
+fantasmic
 far-out
 fastidious
 favorable
@@ -175,6 +190,8 @@ foolhardy
 foolish
 foreboding
 foresaken
+former
+forthright
 fortuitous
 fragmented
 frail
@@ -189,6 +206,7 @@ gallant
 garish
 gaudy
 gaunt
+generative
 genius
 gifted
 glacial
@@ -230,6 +248,7 @@ imputed
 in a league of [my,his,her,our,their] own
 in a tizzy
 in high regard
+in jest
 in shape
 incarnate
 incedental
@@ -248,10 +267,12 @@ integrity
 intelligent
 interim
 interlaced
+interrogatory
 intrepid
 intrigue
 intuitive
 invariable
+invincible
 isometric
 it has a mind of its own
 it predates $$random_word by $$number years
@@ -261,6 +282,8 @@ just a tad
 juvenile
 keen
 keepsake
+labeled
+labeled and color-coded
 laid-back
 lame
 largest in the world
@@ -272,6 +295,7 @@ lengthy
 like a $$random_word
 likely
 lilting
+logarithmic
 loose
 lord
 loud
@@ -286,6 +310,7 @@ maniacal
 manic
 marred
 matter-of-fact
+meager
 mean
 measly
 medial
@@ -350,6 +375,7 @@ personable
 personal
 petty
 philosophic
+piecemeal
 placid
 plagiarized
 poetic
@@ -363,11 +389,13 @@ primeval
 primordial
 pristine
 promontory
+promoted
 quaint
 rare
 raspy
 rather
 ready
+recommended
 redoubtable
 refined
 regal
@@ -386,6 +414,7 @@ roomy
 rotary
 rotisserie
 routine
+Royal
 ruffled
 sagging
 sanding
@@ -436,6 +465,7 @@ sassy
 scandalous
 scar
 scathing
+scattershot
 scrawny
 screwy
 scruff
@@ -478,6 +508,7 @@ stale
 startled
 state-of-the-art
 stately
+steadfast
 steady
 stealthy
 stern
@@ -495,15 +526,19 @@ studded
 Stygian
 styled
 sublime
+subpar
 subtle
 such and such
 superdry
+superficial
+superfluous
 superior
 susceptible
 swell
 swole
 sympathetic
 synthetic
+taciturn
 tacky
 tactical
 tagged
@@ -515,6 +550,7 @@ tawdry
 temporary
 ten feet tall
 tensile
+tenured
 terete
 terrestrial
 testy
@@ -535,16 +571,23 @@ truncated
 twin
 ugly
 ultra
+unannounced
 unassuming
 unbecoming
 uncommitted
 undefined
+undulating
 unequal
 uneven
+unfinished
 unfit
 unforeseen
 unguarded
 united
+unkillable
+unmoving
+unordered
+unpolished
 unserious
 unshakable
 unstable
@@ -558,6 +601,7 @@ venerable
 very fresh
 vexatious
 viking
+vindictive
 vital
 vulnerable
 war paint
@@ -566,11 +610,13 @@ wayward
 weary
 webbed
 well-mannered
+well-rested
 wellaway
 whiskers
 whiz
 wicked
 wise
+wishy-washy
 witty
 woolen
 woolly

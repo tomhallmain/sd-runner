@@ -3,24 +3,30 @@ Arcadia
 Catalonia
 Cheltenham
 City of Troy
+Coney Island
 Dinaric Alps
 Dixie
 Dolomites
 Econo Lodge
+Herculaneum
 Home Depot
 Iberia
 Jamestown
 La Zarzuela
 Lake Huron
 lanai
+Napoli
 Oceania
 Ojai California
 parliament
 Pier One
+Pompeii -> Pompeii - Italy (locations_specific.txt) | The Last Days of Pompeii (sfw_characters.txt)
 Renfrew
 Sandringham Estate
 Sheetz
 South Pacific
+St. Petersburg
+The Fantasmic World of No
 The Globe Theatre
 The Hundred-Acre Wood
 The Pale

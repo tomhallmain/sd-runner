@@ -1,3 +1,7 @@
+[[He's,She's,You're,They're]] outta there!
+[[I'm,We're]] outta here!
+[[Settle,Settles,Settling]] the score
+[[We're,I'm]] safe
 A bird in the hand is worth two in the bush
 A blessing in disguise
 A cut above
@@ -64,6 +68,7 @@ Call it quits
 Can't make an omelet without breaking eggs
 Catch-22
 Catch my drift
+Chekhov's Gun
 Close but no cigar
 Come rain or shine
 Cost an arm and a leg
@@ -97,6 +102,7 @@ Fair and square
 Fight fire with fire
 Feeling a bit rusty
 Find your feet
+Fine by me
 Fish out of water
 Fit as a fiddle
 Fly on the wall
@@ -116,6 +122,7 @@ Give it a shot
 Give it to me straight
 Give someone the benefit of the doubt
 Give the cold shoulder
+Giving it the old college try
 Go against the grain
 Go back to the drawing board
 Go down in flames
@@ -129,10 +136,12 @@ Hear me out
 Have a heart
 Have your head in the clouds
 Head over heels
+Hedging [[my,your,his,her,our,their]] bets
 Hit the nail on the head
 Hit the road
 Hit the sack
 Hold your horses
+How it panned put
 I'm all ears
 I'm having a whale of a time
 I'm in a pickle
@@ -147,7 +156,10 @@ If you want something done right, do it yourself
 Ignorance is bliss
 In a nutshell
 In hot water
+In over [[[my,your,his,her] head,[our,their] heads]]
 In the same boat
+Ironing it out
+It goes without saying
 It takes a village
 It takes two to tango
 It's a piece of cake
@@ -204,6 +216,7 @@ No bones about it
 No cap
 No pain, no gain
 No strings attached
+No way no how
 Not my cup of tea
 Not so fast!
 Not so sure
@@ -246,9 +259,11 @@ Red herring
 Right off the bat
 Ring a bell
 Rise and shine
+Rolling in the deep
 Rome wasn't built in a day
 Rule of thumb
 Run circles around
+Running in place
 Saved by the bell
 Scratch the surface
 See eye to eye
@@ -259,6 +274,7 @@ Sixth sense
 Smell a rat
 Smooth sailing
 So far so good
+Somehow or other
 Speak of the devil
 Spill the beans
 Start from scratch
@@ -310,10 +326,12 @@ Tip of the iceberg
 To each his own
 To make matters worse
 Tongue in cheek
+Too close for comfort
 Too good to be true
 Too many cooks spoil the broth
 Turn a blind eye
 Turn over a new leaf
+Two can play at that game
 Two heads are better than one
 Two wrongs don't make a right
 Two's company, three's a crowd
