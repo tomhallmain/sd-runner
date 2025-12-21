@@ -132,6 +132,7 @@ barrel-vaulted
 basin
 bass clef
 Basse-taille
+bast fibre
 batch
 battalion
 bauble
@@ -150,6 +151,7 @@ birthright
 bisecting
 bismuth
 blackbody radiation
+blackwork
 blade
 blah
 blazon
@@ -216,17 +218,20 @@ cast iron
 casts
 catadioptric
 catastasis
+catchment
 catenary
 celestial
 cellophane
 cento
 centrifugal force
+ceramic
 CGI
 chalk on asphalt
 chalk on cement
 Champlevé
 channel
 chanson
+chape
 chapter
 chart
 chatelaine
@@ -269,6 +274,7 @@ combo $$random_word
 comma
 communist
 comparative analysis
+compluvium
 component
 concave
 concave mansard roof
@@ -433,6 +439,7 @@ fader
 faience
 faille fabric
 fairy dust
+farthing
 feldspar
 festoon
 figure eight
@@ -488,6 +495,7 @@ gazette
 gemälde
 geometric forms
 geometry diagram
+geotextile
 Gestalt
 Gibbs surround
 gift
@@ -527,6 +535,7 @@ heirloom
 hemmed in
 herd
 heresy
+hessian
 hi-hat
 hierarchy
 high energy
@@ -567,6 +576,7 @@ Illumination
 illumination angle
 Image projected into polar coordinatrs
 immortality
+impluvium
 imprint
 improvisation
 in error
@@ -803,11 +813,13 @@ palette
 palimpsest
 palindrome
 palm
+palmette
 pamphlet
 pane
 panegyric
 panel
 panoramic method
+paper
 parable
 parabolic
 paradigm
@@ -821,6 +833,7 @@ parody
 part
 part-song
 participle
+particleboard
 party favors
 passage
 pastiche
@@ -1136,6 +1149,7 @@ petiole
 petrified wood
 phase
 phial
+phloem
 photo op
 photochrome
 photocopy
@@ -1179,6 +1193,7 @@ polished
 polymer
 polymorph
 polymorphism
+polypropylene
 poptop
 port and starboard
 post-it notes
@@ -1299,6 +1314,7 @@ rivalry
 rivets
 RNA
 rock crystal (clear quartz)
+rockabilly
 roentgens
 role-playing game
 roll bar
@@ -1383,6 +1399,7 @@ sheen
 shield
 shim
 shimmering
+shives
 shut
 shutters
 sidebar
@@ -1538,6 +1555,7 @@ surrealism
 suspension
 suspension of disbelief
 swag bags
+swale
 swirls
 swivel
 syllogism
@@ -1772,9 +1790,11 @@ wow instead of $$random_word [[it is,they are]] $$random_word!
 wrack and ruin
 wrapper
 wrench
+wrought iron
 wên and wu
 X's and O's
 x-ray
+xylem
 yarn
 yellow jounslism
 Yellow Pages

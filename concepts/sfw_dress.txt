@@ -36,6 +36,7 @@ bathing suit
 bathrobe
 Beach Cover-Up
 beanie
+Beatle boots
 bedclothes
 bell-bottoms
 belt
@@ -61,6 +62,7 @@ bonnet
 boonie hat
 boot
 boss of the plains hat
+bourrelet
 bow
 bow tie
 boxer shorts
@@ -68,6 +70,7 @@ boxers
 bracelet
 bracelets
 Braided Crown
+Braies
 breeches
 briefs
 brownshirt
@@ -84,6 +87,7 @@ Button-Down Shirt
 button-down sweater
 Button-Up Cardigan
 Buzz Cut
+bycocket cap
 byrnie
 Caesar Cut
 caftan
@@ -109,14 +113,18 @@ cat costume
 cavalier hat
 caveman outfit
 chain mail
+chausses
+cheche
 Chelsea Boots
 chemise
 Chiffon Blouse
 Chin-Length Bob
+ciocia
 clasp
 Classic White Blouse
 Classic White T-Shirt
 cleat
+Climbing shoe
 cloak
 cloche
 Cloche hat
@@ -167,11 +175,14 @@ diadem
 diamond ring
 dinner jacket
 dirndl
+divided hennin
+doublet
 drawers
 dress
 dress shirt
 Dress Shirt and Tie
 Dress Shoes
+duckbill shoes
 duds
 dungaree shorts
 dungarees
@@ -181,8 +192,10 @@ Eaton collar
 elastic
 Elegant Evening Gown
 epaulets
+escoffion
 evening gown
 fancy watch
+farthingale
 fashion
 fatigues
 Faux Fur Coat
@@ -207,8 +220,10 @@ frills
 frock
 fur
 fur coat
+fur tippet
 gaberdine
 gabardine
+gable hood
 Gainsborough hat
 gaiters
 galero
@@ -267,8 +282,10 @@ hook and eye
 hoop earrings
 hospital gown
 houndstooth
+Houppelande
 housecoat
 Ivy League Cut
+izaar
 jacket
 jeans
 Jeans and T-Shirt
@@ -289,6 +306,7 @@ khakis
 kilt
 kimono
 kit
+knee-breeches
 Knee-High Boots
 Knee-Length Skirt
 knickers
@@ -309,6 +327,7 @@ lei
 leotard
 life jacket
 Linen Pants
+Litham
 livery
 loafers
 locket
@@ -353,10 +372,12 @@ overshirt
 Oversized Sweater
 pajamas
 panama hat
+pannier
 pants
 pantsuit
 parka
 Parka Jacket
+patten shoe
 pea coat
 Peasant Blouse
 peg leg
@@ -367,6 +388,7 @@ Peplum Blouse
 perfectly tailored suit
 petticoat
 Phrygian cap
+pigache
 pinafore
 Pith helmet
 Pixie Cut
@@ -377,6 +399,8 @@ pleated skirt
 pluviale
 pocket
 pocketbook
+pointe shoe
+pointy boots
 polka
 Polka Dot Dress
 polo shirt
@@ -385,6 +409,7 @@ Pompadour
 poncho
 poodle skirt
 pork pie hat
+poulaines
 prelate dress
 priest's cope
 Puffer Coat
@@ -398,20 +423,28 @@ raincoat
 early Renaissance dress
 late Renaissance dress
 regalia
+reticella
 ribbon
 ring
 ripped jeans
 rondel
+ruff
+sabaton
 shako
 shovel hat
+sirwal
 ski cap
 ski mask
 sleeve
 sling
+solleret
 spectacles
 streetwear
 sweat pants
+tabard
+Tagelmust
 tassle
+thawb
 torn shirt
 robe
 robot
@@ -574,6 +607,7 @@ wrap
 Wrap Dress
 Yoga Pants and Tank Top
 yoke
+zibellino
 Zip-Up Hoodie
 zipper
 zoris
