@@ -779,6 +779,11 @@ class App():
         # Get basic configuration for time estimation
         workflow_type = args.workflow_tag
         models = Model.get_models(args.model_tags, default_tag=Model.get_default_model_tag(workflow_type), inpainting=args.inpainting)
+
+        if len(models) == 0:
+            self.handle_error(Exception(_("No models found")), _("No models found"))
+            return None
+
         resolution_group = ResolutionGroup.get(args.resolution_group)
         resolutions = Resolution.get_resolutions(args.res_tags, architecture_type=models[0].architecture_type, resolution_group=resolution_group)
         

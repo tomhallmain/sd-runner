@@ -511,7 +511,7 @@ class Prompter:
                 elif name.startswith("concept"):
                     replacement = random.choice(concepts.get_concepts(low=1, high=1))
                 elif name == "dress":
-                    replacement = random.choice(concepts.get_dress(low=1, high=1))
+                    replacement = random.choice(concepts.get_dress(low=1, high=1, inclusion_chance=1.0))
                 elif name.startswith("time"):
                     replacement = random.choice(concepts.get_times(low=1, high=1))
                 elif name.startswith("expression"):

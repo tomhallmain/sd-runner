@@ -1,14 +1,14 @@
 # Translations template for APPLICATION.
-# Copyright (C) 2025 THOMAS HALL <tomhall.main@gmail.com>
+# Copyright (C) 2026 AUTHOR NAME <author@example.com>
 # This file is distributed under the same license as the APPLICATION project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: APPLICATION 1.0\n"
-"Report-Msgid-Bugs-To: Thomas Hall <tomhall.main@gmail.com>\n"
-"POT-Creation-Date: 2025-11-27 17:04-0500\n"
-"PO-Revision-Date: 2025-11-27 17:04-0500\n"
+"Report-Msgid-Bugs-To: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2026-01-05 16:58-0500\n"
+"PO-Revision-Date: 2026-01-05 16:58-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,203 +16,207 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app.py:145
+#: app.py:146
 msgid "Run SD Workflows"
 msgstr ""
 
-#: app.py:149
+#: app.py:150
 msgid "Run Workflows"
 msgstr ""
 
-#: app.py:151
+#: app.py:152
 msgid "Cancel Run"
 msgstr ""
 
-#: app.py:167
+#: app.py:168
 msgid "Software"
 msgstr ""
 
-#: app.py:175
+#: app.py:176
 msgid "Workflow"
 msgstr ""
 
-#: app.py:182
+#: app.py:183
 msgid "Set N Latents"
 msgstr ""
 
-#: app.py:188
+#: app.py:189
 msgid "Set Total"
 msgstr ""
 
-#: app.py:196
+#: app.py:197
 msgid "Batch Limit"
 msgstr ""
 
-#: app.py:203
+#: app.py:204
 msgid "Delay Seconds"
 msgstr ""
 
-#: app.py:209
+#: app.py:210
 msgid "Resolutions"
 msgstr ""
 
-#: app.py:216
+#: app.py:217
 msgid "Resolution Group"
 msgstr ""
 
-#: app.py:222
+#: app.py:223
 msgid "Model Tags"
 msgstr ""
 
-#: app.py:224 app.py:241 ui/models_window.py:27
+#: app.py:225 app.py:242 ui/models_window.py:27
 msgid "Models"
 msgstr ""
 
-#: app.py:239
+#: app.py:240
 msgid "LoRA Tags"
 msgstr ""
 
-#: app.py:257
+#: app.py:258
 msgid "Default LoRA Strength"
 msgstr ""
 
-#: app.py:263
+#: app.py:264
 msgid "B/W Colorization Tags"
 msgstr ""
 
-#: app.py:271
+#: app.py:272
 msgid "Control Net or Redo files"
 msgstr ""
 
-#: app.py:273 app.py:288
+#: app.py:274 app.py:289
 msgid "Recent"
 msgstr ""
 
-#: app.py:280
+#: app.py:281
 msgid "Default Control Net Strength"
 msgstr ""
 
-#: app.py:286
+#: app.py:287
 msgid "IPAdapter files"
 msgstr ""
 
-#: app.py:295
+#: app.py:296
 msgid "Default IPAdapter Strength"
 msgstr ""
 
-#: app.py:301
+#: app.py:302
 msgid "Redo Parameters"
 msgstr ""
 
-#: app.py:317 app.py:334 ui/prompt_config_window.py:274
+#: app.py:318 app.py:335 ui/prompt_config_window.py:274
 msgid "Prompts Configuration"
 msgstr ""
 
-#: app.py:322
+#: app.py:323
 msgid "Preset Schedule Window"
 msgstr ""
 
-#: app.py:323 ui/presets_window.py:98
+#: app.py:324 ui/presets_window.py:99
 msgid "Presets Window"
 msgstr ""
 
-#: app.py:324
+#: app.py:325
 msgid "Timed Schedules Window"
 msgstr ""
 
-#: app.py:329 ui/tags_blacklist_window.py:502 ui/tags_blacklist_window.py:655
+#: app.py:330 ui/tags_blacklist_window.py:515 ui/tags_blacklist_window.py:668
 msgid "Tag Blacklist"
 msgstr ""
 
-#: app.py:330 ui/expansions_window.py:180
+#: app.py:331 ui/expansions_window.py:180
 msgid "Expansions Window"
 msgstr ""
 
-#: app.py:337
+#: app.py:338
 msgid "Prompt Mode"
 msgstr ""
 
-#: app.py:344 utils/globals.py:457
+#: app.py:345 utils/globals.py:465
 msgid "Edit Concepts"
 msgstr ""
 
-#: app.py:347
+#: app.py:348
 msgid "Concepts Dir"
 msgstr ""
 
-#: app.py:358
+#: app.py:359
 msgid "Override Resolution"
 msgstr ""
 
-#: app.py:362
+#: app.py:363
 msgid "Inpainting"
 msgstr ""
 
-#: app.py:366 ui/prompt_config_window.py:621
+#: app.py:367 ui/prompt_config_window.py:622
 msgid "Override Base Negative"
 msgstr ""
 
-#: app.py:370
+#: app.py:371
 msgid "Run Preset Schedule"
 msgstr ""
 
-#: app.py:374 ui/prompt_config_window.py:642
+#: app.py:375 ui/prompt_config_window.py:643
 msgid "Continuous Seed Variation"
 msgstr ""
 
-#: app.py:378
+#: app.py:379
 msgid "Prompt Massage Tags"
 msgstr ""
 
-#: app.py:385
+#: app.py:386
 msgid "Positive Tags"
 msgstr ""
 
-#: app.py:392
+#: app.py:393
 msgid "Negative Tags"
 msgstr ""
 
-#: app.py:417 app.py:1442
+#: app.py:418 app.py:1453
 msgid " ComfyGen "
 msgstr ""
 
-#: app.py:418
+#: app.py:419
 msgid "Debug mode toggled."
 msgstr ""
 
-#: app.py:480
+#: app.py:487
 msgid "Confirm Quit"
 msgstr ""
 
-#: app.py:480
+#: app.py:487
 msgid "Would you like to quit the application?"
 msgstr ""
 
-#: app.py:501
+#: app.py:508
 msgid "Storing caches..."
 msgstr ""
 
-#: app.py:734 app.py:754
+#: app.py:741 app.py:761
 msgid "Confirm Run"
 msgstr ""
 
-#: app.py:735
+#: app.py:742
 msgid "Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"
 msgstr ""
 
-#: app.py:755
+#: app.py:762
 msgid "Are you sure you want to proceed?"
 msgstr ""
 
-#: app.py:764
+#: app.py:771
 msgid "Setting up run..."
 msgstr ""
 
-#: app.py:793
+#: app.py:784
+msgid "No models found"
+msgstr ""
+
+#: app.py:805
 msgid "Long Running Job Confirmation"
 msgstr ""
 
-#: app.py:794
+#: app.py:806
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -224,42 +228,42 @@ msgid ""
 "Are you sure you want to proceed?"
 msgstr ""
 
-#: app.py:921
+#: app.py:933
 msgid " (unlimited)"
 msgstr ""
 
-#: app.py:938
+#: app.py:950
 msgid "{0} remaining adapters"
 msgstr ""
 
-#: app.py:958
+#: app.py:970
 msgid "{0} pending generations"
 msgstr ""
 
-#: app.py:1039
+#: app.py:1051
 msgid "Blacklisted items found in prompt: {0}"
 msgstr ""
 
-#: app.py:1040 app.py:1043
+#: app.py:1052 app.py:1055
 msgid "Invalid Prompt Tags"
 msgstr ""
 
-#: app.py:1043
+#: app.py:1055
 msgid "Blacklist validation failed!"
 msgstr ""
 
-#: app.py:1241
+#: app.py:1253
 msgid "Password Cancelled"
 msgstr ""
 
-#: app.py:1241
+#: app.py:1253
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr ""
 
-#: app.py:1284 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251 ui/concept_editor_window.py:270
-#: ui/concept_editor_window.py:329 ui/concept_editor_window.py:348 ui/models_window.py:445 ui/models_window.py:453
-#: ui/models_window.py:679 ui/models_window.py:692 ui/models_window.py:696 ui/tags_blacklist_window.py:147
-#: ui/tags_blacklist_window.py:324
+#: app.py:1296 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:261 ui/concept_editor_window.py:274
+#: ui/concept_editor_window.py:333 ui/concept_editor_window.py:352 ui/models_window.py:443 ui/models_window.py:451
+#: ui/models_window.py:676 ui/models_window.py:689 ui/models_window.py:693 ui/tags_blacklist_window.py:147
+#: ui/tags_blacklist_window.py:322
 msgid "Error"
 msgstr ""
 
@@ -271,22 +275,22 @@ msgstr ""
 msgid "Filtering concepts for blacklist: "
 msgstr ""
 
-#: sd_runner/models.py:490
+#: sd_runner/models.py:559
 msgid "One or more loras are blacklisted. Please try again with a different lora."
 msgstr ""
 
-#: sd_runner/models.py:494
+#: sd_runner/models.py:563
 msgid ""
 "The following loras are blacklisted: {0}\n"
 "\n"
 "Please try again with a different lora."
 msgstr ""
 
-#: sd_runner/models.py:499
+#: sd_runner/models.py:568
 msgid "One or more models are blacklisted. Please try again with a different model."
 msgstr ""
 
-#: sd_runner/models.py:503
+#: sd_runner/models.py:572
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
@@ -309,7 +313,7 @@ msgstr ""
 msgid "WARNING: Multiple resolutions in renoiser workflow will produce nearly identical results (duplicates)."
 msgstr ""
 
-#: sd_runner/timed_schedule.py:8 ui/schedule.py:14 ui/schedules_windows.py:42 ui/timed_schedules_window.py:39
+#: sd_runner/timed_schedule.py:8 ui/schedule.py:14 ui/schedules_windows.py:43 ui/timed_schedules_window.py:40
 msgid "New Schedule"
 msgstr ""
 
@@ -317,7 +321,7 @@ msgstr ""
 msgid "Tomorrow"
 msgstr ""
 
-#: sd_runner/timed_schedule.py:75 ui/timed_schedules_window.py:52
+#: sd_runner/timed_schedule.py:75 ui/timed_schedules_window.py:53
 msgid "Every day"
 msgstr ""
 
@@ -333,7 +337,7 @@ msgstr ""
 msgid "Default Shutdown"
 msgstr ""
 
-#: sd_runner/timed_schedules_manager.py:94 ui/schedules_windows.py:233
+#: sd_runner/timed_schedules_manager.py:94 ui/schedules_windows.py:234
 msgid "Not enough schedules found."
 msgstr ""
 
@@ -341,86 +345,86 @@ msgstr ""
 msgid "Shutdown scheduled: {}"
 msgstr ""
 
-#: ui/concept_editor_window.py:106
+#: ui/concept_editor_window.py:110
 msgid "Search/Add Concept:"
 msgstr ""
 
-#: ui/concept_editor_window.py:155
+#: ui/concept_editor_window.py:159
 msgid "File:"
 msgstr ""
 
-#: ui/concept_editor_window.py:160
+#: ui/concept_editor_window.py:164
 msgid "(Target file for saving new concepts and importing)"
 msgstr ""
 
-#: ui/concept_editor_window.py:168
+#: ui/concept_editor_window.py:172
 msgid "Save"
 msgstr ""
 
-#: ui/concept_editor_window.py:171 ui/expansions_window.py:245 ui/presets_window.py:151 ui/schedules_windows.py:90
-#: ui/schedules_windows.py:300 ui/timed_schedules_window.py:210
+#: ui/concept_editor_window.py:175 ui/expansions_window.py:245 ui/presets_window.py:152 ui/schedules_windows.py:91
+#: ui/schedules_windows.py:305 ui/timed_schedules_window.py:215
 msgid "Delete"
 msgstr ""
 
-#: ui/concept_editor_window.py:174 ui/tags_blacklist_window.py:561 ui/tags_blacklist_window.py:628
+#: ui/concept_editor_window.py:178 ui/tags_blacklist_window.py:574 ui/tags_blacklist_window.py:641
 msgid "Import"
 msgstr ""
 
-#: ui/concept_editor_window.py:215
+#: ui/concept_editor_window.py:219
 msgid "Enter search text to see concepts..."
 msgstr ""
 
-#: ui/concept_editor_window.py:270
+#: ui/concept_editor_window.py:274
 msgid "Please select a file to save to"
 msgstr ""
 
-#: ui/concept_editor_window.py:284
+#: ui/concept_editor_window.py:288
 msgid "Saved concept: {0}"
 msgstr ""
 
-#: ui/concept_editor_window.py:306
+#: ui/concept_editor_window.py:310
 msgid "Confirm"
 msgstr ""
 
-#: ui/concept_editor_window.py:306
+#: ui/concept_editor_window.py:310
 msgid "Delete concept: {0}?"
 msgstr ""
 
-#: ui/concept_editor_window.py:312
+#: ui/concept_editor_window.py:316
 msgid "Deleted concept: {0}"
 msgstr ""
 
-#: ui/concept_editor_window.py:329
+#: ui/concept_editor_window.py:333
 msgid "Please select a target file first"
 msgstr ""
 
-#: ui/concept_editor_window.py:334
+#: ui/concept_editor_window.py:338
 msgid "Select concepts file to import"
 msgstr ""
 
-#: ui/concept_editor_window.py:335
+#: ui/concept_editor_window.py:339
 msgid "Text files"
 msgstr ""
 
-#: ui/concept_editor_window.py:335
+#: ui/concept_editor_window.py:339
 msgid "All files"
 msgstr ""
 
-#: ui/concept_editor_window.py:355
+#: ui/concept_editor_window.py:359
 msgid "Successfully imported {0} concepts"
 msgstr ""
 
-#: ui/concept_editor_window.py:357
+#: ui/concept_editor_window.py:361
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr ""
 
-#: ui/concept_editor_window.py:359
+#: ui/concept_editor_window.py:363
 msgid ""
 "Tip: You can prepend '!' to any concept line to force importation, or use simply use the concept name as a search "
 "term to force import."
 msgstr ""
 
-#: ui/concept_editor_window.py:360
+#: ui/concept_editor_window.py:364
 msgid "Import Results"
 msgstr ""
 
@@ -450,7 +454,7 @@ msgid ""
 "removed or renamed."
 msgstr ""
 
-#: ui/expansions_window.py:82 ui/tags_blacklist_window.py:867
+#: ui/expansions_window.py:82 ui/tags_blacklist_window.py:880
 msgid "Warning"
 msgstr ""
 
@@ -482,8 +486,8 @@ msgstr ""
 msgid "Clear expansions"
 msgstr ""
 
-#: ui/expansions_window.py:238 ui/schedules_windows.py:293 ui/tags_blacklist_window.py:722 ui/tags_blacklist_window.py:775
-#: ui/timed_schedules_window.py:203
+#: ui/expansions_window.py:238 ui/schedules_windows.py:298 ui/tags_blacklist_window.py:735 ui/tags_blacklist_window.py:788
+#: ui/timed_schedules_window.py:208
 msgid "Modify"
 msgstr ""
 
@@ -499,220 +503,220 @@ msgstr ""
 msgid "Copied expansion text to clipboard"
 msgstr ""
 
-#: ui/models_window.py:50
+#: ui/models_window.py:48
 msgid "Checkpoints"
 msgstr ""
 
-#: ui/models_window.py:51
+#: ui/models_window.py:49
 msgid "LoRAs & Adapters"
 msgstr ""
 
-#: ui/models_window.py:65 ui/models_window.py:121 ui/recent_adapters_window.py:86 ui/recent_adapters_window.py:141
-#: ui/recent_adapters_window.py:201
+#: ui/models_window.py:63 ui/models_window.py:119 ui/recent_adapters_window.py:87 ui/recent_adapters_window.py:142
+#: ui/recent_adapters_window.py:202
 msgid "Filter"
 msgstr ""
 
-#: ui/models_window.py:81
+#: ui/models_window.py:79
 msgid "Model Name"
 msgstr ""
 
-#: ui/models_window.py:82 ui/models_window.py:138
+#: ui/models_window.py:80 ui/models_window.py:136
 msgid "Architecture"
 msgstr ""
 
-#: ui/models_window.py:83 ui/models_window.py:139 ui/recent_adapters_window.py:104 ui/recent_adapters_window.py:159
-#: ui/recent_adapters_window.py:219
+#: ui/models_window.py:81 ui/models_window.py:137 ui/recent_adapters_window.py:105 ui/recent_adapters_window.py:160
+#: ui/recent_adapters_window.py:220
 msgid "Created"
 msgstr ""
 
-#: ui/models_window.py:98 ui/models_window.py:154 ui/recent_adapters_window.py:119 ui/recent_adapters_window.py:174
+#: ui/models_window.py:96 ui/models_window.py:152 ui/recent_adapters_window.py:120 ui/recent_adapters_window.py:175
 msgid "Replace"
 msgstr ""
 
-#: ui/models_window.py:100 ui/models_window.py:156 ui/recent_adapters_window.py:121 ui/recent_adapters_window.py:176
+#: ui/models_window.py:98 ui/models_window.py:154 ui/recent_adapters_window.py:122 ui/recent_adapters_window.py:177
 msgid "Add"
 msgstr ""
 
-#: ui/models_window.py:102 ui/models_window.py:164 ui/recent_adapters_window.py:123 ui/recent_adapters_window.py:178
+#: ui/models_window.py:100 ui/models_window.py:162 ui/recent_adapters_window.py:124 ui/recent_adapters_window.py:179
 msgid "Refresh"
 msgstr ""
 
-#: ui/models_window.py:104 ui/models_window.py:166 ui/models_window.py:414 ui/models_window.py:416
+#: ui/models_window.py:102 ui/models_window.py:164 ui/models_window.py:412 ui/models_window.py:414
 msgid "Show Blacklisted"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:249 ui/models_window.py:106 ui/models_window.py:168 ui/models_window.py:583
-#: ui/prompt_config_window.py:342 ui/recent_adapters_window.py:125 ui/recent_adapters_window.py:180
-#: ui/recent_adapters_window.py:242 ui/recent_adapters_window.py:299 ui/tags_blacklist_window.py:284
+#: ui/auth/password_admin_window.py:262 ui/models_window.py:104 ui/models_window.py:166 ui/models_window.py:580
+#: ui/prompt_config_window.py:343 ui/recent_adapters_window.py:126 ui/recent_adapters_window.py:181
+#: ui/recent_adapters_window.py:243 ui/recent_adapters_window.py:300 ui/tags_blacklist_window.py:282
 msgid "Close"
 msgstr ""
 
-#: ui/models_window.py:137
+#: ui/models_window.py:135
 msgid "LoRA/Adapter Name"
 msgstr ""
 
-#: ui/models_window.py:158 ui/models_window.py:163
+#: ui/models_window.py:156 ui/models_window.py:161
 msgid "LoRA Info"
 msgstr ""
 
-#: ui/models_window.py:376 ui/recent_adapters_window.py:586
+#: ui/models_window.py:374 ui/recent_adapters_window.py:587
 msgid "Cache"
 msgstr ""
 
-#: ui/models_window.py:409 ui/models_window.py:411
+#: ui/models_window.py:407 ui/models_window.py:409
 msgid "Hide Blacklisted"
 msgstr ""
 
-#: ui/models_window.py:427 ui/models_window.py:666
+#: ui/models_window.py:425 ui/models_window.py:663
 msgid "Feature Unavailable"
 msgstr ""
 
-#: ui/models_window.py:428
+#: ui/models_window.py:426
 msgid ""
 "LoRA trigger extraction is not available.\n"
 "\n"
 "This may be due to missing dependencies or import errors."
 msgstr ""
 
-#: ui/models_window.py:435
+#: ui/models_window.py:433
 msgid "No Selection"
 msgstr ""
 
-#: ui/models_window.py:435
+#: ui/models_window.py:433
 msgid "Please select a LoRA to view information."
 msgstr ""
 
-#: ui/models_window.py:445
+#: ui/models_window.py:443
 msgid "Model not found: {0}"
 msgstr ""
 
-#: ui/models_window.py:453
+#: ui/models_window.py:451
 msgid "Failed to show LoRA information: {0}"
 msgstr ""
 
-#: ui/models_window.py:467
+#: ui/models_window.py:464
 msgid "LoRA Information: {0}"
 msgstr ""
 
-#: ui/models_window.py:487
+#: ui/models_window.py:484
 msgid "LoRA Information"
 msgstr ""
 
-#: ui/models_window.py:497
+#: ui/models_window.py:494
 msgid "Name:"
 msgstr ""
 
-#: ui/models_window.py:508
+#: ui/models_window.py:505
 msgid "Architecture:"
 msgstr ""
 
-#: ui/models_window.py:519
+#: ui/models_window.py:516
 msgid "File Path:"
 msgstr ""
 
-#: ui/models_window.py:531
+#: ui/models_window.py:528
 msgid "Created:"
 msgstr ""
 
-#: ui/models_window.py:542
+#: ui/models_window.py:539
 msgid "Strength:"
 msgstr ""
 
-#: ui/models_window.py:557
+#: ui/models_window.py:554
 msgid "Trigger Information"
 msgstr ""
 
-#: ui/models_window.py:563
+#: ui/models_window.py:560
 msgid "Loading trigger information..."
 msgstr ""
 
-#: ui/models_window.py:577
+#: ui/models_window.py:574
 msgid "Create .safetriggers File"
 msgstr ""
 
-#: ui/models_window.py:600
+#: ui/models_window.py:597
 msgid "Unknown"
 msgstr ""
 
-#: ui/models_window.py:606
+#: ui/models_window.py:603
 msgid "Trigger extraction not available"
 msgstr ""
 
-#: ui/models_window.py:617
+#: ui/models_window.py:614
 msgid "LoRA file not found"
 msgstr ""
 
-#: ui/models_window.py:626
+#: ui/models_window.py:623
 msgid "No triggers found"
 msgstr ""
 
-#: ui/models_window.py:627
+#: ui/models_window.py:624
 msgid "No triggers found: {0}"
 msgstr ""
 
-#: ui/models_window.py:630
+#: ui/models_window.py:627
 msgid "Error loading triggers: {0}"
 msgstr ""
 
-#: ui/models_window.py:635
+#: ui/models_window.py:632
 msgid "Found {0} triggers"
 msgstr ""
 
-#: ui/models_window.py:667
+#: ui/models_window.py:664
 msgid "Cannot create .safetriggers file: trigger extraction is not available."
 msgstr ""
 
-#: ui/models_window.py:679
+#: ui/models_window.py:676
 msgid "LoRA file not found: {0}"
 msgstr ""
 
-#: ui/models_window.py:688
+#: ui/models_window.py:685
 msgid "Success"
 msgstr ""
 
-#: ui/models_window.py:689
+#: ui/models_window.py:686
 msgid ""
 "Created .safetriggers file:\n"
 "{0}"
 msgstr ""
 
-#: ui/models_window.py:692
+#: ui/models_window.py:689
 msgid "Failed to create .safetriggers file"
 msgstr ""
 
-#: ui/models_window.py:696
+#: ui/models_window.py:693
 msgid "Failed to create .safetriggers file: {0}"
 msgstr ""
 
-#: ui/presets_window.py:58
+#: ui/presets_window.py:59
 msgid "New Preset (ERROR no presets found)"
 msgstr ""
 
-#: ui/presets_window.py:90
+#: ui/presets_window.py:91
 msgid "Not enough presets found."
 msgstr ""
 
-#: ui/presets_window.py:119
+#: ui/presets_window.py:120
 msgid "Set a new preset"
 msgstr ""
 
-#: ui/presets_window.py:120
+#: ui/presets_window.py:121
 msgid "New Preset"
 msgstr ""
 
-#: ui/presets_window.py:124
+#: ui/presets_window.py:125
 msgid "Add preset"
 msgstr ""
 
-#: ui/presets_window.py:126
+#: ui/presets_window.py:127
 msgid "Clear presets"
 msgstr ""
 
-#: ui/presets_window.py:144 ui/schedules_windows.py:286
+#: ui/presets_window.py:145 ui/schedules_windows.py:291
 msgid "Set"
 msgstr ""
 
-#: ui/presets_window.py:168
+#: ui/presets_window.py:169
 msgid "Invalid preset: {0}"
 msgstr ""
 
@@ -760,174 +764,174 @@ msgstr ""
 msgid "Multiplier"
 msgstr ""
 
-#: ui/prompt_config_window.py:347
+#: ui/prompt_config_window.py:348
 msgid "Concepts"
 msgstr ""
 
-#: ui/prompt_config_window.py:362
+#: ui/prompt_config_window.py:363
 msgid "Positions"
 msgstr ""
 
-#: ui/prompt_config_window.py:377
+#: ui/prompt_config_window.py:378
 msgid "Locations"
 msgstr ""
 
-#: ui/prompt_config_window.py:392
+#: ui/prompt_config_window.py:393
 msgid "Animals"
 msgstr ""
 
-#: ui/prompt_config_window.py:407
+#: ui/prompt_config_window.py:408
 msgid "Colors"
 msgstr ""
 
-#: ui/prompt_config_window.py:422
+#: ui/prompt_config_window.py:423
 msgid "Times"
 msgstr ""
 
-#: ui/prompt_config_window.py:437
+#: ui/prompt_config_window.py:438
 msgid "Dress"
 msgstr ""
 
-#: ui/prompt_config_window.py:452
+#: ui/prompt_config_window.py:453
 msgid "Expressions"
 msgstr ""
 
-#: ui/prompt_config_window.py:467
+#: ui/prompt_config_window.py:468
 msgid "Actions"
 msgstr ""
 
-#: ui/prompt_config_window.py:482
+#: ui/prompt_config_window.py:483
 msgid "Descriptions"
 msgstr ""
 
-#: ui/prompt_config_window.py:497
+#: ui/prompt_config_window.py:498
 msgid "Characters"
 msgstr ""
 
-#: ui/prompt_config_window.py:512
+#: ui/prompt_config_window.py:513
 msgid "Random Words"
 msgstr ""
 
-#: ui/prompt_config_window.py:527 utils/globals.py:37
+#: ui/prompt_config_window.py:528 utils/globals.py:37
 msgid "Nonsense"
 msgstr ""
 
-#: ui/prompt_config_window.py:542
+#: ui/prompt_config_window.py:543
 msgid "Jargon"
 msgstr ""
 
-#: ui/prompt_config_window.py:557
+#: ui/prompt_config_window.py:558
 msgid "Sayings"
 msgstr ""
 
-#: ui/prompt_config_window.py:573
+#: ui/prompt_config_window.py:574
 msgid "Specific Locations Chance"
 msgstr ""
 
-#: ui/prompt_config_window.py:582
+#: ui/prompt_config_window.py:583
 msgid "Specific Times Chance"
 msgstr ""
 
-#: ui/prompt_config_window.py:591
+#: ui/prompt_config_window.py:592
 msgid "Specify Humans Chance"
 msgstr ""
 
-#: ui/prompt_config_window.py:600
+#: ui/prompt_config_window.py:601
 msgid "Art Styles Chance"
 msgstr ""
 
-#: ui/prompt_config_window.py:609
+#: ui/prompt_config_window.py:610
 msgid "Emphasis Chance"
 msgstr ""
 
-#: ui/prompt_config_window.py:628
+#: ui/prompt_config_window.py:629
 msgid "Tags Applied to Prompt Start"
 msgstr ""
 
-#: ui/prompt_config_window.py:635
+#: ui/prompt_config_window.py:636
 msgid "Sparse Mixed Tags"
 msgstr ""
 
-#: ui/recent_adapters_window.py:41
+#: ui/recent_adapters_window.py:42
 msgid "Recent Adapters"
 msgstr ""
 
-#: ui/recent_adapters_window.py:66
+#: ui/recent_adapters_window.py:67
 msgid "Recent ControlNets"
 msgstr ""
 
-#: ui/recent_adapters_window.py:67
+#: ui/recent_adapters_window.py:68
 msgid "Recent IP Adapters"
 msgstr ""
 
-#: ui/recent_adapters_window.py:68
+#: ui/recent_adapters_window.py:69
 msgid "All Recent Adapters"
 msgstr ""
 
-#: ui/recent_adapters_window.py:69
+#: ui/recent_adapters_window.py:70
 msgid "Configuration"
 msgstr ""
 
-#: ui/recent_adapters_window.py:102
+#: ui/recent_adapters_window.py:103
 msgid "ControlNet File"
 msgstr ""
 
-#: ui/recent_adapters_window.py:103 ui/recent_adapters_window.py:158 ui/recent_adapters_window.py:218
+#: ui/recent_adapters_window.py:104 ui/recent_adapters_window.py:159 ui/recent_adapters_window.py:219
 msgid "Type"
 msgstr ""
 
-#: ui/recent_adapters_window.py:157
+#: ui/recent_adapters_window.py:158
 msgid "IP Adapter File"
 msgstr ""
 
-#: ui/recent_adapters_window.py:196
+#: ui/recent_adapters_window.py:197
 msgid "Individual files, including from directory-split runs (no directories)"
 msgstr ""
 
-#: ui/recent_adapters_window.py:217
+#: ui/recent_adapters_window.py:218
 msgid "Adapter File"
 msgstr ""
 
-#: ui/recent_adapters_window.py:233
+#: ui/recent_adapters_window.py:234
 msgid "Apply to ControlNet (Replace)"
 msgstr ""
 
-#: ui/recent_adapters_window.py:235
+#: ui/recent_adapters_window.py:236
 msgid "Apply to ControlNet (Add)"
 msgstr ""
 
-#: ui/recent_adapters_window.py:238
+#: ui/recent_adapters_window.py:239
 msgid "Apply to IP Adapter (Replace)"
 msgstr ""
 
-#: ui/recent_adapters_window.py:240
+#: ui/recent_adapters_window.py:241
 msgid "Apply to IP Adapter (Add)"
 msgstr ""
 
-#: ui/recent_adapters_window.py:264
+#: ui/recent_adapters_window.py:265
 msgid "Recent Adapters Configuration"
 msgstr ""
 
-#: ui/recent_adapters_window.py:270
+#: ui/recent_adapters_window.py:271
 msgid "Max Recent Items:"
 msgstr ""
 
-#: ui/recent_adapters_window.py:276
+#: ui/recent_adapters_window.py:277
 msgid "Max Recent Split Items:"
 msgstr ""
 
-#: ui/recent_adapters_window.py:282
+#: ui/recent_adapters_window.py:283
 msgid ""
 "These settings control how many recent adapters are kept in memory.\n"
 "Higher values use more memory but keep more history.\n"
 "Changes take effect immediately and are saved automatically."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:245 ui/recent_adapters_window.py:293
+#: ui/auth/password_admin_window.py:258 ui/recent_adapters_window.py:294
 msgid "Save Settings"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:233 ui/auth/password_admin_window.py:292 ui/recent_adapters_window.py:296
+#: ui/auth/password_admin_window.py:246 ui/auth/password_admin_window.py:305 ui/recent_adapters_window.py:297
 msgid "Reset to Defaults"
 msgstr ""
 
@@ -935,39 +939,39 @@ msgstr ""
 msgid "{0} ({1} runs)"
 msgstr ""
 
-#: ui/scheduled_shutdown_dialog.py:25 ui/scheduled_shutdown_dialog.py:41
+#: ui/scheduled_shutdown_dialog.py:26 ui/scheduled_shutdown_dialog.py:43
 msgid "Scheduled Shutdown"
 msgstr ""
 
-#: ui/scheduled_shutdown_dialog.py:48
+#: ui/scheduled_shutdown_dialog.py:50
 msgid "Schedule: {}"
 msgstr ""
 
-#: ui/scheduled_shutdown_dialog.py:55 ui/scheduled_shutdown_dialog.py:95
+#: ui/scheduled_shutdown_dialog.py:57 ui/scheduled_shutdown_dialog.py:97
 msgid "Shutting down in {} seconds..."
 msgstr ""
 
-#: ui/scheduled_shutdown_dialog.py:70
+#: ui/scheduled_shutdown_dialog.py:72
 msgid "Shutdown Now"
 msgstr ""
 
-#: ui/schedules_windows.py:29 ui/timed_schedules_window.py:29
+#: ui/schedules_windows.py:27 ui/timed_schedules_window.py:27
 msgid "Modify Preset Schedule: {0}"
 msgstr ""
 
-#: ui/schedules_windows.py:40
+#: ui/schedules_windows.py:41
 msgid "Modify Schedule"
 msgstr ""
 
-#: ui/schedules_windows.py:47 ui/schedules_windows.py:263 ui/timed_schedules_window.py:44 ui/timed_schedules_window.py:180
+#: ui/schedules_windows.py:48 ui/schedules_windows.py:268 ui/timed_schedules_window.py:45 ui/timed_schedules_window.py:185
 msgid "Add schedule"
 msgstr ""
 
-#: ui/schedules_windows.py:50
+#: ui/schedules_windows.py:51
 msgid "Add Preset Task"
 msgstr ""
 
-#: ui/schedules_windows.py:97
+#: ui/schedules_windows.py:98
 msgid "Move Down"
 msgstr ""
 
@@ -975,23 +979,23 @@ msgstr ""
 msgid "Preset Schedules"
 msgstr ""
 
-#: ui/schedules_windows.py:265 ui/timed_schedules_window.py:182
+#: ui/schedules_windows.py:270 ui/timed_schedules_window.py:187
 msgid "Clear schedules"
 msgstr ""
 
-#: ui/schedules_windows.py:322
+#: ui/schedules_windows.py:327
 msgid "Current schedule: {0}"
 msgstr ""
 
-#: ui/schedules_windows.py:327
+#: ui/schedules_windows.py:332
 msgid "Set schedule: {0}"
 msgstr ""
 
-#: ui/schedules_windows.py:334
+#: ui/schedules_windows.py:339
 msgid "Deleted schedule: {0}"
 msgstr ""
 
-#: ui/schedules_windows.py:420
+#: ui/schedules_windows.py:425
 msgid "Cleared schedules"
 msgstr ""
 
@@ -1003,7 +1007,7 @@ msgstr ""
 msgid "Blacklist String"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:64 ui/timed_schedules_window.py:223
+#: ui/tags_blacklist_window.py:64 ui/timed_schedules_window.py:228
 msgid "Enabled"
 msgstr ""
 
@@ -1023,7 +1027,7 @@ msgstr ""
 msgid "Exception Pattern (optional regex to unfilter tags)"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:119 ui/tags_blacklist_window.py:730
+#: ui/tags_blacklist_window.py:119 ui/tags_blacklist_window.py:743
 msgid "Preview"
 msgstr ""
 
@@ -1043,27 +1047,27 @@ msgstr ""
 msgid "Do you want to save changes before closing?"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:231
+#: ui/tags_blacklist_window.py:230
 msgid "Blacklist Preview"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:248
+#: ui/tags_blacklist_window.py:246
 msgid "Concepts filtered by: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:252
+#: ui/tags_blacklist_window.py:250
 msgid "All filtered concepts"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:313
+#: ui/tags_blacklist_window.py:311
 msgid "Found {0} filtered concepts"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:321
+#: ui/tags_blacklist_window.py:319
 msgid "Error loading concepts: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:349
+#: ui/tags_blacklist_window.py:347
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL "
 "cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
@@ -1071,11 +1075,11 @@ msgid ""
 "If you are young, not sure, or even an adult, click the close button on this window now and do something fun instead."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:427
+#: ui/tags_blacklist_window.py:425
 msgid "Confirm Load Default Blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:428
+#: ui/tags_blacklist_window.py:426
 msgid ""
 "Are you sure you want to load the default blacklist?\n"
 "\n"
@@ -1086,146 +1090,146 @@ msgid ""
 "Do you want to continue?"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:442
+#: ui/tags_blacklist_window.py:440
 msgid "Loaded default blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:446
+#: ui/tags_blacklist_window.py:444
 msgid "Error loading default blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:476
+#: ui/tags_blacklist_window.py:488
 msgid "Tags/Models Blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:505
+#: ui/tags_blacklist_window.py:518
 msgid "Model Blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:529 ui/tags_blacklist_window.py:597
+#: ui/tags_blacklist_window.py:542 ui/tags_blacklist_window.py:610
 msgid "Global Settings:"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:531 ui/tags_blacklist_window.py:599
+#: ui/tags_blacklist_window.py:544 ui/tags_blacklist_window.py:612
 msgid "These settings affect how the blacklist is applied globally."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:540 ui/tags_blacklist_window.py:608
+#: ui/tags_blacklist_window.py:553 ui/tags_blacklist_window.py:621
 msgid "Choose how the blacklist is enforced: block, warn, or allow."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:546 ui/tags_blacklist_window.py:614
+#: ui/tags_blacklist_window.py:559 ui/tags_blacklist_window.py:627
 msgid "Silent Removal"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:554 ui/tags_blacklist_window.py:622
+#: ui/tags_blacklist_window.py:567 ui/tags_blacklist_window.py:635
 msgid "If enabled, blacklisted words are removed silently without notification."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:562 ui/tags_blacklist_window.py:629
+#: ui/tags_blacklist_window.py:575 ui/tags_blacklist_window.py:642
 msgid "Export"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:563 ui/tags_blacklist_window.py:630
+#: ui/tags_blacklist_window.py:576 ui/tags_blacklist_window.py:643
 msgid "Preview All"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:564
+#: ui/tags_blacklist_window.py:577
 msgid "Load Default"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:573
+#: ui/tags_blacklist_window.py:586
 msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:576
+#: ui/tags_blacklist_window.py:589
 msgid "Add to tag blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:578 ui/tags_blacklist_window.py:644
+#: ui/tags_blacklist_window.py:591 ui/tags_blacklist_window.py:657
 msgid "Clear items"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:638
+#: ui/tags_blacklist_window.py:651
 msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:643
+#: ui/tags_blacklist_window.py:656
 msgid "Add to model blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:675
+#: ui/tags_blacklist_window.py:688
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag blacklist' button below, or load the default "
 "blacklist."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:677
+#: ui/tags_blacklist_window.py:690
 msgid "Click below to reveal blacklist concepts."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:679
+#: ui/tags_blacklist_window.py:692
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the existing concepts, clearing the blacklist"
 " and adding your own, or importing concepts from a file."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:685
+#: ui/tags_blacklist_window.py:698
 msgid "Reveal Concepts"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:704 ui/tags_blacklist_window.py:761
+#: ui/tags_blacklist_window.py:717 ui/tags_blacklist_window.py:774
 msgid "[regex]"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:706
+#: ui/tags_blacklist_window.py:719
 msgid "[no boundary]"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:708 ui/tags_blacklist_window.py:763
+#: ui/tags_blacklist_window.py:721 ui/tags_blacklist_window.py:776
 msgid "[no space conversion]"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:710 ui/tags_blacklist_window.py:765
+#: ui/tags_blacklist_window.py:723 ui/tags_blacklist_window.py:778
 msgid "[exception: {0}]"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:714 ui/tags_blacklist_window.py:769 ui/tags_blacklist_window.py:1035
-#: ui/tags_blacklist_window.py:1213
+#: ui/tags_blacklist_window.py:727 ui/tags_blacklist_window.py:782 ui/tags_blacklist_window.py:1048
+#: ui/tags_blacklist_window.py:1226
 msgid "Disabled"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:738 ui/tags_blacklist_window.py:781
+#: ui/tags_blacklist_window.py:751 ui/tags_blacklist_window.py:794
 msgid "Remove"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:750
+#: ui/tags_blacklist_window.py:763
 msgid ""
 "No model blacklist items found. You can add items by clicking the 'Add to model blacklist' button above, or load the "
 "default model blacklist."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:842 ui/tags_blacklist_window.py:877
+#: ui/tags_blacklist_window.py:855 ui/tags_blacklist_window.py:890
 msgid "Added item to blacklist: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:844
+#: ui/tags_blacklist_window.py:857
 msgid "Modified blacklist item: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:857
+#: ui/tags_blacklist_window.py:870
 msgid "Removed item: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:867
+#: ui/tags_blacklist_window.py:880
 msgid "Please enter a string to add to the blacklist."
 msgstr ""
 
-#: ui/tags_blacklist_window.py:957
+#: ui/tags_blacklist_window.py:970
 msgid "Confirm Clear Blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:958
+#: ui/tags_blacklist_window.py:971
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
@@ -1237,111 +1241,111 @@ msgid ""
 "Do you want to continue?"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:978
+#: ui/tags_blacklist_window.py:991
 msgid "Cleared item blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1038
+#: ui/tags_blacklist_window.py:1051
 msgid "Item \"{0}\" is now {1}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1040 ui/tags_blacklist_window.py:1217
+#: ui/tags_blacklist_window.py:1053 ui/tags_blacklist_window.py:1230
 msgid "enabled"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1040 ui/tags_blacklist_window.py:1217
+#: ui/tags_blacklist_window.py:1053 ui/tags_blacklist_window.py:1230
 msgid "disabled"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1050
+#: ui/tags_blacklist_window.py:1063
 msgid "Concepts revealed"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1081 ui/tags_blacklist_window.py:1248
+#: ui/tags_blacklist_window.py:1094 ui/tags_blacklist_window.py:1261
 msgid "Import Blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1100
+#: ui/tags_blacklist_window.py:1113
 msgid "Successfully imported blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1102 ui/tags_blacklist_window.py:1269
+#: ui/tags_blacklist_window.py:1115 ui/tags_blacklist_window.py:1282
 msgid "Import Error"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1113
+#: ui/tags_blacklist_window.py:1126
 msgid "Export Blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1128
+#: ui/tags_blacklist_window.py:1141
 msgid "Successfully exported blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1130 ui/tags_blacklist_window.py:1290
+#: ui/tags_blacklist_window.py:1143 ui/tags_blacklist_window.py:1303
 msgid "Export Error"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1140
+#: ui/tags_blacklist_window.py:1153
 msgid "Blacklist mode set to: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1150
+#: ui/tags_blacklist_window.py:1163
 msgid "Blacklist prompt mode set to: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1160
+#: ui/tags_blacklist_window.py:1173
 msgid "Model blacklist mode set to: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1166
+#: ui/tags_blacklist_window.py:1179
 msgid "Silent removal set to: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1204
+#: ui/tags_blacklist_window.py:1217
 msgid "Model blacklist updated: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1215
+#: ui/tags_blacklist_window.py:1228
 msgid "Model item '{0}' is now {1}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1229
+#: ui/tags_blacklist_window.py:1242
 msgid "Removed model blacklist item: {0}"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1236
+#: ui/tags_blacklist_window.py:1249
 msgid "Cleared model blacklist items"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1267
+#: ui/tags_blacklist_window.py:1280
 msgid "Successfully imported model blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1278
+#: ui/tags_blacklist_window.py:1291
 msgid "Export Model Blacklist"
 msgstr ""
 
-#: ui/tags_blacklist_window.py:1288
+#: ui/tags_blacklist_window.py:1301
 msgid "Successfully exported model blacklist"
 msgstr ""
 
-#: ui/timed_schedules_window.py:38
+#: ui/timed_schedules_window.py:39
 msgid "Schedule Name"
 msgstr ""
 
-#: ui/timed_schedules_window.py:66
+#: ui/timed_schedules_window.py:67
 msgid "Start Time"
 msgstr ""
 
-#: ui/timed_schedules_window.py:76
+#: ui/timed_schedules_window.py:77
 msgid "End Time"
 msgstr ""
 
-#: ui/timed_schedules_window.py:86
+#: ui/timed_schedules_window.py:87
 msgid "Shutdown Time"
 msgstr ""
 
-#: ui/timed_schedules_window.py:178
+#: ui/timed_schedules_window.py:183
 msgid "Create and modify schedules"
 msgstr ""
 
@@ -1353,233 +1357,233 @@ msgstr ""
 msgid "A password is required to open this application."
 msgstr ""
 
-#: ui/auth/app_startup_auth.py:80 ui/auth/password_dialog.py:135
+#: ui/auth/app_startup_auth.py:80 ui/auth/password_dialog.py:145
 msgid "Password:"
 msgstr ""
 
-#: ui/auth/app_startup_auth.py:96 ui/auth/password_dialog.py:151
+#: ui/auth/app_startup_auth.py:96 ui/auth/password_dialog.py:161
 msgid "OK"
 msgstr ""
 
-#: ui/auth/app_startup_auth.py:99 ui/auth/password_admin_window.py:450 ui/auth/password_dialog.py:154
-#: ui/auth/password_dialog.py:223 ui/auth/password_dialog.py:240
+#: ui/auth/app_startup_auth.py:99 ui/auth/password_admin_window.py:461 ui/auth/password_dialog.py:164
+#: ui/auth/password_dialog.py:233 ui/auth/password_dialog.py:250
 msgid "Cancel"
 msgstr ""
 
-#: ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:251
+#: ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:261
 msgid "Incorrect password"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:21
+#: ui/auth/password_admin_window.py:35
 msgid "Password Administration"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:71
+#: ui/auth/password_admin_window.py:84
 msgid "Password Protection Settings"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:83
+#: ui/auth/password_admin_window.py:96
 msgid "Protected Actions"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:89
+#: ui/auth/password_admin_window.py:102
 msgid "Select which actions require password authentication:"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:105
+#: ui/auth/password_admin_window.py:118
 msgid "(Always protected if a password is set)"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:124
+#: ui/auth/password_admin_window.py:137
 msgid "Session Timeout Settings"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:130
+#: ui/auth/password_admin_window.py:143
 msgid "Enable session timeout (remember password for a period)"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:142
+#: ui/auth/password_admin_window.py:155
 msgid "Session timeout duration (minutes):"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:151
+#: ui/auth/password_admin_window.py:164
 msgid "Security Advice Settings"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:157
+#: ui/auth/password_admin_window.py:170
 msgid "Show security advice when no password is configured"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:165
+#: ui/auth/password_admin_window.py:178
 msgid "Password Setup"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:175
+#: ui/auth/password_admin_window.py:188
 msgid "Password is configured"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:181 ui/auth/password_admin_window.py:371 ui/auth/password_admin_window.py:387
-#: ui/auth/password_admin_window.py:447
+#: ui/auth/password_admin_window.py:194 ui/auth/password_admin_window.py:383 ui/auth/password_admin_window.py:398
+#: ui/auth/password_admin_window.py:458
 msgid "Change Password"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:186 ui/auth/password_admin_window.py:460
+#: ui/auth/password_admin_window.py:199 ui/auth/password_admin_window.py:471
 msgid "Remove Password"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:191
+#: ui/auth/password_admin_window.py:204
 msgid "Set up a password to enable protection:"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:201 ui/auth/password_admin_window.py:403
+#: ui/auth/password_admin_window.py:214 ui/auth/password_admin_window.py:414
 msgid "New Password:"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:214
+#: ui/auth/password_admin_window.py:227
 msgid "Confirm Password:"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:223
+#: ui/auth/password_admin_window.py:236
 msgid "Set Password"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:237 ui/auth/password_admin_window.py:317
+#: ui/auth/password_admin_window.py:250 ui/auth/password_admin_window.py:330
 msgid "Set to Current"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:241
+#: ui/auth/password_admin_window.py:254
 msgid "Export Cache as JSON"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:286
+#: ui/auth/password_admin_window.py:299
 msgid "Password protection settings saved."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:293
+#: ui/auth/password_admin_window.py:306
 msgid "Are you sure you want to reset all password protection settings to their default values?"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:312
+#: ui/auth/password_admin_window.py:325
 msgid "Settings reset to defaults."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:318
+#: ui/auth/password_admin_window.py:331
 msgid "Are you sure you want to restore all settings to their current saved state? This will discard any unsaved changes."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:336
+#: ui/auth/password_admin_window.py:349
 msgid "Settings restored to current saved state."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:345
+#: ui/auth/password_admin_window.py:358
 msgid "Please enter a password."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:349
+#: ui/auth/password_admin_window.py:362
 msgid "Passwords do not match."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:353 ui/auth/password_admin_window.py:437
+#: ui/auth/password_admin_window.py:366 ui/auth/password_admin_window.py:448
 msgid "Password must be at least 6 characters long."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:358
+#: ui/auth/password_admin_window.py:371
 msgid "Password set successfully."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:365
+#: ui/auth/password_admin_window.py:378
 msgid "Failed to set password."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:394
+#: ui/auth/password_admin_window.py:405
 msgid "Current Password:"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:412
+#: ui/auth/password_admin_window.py:423
 msgid "Confirm New Password:"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:429
+#: ui/auth/password_admin_window.py:440
 msgid "Current password is incorrect."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:433
+#: ui/auth/password_admin_window.py:444
 msgid "New passwords do not match."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:442
+#: ui/auth/password_admin_window.py:453
 msgid "Password changed successfully."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:445
+#: ui/auth/password_admin_window.py:456
 msgid "Failed to change password."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:461
+#: ui/auth/password_admin_window.py:472
 msgid "Are you sure you want to remove password protection? This will disable all password requirements."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:467
+#: ui/auth/password_admin_window.py:478
 msgid "Password removed successfully."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:471
+#: ui/auth/password_admin_window.py:482
 msgid "Failed to remove password."
 msgstr ""
 
-#: ui/auth/password_admin_window.py:506
+#: ui/auth/password_admin_window.py:517
 msgid "Cache exported as JSON to:"
 msgstr ""
 
-#: ui/auth/password_admin_window.py:508
+#: ui/auth/password_admin_window.py:519
 msgid "Failed to export cache as JSON:"
 msgstr ""
 
-#: ui/auth/password_dialog.py:41 ui/auth/password_dialog.py:105
+#: ui/auth/password_dialog.py:45 ui/auth/password_dialog.py:115
 msgid "Password Required"
 msgstr ""
 
-#: ui/auth/password_dialog.py:41
+#: ui/auth/password_dialog.py:45
 msgid "Password Protection"
 msgstr ""
 
-#: ui/auth/password_dialog.py:112
+#: ui/auth/password_dialog.py:122
 msgid "Password required for: {0}"
 msgstr ""
 
-#: ui/auth/password_dialog.py:160
+#: ui/auth/password_dialog.py:170
 msgid "Password Protection Available"
 msgstr ""
 
-#: ui/auth/password_dialog.py:167
+#: ui/auth/password_dialog.py:177
 msgid "This action requires password protection: {0}"
 msgstr ""
 
-#: ui/auth/password_dialog.py:183
+#: ui/auth/password_dialog.py:193
 msgid "Password protection is not currently configured. You can:"
 msgstr ""
 
-#: ui/auth/password_dialog.py:193
+#: ui/auth/password_dialog.py:203
 msgid "• Configure password protection for sensitive actions"
 msgstr ""
 
-#: ui/auth/password_dialog.py:198
+#: ui/auth/password_dialog.py:208
 msgid "• Continue without password protection (less secure)"
 msgstr ""
 
-#: ui/auth/password_dialog.py:205
+#: ui/auth/password_dialog.py:215
 msgid "Don't show this security advice again"
 msgstr ""
 
-#: ui/auth/password_dialog.py:215 ui/auth/password_dialog.py:236
+#: ui/auth/password_dialog.py:225 ui/auth/password_dialog.py:246
 msgid "Configure Protection"
 msgstr ""
 
-#: ui/auth/password_dialog.py:219
+#: ui/auth/password_dialog.py:229
 msgid "Continue Without Protection"
 msgstr ""
 
-#: ui/auth/password_dialog.py:227
+#: ui/auth/password_dialog.py:237
 msgid "Password protection is required for this action but is not currently configured."
 msgstr ""
 
@@ -1699,7 +1703,7 @@ msgstr ""
 msgid "Renoiser"
 msgstr ""
 
-#: utils/globals.py:237 utils/globals.py:381
+#: utils/globals.py:237 utils/globals.py:384
 msgid "Turbo"
 msgstr ""
 
@@ -1715,71 +1719,87 @@ msgstr ""
 msgid "Redo Prompt"
 msgstr ""
 
-#: utils/globals.py:378
+#: utils/globals.py:381
 msgid "SD 1.5"
 msgstr ""
 
-#: utils/globals.py:379
+#: utils/globals.py:382
 msgid "SDXL"
 msgstr ""
 
-#: utils/globals.py:380
+#: utils/globals.py:383
 msgid "Illustrious"
 msgstr ""
 
-#: utils/globals.py:382
+#: utils/globals.py:385
 msgid "Flux"
 msgstr ""
 
-#: utils/globals.py:407
+#: utils/globals.py:386
+msgid "Chroma"
+msgstr ""
+
+#: utils/globals.py:387
+msgid "ZImageTurbo"
+msgstr ""
+
+#: utils/globals.py:388
+msgid "Qwen"
+msgstr ""
+
+#: utils/globals.py:414
 msgid "1536"
 msgstr ""
 
-#: utils/globals.py:408
+#: utils/globals.py:415
+msgid "1328"
+msgstr ""
+
+#: utils/globals.py:416
 msgid "1024"
 msgstr ""
 
-#: utils/globals.py:409
+#: utils/globals.py:417
 msgid "768"
 msgstr ""
 
-#: utils/globals.py:410
+#: utils/globals.py:418
 msgid "512"
 msgstr ""
 
-#: utils/globals.py:449
+#: utils/globals.py:457
 msgid "Open Application"
 msgstr ""
 
-#: utils/globals.py:450
+#: utils/globals.py:458
 msgid "NSFW/NSFL Prompt Modes"
 msgstr ""
 
-#: utils/globals.py:451
+#: utils/globals.py:459
 msgid "Edit Blacklist"
 msgstr ""
 
-#: utils/globals.py:452
+#: utils/globals.py:460
 msgid "Reveal Blacklist Concepts"
 msgstr ""
 
-#: utils/globals.py:453
+#: utils/globals.py:461
 msgid "Edit Schedules"
 msgstr ""
 
-#: utils/globals.py:454
+#: utils/globals.py:462
 msgid "Edit Timed Schedules"
 msgstr ""
 
-#: utils/globals.py:455
+#: utils/globals.py:463
 msgid "Edit Expansions"
 msgstr ""
 
-#: utils/globals.py:456
+#: utils/globals.py:464
 msgid "Edit Presets"
 msgstr ""
 
-#: utils/globals.py:458
+#: utils/globals.py:466
 msgid "Access Password Administration"
 msgstr ""
 
