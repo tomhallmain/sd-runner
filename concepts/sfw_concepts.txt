@@ -103,6 +103,7 @@ arc lamp
 arc length
 archetype
 Arial
+aril
 armrest
 art by $$random_word
 ashes
@@ -147,6 +148,7 @@ bespoke
 bevel
 biblio-$$random_word
 Bildungsroman
+biopic
 birthright
 bisecting
 bismuth
@@ -174,10 +176,12 @@ brazier
 breadth
 brighten
 brim
+brocade
 bronze
 brushstrokes carefully placed
 brushstrokes finely computed
 brushtrokes
+buckle
 bucranium
 bullseye
 bullseye window
@@ -487,6 +491,7 @@ fusebox
 Futhark
 G-force tech
 gameplay screenshot
+gamut
 gaps
 gas lighting
 gas pipes
@@ -500,6 +505,7 @@ Gestalt
 Gibbs surround
 gift
 gills
+glass fibers
 glass former
 gleam
 globules
@@ -828,6 +834,7 @@ paragraph
 parallel
 parallelism
 paranormal
+parcel
 parenthesis
 parody
 part
@@ -1229,6 +1236,7 @@ proverb
 providence
 proxy
 psalm
+psalter
 pseudosphere
 public domain image
 pulley
@@ -1353,6 +1361,7 @@ scattered
 Schlieren photography
 sclera
 sconce
+sconces
 scoop
 scraped
 scratches
@@ -1408,6 +1417,7 @@ sighted scope lens
 sigil
 sign on storefront
 signet
+silk
 silk screen
 silver nitrate film
 simile
@@ -1469,6 +1479,7 @@ specimen
 speckled
 speckles
 specks
+speleothems
 Sperrsatz
 SPF
 spilling
@@ -1685,13 +1696,16 @@ trompe l'oeil
 trompe-l'œil
 truss
 trusses
+tumbleweed
 tuner
 turf
 turning $$color
 turning point
 tutorial
+tweed
 twiddly bits
 twigs
+twill
 twine
 typography
 ultra $$random_word

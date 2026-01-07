@@ -86,6 +86,7 @@ hiss
 Ho-Hum
 How?
 Huh?
+humph
 hush-hush
 I beg your pardon?
 I dare say
@@ -98,6 +99,7 @@ jealous
 jocund
 jolly
 jubilant
+laugh lines
 loony
 mania
 meh
@@ -233,6 +235,7 @@ smug
 snark
 snarl
 sneering
+snivel
 snort
 Solemn
 somber
@@ -272,6 +275,7 @@ Uplifted
 Vexed
 well I never!
 What?
+Why the long face?
 Why?
 wishing
 woe

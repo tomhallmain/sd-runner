@@ -212,7 +212,6 @@ genius
 gifted
 glacial
 glistening
-goalie
 godlike
 godly
 good-tempered
@@ -389,6 +388,7 @@ primal
 primeval
 primordial
 pristine
+prodigal
 promontory
 promoted
 quaint
@@ -563,6 +563,7 @@ tight
 timid
 tiny
 too true
+top-secret
 traditional
 transient
 travesty
@@ -576,6 +577,7 @@ unannounced
 unassuming
 unbecoming
 uncommitted
+unconditional
 undefined
 undulating
 unequal
@@ -587,6 +589,7 @@ unguarded
 united
 unkillable
 unmoving
+unobtrusive
 unordered
 unpolished
 unserious

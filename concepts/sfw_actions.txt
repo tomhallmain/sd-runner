@@ -31,6 +31,7 @@ acrylic painting
 acting
 acting in a play
 acting up
+acts
 acupuncture
 ad lib
 adding on to
@@ -71,6 +72,7 @@ animating
 announcing
 annoy
 anointing
+another round
 answer
 antics
 Any questions?
@@ -138,6 +140,7 @@ baseball
 baseball cards
 BBQ or grilling
 be careful
+beaming
 bearing
 bearing witness
 beckoning
@@ -202,6 +205,7 @@ breaking up
 breastfeeding
 brewery games
 bringing
+buckling
 budget hearing
 bugling
 building
@@ -214,6 +218,7 @@ busking
 bustling
 butterfly art or items
 buying
+buying a round
 buzz off
 buzzer
 c-c-c-combo!
@@ -250,6 +255,7 @@ catching
 catching a glimpse
 catering
 catering to $$character
+ceasing
 celebration
 censure
 ceremony
@@ -303,6 +309,7 @@ coming to
 coming up
 commissioning
 communion
+compacting
 complementing
 complimenting
 computer hobbies
@@ -312,6 +319,7 @@ conjecture
 conjuring
 conning
 conquering
+consensus
 consistory
 conversing
 conveying
@@ -414,6 +422,7 @@ dismounting
 diversification
 diving
 divining
+divvying up
 do one
 do we have a deal?
 doffs
@@ -483,6 +492,7 @@ embargo
 embarking
 embezzling
 embroidery
+embuing
 emergency
 emerging
 emitting
@@ -495,8 +505,10 @@ encouraging
 end up $$random_word
 endeavor
 endorsing
+endowing
 enhance!
 enlivening
+ensnared
 entering
 entertaining
 envisioning
@@ -798,6 +810,7 @@ incoming
 increasing
 incurring
 indictment
+induing
 inferring
 infiltration
 inhaling
@@ -848,6 +861,7 @@ jumping
 jumping in a leaf pile
 jumping up in the air
 just for the [[thrill,heck]] of it
+karaoke
 karate
 kawai or Japanese items or collectibles
 kayaking
@@ -980,6 +994,7 @@ miniatures
 mining
 miracle
 mirrors
+misdirecting
 misquoting
 mission
 mitigating
@@ -1117,6 +1132,7 @@ performing
 perks
 permit
 persisting
+perturbing
 pestering
 pet adoption
 pet care
@@ -1265,6 +1281,7 @@ reciting
 records
 recovering
 red shoe/high heel/glamour items
+redirecting
 redo
 redoing
 redoubling
@@ -1310,6 +1327,7 @@ resource allocation
 respecting
 responding
 restarting
+restating
 resting
 resting [[my,his,her]] head
 resting up
@@ -1338,6 +1356,7 @@ rightening
 riling
 ring around the rosey
 rioting
+riposte
 ripping
 rising
 rites
@@ -1416,6 +1435,8 @@ sent away
 sent for $$random_word
 serrate
 serving
+set free
+setback
 setting
 setting up
 settling
@@ -1437,6 +1458,7 @@ shooting the breeze
 shoplifting
 shoulda woulda coulda
 shouting
+shoving
 showing
 showing off
 shrinking
@@ -1460,6 +1482,7 @@ sitting
 sitting in on
 sitting on a $$random_word
 sitting on a throne
+situation
 skateboarding
 sketching
 skiing
@@ -1510,6 +1533,7 @@ song and dance
 sought
 sowing seeds
 sparing
+spawning
 speaking
 special ops
 spectating
@@ -1539,9 +1563,11 @@ stamp collecting
 standing in for $$random_word
 standing ovation
 star gazing
+stashing
 stationed at his post
 staving off $$random_word
 stealing
+steering
 step aside!
 stepping
 stepping up
@@ -1642,6 +1668,7 @@ themed model kits
 Think again
 thinking
 thinking about it
+threshing
 throwing
 throwing a ball
 throwing a grenade
@@ -1836,6 +1863,7 @@ yelling
 yes or no?
 yes you
 Yessirree
+yielding
 yippee!
 yodeling
 yoga or pilates

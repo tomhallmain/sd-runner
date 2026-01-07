@@ -3,13 +3,17 @@ a while ago
 all the time
 all the while
 always
+as of $$number
 at last
+before long
 circa $$number [[BC,AD,CE]]
 early morning
+eventually
 ever
 everlasting
 first of all
 first up
+formerly
 henceforth
 holiday
 instant

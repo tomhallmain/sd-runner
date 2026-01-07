@@ -30,6 +30,7 @@ archive
 area
 arroyo
 at the helm
+atelier
 atoll
 atrium
 auto body shop
@@ -201,6 +202,7 @@ palisades
 paper plant
 parking garage
 parterre
+passage
 peninsula
 people mover
 perch

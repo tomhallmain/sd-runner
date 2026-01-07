@@ -74,11 +74,13 @@ can I get a true
 canester
 Capri Sun
 Captain Haddock
+caretaker
 Carnifex
 carte blanche
 cashier
 Caspar Milquetoast
 cast of characters
+cat sitter
 Cavalier
 Cavalier drama
 Cecilia
@@ -123,6 +125,7 @@ Director
 diver
 djinn
 Dobby
+dog sitter
 donor
 Dr. Seuss's The Cat in the Hat
 dragoon
@@ -132,6 +135,7 @@ Dudley
 e'er
 easy peasy
 elitist
+Eloise
 Elvis has left the building
 Elvis Presley
 emeratus
@@ -153,6 +157,7 @@ Family Feud
 family friend
 Fido
 Fie
+fire eater
 Fire Emblem
 Firebird
 First Mate
@@ -175,9 +180,11 @@ Get outta town!
 Ghost in the Shell
 gigglemug
 Giles
+goalie
 goner
 good grief
 Governor
+groundskeeper
 growler
 guidance counselor
 gumshoe
@@ -209,6 +216,7 @@ hootenanny
 hotelier
 Hoth
 Houdini
+housekeeper
 how many times do I have to tell you
 Howland the Owl
 hussar
@@ -352,6 +360,7 @@ press agent
 pretender
 primogeniture
 Privy Councillor
+prodigy
 prosecutor
 proverbs
 provost
@@ -391,6 +400,7 @@ settler
 Shamu
 Shire reeve
 ShyGuy
+Silesian
 Simon & Garfunkel
 Sirius
 skater
@@ -478,7 +488,9 @@ Toreador
 town crier
 trader
 tradesman
+trainee
 trope
+trustee
 tutor
 tuxedo cat
 twat
