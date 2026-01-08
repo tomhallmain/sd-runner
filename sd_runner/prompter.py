@@ -474,14 +474,61 @@ class Prompter:
         return False
 
     @staticmethod
-    def apply_expansions(
+    def _select_concept(name: str, concepts: Concepts) -> str:
+        concept = None
+        if name.startswith("action"):
+            concept = random.choice(concepts.get_actions(low=1, high=1))
+        elif name.startswith("concept"):
+            concept = random.choice(concepts.get_concepts(low=1, high=1))
+        elif name == "dress":
+            concept = random.choice(concepts.get_dress(low=1, high=1, inclusion_chance=1.0))
+        elif name.startswith("time"):
+            concept = random.choice(concepts.get_times(low=1, high=1))
+        elif name.startswith("expression"):
+            concept = random.choice(concepts.get_expressions(low=1, high=1))
+        elif name.startswith("animal"):
+            concept = random.choice(concepts.get_animals(low=1, high=1, inclusion_chance=1.0))
+        elif name.startswith("description"):
+            concept = random.choice(concepts.get_descriptions(low=1, high=1))
+        elif name == "random_word":
+            concept = random.choice(concepts.get_random_words(low=1, high=1))
+        elif name == "nonsense":
+            concept = random.choice(concepts.get_nonsense(low=1, high=1))
+        elif name == "pun":
+            concept = random.choice(concepts.get_puns(low=1, high=1))
+        elif name.startswith("color"):
+            concept = random.choice(concepts.get_colors(low=1, high=1))
+        elif name.startswith("location"):
+            concept = random.choice(concepts.get_locations(low=1, high=1, specific_inclusion_chance=specific_locations_chance))
+        elif name.startswith("human"):
+            concept = random.choice(concepts.get_humans(low=1, high=1))
+        elif name.startswith("position"):
+            concept = random.choice(concepts.get_positions(low=1, high=1))
+        elif name.startswith("number"):
+            concept = str(random.randint(1, 999))
+        return concept
+
+    @staticmethod
+    def _get_concept_expansion(name: str, concepts: Concepts) -> str:
+        concept = Prompter._select_concept(name, concepts)
+        if concept is None:
+            return None
+        elif "$$" in concept and random.random() < 0.5:
+            # Slightly reduce chance of more prompt expansion nesting
+            concept = Prompter._select_concept(name, concepts)
+        return concept
+
+    @staticmethod
+    def _expand_one_pass(
         text: str,
         from_ui: bool = False,
         concepts: Concepts = None,
         specific_locations_chance: float = 0.3
-    ) -> str:
-        # TODO enable recursive expansions
-#        text += " ${}"
+    ) -> tuple[str, bool]:
+        """
+        Performs a single pass of expansion on the text.
+        Returns: (expanded_text, has_more_expansions)
+        """
         offset = 0
         for match in re.finditer(Prompter._expansion_var_pattern(from_ui), text):
             left = text[:match.start() + offset]
@@ -506,42 +553,60 @@ class Prompter:
                 replacement = config.wildcards[name]
                 print(f"Using random prompt replacement ID: {name}")
             elif concepts is not None:
-                if name.startswith("action"):
-                    replacement = random.choice(concepts.get_actions(low=1, high=1))
-                elif name.startswith("concept"):
-                    replacement = random.choice(concepts.get_concepts(low=1, high=1))
-                elif name == "dress":
-                    replacement = random.choice(concepts.get_dress(low=1, high=1, inclusion_chance=1.0))
-                elif name.startswith("time"):
-                    replacement = random.choice(concepts.get_times(low=1, high=1))
-                elif name.startswith("expression"):
-                    replacement = random.choice(concepts.get_expressions(low=1, high=1))
-                elif name.startswith("animal"):
-                    replacement = random.choice(concepts.get_animals(low=1, high=1, inclusion_chance=1.0))
-                elif name.startswith("description"):
-                    replacement = random.choice(concepts.get_descriptions(low=1, high=1))
-                elif name == "random_word":
-                    replacement = random.choice(concepts.get_random_words(low=1, high=1))
-                elif name == "nonsense":
-                    replacement = random.choice(concepts.get_nonsense(low=1, high=1))
-                elif name == "pun":
-                    replacement = random.choice(concepts.get_puns(low=1, high=1))
-                elif name.startswith("color"):
-                    replacement = random.choice(concepts.get_colors(low=1, high=1))
-                elif name.startswith("location"):
-                    replacement = random.choice(concepts.get_locations(low=1, high=1, specific_inclusion_chance=specific_locations_chance))
-                elif name.startswith("human"):
-                    replacement = random.choice(concepts.get_humans(low=1, high=1))
-                elif name.startswith("position"):
-                    replacement = random.choice(concepts.get_positions(low=1, high=1))
-                elif name.startswith("number"):
-                    replacement = str(random.randint(1, 999))
+                replacement = Prompter._get_concept_expansion(name, concepts)
             if replacement is None:
                 logger.error(f"Invalid prompt replacement ID: \"{name}\"")
                 continue
             text = left + replacement + right
             offset += len(replacement) - original_length
-        return str(text)
+        
+        # Check if the result still contains expansion variables
+        has_more = Prompter.contains_expansion_var(text, from_ui=from_ui)
+        return str(text), has_more
+
+    @staticmethod
+    def apply_expansions(
+        text: str,
+        from_ui: bool = False,
+        concepts: Concepts = None,
+        specific_locations_chance: float = 0.3
+    ) -> str:
+        """
+        Applies prompt expansions recursively until no more expansion variables are found.
+        When from_ui=False, converts $$var to $var before expanding.
+        
+        Note: Self-referencing (e.g., wildcard1 = "$wildcard1") or circular references
+        (e.g., wildcard1 = "$wildcard2", wildcard2 = "$wildcard1") will cause the
+        expansion to stop after max_iterations, with a warning logged. The maximum
+        iteration limit prevents infinite loops in such cases.
+        """
+        max_iterations = 10
+        iteration = 0
+        current_text = text
+
+        while Prompter.contains_expansion_var(current_text, from_ui=from_ui) and iteration < max_iterations:
+            # Convert $$var to $var when not in UI mode (for final expansion)
+            if not from_ui:
+                current_text = re.sub(r'\$\$([A-Za-z_]+)', r'$\1', current_text)
+            
+            # Perform one expansion pass
+            current_text, has_more = Prompter._expand_one_pass(
+                current_text, 
+                from_ui=from_ui, 
+                concepts=concepts, 
+                specific_locations_chance=specific_locations_chance
+            )
+            
+            iteration += 1
+            
+            # If no expansions were made or no more expansions exist, break
+            if not has_more:
+                break
+
+        if iteration >= max_iterations:
+            logger.warning(f"Reached maximum expansion iterations ({max_iterations}). Some variables may not be expanded.")
+
+        return str(current_text)
 
 
 class GlobalPrompter:
