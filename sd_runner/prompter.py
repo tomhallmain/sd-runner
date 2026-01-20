@@ -33,6 +33,7 @@ class PrompterConfiguration:
         nonsense: tuple[int, int] = (0, 0),
         jargon: tuple[int, int] = (0, 2),
         sayings: tuple[int, int] = (0, 2),
+        puns: tuple[int, int] = (0, 1),
         art_styles_chance: float = 0.3
     ):
         self.concepts_dir = config.concepts_dirs[config.default_concepts_dir]
@@ -53,6 +54,7 @@ class PrompterConfiguration:
         self.nonsense = nonsense
         self.jargon = jargon
         self.sayings = sayings
+        self.puns = puns
         self.multiplier = 1
         self.art_styles_chance = art_styles_chance
         self.specify_humans_chance = 0.25
@@ -83,6 +85,7 @@ class PrompterConfiguration:
             "nonsense": self.nonsense,
             "jargon": self.jargon,
             "sayings": self.sayings,
+            "puns": self.puns,
             "multiplier": self.multiplier,
             "art_styles_chance": self.art_styles_chance,
             "specify_humans_chance": self.specify_humans_chance,
@@ -112,6 +115,7 @@ class PrompterConfiguration:
         self.nonsense = _dict['nonsense'] if 'nonsense' in _dict else self.nonsense
         self.jargon = _dict['jargon'] if 'jargon' in _dict else self.jargon
         self.sayings = _dict['sayings'] if 'sayings' in _dict else self.sayings
+        self.puns = _dict['puns'] if 'puns' in _dict else self.puns
         self.multiplier = _dict["multiplier"] if "multiplier" in _dict else self.multiplier
         self.art_styles_chance = _dict['art_styles_chance'] if 'art_styles_chance' in _dict else self.art_styles_chance
         self.specify_humans_chance = _dict['specify_humans_chance'] if'specify_humans_chance' in  _dict else self.specify_humans_chance
@@ -358,6 +362,7 @@ class Prompter:
         mix.extend(self.concepts.get_nonsense(*self.prompter_config.nonsense, multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_jargon(*self.prompter_config.jargon, multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_sayings(*self.prompter_config.sayings, multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_puns(*self.prompter_config.puns, multiplier=self.prompter_config.multiplier))
         # Humans might not always be desirable so only add some randomly
         if self.prompt_mode == PromptMode.SFW:
             if random.random() < humans_chance:
@@ -474,7 +479,7 @@ class Prompter:
         return False
 
     @staticmethod
-    def _select_concept(name: str, concepts: Concepts) -> str:
+    def _select_concept(name: str, concepts: Concepts, specific_locations_chance: float) -> str:
         concept = None
         if name.startswith("action"):
             concept = random.choice(concepts.get_actions(low=1, high=1))
@@ -509,13 +514,13 @@ class Prompter:
         return concept
 
     @staticmethod
-    def _get_concept_expansion(name: str, concepts: Concepts) -> str:
-        concept = Prompter._select_concept(name, concepts)
+    def _get_concept_expansion(name: str, concepts: Concepts, specific_locations_chance: float) -> str:
+        concept = Prompter._select_concept(name, concepts, specific_locations_chance)
         if concept is None:
             return None
         elif "$$" in concept and random.random() < 0.5:
             # Slightly reduce chance of more prompt expansion nesting
-            concept = Prompter._select_concept(name, concepts)
+            concept = Prompter._select_concept(name, concepts, specific_locations_chance)
         return concept
 
     @staticmethod
@@ -553,7 +558,7 @@ class Prompter:
                 replacement = config.wildcards[name]
                 print(f"Using random prompt replacement ID: {name}")
             elif concepts is not None:
-                replacement = Prompter._get_concept_expansion(name, concepts)
+                replacement = Prompter._get_concept_expansion(name, concepts, specific_locations_chance)
             if replacement is None:
                 logger.error(f"Invalid prompt replacement ID: \"{name}\"")
                 continue

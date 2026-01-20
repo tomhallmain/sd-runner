@@ -146,6 +146,8 @@ class PromptConfigWindow:
         self.jargon1.trace_add('write', self.update_config_from_widgets)
         self.sayings0.trace_add('write', self.update_config_from_widgets)
         self.sayings1.trace_add('write', self.update_config_from_widgets)
+        self.puns0.trace_add('write', self.update_config_from_widgets)
+        self.puns1.trace_add('write', self.update_config_from_widgets)
         
         # Bind other widgets
         self.multiplier.trace_add('write', self.update_config_from_widgets)
@@ -175,6 +177,7 @@ class PromptConfigWindow:
             prompter_config.nonsense = (int(self.nonsense0.get()), int(self.nonsense1.get()))
             prompter_config.jargon = (int(self.jargon0.get()), int(self.jargon1.get()))
             prompter_config.sayings = (int(self.sayings0.get()), int(self.sayings1.get()))
+            prompter_config.puns = (int(self.puns0.get()), int(self.puns1.get()))
             
             # Update other prompter config values
             prompter_config.multiplier = float(self.multiplier.get())
@@ -317,6 +320,9 @@ class PromptConfigWindow:
         
         # Sayings Counts
         self.setup_sayings_counts()
+        
+        # Puns Counts
+        self.setup_puns_counts()
         
         # Multiplier
         self.label_multiplier = Label(self.main_frame, text=_("Multiplier"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
@@ -568,6 +574,23 @@ class PromptConfigWindow:
         self.apply_to_grid(self.sayings0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.sayings1_choice, sticky=W, interior_column=2, increment_row_counter=True)
         
+    def setup_puns_counts(self):
+        """Setup puns count widgets."""
+        self.label_puns = Label(self.main_frame, text=_("Puns"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_puns, increment_row_counter=False)
+        
+        prompter_config = self.runner_app_config.prompter_config
+        self.puns0 = StringVar(self.master)
+        self.puns1 = StringVar(self.master)
+        # Use default value (0, 1) if puns attribute doesn't exist yet (for backward compatibility)
+        puns_value = getattr(prompter_config, 'puns', (0, 1))
+        self.puns0_choice = OptionMenu(self.main_frame, self.puns0, str(puns_value[0]), 
+                                      *[str(i) for i in list(range(51))])
+        self.puns1_choice = OptionMenu(self.main_frame, self.puns1, str(puns_value[1]), 
+                                      *[str(i) for i in list(range(51))])
+        self.apply_to_grid(self.puns0_choice, sticky=W, interior_column=1, increment_row_counter=False)
+        self.apply_to_grid(self.puns1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        
     def setup_chance_sliders(self):
         """Setup chance slider widgets."""
         # Specific Locations Chance
@@ -771,6 +794,7 @@ class PromptConfigWindow:
         prompter_config.nonsense = (int(self.nonsense0.get()), int(self.nonsense1.get()))
         prompter_config.jargon = (int(self.jargon0.get()), int(self.jargon1.get()))
         prompter_config.sayings = (int(self.sayings0.get()), int(self.sayings1.get()))
+        prompter_config.puns = (int(self.puns0.get()), int(self.puns1.get()))
         
     def close_window(self):
         """Close the prompt configuration window."""
