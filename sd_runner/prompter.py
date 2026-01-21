@@ -435,33 +435,303 @@ class Prompter:
                         mix[i] = f"({mix[i]}:{deemphasis_str})"
 
     @staticmethod
+    def _find_matching_bracket(text: str, start_pos: int, open_char: str = "[", close_char: str = "]") -> int:
+        """
+        Finds the matching closing bracket for an opening bracket at start_pos.
+        Returns the position of the matching closing bracket, or -1 if not found.
+        """
+        if start_pos >= len(text) or text[start_pos] != open_char:
+            return -1
+        
+        depth = 0
+        i = start_pos
+        while i < len(text):
+            if text[i] == open_char:
+                depth += 1
+            elif text[i] == close_char:
+                depth -= 1
+                if depth == 0:
+                    return i
+            i += 1
+        return -1
+
+    @staticmethod
+    def _expand_nested_choices(text: str) -> list[tuple[str, float]]:
+        """
+        Recursively expands nested [choice1,choice2] patterns in text.
+        Returns a list of (expansion, weight) tuples for all possible combinations.
+        """
+        import logging
+        logger = logging.getLogger(__name__)
+        
+        logger.debug(f"Starting expansion with text: '{text}'")
+        
+        result = [(text, 1.0)]
+        changed = True
+        iteration = 0
+        
+        while changed:
+            iteration += 1
+            logger.debug(f"=== Starting iteration {iteration} ===")
+            logger.debug(f"Current result count: {len(result)}")
+            
+            changed = False
+            new_result = []
+            
+            for base_text, base_weight in result:
+                logger.debug(f"Processing base_text: '{base_text}' with weight: {base_weight}")
+                
+                i = 0
+                while i < len(base_text):
+                    if base_text[i] == "[":
+                        logger.debug(f"Found opening bracket at position {i}")
+                        
+                        # Find matching closing bracket
+                        close_pos = Prompter._find_matching_bracket(base_text, i, "[", "]")
+                        
+                        if close_pos == -1:
+                            logger.debug("No matching closing bracket found, skipping")
+                            i += 1
+                            continue
+                        
+                        logger.debug(f"Found matching closing bracket at position {close_pos}")
+                        
+                        # Extract the nested choice set content
+                        nested_content = base_text[i + 1:close_pos]
+                        logger.debug(f"Nested content: '{nested_content}'")
+                        
+                        # Split by top-level commas (respecting bracket depth)
+                        options = []
+                        current_option = ""
+                        depth = 0
+                        for char in nested_content:
+                            if char == "[":
+                                depth += 1
+                                current_option += char
+                            elif char == "]":
+                                depth -= 1
+                                current_option += char
+                            elif char == "," and depth == 0:
+                                if current_option.strip():
+                                    options.append(current_option.strip())
+                                current_option = ""
+                            else:
+                                current_option += char
+                        if current_option.strip():
+                            options.append(current_option.strip())
+                        
+                        # LOGGING POINT 5: Options found
+                        logger.debug(f"Found {len(options)} options: {options}")
+                        
+                        # If no commas found, treat entire content as one option
+                        if not options:
+                            options = [nested_content]
+                        
+                        # Recursively expand each option
+                        expanded_options = []
+                        for option in options:
+                            # Extract weight if present
+                            weight = 1.0
+                            option_text = option
+                            if ":" in option:
+                                # Check if colon is outside all brackets
+                                colon_pos = -1
+                                depth = 0
+                                for j, char in enumerate(option):
+                                    if char == "[":
+                                        depth += 1
+                                    elif char == "]":
+                                        depth -= 1
+                                    elif char == ":" and depth == 0:
+                                        colon_pos = j
+                                
+                                if colon_pos != -1:
+                                    try:
+                                        weight = float(option[colon_pos + 1:])
+                                        option_text = option[:colon_pos].strip()
+                                        logger.debug(f"Found weight {weight} for option '{option_text}'")
+                                    except ValueError:
+                                        pass
+                            
+                            logger.debug(f"Recursively expanding option: '{option_text}'")
+                            sub_expansions = Prompter._expand_nested_choices(option_text)
+                            
+                            # Add each expansion with its weight
+                            for sub_exp, sub_weight in sub_expansions:
+                                # Multiply weights (nested weight * parent weight)
+                                expanded_options.append((sub_exp, weight * sub_weight))
+                        
+                        logger.debug(f"Generated {len(expanded_options)} expanded options")
+                        
+                        # Generate all combinations by replacing the nested pattern
+                        for expanded_option, exp_weight in expanded_options:
+                            new_text = base_text[:i] + expanded_option + base_text[close_pos + 1:]
+                            # Multiply weights
+                            new_result.append((new_text, base_weight * exp_weight))
+                            logger.debug(f"Added new result: '{new_text}' with weight {base_weight * exp_weight}")
+                        
+                        changed = True
+                        break  # Move to next base_text after processing this pattern
+                    else:
+                        i += 1
+                
+                if not changed:
+                    new_result.append((base_text, base_weight))
+            
+            logger.debug(f"End of iteration {iteration}. Changed: {changed}, New result count: {len(new_result)}")
+            
+            if iteration > 20:  # Arbitrary limit to prevent infinite loops
+                logger.warning(f"Stopping expansion after {iteration} iterations to prevent infinite loop")
+                break
+                
+            result = new_result
+        
+        logger.debug(f"Final result count: {len(result)}")
+        for i, (res_text, res_weight) in enumerate(result):
+            logger.debug(f"Result {i+1}: '{res_text}' with weight {res_weight}")
+        
+        return result
+
+    @staticmethod
     def contains_choice_set(text: str) -> bool:
         if "[[" not in text or "]]" not in text:
             return False
-        return re.search(r"\[\[[^\[\]]*\]\]", text) is not None
+        # Check for [[...]] pattern (may contain nested brackets)
+        i = 0
+        while i < len(text) - 1:
+            if text[i:i+2] == "[[":
+                close_pos = Prompter._find_matching_bracket(text, i + 1, "[", "]")
+                if close_pos != -1 and close_pos < len(text) - 1 and text[close_pos + 1] == "]":
+                    return True
+            i += 1
+        return False
 
     @staticmethod
     def apply_choices(text: str) -> str:
+        """
+        Applies choice set expansion, supporting nested [choice1,choice2] patterns
+        inside [[choice1,choice2]] choice sets.
+        """
+        import logging
+        logger = logging.getLogger(__name__)
+        
         offset = 0
-        for match in re.finditer(r"\[\[[^\[\]]*\]\]", text):
-            left = text[:match.start() + offset]
-            right = text[match.end() + offset:]
-            original_len = len(match.group())
-            choice_set_str = match.group()[2:-2].split(",")
-            population = []
-            weights = []
-            for choice in choice_set_str:
-                if ":" in choice:
-                    chance_weight = float(choice[choice.rfind(":") + 1:])
-                    choice = choice[:choice.rfind(":")]
+        i = 0
+        original_text = text
+        max_iterations = len(text) * 10  # Arbitrary large number
+        iteration = 0
+        
+        while i < len(original_text) - 1 and iteration < max_iterations:
+            iteration += 1
+            
+            # Look for [[ pattern in the original text
+            if original_text[i:i+2] == "[[":
+                # Find the matching ]] bracket pair in the original text
+                # First find the inner ] bracket
+                inner_close = Prompter._find_matching_bracket(original_text, i + 1, "[", "]")
+                if inner_close == -1:
+                    i += 1
+                    continue
+                
+                # Check if next character is ]
+                if inner_close + 1 >= len(original_text) or original_text[inner_close + 1] != "]":
+                    i += 1
+                    continue
+                
+                # We have a valid [[...]] pattern
+                outer_start = i
+                outer_end = inner_close + 2
+                
+                # Extract the inner content (between the double brackets)
+                inner_content = original_text[outer_start + 2:inner_close]
+                
+                # Split by top-level commas (respecting bracket depth)
+                options = []
+                current_option = ""
+                depth = 0
+                for char in inner_content:
+                    if char == "[":
+                        depth += 1
+                        current_option += char
+                    elif char == "]":
+                        depth -= 1
+                        current_option += char
+                    elif char == "," and depth == 0:
+                        if current_option.strip():
+                            options.append(current_option.strip())
+                        current_option = ""
+                    else:
+                        current_option += char
+                if current_option.strip():
+                    options.append(current_option.strip())
+                
+                # If no commas found, treat entire content as one option
+                if not options:
+                    options = [inner_content]
+                
+                # Expand nested choices in each option and build final population
+                population = []
+                weights = []
+                
+                for option in options:
+                    # Extract weight if present (at the end, after any nested brackets)
+                    weight = 1.0
+                    option_text = option
+                    
+                    # Find weight (colon after the last bracket or at end)
+                    if ":" in option:
+                        # Check if colon is outside all brackets
+                        colon_pos = -1
+                        depth = 0
+                        for j, char in enumerate(option):
+                            if char == "[":
+                                depth += 1
+                            elif char == "]":
+                                depth -= 1
+                            elif char == ":" and depth == 0:
+                                colon_pos = j
+                        
+                        if colon_pos != -1:
+                            try:
+                                weight = float(option[colon_pos + 1:])
+                                option_text = option[:colon_pos].strip()
+                            except ValueError:
+                                pass
+                    
+                    # Expand nested [choice1,choice2] patterns in this option
+                    expanded = Prompter._expand_nested_choices(option_text)
+                    
+                    # Add all expansions to population
+                    # Multiply outer weight with nested weights
+                    for exp, nested_weight in expanded:
+                        population.append(exp)
+                        weights.append(weight * nested_weight)
+                
+                # Randomly select one option
+                if population:
+                    choice = random.choices(population=population, weights=weights, k=1)[0]
+                    
+                    # Calculate the adjusted position in the current text with offset
+                    adjusted_start = outer_start + offset
+                    adjusted_end = outer_end + offset
+                    
+                    # Replace the pattern in the current text
+                    text = text[:adjusted_start] + choice + text[adjusted_end:]
+                    
+                    # Update offset based on the length difference
+                    offset += len(choice) - (outer_end - outer_start)
+                    
+                    # Continue from after the original position in the original text
+                    i = outer_end
                 else:
-                    chance_weight = 1
-                population.append(choice.strip())
-                weights.append(chance_weight)
-            choice = random.choices(population=population, weights=weights, k=1)[0]
-            text = left + choice + right
-            offset += len(choice) - original_len
-        return str(text)
+                    i += 1
+            else:
+                i += 1
+        
+        if iteration >= max_iterations:
+            logger.warning(f"apply_choices stopped after {max_iterations} iterations to prevent infinite loop")
+        
+        return text
 
     @staticmethod
     def _expansion_var_pattern(from_ui: bool = False) -> str:
@@ -479,7 +749,7 @@ class Prompter:
         return False
 
     @staticmethod
-    def _select_concept(name: str, concepts: Concepts, specific_locations_chance: float) -> str:
+    def _select_concept(name: str, concepts: Concepts, specific_locations_chance: float = 0.3) -> str:
         concept = None
         if name.startswith("action"):
             concept = random.choice(concepts.get_actions(low=1, high=1))
@@ -514,7 +784,7 @@ class Prompter:
         return concept
 
     @staticmethod
-    def _get_concept_expansion(name: str, concepts: Concepts, specific_locations_chance: float) -> str:
+    def _get_concept_expansion(name: str, concepts: Concepts, specific_locations_chance: float = 0.3) -> str:
         concept = Prompter._select_concept(name, concepts, specific_locations_chance)
         if concept is None:
             return None

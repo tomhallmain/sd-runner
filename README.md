@@ -37,6 +37,10 @@ To define a set of words to randomly choose from, surround a comma-separated lis
 
 `"A [[red,blue,yellow:2]] car"` -> `"A yellow car"`
 
+Nested choice sets are also available:
+
+`"In over [[[my,your,his,her] head,[our,their] heads]]"` -> `"In over my head"` OR `"In over our heads"`
+
 Note that choice sets can be stored in preset prompt variables to cut down on visible prompt lengths.
 
 ## Image Resolutions
