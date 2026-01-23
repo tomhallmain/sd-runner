@@ -153,6 +153,12 @@ class App():
         self.label_progress = Label(self.sidebar)
         self.add_label(self.label_progress, "", sticky=None)
         
+        # Batch and adapter progress information row
+        self.label_batch_info = Label(self.sidebar)
+        self.add_label(self.label_batch_info, "", sticky=None, increment_row_counter=False)
+        self.label_adapter_progress = Label(self.sidebar)
+        self.add_label(self.label_adapter_progress, "", sticky=None, interior_column=1)
+        
         self.label_pending = Label(self.sidebar)
         self.add_label(self.label_pending, "", sticky=None, increment_row_counter=False)
         self.label_time_est = Label(self.sidebar)
@@ -842,8 +848,9 @@ class App():
                 Utils.start_thread(run_async, use_asyncio=False, args=[next_job_args])
             else:
                 Utils.prevent_sleep(False)
-                # Clear time estimation when all runs are complete
-                self.label_time_est["text"] = ""
+                # Clear time estimation and progress info when all runs are complete
+                self.clear_progress()
+
 
         if self.job_queue.has_pending():
             self.job_queue.add(args)
@@ -853,8 +860,8 @@ class App():
 
     def cancel(self, event=None, reason=None):
         self.current_run.cancel(reason=reason)
-        # Clear time estimation when run is cancelled
-        self.label_time_est["text"] = ""
+        # Clear time estimation and progress info when run is cancelled
+        self.clear_progress()
 
     def revert_to_simple_gen(self, event=None):
         self.cancel(reason="Revert to simple generation")
@@ -922,29 +929,55 @@ class App():
         args_copy = deepcopy(args)
         return args, args_copy
 
+    def clear_progress(self):
+        self.label_time_est["text"] = ""
+        self.label_batch_info["text"] = ""
+        self.label_adapter_progress["text"] = ""
+
     def update_progress(self, current_index: int = -1, total: int = -1, pending_adapters: int = 0,
-            prepend_text: str = None, batch_limit: int = None, override_text: Optional[str] = None):
+            prepend_text: str = None, batch_current: int = None, batch_limit: int = None,
+            override_text: Optional[str] = None, adapter_current: int = None, adapter_total: int = None):
 
         # If override_text is provided and a run is currently executing, return immediately
         if override_text is not None:
             text = override_text
+            # Clear batch and adapter info when showing override text
+            self.label_batch_info["text"] = ""
+            self.label_adapter_progress["text"] = ""
         else:
+            # Simplified main progress text - no batch_limit formatting here
             if total == -1:
                 text = str(current_index) + _(" (unlimited)")
             else:
-                # If batch limit is set and is lower than total, show both effective total and actual total
-                if batch_limit is not None and batch_limit > 0 and batch_limit < total:
-                    text = str(current_index) + "/" + str(batch_limit) + f" (of {total})"
-                else:
-                    text = str(current_index) + "/" + str(total)
+                text = str(current_index) + "/" + str(total)
 
         if prepend_text is not None:
             self.label_progress["text"] = prepend_text + text
         else:
             self.label_progress["text"] = text
 
-        if override_text is None:            
-            # Update adapters info label if provided
+        if override_text is None:
+            # Update batch info label - only show when batch_limit is actually limiting progress
+            if batch_limit is not None and batch_limit > 0 and total > 0 and batch_limit < total:
+                # Calculate current batch if not provided
+                if batch_current is None:
+                    # Calculate batch number: batches are 1-indexed, each batch has 'total' generations
+                    batch_current = ((current_index - 1) // total) + 1 if current_index > 0 else 1
+                # Show batch progress when batch_limit is less than total (i.e., it's limiting)
+                self.label_batch_info["text"] = _("Batch: {0}/{1}").format(batch_current, batch_limit)
+            else:
+                self.label_batch_info["text"] = ""
+            
+            # Update adapter progress label - only show when there are multiple adapters
+            if adapter_current is not None and adapter_total is not None and adapter_total > 1:
+                self.label_adapter_progress["text"] = _("Adapter: {0}/{1}").format(adapter_current, adapter_total)
+            elif pending_adapters is not None and isinstance(pending_adapters, int) and pending_adapters > 0:
+                # Fallback to showing remaining adapters if adapter_current/total not provided
+                self.label_adapter_progress["text"] = _("Remaining: {0} adapters").format(pending_adapters)
+            else:
+                self.label_adapter_progress["text"] = ""
+            
+            # Update adapters info label if provided (for backward compatibility)
             if pending_adapters is not None:
                 if isinstance(pending_adapters, int) and pending_adapters > 0:
                     self.label_pending_adapters["text"] = _("{0} remaining adapters").format(pending_adapters)

@@ -320,14 +320,37 @@ class MultiGenProgressTracker:
         actual_total_adapter_iterations = self.total_adapter_iterations if self.batch_limit == -1 or self.batch_limit > self.total_adapter_iterations else self.batch_limit
         actual_remaining_adapter_iterations = actual_total_adapter_iterations - self.current_adapter_iteration - 1
         remaining = total - count + 1
+        
+        # Calculate adapter progress information
+        adapter_current = self.current_adapter_iteration + 1
+        adapter_total = actual_total_adapter_iterations
+        
+        # For adapter-based runs, batch_current is the current adapter iteration
+        batch_current = adapter_current if self.batch_limit > 0 else None
+        
         if self.total_per_adapter == 1:
             # Display: current_adapter_iteration / total_adapter_iterations
             display_count = self.current_adapter_iteration + 1
             display_total = self.total_adapter_iterations
-            self.ui_callbacks.update_progress(display_count, display_total, batch_limit=self.batch_limit)
+            self.ui_callbacks.update_progress(
+                display_count, 
+                display_total, 
+                batch_current=batch_current,
+                batch_limit=self.batch_limit,
+                adapter_current=adapter_current,
+                adapter_total=adapter_total,
+            )
         else:
-            # Display: current_count / total (remaining_adapter_iterations)
-            self.ui_callbacks.update_progress(count, total, pending_adapters=actual_remaining_adapter_iterations, batch_limit=self.batch_limit)
+            # Display: current_count / total with adapter progress separately
+            self.ui_callbacks.update_progress(
+                count, 
+                total, 
+                pending_adapters=actual_remaining_adapter_iterations, 
+                batch_current=batch_current,
+                batch_limit=self.batch_limit,
+                adapter_current=adapter_current,
+                adapter_total=adapter_total,
+            )
         if nonlimited_remaining_adapter_iterations > 0:
             remaining += (actual_remaining_adapter_iterations * self.total_per_adapter)
         self.ui_callbacks.update_time_estimation(workflow, gen_config, remaining)
