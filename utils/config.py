@@ -28,6 +28,7 @@ class Config:
         self.image_searcher_dir = None
         self.image_searcher_dir2 = None
         self.blacklist_prevent_execution = False  # Whether blacklisted items should prevent prompt execution
+        self.purge_blacklisted_prompt_history = True  # Whether to purge blacklisted prompts from history on cache write
 
         self.gen_order = ["control_nets", "ip_adapters", "resolutions", "models", "vaes", "loras"]
         self.redo_parameters = ["n_latents", "resolutions", "models", "loras"]
@@ -75,6 +76,7 @@ class Config:
                         "debug",
                         "override_dictionary_append",
                         "blacklist_prevent_execution",
+                        "purge_blacklisted_prompt_history",
         )
         self.set_values(str,
                         "foreground_color",

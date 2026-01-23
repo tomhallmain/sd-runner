@@ -23,6 +23,8 @@ This code is primarily a sophisticated prompt engineering application that trigg
 
 `default_negative_prompt`: Any of the defaults are useful, but the negative default can be especially useful as it is often less likely to change.
 
+`purge_blacklisted_prompt_history` (default `true`): When enabled, the encrypted cache will automatically purge any saved run history entries whose prompts contain blacklisted items. **NOTE:** This setting does not prevent running blacklisted prompts, by default they are disallowed but to update that behavior please modify the settings in the blacklist window.
+
 ## Prompt Syntax
 
 Preset variables can be defined in the config to expand into full prompt text. To access these in the prompt UI, prepend $ or surround them with curly braces, and upon running the prompt the expansion will occur in the UI, overwriting the original prompt.

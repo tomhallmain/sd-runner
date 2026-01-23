@@ -85,6 +85,8 @@
         "odie": "((Odie, white dog with brown spot)), long tongue hanging out of side of mouth, dumb dog, panting"
     },
 
+    "purge_blacklisted_prompt_history": true,
+
     "concepts_dirs": ["concepts"],
     "default_concepts_dir": null,
     "override_dictionary_path": null,

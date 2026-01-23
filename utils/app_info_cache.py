@@ -5,6 +5,7 @@ import shutil
 
 from lib.position_data import PositionData
 from sd_runner.blacklist import Blacklist
+from utils.config import config
 from utils.globals import Globals, PromptMode, BlacklistPromptMode
 from utils.encryptor import encrypt_data_to_file, decrypt_data_from_file
 from utils.logging_setup import get_logger
@@ -31,6 +32,9 @@ class AppInfoCache:
             AppInfoCache.PROMPT_HISTORY_KEY: [],
             AppInfoCache.DIRECTORIES_KEY: {}
         }
+        # Used to ensure post-init logic that depends on other subsystems
+        # (like blacklist configuration) only runs once.
+        self._post_init_done = False
         self.load()
         self.validate()
 
@@ -45,7 +49,8 @@ class AppInfoCache:
 
     def store(self):
         try:
-            self._purge_blacklisted_history()
+            if config.purge_blacklisted_prompt_history:
+                self._purge_blacklisted_history()
             cache_data = json.dumps(self._cache).encode('utf-8')
             encrypt_data_to_file(
                 cache_data,
@@ -110,6 +115,19 @@ class AppInfoCache:
     def validate(self):
         pass
 
+    def post_init(self):
+        """Run initialization that depends on other subsystems having been configured.
+
+        This is intended to be called once, after components like the blacklist
+        window have been initialized and restored persisted blacklist settings.
+        """
+        if self._post_init_done:
+            return
+        self._post_init_done = True
+
+        if config.purge_blacklisted_prompt_history:
+            self._purge_blacklisted_history()
+
     def _purge_blacklisted_history(self):
         """Remove any history entries that contain blacklisted items in their prompts.
         
@@ -133,10 +151,10 @@ class AppInfoCache:
         
         purge_cache = self._cache[AppInfoCache.HISTORY_PURGE_CACHE_KEY]
         
-        # Check if cache version matches current version, clear if not
-        cached_version = purge_cache.get("_version")
+        # Check if cache version matches, clear if not
+        cached_version = purge_cache.get("_version", -1)
         if cached_version != current_version:
-            # Version changed, clear the cache (but keep the version marker)
+            # Version changed, clear the cache (but keep the markers)
             purge_cache.clear()
             purge_cache["_version"] = current_version
         
