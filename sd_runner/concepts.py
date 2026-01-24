@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 import os
 from pathlib import Path
 import random
@@ -12,6 +13,129 @@ from utils.logging_setup import get_logger
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 logger = get_logger("concepts")
+
+
+
+@dataclass
+class ConceptConfiguration:
+    """Configuration for a concept category."""
+    low: int
+    high: int
+    specific_chance: float = None  # Optional chance for specific variants (e.g., locations_specific, times_specific)
+    inclusion_chance: float = None  # Optional chance for inclusion of the category itself
+    subcategory_weights: dict[str, float] = field(default_factory=dict)  # Optional weights for subcategories
+    
+    def to_tuple(self) -> tuple:
+        """Convert to tuple format for backward compatibility."""
+        if self.specific_chance is not None:
+            return (self.low, self.high, self.specific_chance)
+        return (self.low, self.high)
+    
+    def update(self, low: int, high: int, specific_chance: float = None, inclusion_chance: float = None) -> None:
+        """Update low and high, preserving other fields.
+        
+        Args:
+            low: New low value
+            high: New high value
+            specific_chance: Optional specific_chance value to set
+            inclusion_chance: Optional inclusion_chance value to set
+        """
+        self.low = low
+        self.high = high
+        # Set optional fields if provided
+        if specific_chance is not None:
+            self.specific_chance = specific_chance
+        if inclusion_chance is not None:
+            self.inclusion_chance = inclusion_chance
+        # Preserve existing fields if not provided
+
+    def get_specific_inclusion_chance(self) -> float:
+        return self.specific_chance if self.specific_chance is not None else 0.3
+
+    def get_inclusion_chance(self) -> float:
+        return self.inclusion_chance if self.inclusion_chance is not None else 0.5
+
+    def get_total_subcategory_weight(self) -> float:
+        return sum(weight for _, weight in self.subcategory_weights.items())
+
+    def get_adjusted_range(self, multiplier: float = 1.0) -> tuple[int, int]:
+        if multiplier == 0:
+            return 0, 0
+        if multiplier == 1:
+            return self.low, self.high
+        
+        # Calculate the range size
+        range_size = self.high - self.low
+        # Scale the range size by the multiplier
+        scaled_range = max(0, int(range_size * multiplier))
+        # Calculate new low and high values
+        new_low = max(0, int(self.low * multiplier))
+        new_high = new_low + scaled_range
+        
+        # Ensure we don't return 0 if the original range was non-zero
+        if new_low == 0 and self.low != 0:
+            new_low = 1
+        if new_high == 0 and self.high != 0:
+            new_high = 1
+            
+        return new_low, new_high
+
+    @classmethod
+    def from_tuple(cls, value: tuple, specific_chance: float = None, inclusion_chance: float = None) -> "ConceptConfiguration":
+        """Create from tuple format (backward compatibility).
+        
+        Args:
+            value: Tuple of (low, high) or (low, high, chance)
+            specific_chance: Optional specific_chance value to set
+            inclusion_chance: Optional inclusion_chance value to set
+        """
+        if len(value) == 3:
+            # If kwargs are provided, use them; otherwise use the third tuple element
+            if specific_chance is not None:
+                return cls(low=value[0], high=value[1], specific_chance=specific_chance)
+            elif inclusion_chance is not None:
+                return cls(low=value[0], high=value[1], inclusion_chance=inclusion_chance)
+            else:
+                # Default: assume third element is specific_chance (for backward compatibility)
+                return cls(low=value[0], high=value[1], specific_chance=value[2])
+        elif len(value) == 2:
+            # Set optional fields if provided
+            kwargs = {}
+            if specific_chance is not None:
+                kwargs['specific_chance'] = specific_chance
+            if inclusion_chance is not None:
+                kwargs['inclusion_chance'] = inclusion_chance
+            return cls(low=value[0], high=value[1], **kwargs)
+        else:
+            raise ValueError(f"Invalid tuple length: {len(value)}")
+
+    @classmethod
+    def from_subcategory_list(cls, low: int, high: int, subcategory_list: list[str]) -> "ConceptConfiguration":
+        """Create from list of subcategories."""
+        return cls(
+            low=low,
+            high=high,
+            subcategory_weights={subcategory: 1.0 for subcategory in subcategory_list}
+        )
+
+    def to_dict(self) -> dict:
+        """Convert to dictionary format."""
+        result = {"low": self.low, "high": self.high}
+        if self.specific_chance is not None:
+            result["specific_chance"] = self.specific_chance
+        if self.subcategory_weights:
+            result["subcategory_weights"] = self.subcategory_weights
+        return result
+    
+    @classmethod
+    def from_dict(cls, value: dict) -> "ConceptConfiguration":
+        """Create from dictionary format."""
+        return cls(
+            low=value.get("low", 0),
+            high=value.get("high", 0),
+            specific_chance=value.get("specific_chance"),
+            subcategory_weights=value.get("subcategory_weights", {})
+        )
 
 
 def weighted_sample_without_replacement(population: list[str], weights: list[float], k: int = 1) -> list[str]:
@@ -361,37 +485,93 @@ class Concepts:
         for i in range(nsfw_repeats):
             l.extend(nsfw)
 
-    def _adjust_range(self, low: int, high: int, multiplier: float = 1.0) -> tuple[int, int]:
-        if multiplier == 0:
-            return 0, 0
-        if multiplier == 1:
-            return low, high
+    def get_with_subcategories(
+        self, 
+        concept_config: ConceptConfiguration,
+        multiplier: float = 1.0
+    ) -> list[str]:
+        """Get concepts from multiple subcategories with proportional representation.
         
-        # Calculate the range size
-        range_size = high - low
-        # Scale the range size by the multiplier
-        scaled_range = max(0, int(range_size * multiplier))
-        # Calculate new low and high values
-        new_low = max(0, int(low * multiplier))
-        new_high = new_low + scaled_range
-        
-        # Ensure we don't return 0 if the original range was non-zero
-        if new_low == 0 and low != 0:
-            new_low = 1
-        if new_high == 0 and high != 0:
-            new_high = 1
+        Args:
+            low: Minimum total number of items to return
+            high: Maximum total number of items to return
+            subcategories: List of (filename, weight) tuples. Weight determines proportional representation.
+            multiplier: Multiplier to adjust the range
             
-        return new_low, new_high
+        Returns:
+            Combined list of concepts from all subcategories, proportionally sampled based on weights.
+        """
+        low, high = concept_config.get_adjusted_range(multiplier)
+        if low == 0 and high == 0:
+            return []
+        
+        # Calculate total weight
+        total_weight = concept_config.get_total_subcategory_weight()
+        if total_weight == 0:
+            return []
+        
+        # Determine how many items to sample total
+        if high > 0:
+            total_count = random.randint(low, high) if low < high else low
+        else:
+            total_count = low
+        
+        # Distribute counts proportionally across subcategories
+        results = []
+        remaining_count = total_count
+        
+        # First pass: allocate integer counts based on weights
+        subcategory_counts = []
+        allocated = 0
+        subcategories = list(concept_config.subcategory_weights.items())
+        for subcategory, weight in subcategories:
+            if remaining_count <= 0:
+                subcategory_counts.append(0)
+                continue
+            # Calculate proportional count
+            proportion = weight / total_weight
+            count = int(round(proportion * total_count))
+            # Ensure we don't exceed remaining count
+            count = min(count, remaining_count)
+            subcategory_counts.append(count)
+            allocated += count
+        
+        # Adjust for rounding errors - distribute remaining items
+        remaining = total_count - allocated
+        if remaining > 0:
+            # Add remaining items to subcategories with highest weights first
+            sorted_indices = sorted(range(len(subcategories)), key=lambda i: subcategories[i][1], reverse=True)
+            for idx in sorted_indices:
+                if remaining <= 0:
+                    break
+                subcategory_counts[idx] += 1
+                remaining -= 1
+        
+        # Second pass: sample from each subcategory
+        for (filename, weight), count in zip(subcategories, subcategory_counts):
+            if count > 0:
+                try:
+                    concepts = Concepts.load(filename)
+                    if concepts:  # Only sample if concepts were loaded
+                        sampled = Concepts.sample_whitelisted(concepts, count, count, self.prompt_mode)
+                        results.extend(sampled)
+                    else:
+                        logger.warning(f"No concepts loaded from file: {filename}, skipping subcategory {filename}")
+                except Exception as e:
+                    logger.warning(f"Failed to load concepts file: {filename}, skipping subcategory {filename}")
+                    # Continue with other subcategories even if one fails
+        
+        return results
 
-    def get_concepts(self, low: int = 1, high: int = 3, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_concepts(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         concepts = Concepts.load(SFW.concepts)
         if self.prompt_mode.is_nsfw():
             self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
         return Concepts.sample_whitelisted(concepts, low, high, self.prompt_mode)
 
-    def get_positions(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_positions(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         positions = Concepts.load(SFW.positions)
         # if self.prompt_mode.is_nsfw():
         #     self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
@@ -399,18 +579,19 @@ class Concepts:
             del positions[1]
         return Concepts.sample_whitelisted(positions, low, high, self.prompt_mode)
 
-    def get_humans(self, low: int = 1, high: int = 1, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_humans(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.humans), low, high, self.prompt_mode)
 
-    def get_animals(self, low: int = 0, high: int = 2, inclusion_chance: float = 0.1, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
-        if random.random() > inclusion_chance:
+    def get_animals(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
+        if random.random() > concept_config.get_inclusion_chance():
             return []
         return Concepts.sample_whitelisted(Concepts.load(SFW.animals), low, high, self.prompt_mode)
 
-    def get_locations(self, low: int = 0, high: int = 2, specific_inclusion_chance: float = 0.3, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_locations(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
+        specific_inclusion_chance = concept_config.get_specific_inclusion_chance()
         locations = Concepts.load(SFW.locations)
         if self.get_specific_locations:
             nonspecific_locations_chance = 1 - specific_inclusion_chance
@@ -419,15 +600,16 @@ class Concepts:
                 locations[l] = specific_inclusion_chance
         return Concepts.sample_whitelisted(locations, low, high, self.prompt_mode)
 
-    def get_colors(self, low: int = 0, high: int = 3, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_colors(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         colors = Concepts.sample_whitelisted(Concepts.load(SFW.colors), low, high, self.prompt_mode)
         if "rainbow" in colors and random.random() > 0.5:
             colors.remove("rainbow")
         return colors
 
-    def get_times(self, low: int = 0, high: int = 1, specific_inclusion_chance: float = 0.3, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_times(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
+        specific_inclusion_chance = concept_config.get_specific_inclusion_chance()
         times = Concepts.load(SFW.times)
         if self.get_specific_times:
             nonspecific_times_chance = 1 - specific_inclusion_chance
@@ -436,57 +618,64 @@ class Concepts:
                 times[t] = specific_inclusion_chance
         return Concepts.sample_whitelisted(times, low, high, self.prompt_mode)
 
-    def get_dress(self, low: int = 0, high: int = 2, inclusion_chance: float = 0.5, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
-        if random.random() > inclusion_chance:
+    def get_dress(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
+        if random.random() > concept_config.get_inclusion_chance():
             return []
         dress = Concepts.load(SFW.dress)
         if self.prompt_mode.is_nsfw():
             self.extend(dress, NSFW.dress, 3, NSFL.dress, 1)
         return Concepts.sample_whitelisted(dress, low, high, self.prompt_mode)
 
-    def get_expressions(self, low: int = 1, high: int = 1, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_expressions(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         expressions = Concepts.load(SFW.expressions)
         if self.prompt_mode.is_nsfw():
             self.extend(expressions, NSFW.expressions, 6, NSFL.expressions, 3)
         return Concepts.sample_whitelisted(expressions, low, high, self.prompt_mode)
 
-    def get_actions(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_actions(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         actions = Concepts.load(SFW.actions)
         if self.prompt_mode.is_nsfw():
             self.extend(actions, NSFW.actions, 8, NSFL.actions, 3)
         return Concepts.sample_whitelisted(actions, low, high, self.prompt_mode)
 
-    def get_descriptions(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_descriptions(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         descriptions = Concepts.load(SFW.descriptions)
         if self.prompt_mode.is_nsfw():
             self.extend(descriptions, NSFW.descriptions, 3, NSFL.descriptions, 2)
         return Concepts.sample_whitelisted(descriptions, low, high, self.prompt_mode)
 
-    def get_characters(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_characters(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         characters = Concepts.load(SFW.characters)
         if self.prompt_mode.is_nsfw():
             self.extend(characters, NSFW.characters, 3, NSFL.characters, 2)
         return Concepts.sample_whitelisted(characters, low, high, self.prompt_mode)
 
-    def get_jargon(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_jargon(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.jargon), low, high, self.prompt_mode)
 
-    def get_puns(self, low: int = 0, high: int = 1, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_puns(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.puns), low, high, self.prompt_mode)
 
-    def get_sayings(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_sayings(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.sayings), low, high, self.prompt_mode)
 
-    def get_random_words(self, low: int = 0, high: int = 9, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_witticisms(
+        self, 
+        concept_config: ConceptConfiguration,
+        multiplier: float = 1.0
+    ) -> list[str]:
+        return self.get_with_subcategories(concept_config, multiplier)
+
+    def get_random_words(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         if len(Concepts.ALL_WORDS_LIST) == 0:
             logger.warning("For some reason, all words list was empty.")
             Concepts.ensure_dictionary_loaded()
@@ -548,8 +737,8 @@ class Concepts:
             combine_words(random_words, blacklisted_combination_counts, new_chance_to_combine)
         return random_word_strings
 
-    def get_nonsense(self, low: int = 0, high: int = 2, multiplier: float = 1.0) -> list[str]:
-        low, high = self._adjust_range(low, high, multiplier)
+    def get_nonsense(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
         nonsense_words = [self.get_nonsense_word() for _ in range(high)]
         return Concepts.sample_whitelisted(nonsense_words, low, high, self.prompt_mode)
 
@@ -572,9 +761,8 @@ class Concepts:
             style_tag = None            
         if max_styles == -1:
             max_styles = min(8, len(art_styles)) if self.prompt_mode in (PromptMode.ANY_ART, PromptMode.GLITCH) else 2
-        low = 1
-        high = random.randint(1, max_styles)
-        low, high = self._adjust_range(low, high, multiplier=multiplier)
+        concept_config = ConceptConfiguration(1, random.randint(1, max_styles))
+        low, high = concept_config.get_adjusted_range(multiplier=multiplier)
         out = sample(art_styles, low, high)
         append = style_tag + " art by " if style_tag else "art by "
         for i in range(len(out)):
@@ -602,6 +790,10 @@ class Concepts:
         # Keeping this separate from the ConceptsFile class to minimize memory
         # usage as this is called every time there's a prompt generation for every file.
         l = []
+        # Append .txt extension if not already present and not an absolute path
+        if not filename.endswith('.txt') and not os.path.isabs(filename):
+            filename = filename + '.txt'
+        
         if os.path.isfile(filename):
             filepath = str(filename)
         else:

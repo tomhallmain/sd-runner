@@ -5,7 +5,7 @@ import re
 import subprocess
 
 from sd_runner.blacklist import Blacklist
-from sd_runner.concepts import Concepts
+from sd_runner.concepts import ConceptConfiguration, Concepts
 from ui.expansion import Expansion
 from utils.config import config
 from utils.globals import PromptMode
@@ -14,34 +14,41 @@ from extensions.image_data_extractor import ImageDataExtractor
 
 logger = get_logger("prompter")
 
-class PrompterConfiguration:
+
+class LegacyPrompterConfiguration:
+    """Legacy prompter configuration class for backward compatibility.
+    
+    Handles loading old configuration formats and converting them to PrompterConfiguration.
+    """
     def __init__(
         self,
         prompt_mode: PromptMode = PromptMode.SFW,
-        concepts: tuple[int, int] = (1, 3),
-        positions: tuple[int, int] = (0, 2),
-        locations: tuple[int, int] = (0, 1),
-        animals: tuple[int, int, float] = (0, 1, 0.1),
-        colors: tuple[int, int] = (0, 2),
-        times: tuple[int, int] = (0, 1),
-        dress: tuple[int, int, float] = (0, 2, 0.5),
-        expressions: tuple[int, int] = (1, 1),
-        actions: tuple[int, int] = (0, 2),
-        descriptions: tuple[int, int] = (0, 1),
-        characters: tuple[int, int] = (0, 1),
-        random_words: tuple[int, int] = (0, 5),
-        nonsense: tuple[int, int] = (0, 0),
-        jargon: tuple[int, int] = (0, 2),
-        sayings: tuple[int, int] = (0, 2),
-        puns: tuple[int, int] = (0, 1),
-        art_styles_chance: float = 0.3
+        concepts: tuple = (1, 3),
+        positions: tuple = (0, 2),
+        locations: tuple = (0, 1),
+        animals: tuple = (0, 1, 0.1),
+        colors: tuple = (0, 2),
+        times: tuple = (0, 1),
+        dress: tuple = (0, 2, 0.5),
+        expressions: tuple = (1, 1),
+        actions: tuple = (0, 2),
+        descriptions: tuple = (0, 1),
+        characters: tuple = (0, 1),
+        random_words: tuple = (0, 5),
+        nonsense: tuple = (0, 0),
+        jargon: tuple = (0, 2),
+        sayings: tuple = (0, 2),
+        puns: tuple = (0, 1),
+        witticisms: tuple = None,
+        sayings_weight: float = 1.0,
+        puns_weight: float = 0.5,
+        art_styles_chance: float = 0.3,
+        **kwargs
     ):
-        self.concepts_dir = config.concepts_dirs[config.default_concepts_dir]
         self.prompt_mode = prompt_mode
         self.concepts = concepts
         self.positions = positions
         self.locations = locations
-        self.specific_locations_chance = 0.25
         self.animals = animals
         self.colors = colors
         self.times = times
@@ -55,24 +62,35 @@ class PrompterConfiguration:
         self.jargon = jargon
         self.sayings = sayings
         self.puns = puns
-        self.multiplier = 1
+        self.witticisms = witticisms
+        self.sayings_weight = sayings_weight
+        self.puns_weight = puns_weight
         self.art_styles_chance = art_styles_chance
-        self.specify_humans_chance = 0.25
-        self.specific_times_chance = 0.25
-        self.emphasis_chance = 0.1
-        self.sparse_mixed_tags = False
-        self.original_positive_tags = ""
-        self.original_negative_tags = ""
-
-    def to_dict(self) -> dict:
-        return {
-            "concepts_dir": self.concepts_dir,
-            "prompt_mode": self.prompt_mode.name,
+        # Store any additional kwargs for compatibility
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+    
+    def _handle_old_types(self) -> None:
+        """Handle legacy type conversions and missing attributes."""
+        # Handle boolean expressions (legacy)
+        if isinstance(self.expressions, bool):
+            self.expressions = (1, 1) if self.expressions else (0, 0)
+        
+        # Handle missing original tags keys
+        if not hasattr(self, 'original_positive_tags'):
+            self.original_positive_tags = ""
+        if not hasattr(self, 'original_negative_tags'):
+            self.original_negative_tags = ""
+    
+    def to_prompter_configuration(self) -> "PrompterConfiguration":
+        """Convert legacy configuration to new PrompterConfiguration."""
+        categories = {}
+        
+        # Convert all categories
+        category_mappings = {
             "concepts": self.concepts,
             "positions": self.positions,
             "locations": self.locations,
-            "specific_locations_chance": self.specific_locations_chance,
-            "specific_times_chance": self.specific_times_chance,
             "animals": self.animals,
             "colors": self.colors,
             "times": self.times,
@@ -84,8 +102,226 @@ class PrompterConfiguration:
             "random_words": self.random_words,
             "nonsense": self.nonsense,
             "jargon": self.jargon,
-            "sayings": self.sayings,
-            "puns": self.puns,
+        }
+        
+        for name, value in category_mappings.items():
+            if isinstance(value, bool):
+                # Handle legacy bool expressions
+                value = (1, 1) if value else (0, 0)
+            # Determine what the third element represents based on category name
+            if len(value) == 3:
+                if name in ["dress", "animals"]:
+                    categories[name] = ConceptConfiguration.from_tuple(value, inclusion_chance=value[2])
+                elif name in ["locations", "times"]:
+                    categories[name] = ConceptConfiguration.from_tuple(value, specific_chance=value[2])
+                else:
+                    # Default: assume specific_chance
+                    categories[name] = ConceptConfiguration.from_tuple(value, specific_chance=value[2])
+            else:
+                # For 2-element tuples, set default inclusion_chance for dress and animals
+                if name == "animals":
+                    categories[name] = ConceptConfiguration.from_tuple(value, inclusion_chance=0.1)
+                elif name == "dress":
+                    categories[name] = ConceptConfiguration.from_tuple(value, inclusion_chance=0.5)
+                else:
+                    categories[name] = ConceptConfiguration.from_tuple(value)
+        
+        # Handle witticisms - if witticisms exists, use it; otherwise calculate from sayings+puns
+        # Note: Old configs won't have witticisms, only sayings and puns separately
+        if self.witticisms is not None:
+            categories["witticisms"] = ConceptConfiguration(
+                low=self.witticisms[0],
+                high=self.witticisms[1],
+                subcategory_weights={"sayings": self.sayings_weight, "puns": self.puns_weight}
+            )
+        else:
+            # Calculate from sayings+puns (for old configs that don't have witticisms yet)
+            categories["witticisms"] = ConceptConfiguration(
+                low=max(self.sayings[0], self.puns[0]),
+                high=self.sayings[1] + self.puns[1],
+                subcategory_weights={"sayings": self.sayings_weight, "puns": self.puns_weight}
+            )
+        
+        # Create new configuration
+        new_config = PrompterConfiguration(
+            prompt_mode=self.prompt_mode,
+            categories=categories,
+            art_styles_chance=getattr(self, 'art_styles_chance', 0.3)
+        )
+        
+        # Copy additional attributes from legacy config
+        for attr in ['concepts_dir', 'multiplier', 'specify_humans_chance',
+                     'emphasis_chance', 'sparse_mixed_tags', 
+                     'original_positive_tags', 'original_negative_tags']:
+            if hasattr(self, attr):
+                setattr(new_config, attr, getattr(self, attr))
+        
+        # Handle legacy specific chances - update category configs if they were set separately
+        if hasattr(self, 'specific_locations_chance') and 'locations' in new_config.categories:
+            new_config.categories['locations'].specific_chance = self.specific_locations_chance
+        if hasattr(self, 'specific_times_chance') and 'times' in new_config.categories:
+            new_config.categories['times'].specific_chance = self.specific_times_chance
+        
+        return new_config
+
+
+class PrompterConfiguration:
+    # Required category names
+    REQUIRED_CATEGORIES = [
+        "concepts", "positions", "locations", "animals", "colors", "times",
+        "dress", "expressions", "actions", "descriptions", "characters",
+        "random_words", "nonsense", "jargon", "witticisms"
+    ]
+    
+    @staticmethod
+    def _get_default_categories() -> dict[str, ConceptConfiguration]:
+        """Get default category configurations."""
+        return {
+            "concepts": ConceptConfiguration(low=1, high=3),
+            "positions": ConceptConfiguration(low=0, high=2),
+            "locations": ConceptConfiguration(low=0, high=1, specific_chance=0.25),
+            "animals": ConceptConfiguration(low=0, high=1, inclusion_chance=0.1),
+            "colors": ConceptConfiguration(low=0, high=2),
+            "times": ConceptConfiguration(low=0, high=1, specific_chance=0.25),
+            "dress": ConceptConfiguration(low=0, high=2, inclusion_chance=0.5),
+            "expressions": ConceptConfiguration(low=1, high=1),
+            "actions": ConceptConfiguration(low=0, high=2),
+            "descriptions": ConceptConfiguration(low=0, high=1),
+            "characters": ConceptConfiguration(low=0, high=1),
+            "random_words": ConceptConfiguration(low=0, high=5),
+            "nonsense": ConceptConfiguration(low=0, high=0),
+            "jargon": ConceptConfiguration(low=0, high=2),
+            "witticisms": ConceptConfiguration(
+                low=0, 
+                high=3, 
+                subcategory_weights={"sayings": 1.0, "puns": 0.5}
+            ),
+        }
+    
+    def __init__(
+        self,
+        prompt_mode: PromptMode = PromptMode.SFW,
+        categories: dict[str, ConceptConfiguration] = None,
+        art_styles_chance: float = 0.3,
+        concepts_dir: str = None,
+        multiplier: float = 1.0,
+        emphasis_chance: float = 0.1,
+        sparse_mixed_tags: bool = False,
+        original_positive_tags: str = "",
+        original_negative_tags: str = "",
+        specify_humans_chance: float = 0.25
+    ):
+        self.prompt_mode = prompt_mode
+        self.art_styles_chance = art_styles_chance
+        self.concepts_dir = concepts_dir if concepts_dir is not None else config.concepts_dirs[config.default_concepts_dir]
+        self.multiplier = multiplier
+        self.emphasis_chance = emphasis_chance
+        self.sparse_mixed_tags = sparse_mixed_tags
+        self.original_positive_tags = original_positive_tags
+        self.original_negative_tags = original_negative_tags
+        self.specify_humans_chance = specify_humans_chance
+        
+        # Initialize categories dict
+        if categories is not None:
+            self.categories = deepcopy(categories)
+        else:
+            self.categories = self._get_default_categories()
+        
+        # Ensure all required categories exist
+        self._ensure_required_categories()
+    
+    def _ensure_required_categories(self):
+        """Ensure all required categories exist, using defaults if missing."""
+        defaults = self._get_default_categories()
+        for category_name in self.REQUIRED_CATEGORIES:
+            if category_name not in self.categories:
+                logger.warning(f"Category {category_name} not found in categories, using default")
+                self.categories[category_name] = defaults[category_name]
+    
+    def get_specific_locations_chance(self) -> float:
+        """Get specific locations chance from category config."""
+        if 'locations' not in self.categories:
+            raise ValueError("'locations' category not found in categories")
+        if self.categories['locations'].specific_chance is None:
+            raise ValueError("'locations' category has no specific_chance set")
+        return self.categories['locations'].specific_chance
+    
+    def get_specific_times_chance(self) -> float:
+        """Get specific times chance from category config."""
+        if 'times' not in self.categories:
+            raise ValueError("'times' category not found in categories")
+        if self.categories['times'].specific_chance is None:
+            raise ValueError("'times' category has no specific_chance set")
+        return self.categories['times'].specific_chance
+    
+    def set_category(self, name: str, low: int, high: int, specific_chance: float = None, inclusion_chance: float = None):
+        """Set category from low, high, specific_chance, and inclusion_chance.
+        
+        Preserves existing specific_chance, inclusion_chance, and subcategory_weights if the category already exists."""
+        if name in self.categories:
+            # Update existing configuration, preserving subcategory_weights and other fields
+            self.categories[name].update(low=low, high=high, specific_chance=specific_chance, inclusion_chance=inclusion_chance)
+        else:
+            self.categories[name] = ConceptConfiguration(low=low, high=high, specific_chance=specific_chance, inclusion_chance=inclusion_chance)
+
+    def get_category_config(self, name: str) -> ConceptConfiguration:
+        """Get category configuration object."""
+        return self.categories.get(name, ConceptConfiguration(0, 0))
+    
+    def set_category_config(self, name: str, config: ConceptConfiguration):
+        """Set category configuration object."""
+        self.categories[name] = config
+    
+    def get_witticisms_weights(self) -> tuple[float, float]:
+        """Get witticisms subcategory weights as (sayings_weight, puns_weight)."""
+        if 'witticisms' not in self.categories:
+            raise ValueError("'witticisms' category not found in categories")
+        witt = self.categories['witticisms']
+        if not witt.subcategory_weights:
+            raise ValueError("'witticisms' category has no subcategory_weights set")
+        sayings_weight = witt.subcategory_weights.get("sayings")
+        puns_weight = witt.subcategory_weights.get("puns")
+        if sayings_weight is None:
+            raise ValueError("'witticisms' subcategory_weights missing 'sayings' key")
+        if puns_weight is None:
+            raise ValueError("'witticisms' subcategory_weights missing 'puns' key")
+        return (sayings_weight, puns_weight)
+    
+    def set_witticisms_weights(self, sayings_weight: float, puns_weight: float):
+        """Set witticisms subcategory weights."""
+        witt = self.categories.get("witticisms")
+        if witt:
+            if not witt.subcategory_weights:
+                witt.subcategory_weights = {}
+            witt.subcategory_weights["sayings"] = sayings_weight
+            witt.subcategory_weights["puns"] = puns_weight
+    
+    def get_witticisms_ratio(self) -> float:
+        """Get witticisms ratio (0.0 = all sayings, 0.5 = equal, 1.0 = all puns).
+        
+        Returns the ratio of puns_weight to total weight.
+        """
+        sayings_weight, puns_weight = self.get_witticisms_weights()
+        total_weight = sayings_weight + puns_weight
+        if total_weight > 0:
+            return puns_weight / total_weight
+        return 0.5  # Default to equal if both are 0
+    
+    def set_specific_locations_chance(self, chance: float):
+        """Set specific locations chance (updates category config only)."""
+        if 'locations' in self.categories:
+            self.categories['locations'].specific_chance = chance
+    
+    def set_specific_times_chance(self, chance: float):
+        """Set specific times chance (updates category config only)."""
+        if 'times' in self.categories:
+            self.categories['times'].specific_chance = chance
+    
+    def to_dict(self) -> dict:
+        """Convert to dictionary in new format only."""
+        result = {
+            "concepts_dir": self.concepts_dir,
+            "prompt_mode": self.prompt_mode.name,
             "multiplier": self.multiplier,
             "art_styles_chance": self.art_styles_chance,
             "specify_humans_chance": self.specify_humans_chance,
@@ -94,55 +330,59 @@ class PrompterConfiguration:
             "original_positive_tags": self.original_positive_tags,
             "original_negative_tags": self.original_negative_tags,
         }
+        
+        # Save categories in new format
+        categories_dict = {}
+        for name, config in self.categories.items():
+            categories_dict[name] = config.to_dict()
+        result["categories"] = categories_dict
+        
+        return result
 
     def set_from_dict(self, _dict: dict) -> None:
-        self.prompt_mode = PromptMode[_dict["prompt_mode"]]
-        self.concepts_dir = _dict['concepts_dir'] if 'concepts_dir' in _dict else self.concepts_dir
-        self.concepts = _dict['concepts'] if 'concepts' in _dict else self.concepts
-        self.positions = _dict['positions'] if 'positions' in _dict else self.positions
-        self.locations = _dict['locations'] if 'locations' in _dict else self.locations
-        self.specific_locations_chance = _dict['specific_locations_chance'] if 'specific_locations_chance' in _dict else self.specific_locations_chance
-        self.specific_times_chance = _dict['specific_times_chance'] if 'specific_times_chance' in _dict else self.specific_times_chance
-        self.animals = _dict['animals'] if 'animals' in _dict else self.animals
-        self.colors = _dict['colors'] if 'colors' in _dict else self.colors
-        self.times = _dict['times'] if 'times' in _dict else self.times
-        self.dress = _dict['dress'] if 'dress' in _dict else self.dress
-        self.expressions = _dict['expressions'] if 'expressions' in _dict else self.expressions
-        self.actions = _dict['actions'] if 'actions' in _dict else self.actions
-        self.descriptions = _dict['descriptions'] if 'descriptions' in _dict else self.descriptions
-        self.characters = _dict["characters"] if "characters" in _dict else self.characters
-        self.random_words = _dict['random_words'] if 'random_words' in _dict else self.random_words
-        self.nonsense = _dict['nonsense'] if 'nonsense' in _dict else self.nonsense
-        self.jargon = _dict['jargon'] if 'jargon' in _dict else self.jargon
-        self.sayings = _dict['sayings'] if 'sayings' in _dict else self.sayings
-        self.puns = _dict['puns'] if 'puns' in _dict else self.puns
-        self.multiplier = _dict["multiplier"] if "multiplier" in _dict else self.multiplier
-        self.art_styles_chance = _dict['art_styles_chance'] if 'art_styles_chance' in _dict else self.art_styles_chance
-        self.specify_humans_chance = _dict['specify_humans_chance'] if'specify_humans_chance' in  _dict else self.specify_humans_chance
-        self.emphasis_chance = _dict['emphasis_chance'] if 'emphasis_chance' in _dict else self.emphasis_chance
-        self.sparse_mixed_tags = _dict['sparse_mixed_tags'] if 'sparse_mixed_tags' in _dict else self.sparse_mixed_tags
-        self.original_positive_tags = _dict['original_positive_tags'] if 'original_positive_tags' in _dict else self.original_positive_tags
-        self.original_negative_tags = _dict['original_negative_tags'] if 'original_negative_tags' in _dict else self.original_negative_tags
-        self._handle_old_types()
+        """Load from dictionary, using LegacyPrompterConfiguration for old formats."""
+        # Check if this is the new format
+        if 'categories' in _dict:
+            # New format
+            self.prompt_mode = PromptMode[_dict["prompt_mode"]]
+            self.concepts_dir = _dict.get('concepts_dir', self.concepts_dir)
+            
+            self.categories = {}
+            for name, config_dict in _dict['categories'].items():
+                self.categories[name] = ConceptConfiguration.from_dict(config_dict)
+            
+            # Ensure all required categories exist
+            self._ensure_required_categories()
+        else:
+            # Legacy format - convert using LegacyPrompterConfiguration
+            # Handle old type conversions first
+            legacy_dict = {k: v for k, v in _dict.items() if k != 'prompt_mode'}
+            legacy = LegacyPrompterConfiguration(**legacy_dict)
+            legacy.prompt_mode = PromptMode[_dict["prompt_mode"]]
+            # Handle old types in legacy config
+            legacy._handle_old_types()
+            converted = legacy.to_prompter_configuration()
+            self.__dict__.update(converted.__dict__)
+        
+        # Load non-category configuration (may override defaults from __init__)
+        self.multiplier = _dict.get("multiplier", self.multiplier)
+        self.art_styles_chance = _dict.get('art_styles_chance', self.art_styles_chance)
+        self.specify_humans_chance = _dict.get('specify_humans_chance', self.specify_humans_chance)
+        self.emphasis_chance = _dict.get('emphasis_chance', self.emphasis_chance)
+        self.sparse_mixed_tags = _dict.get('sparse_mixed_tags', self.sparse_mixed_tags)
+        
+        # Ensure missing original tags keys exist
+        if not hasattr(self, 'original_positive_tags'):
+            self.original_positive_tags = ""
+        if not hasattr(self, 'original_negative_tags'):
+            self.original_negative_tags = ""
+        self.original_positive_tags = _dict.get('original_positive_tags', self.original_positive_tags)
+        self.original_negative_tags = _dict.get('original_negative_tags', self.original_negative_tags)
 
     def set_from_other(self, other: "PrompterConfiguration") -> None:
         if not isinstance(other, PrompterConfiguration):
             raise TypeError("Can't set from non-PrompterConfiguration")
         self.__dict__ = deepcopy(other.__dict__)
-        self._handle_old_types()
-
-    def _handle_old_types(self) -> None:
-        if type(self.expressions) == bool:
-            if self.expressions:
-                self.expressions = (1, 1)
-            else:
-                self.expressions = (0, 0)
-        
-        # Handle missing original tags keys
-        if not hasattr(self, 'original_positive_tags'):
-            self.original_positive_tags = ""
-        if not hasattr(self, 'original_negative_tags'):
-            self.original_negative_tags = ""
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PrompterConfiguration):
@@ -159,13 +399,19 @@ class PrompterConfiguration:
         class PromptModeEncoder(json.JSONEncoder):
             def default(self, z):
                 if isinstance(z, PromptMode):
-                    return (str(z.name))
+                    return str(z.name)
+                elif isinstance(z, ConceptConfiguration):
+                    return z.to_dict()
                 else:
                     return super().default(z)
         
         # Create dict excluding original tags for hashing
+        # Convert categories dict to a serializable format
         hash_dict = {k: v for k, v in self.__dict__.items() 
                     if k not in ['original_positive_tags', 'original_negative_tags']}
+        # Convert categories dict values to dicts for JSON serialization
+        if 'categories' in hash_dict:
+            hash_dict['categories'] = {k: v.to_dict() for k, v in hash_dict['categories'].items()}
         return hash(json.dumps(hash_dict, cls=PromptModeEncoder, sort_keys=True))
 
 
@@ -261,9 +507,9 @@ class Prompter:
             elif not negative.endswith(Prompter.NEGATIVE_TAGS):
                 negative += ", " + Prompter.NEGATIVE_TAGS
         if Prompter.contains_expansion_var(positive):
-            positive = self.apply_expansions(positive, concepts=self.concepts, specific_locations_chance=self.prompter_config.specific_locations_chance)
+            positive = self.apply_expansions(positive, concepts=self.concepts, specific_locations_chance=self.prompter_config.get_specific_locations_chance())
         if Prompter.contains_expansion_var(negative):
-            negative = self.apply_expansions(negative, concepts=self.concepts, specific_locations_chance=self.prompter_config.specific_locations_chance)
+            negative = self.apply_expansions(negative, concepts=self.concepts, specific_locations_chance=self.prompter_config.get_specific_locations_chance())
         if Prompter.contains_choice_set(positive):
             positive = self.apply_choices(positive)
         if Prompter.contains_choice_set(negative):
@@ -295,12 +541,12 @@ class Prompter:
         return "New prompt based on original image: " + str(data)
 
     def random(self) -> str:
-        random_words = self.concepts.get_random_words(*self.prompter_config.random_words)
+        random_words = self.concepts.get_random_words(*self.prompter_config.get_category_config("random_words"), multiplier=self.prompter_config.multiplier)
         Prompter.emphasize(random_words, emphasis_chance=self.prompter_config.emphasis_chance)
         return ', '.join(random_words)
 
     def nonsense(self) -> str:
-        nonsense = self.concepts.get_nonsense(*self.prompter_config.nonsense)
+        nonsense = self.concepts.get_nonsense(*self.prompter_config.get_category_config("nonsense"), multiplier=self.prompter_config.multiplier)
         Prompter.emphasize(nonsense, emphasis_chance=self.prompter_config.emphasis_chance)
         return ', '.join(nonsense)
 
@@ -347,26 +593,27 @@ class Prompter:
 
     def _mix_concepts(self, humans_chance: float = 0.25) -> list[str]:
         mix = []
-        mix.extend(self.concepts.get_concepts(*self.prompter_config.concepts, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_positions(*self.prompter_config.positions, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_locations(*self.prompter_config.locations, specific_inclusion_chance=self.prompter_config.specific_locations_chance, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_animals(*self.prompter_config.animals, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_colors(*self.prompter_config.colors, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_times(*self.prompter_config.times, specific_inclusion_chance=self.prompter_config.specific_times_chance, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_dress(*self.prompter_config.dress, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_expressions(*self.prompter_config.expressions, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_actions(*self.prompter_config.actions, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_descriptions(*self.prompter_config.descriptions, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_characters(*self.prompter_config.characters, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_random_words(*self.prompter_config.random_words, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_nonsense(*self.prompter_config.nonsense, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_jargon(*self.prompter_config.jargon, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_sayings(*self.prompter_config.sayings, multiplier=self.prompter_config.multiplier))
-        mix.extend(self.concepts.get_puns(*self.prompter_config.puns, multiplier=self.prompter_config.multiplier))
+        # Access categories directly from the categories dict
+        mix.extend(self.concepts.get_concepts(self.prompter_config.get_category_config("concepts"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_positions(self.prompter_config.get_category_config("positions"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_locations(self.prompter_config.get_category_config("locations"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_animals(self.prompter_config.get_category_config("animals"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_colors(self.prompter_config.get_category_config("colors"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_times(self.prompter_config.get_category_config("times"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_dress(self.prompter_config.get_category_config("dress"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_expressions(self.prompter_config.get_category_config("expressions"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_actions(self.prompter_config.get_category_config("actions"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_descriptions(self.prompter_config.get_category_config("descriptions"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_characters(self.prompter_config.get_category_config("characters"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_random_words(self.prompter_config.get_category_config("random_words"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_nonsense(self.prompter_config.get_category_config("nonsense"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_jargon(self.prompter_config.get_category_config("jargon"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_witticisms(self.prompter_config.get_category_config("witticisms"), multiplier=self.prompter_config.multiplier))
         # Humans might not always be desirable so only add some randomly
         if self.prompt_mode == PromptMode.SFW:
             if random.random() < humans_chance:
-                mix.extend(self.concepts.get_humans(multiplier=self.prompter_config.multiplier))
+                humans_config = self.prompter_config.get_category_config("humans")
+                mix.extend(self.concepts.get_humans(humans_config, multiplier=self.prompter_config.multiplier))
         # Small chance to add artist style
         if not self.concepts.is_art_style_prompt_mode() and random.random() < self.prompter_config.art_styles_chance:
             if config.debug:
@@ -382,7 +629,7 @@ class Prompter:
         return ', '.join(self._mix_concepts(humans_chance=self.prompter_config.specify_humans_chance))
 
     def mix_colors(self) -> str:
-        return ', '.join(self.concepts.get_colors(low=2, high=5))
+        return ', '.join(self.concepts.get_colors(ConceptConfiguration(2, 5)))
 
     def add_presets(self, mix: list[str] = []) -> None:
         for preset in config.prompt_presets:
@@ -406,7 +653,8 @@ class Prompter:
         # Humans might not always be desirable so only add some randomly
         if self.prompt_mode == PromptMode.SFW:
             if random.random() < (self.prompter_config.specify_humans_chance * 0.5):
-                mix.extend(self.concepts.get_humans())
+                humans_config = ConceptConfiguration(1, 1)  # Default humans config
+                mix.extend(self.concepts.get_humans(humans_config))
         random.shuffle(mix)
         Prompter.emphasize(mix)
         return ', '.join(mix)
@@ -751,34 +999,40 @@ class Prompter:
     @staticmethod
     def _select_concept(name: str, concepts: Concepts, specific_locations_chance: float = 0.3) -> str:
         concept = None
-        if name.startswith("action"):
-            concept = random.choice(concepts.get_actions(low=1, high=1))
+        if name.startswith("act"):
+            concept = random.choice(concepts.get_actions(ConceptConfiguration(1, 1)))
         elif name.startswith("concept"):
-            concept = random.choice(concepts.get_concepts(low=1, high=1))
+            concept = random.choice(concepts.get_concepts(ConceptConfiguration(1, 1)))
         elif name == "dress":
-            concept = random.choice(concepts.get_dress(low=1, high=1, inclusion_chance=1.0))
+            concept = random.choice(concepts.get_dress(ConceptConfiguration(1, 1, inclusion_chance=1.0)))
         elif name.startswith("time"):
-            concept = random.choice(concepts.get_times(low=1, high=1))
-        elif name.startswith("expression"):
-            concept = random.choice(concepts.get_expressions(low=1, high=1))
+            concept = random.choice(concepts.get_times(ConceptConfiguration(1, 1)))
+        elif name.startswith("expr"):
+            concept = random.choice(concepts.get_expressions(ConceptConfiguration(1, 1)))
         elif name.startswith("animal"):
-            concept = random.choice(concepts.get_animals(low=1, high=1, inclusion_chance=1.0))
-        elif name.startswith("description"):
-            concept = random.choice(concepts.get_descriptions(low=1, high=1))
+            concept = random.choice(concepts.get_animals(ConceptConfiguration(1, 1, inclusion_chance=1.0)))
+        elif name.startswith("desc"):
+            concept = random.choice(concepts.get_descriptions(ConceptConfiguration(1, 1)))
         elif name == "random_word":
-            concept = random.choice(concepts.get_random_words(low=1, high=1))
-        elif name == "nonsense":
-            concept = random.choice(concepts.get_nonsense(low=1, high=1))
-        elif name == "pun":
-            concept = random.choice(concepts.get_puns(low=1, high=1))
+            concept = random.choice(concepts.get_random_words(ConceptConfiguration(1, 1)))
+        elif name.startswith("nons"):
+            concept = random.choice(concepts.get_nonsense(ConceptConfiguration(1, 1)))
         elif name.startswith("color"):
-            concept = random.choice(concepts.get_colors(low=1, high=1))
-        elif name.startswith("location"):
-            concept = random.choice(concepts.get_locations(low=1, high=1, specific_inclusion_chance=specific_locations_chance))
+            concept = random.choice(concepts.get_colors(ConceptConfiguration(1, 1)))
+        elif name.startswith("loc"):
+            concept = random.choice(concepts.get_locations(ConceptConfiguration(1, 1, specific_chance=specific_locations_chance)))
         elif name.startswith("human"):
-            concept = random.choice(concepts.get_humans(low=1, high=1))
-        elif name.startswith("position"):
-            concept = random.choice(concepts.get_positions(low=1, high=1))
+            concept = random.choice(concepts.get_humans(ConceptConfiguration(1, 1)))
+        elif name.startswith("posit"):
+            concept = random.choice(concepts.get_positions(ConceptConfiguration(1, 1)))
+        elif name.startswith("witt"):
+            concept = random.choice(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["sayings", "puns"])))
+        elif name.startswith("saying"):
+            concept = random.choice(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["sayings"])))
+        elif name.startswith("pun"):
+            concept = random.choice(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["puns"])))
+        elif name.startswith("jarg"):
+            concept = random.choice(concepts.get_jargon(ConceptConfiguration(1, 1)))
         elif name.startswith("number"):
             concept = str(random.randint(1, 999))
         return concept

@@ -6,6 +6,7 @@ from tkinter.font import Font
 
 from lib.aware_entry import AwareEntry
 from lib.multi_display import SmartToplevel
+from lib.tooltip import Tooltip
 from sd_runner.base_image_generator import BaseImageGenerator
 from sd_runner.prompter import PrompterConfiguration, Prompter
 from sd_runner.run_config import RunConfig
@@ -144,10 +145,8 @@ class PromptConfigWindow:
         self.nonsense1.trace_add('write', self.update_config_from_widgets)
         self.jargon0.trace_add('write', self.update_config_from_widgets)
         self.jargon1.trace_add('write', self.update_config_from_widgets)
-        self.sayings0.trace_add('write', self.update_config_from_widgets)
-        self.sayings1.trace_add('write', self.update_config_from_widgets)
-        self.puns0.trace_add('write', self.update_config_from_widgets)
-        self.puns1.trace_add('write', self.update_config_from_widgets)
+        self.witticisms0.trace_add('write', self.update_config_from_widgets)
+        self.witticisms1.trace_add('write', self.update_config_from_widgets)
         
         # Bind other widgets
         self.multiplier.trace_add('write', self.update_config_from_widgets)
@@ -162,31 +161,24 @@ class PromptConfigWindow:
             prompter_config = self.runner_app_config.prompter_config
             
             # Update concept counts
-            prompter_config.concepts = (int(self.concepts0.get()), int(self.concepts1.get()))
-            prompter_config.positions = (int(self.positions0.get()), int(self.positions1.get()))
-            prompter_config.locations = (int(self.locations0.get()), int(self.locations1.get()))
-            prompter_config.animals = (int(self.animals0.get()), int(self.animals1.get()))
-            prompter_config.colors = (int(self.colors0.get()), int(self.colors1.get()))
-            prompter_config.times = (int(self.times0.get()), int(self.times1.get()))
-            prompter_config.dress = (int(self.dress0.get()), int(self.dress1.get()), 0.7)
-            prompter_config.expressions = (int(self.expressions0.get()), int(self.expressions1.get()))
-            prompter_config.actions = (int(self.actions0.get()), int(self.actions1.get()))
-            prompter_config.descriptions = (int(self.descriptions0.get()), int(self.descriptions1.get()))
-            prompter_config.characters = (int(self.characters0.get()), int(self.characters1.get()))
-            prompter_config.random_words = (int(self.random_words0.get()), int(self.random_words1.get()))
-            prompter_config.nonsense = (int(self.nonsense0.get()), int(self.nonsense1.get()))
-            prompter_config.jargon = (int(self.jargon0.get()), int(self.jargon1.get()))
-            prompter_config.sayings = (int(self.sayings0.get()), int(self.sayings1.get()))
-            prompter_config.puns = (int(self.puns0.get()), int(self.puns1.get()))
-            
-            # Update other prompter config values
-            prompter_config.multiplier = float(self.multiplier.get())
-            prompter_config.specific_locations_chance = float(self.specific_locations_slider.get()) / 100
-            prompter_config.specific_times_chance = float(self.specific_times_slider.get()) / 100
-            prompter_config.specify_humans_chance = float(self.specify_humans_chance_slider.get()) / 100
-            prompter_config.art_styles_chance = float(self.art_style_chance_slider.get()) / 100
-            prompter_config.emphasis_chance = float(self.emphasis_chance_slider.get()) / 100
-            prompter_config.sparse_mixed_tags = self.tags_sparse_mix_var.get()
+            prompter_config.set_category("concepts", int(self.concepts0.get()), int(self.concepts1.get()))
+            prompter_config.set_category("positions", int(self.positions0.get()), int(self.positions1.get()))
+            prompter_config.set_category("locations", int(self.locations0.get()), int(self.locations1.get()), specific_chance=float(self.specific_locations_slider.get()) / 100)
+            prompter_config.set_category("animals", int(self.animals0.get()), int(self.animals1.get()), inclusion_chance=float(self.animals_inclusion_slider.get()) / 100)
+            prompter_config.set_category("colors", int(self.colors0.get()), int(self.colors1.get()))
+            prompter_config.set_category("times", int(self.times0.get()), int(self.times1.get()), specific_chance=float(self.specific_times_slider.get()) / 100)
+            prompter_config.set_category("dress", int(self.dress0.get()), int(self.dress1.get()), inclusion_chance=float(self.dress_inclusion_slider.get()) / 100)
+            prompter_config.set_category("expressions", int(self.expressions0.get()), int(self.expressions1.get()))
+            prompter_config.set_category("actions", int(self.actions0.get()), int(self.actions1.get()))
+            prompter_config.set_category("descriptions", int(self.descriptions0.get()), int(self.descriptions1.get()))
+            prompter_config.set_category("characters", int(self.characters0.get()), int(self.characters1.get()))
+            prompter_config.set_category("random_words", int(self.random_words0.get()), int(self.random_words1.get()))
+            prompter_config.set_category("nonsense", int(self.nonsense0.get()), int(self.nonsense1.get()))
+            prompter_config.set_category("jargon", int(self.jargon0.get()), int(self.jargon1.get()))
+            # Update witticisms (combined category) and subcategory weights
+            prompter_config.set_category("witticisms", int(self.witticisms0.get()), int(self.witticisms1.get()))
+            # Update weights from slider position
+            self.set_witticisms_weights()
             
             # Update other settings
             self.runner_app_config.sampler = Sampler.get(self.sampler.get())
@@ -318,11 +310,8 @@ class PromptConfigWindow:
         # Jargon Counts
         self.setup_jargon_counts()
         
-        # Sayings Counts
-        self.setup_sayings_counts()
-        
-        # Puns Counts
-        self.setup_puns_counts()
+        # Witticisms (combined sayings and puns with subcategory weights)
+        self.setup_witticisms_counts()
         
         # Multiplier
         self.label_multiplier = Label(self.main_frame, text=_("Multiplier"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
@@ -355,11 +344,12 @@ class PromptConfigWindow:
         self.add_label(self.label_concepts, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        concepts_config = prompter_config.get_category_config("concepts")
         self.concepts0 = StringVar(self.master)
         self.concepts1 = StringVar(self.master)
-        self.concepts0_choice = OptionMenu(self.main_frame, self.concepts0, str(prompter_config.concepts[0]), 
+        self.concepts0_choice = OptionMenu(self.main_frame, self.concepts0, str(concepts_config.low), 
                                           *[str(i) for i in list(range(51))])
-        self.concepts1_choice = OptionMenu(self.main_frame, self.concepts1, str(prompter_config.concepts[1]), 
+        self.concepts1_choice = OptionMenu(self.main_frame, self.concepts1, str(concepts_config.high), 
                                           *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.concepts0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.concepts1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -370,11 +360,12 @@ class PromptConfigWindow:
         self.add_label(self.label_positions, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        positions_config = prompter_config.get_category_config("positions")
         self.positions0 = StringVar(self.master)
         self.positions1 = StringVar(self.master)
-        self.positions0_choice = OptionMenu(self.main_frame, self.positions0, str(prompter_config.positions[0]), 
+        self.positions0_choice = OptionMenu(self.main_frame, self.positions0, str(positions_config.low), 
                                            *[str(i) for i in list(range(51))])
-        self.positions1_choice = OptionMenu(self.main_frame, self.positions1, str(prompter_config.positions[1]), 
+        self.positions1_choice = OptionMenu(self.main_frame, self.positions1, str(positions_config.high), 
                                            *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.positions0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.positions1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -385,11 +376,12 @@ class PromptConfigWindow:
         self.add_label(self.label_locations, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        locations_config = prompter_config.get_category_config("locations")
         self.locations0 = StringVar(self.master)
         self.locations1 = StringVar(self.master)
-        self.locations0_choice = OptionMenu(self.main_frame, self.locations0, str(prompter_config.locations[0]), 
+        self.locations0_choice = OptionMenu(self.main_frame, self.locations0, str(locations_config.low), 
                                            *[str(i) for i in list(range(51))])
-        self.locations1_choice = OptionMenu(self.main_frame, self.locations1, str(prompter_config.locations[1]), 
+        self.locations1_choice = OptionMenu(self.main_frame, self.locations1, str(locations_config.high), 
                                            *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.locations0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.locations1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -400,11 +392,12 @@ class PromptConfigWindow:
         self.add_label(self.label_animals, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        animals_config = prompter_config.get_category_config("animals")
         self.animals0 = StringVar(self.master)
         self.animals1 = StringVar(self.master)
-        self.animals0_choice = OptionMenu(self.main_frame, self.animals0, str(prompter_config.animals[0]), 
+        self.animals0_choice = OptionMenu(self.main_frame, self.animals0, str(animals_config.low), 
                                          *[str(i) for i in list(range(51))])
-        self.animals1_choice = OptionMenu(self.main_frame, self.animals1, str(prompter_config.animals[1]), 
+        self.animals1_choice = OptionMenu(self.main_frame, self.animals1, str(animals_config.high), 
                                          *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.animals0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.animals1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -415,11 +408,12 @@ class PromptConfigWindow:
         self.add_label(self.label_colors, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        colors_config = prompter_config.get_category_config("colors")
         self.colors0 = StringVar(self.master)
         self.colors1 = StringVar(self.master)
-        self.colors0_choice = OptionMenu(self.main_frame, self.colors0, str(prompter_config.colors[0]), 
+        self.colors0_choice = OptionMenu(self.main_frame, self.colors0, str(colors_config.low), 
                                         *[str(i) for i in list(range(51))])
-        self.colors1_choice = OptionMenu(self.main_frame, self.colors1, str(prompter_config.colors[1]), 
+        self.colors1_choice = OptionMenu(self.main_frame, self.colors1, str(colors_config.high), 
                                         *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.colors0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.colors1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -430,11 +424,12 @@ class PromptConfigWindow:
         self.add_label(self.label_times, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        times_config = prompter_config.get_category_config("times")
         self.times0 = StringVar(self.master)
         self.times1 = StringVar(self.master)
-        self.times0_choice = OptionMenu(self.main_frame, self.times0, str(prompter_config.times[0]), 
+        self.times0_choice = OptionMenu(self.main_frame, self.times0, str(times_config.low), 
                                        *[str(i) for i in list(range(51))])
-        self.times1_choice = OptionMenu(self.main_frame, self.times1, str(prompter_config.times[1]), 
+        self.times1_choice = OptionMenu(self.main_frame, self.times1, str(times_config.high), 
                                        *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.times0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.times1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -445,11 +440,12 @@ class PromptConfigWindow:
         self.add_label(self.label_dress, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        dress_config = prompter_config.get_category_config("dress")
         self.dress0 = StringVar(self.master)
         self.dress1 = StringVar(self.master)
-        self.dress0_choice = OptionMenu(self.main_frame, self.dress0, str(prompter_config.dress[0]), 
+        self.dress0_choice = OptionMenu(self.main_frame, self.dress0, str(dress_config.low), 
                                        *[str(i) for i in list(range(51))])
-        self.dress1_choice = OptionMenu(self.main_frame, self.dress1, str(prompter_config.dress[1]), 
+        self.dress1_choice = OptionMenu(self.main_frame, self.dress1, str(dress_config.high), 
                                        *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.dress0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.dress1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -460,11 +456,12 @@ class PromptConfigWindow:
         self.add_label(self.label_expressions, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        expressions_config = prompter_config.get_category_config("expressions")
         self.expressions0 = StringVar(self.master)
         self.expressions1 = StringVar(self.master)
-        self.expressions0_choice = OptionMenu(self.main_frame, self.expressions0, str(prompter_config.expressions[0]), 
+        self.expressions0_choice = OptionMenu(self.main_frame, self.expressions0, str(expressions_config.low), 
                                              *[str(i) for i in list(range(51))])
-        self.expressions1_choice = OptionMenu(self.main_frame, self.expressions1, str(prompter_config.expressions[1]), 
+        self.expressions1_choice = OptionMenu(self.main_frame, self.expressions1, str(expressions_config.high), 
                                              *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.expressions0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.expressions1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -475,11 +472,12 @@ class PromptConfigWindow:
         self.add_label(self.label_actions, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        actions_config = prompter_config.get_category_config("actions")
         self.actions0 = StringVar(self.master)
         self.actions1 = StringVar(self.master)
-        self.actions0_choice = OptionMenu(self.main_frame, self.actions0, str(prompter_config.actions[0]), 
+        self.actions0_choice = OptionMenu(self.main_frame, self.actions0, str(actions_config.low), 
                                          *[str(i) for i in list(range(51))])
-        self.actions1_choice = OptionMenu(self.main_frame, self.actions1, str(prompter_config.actions[1]), 
+        self.actions1_choice = OptionMenu(self.main_frame, self.actions1, str(actions_config.high), 
                                          *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.actions0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.actions1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -490,11 +488,12 @@ class PromptConfigWindow:
         self.add_label(self.label_descriptions, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        descriptions_config = prompter_config.get_category_config("descriptions")
         self.descriptions0 = StringVar(self.master)
         self.descriptions1 = StringVar(self.master)
-        self.descriptions0_choice = OptionMenu(self.main_frame, self.descriptions0, str(prompter_config.descriptions[0]), 
+        self.descriptions0_choice = OptionMenu(self.main_frame, self.descriptions0, str(descriptions_config.low), 
                                               *[str(i) for i in list(range(51))])
-        self.descriptions1_choice = OptionMenu(self.main_frame, self.descriptions1, str(prompter_config.descriptions[1]), 
+        self.descriptions1_choice = OptionMenu(self.main_frame, self.descriptions1, str(descriptions_config.high), 
                                               *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.descriptions0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.descriptions1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -505,11 +504,12 @@ class PromptConfigWindow:
         self.add_label(self.label_characters, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        characters_config = prompter_config.get_category_config("characters")
         self.characters0 = StringVar(self.master)
         self.characters1 = StringVar(self.master)
-        self.characters0_choice = OptionMenu(self.main_frame, self.characters0, str(prompter_config.characters[0]), 
+        self.characters0_choice = OptionMenu(self.main_frame, self.characters0, str(characters_config.low), 
                                             *[str(i) for i in list(range(51))])
-        self.characters1_choice = OptionMenu(self.main_frame, self.characters1, str(prompter_config.characters[1]), 
+        self.characters1_choice = OptionMenu(self.main_frame, self.characters1, str(characters_config.high), 
                                             *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.characters0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.characters1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -520,11 +520,12 @@ class PromptConfigWindow:
         self.add_label(self.label_random_words, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        random_words_config = prompter_config.get_category_config("random_words")
         self.random_words0 = StringVar(self.master)
         self.random_words1 = StringVar(self.master)
-        self.random_words0_choice = OptionMenu(self.main_frame, self.random_words0, str(prompter_config.random_words[0]), 
+        self.random_words0_choice = OptionMenu(self.main_frame, self.random_words0, str(random_words_config.low), 
                                               *[str(i) for i in list(range(51))])
-        self.random_words1_choice = OptionMenu(self.main_frame, self.random_words1, str(prompter_config.random_words[1]), 
+        self.random_words1_choice = OptionMenu(self.main_frame, self.random_words1, str(random_words_config.high), 
                                               *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.random_words0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.random_words1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -535,11 +536,12 @@ class PromptConfigWindow:
         self.add_label(self.label_nonsense, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        nonsense_config = prompter_config.get_category_config("nonsense")
         self.nonsense0 = StringVar(self.master)
         self.nonsense1 = StringVar(self.master)
-        self.nonsense0_choice = OptionMenu(self.main_frame, self.nonsense0, str(prompter_config.nonsense[0]), 
+        self.nonsense0_choice = OptionMenu(self.main_frame, self.nonsense0, str(nonsense_config.low), 
                                           *[str(i) for i in list(range(51))])
-        self.nonsense1_choice = OptionMenu(self.main_frame, self.nonsense1, str(prompter_config.nonsense[1]), 
+        self.nonsense1_choice = OptionMenu(self.main_frame, self.nonsense1, str(nonsense_config.high), 
                                           *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.nonsense0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.nonsense1_choice, sticky=W, interior_column=2, increment_row_counter=True)
@@ -550,46 +552,54 @@ class PromptConfigWindow:
         self.add_label(self.label_jargon, increment_row_counter=False)
         
         prompter_config = self.runner_app_config.prompter_config
+        jargon_config = prompter_config.get_category_config("jargon")
         self.jargon0 = StringVar(self.master)
         self.jargon1 = StringVar(self.master)
-        self.jargon0_choice = OptionMenu(self.main_frame, self.jargon0, str(prompter_config.jargon[0]), 
+        self.jargon0_choice = OptionMenu(self.main_frame, self.jargon0, str(jargon_config.low), 
                                         *[str(i) for i in list(range(51))])
-        self.jargon1_choice = OptionMenu(self.main_frame, self.jargon1, str(prompter_config.jargon[1]), 
+        self.jargon1_choice = OptionMenu(self.main_frame, self.jargon1, str(jargon_config.high), 
                                         *[str(i) for i in list(range(51))])
         self.apply_to_grid(self.jargon0_choice, sticky=W, interior_column=1, increment_row_counter=False)
         self.apply_to_grid(self.jargon1_choice, sticky=W, interior_column=2, increment_row_counter=True)
         
-    def setup_sayings_counts(self):
-        """Setup sayings count widgets."""
-        self.label_sayings = Label(self.main_frame, text=_("Sayings"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_sayings, increment_row_counter=False)
-        
+    def setup_witticisms_counts(self):
+        """Setup witticisms count widgets with subcategory weight controls."""
         prompter_config = self.runner_app_config.prompter_config
-        self.sayings0 = StringVar(self.master)
-        self.sayings1 = StringVar(self.master)
-        self.sayings0_choice = OptionMenu(self.main_frame, self.sayings0, str(prompter_config.sayings[0]), 
-                                         *[str(i) for i in list(range(51))])
-        self.sayings1_choice = OptionMenu(self.main_frame, self.sayings1, str(prompter_config.sayings[1]), 
-                                         *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.sayings0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.sayings1_choice, sticky=W, interior_column=2, increment_row_counter=True)
         
-    def setup_puns_counts(self):
-        """Setup puns count widgets."""
-        self.label_puns = Label(self.main_frame, text=_("Puns"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_puns, increment_row_counter=False)
+        # Main witticisms count range
+        self.label_witticisms = Label(self.main_frame, text=_("Witticisms"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_witticisms, increment_row_counter=False)
         
-        prompter_config = self.runner_app_config.prompter_config
-        self.puns0 = StringVar(self.master)
-        self.puns1 = StringVar(self.master)
-        # Use default value (0, 1) if puns attribute doesn't exist yet (for backward compatibility)
-        puns_value = getattr(prompter_config, 'puns', (0, 1))
-        self.puns0_choice = OptionMenu(self.main_frame, self.puns0, str(puns_value[0]), 
-                                      *[str(i) for i in list(range(51))])
-        self.puns1_choice = OptionMenu(self.main_frame, self.puns1, str(puns_value[1]), 
-                                      *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.puns0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.puns1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        # Get witticisms config - always use get_category_tuple which will return defaults if missing
+        witticisms_config = prompter_config.get_category_config("witticisms")
+        
+        self.witticisms0 = StringVar(self.master)
+        self.witticisms1 = StringVar(self.master)
+        self.witticisms0_choice = OptionMenu(self.main_frame, self.witticisms0, str(witticisms_config.low), 
+                                            *[str(i) for i in list(range(51))])
+        self.witticisms1_choice = OptionMenu(self.main_frame, self.witticisms1, str(witticisms_config.high), 
+                                            *[str(i) for i in list(range(51))])
+        self.apply_to_grid(self.witticisms0_choice, sticky=W, interior_column=1, increment_row_counter=False)
+        self.apply_to_grid(self.witticisms1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        
+        # Subcategory weights - slider for sayings/puns ratio
+        # Combined weights label and slider
+        self.label_weights = Label(self.main_frame, text=_("Sayings / Puns Weights"), 
+                                   bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_weights, increment_row_counter=False)
+        
+        # Calculate slider position from weights (0 = all sayings, 50 = equal, 100 = all puns)
+        ratio = prompter_config.get_witticisms_ratio()
+        slider_position = ratio * 100
+        slider_position = max(0, min(100, slider_position))  # Clamp to 0-100
+        
+        self.witticisms_ratio_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL,
+                                            command=self.set_witticisms_weights)
+        self.witticisms_ratio_slider.set(int(slider_position))
+        self.apply_to_grid(self.witticisms_ratio_slider, interior_column=1, sticky=W+E, columnspan=2)
+        
+        # Add tooltip explaining the slider
+        Tooltip(self.label_weights, _("Adjust the ratio between sayings and puns. 50% = equal blend, 0% = mostly sayings, 100% = mostly puns."))
         
     def setup_chance_sliders(self):
         """Setup chance slider widgets."""
@@ -599,8 +609,8 @@ class PromptConfigWindow:
         self.add_label(self.label_specific_locations, increment_row_counter=False, columnspan=2)
         self.specific_locations_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
                                               command=self.set_specific_locations)
-        self.set_widget_value(self.specific_locations_slider, self.runner_app_config.prompter_config.specific_locations_chance)
-        self.apply_to_grid(self.specific_locations_slider, interior_column=2, sticky=W)
+        self.set_widget_value(self.specific_locations_slider, self.runner_app_config.prompter_config.get_specific_locations_chance())
+        self.apply_to_grid(self.specific_locations_slider, interior_column=1, sticky=W+E, columnspan=2)
         
         # Specific Times Chance
         self.label_specific_times = Label(self.main_frame, text=_("Specific Times Chance"), 
@@ -608,8 +618,8 @@ class PromptConfigWindow:
         self.add_label(self.label_specific_times, increment_row_counter=False, columnspan=2)
         self.specific_times_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
                                           command=self.set_specific_times)
-        self.set_widget_value(self.specific_times_slider, self.runner_app_config.prompter_config.specific_times_chance)
-        self.apply_to_grid(self.specific_times_slider, interior_column=2, sticky=W)
+        self.set_widget_value(self.specific_times_slider, self.runner_app_config.prompter_config.get_specific_times_chance())
+        self.apply_to_grid(self.specific_times_slider, interior_column=1, sticky=W+E, columnspan=2)
         
         # Specify Humans Chance
         self.label_specify_humans_chance = Label(self.main_frame, text=_("Specify Humans Chance"), 
@@ -618,7 +628,7 @@ class PromptConfigWindow:
         self.specify_humans_chance_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
                                                   command=self.set_specify_humans_chance)
         self.set_widget_value(self.specify_humans_chance_slider, self.runner_app_config.prompter_config.specify_humans_chance)
-        self.apply_to_grid(self.specify_humans_chance_slider, interior_column=2, sticky=W)
+        self.apply_to_grid(self.specify_humans_chance_slider, interior_column=1, sticky=W+E, columnspan=2)
         
         # Art Style Chance
         self.label_art_style_chance = Label(self.main_frame, text=_("Art Styles Chance"), 
@@ -627,7 +637,7 @@ class PromptConfigWindow:
         self.art_style_chance_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
                                              command=self.set_art_style_chance)
         self.set_widget_value(self.art_style_chance_slider, self.runner_app_config.prompter_config.art_styles_chance)
-        self.apply_to_grid(self.art_style_chance_slider, interior_column=2, sticky=W)
+        self.apply_to_grid(self.art_style_chance_slider, interior_column=1, sticky=W+E, columnspan=2)
         
         # Emphasis Chance
         self.label_emphasis_chance = Label(self.main_frame, text=_("Emphasis Chance"), 
@@ -636,7 +646,27 @@ class PromptConfigWindow:
         self.emphasis_chance_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
                                             command=self.set_emphasis_chance)
         self.set_widget_value(self.emphasis_chance_slider, self.runner_app_config.prompter_config.emphasis_chance)
-        self.apply_to_grid(self.emphasis_chance_slider, interior_column=2, sticky=W)
+        self.apply_to_grid(self.emphasis_chance_slider, interior_column=1, sticky=W+E, columnspan=2)
+        
+        # Animals Inclusion Chance
+        self.label_animals_inclusion = Label(self.main_frame, text=_("Animals Inclusion Chance"), 
+                                            bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_animals_inclusion, increment_row_counter=False, columnspan=2)
+        self.animals_inclusion_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
+                                              command=self.set_animals_inclusion)
+        animals_config = self.runner_app_config.prompter_config.get_category_config("animals")
+        self.set_widget_value(self.animals_inclusion_slider, animals_config.get_inclusion_chance())
+        self.apply_to_grid(self.animals_inclusion_slider, interior_column=1, sticky=W+E, columnspan=2)
+        
+        # Dress Inclusion Chance
+        self.label_dress_inclusion = Label(self.main_frame, text=_("Dress Inclusion Chance"), 
+                                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_dress_inclusion, increment_row_counter=False, columnspan=2)
+        self.dress_inclusion_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
+                                            command=self.set_dress_inclusion)
+        dress_config = self.runner_app_config.prompter_config.get_category_config("dress")
+        self.set_widget_value(self.dress_inclusion_slider, dress_config.get_inclusion_chance())
+        self.apply_to_grid(self.dress_inclusion_slider, interior_column=1, sticky=W+E, columnspan=2)
         
     def setup_checkboxes(self):
         """Setup checkbox widgets."""
@@ -732,12 +762,12 @@ class PromptConfigWindow:
     def set_specific_locations(self, event=None):
         """Set specific locations chance."""
         value = float(self.specific_locations_slider.get()) / 100
-        self.runner_app_config.prompter_config.specific_locations_chance = value
+        self.runner_app_config.prompter_config.set_specific_locations_chance(value)
     
     def set_specific_times(self, event=None):
         """Set specific times chance."""
         value = float(self.specific_times_slider.get()) / 100
-        self.runner_app_config.prompter_config.specific_times_chance = value
+        self.runner_app_config.prompter_config.set_specific_times_chance(value)
         
     def set_specify_humans_chance(self, event=None):
         """Set specify humans chance."""
@@ -753,6 +783,31 @@ class PromptConfigWindow:
         """Set emphasis chance."""
         value = float(self.emphasis_chance_slider.get()) / 100
         self.runner_app_config.prompter_config.emphasis_chance = value
+    
+    def set_animals_inclusion(self, event=None):
+        """Set animals inclusion chance."""
+        value = float(self.animals_inclusion_slider.get()) / 100
+        animals_config = self.runner_app_config.prompter_config.get_category_config("animals")
+        animals_config.inclusion_chance = value
+    
+    def set_dress_inclusion(self, event=None):
+        """Set dress inclusion chance."""
+        value = float(self.dress_inclusion_slider.get()) / 100
+        dress_config = self.runner_app_config.prompter_config.get_category_config("dress")
+        dress_config.inclusion_chance = value
+    
+    def set_witticisms_weights(self, event=None):
+        """Set witticisms weights from slider position (0 = all sayings, 50 = equal, 100 = all puns)."""
+        slider_position = float(self.witticisms_ratio_slider.get())
+        ratio = slider_position / 100.0  # 0.0 to 1.0
+        
+        # Normalize weights to a fixed total of 2.0 (1.0 each at 50% equal blend)
+        # Calculate new weights based on ratio: 0% = all sayings, 50% = equal, 100% = all puns
+        total_weight = 2.0
+        puns_weight = ratio * total_weight
+        sayings_weight = (1.0 - ratio) * total_weight
+        
+        self.runner_app_config.prompter_config.set_witticisms_weights(sayings_weight, puns_weight)
         
     def set_override_negative(self, event=None):
         """Set override negative."""
@@ -779,22 +834,21 @@ class PromptConfigWindow:
         prompter_config: PrompterConfiguration = self.runner_app_config.prompter_config
         
         # Update concept counts from widgets
-        prompter_config.concepts = (int(self.concepts0.get()), int(self.concepts1.get()))
-        prompter_config.positions = (int(self.positions0.get()), int(self.positions1.get()))
-        prompter_config.locations = (int(self.locations0.get()), int(self.locations1.get()))
-        prompter_config.animals = (int(self.animals0.get()), int(self.animals1.get()))
-        prompter_config.colors = (int(self.colors0.get()), int(self.colors1.get()))
-        prompter_config.times = (int(self.times0.get()), int(self.times1.get()))
-        prompter_config.dress = (int(self.dress0.get()), int(self.dress1.get()), 0.7)
-        prompter_config.expressions = (int(self.expressions0.get()), int(self.expressions1.get()))
-        prompter_config.actions = (int(self.actions0.get()), int(self.actions1.get()))
-        prompter_config.descriptions = (int(self.descriptions0.get()), int(self.descriptions1.get()))
-        prompter_config.characters = (int(self.characters0.get()), int(self.characters1.get()))
-        prompter_config.random_words = (int(self.random_words0.get()), int(self.random_words1.get()))
-        prompter_config.nonsense = (int(self.nonsense0.get()), int(self.nonsense1.get()))
-        prompter_config.jargon = (int(self.jargon0.get()), int(self.jargon1.get()))
-        prompter_config.sayings = (int(self.sayings0.get()), int(self.sayings1.get()))
-        prompter_config.puns = (int(self.puns0.get()), int(self.puns1.get()))
+        prompter_config.set_category("concepts", int(self.concepts0.get()), int(self.concepts1.get()))
+        prompter_config.set_category("positions", int(self.positions0.get()), int(self.positions1.get()))
+        prompter_config.set_category("locations", int(self.locations0.get()), int(self.locations1.get()), specific_chance=float(self.specific_locations_slider.get()) / 100)
+        prompter_config.set_category("animals", int(self.animals0.get()), int(self.animals1.get()), inclusion_chance=float(self.animals_inclusion_slider.get()) / 100)
+        prompter_config.set_category("colors", int(self.colors0.get()), int(self.colors1.get()))
+        prompter_config.set_category("times", int(self.times0.get()), int(self.times1.get()), specific_chance=float(self.specific_times_slider.get()) / 100)
+        prompter_config.set_category("dress", int(self.dress0.get()), int(self.dress1.get()), inclusion_chance=float(self.dress_inclusion_slider.get()) / 100)
+        prompter_config.set_category("expressions", int(self.expressions0.get()), int(self.expressions1.get()))
+        prompter_config.set_category("actions", int(self.actions0.get()), int(self.actions1.get()))
+        prompter_config.set_category("descriptions", int(self.descriptions0.get()), int(self.descriptions1.get()))
+        prompter_config.set_category("characters", int(self.characters0.get()), int(self.characters1.get()))
+        prompter_config.set_category("random_words", int(self.random_words0.get()), int(self.random_words1.get()))
+        prompter_config.set_category("nonsense", int(self.nonsense0.get()), int(self.nonsense1.get()))
+        prompter_config.set_category("jargon", int(self.jargon0.get()), int(self.jargon1.get()))
+        prompter_config.set_category("witticisms", int(self.witticisms0.get()), int(self.witticisms1.get()))
         
     def close_window(self):
         """Close the prompt configuration window."""
