@@ -127,6 +127,7 @@ lying prone
 lying on back
 lying on side
 lying on stomach
+midair
 middle
 model pose
 mounted

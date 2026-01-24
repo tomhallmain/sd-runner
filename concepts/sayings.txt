@@ -99,6 +99,7 @@ Every dog has its day
 Every man for himself
 Face the music
 Fair and square
+fall out of favor
 Fight fire with fire
 Feeling a bit rusty
 Find your feet
@@ -110,6 +111,7 @@ For the birds
 Fortune favors the bold
 Fortune favors the brave
 Fortune smiles on the brave
+from the get-go
 Get a grip
 Get a taste of your own medicine
 Get cold feet
@@ -198,6 +200,7 @@ Live and learn
 Long story short
 Look before you leap
 Love is in the air
+make a beeline for
 Make a long story short
 Make a mountain out of a molehill
 Make ends meet
@@ -251,10 +254,12 @@ Practice what you preach
 Pull someone's leg
 Pull strings
 Pull yourself together
+put a lid on it
 Put all your cards on the table
 Put your foot in your mouth
 Put your money where your mouth is
 Read between the lines
+Ready or not, here I come
 Red herring
 Right off the bat
 Ring a bell
@@ -274,6 +279,7 @@ Sixth sense
 Smell a rat
 Smooth sailing
 So far so good
+so long to $$random_word
 Somehow or other
 Speak of the devil
 Spill the beans
@@ -355,6 +361,7 @@ When pigs fly
 Where there's smoke, there's fire
 Wild goose chase
 Word of mouth
+You are >Here<
 You can lead a horse to water, but you can't make it drink
 You can't have it both ways
 You can't have your cake and eat it too
@@ -364,6 +371,7 @@ You can't win them all
 You get what you pay for
 You reap what you sow
 You scratch my back, I'll scratch yours
+you sly dog
 You're on thin ice
 You're toast
 Your guess is as good as mine

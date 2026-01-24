@@ -8,6 +8,7 @@ A-OK
 abrasive
 absentminded
 absentmindedly
+abstract
 abundant
 acceptable
 accredited
@@ -34,6 +35,7 @@ amped
 amphibious
 angled
 anisometric
+arcane
 archaic
 arduous
 arioso
@@ -43,6 +45,7 @@ ascendant
 aspiration
 astute
 at a loss
+at large
 at rest
 athwart
 atmospheric
@@ -55,6 +58,8 @@ aware
 awash
 backdated
 ballistic
+balmy
+bar none
 bare-knuckle
 barren
 based
@@ -111,7 +116,9 @@ cylindrical
 daft
 damning
 daring
+daunting
 dead-set
+dearest
 declaring
 decorative
 deep
@@ -146,6 +153,7 @@ eminent
 endorsed
 enhanced
 enlarged
+ensuant
 entwined
 epic
 equipped
@@ -167,6 +175,7 @@ extra-large
 extra-small
 fabled
 failsafe
+fain
 famous
 fantasmic
 far-out
@@ -179,6 +188,7 @@ fibrous
 fine
 fine and dandy
 firm
+fishy
 fixed
 flattened
 flawed
@@ -237,6 +247,7 @@ honest
 honorable
 humane
 hydraulic
+hydroponic
 hyper
 iffy
 imaginary
@@ -296,6 +307,7 @@ like a $$random_word
 likely
 lilting
 logarithmic
+logical
 loose
 lord
 loud
@@ -347,6 +359,7 @@ no-fee
 no-hassle
 no-name
 noble
+none-such
 nonexistent
 nonsensical
 not a lot
@@ -379,6 +392,7 @@ piecemeal
 placid
 plagiarized
 poetic
+polygonal
 porky
 potted
 powerful
@@ -391,15 +405,20 @@ pristine
 prodigal
 promontory
 promoted
+pursuant to $$random_word
 quaint
 rare
 raspy
 rather
+rational
 ready
+receptive
+recognizable
 recommended
 redoubtable
 refined
 regal
+related
 remarkable
 remastered
 repetitive
@@ -471,6 +490,7 @@ scrawny
 screwy
 scruff
 semidry
+sensible
 serious
 serious-minded
 shaken
@@ -502,6 +522,7 @@ sparkling
 speckled
 spent
 spry
+spun
 spunky
 squished
 staid
@@ -539,6 +560,7 @@ swell
 swole
 sympathetic
 synthetic
+tabular
 taciturn
 tacky
 tactical
@@ -592,6 +614,9 @@ unmoving
 unobtrusive
 unordered
 unpolished
+unreceptive
+unrecognizable
+unrelated
 unserious
 unshakable
 unstable

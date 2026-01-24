@@ -12,7 +12,9 @@ admiral
 advertiser
 advocate
 aficionado
+Agamemnon
 ain't that a shame
+Ajax
 al-Ṣūfī
 Albert The Alligator
 Alcaics
@@ -100,6 +102,7 @@ claimant
 Claude Cat
 clerk
 Clippy
+coactor
 composer
 confessor
 constable
@@ -116,6 +119,7 @@ Daffy Duck
 deacon
 dean
 defendant
+denizen
 Deus Ex
 Deus Ex Machina
 didact
@@ -128,6 +132,7 @@ Dobby
 dog sitter
 donor
 Dr. Seuss's The Cat in the Hat
+Draco Malfoy
 dragoon
 dragster
 driver
@@ -180,6 +185,7 @@ Get outta town!
 Ghost in the Shell
 gigglemug
 Giles
+Gilgamesh
 goalie
 goner
 good grief
@@ -238,6 +244,7 @@ interring
 It's a lie!
 It's a setup!
 it's only a game
+Izod
 Jabir ibn Hayyan
 jack-in-the-box
 Jagex
@@ -270,6 +277,7 @@ lol
 lolcat
 Lollards
 loudmouth
+lunk
 MacGuffin
 mariner
 mate
@@ -324,6 +332,7 @@ P.I.
 P.T. Barnum
 park ranger
 parliamentarian
+pawn broker
 peddler
 peer group
 Peerage
@@ -342,6 +351,7 @@ Picts
 Pingu
 A Team
 pirate
+pitman
 pitter patter
 PlanetSide 2
 podsnapper
@@ -354,6 +364,7 @@ Porky Pig
 postman
 prankster
 prat
+predecessor
 prefect
 presdident of $$random_word
 press agent
@@ -399,6 +410,7 @@ setter
 settler
 Shamu
 Shire reeve
+Shriners
 ShyGuy
 Silesian
 Simon & Garfunkel
@@ -414,6 +426,7 @@ so be it
 sonny
 sorcerer
 Space Invaders
+Sphinx
 spoilers
 spy
 squidbillies

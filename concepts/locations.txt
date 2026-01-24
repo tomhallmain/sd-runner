@@ -98,12 +98,14 @@ dome
 domicile
 dovecote
 dropshipper
+dwelling
 emporium
 end zone
 entryway
 estate grounds
 event horizon
 facility
+fane
 fathoms
 firehouse
 fireside
@@ -237,6 +239,7 @@ route
 route $$number
 rowhouse
 royal court
+sanatorium
 sand dunes
 sandbox
 school grounds
@@ -246,6 +249,7 @@ seaport
 seaside
 security office
 shaft
+shelf
 shore
 shoreline
 side road
