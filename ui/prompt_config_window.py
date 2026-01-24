@@ -8,7 +8,8 @@ from lib.aware_entry import AwareEntry
 from lib.multi_display import SmartToplevel
 from lib.tooltip import Tooltip
 from sd_runner.base_image_generator import BaseImageGenerator
-from sd_runner.prompter import PrompterConfiguration, Prompter
+from sd_runner.prompter_configuration import PrompterConfiguration
+from sd_runner.prompter import Prompter
 from sd_runner.run_config import RunConfig
 from ui.app_style import AppStyle
 from utils.globals import Sampler, Scheduler

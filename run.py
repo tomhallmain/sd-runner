@@ -10,7 +10,8 @@ from sd_runner.comfy_gen import ComfyGen
 from sd_runner.control_nets import get_control_nets, redo_files, ControlNet
 from sd_runner.gen_config import GenConfig, MultiGenProgressTracker
 from sd_runner.ip_adapters import get_ip_adapters, IPAdapter
-from sd_runner.prompter import PrompterConfiguration, GlobalPrompter
+from sd_runner.prompter_configuration import PrompterConfiguration
+from sd_runner.prompter import GlobalPrompter
 from sd_runner.models import Model
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig

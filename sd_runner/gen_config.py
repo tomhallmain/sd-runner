@@ -6,7 +6,7 @@ from utils.config import config
 from utils.globals import Globals, WorkflowType, ArchitectureType, PromptMode
 from sd_runner.model_adapters import IPAdapter
 from sd_runner.models import Model
-from sd_runner.prompter import PrompterConfiguration
+from sd_runner.prompter_configuration import PrompterConfiguration
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from utils.logging_setup import get_logger
