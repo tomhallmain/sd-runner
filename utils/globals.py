@@ -298,12 +298,52 @@ class Sampler(Enum):
     def __str__(self):
         return self.name
     
+    def display(self):
+        """Get the display value for this sampler type."""
+        return {
+            Sampler.ACCEPT_ANY: _("Any"),
+            Sampler.EULER: _("Euler"),
+            Sampler.EULER_ANCESTRAL: _("Euler Ancestral"),
+            Sampler.DPM_2: _("DPM 2"),
+            Sampler.DPM_2_ANCESTRAL: _("DPM 2 Ancestral"),
+            Sampler.DPMPP_SDE: _("DPM++ SDE"),
+            Sampler.DPMPP_SDE_GPU: _("DPM++ SDE GPU"),
+            Sampler.DPMPP_2M: _("DPM++ 2M"),
+            Sampler.DPMPP_2M_SDE: _("DPM++ 2M SDE"),
+            Sampler.DPMPP_2M_SDE_GPU: _("DPM++ 2M SDE GPU"),
+            Sampler.DPMPP_3M_SDE: _("DPM++ 3M SDE"),
+            Sampler.DPMPP_3M_SDE_GPU: _("DPM++ 3M SDE GPU"),
+            Sampler.DDIM: _("DDIM"),
+            Sampler.DDPM: _("DDPM"),
+            Sampler.LCM: _("LCM"),
+        }[self]
+    
+    @classmethod
+    def display_values(cls):
+        """Get all display values for samplers."""
+        return [sampler.display() for sampler in cls]
+    
+    @staticmethod
+    def from_display(display_str):
+        """Get Sampler from display string."""
+        for sampler in Sampler:
+            if sampler.display() == display_str:
+                return sampler
+        raise ValueError(f"No Sampler with display value '{display_str}'")
+    
     @classmethod
     def get(cls, name):
         if isinstance(name, cls):
             return name
         elif isinstance(name, str):
-            return cls[name]
+            try:
+                return cls[name]
+            except KeyError:
+                # Try to get from display value if enum name lookup fails
+                try:
+                    return cls.from_display(name)
+                except ValueError:
+                    raise ValueError(f"Invalid enum value for class {cls.__name__}: {name} (type: {type(name)})")
         raise ValueError(f"Invalid enum value for class {cls.__name__}: {name} (type: {type(name)})")
 
 
@@ -319,12 +359,44 @@ class Scheduler(Enum):
     def __str__(self):
         return self.name
     
+    def display(self):
+        """Get the display value for this scheduler type."""
+        return {
+            Scheduler.ACCEPT_ANY: _("Any"),
+            Scheduler.NORMAL: _("Normal"),
+            Scheduler.KARRAS: _("Karras"),
+            Scheduler.SIMPLE: _("Simple"),
+            Scheduler.EXPONENTIAL: _("Exponential"),
+            Scheduler.SGM_UNIFORM: _("SGM Uniform"),
+            Scheduler.DDIM_UNIFORM: _("DDIM Uniform"),
+        }[self]
+    
+    @classmethod
+    def display_values(cls):
+        """Get all display values for schedulers."""
+        return [scheduler.display() for scheduler in cls]
+    
+    @staticmethod
+    def from_display(display_str):
+        """Get Scheduler from display string."""
+        for scheduler in Scheduler:
+            if scheduler.display() == display_str:
+                return scheduler
+        raise ValueError(f"No Scheduler with display value '{display_str}'")
+    
     @classmethod
     def get(cls, name):
         if isinstance(name, cls):
             return name
         elif isinstance(name, str):
-            return cls[name]
+            try:
+                return cls[name]
+            except KeyError:
+                # Try to get from display value if enum name lookup fails
+                try:
+                    return cls.from_display(name)
+                except ValueError:
+                    raise ValueError(f"Invalid enum value for class {cls.__name__}: {name} (type: {type(name)})")
         raise ValueError(f"Invalid enum value for class {cls.__name__}: {name} (type: {type(name)})")
 
 

@@ -2,7 +2,7 @@ This code is primarily a sophisticated prompt engineering application that trigg
 
 ## Warnings
 
-- This was originally developed during early 2024, so many prompts may be out of date with current versions of the respective image generation projects.
+- This was originally developed during early 2024 and some prompts may be out of date with current versions of the respective image generation projects.
 - Though any prompt applied to any model can result in undesirable images despite properly set negative prompts, prompt randomization increases the chance that undesirable images may be generated, even if only innocuous terms are included in the prompt, because the randomness allows for wider traversal of the model's latent space. For this reason it is wise to use a local prevalidation and content filtering tool. I recommend using [simple_image_compare](https://github.com/tomhallmain/simple_image_compare) which has many other features in addition to customizable prevalidations based on CLIP and H5 models.
 - A default English dictionary is used for generating random words, some of which may be found objectionable. A word with a high degree of relation to strong feelings like disgust also tends to carry a lot of prompt weight, even if it is buried in a much larger prompt with no other similar words. Luckily this will often result in an "incoherent" result with earlier models, or a slightly objectionable result with later models, but there is still a chance of problematic images being generated. As a result you may choose not to use the `random_word` prompt variable, or implement a blacklist using the provided blacklist window which blocks prompts with undesirable strings or otherwise drops them from prompts. There is a default blacklist used if none is provided, which requires extra security to clear and even to reveal its concepts.
 - If sharing your computer with multiple users, consider setting a password to lock the blacklist and other features.
@@ -45,13 +45,51 @@ Nested choice sets are also available:
 
 Note that choice sets can be stored in preset prompt variables to cut down on visible prompt lengths.
 
+## Supported Systems, Architectures, and Workflows
+
+### Systems
+The application supports two image generation backends:
+- **ComfyUI**: Full-featured workflow support with advanced node-based processing
+- **SDWebUI (Automatic1111)**: Web-based interface with streamlined workflow support
+
+### Model Architectures
+The following model architectures are supported. Resolution tags automatically scale to match each architecture's expected output dimensions:
+
+- SD 1.5
+- SDXL
+- Illustrious
+- Flux
+- Chroma
+- ZImageTurbo
+- Qwen
+
+### Workflows
+The following workflows are available. The table shows which systems (ComfyUI/SDWebUI) support each workflow across all architectures. Note that most workflows work with all supported architectures, with system availability varying by workflow. **Note:** Flux, Chroma, ZImageTurbo, and Qwen architectures have not been implemented/tested in SDWebUI, so workflows for these architectures are marked as ComfyUI-only (C):
+
+| Workflow | Description | SD1.5 | SDXL | Illust. | Flux | Chroma | ZIT | Qwen |
+|----------|-------------|--------|------|-------------|------|--------|-------------|------|
+| Simple Image Gen | Basic text-to-image generation | C/S | C/S | C/S | C | C | C | C |
+| Simple Image Gen Lora | Text-to-image with LoRA support | C/S | C/S | C/S | C | C | C | C |
+| Simple Image Gen Tiled Upscale | Tiled upscaling workflow | C | C |  |  |  |  |  |
+| Instant LoRA | Instant LoRA training workflow |  | C |  |  |  |  |  |
+| IP Adapter | IP-Adapter style transfer | C/S | C/S | C/S | ? | ? | ? | ? |
+| Image to Image | Image-to-image transformation | C/S | C/S | C/S | ? | ? | ? | ? |
+| ControlNet | ControlNet conditioning | C/S | C/S | C/S |  |  |  |  |
+| Inpaint ClipSeg | Inpainting with ClipSeg | C | C |  |  |  |  |  |
+| Animate Diff | Animation generation | C | C |  |  |  |  |  |
+| Renoiser | Image denoising workflow | C | C | C |  |  |  |  |
+| Upscale Simple | Simple upscaling | C/S | C/S | C/S |  |  |  |  |
+| Upscale Better | Advanced upscaling | C | C | C |  |  |  |  |
+
+**Legend:** C = ComfyUI, S = SDWebUI, C/S = Both systems
+
 ## Image Resolutions
 
-Any of the following resolution options can be used: square, portrait1, portrait2, portrait3, landscape1, landscape2, landscape3. These options are valid for both SD 1.5 and SDXL models.
+Any of the following resolution options can be used: square, portrait1, portrait2, portrait3, landscape1, landscape2, landscape3. These resolution tags work with all supported model architectures and automatically scale dimensions to match each architecture's expected output size.
 
 To randomly skip a resolution during generation, attach a "*" to the resolution tag in the resolutions box. This is one way to help inject more randomness of output.
 
-Note the default behavior of Control Net and IP Adapater workflows is to inherit from the source image a resolution with a matching aspect ratio. The `Override resolutions` checkbox allows you to instead use the predefined resolution tags for these workflows.
+Note the default behavior of Control Net and IP Adapter workflows is to inherit from the source image a resolution with a matching aspect ratio. The `Override resolutions` checkbox allows you to instead use the predefined resolution tags for these workflows.
 
 ## Prompt Presets
 
@@ -105,7 +143,7 @@ Set configuration options for a server port to make use of the server while the 
 
 ## Notes
 
-The stable-diffusion-webui img2img workflow is set up as the IP Adapter workflow for that software. In the ComfyUI case, the Image to Image workflow provides a dedicated image-to-image transformation with the same inverse strength behavior, while the IP Adapter workflow uses IP-Adapter models for style transfer. In all img2img cases, modifying the IP adapter strength in the UI will inversely modify the denoising strength to produce a similar effect as IP adapter strength would for that workflow. 
+For stable-diffusion-webui, the img2img workflow is set up as the IP Adapter workflow. In ComfyUI, the Image to Image workflow provides a dedicated image-to-image transformation with the same inverse strength behavior, while the IP Adapter workflow uses IP-Adapter models for style transfer. In all img2img cases, modifying the IP adapter strength in the UI will inversely modify the denoising strength to produce a similar effect as IP adapter strength would for that workflow. 
 
 The following locales are supported in the UI: en (English), de (Deutsch), es (Español), fr (Français), ja (日本語), ko (한국어), pt (Português), ru (Русский), zh (中文). Theoretically the prompt outputs could be set up for any written language that has Unicode support by modifying the existing concepts files or adding a path to the config `concepts_dirs` to override concepts files.
 

@@ -171,10 +171,10 @@ class PrompterConfiguration:
         return {
             "concepts": ConceptConfiguration(low=1, high=3),
             "positions": ConceptConfiguration(low=0, high=2),
-            "locations": ConceptConfiguration(low=0, high=1, specific_chance=0.25),
+            "locations": ConceptConfiguration(low=0, high=1, specific_chance=0.3),
             "animals": ConceptConfiguration(low=0, high=1, inclusion_chance=0.1),
             "colors": ConceptConfiguration(low=0, high=2),
-            "times": ConceptConfiguration(low=0, high=1, specific_chance=0.25),
+            "times": ConceptConfiguration(low=0, high=1, specific_chance=0.3),
             "dress": ConceptConfiguration(low=0, high=2, inclusion_chance=0.5),
             "expressions": ConceptConfiguration(low=1, high=1),
             "actions": ConceptConfiguration(low=0, high=2),
@@ -235,7 +235,11 @@ class PrompterConfiguration:
         if 'locations' not in self.categories:
             raise ValueError("'locations' category not found in categories")
         if self.categories['locations'].specific_chance is None:
-            raise ValueError("'locations' category has no specific_chance set")
+            # Return default value from default category configurations
+            try:
+                return self.get_default_categories()['locations'].specific_chance
+            except KeyError:
+                return 0.3
         return self.categories['locations'].specific_chance
     
     def get_specific_times_chance(self) -> float:
@@ -243,7 +247,11 @@ class PrompterConfiguration:
         if 'times' not in self.categories:
             raise ValueError("'times' category not found in categories")
         if self.categories['times'].specific_chance is None:
-            raise ValueError("'times' category has no specific_chance set")
+            # Return default value from default category configurations
+            try:
+                return self.get_default_categories()['times'].specific_chance
+            except KeyError:
+                return 0.3
         return self.categories['times'].specific_chance
     
     def set_category(self, name: str, low: int, high: int, specific_chance: float = None, inclusion_chance: float = None):
@@ -402,8 +410,9 @@ class PrompterConfiguration:
         hash_dict = {k: v for k, v in self.__dict__.items() 
                     if k not in ['original_positive_tags', 'original_negative_tags']}
         # Convert categories dict values to dicts for JSON serialization
+        # Sort category keys for consistent hashing
         if 'categories' in hash_dict:
-            hash_dict['categories'] = {k: v.to_dict() for k, v in hash_dict['categories'].items()}
+            hash_dict['categories'] = {k: v.to_dict() for k, v in sorted(hash_dict['categories'].items())}
         return hash(json.dumps(hash_dict, cls=PromptModeEncoder, sort_keys=True))
 
 

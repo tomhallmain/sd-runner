@@ -82,7 +82,7 @@ class PromptConfigWindow:
         
         # Create the top-level window
         self.top_level = SmartToplevel(persistent_parent=master, title=_("Prompt Configuration"),
-                                       geometry="800x900")
+                                       geometry="1000x700")
         self.top_level.protocol("WM_DELETE_WINDOW", self.close_window)
         
         # Setup main frame
@@ -90,10 +90,24 @@ class PromptConfigWindow:
         self.main_frame.grid(column=0, row=0, sticky="nsew", padx=10, pady=10)
         self.main_frame.columnconfigure(0, weight=1)
         self.main_frame.columnconfigure(1, weight=1)
-        self.main_frame.columnconfigure(2, weight=1)
         
-        # Row counter for grid layout
-        self.row_counter = 0
+        # First column frame
+        self.first_column = Frame(self.main_frame, bg=AppStyle.BG_COLOR)
+        self.first_column.grid(column=0, row=1, sticky="nsew", padx=(0, 5))
+        self.first_column.columnconfigure(0, weight=1)
+        self.first_column.columnconfigure(1, weight=1)
+        self.first_column.columnconfigure(2, weight=1)
+        
+        # Second column frame
+        self.second_column = Frame(self.main_frame, bg=AppStyle.BG_COLOR)
+        self.second_column.grid(column=1, row=1, sticky="nsew", padx=(5, 0))
+        self.second_column.columnconfigure(0, weight=1)
+        self.second_column.columnconfigure(1, weight=1)
+        self.second_column.columnconfigure(2, weight=1)
+        
+        # Row counters for grid layout
+        self.row_counter0 = 0  # For first column (column 0)
+        self.row_counter1 = 0  # For second column (column 1)
         
         # Create the UI
         self.setup_ui()
@@ -182,8 +196,8 @@ class PromptConfigWindow:
             self.set_witticisms_weights()
             
             # Update other settings
-            self.runner_app_config.sampler = Sampler.get(self.sampler.get())
-            self.runner_app_config.scheduler = Scheduler.get(self.scheduler.get())
+            self.runner_app_config.sampler = Sampler.from_display(self.sampler.get())
+            self.runner_app_config.scheduler = Scheduler.from_display(self.scheduler.get())
             self.runner_app_config.seed = int(self.seed.get())
             self.runner_app_config.steps = int(self.steps.get())
             self.runner_app_config.cfg = float(self.cfg.get())
@@ -201,122 +215,124 @@ class PromptConfigWindow:
     def setup_ui(self):
         """Setup the user interface with all the prompt configuration widgets."""
         
-        # Title
+        # Title - spans across both columns in main_frame
         self.label_title = Label(self.main_frame, text=_("Detailed Prompt Configuration"), 
                                 font=Font(size=14, weight="bold"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_title, columnspan=3, sticky=W+E)
+        self.label_title.grid(column=0, row=0, columnspan=2, sticky=W+E, pady=(0, 10))
         
         # Basic Generation Settings Section
-        self.add_section_header(_("Basic Generation Settings"))
+        self.add_section_header(_("Basic Generation Settings"), column=0)
         
         # Sampler
-        self.label_sampler = Label(self.main_frame, text=_("Sampler"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_sampler, increment_row_counter=False)
+        self.label_sampler = Label(self.first_column, text=_("Sampler"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_sampler, increment_row_counter=False, column=0)
         self.sampler = StringVar(self.master)
-        self.sampler_choice = OptionMenu(self.main_frame, self.sampler, str(self.runner_app_config.sampler), 
-                                        *Sampler.__members__.keys())
-        self.apply_to_grid(self.sampler_choice, interior_column=1, sticky=W)
+        starting_sampler_display = Sampler.get(self.runner_app_config.sampler).display()
+        self.sampler_choice = OptionMenu(self.first_column, self.sampler, starting_sampler_display, 
+                                        *Sampler.display_values())
+        self.apply_to_grid(self.sampler_choice, interior_column=1, sticky=W, column=0)
         
         # Scheduler
-        self.label_scheduler = Label(self.main_frame, text=_("Scheduler"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_scheduler, increment_row_counter=False)
+        self.label_scheduler = Label(self.first_column, text=_("Scheduler"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_scheduler, increment_row_counter=False, column=0)
         self.scheduler = StringVar(self.master)
-        self.scheduler_choice = OptionMenu(self.main_frame, self.scheduler, str(self.runner_app_config.scheduler), 
-                                          *Scheduler.__members__.keys())
-        self.apply_to_grid(self.scheduler_choice, interior_column=1, sticky=W)
+        starting_scheduler_display = Scheduler.get(self.runner_app_config.scheduler).display()
+        self.scheduler_choice = OptionMenu(self.first_column, self.scheduler, starting_scheduler_display, 
+                                          *Scheduler.display_values())
+        self.apply_to_grid(self.scheduler_choice, interior_column=1, sticky=W, column=0)
         
         # Seed
-        self.label_seed = Label(self.main_frame, text=_("Seed"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_seed, increment_row_counter=False)
+        self.label_seed = Label(self.first_column, text=_("Seed"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_seed, increment_row_counter=False, column=0)
         self.seed = StringVar()
-        self.seed_box = AwareEntry(self.main_frame, textvariable=self.seed, width=10, font=Font(size=8))
-        self.apply_to_grid(self.seed_box, interior_column=1, sticky=W)
+        self.seed_box = AwareEntry(self.first_column, textvariable=self.seed, width=10, font=Font(size=8))
+        self.apply_to_grid(self.seed_box, interior_column=1, sticky=W, column=0)
         self.set_widget_value(self.seed_box, self.runner_app_config.seed)
         
         # Steps
-        self.label_steps = Label(self.main_frame, text=_("Steps"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_steps, increment_row_counter=False)
+        self.label_steps = Label(self.first_column, text=_("Steps"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_steps, increment_row_counter=False, column=0)
         self.steps = StringVar()
-        self.steps_box = AwareEntry(self.main_frame, textvariable=self.steps, width=10, font=Font(size=8))
-        self.apply_to_grid(self.steps_box, interior_column=1, sticky=W)
+        self.steps_box = AwareEntry(self.first_column, textvariable=self.steps, width=10, font=Font(size=8))
+        self.apply_to_grid(self.steps_box, interior_column=1, sticky=W, column=0)
         self.set_widget_value(self.steps_box, self.runner_app_config.steps)
         
         # CFG
-        self.label_cfg = Label(self.main_frame, text=_("CFG"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_cfg, increment_row_counter=False)
+        self.label_cfg = Label(self.first_column, text=_("CFG"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_cfg, increment_row_counter=False, column=0)
         self.cfg = StringVar()
-        self.cfg_box = AwareEntry(self.main_frame, textvariable=self.cfg, width=10, font=Font(size=8))
-        self.apply_to_grid(self.cfg_box, interior_column=1, sticky=W)
+        self.cfg_box = AwareEntry(self.first_column, textvariable=self.cfg, width=10, font=Font(size=8))
+        self.apply_to_grid(self.cfg_box, interior_column=1, sticky=W, column=0)
         self.set_widget_value(self.cfg_box, self.runner_app_config.cfg)
         
         # Denoise
-        self.label_denoise = Label(self.main_frame, text=_("Denoise"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_denoise, increment_row_counter=False)
+        self.label_denoise = Label(self.first_column, text=_("Denoise"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_denoise, increment_row_counter=False, column=0)
         self.denoise = StringVar()
-        self.denoise_box = AwareEntry(self.main_frame, textvariable=self.denoise, width=10, font=Font(size=8))
-        self.apply_to_grid(self.denoise_box, interior_column=1, sticky=W)
+        self.denoise_box = AwareEntry(self.first_column, textvariable=self.denoise, width=10, font=Font(size=8))
+        self.apply_to_grid(self.denoise_box, interior_column=1, sticky=W, column=0)
         self.set_widget_value(self.denoise_box, self.runner_app_config.denoise)
         
         # Random Skip Chance
-        self.label_random_skip = Label(self.main_frame, text=_("Random Skip Chance"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_random_skip, increment_row_counter=False)
+        self.label_random_skip = Label(self.first_column, text=_("Random Skip Chance"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_random_skip, increment_row_counter=False, column=0)
         self.random_skip = StringVar()
-        self.random_skip_box = AwareEntry(self.main_frame, textvariable=self.random_skip, width=10, font=Font(size=8))
-        self.apply_to_grid(self.random_skip_box, interior_column=1, sticky=W)
+        self.random_skip_box = AwareEntry(self.first_column, textvariable=self.random_skip, width=10, font=Font(size=8))
+        self.apply_to_grid(self.random_skip_box, interior_column=1, sticky=W, column=0)
         self.set_widget_value(self.random_skip_box, self.runner_app_config.random_skip_chance)
         self.random_skip_box.bind("<Return>", self.set_random_skip)
         
-        # Prompts Configuration Section
-        self.add_section_header(_("Prompts Configuration"), columnspan=3)
+        # Prompts Configuration Section - moved to second column
+        self.add_section_header(_("Prompts Configuration"), columnspan=3, column=1)
         
         # Concept Counts
-        self.setup_concept_counts()
+        self.setup_concept_counts(self.second_column, column=1)
         
         # Position Counts
-        self.setup_position_counts()
+        self.setup_position_counts(self.second_column, column=1)
         
         # Location Counts
-        self.setup_location_counts()
+        self.setup_location_counts(self.second_column, column=1)
         
         # Animal Counts
-        self.setup_animal_counts()
+        self.setup_animal_counts(self.second_column, column=1)
         
         # Color Counts
-        self.setup_color_counts()
+        self.setup_color_counts(self.second_column, column=1)
         
         # Time Counts
-        self.setup_time_counts()
+        self.setup_time_counts(self.second_column, column=1)
         
         # Dress Counts
-        self.setup_dress_counts()
+        self.setup_dress_counts(self.second_column, column=1)
         
         # Expression Counts
-        self.setup_expression_counts()
+        self.setup_expression_counts(self.second_column, column=1)
         
         # Action Counts
-        self.setup_action_counts()
+        self.setup_action_counts(self.second_column, column=1)
         
         # Description Counts
-        self.setup_description_counts()
+        self.setup_description_counts(self.second_column, column=1)
         
         # Character Counts
-        self.setup_character_counts()
+        self.setup_character_counts(self.second_column, column=1)
         
         # Random Word Counts
-        self.setup_random_word_counts()
+        self.setup_random_word_counts(self.second_column, column=1)
         
         # Nonsense Counts
-        self.setup_nonsense_counts()
+        self.setup_nonsense_counts(self.second_column, column=1)
         
         # Jargon Counts
-        self.setup_jargon_counts()
+        self.setup_jargon_counts(self.second_column, column=1)
         
         # Witticisms (combined sayings and puns with subcategory weights)
-        self.setup_witticisms_counts()
+        self.setup_witticisms_counts(self.second_column, column=1)
         
         # Multiplier
-        self.label_multiplier = Label(self.main_frame, text=_("Multiplier"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_multiplier, increment_row_counter=False)
+        self.label_multiplier = Label(self.first_column, text=_("Multiplier"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_multiplier, increment_row_counter=False, column=0)
         multiplier_options = [str(i) for i in list(range(8))]
         multiplier_options.insert(2, "1.5")
         multiplier_options.insert(1, "0.75")
@@ -324,10 +340,10 @@ class PromptConfigWindow:
         multiplier_options.insert(1, "0.25")
         multiplier_options.insert(1, "0.1")
         self.multiplier = StringVar(self.master)
-        self.multiplier_choice = OptionMenu(self.main_frame, self.multiplier, 
+        self.multiplier_choice = OptionMenu(self.first_column, self.multiplier, 
                                            str(self.runner_app_config.prompter_config.multiplier), 
                                            *multiplier_options, command=self.set_multiplier)
-        self.apply_to_grid(self.multiplier_choice, interior_column=1, sticky=W)
+        self.apply_to_grid(self.multiplier_choice, interior_column=1, sticky=W, column=0)
         
         # Chance Sliders
         self.setup_chance_sliders()
@@ -336,268 +352,298 @@ class PromptConfigWindow:
         self.setup_checkboxes()
         
         # Close Button
-        self.close_btn = Button(self.main_frame, text=_("Close"), command=self.close_window)
-        self.apply_to_grid(self.close_btn, columnspan=3, pady=20)
+        self.close_btn = Button(self.first_column, text=_("Close"), command=self.close_window)
+        self.apply_to_grid(self.close_btn, columnspan=3, pady=20, column=0)
         
-    def setup_concept_counts(self):
+    def setup_concept_counts(self, frame=None, column=0):
         """Setup concept count widgets."""
-        self.label_concepts = Label(self.main_frame, text=_("Concepts"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_concepts, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_concepts = Label(frame, text=_("Concepts"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_concepts, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         concepts_config = prompter_config.get_category_config("concepts")
         self.concepts0 = StringVar(self.master)
         self.concepts1 = StringVar(self.master)
-        self.concepts0_choice = OptionMenu(self.main_frame, self.concepts0, str(concepts_config.low), 
+        self.concepts0_choice = OptionMenu(frame, self.concepts0, str(concepts_config.low), 
                                           *[str(i) for i in list(range(51))])
-        self.concepts1_choice = OptionMenu(self.main_frame, self.concepts1, str(concepts_config.high), 
+        self.concepts1_choice = OptionMenu(frame, self.concepts1, str(concepts_config.high), 
                                           *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.concepts0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.concepts1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.concepts0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.concepts1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_position_counts(self):
+    def setup_position_counts(self, frame=None, column=0):
         """Setup position count widgets."""
-        self.label_positions = Label(self.main_frame, text=_("Positions"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_positions, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_positions = Label(frame, text=_("Positions"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_positions, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         positions_config = prompter_config.get_category_config("positions")
         self.positions0 = StringVar(self.master)
         self.positions1 = StringVar(self.master)
-        self.positions0_choice = OptionMenu(self.main_frame, self.positions0, str(positions_config.low), 
+        self.positions0_choice = OptionMenu(frame, self.positions0, str(positions_config.low), 
                                            *[str(i) for i in list(range(51))])
-        self.positions1_choice = OptionMenu(self.main_frame, self.positions1, str(positions_config.high), 
+        self.positions1_choice = OptionMenu(frame, self.positions1, str(positions_config.high), 
                                            *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.positions0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.positions1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.positions0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.positions1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_location_counts(self):
+    def setup_location_counts(self, frame=None, column=0):
         """Setup location count widgets."""
-        self.label_locations = Label(self.main_frame, text=_("Locations"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_locations, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_locations = Label(frame, text=_("Locations"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_locations, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         locations_config = prompter_config.get_category_config("locations")
         self.locations0 = StringVar(self.master)
         self.locations1 = StringVar(self.master)
-        self.locations0_choice = OptionMenu(self.main_frame, self.locations0, str(locations_config.low), 
+        self.locations0_choice = OptionMenu(frame, self.locations0, str(locations_config.low), 
                                            *[str(i) for i in list(range(51))])
-        self.locations1_choice = OptionMenu(self.main_frame, self.locations1, str(locations_config.high), 
+        self.locations1_choice = OptionMenu(frame, self.locations1, str(locations_config.high), 
                                            *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.locations0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.locations1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.locations0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.locations1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_animal_counts(self):
+    def setup_animal_counts(self, frame=None, column=0):
         """Setup animal count widgets."""
-        self.label_animals = Label(self.main_frame, text=_("Animals"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_animals, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_animals = Label(frame, text=_("Animals"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_animals, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         animals_config = prompter_config.get_category_config("animals")
         self.animals0 = StringVar(self.master)
         self.animals1 = StringVar(self.master)
-        self.animals0_choice = OptionMenu(self.main_frame, self.animals0, str(animals_config.low), 
+        self.animals0_choice = OptionMenu(frame, self.animals0, str(animals_config.low), 
                                          *[str(i) for i in list(range(51))])
-        self.animals1_choice = OptionMenu(self.main_frame, self.animals1, str(animals_config.high), 
+        self.animals1_choice = OptionMenu(frame, self.animals1, str(animals_config.high), 
                                          *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.animals0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.animals1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.animals0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.animals1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_color_counts(self):
+    def setup_color_counts(self, frame=None, column=0):
         """Setup color count widgets."""
-        self.label_colors = Label(self.main_frame, text=_("Colors"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_colors, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_colors = Label(frame, text=_("Colors"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_colors, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         colors_config = prompter_config.get_category_config("colors")
         self.colors0 = StringVar(self.master)
         self.colors1 = StringVar(self.master)
-        self.colors0_choice = OptionMenu(self.main_frame, self.colors0, str(colors_config.low), 
+        self.colors0_choice = OptionMenu(frame, self.colors0, str(colors_config.low), 
                                         *[str(i) for i in list(range(51))])
-        self.colors1_choice = OptionMenu(self.main_frame, self.colors1, str(colors_config.high), 
+        self.colors1_choice = OptionMenu(frame, self.colors1, str(colors_config.high), 
                                         *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.colors0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.colors1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.colors0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.colors1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_time_counts(self):
+    def setup_time_counts(self, frame=None, column=0):
         """Setup time count widgets."""
-        self.label_times = Label(self.main_frame, text=_("Times"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_times, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_times = Label(frame, text=_("Times"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_times, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         times_config = prompter_config.get_category_config("times")
         self.times0 = StringVar(self.master)
         self.times1 = StringVar(self.master)
-        self.times0_choice = OptionMenu(self.main_frame, self.times0, str(times_config.low), 
+        self.times0_choice = OptionMenu(frame, self.times0, str(times_config.low), 
                                        *[str(i) for i in list(range(51))])
-        self.times1_choice = OptionMenu(self.main_frame, self.times1, str(times_config.high), 
+        self.times1_choice = OptionMenu(frame, self.times1, str(times_config.high), 
                                        *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.times0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.times1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.times0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.times1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_dress_counts(self):
+    def setup_dress_counts(self, frame=None, column=0):
         """Setup dress count widgets."""
-        self.label_dress = Label(self.main_frame, text=_("Dress"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_dress, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_dress = Label(frame, text=_("Dress"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_dress, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         dress_config = prompter_config.get_category_config("dress")
         self.dress0 = StringVar(self.master)
         self.dress1 = StringVar(self.master)
-        self.dress0_choice = OptionMenu(self.main_frame, self.dress0, str(dress_config.low), 
+        self.dress0_choice = OptionMenu(frame, self.dress0, str(dress_config.low), 
                                        *[str(i) for i in list(range(51))])
-        self.dress1_choice = OptionMenu(self.main_frame, self.dress1, str(dress_config.high), 
+        self.dress1_choice = OptionMenu(frame, self.dress1, str(dress_config.high), 
                                        *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.dress0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.dress1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.dress0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.dress1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_expression_counts(self):
+    def setup_expression_counts(self, frame=None, column=0):
         """Setup expression count widgets."""
-        self.label_expressions = Label(self.main_frame, text=_("Expressions"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_expressions, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_expressions = Label(frame, text=_("Expressions"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_expressions, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         expressions_config = prompter_config.get_category_config("expressions")
         self.expressions0 = StringVar(self.master)
         self.expressions1 = StringVar(self.master)
-        self.expressions0_choice = OptionMenu(self.main_frame, self.expressions0, str(expressions_config.low), 
+        self.expressions0_choice = OptionMenu(frame, self.expressions0, str(expressions_config.low), 
                                              *[str(i) for i in list(range(51))])
-        self.expressions1_choice = OptionMenu(self.main_frame, self.expressions1, str(expressions_config.high), 
+        self.expressions1_choice = OptionMenu(frame, self.expressions1, str(expressions_config.high), 
                                              *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.expressions0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.expressions1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.expressions0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.expressions1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_action_counts(self):
+    def setup_action_counts(self, frame=None, column=0):
         """Setup action count widgets."""
-        self.label_actions = Label(self.main_frame, text=_("Actions"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_actions, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_actions = Label(frame, text=_("Actions"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_actions, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         actions_config = prompter_config.get_category_config("actions")
         self.actions0 = StringVar(self.master)
         self.actions1 = StringVar(self.master)
-        self.actions0_choice = OptionMenu(self.main_frame, self.actions0, str(actions_config.low), 
+        self.actions0_choice = OptionMenu(frame, self.actions0, str(actions_config.low), 
                                          *[str(i) for i in list(range(51))])
-        self.actions1_choice = OptionMenu(self.main_frame, self.actions1, str(actions_config.high), 
+        self.actions1_choice = OptionMenu(frame, self.actions1, str(actions_config.high), 
                                          *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.actions0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.actions1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.actions0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.actions1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_description_counts(self):
+    def setup_description_counts(self, frame=None, column=0):
         """Setup description count widgets."""
-        self.label_descriptions = Label(self.main_frame, text=_("Descriptions"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_descriptions, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_descriptions = Label(frame, text=_("Descriptions"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_descriptions, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         descriptions_config = prompter_config.get_category_config("descriptions")
         self.descriptions0 = StringVar(self.master)
         self.descriptions1 = StringVar(self.master)
-        self.descriptions0_choice = OptionMenu(self.main_frame, self.descriptions0, str(descriptions_config.low), 
+        self.descriptions0_choice = OptionMenu(frame, self.descriptions0, str(descriptions_config.low), 
                                               *[str(i) for i in list(range(51))])
-        self.descriptions1_choice = OptionMenu(self.main_frame, self.descriptions1, str(descriptions_config.high), 
+        self.descriptions1_choice = OptionMenu(frame, self.descriptions1, str(descriptions_config.high), 
                                               *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.descriptions0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.descriptions1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.descriptions0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.descriptions1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_character_counts(self):
+    def setup_character_counts(self, frame=None, column=0):
         """Setup character count widgets."""
-        self.label_characters = Label(self.main_frame, text=_("Characters"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_characters, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_characters = Label(frame, text=_("Characters"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_characters, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         characters_config = prompter_config.get_category_config("characters")
         self.characters0 = StringVar(self.master)
         self.characters1 = StringVar(self.master)
-        self.characters0_choice = OptionMenu(self.main_frame, self.characters0, str(characters_config.low), 
+        self.characters0_choice = OptionMenu(frame, self.characters0, str(characters_config.low), 
                                             *[str(i) for i in list(range(51))])
-        self.characters1_choice = OptionMenu(self.main_frame, self.characters1, str(characters_config.high), 
+        self.characters1_choice = OptionMenu(frame, self.characters1, str(characters_config.high), 
                                             *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.characters0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.characters1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.characters0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.characters1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_random_word_counts(self):
+    def setup_random_word_counts(self, frame=None, column=0):
         """Setup random word count widgets."""
-        self.label_random_words = Label(self.main_frame, text=_("Random Words"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_random_words, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_random_words = Label(frame, text=_("Random Words"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_random_words, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         random_words_config = prompter_config.get_category_config("random_words")
         self.random_words0 = StringVar(self.master)
         self.random_words1 = StringVar(self.master)
-        self.random_words0_choice = OptionMenu(self.main_frame, self.random_words0, str(random_words_config.low), 
+        self.random_words0_choice = OptionMenu(frame, self.random_words0, str(random_words_config.low), 
                                               *[str(i) for i in list(range(51))])
-        self.random_words1_choice = OptionMenu(self.main_frame, self.random_words1, str(random_words_config.high), 
+        self.random_words1_choice = OptionMenu(frame, self.random_words1, str(random_words_config.high), 
                                               *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.random_words0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.random_words1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.random_words0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.random_words1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_nonsense_counts(self):
+    def setup_nonsense_counts(self, frame=None, column=0):
         """Setup nonsense count widgets."""
-        self.label_nonsense = Label(self.main_frame, text=_("Nonsense"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_nonsense, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_nonsense = Label(frame, text=_("Nonsense"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_nonsense, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         nonsense_config = prompter_config.get_category_config("nonsense")
         self.nonsense0 = StringVar(self.master)
         self.nonsense1 = StringVar(self.master)
-        self.nonsense0_choice = OptionMenu(self.main_frame, self.nonsense0, str(nonsense_config.low), 
+        self.nonsense0_choice = OptionMenu(frame, self.nonsense0, str(nonsense_config.low), 
                                           *[str(i) for i in list(range(51))])
-        self.nonsense1_choice = OptionMenu(self.main_frame, self.nonsense1, str(nonsense_config.high), 
+        self.nonsense1_choice = OptionMenu(frame, self.nonsense1, str(nonsense_config.high), 
                                           *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.nonsense0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.nonsense1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.nonsense0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.nonsense1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_jargon_counts(self):
+    def setup_jargon_counts(self, frame=None, column=0):
         """Setup jargon count widgets."""
-        self.label_jargon = Label(self.main_frame, text=_("Jargon"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_jargon, increment_row_counter=False)
+        if frame is None:
+            frame = self.first_column
+        self.label_jargon = Label(frame, text=_("Jargon"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_jargon, increment_row_counter=False, column=column)
         
         prompter_config = self.runner_app_config.prompter_config
         jargon_config = prompter_config.get_category_config("jargon")
         self.jargon0 = StringVar(self.master)
         self.jargon1 = StringVar(self.master)
-        self.jargon0_choice = OptionMenu(self.main_frame, self.jargon0, str(jargon_config.low), 
+        self.jargon0_choice = OptionMenu(frame, self.jargon0, str(jargon_config.low), 
                                         *[str(i) for i in list(range(51))])
-        self.jargon1_choice = OptionMenu(self.main_frame, self.jargon1, str(jargon_config.high), 
+        self.jargon1_choice = OptionMenu(frame, self.jargon1, str(jargon_config.high), 
                                         *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.jargon0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.jargon1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.jargon0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.jargon1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
-    def setup_witticisms_counts(self):
+    def setup_witticisms_counts(self, frame=None, column=0):
         """Setup witticisms count widgets with subcategory weight controls."""
+        if frame is None:
+            frame = self.first_column
         prompter_config = self.runner_app_config.prompter_config
         
         # Main witticisms count range
-        self.label_witticisms = Label(self.main_frame, text=_("Witticisms"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_witticisms, increment_row_counter=False)
+        self.label_witticisms = Label(frame, text=_("Witticisms"), bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
+        self.add_label(self.label_witticisms, increment_row_counter=False, column=column)
         
         # Get witticisms config - always use get_category_tuple which will return defaults if missing
         witticisms_config = prompter_config.get_category_config("witticisms")
         
         self.witticisms0 = StringVar(self.master)
         self.witticisms1 = StringVar(self.master)
-        self.witticisms0_choice = OptionMenu(self.main_frame, self.witticisms0, str(witticisms_config.low), 
+        self.witticisms0_choice = OptionMenu(frame, self.witticisms0, str(witticisms_config.low), 
                                             *[str(i) for i in list(range(51))])
-        self.witticisms1_choice = OptionMenu(self.main_frame, self.witticisms1, str(witticisms_config.high), 
+        self.witticisms1_choice = OptionMenu(frame, self.witticisms1, str(witticisms_config.high), 
                                             *[str(i) for i in list(range(51))])
-        self.apply_to_grid(self.witticisms0_choice, sticky=W, interior_column=1, increment_row_counter=False)
-        self.apply_to_grid(self.witticisms1_choice, sticky=W, interior_column=2, increment_row_counter=True)
+        self.apply_to_grid(self.witticisms0_choice, sticky=W, interior_column=1, increment_row_counter=False, column=column)
+        self.apply_to_grid(self.witticisms1_choice, sticky=W, interior_column=2, increment_row_counter=True, column=column)
         
         # Subcategory weights - slider for sayings/puns ratio
         # Combined weights label and slider
-        self.label_weights = Label(self.main_frame, text=_("Sayings / Puns Weights"), 
-                                   bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_weights, increment_row_counter=False)
+        self.label_weights = Label(frame, text=_("Sayings / Puns Weights"), 
+                                   bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, wraplength=200, justify="left")
+        self.add_label(self.label_weights, increment_row_counter=False, column=column)
         
         # Calculate slider position from weights (0 = all sayings, 50 = equal, 100 = all puns)
         ratio = prompter_config.get_witticisms_ratio()
         slider_position = ratio * 100
         slider_position = max(0, min(100, slider_position))  # Clamp to 0-100
         
-        self.witticisms_ratio_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL,
+        self.witticisms_ratio_slider = Scale(frame, from_=0, to=100, orient=HORIZONTAL,
                                             command=self.set_witticisms_weights)
         self.witticisms_ratio_slider.set(int(slider_position))
-        self.apply_to_grid(self.witticisms_ratio_slider, interior_column=1, sticky=W+E, columnspan=2)
+        self.apply_to_grid(self.witticisms_ratio_slider, interior_column=1, sticky=W+E, columnspan=2, column=column)
         
         # Add tooltip explaining the slider
         Tooltip(self.label_weights, _("Adjust the ratio between sayings and puns. 50% = equal blend, 0% = mostly sayings, 100% = mostly puns."))
@@ -605,117 +651,122 @@ class PromptConfigWindow:
     def setup_chance_sliders(self):
         """Setup chance slider widgets."""
         # Specific Locations Chance
-        self.label_specific_locations = Label(self.main_frame, text=_("Specific Locations Chance"), 
-                                             bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_specific_locations, increment_row_counter=False, columnspan=2)
-        self.specific_locations_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
+        self.label_specific_locations = Label(self.second_column, text=_("Specific Locations Chance"), 
+                                             bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, wraplength=200, justify="left")
+        self.add_label(self.label_specific_locations, increment_row_counter=False, columnspan=2, column=1)
+        self.specific_locations_slider = Scale(self.second_column, from_=0, to=100, orient=HORIZONTAL, 
                                               command=self.set_specific_locations)
         self.set_widget_value(self.specific_locations_slider, self.runner_app_config.prompter_config.get_specific_locations_chance())
-        self.apply_to_grid(self.specific_locations_slider, interior_column=1, sticky=W+E, columnspan=2)
+        self.apply_to_grid(self.specific_locations_slider, interior_column=1, sticky=W+E, columnspan=2, column=1)
         
         # Specific Times Chance
-        self.label_specific_times = Label(self.main_frame, text=_("Specific Times Chance"), 
-                                         bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_specific_times, increment_row_counter=False, columnspan=2)
-        self.specific_times_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
+        self.label_specific_times = Label(self.second_column, text=_("Specific Times Chance"), 
+                                         bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, wraplength=200, justify="left")
+        self.add_label(self.label_specific_times, increment_row_counter=False, columnspan=2, column=1)
+        self.specific_times_slider = Scale(self.second_column, from_=0, to=100, orient=HORIZONTAL, 
                                           command=self.set_specific_times)
         self.set_widget_value(self.specific_times_slider, self.runner_app_config.prompter_config.get_specific_times_chance())
-        self.apply_to_grid(self.specific_times_slider, interior_column=1, sticky=W+E, columnspan=2)
+        self.apply_to_grid(self.specific_times_slider, interior_column=1, sticky=W+E, columnspan=2, column=1)
         
         # Specify Humans Chance
-        self.label_specify_humans_chance = Label(self.main_frame, text=_("Specify Humans Chance"), 
-                                                bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_specify_humans_chance, increment_row_counter=False, columnspan=2)
-        self.specify_humans_chance_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
+        self.label_specify_humans_chance = Label(self.second_column, text=_("Specify Humans Chance"), 
+                                                bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, wraplength=200, justify="left")
+        self.add_label(self.label_specify_humans_chance, increment_row_counter=False, columnspan=2, column=1)
+        self.specify_humans_chance_slider = Scale(self.second_column, from_=0, to=100, orient=HORIZONTAL, 
                                                   command=self.set_specify_humans_chance)
         self.set_widget_value(self.specify_humans_chance_slider, self.runner_app_config.prompter_config.specify_humans_chance)
-        self.apply_to_grid(self.specify_humans_chance_slider, interior_column=1, sticky=W+E, columnspan=2)
+        self.apply_to_grid(self.specify_humans_chance_slider, interior_column=1, sticky=W+E, columnspan=2, column=1)
         
         # Art Style Chance
-        self.label_art_style_chance = Label(self.main_frame, text=_("Art Styles Chance"), 
-                                           bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_art_style_chance, increment_row_counter=False, columnspan=2)
-        self.art_style_chance_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
+        self.label_art_style_chance = Label(self.second_column, text=_("Art Styles Chance"), 
+                                           bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, wraplength=200, justify="left")
+        self.add_label(self.label_art_style_chance, increment_row_counter=False, columnspan=2, column=1)
+        self.art_style_chance_slider = Scale(self.second_column, from_=0, to=100, orient=HORIZONTAL, 
                                              command=self.set_art_style_chance)
         self.set_widget_value(self.art_style_chance_slider, self.runner_app_config.prompter_config.art_styles_chance)
-        self.apply_to_grid(self.art_style_chance_slider, interior_column=1, sticky=W+E, columnspan=2)
+        self.apply_to_grid(self.art_style_chance_slider, interior_column=1, sticky=W+E, columnspan=2, column=1)
         
         # Emphasis Chance
-        self.label_emphasis_chance = Label(self.main_frame, text=_("Emphasis Chance"), 
-                                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_emphasis_chance, increment_row_counter=False, columnspan=2)
-        self.emphasis_chance_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
+        self.label_emphasis_chance = Label(self.second_column, text=_("Emphasis Chance"), 
+                                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, wraplength=200, justify="left")
+        self.add_label(self.label_emphasis_chance, increment_row_counter=False, columnspan=2, column=1)
+        self.emphasis_chance_slider = Scale(self.second_column, from_=0, to=100, orient=HORIZONTAL, 
                                             command=self.set_emphasis_chance)
         self.set_widget_value(self.emphasis_chance_slider, self.runner_app_config.prompter_config.emphasis_chance)
-        self.apply_to_grid(self.emphasis_chance_slider, interior_column=1, sticky=W+E, columnspan=2)
+        self.apply_to_grid(self.emphasis_chance_slider, interior_column=1, sticky=W+E, columnspan=2, column=1)
         
         # Animals Inclusion Chance
-        self.label_animals_inclusion = Label(self.main_frame, text=_("Animals Inclusion Chance"), 
-                                            bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_animals_inclusion, increment_row_counter=False, columnspan=2)
-        self.animals_inclusion_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
+        self.label_animals_inclusion = Label(self.second_column, text=_("Animals Inclusion Chance"), 
+                                            bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, wraplength=200, justify="left")
+        self.add_label(self.label_animals_inclusion, increment_row_counter=False, columnspan=2, column=1)
+        self.animals_inclusion_slider = Scale(self.second_column, from_=0, to=100, orient=HORIZONTAL, 
                                               command=self.set_animals_inclusion)
         animals_config = self.runner_app_config.prompter_config.get_category_config("animals")
         self.set_widget_value(self.animals_inclusion_slider, animals_config.get_inclusion_chance())
-        self.apply_to_grid(self.animals_inclusion_slider, interior_column=1, sticky=W+E, columnspan=2)
+        self.apply_to_grid(self.animals_inclusion_slider, interior_column=1, sticky=W+E, columnspan=2, column=1)
         
         # Dress Inclusion Chance
-        self.label_dress_inclusion = Label(self.main_frame, text=_("Dress Inclusion Chance"), 
-                                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(self.label_dress_inclusion, increment_row_counter=False, columnspan=2)
-        self.dress_inclusion_slider = Scale(self.main_frame, from_=0, to=100, orient=HORIZONTAL, 
+        self.label_dress_inclusion = Label(self.second_column, text=_("Dress Inclusion Chance"), 
+                                          bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, wraplength=200, justify="left")
+        self.add_label(self.label_dress_inclusion, increment_row_counter=False, columnspan=2, column=1)
+        self.dress_inclusion_slider = Scale(self.second_column, from_=0, to=100, orient=HORIZONTAL, 
                                             command=self.set_dress_inclusion)
         dress_config = self.runner_app_config.prompter_config.get_category_config("dress")
         self.set_widget_value(self.dress_inclusion_slider, dress_config.get_inclusion_chance())
-        self.apply_to_grid(self.dress_inclusion_slider, interior_column=1, sticky=W+E, columnspan=2)
+        self.apply_to_grid(self.dress_inclusion_slider, interior_column=1, sticky=W+E, columnspan=2, column=1)
         
     def setup_checkboxes(self):
         """Setup checkbox widgets."""
         # Override Negative
         self.override_negative_var = BooleanVar(value=self.runner_app_config.override_negative)
-        self.override_negative_choice = Checkbutton(self.main_frame, text=_("Override Base Negative"), 
+        self.override_negative_choice = Checkbutton(self.first_column, text=_("Override Base Negative"), 
                                                    variable=self.override_negative_var, command=self.set_override_negative, 
                                                    bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
-        self.apply_to_grid(self.override_negative_choice, sticky=W, columnspan=3)
+        self.apply_to_grid(self.override_negative_choice, sticky=W, columnspan=3, column=0)
         
         # Tags Applied to Prompt Start
         self.tags_at_start_var = BooleanVar(value=self.runner_app_config.tags_apply_to_start)
-        self.tags_at_start_choice = Checkbutton(self.main_frame, text=_("Tags Applied to Prompt Start"), 
+        self.tags_at_start_choice = Checkbutton(self.first_column, text=_("Tags Applied to Prompt Start"), 
                                                variable=self.tags_at_start_var, command=self.set_tags_apply_to_start, 
                                                bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
-        self.apply_to_grid(self.tags_at_start_choice, sticky=W, columnspan=3)
+        self.apply_to_grid(self.tags_at_start_choice, sticky=W, columnspan=3, column=0)
         
         # Sparse Mixed Tags
         self.tags_sparse_mix_var = BooleanVar(value=self.runner_app_config.prompter_config.sparse_mixed_tags)
-        self.tags_sparse_mix_choice = Checkbutton(self.main_frame, text=_("Sparse Mixed Tags"), 
+        self.tags_sparse_mix_choice = Checkbutton(self.first_column, text=_("Sparse Mixed Tags"), 
                                                   variable=self.tags_sparse_mix_var, command=self.set_tags_sparse_mix, 
                                                   bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
-        self.apply_to_grid(self.tags_sparse_mix_choice, sticky=W, columnspan=3)
+        self.apply_to_grid(self.tags_sparse_mix_choice, sticky=W, columnspan=3, column=0)
          
         # Continuous Seed Variation
         self.continuous_seed_variation_var = BooleanVar(value=self.runner_app_config.continuous_seed_variation)
-        self.continuous_seed_variation_choice = Checkbutton(self.main_frame, text=_("Continuous Seed Variation"), 
+        self.continuous_seed_variation_choice = Checkbutton(self.first_column, text=_("Continuous Seed Variation"), 
                                                             variable=self.continuous_seed_variation_var, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
-        self.apply_to_grid(self.continuous_seed_variation_choice, sticky=W, columnspan=3)
+        self.apply_to_grid(self.continuous_seed_variation_choice, sticky=W, columnspan=3, column=0)
         
-    def add_section_header(self, text, columnspan=1, sticky=W):
+    def add_section_header(self, text, columnspan=1, sticky=W, column=0):
         """Add a section header label."""
-        label = Label(self.main_frame, text=text, font=Font(size=12, weight="bold"), 
+        frame = self.first_column if column == 0 else self.second_column
+        label = Label(frame, text=text, font=Font(size=12, weight="bold"), 
                       bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR)
-        self.add_label(label, columnspan=columnspan, sticky=sticky, pady=(20, 10))
+        self.add_label(label, columnspan=columnspan, sticky=sticky, pady=(20, 10), column=column)
         
-    def add_label(self, label_ref, sticky=W, pady=0, columnspan=None, increment_row_counter=True, interior_column=0):
+    def add_label(self, label_ref, sticky=W, pady=0, columnspan=None, increment_row_counter=True, interior_column=0, column=0):
         """Add a label to the grid."""
+        row = self.row_counter0 if column == 0 else self.row_counter1
         if columnspan is None:
-            label_ref.grid(column=interior_column, row=self.row_counter, sticky=sticky, pady=pady)
+            label_ref.grid(column=interior_column, row=row, sticky=sticky, pady=pady)
         else:
-            label_ref.grid(column=interior_column, row=self.row_counter, sticky=sticky, pady=pady, columnspan=columnspan)
+            label_ref.grid(column=interior_column, row=row, sticky=sticky, pady=pady, columnspan=columnspan)
         if increment_row_counter:
-            self.row_counter += 1
+            if column == 0:
+                self.row_counter0 += 1
+            else:
+                self.row_counter1 += 1
             
-    def apply_to_grid(self, component, sticky=None, pady=0, interior_column=0, columnspan=None, increment_row_counter=True):
+    def apply_to_grid(self, component, sticky=None, pady=0, interior_column=0, column=0, columnspan=None, increment_row_counter=True):
         """Apply a component to the grid."""
-        row = self.row_counter
+        row = self.row_counter0 if column == 0 else self.row_counter1
         if sticky is None:
             if columnspan is None:
                 component.grid(column=interior_column, row=row, pady=pady)
@@ -727,7 +778,10 @@ class PromptConfigWindow:
             else:
                 component.grid(column=interior_column, row=row, sticky=sticky, pady=pady, columnspan=columnspan)
         if increment_row_counter:
-            self.row_counter += 1
+            if column == 0:
+                self.row_counter0 += 1
+            else:
+                self.row_counter1 += 1
             
     def set_widget_value(self, widget, value):
         """Set the value of a widget."""
@@ -743,8 +797,13 @@ class PromptConfigWindow:
         """Apply the current theme colors to all widgets."""
         self.top_level.config(bg=AppStyle.BG_COLOR)
         self.main_frame.config(bg=AppStyle.BG_COLOR)
+        self.first_column.config(bg=AppStyle.BG_COLOR)
+        self.second_column.config(bg=AppStyle.BG_COLOR)
         # Refresh selectcolor for all Checkbutton widgets
-        for widget in self.main_frame.winfo_children():
+        for widget in self.first_column.winfo_children():
+            if isinstance(widget, Checkbutton):
+                widget.config(selectcolor=AppStyle.BG_COLOR)
+        for widget in self.second_column.winfo_children():
             if isinstance(widget, Checkbutton):
                 widget.config(selectcolor=AppStyle.BG_COLOR)
         

@@ -119,12 +119,15 @@ class ConceptConfiguration:
         )
 
     def to_dict(self) -> dict:
-        """Convert to dictionary format."""
+        """Convert to dictionary format with sorted keys for consistent hashing."""
         result = {"low": self.low, "high": self.high}
         if self.specific_chance is not None:
             result["specific_chance"] = self.specific_chance
+        if self.inclusion_chance is not None:
+            result["inclusion_chance"] = self.inclusion_chance
         if self.subcategory_weights:
-            result["subcategory_weights"] = self.subcategory_weights
+            # Sort subcategory_weights for consistent hashing
+            result["subcategory_weights"] = dict(sorted(self.subcategory_weights.items()))
         return result
     
     @classmethod
@@ -134,8 +137,29 @@ class ConceptConfiguration:
             low=value.get("low", 0),
             high=value.get("high", 0),
             specific_chance=value.get("specific_chance"),
+            inclusion_chance=value.get("inclusion_chance"),
             subcategory_weights=value.get("subcategory_weights", {})
         )
+
+    def __eq__(self, other):
+        """Compare ConceptConfiguration objects by all fields."""
+        if not isinstance(other, ConceptConfiguration):
+            return False
+        # Compare all fields, handling None values and dict comparison
+        return (self.low == other.low and
+                self.high == other.high and
+                self.specific_chance == other.specific_chance and
+                self.inclusion_chance == other.inclusion_chance and
+                self.subcategory_weights == other.subcategory_weights)
+    
+    def __hash__(self):
+        """Hash ConceptConfiguration for use in sets/dicts.
+        
+        Note: This makes the object hashable, but since it's mutable (dataclass without frozen=True),
+        it should only be used in contexts where the object won't be modified after hashing.
+        """
+        # Use to_dict() which ensures consistent key ordering
+        return hash(tuple(sorted(self.to_dict().items())))
 
 
 def weighted_sample_without_replacement(population: list[str], weights: list[float], k: int = 1) -> list[str]:
