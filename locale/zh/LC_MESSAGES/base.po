@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2026-01-05 17:34-0500\n"
-"PO-Revision-Date: 2026-01-05 17:34-0500\n"
+"POT-Creation-Date: 2026-01-25 02:51-0500\n"
+"PO-Revision-Date: 2026-01-25 02:51-0500\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
@@ -24,193 +24,197 @@ msgstr "运行工作流程"
 msgid "Cancel Run"
 msgstr "取消运行"
 
-#: app.py:168
+#: app.py:174
 msgid "Software"
 msgstr "软件"
 
-#: app.py:176
+#: app.py:182
 msgid "Workflow"
 msgstr "工作流程"
 
-#: app.py:183
+#: app.py:189
 msgid "Set N Latents"
 msgstr "潜变量数量"
 
-#: app.py:189
+#: app.py:195
 msgid "Set Total"
 msgstr "总计"
 
-#: app.py:197
+#: app.py:203
 msgid "Batch Limit"
 msgstr "批次限制"
 
-#: app.py:204
+#: app.py:210
 msgid "Delay Seconds"
 msgstr "延迟秒数"
 
-#: app.py:210
+#: app.py:216
 msgid "Resolutions"
 msgstr "图像分辨率"
 
-#: app.py:217
+#: app.py:223
 msgid "Resolution Group"
 msgstr "图像分辨率小组"
 
-#: app.py:223
+#: app.py:229
 msgid "Model Tags"
 msgstr "模型标签"
 
-#: app.py:225 app.py:242 ui/models_window.py:27
+#: app.py:231 app.py:248 ui/models_window.py:27
 msgid "Models"
 msgstr "模型"
 
-#: app.py:240
+#: app.py:246
 msgid "LoRA Tags"
 msgstr "LoRA 标签"
 
-#: app.py:258
+#: app.py:264
 msgid "Default LoRA Strength"
 msgstr "默认 LoRA 强度"
 
-#: app.py:264
+#: app.py:270
 msgid "B/W Colorization Tags"
 msgstr "黑/白色着色标签"
 
-#: app.py:272
+#: app.py:278
 msgid "Control Net or Redo files"
 msgstr "控制网络或重做文件"
 
-#: app.py:274 app.py:289
+#: app.py:280 app.py:295
 msgid "Recent"
 msgstr "近期"
 
-#: app.py:281
+#: app.py:287
 msgid "Default Control Net Strength"
 msgstr "默认控制网强度"
 
-#: app.py:287
+#: app.py:293
 msgid "IPAdapter files"
 msgstr "IPAdapter 文件"
 
-#: app.py:296
+#: app.py:302
 msgid "Default IPAdapter Strength"
 msgstr "默认 IPAdapter 强度"
 
-#: app.py:302
+#: app.py:308
 msgid "Redo Parameters"
 msgstr "重做参数"
 
-#: app.py:318 app.py:335 ui/prompt_config_window.py:274
+#: app.py:324 app.py:341 ui/prompt_config_window.py:270
 msgid "Prompts Configuration"
 msgstr "提示配置"
 
-#: app.py:323
+#: app.py:329
 msgid "Preset Schedule Window"
 msgstr "预设时间表窗口"
 
-#: app.py:324 ui/presets_window.py:99
+#: app.py:330 ui/presets_window.py:99
 msgid "Presets Window"
 msgstr "预设窗口"
 
-#: app.py:325
+#: app.py:331
 msgid "Timed Schedules Window"
 msgstr "定时计划窗口"
 
-#: app.py:330 ui/tags_blacklist_window.py:515 ui/tags_blacklist_window.py:668
+#: app.py:336 ui/tags_blacklist_window.py:515 ui/tags_blacklist_window.py:668
 msgid "Tag Blacklist"
 msgstr "标签黑名单"
 
-#: app.py:331 ui/expansions_window.py:180
+#: app.py:337 ui/expansions_window.py:180
 msgid "Expansions Window"
 msgstr "扩展窗口"
 
-#: app.py:338
+#: app.py:344
 msgid "Prompt Mode"
 msgstr "提示方式"
 
-#: app.py:345 utils/globals.py:465
+#: app.py:351 utils/globals.py:465
 msgid "Edit Concepts"
 msgstr "编辑概念"
 
-#: app.py:348
+#: app.py:354
 msgid "Concepts Dir"
 msgstr "概念目录"
 
-#: app.py:359
+#: app.py:365
 msgid "Override Resolution"
 msgstr "覆盖图像分辨率"
 
-#: app.py:363
+#: app.py:369
 msgid "Inpainting"
 msgstr "油画"
 
-#: app.py:367 ui/prompt_config_window.py:622
+#: app.py:373 ui/prompt_config_window.py:676
 msgid "Override Base Negative"
 msgstr "覆盖基准负数"
 
-#: app.py:371
+#: app.py:377
 msgid "Run Preset Schedule"
 msgstr "运行预设时间表"
 
-#: app.py:375 ui/prompt_config_window.py:643
+#: app.py:381 ui/prompt_config_window.py:697
 msgid "Continuous Seed Variation"
 msgstr "连续随机种子变异"
 
-#: app.py:379
+#: app.py:385
 msgid "Prompt Massage Tags"
 msgstr "提示的调整标签"
 
-#: app.py:386
+#: app.py:392
 msgid "Positive Tags"
 msgstr "正面标签"
 
-#: app.py:393
+#: app.py:399
 msgid "Negative Tags"
 msgstr "负面标签"
 
-#: app.py:418 app.py:1453
+#: app.py:424 app.py:1488
 msgid " ComfyGen "
 msgstr " SD 转轮 "
 
-#: app.py:419
+#: app.py:425
 msgid "Debug mode toggled."
 msgstr "调试模式已切换。"
 
-#: app.py:487
+#: app.py:493
 msgid "Confirm Quit"
 msgstr "确认退出"
 
-#: app.py:487
+#: app.py:493
 msgid "Would you like to quit the application?"
 msgstr "您想退出应用程序吗？"
 
-#: app.py:508
+#: app.py:514
 msgid "Storing caches..."
 msgstr "正在存储缓存..."
 
-#: app.py:741 app.py:761
+#: app.py:749 app.py:769
 msgid "Confirm Run"
 msgstr "确认运行"
 
-#: app.py:742
+#: app.py:750
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "开始新的运行将取消当前的预设时间表。您确定要继续吗？"
 
-#: app.py:762
+#: app.py:770
 msgid "Are you sure you want to proceed?"
 msgstr "你确定要继续吗？"
 
-#: app.py:771
+#: app.py:779
 msgid "Setting up run..."
 msgstr "正在设置运行..."
 
-#: app.py:805
+#: app.py:792
+msgid "No models found"
+msgstr "未找到模型"
+
+#: app.py:813
 msgid "Long Running Job Confirmation"
 msgstr "长期运行作业确认"
 
-#: app.py:806
+#: app.py:814
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -228,39 +232,39 @@ msgstr ""
 "\n"
 "是否确定继续？"
 
-#: app.py:933
+#: app.py:952
 msgid " (unlimited)"
 msgstr " (无限制)"
 
-#: app.py:950
+#: app.py:985
 msgid "{0} remaining adapters"
 msgstr "{0} 个剩余适配器"
 
-#: app.py:970
+#: app.py:1005
 msgid "{0} pending generations"
 msgstr "{0}待定世代"
 
-#: app.py:1051
+#: app.py:1086
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "提示中发现黑名单项目： {0}"
 
-#: app.py:1052 app.py:1055
+#: app.py:1087 app.py:1090
 msgid "Invalid Prompt Tags"
 msgstr "无效提示标签"
 
-#: app.py:1055
+#: app.py:1090
 msgid "Blacklist validation failed!"
 msgstr "黑名单验证失败！"
 
-#: app.py:1253
+#: app.py:1288
 msgid "Password Cancelled"
 msgstr "取消密码"
 
-#: app.py:1253
+#: app.py:1288
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "密码被取消或不正确，返回上一模式"
 
-#: app.py:1296 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:261
+#: app.py:1331 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:261
 #: ui/concept_editor_window.py:274 ui/concept_editor_window.py:333
 #: ui/concept_editor_window.py:352 ui/models_window.py:443
 #: ui/models_window.py:451 ui/models_window.py:676 ui/models_window.py:689
@@ -575,7 +579,7 @@ msgstr "显示黑名单"
 
 #: ui/auth/password_admin_window.py:262 ui/models_window.py:104
 #: ui/models_window.py:166 ui/models_window.py:580
-#: ui/prompt_config_window.py:343 ui/recent_adapters_window.py:126
+#: ui/prompt_config_window.py:339 ui/recent_adapters_window.py:126
 #: ui/recent_adapters_window.py:181 ui/recent_adapters_window.py:243
 #: ui/recent_adapters_window.py:300 ui/tags_blacklist_window.py:282
 msgid "Close"
@@ -755,63 +759,63 @@ msgstr "设置"
 msgid "Invalid preset: {0}"
 msgstr "预设无效： {0}"
 
-#: ui/prompt_config_window.py:82
+#: ui/prompt_config_window.py:84
 msgid "Prompt Configuration"
 msgstr "提示配置"
 
-#: ui/prompt_config_window.py:209
+#: ui/prompt_config_window.py:205
 msgid "Detailed Prompt Configuration"
 msgstr "详细提示配置"
 
-#: ui/prompt_config_window.py:214
+#: ui/prompt_config_window.py:210
 msgid "Basic Generation Settings"
 msgstr "基本生成设置"
 
-#: ui/prompt_config_window.py:217
+#: ui/prompt_config_window.py:213
 msgid "Sampler"
 msgstr "采样器"
 
-#: ui/prompt_config_window.py:225
+#: ui/prompt_config_window.py:221
 msgid "Scheduler"
 msgstr "调度员"
 
-#: ui/prompt_config_window.py:233
+#: ui/prompt_config_window.py:229
 msgid "Seed"
 msgstr "种子"
 
-#: ui/prompt_config_window.py:241
+#: ui/prompt_config_window.py:237
 msgid "Steps"
 msgstr "步骤"
 
-#: ui/prompt_config_window.py:249
+#: ui/prompt_config_window.py:245
 msgid "CFG"
 msgstr "CFG"
 
-#: ui/prompt_config_window.py:257
+#: ui/prompt_config_window.py:253
 msgid "Denoise"
 msgstr "去噪"
 
-#: ui/prompt_config_window.py:265
+#: ui/prompt_config_window.py:261
 msgid "Random Skip Chance"
 msgstr "随机跳过机会"
 
-#: ui/prompt_config_window.py:322
+#: ui/prompt_config_window.py:318
 msgid "Multiplier"
 msgstr "乘法器"
 
-#: ui/prompt_config_window.py:348
+#: ui/prompt_config_window.py:344
 msgid "Concepts"
 msgstr "概念"
 
-#: ui/prompt_config_window.py:363
+#: ui/prompt_config_window.py:360
 msgid "Positions"
 msgstr "职位"
 
-#: ui/prompt_config_window.py:378
+#: ui/prompt_config_window.py:376
 msgid "Locations"
 msgstr "地点"
 
-#: ui/prompt_config_window.py:393
+#: ui/prompt_config_window.py:392
 msgid "Animals"
 msgstr "动物"
 
@@ -819,39 +823,39 @@ msgstr "动物"
 msgid "Colors"
 msgstr "颜色"
 
-#: ui/prompt_config_window.py:423
+#: ui/prompt_config_window.py:424
 msgid "Times"
 msgstr "时代"
 
-#: ui/prompt_config_window.py:438
+#: ui/prompt_config_window.py:440
 msgid "Dress"
 msgstr "服装"
 
-#: ui/prompt_config_window.py:453
+#: ui/prompt_config_window.py:456
 msgid "Expressions"
 msgstr "表达"
 
-#: ui/prompt_config_window.py:468
+#: ui/prompt_config_window.py:472
 msgid "Actions"
 msgstr "行动"
 
-#: ui/prompt_config_window.py:483
+#: ui/prompt_config_window.py:488
 msgid "Descriptions"
 msgstr "说明"
 
-#: ui/prompt_config_window.py:498
+#: ui/prompt_config_window.py:504
 msgid "Characters"
 msgstr "人物"
 
-#: ui/prompt_config_window.py:513
+#: ui/prompt_config_window.py:520
 msgid "Random Words"
 msgstr "随机词语"
 
-#: ui/prompt_config_window.py:528 utils/globals.py:37
+#: ui/prompt_config_window.py:536 utils/globals.py:37
 msgid "Nonsense"
 msgstr "胡说八道"
 
-#: ui/prompt_config_window.py:543
+#: ui/prompt_config_window.py:552
 msgid "Jargon"
 msgstr "行话"
 
@@ -859,31 +863,31 @@ msgstr "行话"
 msgid "Sayings"
 msgstr "箴言"
 
-#: ui/prompt_config_window.py:574
+#: ui/prompt_config_window.py:608
 msgid "Specific Locations Chance"
 msgstr "指定地点的机会"
 
-#: ui/prompt_config_window.py:583
+#: ui/prompt_config_window.py:617
 msgid "Specific Times Chance"
 msgstr "特定时间机会"
 
-#: ui/prompt_config_window.py:592
+#: ui/prompt_config_window.py:626
 msgid "Specify Humans Chance"
 msgstr "指定人类的机会"
 
-#: ui/prompt_config_window.py:601
+#: ui/prompt_config_window.py:635
 msgid "Art Styles Chance"
 msgstr "艺术风格的机会"
 
-#: ui/prompt_config_window.py:610
+#: ui/prompt_config_window.py:644
 msgid "Emphasis Chance"
 msgstr "强调的机会"
 
-#: ui/prompt_config_window.py:629
+#: ui/prompt_config_window.py:683
 msgid "Tags Applied to Prompt Start"
 msgstr "标签应用于提示符的开始"
 
-#: ui/prompt_config_window.py:636
+#: ui/prompt_config_window.py:690
 msgid "Sparse Mixed Tags"
 msgstr "稀疏混合标签"
 
@@ -1804,9 +1808,25 @@ msgstr "Illustrious"
 msgid "Flux"
 msgstr "Flux"
 
+#: utils/globals.py:386
+msgid "Chroma"
+msgstr "Chroma"
+
+#: utils/globals.py:387
+msgid "ZImageTurbo"
+msgstr "ZImageTurbo"
+
+#: utils/globals.py:388
+msgid "Qwen"
+msgstr "Qwen"
+
 #: utils/globals.py:414
 msgid "1536"
 msgstr "1536"
+
+#: utils/globals.py:415
+msgid "1328"
+msgstr "1328"
 
 #: utils/globals.py:416
 msgid "1024"
@@ -1936,22 +1956,36 @@ msgstr "月数"
 msgid "years"
 msgstr "年份"
 
-#: app.py:784
-msgid "No models found"
-msgstr "未找到模型"
+#: app.py:969
+msgid "Batch: {0}/{1}"
+msgstr "批次：{0}/{1}"
 
-#: utils/globals.py:386
-msgid "Chroma"
-msgstr ""
+#: app.py:975
+msgid "Adapter: {0}/{1}"
+msgstr "适配器：{0}/{1}"
 
-#: utils/globals.py:387
-msgid "ZImageTurbo"
-msgstr ""
+#: app.py:978
+msgid "Remaining: {0} adapters"
+msgstr "剩余：{0} 个适配器"
 
-#: utils/globals.py:388
-msgid "Qwen"
-msgstr ""
+#: ui/prompt_config_window.py:571
+msgid "Witticisms"
+msgstr "俏皮话"
 
-#: utils/globals.py:415
-msgid "1328"
-msgstr ""
+#: ui/prompt_config_window.py:588
+msgid "Sayings / Puns Weights"
+msgstr "谚语的分量 / 双关语"
+
+#: ui/prompt_config_window.py:603
+msgid ""
+"Adjust the ratio between sayings and puns. 50% = equal blend, 0% = mostly "
+"sayings, 100% = mostly puns."
+msgstr "调整谚语与双关语的比例。50%=等量混合，0%=以谚语为主，100%=以双关语为主。"
+
+#: ui/prompt_config_window.py:653
+msgid "Animals Inclusion Chance"
+msgstr "动物被纳入的可能性"
+
+#: ui/prompt_config_window.py:663
+msgid "Dress Inclusion Chance"
+msgstr "服装被纳入的可能性"

@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2026-01-05 17:34-0500\n"
-"PO-Revision-Date: 2026-01-05 17:34-0500\n"
+"POT-Creation-Date: 2026-01-25 02:51-0500\n"
+"PO-Revision-Date: 2026-01-25 02:51-0500\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: de Team <<EMAIL>>\n"
 "Language: de\n"
@@ -24,175 +24,175 @@ msgstr "Arbeitsabläufen ausführen"
 msgid "Cancel Run"
 msgstr "Lauf abbrechen"
 
-#: app.py:168
+#: app.py:174
 msgid "Software"
 msgstr "Programmausstattung"
 
-#: app.py:176
+#: app.py:182
 msgid "Workflow"
 msgstr "Arbeitsabläufe"
 
-#: app.py:183
+#: app.py:189
 msgid "Set N Latents"
 msgstr "N Latenzbilder"
 
-#: app.py:189
+#: app.py:195
 msgid "Set Total"
 msgstr "Gesamt"
 
-#: app.py:197
+#: app.py:203
 msgid "Batch Limit"
 msgstr "Stapelgrenze"
 
-#: app.py:204
+#: app.py:210
 msgid "Delay Seconds"
 msgstr "Verzögerung Sekunden"
 
-#: app.py:210
+#: app.py:216
 msgid "Resolutions"
 msgstr "Bildauflösungen"
 
-#: app.py:217
+#: app.py:223
 msgid "Resolution Group"
 msgstr "Auflösungsgruppe"
 
-#: app.py:223
+#: app.py:229
 msgid "Model Tags"
 msgstr "Modell-Stichworte"
 
-#: app.py:225 app.py:242 ui/models_window.py:27
+#: app.py:231 app.py:248 ui/models_window.py:27
 msgid "Models"
 msgstr "Modelle"
 
-#: app.py:240
+#: app.py:246
 msgid "LoRA Tags"
 msgstr "LoRA-Stichworte"
 
-#: app.py:258
+#: app.py:264
 msgid "Default LoRA Strength"
 msgstr "Standard-LoRA-Stärke"
 
-#: app.py:264
+#: app.py:270
 msgid "B/W Colorization Tags"
 msgstr "Schwarz-Weiß-Färbung Stichworte"
 
-#: app.py:272
+#: app.py:278
 msgid "Control Net or Redo files"
 msgstr "Dateien Control Net oder wiederherstellen"
 
-#: app.py:274 app.py:289
+#: app.py:280 app.py:295
 msgid "Recent"
 msgstr "Kürzlich"
 
-#: app.py:281
+#: app.py:287
 msgid "Default Control Net Strength"
 msgstr "Standard-Control Net-Stärke"
 
-#: app.py:287
+#: app.py:293
 msgid "IPAdapter files"
 msgstr "Dateien IPAdapter"
 
-#: app.py:296
+#: app.py:302
 msgid "Default IPAdapter Strength"
 msgstr "Standard-IPAdapter-Stärke"
 
-#: app.py:302
+#: app.py:308
 msgid "Redo Parameters"
 msgstr "Wiederherstellungsparameter"
 
-#: app.py:318 app.py:335 ui/prompt_config_window.py:274
+#: app.py:324 app.py:341 ui/prompt_config_window.py:270
 msgid "Prompts Configuration"
 msgstr "Aufforderungen zur Konfiguration"
 
-#: app.py:323
+#: app.py:329
 msgid "Preset Schedule Window"
 msgstr "Fenster Voreingestellter Zeitplan"
 
-#: app.py:324 ui/presets_window.py:99
+#: app.py:330 ui/presets_window.py:99
 msgid "Presets Window"
 msgstr "Fenster Voreinstellungen"
 
-#: app.py:325
+#: app.py:331
 msgid "Timed Schedules Window"
 msgstr "Fenster Zeitpläne"
 
-#: app.py:330 ui/tags_blacklist_window.py:515 ui/tags_blacklist_window.py:668
+#: app.py:336 ui/tags_blacklist_window.py:515 ui/tags_blacklist_window.py:668
 msgid "Tag Blacklist"
 msgstr "Stichworte-Schwarzliste"
 
-#: app.py:331 ui/expansions_window.py:180
+#: app.py:337 ui/expansions_window.py:180
 msgid "Expansions Window"
 msgstr "Fenster Erweiterungen"
 
-#: app.py:338
+#: app.py:344
 msgid "Prompt Mode"
 msgstr "Aufforderungs-Modus"
 
-#: app.py:345 utils/globals.py:465
+#: app.py:351 utils/globals.py:465
 msgid "Edit Concepts"
 msgstr "Konzept bearbeiten"
 
-#: app.py:348
+#: app.py:354
 msgid "Concepts Dir"
 msgstr "Konzepte-Verzeichnis"
 
-#: app.py:359
+#: app.py:365
 msgid "Override Resolution"
 msgstr "Aufhebung der Auflösung"
 
-#: app.py:363
+#: app.py:369
 msgid "Inpainting"
 msgstr "Übermalen"
 
-#: app.py:367 ui/prompt_config_window.py:622
+#: app.py:373 ui/prompt_config_window.py:676
 msgid "Override Base Negative"
 msgstr "Überschreiben Basis Negativ"
 
-#: app.py:371
+#: app.py:377
 msgid "Run Preset Schedule"
 msgstr "Voreingestellten Zeitplan ausführen"
 
-#: app.py:375 ui/prompt_config_window.py:643
+#: app.py:381 ui/prompt_config_window.py:697
 msgid "Continuous Seed Variation"
 msgstr "Kontinuierliche Startwertänderung"
 
-#: app.py:379
+#: app.py:385
 msgid "Prompt Massage Tags"
 msgstr "Aufforderungs-Anpassungs-Stichworte"
 
-#: app.py:386
+#: app.py:392
 msgid "Positive Tags"
 msgstr "Positiv Stichworte"
 
-#: app.py:393
+#: app.py:399
 msgid "Negative Tags"
 msgstr "Negativ Stichworte"
 
-#: app.py:418 app.py:1453
+#: app.py:424 app.py:1488
 msgid " ComfyGen "
 msgstr " SD-Läufer "
 
-#: app.py:419
+#: app.py:425
 msgid "Debug mode toggled."
 msgstr "Debug-Modus umgeschaltet."
 
-#: app.py:487
+#: app.py:493
 msgid "Confirm Quit"
 msgstr "Beenden bestätigen"
 
-#: app.py:487
+#: app.py:493
 msgid "Would you like to quit the application?"
 msgstr "Möchten Sie die Anwendung beenden?"
 
-#: app.py:508
+#: app.py:514
 msgid "Storing caches..."
 msgstr "Caches speichern..."
 
-#: app.py:741 app.py:761
+#: app.py:749 app.py:769
 msgid "Confirm Run"
 msgstr "Lauf bestätigen"
 
-#: app.py:742
+#: app.py:750
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
@@ -200,19 +200,23 @@ msgstr ""
 "Wenn Sie einen neuen Lauf starten, wird der aktuelle voreingestellte "
 "Zeitplan gelöscht. Sind Sie sicher, dass Sie fortfahren möchten?"
 
-#: app.py:762
+#: app.py:770
 msgid "Are you sure you want to proceed?"
 msgstr "Sind Sie sicher, dass Sie fortfahren wollen?"
 
-#: app.py:771
+#: app.py:779
 msgid "Setting up run..."
 msgstr "Ausführen einrichten..."
 
-#: app.py:805
+#: app.py:792
+msgid "No models found"
+msgstr "Keine Modelle gefunden"
+
+#: app.py:813
 msgid "Long Running Job Confirmation"
 msgstr "Bestätigung eines lang laufenden Auftrags"
 
-#: app.py:806
+#: app.py:814
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -230,40 +234,40 @@ msgstr ""
 "\n"
 "Möchten Sie wirklich fortfahren?"
 
-#: app.py:933
+#: app.py:952
 msgid " (unlimited)"
 msgstr " (unbegrenzt)"
 
-#: app.py:950
+#: app.py:985
 msgid "{0} remaining adapters"
 msgstr "{0} verbleibende Adapter"
 
-#: app.py:970
+#: app.py:1005
 msgid "{0} pending generations"
 msgstr "{0} ausstehende Generationen"
 
-#: app.py:1051
+#: app.py:1086
 msgid "Blacklisted items found in prompt: {0}"
 msgstr ""
 "Elemente auf der schwarzen Liste in der Eingabeaufforderung gefunden: {0}"
 
-#: app.py:1052 app.py:1055
+#: app.py:1087 app.py:1090
 msgid "Invalid Prompt Tags"
 msgstr "Ungültige Eingabeaufforderung Stichworte"
 
-#: app.py:1055
+#: app.py:1090
 msgid "Blacklist validation failed!"
 msgstr "Validierung der schwarzen Liste fehlgeschlagen!"
 
-#: app.py:1253
+#: app.py:1288
 msgid "Password Cancelled"
 msgstr "Passwort storniert"
 
-#: app.py:1253
+#: app.py:1288
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "Passwort gelöscht oder falsch, zurück zum vorherigen Modus"
 
-#: app.py:1296 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:261
+#: app.py:1331 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:261
 #: ui/concept_editor_window.py:274 ui/concept_editor_window.py:333
 #: ui/concept_editor_window.py:352 ui/models_window.py:443
 #: ui/models_window.py:451 ui/models_window.py:676 ui/models_window.py:689
@@ -596,7 +600,7 @@ msgstr "Schwarzliste anzeigen"
 
 #: ui/auth/password_admin_window.py:262 ui/models_window.py:104
 #: ui/models_window.py:166 ui/models_window.py:580
-#: ui/prompt_config_window.py:343 ui/recent_adapters_window.py:126
+#: ui/prompt_config_window.py:339 ui/recent_adapters_window.py:126
 #: ui/recent_adapters_window.py:181 ui/recent_adapters_window.py:243
 #: ui/recent_adapters_window.py:300 ui/tags_blacklist_window.py:282
 msgid "Close"
@@ -778,63 +782,63 @@ msgstr "Einstellen"
 msgid "Invalid preset: {0}"
 msgstr "Ungültige Voreinstellung: {0}"
 
-#: ui/prompt_config_window.py:82
+#: ui/prompt_config_window.py:84
 msgid "Prompt Configuration"
 msgstr "Konfiguration der Eingabeaufforderungen"
 
-#: ui/prompt_config_window.py:209
+#: ui/prompt_config_window.py:205
 msgid "Detailed Prompt Configuration"
 msgstr "Detaillierte Eingabeaufforderungskonfiguration"
 
-#: ui/prompt_config_window.py:214
+#: ui/prompt_config_window.py:210
 msgid "Basic Generation Settings"
 msgstr "Grundeinstellungen zur Erzeugung"
 
-#: ui/prompt_config_window.py:217
+#: ui/prompt_config_window.py:213
 msgid "Sampler"
 msgstr "Probenehmer"
 
-#: ui/prompt_config_window.py:225
+#: ui/prompt_config_window.py:221
 msgid "Scheduler"
 msgstr "Planer"
 
-#: ui/prompt_config_window.py:233
+#: ui/prompt_config_window.py:229
 msgid "Seed"
 msgstr "Saat"
 
-#: ui/prompt_config_window.py:241
+#: ui/prompt_config_window.py:237
 msgid "Steps"
 msgstr "Schritte"
 
-#: ui/prompt_config_window.py:249
+#: ui/prompt_config_window.py:245
 msgid "CFG"
 msgstr "CFG"
 
-#: ui/prompt_config_window.py:257
+#: ui/prompt_config_window.py:253
 msgid "Denoise"
 msgstr "Entrauschen"
 
-#: ui/prompt_config_window.py:265
+#: ui/prompt_config_window.py:261
 msgid "Random Skip Chance"
 msgstr "Zufällige Übersprungmöglichkeit"
 
-#: ui/prompt_config_window.py:322
+#: ui/prompt_config_window.py:318
 msgid "Multiplier"
 msgstr "Vervielfacher"
 
-#: ui/prompt_config_window.py:348
+#: ui/prompt_config_window.py:344
 msgid "Concepts"
 msgstr "Konzepte"
 
-#: ui/prompt_config_window.py:363
+#: ui/prompt_config_window.py:360
 msgid "Positions"
 msgstr "Stellen"
 
-#: ui/prompt_config_window.py:378
+#: ui/prompt_config_window.py:376
 msgid "Locations"
 msgstr "Standorte"
 
-#: ui/prompt_config_window.py:393
+#: ui/prompt_config_window.py:392
 msgid "Animals"
 msgstr "Tiere"
 
@@ -842,39 +846,39 @@ msgstr "Tiere"
 msgid "Colors"
 msgstr "Farben"
 
-#: ui/prompt_config_window.py:423
+#: ui/prompt_config_window.py:424
 msgid "Times"
 msgstr "Zeiten"
 
-#: ui/prompt_config_window.py:438
+#: ui/prompt_config_window.py:440
 msgid "Dress"
 msgstr "Kleidung"
 
-#: ui/prompt_config_window.py:453
+#: ui/prompt_config_window.py:456
 msgid "Expressions"
 msgstr "Ausdrücke"
 
-#: ui/prompt_config_window.py:468
+#: ui/prompt_config_window.py:472
 msgid "Actions"
 msgstr "Aktionen"
 
-#: ui/prompt_config_window.py:483
+#: ui/prompt_config_window.py:488
 msgid "Descriptions"
 msgstr "Beschreibungen"
 
-#: ui/prompt_config_window.py:498
+#: ui/prompt_config_window.py:504
 msgid "Characters"
 msgstr "Charaktere"
 
-#: ui/prompt_config_window.py:513
+#: ui/prompt_config_window.py:520
 msgid "Random Words"
 msgstr "Zufällige Wörter"
 
-#: ui/prompt_config_window.py:528 utils/globals.py:37
+#: ui/prompt_config_window.py:536 utils/globals.py:37
 msgid "Nonsense"
 msgstr "Quatsch"
 
-#: ui/prompt_config_window.py:543
+#: ui/prompt_config_window.py:552
 msgid "Jargon"
 msgstr "Fachjargon"
 
@@ -882,31 +886,31 @@ msgstr "Fachjargon"
 msgid "Sayings"
 msgstr "Sprichwörter"
 
-#: ui/prompt_config_window.py:574
+#: ui/prompt_config_window.py:608
 msgid "Specific Locations Chance"
 msgstr "Spezifische Standorte-Möglichkeit"
 
-#: ui/prompt_config_window.py:583
+#: ui/prompt_config_window.py:617
 msgid "Specific Times Chance"
 msgstr "Spezifische Zeiten-Möglichkeit"
 
-#: ui/prompt_config_window.py:592
+#: ui/prompt_config_window.py:626
 msgid "Specify Humans Chance"
 msgstr "Spezifizieren Menschen-Möglichkeit"
 
-#: ui/prompt_config_window.py:601
+#: ui/prompt_config_window.py:635
 msgid "Art Styles Chance"
 msgstr "Kunststile-Möglichkeit"
 
-#: ui/prompt_config_window.py:610
+#: ui/prompt_config_window.py:644
 msgid "Emphasis Chance"
 msgstr "Hervorhebung-Möglichkeit"
 
-#: ui/prompt_config_window.py:629
+#: ui/prompt_config_window.py:683
 msgid "Tags Applied to Prompt Start"
 msgstr "Stichworte für den sofortigen Start"
 
-#: ui/prompt_config_window.py:636
+#: ui/prompt_config_window.py:690
 msgid "Sparse Mixed Tags"
 msgstr "Spärliche gemischte Stichworte"
 
@@ -1861,9 +1865,25 @@ msgstr "Illustrious"
 msgid "Flux"
 msgstr "Flux"
 
+#: utils/globals.py:386
+msgid "Chroma"
+msgstr "Chroma"
+
+#: utils/globals.py:387
+msgid "ZImageTurbo"
+msgstr "ZImageTurbo"
+
+#: utils/globals.py:388
+msgid "Qwen"
+msgstr "Qwen"
+
 #: utils/globals.py:414
 msgid "1536"
 msgstr "1536"
+
+#: utils/globals.py:415
+msgid "1328"
+msgstr "1328"
 
 #: utils/globals.py:416
 msgid "1024"
@@ -1993,22 +2013,39 @@ msgstr "Monate"
 msgid "years"
 msgstr "Jahre"
 
-#: app.py:784
-msgid "No models found"
-msgstr "Keine Modelle gefunden"
+#: app.py:969
+msgid "Batch: {0}/{1}"
+msgstr "Charge: {0}/{1}"
 
-#: utils/globals.py:386
-msgid "Chroma"
-msgstr ""
+#: app.py:975
+msgid "Adapter: {0}/{1}"
+msgstr "Adapter: {0}/{1}"
 
-#: utils/globals.py:387
-msgid "ZImageTurbo"
-msgstr ""
+#: app.py:978
+msgid "Remaining: {0} adapters"
+msgstr "Verbleibend: {0} Adapter"
 
-#: utils/globals.py:388
-msgid "Qwen"
-msgstr ""
+#: ui/prompt_config_window.py:571
+msgid "Witticisms"
+msgstr "Witzigkeiten"
 
-#: utils/globals.py:415
-msgid "1328"
+#: ui/prompt_config_window.py:588
+msgid "Sayings / Puns Weights"
+msgstr "Sprichwörter / Wortspiele Gewichte"
+
+#: ui/prompt_config_window.py:603
+msgid ""
+"Adjust the ratio between sayings and puns. 50% = equal blend, 0% = mostly "
+"sayings, 100% = mostly puns."
 msgstr ""
+"Passe das Verhältnis zwischen Sprichwörtern und Wortspielen an. 50 % = "
+"gleichmäßige Mischung, 0 % = hauptsächlich Sprichwörter, 100 % = "
+"hauptsächlich Wortspiele."
+
+#: ui/prompt_config_window.py:653
+msgid "Animals Inclusion Chance"
+msgstr "Möglichkeit auf Einbeziehung von Tieren"
+
+#: ui/prompt_config_window.py:663
+msgid "Dress Inclusion Chance"
+msgstr "Möglichkeit der Einbeziehung von Kleidung"
