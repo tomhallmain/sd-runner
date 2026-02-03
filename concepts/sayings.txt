@@ -1,25 +1,46 @@
+[[A,The]] leopard [[can't,cannot,does not]] change [[its,his]] spots
+[[All g,G]]ood things come to [[him who waits,those who wait]]
+[[Do not make,Make]] a mountain out of a molehill
+[[Don't keep a dog and bark yourself,Why keep a dog and bark yourself?]]
+[[Don't put,Putting]] the cart before the horse
+[[Don't shut/lock,It is no use locking]] the stable door after the horse has bolted
+[[Don't,Never,You can't]] judge a book by its cover
+[[Don't,Never]] look a gift horse in the mouth
+[[Everything comes,All things come]] to those who wait
 [[He's,She's,You're,They're]] outta there!
 [[I'm,We're]] outta here!
+[[It is b,'tis b,B]]etter to have loved and lost[[, than never to have loved at all]]
+[[It takes,Set]] a thief to catch a thief
+[[It's a p,P]]iece of cake
 [[Like ,]]trying to grow a goose
+[[Like a ,]]fish out of water
 [[March comes in like a lion and goes out like a lamb,In like a lion and out like a lamb]]
 [[Only ,]]time will tell
+[[Power corrupts; ,]]Absolute power corrupts absolutely
 [[Settle,Settles,Settling]] the score
+[[Speak,Walk]] softly [[and,but]] carry a big stick
 [[Speech is silver but ,]]Silence is golden
+[[There is no smoke without fire,Where there is smoke there is fire]]
+[[To make a ,]]long story short
 [[We're,I'm]] safe
+[[You are n,N]]ever too old to learn
+[[You c,C]]an't make an omelette without breaking eggs
+[[You're :1,:5]]on thin ice
 A bad excuse is better than none
 A bad penny always turns up
 A bad workman blames his tools
 A bird in the hand is worth two in the bush
 A blessing in disguise
 A cat may look at a king
-A cut above
 A chain is only as strong as its weakest link
+A cut above
 A day late and a dollar short
 A dime a dozen
 A dog is a man's best friend
 A drowning man will clutch at a straw
 A fool and his money are soon parted
 A friend in need (is a friend indeed)
+A friend in need is a friend indeed
 A friend to everyone is a friend to no one
 A journey of a thousand miles begins with a single step
 A language is a dialect with an army and navy
@@ -28,27 +49,44 @@ A man can do what he wills but he cannot will what he wills
 A mill cannot grind with the water that is past
 A miss is as good as a mile
 A new language is a new life
+A penny saved is a penny earned
+A picture [[is worth,paints]] a thousand words
 A rising tide lifts all boats
+A rolling stone gathers no moss
 A ship in a harbour is safe but that's not what a ship is for
+A stitch in time saves nine
 A stitch in time[[, saves nine]]
 A swarm in May is worth a load of hay; a swarm in June is worth a silver spoon; but a swarm in July is not worth a fly
-A watched man never plays
 A watched [[pot,kettle]] never boils
+A watched man never plays
+A wolf in sheep's clothing
 Absence makes the heart grow fonder
+Absence of malice
 Accidents will happen (in the best-regulated families)
+Actions speak louder than words
 Adversity makes strange bedfellows
+All bark and no bite
+All for one and one for all
+All good things must come to an end
 All hands on deck/to the pump
-All[[ is fair,'s fair]] in love and war
 All is for the best in the best of all possible worlds
 All is grist that comes to the mill
-All[['s, is]] well that ends well
+All roads lead to Rome
+All systems go
+All that [[glitters,glistens]] is not gold
 All the world loves a lover
-[[Everything comes,All things come]] to those who wait
 All things excellent are as difficult as they are rare
 All things must pass
+All work and no play makes Jack a dull boy
 All you need is love
+All's lost
+All's not lost
+All[[ is fair,'s fair]] in love and war
+All[['s, is]] well that ends well
+An apple a day keeps the doctor away
 An army marches on its stomach
 An Englishman's home is his castle/A man's home is his castle
+An eye for an eye
 An eye for an eye makes the whole world blind
 An eye for an eye, a tooth for a tooth
 An honest man doesn't need to remember much
@@ -59,7 +97,10 @@ Any port in a storm
 Any publicity is good publicity
 Anything worth doing is hard
 April showers bring forth May flowers
+As a matter of course
+As a matter of fact
 As a tree bends, so shall it grow
+As cool as a cucumber
 As queer as a three dollar bill
 As the twig is bent, so is the tree inclined
 As you make your bed, so you must lie upon it
@@ -67,65 +108,41 @@ As you sow so shall you reap
 Ask a silly question and you will get a silly answer
 Ask my companion if I be a thief
 Ask no questions and hear no lies
+At the drop of a hat
 At the end of my rope
 Attack is the best form of defense
+Back to square one
 Bad money drives out good
 Bad news travels fast
 Barking dogs seldom bite
-Be yourself
-Before setting out on a mission of vengeance, dig two graves
-Behind every great man, there is a great woman
-Better to light one candle than to curse the darkness
-Better to reign in hell than serve in heaven
-Better to remain silent and be thought a fool than to speak and remove all doubt
-Better wear out than rust out
-Beware of Greeks bearing gifts
-Big fish eat little fish
-Birds of a feather (flock together)
-Book it
-A friend in need is a friend indeed
-[[A,The]] leopard [[can't,cannot,does not]] change [[its,his]] spots
-A penny saved is a penny earned
-A picture [[is worth,paints]] a thousand words
-A rolling stone gathers no moss
-A stitch in time saves nine
-A wolf in sheep's clothing
-Absence of malice
-Actions speak louder than words
-All bark and no bite
-All for one and one for all
-All good things must come to an end
-All roads lead to Rome
-All systems go
-All that [[glitters,glistens]] is not gold
-All work and no play makes Jack a dull boy
-All's lost
-All's not lost
-As a matter of course
-As a matter of fact
-An apple a day keeps the doctor away
-An eye for an eye
-As cool as a cucumber
-At the drop of a hat
-Back to square one
 Barking up the wrong tree
+Be yourself
 Beat a dead horse
 Beat around the bush
 Beauty is in the eye of the beholder
 Beauty is only skin deep
+Before setting out on a mission of vengeance, dig two graves
 Beggars can't be choosers
+Behind every great man, there is a great woman
 Better late than never
 Better safe than sorry
 Better the Devil you know[[:2, than the Devil you do not:1]]
 Better to be alone than in bad company
-[[It is b,'tis b,B]]etter to have loved and lost[[, than never to have loved at all]]
+Better to light one candle than to curse the darkness
+Better to reign in hell than serve in heaven
+Better to remain silent and be thought a fool than to speak and remove all doubt
+Better wear out than rust out
 Between a rock and a hard place
+Beware of Greeks bearing gifts
+Big fish eat little fish
 Big fish in a small pond
+Birds of a feather (flock together)
 Birds of a feather flock together
 Bite off more than you can chew
 Bite the bullet
 Bite your tongue
 Blood is thicker than water
+Book it
 Born with a silver spoon in one's mouth
 Boys will be boys
 Break a leg
@@ -141,10 +158,9 @@ Caesar's wife must be above suspicion
 Call it a day
 Call it quits
 Calm seas never made a good sailor
-[[You c,C]]an't make an omelette without breaking eggs
 Careless talk costs lives
-Catch-22
 Catch my drift
+Catch-22
 Charity begins at home
 Cheats never prosper
 Cheese, wine, and friends must be old to be good
@@ -197,11 +213,8 @@ Don't bite the hand that feeds you
 Don't count your chickens before they hatch
 Don't cry over spilled milk
 Don't dish it if you can't take it
-[[Don't,Never]] look a gift horse in the mouth
 Don't put all your eggs in one basket
-[[Don't put,Putting]] the cart before the horse
 Don't rock the boat
-[[Don't shut/lock,It is no use locking]] the stable door after the horse has bolted
 Don't spend it all in one place
 Don't take any wooden nickels
 Don't throw the baby out with the bathwater
@@ -236,8 +249,8 @@ Every man for himself[[:10, and the Devil take the hindmost:1]]
 Every picture tells a story
 Every stick has two ends
 Every tide has its ebb
-Everybody wants to go to heaven but nobody wants to die
 Every[[one, man]] has [[his,their]] price
+Everybody wants to go to heaven but nobody wants to die
 Face the music
 Failing to plan is planning to fail
 Faint heart never won fair lady
@@ -250,8 +263,8 @@ Fall seven times, stand up eight
 False friends are worse than open enemies
 Familiarity breeds contempt
 Feed a cold, starve a fever
-Fight fire with fire
 Feeling a bit rusty
+Fight fire with fire
 Find your feet
 Finders keepers (losers weepers)
 Fine by me
@@ -278,8 +291,8 @@ Get a taste of your own medicine
 Get cold feet
 Get out of hand
 Get the ball rolling
-Get your act together
 Get the point
+Get your act together
 Gilding the lily
 Give a man a fish and you feed him for a day. Teach a man to fish and you feed him for a lifetime.
 Give a man rope enough and he will hang himself
@@ -299,7 +312,6 @@ Go with the flow
 God helps those who help themselves
 Good fences make good neighbours
 Good talk saves the food
-[[All g,G]]ood things come to [[him who waits,those who wait]]
 Great minds think alike
 Green with envy
 Half a loaf is better than no bread
@@ -308,6 +320,8 @@ Hard cases make bad law
 Hard work never did anyone any harm
 Haste makes waste
 Have a bone to pick
+Have a heart
+Have your head in the clouds
 He that goes a-borrowing, goes a-sorrowing
 He who can, does; he who cannot, teaches
 He who hesitates is lost
@@ -318,11 +332,9 @@ He who loves the world as his body may be entrusted with the empire
 He who makes a beast out of himself gets rid of the pain of being a man
 He who pays the piper calls the tune
 He who sups with the Devil should have a long spoon
+Head over heels
 Health is wealth
 Hear me out
-Have a heart
-Have your head in the clouds
-Head over heels
 Hedging [[my,your,his,her,our,their]] bets
 Hell hath no fury like a woman scorned;
 Hindsight is always twenty-twenty
@@ -387,8 +399,8 @@ In the same boat
 Into every life a little rain must fall
 Ironing it out
 Islands depend on reeds just as reeds depend on islands
-It ain't over till the fat lady sings
 It ain't over till it's over
+It ain't over till the fat lady sings
 It ain't what you don't know that gets you into trouble. It's what you know for sure that just ain't so.
 It goes without saying
 It is all grist to the mill
@@ -416,15 +428,14 @@ It takes one to know one
 It takes two to tango
 It will be the same a hundred years hence
 It will come back and haunt you
-[[It's a p,P]]iece of cake
 It's a small world
 It's always darkest before the dawn
 It's Greek to me
-It[['s, is]] never too late
 It's not rocket science
 It's raining cats and dogs
 It's the little things
 It's the thought that counts
+It[['s, is]] never too late
 Jack of all trades, master of [[none,one,some]]
 Judge not, that ye be not judged
 Jump on the bandwagon
@@ -472,7 +483,6 @@ Life is not all beer and skittles
 Life is too short not to do something that matters
 Life is what you make it
 Lightning never strikes twice[[, in the same place]]
-[[Like a ,]]fish out of water
 Like father like son
 Like two peas in a pod
 Little pitchers have big ears
@@ -491,8 +501,6 @@ Love makes the world go [['round,around]]
 Love of money is the root of all evil
 Love will find a way
 make a beeline for
-[[To make a ,]]long story short
-[[Do not make,Make]] a mountain out of a molehill
 Make ends meet
 Make hay while the sun shines
 Make love not war
@@ -549,14 +557,14 @@ Never say never
 Never speak ill of the dead
 Never tell tales out of school
 Nine tailors make a man
+No bones about it
+No cap
 No friends but the mountains
 No guts no glory
 No man can serve two masters
 No man is an island
 No names no pack-drill
 No news is good news
-No bones about it
-No cap
 No one can make you feel inferior without your consent
 No pain no gain
 No rest for the wicked
@@ -615,8 +623,8 @@ Patience is a virtue
 Pay the piper
 Pearls of wisdom
 Penny for your thoughts
-Penny wise and pound foolish
 Penny Penny. Makes many.
+Penny wise and pound foolish
 Physician, heal thyself
 Play it by ear
 Play stupid games win stupid prizes
@@ -624,7 +632,6 @@ Play your cards right
 Point of no return
 Possession is nine-tenths of the law
 Pot calling the kettle black
-[[Power corrupts; ,]]Absolute power corrupts absolutely
 Practice makes perfect
 Practice what you preach
 Preaching to the choir
@@ -667,7 +674,6 @@ See no evil, hear no evil, speak no evil
 See the light
 Seeing is believing
 Seek and ye shall find
-[[It takes,Set]] a thief to catch a thief
 Shiny are the distant hills
 Shoot the breeze
 Shrouds have no pockets
@@ -690,7 +696,6 @@ Spare the rod and spoil the child
 Speak as you find
 Speak of the devil
 Speak of the devil and he shall/is sure/will appear
-[[Speak,Walk]] softly [[and,but]] carry a big stick
 Spill the beans
 Start from scratch
 Steal someone's thunder
@@ -713,6 +718,7 @@ Tell me who your friends are and I'll tell you who you are
 Tell the truth and shame the Devil
 That is to say
 That settles that
+The [[ends justify,end justifies]] the means
 The age of miracles is past
 The apple [[doesn't fall,never falls]] far from the tree
 The ball[['s, is]] in your court
@@ -736,7 +742,6 @@ The Devil looks after his own
 The die is cast
 The early bird [[catches,gets]] the worm
 The elephant in the room
-The [[ends justify,end justifies]] the means
 The enemy of my enemy is my friend
 The exception proves the rule
 The female of the species is more deadly than the male
@@ -785,24 +790,23 @@ There are none so blind as those who will not see
 There are none so deaf as those who will not hear
 There are two sides to every question
 There but for the grace of God go I
-There is an exception to every rule
 There is [[no ,]]honour among thieves
+There is an exception to every rule
 There is many a good tune played on an old fiddle
 There is no accounting for tastes
 There is no fool like an old fool
 There is no I in team
 There is no place like home
 There is no shame in not knowing; the shame lies in not finding out
-[[There is no smoke without fire,Where there is smoke there is fire]]
 There is no such thing as bad publicity
 There is no time like the present
 There is one born every minute
 There is safety in numbers
 There's many a slip 'twixt the cup and the lip
-There[['s, is]] more than one way to skin a cat
 There's no need to wear a hair shirt
 There's no such thing as a free lunch
 There's nowt so queer as folk
+There[['s, is]] more than one way to skin a cat
 They that sow the wind shall reap the whirlwind
 Think nothing of it
 Think outside the box
@@ -844,8 +848,8 @@ Turn a blind eye
 Turn over a new leaf
 Turn your face toward the sun and the shadows fall behind you
 Two can play at that game
-Two is company, but three is a crowd
 Two heads are better than one
+Two is company, but three is a crowd
 Two wrongs don't make a right
 Under the weather
 Uneasy lies the head that wears a crown
@@ -901,7 +905,6 @@ Whether you think you can or you think you can't, you're right
 While there is life there is hope
 Who will bell the cat?
 Whom the Gods love die young
-[[Don't keep a dog and bark yourself,Why keep a dog and bark yourself?]]
 Wild goose chase
 With great power comes great responsibility
 Woe to the vanquished
@@ -910,15 +913,14 @@ Wonders will never cease
 Word of mouth
 Work expands so as to fill the time available
 Worrying never did anyone any good
+You [[can never,never can]] tell
+You [[may,might as well]] be [[hanged,hung]] for a sheep as (for) a lamb
 You are >Here<
-[[You are n,N]]ever too old to learn
 You are what you eat
 You can have too much of a good thing
 You can lead a horse to water, but you can't make it drink
-You [[can never,never can]] tell
 You can't have it both ways
 You can't have your cake and eat it too
-[[Don't,Never,You can't]] judge a book by its cover
 You can't teach an old dog new tricks
 You can't win [['em,them]] all
 You cannot always get what you want
@@ -932,7 +934,6 @@ You cannot unscramble eggs
 You catch more flies with honey than with vinegar
 You either die a hero or live long enough to see yourself become the villain
 You get what you pay for
-You [[may,might as well]] be [[hanged,hung]] for a sheep as (for) a lamb
 You must have rocks in your head
 You only live once
 You pay your dime and you takes your chances
@@ -942,7 +943,6 @@ You scratch my back and I'll scratch yours
 you sly dog
 You'll never get if you never go
 You're never fully dressed without a smile
-[[You're :1,:5]]on thin ice
 You're toast
 You've got to separate the wheat from the chaff
 You've made your bed and you must lie [[in,on]] it
