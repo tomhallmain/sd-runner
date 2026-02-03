@@ -1,0 +1,17 @@
+# Optional, platform-specific dependencies.
+# Install with: pip install -r requirements-optional.txt
+# Pip will only install lines whose environment markers match your system
+# (e.g. on Windows, only lines without a marker or with sys_platform == 'win32' are considered).
+
+# OQS (post-quantum) key encapsulation for utils/encryptor.py PersonalQuantumEncryptor.
+# Install from GitHub; liboqs C library must be installed first (or is auto-installed at runtime).
+# Full instructions: https://github.com/open-quantum-safe/liboqs-python/blob/main/README.md
+git+https://github.com/open-quantum-safe/liboqs-python.git
+
+# macOS (OS X): Foundation/Cocoa for optional keychain and native integration.
+# Not required for basic keyring usage (utils/encryptor.py works without it).
+pyobjc-framework-Cocoa; sys_platform == 'darwin'
+
+# Linux: D-Bus for optional Secret Service keyring lock (utils/encryptor.py).
+# Not required for basic keyring get/set.
+dbus-python; sys_platform == 'linux'

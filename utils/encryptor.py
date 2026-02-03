@@ -86,8 +86,6 @@ class PassphraseManager:
     @staticmethod
     def _macos_get_passphrase(service_name, app_identifier):
         """Use macOS Keychain with Access Control"""
-        from Foundation import NSBundle
-        
         key = namespaced_key(app_identifier, "passphrase")
         passphrase = keyring.get_password(service_name, key)
         
@@ -95,8 +93,9 @@ class PassphraseManager:
             passphrase = os.urandom(32).hex()
             keyring.set_password(service_name, key, passphrase)
             
-            # Set keychain item ACL (requires PyObjC)
+            # Set keychain item ACL (requires PyObjC Foundation/Security)
             try:
+                from Foundation import NSBundle
                 from Security import kSecAttrAccessible, kSecAttrAccessGroup
                 keyring.set_keyring_properties(
                     label=f"{service_name} Passphrase",
@@ -104,7 +103,9 @@ class PassphraseManager:
                     access_group=NSBundle.mainBundle().bundleIdentifier()
                 )
             except ImportError:
-                pass  # Fallback if PyObjC not available
+                pass  # PyObjC Foundation/Security not installed
+            except AttributeError:
+                pass  # keyring.set_keyring_properties not available
         
         return passphrase
 

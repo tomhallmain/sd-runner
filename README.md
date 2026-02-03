@@ -1,13 +1,20 @@
-This code is primarily a sophisticated prompt engineering application that triggers ComfyUI workflows or SD Web UI functions using advanced prompt randomization, concept management, and intelligent filtering systems.
+# sd-runner - Image Generation Runner
+
+This code is primarily a prompt engineering application that triggers ComfyUI workflows or stable-diffusion-webui functions using advanced prompt randomization, concept management, and intelligent filtering systems.
 
 ## Warnings
 
-- This was originally developed during early 2024 and some prompts may be out of date with current versions of the respective image generation projects.
-- Though any prompt applied to any model can result in undesirable images despite properly set negative prompts, prompt randomization increases the chance that undesirable images may be generated, even if only innocuous terms are included in the prompt, because the randomness allows for wider traversal of the model's latent space. For this reason it is wise to use a local prevalidation and content filtering tool. I recommend using [simple_image_compare](https://github.com/tomhallmain/simple_image_compare) which has many other features in addition to customizable prevalidations based on CLIP as well as HDF5 and PyTorch image classifier models.
-- A default English dictionary is used for generating random words, some of which may be found objectionable. A word with a high degree of relation to strong feelings like disgust also tends to carry a lot of prompt weight, even if it is buried in a much larger prompt with no other similar words. Luckily this will often result in an "incoherent" result with earlier models, or a slightly objectionable result with later models, but there is still a chance of problematic images being generated. As a result you may choose not to use the `random_word` prompt variable, or implement a blacklist using the provided blacklist window which blocks prompts with undesirable strings or otherwise drops them from prompts. There is a default blacklist used if none is provided, which requires extra security to clear and even to reveal its concepts.
-- If sharing your computer with multiple users, consider setting a password to lock the blacklist and other features.
-- Continuously viewing random images may cause small lapses in sanity. Employ total randomness with caution.
-- The application can be addictive due to its infinite generation capabilities and random prompt variations. Consider enabling a timed shutdown schedule to automatically stop generation at a reasonable hour and prevent excessive usage.
+<details>
+<summary>⚠️ Warnings</summary>
+<ul>
+<li>This was originally developed during early 2024 and some prompts may be out of date with current versions of the respective image generation projects.</li>
+<li>Though any prompt applied to any model can result in undesirable images despite properly set negative prompts, prompt randomization increases the chance that undesirable images may be generated, even if only innocuous terms are included in the prompt, because the randomness allows for wider traversal of the model's latent space. For this reason it is wise to use a local prevalidation and content filtering tool. I recommend using [simple_image_compare](https://github.com/tomhallmain/simple_image_compare) which has many other features in addition to customizable prevalidations based on CLIP as well as HDF5 and PyTorch image classifier models.</li>
+<li>A default English dictionary is used for generating random words, some of which may be found objectionable. A word with a high degree of relation to strong feelings like disgust also tends to carry a lot of prompt weight, even if it is buried in a much larger prompt with no other similar words. Luckily this will often result in an "incoherent" result with earlier models, or a slightly objectionable result with later models, but there is still a chance of problematic images being generated. As a result you may choose not to use the `random_word` prompt variable, or implement a blacklist using the provided blacklist window which blocks prompts with undesirable strings or otherwise drops them from prompts. There is a default blacklist used if none is provided, which requires extra security to clear and even to reveal its concepts.</li>
+<li>If sharing your computer with multiple users, consider setting a password to lock the blacklist and other features.</li>
+<li>Continuously viewing random images may cause small lapses in sanity. Employ total randomness with caution.</li>
+<li>The application can be addictive due to its infinite generation capabilities and random prompt variations. Consider enabling a timed shutdown schedule to automatically stop generation at a reasonable hour and prevent excessive usage.</li>
+</ul>
+</details>
 
 ## Configuration Options
 
@@ -148,6 +155,8 @@ For stable-diffusion-webui, the img2img workflow is set up as the IP Adapter wor
 The following locales are supported in the UI: en (English), de (Deutsch), es (Español), fr (Français), ja (日本語), ko (한국어), pt (Português), ru (Русский), zh (中文). Theoretically the prompt outputs could be set up for any written language that has Unicode support by modifying the existing concepts files or adding a path to the config `concepts_dirs` to override concepts files.
 
 Excepting the concepts files, application data is encrypted for security. Logs are not currently being stored and will not be until they can be encrypted.
+
+Optional (platform-specific): `pip install -r requirements-optional.txt` installs extras for your OS only (e.g. on macOS, Foundation/Cocoa for keychain integration; on Linux, D-Bus for Secret Service lock).
 
 ## Keyboard Shortcuts
 

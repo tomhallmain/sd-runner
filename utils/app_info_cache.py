@@ -48,19 +48,31 @@ class AppInfoCache:
         }
 
     def store(self):
+        """Persist cache to encrypted file. Returns True on success, False if encrypted store failed but JSON fallback succeeded. Raises on encoding or JSON fallback failure."""
         try:
             if config.purge_blacklisted_prompt_history:
                 self._purge_blacklisted_history()
             cache_data = json.dumps(self._cache).encode('utf-8')
+        except Exception as e:
+            raise Exception(f"Error compiling application cache", e)
+
+        try:
             encrypt_data_to_file(
                 cache_data,
                 Globals.SERVICE_NAME,
                 Globals.APP_IDENTIFIER,
                 AppInfoCache.CACHE_LOC
             )
+            return True  # Encryption successful
         except Exception as e:
-            logger.error(f"Error storing cache: {e}")
-            raise e
+            logger.error(f"Error encrypting cache: {e}")
+
+        try:
+            with open(AppInfoCache.JSON_LOC, "w", encoding="utf-8") as f:
+                json.dump(self._cache, f)
+            return False  # Encryption failed, but JSON fallback succeeded
+        except Exception as e:
+            raise Exception(f"Error storing application cache", e)
 
     def _try_load_cache_from_file(self, path):
         """Attempt to load and decrypt the cache from the given file path. Raises on failure."""
@@ -74,12 +86,14 @@ class AppInfoCache:
     def load(self):
         try:
             if os.path.exists(AppInfoCache.JSON_LOC):
-                logger.info(f"Removing old cache file: {AppInfoCache.JSON_LOC}")
-                # Get the old data first
+                logger.info(f"Detected JSON-format application cache, will attempt migration to encrypted store")
                 with open(AppInfoCache.JSON_LOC, "r", encoding="utf-8") as f:
                     self._cache = json.load(f)
-                self.store() # store encrypted cache
-                os.remove(AppInfoCache.JSON_LOC)
+                if self.store():
+                    logger.info(f"Migrated application cache from {AppInfoCache.JSON_LOC} to encrypted store")
+                    os.remove(AppInfoCache.JSON_LOC)
+                else:
+                    logger.warning("Encrypted store of application cache failed; keeping JSON cache file")
                 return
 
             # Try encrypted cache and backups in order
