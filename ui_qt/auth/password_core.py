@@ -1,37 +1,31 @@
 """
-Core password functionality for the Media Compare application (PySide6 UI).
+Core password functionality for the SD Runner application (PySide6 UI).
 This module contains the foundational password management and configuration classes.
 It has no dependencies on other password modules to avoid circular imports.
 """
 
-from utils.constants import AppInfo, ProtectedActions
+from utils.globals import Globals, ProtectedActions
 from utils.app_info_cache import app_info_cache
 from utils.encryptor import store_encrypted_password, retrieve_encrypted_password, delete_stored_password
 from utils.logging_setup import get_logger
 
-logger = get_logger("ui.auth.password_core")
+logger = get_logger("ui_qt.auth.password_core")
 
 
 class SecurityConfig:
     """Central configuration manager for password protection settings."""
     
-    # Default password-protected actions for Media Compare
+    # Default password-protected actions for SD Runner
     DEFAULT_PROTECTED_ACTIONS = {
         ProtectedActions.OPEN_APPLICATION.value: False,
-        ProtectedActions.RUN_COMPARES.value: False,
-        ProtectedActions.RUN_SEARCH.value: False,
-        ProtectedActions.RUN_SEARCH_PRESET.value: False,
-        ProtectedActions.VIEW_MEDIA_DETAILS.value: False,
-        ProtectedActions.VIEW_RECENT_DIRECTORIES.value: False,
-        ProtectedActions.VIEW_FILE_ACTIONS.value: False,
-        ProtectedActions.RUN_FILE_ACTIONS.value: False,
-        ProtectedActions.EDIT_PREVALIDATIONS.value: False,
-        ProtectedActions.RUN_PREVALIDATIONS.value: False,
-        ProtectedActions.RUN_IMAGE_GENERATION.value: False,
-        ProtectedActions.RUN_REFACDIR.value: False,
-        ProtectedActions.DELETE_MEDIA.value: False,
-        ProtectedActions.CONFIGURE_MEDIA_TYPES.value: False,
-        ProtectedActions.SET_HOTKEY_ACTIONS.value: False,
+        ProtectedActions.NSFW_PROMPTS.value: True,
+        ProtectedActions.EDIT_BLACKLIST.value: True,
+        ProtectedActions.REVEAL_BLACKLIST_CONCEPTS.value: True,
+        ProtectedActions.EDIT_SCHEDULES.value: False,
+        ProtectedActions.EDIT_TIMED_SCHEDULES.value: False,
+        ProtectedActions.EDIT_EXPANSIONS.value: False,
+        ProtectedActions.EDIT_PRESETS.value: False,
+        ProtectedActions.EDIT_CONCEPTS.value: False,
         ProtectedActions.ACCESS_ADMIN.value: True,  # Always protected
     }
     
@@ -142,8 +136,8 @@ class PasswordManager:
         try:
             # Check if password exists in encrypted storage
             stored_password = retrieve_encrypted_password(
-                AppInfo.SERVICE_NAME,
-                AppInfo.APP_IDENTIFIER,
+                Globals.SERVICE_NAME,
+                Globals.APP_IDENTIFIER,
                 PasswordManager.PASSWORD_ID
             )
             PasswordManager._security_configured_cache = stored_password is not None and len(stored_password) > 0
@@ -158,8 +152,8 @@ class PasswordManager:
         try:
             # Store the password using encrypted storage
             success = store_encrypted_password(
-                AppInfo.SERVICE_NAME,
-                AppInfo.APP_IDENTIFIER,
+                Globals.SERVICE_NAME,
+                Globals.APP_IDENTIFIER,
                 PasswordManager.PASSWORD_ID,
                 password
             )
@@ -176,8 +170,8 @@ class PasswordManager:
         try:
             # Retrieve the stored password from encrypted storage
             stored_password = retrieve_encrypted_password(
-                AppInfo.SERVICE_NAME,
-                AppInfo.APP_IDENTIFIER,
+                Globals.SERVICE_NAME,
+                Globals.APP_IDENTIFIER,
                 PasswordManager.PASSWORD_ID
             )
             
@@ -196,8 +190,8 @@ class PasswordManager:
         try:
             # Remove the password from encrypted storage
             delete_stored_password(
-                AppInfo.SERVICE_NAME,
-                AppInfo.APP_IDENTIFIER,
+                Globals.SERVICE_NAME,
+                Globals.APP_IDENTIFIER,
                 PasswordManager.PASSWORD_ID
             )
             PasswordManager._security_configured_cache = False

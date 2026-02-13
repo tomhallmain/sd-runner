@@ -16,9 +16,9 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
 from lib.multi_display_qt import SmartDialog
-from ui.app_style import AppStyle
-from ui.auth.password_core import PasswordManager
-from ui.auth.password_session_manager import PasswordSessionManager
+from ui_qt.app_style import AppStyle
+from ui_qt.auth.password_core import PasswordManager
+from ui_qt.auth.password_session_manager import PasswordSessionManager
 from utils.translations import I18N
 
 _ = I18N._

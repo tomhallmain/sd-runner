@@ -1,26 +1,26 @@
 """
-Qt (PySide6) application style for Media Compare.
-Dark violet theme. Used by app_qt and ui widgets.
+Qt (PySide6) application style for SD Runner.
+Dark teal theme. Used by app_qt and ui widgets.
 Includes title bar styling for frameless windows.
 """
 
 
 class AppStyle:
-    """Application theme and colors for the Qt UI. Dark violet by default."""
-    IS_DEFAULT_THEME = True   # True = dark violet theme
+    """Application theme and colors for the Qt UI. Dark teal by default."""
+    IS_DEFAULT_THEME = True   # True = dark teal theme
     LIGHT_THEME = "light"
     DARK_THEME = "dark"
 
-    # Dark violet palette (dark theme) — base: #26242f from config
-    _DARK_BG_COLOR = "#26242f"
-    _DARK_FG_COLOR = "#e8e6ef"
-    _DARK_BG_SIDEBAR = "#1e1c26"
-    _DARK_BG_BUTTON = "#33303d"
-    _DARK_BG_BUTTON_HOVER = "#3f3c4a"
-    _DARK_BG_INPUT = "#2d2b37"
-    _DARK_BORDER_COLOR = "#33303d"
-    _DARK_PROGRESS_CHUNK = "#5c4f8a"
-    _DARK_MEDIA_BG = "#1e1c26"
+    # Dark teal palette (dark theme) — base: #05342C
+    _DARK_BG_COLOR = "#05342C"
+    _DARK_FG_COLOR = "#ffffff"
+    _DARK_BG_SIDEBAR = "#022821"
+    _DARK_BG_BUTTON = "#0a4438"
+    _DARK_BG_BUTTON_HOVER = "#0f5446"
+    _DARK_BG_INPUT = "#073d34"
+    _DARK_BORDER_COLOR = "#0a4438"
+    _DARK_PROGRESS_CHUNK = "#1a8a6e"
+    _DARK_MEDIA_BG = "#022821"
 
     # Light theme palette
     _LIGHT_BG_COLOR = "#f0f4f8"
@@ -140,7 +140,7 @@ class AppStyle:
 
     @staticmethod
     def get_stylesheet():
-        """Return a Qt stylesheet string for the application (dark blue theme).
+        """Return a Qt stylesheet string for the application (dark teal theme).
         Applied once on the top-level window; all child widgets inherit.
         QComboBox is styled only at top level (no ::drop-down or ::down-arrow) so the
         platform draws the arrow; see BookmarkManager app_style for same approach."""

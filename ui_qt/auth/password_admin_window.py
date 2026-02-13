@@ -20,10 +20,10 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
 from lib.multi_display_qt import SmartWindow, display_manager
-from ui.app_style import AppStyle
-from ui.auth.password_core import PasswordManager, get_security_config
-from ui.auth.password_utils import require_password
-from utils.constants import ProtectedActions
+from ui_qt.app_style import AppStyle
+from ui_qt.auth.password_core import PasswordManager, get_security_config
+from ui_qt.auth.password_utils import require_password
+from utils.globals import ProtectedActions
 from utils.translations import I18N
 
 _ = I18N._
@@ -108,7 +108,7 @@ class PasswordChangeDialog(QDialog):
             return
 
         if PasswordManager.set_password(new_pwd):
-            from ui.auth.password_session_manager import PasswordSessionManager
+            from ui_qt.auth.password_session_manager import PasswordSessionManager
 
             PasswordSessionManager.clear_all_sessions()
             if hasattr(self.app_actions, "toast"):
@@ -379,7 +379,7 @@ class PasswordAdminWindow(SmartWindow):
 
     def clear_sessions(self):
         """Clear all sessions when settings change."""
-        from ui.auth.password_session_manager import PasswordSessionManager
+        from ui_qt.auth.password_session_manager import PasswordSessionManager
 
         PasswordSessionManager.clear_all_sessions()
 

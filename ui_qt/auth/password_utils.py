@@ -4,10 +4,10 @@ This module provides the authentication flow logic and decorators.
 It imports from password_core.py and password_dialog.py to avoid circular dependencies.
 """
 
-from ui.auth.password_core import get_security_config, PasswordManager
-from ui.auth.password_dialog import PasswordDialog
-from ui.auth.password_session_manager import PasswordSessionManager
-from utils.constants import ProtectedActions
+from ui_qt.auth.password_core import get_security_config, PasswordManager
+from ui_qt.auth.password_dialog import PasswordDialog
+from ui_qt.auth.password_session_manager import PasswordSessionManager
+from utils.globals import ProtectedActions
 
 
 

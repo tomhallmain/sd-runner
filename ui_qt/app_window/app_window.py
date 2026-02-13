@@ -1,0 +1,584 @@
+"""
+AppWindow -- main application window orchestrator (PySide6).
+
+This is the thin shell described in APP_DECOMPOSITION.md.  It owns the
+top-level SmartMainWindow, instantiates all controller objects, assembles
+the AppActions dict, and handles top-level lifecycle events.
+
+All substantial logic lives in the controller modules:
+    SidebarPanel, RunController, WindowLauncher, KeyBindingManager,
+    NotificationController, CacheController.
+"""
+
+import functools
+import os
+import threading
+from typing import Optional
+
+from PySide6.QtCore import Qt, QTimer, Signal, Slot, QThread, QMetaObject
+from PySide6.QtWidgets import (
+    QApplication, QHBoxLayout, QVBoxLayout, QWidget, QFrame,
+)
+
+from lib.custom_title_bar import FramelessWindowMixin, WindowResizeHandler
+from lib.multi_display_qt import SmartMainWindow
+from run import Run
+from sd_runner.comfy_gen import ComfyGen
+from sd_runner.models import Model
+from ui.app_actions import AppActions
+from ui.recent_adapters_window import RecentAdaptersWindow
+from ui_qt.app_style import AppStyle
+from ui_qt.app_window.cache_controller import CacheController
+from ui_qt.app_window.key_binding_manager import KeyBindingManager
+from ui_qt.app_window.notification_controller import NotificationController
+from ui_qt.app_window.run_controller import RunController
+from ui_qt.app_window.sidebar_panel import SidebarPanel
+from ui_qt.app_window.window_launcher import WindowLauncher
+from utils.app_info_cache import app_info_cache
+from utils.config import config
+from utils.job_queue import SDRunsQueue, PresetSchedulesQueue
+from utils.logging_setup import get_logger, set_logger_level
+from utils.runner_app_config import RunnerAppConfig
+from utils.translations import I18N
+from utils.utils import Utils
+
+_ = I18N._
+logger = get_logger("ui_qt.app_window")
+
+
+# ======================================================================
+# Thread-safety bridge
+# ======================================================================
+
+class _MainThreadBridge(QWidget):
+    """Marshals arbitrary callables from worker threads to the main/GUI thread.
+
+    Uses ``QMetaObject.invokeMethod`` with ``BlockingQueuedConnection`` so that
+    the calling (worker) thread blocks until the callable finishes on the main
+    thread.  When already on the main thread the callable runs directly.
+    """
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.hide()  # invisible helper widget
+        self._lock = threading.Lock()
+        self._func = None
+        self._args = ()
+        self._kwargs = {}
+        self._result = None
+        self._error = None
+
+    @Slot()
+    def _execute(self):
+        try:
+            self._result = self._func(*self._args, **self._kwargs)
+        except Exception as e:
+            self._error = e
+
+    def invoke(self, func, *args, **kwargs):
+        """Call *func* on the main thread, blocking until it returns."""
+        app = QApplication.instance()
+        if app is None or QThread.currentThread() == app.thread():
+            return func(*args, **kwargs)
+        with self._lock:
+            self._func = func
+            self._args = args
+            self._kwargs = kwargs
+            self._result = None
+            self._error = None
+            QMetaObject.invokeMethod(
+                self, "_execute", Qt.ConnectionType.BlockingQueuedConnection,
+            )
+            if self._error:
+                raise self._error
+            return self._result
+
+    def wrap(self, func):
+        """Return a wrapper that always invokes *func* on the main thread."""
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            return self.invoke(func, *args, **kwargs)
+        return wrapper
+
+
+# ======================================================================
+# Main window
+# ======================================================================
+
+class AppWindow(FramelessWindowMixin, SmartMainWindow):
+    """
+    Main application window for SD Runner.
+
+    Orchestrates controllers via composition.  Each controller receives the
+    dependencies it needs at construction time; the AppWindow itself keeps
+    only cross-cutting state and top-level lifecycle methods.
+
+    Inherits FramelessWindowMixin for a custom draggable title bar, and
+    SmartMainWindow for automatic geometry persistence.
+    """
+
+    # Signal for thread-safe title updates.
+    _sig_set_title = Signal(str)
+
+    def __init__(self):
+        super().__init__(restore_geometry=True)
+
+        # Set up frameless window with custom title bar
+        self.setup_frameless_window(
+            title=_(" SD Runner "), corner_radius=10,
+        )
+
+        # Set icon in the custom title bar
+        _root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+        )
+        icon_path = os.path.join(_root, "assets", "icon.png")
+        if os.path.isfile(icon_path):
+            title_bar = self.get_title_bar()
+            if title_bar:
+                title_bar.set_icon(icon_path)
+
+        # Thread-safe title signal → slot
+        self._sig_set_title.connect(self._on_set_title)
+
+        # ------------------------------------------------------------------
+        # Core state
+        # ------------------------------------------------------------------
+        self.config_history_index: int = 0
+        self.runner_app_config: RunnerAppConfig | None = None
+        self.current_run: Run = Run(None)
+        self.job_queue = SDRunsQueue()
+        self.job_queue_preset_schedules: PresetSchedulesQueue | None = None
+
+        # Window title
+        self.setWindowTitle(_(" SD Runner "))
+
+        # ------------------------------------------------------------------
+        # Central widget: frameless structure with custom title bar
+        # ------------------------------------------------------------------
+        grip_size = getattr(self, "_frameless_grip_size", 8)
+
+        outer_widget = QWidget()
+        outer_widget.setObjectName("transparentOuter")
+        outer_widget.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setCentralWidget(outer_widget)
+        outer_layout = QVBoxLayout(outer_widget)
+        outer_layout.setContentsMargins(0, 0, 0, 0)
+        outer_layout.setSpacing(0)
+
+        self._main_frame = QFrame()
+        self._main_frame.setObjectName("mainFrame")
+        outer_layout.addWidget(self._main_frame)
+
+        root_layout = QVBoxLayout(self._main_frame)
+        root_layout.setContentsMargins(0, 0, 0, 0)
+        root_layout.setSpacing(0)
+
+        # Custom title bar at the top
+        title_bar = self.get_title_bar()
+        if title_bar:
+            root_layout.addWidget(title_bar)
+
+        # Content area below title bar
+        content_widget = QWidget()
+        content_widget.setObjectName("contentArea")
+        content_layout = QHBoxLayout(content_widget)
+        content_layout.setContentsMargins(0, 0, 0, 0)
+        content_layout.setSpacing(0)
+        root_layout.addWidget(content_widget)
+
+        # ------------------------------------------------------------------
+        # Controllers -- notification first (others may toast during init)
+        # ------------------------------------------------------------------
+        self.notification_ctrl = NotificationController(app_window=self)
+
+        # ------------------------------------------------------------------
+        # Load cache (needs to happen before sidebar is built)
+        # ------------------------------------------------------------------
+        self.cache_ctrl = CacheController(app_window=self)
+        self.runner_app_config = self.cache_ctrl.load_info_cache()
+
+        # Load models so autocomplete lists are populated
+        Model.load_all()
+
+        # ------------------------------------------------------------------
+        # Sidebar panel (the main content of the window)
+        # ------------------------------------------------------------------
+        self.sidebar_panel = SidebarPanel(parent=content_widget, app_window=self)
+        content_layout.addWidget(self.sidebar_panel)
+
+        # Install resize handler for frameless edge resizing
+        self._resize_handler = WindowResizeHandler(self, grip_size)
+
+        # Apply combined stylesheet (base + frameless)
+        self._apply_theme()
+
+        # ------------------------------------------------------------------
+        # Remaining controllers
+        # ------------------------------------------------------------------
+        self.run_ctrl = RunController(app_window=self)
+        self.window_launcher = WindowLauncher(app_window=self)
+
+        # Job queue for preset schedules (needs run_ctrl references)
+        from ui.schedules_windows import SchedulesWindow
+        self.job_queue_preset_schedules = PresetSchedulesQueue(
+            get_run_config_callback=self.get_basic_run_config,
+            get_current_schedule_callback=lambda: SchedulesWindow.current_schedule,
+        )
+
+        # ------------------------------------------------------------------
+        # Thread-safety bridge
+        # ------------------------------------------------------------------
+        self._thread_bridge = _MainThreadBridge(parent=self)
+
+        # ------------------------------------------------------------------
+        # Assemble AppActions dict
+        # ------------------------------------------------------------------
+        self.app_actions = self._build_app_actions()
+
+        # Set UI callbacks for Blacklist filtering notifications
+        from sd_runner.blacklist import Blacklist
+        Blacklist.set_ui_callbacks(self.app_actions)
+
+        # ------------------------------------------------------------------
+        # Key bindings (need app_actions / controllers ready)
+        # ------------------------------------------------------------------
+        self.key_binding_mgr = KeyBindingManager(app_window=self)
+
+        # ------------------------------------------------------------------
+        # Server
+        # ------------------------------------------------------------------
+        self.server = self._setup_server()
+
+        # ------------------------------------------------------------------
+        # Start periodic cache store
+        # ------------------------------------------------------------------
+        self.cache_ctrl.start_periodic_store()
+
+        # Restore window geometry (SmartMainWindow feature)
+        self.restore_window_geometry()
+
+        # Close autocomplete popups and focus
+        self.sidebar_panel.close_autocomplete_popups()
+        self.sidebar_panel.run_btn.setFocus()
+
+        logger.info("AppWindow created")
+
+    # ------------------------------------------------------------------
+    # AppActions assembly
+    # ------------------------------------------------------------------
+    def _build_app_actions(self) -> AppActions:
+        """Wire the AppActions dict, mapping action names to controller methods.
+
+        Actions that touch the Qt GUI are wrapped via :class:`_MainThreadBridge`
+        so that the generation engine (which runs on a worker thread) can call
+        them safely.  Pure-data / thread-safe getters are left unwrapped.
+        """
+        ts = self._thread_bridge.wrap  # shorthand
+
+        actions = {
+            # Progress
+            "update_progress": ts(self.run_ctrl.update_progress),
+            "update_pending": ts(self.run_ctrl.update_pending),
+            "update_time_estimation": ts(self.run_ctrl.update_time_estimation),
+            # Presets
+            "construct_preset": self.sidebar_panel.construct_preset,
+            "set_widgets_from_preset": ts(self.sidebar_panel.set_widgets_from_preset),
+            # Window launchers
+            "open_password_admin_window": ts(
+                self.window_launcher.open_password_admin_window
+            ),
+            # Models / adapters
+            "set_model_from_models_window": ts(self._set_model_from_models_window),
+            "set_adapter_from_adapters_window": ts(
+                self._set_adapter_from_adapters_window
+            ),
+            "add_recent_adapter_file": RecentAdaptersWindow.add_recent_adapter_file,
+            "contains_recent_adapter_file": RecentAdaptersWindow.contains_recent_adapter_file,
+            # Notifications
+            "toast": ts(self.notification_ctrl.toast),
+            "_alert": ts(self.notification_ctrl.alert),
+        }
+        return AppActions(actions=actions, master=self)
+
+    # ------------------------------------------------------------------
+    # Title bar / theme helpers
+    # ------------------------------------------------------------------
+    def setWindowTitle(self, title: str) -> None:
+        """Override to keep the custom title bar text in sync."""
+        super().setWindowTitle(title)
+        title_bar = self.get_title_bar()
+        if title_bar:
+            title_bar.set_title(title)
+
+    def _on_set_title(self, title: str) -> None:
+        """Slot for ``_sig_set_title`` -- always runs on the GUI thread."""
+        self.setWindowTitle(title)
+        QApplication.processEvents()
+
+    def _apply_theme(self) -> None:
+        """Apply the combined base + frameless stylesheet and title bar theme."""
+        is_dark = AppStyle.IS_DEFAULT_THEME
+        stylesheet = AppStyle.get_stylesheet() + AppStyle.get_frameless_stylesheet(is_dark)
+        self.setStyleSheet(stylesheet)
+        self.apply_frameless_theme(is_dark)
+
+    def toggle_theme(self, to_theme: str | None = None, do_toast: bool = True) -> None:
+        """Switch between dark and light themes."""
+        AppStyle.toggle_theme(to_theme)
+        self._apply_theme()
+        if do_toast:
+            self.notification_ctrl.toast(
+                _("Theme switched to {0}.").format(AppStyle.get_theme_name())
+            )
+
+    def toggle_debug(self) -> None:
+        config.debug = not config.debug
+        set_logger_level(config.debug)
+        suffix = " (Debug)" if config.debug else ""
+        self.setWindowTitle(_(" SD Runner ") + suffix)
+        self.notification_ctrl.toast(
+            _("Debug mode toggled.")
+            + (" (Enabled)" if config.debug else " (Disabled)")
+        )
+
+    # ------------------------------------------------------------------
+    # Config history navigation
+    # ------------------------------------------------------------------
+    def one_config_away(self, change: int = 1) -> None:
+        """Navigate forward/backward in the config history."""
+        assert isinstance(self.config_history_index, int)
+        self.config_history_index += change
+        try:
+            self.runner_app_config = RunnerAppConfig.from_dict(
+                app_info_cache.get_history(self.config_history_index)
+            )
+            self._set_widgets_from_config()
+            self.sidebar_panel.close_autocomplete_popups()
+        except Exception:
+            self.config_history_index -= change
+
+    def first_config(self, end: bool = False) -> None:
+        """Jump to first or last config in history."""
+        self.config_history_index = (
+            app_info_cache.get_last_history_index() if end else 0
+        )
+        try:
+            self.runner_app_config = RunnerAppConfig.from_dict(
+                app_info_cache.get_history(self.config_history_index)
+            )
+            self._set_widgets_from_config()
+            self.sidebar_panel.close_autocomplete_popups()
+        except Exception:
+            self.config_history_index = 0
+
+    def _set_widgets_from_config(self) -> None:
+        """Push ``runner_app_config`` values into all sidebar widgets."""
+        cfg = self.runner_app_config
+        if cfg is None:
+            return
+        sp = self.sidebar_panel
+        from utils.globals import WorkflowType
+
+        sp.software_combo.setCurrentText(cfg.software_type)
+        sp.workflow_combo.setCurrentText(
+            WorkflowType.get(cfg.workflow_type).get_translation()
+        )
+        sp.n_latents_combo.setCurrentText(str(cfg.n_latents))
+        sp.total_combo.setCurrentText(str(cfg.total))
+        sp.batch_limit_combo.setCurrentText(str(cfg.batch_limit))
+        sp.delay_combo.setCurrentText(str(cfg.delay_time_seconds))
+        sp.resolutions_entry.setText(cfg.resolutions)
+        sp.model_tags_entry.setText(cfg.model_tags)
+        if cfg.lora_tags:
+            sp.lora_tags_entry.setText(cfg.lora_tags)
+        sp.lora_strength_slider.setValue(int(float(cfg.lora_strength) * 100))
+        sp.bw_colorization_entry.setText(cfg.b_w_colorization)
+        sp.controlnet_file_entry.setText(cfg.control_net_file)
+        sp.controlnet_strength_slider.setValue(
+            int(float(cfg.control_net_strength) * 100)
+        )
+        sp.ipadapter_file_entry.setText(cfg.ip_adapter_file)
+        sp.ipadapter_strength_slider.setValue(
+            int(float(cfg.ip_adapter_strength) * 100)
+        )
+        sp.redo_params_entry.setText(cfg.redo_params)
+
+        # Prompter config
+        sp.prompt_mode_combo.setCurrentText(
+            cfg.prompter_config.prompt_mode.display()
+        )
+        sp.override_resolution_check.setChecked(cfg.override_resolution)
+        sp.inpainting_check.setChecked(cfg.inpainting)
+        sp.override_negative_check.setChecked(cfg.override_negative)
+        sp.continuous_seed_var_check.setChecked(cfg.continuous_seed_variation)
+
+        sp.prompt_massage_tags_box.setPlainText(cfg.prompt_massage_tags)
+        sp.positive_tags_box.setPlainText(cfg.positive_tags)
+        sp.negative_tags_box.setPlainText(cfg.negative_tags)
+
+        from ui.prompt_config_window import PromptConfigWindow
+        PromptConfigWindow.set_runner_app_config(cfg)
+
+    # ------------------------------------------------------------------
+    # Build run config from UI (ported from App.get_basic_run_config)
+    # ------------------------------------------------------------------
+    def get_basic_run_config(self):
+        """Build a base ``RunConfig`` from the current widget values.
+
+        This is a simplified version; full ``get_args()`` adds
+        workflow-specific overrides on top of this.
+        """
+        from sd_runner.run_config import RunConfig
+        sp = self.sidebar_panel
+
+        args = RunConfig()
+        args.software_type = sp.software_combo.currentText()
+        args.workflow_tag = sp.workflow_combo.currentText()
+        args.n_latents = int(sp.n_latents_combo.currentText())
+        args.total = int(sp.total_combo.currentText())
+        args.batch_limit = int(sp.batch_limit_combo.currentText())
+        args.resolutions = sp.resolutions_entry.text()
+        args.resolution_group = sp.resolution_group_combo.currentText()
+        args.model_tags = sp.model_tags_entry.text()
+        args.lora_tags = sp.lora_tags_entry.text()
+        args.lora_strength = sp.lora_strength_slider.value() / 100.0
+        args.positive_tags = sp.positive_tags_box.toPlainText()
+        args.negative_tags = sp.negative_tags_box.toPlainText()
+        args.prompt_massage_tags = sp.prompt_massage_tags_box.toPlainText()
+        args.override_resolution = sp.override_resolution_check.isChecked()
+        args.inpainting = sp.inpainting_check.isChecked()
+        args.override_negative = sp.override_negative_check.isChecked()
+        args.continuous_seed_variation = sp.continuous_seed_var_check.isChecked()
+
+        # Prompt mode
+        prompt_mode_text = sp.prompt_mode_combo.currentText()
+        from utils.globals import PromptMode
+        args.prompt_mode = PromptMode.get(prompt_mode_text)
+
+        return args
+
+    def get_args(self):
+        """Build a full run config with workflow-specific options.
+
+        Returns ``(args, args_copy)`` where ``args_copy`` is a deepcopy
+        for storing in the config cache.
+        """
+        from copy import deepcopy
+        args = self.get_basic_run_config()
+        sp = self.sidebar_panel
+
+        args.b_w_colorization = sp.bw_colorization_entry.text()
+        args.control_net_file = sp.controlnet_file_entry.text()
+        args.control_net_strength = sp.controlnet_strength_slider.value() / 100.0
+        args.ip_adapter_file = sp.ipadapter_file_entry.text()
+        args.ip_adapter_strength = sp.ipadapter_strength_slider.value() / 100.0
+        args.redo_params = sp.redo_params_entry.text()
+
+        args_copy = deepcopy(args)
+        return args, args_copy
+
+    # ------------------------------------------------------------------
+    # Model / adapter callbacks (wired into AppActions)
+    # ------------------------------------------------------------------
+    def _set_model_from_models_window(self, model_name: str, is_lora: bool = False) -> None:
+        """Insert a model name into the model or LoRA tags entry."""
+        entry = (
+            self.sidebar_panel.lora_tags_entry
+            if is_lora
+            else self.sidebar_panel.model_tags_entry
+        )
+        current = entry.text()
+        if current and not current.endswith("+") and not current.endswith(","):
+            entry.setText(current + "+" + model_name)
+        else:
+            entry.setText((current or "") + model_name)
+
+    def _set_adapter_from_adapters_window(
+        self, path: str, adapter_type: str = "controlnet"
+    ) -> None:
+        """Insert an adapter path into the appropriate entry."""
+        if adapter_type == "ipadapter":
+            self.sidebar_panel.ipadapter_file_entry.setText(path)
+        else:
+            self.sidebar_panel.controlnet_file_entry.setText(path)
+
+    # ------------------------------------------------------------------
+    # Server
+    # ------------------------------------------------------------------
+    def _setup_server(self):
+        """Start the SD Runner server in a background thread."""
+        from extensions.sd_runner_server import SDRunnerServer
+
+        server = SDRunnerServer(
+            self.run_ctrl.server_run_callback,
+            self.run_ctrl.cancel,
+            lambda: None,  # revert_to_simple_gen placeholder
+        )
+        try:
+            Utils.start_thread(server.start)
+            return server
+        except Exception as e:
+            logger.error(f"Failed to start server: {e}")
+            return None
+
+    # ------------------------------------------------------------------
+    # Lifecycle
+    # ------------------------------------------------------------------
+    _closing = False
+
+    def on_closing(self) -> None:
+        """Clean up and prepare for shutdown."""
+        Utils.prevent_sleep(False)
+        ComfyGen.close_all_connections()
+
+        # Store display position
+        self.cache_ctrl.store_display_position()
+        self.cache_ctrl.store_info_cache()
+        app_info_cache.wipe_instance()
+
+        # Stop server
+        if self.server is not None:
+            try:
+                self.server.stop()
+            except Exception as e:
+                logger.error(f"Error stopping server: {e}")
+
+        # Cancel running jobs
+        if self.current_run is not None:
+            self.current_run.cancel("Application shutdown")
+        if self.job_queue is not None:
+            self.job_queue.cancel()
+        if self.job_queue_preset_schedules is not None:
+            self.job_queue_preset_schedules.cancel()
+
+        # Stop periodic cache store
+        self.cache_ctrl.stop_periodic_store()
+
+        # Shutdown executor and clean up temp files
+        from sd_runner.base_image_generator import BaseImageGenerator
+        BaseImageGenerator.shutdown_executor(wait=False)
+        BaseImageGenerator.cleanup_image_converter()
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        if self._closing:
+            event.accept()
+            return
+        self._closing = True
+        self.on_closing()
+        event.accept()
+        QApplication.instance().quit()
+
+    def quit(self, event=None) -> None:
+        """Prompt the user and quit the application."""
+        from lib.qt_alert import qt_alert
+
+        if qt_alert(
+            self,
+            _("Confirm Quit"),
+            _("Would you like to quit the application?"),
+            kind="askokcancel",
+        ):
+            logger.warning("Exiting application")
+            self.on_closing()
+            QApplication.instance().quit()

@@ -31,7 +31,7 @@ def main():
 
     # Create QApplication (must exist before any widgets)
     qt_app = QApplication(sys.argv)
-    qt_app.setApplicationName(" SD Runner ")
+    qt_app.setApplicationName(_(" SD Runner "))
     qt_app.setStyleSheet(AppStyle.get_stylesheet())
 
     # Application icon

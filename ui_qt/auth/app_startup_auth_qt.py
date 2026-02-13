@@ -10,11 +10,11 @@ from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushBu
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
-from ui.app_style import AppStyle
-from ui.auth.password_core import PasswordManager, get_security_config
-from ui.auth.password_session_manager import PasswordSessionManager
-from ui.auth.password_dialog import PasswordLineEdit
-from utils.constants import ProtectedActions
+from ui_qt.app_style import AppStyle
+from ui_qt.auth.password_core import PasswordManager, get_security_config
+from ui_qt.auth.password_session_manager import PasswordSessionManager
+from ui_qt.auth.password_dialog import PasswordLineEdit
+from utils.globals import ProtectedActions
 from utils.translations import I18N
 
 _ = I18N._
