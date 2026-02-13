@@ -398,12 +398,11 @@ class PasswordAdminWindow(SmartWindow):
     @require_password(ProtectedActions.ACCESS_ADMIN)
     def reset_to_defaults(self):
         """Reset all settings to their default values."""
-        from lib.qt_alert import qt_alert
-        if not qt_alert(
-            self,
+        if not self.app_actions.alert(
             _("Reset to Defaults"),
             _("Are you sure you want to reset all password protection settings to their default values?"),
             kind="askyesno",
+            master=self,
         ):
             return
 
@@ -424,12 +423,11 @@ class PasswordAdminWindow(SmartWindow):
 
     def set_to_current(self):
         """Restore settings to their current saved state."""
-        from lib.qt_alert import qt_alert
-        if not qt_alert(
-            self,
+        if not self.app_actions.alert(
             _("Set to Current"),
             _("Are you sure you want to restore all settings to their current saved state? This will discard any unsaved changes."),
             kind="askyesno",
+            master=self,
         ):
             return
 
@@ -491,12 +489,11 @@ class PasswordAdminWindow(SmartWindow):
     @require_password(ProtectedActions.ACCESS_ADMIN)
     def remove_password(self):
         """Remove the current password."""
-        from lib.qt_alert import qt_alert
-        if not qt_alert(
-            self,
+        if not self.app_actions.alert(
             _("Remove Password"),
             _("Are you sure you want to remove password protection? This will disable all password requirements."),
             kind="askyesno",
+            master=self,
         ):
             return
 

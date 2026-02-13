@@ -50,9 +50,9 @@ class CacheController:
         from ui.tags_blacklist_window import BlacklistWindow
         from ui.presets_window import PresetsWindow
         from ui.schedules_windows import SchedulesWindow
-        from ui.expansions_window import ExpansionsWindow
+        from ui_qt.prompts.expansions_window import set_expansions as _set_expansions
         from ui.recent_adapters_window import RecentAdaptersWindow
-        from ui.prompt_config_window import PromptConfigWindow
+        from ui_qt.prompts.prompt_config_window import PromptConfigWindow
         from sd_runner.timed_schedules_manager import timed_schedules_manager
         from ui_qt.auth.password_core import get_security_config
 
@@ -66,7 +66,7 @@ class CacheController:
             app_info_cache.post_init()
             PresetsWindow.set_recent_presets()
             SchedulesWindow.set_schedules()
-            ExpansionsWindow.set_expansions()
+            _set_expansions()
             timed_schedules_manager.set_schedules()
             RecentAdaptersWindow.load_recent_adapters()
             # Security config is loaded automatically when first accessed
@@ -94,7 +94,7 @@ class CacheController:
         from ui.tags_blacklist_window import BlacklistWindow
         from ui.presets_window import PresetsWindow
         from ui.schedules_windows import SchedulesWindow
-        from ui.expansions_window import ExpansionsWindow
+        from ui_qt.prompts.expansions_window import store_expansions as _store_expansions
         from ui.recent_adapters_window import RecentAdaptersWindow
         from sd_runner.timed_schedules_manager import timed_schedules_manager
         from ui_qt.auth.password_core import get_security_config
@@ -109,7 +109,7 @@ class CacheController:
             BlacklistWindow.store_blacklist()
             PresetsWindow.store_recent_presets()
             SchedulesWindow.store_schedules()
-            ExpansionsWindow.store_expansions()
+            _store_expansions()
             timed_schedules_manager.store_schedules()
             RecentAdaptersWindow.save_recent_adapters()
             get_security_config().save_settings()

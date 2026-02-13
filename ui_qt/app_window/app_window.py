@@ -298,6 +298,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             # Notifications
             "toast": ts(self.notification_ctrl.toast),
             "_alert": ts(self.notification_ctrl.alert),
+            "title_notify": ts(self.notification_ctrl.title_notify),
         }
         return AppActions(actions=actions, master=self)
 
@@ -417,7 +418,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         sp.positive_tags_box.setPlainText(cfg.positive_tags)
         sp.negative_tags_box.setPlainText(cfg.negative_tags)
 
-        from ui.prompt_config_window import PromptConfigWindow
+        from ui_qt.prompts.prompt_config_window import PromptConfigWindow
         PromptConfigWindow.set_runner_app_config(cfg)
 
     # ------------------------------------------------------------------
@@ -571,10 +572,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
 
     def quit(self, event=None) -> None:
         """Prompt the user and quit the application."""
-        from lib.qt_alert import qt_alert
-
-        if qt_alert(
-            self,
+        if self.app_actions.alert(
             _("Confirm Quit"),
             _("Would you like to quit the application?"),
             kind="askokcancel",

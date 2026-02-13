@@ -26,8 +26,9 @@ logger = get_logger("ui_qt.notification_controller")
 
 
 class _NotificationSignals(QObject):
-    """Signals for cross-thread toast delivery."""
-    toast_requested = Signal(str, int, str)  # message, duration_ms, bg_color
+    """Signals for cross-thread toast / title-notify delivery."""
+    toast_requested = Signal(str, int, str)       # message, duration_ms, bg_color
+    title_notify_requested = Signal(str, str, int)  # message, base_title, duration_ms
 
 
 class NotificationController:
@@ -40,6 +41,7 @@ class NotificationController:
         self._app = app_window
         self._signals = _NotificationSignals()
         self._signals.toast_requested.connect(self._do_toast)
+        self._signals.title_notify_requested.connect(self._do_title_notify)
 
     # ------------------------------------------------------------------
     # Toast
@@ -102,6 +104,32 @@ class NotificationController:
         QTimer.singleShot(
             duration_ms,
             lambda: toast_widget.close() if toast_widget else None,
+        )
+
+    # ------------------------------------------------------------------
+    # Title notifications
+    # ------------------------------------------------------------------
+    def title_notify(
+        self,
+        message: str,
+        base_message: str = "",
+        time_in_seconds: int = 3,
+    ) -> None:
+        """
+        Temporarily modify the window title to show a notification message.
+        Thread-safe via signals.  After *time_in_seconds* the title reverts
+        to *base_message* (or the current window title if empty).
+        """
+        duration_ms = time_in_seconds * 1000
+        base = base_message or self._app.windowTitle()
+        self._signals.title_notify_requested.emit(message, base, duration_ms)
+
+    def _do_title_notify(self, message: str, base_title: str, duration_ms: int) -> None:
+        """Main-thread implementation of title notification."""
+        self._app.setWindowTitle(message)
+        QTimer.singleShot(
+            duration_ms,
+            lambda: self._app.setWindowTitle(base_title),
         )
 
     # ------------------------------------------------------------------

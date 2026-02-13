@@ -55,6 +55,10 @@ class AppStyle:
     LIGHT_PROGRESS_CHUNK = _LIGHT_PROGRESS_CHUNK
     LIGHT_MEDIA_BG = _LIGHT_MEDIA_BG
     
+    # Toast accent colors
+    TOAST_COLOR_WARNING = "#8B4513"  # dark orange / saddle brown
+    TOAST_COLOR_SUCCESS = "#2d5016"  # dark green
+
     # Title bar specific colors
     CLOSE_HOVER = "#e81123"
     CLOSE_PRESSED = "#f1707a"
