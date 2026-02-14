@@ -25,9 +25,13 @@ logger = get_logger("app_qt")
 
 def main():
     # Single instance check -- prevent multiple instances from running
-    lock_file, cleanup_lock = Utils.check_single_instance("SD Runner")
+    lock_file, cleanup_lock = Utils.check_single_instance("SDRunner")
 
     I18N.install_locale(config.locale, verbose=config.print_settings)
+
+    # Apply UI scale factor (must be set before QApplication is created)
+    if config.ui_scale_factor != 1.0:
+        os.environ["QT_SCALE_FACTOR"] = str(config.ui_scale_factor)
 
     # Create QApplication (must exist before any widgets)
     qt_app = QApplication(sys.argv)
@@ -54,6 +58,14 @@ def main():
 
     signal.signal(signal.SIGINT, graceful_shutdown)
     signal.signal(signal.SIGTERM, graceful_shutdown)
+
+    # Periodically yield to the Python interpreter so that signal handlers
+    # (SIGINT, SIGTERM) can fire.  Without this, Qt's C++ event loop never
+    # gives Python a chance to process pending signals.
+    from PySide6.QtCore import QTimer
+    _signal_timer = QTimer()
+    _signal_timer.start(500)
+    _signal_timer.timeout.connect(lambda: None)
 
     # ------------------------------------------------------------------
     # Startup authentication callback
@@ -106,7 +118,10 @@ def main():
     finally:
         cleanup_lock()
 
-    sys.exit(exit_code)
+    # Hard exit -- sys.exit() can hang if non-daemon threads are still
+    # alive (e.g. server listener blocking on accept(), websocket loops).
+    # All critical state was already persisted in on_closing().
+    os._exit(exit_code)
 
 
 if __name__ == "__main__":

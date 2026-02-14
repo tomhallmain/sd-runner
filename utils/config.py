@@ -12,6 +12,8 @@ class Config:
     def __init__(self):
         self.dict = {}
         self.debug = False
+        self.locale = "en"
+        self.print_settings = True
         self.foreground_color = None
         self.background_color = None
         self.comfyui_url = None
@@ -44,6 +46,7 @@ class Config:
         self.interrogator_questions_file = None
         self.interrogator_folder_category_mappings_file = None
 
+        self.ui_scale_factor = 1.0
         self.max_executor_threads = 4
 
         self.server_port = 6000
@@ -72,13 +75,18 @@ class Config:
         self.set_values(int,
                         "max_executor_threads",
         )
+        self.set_values(float,
+                        "ui_scale_factor",
+        )
         self.set_values(bool,
                         "debug",
+                        "print_settings",
                         "override_dictionary_append",
                         "blacklist_prevent_execution",
                         "purge_blacklisted_prompt_history",
         )
         self.set_values(str,
+                        "locale",
                         "foreground_color",
                         "background_color",
                         "comfyui_url",

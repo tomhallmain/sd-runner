@@ -526,6 +526,158 @@ class Utils:
         # This is a placeholder and should be replaced with the actual implementation
         return True
 
+    @staticmethod
+    def check_single_instance(app_name="SDRunner", mutex_name=None, lock_filename=None):
+        """
+        Check if another instance of the application is already running.
+        
+        Args:
+            app_name: Display name for error messages
+            mutex_name: Name for Windows mutex (defaults to app_name + "_SingleInstance")
+            lock_filename: Name for lock file (defaults to app_name.lower() + ".lock")
+            
+        Returns:
+            tuple: (lock_file_path, cleanup_function) where lock_file_path is the path to the lock file
+                   (None if using Windows mutex) and cleanup_function is a function to call for cleanup
+                   
+        Raises:
+            SystemExit: If another instance is already running
+        """
+        if mutex_name is None:
+            mutex_name = f"{app_name}_SingleInstance"
+        if lock_filename is None:
+            lock_filename = f"{app_name.lower()}.lock"
+        
+        # Try Windows mutex first (most reliable on Windows)
+        if sys.platform == 'win32':
+            try:
+                import win32event
+                import win32api
+                import winerror
+                
+                # Try to create a named mutex
+                mutex = win32event.CreateMutex(None, False, mutex_name)
+                if win32api.GetLastError() == winerror.ERROR_ALREADY_EXISTS:
+                    # Another instance is already running
+                    print(f"Another instance of {app_name} is already running.")
+                    print("Please close the existing instance or use that one.")
+                    input("Press Enter to exit...")
+                    os._exit(1)
+                
+                # Successfully created mutex, return None for lock file and dummy cleanup
+                return None, lambda: None
+                
+            except ImportError:
+                pass  # Fall through to file-based method
+        
+        # Try file locking (works on Unix and Windows)
+        try:
+            import tempfile
+            
+            lock_file = os.path.join(tempfile.gettempdir(), lock_filename)
+            
+            # Open the lock file
+            lock_fd = os.open(lock_file, os.O_CREAT | os.O_RDWR)
+            
+            # Try to acquire an exclusive lock
+            if sys.platform == 'win32':
+                # Windows file locking
+                try:
+                    import msvcrt
+                    msvcrt.locking(lock_fd, msvcrt.LK_NBLCK, 1)
+                    lock_acquired = True
+                except (ImportError, OSError):
+                    lock_acquired = False
+            else:
+                # Unix file locking
+                try:
+                    import fcntl
+                    fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    lock_acquired = True
+                except (ImportError, OSError):
+                    lock_acquired = False
+            
+            if not lock_acquired:
+                # Could not acquire lock, another instance is running
+                os.close(lock_fd)
+                print(f"Another instance of {app_name} is already running.")
+                print("Please close the existing instance or use that one.")
+                input("Press Enter to exit...")
+                os._exit(1)
+            
+            # Successfully acquired lock, write PID to file
+            os.ftruncate(lock_fd, 0)  # Clear file contents
+            os.write(lock_fd, str(os.getpid()).encode())
+            os.fsync(lock_fd)  # Ensure data is written to disk
+            
+            # Return cleanup function
+            def cleanup_lock():
+                try:
+                    if sys.platform == 'win32':
+                        try:
+                            import msvcrt
+                            msvcrt.locking(lock_fd, msvcrt.LK_UNLCK, 1)
+                        except (ImportError, OSError):
+                            pass
+                    else:
+                        try:
+                            import fcntl
+                            fcntl.flock(lock_fd, fcntl.LOCK_UN)
+                        except (ImportError, OSError):
+                            pass
+                    
+                    os.close(lock_fd)
+                    try:
+                        if os.path.exists(lock_file):
+                            os.remove(lock_file)
+                    except (OSError, PermissionError):
+                        pass  # Ignore cleanup errors
+                except Exception:
+                    pass  # Ignore any cleanup errors
+            
+            return lock_file, cleanup_lock
+            
+        except (OSError, PermissionError, ImportError):
+            pass  # Fall through to socket-based method
+        
+        # Final fallback: try socket-based method
+        try:
+            import socket
+            
+            # Try to bind to a specific port
+            port = 0  # Let OS choose a port
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            
+            try:
+                sock.bind(('localhost', port))
+                sock.listen(1)
+                
+                # Successfully bound, return cleanup function
+                def cleanup_lock():
+                    try:
+                        sock.close()
+                    except Exception:
+                        pass
+                
+                return None, cleanup_lock
+                
+            except OSError:
+                # Port is in use, another instance is running
+                sock.close()
+                print(f"Another instance of {app_name} is already running.")
+                print("Please close the existing instance or use that one.")
+                input("Press Enter to exit...")
+                os._exit(1)
+                
+        except ImportError:
+            # Socket module not available, this is very unlikely
+            print(f"Warning: Could not implement single instance check for {app_name}.")
+            print("Multiple instances may run simultaneously.")
+            return None, lambda: None
+
+
+
 from enum import Enum
 
 class ModifierKey(Enum):

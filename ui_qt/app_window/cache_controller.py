@@ -47,11 +47,11 @@ class CacheController:
         every module that persists data through the app_info_cache.
         """
         from utils.runner_app_config import RunnerAppConfig
-        from ui.tags_blacklist_window import BlacklistWindow
-        from ui.presets_window import PresetsWindow
-        from ui.schedules_windows import SchedulesWindow
+        from ui_qt.prompts.blacklist_window import BlacklistWindow
+        from ui_qt.presets.presets_window import PresetsWindow
+        from ui_qt.presets.schedules_window import SchedulesWindow
         from ui_qt.prompts.expansions_window import set_expansions as _set_expansions
-        from ui.recent_adapters_window import RecentAdaptersWindow
+        from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
         from ui_qt.prompts.prompt_config_window import PromptConfigWindow
         from sd_runner.timed_schedules_manager import timed_schedules_manager
         from ui_qt.auth.password_core import get_security_config
@@ -91,11 +91,11 @@ class CacheController:
 
         Ported from App.store_info_cache.
         """
-        from ui.tags_blacklist_window import BlacklistWindow
-        from ui.presets_window import PresetsWindow
-        from ui.schedules_windows import SchedulesWindow
+        from ui_qt.prompts.blacklist_window import BlacklistWindow
+        from ui_qt.presets.presets_window import PresetsWindow
+        from ui_qt.presets.schedules_window import SchedulesWindow
         from ui_qt.prompts.expansions_window import store_expansions as _store_expansions
-        from ui.recent_adapters_window import RecentAdaptersWindow
+        from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
         from sd_runner.timed_schedules_manager import timed_schedules_manager
         from ui_qt.auth.password_core import get_security_config
 

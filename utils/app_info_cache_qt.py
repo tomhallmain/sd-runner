@@ -14,9 +14,9 @@ Usage::
 
     from utils.app_info_cache_qt import app_info_cache
 
-    # Meta / directory operations -- identical to the base cache:
-    app_info_cache.get_meta("key")
-    app_info_cache.set_meta("key", value)
+    # Info-level operations -- identical to the base cache:
+    app_info_cache.get("key")
+    app_info_cache.set("key", value)
 
     # Position operations -- use PySide6 PositionData:
     app_info_cache.set_display_position(qt_main_window)
@@ -48,7 +48,7 @@ class _AppInfoCacheQtAdapter:
     # ------------------------------------------------------------------
     def set_display_position(self, master):
         """Store the main window's display position and size (PySide6 QWidget)."""
-        self._base.set_meta(
+        self._base.set(
             "display_position",
             PositionData.from_master(master).to_dict(),
         )
@@ -56,7 +56,7 @@ class _AppInfoCacheQtAdapter:
     def set_virtual_screen_info(self, master):
         """Store virtual screen information (PySide6 QWidget)."""
         try:
-            self._base.set_meta(
+            self._base.set(
                 "virtual_screen_info",
                 PositionData.from_master_virtual_screen(master).to_dict(),
             )
@@ -65,14 +65,14 @@ class _AppInfoCacheQtAdapter:
 
     def get_display_position(self):
         """Get the cached display position as a Qt-aware PositionData (or None)."""
-        data = self._base.get_meta("display_position")
+        data = self._base.get("display_position")
         if not data:
             return None
         return PositionData.from_dict(data)
 
     def get_virtual_screen_info(self):
         """Get the cached virtual screen info as a Qt-aware PositionData (or None)."""
-        data = self._base.get_meta("virtual_screen_info")
+        data = self._base.get("virtual_screen_info")
         if not data:
             return None
         return PositionData.from_dict(data)

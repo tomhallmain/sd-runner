@@ -74,14 +74,106 @@ class BlacklistWindow(SmartDialog):
 
     _modify_window = None  # singleton reference
 
-    # Re-export static data from the Tkinter backend so callers that
-    # import from *this* module still find them.
-    set_blacklist = staticmethod(_Backend.set_blacklist)
-    store_blacklist = staticmethod(_Backend.store_blacklist)
-    mark_user_confirmed_non_default = staticmethod(_Backend.mark_user_confirmed_non_default)
-    is_in_default_state = staticmethod(_Backend.is_in_default_state)
-    update_history = staticmethod(_Backend.update_history)
-    get_history_item = staticmethod(_Backend.get_history_item)
+    # Cache key constants
+    BLACKLIST_CACHE_KEY = "tag_blacklist"
+    MODEL_BLACKLIST_CACHE_KEY = "model_blacklist"
+    DEFAULT_BLACKLIST_KEY = "blacklist_user_confirmed_non_default"
+    BLACKLIST_MODE_KEY = "blacklist_mode"
+    BLACKLIST_PROMPT_MODE_KEY = "blacklist_prompt_mode"
+    MODEL_BLACKLIST_MODE_KEY = "model_blacklist_mode"
+    BLACKLIST_SILENT_KEY = "blacklist_silent_removal"
+    MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY = "model_blacklist_all_prompt_modes"
+    item_history = []
+    MAX_ITEMS = 50
+
+    @staticmethod
+    def set_blacklist():
+        """Load blacklist from cache, validate items, and load global blacklist settings."""
+        from utils.app_info_cache import app_info_cache
+        from sd_runner.blacklist import Blacklist
+        from utils.globals import BlacklistMode, BlacklistPromptMode, ModelBlacklistMode
+
+        user_confirmed_non_default = app_info_cache.get(BlacklistWindow.DEFAULT_BLACKLIST_KEY, default_val=False)
+        mode_str = app_info_cache.get(BlacklistWindow.BLACKLIST_MODE_KEY, default_val=str(Blacklist.get_blacklist_mode()))
+        prompt_mode_str = app_info_cache.get(BlacklistWindow.BLACKLIST_PROMPT_MODE_KEY, default_val=str(Blacklist.get_blacklist_prompt_mode()))
+        model_mode_str = app_info_cache.get(BlacklistWindow.MODEL_BLACKLIST_MODE_KEY, default_val=str(Blacklist.get_model_blacklist_mode()))
+        try:
+            mode = BlacklistMode(mode_str)
+            prompt_mode = BlacklistPromptMode(prompt_mode_str)
+            model_mode = ModelBlacklistMode(model_mode_str)
+        except Exception:
+            print(f"Invalid blacklist mode: {mode_str} or prompt mode: {prompt_mode_str} or model blacklist mode: {model_mode_str}")
+        Blacklist.set_blacklist_mode(mode)
+        Blacklist.set_blacklist_prompt_mode(prompt_mode)
+        Blacklist.set_model_blacklist_mode(model_mode)
+        silent = app_info_cache.get(BlacklistWindow.BLACKLIST_SILENT_KEY, default_val=False)
+        Blacklist.set_blacklist_silent_removal(silent)
+        all_prompt_modes = app_info_cache.get(BlacklistWindow.MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY, default_val=False)
+        Blacklist.set_model_blacklist_all_prompt_modes(all_prompt_modes)
+
+        if not user_confirmed_non_default:
+            try:
+                Blacklist.decrypt_blacklist()
+                print("Loaded default encrypted blacklist for first-time user")
+                return
+            except Exception as e:
+                print(f"Error loading default blacklist: {e}")
+
+        raw_blacklist = app_info_cache.get(BlacklistWindow.BLACKLIST_CACHE_KEY, default_val=[])
+        Blacklist.set_blacklist(raw_blacklist)
+        raw_model_blacklist = app_info_cache.get(BlacklistWindow.MODEL_BLACKLIST_CACHE_KEY, default_val=[])
+        Blacklist.set_model_blacklist(raw_model_blacklist)
+
+    @staticmethod
+    def store_blacklist():
+        """Store blacklist to cache."""
+        from utils.app_info_cache import app_info_cache
+        from sd_runner.blacklist import Blacklist
+
+        Blacklist.save_cache()
+        blacklist_dicts = [item.to_dict() for item in Blacklist.get_items()]
+        app_info_cache.set(BlacklistWindow.BLACKLIST_CACHE_KEY, blacklist_dicts)
+        model_blacklist_dicts = [item.to_dict() for item in Blacklist.get_model_items()]
+        app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_CACHE_KEY, model_blacklist_dicts)
+        app_info_cache.set(BlacklistWindow.BLACKLIST_MODE_KEY, str(Blacklist.get_blacklist_mode()))
+        app_info_cache.set(BlacklistWindow.BLACKLIST_PROMPT_MODE_KEY, str(Blacklist.get_blacklist_prompt_mode()))
+        app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_MODE_KEY, str(Blacklist.get_model_blacklist_mode()))
+        app_info_cache.set(BlacklistWindow.BLACKLIST_SILENT_KEY, Blacklist.get_blacklist_silent_removal())
+        app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY, Blacklist.get_model_blacklist_all_prompt_modes())
+        # Once the blacklist has been persisted at least once, subsequent
+        # loads should use the cached items instead of the encrypted default.
+        if blacklist_dicts or model_blacklist_dicts:
+            app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, True)
+
+    @staticmethod
+    def mark_user_confirmed_non_default():
+        """Mark that the user has explicitly confirmed they want a non-default blacklist state."""
+        from utils.app_info_cache import app_info_cache
+        app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, True)
+
+    @staticmethod
+    def is_in_default_state():
+        """Check if the blacklist is in default state."""
+        from utils.app_info_cache import app_info_cache
+        return not app_info_cache.get(BlacklistWindow.DEFAULT_BLACKLIST_KEY, default_val=False)
+
+    @staticmethod
+    def update_history(item):
+        if len(BlacklistWindow.item_history) > 0 and item == BlacklistWindow.item_history[0]:
+            return
+        BlacklistWindow.item_history.insert(0, item)
+        if len(BlacklistWindow.item_history) > BlacklistWindow.MAX_ITEMS:
+            del BlacklistWindow.item_history[-1]
+
+    @staticmethod
+    def get_history_item(start_index=0):
+        item = None
+        for i in range(len(BlacklistWindow.item_history)):
+            if i < start_index:
+                continue
+            item = BlacklistWindow.item_history[i]
+            break
+        return item
 
     warning_text = _Backend.warning_text
 
@@ -274,7 +366,7 @@ class BlacklistWindow(SmartDialog):
                         "the 'Add to tag blacklist' button above, or load the default blacklist.")
             else:
                 msg = _("Click below to reveal blacklist concepts.")
-            if _Backend.is_in_default_state():
+            if BlacklistWindow.is_in_default_state():
                 msg += "\n\n" + _(
                     "Default blacklist is loaded. You can load your own blacklist by "
                     "editing the existing concepts, clearing the blacklist and adding "
@@ -527,6 +619,9 @@ class BlacklistWindow(SmartDialog):
     # Tab changed
     # ==================================================================
     def _on_tab_changed(self, index: int) -> None:
+        # Guard: signal fires during addTab() before _build_*_tab() runs
+        if not hasattr(self, "_tag_content_layout"):
+            return
         if index == 0:
             self._filtered_items = Blacklist.get_items()[:]
             self._rebuild_tag_content()
@@ -559,7 +654,7 @@ class BlacklistWindow(SmartDialog):
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def _remove_item(self, item: BlacklistItem) -> None:
         Blacklist.remove_item(item)
-        _Backend.mark_user_confirmed_non_default()
+        BlacklistWindow.mark_user_confirmed_non_default()
         self._app_actions.toast(_("Removed item: {0}").format(item))
         self._refresh()
 
@@ -574,7 +669,7 @@ class BlacklistWindow(SmartDialog):
                     cell = self._tag_table.item(idx, 1)
                     if cell:
                         cell.setText("✓" if bl_item.enabled else _("Disabled"))
-                _Backend.store_blacklist()
+                BlacklistWindow.store_blacklist()
                 self._app_actions.toast(
                     _("Item \"{0}\" is now {1}").format(
                         bl_item.string,
@@ -612,13 +707,13 @@ class BlacklistWindow(SmartDialog):
         ):
             return
         Blacklist.clear()
-        _Backend.mark_user_confirmed_non_default()
+        BlacklistWindow.mark_user_confirmed_non_default()
         self._app_actions.toast(_("Cleared item blacklist"))
         self._refresh()
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def _load_default(self) -> None:
-        if not _Backend.is_in_default_state() and len(Blacklist.get_items()) > 0:
+        if not BlacklistWindow.is_in_default_state() and len(Blacklist.get_items()) > 0:
             if not self._app_actions.alert(
                 _("Confirm Load Default Blacklist"),
                 _("Are you sure you want to load the default blacklist?\n\n"
@@ -631,7 +726,7 @@ class BlacklistWindow(SmartDialog):
         try:
             Blacklist.decrypt_blacklist()
             from utils.app_info_cache import app_info_cache
-            app_info_cache.set(_Backend.DEFAULT_BLACKLIST_KEY, False)
+            app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, False)
             self._app_actions.toast(_("Loaded default blacklist"))
             self._refresh()
         except Exception as e:
@@ -710,8 +805,8 @@ class BlacklistWindow(SmartDialog):
     def _refresh_tag_bl_item(
         self, item: BlacklistItem, is_new: bool, original_string: str
     ) -> None:
-        _Backend.update_history(item)
-        _Backend.mark_user_confirmed_non_default()
+        BlacklistWindow.update_history(item)
+        BlacklistWindow.mark_user_confirmed_non_default()
         if is_new:
             Blacklist.add_item(item)
         else:
@@ -727,8 +822,8 @@ class BlacklistWindow(SmartDialog):
     def _refresh_model_bl_item(
         self, item: BlacklistItem, is_new: bool, original_string: str
     ) -> None:
-        _Backend.update_history(item)
-        _Backend.mark_user_confirmed_non_default()
+        BlacklistWindow.update_history(item)
+        BlacklistWindow.mark_user_confirmed_non_default()
         if is_new:
             Blacklist.add_model_item(item)
         else:
@@ -749,7 +844,7 @@ class BlacklistWindow(SmartDialog):
         except Exception:
             mode = BlacklistMode.REMOVE_WORD_OR_PHRASE
         Blacklist.set_blacklist_mode(mode)
-        _Backend.store_blacklist()
+        BlacklistWindow.store_blacklist()
         for combo in (self._mode_combo, self._model_mode_combo_global):
             if combo.currentText() != text:
                 combo.blockSignals(True)
@@ -763,7 +858,7 @@ class BlacklistWindow(SmartDialog):
         except Exception:
             mode = BlacklistPromptMode.REMOVE_WORD_OR_PHRASE
         Blacklist.set_blacklist_prompt_mode(mode)
-        _Backend.store_blacklist()
+        BlacklistWindow.store_blacklist()
         self._app_actions.toast(_("Blacklist prompt mode set to: {0}").format(text))
 
     def _on_model_bl_mode_change(self, text: str) -> None:
@@ -772,7 +867,7 @@ class BlacklistWindow(SmartDialog):
         except Exception:
             mode = ModelBlacklistMode.DISALLOW
         Blacklist.set_model_blacklist_mode(mode)
-        _Backend.store_blacklist()
+        BlacklistWindow.store_blacklist()
         self._app_actions.toast(_("Model blacklist mode set to: {0}").format(mode.display()))
 
     def _on_silent_change(self) -> None:
@@ -783,7 +878,7 @@ class BlacklistWindow(SmartDialog):
                 cb.blockSignals(True)
                 cb.setChecked(val)
                 cb.blockSignals(False)
-        _Backend.store_blacklist()
+        BlacklistWindow.store_blacklist()
         self._app_actions.toast(_("Silent removal set to: {0}").format(val))
 
     # ==================================================================
@@ -804,7 +899,7 @@ class BlacklistWindow(SmartDialog):
                 Blacklist.import_blacklist_json(path)
             else:
                 Blacklist.import_blacklist_txt(path)
-            _Backend.mark_user_confirmed_non_default()
+            BlacklistWindow.mark_user_confirmed_non_default()
             self._app_actions.toast(_("Successfully imported blacklist"))
             self._refresh()
         except Exception as e:
@@ -844,7 +939,7 @@ class BlacklistWindow(SmartDialog):
                 Blacklist.import_model_blacklist_json(path)
             else:
                 Blacklist.import_model_blacklist_txt(path)
-            _Backend.mark_user_confirmed_non_default()
+            BlacklistWindow.mark_user_confirmed_non_default()
             self._app_actions.toast(_("Successfully imported model blacklist"))
             self._refresh()
         except Exception as e:

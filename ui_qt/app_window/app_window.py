@@ -26,7 +26,7 @@ from run import Run
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.models import Model
 from ui.app_actions import AppActions
-from ui.recent_adapters_window import RecentAdaptersWindow
+from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
 from ui_qt.app_style import AppStyle
 from ui_qt.app_window.cache_controller import CacheController
 from ui_qt.app_window.key_binding_manager import KeyBindingManager
@@ -146,7 +146,8 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # ------------------------------------------------------------------
         self.config_history_index: int = 0
         self.runner_app_config: RunnerAppConfig | None = None
-        self.current_run: Run = Run(None)
+        from sd_runner.run_config import RunConfig
+        self.current_run: Run = Run(RunConfig())
         self.job_queue = SDRunsQueue()
         self.job_queue_preset_schedules: PresetSchedulesQueue | None = None
 
@@ -220,7 +221,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self.window_launcher = WindowLauncher(app_window=self)
 
         # Job queue for preset schedules (needs run_ctrl references)
-        from ui.schedules_windows import SchedulesWindow
+        from ui_qt.presets.schedules_window import SchedulesWindow
         self.job_queue_preset_schedules = PresetSchedulesQueue(
             get_run_config_callback=self.get_basic_run_config,
             get_current_schedule_callback=lambda: SchedulesWindow.current_schedule,
@@ -258,6 +259,9 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # Restore window geometry (SmartMainWindow feature)
         self.restore_window_geometry()
 
+        # Sync all widget values into Globals (signals don't fire during init)
+        self.sidebar_panel.sync_globals_from_widgets()
+
         # Close autocomplete popups and focus
         self.sidebar_panel.close_autocomplete_popups()
         self.sidebar_panel.run_btn.setFocus()
@@ -277,13 +281,26 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         ts = self._thread_bridge.wrap  # shorthand
 
         actions = {
-            # Progress
+            # Window title -- thread-safe via Signal
+            "title": self._sig_set_title.emit,
+            # Progress / run lifecycle
             "update_progress": ts(self.run_ctrl.update_progress),
             "update_pending": ts(self.run_ctrl.update_pending),
             "update_time_estimation": ts(self.run_ctrl.update_time_estimation),
+            "clear_progress": ts(self.run_ctrl.clear_progress),
+            "run": ts(self.run_ctrl.run),
+            "cancel": ts(self.run_ctrl.cancel),
+            "revert_to_simple_gen": ts(self.run_ctrl.revert_to_simple_gen),
+            "has_runs_pending": self.run_ctrl.has_runs_pending,
+            "validate_blacklist": self.run_ctrl.validate_blacklist,
             # Presets
             "construct_preset": self.sidebar_panel.construct_preset,
             "set_widgets_from_preset": ts(self.sidebar_panel.set_widgets_from_preset),
+            "next_preset": ts(self.sidebar_panel.next_preset),
+            # Config
+            "set_default_config": ts(self.set_default_config),
+            "set_widgets_from_config": ts(self._set_widgets_from_config),
+            "store_info_cache": self.cache_ctrl.store_info_cache,
             # Window launchers
             "open_password_admin_window": ts(
                 self.window_launcher.open_password_admin_window
@@ -295,7 +312,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             ),
             "add_recent_adapter_file": RecentAdaptersWindow.add_recent_adapter_file,
             "contains_recent_adapter_file": RecentAdaptersWindow.contains_recent_adapter_file,
-            # Notifications
+            # Notifications (warn/success are AppActions convenience methods)
             "toast": ts(self.notification_ctrl.toast),
             "_alert": ts(self.notification_ctrl.alert),
             "title_notify": ts(self.notification_ctrl.title_notify),
@@ -390,6 +407,8 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         sp.batch_limit_combo.setCurrentText(str(cfg.batch_limit))
         sp.delay_combo.setCurrentText(str(cfg.delay_time_seconds))
         sp.resolutions_entry.setText(cfg.resolutions)
+        from utils.globals import ResolutionGroup
+        sp.resolution_group_combo.setCurrentText(ResolutionGroup.get(str(cfg.resolution_group)).get_description())
         sp.model_tags_entry.setText(cfg.model_tags)
         if cfg.lora_tags:
             sp.lora_tags_entry.setText(cfg.lora_tags)
@@ -421,41 +440,55 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         from ui_qt.prompts.prompt_config_window import PromptConfigWindow
         PromptConfigWindow.set_runner_app_config(cfg)
 
+        # Re-sync globals since programmatic widget updates don't fire signals
+        sp.sync_globals_from_widgets()
+
     # ------------------------------------------------------------------
     # Build run config from UI (ported from App.get_basic_run_config)
     # ------------------------------------------------------------------
     def get_basic_run_config(self):
         """Build a base ``RunConfig`` from the current widget values.
 
-        This is a simplified version; full ``get_args()`` adds
-        workflow-specific overrides on top of this.
+        Ported from ``App.get_basic_run_config``.  Sets all scalar fields
+        and -- critically -- copies the ``prompter_config`` from
+        ``runner_app_config`` so that ``RunConfig.validate()`` succeeds.
         """
         from sd_runner.run_config import RunConfig
+        from utils.globals import PromptMode, WorkflowType
+        from ui_qt.prompts.prompt_config_window import PromptConfigWindow
+
         sp = self.sidebar_panel
 
         args = RunConfig()
         args.software_type = sp.software_combo.currentText()
-        args.workflow_tag = sp.workflow_combo.currentText()
+        args.auto_run = True
+
+        # workflow_tag must be the enum *name*, not the display translation
+        args.workflow_tag = WorkflowType.get(sp.workflow_combo.currentText()).name
+
         args.n_latents = int(sp.n_latents_combo.currentText())
         args.total = int(sp.total_combo.currentText())
         args.batch_limit = int(sp.batch_limit_combo.currentText())
-        args.resolutions = sp.resolutions_entry.text()
+        args.res_tags = sp.resolutions_entry.text()
         args.resolution_group = sp.resolution_group_combo.currentText()
         args.model_tags = sp.model_tags_entry.text()
         args.lora_tags = sp.lora_tags_entry.text()
-        args.lora_strength = sp.lora_strength_slider.value() / 100.0
-        args.positive_tags = sp.positive_tags_box.toPlainText()
-        args.negative_tags = sp.negative_tags_box.toPlainText()
-        args.prompt_massage_tags = sp.prompt_massage_tags_box.toPlainText()
         args.override_resolution = sp.override_resolution_check.isChecked()
         args.inpainting = sp.inpainting_check.isChecked()
-        args.override_negative = sp.override_negative_check.isChecked()
-        args.continuous_seed_variation = sp.continuous_seed_var_check.isChecked()
 
-        # Prompt mode
-        prompt_mode_text = sp.prompt_mode_combo.currentText()
-        from utils.globals import PromptMode
-        args.prompt_mode = PromptMode.get(prompt_mode_text)
+        # Sync prompt mode into runner_app_config before copying
+        prompt_mode = PromptMode.get(sp.prompt_mode_combo.currentText())
+        self.runner_app_config.prompter_config.prompt_mode = prompt_mode
+
+        # Let PromptConfigWindow push its detailed settings into runner_app_config
+        PromptConfigWindow.set_args_from_prompter_config(args)
+
+        # Copy the full prompter config so RunConfig.validate() has it
+        args.prompter_config = self.runner_app_config.get_prompter_config_copy()
+
+        # Preserve original prompt decomposition for EXIF embedding
+        args.prompter_config.original_positive_tags = self.runner_app_config.positive_tags
+        args.prompter_config.original_negative_tags = self.runner_app_config.negative_tags
 
         return args
 
@@ -464,15 +497,48 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
 
         Returns ``(args, args_copy)`` where ``args_copy`` is a deepcopy
         for storing in the config cache.
+
+        Ported from ``App.get_args``.  Syncs all sidebar widget values
+        into ``runner_app_config`` and builds the ``RunConfig``.
         """
         from copy import deepcopy
-        args = self.get_basic_run_config()
+        from ui_qt.app_window.run_controller import clear_quotes
+        from utils.globals import WorkflowType
+
         sp = self.sidebar_panel
 
+        # Sync concepts dir, tags, and strengths before reading
+        sp.set_prompt_massage_tags()
+        sp.set_positive_tags()
+        sp.set_negative_tags()
+
+        args = self.get_basic_run_config()
+
+        # B/W colorization
         args.b_w_colorization = sp.bw_colorization_entry.text()
-        args.control_net_file = sp.controlnet_file_entry.text()
+        self.runner_app_config.b_w_colorization = args.b_w_colorization
+
+        # ControlNet / Redo file
+        controlnet_file = clear_quotes(sp.controlnet_file_entry.text())
+        self.runner_app_config.control_net_file = str(controlnet_file)
+        RecentAdaptersWindow.add_recent_controlnet(controlnet_file)
+
+        if args.workflow_tag == WorkflowType.REDO_PROMPT.name:
+            args.workflow_tag = controlnet_file
+            args.redo_params = sp.redo_params_entry.text()
+        else:
+            args.control_nets = controlnet_file
+            if config.debug:
+                logger.debug(f"Control Net file: {controlnet_file}")
+
         args.control_net_strength = sp.controlnet_strength_slider.value() / 100.0
-        args.ip_adapter_file = sp.ipadapter_file_entry.text()
+
+        # IPAdapter file
+        ipadapter_file = clear_quotes(sp.ipadapter_file_entry.text())
+        self.runner_app_config.ip_adapter_file = str(ipadapter_file)
+        args.ip_adapters = ipadapter_file
+        RecentAdaptersWindow.add_recent_ipadapter(ipadapter_file)
+
         args.ip_adapter_strength = sp.ipadapter_strength_slider.value() / 100.0
         args.redo_params = sp.redo_params_entry.text()
 
@@ -482,18 +548,46 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
     # ------------------------------------------------------------------
     # Model / adapter callbacks (wired into AppActions)
     # ------------------------------------------------------------------
-    def _set_model_from_models_window(self, model_name: str, is_lora: bool = False) -> None:
-        """Insert a model name into the model or LoRA tags entry."""
+    def _set_model_from_models_window(
+        self, model_name: str, is_lora: bool = False, replace: bool = False,
+    ) -> None:
+        """Insert a model name into the model or LoRA tags entry.
+
+        Ported from ``App.set_model_from_models_window``.
+
+        *replace* = True  → overwrite the field with just the new name.
+        *replace* = False → append with the appropriate separator.
+        """
         entry = (
             self.sidebar_panel.lora_tags_entry
             if is_lora
             else self.sidebar_panel.model_tags_entry
         )
-        current = entry.text()
-        if current and not current.endswith("+") and not current.endswith(","):
-            entry.setText(current + "+" + model_name)
+        current = entry.text().strip()
+
+        if is_lora:
+            if replace or current == "":
+                new_val = model_name
+            else:
+                sep = "+" if current.endswith("+") or "+" in current else ","
+                if not current.endswith(sep):
+                    new_val = current + sep + model_name
+                else:
+                    new_val = current + model_name
         else:
-            entry.setText((current or "") + model_name)
+            if replace or current == "":
+                new_val = model_name
+            else:
+                sep = ","
+                if not current.endswith(sep):
+                    new_val = current + sep + model_name
+                else:
+                    new_val = current + model_name
+
+        entry.setText(new_val)
+
+        if not is_lora:
+            self.sidebar_panel._set_model_dependent_fields(new_val)
 
     def _set_adapter_from_adapters_window(
         self, path: str, adapter_type: str = "controlnet"
@@ -505,6 +599,15 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             self.sidebar_panel.controlnet_file_entry.setText(path)
 
     # ------------------------------------------------------------------
+    # Default config reset
+    # ------------------------------------------------------------------
+    def set_default_config(self, event=None) -> None:
+        """Reset to a fresh ``RunnerAppConfig`` and repopulate all widgets."""
+        self.runner_app_config = RunnerAppConfig()
+        self._set_widgets_from_config()
+        self.sidebar_panel.close_autocomplete_popups()
+
+    # ------------------------------------------------------------------
     # Server
     # ------------------------------------------------------------------
     def _setup_server(self):
@@ -514,7 +617,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         server = SDRunnerServer(
             self.run_ctrl.server_run_callback,
             self.run_ctrl.cancel,
-            lambda: None,  # revert_to_simple_gen placeholder
+            self.run_ctrl.revert_to_simple_gen,
         )
         try:
             Utils.start_thread(server.start)
@@ -529,14 +632,39 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
     _closing = False
 
     def on_closing(self) -> None:
-        """Clean up and prepare for shutdown."""
-        Utils.prevent_sleep(False)
-        ComfyGen.close_all_connections()
+        """Clean up and prepare for shutdown.
 
-        # Store display position
-        self.cache_ctrl.store_display_position()
-        self.cache_ctrl.store_info_cache()
-        app_info_cache.wipe_instance()
+        Performs cache persistence first (the critical path), then
+        best-effort cleanup of server, run threads, and executors.
+        Schedules a hard ``os._exit`` failsafe so that stranded
+        background threads (server listener, websocket connections,
+        generation workers) can never keep the process alive.
+        """
+        import threading
+
+        # -- Failsafe: hard-kill after 5 seconds no matter what ----------
+        def _force_exit():
+            logger.warning("Failsafe: forcing process exit (stranded threads?)")
+            os._exit(0)
+
+        failsafe = threading.Timer(5.0, _force_exit)
+        failsafe.daemon = True
+        failsafe.start()
+
+        # -- Critical path: persist state --------------------------------
+        try:
+            Utils.prevent_sleep(False)
+            self.cache_ctrl.store_display_position()
+            self.cache_ctrl.store_info_cache()
+            app_info_cache.wipe_instance()
+        except Exception as e:
+            logger.error(f"Error during cache persistence: {e}")
+
+        # -- Best-effort cleanup -----------------------------------------
+        try:
+            ComfyGen.close_all_connections()
+        except Exception as e:
+            logger.error(f"Error closing ComfyGen connections: {e}")
 
         # Stop server
         if self.server is not None:
@@ -547,19 +675,34 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
 
         # Cancel running jobs
         if self.current_run is not None:
-            self.current_run.cancel("Application shutdown")
+            try:
+                self.current_run.cancel("Application shutdown")
+            except Exception:
+                pass
         if self.job_queue is not None:
-            self.job_queue.cancel()
+            try:
+                self.job_queue.cancel()
+            except Exception:
+                pass
         if self.job_queue_preset_schedules is not None:
-            self.job_queue_preset_schedules.cancel()
+            try:
+                self.job_queue_preset_schedules.cancel()
+            except Exception:
+                pass
 
         # Stop periodic cache store
         self.cache_ctrl.stop_periodic_store()
 
         # Shutdown executor and clean up temp files
-        from sd_runner.base_image_generator import BaseImageGenerator
-        BaseImageGenerator.shutdown_executor(wait=False)
-        BaseImageGenerator.cleanup_image_converter()
+        try:
+            from sd_runner.base_image_generator import BaseImageGenerator
+            BaseImageGenerator.shutdown_executor(wait=False)
+            BaseImageGenerator.cleanup_image_converter()
+        except Exception as e:
+            logger.error(f"Error during executor shutdown: {e}")
+
+        # Cancel the failsafe if we got here cleanly
+        failsafe.cancel()
 
     def closeEvent(self, event) -> None:  # noqa: N802
         if self._closing:

@@ -8,8 +8,8 @@ are suppressed while the user is typing in an AwareEntry.
 Tkinter key syntax → Qt key syntax mapping:
     <Control-Return>    → Ctrl+Return
     <Shift-R>           → Shift+R
-    <Prior>             → PgUp  (Qt uses "Prior")
-    <Next>              → PgDown (Qt uses "Next")
+    <Prior>             → PgUp
+    <Next>              → PgDown
     <Home>              → Home
     <End>               → End
     <Control-b>         → Ctrl+B
@@ -85,8 +85,8 @@ class KeyBindingManager:
         # ==============================================================
         # Config history navigation
         # ==============================================================
-        self._bind("Prior", lambda: app.one_config_away(change=1))
-        self._bind("Next", lambda: app.one_config_away(change=-1))
+        self._bind("PgUp", lambda: app.one_config_away(change=1))
+        self._bind("PgDown", lambda: app.one_config_away(change=-1))
         self._bind("Home", lambda: app.first_config())
         self._bind("End", lambda: app.first_config(end=True))
 

@@ -42,6 +42,66 @@ class PresetsWindow(SmartDialog):
     sidebar configuration.
     """
 
+    recent_presets = []
+    last_set_preset = None
+    preset_history = []
+    MAX_PRESETS = 50
+
+    @staticmethod
+    def set_recent_presets():
+        from utils.app_info_cache import app_info_cache
+        from ui.preset import Preset
+        for preset_dict in list(app_info_cache.get("recent_presets", default_val=[])):
+            PresetsWindow.recent_presets.append(Preset.from_dict(preset_dict))
+
+    @staticmethod
+    def store_recent_presets():
+        from utils.app_info_cache import app_info_cache
+        preset_dicts = []
+        for preset in PresetsWindow.recent_presets:
+            preset_dicts.append(preset.to_dict())
+        app_info_cache.set("recent_presets", preset_dicts)
+
+    @staticmethod
+    def get_preset_by_name(name):
+        for preset in PresetsWindow.recent_presets:
+            if name == preset.name:
+                return preset
+        raise Exception(f"No preset found with name: {name}. Set it on the Presets Window.")
+
+    @staticmethod
+    def get_preset_names():
+        return sorted(list(map(lambda x: x.name, PresetsWindow.recent_presets)))
+
+    @staticmethod
+    def next_preset(alert_callback):
+        from utils.translations import I18N
+        _ = I18N._
+        if len(PresetsWindow.recent_presets) == 0:
+            alert_callback(_("Not enough presets found."))
+        next_preset = PresetsWindow.recent_presets[-1]
+        PresetsWindow.recent_presets.remove(next_preset)
+        PresetsWindow.recent_presets.insert(0, next_preset)
+        return next_preset
+
+    @staticmethod
+    def update_history(preset):
+        if len(PresetsWindow.preset_history) > 0 and preset == PresetsWindow.preset_history[0]:
+            return
+        PresetsWindow.preset_history.insert(0, preset)
+        if len(PresetsWindow.preset_history) > PresetsWindow.MAX_PRESETS:
+            del PresetsWindow.preset_history[-1]
+
+    @staticmethod
+    def get_history_preset(start_index=0):
+        preset = None
+        for i in range(len(PresetsWindow.preset_history)):
+            if i < start_index:
+                continue
+            preset = PresetsWindow.preset_history[i]
+            break
+        return preset
+
     def __init__(self, parent: QWidget, app_actions: AppActions):
         super().__init__(
             parent=parent,
@@ -96,7 +156,7 @@ class PresetsWindow(SmartDialog):
             if w:
                 w.deleteLater()
 
-        for preset in _PresetsBackend.recent_presets:
+        for preset in PresetsWindow.recent_presets:
             row = QWidget()
             h = QHBoxLayout(row)
             h.setContentsMargins(2, 2, 2, 2)
@@ -124,8 +184,8 @@ class PresetsWindow(SmartDialog):
         """Return ``(preset, was_existing)``."""
         if preset and preset.is_valid():
             return preset, True
-        if preset and preset in _PresetsBackend.recent_presets:
-            _PresetsBackend.recent_presets.remove(preset)
+        if preset and preset in PresetsWindow.recent_presets:
+            PresetsWindow.recent_presets.remove(preset)
             self._app_actions.toast(_("Invalid preset: {0}").format(preset))
         return self._app_actions.construct_preset(self._name_entry.text()), False
 
@@ -133,43 +193,43 @@ class PresetsWindow(SmartDialog):
     def _handle_preset(self, preset: Preset | None = None):
         preset, was_valid = self._get_preset(preset)
         if was_valid and preset is not None:
-            if preset in _PresetsBackend.recent_presets:
-                _PresetsBackend.recent_presets.remove(preset)
-            _PresetsBackend.recent_presets.insert(0, preset)
+            if preset in PresetsWindow.recent_presets:
+                PresetsWindow.recent_presets.remove(preset)
+            PresetsWindow.recent_presets.insert(0, preset)
             return preset
-        if preset in _PresetsBackend.recent_presets:
-            _PresetsBackend.recent_presets.remove(preset)
-        _PresetsBackend.recent_presets.insert(0, preset)
+        if preset in PresetsWindow.recent_presets:
+            PresetsWindow.recent_presets.remove(preset)
+        PresetsWindow.recent_presets.insert(0, preset)
         self._set_preset(preset)
         return preset
 
     def _set_preset(self, preset: Preset | None = None) -> None:
         if preset is None:
             preset = self._handle_preset(preset=preset)
-        _PresetsBackend.update_history(preset)
-        _PresetsBackend.last_set_preset = preset
+        PresetsWindow.update_history(preset)
+        PresetsWindow.last_set_preset = preset
         self._app_actions.set_widgets_from_preset(preset)
         self._rebuild_rows()
 
     @require_password(ProtectedActions.EDIT_PRESETS)
     def _delete_preset(self, preset: Preset | None = None) -> None:
-        if preset is not None and preset in _PresetsBackend.recent_presets:
-            _PresetsBackend.recent_presets.remove(preset)
+        if preset is not None and preset in PresetsWindow.recent_presets:
+            PresetsWindow.recent_presets.remove(preset)
         self._rebuild_rows()
 
     @require_password(ProtectedActions.EDIT_PRESETS)
     def _clear_recent_presets(self) -> None:
-        _PresetsBackend.recent_presets.clear()
+        PresetsWindow.recent_presets.clear()
         self._rebuild_rows()
 
     def _do_action(self) -> None:
         """Enter key handler: set the first preset, or add a new one."""
-        if len(_PresetsBackend.recent_presets) == 0:
+        if len(PresetsWindow.recent_presets) == 0:
             self._handle_preset()
         else:
             preset = (
-                _PresetsBackend.last_set_preset
-                if _PresetsBackend.last_set_preset
-                else _PresetsBackend.recent_presets[0]
+                PresetsWindow.last_set_preset
+                if PresetsWindow.last_set_preset
+                else PresetsWindow.recent_presets[0]
             )
             self._set_preset(preset)

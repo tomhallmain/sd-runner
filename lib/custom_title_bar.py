@@ -217,7 +217,7 @@ class CustomTitleBar(QWidget):
     
     def _apply_menu_button_style(self, btn: TitleBarMenuButton):
         """Apply theme style to a menu button."""
-        from .app_style import AppStyle
+        from ui_qt.app_style import AppStyle
         colors = AppStyle.get_colors(self._is_dark)
         # Use the specific object name to ensure style isolation for each button
         obj_name = btn.objectName()
@@ -294,7 +294,7 @@ class CustomTitleBar(QWidget):
     def apply_theme(self, is_dark: bool):
         """Apply theme to the title bar using AppStyle."""
         self._is_dark = is_dark
-        from .app_style import AppStyle
+        from ui_qt.app_style import AppStyle
         AppStyle.apply_to_title_bar(self, is_dark)
         # Also style menu buttons
         for btn in self._menu_buttons:
@@ -672,7 +672,7 @@ class FramelessWindowMixin:
             self.setAttribute(Qt.WA_TranslucentBackground)
         
         # Create the custom title bar
-        from .app_style import AppStyle
+        from ui_qt.app_style import AppStyle
         AppStyle.set_corner_radius(corner_radius)
         self._title_bar = CustomTitleBar(self, title, corner_radius=corner_radius)
         self._title_bar.setFixedHeight(title_bar_height)
@@ -709,7 +709,7 @@ def install_title_bar_to_layout(window, layout, title: str = "", is_dark: bool =
     Returns:
         The created CustomTitleBar widget
     """
-    from .app_style import AppStyle
+    from ui_qt.app_style import AppStyle
     title_bar = CustomTitleBar(window, title)
     title_bar.apply_theme(is_dark)
     layout.insertWidget(0, title_bar)

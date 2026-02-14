@@ -1,5 +1,7 @@
 {
     "debug": false,
+    "locale": "en",
+    "print_settings": true,
     "foreground_color": "white",
     "background_color": "#05342C",
     "default_prompt_mode": "FIXED",
@@ -104,6 +106,7 @@
     "image_searcher_dir": "F:\\stable-diffusion-webui\\log\\images",
     "image_searcher_dir2": "F:\\img",
 
+    "ui_scale_factor": 1.0,
     "max_executor_threads": 4,
 
     "interrogator_initial_question_categories": {

@@ -404,6 +404,10 @@ If you are young, not sure, or even an adult, click the close button on this win
         app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_MODE_KEY, str(Blacklist.get_model_blacklist_mode()))
         app_info_cache.set(BlacklistWindow.BLACKLIST_SILENT_KEY, Blacklist.get_blacklist_silent_removal())
         app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY, Blacklist.get_model_blacklist_all_prompt_modes())
+        # Once the blacklist has been persisted at least once, subsequent
+        # loads should use the cached items instead of the encrypted default.
+        if blacklist_dicts or model_blacklist_dicts:
+            app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, True)
 
     @staticmethod
     def mark_user_confirmed_non_default():

@@ -9,7 +9,6 @@ Left column:  Run configuration (software, workflow, model tags, etc.)
 Right column: Prompts configuration (prompt mode, positive/negative tags, etc.)
 """
 
-import tkinter.font as fnt
 from typing import Optional
 
 from PySide6.QtWidgets import (
@@ -152,11 +151,13 @@ class SidebarPanel(QWidget):
             list(SoftwareType.__members__.keys()),
             runner_cfg.software_type,
         )
+        self.software_combo.currentTextChanged.connect(self._on_software_changed)
         self.workflow_combo = self._add_combo_row(
             layout, _("Workflow"),
             [wf.get_translation() for wf in WorkflowType],
             WorkflowType.get(runner_cfg.workflow_type).get_translation(),
         )
+        self.workflow_combo.currentTextChanged.connect(self._on_workflow_changed)
 
         # N Latents / Total / Batch Limit / Delay
         self.n_latents_combo = self._add_combo_row(
@@ -178,6 +179,7 @@ class SidebarPanel(QWidget):
             [str(i) for i in range(101)],
             str(runner_cfg.delay_time_seconds),
         )
+        self.delay_combo.currentTextChanged.connect(self._on_delay_changed)
 
         # Resolutions / Resolution Group
         self.resolutions_entry = self._add_entry_row(
@@ -186,7 +188,7 @@ class SidebarPanel(QWidget):
         self.resolution_group_combo = self._add_combo_row(
             layout, _("Resolution Group"),
             ResolutionGroup.display_values(),
-            str(runner_cfg.resolution_group),
+            ResolutionGroup.get(str(runner_cfg.resolution_group)).get_description(),
         )
 
         # Model Tags (with autocomplete)
@@ -207,6 +209,7 @@ class SidebarPanel(QWidget):
             set_function=set_tag,
         )
         self.model_tags_entry.setText(runner_cfg.model_tags)
+        self.model_tags_entry.returnPressed.connect(self._on_model_tags_return)
         layout.addWidget(self.model_tags_entry)
 
         # LoRA Tags (with autocomplete)
@@ -235,11 +238,13 @@ class SidebarPanel(QWidget):
             layout, _("Default LoRA Strength"),
             int(float(runner_cfg.lora_strength) * 100),
         )
+        self.lora_strength_slider.valueChanged.connect(self._on_lora_strength_changed)
 
         # B/W Colorization
         self.bw_colorization_entry = self._add_entry_row(
             layout, _("B/W Colorization Tags"), runner_cfg.b_w_colorization,
         )
+        self.bw_colorization_entry.returnPressed.connect(self._on_bw_colorization_return)
 
         # Control Net
         row_cn = QHBoxLayout()
@@ -259,6 +264,7 @@ class SidebarPanel(QWidget):
             layout, _("Default Control Net Strength"),
             int(float(runner_cfg.control_net_strength) * 100),
         )
+        self.controlnet_strength_slider.valueChanged.connect(self._on_controlnet_strength_changed)
 
         # IPAdapter
         row_ip = QHBoxLayout()
@@ -278,11 +284,13 @@ class SidebarPanel(QWidget):
             layout, _("Default IPAdapter Strength"),
             int(float(runner_cfg.ip_adapter_strength) * 100),
         )
+        self.ipadapter_strength_slider.valueChanged.connect(self._on_ipadapter_strength_changed)
 
         # Redo Parameters
         self.redo_params_entry = self._add_entry_row(
             layout, _("Redo Parameters"), runner_cfg.redo_params,
         )
+        self.redo_params_entry.returnPressed.connect(self._on_redo_params_return)
 
         layout.addStretch()
         return widget
@@ -354,6 +362,7 @@ class SidebarPanel(QWidget):
         if idx >= 0:
             self.prompt_mode_combo.setCurrentIndex(idx)
         mode_row.addWidget(self.prompt_mode_combo)
+        self.prompt_mode_combo.currentTextChanged.connect(self._on_prompt_mode_changed)
 
         self.concept_editor_btn = QPushButton(_("Edit Concepts"))
         self.concept_editor_btn.clicked.connect(
@@ -369,6 +378,7 @@ class SidebarPanel(QWidget):
         self.concepts_dir_combo = QComboBox()
         self.concepts_dir_combo.addItems(list(app_config.concepts_dirs.keys()))
         concepts_row.addWidget(self.concepts_dir_combo)
+        self.concepts_dir_combo.currentTextChanged.connect(self._on_concepts_dir_changed)
         layout.addLayout(concepts_row)
 
         # Checkboxes
@@ -382,6 +392,7 @@ class SidebarPanel(QWidget):
 
         self.override_negative_check = QCheckBox(_("Override Base Negative"))
         self.override_negative_check.setChecked(False)
+        self.override_negative_check.stateChanged.connect(self._on_override_negative_changed)
         layout.addWidget(self.override_negative_check)
 
         self.run_preset_schedule_check = QCheckBox(_("Run Preset Schedule"))
@@ -424,9 +435,14 @@ class SidebarPanel(QWidget):
         self.lora_tags_entry.close_listbox()
 
     def next_preset(self) -> None:
-        """Advance to the next preset (placeholder)."""
-        # TODO: wire to PresetSchedulesQueue or PresetsWindow
-        pass
+        """Advance to the next preset and apply it."""
+        from ui_qt.presets.presets_window import PresetsWindow
+        try:
+            preset = PresetsWindow.next_preset(self._app.notification_ctrl.alert)
+            if preset is not None:
+                self.set_widgets_from_preset(preset)
+        except Exception as e:
+            logger.error(f"Error advancing preset: {e}")
 
     def set_widgets_from_preset(self, preset, manual: bool = True) -> None:
         """Apply a preset to the UI widgets."""
@@ -443,6 +459,209 @@ class SidebarPanel(QWidget):
         self._app.runner_app_config.set_from_run_config(args)
         self._app.cache_ctrl.store_info_cache()
         return Preset.from_runner_app_config(name, self._app.runner_app_config)
+
+    def sync_globals_from_widgets(self) -> None:
+        """Push all current widget values into ``Globals`` and config.
+
+        Must be called once after the sidebar is fully constructed, because
+        signal handlers are connected *after* initial widget values are set
+        and therefore do not fire during init.  Also safe to call at any
+        time to force a full re-sync (e.g. after loading a config from
+        history).
+        """
+        from utils.globals import Globals
+        from sd_runner.model_adapters import IPAdapter
+        from sd_runner.gen_config import GenConfig
+        from sd_runner.prompter import Prompter
+
+        cfg = self._app.runner_app_config
+
+        # Delay
+        try:
+            Globals.set_delay(int(self.delay_combo.currentText()))
+        except (ValueError, TypeError):
+            pass
+
+        # Strengths
+        Globals.set_lora_strength(self.lora_strength_slider.value() / 100.0)
+        Globals.set_controlnet_strength(self.controlnet_strength_slider.value() / 100.0)
+        Globals.set_ipadapter_strength(self.ipadapter_strength_slider.value() / 100.0)
+
+        # Override negative
+        Globals.set_override_base_negative(self.override_negative_check.isChecked())
+
+        # B/W colorization
+        IPAdapter.set_bw_coloration(self.bw_colorization_entry.text())
+
+        # Prompt massage tags
+        Globals.set_prompt_massage_tags(self.prompt_massage_tags_box.toPlainText())
+
+        # Redo params
+        GenConfig.set_redo_params(self.redo_params_entry.text())
+
+        # Positive / negative tags
+        Prompter.set_positive_tags(self.positive_tags_box.toPlainText())
+        Prompter.set_negative_tags(self.negative_tags_box.toPlainText())
+
+    # ==================================================================
+    # Sidebar-triggered actions (signal handlers)
+    # ==================================================================
+    def _on_software_changed(self, text: str) -> None:
+        self._app.runner_app_config.software_type = text
+
+    def _on_workflow_changed(self, text: str) -> None:
+        try:
+            wf = WorkflowType.get(text)
+            if wf == WorkflowType.INPAINT_CLIPSEG:
+                self.inpainting_check.setChecked(True)
+                self._single_resolution()
+                self.total_combo.setCurrentText("1")
+        except Exception:
+            pass
+
+    def _on_delay_changed(self, text: str) -> None:
+        from utils.globals import Globals
+        try:
+            self._app.runner_app_config.delay_time_seconds = text
+            Globals.set_delay(int(text))
+        except (ValueError, TypeError):
+            pass
+
+    def _on_model_tags_return(self) -> None:
+        """Model tags Return key → update prompt massage tags from model."""
+        self._set_model_dependent_fields()
+
+    def _on_lora_strength_changed(self, value: int) -> None:
+        from utils.globals import Globals
+        strength = value / 100.0
+        self._app.runner_app_config.lora_strength = str(strength)
+        Globals.set_lora_strength(strength)
+
+    def _on_bw_colorization_return(self) -> None:
+        from sd_runner.model_adapters import IPAdapter
+        val = self.bw_colorization_entry.text()
+        self._app.runner_app_config.b_w_colorization = val
+        IPAdapter.set_bw_coloration(val)
+
+    def _on_controlnet_strength_changed(self, value: int) -> None:
+        from utils.globals import Globals
+        strength = value / 100.0
+        self._app.runner_app_config.control_net_strength = str(strength)
+        Globals.set_controlnet_strength(strength)
+
+    def _on_ipadapter_strength_changed(self, value: int) -> None:
+        from utils.globals import Globals
+        strength = value / 100.0
+        self._app.runner_app_config.ip_adapter_strength = str(strength)
+        Globals.set_ipadapter_strength(strength)
+
+    def _on_redo_params_return(self) -> None:
+        from sd_runner.gen_config import GenConfig
+        val = self.redo_params_entry.text()
+        self._app.runner_app_config.redo_params = val
+        GenConfig.set_redo_params(val)
+
+    def _on_prompt_mode_changed(self, text: str) -> None:
+        """Handle prompt mode change -- check NSFW password if needed."""
+        try:
+            mode = PromptMode.get(text)
+            if mode.is_nsfw():
+                from utils.globals import ProtectedActions
+                from ui_qt.auth.password_utils import check_password_required
+
+                def password_callback(result):
+                    if not result:
+                        self._app.notification_ctrl.alert(
+                            _("Password Cancelled"),
+                            _("Password cancelled or incorrect, revert to previous mode"),
+                        )
+                        prev = self._app.runner_app_config.prompter_config.prompt_mode.display()
+                        self.prompt_mode_combo.blockSignals(True)
+                        self.prompt_mode_combo.setCurrentText(prev)
+                        self.prompt_mode_combo.blockSignals(False)
+
+                check_password_required(
+                    list(ProtectedActions.NSFW_PROMPTS), self._app, password_callback
+                )
+        except Exception as e:
+            logger.error(f"Error checking prompt mode password: {e}")
+
+    def _on_concepts_dir_changed(self, text: str) -> None:
+        from utils.config import config as app_config
+        try:
+            self._app.runner_app_config.prompter_config.concepts_dir = app_config.concepts_dirs[text]
+        except KeyError:
+            pass
+
+    def _on_override_negative_changed(self, state: int) -> None:
+        from utils.globals import Globals
+        val = state == Qt.CheckState.Checked.value
+        self._app.runner_app_config.override_negative = val
+        Globals.set_override_base_negative(val)
+
+    # ------------------------------------------------------------------
+    # Internal helpers
+    # ------------------------------------------------------------------
+    def _single_resolution(self) -> None:
+        """Trim resolutions to first entry (for inpainting workflow)."""
+        current = self.resolutions_entry.text()
+        if "," in current:
+            self.resolutions_entry.setText(current[:current.index(",")])
+
+    def _set_model_dependent_fields(self, model_tags: str | None = None) -> None:
+        """Auto-fill prompt massage tags from model presets."""
+        from sd_runner.models import Model
+        if model_tags is None:
+            model_tags = self.model_tags_entry.text()
+        inpainting = self.inpainting_check.isChecked()
+        prompt_mode = PromptMode.get(self.prompt_mode_combo.currentText())
+        Model.set_model_presets(prompt_mode)
+        prompt_massage_tags, models = Model.get_first_model_prompt_massage_tags(
+            model_tags, prompt_mode=prompt_mode, inpainting=inpainting
+        )
+        self.prompt_massage_tags_box.setPlainText(prompt_massage_tags)
+        self.set_prompt_massage_tags()
+        if len(models) > 0:
+            model = models[0]
+            self.resolution_group_combo.setCurrentText(
+                model.get_standard_resolution_group().get_description()
+            )
+
+    def set_prompt_massage_tags(self) -> None:
+        """Sync prompt massage tags from the widget to config and globals."""
+        from utils.globals import Globals
+        text = self.prompt_massage_tags_box.toPlainText()
+        self._app.runner_app_config.prompt_massage_tags = text
+        Globals.set_prompt_massage_tags(text)
+
+    def set_positive_tags(self) -> None:
+        """Sync positive tags from widget to config; validates blacklist and applies expansions."""
+        from sd_runner.prompter import Prompter
+        text = self.positive_tags_box.toPlainText()
+        if not self._app.run_ctrl.validate_blacklist(text):
+            return
+        text = self._apply_expansions(text, positive=True)
+        self._app.runner_app_config.positive_tags = text
+        Prompter.set_positive_tags(text)
+
+    def set_negative_tags(self) -> None:
+        """Sync negative tags from widget to config."""
+        from sd_runner.prompter import Prompter
+        text = self.negative_tags_box.toPlainText()
+        text = self._apply_expansions(text, positive=False)
+        self._app.runner_app_config.negative_tags = text
+        Prompter.set_negative_tags(text)
+
+    def _apply_expansions(self, text: str, positive: bool = False) -> str:
+        """Substitute expansion variables in *text* if present."""
+        from sd_runner.prompter import Prompter
+        if Prompter.contains_expansion_var(text, from_ui=True):
+            text = Prompter.apply_expansions(text, from_ui=True)
+            if positive:
+                self.positive_tags_box.setPlainText(text)
+            else:
+                self.negative_tags_box.setPlainText(text)
+        return text
 
     # ==================================================================
     # Private widget-building helpers

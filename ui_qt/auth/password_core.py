@@ -41,10 +41,10 @@ class SecurityConfig:
     
     def _load_settings(self):
         """Load settings from cache or use defaults."""
-        self.session_timeout_enabled = app_info_cache.get_meta("session_timeout_enabled", default_val=self.DEFAULT_SESSION_TIMEOUT_ENABLED)
-        self.session_timeout_minutes = app_info_cache.get_meta("session_timeout_minutes", default_val=self.DEFAULT_SESSION_TIMEOUT_MINUTES)
-        self.protected_actions = app_info_cache.get_meta("protected_actions", default_val=self.DEFAULT_PROTECTED_ACTIONS.copy())
-        self.show_security_advice = app_info_cache.get_meta("show_security_advice", default_val=self.DEFAULT_SHOW_SECURITY_ADVICE)
+        self.session_timeout_enabled = app_info_cache.get("session_timeout_enabled", default_val=self.DEFAULT_SESSION_TIMEOUT_ENABLED)
+        self.session_timeout_minutes = app_info_cache.get("session_timeout_minutes", default_val=self.DEFAULT_SESSION_TIMEOUT_MINUTES)
+        self.protected_actions = app_info_cache.get("protected_actions", default_val=self.DEFAULT_PROTECTED_ACTIONS.copy())
+        self.show_security_advice = app_info_cache.get("show_security_advice", default_val=self.DEFAULT_SHOW_SECURITY_ADVICE)
 
         # Add any new protected actions that aren't in cache yet
         for action_enum in ProtectedActions:
@@ -58,10 +58,10 @@ class SecurityConfig:
 
     def save_settings(self):
         """Save current settings to cache."""
-        app_info_cache.set_meta("protected_actions", self.protected_actions)
-        app_info_cache.set_meta("session_timeout_enabled", self.session_timeout_enabled)
-        app_info_cache.set_meta("session_timeout_minutes", self.session_timeout_minutes)
-        app_info_cache.set_meta("show_security_advice", self.show_security_advice)
+        app_info_cache.set("protected_actions", self.protected_actions)
+        app_info_cache.set("session_timeout_enabled", self.session_timeout_enabled)
+        app_info_cache.set("session_timeout_minutes", self.session_timeout_minutes)
+        app_info_cache.set("show_security_advice", self.show_security_advice)
 
     def reset_to_defaults(self):
         """Reset all settings to their default values."""

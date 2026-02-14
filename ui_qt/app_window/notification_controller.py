@@ -109,6 +109,14 @@ class NotificationController:
     # ------------------------------------------------------------------
     # Title notifications
     # ------------------------------------------------------------------
+    # TODO: Start using title_notify for key events:
+    #   - Generation run complete / cancelled
+    #   - Preset schedule finished
+    #   - Server connection established / lost
+    #   - Scheduled shutdown warnings
+    # These calls should be added in RunController (run completion,
+    # preset schedule completion) and AppWindow (server lifecycle).
+    # ------------------------------------------------------------------
     def title_notify(
         self,
         message: str,

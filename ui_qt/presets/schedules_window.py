@@ -22,6 +22,7 @@ from lib.multi_display_qt import SmartDialog
 from ui.presets_window import PresetsWindow as _PresetsBackend
 from ui.schedule import PresetTask, Schedule
 from ui.schedules_windows import SchedulesWindow as _SchedulesBackend
+from ui_qt.presets.presets_window import PresetsWindow
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
 from utils.globals import ProtectedActions
@@ -91,7 +92,7 @@ class ScheduleModifyWindow(SmartDialog):
             if w:
                 w.deleteLater()
 
-        preset_names = _PresetsBackend.get_preset_names()
+        preset_names = PresetsWindow.get_preset_names()
 
         for idx, task in enumerate(self._schedule.schedule):
             row = QWidget()
@@ -179,6 +180,41 @@ class SchedulesWindow(SmartDialog):
     Delete buttons per row, plus top-level Add / Clear buttons.
     """
 
+    current_schedule = None  # Will be set from Schedule() during set_schedules
+    recent_schedules = []
+    schedule_history = []
+    MAX_SCHEDULES = 50
+
+    @staticmethod
+    def set_schedules():
+        from utils.app_info_cache import app_info_cache
+        from ui.schedule import Schedule
+        for schedule_dict in list(app_info_cache.get("recent_schedules", default_val=[])):
+            SchedulesWindow.recent_schedules.append(Schedule.from_dict(schedule_dict))
+        current_schedule_dict = app_info_cache.get("current_schedule", default_val=None)
+        if current_schedule_dict is not None:
+            SchedulesWindow.current_schedule = Schedule.from_dict(current_schedule_dict)
+        else:
+            SchedulesWindow.current_schedule = Schedule()
+
+    @staticmethod
+    def store_schedules():
+        from utils.app_info_cache import app_info_cache
+        schedule_dicts = []
+        for schedule in SchedulesWindow.recent_schedules:
+            schedule_dicts.append(schedule.to_dict())
+        app_info_cache.set("recent_schedules", schedule_dicts)
+        if SchedulesWindow.current_schedule is not None:
+            app_info_cache.set("current_schedule", SchedulesWindow.current_schedule.to_dict())
+
+    @staticmethod
+    def update_history(schedule):
+        if len(SchedulesWindow.schedule_history) > 0 and schedule == SchedulesWindow.schedule_history[0]:
+            return
+        SchedulesWindow.schedule_history.insert(0, schedule)
+        if len(SchedulesWindow.schedule_history) > SchedulesWindow.MAX_SCHEDULES:
+            del SchedulesWindow.schedule_history[-1]
+
     _modify_window: Optional[ScheduleModifyWindow] = None
 
     def __init__(self, parent: QWidget, app_actions: AppActions):
@@ -220,7 +256,7 @@ class SchedulesWindow(SmartDialog):
     # ------------------------------------------------------------------
     @staticmethod
     def _current_schedule_text() -> str:
-        return _("Current schedule: {0}").format(_SchedulesBackend.current_schedule)
+        return _("Current schedule: {0}").format(SchedulesWindow.current_schedule)
 
     def _rebuild_rows(self) -> None:
         while self._rows_layout.count():
@@ -229,7 +265,7 @@ class SchedulesWindow(SmartDialog):
             if w:
                 w.deleteLater()
 
-        for schedule in _SchedulesBackend.recent_schedules:
+        for schedule in SchedulesWindow.recent_schedules:
             row = QWidget()
             h = QHBoxLayout(row)
             h.setContentsMargins(2, 2, 2, 2)
@@ -257,7 +293,7 @@ class SchedulesWindow(SmartDialog):
 
     # ------------------------------------------------------------------
     def _set_schedule(self, schedule: Schedule) -> None:
-        _SchedulesBackend.current_schedule = schedule
+        SchedulesWindow.current_schedule = schedule
         self._info_label.setText(self._current_schedule_text())
         self._app_actions.toast(_("Set schedule: {0}").format(schedule))
         self._rebuild_rows()
@@ -275,21 +311,21 @@ class SchedulesWindow(SmartDialog):
 
     def _on_schedule_modified(self, schedule: Schedule) -> None:
         """Callback from ScheduleModifyWindow after save."""
-        _SchedulesBackend.update_history(schedule)
-        if schedule in _SchedulesBackend.recent_schedules:
-            _SchedulesBackend.recent_schedules.remove(schedule)
-        _SchedulesBackend.recent_schedules.insert(0, schedule)
+        SchedulesWindow.update_history(schedule)
+        if schedule in SchedulesWindow.recent_schedules:
+            SchedulesWindow.recent_schedules.remove(schedule)
+        SchedulesWindow.recent_schedules.insert(0, schedule)
         self._set_schedule(schedule)
 
     @require_password(ProtectedActions.EDIT_SCHEDULES)
     def _delete_schedule(self, schedule: Schedule | None = None) -> None:
-        if schedule is not None and schedule in _SchedulesBackend.recent_schedules:
-            _SchedulesBackend.recent_schedules.remove(schedule)
+        if schedule is not None and schedule in SchedulesWindow.recent_schedules:
+            SchedulesWindow.recent_schedules.remove(schedule)
             self._app_actions.toast(_("Deleted schedule: {0}").format(schedule))
         self._rebuild_rows()
 
     @require_password(ProtectedActions.EDIT_SCHEDULES)
     def _clear_recent_schedules(self) -> None:
-        _SchedulesBackend.recent_schedules.clear()
+        SchedulesWindow.recent_schedules.clear()
         self._rebuild_rows()
         self._app_actions.toast(_("Cleared schedules"))

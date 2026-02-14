@@ -82,11 +82,144 @@ def _get_adapter_type(file_path: str, is_controlnet: bool) -> str:
 class RecentAdaptersWindow(SmartDialog):
     """PySide6 recent-adapters browser with four tabs."""
 
+    # Persistent storage for recent adapters (just file paths)
+    _recent_controlnets: list[str] = []
+    _recent_ipadapters: list[str] = []
+    _recent_adapter_files_split: list[str] = []
+    _controlnet_cache = None
+    _ipadapter_cache = None
+    _cache_timestamp = None
+
+    # Default constants
+    DEFAULT_MAX_RECENT_ITEMS = 1000
+    DEFAULT_MAX_RECENT_SPLIT_ITEMS = 2000
+    MAX_RECENT_ITEMS_KEY = "max_recent_items"
+    MAX_RECENT_SPLIT_ITEMS_KEY = "max_recent_split_items"
+
+    @staticmethod
+    def _get_max_recent_items() -> int:
+        from utils.app_info_cache import app_info_cache
+        return app_info_cache.get(
+            RecentAdaptersWindow.MAX_RECENT_ITEMS_KEY,
+            default_val=RecentAdaptersWindow.DEFAULT_MAX_RECENT_ITEMS
+        )
+
+    @staticmethod
+    def _get_max_recent_split_items() -> int:
+        from utils.app_info_cache import app_info_cache
+        return app_info_cache.get(
+            RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS_KEY,
+            default_val=RecentAdaptersWindow.DEFAULT_MAX_RECENT_SPLIT_ITEMS
+        )
+
+    @staticmethod
+    def load_recent_adapters() -> None:
+        from utils.app_info_cache import app_info_cache
+        try:
+            max_recent_items = RecentAdaptersWindow._get_max_recent_items()
+            max_recent_split_items = RecentAdaptersWindow._get_max_recent_split_items()
+            RecentAdaptersWindow._recent_controlnets = app_info_cache.get("recent_controlnets", [])
+            RecentAdaptersWindow._recent_ipadapters = app_info_cache.get("recent_ipadapters", [])
+            RecentAdaptersWindow._recent_adapter_files_split = app_info_cache.get("recent_adapter_files_split", [])
+            if len(RecentAdaptersWindow._recent_controlnets) > max_recent_items:
+                RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:max_recent_items]
+            if len(RecentAdaptersWindow._recent_ipadapters) > max_recent_items:
+                RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:max_recent_items]
+            if len(RecentAdaptersWindow._recent_adapter_files_split) > max_recent_split_items:
+                RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:max_recent_split_items]
+        except Exception as e:
+            import logging
+            logging.getLogger("ui_qt.recent_adapters_window").error(f"Failed to load recent adapters from cache: {e}")
+            RecentAdaptersWindow._recent_controlnets = []
+            RecentAdaptersWindow._recent_ipadapters = []
+            RecentAdaptersWindow._recent_adapter_files_split = []
+
+    @staticmethod
+    def save_recent_adapters() -> None:
+        from utils.app_info_cache import app_info_cache
+        try:
+            app_info_cache.set("recent_controlnets", RecentAdaptersWindow._recent_controlnets)
+            app_info_cache.set("recent_ipadapters", RecentAdaptersWindow._recent_ipadapters)
+            app_info_cache.set("recent_adapter_files_split", RecentAdaptersWindow._recent_adapter_files_split)
+        except Exception as e:
+            import logging
+            logging.getLogger("ui_qt.recent_adapters_window").error(f"Failed to save recent adapters to cache: {e}")
+
+    @staticmethod
+    def _validate_and_process_file_paths(file_paths: str) -> list[str]:
+        import os
+        if not file_paths or file_paths.strip() == "":
+            return []
+        valid_paths = []
+        for file_path in file_paths.split(","):
+            file_path = file_path.strip()
+            if file_path and os.path.exists(file_path):
+                valid_paths.append(file_path)
+        return valid_paths
+
+    @staticmethod
+    def add_recent_controlnet(file_path: str) -> None:
+        max_recent_items = RecentAdaptersWindow._get_max_recent_items()
+        valid_paths = RecentAdaptersWindow._validate_and_process_file_paths(file_path)
+        for path in valid_paths:
+            if path in RecentAdaptersWindow._recent_controlnets:
+                RecentAdaptersWindow._recent_controlnets.remove(path)
+            RecentAdaptersWindow._recent_controlnets.insert(0, path)
+        if len(RecentAdaptersWindow._recent_controlnets) > max_recent_items:
+            RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:max_recent_items]
+
+    @staticmethod
+    def add_recent_ipadapter(file_path: str) -> None:
+        max_recent_items = RecentAdaptersWindow._get_max_recent_items()
+        valid_paths = RecentAdaptersWindow._validate_and_process_file_paths(file_path)
+        for path in valid_paths:
+            if path in RecentAdaptersWindow._recent_ipadapters:
+                RecentAdaptersWindow._recent_ipadapters.remove(path)
+            RecentAdaptersWindow._recent_ipadapters.insert(0, path)
+        if len(RecentAdaptersWindow._recent_ipadapters) > max_recent_items:
+            RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:max_recent_items]
+
+    @staticmethod
+    def add_recent_adapter_file(file_path: str) -> None:
+        import os
+        if not file_path or file_path.strip() == "":
+            return
+        path = file_path.strip()
+        try:
+            if not os.path.isfile(path):
+                return
+        except Exception:
+            return
+        try:
+            norm = os.path.abspath(path)
+        except Exception:
+            norm = path
+        if norm in RecentAdaptersWindow._recent_adapter_files_split:
+            RecentAdaptersWindow._recent_adapter_files_split.remove(norm)
+        RecentAdaptersWindow._recent_adapter_files_split.insert(0, norm)
+        max_recent_split_items = RecentAdaptersWindow._get_max_recent_split_items()
+        if len(RecentAdaptersWindow._recent_adapter_files_split) > max_recent_split_items:
+            RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:max_recent_split_items]
+
+    @staticmethod
+    def contains_recent_adapter_file(file_path: str) -> int:
+        import os
+        if not file_path or file_path.strip() == "":
+            return -1
+        try:
+            norm = os.path.abspath(file_path.strip())
+        except Exception:
+            norm = file_path.strip()
+        try:
+            return RecentAdaptersWindow._recent_adapter_files_split.index(norm)
+        except ValueError:
+            return -1
+
     def __init__(self, parent: QWidget, app_actions: AppActions):
         super().__init__(parent=parent, title=_("Recent Adapters"), geometry="1000x500")
         self._app_actions = app_actions
-        self._max_recent = _Backend._get_max_recent_items()
-        self._max_split = _Backend._get_max_recent_split_items()
+        self._max_recent = RecentAdaptersWindow._get_max_recent_items()
+        self._max_split = RecentAdaptersWindow._get_max_recent_split_items()
 
         self._tabs = QTabWidget()
         cn_page = QWidget()
@@ -308,7 +441,7 @@ class RecentAdaptersWindow(SmartDialog):
         ft = (self._all_filter.text() or "").lower()
         data = [
             (fp, _get_adapter_type(fp, is_controlnet=False), _get_file_creation_date(fp))
-            for fp in _Backend._recent_adapter_files_split
+            for fp in RecentAdaptersWindow._recent_adapter_files_split
         ]
         if ft:
             data = [(n, t, c) for n, t, c in data if ft in n.lower()]
@@ -318,9 +451,9 @@ class RecentAdaptersWindow(SmartDialog):
         self._all_tree.sortItems(1, Qt.SortOrder.AscendingOrder)
 
     def _refresh_cache(self) -> None:
-        _Backend._controlnet_cache = None
-        _Backend._ipadapter_cache = None
-        _Backend._cache_timestamp = None
+        RecentAdaptersWindow._controlnet_cache = None
+        RecentAdaptersWindow._ipadapter_cache = None
+        RecentAdaptersWindow._cache_timestamp = None
         self._refresh_cn()
         self._refresh_ip()
         self._update_cache_status()
@@ -329,29 +462,29 @@ class RecentAdaptersWindow(SmartDialog):
     # Cache builders
     # ------------------------------------------------------------------
     def _cached_cn(self) -> list[tuple[str, str, str]]:
-        if _Backend._controlnet_cache is None:
-            _Backend._controlnet_cache = [
+        if RecentAdaptersWindow._controlnet_cache is None:
+            RecentAdaptersWindow._controlnet_cache = [
                 (fp, _get_adapter_type(fp, True), _get_file_creation_date(fp))
-                for fp in _Backend._recent_controlnets
+                for fp in RecentAdaptersWindow._recent_controlnets
             ]
-            _Backend._cache_timestamp = time.time()
-        return _Backend._controlnet_cache
+            RecentAdaptersWindow._cache_timestamp = time.time()
+        return RecentAdaptersWindow._controlnet_cache
 
     def _cached_ip(self) -> list[tuple[str, str, str]]:
-        if _Backend._ipadapter_cache is None:
-            _Backend._ipadapter_cache = [
+        if RecentAdaptersWindow._ipadapter_cache is None:
+            RecentAdaptersWindow._ipadapter_cache = [
                 (fp, _get_adapter_type(fp, False), _get_file_creation_date(fp))
-                for fp in _Backend._recent_ipadapters
+                for fp in RecentAdaptersWindow._recent_ipadapters
             ]
-            _Backend._cache_timestamp = time.time()
-        return _Backend._ipadapter_cache
+            RecentAdaptersWindow._cache_timestamp = time.time()
+        return RecentAdaptersWindow._ipadapter_cache
 
     def _update_cache_status(self) -> None:
         prefix = _("Cache")
-        if _Backend._cache_timestamp is None:
+        if RecentAdaptersWindow._cache_timestamp is None:
             text = f"{prefix}: {_('Not loaded')}"
         else:
-            ts = datetime.fromtimestamp(_Backend._cache_timestamp).strftime(
+            ts = datetime.fromtimestamp(RecentAdaptersWindow._cache_timestamp).strftime(
                 "%Y-%m-%d %H:%M:%S"
             )
             text = f"{prefix}: {ts}"
@@ -370,7 +503,7 @@ class RecentAdaptersWindow(SmartDialog):
         if not items:
             return
         fp = items[0].text(0)
-        _Backend.add_recent_controlnet(fp)
+        RecentAdaptersWindow.add_recent_controlnet(fp)
         self._app_actions.set_adapter_from_adapters_window(fp, is_controlnet=True, replace=replace)
         self.close()
 
@@ -379,7 +512,7 @@ class RecentAdaptersWindow(SmartDialog):
         if not items:
             return
         fp = items[0].text(0)
-        _Backend.add_recent_ipadapter(fp)
+        RecentAdaptersWindow.add_recent_ipadapter(fp)
         self._app_actions.set_adapter_from_adapters_window(fp, is_controlnet=False, replace=replace)
         self.close()
 
@@ -389,9 +522,9 @@ class RecentAdaptersWindow(SmartDialog):
             return
         fp = items[0].text(0)
         if is_controlnet:
-            _Backend.add_recent_controlnet(fp)
+            RecentAdaptersWindow.add_recent_controlnet(fp)
         else:
-            _Backend.add_recent_ipadapter(fp)
+            RecentAdaptersWindow.add_recent_ipadapter(fp)
         self._app_actions.set_adapter_from_adapters_window(fp, is_controlnet=is_controlnet, replace=replace)
         self.close()
 
@@ -402,25 +535,25 @@ class RecentAdaptersWindow(SmartDialog):
         try:
             mi = max(1, self._max_recent_spin.value())
             ms = max(1, self._max_split_spin.value())
-            app_info_cache.set(_Backend.MAX_RECENT_ITEMS_KEY, mi)
-            app_info_cache.set(_Backend.MAX_RECENT_SPLIT_ITEMS_KEY, ms)
+            app_info_cache.set(RecentAdaptersWindow.MAX_RECENT_ITEMS_KEY, mi)
+            app_info_cache.set(RecentAdaptersWindow.MAX_RECENT_SPLIT_ITEMS_KEY, ms)
             self._apply_limits(mi, ms)
             logger.info(f"Saved config: max_recent_items={mi}, max_recent_split_items={ms}")
         except Exception as e:
             logger.error(f"Failed to save config: {e}")
 
     def _reset_config(self) -> None:
-        mi = _Backend.DEFAULT_MAX_RECENT_ITEMS
-        ms = _Backend.DEFAULT_MAX_RECENT_SPLIT_ITEMS
+        mi = RecentAdaptersWindow.DEFAULT_MAX_RECENT_ITEMS
+        ms = RecentAdaptersWindow.DEFAULT_MAX_RECENT_SPLIT_ITEMS
         self._max_recent_spin.setValue(mi)
         self._max_split_spin.setValue(ms)
         self._save_config()
 
     @staticmethod
     def _apply_limits(max_items: int, max_split: int) -> None:
-        if len(_Backend._recent_controlnets) > max_items:
-            _Backend._recent_controlnets = _Backend._recent_controlnets[:max_items]
-        if len(_Backend._recent_ipadapters) > max_items:
-            _Backend._recent_ipadapters = _Backend._recent_ipadapters[:max_items]
-        if len(_Backend._recent_adapter_files_split) > max_split:
-            _Backend._recent_adapter_files_split = _Backend._recent_adapter_files_split[:max_split]
+        if len(RecentAdaptersWindow._recent_controlnets) > max_items:
+            RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:max_items]
+        if len(RecentAdaptersWindow._recent_ipadapters) > max_items:
+            RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:max_items]
+        if len(RecentAdaptersWindow._recent_adapter_files_split) > max_split:
+            RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:max_split]
