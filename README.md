@@ -16,6 +16,15 @@ This code is primarily a prompt engineering application that triggers ComfyUI wo
 </ul>
 </details>
 
+## Running the Application
+
+The application has two UI frontends. Both use the same configuration and encrypted cache.
+
+- **Tkinter (default):** `python app.py` or `start.bat`
+- **PySide6 (Qt):** `python app_qt.py` or `start_qt.bat`
+
+Both frontends are installable from the same `requirements.txt`. The PySide6 version offers a modernized interface with custom theming, frameless windows, and configurable UI scaling (`ui_scale_factor` in `config.json`).
+
 ## Configuration Options
 
 `total`: By default this is 1 to run a workflow only once, however with prompt randomization the same workflow can produce a different result each time. Set to -1 to run infinitely.
