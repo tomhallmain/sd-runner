@@ -614,10 +614,14 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         """Start the SD Runner server in a background thread."""
         from extensions.sd_runner_server import SDRunnerServer
 
+        # Server callbacks are invoked on the listener thread, but they
+        # touch Qt widgets.  Wrap them through _MainThreadBridge so every
+        # call is marshalled to the GUI thread (BlockingQueuedConnection).
+        bridge = self._thread_bridge.wrap
         server = SDRunnerServer(
-            self.run_ctrl.server_run_callback,
-            self.run_ctrl.cancel,
-            self.run_ctrl.revert_to_simple_gen,
+            bridge(self.run_ctrl.server_run_callback),
+            bridge(self.run_ctrl.cancel),
+            bridge(self.run_ctrl.revert_to_simple_gen),
         )
         try:
             Utils.start_thread(server.start)
