@@ -82,7 +82,7 @@ class ExpansionModifyWindow(SmartDialog):
             title=_("Modify Expansion: {0}").format(self._expansion.id),
             geometry=geometry,
         )
-        self.setStyleSheet(AppStyle.apply_stylesheet())
+        self.setStyleSheet(AppStyle.get_stylesheet())
         self._build_ui()
         self._check_wildcard_clash()
         self.show()
@@ -179,7 +179,7 @@ class ExpansionsWindow(SmartDialog):
             title=_("Expansions Window"),
             geometry=geometry,
         )
-        self.setStyleSheet(AppStyle.apply_stylesheet())
+        self.setStyleSheet(AppStyle.get_stylesheet())
         self._app_actions = app_actions
         self._filter_text = ""
         self._filtered_expansions: list[Expansion] = Expansion.expansions[:]

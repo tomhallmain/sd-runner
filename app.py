@@ -131,7 +131,9 @@ class App():
                                       "add_recent_adapter_file": RecentAdaptersWindow.add_recent_adapter_file,
                                       "contains_recent_adapter_file": RecentAdaptersWindow.contains_recent_adapter_file,
                                       "toast": self.toast,
-                                      "_alert": self.alert,}, master=self.master)
+                                      "_alert": self.alert,
+                                      "title_notify": lambda message: None,
+                                      }, master=self.master)
 
         # Set UI callbacks for Blacklist filtering notifications
         Blacklist.set_ui_callbacks(self.app_actions)

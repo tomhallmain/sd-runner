@@ -127,7 +127,7 @@ class PromptConfigWindow(SmartDialog):
             title=_("Prompt Configuration"),
             geometry=geometry,
         )
-        self.setStyleSheet(AppStyle.apply_stylesheet())
+        self.setStyleSheet(AppStyle.get_stylesheet())
         self._app_actions = app_actions
         self._cfg = runner_app_config
         self._updating = False  # guard against recursive signal loops

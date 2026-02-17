@@ -80,7 +80,7 @@ class FrequentPromptTagsWindow(SmartDialog):
             title=_("Frequent Prompt Tags"),
             geometry=geometry,
         )
-        self.setStyleSheet(AppStyle.apply_stylesheet())
+        self.setStyleSheet(AppStyle.get_stylesheet())
         self._app_actions = app_actions
         self._filter_text = ""
         self._filtered_tags: list[str] = FrequentTags.tags[:]

@@ -102,7 +102,7 @@ class ConceptEditorWindow(SmartDialog):
             title=_("Concept Editor"),
             geometry=geometry,
         )
-        self.setStyleSheet(AppStyle.apply_stylesheet())
+        self.setStyleSheet(AppStyle.get_stylesheet())
         self._app_actions = app_actions
 
         self._search_text: str = ""
