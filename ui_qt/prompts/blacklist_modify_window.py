@@ -52,6 +52,7 @@ class BlacklistModifyWindow(SmartDialog):
         )
         self._refresh_callback = refresh_callback
         self._app_actions = app_actions
+        self._saved = False  # set True after successful save to skip closeEvent re-check
 
         # Store original values for change tracking
         self._original_values = {
@@ -156,12 +157,14 @@ class BlacklistModifyWindow(SmartDialog):
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def _finalize(self) -> None:
         if not self._has_changes():
+            self._saved = True
             self.close()
             self._app_actions.toast(_("No changes were made"))
             return
         item = self._validate_and_build()
         if item is None:
             return
+        self._saved = True
         self.close()
         self._refresh_callback(item, self._is_new, self._original_string)
 
@@ -176,32 +179,33 @@ class BlacklistModifyWindow(SmartDialog):
             if resp is True:
                 self._finalize()
             elif resp is False:
+                self._saved = True  # skip closeEvent re-prompt
                 self.close()
             # None (Cancel) → keep open
         else:
             self.close()
 
     def closeEvent(self, event) -> None:  # noqa: N802
-        # Intercept the close button on the title bar
-        if self._has_changes():
-            resp = self._app_actions.alert(
-                _("Unsaved Changes"),
-                _("Do you want to save changes before closing?"),
-                kind="askyesnocancel",
-                master=self,
-            )
-            if resp is True:
-                item = self._validate_and_build()
-                if item is not None:
-                    event.accept()
-                    self._refresh_callback(item, self._is_new, self._original_string)
-                    return
-                event.ignore()
-                return
-            elif resp is False:
+        if self._saved or not self._has_changes():
+            event.accept()
+            return
+        resp = self._app_actions.alert(
+            _("Unsaved Changes"),
+            _("Do you want to save changes before closing?"),
+            kind="askyesnocancel",
+            master=self,
+        )
+        if resp is True:
+            item = self._validate_and_build()
+            if item is not None:
+                self._saved = True
                 event.accept()
+                self._refresh_callback(item, self._is_new, self._original_string)
                 return
-            else:
-                event.ignore()
-                return
-        event.accept()
+            event.ignore()
+            return
+        elif resp is False:
+            event.accept()
+            return
+        else:
+            event.ignore()

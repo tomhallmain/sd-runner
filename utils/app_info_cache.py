@@ -37,6 +37,9 @@ class AppInfoCache:
         # Used to ensure post-init logic that depends on other subsystems
         # (like blacklist configuration) only runs once.
         self._post_init_done = False
+        # Set True while _purge_blacklisted_history is running so that
+        # external code (e.g. shutdown failsafe) can extend its timeout.
+        self.purging_history = False
         self.load()
         self.validate()
 
@@ -55,11 +58,17 @@ class AppInfoCache:
         with self._lock:
             try:
                 if config.purge_blacklisted_prompt_history:
-                    self._purge_blacklisted_history()
+                    logger.debug("Purging blacklisted prompt history...")
+                    self.purging_history = True
+                    try:
+                        self._purge_blacklisted_history()
+                    finally:
+                        self.purging_history = False
                 cache_data = json.dumps(self._cache).encode('utf-8')
             except Exception as e:
                 raise Exception(f"Error compiling application cache", e)
 
+            logger.debug("Encrypting cache...")
             try:
                 encrypt_data_to_file(
                     cache_data,
@@ -71,6 +80,7 @@ class AppInfoCache:
             except Exception as e:
                 logger.error(f"Error encrypting cache: {e}")
 
+            logger.debug("Falling back to JSON store...")
             try:
                 with open(AppInfoCache.JSON_LOC, "w", encoding="utf-8") as f:
                     json.dump(self._cache, f)

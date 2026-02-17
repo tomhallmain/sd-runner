@@ -100,20 +100,30 @@ class CacheController:
         from ui_qt.auth.password_core import get_security_config
 
         try:
+            logger.debug("Storing info cache...")
             runner_config = self._app.runner_app_config
             if runner_config is not None:
                 if app_info_cache.set_history(runner_config):
                     if self._app.config_history_index > 0:
                         self._app.config_history_index -= 1
             app_info_cache.set("config_history_index", self._app.config_history_index)
+            logger.debug("Storing blacklist...")
             BlacklistWindow.store_blacklist()
+            logger.debug("Storing presets...")
             PresetsWindow.store_recent_presets()
+            logger.debug("Storing schedules...")
             SchedulesWindow.store_schedules()
+            logger.debug("Storing expansions...")
             _store_expansions()
+            logger.debug("Storing timed schedules...")
             timed_schedules_manager.store_schedules()
+            logger.debug("Storing recent adapters...")
             RecentAdaptersWindow.save_recent_adapters()
+            logger.debug("Storing security config...")
             get_security_config().save_settings()
+            logger.debug("Storing app info cache...")
             app_info_cache.store()
+            logger.debug("Info cache stored successfully")
         except Exception as e:
             logger.error(f"Failed to store info cache: {e}")
 

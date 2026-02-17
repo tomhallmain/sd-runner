@@ -646,23 +646,60 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         """
         import threading
 
-        # -- Failsafe: hard-kill after 5 seconds no matter what ----------
+        # -- Critical path: persist state on a background thread ----------
+        # Run cache persistence off the main thread so we can show a
+        # progress dialog if _purge_blacklisted_history takes a while.
+        Utils.prevent_sleep(False)
+        store_done = threading.Event()
+
+        def _store_cache():
+            try:
+                self.cache_ctrl.store_display_position()
+                self.cache_ctrl.store_info_cache()
+                app_info_cache.wipe_instance()
+            except Exception as e:
+                logger.error(f"Error during cache persistence: {e}")
+            finally:
+                store_done.set()
+
+        store_thread = threading.Thread(target=_store_cache, daemon=True)
+        store_thread.start()
+
+        # Wait briefly; most shutdowns finish in < 1 second.
+        store_done.wait(timeout=3.0)
+
+        if not store_done.is_set():
+            # Still saving -- show a dialog so the user knows not to
+            # force-close.  Keep processing Qt events so it stays visible.
+            from PySide6.QtWidgets import QProgressDialog
+            if app_info_cache.purging_history:
+                msg = _("Updating history for blacklist changes — please wait…")
+            else:
+                msg = _("Saving application data is taking longer than expected — please wait…")
+            progress = QProgressDialog(msg, None, 0, 0, self)
+            progress.setWindowTitle(_("Closing"))
+            progress.setCancelButton(None)
+            progress.setMinimumDuration(0)
+            progress.show()
+
+            while not store_done.is_set():
+                QApplication.processEvents()
+                store_done.wait(timeout=0.1)
+                # Update label in case purge started after dialog opened
+                if app_info_cache.purging_history:
+                    progress.setLabelText(
+                        _("Updating history for blacklist changes — please wait…")
+                    )
+            progress.close()
+
+        # -- Failsafe: hard-kill if cleanup below hangs ------------------
         def _force_exit():
             logger.warning("Failsafe: forcing process exit (stranded threads?)")
             os._exit(0)
 
-        failsafe = threading.Timer(5.0, _force_exit)
+        failsafe = threading.Timer(10.0, _force_exit)
         failsafe.daemon = True
         failsafe.start()
-
-        # -- Critical path: persist state --------------------------------
-        try:
-            Utils.prevent_sleep(False)
-            self.cache_ctrl.store_display_position()
-            self.cache_ctrl.store_info_cache()
-            app_info_cache.wipe_instance()
-        except Exception as e:
-            logger.error(f"Error during cache persistence: {e}")
 
         # -- Best-effort cleanup -----------------------------------------
         try:

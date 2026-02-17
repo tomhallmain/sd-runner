@@ -557,6 +557,28 @@ class BlacklistWindow(SmartDialog):
             self._app_actions.toast(_("Select an item first"))
 
     # ==================================================================
+    # Close
+    # ==================================================================
+    def closeEvent(self, event) -> None:  # noqa: N802
+        if BlacklistWindow._modify_window is not None:
+            try:
+                BlacklistWindow._modify_window._saved = True
+                BlacklistWindow._modify_window.close()
+            except RuntimeError:
+                pass
+            BlacklistWindow._modify_window = None
+        # # Flush blacklist state to disk now so changes survive even if
+        # # shutdown crashes (the failsafe os._exit can cause access
+        # # violations that prevent the normal store_info_cache path).
+        # try:
+        #     from utils.app_info_cache import app_info_cache
+        #     BlacklistWindow.store_blacklist()
+        #     app_info_cache.store()
+        # except Exception:
+        #     pass
+        super().closeEvent(event)
+
+    # ==================================================================
     # Keyboard filtering
     # ==================================================================
     def keyPressEvent(self, event) -> None:  # noqa: N802
@@ -633,10 +655,9 @@ class BlacklistWindow(SmartDialog):
     # Refresh
     # ==================================================================
     def _refresh(self) -> None:
-        self._filtered_items = Blacklist.get_items()[:]
         self._filtered_model_items = Blacklist.get_model_items()[:]
         if self._tabs.currentIndex() == 0:
-            self._rebuild_tag_content()
+            self._apply_filter()
         else:
             self._rebuild_model_content()
 
@@ -655,6 +676,7 @@ class BlacklistWindow(SmartDialog):
     def _remove_item(self, item: BlacklistItem) -> None:
         Blacklist.remove_item(item)
         BlacklistWindow.mark_user_confirmed_non_default()
+        BlacklistWindow.store_blacklist()
         self._app_actions.toast(_("Removed item: {0}").format(item))
         self._refresh()
 
@@ -708,6 +730,7 @@ class BlacklistWindow(SmartDialog):
             return
         Blacklist.clear()
         BlacklistWindow.mark_user_confirmed_non_default()
+        BlacklistWindow.store_blacklist()
         self._app_actions.toast(_("Cleared item blacklist"))
         self._refresh()
 
@@ -727,6 +750,7 @@ class BlacklistWindow(SmartDialog):
             Blacklist.decrypt_blacklist()
             from utils.app_info_cache import app_info_cache
             app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, False)
+            BlacklistWindow.store_blacklist()
             self._app_actions.toast(_("Loaded default blacklist"))
             self._refresh()
         except Exception as e:
@@ -748,6 +772,8 @@ class BlacklistWindow(SmartDialog):
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def _remove_model_item(self, item: BlacklistItem) -> None:
         Blacklist.remove_model_item(item)
+        BlacklistWindow.mark_user_confirmed_non_default()
+        BlacklistWindow.store_blacklist()
         self._app_actions.toast(_("Removed model blacklist item: {0}").format(item.string))
         self._refresh()
 
@@ -772,6 +798,8 @@ class BlacklistWindow(SmartDialog):
     @require_password(ProtectedActions.EDIT_BLACKLIST, ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
     def _clear_model_items(self) -> None:
         Blacklist.clear_model_blacklist()
+        BlacklistWindow.mark_user_confirmed_non_default()
+        BlacklistWindow.store_blacklist()
         self._app_actions.toast(_("Cleared model blacklist items"))
         self._refresh()
 
@@ -815,6 +843,7 @@ class BlacklistWindow(SmartDialog):
                     Blacklist.remove_item(existing, do_save=False)
                     break
             Blacklist.add_item(item)
+        BlacklistWindow.store_blacklist()
         msg = _("Added item to blacklist: {0}") if is_new else _("Modified blacklist item: {0}")
         self._app_actions.toast(msg.format(item.string))
         self._refresh()
@@ -832,6 +861,7 @@ class BlacklistWindow(SmartDialog):
                     Blacklist.remove_model_item(existing)
                     break
             Blacklist.add_model_item(item)
+        BlacklistWindow.store_blacklist()
         self._app_actions.toast(_("Model blacklist updated: {0}").format(item.string))
         self._refresh()
 
