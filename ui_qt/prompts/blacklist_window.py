@@ -886,7 +886,7 @@ class BlacklistWindow(SmartDialog):
     # ==================================================================
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def _import_blacklist(self) -> None:
-        path, _ = QFileDialog.getOpenFileName(
+        path, _filter = QFileDialog.getOpenFileName(
             self, _("Import Blacklist"), "",
             _("All supported (*.csv *.json *.txt);;CSV (*.csv);;JSON (*.json);;Text (*.txt)"),
         )
@@ -907,7 +907,7 @@ class BlacklistWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def _export_blacklist(self) -> None:
-        path, _ = QFileDialog.getSaveFileName(
+        path, _filter = QFileDialog.getSaveFileName(
             self, _("Export Blacklist"), "",
             _("CSV (*.csv);;JSON (*.json);;Text (*.txt)"),
         )
@@ -926,7 +926,7 @@ class BlacklistWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def _import_model_blacklist(self) -> None:
-        path, _ = QFileDialog.getOpenFileName(
+        path, _filter = QFileDialog.getOpenFileName(
             self, _("Import Model Blacklist"), "",
             _("All supported (*.csv *.json *.txt);;CSV (*.csv);;JSON (*.json);;Text (*.txt)"),
         )
@@ -947,7 +947,7 @@ class BlacklistWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def _export_model_blacklist(self) -> None:
-        path, _ = QFileDialog.getSaveFileName(
+        path, _filter = QFileDialog.getSaveFileName(
             self, _("Export Model Blacklist"), "",
             _("JSON (*.json)"),
         )

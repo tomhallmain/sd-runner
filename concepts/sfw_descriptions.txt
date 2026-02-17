@@ -5,6 +5,7 @@ $$random_word-sized
 a far cry from $$random_word
 A-list
 A-OK
+abounding with $$random_word
 abrasive
 absentminded
 absentmindedly
@@ -35,6 +36,8 @@ amped
 amphibious
 angled
 anisometric
+aptitude
+arable
 arcane
 archaic
 arduous
@@ -50,6 +53,7 @@ at rest
 athwart
 atmospheric
 atonal
+auspicious
 auxiliary
 available
 average
@@ -68,6 +72,7 @@ beady
 begotten
 bent
 bereft
+besmirched
 best in the world
 bimonthly
 bineural
@@ -96,6 +101,7 @@ chatlyant
 cheap
 cleft
 cliché
+cloying
 cognizant
 coherent
 collapsed
@@ -107,7 +113,11 @@ comprehensive
 concealed
 conceited
 conditional
+conscience
+conscientious
+conscious
 consecutive
+constant
 crafty
 crooked
 crumpled
@@ -122,6 +132,7 @@ dearest
 declaring
 decorative
 deep
+deferential
 definite
 deftly
 deific
@@ -130,11 +141,13 @@ deluxe
 different
 dignified
 diligence
+dim
 direct
 disengaged
 distinctive
 diverged
 divine
+domed
 done up
 dour
 drastic
@@ -154,6 +167,7 @@ endorsed
 enhanced
 enlarged
 ensuant
+entitled
 entwined
 epic
 equipped
@@ -164,6 +178,7 @@ eternal
 evanescent
 evasive
 ever so
+exalted
 existential
 exorbitant
 expeditious
@@ -174,8 +189,10 @@ extemporaneous
 extra-large
 extra-small
 fabled
+facile
 failsafe
 fain
+fairly straightforward
 famous
 fantasmic
 far-out
@@ -184,7 +201,9 @@ favorable
 feeble
 feral
 fettered
+feudal
 fibrous
+fickle
 fine
 fine and dandy
 firm
@@ -255,6 +274,7 @@ imbued
 immortal
 imperative
 imperiled
+impertinent
 imputed
 in a league of [my,his,her,our,their] own
 in a tizzy
@@ -264,10 +284,12 @@ in shape
 incarnate
 incedental
 incendiary?
+inconsistent
 inctremental
 indefinite
 inexact
 infernal
+infirm
 innate
 inscrutable
 inspiring
@@ -316,6 +338,7 @@ low cheekbones
 low cost
 loyal
 makeshift
+maladroit
 malted
 Mammalia
 maniacal
@@ -331,6 +354,7 @@ meritous
 merry
 middling
 mild
+mind-boggling
 miniature
 mint condition
 mired
@@ -367,9 +391,11 @@ numerous
 nutritious
 obdurate
 oblate
+observant
 of great stature
 one of the good ones
 oomph
+operational
 opportunistic
 original
 ostentatious
@@ -377,6 +403,8 @@ overbearing
 overloaded
 overt
 palacial
+paltry
+parasitic
 parsimonious
 parted
 particular
@@ -384,6 +412,7 @@ pedantic
 pending
 performative
 perilous
+perjurous
 personable
 personal
 petty
@@ -392,6 +421,7 @@ piecemeal
 placid
 plagiarized
 poetic
+polite
 polygonal
 porky
 potted
@@ -407,6 +437,7 @@ promontory
 promoted
 pursuant to $$random_word
 quaint
+querulous
 rare
 raspy
 rather
@@ -426,6 +457,7 @@ resonant
 restored
 retractable
 ridiculous
+rife
 riled
 rinky-dink
 ripe
@@ -574,6 +606,7 @@ temporary
 ten feet tall
 tensile
 tenured
+tepid
 terete
 terrestrial
 testy
@@ -589,9 +622,11 @@ top-secret
 traditional
 transient
 travesty
+treaded
 trifling
 triplet
 truncated
+trusty
 twin
 ugly
 ultra
@@ -617,6 +652,7 @@ unpolished
 unreceptive
 unrecognizable
 unrelated
+unrelenting
 unserious
 unshakable
 unstable
@@ -624,6 +660,7 @@ unyielding
 uproarious
 urgent
 used
+vain
 valourous
 variable
 venerable
@@ -634,6 +671,7 @@ vindictive
 vital
 vulnerable
 war paint
+warped
 waverly
 wayward
 weary

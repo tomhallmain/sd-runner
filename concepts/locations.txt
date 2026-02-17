@@ -10,10 +10,12 @@ $$random_word hill
 $$random_word station
 $$random_word west
 1950s diner retro style
+[[on,off]]-ramp
 [[one,two,three,four,six,ten]]-seater
 a galaxy far away
 abbey
 abode
+air pocket
 air taxi
 airbnb
 airship
@@ -39,7 +41,9 @@ backroads
 ballroom
 bassinet
 battlefield
+Bel-Air
 below deck
+Beverly Hills
 bike path
 blacksmith's shop
 bldg.
@@ -55,10 +59,12 @@ broad street
 buffet
 bullpen
 bungalow
+caboose
 canal
 canyon
 captains hold
 cargo hold
+carpool lane
 castle keep
 catamaran
 cellar
@@ -91,6 +97,7 @@ cénacle
 dais
 depths
 destination
+dining car
 diocese
 ditch
 domain
@@ -114,6 +121,7 @@ floor
 forge
 fork in the road
 fort $$random_word
+fortress
 foundry
 frigate
 frontier
@@ -148,8 +156,11 @@ hoogle
 house on stilts
 hummock
 hut
+in a clearing
 in orbit
+intersection
 jetty
+karst
 kiosk
 kitchenette
 lane
@@ -195,6 +206,7 @@ old mill
 on deck
 on-ramp
 open house
+orlop deck
 out somewhere
 outfitters
 outlets
@@ -253,6 +265,7 @@ shelf
 shore
 shoreline
 side road
+sidecar
 silo
 single-lane bridge
 single-lane road

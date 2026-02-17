@@ -1,13 +1,16 @@
 "Holy Smokes!"
 ...or not
 [[I am,you are,he is,she is,we are,they are]] not amused
+acrimony
 Agitated
+ahem
 alas
 alert
 Allllrighty then!
 amazement
 amused
 angry
+annoying
 Anxious
 Apathetic
 ardor
@@ -66,6 +69,7 @@ drat!
 drowsy
 dunno
 elation
+empty stare
 enthralled
 even so...
 exultant
@@ -74,6 +78,7 @@ frenzied
 fury
 fussy
 gibe
+gleeful
 gratified
 grimace
 grr
@@ -93,6 +98,7 @@ I dare say
 idk
 incredulity
 intuition
+irascible
 it's alright
 it's fine
 jealous
@@ -102,6 +108,7 @@ jubilant
 laugh lines
 loony
 mania
+May I?
 meh
 miffed
 mild disgust
@@ -125,6 +132,9 @@ eyebrow raised
 eyes closed
 eyes half closed
 eyes wide
+mildly upset
+minds not
+minds quite a bit
 mirthful
 narrowed eyes
 Fatigued
@@ -190,6 +200,7 @@ Panicked
 Pensive
 Perplexed
 Pessimistic
+petulant
 pfft..
 phooey
 piety
@@ -251,6 +262,7 @@ stoic
 straining
 Stressed
 sulk
+sulky
 surly
 surprised
 suspicion

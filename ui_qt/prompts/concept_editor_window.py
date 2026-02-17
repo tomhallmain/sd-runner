@@ -449,7 +449,7 @@ class ConceptEditorWindow(SmartDialog):
             )
             return
 
-        import_path, _ = QFileDialog.getOpenFileName(
+        import_path, _filter = QFileDialog.getOpenFileName(
             self,
             _("Select concepts file to import"),
             "",

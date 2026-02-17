@@ -18,6 +18,7 @@ Asymmetrical Skirt
 Athletic Leggings
 athletic wear
 attire
+backpack
 badges
 baggy pants
 baggy shirt
@@ -193,10 +194,12 @@ earmuffs
 earrings
 Eaton collar
 elastic
+elbow pads
 Elegant Evening Gown
 epaulets
 escoffion
 evening gown
+eyewear
 fancy watch
 farthingale
 fashion
@@ -348,6 +351,7 @@ mane
 maxi skirt
 Midi Dress
 mime outfit
+mitre
 mitta
 mittens
 moccasins
@@ -451,6 +455,7 @@ tabard
 Tagelmust
 tassle
 thawb
+tonsure
 torn shirt
 robe
 robot

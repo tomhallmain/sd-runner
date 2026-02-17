@@ -53,6 +53,7 @@ closest to
 clustered together
 contiguous
 corner
+crosswise
 crouched
 direct route
 down below
@@ -227,6 +228,7 @@ up above
 up here
 up there
 upheave
+upraised
 verge of $$random_word
 view up at $$random_word
 

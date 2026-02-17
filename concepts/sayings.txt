@@ -38,6 +38,7 @@ A day late and a dollar short
 A dime a dozen
 A dog is a man's best friend
 A drowning man will clutch at a straw
+A fair share
 A fool and his money are soon parted
 A friend in need (is a friend indeed)
 A friend in need is a friend indeed
@@ -71,6 +72,7 @@ All good things must come to an end
 All hands on deck/to the pump
 All is for the best in the best of all possible worlds
 All is grist that comes to the mill
+All is grist to the mill
 All roads lead to Rome
 All systems go
 All that [[glitters,glistens]] is not gold
@@ -141,6 +143,7 @@ Birds of a feather flock together
 Bite off more than you can chew
 Bite the bullet
 Bite your tongue
+blind luck
 Blood is thicker than water
 Book it
 Born with a silver spoon in one's mouth
@@ -223,7 +226,9 @@ Don't upset the apple-cart
 Doubt is the beginning, not the end, of wisdom
 Down to earth
 Draw the line
+drawing a blank
 Drop in the bucket
+dumb luck
 Early marriage, earlier pregnant
 Early to bed and early to rise makes a man healthy, wealthy and wise
 Early to bed, early to rise
@@ -252,6 +257,7 @@ Every tide has its ebb
 Every[[one, man]] has [[his,their]] price
 Everybody wants to go to heaven but nobody wants to die
 Face the music
+fading fast
 Failing to plan is planning to fail
 Faint heart never won fair lady
 Fair and square
@@ -285,6 +291,7 @@ Fortune [[favors,smiles on]] the [[bold,brave]]
 Free is for me
 from the get-go
 From the sublime to the ridiculous (is only a step)
+Garbage in garbage out
 Genius is an infinite capacity for taking pains
 Get a grip
 Get a taste of your own medicine
@@ -356,6 +363,7 @@ I'm going to have to give you the pink slip
 I'm having a whale of a time
 I'm in a pickle
 I'm stumped
+I'm sure
 Idle hands are the devil's playthings
 If a job is worth doing, it is worth doing well
 If anything can go wrong, it will
@@ -376,6 +384,7 @@ If you can't beat them, join them
 If you can't live longer, live deeper
 If you can't run with the horses, get off the track
 If you can't stand the heat, get out of the kitchen
+If you find yourself in a hole stop digging
 If you give a mouse a cookie, he'll always ask for a glass of milk
 If you have never seen the bottom of the tree, you cannot know how tall it stands
 If you lie down with dogs, you will get up with fleas
@@ -428,6 +437,7 @@ It takes one to know one
 It takes two to tango
 It will be the same a hundred years hence
 It will come back and haunt you
+It's a job
 It's a small world
 It's always darkest before the dawn
 It's Greek to me
@@ -586,6 +596,7 @@ Old sins cast long shadows
 Old soldiers never die (they simply/just fade away)
 On cloud nine
 On pins and needles
+on the back foot
 On the ball
 Once a $$random_word always a $$random_word
 Once bitten twice shy
@@ -626,6 +637,7 @@ Penny for your thoughts
 Penny Penny. Makes many.
 Penny wise and pound foolish
 Physician, heal thyself
+Pig in a poke
 Play it by ear
 Play stupid games win stupid prizes
 Play your cards right
@@ -687,6 +699,7 @@ Smooth move
 Smooth sailing
 Snake in the grass
 So far so good
+so long and farewell
 so long to $$random_word
 Softly softly catchee monkey
 Some are more equal than others
@@ -813,6 +826,7 @@ Think outside the box
 Third time is a charm
 Those who do not learn from history are doomed to repeat it
 Those who know many languages live as many lives as the languages they know
+Those who live in glass houses shoukd not throw stones
 Those who live in glass houses should not throw stones
 Those who sleep with dogs will rise with fleas
 Through thick and thin
@@ -938,6 +952,7 @@ You must have rocks in your head
 You only live once
 You pay your dime and you takes your chances
 You pay your money and you take your choice
+You rang?
 You reap what you sow
 You scratch my back and I'll scratch yours
 you sly dog
@@ -947,6 +962,7 @@ You're toast
 You've got to separate the wheat from the chaff
 You've made your bed and you must lie [[in,on]] it
 Your guess is as good as mine
+Your mileage my vary
 Youth is wasted on the young
 Zeal without knowledge is fire without light
 Zero tolerance

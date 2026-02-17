@@ -7,6 +7,7 @@ Coney Island
 Dinaric Alps
 Dixie
 Dolomites
+East coast
 Econo Lodge
 Herculaneum
 Home Depot
@@ -44,6 +45,7 @@ atlantis
 siberia
 transylvania
 Wawa
+West coast
 Yellow River
 Blue Danube
 Osterreich

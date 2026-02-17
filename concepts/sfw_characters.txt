@@ -5,6 +5,7 @@ $$random_word galore
 [[I,you,he,she]] go[[,es]] by $$random_word
 a real softy
 abbott
+Absentee
 Achilles
 Acme Corp product
 adjunct
@@ -22,6 +23,7 @@ alias
 All the King's horses and all the King's men
 ally
 Aloha
+and his trusty sidekick
 angler
 Angus
 Annette
@@ -100,6 +102,7 @@ Cindy Lou
 Cirque de Soleil
 claimant
 Claude Cat
+cleric
 clerk
 Clippy
 coactor
@@ -116,6 +119,7 @@ culprit
 curmudgeon
 Custos rotulorum
 Daffy Duck
+Daytona
 deacon
 dean
 defendant
@@ -137,6 +141,7 @@ dragoon
 dragster
 driver
 Dudley
+dweeb
 e'er
 easy peasy
 elitist
@@ -157,11 +162,13 @@ evoker
 Ewoks
 exarch
 expat
+fabulist
 false mustache
 Family Feud
 family friend
 Fido
 Fie
+Final Destination
 fire eater
 Fire Emblem
 Firebird
@@ -189,6 +196,7 @@ Gilgamesh
 goalie
 goner
 good grief
+Goofy Gophers
 Governor
 groundskeeper
 growler
@@ -197,6 +205,7 @@ gumshoe
 guy
 gypsy
 hall pass
+Hamtaro
 Han Solo
 Hardy Boys
 Hardy har har
@@ -256,12 +265,16 @@ just cause
 justiciar
 Kai-El
 Keyboard Cat
+keynote speaker
 Kon-Tiki
 L'oreal
+Labubu
 lackey
 laddie
+Lady MacBeth
 lalala
 Larry Moe and Curly
+legal eagles
 Lennox
 Leroy
 Lester
@@ -276,6 +289,7 @@ LMAO
 lol
 lolcat
 Lollards
+Lord MacBeth
 loudmouth
 lunk
 MacGuffin
@@ -286,6 +300,7 @@ medic
 meme
 mentor
 Merle
+Merlin the Magic Mouse
 mess mate
 Messiah
 mind over matter
@@ -337,6 +352,7 @@ peddler
 peer group
 Peerage
 PeeWee's Big Adventure
+Penelope
 Pepe Le Pew
 Pepto-Bismol
 perhaps
@@ -350,6 +366,7 @@ picker-upper
 Picts
 Pingu
 A Team
+pipsqueak
 pirate
 pitman
 pitter patter
@@ -387,12 +404,14 @@ Redwall
 referee
 REO Speedwagon
 retard
+rival
 Roku
 rook
 Roomba
 rube
 Rumplestiltskin
 sales rep
+Sam Sheepdog
 sawyer
 Sayonara
 scholar
@@ -417,6 +436,7 @@ Simon & Garfunkel
 Sirius
 skater
 Skull and Crossbones
+slang
 sleepers
 sluggard
 slugger
@@ -507,18 +527,23 @@ trustee
 tutor
 tuxedo cat
 twat
+Tweety Bird
+twerp
 ulterior motives
 Ultima Online
 umpire
 undertaker
 urethane
 valkyrie
+varmints
+vermin
 vermouth
 Viet Cong
 villain
 villainy
 Vogt
 w rizz
+Warner Bros
 way to go!
 what's in a name
 whippoorwill
@@ -644,6 +669,7 @@ yeomanry
 Yeti
 Yogi the Bear
 Yoo-Hoo
+Yorick
 Yosemite Sam
 your Honor
 Ysmir

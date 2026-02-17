@@ -2,6 +2,7 @@
 
 $$number [[million ,thousand ,]]views
 $$number decibels
+$$random_word drift
 $$random_word edition
 $$random_word in foreground blocking view
 $$random_word Inc.
@@ -82,6 +83,7 @@ annealing
 annotation
 anomaly
 anonymous
+answer key
 antenna
 antennae
 anthology
@@ -116,6 +118,7 @@ aspects
 assay
 assemblage
 at the same time
+atlas
 ATP
 atria
 audio sound data
@@ -134,12 +137,14 @@ bar chart
 bar of $$random_word
 barbs
 barcarole
+barrel distortion
 barrel-vaulted
 basin
 bass clef
 Basse-taille
 bast fibre
 batch
+batik
 baton
 battalion
 bauble
@@ -155,6 +160,7 @@ bespoke
 bevel
 bevels
 biblio-$$random_word
+bijou
 Bildungsroman
 biopic
 birthright
@@ -174,6 +180,7 @@ boldface
 bollard
 boom
 boombox
+boomerang
 boon
 boring
 bowl
@@ -206,6 +213,7 @@ buttressing
 Buy one get one free
 cage cup
 caliber
+calico fabric
 camera roll
 camouflage
 candelabrum
@@ -254,6 +262,7 @@ chatroom
 children's book
 chimeric
 Chino
+chintz
 chiral
 chivalric romance
 choice
@@ -278,6 +287,7 @@ clear water
 clef
 clip art
 Cloisonné
+Coat of Arms
 coaxial
 cockade
 coda
@@ -321,6 +331,7 @@ count
 counter-$$random_word
 Country life
 courtly love
+cover sheet
 craquelure
 creative commons-licensed
 credo
@@ -341,6 +352,7 @@ curlicues
 currents
 curtain
 curved mirror
+cushv
 cusp
 cuspidor
 customized
@@ -361,15 +373,18 @@ deformation
 depiction
 derivative
 design process
+detailed $$random_word texture
 dexter and sinister
 diacritic
 dial
 diameter
 diamond rustication
 die cut
+digital snapshot
 dime novel
 dimension
 dioptric
+direct on-camera flash
 directions
 dish
 dislocation
@@ -379,7 +394,10 @@ dissonance
 distortion
 ditto
 dive
+divisions
 docket
+dogleg
+doily
 doodad
 doodly-doo
 dot
@@ -430,6 +448,7 @@ energy
 engraved glass
 enigma
 Enlightenment
+ensemble
 entablature
 epic
 epigram
@@ -464,7 +483,9 @@ fairy dust
 farthing
 feldspar
 festoon
+fiber
 figure eight
+Final Notice
 fine print
 finely computed
 fins
@@ -510,6 +531,7 @@ Futhark
 G-force tech
 gameplay screenshot
 gamut
+gap
 gaps
 gas lighting
 gas pipes
@@ -538,11 +560,13 @@ gradation
 grade
 Grandeur
 granules
+graph paper
 graphite
 gravel
 gravimetric
 Grisaille
 grit
+grommet
 groupings
 gueridon
 Guiness Book of World Records record for [biggest,tallest,smallest,longest,widest,most] $$random_word
@@ -567,11 +591,13 @@ hessian
 hi-hat
 hierarchy
 high energy
+high ISO noise
 high production value
 high voltage
 high-definition rendering
 Hilbert space
 hilt
+hiragana
 hoax
 hoist and fly
 holophotal
@@ -582,6 +608,7 @@ hoof
 hook
 horn
 horns
+horsehoe
 horseshoe
 hourglass
 house of $$random_word
@@ -630,6 +657,8 @@ integration
 interference
 interior structure
 interlude
+Internet
+intersecting
 inversion
 invertebrate
 inverted $$random_word
@@ -644,17 +673,20 @@ jali
 jamb
 jargon
 jasper
+jewel case
 jigsaw gingerbread victorian style trim
 joint
 joss paper
 JPEG
 JPG
 jug
+kanji
 keyframes
 kilim
 kinesis
 King
 knobs
+kudos
 label
 labels
 lacunae
@@ -672,6 +704,7 @@ Le Nove porcelain
 leaking
 lede
 legend inset
+lehr oven
 lemma
 lemniscate
 lenticular lens
@@ -703,6 +736,7 @@ liters
 live video feed
 LLC
 loading screen
+lobe
 lock
 logarithm
 logogriph
@@ -780,6 +814,7 @@ muqarnas
 muscle
 music box
 musical scales
+muslin
 mutation
 nacre
 nail
@@ -799,6 +834,7 @@ noil
 nonsense
 norm
 normal
+notch
 note
 nothing
 nothing else
@@ -808,6 +844,7 @@ nuclear fallout
 nuclei
 oblong
 obsidian
+ocarina
 oculus
 oddity
 odds and ends
@@ -1221,12 +1258,14 @@ pixel subtraction result
 pixelated
 placard
 plaid
+plait
 plane shearing
 plasm
 plasterwork
 plastic
 plasticity
 playbook markings
+pliers
 Plique-à-jour
 plot
 plotter
@@ -1241,6 +1280,7 @@ polished
 polymer
 polymorph
 polymorphism
+polypropelene
 polypropylene
 poptop
 port and starboard
@@ -1263,6 +1303,7 @@ pro
 projection
 prolepsis
 prologue
+promo
 promotional material
 proof
 prop comic
@@ -1288,6 +1329,7 @@ puppy
 purity
 purl
 puzzling
+pylon
 pyroxene
 pyx
 qanat
@@ -1301,6 +1343,7 @@ Queen Anne style
 Queen Anne towers
 quest marker
 quid pro quo
+quilt
 quite a lot
 quota
 quote
@@ -1313,6 +1356,7 @@ rake
 ramp
 range
 rare earth metal
+rariora
 raw photo
 ray of $$random_word
 raytracing
@@ -1369,6 +1413,7 @@ roentgens
 role-playing game
 roll bar
 rolled
+Rolls of Arms
 Ronde bosse
 rosette
 rosin
@@ -1482,6 +1527,7 @@ slanted
 slate
 sleet
 sleeve
+slide film
 slide rule
 slides
 slinky
@@ -1490,6 +1536,7 @@ slo-mo
 slogan
 sloop
 slope
+smartphone capture
 smeared
 smelted
 smithereens
@@ -1526,6 +1573,7 @@ specimen
 speckled
 speckles
 specks
+spectra
 speleothems
 Sperrsatz
 SPF
@@ -1578,6 +1626,7 @@ stirred
 stitchery
 stoma
 stone veneer
+stpryboard
 strands
 strange
 strange magic
@@ -1604,6 +1653,7 @@ subroutine
 substance
 substitution
 substrate
+subsurface scattering
 subtitle
 suet
 suitable for various media
@@ -1652,6 +1702,7 @@ tchotchke
 team
 technicolor pallette
 Tee-Vee
+teeth
 teetotum
 television aerial
 tempera
@@ -1660,6 +1711,7 @@ tensor
 tentacles and creatures
 terracotta
 terrazzo
+Tesla coil
 tesselation
 test image
 testament
@@ -1681,11 +1733,14 @@ thematic
 theme and variations
 theory
 thermos
+thimble
 thingamajig
+thingie
 this and that
 thriller
 tierce
 Tigerseye
+tile
 tileset
 timbre
 time stopped
@@ -1785,6 +1840,7 @@ unrolled
 upholstery
 upsampling
 uptime
+Usenet
 user error
 utopia
 uwu
@@ -1839,6 +1895,7 @@ washed-out colors
 watercolor
 waves
 wax
+weather vane
 web
 webcam
 webcomic style
@@ -2724,6 +2781,7 @@ Tropic Sunset # A tropical beach with a stunning sunset of vivid colors.
 Bohemian Textiles # Colorful textiles and fabrics in a bohemian style.
 # Chinese New Year # A vibrant Chinese New Year celebration with red lanterns.
 (Peaceful Lavender Fields:0.1) # Fields of fragrant lavender in various shades of purple.
+zigzag
 zip tie
 Zitternbewegung
 zest

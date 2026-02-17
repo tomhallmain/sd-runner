@@ -1,5 +1,7 @@
 $$number [[minutes,hours]] later
+a long time from now
 a while ago
+again
 all the time
 all the while
 always
@@ -37,6 +39,7 @@ late afternoon
 evening
 dawn
 dusk
+not long now
 one more time
 parsec
 prolonged
