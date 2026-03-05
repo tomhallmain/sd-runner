@@ -27,6 +27,7 @@ apartment
 apiary
 apothecarium
 arcade
+archaeological site
 archipelago
 archive
 area
@@ -123,6 +124,7 @@ fork in the road
 fort $$random_word
 fortress
 foundry
+freighter
 frigate
 frontier
 funicular
@@ -192,6 +194,7 @@ minimart
 misty mountains
 monsoon
 moraine
+motorcade
 mount $$random_word
 municipality
 my old haunt
@@ -257,6 +260,7 @@ sandbox
 school grounds
 sea lab
 sea lane
+sea level
 seaport
 seaside
 security office

@@ -1,5 +1,7 @@
 Anglia
 Arcadia
+Bosra
+Cairo - Egypt
 Catalonia
 Cheltenham
 City of Troy
@@ -9,6 +11,7 @@ Dixie
 Dolomites
 East coast
 Econo Lodge
+El Dorado
 Herculaneum
 Home Depot
 Iberia
@@ -17,6 +20,8 @@ Jamestown
 La Zarzuela
 Lake Huron
 lanai
+Mosul
+Nantes
 Napoli
 Oceania
 Ojai California
@@ -25,8 +30,11 @@ Pier One
 Pompeii -> Pompeii - Italy (locations_specific.txt) | The Last Days of Pompeii (sfw_characters.txt)
 Renfrew
 Sandringham Estate
+Sea of Tranquility
+Serengeti
 Sheetz
 South Pacific
+St. Lawrence Speedway
 St. Petersburg
 The Fantasmic World of No
 The Globe Theatre

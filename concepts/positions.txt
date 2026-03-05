@@ -143,6 +143,7 @@ nonetheless
 not far
 o'er
 obscured
+on [[my,his,her,their,your]] shoulders
 on a higher level
 on a lower level
 on end
@@ -180,6 +181,7 @@ reclined
 reclining
 resting on elbows
 rolling over
+shoulder
 side
 side profile
 sitting around, casual

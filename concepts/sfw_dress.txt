@@ -1,6 +1,7 @@
 $$character costume
 $$random_word-ware
 abaya
+accoutre
 Akubra
 amulet
 ancient greek dress

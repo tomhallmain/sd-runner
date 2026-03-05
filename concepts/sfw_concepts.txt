@@ -59,6 +59,7 @@ alloy
 Alpha
 als ob
 alternative
+alto
 aluminum foil
 alumni
 amazing
@@ -68,6 +69,7 @@ ammo box
 ampersand
 amphibole
 amplification
+analog
 analogue
 analyte
 anatomy
@@ -82,6 +84,7 @@ annals
 annealing
 annotation
 anomaly
+anomoly
 anonymous
 answer key
 antenna
@@ -98,11 +101,13 @@ anything
 AoE spell effects
 apart
 aperture
+apogee
 apostrophe
 appearances
 apropos of $$random_word
 aqua regia
 arabesque
+arbor
 arc
 arc lamp
 arc length
@@ -224,10 +229,12 @@ canto
 capitalist
 Capodimonte porcelain
 captivating visual narrative
+carbon copy
 Carborundum mezzotint
 card
 care package
 cargo
+caricature
 carnelian
 Carpenter Gothoc
 carpet
@@ -287,6 +294,7 @@ clear water
 clef
 clip art
 Cloisonné
+clone
 Coat of Arms
 coaxial
 cockade
@@ -325,10 +333,12 @@ core
 corrugated
 corrugation
 cortex
+coruscate
 cosine
 Coub video
 count
 counter-$$random_word
+counterpart
 Country life
 courtly love
 cover sheet
@@ -370,12 +380,16 @@ decorative arts
 decorum
 decoy
 deformation
+delineation
+dent
 depiction
 derivative
 design process
 detailed $$random_word texture
 dexter and sinister
 diacritic
+diagonals
+diagram
 dial
 diameter
 diamond rustication
@@ -400,6 +414,8 @@ dogleg
 doily
 doodad
 doodly-doo
+doorbell cam
+doppelgänger
 dot
 dough
 draft
@@ -413,6 +429,7 @@ dry ice
 duct
 dud
 due date
+duplicate
 duty
 dyad
 dynamical system
@@ -427,6 +444,7 @@ edge
 edict
 edifice
 edition
+effigy
 Eigenfunction
 eigenvector
 eighths
@@ -457,6 +475,7 @@ epitaph
 epitope
 epoxy
 epyllion
+equivalence
 ergodic
 esoteric
 essay
@@ -476,6 +495,7 @@ extremity
 fable
 facet
 facets
+facsimile
 fader
 faience
 faille fabric
@@ -588,6 +608,7 @@ hemmed in
 herd
 heresy
 hessian
+heuristics
 hi-hat
 hierarchy
 high energy
@@ -622,10 +643,12 @@ hydro
 hygroscopic
 hyperbolic manifold
 iamb
+ICBMs
 ice chips
 icing
 icloud photos
 ID badge
+ideogram
 ideographic
 idol
 Illumination
@@ -704,6 +727,7 @@ Le Nove porcelain
 leaking
 lede
 legend inset
+legume
 lehr oven
 lemma
 lemniscate
@@ -718,8 +742,10 @@ lid
 lidar
 life cycle
 lifestyle
+ligament
 light scattering
 lightly
+likeness
 limaçon of Pascal
 limerick
 limestone
@@ -740,6 +766,7 @@ lobe
 lock
 logarithm
 logogriph
+look-alike
 loom
 Lorentz transformation
 losses and debts
@@ -780,12 +807,14 @@ menu
 mere $$random_word
 metaphysics
 method
+methodology
 metrics
 metronome
 mezzotint
 mica
 mihrab
 military standard
+mirror image
 miscellany
 mist
 mode
@@ -799,6 +828,7 @@ Monarch
 moniker
 monogram
 monster truck
+montage
 morsel
 mortar
 mortise and tenon
@@ -806,8 +836,10 @@ motet
 mother-of-pearl
 motor
 movie trailer
+MS-DOS
 mudéjar
 mulch
+multimedia
 multiperspective
 multiple exposure technique
 muqarnas
@@ -817,13 +849,18 @@ musical scales
 muslin
 mutation
 nacre
+nadir
 nail
 nanometer
+nanophotography
+nanoplastic
+nanotech
 Naples porcelain
 Nation
 national
 Nativity
 nature
+Nendoroid
 nephrite
 neurons
 new releases
@@ -864,6 +901,7 @@ opaion
 open
 open set
 opus albarium
+orant
 orb
 orbit
 order
@@ -1232,6 +1270,7 @@ petiole
 petrified wood
 phase
 phial
+philosophy
 phloem
 photo op
 photochrome
@@ -1246,6 +1285,7 @@ photostream
 pic
 pics
 pictionary
+picture
 pie chart
 pigment
 pilaster
@@ -1282,6 +1322,7 @@ polymorph
 polymorphism
 polypropelene
 polypropylene
+pop-up book
 poptop
 port and starboard
 post-it notes
@@ -1333,6 +1374,7 @@ pylon
 pyroxene
 pyx
 qanat
+quadrants
 quadratura
 quality
 quartered
@@ -1381,10 +1423,12 @@ remix
 remnant
 repertoire
 repitition
+replica
 representational
 reprint
 reprise
 resampled image
+resemblance
 residue
 restored historic photograph
 result
@@ -1393,8 +1437,10 @@ retinue
 retro artstyle
 retro game
 revenue and assets
+reverb
 reverse
 reversed
+revue
 rhyme
 riff raff
 right angles
@@ -1443,11 +1489,14 @@ saran wrap
 satire
 SATOR AREPO TENET OPERA ROTAS
 sawtooth wave
+scads
 scalable
 scan
 scanning electron microscopy
+Scantron
 scattered
 Schlieren photography
+scintilla
 sclera
 sconce
 sconces
@@ -1466,6 +1515,7 @@ sebka
 secant
 sector
 seedling
+segment
 selfie
 semiconductors
 sense
@@ -1475,6 +1525,7 @@ serigraph
 serpentinite
 serum
 set
+set list
 set union
 sets
 sfm
@@ -1536,6 +1587,7 @@ slo-mo
 slogan
 sloop
 slope
+slot
 smartphone capture
 smeared
 smelted
@@ -1562,6 +1614,7 @@ solenoid
 solid
 solubility
 sonance
+soprano
 soul
 soundtrack
 source
@@ -1626,6 +1679,7 @@ stirred
 stitchery
 stoma
 stone veneer
+stop-motion
 stpryboard
 strands
 strange
@@ -1658,6 +1712,7 @@ subtitle
 suet
 suitable for various media
 Sumi-e
+sundry
 sunny
 super
 superconductor
@@ -1682,6 +1737,7 @@ synopsis
 syntax
 synthesis
 synthetic fiber
+T-bar
 tabernacle
 table-talk
 tabloid
@@ -1753,6 +1809,7 @@ tinge
 tinsel
 tire
 title
+toggle
 token
 tonal values
 tone
@@ -1762,6 +1819,7 @@ tool set
 tools
 tooltip
 tornado
+torque
 torso
 tort
 totem
@@ -1794,12 +1852,14 @@ travel book
 tray
 treads
 treatise
+treble
 tree bark
 trend
 trending on CGSociety
 triad
 trichrome
 trictrac board design
+trident
 trill
 trilogy
 trinity
@@ -1810,6 +1870,7 @@ trompe l'oeil
 trompe-l'œil
 truss
 trusses
+trypophobia
 tumbleweed
 tuner
 turf
@@ -1877,6 +1938,7 @@ vignette
 villanelle
 vinyl
 viscosity
+visual aids
 visualization
 visualization of algorithm
 vivid color
@@ -1889,6 +1951,7 @@ Vox Populi, Vox Dei
 voxel art
 wafer
 wallpaper
+want ad
 warm
 warp and weft
 washed-out colors

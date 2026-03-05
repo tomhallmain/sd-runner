@@ -156,6 +156,7 @@ Burn bridges
 Burn the midnight oil
 Business before pleasure
 By hook or by crook
+By the same token
 By the skin of your teeth
 Caesar's wife must be above suspicion
 Call it a day
@@ -164,6 +165,7 @@ Calm seas never made a good sailor
 Careless talk costs lives
 Catch my drift
 Catch-22
+Change [[my,your,one's,his,her,our,their]] ways
 Charity begins at home
 Cheats never prosper
 Cheese, wine, and friends must be old to be good
@@ -228,6 +230,7 @@ Down to earth
 Draw the line
 drawing a blank
 Drop in the bucket
+Drum roll please
 dumb luck
 Early marriage, earlier pregnant
 Early to bed and early to rise makes a man healthy, wealthy and wise
@@ -296,6 +299,7 @@ Genius is an infinite capacity for taking pains
 Get a grip
 Get a taste of your own medicine
 Get cold feet
+Get in on the ground floor
 Get out of hand
 Get the ball rolling
 Get the point
@@ -312,6 +316,7 @@ Give the cold shoulder
 Give the devil his/her due
 Giving it the old college try
 Go against the grain
+Go ahead... make my day
 Go back to the drawing board
 Go down in flames
 Go the extra mile
@@ -451,6 +456,7 @@ Judge not, that ye be not judged
 Jump on the bandwagon
 Jump the gun
 Just winging it
+Just you wait
 Keep it under your hat
 Keep your chin up
 Keep your eyes peeled
@@ -461,6 +467,7 @@ Kick the bucket
 Kill the chicken to scare the monkey
 Kill the goose that lays the golden egg
 Kill two birds with one stone
+Kind of a big deal
 Kindness in words creates confidence. Kindness in thinking creates profoundness. Kindness in giving creates love.
 Knock on wood
 Know the ropes
@@ -523,9 +530,11 @@ Many a little makes a mickle
 Many a mickle makes a muckle
 Many a true word is spoken in jest
 Many hands make light work
+Many happy returns of the day
 March comes in like a lion and goes out like a lamb
 Marriages are made in heaven
 Marry in haste repent at leisure
+May the force be with you
 Memory is the treasure of the mind
 Men are blind in their own cause
 Men get spoiled by staying women get spoiled by wandering
@@ -587,6 +596,8 @@ Not so sure
 Nothing is certain but death and taxes
 Nothing succeeds like success
 Nothing ventured nothing gained
+Now more than ever
+Odd man out
 Of course my horse (trademarked by Guadalupe Schmidt-Mumm)
 Off the beaten path
 Off the top of my head
@@ -636,6 +647,7 @@ Pearls of wisdom
 Penny for your thoughts
 Penny Penny. Makes many.
 Penny wise and pound foolish
+Pet owners tend to look like their pets
 Physician, heal thyself
 Pig in a poke
 Play it by ear
@@ -658,6 +670,7 @@ Put all your cards on the table
 Put your best foot forward
 Put your foot in your mouth
 Put your money where your mouth is
+Quick as a flash
 Rain does not fall on one roof alone
 Read between the lines
 Ready or not here I come
@@ -678,6 +691,7 @@ Rule of thumb
 Rules were made to be broken
 Run circles around
 Running in place
+Save the Date
 Saved by the bell
 Scratch the surface
 See a pin and pick it up all the day you will have good luck; See a pin and let it lay bad luck you will have all day
@@ -689,6 +703,7 @@ Seek and ye shall find
 Shiny are the distant hills
 Shoot the breeze
 Shrouds have no pockets
+Sink or swim
 Sit crooked and talk straight
 Sit tight
 Sixth sense
@@ -872,6 +887,7 @@ United we stand, divided we fall
 Unity is strength
 Until the lions have their historians, tales of the hunt shall always glorify the hunter
 Up a creek without a paddle
+Up and coming
 Up in arms
 Up to scratch
 Up to snuff
@@ -891,6 +907,7 @@ We'll cross that bridge when we come to it
 Wear your heart on your sleeve
 Well begun is half done
 Well done is better than well said
+Well isn't that something?
 What cannot be cured must be endured
 What does not kill me makes me stronger
 What goes around comes around
@@ -902,10 +919,12 @@ What the eye does not see (the heart does not grieve over)
 What the eye does not see, the heart does not grieve over
 What you lose on the swings you gain on the roundabouts
 Whatever floats your boat
+whatsoever
 When hell freezes over
 When in Rome do as the Romans do
 When it rains it pours
 When life gives you lemons, make lemonade
+When out on the lawn there arose such a chatter
 When pigs fly
 When the cat is away, the mice will play
 When the going gets tough, the tough get going
@@ -920,7 +939,9 @@ While there is life there is hope
 Who will bell the cat?
 Whom the Gods love die young
 Wild goose chase
+With all due respect
 With great power comes great responsibility
+Without fail
 Woe to the vanquished
 Woman is the root of both good and evil
 Wonders will never cease

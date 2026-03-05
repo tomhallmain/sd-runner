@@ -41,7 +41,9 @@ adding on to
 addressing
 administering
 admitting
+admonishing
 adoring
+adrenaline
 advancing
 advising
 affectation
@@ -171,6 +173,7 @@ beset
 beset by $$random_word
 bestowing
 betrayal
+bickering
 bidding
 biding [[my,your,our]] time
 biking
@@ -180,6 +183,7 @@ bird books or items bird-themed
 bird watching
 birdhouses
 blabs
+blending
 bless
 blinking
 blogging
@@ -211,6 +215,7 @@ breakin
 breaking a glass
 breaking in a $$random_word
 breaking up
+breakout
 breastfeeding
 brewery games
 bringing
@@ -306,6 +311,7 @@ clinging
 cloppity-clop
 closing
 co-hosting
+co-op play
 co-opting
 coasting
 coaxing
@@ -358,6 +364,7 @@ cost allocation
 counteroffer
 cover story
 covering
+cradling
 crafting 
 cramming
 crash and burn
@@ -373,6 +380,7 @@ cricut/silhouette crafts
 crochet
 crochet
 cross [[my,your]] heart
+cross check
 cross country
 cross stitch
 crossword puzzles
@@ -409,8 +417,10 @@ deciding
 decking the halls
 decoding
 decommissioning
+deducing
 defending
 defense
+defraying
 dehumidification
 deifying
 delighting
@@ -422,6 +432,7 @@ demurring
 denoting
 denouement
 denouncing
+denting
 departure
 depositing
 depreciating
@@ -487,6 +498,7 @@ drafted
 drafting
 drag racing
 dragging
+dragnet
 draining
 drat
 drawing
@@ -538,6 +550,7 @@ encoding
 encouraging
 end up $$random_word
 endeavor
+endeavoring
 endorsing
 endowing
 enhance!
@@ -550,6 +563,7 @@ entreating
 envisioning
 epiphany
 equippong
+eschewing
 establishing
 estop
 et tu?
@@ -597,6 +611,7 @@ farming
 fashion design
 fashion photography
 fashioning a $$random_word
+fastening
 fathoming
 feat
 feeding
@@ -675,6 +690,7 @@ games
 games surrounding a theme
 gardening
 gathering
+gearing up
 generating
 gesturing
 get back in the car
@@ -685,6 +701,7 @@ get real
 gettin' gains
 getting [[my,his,her,our,their]] order
 getting old
+getting on
 gibing
 gifting
 giving
@@ -765,6 +782,7 @@ hearing
 heat transfer
 heckling
 heed my warning
+heeding
 Heh-gotcha!
 heist
 Hello Kitty items or collectibles
@@ -884,6 +902,7 @@ interview with bystander
 intoning
 introducing
 inveighing
+inverting
 ironing out
 irritating
 inventing
@@ -908,6 +927,7 @@ joining a choir
 joke
 joking
 jotting
+jotting down
 Jubilee
 judging
 judo
@@ -980,7 +1000,9 @@ lip reading
 listening
 listening to music
 living
+loading
 loafing
+locking on[[to it,]]
 log rolling
 logging
 looking
@@ -1001,6 +1023,7 @@ luring in
 lying
 lying down
 lying on a $$random_word
+lysing
 machining
 magic
 magnets
@@ -1053,7 +1076,10 @@ military parade
 milking a cow
 milling
 miming
+mind games
+mind reading
 Minecraft
+miniature golf
 miniatures
 mining
 miracle
@@ -1073,6 +1099,7 @@ model cars
 model kits
 mollifying
 mollycoddling
+molting
 moment of impact
 momentum
 morphing
@@ -1089,6 +1116,7 @@ musical instruments
 musing
 Must have been the wind
 my turn
+mystify
 nabbed
 nail art
 napping
@@ -1150,6 +1178,7 @@ origami
 oscillating
 ouija
 out to lunch
+outlining
 outset
 overflowing
 overloading
@@ -1179,6 +1208,7 @@ participating
 participating in a $$random_word drive
 parting words
 party planning
+partying
 passing
 passing around
 passing the ball
@@ -1221,6 +1251,7 @@ pioneer
 pirouette
 pitching
 pitter-patter
+pivoting
 planning
 planting
 playing
@@ -1289,6 +1320,7 @@ pruning
 prying open
 public hearing
 pulling
+pulling $$random_word out of a hat
 pulling away
 pulling down
 pulling over
@@ -1329,6 +1361,7 @@ raking in
 Rally show
 rallying
 ran past
+ransacking
 ranting
 ratatat
 rationing
@@ -1345,6 +1378,7 @@ reanimating
 reaping
 reapplying
 rearing
+rearranging
 reassigning
 reawakening
 rebuking
@@ -1384,6 +1418,7 @@ reloading
 remaining
 remanding
 remark
+remastering
 remonstrating
 removing
 renouncing
@@ -1402,6 +1437,7 @@ reselling
 resetting
 resigning
 resisting
+resizing
 resonating
 resource allocation
 respecting
@@ -1413,6 +1449,7 @@ resting
 resting [[my,his,her]] head
 resting up
 restoring
+resurging
 resurrecting
 retaining
 retaliating
@@ -1420,11 +1457,13 @@ retape
 retooling
 retracing
 retribution
+retrying
 revelry
 revering
 revising
 revival
 revving
+rewiring
 ribbing
 ribbon cutting ceremony
 ricochet
@@ -1471,8 +1510,10 @@ running from $$random_word
 running into $$random_word
 running track
 S.O.S.
+sabotaging
 Sacrament
 said so
+sailing by
 Salchow jump
 saluting
 salvo
@@ -1547,6 +1588,7 @@ shooting an RPG
 shooting the breeze
 shoplifting
 shoulda woulda coulda
+shouldering
 shouting
 shoving
 showing
@@ -1628,6 +1670,7 @@ song and dance
 sought
 sowing seeds
 sparing
+sparring
 spawning
 speaking
 special ops
@@ -1705,12 +1748,14 @@ submitting
 substituting
 suggesting
 summiting
+surfacing
 surfing
 surging
 surprise ending
 surprising
 surrendering
 surveying
+sustaining
 swarm
 swaying
 swearing in
@@ -1752,6 +1797,7 @@ tapping in
 tapping out
 tarrying
 tasting
+tattling
 taunt
 tea items
 tea party
@@ -1797,6 +1843,7 @@ to-go order
 told ya
 toodaloo
 toot toot
+toppling
 touchdown!
 tour
 touting
@@ -1816,6 +1863,7 @@ trick shot
 trolling
 true to [[him,her,it,me]]
 trueing
+trundling
 try [[this,it]]
 tryouts
 tsking a detour
@@ -1828,6 +1876,7 @@ turning to stone
 tutoring
 twiddle
 twirling
+two-timing
 tying
 tissue paper crafts
 tossing a pizza
@@ -1854,6 +1903,8 @@ undertaking
 undo
 undoing
 unique spices, teas, coffees
+unleashing
+unloading
 unrolling
 unseating
 unusual or hard to find candy
@@ -1862,12 +1913,15 @@ up and about
 up to no good
 up to something
 upcycled art
+updraft
 upend
 upkeep
 upraising
 uproar
+upsot
 ushering in
 using an ATM
+utterance
 uttering
 vacating
 vacuuming
@@ -1878,6 +1932,7 @@ vaulting
 vaunting
 veering
 venting
+ventured
 vertigo
 video games
 viewing

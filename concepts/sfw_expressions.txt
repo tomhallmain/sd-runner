@@ -17,11 +17,13 @@ ardor
 Aren't I?
 ashamed
 askance
+averse to
 awestruck
 aww
 aye
 baffled
 Bah!
+balking at
 batting eyelids
 because why
 begging
@@ -48,6 +50,8 @@ Confused
 contempt
 Content
 contented
+conundrum
+crabby
 creepy smile
 cross-eyed
 crying
@@ -68,6 +72,7 @@ dour
 drat!
 drowsy
 dunno
+Egad
 elation
 empty stare
 enthralled
@@ -75,13 +80,16 @@ even so...
 exultant
 flabbergasted
 frenzied
+fretful
 fury
 fussy
 gibe
 gleeful
 gratified
 grimace
+grouchy
 grr
+gruff
 guileful expression
 hah!
 haha
@@ -136,6 +144,8 @@ mildly upset
 minds not
 minds quite a bit
 mirthful
+moody
+morose
 narrowed eyes
 Fatigued
 Festive
@@ -197,6 +207,7 @@ out of it
 Overjoyed
 Overwhelmed
 Panicked
+peevish
 Pensive
 Perplexed
 Pessimistic
@@ -223,6 +234,7 @@ resolve
 resting bitch face
 Restless
 revulsion
+roil
 rolling eyes
 rude
 sad
@@ -231,6 +243,7 @@ savoring
 scoff
 scrunched nose
 shame
+shrug
 Shy
 side-eye
 sighing
@@ -249,6 +262,7 @@ snarl
 sneering
 snivel
 snort
+solace
 Solemn
 somber
 sourpuss
@@ -263,6 +277,7 @@ straining
 Stressed
 sulk
 sulky
+sullen
 surly
 surprised
 suspicion

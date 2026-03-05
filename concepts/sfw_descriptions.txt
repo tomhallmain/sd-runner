@@ -15,6 +15,7 @@ acceptable
 accredited
 acumen
 add-on
+additive
 adorable
 adorbs
 adrift
@@ -28,6 +29,8 @@ alike
 all shook up
 all-time
 allegorical
+allowable
+almost
 aloof
 aloud
 amazing
@@ -36,10 +39,13 @@ amped
 amphibious
 angled
 anisometric
+anomalous
 aptitude
 arable
 arcane
 archaic
+archetypal
+ardent
 arduous
 arioso
 arisen
@@ -76,6 +82,7 @@ besmirched
 best in the world
 bimonthly
 bineural
+bipartite
 bizarre
 blatant
 boastful
@@ -94,6 +101,7 @@ bushy-tailed
 by-the-book
 callous
 cantankerous
+capricious
 certain
 charade
 charred
@@ -107,6 +115,7 @@ coherent
 collapsed
 color-coded
 committed
+compacted
 complementary
 complimentary
 comprehensive
@@ -138,6 +147,8 @@ deftly
 deific
 delimited
 deluxe
+derelict
+diagonal
 different
 dignified
 diligence
@@ -152,6 +163,7 @@ done up
 dour
 drastic
 dreamlike
+dreamy
 dreary
 dried out
 driven
@@ -241,6 +253,7 @@ genius
 gifted
 glacial
 glistening
+glorious
 godlike
 godly
 good-tempered
@@ -256,6 +269,7 @@ hasty
 hazily
 hearty
 heavy-set
+hefty
 helical
 hidden
 high cheekbones
@@ -305,7 +319,10 @@ intrepid
 intrigue
 intuitive
 invariable
+inverted
 invincible
+ipso facto
+irrational
 isometric
 it has a mind of its own
 it predates $$random_word by $$number years
@@ -315,6 +332,7 @@ just a tad
 juvenile
 keen
 keepsake
+kooky
 labeled
 labeled and color-coded
 laid-back
@@ -344,6 +362,7 @@ Mammalia
 maniacal
 manic
 marred
+massless
 matter-of-fact
 meager
 mean
@@ -365,6 +384,7 @@ most unfavorable
 much obliged
 mulish
 multilane
+multipart
 mundane
 mutated
 mute
@@ -393,17 +413,21 @@ obdurate
 oblate
 observant
 of great stature
+on-demand
 one of the good ones
 oomph
 operational
 opportunistic
 original
+orthodox
 ostentatious
 overbearing
 overloaded
 overt
+packed
 palacial
 paltry
+paramount
 parasitic
 parsimonious
 parted
@@ -433,9 +457,11 @@ primeval
 primordial
 pristine
 prodigal
+prominent
 promontory
 promoted
 pursuant to $$random_word
+quadratic
 quaint
 querulous
 rare
@@ -455,6 +481,7 @@ remastered
 repetitive
 resonant
 restored
+resurgent
 retractable
 ridiculous
 rife
@@ -521,6 +548,8 @@ scattershot
 scrawny
 screwy
 scruff
+scrupulous
+self-willed
 semidry
 sensible
 serious
@@ -528,6 +557,7 @@ serious-minded
 shaken
 shaky
 shielded
+shiftless
 short
 short-tempered
 shrill
@@ -549,10 +579,12 @@ snide
 snippy
 sober
 sobering
+solid
 soulful
 sparkling
 speckled
 spent
+splendid
 spry
 spun
 spunky
@@ -648,6 +680,7 @@ unkillable
 unmoving
 unobtrusive
 unordered
+unorthodox
 unpolished
 unreceptive
 unrecognizable
@@ -676,6 +709,7 @@ waverly
 wayward
 weary
 webbed
+weightless
 well-mannered
 well-rested
 wellaway
@@ -685,6 +719,7 @@ wicked
 wise
 wishy-washy
 witty
+wont
 woolen
 woolly
 worst in the world
