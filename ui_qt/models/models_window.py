@@ -17,17 +17,24 @@ from typing import TYPE_CHECKING, Any, Optional
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
-    QHBoxLayout, QHeaderView, QLabel, QLineEdit, QPlainTextEdit,
+    QComboBox, QHBoxLayout, QHeaderView, QLabel, QLineEdit, QPlainTextEdit,
     QPushButton, QTabWidget, QTreeWidget, QTreeWidgetItem,
     QVBoxLayout, QWidget,
 )
 
+from extensions.hf_hub_api import HfHubApiBackend
 from lib.multi_display_qt import SmartDialog
 from sd_runner.models import Model
 from ui.models_window import ModelsWindow as _ModelsBackend
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
-from utils.globals import ArchitectureType, ProtectedActions
+from utils.globals import (
+    ArchitectureType,
+    HfHubSortDirection,
+    HfHubSortOption,
+    HfHubVisualMediaTask,
+    ProtectedActions,
+)
 from utils.translations import I18N
 
 try:
@@ -80,6 +87,7 @@ class ModelsWindow(SmartDialog):
         super().__init__(parent=parent, title=_("Models"), geometry="800x450")
         self._app_actions = app_actions
         self._show_blacklisted = False
+        self._hf_api: Optional[HfHubApiBackend] = None
 
         Model.load_all_if_unloaded()
 
@@ -88,8 +96,10 @@ class ModelsWindow(SmartDialog):
 
         cp_page = QWidget()
         ad_page = QWidget()
+        hf_page = QWidget()
         self._tabs.addTab(cp_page, _("Checkpoints"))
         self._tabs.addTab(ad_page, _("LoRAs & Adapters"))
+        self._tabs.addTab(hf_page, _("HF Hub"))
 
         root = QVBoxLayout(self)
         root.setContentsMargins(10, 10, 10, 10)
@@ -98,6 +108,7 @@ class ModelsWindow(SmartDialog):
         # Build tabs
         self._build_checkpoints_tab(cp_page)
         self._build_adapters_tab(ad_page)
+        self._build_hf_hub_tab(hf_page)
 
         QShortcut(QKeySequence("Escape"), self, self.close)
         self.show()
@@ -219,6 +230,185 @@ class ModelsWindow(SmartDialog):
 
         self._refresh_adapter_list()
         self._update_cache_status()
+
+    # ------------------------------------------------------------------
+    # HF Hub tab
+    # ------------------------------------------------------------------
+    def _build_hf_hub_tab(self, page: QWidget) -> None:
+        layout = QVBoxLayout(page)
+
+        # Query + task + limits
+        query_row = QHBoxLayout()
+        query_row.addWidget(QLabel(_("Search")))
+        self._hf_query = QLineEdit()
+        self._hf_query.setPlaceholderText(_("e.g. flux, sdxl, controlnet, ip-adapter"))
+        query_row.addWidget(self._hf_query, stretch=1)
+
+        query_row.addWidget(QLabel(_("Task")))
+        self._hf_task = QComboBox()
+        for task in HfHubVisualMediaTask:
+            self._hf_task.addItem(task.display(), task.value)
+        query_row.addWidget(self._hf_task)
+
+        query_row.addWidget(QLabel(_("Sort")))
+        self._hf_sort = QComboBox()
+        for opt in HfHubSortOption:
+            self._hf_sort.addItem(opt.display(), opt.value)
+        self._hf_sort.setCurrentText(HfHubSortOption.DOWNLOADS.display())
+        query_row.addWidget(self._hf_sort)
+
+        query_row.addWidget(QLabel(_("Direction")))
+        self._hf_direction = QComboBox()
+        for d in HfHubSortDirection:
+            self._hf_direction.addItem(d.display(), d.value)
+        self._hf_direction.setCurrentText(HfHubSortDirection.DESCENDING.display())
+        query_row.addWidget(self._hf_direction)
+
+        query_row.addWidget(QLabel(_("Limit")))
+        self._hf_limit = QComboBox()
+        for v in ["25", "50", "100", "200"]:
+            self._hf_limit.addItem(v)
+        self._hf_limit.setCurrentText("100")
+        query_row.addWidget(self._hf_limit)
+        layout.addLayout(query_row)
+
+        # Results
+        self._hf_tree = QTreeWidget()
+        self._hf_tree.setHeaderLabels(
+            [_("Repo"), _("Task"), _("Downloads"), _("Likes"), _("License"), _("Gated")]
+        )
+        self._hf_tree.setRootIsDecorated(False)
+        self._hf_tree.setAlternatingRowColors(True)
+        hdr = self._hf_tree.header()
+        hdr.setStretchLastSection(True)
+        hdr.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        hdr.resizeSection(1, 150)
+        hdr.resizeSection(2, 90)
+        hdr.resizeSection(3, 70)
+        hdr.resizeSection(4, 110)
+        hdr.resizeSection(5, 70)
+        hdr.sectionClicked.connect(lambda col: _sort_tree(self._hf_tree, col))
+        layout.addWidget(self._hf_tree)
+
+        # Download controls
+        dl_row = QHBoxLayout()
+        dl_row.addWidget(QLabel(_("Filename")))
+        self._hf_filename = QLineEdit("model.safetensors")
+        dl_row.addWidget(self._hf_filename, stretch=1)
+
+        search_btn = QPushButton(_("Search"))
+        search_btn.clicked.connect(self._hf_search)
+        dl_row.addWidget(search_btn)
+
+        dl_file_btn = QPushButton(_("Download File"))
+        dl_file_btn.clicked.connect(self._hf_download_file)
+        dl_row.addWidget(dl_file_btn)
+
+        dl_snapshot_btn = QPushButton(_("Download Snapshot"))
+        dl_snapshot_btn.clicked.connect(self._hf_download_snapshot)
+        dl_row.addWidget(dl_snapshot_btn)
+        dl_row.addStretch()
+        layout.addLayout(dl_row)
+
+    def _hf_api_backend(self) -> HfHubApiBackend:
+        if self._hf_api is None:
+            self._hf_api = HfHubApiBackend()
+        return self._hf_api
+
+    def _hf_selected_repo(self) -> Optional[str]:
+        items = self._hf_tree.selectedItems()
+        if not items:
+            self._app_actions.toast(_("Select a model repository first"))
+            return None
+        return items[0].text(0)
+
+    def _hf_search(self) -> None:
+        try:
+            query = (self._hf_query.text() or "").strip()
+            task = HfHubVisualMediaTask.get(str(self._hf_task.currentData()))
+            sort = HfHubSortOption.get(str(self._hf_sort.currentData()))
+            direction = HfHubSortDirection.get(str(self._hf_direction.currentData()))
+            limit = int(self._hf_limit.currentText())
+            results = self._hf_api_backend().search_models(
+                query=query,
+                task=task,
+                limit=limit,
+                sort=sort,
+                direction=direction,
+                include_gated=True,
+            )
+
+            self._hf_tree.clear()
+            for r in results:
+                QTreeWidgetItem(
+                    self._hf_tree,
+                    [
+                        r.repo_id,
+                        r.task or "",
+                        str(r.downloads),
+                        str(r.likes),
+                        r.license,
+                        "yes" if r.gated else "no",
+                    ],
+                )
+            self._app_actions.toast(_("Found {0} results").format(len(results)))
+        except Exception as e:
+            self._app_actions.alert(
+                _("HF Hub Search Error"),
+                str(e),
+                kind="error",
+                master=self,
+            )
+
+    def _hf_download_file(self) -> None:
+        repo_id = self._hf_selected_repo()
+        if repo_id is None:
+            return
+        filename = (self._hf_filename.text() or "").strip()
+        if not filename:
+            self._app_actions.toast(_("Enter a filename first"))
+            return
+        try:
+            path = self._hf_api_backend().download_file(repo_id, filename)
+            self._app_actions.alert(
+                _("Download Complete"),
+                _("Downloaded to:\n{0}").format(path),
+                master=self,
+            )
+        except Exception as e:
+            self._app_actions.alert(
+                _("HF Hub Download Error"),
+                str(e),
+                kind="error",
+                master=self,
+            )
+
+    def _hf_download_snapshot(self) -> None:
+        repo_id = self._hf_selected_repo()
+        if repo_id is None:
+            return
+        # Keep broad but media-adjacent default patterns for model repos.
+        allow_patterns = [
+            "*.safetensors", "*.ckpt", "*.bin", "*.onnx", "*.pt", "*.pth",
+            "*.json", "*.txt", "*.yaml", "*.yml", "*.md",
+        ]
+        try:
+            path = self._hf_api_backend().download_snapshot(
+                repo_id,
+                allow_patterns=allow_patterns,
+            )
+            self._app_actions.alert(
+                _("Snapshot Download Complete"),
+                _("Downloaded to:\n{0}").format(path),
+                master=self,
+            )
+        except Exception as e:
+            self._app_actions.alert(
+                _("HF Hub Snapshot Error"),
+                str(e),
+                kind="error",
+                master=self,
+            )
 
     # ------------------------------------------------------------------
     # Data helpers

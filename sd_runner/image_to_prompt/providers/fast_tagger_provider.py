@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from extensions.model_download import ensure_hf_file
+from extensions.hf_hub_api import ensure_hf_file
 from sd_runner.image_to_prompt.base import ImageToPromptProvider
 from sd_runner.image_to_prompt.providers.fast_tagger_onnx import FastTaggerOnnx
 from sd_runner.image_to_prompt.types import (

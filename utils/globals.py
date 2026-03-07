@@ -140,6 +140,113 @@ class ModelBlacklistMode(Enum):
         raise ValueError(f"No ModelBlacklistMode with display value '{display_str}'")
 
 
+class HfHubVisualMediaTask(Enum):
+    ALL_VISUAL_MEDIA = ""
+    TEXT_TO_IMAGE = "text-to-image"
+    IMAGE_TO_IMAGE = "image-to-image"
+    IMAGE_TO_TEXT = "image-to-text"
+    IMAGE_CLASSIFICATION = "image-classification"
+    ZERO_SHOT_IMAGE_CLASSIFICATION = "zero-shot-image-classification"
+    OBJECT_DETECTION = "object-detection"
+    IMAGE_SEGMENTATION = "image-segmentation"
+    DEPTH_ESTIMATION = "depth-estimation"
+    VISUAL_QUESTION_ANSWERING = "visual-question-answering"
+    VIDEO_CLASSIFICATION = "video-classification"
+    TEXT_TO_VIDEO = "text-to-video"
+    IMAGE_FEATURE_EXTRACTION = "image-feature-extraction"
+
+    def __str__(self):
+        return self.value
+
+    def display(self):
+        return {
+            HfHubVisualMediaTask.ALL_VISUAL_MEDIA: _("All visual media"),
+            HfHubVisualMediaTask.TEXT_TO_IMAGE: _("Text to Image"),
+            HfHubVisualMediaTask.IMAGE_TO_IMAGE: _("Image to Image"),
+            HfHubVisualMediaTask.IMAGE_TO_TEXT: _("Image to Text"),
+            HfHubVisualMediaTask.IMAGE_CLASSIFICATION: _("Image Classification"),
+            HfHubVisualMediaTask.ZERO_SHOT_IMAGE_CLASSIFICATION: _("Zero-shot Image Classification"),
+            HfHubVisualMediaTask.OBJECT_DETECTION: _("Object Detection"),
+            HfHubVisualMediaTask.IMAGE_SEGMENTATION: _("Image Segmentation"),
+            HfHubVisualMediaTask.DEPTH_ESTIMATION: _("Depth Estimation"),
+            HfHubVisualMediaTask.VISUAL_QUESTION_ANSWERING: _("Visual Question Answering"),
+            HfHubVisualMediaTask.VIDEO_CLASSIFICATION: _("Video Classification"),
+            HfHubVisualMediaTask.TEXT_TO_VIDEO: _("Text to Video"),
+            HfHubVisualMediaTask.IMAGE_FEATURE_EXTRACTION: _("Image Feature Extraction"),
+        }[self]
+
+    @classmethod
+    def display_values(cls):
+        return [item.display() for item in cls]
+
+    @staticmethod
+    def get(name):
+        for key, value in HfHubVisualMediaTask.__members__.items():
+            if key == name or value.value == name or value.display() == name:
+                return value
+        raise Exception(f"Not a valid HF Hub visual media task: {name}")
+
+    @staticmethod
+    def api_values():
+        return [item.value for item in HfHubVisualMediaTask if item != HfHubVisualMediaTask.ALL_VISUAL_MEDIA]
+
+
+class HfHubSortOption(Enum):
+    DOWNLOADS = "downloads"
+    LIKES = "likes"
+    LAST_MODIFIED = "lastModified"
+    CREATED_AT = "createdAt"
+    TRENDING_SCORE = "trendingScore"
+
+    def __str__(self):
+        return self.value
+
+    def display(self):
+        return {
+            HfHubSortOption.DOWNLOADS: _("Downloads"),
+            HfHubSortOption.LIKES: _("Likes"),
+            HfHubSortOption.LAST_MODIFIED: _("Last Modified"),
+            HfHubSortOption.CREATED_AT: _("Created At"),
+            HfHubSortOption.TRENDING_SCORE: _("Trending Score"),
+        }[self]
+
+    @classmethod
+    def display_values(cls):
+        return [item.display() for item in cls]
+
+    @staticmethod
+    def get(name):
+        for key, value in HfHubSortOption.__members__.items():
+            if key == name or value.value == name or value.display() == name:
+                return value
+        raise Exception(f"Not a valid HF Hub sort option: {name}")
+
+
+class HfHubSortDirection(Enum):
+    DESCENDING = -1
+    ASCENDING = 1
+
+    def __str__(self):
+        return str(self.value)
+
+    def display(self):
+        return {
+            HfHubSortDirection.DESCENDING: _("Descending"),
+            HfHubSortDirection.ASCENDING: _("Ascending"),
+        }[self]
+
+    @classmethod
+    def display_values(cls):
+        return [item.display() for item in cls]
+
+    @staticmethod
+    def get(name):
+        for key, value in HfHubSortDirection.__members__.items():
+            if key == name or str(value.value) == str(name) or value.display() == name:
+                return value
+        raise Exception(f"Not a valid HF Hub sort direction: {name}")
+
+
 class Globals:
     SERVICE_NAME = "MyPersonalApplicationsService"
     APP_IDENTIFIER = "sd_runner"

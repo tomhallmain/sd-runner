@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from extensions.model_download import ensure_hf_snapshot
+from extensions.hf_hub_api import ensure_hf_snapshot
 from sd_runner.image_to_prompt.base import ImageToPromptProvider
 from sd_runner.image_to_prompt.types import (
     ImageToPromptBackend,
