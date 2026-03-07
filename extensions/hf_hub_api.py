@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from typing import Any, Optional
 
@@ -7,6 +8,10 @@ from utils.globals import HfHubSortDirection, HfHubSortOption, HfHubVisualMediaT
 from utils.logging_setup import get_logger
 
 logger = get_logger("image_to_prompt.model_download")
+
+# Reduce known HF Hub console noise on Windows/non-symlink setups and repeated cached fetches.
+os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
 
 def ensure_hf_file(repo_id: str, filename: str, cache_dir: str | None = None) -> str:
     """Download one file from Hugging Face Hub if missing and return its path.

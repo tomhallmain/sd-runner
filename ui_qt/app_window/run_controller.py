@@ -48,8 +48,6 @@ class RunController:
 
     def __init__(self, app_window):
         self._app = app_window
-        # Prompt before starting very long runs.
-        self.long_run_confirmation_threshold_seconds = 20 * 60
 
     # ------------------------------------------------------------------
     # Helpers
@@ -120,7 +118,7 @@ class RunController:
         from sd_runner.models import Model
         from sd_runner.gen_config import GenConfig
         from sd_runner.resolution import Resolution
-        from utils.globals import ResolutionGroup, WorkflowType
+        from utils.globals import Globals, ResolutionGroup, WorkflowType
         from utils.time_estimator import TimeEstimator
 
         app = self._app
@@ -215,8 +213,8 @@ class RunController:
                 if args.ip_adapters and args.ip_adapters != ""
                 else None
             )
-            control_nets, _ = get_control_nets(control_files, app_actions=None)
-            ip_adapters, _ = get_ip_adapters(ip_files, app_actions=None)
+            control_nets, _unused_ = get_control_nets(control_files, app_actions=None)
+            ip_adapters, _unused_ = get_ip_adapters(ip_files, app_actions=None)
         except Exception as e:
             logger.warning(f"Failed to include adapters in run estimate: {e}")
 
@@ -231,10 +229,10 @@ class RunController:
         )
         estimated_seconds = self.calculate_current_run_estimated_time(workflow_type, gen_config)
 
-        if estimated_seconds > self.long_run_confirmation_threshold_seconds:
+        if estimated_seconds > Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS:
             formatted_time = TimeEstimator.format_time(estimated_seconds)
             threshold_formatted = TimeEstimator.format_time(
-                self.long_run_confirmation_threshold_seconds
+                Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS
             )
             ok = app.notification_ctrl.alert(
                 _("Long Running Job Confirmation"),

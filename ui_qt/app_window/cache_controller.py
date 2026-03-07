@@ -53,6 +53,7 @@ class CacheController:
         from ui_qt.prompts.expansions_window import set_expansions as _set_expansions
         from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
         from ui_qt.prompts.prompt_config_window import PromptConfigWindow
+        from ui_qt.prompts.image_to_prompt_window import ImageToPromptWindow
         from sd_runner.timed_schedules_manager import timed_schedules_manager
         from ui_qt.auth.password_core import get_security_config
 
@@ -69,6 +70,7 @@ class CacheController:
             _set_expansions()
             timed_schedules_manager.set_schedules()
             RecentAdaptersWindow.load_recent_adapters()
+            ImageToPromptWindow.load_last_from_cache()
             # Security config is loaded automatically when first accessed
             get_security_config()
             runner_config = RunnerAppConfig.from_dict(
@@ -133,9 +135,9 @@ class CacheController:
     def store_display_position(self) -> None:
         """Save current window position and virtual screen info to cache."""
         try:
-            from utils.app_info_cache_qt import app_info_cache as qt_cache
-            qt_cache.set_display_position(self._app)
-            qt_cache.set_virtual_screen_info(self._app)
+            from utils.app_info_cache_qt import app_info_cache as app_info_cache
+            app_info_cache.set_display_position(self._app)
+            app_info_cache.set_virtual_screen_info(self._app)
         except Exception as e:
             logger.warning(f"Failed to store display position: {e}")
 
@@ -147,10 +149,10 @@ class CacheController:
         Ported from App.apply_cached_display_position (sibling project).
         """
         try:
-            from utils.app_info_cache_qt import app_info_cache as qt_cache
+            from utils.app_info_cache_qt import app_info_cache as app_info_cache
             from lib.position_data_qt import PositionData
 
-            position_data = qt_cache.get_display_position()
+            position_data = app_info_cache.get_display_position()
             if not position_data or not position_data.is_valid():
                 return False
             if not position_data.is_visible_on_display():

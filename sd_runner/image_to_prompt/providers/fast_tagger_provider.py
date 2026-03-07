@@ -13,7 +13,7 @@ from sd_runner.image_to_prompt.types import (
 class FastTaggerProvider(ImageToPromptProvider):
     """Fast tagger provider (WD-style ONNX with HF auto-download)."""
 
-    DEFAULT_REPO_ID = "SmilingWolf/wd-vit-tagger-v3"
+    DEFAULT_REPO_ID = "SmilingWolf/wd-swinv2-tagger-v3"
     DEFAULT_MODEL_FILE = "model.onnx"
     DEFAULT_TAGS_FILE = "selected_tags.csv"
 

@@ -9,6 +9,8 @@ Uses the pluggable backends in ``sd_runner.image_to_prompt``:
 
 from __future__ import annotations
 
+import datetime
+import os
 from typing import TYPE_CHECKING
 
 from PySide6.QtWidgets import (
@@ -28,6 +30,7 @@ from PySide6.QtWidgets import (
 from lib.multi_display_qt import SmartDialog
 from sd_runner.image_to_prompt import ImageToPromptBackend, ImageToPromptService
 from ui_qt.app_style import AppStyle
+from utils.app_info_cache_qt import app_info_cache
 from utils.translations import I18N
 
 if TYPE_CHECKING:
@@ -39,6 +42,8 @@ _ = I18N._
 
 class ImageToPromptWindow(SmartDialog):
     """One-shot image description/tagging -> prompt generation."""
+    LAST_IMAGE_TO_PROMPT_CACHE_KEY = "last_image_to_prompt"
+    _last_cached_payload: dict = {}
 
     def __init__(
         self,
@@ -54,7 +59,9 @@ class ImageToPromptWindow(SmartDialog):
         self.setStyleSheet(AppStyle.get_stylesheet())
         self._app = parent
         self._app_actions = app_actions
+        self._service_cache: dict[ImageToPromptBackend, ImageToPromptService] = {}
         self._build_ui()
+        self._restore_last_values()
         self.show()
 
     # ------------------------------------------------------------------
@@ -144,11 +151,24 @@ class ImageToPromptWindow(SmartDialog):
     # ------------------------------------------------------------------
     # Actions
     # ------------------------------------------------------------------
+    def _initial_image_dir(self) -> str:
+        current = self._image_path.text().strip()
+        cached = str(self.__class__._last_cached_payload.get("image_path", "") or "")
+        candidate = current or cached
+        if not candidate:
+            return ""
+        if os.path.isdir(candidate):
+            return candidate
+        parent = os.path.dirname(candidate)
+        if parent and os.path.isdir(parent):
+            return parent
+        return ""
+
     def _browse_image(self) -> None:
         path, _file_filter = QFileDialog.getOpenFileName(
             self,
             _("Select Image"),
-            "",
+            self._initial_image_dir(),
             _("Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"),
         )
         if path:
@@ -157,6 +177,68 @@ class ImageToPromptWindow(SmartDialog):
     def _selected_backend(self) -> ImageToPromptBackend:
         data = self._backend_combo.currentData()
         return ImageToPromptBackend(str(data))
+
+    def _service_for_backend(self, backend: ImageToPromptBackend) -> ImageToPromptService:
+        service = self._service_cache.get(backend)
+        if service is None:
+            service = ImageToPromptService.from_backend(backend)
+            self._service_cache[backend] = service
+        return service
+
+    @classmethod
+    def _normalize_cached_payload(cls, data) -> dict:
+        if not isinstance(data, dict):
+            return {}
+        return {
+            "image_path": str(data.get("image_path", "") or ""),
+            "prompt_value": str(data.get("prompt_value", "") or ""),
+            "negative_prompt": str(data.get("negative_prompt", "") or ""),
+            "method": str(data.get("method", "") or ""),
+        }
+
+    @classmethod
+    def load_last_from_cache(cls) -> dict:
+        data = app_info_cache.get(cls.LAST_IMAGE_TO_PROMPT_CACHE_KEY, default_val={})
+        cls._last_cached_payload = cls._normalize_cached_payload(data)
+        return cls._last_cached_payload
+
+    @classmethod
+    def save_last_to_cache(
+        cls,
+        image_path: str,
+        prompt_value: str,
+        method: str,
+        negative_prompt: str = "",
+    ) -> dict:
+        payload = {
+            "image_path": str(image_path or ""),
+            "prompt_value": str(prompt_value or ""),
+            "negative_prompt": str(negative_prompt or ""),
+            "method": str(method or ""),
+        }
+        app_info_cache.set(cls.LAST_IMAGE_TO_PROMPT_CACHE_KEY, payload)
+        app_info_cache.store()
+        cls._last_cached_payload = cls._normalize_cached_payload(payload)
+        return cls._last_cached_payload
+
+    def _restore_last_values(self) -> None:
+        data = self.__class__._last_cached_payload or self.load_last_from_cache()
+        if not isinstance(data, dict):
+            return
+        image_path = str(data.get("image_path", "") or "")
+        prompt_value = str(data.get("prompt_value", "") or "")
+        negative_prompt = str(data.get("negative_prompt", "") or "")
+        method = str(data.get("method", "") or "")
+        if image_path:
+            self._image_path.setText(image_path)
+        if prompt_value:
+            self._positive_box.setPlainText(prompt_value)
+        if negative_prompt:
+            self._negative_box.setPlainText(negative_prompt)
+        if method:
+            idx = self._backend_combo.findData(method)
+            if idx >= 0:
+                self._backend_combo.setCurrentIndex(idx)
 
     def _generate(self) -> None:
         image_path = self._image_path.text().strip()
@@ -167,9 +249,11 @@ class ImageToPromptWindow(SmartDialog):
         backend = self._selected_backend()
         include_negative = self._include_negative_cb.isChecked()
         prompt_hint = self._hint_edit.text().strip()
+        previous_positive = self._positive_box.toPlainText()
+        previous_negative = self._negative_box.toPlainText()
 
         try:
-            service = ImageToPromptService.from_backend(backend)
+            service = self._service_for_backend(backend)
             result = service.generate(
                 image_path=image_path,
                 prompt_hint=prompt_hint,
@@ -177,9 +261,28 @@ class ImageToPromptWindow(SmartDialog):
             )
             self._positive_box.setPlainText(result.positive_prompt or "")
             self._negative_box.setPlainText(result.negative_prompt or "")
+            positive_text = result.positive_prompt or ""
+            negative_text = result.negative_prompt or ""
+            changed = (positive_text != previous_positive) or (negative_text != previous_negative)
+            state_label = _("updated") if changed else _("unchanged")
+            image_name = os.path.basename(image_path) or image_path
+            timestamp = datetime.datetime.now().strftime("%H:%M:%S")
             self._status.setText(
-                _("Generated using backend: {0}").format(backend.value)
+                _("Generated ({0}: {1}) using backend: {2} [{3}]").format(
+                    state_label,
+                    image_name,
+                    backend.value,
+                    timestamp,
+                )
             )
+            self.save_last_to_cache(
+                image_path=image_path,
+                prompt_value=positive_text,
+                negative_prompt=negative_text,
+                method=backend.value,
+            )
+            if backend == ImageToPromptBackend.FAST_TAGGER and not positive_text.strip():
+                self._app_actions.toast(_("Fast tagger returned no tags; try a lower threshold."))
         except NotImplementedError as e:
             self._app_actions.alert(
                 _("Backend Not Configured"),
