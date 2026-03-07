@@ -166,7 +166,7 @@ class Globals:
     PROMPTER_GET_SPECIFIC_LOCATIONS = config.get("prompter_get_specific_locations", True)
     PROMPTER_GET_SPECIFIC_TIMES = config.get("prompter_get_specific_times", True)
     GENERATION_DELAY_TIME_SECONDS = 10
-    TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS = 7200  # 2 hours default threshold
+    TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS = 30 * 60  # 30 minutes default threshold
     image_data_extractor = None
 
     @classmethod
