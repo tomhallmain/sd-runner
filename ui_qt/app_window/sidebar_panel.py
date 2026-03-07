@@ -364,7 +364,16 @@ class SidebarPanel(QWidget):
             QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
         )
         btn_row3.addWidget(self.prompt_generator_btn, 1)
-        btn_row3.addStretch(1)
+
+        self.image_to_prompt_btn = QPushButton(_("Image to Prompt"))
+        self.image_to_prompt_btn.clicked.connect(
+            lambda: self._app.window_launcher.open_image_to_prompt_window()
+        )
+        self.image_to_prompt_btn.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
+        )
+        btn_row3.addWidget(self.image_to_prompt_btn, 1)
+
         btn_row3.addStretch(1)
         layout.addLayout(btn_row3)
 

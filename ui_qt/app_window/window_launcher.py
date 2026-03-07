@@ -135,6 +135,13 @@ class WindowLauncher:
         except Exception as e:
             self._handle_error(e, "Frequent Tags Window Error")
 
+    def open_image_to_prompt_window(self) -> None:
+        try:
+            from ui_qt.prompts.image_to_prompt_window import ImageToPromptWindow
+            self._open_window(ImageToPromptWindow)
+        except Exception as e:
+            self._handle_error(e, "Image to Prompt Window Error")
+
     # ------------------------------------------------------------------
     # Models / Adapters
     # ------------------------------------------------------------------

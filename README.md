@@ -8,7 +8,7 @@ This code is primarily a prompt engineering application that triggers ComfyUI wo
 <summary>⚠️ Warnings</summary>
 <ul>
 <li>This was originally developed during early 2024 and some prompts may be out of date with current versions of the respective image generation projects.</li>
-<li>Though any prompt applied to any model can result in undesirable images despite properly set negative prompts, prompt randomization increases the chance that undesirable images may be generated, even if only innocuous terms are included in the prompt, because the randomness allows for wider traversal of the model's latent space. For this reason it is wise to use a local prevalidation and content filtering tool. I recommend using [simple_image_compare](https://github.com/tomhallmain/simple_image_compare) which has many other features in addition to customizable prevalidations based on CLIP as well as HDF5 and PyTorch image classifier models.</li>
+<li>Though any prompt applied to any model can result in undesirable images despite properly set negative prompts, prompt randomization increases the chance that undesirable images may be generated even if only innocuous terms are included in the prompt, because the randomness allows for wider traversal of the model's latent space. For this reason it is wise to use a local prevalidation and content filtering tool. I recommend using [simple_image_compare](https://github.com/tomhallmain/simple_image_compare) which has many other features in addition to customizable prevalidations based on CLIP as well as HDF5 and PyTorch image classifier models.</li>
 <li>A default English dictionary is used for generating random words, some of which may be found objectionable. A word with a high degree of relation to strong feelings like disgust also tends to carry a lot of prompt weight, even if it is buried in a much larger prompt with no other similar words. Luckily this will often result in an "incoherent" result with earlier models, or a slightly objectionable result with later models, but there is still a chance of problematic images being generated. As a result you may choose not to use the `random_word` prompt variable, or implement a blacklist using the provided blacklist window which blocks prompts with undesirable strings or otherwise drops them from prompts. There is a default blacklist used if none is provided, which requires extra security to clear and even to reveal its concepts.</li>
 <li>If sharing your computer with multiple users, consider setting a password to lock the blacklist and other features.</li>
 <li>Continuously viewing random images may cause small lapses in sanity. Employ total randomness with caution.</li>
@@ -18,12 +18,11 @@ This code is primarily a prompt engineering application that triggers ComfyUI wo
 
 ## Running the Application
 
-The application has two UI frontends. Both use the same configuration and encrypted cache.
+The primary frontend is now PySide6/Qt.
 
-- **Tkinter (default):** `python app.py` or `start.bat`
 - **PySide6 (Qt):** `python app_qt.py` or `start_qt.bat`
 
-Both frontends are installable from the same `requirements.txt`. The PySide6 version offers a modernized interface with custom theming, frameless windows, and configurable UI scaling (`ui_scale_factor` in `config.json`).
+The legacy Tkinter frontend is slated for deprecation and kept only for transition/testing. Both frontends are still installable from the same `requirements.txt`. The PySide6 version offers a modernized interface with custom theming, frameless windows, and configurable UI scaling (`ui_scale_factor` in `config.json`).
 
 ## Configuration Options
 
@@ -156,6 +155,10 @@ Protected actions include:
 ## Server
 
 Set configuration options for a server port to make use of the server while the UI is running. Calls to the server made with Python's multiprocessing client will update the UI as specified, but leave anything unspecified as already set in the UI. This can be helpful to use in conjunction with other applications that involve images. For an example, see [this class](https://github.com/tomhallmain/simple_image_compare/blob/master/extensions/sd_runner_client.py).
+
+## Image to Prompt
+
+The PySide6 UI includes an **Image to Prompt** window that can generate prompt text from an image without starting image generation. Current backends include captioner and fast-tagger support (with automatic model download), with VLM left as a scaffolded backend for future work.
 
 ## Notes
 

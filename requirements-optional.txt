@@ -15,3 +15,14 @@ pyobjc-framework-Cocoa; sys_platform == 'darwin'
 # Linux: D-Bus for optional Secret Service keyring lock (utils/encryptor.py).
 # Not required for basic keyring get/set.
 dbus-python; sys_platform == 'linux'
+
+# Image-to-prompt backend model downloads (fast tagger / BLIP captioner).
+huggingface_hub
+
+# Fast tagger (WD-style ONNX inference).
+onnxruntime
+numpy
+Pillow
+
+# Captioner preferred path (Transformers BLIP). Falls back to legacy captioner if missing.
+transformers
