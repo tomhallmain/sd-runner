@@ -3,6 +3,7 @@ import json
 import os
 import shutil
 import threading
+import datetime
 
 from lib.position_data import PositionData
 from sd_runner.blacklist import Blacklist
@@ -302,22 +303,34 @@ class AppInfoCache:
             history.insert(0, config_dict)
             
             # Add to prompt history if there are positive tags
-            if runner_app_config.positive_tags and runner_app_config.positive_tags.strip():
-                prompt_history = self._get_prompt_history()
-                prompt_entry = {
-                    "positive_tags": runner_app_config.positive_tags,
-                    "negative_tags": runner_app_config.negative_tags,
-                    "timestamp": config_dict.get("timestamp", "")  # Preserve timestamp if available
-                }
-                prompt_history.insert(0, prompt_entry)
-                
-                # Trim prompt history if needed
-                while len(prompt_history) > AppInfoCache.MAX_PROMPT_HISTORY_ENTRIES:
-                    prompt_history.pop()
+            self.add_prompt_history_entry(
+                positive_tags=runner_app_config.positive_tags,
+                negative_tags=runner_app_config.negative_tags,
+                timestamp=config_dict.get("timestamp", ""),
+            )
             
             # Remove the oldest entry from history if over the limit of entries
             while len(history) > AppInfoCache.MAX_HISTORY_ENTRIES:
                 history.pop()
+            return True
+
+    def add_prompt_history_entry(self, positive_tags: str, negative_tags: str = "", timestamp: str = "") -> bool:
+        """Add one prompt to prompt history without modifying run history."""
+        with self._lock:
+            if not positive_tags or not str(positive_tags).strip():
+                return False
+            prompt_history = self._get_prompt_history()
+            entry = {
+                "positive_tags": str(positive_tags),
+                "negative_tags": str(negative_tags or ""),
+                "timestamp": str(timestamp or datetime.datetime.now().isoformat()),
+            }
+            if len(prompt_history) > 0 and prompt_history[0] == entry:
+                logger.debug("Prompt history already contains this prompt at top")
+                return False
+            prompt_history.insert(0, entry)
+            while len(prompt_history) > AppInfoCache.MAX_PROMPT_HISTORY_ENTRIES:
+                prompt_history.pop()
             return True
 
     def get_last_history_index(self):

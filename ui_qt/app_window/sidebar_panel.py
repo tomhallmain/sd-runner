@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
     QLabel, QLineEdit, QComboBox, QCheckBox, QPushButton,
     QPlainTextEdit, QSlider, QProgressBar, QScrollArea, QFrame,
-    QSplitter,
+    QSplitter, QSizePolicy,
 )
 from PySide6.QtCore import Qt
 
@@ -351,6 +351,22 @@ class SidebarPanel(QWidget):
         )
         btn_row2.addWidget(self.prompt_config_btn)
         layout.addLayout(btn_row2)
+
+        # Window launcher buttons (row 3)
+        btn_row3 = QHBoxLayout()
+        self.prompt_generator_btn = QPushButton(_("Prompt Generator"))
+        self.prompt_generator_btn.clicked.connect(
+            lambda: self._app.window_launcher.open_prompt_generator_window()
+        )
+        # Keep this button the same width as the row above by using a 3-column
+        # stretch layout where the first third is the button.
+        self.prompt_generator_btn.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
+        )
+        btn_row3.addWidget(self.prompt_generator_btn, 1)
+        btn_row3.addStretch(1)
+        btn_row3.addStretch(1)
+        layout.addLayout(btn_row3)
 
         # Prompt Mode + Concept Editor
         mode_row = QHBoxLayout()

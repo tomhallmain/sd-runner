@@ -113,6 +113,13 @@ class WindowLauncher:
         except Exception as e:
             self._handle_error(e, "Prompt Config Window Error")
 
+    def open_prompt_generator_window(self) -> None:
+        try:
+            from ui_qt.prompts.prompt_generator_window import PromptGeneratorWindow
+            self._open_window(PromptGeneratorWindow)
+        except Exception as e:
+            self._handle_error(e, "Prompt Generator Window Error")
+
     def open_frequent_tags_window(self) -> None:
         """Open the frequent prompt-tags browser.
 
