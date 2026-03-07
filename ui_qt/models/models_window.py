@@ -84,7 +84,7 @@ class ModelsWindow(SmartDialog):
     """PySide6 model and adapter browser with tabbed Checkpoints / LoRAs."""
 
     def __init__(self, parent: QWidget, app_actions: AppActions):
-        super().__init__(parent=parent, title=_("Models"), geometry="800x450")
+        super().__init__(parent=parent, title=_("Models"), geometry="980x560")
         self._app_actions = app_actions
         self._show_blacklisted = False
         self._hf_api: Optional[HfHubApiBackend] = None
@@ -242,6 +242,7 @@ class ModelsWindow(SmartDialog):
         query_row.addWidget(QLabel(_("Search")))
         self._hf_query = QLineEdit()
         self._hf_query.setPlaceholderText(_("e.g. flux, sdxl, controlnet, ip-adapter"))
+        self._hf_query.returnPressed.connect(self._hf_search)
         query_row.addWidget(self._hf_query, stretch=1)
 
         query_row.addWidget(QLabel(_("Task")))

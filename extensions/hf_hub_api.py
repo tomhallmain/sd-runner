@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass
 from typing import Any, Optional
 
@@ -111,6 +112,47 @@ class HfHubApiBackend:
         except Exception:
             return 0
 
+    @staticmethod
+    def _extract_unexpected_kwarg(error: TypeError) -> str:
+        msg = str(error)
+        m = re.search(r"unexpected keyword argument '([^']+)'", msg)
+        return str(m.group(1)) if m else ""
+
+    def _build_task_filter(self, task_value: str):
+        """Build a task filter object when supported by hub version."""
+        if not task_value:
+            return None
+        try:
+            from huggingface_hub import ModelFilter
+        except Exception:
+            return task_value
+        try:
+            return ModelFilter(task=task_value)
+        except Exception:
+            return task_value
+
+    def _list_models_compat(self, kwargs: dict[str, Any]):
+        """Call list_models with graceful fallback for older hub versions."""
+        call_kwargs = dict(kwargs)
+        # Keep retrying by removing unsupported args reported by TypeError.
+        for _ in range(8):
+            try:
+                return self._api.list_models(**call_kwargs)
+            except TypeError as e:
+                bad_kw = self._extract_unexpected_kwarg(e)
+                if not bad_kw:
+                    raise
+                if bad_kw in call_kwargs:
+                    call_kwargs.pop(bad_kw, None)
+                    continue
+                # Sometimes old versions fail on nested args (e.g. filter object shape).
+                if bad_kw == "task":
+                    call_kwargs.pop("task", None)
+                    call_kwargs.pop("filter", None)
+                    continue
+                raise
+        return self._api.list_models(**call_kwargs)
+
     def search_models(
         self,
         query: str = "",
@@ -134,14 +176,17 @@ class HfHubApiBackend:
             "Searching HF models: query=%s task=%s limit=%s sort=%s direction=%s",
             query, task_value, limit, sort_value, direction_value,
         )
-        model_iter = self._api.list_models(
-            search=(query or None),
-            task=(task_value or None),
-            sort=sort_value,
-            direction=direction_value,
-            full=True,
-            limit=limit,
-        )
+        list_models_kwargs: dict[str, Any] = {
+            "search": (query or None),
+            "sort": sort_value,
+            "direction": direction_value,
+            "full": True,
+            "limit": limit,
+        }
+        if task_value:
+            # Prefer modern ModelFilter path, fallback handled in _list_models_compat.
+            list_models_kwargs["filter"] = self._build_task_filter(task_value)
+        model_iter = self._list_models_compat(list_models_kwargs)
 
         results: list[HfModelSearchResult] = []
         for m in model_iter:
@@ -150,6 +195,10 @@ class HfHubApiBackend:
                 continue
             tags = self._safe_list(getattr(m, "tags", []))
             pipeline_tag = getattr(m, "pipeline_tag", "") or ""
+            # If server-side task filtering is unavailable in current hub version,
+            # keep a client-side fallback.
+            if task_value and pipeline_tag != task_value and task_value not in tags:
+                continue
             if visual_only and not task_value and pipeline_tag not in self.VISUAL_MEDIA_TASKS:
                 continue
             license_tag = ""
