@@ -6,6 +6,7 @@ management, progress updates, cancellation, and time estimation.
 """
 
 import datetime
+import os
 import time
 import traceback
 from copy import deepcopy
@@ -198,6 +199,7 @@ class RunController:
         # (especially directory inputs) are reflected in max generation count.
         control_nets = []
         ip_adapters = []
+        source_prompt_multiplier = 1
         try:
             from sd_runner.control_nets import get_control_nets
             from sd_runner.ip_adapters import get_ip_adapters
@@ -213,8 +215,29 @@ class RunController:
                 if args.ip_adapters and args.ip_adapters != ""
                 else None
             )
+            source_prompt_files = (
+                Utils.split(args.source_prompts, ",")
+                if getattr(args, "source_prompts", None) and args.source_prompts != ""
+                else None
+            )
             control_nets, _unused_ = get_control_nets(control_files, app_actions=None)
             ip_adapters, _unused_ = get_ip_adapters(ip_files, app_actions=None)
+            source_prompt_multiplier = 1
+            if source_prompt_files:
+                source_is_dir = len(source_prompt_files) == 1 and os.path.isdir(source_prompt_files[0])
+                source_iterates = source_is_dir or len(source_prompt_files) > 1
+                if source_iterates:
+                    if source_is_dir:
+                        source_prompt_multiplier = len(
+                            Utils.get_files_from_dir(
+                                source_prompt_files[0],
+                                recursive=False,
+                                random_sort=False,
+                                allowed_extensions=Utils.IMAGE_EXTENSIONS,
+                            )
+                        )
+                    else:
+                        source_prompt_multiplier = len([p for p in source_prompt_files if os.path.isfile(p)])
         except Exception as e:
             logger.warning(f"Failed to include adapters in run estimate: {e}")
 
@@ -228,6 +251,7 @@ class RunController:
             run_config=args,
         )
         estimated_seconds = self.calculate_current_run_estimated_time(workflow_type, gen_config)
+        estimated_seconds *= source_prompt_multiplier
 
         if estimated_seconds > Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS:
             formatted_time = TimeEstimator.format_time(estimated_seconds)
@@ -239,7 +263,7 @@ class RunController:
                 _("The estimated time for this run is {0}, which exceeds the threshold of {1}.\n\n"
                   "This run will generate {2} images.\n\n"
                   "Are you sure you want to proceed?").format(
-                    formatted_time, threshold_formatted, gen_config.maximum_gens_per_latent()
+                    formatted_time, threshold_formatted, gen_config.maximum_gens_per_latent() * source_prompt_multiplier
                 ),
                 kind="askokcancel",
             )
@@ -317,6 +341,8 @@ class RunController:
                 sp.controlnet_file_entry.setText(override_args["control_net"])
             if "ip_adapter" in override_args:
                 sp.ipadapter_file_entry.setText(override_args["ip_adapter"])
+            if "source_prompt" in override_args:
+                sp.source_prompt_file_entry.setText(override_args["source_prompt"])
 
             starting_total = int(sp.total_combo.currentText())
 
@@ -530,6 +556,14 @@ class RunController:
             logger.debug("Rerunning from server request with last settings.")
 
         if len(args) > 0:
+            if "source_prompt" in args:
+                source_path = args["source_prompt"].replace(",", "\\,")
+                if "append" in args and args["append"] and sp.source_prompt_file_entry.text().strip():
+                    sp.source_prompt_file_entry.setText(
+                        sp.source_prompt_file_entry.text() + "," + source_path
+                    )
+                else:
+                    sp.source_prompt_file_entry.setText(source_path)
             if "image" in args:
                 image_path = args["image"].replace(",", "\\,")
                 if workflow_type in [

@@ -232,7 +232,8 @@ class BaseImageGenerator(ABC):
                 try:
                     control_net = kwargs.get("control_net")
                     ip_adapter = kwargs.get("ip_adapter")
-                    self._record_recent_adapters(control_net, ip_adapter)
+                    prompt_image_path = getattr(self.gen_config, "prompt_image_path", "")
+                    self._record_recent_adapters(control_net, ip_adapter, prompt_image_path)
                 except Exception:
                     pass
                 return result
@@ -241,14 +242,16 @@ class BaseImageGenerator(ABC):
                 raise
         return wrapped
 
-    def _record_recent_adapters(self, control_net, ip_adapter) -> None:
-        """Record adapters used for a completed generation to the unified recent list."""
+    def _record_recent_adapters(self, control_net, ip_adapter, prompt_image_path: str = "") -> None:
+        """Record adapters/source prompt used for a started generation."""
         if self.ui_callbacks is None:
             return
         if control_net is not None and hasattr(control_net, "id") and control_net.id:
             self.ui_callbacks.add_recent_adapter_file(control_net.id)
         if ip_adapter is not None and hasattr(ip_adapter, "id") and ip_adapter.id:
             self.ui_callbacks.add_recent_adapter_file(ip_adapter.id)
+        if prompt_image_path and hasattr(self.ui_callbacks, "add_recent_source_prompt"):
+            self.ui_callbacks.add_recent_source_prompt(prompt_image_path)
 
     def _handle_error(self, error: Exception, task_name: str) -> None:
         from sd_runner.image_converter import ImageHandlingError

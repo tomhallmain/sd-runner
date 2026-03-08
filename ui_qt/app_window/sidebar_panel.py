@@ -286,6 +286,28 @@ class SidebarPanel(QWidget):
         )
         self.ipadapter_strength_slider.valueChanged.connect(self._on_ipadapter_strength_changed)
 
+        # Source Prompts
+        row_sp = QHBoxLayout()
+        row_sp.addWidget(QLabel(_("Source Prompts from Directory")))
+        self.source_prompt_recent_btn = QPushButton(_("Recent"))
+        self.source_prompt_recent_btn.clicked.connect(
+            lambda: self._app.window_launcher.open_source_prompt_adapters_window()
+        )
+        row_sp.addWidget(self.source_prompt_recent_btn)
+        layout.addLayout(row_sp)
+        self.source_prompt_file_entry = AwareEntry(self)
+        self.source_prompt_file_entry.setText(getattr(runner_cfg, "source_prompt_file", ""))
+        self.source_prompt_file_entry.textChanged.connect(self._on_source_prompt_path_changed)
+        layout.addWidget(self.source_prompt_file_entry)
+
+        self.source_prompt_add_user_prompt_check = QCheckBox(
+            _("Add User Prompt Tags to Sourced Prompt")
+        )
+        self.source_prompt_add_user_prompt_check.setChecked(
+            bool(getattr(runner_cfg, "source_prompt_add_user_prompt", False))
+        )
+        layout.addWidget(self.source_prompt_add_user_prompt_check)
+
         # Redo Parameters
         self.redo_params_entry = self._add_entry_row(
             layout, _("Redo Parameters"), runner_cfg.redo_params,
@@ -623,6 +645,13 @@ class SidebarPanel(QWidget):
         val = state == Qt.CheckState.Checked.value
         self._app.runner_app_config.override_negative = val
         Globals.set_override_base_negative(val)
+
+    def _on_source_prompt_path_changed(self, text: str) -> None:
+        self._app.runner_app_config.source_prompt_file = text
+        if text and text.strip():
+            take_display = PromptMode.TAKE.display()
+            if self.prompt_mode_combo.currentText() != take_display:
+                self.prompt_mode_combo.setCurrentText(take_display)
 
     # ------------------------------------------------------------------
     # Internal helpers

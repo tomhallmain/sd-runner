@@ -57,6 +57,8 @@ class GenConfig:
         self.continuous_seed_variation = run_config.continuous_seed_variation
         self.batch_limit = run_config.batch_limit
         self.run_config = run_config
+        # Runtime-only context (not part of static run config)
+        self.prompt_image_path = ""
 
     def is_xl(self) -> bool:
         return self.models[0].is_xl()

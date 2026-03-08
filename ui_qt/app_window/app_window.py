@@ -311,6 +311,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
                 self._set_adapter_from_adapters_window
             ),
             "add_recent_adapter_file": RecentAdaptersWindow.add_recent_adapter_file,
+            "add_recent_source_prompt": RecentAdaptersWindow.add_recent_source_prompt,
             "contains_recent_adapter_file": RecentAdaptersWindow.contains_recent_adapter_file,
             # Notifications (warn/success are AppActions convenience methods)
             "toast": ts(self.notification_ctrl.toast),
@@ -396,7 +397,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         if cfg is None:
             return
         sp = self.sidebar_panel
-        from utils.globals import WorkflowType
+        from utils.globals import WorkflowType, PromptMode
 
         sp.software_combo.setCurrentText(cfg.software_type)
         sp.workflow_combo.setCurrentText(
@@ -419,6 +420,10 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             int(float(cfg.control_net_strength) * 100)
         )
         sp.ipadapter_file_entry.setText(cfg.ip_adapter_file)
+        sp.source_prompt_file_entry.setText(getattr(cfg, "source_prompt_file", ""))
+        sp.source_prompt_add_user_prompt_check.setChecked(
+            bool(getattr(cfg, "source_prompt_add_user_prompt", False))
+        )
         sp.ipadapter_strength_slider.setValue(
             int(float(cfg.ip_adapter_strength) * 100)
         )
@@ -428,6 +433,8 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         sp.prompt_mode_combo.setCurrentText(
             cfg.prompter_config.prompt_mode.display()
         )
+        if getattr(cfg, "source_prompt_file", "").strip():
+            sp.prompt_mode_combo.setCurrentText(PromptMode.TAKE.display())
         sp.override_resolution_check.setChecked(cfg.override_resolution)
         sp.inpainting_check.setChecked(cfg.inpainting)
         sp.override_negative_check.setChecked(cfg.override_negative)
@@ -539,6 +546,19 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         args.ip_adapters = ipadapter_file
         RecentAdaptersWindow.add_recent_ipadapter(ipadapter_file)
 
+        source_prompt_file = clear_quotes(sp.source_prompt_file_entry.text())
+        self.runner_app_config.source_prompt_file = str(source_prompt_file)
+        args.source_prompts = source_prompt_file
+        RecentAdaptersWindow.add_recent_adapter_file(source_prompt_file)
+        source_prompt_add = sp.source_prompt_add_user_prompt_check.isChecked()
+        self.runner_app_config.source_prompt_add_user_prompt = source_prompt_add
+        args.source_prompts_add_user_prompt = source_prompt_add
+        if source_prompt_file.strip():
+            from utils.globals import PromptMode
+            self.runner_app_config.prompter_config.prompt_mode = PromptMode.TAKE
+            if args.prompter_config is not None:
+                args.prompter_config.prompt_mode = PromptMode.TAKE
+
         args.ip_adapter_strength = sp.ipadapter_strength_slider.value() / 100.0
         args.redo_params = sp.redo_params_entry.text()
 
@@ -590,13 +610,31 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             self.sidebar_panel._set_model_dependent_fields(new_val)
 
     def _set_adapter_from_adapters_window(
-        self, path: str, adapter_type: str = "controlnet"
+        self,
+        path: str,
+        adapter_type: str = "controlnet",
+        replace: bool = True,
+        is_controlnet: bool | None = None,
     ) -> None:
         """Insert an adapter path into the appropriate entry."""
-        if adapter_type == "ipadapter":
-            self.sidebar_panel.ipadapter_file_entry.setText(path)
+        if is_controlnet is not None:
+            adapter_type = "controlnet" if is_controlnet else "ipadapter"
+
+        if adapter_type == "source_prompt":
+            entry = self.sidebar_panel.source_prompt_file_entry
+        elif adapter_type == "ipadapter":
+            entry = self.sidebar_panel.ipadapter_file_entry
         else:
-            self.sidebar_panel.controlnet_file_entry.setText(path)
+            entry = self.sidebar_panel.controlnet_file_entry
+
+        current = (entry.text() or "").strip()
+        if replace or not current:
+            entry.setText(path)
+            return
+        if path in [p.strip() for p in current.split(",") if p.strip()]:
+            entry.setText(current)
+        else:
+            entry.setText(current + "," + path)
 
     # ------------------------------------------------------------------
     # Default config reset

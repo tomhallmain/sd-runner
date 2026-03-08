@@ -176,6 +176,14 @@ class WindowLauncher:
         except Exception as e:
             self._handle_error(e, "IPAdapter Adapters Window Error")
 
+    def open_source_prompt_adapters_window(self) -> None:
+        try:
+            from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
+            win = RecentAdaptersWindow(self._app, self._app.app_actions)
+            win.select_tab(2)
+        except Exception as e:
+            self._handle_error(e, "Source Prompt Adapters Window Error")
+
     # ------------------------------------------------------------------
     # Auth / Admin
     # ------------------------------------------------------------------

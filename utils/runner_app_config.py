@@ -29,6 +29,8 @@ class RunnerAppConfig:
         self.control_net_strength = str(Globals.DEFAULT_CONTROL_NET_STRENGTH)
         self.ip_adapter_file = ""
         self.ip_adapter_strength = str(Globals.DEFAULT_IPADAPTER_STRENGTH)
+        self.source_prompt_file = ""
+        self.source_prompt_add_user_prompt = False
         self.redo_params = "models,resolutions,seed,n_latents"
         self.random_skip_chance = str(BaseImageGenerator.RANDOM_SKIP_CHANCE)
         self.delay_time_seconds = str(Globals.GENERATION_DELAY_TIME_SECONDS)
@@ -68,6 +70,10 @@ class RunnerAppConfig:
         #self.negative_tags = args.negative_prompt
         self.control_net_file = args.control_nets if args.control_nets is not None else ""
         self.ip_adapter_file = args.ip_adapters if args.ip_adapters is not None else ""
+        self.source_prompt_file = args.source_prompts if args.source_prompts is not None else ""
+        self.source_prompt_add_user_prompt = bool(
+            getattr(args, "source_prompts_add_user_prompt", False)
+        )
         self.sampler = args.sampler.name
         self.scheduler = args.scheduler.name
         self.n_latents = args.n_latents
@@ -100,6 +106,10 @@ class RunnerAppConfig:
             app_config.sparse_mixed_tags = False  # Default to False for backward compatibility
         if not hasattr(app_config, 'batch_limit'):
             app_config.batch_limit = -1  # Default to -1 (no limit) for backward compatibility
+        if not hasattr(app_config, 'source_prompt_file'):
+            app_config.source_prompt_file = ""
+        if not hasattr(app_config, 'source_prompt_add_user_prompt'):
+            app_config.source_prompt_add_user_prompt = False
         if not isinstance(app_config.prompter_config, dict):
             raise Exception("Prompter config is not a dict")
         prompter_config_dict = deepcopy(app_config.prompter_config)

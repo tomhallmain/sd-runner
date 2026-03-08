@@ -37,6 +37,8 @@ class RunConfig:
         self.prompter_config = self.get("prompter_config")
         self.control_nets = self.get("control_nets")
         self.ip_adapters = self.get("ip_adapters")
+        self.source_prompts = self.get("source_prompts")
+        self.source_prompts_add_user_prompt = self.get("source_prompts_add_user_prompt")
         self.positive_prompt = self.get("positive_prompt")
         self.negative_prompt = self.get("negative_prompt")
         self.auto_run = self.get("auto_run")

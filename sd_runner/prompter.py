@@ -22,6 +22,8 @@ class Prompter:
     NEGATIVE_TAGS = config.dict["default_negative_tags"]
     TAGS_APPLY_TO_START = True
     IMAGE_DATA_EXTRACTOR = None
+    IMAGE_TO_PROMPT_CAPTIONER = None
+    IMAGE_TO_PROMPT_TAGGER = None
 
     """
     Has various functions for generating stable diffusion image generation prompts.
@@ -264,7 +266,43 @@ class Prompter:
     def take_prompt_from_image(related_image_path: str) -> tuple[str, str]:
         if Prompter.IMAGE_DATA_EXTRACTOR is None:
             Prompter.IMAGE_DATA_EXTRACTOR = ImageDataExtractor()
-        return Prompter.IMAGE_DATA_EXTRACTOR.extract(related_image_path)
+        positive, negative = Prompter.IMAGE_DATA_EXTRACTOR.extract(related_image_path)
+        positive = str(positive or "").strip()
+        negative = str(negative or "").strip()
+        if positive or negative:
+            return positive, negative
+
+        # Metadata may be absent. Fall back to captioner, then fast tagger.
+        try:
+            from sd_runner.image_to_prompt import ImageToPromptBackend, ImageToPromptService
+
+            if Prompter.IMAGE_TO_PROMPT_CAPTIONER is None:
+                Prompter.IMAGE_TO_PROMPT_CAPTIONER = ImageToPromptService.from_backend(
+                    ImageToPromptBackend.CAPTIONER
+                )
+            if Prompter.IMAGE_TO_PROMPT_TAGGER is None:
+                Prompter.IMAGE_TO_PROMPT_TAGGER = ImageToPromptService.from_backend(
+                    ImageToPromptBackend.FAST_TAGGER
+                )
+
+            caption_prompt = ""
+            tagger_prompt = ""
+            try:
+                caption_res = Prompter.IMAGE_TO_PROMPT_CAPTIONER.generate(image_path=related_image_path)
+                caption_prompt = str(caption_res.positive_prompt or "").strip()
+            except Exception as e:
+                logger.debug("Captioner fallback failed for %s: %s", related_image_path, e)
+            try:
+                tagger_res = Prompter.IMAGE_TO_PROMPT_TAGGER.generate(image_path=related_image_path)
+                tagger_prompt = str(tagger_res.positive_prompt or "").strip()
+            except Exception as e:
+                logger.debug("Fast tagger fallback failed for %s: %s", related_image_path, e)
+
+            combined = ", ".join([p for p in [caption_prompt, tagger_prompt] if p])
+            return combined, ""
+        except Exception as e:
+            logger.debug("Image-to-prompt fallback unavailable for %s: %s", related_image_path, e)
+            return "", ""
 
     @staticmethod
     def emphasize(mix: list[str], emphasis_chance: float = 0.1) -> None:

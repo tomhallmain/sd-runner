@@ -80,14 +80,16 @@ def _get_adapter_type(file_path: str, is_controlnet: bool) -> str:
 # ======================================================================
 
 class RecentAdaptersWindow(SmartDialog):
-    """PySide6 recent-adapters browser with four tabs."""
+    """PySide6 recent-adapters browser for accessing adapter history."""
 
     # Persistent storage for recent adapters (just file paths)
     _recent_controlnets: list[str] = []
     _recent_ipadapters: list[str] = []
+    _recent_source_prompts: list[str] = []
     _recent_adapter_files_split: list[str] = []
     _controlnet_cache = None
     _ipadapter_cache = None
+    _source_prompt_cache = None
     _cache_timestamp = None
 
     # Default constants
@@ -120,11 +122,14 @@ class RecentAdaptersWindow(SmartDialog):
             max_recent_split_items = RecentAdaptersWindow._get_max_recent_split_items()
             RecentAdaptersWindow._recent_controlnets = app_info_cache.get("recent_controlnets", [])
             RecentAdaptersWindow._recent_ipadapters = app_info_cache.get("recent_ipadapters", [])
+            RecentAdaptersWindow._recent_source_prompts = app_info_cache.get("recent_source_prompts", [])
             RecentAdaptersWindow._recent_adapter_files_split = app_info_cache.get("recent_adapter_files_split", [])
             if len(RecentAdaptersWindow._recent_controlnets) > max_recent_items:
                 RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:max_recent_items]
             if len(RecentAdaptersWindow._recent_ipadapters) > max_recent_items:
                 RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:max_recent_items]
+            if len(RecentAdaptersWindow._recent_source_prompts) > max_recent_items:
+                RecentAdaptersWindow._recent_source_prompts = RecentAdaptersWindow._recent_source_prompts[:max_recent_items]
             if len(RecentAdaptersWindow._recent_adapter_files_split) > max_recent_split_items:
                 RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:max_recent_split_items]
         except Exception as e:
@@ -132,6 +137,7 @@ class RecentAdaptersWindow(SmartDialog):
             logging.getLogger("ui_qt.recent_adapters_window").error(f"Failed to load recent adapters from cache: {e}")
             RecentAdaptersWindow._recent_controlnets = []
             RecentAdaptersWindow._recent_ipadapters = []
+            RecentAdaptersWindow._recent_source_prompts = []
             RecentAdaptersWindow._recent_adapter_files_split = []
 
     @staticmethod
@@ -140,6 +146,7 @@ class RecentAdaptersWindow(SmartDialog):
         try:
             app_info_cache.set("recent_controlnets", RecentAdaptersWindow._recent_controlnets)
             app_info_cache.set("recent_ipadapters", RecentAdaptersWindow._recent_ipadapters)
+            app_info_cache.set("recent_source_prompts", RecentAdaptersWindow._recent_source_prompts)
             app_info_cache.set("recent_adapter_files_split", RecentAdaptersWindow._recent_adapter_files_split)
         except Exception as e:
             import logging
@@ -178,6 +185,18 @@ class RecentAdaptersWindow(SmartDialog):
             RecentAdaptersWindow._recent_ipadapters.insert(0, path)
         if len(RecentAdaptersWindow._recent_ipadapters) > max_recent_items:
             RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:max_recent_items]
+
+    @staticmethod
+    def add_recent_source_prompt(file_path: str) -> None:
+        max_recent_items = RecentAdaptersWindow._get_max_recent_items()
+        valid_paths = RecentAdaptersWindow._validate_and_process_file_paths(file_path)
+        for path in valid_paths:
+            if path in RecentAdaptersWindow._recent_source_prompts:
+                RecentAdaptersWindow._recent_source_prompts.remove(path)
+            RecentAdaptersWindow._recent_source_prompts.insert(0, path)
+            RecentAdaptersWindow.add_recent_adapter_file(path)
+        if len(RecentAdaptersWindow._recent_source_prompts) > max_recent_items:
+            RecentAdaptersWindow._recent_source_prompts = RecentAdaptersWindow._recent_source_prompts[:max_recent_items]
 
     @staticmethod
     def add_recent_adapter_file(file_path: str) -> None:
@@ -224,10 +243,12 @@ class RecentAdaptersWindow(SmartDialog):
         self._tabs = QTabWidget()
         cn_page = QWidget()
         ip_page = QWidget()
+        src_page = QWidget()
         all_page = QWidget()
         cfg_page = QWidget()
         self._tabs.addTab(cn_page, _("Recent ControlNets"))
         self._tabs.addTab(ip_page, _("Recent IP Adapters"))
+        self._tabs.addTab(src_page, _("Recent Source Prompts"))
         self._tabs.addTab(all_page, _("All Recent Adapters"))
         self._tabs.addTab(cfg_page, _("Configuration"))
 
@@ -237,6 +258,7 @@ class RecentAdaptersWindow(SmartDialog):
 
         self._build_controlnet_tab(cn_page)
         self._build_ipadapter_tab(ip_page)
+        self._build_source_prompt_tab(src_page)
         self._build_all_tab(all_page)
         self._build_config_tab(cfg_page)
 
@@ -308,6 +330,38 @@ class RecentAdaptersWindow(SmartDialog):
         layout.addLayout(btn)
 
         self._refresh_ip()
+        self._update_cache_status()
+
+    # ==================================================================
+    # Source prompt tab
+    # ==================================================================
+    def _build_source_prompt_tab(self, page: QWidget) -> None:
+        layout = QVBoxLayout(page)
+        frow = QHBoxLayout()
+        frow.addWidget(QLabel(_("Filter")))
+        self._src_filter = QLineEdit()
+        self._src_filter.textChanged.connect(self._refresh_src)
+        frow.addWidget(self._src_filter)
+        layout.addLayout(frow)
+
+        self._src_cache_label = QLabel("")
+        layout.addWidget(self._src_cache_label)
+
+        self._src_tree = self._make_tree([_("Source Prompt File"), _("Type"), _("Created")])
+        self._src_tree.itemDoubleClicked.connect(lambda: self._select_src())
+        layout.addWidget(self._src_tree)
+
+        btn = QHBoxLayout()
+        for text, replace in [(_("Replace"), True), (_("Add"), False)]:
+            b = QPushButton(text)
+            b.clicked.connect(lambda _=False, r=replace: self._select_src(replace=r))
+            btn.addWidget(b)
+        refresh = QPushButton(_("Refresh")); refresh.clicked.connect(self._refresh_cache); btn.addWidget(refresh)
+        close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
+        btn.addStretch()
+        layout.addLayout(btn)
+
+        self._refresh_src()
         self._update_cache_status()
 
     # ==================================================================
@@ -437,6 +491,16 @@ class RecentAdaptersWindow(SmartDialog):
             QTreeWidgetItem(self._ip_tree, [n, t, c])
         self._ip_tree.sortItems(1, Qt.SortOrder.AscendingOrder)
 
+    def _refresh_src(self) -> None:
+        ft = (self._src_filter.text() or "").lower()
+        data = self._cached_src()
+        if ft:
+            data = [(n, t, c) for n, t, c in data if ft in n.lower()]
+        self._src_tree.clear()
+        for n, t, c in data:
+            QTreeWidgetItem(self._src_tree, [n, t, c])
+        self._src_tree.sortItems(1, Qt.SortOrder.AscendingOrder)
+
     def _refresh_all(self) -> None:
         ft = (self._all_filter.text() or "").lower()
         data = [
@@ -453,9 +517,11 @@ class RecentAdaptersWindow(SmartDialog):
     def _refresh_cache(self) -> None:
         RecentAdaptersWindow._controlnet_cache = None
         RecentAdaptersWindow._ipadapter_cache = None
+        RecentAdaptersWindow._source_prompt_cache = None
         RecentAdaptersWindow._cache_timestamp = None
         self._refresh_cn()
         self._refresh_ip()
+        self._refresh_src()
         self._update_cache_status()
 
     # ------------------------------------------------------------------
@@ -479,6 +545,15 @@ class RecentAdaptersWindow(SmartDialog):
             RecentAdaptersWindow._cache_timestamp = time.time()
         return RecentAdaptersWindow._ipadapter_cache
 
+    def _cached_src(self) -> list[tuple[str, str, str]]:
+        if RecentAdaptersWindow._source_prompt_cache is None:
+            RecentAdaptersWindow._source_prompt_cache = [
+                (fp, "Source Prompt", _get_file_creation_date(fp))
+                for fp in RecentAdaptersWindow._recent_source_prompts
+            ]
+            RecentAdaptersWindow._cache_timestamp = time.time()
+        return RecentAdaptersWindow._source_prompt_cache
+
     def _update_cache_status(self) -> None:
         prefix = _("Cache")
         if RecentAdaptersWindow._cache_timestamp is None:
@@ -491,6 +566,7 @@ class RecentAdaptersWindow(SmartDialog):
         for lbl in [
             getattr(self, "_cn_cache_label", None),
             getattr(self, "_ip_cache_label", None),
+            getattr(self, "_src_cache_label", None),
         ]:
             if lbl:
                 lbl.setText(text)
@@ -514,6 +590,19 @@ class RecentAdaptersWindow(SmartDialog):
         fp = items[0].text(0)
         RecentAdaptersWindow.add_recent_ipadapter(fp)
         self._app_actions.set_adapter_from_adapters_window(fp, is_controlnet=False, replace=replace)
+        self.close()
+
+    def _select_src(self, replace: bool = True) -> None:
+        items = self._src_tree.selectedItems()
+        if not items:
+            return
+        fp = items[0].text(0)
+        RecentAdaptersWindow.add_recent_source_prompt(fp)
+        self._app_actions.set_adapter_from_adapters_window(
+            fp,
+            adapter_type="source_prompt",
+            replace=replace,
+        )
         self.close()
 
     def _select_all(self, is_controlnet: bool, replace: bool) -> None:
@@ -555,5 +644,7 @@ class RecentAdaptersWindow(SmartDialog):
             RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:max_items]
         if len(RecentAdaptersWindow._recent_ipadapters) > max_items:
             RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:max_items]
+        if len(RecentAdaptersWindow._recent_source_prompts) > max_items:
+            RecentAdaptersWindow._recent_source_prompts = RecentAdaptersWindow._recent_source_prompts[:max_items]
         if len(RecentAdaptersWindow._recent_adapter_files_split) > max_split:
             RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:max_split]
