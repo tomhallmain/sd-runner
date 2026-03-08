@@ -195,10 +195,11 @@ class RunController:
             architecture_type=models[0].architecture_type,
             resolution_group=resolution_group,
         )
-        # Include adapters in time estimation so large adapter combinations
-        # (especially directory inputs) are reflected in max generation count.
+        # Include adapter/source combinations in time estimation.
         control_nets = []
         ip_adapters = []
+        is_dir_controlnet = False
+        is_dir_ipadapter = False
         source_prompt_multiplier = 1
         try:
             from sd_runner.control_nets import get_control_nets
@@ -220,8 +221,8 @@ class RunController:
                 if getattr(args, "source_prompts", None) and args.source_prompts != ""
                 else None
             )
-            control_nets, _unused_ = get_control_nets(control_files, app_actions=None)
-            ip_adapters, _unused_ = get_ip_adapters(ip_files, app_actions=None)
+            control_nets, is_dir_controlnet = get_control_nets(control_files, app_actions=None)
+            ip_adapters, is_dir_ipadapter = get_ip_adapters(ip_files, app_actions=None)
             source_prompt_multiplier = 1
             if source_prompt_files:
                 source_is_dir = len(source_prompt_files) == 1 and os.path.isdir(source_prompt_files[0])
@@ -241,17 +242,47 @@ class RunController:
         except Exception as e:
             logger.warning(f"Failed to include adapters in run estimate: {e}")
 
+        valid_control_nets = [c for c in control_nets if c.is_valid()]
+        valid_ip_adapters = [i for i in ip_adapters if i.is_valid()]
+        iterate_control = bool(is_dir_controlnet)
+        iterate_ip = bool(is_dir_ipadapter)
+        iterate_source = source_prompt_multiplier > 1
+
+        # For directory iteration modes, estimate one adapter per iteration,
+        # then multiply by the number of adapter iterations separately.
+        estimate_control_nets = (
+            valid_control_nets[:1] if iterate_control and len(valid_control_nets) > 0 else valid_control_nets
+        )
+        estimate_ip_adapters = (
+            valid_ip_adapters[:1] if iterate_ip and len(valid_ip_adapters) > 0 else valid_ip_adapters
+        )
+
+        adapter_iterations = 1
+        if iterate_control:
+            adapter_iterations *= len(valid_control_nets)
+        if iterate_ip:
+            adapter_iterations *= len(valid_ip_adapters)
+        if iterate_source:
+            adapter_iterations *= source_prompt_multiplier
+        if adapter_iterations < 1:
+            adapter_iterations = 1
+
+        if args.batch_limit is not None and args.batch_limit > 0:
+            adapter_iterations = min(adapter_iterations, int(args.batch_limit))
+
         gen_config = GenConfig(
             workflow_id=workflow_type,
             models=models,
             n_latents=args.n_latents,
             resolutions=resolutions,
-            control_nets=control_nets,
-            ip_adapters=ip_adapters,
+            control_nets=estimate_control_nets,
+            ip_adapters=estimate_ip_adapters,
             run_config=args,
         )
-        estimated_seconds = self.calculate_current_run_estimated_time(workflow_type, gen_config)
-        estimated_seconds *= source_prompt_multiplier
+        per_iteration_images = max(1, gen_config.maximum_gens_per_latent())
+        requested_total = int(args.total) if args.total and args.total > 0 else 1
+        estimated_image_count = per_iteration_images * requested_total * adapter_iterations
+        estimated_seconds = TimeEstimator.estimate_queue_time(estimated_image_count, gen_config.n_latents)
 
         if estimated_seconds > Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS:
             formatted_time = TimeEstimator.format_time(estimated_seconds)
@@ -263,7 +294,7 @@ class RunController:
                 _("The estimated time for this run is {0}, which exceeds the threshold of {1}.\n\n"
                   "This run will generate {2} images.\n\n"
                   "Are you sure you want to proceed?").format(
-                    formatted_time, threshold_formatted, gen_config.maximum_gens_per_latent() * source_prompt_multiplier
+                    formatted_time, threshold_formatted, estimated_image_count
                 ),
                 kind="askokcancel",
             )
