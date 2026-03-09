@@ -271,7 +271,9 @@ class ComfyGen(BaseImageGenerator):
                         logger.debug(f"Getting image: {image['filename']}")
                         image_data = ComfyGen.get_image(image['filename'], image['subfolder'], image['type'])
                         images_output.append(image_data)
-                        
+
+                        # TODO - this path is not working because the connection is typically hitting a 404,
+                        # probably because ComfyUI is either not ready when we request or it closes it for some reason.                        
                         # Save image with EXIF data containing original prompt decomposition
                         if prompter_config is not None:
                             # Construct the expected file path where ComfyUI saves the image
