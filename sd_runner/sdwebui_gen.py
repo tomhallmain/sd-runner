@@ -103,8 +103,18 @@ class SDWebuiGen(BaseImageGenerator):
             data=data,
         )
         try:
+            effective_related_image_path = related_image_path
+            if effective_related_image_path is None:
+                fallback_prompt_image = getattr(self.gen_config, "prompt_image_path", "")
+                if fallback_prompt_image:
+                    effective_related_image_path = fallback_prompt_image
             resp = request.urlopen(req)
-            result = self.save_image_data(resp, related_image_path, workflow, self.gen_config.get_prompter_config())
+            result = self.save_image_data(
+                resp,
+                effective_related_image_path,
+                workflow,
+                self.gen_config.get_prompter_config(),
+            )
         except error.URLError as e:
             print(f"[CLIENT ERROR] URLError: {e}")
             if related_image_path:

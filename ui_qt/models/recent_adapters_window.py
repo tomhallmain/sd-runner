@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING, Optional
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
+    QApplication,
     QCheckBox, QHBoxLayout, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSpinBox, QTabWidget, QTreeWidget, QTreeWidgetItem,
     QVBoxLayout, QWidget,
@@ -292,6 +293,9 @@ class RecentAdaptersWindow(SmartDialog):
             b = QPushButton(text)
             b.clicked.connect(lambda _=False, r=replace: self._select_cn(replace=r))
             btn.addWidget(b)
+        copy_btn = QPushButton(_("Copy"))
+        copy_btn.clicked.connect(lambda: self._copy_selected_path(self._cn_tree))
+        btn.addWidget(copy_btn)
         refresh = QPushButton(_("Refresh")); refresh.clicked.connect(self._refresh_cache); btn.addWidget(refresh)
         close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
         btn.addStretch()
@@ -324,6 +328,9 @@ class RecentAdaptersWindow(SmartDialog):
             b = QPushButton(text)
             b.clicked.connect(lambda _=False, r=replace: self._select_ip(replace=r))
             btn.addWidget(b)
+        copy_btn = QPushButton(_("Copy"))
+        copy_btn.clicked.connect(lambda: self._copy_selected_path(self._ip_tree))
+        btn.addWidget(copy_btn)
         refresh = QPushButton(_("Refresh")); refresh.clicked.connect(self._refresh_cache); btn.addWidget(refresh)
         close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
         btn.addStretch()
@@ -356,6 +363,9 @@ class RecentAdaptersWindow(SmartDialog):
             b = QPushButton(text)
             b.clicked.connect(lambda _=False, r=replace: self._select_src(replace=r))
             btn.addWidget(b)
+        copy_btn = QPushButton(_("Copy"))
+        copy_btn.clicked.connect(lambda: self._copy_selected_path(self._src_tree))
+        btn.addWidget(copy_btn)
         refresh = QPushButton(_("Refresh")); refresh.clicked.connect(self._refresh_cache); btn.addWidget(refresh)
         close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
         btn.addStretch()
@@ -393,6 +403,9 @@ class RecentAdaptersWindow(SmartDialog):
             b = QPushButton(text)
             b.clicked.connect(lambda _=False, _cn=cn, _r=repl: self._select_all(_cn, _r))
             btn.addWidget(b)
+        copy_btn = QPushButton(_("Copy"))
+        copy_btn.clicked.connect(lambda: self._copy_selected_path(self._all_tree))
+        btn.addWidget(copy_btn)
         close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
         btn.addStretch()
         layout.addLayout(btn)
@@ -471,6 +484,17 @@ class RecentAdaptersWindow(SmartDialog):
     # ==================================================================
     # Refresh lists
     # ==================================================================
+    def _copy_selected_path(self, tree: QTreeWidget) -> None:
+        items = tree.selectedItems()
+        if not items:
+            self._app_actions.toast(_("Select a row first"))
+            return
+        path = items[0].text(0)
+        clipboard = QApplication.clipboard()
+        if clipboard is not None:
+            clipboard.setText(path)
+            self._app_actions.toast(_("Copied path to clipboard"))
+
     def _refresh_cn(self) -> None:
         ft = (self._cn_filter.text() or "").lower()
         data = self._cached_cn()

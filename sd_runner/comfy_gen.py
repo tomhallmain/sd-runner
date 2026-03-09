@@ -130,7 +130,12 @@ class ComfyGen(BaseImageGenerator):
             ws = websocket.WebSocket()
             ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, ComfyGen.CLIENT_ID))
             ComfyGen.add_connection(ws)  # Track the new connection
-            images = ComfyGen.get_images(ws, json.loads(data.decode('utf-8')), self.gen_config.get_prompter_config())
+            images = ComfyGen.get_images(
+                ws,
+                json.loads(data.decode('utf-8')),
+                self.gen_config.get_prompter_config(),
+                related_image_path=self.gen_config.prompt_image_path if self.gen_config.prompt_image_path else None,
+            )
             try:
                 ws.close() # Need this to avoid random timeouts, memory leaks, etc.
             except Exception:
@@ -189,7 +194,12 @@ class ComfyGen(BaseImageGenerator):
         # except error.URLError:
         #     raise Exception("Failed to connect to ComfyUI. Is ComfyUI running?")
     @staticmethod
-    def get_images(ws, prompt, prompter_config: Optional[PrompterConfiguration]=None):
+    def get_images(
+        ws,
+        prompt,
+        prompter_config: Optional[PrompterConfiguration]=None,
+        related_image_path: Optional[str] = None,
+    ):
         logger.debug("Queueing prompt to ComfyUI...")
         prompt_id = ComfyGen._queue_prompt(prompt)['prompt_id']
         logger.debug(f"Got prompt ID: {prompt_id}")
@@ -266,6 +276,8 @@ class ComfyGen(BaseImageGenerator):
                         if prompter_config is not None:
                             # Construct the expected file path where ComfyUI saves the image
                             save_path = os.path.join(config.get_comfyui_save_path(), f'ComfyUI_{image["filename"]}')
+                            if related_image_path is not None:
+                                Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
                             Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(save_path, prompter_config.original_positive_tags, original_negative_tags=None)
                 output_images[node_id] = images_output
 
