@@ -366,6 +366,7 @@ class Blacklist:
     CACHE_MAXSIZE = 64
     CACHE_LARGE_THRESHOLD = 1024 * 1024 * 8
     CACHE_MAX_LARGE_ITEMS = 4
+    CACHE_AUTOSAVE_CONCEPT_THRESHOLD = 20000
     DEFAULT_BLACKLIST_FILE_LOC = os.path.join(os.path.dirname(__file__), "data", "blacklist_default.enc")
     _ui_callbacks = None  # Static variable to store UI callbacks
     _filter_cache = SizeAwarePicklableCache.load_or_create(
@@ -560,6 +561,13 @@ class Blacklist:
         if do_cache:
             try:
                 Blacklist._filter_cache.put(concepts_tuple, result)
+                # Persist expensive pre-filter results immediately so they survive
+                # unexpected restarts/crashes before periodic app cache flush.
+                if concepts_count >= Blacklist.CACHE_AUTOSAVE_CONCEPT_THRESHOLD:
+                    try:
+                        Blacklist._filter_cache.save()
+                    except Exception as save_error:
+                        logger.warning(f"Failed to autosave blacklist filter cache: {save_error}")
             except Exception as e:
                 raise Exception(f"Error caching blacklist result: {e}", e)
         

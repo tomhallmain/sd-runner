@@ -2,6 +2,7 @@ from collections import OrderedDict
 import os
 import pickle
 import sys
+import tempfile
 import threading
 from pickle import UnpicklingError
 
@@ -85,8 +86,17 @@ class PicklableCache:
         temp_cache = PicklableCache(state[0], state[1])
         temp_cache.cache = state[2]
         
-        with open(save_filename, 'wb') as f:
-            pickle.dump(temp_cache, f)
+        # Write to a temp file first, then atomically replace the target file.
+        # This avoids leaving a truncated/corrupt cache if the process exits mid-write.
+        target_dir = os.path.dirname(save_filename) or "."
+        fd, temp_path = tempfile.mkstemp(prefix="picklable_cache_", suffix=".tmp", dir=target_dir)
+        try:
+            with os.fdopen(fd, 'wb') as f:
+                pickle.dump(temp_cache, f)
+            os.replace(temp_path, save_filename)
+        finally:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
         
         # Update filename only if saving succeeded
         if filename and filename != self.filename:
@@ -130,7 +140,7 @@ class PicklableCache:
                 # Cache is outdated, create a new one
                 cache = cls(maxsize, filename)
             return cache
-        except (FileNotFoundError, UnpicklingError):
+        except (FileNotFoundError, UnpicklingError, EOFError, ValueError, AttributeError):
             return cls(maxsize, filename)
 
 
@@ -287,8 +297,17 @@ class SizeAwarePicklableCache:
         temp_cache.total_size = state[6]
         temp_cache.version_cache = state[7]
         
-        with open(save_file, 'wb') as f:
-            pickle.dump(temp_cache, f)
+        # Write to a temp file first, then atomically replace the target file.
+        # This avoids leaving a truncated/corrupt cache if the process exits mid-write.
+        target_dir = os.path.dirname(save_file) or "."
+        fd, temp_path = tempfile.mkstemp(prefix="sizeaware_cache_", suffix=".tmp", dir=target_dir)
+        try:
+            with os.fdopen(fd, 'wb') as f:
+                pickle.dump(temp_cache, f)
+            os.replace(temp_path, save_file)
+        finally:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
         
         # Update filename only after successful save
         if filename and filename != self.filename:
@@ -316,7 +335,7 @@ class SizeAwarePicklableCache:
                     max_large_items=max_large_items
                 )
             return cache
-        except (FileNotFoundError, UnpicklingError):
+        except (FileNotFoundError, UnpicklingError, EOFError, ValueError, AttributeError):
             return cls(
                 maxsize=maxsize,
                 filename=filename,
