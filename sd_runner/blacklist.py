@@ -365,7 +365,7 @@ class Blacklist:
     MODEL_BLACKLIST: list[ModelBlacklistItem] = []
     CACHE_MAXSIZE = 64
     CACHE_LARGE_THRESHOLD = 1024 * 1024 * 8
-    CACHE_MAX_LARGE_ITEMS = 4
+    CACHE_MAX_LARGE_ITEMS = 8
     CACHE_AUTOSAVE_CONCEPT_THRESHOLD = 20000
     DEFAULT_BLACKLIST_FILE_LOC = os.path.join(os.path.dirname(__file__), "data", "blacklist_default.enc")
     _ui_callbacks = None  # Static variable to store UI callbacks

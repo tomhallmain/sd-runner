@@ -1,10 +1,13 @@
 from collections import OrderedDict
+import logging
 import os
 import pickle
 import sys
 import tempfile
 import threading
 from pickle import UnpicklingError
+
+logger = logging.getLogger("size_aware_cache")
 
 class PicklableCache:
     """Thread-safe pickleable LRU cache with file persistence."""
@@ -206,6 +209,15 @@ class SizeAwarePicklableCache:
             
             # Enforce large item limit
             if is_large and self.large_count > self.max_large_items:
+                logger.warning(
+                    "Large cache item limit reached (%s > %s). Evicting oldest large item. "
+                    "new_item_size=%sB threshold=%sB cache_items=%s",
+                    self.large_count,
+                    self.max_large_items,
+                    new_size,
+                    self.large_threshold,
+                    len(self.cache),
+                )
                 self._evict_oldest_large_item(key)
             
             # Enforce maxsize
