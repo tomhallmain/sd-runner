@@ -411,8 +411,9 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         from utils.globals import ResolutionGroup
         sp.resolution_group_combo.setCurrentText(ResolutionGroup.get(str(cfg.resolution_group)).get_description())
         sp.model_tags_entry.setText(cfg.model_tags)
-        if cfg.lora_tags:
-            sp.lora_tags_entry.setText(cfg.lora_tags)
+        # Always restore LoRA tags, including empty strings, so history
+        # navigation does not leave stale tags in the field.
+        sp.lora_tags_entry.setText(cfg.lora_tags or "")
         sp.lora_strength_slider.setValue(int(float(cfg.lora_strength) * 100))
         sp.bw_colorization_entry.setText(cfg.b_w_colorization)
         sp.controlnet_file_entry.setText(cfg.control_net_file)

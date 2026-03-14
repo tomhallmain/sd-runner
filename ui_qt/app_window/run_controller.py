@@ -174,6 +174,10 @@ class RunController:
             if not ok:
                 return
 
+        # Sync latest UI-derived args into runner_app_config before persisting.
+        # This ensures history navigation restores current fields (including LoRA tags).
+        app.runner_app_config.set_from_run_config(args_copy)
+
         # Store config after validation
         app.cache_ctrl.store_info_cache()
         self.update_progress(override_text=_("Setting up run..."))
@@ -326,7 +330,6 @@ class RunController:
         if app.job_queue.has_pending():
             app.job_queue.add(args)
         else:
-            app.runner_app_config.set_from_run_config(args_copy)
             Utils.start_thread(run_async, use_asyncio=False, args=[args])
 
     def cancel(self, event=None, reason: str | None = None) -> None:
