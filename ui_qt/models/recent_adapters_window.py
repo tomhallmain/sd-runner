@@ -31,6 +31,7 @@ from ui.recent_adapters_window import RecentAdaptersWindow as _Backend
 from utils.app_info_cache import app_info_cache
 from utils.logging_setup import get_logger
 from utils.translations import I18N
+from utils.utils import Utils
 
 if TYPE_CHECKING:
     from ui.app_actions import AppActions
@@ -88,9 +89,11 @@ class RecentAdaptersWindow(SmartDialog):
     _recent_ipadapters: list[str] = []
     _recent_source_prompts: list[str] = []
     _recent_adapter_files_split: list[str] = []
+    _favorite_adapters: list[str] = []
     _controlnet_cache = None
     _ipadapter_cache = None
     _source_prompt_cache = None
+    _favorites_cache = None
     _cache_timestamp = None
 
     # Default constants
@@ -98,6 +101,42 @@ class RecentAdaptersWindow(SmartDialog):
     DEFAULT_MAX_RECENT_SPLIT_ITEMS = 2000
     MAX_RECENT_ITEMS_KEY = "max_recent_items"
     MAX_RECENT_SPLIT_ITEMS_KEY = "max_recent_split_items"
+    RECENT_CONTROLNETS_KEY = "recent_controlnets"
+    RECENT_IPADAPTERS_KEY = "recent_ipadapters"
+    RECENT_SOURCE_PROMPTS_KEY = "recent_source_prompts"
+    RECENT_ADAPTER_FILES_SPLIT_KEY = "recent_adapter_files_split"
+    FAVORITE_ADAPTERS_KEY = "favorite_adapters"
+
+    @staticmethod
+    def _normalize_path(path: str) -> str:
+        try:
+            return os.path.abspath(path.strip())
+        except Exception:
+            return path.strip()
+
+    @staticmethod
+    def _sanitize_favorites(paths: list[str]) -> list[str]:
+        """Normalize, dedupe, and keep only existing favorite paths."""
+        sanitized: list[str] = []
+        for path in paths:
+            if not isinstance(path, str) or not path.strip():
+                continue
+            norm = RecentAdaptersWindow._normalize_path(path)
+            if norm in sanitized:
+                continue
+            if Utils.exists_with_retry(norm):
+                sanitized.append(norm)
+            else:
+                logger.warning(f"Favorite path {norm} does not exist, skipping")
+                if path in RecentAdaptersWindow._recent_controlnets:
+                    RecentAdaptersWindow._recent_controlnets.remove(path)
+                if path in RecentAdaptersWindow._recent_ipadapters:
+                    RecentAdaptersWindow._recent_ipadapters.remove(path)
+                if path in RecentAdaptersWindow._recent_source_prompts:
+                    RecentAdaptersWindow._recent_source_prompts.remove(path)
+                if path in RecentAdaptersWindow._recent_adapter_files_split:
+                    RecentAdaptersWindow._recent_adapter_files_split.remove(path)
+        return sanitized
 
     @staticmethod
     def _get_max_recent_items() -> int:
@@ -121,10 +160,11 @@ class RecentAdaptersWindow(SmartDialog):
         try:
             max_recent_items = RecentAdaptersWindow._get_max_recent_items()
             max_recent_split_items = RecentAdaptersWindow._get_max_recent_split_items()
-            RecentAdaptersWindow._recent_controlnets = app_info_cache.get("recent_controlnets", [])
-            RecentAdaptersWindow._recent_ipadapters = app_info_cache.get("recent_ipadapters", [])
-            RecentAdaptersWindow._recent_source_prompts = app_info_cache.get("recent_source_prompts", [])
-            RecentAdaptersWindow._recent_adapter_files_split = app_info_cache.get("recent_adapter_files_split", [])
+            RecentAdaptersWindow._recent_controlnets = app_info_cache.get(RecentAdaptersWindow.RECENT_CONTROLNETS_KEY, [])
+            RecentAdaptersWindow._recent_ipadapters = app_info_cache.get(RecentAdaptersWindow.RECENT_IPADAPTERS_KEY, [])
+            RecentAdaptersWindow._recent_source_prompts = app_info_cache.get(RecentAdaptersWindow.RECENT_SOURCE_PROMPTS_KEY, [])
+            RecentAdaptersWindow._recent_adapter_files_split = app_info_cache.get(RecentAdaptersWindow.RECENT_ADAPTER_FILES_SPLIT_KEY, [])
+            RecentAdaptersWindow._favorite_adapters = app_info_cache.get(RecentAdaptersWindow.FAVORITE_ADAPTERS_KEY, [])
             if len(RecentAdaptersWindow._recent_controlnets) > max_recent_items:
                 RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:max_recent_items]
             if len(RecentAdaptersWindow._recent_ipadapters) > max_recent_items:
@@ -133,6 +173,23 @@ class RecentAdaptersWindow(SmartDialog):
                 RecentAdaptersWindow._recent_source_prompts = RecentAdaptersWindow._recent_source_prompts[:max_recent_items]
             if len(RecentAdaptersWindow._recent_adapter_files_split) > max_recent_split_items:
                 RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:max_recent_split_items]
+
+            # Keep only valid, normalized favorites and preserve ordering.
+            RecentAdaptersWindow._favorite_adapters = RecentAdaptersWindow._sanitize_favorites(
+                RecentAdaptersWindow._favorite_adapters
+            )
+
+            # Auto-favorite directories from recents so high-value folders
+            # remain easy to access.
+            for path in (
+                RecentAdaptersWindow._recent_controlnets
+                + RecentAdaptersWindow._recent_ipadapters
+                + RecentAdaptersWindow._recent_source_prompts
+            ):
+                if isinstance(path, str) and path.strip():
+                    norm = RecentAdaptersWindow._normalize_path(path)
+                    if os.path.isdir(norm):
+                        RecentAdaptersWindow.add_favorite_adapter(norm, save=False)
         except Exception as e:
             import logging
             logging.getLogger("ui_qt.recent_adapters_window").error(f"Failed to load recent adapters from cache: {e}")
@@ -140,18 +197,50 @@ class RecentAdaptersWindow(SmartDialog):
             RecentAdaptersWindow._recent_ipadapters = []
             RecentAdaptersWindow._recent_source_prompts = []
             RecentAdaptersWindow._recent_adapter_files_split = []
+            RecentAdaptersWindow._favorite_adapters = []
 
     @staticmethod
     def save_recent_adapters() -> None:
         from utils.app_info_cache import app_info_cache
         try:
-            app_info_cache.set("recent_controlnets", RecentAdaptersWindow._recent_controlnets)
-            app_info_cache.set("recent_ipadapters", RecentAdaptersWindow._recent_ipadapters)
-            app_info_cache.set("recent_source_prompts", RecentAdaptersWindow._recent_source_prompts)
-            app_info_cache.set("recent_adapter_files_split", RecentAdaptersWindow._recent_adapter_files_split)
+            # Re-check existence before saving so stale favorites are not persisted.
+            RecentAdaptersWindow._favorite_adapters = RecentAdaptersWindow._sanitize_favorites(
+                RecentAdaptersWindow._favorite_adapters
+            )
+            app_info_cache.set(RecentAdaptersWindow.RECENT_CONTROLNETS_KEY, RecentAdaptersWindow._recent_controlnets)
+            app_info_cache.set(RecentAdaptersWindow.RECENT_IPADAPTERS_KEY, RecentAdaptersWindow._recent_ipadapters)
+            app_info_cache.set(RecentAdaptersWindow.RECENT_SOURCE_PROMPTS_KEY, RecentAdaptersWindow._recent_source_prompts)
+            app_info_cache.set(RecentAdaptersWindow.RECENT_ADAPTER_FILES_SPLIT_KEY, RecentAdaptersWindow._recent_adapter_files_split)
+            app_info_cache.set(RecentAdaptersWindow.FAVORITE_ADAPTERS_KEY, RecentAdaptersWindow._favorite_adapters)
         except Exception as e:
             import logging
             logging.getLogger("ui_qt.recent_adapters_window").error(f"Failed to save recent adapters to cache: {e}")
+
+    @staticmethod
+    def add_favorite_adapter(file_path: str, save: bool = True) -> bool:
+        if not file_path or not file_path.strip():
+            return False
+        path = RecentAdaptersWindow._normalize_path(file_path)
+        if not os.path.exists(path):
+            return False
+        if path in RecentAdaptersWindow._favorite_adapters:
+            return False
+        RecentAdaptersWindow._favorite_adapters.insert(0, path)
+        if save:
+            RecentAdaptersWindow.save_recent_adapters()
+        return True
+
+    @staticmethod
+    def remove_favorite_adapter(file_path: str, save: bool = True) -> bool:
+        if not file_path or not file_path.strip():
+            return False
+        path = RecentAdaptersWindow._normalize_path(file_path)
+        if path not in RecentAdaptersWindow._favorite_adapters:
+            return False
+        RecentAdaptersWindow._favorite_adapters.remove(path)
+        if save:
+            RecentAdaptersWindow.save_recent_adapters()
+        return True
 
     @staticmethod
     def _validate_and_process_file_paths(file_paths: str) -> list[str]:
@@ -173,6 +262,8 @@ class RecentAdaptersWindow(SmartDialog):
             if path in RecentAdaptersWindow._recent_controlnets:
                 RecentAdaptersWindow._recent_controlnets.remove(path)
             RecentAdaptersWindow._recent_controlnets.insert(0, path)
+            if os.path.isdir(path):
+                RecentAdaptersWindow.add_favorite_adapter(path, save=False)
         if len(RecentAdaptersWindow._recent_controlnets) > max_recent_items:
             RecentAdaptersWindow._recent_controlnets = RecentAdaptersWindow._recent_controlnets[:max_recent_items]
 
@@ -184,6 +275,8 @@ class RecentAdaptersWindow(SmartDialog):
             if path in RecentAdaptersWindow._recent_ipadapters:
                 RecentAdaptersWindow._recent_ipadapters.remove(path)
             RecentAdaptersWindow._recent_ipadapters.insert(0, path)
+            if os.path.isdir(path):
+                RecentAdaptersWindow.add_favorite_adapter(path, save=False)
         if len(RecentAdaptersWindow._recent_ipadapters) > max_recent_items:
             RecentAdaptersWindow._recent_ipadapters = RecentAdaptersWindow._recent_ipadapters[:max_recent_items]
 
@@ -195,6 +288,8 @@ class RecentAdaptersWindow(SmartDialog):
             if path in RecentAdaptersWindow._recent_source_prompts:
                 RecentAdaptersWindow._recent_source_prompts.remove(path)
             RecentAdaptersWindow._recent_source_prompts.insert(0, path)
+            if os.path.isdir(path):
+                RecentAdaptersWindow.add_favorite_adapter(path, save=False)
             RecentAdaptersWindow.add_recent_adapter_file(path)
         if len(RecentAdaptersWindow._recent_source_prompts) > max_recent_items:
             RecentAdaptersWindow._recent_source_prompts = RecentAdaptersWindow._recent_source_prompts[:max_recent_items]
@@ -246,11 +341,13 @@ class RecentAdaptersWindow(SmartDialog):
         ip_page = QWidget()
         src_page = QWidget()
         all_page = QWidget()
+        fav_page = QWidget()
         cfg_page = QWidget()
         self._tabs.addTab(cn_page, _("Recent ControlNets"))
         self._tabs.addTab(ip_page, _("Recent IP Adapters"))
         self._tabs.addTab(src_page, _("Recent Source Prompts"))
         self._tabs.addTab(all_page, _("All Recent Adapters"))
+        self._tabs.addTab(fav_page, _("Favorites"))
         self._tabs.addTab(cfg_page, _("Configuration"))
 
         root = QVBoxLayout(self)
@@ -261,6 +358,7 @@ class RecentAdaptersWindow(SmartDialog):
         self._build_ipadapter_tab(ip_page)
         self._build_source_prompt_tab(src_page)
         self._build_all_tab(all_page)
+        self._build_favorites_tab(fav_page)
         self._build_config_tab(cfg_page)
 
         QShortcut(QKeySequence("Escape"), self, self.close)
@@ -296,6 +394,9 @@ class RecentAdaptersWindow(SmartDialog):
         copy_btn = QPushButton(_("Copy"))
         copy_btn.clicked.connect(lambda: self._copy_selected_path(self._cn_tree))
         btn.addWidget(copy_btn)
+        fav_btn = QPushButton(_("Add to Favorites"))
+        fav_btn.clicked.connect(lambda: self._add_selected_to_favorites(self._cn_tree))
+        btn.addWidget(fav_btn)
         refresh = QPushButton(_("Refresh")); refresh.clicked.connect(self._refresh_cache); btn.addWidget(refresh)
         close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
         btn.addStretch()
@@ -331,6 +432,9 @@ class RecentAdaptersWindow(SmartDialog):
         copy_btn = QPushButton(_("Copy"))
         copy_btn.clicked.connect(lambda: self._copy_selected_path(self._ip_tree))
         btn.addWidget(copy_btn)
+        fav_btn = QPushButton(_("Add to Favorites"))
+        fav_btn.clicked.connect(lambda: self._add_selected_to_favorites(self._ip_tree))
+        btn.addWidget(fav_btn)
         refresh = QPushButton(_("Refresh")); refresh.clicked.connect(self._refresh_cache); btn.addWidget(refresh)
         close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
         btn.addStretch()
@@ -366,6 +470,9 @@ class RecentAdaptersWindow(SmartDialog):
         copy_btn = QPushButton(_("Copy"))
         copy_btn.clicked.connect(lambda: self._copy_selected_path(self._src_tree))
         btn.addWidget(copy_btn)
+        fav_btn = QPushButton(_("Add to Favorites"))
+        fav_btn.clicked.connect(lambda: self._add_selected_to_favorites(self._src_tree))
+        btn.addWidget(fav_btn)
         refresh = QPushButton(_("Refresh")); refresh.clicked.connect(self._refresh_cache); btn.addWidget(refresh)
         close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
         btn.addStretch()
@@ -406,11 +513,79 @@ class RecentAdaptersWindow(SmartDialog):
         copy_btn = QPushButton(_("Copy"))
         copy_btn.clicked.connect(lambda: self._copy_selected_path(self._all_tree))
         btn.addWidget(copy_btn)
+        fav_btn = QPushButton(_("Add to Favorites"))
+        fav_btn.clicked.connect(lambda: self._add_selected_to_favorites(self._all_tree))
+        btn.addWidget(fav_btn)
         close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
         btn.addStretch()
         layout.addLayout(btn)
 
         self._refresh_all()
+
+    # ==================================================================
+    # Favorites tab
+    # ==================================================================
+    def _build_favorites_tab(self, page: QWidget) -> None:
+        layout = QVBoxLayout(page)
+        info = QLabel(
+            _("Preferred adapters regardless of type. "
+              "Directories are auto-added when seen in recents.")
+        )
+        info.setStyleSheet("font-style: italic; font-size: 8pt;")
+        info.setWordWrap(True)
+        layout.addWidget(info)
+
+        filter_row = QHBoxLayout()
+        filter_row.addWidget(QLabel(_("Filter")))
+        self._fav_filter = QLineEdit()
+        self._fav_filter.textChanged.connect(self._refresh_favorites)
+        filter_row.addWidget(self._fav_filter)
+        layout.addLayout(filter_row)
+
+        target_row = QHBoxLayout()
+        target_row.addWidget(QLabel(_("Target Field")))
+        self._fav_target_combo = QLineEdit()
+        self._fav_target_combo.setReadOnly(True)
+        self._fav_target_combo.hide()
+        # Use checkbox+buttons style controls to keep this lightweight.
+        self._fav_target = "controlnet"
+        self._fav_target_cn_btn = QPushButton(_("ControlNet"))
+        self._fav_target_ip_btn = QPushButton(_("IP Adapter"))
+        self._fav_target_src_btn = QPushButton(_("Source Prompt"))
+        self._fav_target_cn_btn.clicked.connect(lambda: self._set_favorite_target("controlnet"))
+        self._fav_target_ip_btn.clicked.connect(lambda: self._set_favorite_target("ipadapter"))
+        self._fav_target_src_btn.clicked.connect(lambda: self._set_favorite_target("source_prompt"))
+        target_row.addWidget(self._fav_target_cn_btn)
+        target_row.addWidget(self._fav_target_ip_btn)
+        target_row.addWidget(self._fav_target_src_btn)
+        self._fav_append_toggle = QCheckBox(_("Append (unchecked = Replace)"))
+        self._fav_append_toggle.setChecked(False)
+        target_row.addWidget(self._fav_append_toggle)
+        target_row.addStretch()
+        layout.addLayout(target_row)
+        self._set_favorite_target("controlnet")
+
+        self._fav_tree = self._make_tree([_("Favorite Adapter"), _("Created")])
+        self._fav_tree.itemDoubleClicked.connect(lambda: self._select_favorite())
+        layout.addWidget(self._fav_tree)
+
+        btn = QHBoxLayout()
+        use_btn = QPushButton(_("Use Favorite"))
+        use_btn.clicked.connect(self._select_favorite)
+        btn.addWidget(use_btn)
+        remove_btn = QPushButton(_("Remove"))
+        remove_btn.clicked.connect(self._remove_favorite)
+        btn.addWidget(remove_btn)
+        copy_btn = QPushButton(_("Copy"))
+        copy_btn.clicked.connect(lambda: self._copy_selected_path(self._fav_tree))
+        btn.addWidget(copy_btn)
+        close_btn = QPushButton(_("Close"))
+        close_btn.clicked.connect(self.close)
+        btn.addWidget(close_btn)
+        btn.addStretch()
+        layout.addLayout(btn)
+
+        self._refresh_favorites()
 
     # ==================================================================
     # Config tab
@@ -542,10 +717,12 @@ class RecentAdaptersWindow(SmartDialog):
         RecentAdaptersWindow._controlnet_cache = None
         RecentAdaptersWindow._ipadapter_cache = None
         RecentAdaptersWindow._source_prompt_cache = None
+        RecentAdaptersWindow._favorites_cache = None
         RecentAdaptersWindow._cache_timestamp = None
         self._refresh_cn()
         self._refresh_ip()
         self._refresh_src()
+        self._refresh_favorites()
         self._update_cache_status()
 
     # ------------------------------------------------------------------
@@ -578,6 +755,16 @@ class RecentAdaptersWindow(SmartDialog):
             RecentAdaptersWindow._cache_timestamp = time.time()
         return RecentAdaptersWindow._source_prompt_cache
 
+    def _cached_favorites(self) -> list[tuple[str, str, str]]:
+        if RecentAdaptersWindow._favorites_cache is None:
+            RecentAdaptersWindow._favorites_cache = []
+            for fp in RecentAdaptersWindow._favorite_adapters:
+                RecentAdaptersWindow._favorites_cache.append(
+                    (fp, _get_file_creation_date(fp))
+                )
+            RecentAdaptersWindow._cache_timestamp = time.time()
+        return RecentAdaptersWindow._favorites_cache
+
     def _update_cache_status(self) -> None:
         prefix = _("Cache")
         if RecentAdaptersWindow._cache_timestamp is None:
@@ -594,6 +781,26 @@ class RecentAdaptersWindow(SmartDialog):
         ]:
             if lbl:
                 lbl.setText(text)
+
+    def _refresh_favorites(self) -> None:
+        if not hasattr(self, "_fav_tree"):
+            return
+        ft = (self._fav_filter.text() or "").lower()
+        data = self._cached_favorites()
+        if ft:
+            data = [(n, c) for n, c in data if ft in n.lower()]
+        self._fav_tree.clear()
+        for n, c in data:
+            QTreeWidgetItem(self._fav_tree, [n, c])
+        self._fav_tree.sortItems(1, Qt.SortOrder.AscendingOrder)
+
+    def _set_favorite_target(self, target: str) -> None:
+        self._fav_target = target
+        selected_style = "font-weight: bold;"
+        default_style = ""
+        self._fav_target_cn_btn.setStyleSheet(selected_style if target == "controlnet" else default_style)
+        self._fav_target_ip_btn.setStyleSheet(selected_style if target == "ipadapter" else default_style)
+        self._fav_target_src_btn.setStyleSheet(selected_style if target == "source_prompt" else default_style)
 
     # ==================================================================
     # Selection callbacks
@@ -640,6 +847,48 @@ class RecentAdaptersWindow(SmartDialog):
             RecentAdaptersWindow.add_recent_ipadapter(fp)
         self._app_actions.set_adapter_from_adapters_window(fp, is_controlnet=is_controlnet, replace=replace)
         self.close()
+
+    def _select_favorite(self) -> None:
+        items = self._fav_tree.selectedItems()
+        if not items:
+            self._app_actions.toast(_("Select a row first"))
+            return
+        fp = items[0].text(0)
+        replace = not self._fav_append_toggle.isChecked()
+        target = getattr(self, "_fav_target", "controlnet")
+        self._app_actions.set_adapter_from_adapters_window(
+            fp, adapter_type=target, replace=replace
+        )
+        self.close()
+
+    def _remove_favorite(self) -> None:
+        items = self._fav_tree.selectedItems()
+        if not items:
+            self._app_actions.toast(_("Select a row first"))
+            return
+        fp = items[0].text(0)
+        if os.path.isdir(fp):
+            self._app_actions.toast(_("Directories are auto-favorited and cannot be removed here"))
+            return
+        if RecentAdaptersWindow.remove_favorite_adapter(fp, save=True):
+            RecentAdaptersWindow._favorites_cache = None
+            self._refresh_favorites()
+            self._app_actions.toast(_("Removed from favorites"))
+        else:
+            self._app_actions.toast(_("Item was not in favorites"))
+
+    def _add_selected_to_favorites(self, tree: QTreeWidget) -> None:
+        items = tree.selectedItems()
+        if not items:
+            self._app_actions.toast(_("Select a row first"))
+            return
+        fp = items[0].text(0)
+        if RecentAdaptersWindow.add_favorite_adapter(fp, save=True):
+            RecentAdaptersWindow._favorites_cache = None
+            self._refresh_favorites()
+            self._app_actions.toast(_("Added to favorites"))
+        else:
+            self._app_actions.toast(_("Already in favorites"))
 
     # ==================================================================
     # Configuration
