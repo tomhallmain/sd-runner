@@ -1,4 +1,5 @@
 from collections import OrderedDict
+import hashlib
 import logging
 import os
 import pickle
@@ -9,13 +10,26 @@ from pickle import UnpicklingError
 
 logger = logging.getLogger("size_aware_cache")
 
+
+def fingerprint_string_sequence(values, digest_size: int = 16) -> str:
+    """Return a stable compact fingerprint for a sequence of strings."""
+    hasher = hashlib.blake2b(digest_size=digest_size)
+    for value in values:
+        if value is None:
+            hasher.update(b"\x00")
+            continue
+        encoded = str(value).encode("utf-8", errors="replace")
+        hasher.update(encoded)
+        hasher.update(b"\x1f")
+    return hasher.hexdigest()
+
 class PicklableCache:
     """Thread-safe pickleable LRU cache with file persistence."""
     def __init__(self, maxsize=128, filename=None):
         self.maxsize = maxsize
         self.filename = filename
         self.cache = OrderedDict()
-        self.version = 2
+        self.version = 3
         self._lock = threading.Lock()
 
     def verify_cache_version(self, version=1):
@@ -139,7 +153,7 @@ class PicklableCache:
         """
         try:
             cache = cls.load(filename)
-            if not cache.verify_cache_version(version=2):
+            if not cache.verify_cache_version(version=3):
                 # Cache is outdated, create a new one
                 cache = cls(maxsize, filename)
             return cache
@@ -149,7 +163,7 @@ class PicklableCache:
 
 class SizeAwarePicklableCache:
     """Thread-safe size-aware LRU cache with file persistence."""
-    def __init__(self, maxsize=128, filename=None, large_threshold=1024*1024, max_large_items=1):
+    def __init__(self, maxsize=128, filename=None, large_threshold=1024*1024, max_large_items=1, protected_large_items=0):
         """
         Initialize a size-aware cache.
         
@@ -158,15 +172,18 @@ class SizeAwarePicklableCache:
             filename: Default persistence file path
             large_threshold: Minimum size (bytes) to consider an item "very large"
             max_large_items: Maximum number of large items to retain
+            protected_large_items: Best-effort number of large entries to avoid evicting
+                during maxsize pressure from smaller entries.
         """
         self.maxsize = maxsize
         self.filename = filename
         self.large_threshold = large_threshold
         self.max_large_items = max_large_items
+        self.protected_large_items = max(0, int(protected_large_items))
         self.cache = OrderedDict()
         self.large_count = 0
         self.total_size = 0
-        self.version = 2
+        self.version = 3
         self.version_cache = None  # Cache for version computation
         self._lock = threading.Lock()
 
@@ -222,10 +239,25 @@ class SizeAwarePicklableCache:
             
             # Enforce maxsize
             while len(self.cache) > self.maxsize:
-                oldest_key, (_, oldest_size) = self.cache.popitem(last=False)
+                oldest_key = self._select_eviction_candidate_for_maxsize()
+                _, oldest_size = self.cache.pop(oldest_key)
                 self.total_size -= oldest_size
                 if oldest_size >= self.large_threshold:
                     self.large_count -= 1
+
+    def _select_eviction_candidate_for_maxsize(self):
+        """Choose LRU eviction key, protecting a floor of large items when possible."""
+        # Caller holds lock.
+        if self.protected_large_items <= 0 or self.large_count <= self.protected_large_items:
+            return next(iter(self.cache))
+
+        # Prefer evicting the oldest non-large entry first.
+        for key, (_, size) in self.cache.items():
+            if size < self.large_threshold:
+                return key
+
+        # All entries are large; fall back to strict LRU.
+        return next(iter(self.cache))
     
     def _evict_oldest_large_item(self, current_key):
         """Thread-safe oldest large item eviction."""
@@ -277,6 +309,8 @@ class SizeAwarePicklableCache:
         # Ensure version_cache exists for backward compatibility with old cache files
         if not hasattr(self, 'version_cache'):
             self.version_cache = None
+        if not hasattr(self, 'protected_large_items'):
+            self.protected_large_items = 0
 
     def save(self, filename=None):
         """Persist cache to file using pickle."""
@@ -294,6 +328,7 @@ class SizeAwarePicklableCache:
                 save_file,
                 self.large_threshold,
                 self.max_large_items,
+                self.protected_large_items,
                 OrderedDict(self.cache),  # OrderedDict copy
                 self.large_count,
                 self.total_size,
@@ -302,12 +337,12 @@ class SizeAwarePicklableCache:
         
         # Create temporary object
         temp_cache = SizeAwarePicklableCache(
-            state[0], state[1], state[2], state[3]
+            state[0], state[1], state[2], state[3], state[4]
         )
-        temp_cache.cache = state[4]
-        temp_cache.large_count = state[5]
-        temp_cache.total_size = state[6]
-        temp_cache.version_cache = state[7]
+        temp_cache.cache = state[5]
+        temp_cache.large_count = state[6]
+        temp_cache.total_size = state[7]
+        temp_cache.version_cache = state[8]
         
         # Write to a temp file first, then atomically replace the target file.
         # This avoids leaving a truncated/corrupt cache if the process exits mid-write.
@@ -334,17 +369,18 @@ class SizeAwarePicklableCache:
             return pickle.load(f)
     
     @classmethod
-    def load_or_create(cls, filename, maxsize=128, large_threshold=1024, max_large_items=1):
+    def load_or_create(cls, filename, maxsize=128, large_threshold=1024, max_large_items=1, protected_large_items=0):
         """Load cache or create new if file doesn't exist or is corrupted."""
         try:
             cache = cls.load(filename)
-            if not cache.verify_cache_version(version=2):
+            if not cache.verify_cache_version(version=3):
                 # Cache is outdated, create a new one
                 cache = cls(
                     maxsize=maxsize,
                     filename=filename,
                     large_threshold=large_threshold,
-                    max_large_items=max_large_items
+                    max_large_items=max_large_items,
+                    protected_large_items=protected_large_items
                 )
             return cache
         except (FileNotFoundError, UnpicklingError, EOFError, ValueError, AttributeError):
@@ -352,5 +388,6 @@ class SizeAwarePicklableCache:
                 maxsize=maxsize,
                 filename=filename,
                 large_threshold=large_threshold,
-                max_large_items=max_large_items
+                max_large_items=max_large_items,
+                protected_large_items=protected_large_items
             )

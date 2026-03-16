@@ -240,7 +240,7 @@ class AppInfoCache:
     def _get_history(self) -> list:
         """Get history list. Must be called from within a locked context."""
         if AppInfoCache.HISTORY_KEY not in self._cache:
-            self._cache[AppInfoCache.HISTORY_KEY] = {}
+            self._cache[AppInfoCache.HISTORY_KEY] = []
         return self._cache[AppInfoCache.HISTORY_KEY]
 
     def _get_prompt_history(self) -> list:

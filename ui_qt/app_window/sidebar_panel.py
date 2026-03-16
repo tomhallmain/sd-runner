@@ -628,10 +628,10 @@ class SidebarPanel(QWidget):
                         self.prompt_mode_combo.blockSignals(False)
 
                 check_password_required(
-                    list(ProtectedActions.NSFW_PROMPTS), self._app, password_callback
+                    [ProtectedActions.NSFW_PROMPTS], self._app, password_callback
                 )
         except Exception as e:
-            logger.error(f"Error checking prompt mode password: {e}")
+            logger.exception(f"Error checking prompt mode password: {e}")
 
     def _on_concepts_dir_changed(self, text: str) -> None:
         from utils.config import config as app_config

@@ -8,7 +8,7 @@ import string
 from utils.globals import Globals, BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, PromptMode
 from utils.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from utils.logging_setup import get_logger
-from utils.pickleable_cache import SizeAwarePicklableCache
+from utils.pickleable_cache import SizeAwarePicklableCache, fingerprint_string_sequence
 from utils.translations import I18N
 from utils.utils import Utils
 
@@ -363,15 +363,17 @@ class ModelBlacklistItem(BlacklistItem):
 class Blacklist:
     TAG_BLACKLIST: list[BlacklistItem] = []
     MODEL_BLACKLIST: list[ModelBlacklistItem] = []
-    CACHE_MAXSIZE = 64
+    CACHE_MAXSIZE = 128
     CACHE_LARGE_THRESHOLD = 1024 * 1024 * 8
-    CACHE_MAX_LARGE_ITEMS = 8
+    CACHE_MAX_LARGE_ITEMS = 12
+    CACHE_PROTECTED_LARGE_ITEMS = 2
     CACHE_AUTOSAVE_CONCEPT_THRESHOLD = 20000
     DEFAULT_BLACKLIST_FILE_LOC = os.path.join(os.path.dirname(__file__), "data", "blacklist_default.enc")
     _ui_callbacks = None  # Static variable to store UI callbacks
     _filter_cache = SizeAwarePicklableCache.load_or_create(
         BLACKLIST_CACHE_FILE, maxsize=CACHE_MAXSIZE,
-        max_large_items=CACHE_MAX_LARGE_ITEMS, large_threshold=CACHE_LARGE_THRESHOLD)
+        max_large_items=CACHE_MAX_LARGE_ITEMS, large_threshold=CACHE_LARGE_THRESHOLD,
+        protected_large_items=CACHE_PROTECTED_LARGE_ITEMS)
 
     blacklist_mode = BlacklistMode.REMOVE_ENTIRE_TAG
     blacklist_prompt_mode = BlacklistPromptMode.DISALLOW
@@ -483,9 +485,17 @@ class Blacklist:
         do_cache: bool = True,
         user_prompt: bool = True,
     ) -> tuple[list[str], dict[str, str]]:
-        # Check cache first - use just the concepts tuple as key (no version needed)
+        key_version = getattr(Blacklist._filter_cache, "version", 1)
+        # Keep cache keys compact: tuple payloads are massive (millions of terms).
+        cache_key = (
+            f"v{key_version}",
+            len(concepts_tuple),
+            fingerprint_string_sequence(concepts_tuple),
+        )
+
+        # Check cache first
         try:
-            cached_result = Blacklist._filter_cache.get(concepts_tuple)
+            cached_result = Blacklist._filter_cache.get(cache_key)
             if cached_result is not None:
                 return cached_result
         except Exception as e:
@@ -560,7 +570,7 @@ class Blacklist:
         # Cache the result
         if do_cache:
             try:
-                Blacklist._filter_cache.put(concepts_tuple, result)
+                Blacklist._filter_cache.put(cache_key, result)
                 # Persist expensive pre-filter results immediately so they survive
                 # unexpected restarts/crashes before periodic app cache flush.
                 if concepts_count >= Blacklist.CACHE_AUTOSAVE_CONCEPT_THRESHOLD:
@@ -967,13 +977,15 @@ class Blacklist:
                 os.remove(BLACKLIST_CACHE_FILE)
             Blacklist._filter_cache = SizeAwarePicklableCache.load_or_create(
                 BLACKLIST_CACHE_FILE, maxsize=Blacklist.CACHE_MAXSIZE,
-                max_large_items=Blacklist.CACHE_MAX_LARGE_ITEMS, large_threshold=Blacklist.CACHE_LARGE_THRESHOLD)
+                max_large_items=Blacklist.CACHE_MAX_LARGE_ITEMS, large_threshold=Blacklist.CACHE_LARGE_THRESHOLD,
+                protected_large_items=Blacklist.CACHE_PROTECTED_LARGE_ITEMS)
         except Exception as e:
             logger.error(f"Error clearing cache file: {e}")
             # Fallback to creating a new cache
             Blacklist._filter_cache = SizeAwarePicklableCache.load_or_create(
                 BLACKLIST_CACHE_FILE, maxsize=Blacklist.CACHE_MAXSIZE,
-                max_large_items=Blacklist.CACHE_MAX_LARGE_ITEMS, large_threshold=Blacklist.CACHE_LARGE_THRESHOLD)
+                max_large_items=Blacklist.CACHE_MAX_LARGE_ITEMS, large_threshold=Blacklist.CACHE_LARGE_THRESHOLD,
+                protected_large_items=Blacklist.CACHE_PROTECTED_LARGE_ITEMS)
 
     @staticmethod
     def add_model_item(item: ModelBlacklistItem) -> None:
