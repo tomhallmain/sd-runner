@@ -1,6 +1,6 @@
 import asyncio
 import glob
-import logging
+import subprocess
 import math
 import random
 import re
@@ -10,13 +10,7 @@ import threading
 
 from utils.config import config
 
-has_imported_windll = False
-try:
-    from ctypes import WinDLL
-    has_imported_windll = True
-except ImportError as e:
-    print("Failed to import WinDLL, skipping sleep prevention.")
-
+from lib.sleep_prevention import WakeLevel, acquire_wake, release_wake
 
 from utils.logging_setup import get_logger
 
@@ -76,8 +70,6 @@ class Utils:
         u"\u301A",  # Left white square bracket (ã)
         u"\u301B",  # Right white square bracket (ã)
     }
-
-    sleep_prevented = False
 
     @staticmethod
     def extract_substring(text, pattern):
@@ -266,24 +258,11 @@ class Utils:
 
     @staticmethod
     def prevent_sleep(prevent_sleep: bool = False) -> None:
-        if not has_imported_windll:
-            return
-        if prevent_sleep == Utils.sleep_prevented:
-            return
-
-        """Set system sleep behavior to keep the system awake and screen on"""
-        # thread execution flags for enabling/disabling system sleep
-        ES_SYSTEM_REQUIRED = 0x0001  # keep system awake
-        ES_DISPLAY_REQUIRED = 0x0002  # keep display awake
-        ES_CONTINUOUS = 0x8000_0000  # see MSDN SetThreadExecutionState docs
-        kernel32 = WinDLL('kernel32', use_last_error=True)
-        if prevent_sleep:  # prevent system sleep
-            kernel32.SetThreadExecutionState(  # set to literal: 0x8000_0003
-                (ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED)
-            )
-        else:  # allow system sleep
-            kernel32.SetThreadExecutionState(ES_CONTINUOUS)
-        Utils.sleep_prevented = prevent_sleep
+        """Delegate to :mod:`lib.sleep_prevention` — system / idle sleep only (not display)."""
+        if prevent_sleep:
+            acquire_wake(WakeLevel.SYSTEM)
+        else:
+            release_wake(WakeLevel.SYSTEM)
 
     # Comprehensive list of image file extensions
     IMAGE_EXTENSIONS = [
