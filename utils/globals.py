@@ -550,6 +550,7 @@ class ArchitectureType(Enum):
     CHROMA = "CHROMA"
     Z_IMAGE_TURBO = "Z_IMAGE_TURBO"
     QWEN = "QWEN"
+    UNKNOWN = "UNKNOWN"
 
     def is_xl(self):
         return self == ArchitectureType.SDXL or self == ArchitectureType.ILLUSTRIOUS
@@ -565,6 +566,7 @@ class ArchitectureType(Enum):
             ArchitectureType.CHROMA: _("Chroma"),
             ArchitectureType.Z_IMAGE_TURBO: _("ZImageTurbo"),
             ArchitectureType.QWEN: _("Qwen"),
+            ArchitectureType.UNKNOWN: _("Unknown"),
         }[self]
 
     @classmethod

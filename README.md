@@ -78,6 +78,8 @@ The following model architectures are supported. Resolution tags automatically s
 - ZImageTurbo
 - Qwen
 
+Model files may be organized in scoped subfolders under your backend model roots (for example `Stable-diffusion/SD1.5`, `Stable-diffusion/XL`, `Lora/SD1.5`, `Lora/Flux`, etc.). SD 1.5 models and LoRAs can now be referenced from scoped paths the same way as newer architectures.
+
 ### Workflows
 The following workflows are available. The table shows which systems (ComfyUI/SDWebUI) support each workflow across all architectures. Note that most workflows work with all supported architectures, with system availability varying by workflow. **Note:** Flux, Chroma, ZImageTurbo, and Qwen architectures have not been implemented/tested in SDWebUI, so workflows for these architectures are marked as ComfyUI-only (C):
 

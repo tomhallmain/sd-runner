@@ -30,25 +30,82 @@ class Model:
     LORAS = {}
 
     @staticmethod
+    def _normalize_model_ref(value: str) -> str:
+        """Normalize model references so scoped tags and paths resolve consistently."""
+        if value is None:
+            return ""
+        normalized = str(value).strip().replace("/", "\\")
+        # Trim leading/trailing separators to avoid empty path segments.
+        normalized = normalized.strip("\\")
+        return normalized.lower()
+
+    @staticmethod
+    def _strip_model_extension(value: str) -> str:
+        if "." not in value:
+            return value
+        ext = value.rsplit(".", 1)[-1].lower()
+        if ext in ("safetensors", "ckpt", "pth", "pt"):
+            return value.rsplit(".", 1)[0]
+        return value
+
+    @staticmethod
+    def _normalized_model_name_and_path(model_key: str, model_obj) -> tuple[str, str]:
+        model_name_no_ext = Model._strip_model_extension(Model._normalize_model_ref(model_key))
+        model_path_no_ext = ""
+        try:
+            model_path_no_ext = Model._strip_model_extension(Model._normalize_model_ref(model_obj.path))
+        except Exception:
+            pass
+        return model_name_no_ext, model_path_no_ext
+
+    @staticmethod
+    def _matches_model_ref(
+        model_name_no_ext: str,
+        model_path_no_ext: str,
+        normalized_tag_no_ext: str,
+        normalized_tag_basename: str,
+        exact_prefix: bool,
+    ) -> bool:
+        if exact_prefix:
+            return (
+                model_name_no_ext.startswith(normalized_tag_no_ext)
+                or model_name_no_ext.startswith(normalized_tag_basename)
+                or model_path_no_ext.startswith(normalized_tag_no_ext)
+            )
+        return (
+            normalized_tag_no_ext in model_name_no_ext
+            or normalized_tag_basename in model_name_no_ext
+            or normalized_tag_no_ext in model_path_no_ext
+        )
+
+    @staticmethod
     def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo, is_qwen):
         # NOTE this can be overridden by the presets
+        path_normalized = path.replace("/", "\\") if path is not None else None
+        path_l = path_normalized.lower() if path_normalized is not None else None
+        # If models are scoped (e.g. "SD1.5\\...", "XL\\...", "Hi Dream\\..."), use
+        # the first path segment to avoid misclassifying unknown families as SD1.5.
+        path_scope = path_l.split("\\")[0] if path_l and "\\" in path_l else ""
+
         if "Illustrious" in model_id:
             # print(f"Assuming model is based on IllustriousXL architecture: {model_id}")
             architecture_type = ArchitectureType.ILLUSTRIOUS
-        elif path is not None and (path.lower().startswith("chroma") or "chroma" in path.lower()) or is_chroma:
+        elif path_l is not None and (path_l.startswith("chroma") or "chroma" in path_l) or is_chroma:
             architecture_type = ArchitectureType.CHROMA
-        elif path is not None and (path.lower().startswith("zimage") or "z_image" in path.lower() or "zimage" in path.lower()) or is_z_image_turbo:
+        elif path_l is not None and (path_l.startswith("zimage") or "z_image" in path_l or "zimage" in path_l) or is_z_image_turbo:
             architecture_type = ArchitectureType.Z_IMAGE_TURBO
-        elif path is not None and ("qwen" in path.lower()) or is_qwen:
+        elif path_l is not None and ("qwen" in path_l) or is_qwen:
             architecture_type = ArchitectureType.QWEN
-        elif path is not None and path.startswith("XL") or is_xl:
+        elif path_normalized is not None and path_normalized.startswith("XL") or is_xl:
             architecture_type = ArchitectureType.SDXL
-        elif path is not None and path.startswith("Turbo") or is_turbo:
+        elif path_normalized is not None and path_normalized.startswith("Turbo") or is_turbo:
             architecture_type = ArchitectureType.TURBO
-        elif path is not None and (path.lower().startswith("flux")) or is_flux:
+        elif path_l is not None and (path_l.startswith("flux")) or is_flux:
             architecture_type = ArchitectureType.FLUX
-        else:
+        elif path_scope in ("sd1.5", "sd15", "sd_15"):
             architecture_type = ArchitectureType.SD_15
+        else:
+            architecture_type = ArchitectureType.UNKNOWN
         return architecture_type
 
     def __init__(
@@ -327,42 +384,55 @@ class Model:
 
         lora_strength = None
         lora_strength_clip = None
-        if "\\" in model_tag:
-            model_tag = model_tag[model_tag.index("\\")+1]
+        model_tag = model_tag.strip()
         if ":" in model_tag:
             parts = model_tag.split(":")
             model_tag = parts[0]
             lora_strength = float(parts[1])
             if len(parts) > 2:
                 lora_strength_clip = float(parts[2])
-        # Strip common file extensions to support lookup with or without extension
-        if '.' in model_tag:
-            ext = model_tag.lower().split('.')[-1]
-            if ext in ('safetensors', 'ckpt', 'pth', 'pt'):
-                model_tag = model_tag.rsplit('.', 1)[0]
-        model_tag = model_tag.lower()
+
+        normalized_tag = Model._normalize_model_ref(model_tag)
+        normalized_tag_no_ext = Model._strip_model_extension(normalized_tag)
+        normalized_tag_basename = normalized_tag_no_ext.split("\\")[-1]
         model = None
         for _model_name in models:
-            model_name = _model_name.lower()
-            if model_name.startswith(model_tag):
+            model_name_no_ext, model_path_no_ext = Model._normalized_model_name_and_path(
+                _model_name, models[_model_name]
+            )
+            if Model._matches_model_ref(
+                model_name_no_ext,
+                model_path_no_ext,
+                normalized_tag_no_ext,
+                normalized_tag_basename,
+                exact_prefix=True,
+            ):
                 if not is_lora and inpainting:
-                    if "inpaint" in model_name:
+                    if "inpaint" in model_name_no_ext:
                         model = models[_model_name]
-                elif is_lora or "inpaint" not in model_name:
+                elif is_lora or "inpaint" not in model_name_no_ext:
                     model = models[_model_name]
 
         if model is None:
             for _model_name in models:
-                model_name = _model_name.lower()
-                if model_tag in model_name:
+                model_name_no_ext, model_path_no_ext = Model._normalized_model_name_and_path(
+                    _model_name, models[_model_name]
+                )
+                if Model._matches_model_ref(
+                    model_name_no_ext,
+                    model_path_no_ext,
+                    normalized_tag_no_ext,
+                    normalized_tag_basename,
+                    exact_prefix=False,
+                ):
                     if inpainting:
-                        if "inpainting" in model_name:
+                        if "inpainting" in model_name_no_ext:
                             model = models[_model_name]
-                    elif "inpainting" not in model_name:
+                    elif "inpainting" not in model_name_no_ext:
                         model = models[_model_name]
 
         if model is None:
-            raise Exception(f"Failed to find model for tag {model_tag}, inpainting={inpainting}")        
+            raise Exception(f"Failed to find model for tag {model_tag}, inpainting={inpainting}")
         if lora_strength is not None:
             model.lora_strength = lora_strength
         if lora_strength_clip is not None:
@@ -422,9 +492,10 @@ class Model:
             if not file.endswith("ckpt") and not file.endswith("safetensors") and not file.endswith("pth") and not file.endswith("pt"):
                 continue
             model_name = re.sub("^.+\\\\", "", file)
-            is_xl = file.startswith("XL")
-            is_turbo = file.startswith("Turbo")
-            is_flux = file.startswith("Flux")
+            file_l = file.lower()
+            is_xl = file_l.startswith("xl\\")
+            is_turbo = file_l.startswith("turbo\\")
+            is_flux = file_l.startswith("flux\\")
             is_chroma = file.lower().startswith("chroma") or "chroma" in file.lower()
             is_z_image_turbo = file.lower().startswith("zimage") or "z_image" in file.lower() or "zimage" in file.lower()
             is_qwen = "qwen" in file.lower()
