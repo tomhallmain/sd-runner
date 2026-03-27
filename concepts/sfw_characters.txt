@@ -23,6 +23,7 @@ alias
 All the King's horses and all the King's men
 ally
 Aloha
+Anais
 and his trusty sidekick
 angler
 Angus
@@ -72,6 +73,7 @@ bureau
 bushel and a peck
 buster
 Byzantine
+C-Suite
 caddy
 Calypso
 can I get a true
@@ -118,6 +120,7 @@ Crookshanks
 culprit
 curmudgeon
 Custos rotulorum
+dabbler
 Daffy Duck
 Daytona
 deacon
@@ -128,6 +131,7 @@ Deus Ex
 Deus Ex Machina
 didact
 diddly-squat
+dilettante
 ding dong
 Director
 diver
@@ -141,6 +145,7 @@ dragoon
 dragster
 driver
 Dudley
+Dust bunnies
 dweeb
 e'er
 easy peasy
@@ -149,6 +154,7 @@ Eloise
 Elvis has left the building
 Elvis Presley
 emeratus
+Emeril
 employee
 employer
 EMT
@@ -158,6 +164,7 @@ entrant
 et cetera
 evacuees
 ever
+Evil genius
 evoker
 Ewoks
 exarch
@@ -198,7 +205,9 @@ goner
 good grief
 Goofy Gophers
 Governor
+Gragantua et Pantagruel
 groundskeeper
+Grover
 growler
 guidance counselor
 gumshoe
@@ -209,6 +218,7 @@ Hamtaro
 Han Solo
 Hardy Boys
 Hardy har har
+Hasbro
 Haw haw haw
 heathen
 heir
@@ -279,6 +289,7 @@ Lennox
 Leroy
 Lester
 lieabed
+liege
 lieutenant
 Lil' $$random_word
 Linden
@@ -293,6 +304,7 @@ Lord MacBeth
 loudmouth
 lunk
 MacGuffin
+maiden
 mariner
 mate
 McNutt
@@ -336,6 +348,7 @@ Ol' Reliable
 oligarch
 One if by land, two if by sea
 one must admit
+one-armed bandit
 opponent
 Oracle
 orator
@@ -345,14 +358,17 @@ Ori and the Blind Forest
 P.F. Flyers
 P.I.
 P.T. Barnum
+Pacman
 park ranger
 parliamentarian
+patron
 pawn broker
 peddler
 peer group
 Peerage
 PeeWee's Big Adventure
 Penelope
+pensioner
 Pepe Le Pew
 Pepto-Bismol
 perhaps
@@ -371,6 +387,8 @@ pirate
 pitman
 pitter patter
 PlanetSide 2
+Pliny the Elder
+Pliny the Younger
 podsnapper
 poet
 Pogo the Possum
@@ -404,6 +422,7 @@ Redwall
 referee
 REO Speedwagon
 retard
+retiree
 rival
 Roku
 rook
@@ -412,9 +431,11 @@ rube
 Rumplestiltskin
 sales rep
 Sam Sheepdog
+Sam-I-Am
 sawyer
 Sayonara
 scholar
+scofflaw
 scout
 scribe
 sea rover

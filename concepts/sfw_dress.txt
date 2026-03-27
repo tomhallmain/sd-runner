@@ -30,6 +30,7 @@ Ballgown
 bandage
 bandana
 bandanna
+bandoleer
 banyan
 barrister's robes
 baseball cap
@@ -128,6 +129,7 @@ Classic White Blouse
 Classic White T-Shirt
 cleat
 Climbing shoe
+clipboard
 cloak
 cloche
 Cloche hat
@@ -143,6 +145,7 @@ Comb Over
 Constable custodian hat
 coolie hat
 corded-ware
+corsage
 corset
 costume
 courduroy
@@ -433,6 +436,7 @@ Quiff
 raincoat
 early Renaissance dress
 late Renaissance dress
+reflective vest
 regalia
 reticella
 ribbon
@@ -454,6 +458,7 @@ streetwear
 sweat pants
 tabard
 Tagelmust
+talisman
 tassle
 thawb
 tonsure

@@ -108,6 +108,7 @@ dovecote
 dropshipper
 dwelling
 emporium
+enclosure
 end zone
 entryway
 estate grounds
@@ -140,6 +141,7 @@ gulley
 hairpin turn
 haven
 headquarters
+hectare
 helipad
 here
 hest wave
@@ -173,6 +175,7 @@ levee
 lifted house
 limousine
 liquor store
+Livery company
 location
 locus
 lot
@@ -242,6 +245,7 @@ rehab
 reservoir
 residence
 rest stop
+restricted area
 retailer
 riffle
 rift

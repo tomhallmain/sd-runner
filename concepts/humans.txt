@@ -1,12 +1,14 @@
 # TODO expand this list
 anyone
 bystanders
+companion
 elder
 fellow
 friend
 gals
 gentleman
 gentlemen
+guest
 guys
 guys and gals
 humanoid
@@ -28,6 +30,7 @@ Sir
 someone
 them
 them all
+twin
 us
 you
 you and I

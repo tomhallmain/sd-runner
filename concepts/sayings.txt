@@ -7,6 +7,7 @@
 [[Don't,Never,You can't]] judge a book by its cover
 [[Don't,Never]] look a gift horse in the mouth
 [[Everything comes,All things come]] to those who wait
+[[Haven't,Hasn't,Hadn't]] the faintest inkling
 [[He's,She's,You're,They're]] outta there!
 [[I'm,We're]] outta here!
 [[It is b,'tis b,B]]etter to have loved and lost[[, than never to have loved at all]]
@@ -46,6 +47,7 @@ A friend to everyone is a friend to no one
 A journey of a thousand miles begins with a single step
 A language is a dialect with an army and navy
 A little learning is a dangerous thing
+A lost cause
 A man can do what he wills but he cannot will what he wills
 A mill cannot grind with the water that is past
 A miss is as good as a mile
@@ -67,6 +69,7 @@ Accidents will happen (in the best-regulated families)
 Actions speak louder than words
 Adversity makes strange bedfellows
 All bark and no bite
+All by [[himself,herself,oneself,themselves]]
 All for one and one for all
 All good things must come to an end
 All hands on deck/to the pump
@@ -76,6 +79,7 @@ All is grist to the mill
 All roads lead to Rome
 All systems go
 All that [[glitters,glistens]] is not gold
+All the same
 All the world loves a lover
 All things excellent are as difficult as they are rare
 All things must pass
@@ -93,16 +97,21 @@ An eye for an eye makes the whole world blind
 An eye for an eye, a tooth for a tooth
 An honest man doesn't need to remember much
 An ounce of prevention is worth a pound of cure
+And they're off!
 Another day, another dollar
 Another happy landing
 Any port in a storm
 Any publicity is good publicity
 Anything worth doing is hard
 April showers bring forth May flowers
+Are you with me so far?
 As a matter of course
 As a matter of fact
 As a tree bends, so shall it grow
 As cool as a cucumber
+As ever
+As far as I can tell
+As I recall
 As queer as a three dollar bill
 As the twig is bent, so is the tree inclined
 As you make your bed, so you must lie upon it
@@ -126,6 +135,7 @@ Beauty is only skin deep
 Before setting out on a mission of vengeance, dig two graves
 Beggars can't be choosers
 Behind every great man, there is a great woman
+Believe it or not
 Better late than never
 Better safe than sorry
 Better the Devil you know[[:2, than the Devil you do not:1]]
@@ -155,6 +165,8 @@ Brevity is the soul of wit
 Burn bridges
 Burn the midnight oil
 Business before pleasure
+By all accounts
+By all means
 By hook or by crook
 By the same token
 By the skin of your teeth
@@ -181,6 +193,7 @@ Cold hands, warm heart
 Come rain or shine
 Comparisons are odious
 Cost an arm and a leg
+Cottage industry
 Count your blessings
 Courage is the measure of a Man, Beauty is the measure of a Woman
 Cowards may die many times before their death
@@ -196,10 +209,12 @@ Cut through the red tape
 Cut to the chase
 Cut your coat according to your cloth
 Dead men tell no tales
+Deal or no deal
 Denial is not a river in Egypt
 Devil take the hindmost
 Devil's advocate
 Discretion is the better part of valour
+Do as I do not as I say
 Do as I say, not as I do
 Do as you would be done by
 Do not burn your bridges behind you
@@ -326,6 +341,7 @@ Good fences make good neighbours
 Good talk saves the food
 Great minds think alike
 Green with envy
+Hah! A likely story!
 Half a loaf is better than no bread
 Handsome is as handsome does
 Hard cases make bad law
@@ -404,11 +420,13 @@ If you've got it, flaunt it
 Ignorance is bliss
 Imitation is the sincerest form of flattery
 In a nutshell
+In a pig's eye
 In for a penny, in for a pound
 In hot water
 In over [[[my,your,his,her] head,[our,their] heads]]
 In the kingdom of the blind, the one eyed man is king
 In the midst of life, we are in death
+In the nick of time
 In the same boat
 Into every life a little rain must fall
 Ironing it out
@@ -443,6 +461,7 @@ It takes two to tango
 It will be the same a hundred years hence
 It will come back and haunt you
 It's a job
+It's a secret
 It's a small world
 It's always darkest before the dawn
 It's Greek to me
@@ -589,6 +608,7 @@ No pain no gain
 No rest for the wicked
 No strings attached
 No way no how
+Not a chance
 Not all those who wander are lost
 Not my cup of tea
 Not so fast!
@@ -672,6 +692,7 @@ Put your foot in your mouth
 Put your money where your mouth is
 Quick as a flash
 Rain does not fall on one roof alone
+Read [[me,you,him,her,us,them]] the riot act
 Read between the lines
 Ready or not here I come
 Reason is the slave of passion
@@ -700,6 +721,7 @@ See no evil, hear no evil, speak no evil
 See the light
 Seeing is believing
 Seek and ye shall find
+Shedding a tear
 Shiny are the distant hills
 Shoot the breeze
 Shrouds have no pockets
@@ -720,6 +742,7 @@ Softly softly catchee monkey
 Some are more equal than others
 Somehow or other
 Sometimes we are the student. Sometimes we are the master. And sometimes we are merely the lesson.
+Source?
 Spare the rod and spoil the child
 Speak as you find
 Speak of the devil
@@ -739,6 +762,7 @@ Take a rain check
 Take care of the pennies and the pounds will take care of themselves
 Take it with a grain of salt
 Take the bull by the horns
+Takes after [[his,her,their]] [[dad,mom,grandpa,grandma]]
 Talk is cheap
 Talk of Angels and hear the flutter of their wings
 Talk of the Devil and he is bound to appear
@@ -834,8 +858,10 @@ There's many a slip 'twixt the cup and the lip
 There's no need to wear a hair shirt
 There's no such thing as a free lunch
 There's nowt so queer as folk
+There's the rub
 There[['s, is]] more than one way to skin a cat
 They that sow the wind shall reap the whirlwind
+Thin as a rail
 Think nothing of it
 Think outside the box
 Third time is a charm
@@ -843,6 +869,7 @@ Those who do not learn from history are doomed to repeat it
 Those who know many languages live as many lives as the languages they know
 Those who live in glass houses shoukd not throw stones
 Those who live in glass houses should not throw stones
+Those who live in glass houses shouldn't throw stones
 Those who sleep with dogs will rise with fleas
 Through thick and thin
 Throw caution to the wind
@@ -920,6 +947,7 @@ What the eye does not see, the heart does not grieve over
 What you lose on the swings you gain on the roundabouts
 Whatever floats your boat
 whatsoever
+Wheeling and Dealing
 When hell freezes over
 When in Rome do as the Romans do
 When it rains it pours

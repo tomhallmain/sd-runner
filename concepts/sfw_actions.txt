@@ -12,6 +12,7 @@ $$random_word-eve
 [[me,you,him,her,us,them]] bade [[me,you,him,her,us,them]] do it
 [[set,feast,cast]] [[my,your]] [[gaze,eyes]] on [[this,that,$$random_word]]
 a $$random_word the likes of which have never been seen before
+aadding up
 abandoning
 abjuring
 abrading
@@ -96,6 +97,7 @@ arguing
 ariding
 arise
 arising
+arraigning
 arraignment
 arrival
 arriving
@@ -115,6 +117,7 @@ assuaging
 at odds
 at war
 atoning
+attaching
 attempt
 attempting
 attending
@@ -220,6 +223,7 @@ breastfeeding
 brewery games
 bringing
 broadcasting
+brouhaha
 buckling
 budget hearing
 bugle call
@@ -249,6 +253,7 @@ calisthenics
 call it
 calligraphy
 calling
+calling "Dibs"
 calling in to the talk show
 camping
 candle making
@@ -258,6 +263,7 @@ cannonball dive
 canter
 cantilevering
 canvas art
+capturing
 car chase
 car trouble
 card games
@@ -277,6 +283,7 @@ catching
 catching a glimpse
 catering
 catering to $$character
+Cease at once!
 ceasing
 celebration
 censure
@@ -290,6 +297,7 @@ chatter
 chatting
 check please
 checkers
+checking up on $$random_word
 cheerleading
 chemical species
 cherishing
@@ -396,6 +404,7 @@ custom pins
 cutting
 cycling
 dabbling
+damping
 dancing
 dancing
 dancing
@@ -441,6 +450,7 @@ deriving
 designing clothes
 designing graphics
 dessert plates, tea cups, china patterns
+detaching
 detente
 diamond painting kit
 diatribe
@@ -457,7 +467,9 @@ disbursing
 disclosing
 discovering
 dishing it out
+disintegrating
 dismounting
+distorting
 diversification
 diving
 divining
@@ -492,6 +504,7 @@ don't sweat it
 donating
 doodling
 double-cross
+doubling
 dousing the $$random_word
 dovetailing
 drafted
@@ -529,8 +542,10 @@ edit out
 edited out
 effusing
 egads!
+egging on
 ego trip
 eisegesis
+electrical grid failure
 elevating
 eliciting $$random_word
 emanating
@@ -580,6 +595,7 @@ exalting
 examination
 examining
 exams
+excavating
 excitation
 excoriating
 exfiltration
@@ -638,14 +654,18 @@ filling up
 film watching/review
 finale
 financing
+fine-tuning
 firing
+firing a petard
 fishing
 fitness
 fixing to $$random_word
 flagging
+flapping
 flare up of $$random_word
 fleeing
 fling
+flinging
 flip [[your,my]] lid
 Flip-cup
 flipping
@@ -661,6 +681,7 @@ foiled again!
 foist
 follow steps $$number through $$number
 following
+following a curve
 football
 foresaking
 forging
@@ -726,6 +747,7 @@ going by
 going down
 going fishing
 going haywire
+going straight
 going to $$random_word
 going to museums
 going to work
@@ -811,6 +833,7 @@ hoax
 holding
 holding $$random_word
 holding fast
+holding forth
 holding on
 holiday books
 holing up
@@ -838,11 +861,13 @@ howling
 hubbub
 hugging
 hugging a friend
+hullabaloo
 human cannonball
 humming along
 hunting
 hurdling
 hurting
+hushing
 hypermiling
 I can't do it
 I double dog dare you
@@ -864,6 +889,7 @@ idling
 ignoring
 illustrating
 imagination
+imbibing
 imbuing
 imitating
 imitating $$character
@@ -892,6 +918,7 @@ inscribing
 inspecting
 installation
 installing
+instill
 integrating
 intending
 intercepting
@@ -999,6 +1026,7 @@ lingering
 lip reading
 listening
 listening to music
+live wire
 living
 loading
 loafing
@@ -1034,6 +1062,7 @@ makeup art
 making
 making a beeline for $$random_word
 making a big fuss
+making a deal
 making a scene
 making allegations
 making breakfast
@@ -1045,6 +1074,7 @@ maligning
 malingering
 managing
 marathon
+marauding
 marking down
 marking up
 marooned
@@ -1097,6 +1127,7 @@ mod podge crafts
 model building
 model cars
 model kits
+modernizing
 mollifying
 mollycoddling
 molting
@@ -1247,6 +1278,7 @@ physics demonstration
 picnic
 pilates
 pinching
+ping
 pioneer
 pirouette
 pitching
@@ -1301,6 +1333,7 @@ prattling
 praying
 presenting
 preserving florals and stems such as drying eucalyptus 
+presiding
 pretending
 pretending to be a ghost
 prevailing
@@ -1313,6 +1346,7 @@ prolonging
 promising
 pronto
 prose writing
+prospering
 providing
 proving
 prowling
@@ -1342,6 +1376,7 @@ pwning
 Q and A
 quacking
 on a quest
+quadrupling
 quarreling
 questing
 question
@@ -1363,6 +1398,7 @@ rallying
 ran past
 ransacking
 ranting
+rapport
 ratatat
 rationing
 reaching
@@ -1386,6 +1422,7 @@ rebuttal
 rebutting
 recanting
 recapping
+recapturing
 receding
 receiving
 reception
@@ -1421,6 +1458,7 @@ remark
 remastering
 remonstrating
 removing
+renarking
 renouncing
 rent to own
 reopening
@@ -1535,6 +1573,7 @@ scarves
 scheduling
 scoping
 score!
+scouring
 scouting
 scram!
 scrapbooking
@@ -1548,6 +1587,7 @@ seal the deal
 sealing
 seance
 search and rescue
+secluding
 see to it that $$random_word
 seeing
 seeing to $$random_word
@@ -1586,6 +1626,7 @@ shoes
 shooting a gun
 shooting an RPG
 shooting the breeze
+shooting up quickly
 shoplifting
 shoulda woulda coulda
 shouldering
@@ -1603,6 +1644,7 @@ shutting down
 sidling
 sightseeing
 sign up today
+signifying
 signing [[the,my,]] $$random_word
 singing
 singing (solo)
@@ -1630,9 +1672,11 @@ sleeping in
 slide
 sliding
 sliding by
+slinging
 slinking
 slipping in
 slithering
+slogging
 sloshing
 slot machines
 slowing down
@@ -1676,6 +1720,8 @@ speaking
 special ops
 spectating
 speeding
+speeding up
+spelling bee
 spelunking
 spending
 spices from around the world
@@ -1701,9 +1747,12 @@ staking
 stalemate
 stalling
 stamp collecting
+stamping
 standing in for $$random_word
 standing ovation
 star gazing
+starting the $$random_word
+starting the car
 stashing
 stationed at his post
 staving off $$random_word
@@ -1721,7 +1770,10 @@ stint
 stirring
 stoking
 stopping
+stopping abruptly
 stopping in
+stopping the $$random_word
+stopping the car
 storing
 storming
 storming out
@@ -1743,8 +1795,10 @@ stubbing [[my,your,hid,her]] toe
 studying
 studying hard
 stuffed animals
+stymying
 subduing
 submitting
+subsidizing
 substituting
 suggesting
 summiting
@@ -1792,6 +1846,7 @@ talking [[about,bout]] [[my, ]] $$random_word
 talking on the phone
 tampering
 tango
+tapering
 tapping
 tapping in
 tapping out
@@ -1853,13 +1908,16 @@ tranquillizing
 transferring
 transplanting
 treading
+treading water
 treadwheel
 treating
 tremor
 triage
 trialing
+triangulating
 triathalon
 trick shot
+tripling
 trolling
 true to [[him,her,it,me]]
 trueing
@@ -1925,6 +1983,7 @@ utterance
 uttering
 vacating
 vacuuming
+vanishing
 vaporizing
 varying
 vases or ceramics
@@ -1950,6 +2009,7 @@ volunteering
 voting
 vying
 wading through
+wagering
 waiting
 walking
 walking a tightrope

@@ -947,22 +947,46 @@ class Concepts:
     @staticmethod
     def _check_concept_exists(
         concept: str,
-        existing_concepts: Dict[str, Set[str]]
+        existing_concepts: Dict[str, Set[str]],
+        target_category: str,
     ) -> list[tuple[str, str]]:
-        """Check if concept exists in any category, including as part of other concepts."""
-        matches = []
+        """Check if concept exists in other categories and rank matches by relevance.
+
+        Ranking:
+            0 = starts with concept
+            1 = concept appears at word boundary (but not at start)
+            2 = concept appears as a generic partial substring
+
+        Note:
+            Phrase-heavy categories (jargon, puns, sayings) are excluded from
+            duplicate checks unless the import target is that same file, so
+            common words do not false-block imports into normal concept lists.
+        """
+        ranked_matches = []
         concept_lower = concept.lower()
-        
-        # Create pattern that matches at word boundary or start of string
-        pattern = re.compile(rf'(\b|^){re.escape(concept_lower)}')
-        
+
+        word_boundary_pattern = re.compile(rf"\b{re.escape(concept_lower)}")
+        # Skip cross-category matches from long-form phrase corpora unless
+        # the user is importing directly into that file.
+        _phrase_heavy_sources = frozenset((SFW.jargon, SFW.puns, SFW.sayings))
+
         for category, concepts in existing_concepts.items():
+            if category in _phrase_heavy_sources and target_category != category:
+                continue
             for existing in concepts:
                 existing_lower = existing.lower()
-                if pattern.search(existing_lower):
-                    matches.append((existing, category))
-                    
-        return matches
+                if existing_lower.startswith(concept_lower):
+                    rank = 0
+                elif word_boundary_pattern.search(existing_lower):
+                    rank = 1
+                elif concept_lower in existing_lower:
+                    rank = 2
+                else:
+                    continue
+                ranked_matches.append((rank, existing.lower(), category.lower(), existing, category))
+
+        ranked_matches.sort(key=lambda item: (item[0], item[1], item[2]))
+        return [(existing, category) for _, _, _, existing, category in ranked_matches]
     
     @staticmethod
     def import_concepts(
@@ -1019,7 +1043,9 @@ class Concepts:
                 continue
                 
             # Check if concept exists anywhere
-            matches = Concepts._check_concept_exists(concept, existing_concepts)
+            matches = Concepts._check_concept_exists(
+                concept, existing_concepts, target_category
+            )
             
             if matches:
                 # Concept exists somewhere, add to found concepts

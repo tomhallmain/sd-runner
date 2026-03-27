@@ -7,6 +7,7 @@ ahem
 alas
 alert
 Allllrighty then!
+altruistic
 amazement
 amused
 angry
@@ -72,6 +73,7 @@ dour
 drat!
 drowsy
 dunno
+Eek!
 Egad
 elation
 empty stare
@@ -79,6 +81,7 @@ enthralled
 even so...
 exultant
 flabbergasted
+flair
 frenzied
 fretful
 fury
@@ -91,6 +94,7 @@ grouchy
 grr
 gruff
 guileful expression
+gurning
 hah!
 haha
 hatred
@@ -194,6 +198,7 @@ Nervous
 nervous look
 no way
 none the wiser
+nonplussed
 nope
 oh no
 Oho!
@@ -208,6 +213,7 @@ Overjoyed
 Overwhelmed
 Panicked
 peevish
+penache
 Pensive
 Perplexed
 Pessimistic
@@ -243,6 +249,7 @@ savoring
 scoff
 scrunched nose
 shame
+sheepish
 shrug
 Shy
 side-eye
@@ -260,6 +267,7 @@ smug
 snark
 snarl
 sneering
+snide
 snivel
 snort
 solace
@@ -284,12 +292,14 @@ suspicion
 Suspicious
 Tearful
 tedium
+tempremental
 Tense
 then again
 thinking face
 Thoughtful
 thrilled
 tired
+trained eye
 tranquil
 transfixed
 uh-oh
@@ -303,6 +313,7 @@ Uplifted
 Vexed
 well I never!
 What?
+whimsy
 Why the long face?
 Why?
 wishing

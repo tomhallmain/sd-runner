@@ -128,7 +128,11 @@
 .zip - Zip compressed file
 /. - Slashdot
 @Formula - @Formula
+Baryon Acoustic Oscillations
 Epinephrine
+excipients
+Large low shear velocity provinces (LLSVPs)
+lyophilization
 π-calculus
 λProlog - λProlog
 μ-kernel - Microkernel

@@ -21,8 +21,11 @@ angled up
 ankle
 approaching
 arched back
+arm locked
+arms crossed
 arms down
 arms extended
+arms folded
 arms up
 around
 around the block
@@ -34,6 +37,7 @@ at attention
 at ease
 at the end
 at the start
+atilt
 back
 back to camera
 behind it
@@ -78,6 +82,7 @@ far and away
 farthest from
 fetal position
 fingers
+fingers crossed
 from across the room
 from around
 glamour pose
@@ -108,10 +113,12 @@ jazz hands
 just as far
 knee
 lateral
+leaning
 leaning forward
 leaning back
 leaning on side
 leaning on railing
+leaning over
 legs crossed
 legs spread
 legs together
@@ -181,6 +188,7 @@ reclined
 reclining
 resting on elbows
 rolling over
+shin
 shoulder
 side
 side profile

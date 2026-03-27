@@ -1,12 +1,15 @@
 $$number [[minutes,hours]] later
 a long time from now
 a while ago
+abrupt
 again
 all the time
 all the while
 always
 as of $$number
 at last
+at once
+before
 before long
 circa $$number [[BC,AD,CE]]
 early morning
@@ -48,6 +51,7 @@ since then
 sometime
 sometime [[today,tomorrow,next week,next month,next year]]
 soon
+sudden
 that day
 three times
 thrice

@@ -111,6 +111,7 @@ arbor
 arc
 arc lamp
 arc length
+arcana
 archetype
 archivolt
 Arial
@@ -178,6 +179,7 @@ blah
 blazon
 blinds
 blinker
+blips
 bloc
 blog screenshot
 blurb
@@ -191,6 +193,7 @@ boring
 bowl
 box set
 bracket
+bracteate
 brand
 brazier
 breadth
@@ -241,6 +244,7 @@ carpet
 Cartesian coordinates
 cartouche
 carved ivory
+cash register
 casing
 cast iron
 casts
@@ -263,6 +267,7 @@ chanson
 chape
 chapter
 chart
+chasse
 chatelaine
 chatoyancy
 chatroom
@@ -405,6 +410,7 @@ dislocation
 disorder
 dissapating
 dissonance
+distillate
 distortion
 ditto
 dive
@@ -414,6 +420,7 @@ dogleg
 doily
 doodad
 doodly-doo
+doom
 doorbell cam
 doppelgänger
 dot
@@ -422,6 +429,7 @@ draft
 dram
 drama
 draw plate
+dreamcatcher
 DRM-protected
 drum
 dry erase board
@@ -484,6 +492,7 @@ Eucharist
 eulogy
 everything
 evidence
+evilute
 evolute
 exchange rate
 exegesis
@@ -501,6 +510,7 @@ faience
 faille fabric
 fairy dust
 farthing
+Fate
 feldspar
 festoon
 fiber
@@ -510,6 +520,7 @@ fine print
 finely computed
 fins
 fire regulations
+flap
 flare
 flaw
 flight of fancy
@@ -538,10 +549,12 @@ fossil
 fossilized
 fragmentation
 frame
+franework
 frenquency
 Fresnel lens
 frets
 friction
+frontispiece
 froth
 fugue
 Fujifilm
@@ -549,6 +562,7 @@ fuse box
 fusebox
 Futhark
 G-force tech
+game controller
 gameplay screenshot
 gamut
 gap
@@ -591,6 +605,7 @@ groupings
 gueridon
 Guiness Book of World Records record for [biggest,tallest,smallest,longest,widest,most] $$random_word
 gum
+gussets
 gypsum
 gyroscope
 haiku
@@ -638,6 +653,7 @@ hub
 huile sur toile
 hump
 Hurdy-Gurdy
+hutch
 HVAC
 hydro
 hygroscopic
@@ -708,6 +724,7 @@ keyframes
 kilim
 kinesis
 King
+knack
 knobs
 kudos
 label
@@ -726,6 +743,7 @@ layering
 Le Nove porcelain
 leaking
 lede
+ledger stone
 legend inset
 legume
 lehr oven
@@ -861,6 +879,7 @@ national
 Nativity
 nature
 Nendoroid
+neolith
 nephrite
 neurons
 new releases
@@ -882,6 +901,7 @@ nuclei
 oblong
 obsidian
 ocarina
+octothorpe
 oculus
 oddity
 odds and ends
@@ -889,6 +909,7 @@ oeil-de-boeuf
 officialese
 offset
 offset printing
+ogive
 oil stain
 Omega
 omen
@@ -900,6 +921,7 @@ onyx
 opaion
 open
 open set
+opus $$number
 opus albarium
 orant
 orb
@@ -943,8 +965,10 @@ paradox
 paragraph
 parallel
 parallelism
+parallelogram
 paranormal
 parcel
+pareidolia
 parenthesis
 parge coat
 pargeting
@@ -1269,6 +1293,7 @@ personification
 petiole
 petrified wood
 phase
+phases
 phial
 philosophy
 phloem
@@ -1290,6 +1315,7 @@ pie chart
 pigment
 pilaster
 pile
+pinball
 piston
 pith
 pivot
@@ -1304,8 +1330,10 @@ plasm
 plasterwork
 plastic
 plasticity
+platter
 playbook markings
 pliers
+plinth
 Plique-à-jour
 plot
 plotter
@@ -1334,6 +1362,7 @@ prayer
 pre-op
 precious stones
 preface
+preprint
 pretzel shape
 primer
 print art
@@ -1350,6 +1379,7 @@ proof
 prop comic
 proposition
 propriety
+Pros and Cons
 prosody
 prospect
 protagonist
@@ -1360,6 +1390,7 @@ providence
 proxy
 psalm
 psalter
+pseudomorph
 pseudosphere
 public domain image
 pulley
@@ -1492,6 +1523,7 @@ sawtooth wave
 scads
 scalable
 scan
+scanning electron microscope
 scanning electron microscopy
 Scantron
 scattered
@@ -1511,6 +1543,7 @@ SCUD
 sealed
 sealer
 seam
+sears catalog
 sebka
 secant
 sector
@@ -1609,6 +1642,7 @@ socialist
 socket
 soft
 soft
+soft-paste porcelain
 soil
 solenoid
 solid
@@ -1628,6 +1662,7 @@ speckles
 specks
 spectra
 speleothems
+speliothem
 Sperrsatz
 SPF
 spilling
@@ -1638,6 +1673,7 @@ spirograph
 splash
 splashiness
 splat
+spode
 spokes
 sponsored by " $$random_word "
 spore
@@ -1712,6 +1748,7 @@ subtitle
 suet
 suitable for various media
 Sumi-e
+suncatcher
 sundry
 sunny
 super
@@ -1818,6 +1855,7 @@ tonnage
 tool set
 tools
 tooltip
+Top Story
 tornado
 torque
 torso
@@ -1845,6 +1883,7 @@ tragi-comedy
 tragic flaw
 trait
 transcendentalism
+transfer print
 translation
 transparent background
 transverse plane
@@ -1908,6 +1947,7 @@ uwu
 V formation
 vacation pic
 vacuum
+valor
 valour
 variance
 variation
@@ -2848,3 +2888,4 @@ zigzag
 zip tie
 Zitternbewegung
 zest
+écorché-style [[painting,drawing,sculpture]]

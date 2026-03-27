@@ -76,10 +76,10 @@ class ConceptEditorWindow(SmartDialog):
        It is explicitly **invalidated** for a file whenever that file is
        written (save, delete, import) so that every subsequent access
        re-reads from disk.
-    *  The ``_current_file`` field is set only when the user selects a
-       concept from the list (populated by the ``_concept_to_file`` map)
-       or explicitly picks a file in the combo.  Save and delete both
-       check this field for ``None``.
+    *  The ``_current_file`` field is set when the user selects a concept
+       from the list (from ``_concept_to_file``). The target file combo is
+       only for Save / Import and is not updated by list selection; the
+       selected concept's source file and category are shown on a label.
     """
 
     # Category definitions: name -> (class_obj | None, default_checked)
@@ -163,6 +163,13 @@ class ConceptEditorWindow(SmartDialog):
         self._concept_list.currentRowChanged.connect(self._on_concept_select)
         root.addWidget(self._concept_list, stretch=1)
 
+        # --- Selected concept (source file / category) --------------------
+        self._selected_concept_label = QLabel("")
+        self._selected_concept_label.setWordWrap(True)
+        self._selected_concept_label.setStyleSheet("font-size: 9pt;")
+        self._update_selected_concept_label()
+        root.addWidget(self._selected_concept_label)
+
         # --- File combo ---------------------------------------------------
         file_row = QHBoxLayout()
         file_row.addWidget(QLabel(_("File:")))
@@ -210,12 +217,57 @@ class ConceptEditorWindow(SmartDialog):
     def _get_category_states(self) -> Dict[str, bool]:
         return {name: cb.isChecked() for name, cb in self._category_checks.items()}
 
+    def _category_for_file(self, filename: str) -> str:
+        """Return the category display name that owns *filename*, or ''."""
+        for cat_name, (cls_obj, _) in self.FILE_CATEGORIES.items():
+            if cls_obj is None:
+                if cat_name == "Dictionary" and filename == Concepts.ALL_WORDS_LIST_FILENAME:
+                    return cat_name
+                continue
+            for attr_name in dir(cls_obj):
+                if attr_name.startswith("_"):
+                    continue
+                attr_value = getattr(cls_obj, attr_name)
+                if isinstance(attr_value, str) and attr_value == filename:
+                    return cat_name
+        return ""
+
     def _load_concept_files(self) -> None:
-        """Reload the list of concept files based on current category state."""
+        """Reload the list of concept files based on current category state.
+
+        Preserves the combo's selected file when it remains valid (e.g. after
+        search refresh) so unrelated UI updates do not reset the target file.
+        """
+        previous = (self._file_combo.currentText() or "").strip()
         category_states = self._get_category_states()
         self._concept_files = Concepts.get_concept_files(category_states)
+        self._file_combo.blockSignals(True)
         self._file_combo.clear()
         self._file_combo.addItems(sorted(self._concept_files))
+        if previous and previous in self._concept_files:
+            idx = self._file_combo.findText(previous)
+            if idx >= 0:
+                self._file_combo.setCurrentIndex(idx)
+        self._file_combo.blockSignals(False)
+
+    def _update_selected_concept_label(self) -> None:
+        """Show the selected list concept's source file and category (not the combo)."""
+        if not self._current_concept or not self._current_file:
+            self._selected_concept_label.setText(_("Selected concept: —"))
+            return
+        cat = self._category_for_file(self._current_file)
+        if cat:
+            self._selected_concept_label.setText(
+                _("Selected concept: \"{0}\" — {1} ({2})").format(
+                    self._current_concept, self._current_file, cat
+                )
+            )
+        else:
+            self._selected_concept_label.setText(
+                _("Selected concept: \"{0}\" — {1}").format(
+                    self._current_concept, self._current_file
+                )
+            )
 
     def _get_concepts_from_file(self, filename: str) -> list[str]:
         """Return concepts from *filename*, using in-memory cache if available."""
@@ -241,7 +293,9 @@ class ConceptEditorWindow(SmartDialog):
 
     def _refresh(self) -> None:
         """Refresh concept list from current search + category state."""
+        previous_concept = self._current_concept
         self._load_concept_files()
+        self._concept_list.blockSignals(True)
         self._concept_list.clear()
         self._filtered_concepts = []
         self._concept_to_file.clear()
@@ -251,6 +305,11 @@ class ConceptEditorWindow(SmartDialog):
             self._concept_list.addItem(
                 _("Enter search text to see concepts...")
             )
+            self._concept_list.setCurrentRow(-1)
+            self._concept_list.blockSignals(False)
+            self._current_concept = None
+            self._current_file = None
+            self._update_selected_concept_label()
             return
 
         tier1: list[tuple[str, str]] = []  # starts-with
@@ -285,19 +344,25 @@ class ConceptEditorWindow(SmartDialog):
         self._status_label.setText(
             _("{0} concepts found").format(len(self._filtered_concepts))
         )
+        self._concept_list.setCurrentRow(-1)
+        self._concept_list.blockSignals(False)
+        if previous_concept and previous_concept in self._filtered_concepts:
+            self._select_concept_in_list(previous_concept)
+        else:
+            self._current_concept = None
+            self._current_file = None
+            self._update_selected_concept_label()
 
     def _on_concept_select(self, row: int) -> None:
         if row < 0 or row >= len(self._filtered_concepts):
             self._current_concept = None
+            self._current_file = None
+            self._update_selected_concept_label()
             return
         concept = self._filtered_concepts[row]
         self._current_concept = concept
-        filename = self._concept_to_file.get(concept)
-        if filename:
-            self._current_file = filename
-            idx = self._file_combo.findText(filename)
-            if idx >= 0:
-                self._file_combo.setCurrentIndex(idx)
+        self._current_file = self._concept_to_file.get(concept)
+        self._update_selected_concept_label()
 
     def _select_concept_in_list(self, concept: str) -> None:
         """Scroll to and select *concept* in the list widget (if present)."""

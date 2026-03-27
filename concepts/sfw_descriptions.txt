@@ -33,6 +33,7 @@ allowable
 almost
 aloof
 aloud
+alternate
 amazing
 ambiguous
 amped
@@ -40,6 +41,7 @@ amphibious
 angled
 anisometric
 anomalous
+approximate
 aptitude
 arable
 arcane
@@ -59,7 +61,9 @@ at rest
 athwart
 atmospheric
 atonal
+attached
 auspicious
+automatic
 auxiliary
 available
 average
@@ -95,6 +99,7 @@ brassy
 brazen
 brilliant
 broadbrimmed
+bucolic
 bulbous
 burdensome
 bushy-tailed
@@ -107,9 +112,11 @@ charade
 charred
 chatlyant
 cheap
+chock-a-block
 cleft
 cliché
 cloying
+cogent
 cognizant
 coherent
 collapsed
@@ -122,6 +129,7 @@ comprehensive
 concealed
 conceited
 conditional
+conical
 conscience
 conscientious
 conscious
@@ -148,16 +156,20 @@ deific
 delimited
 deluxe
 derelict
+detached
 diagonal
 different
 dignified
 diligence
 dim
+dinky
 direct
 disengaged
 distinctive
 diverged
 divine
+doable
+docile
 domed
 done up
 dour
@@ -198,6 +210,7 @@ expidited
 exponential
 extant
 extemporaneous
+external
 extra-large
 extra-small
 fabled
@@ -210,6 +223,7 @@ fantasmic
 far-out
 fastidious
 favorable
+feathered
 feeble
 feral
 fettered
@@ -218,6 +232,7 @@ fibrous
 fickle
 fine
 fine and dandy
+finest
 firm
 fishy
 fixed
@@ -237,6 +252,7 @@ forthright
 fortuitous
 fragmented
 frail
+freeze-dried
 frenetic
 fresh
 frizzy
@@ -249,6 +265,7 @@ garish
 gaudy
 gaunt
 generative
+generic
 genius
 gifted
 glacial
@@ -257,6 +274,7 @@ glorious
 godlike
 godly
 good-tempered
+goody-goody
 goofy
 grand
 gratis
@@ -268,6 +286,7 @@ hard-hearted
 hasty
 hazily
 hearty
+heavy
 heavy-set
 hefty
 helical
@@ -295,6 +314,7 @@ in a tizzy
 in high regard
 in jest
 in shape
+in use
 incarnate
 incedental
 incendiary?
@@ -314,6 +334,7 @@ integrity
 intelligent
 interim
 interlaced
+internal
 interrogatory
 intrepid
 intrigue
@@ -329,6 +350,7 @@ it predates $$random_word by $$number years
 iterative
 itsy bitsy
 just a tad
+just swell
 juvenile
 keen
 keepsake
@@ -343,6 +365,7 @@ least of all
 legendary
 legit
 lengthy
+light-weight
 like a $$random_word
 likely
 lilting
@@ -359,9 +382,11 @@ makeshift
 maladroit
 malted
 Mammalia
+manageable
 maniacal
 manic
 marred
+marvelous
 massless
 matter-of-fact
 meager
@@ -371,6 +396,7 @@ medial
 medium-sized
 meritous
 merry
+metric
 middling
 mild
 mind-boggling
@@ -411,13 +437,16 @@ numerous
 nutritious
 obdurate
 oblate
+obnoxious
 observant
+of good moral fiber
 of great stature
 on-demand
 one of the good ones
 oomph
 operational
 opportunistic
+opposable
 original
 orthodox
 ostentatious
@@ -432,6 +461,7 @@ parasitic
 parsimonious
 parted
 particular
+pastoral
 pedantic
 pending
 performative
@@ -439,6 +469,7 @@ perilous
 perjurous
 personable
 personal
+petrified
 petty
 philosophic
 piecemeal
@@ -460,6 +491,7 @@ prodigal
 prominent
 promontory
 promoted
+prosperous
 pursuant to $$random_word
 quadratic
 quaint
@@ -472,12 +504,14 @@ ready
 receptive
 recognizable
 recommended
+rectangular
 redoubtable
 refined
 regal
 related
 remarkable
 remastered
+remiss
 repetitive
 resonant
 restored
@@ -495,6 +529,7 @@ rotisserie
 routine
 Royal
 ruffled
+rustic
 sagging
 sanding
 sandy
@@ -582,8 +617,10 @@ sobering
 solid
 soulful
 sparkling
+specific
 speckled
 spent
+spherical
 splendid
 spry
 spun
@@ -591,6 +628,7 @@ spunky
 squished
 staid
 stale
+stamped
 startled
 state-of-the-art
 stately
@@ -601,6 +639,7 @@ stern
 stiff
 stilted
 stingy
+stolid
 storied
 stormy
 stray
@@ -613,6 +652,7 @@ Stygian
 styled
 sublime
 subpar
+subsidiary
 subtle
 such and such
 superdry
@@ -626,6 +666,7 @@ sympathetic
 synthetic
 tabular
 taciturn
+tacked on
 tacky
 tactical
 tagged
@@ -633,6 +674,7 @@ taken
 tall
 tangled
 tangy
+tapered
 tawdry
 temporary
 ten feet tall
@@ -653,8 +695,10 @@ too true
 top-secret
 traditional
 transient
+trapezoidal
 travesty
 treaded
+triangular
 trifling
 triplet
 truncated
@@ -678,6 +722,7 @@ unguarded
 united
 unkillable
 unmoving
+unnatural
 unobtrusive
 unordered
 unorthodox
@@ -713,6 +758,7 @@ weightless
 well-mannered
 well-rested
 wellaway
+whimsical -> whimsical (sfw_concepts.txt)
 whiskers
 whiz
 wicked
