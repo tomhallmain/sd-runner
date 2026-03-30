@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2026-03-01 17:08-0500\n"
-"PO-Revision-Date: 2026-03-01 17:08-0500\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2026-03-30 15:06-0400\n"
+"PO-Revision-Date: 2026-03-30 15:06-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ja Team <<EMAIL>>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgstr "モデルタグ"
 
 #: app.py:233 app.py:250 ui/models_window.py:27
 #: ui_qt/app_window/sidebar_panel.py:198 ui_qt/app_window/sidebar_panel.py:219
-#: ui_qt/models/models_window.py:80
+#: ui_qt/models/models_window.py:87
 msgid "Models"
 msgstr "モデル"
 
@@ -83,7 +83,7 @@ msgid "Control Net or Redo files"
 msgstr "コントロールネット、やり直しファイル"
 
 #: app.py:282 app.py:297 ui_qt/app_window/sidebar_panel.py:252
-#: ui_qt/app_window/sidebar_panel.py:272
+#: ui_qt/app_window/sidebar_panel.py:272 ui_qt/app_window/sidebar_panel.py:292
 msgid "Recent"
 msgstr "最近"
 
@@ -99,12 +99,12 @@ msgstr "IPAdapter ファイル"
 msgid "Default IPAdapter Strength"
 msgstr "デフォルトの IPAdapter の強さ"
 
-#: app.py:310 ui_qt/app_window/sidebar_panel.py:291
+#: app.py:310 ui_qt/app_window/sidebar_panel.py:313
 msgid "Redo Parameters"
 msgstr "やり直しパラメータ"
 
 #: app.py:326 app.py:343 ui/prompt_config_window.py:286
-#: ui_qt/app_window/sidebar_panel.py:309
+#: ui_qt/app_window/sidebar_panel.py:331
 #: ui_qt/prompts/prompt_config_window.py:285
 msgid "Prompts Configuration"
 msgstr "プロンプトの設定"
@@ -122,7 +122,7 @@ msgid "Timed Schedules Window"
 msgstr "時間指定スケジュールウィンドウ"
 
 #: app.py:338 ui/tags_blacklist_window.py:519 ui/tags_blacklist_window.py:672
-#: ui_qt/app_window/sidebar_panel.py:336 ui_qt/prompts/blacklist_window.py:199
+#: ui_qt/app_window/sidebar_panel.py:358 ui_qt/prompts/blacklist_window.py:199
 msgid "Tag Blacklist"
 msgstr "タグ ブラックリスト"
 
@@ -131,51 +131,51 @@ msgstr "タグ ブラックリスト"
 msgid "Expansions Window"
 msgstr "拡張ウィンドウ"
 
-#: app.py:346 ui_qt/app_window/sidebar_panel.py:357
+#: app.py:346 ui_qt/app_window/sidebar_panel.py:404
 msgid "Prompt Mode"
 msgstr "プロンプトのモード"
 
-#: app.py:353 ui_qt/app_window/sidebar_panel.py:367 utils/globals.py:537
+#: app.py:353 ui_qt/app_window/sidebar_panel.py:414 utils/globals.py:646
 msgid "Edit Concepts"
 msgstr "編集コンセプト"
 
-#: app.py:356 ui_qt/app_window/sidebar_panel.py:376
+#: app.py:356 ui_qt/app_window/sidebar_panel.py:423
 msgid "Concepts Dir"
 msgstr "コンセプト・ディレクトリ"
 
-#: app.py:367 ui_qt/app_window/sidebar_panel.py:385
+#: app.py:367 ui_qt/app_window/sidebar_panel.py:432
 msgid "Override Resolution"
 msgstr "画像解像度の上書き"
 
-#: app.py:371 ui_qt/app_window/sidebar_panel.py:389
+#: app.py:371 ui_qt/app_window/sidebar_panel.py:436
 msgid "Inpainting"
 msgstr "インテリア・ペインティング"
 
 #: app.py:375 ui/prompt_config_window.py:722
-#: ui_qt/app_window/sidebar_panel.py:393
+#: ui_qt/app_window/sidebar_panel.py:440
 #: ui_qt/prompts/prompt_config_window.py:257
 msgid "Override Base Negative"
 msgstr "ベースネガを上書きする"
 
-#: app.py:379 ui_qt/app_window/sidebar_panel.py:398
+#: app.py:379 ui_qt/app_window/sidebar_panel.py:445
 msgid "Run Preset Schedule"
 msgstr "プリセットスケジュールの実行"
 
 #: app.py:383 ui/prompt_config_window.py:743
-#: ui_qt/app_window/sidebar_panel.py:402
+#: ui_qt/app_window/sidebar_panel.py:449
 #: ui_qt/prompts/prompt_config_window.py:272
 msgid "Continuous Seed Variation"
 msgstr "連続的な乱数シードの変動"
 
-#: app.py:387 ui_qt/app_window/sidebar_panel.py:407
+#: app.py:387 ui_qt/app_window/sidebar_panel.py:454
 msgid "Prompt Massage Tags"
 msgstr "マッサージ・タグを促す"
 
-#: app.py:394 ui_qt/app_window/sidebar_panel.py:414
+#: app.py:394 ui_qt/app_window/sidebar_panel.py:461
 msgid "Positive Tags"
 msgstr "プロンプトの調整タグ"
 
-#: app.py:401 ui_qt/app_window/sidebar_panel.py:420
+#: app.py:401 ui_qt/app_window/sidebar_panel.py:467
 msgid "Negative Tags"
 msgstr "ネガティブタグ"
 
@@ -183,15 +183,15 @@ msgstr "ネガティブタグ"
 msgid " ComfyGen "
 msgstr " SDランナー "
 
-#: app.py:427 ui_qt/app_window/app_window.py:359
+#: app.py:427 ui_qt/app_window/app_window.py:360
 msgid "Debug mode toggled."
 msgstr "デバッグモードが切り替えられました。"
 
-#: app.py:495 ui_qt/app_window/app_window.py:760
+#: app.py:495 ui_qt/app_window/app_window.py:799
 msgid "Confirm Quit"
 msgstr "終了を確認する"
 
-#: app.py:495 ui_qt/app_window/app_window.py:761
+#: app.py:495 ui_qt/app_window/app_window.py:800
 msgid "Would you like to quit the application?"
 msgstr "アプリを終了しますか？"
 
@@ -199,30 +199,30 @@ msgstr "アプリを終了しますか？"
 msgid "Storing caches..."
 msgstr "キャッシュを保存中..."
 
-#: app.py:751 app.py:771 ui_qt/app_window/run_controller.py:139
-#: ui_qt/app_window/run_controller.py:169
+#: app.py:751 app.py:771 ui_qt/app_window/run_controller.py:140
+#: ui_qt/app_window/run_controller.py:170
 msgid "Confirm Run"
 msgstr "ランの確認"
 
-#: app.py:752 ui_qt/app_window/run_controller.py:140
+#: app.py:752 ui_qt/app_window/run_controller.py:141
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "新しいランを開始すると、現在のプリセットスケジュールはキャンセルされます。本当に続けますか？"
 
-#: app.py:772 ui_qt/app_window/run_controller.py:170
+#: app.py:772 ui_qt/app_window/run_controller.py:171
 msgid "Are you sure you want to proceed?"
 msgstr "このままでいいのか？"
 
-#: app.py:781 ui_qt/app_window/run_controller.py:178
+#: app.py:781 ui_qt/app_window/run_controller.py:183
 msgid "Setting up run..."
 msgstr "実行設定中..."
 
-#: app.py:794 ui_qt/app_window/run_controller.py:188
+#: app.py:794 ui_qt/app_window/run_controller.py:193
 msgid "No models found"
 msgstr "モデルが見つかりませんでした"
 
-#: app.py:815 ui_qt/app_window/run_controller.py:212
+#: app.py:815 ui_qt/app_window/run_controller.py:297
 msgid "Long Running Job Confirmation"
 msgstr "長時間実行ジョブ確認"
 
@@ -244,48 +244,48 @@ msgstr ""
 "\n"
 "続行してもよろしいですか？"
 
-#: app.py:954 ui_qt/app_window/run_controller.py:371
+#: app.py:954 ui_qt/app_window/run_controller.py:457
 msgid " (unlimited)"
 msgstr " (無制限）"
 
-#: app.py:971 ui_qt/app_window/run_controller.py:385
+#: app.py:971 ui_qt/app_window/run_controller.py:471
 msgid "Batch: {0}/{1}"
 msgstr "バッチ: {0}/{1}"
 
-#: app.py:977 ui_qt/app_window/run_controller.py:392
+#: app.py:977 ui_qt/app_window/run_controller.py:478
 msgid "Adapter: {0}/{1}"
 msgstr "アダプター: {0}/{1}"
 
-#: app.py:980 ui_qt/app_window/run_controller.py:396
+#: app.py:980 ui_qt/app_window/run_controller.py:482
 msgid "Remaining: {0} adapters"
 msgstr "残り: {0} アダプター"
 
-#: app.py:987 ui_qt/app_window/run_controller.py:405
+#: app.py:987 ui_qt/app_window/run_controller.py:491
 msgid "{0} remaining adapters"
 msgstr "{0} 個のアダプターが残っています"
 
-#: app.py:1007 ui_qt/app_window/run_controller.py:430
+#: app.py:1007 ui_qt/app_window/run_controller.py:516
 msgid "{0} pending generations"
 msgstr "{0}保留中の世代"
 
-#: app.py:1088 ui_qt/app_window/run_controller.py:94
+#: app.py:1088 ui_qt/app_window/run_controller.py:95
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "プロンプトでブラックリストの項目が見つかりました： {0}"
 
-#: app.py:1089 app.py:1092 ui_qt/app_window/run_controller.py:95
-#: ui_qt/app_window/run_controller.py:99
+#: app.py:1089 app.py:1092 ui_qt/app_window/run_controller.py:96
+#: ui_qt/app_window/run_controller.py:100
 msgid "Invalid Prompt Tags"
 msgstr "無効なプロンプトタグ"
 
-#: app.py:1092 ui_qt/app_window/run_controller.py:99
+#: app.py:1092 ui_qt/app_window/run_controller.py:100
 msgid "Blacklist validation failed!"
 msgstr "ブラックリストの検証に失敗した！"
 
-#: app.py:1290 ui_qt/app_window/sidebar_panel.py:575
+#: app.py:1290 ui_qt/app_window/sidebar_panel.py:622
 msgid "Password Cancelled"
 msgstr "パスワードのキャンセル"
 
-#: app.py:1290 ui_qt/app_window/sidebar_panel.py:576
+#: app.py:1290 ui_qt/app_window/sidebar_panel.py:623
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "パスワードがキャンセルされたか、間違っている。"
 
@@ -299,18 +299,18 @@ msgstr "パスワードがキャンセルされたか、間違っている。"
 #: ui_qt/auth/app_startup_auth_qt.py:124
 #: ui_qt/auth/password_admin_window.py:130
 #: ui_qt/auth/password_admin_window.py:534 ui_qt/auth/password_dialog.py:305
-#: ui_qt/models/models_window.py:369 ui_qt/models/models_window.py:505
-#: ui_qt/models/models_window.py:512 ui_qt/models/models_window.py:514
+#: ui_qt/models/models_window.py:560 ui_qt/models/models_window.py:696
+#: ui_qt/models/models_window.py:703 ui_qt/models/models_window.py:705
 #: ui_qt/prompts/blacklist_modify_window.py:132
 #: ui_qt/prompts/blacklist_preview_window.py:209
-#: ui_qt/prompts/concept_editor_window.py:331
-#: ui_qt/prompts/concept_editor_window.py:445
-#: ui_qt/prompts/concept_editor_window.py:469
+#: ui_qt/prompts/concept_editor_window.py:396
+#: ui_qt/prompts/concept_editor_window.py:510
+#: ui_qt/prompts/concept_editor_window.py:534
 msgid "Error"
 msgstr "エラー"
 
 #: app_qt.py:38 ui_qt/app_window/app_window.py:128
-#: ui_qt/app_window/app_window.py:155 ui_qt/app_window/app_window.py:357
+#: ui_qt/app_window/app_window.py:155 ui_qt/app_window/app_window.py:358
 msgid " SD Runner "
 msgstr " SDランナー "
 
@@ -349,16 +349,16 @@ msgstr "はい"
 msgid "No"
 msgstr "ノー"
 
-#: sd_runner/blacklist.py:501
+#: sd_runner/blacklist.py:512
 msgid "Filtering concepts for blacklist: "
 msgstr "ブラックリストのフィルタリングの概念： "
 
-#: sd_runner/models.py:559
+#: sd_runner/models.py:630
 msgid ""
 "One or more loras are blacklisted. Please try again with a different lora."
 msgstr "1つまたは複数のLORAがブラックリストに登録されています。別のLORAを使用して再度お試しください。"
 
-#: sd_runner/models.py:563
+#: sd_runner/models.py:634
 msgid ""
 "The following loras are blacklisted: {0}\n"
 "\n"
@@ -368,12 +368,12 @@ msgstr ""
 "\n"
 "別のLORAを使用して再度お試しください。"
 
-#: sd_runner/models.py:568
+#: sd_runner/models.py:639
 msgid ""
 "One or more models are blacklisted. Please try again with a different model."
 msgstr "1つまたは複数のモデルがブラックリストに登録されています。別のモデルで再度お試しください。"
 
-#: sd_runner/models.py:572
+#: sd_runner/models.py:643
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
@@ -383,23 +383,23 @@ msgstr ""
 "\n"
 "別のモデルで再度お試しください。"
 
-#: sd_runner/run_config.py:64
+#: sd_runner/run_config.py:66
 msgid "No prompter config found!"
 msgstr "プロンプターのコンフィグが見つかりません！"
 
-#: sd_runner/run_config.py:68
+#: sd_runner/run_config.py:70
 msgid ""
 "Ensure configuration is correct - do you really want to create more than 10 "
 "images using the same prompt?"
 msgstr "同じプロンプトを使って10枚以上の画像を作成したいのですか？"
 
-#: sd_runner/run_config.py:75
+#: sd_runner/run_config.py:77
 msgid ""
 "A model switch was detected and the model massage tags don't match. This "
 "warning will only be shown once."
 msgstr "モデル切り替えが検出され、モデル調整のタグが一致しません。この警告は1回のみ表示されます。"
 
-#: sd_runner/run_config.py:168
+#: sd_runner/run_config.py:170
 msgid ""
 "WARNING: Multiple resolutions in renoiser workflow will produce nearly "
 "identical results (duplicates)."
@@ -443,15 +443,15 @@ msgstr "シャットダウン予定時刻: {}"
 msgid "Search/Add Concept:"
 msgstr "検索/追加コンセプト："
 
-#: ui/concept_editor_window.py:159 ui_qt/prompts/concept_editor_window.py:168
+#: ui/concept_editor_window.py:159 ui_qt/prompts/concept_editor_window.py:175
 msgid "File:"
 msgstr "ファイル："
 
-#: ui/concept_editor_window.py:164 ui_qt/prompts/concept_editor_window.py:177
+#: ui/concept_editor_window.py:164 ui_qt/prompts/concept_editor_window.py:184
 msgid "(Target file for saving new concepts and importing)"
 msgstr "(新しいコンセプトを保存し、インポートするためのターゲットファイル）"
 
-#: ui/concept_editor_window.py:172 ui_qt/prompts/concept_editor_window.py:184
+#: ui/concept_editor_window.py:172 ui_qt/prompts/concept_editor_window.py:191
 msgid "Save"
 msgstr "セーブ"
 
@@ -461,7 +461,7 @@ msgstr "セーブ"
 #: ui_qt/presets/presets_window.py:173 ui_qt/presets/schedules_window.py:129
 #: ui_qt/presets/schedules_window.py:287
 #: ui_qt/presets/timed_schedules_window.py:243
-#: ui_qt/prompts/concept_editor_window.py:191
+#: ui_qt/prompts/concept_editor_window.py:198
 #: ui_qt/prompts/expansions_window.py:227
 msgid "Delete"
 msgstr "削除"
@@ -469,15 +469,15 @@ msgstr "削除"
 #: ui/concept_editor_window.py:178 ui/tags_blacklist_window.py:578
 #: ui/tags_blacklist_window.py:645 ui_qt/prompts/blacklist_window.py:242
 #: ui_qt/prompts/blacklist_window.py:309
-#: ui_qt/prompts/concept_editor_window.py:198
+#: ui_qt/prompts/concept_editor_window.py:205
 msgid "Import"
 msgstr "輸入"
 
-#: ui/concept_editor_window.py:219 ui_qt/prompts/concept_editor_window.py:252
+#: ui/concept_editor_window.py:219 ui_qt/prompts/concept_editor_window.py:306
 msgid "Enter search text to see concepts..."
 msgstr "検索テキストを入力すると、コンセプトが表示されます..."
 
-#: ui/concept_editor_window.py:274 ui_qt/prompts/concept_editor_window.py:332
+#: ui/concept_editor_window.py:274 ui_qt/prompts/concept_editor_window.py:397
 msgid "Please select a file to save to"
 msgstr "保存するファイルを選択してください。"
 
@@ -485,7 +485,7 @@ msgstr "保存するファイルを選択してください。"
 msgid "Saved concept: {0}"
 msgstr "保存されたコンセプト：{0}"
 
-#: ui/concept_editor_window.py:310 ui_qt/prompts/concept_editor_window.py:394
+#: ui/concept_editor_window.py:310 ui_qt/prompts/concept_editor_window.py:459
 msgid "Confirm"
 msgstr "確認"
 
@@ -497,11 +497,11 @@ msgstr "コンセプトの削除：{0}?"
 msgid "Deleted concept: {0}"
 msgstr "削除されたコンセプト：{0}"
 
-#: ui/concept_editor_window.py:333 ui_qt/prompts/concept_editor_window.py:446
+#: ui/concept_editor_window.py:333 ui_qt/prompts/concept_editor_window.py:511
 msgid "Please select a target file first"
 msgstr "最初にターゲットファイルを選択してください。"
 
-#: ui/concept_editor_window.py:338 ui_qt/prompts/concept_editor_window.py:454
+#: ui/concept_editor_window.py:338 ui_qt/prompts/concept_editor_window.py:519
 msgid "Select concepts file to import"
 msgstr "インポートするコンセプトファイルを選択"
 
@@ -517,7 +517,7 @@ msgstr "すべてのファイル"
 msgid "Successfully imported {0} concepts"
 msgstr "{0}概念のインポートに成功"
 
-#: ui/concept_editor_window.py:361 ui_qt/prompts/concept_editor_window.py:487
+#: ui/concept_editor_window.py:361 ui_qt/prompts/concept_editor_window.py:552
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr "{0}概念がインポートされませんでした（詳細は{1}_failed_import.txtを参照）。"
 
@@ -527,7 +527,7 @@ msgid ""
 "simply use the concept name as a search term to force import."
 msgstr "ヒント：インポートを強制するには、コンセプト行の先頭に「!」"
 
-#: ui/concept_editor_window.py:364 ui_qt/prompts/concept_editor_window.py:498
+#: ui/concept_editor_window.py:364 ui_qt/prompts/concept_editor_window.py:563
 msgid "Import Results"
 msgstr "インポート結果"
 
@@ -604,7 +604,12 @@ msgstr "明確な拡張"
 msgid "Modify"
 msgstr "修正"
 
-#: ui/expansions_window.py:252 ui_qt/prompts/expansions_window.py:228
+#: ui/expansions_window.py:252 ui_qt/models/recent_adapters_window.py:394
+#: ui_qt/models/recent_adapters_window.py:432
+#: ui_qt/models/recent_adapters_window.py:470
+#: ui_qt/models/recent_adapters_window.py:513
+#: ui_qt/models/recent_adapters_window.py:579
+#: ui_qt/prompts/expansions_window.py:228
 msgid "Copy"
 msgstr "コピー"
 
@@ -616,70 +621,77 @@ msgstr "無効な拡張ID 「{0}」 またはテキスト 「{1}」"
 msgid "Copied expansion text to clipboard"
 msgstr "拡張テキストをクリップボードにコピー"
 
-#: ui/models_window.py:48 ui_qt/models/models_window.py:91
+#: ui/models_window.py:48 ui_qt/models/models_window.py:100
 msgid "Checkpoints"
 msgstr "チェックポイント"
 
-#: ui/models_window.py:49 ui_qt/models/models_window.py:92
+#: ui/models_window.py:49 ui_qt/models/models_window.py:101
 msgid "LoRAs & Adapters"
 msgstr "LoRAとアダプター"
 
 #: ui/models_window.py:63 ui/models_window.py:119
 #: ui/recent_adapters_window.py:87 ui/recent_adapters_window.py:142
-#: ui/recent_adapters_window.py:202 ui_qt/models/models_window.py:119
-#: ui_qt/models/models_window.py:173
-#: ui_qt/models/recent_adapters_window.py:255
-#: ui_qt/models/recent_adapters_window.py:287
-#: ui_qt/models/recent_adapters_window.py:323
+#: ui/recent_adapters_window.py:202 ui_qt/models/models_window.py:130
+#: ui_qt/models/models_window.py:184
+#: ui_qt/models/recent_adapters_window.py:376
+#: ui_qt/models/recent_adapters_window.py:414
+#: ui_qt/models/recent_adapters_window.py:452
+#: ui_qt/models/recent_adapters_window.py:494
+#: ui_qt/models/recent_adapters_window.py:539
 msgid "Filter"
 msgstr "フィルター"
 
-#: ui/models_window.py:79 ui_qt/models/models_window.py:130
+#: ui/models_window.py:79 ui_qt/models/models_window.py:141
 msgid "Model Name"
 msgstr "モデル名"
 
 #: ui/models_window.py:80 ui/models_window.py:136
-#: ui_qt/models/models_window.py:130 ui_qt/models/models_window.py:183
+#: ui_qt/models/models_window.py:141 ui_qt/models/models_window.py:194
 msgid "Architecture"
 msgstr "建築"
 
 #: ui/models_window.py:81 ui/models_window.py:137
 #: ui/recent_adapters_window.py:105 ui/recent_adapters_window.py:160
-#: ui/recent_adapters_window.py:220 ui_qt/models/models_window.py:130
-#: ui_qt/models/models_window.py:183
-#: ui_qt/models/recent_adapters_window.py:264
-#: ui_qt/models/recent_adapters_window.py:296
-#: ui_qt/models/recent_adapters_window.py:329
+#: ui/recent_adapters_window.py:220 ui_qt/models/models_window.py:141
+#: ui_qt/models/models_window.py:194
+#: ui_qt/models/recent_adapters_window.py:385
+#: ui_qt/models/recent_adapters_window.py:423
+#: ui_qt/models/recent_adapters_window.py:461
+#: ui_qt/models/recent_adapters_window.py:500
+#: ui_qt/models/recent_adapters_window.py:568
 msgid "Created"
 msgstr "作成された"
 
 #: ui/models_window.py:96 ui/models_window.py:152
 #: ui/recent_adapters_window.py:120 ui/recent_adapters_window.py:175
-#: ui_qt/models/models_window.py:145 ui_qt/models/models_window.py:197
-#: ui_qt/models/recent_adapters_window.py:269
-#: ui_qt/models/recent_adapters_window.py:301
+#: ui_qt/models/models_window.py:156 ui_qt/models/models_window.py:208
+#: ui_qt/models/recent_adapters_window.py:390
+#: ui_qt/models/recent_adapters_window.py:428
+#: ui_qt/models/recent_adapters_window.py:466
 msgid "Replace"
 msgstr "置換"
 
 #: ui/models_window.py:98 ui/models_window.py:154
 #: ui/recent_adapters_window.py:122 ui/recent_adapters_window.py:177
-#: ui_qt/models/models_window.py:148 ui_qt/models/models_window.py:200
-#: ui_qt/models/recent_adapters_window.py:269
-#: ui_qt/models/recent_adapters_window.py:301
+#: ui_qt/models/models_window.py:159 ui_qt/models/models_window.py:211
+#: ui_qt/models/recent_adapters_window.py:390
+#: ui_qt/models/recent_adapters_window.py:428
+#: ui_qt/models/recent_adapters_window.py:466
 msgid "Add"
 msgstr "追加"
 
 #: ui/models_window.py:100 ui/models_window.py:162
 #: ui/recent_adapters_window.py:124 ui/recent_adapters_window.py:179
-#: ui_qt/models/models_window.py:151 ui_qt/models/models_window.py:208
-#: ui_qt/models/recent_adapters_window.py:273
-#: ui_qt/models/recent_adapters_window.py:305
+#: ui_qt/models/models_window.py:162 ui_qt/models/models_window.py:219
+#: ui_qt/models/recent_adapters_window.py:400
+#: ui_qt/models/recent_adapters_window.py:438
+#: ui_qt/models/recent_adapters_window.py:476
 msgid "Refresh"
 msgstr "更新"
 
 #: ui/models_window.py:102 ui/models_window.py:164 ui/models_window.py:412
-#: ui/models_window.py:414 ui_qt/models/models_window.py:154
-#: ui_qt/models/models_window.py:211 ui_qt/models/models_window.py:334
+#: ui/models_window.py:414 ui_qt/models/models_window.py:165
+#: ui_qt/models/models_window.py:222 ui_qt/models/models_window.py:525
 msgid "Show Blacklisted"
 msgstr "ブラックリスト表示"
 
@@ -688,39 +700,41 @@ msgstr "ブラックリスト表示"
 #: ui/prompt_config_window.py:355 ui/recent_adapters_window.py:126
 #: ui/recent_adapters_window.py:181 ui/recent_adapters_window.py:243
 #: ui/recent_adapters_window.py:300 ui/tags_blacklist_window.py:282
-#: ui_qt/auth/password_admin_window.py:354 ui_qt/models/models_window.py:157
-#: ui_qt/models/models_window.py:214 ui_qt/models/models_window.py:445
-#: ui_qt/models/recent_adapters_window.py:274
-#: ui_qt/models/recent_adapters_window.py:306
-#: ui_qt/models/recent_adapters_window.py:342
-#: ui_qt/models/recent_adapters_window.py:392
+#: ui_qt/auth/password_admin_window.py:354 ui_qt/models/models_window.py:168
+#: ui_qt/models/models_window.py:225 ui_qt/models/models_window.py:636
+#: ui_qt/models/recent_adapters_window.py:401
+#: ui_qt/models/recent_adapters_window.py:439
+#: ui_qt/models/recent_adapters_window.py:477
+#: ui_qt/models/recent_adapters_window.py:519
+#: ui_qt/models/recent_adapters_window.py:582
+#: ui_qt/models/recent_adapters_window.py:634
 #: ui_qt/prompts/blacklist_preview_window.py:84
 #: ui_qt/prompts/prompt_config_window.py:189
 msgid "Close"
 msgstr "閉じる"
 
-#: ui/models_window.py:135 ui_qt/models/models_window.py:183
+#: ui/models_window.py:135 ui_qt/models/models_window.py:194
 msgid "LoRA/Adapter Name"
 msgstr "アダプター"
 
 #: ui/models_window.py:156 ui/models_window.py:161
-#: ui_qt/models/models_window.py:203
+#: ui_qt/models/models_window.py:214
 msgid "LoRA Info"
 msgstr "LoRA情報"
 
 #: ui/models_window.py:374 ui/recent_adapters_window.py:587
-#: ui_qt/models/models_window.py:295
-#: ui_qt/models/recent_adapters_window.py:483
+#: ui_qt/models/models_window.py:486
+#: ui_qt/models/recent_adapters_window.py:769
 msgid "Cache"
 msgstr "キャッシュ"
 
 #: ui/models_window.py:407 ui/models_window.py:409
-#: ui_qt/models/models_window.py:334
+#: ui_qt/models/models_window.py:525
 msgid "Hide Blacklisted"
 msgstr "隠す ブラックリスト登録済み"
 
 #: ui/models_window.py:425 ui/models_window.py:663
-#: ui_qt/models/models_window.py:350
+#: ui_qt/models/models_window.py:541
 msgid "Feature Unavailable"
 msgstr "機能利用不可"
 
@@ -734,15 +748,15 @@ msgstr ""
 "\n"
 "これは依存関係が不足しているか、インポートエラーが原因である可能性があります。"
 
-#: ui/models_window.py:433 ui_qt/models/models_window.py:359
+#: ui/models_window.py:433 ui_qt/models/models_window.py:550
 msgid "No Selection"
 msgstr "選択なし"
 
-#: ui/models_window.py:433 ui_qt/models/models_window.py:360
+#: ui/models_window.py:433 ui_qt/models/models_window.py:551
 msgid "Please select a LoRA to view information."
 msgstr "LoRAを選択して情報を表示してください。"
 
-#: ui/models_window.py:443 ui_qt/models/models_window.py:370
+#: ui/models_window.py:443 ui_qt/models/models_window.py:561
 msgid "Model not found: {0}"
 msgstr "モデルが見つかりません: {0}"
 
@@ -750,71 +764,72 @@ msgstr "モデルが見つかりません: {0}"
 msgid "Failed to show LoRA information: {0}"
 msgstr "LoRA情報の表示に失敗しました: {0}"
 
-#: ui/models_window.py:464 ui_qt/models/models_window.py:388
+#: ui/models_window.py:464 ui_qt/models/models_window.py:579
 msgid "LoRA Information: {0}"
 msgstr "LoRA情報: {0}"
 
-#: ui/models_window.py:484 ui_qt/models/models_window.py:398
+#: ui/models_window.py:484 ui_qt/models/models_window.py:589
 msgid "LoRA Information"
 msgstr "LoRA情報"
 
-#: ui/models_window.py:494 ui_qt/models/models_window.py:403
+#: ui/models_window.py:494 ui_qt/models/models_window.py:594
 msgid "Name:"
 msgstr "名前："
 
-#: ui/models_window.py:505 ui_qt/models/models_window.py:404
+#: ui/models_window.py:505 ui_qt/models/models_window.py:595
 msgid "Architecture:"
 msgstr "建築："
 
-#: ui/models_window.py:516 ui_qt/models/models_window.py:405
+#: ui/models_window.py:516 ui_qt/models/models_window.py:596
 msgid "File Path:"
 msgstr "ファイルパス:"
 
-#: ui/models_window.py:528 ui_qt/models/models_window.py:406
+#: ui/models_window.py:528 ui_qt/models/models_window.py:597
 msgid "Created:"
 msgstr "作成日:"
 
-#: ui/models_window.py:539 ui_qt/models/models_window.py:407
+#: ui/models_window.py:539 ui_qt/models/models_window.py:598
 msgid "Strength:"
 msgstr "強み："
 
-#: ui/models_window.py:554 ui_qt/models/models_window.py:427
+#: ui/models_window.py:554 ui_qt/models/models_window.py:618
 msgid "Trigger Information"
 msgstr "トリガー情報"
 
-#: ui/models_window.py:560 ui_qt/models/models_window.py:431
+#: ui/models_window.py:560 ui_qt/models/models_window.py:622
 msgid "Loading trigger information..."
 msgstr "トリガー情報をロード中..."
 
-#: ui/models_window.py:574 ui_qt/models/models_window.py:440
+#: ui/models_window.py:574 ui_qt/models/models_window.py:631
 msgid "Create .safetriggers File"
 msgstr ".safetriggers ファイルを作成する"
 
-#: ui/models_window.py:597 ui_qt/models/models_window.py:466
+#: ui/models_window.py:597 ui_qt/models/models_window.py:657
+#: utils/globals.py:569
 msgid "Unknown"
 msgstr "不明"
 
-#: ui/models_window.py:603 ui_qt/models/models_window.py:470
+#: ui/models_window.py:603 ui_qt/models/models_window.py:661
 msgid "Trigger extraction not available"
 msgstr "トリガー抽出は利用できません"
 
-#: ui/models_window.py:614 ui_qt/models/models_window.py:477
+#: ui/models_window.py:614 ui_qt/models/models_window.py:668
 msgid "LoRA file not found"
 msgstr "LoRAファイルが見つかりません"
 
-#: ui/models_window.py:623 ui_qt/models/models_window.py:483
+#: ui/models_window.py:623 ui_qt/models/models_window.py:674
 msgid "No triggers found"
 msgstr "トリガーが見つかりませんでした"
 
-#: ui/models_window.py:624 ui_qt/models/models_window.py:484
+#: ui/models_window.py:624 ui_qt/models/models_window.py:675
 msgid "No triggers found: {0}"
 msgstr "トリガーが見つかりませんでした: {0}"
 
-#: ui/models_window.py:627 ui_qt/models/models_window.py:486
+#: ui/models_window.py:627 ui_qt/models/models_window.py:677
 msgid "Error loading triggers: {0}"
 msgstr "トリガーの読み込み中にエラーが発生しました: {0}"
 
-#: ui/models_window.py:632 ui_qt/models/models_window.py:489
+#: ui/models_window.py:632 ui_qt/models/models_window.py:680
 msgid "Found {0} triggers"
 msgstr "{0}個のトリガーが見つかりました"
 
@@ -822,15 +837,15 @@ msgstr "{0}個のトリガーが見つかりました"
 msgid "Cannot create .safetriggers file: trigger extraction is not available."
 msgstr ".safetriggers ファイルを作成できません: トリガーの抽出は利用できません。"
 
-#: ui/models_window.py:676 ui_qt/models/models_window.py:505
+#: ui/models_window.py:676 ui_qt/models/models_window.py:696
 msgid "LoRA file not found: {0}"
 msgstr "LoRAファイルが見つかりません: {0}"
 
-#: ui/models_window.py:685 ui_qt/models/models_window.py:510
+#: ui/models_window.py:685 ui_qt/models/models_window.py:701
 msgid "Success"
 msgstr "成功"
 
-#: ui/models_window.py:686 ui_qt/models/models_window.py:510
+#: ui/models_window.py:686 ui_qt/models/models_window.py:701
 msgid ""
 "Created .safetriggers file:\n"
 "{0}"
@@ -838,11 +853,11 @@ msgstr ""
 ".safetriggers ファイルを作成しました:\n"
 "{0}"
 
-#: ui/models_window.py:689 ui_qt/models/models_window.py:512
+#: ui/models_window.py:689 ui_qt/models/models_window.py:703
 msgid "Failed to create .safetriggers file"
 msgstr ".safetriggers ファイルの作成に失敗しました"
 
-#: ui/models_window.py:693 ui_qt/models/models_window.py:514
+#: ui/models_window.py:693 ui_qt/models/models_window.py:705
 msgid "Failed to create .safetriggers file: {0}"
 msgstr ".safetriggers ファイルの作成に失敗しました: {0}"
 
@@ -1030,46 +1045,47 @@ msgstr "タグはプロンプトの先頭に適用される"
 msgid "Sparse Mixed Tags"
 msgstr "まばらな混合タグ"
 
-#: ui/recent_adapters_window.py:42 ui_qt/models/recent_adapters_window.py:219
+#: ui/recent_adapters_window.py:42 ui_qt/models/recent_adapters_window.py:334
 msgid "Recent Adapters"
 msgstr "最近の適応者"
 
-#: ui/recent_adapters_window.py:67 ui_qt/models/recent_adapters_window.py:229
+#: ui/recent_adapters_window.py:67 ui_qt/models/recent_adapters_window.py:346
 msgid "Recent ControlNets"
 msgstr "最近のControlNets"
 
-#: ui/recent_adapters_window.py:68 ui_qt/models/recent_adapters_window.py:230
+#: ui/recent_adapters_window.py:68 ui_qt/models/recent_adapters_window.py:347
 msgid "Recent IP Adapters"
 msgstr "最近のIPアダプター"
 
-#: ui/recent_adapters_window.py:69 ui_qt/models/recent_adapters_window.py:231
+#: ui/recent_adapters_window.py:69 ui_qt/models/recent_adapters_window.py:349
 msgid "All Recent Adapters"
 msgstr "すべての最近のアダプター"
 
-#: ui/recent_adapters_window.py:70 ui_qt/models/recent_adapters_window.py:232
+#: ui/recent_adapters_window.py:70 ui_qt/models/recent_adapters_window.py:351
 msgid "Configuration"
 msgstr "構成"
 
-#: ui/recent_adapters_window.py:103 ui_qt/models/recent_adapters_window.py:264
+#: ui/recent_adapters_window.py:103 ui_qt/models/recent_adapters_window.py:385
 msgid "ControlNet File"
 msgstr "ControlNetファイル"
 
 #: ui/recent_adapters_window.py:104 ui/recent_adapters_window.py:159
-#: ui/recent_adapters_window.py:219 ui_qt/models/recent_adapters_window.py:264
-#: ui_qt/models/recent_adapters_window.py:296
-#: ui_qt/models/recent_adapters_window.py:329
+#: ui/recent_adapters_window.py:219 ui_qt/models/recent_adapters_window.py:385
+#: ui_qt/models/recent_adapters_window.py:423
+#: ui_qt/models/recent_adapters_window.py:461
+#: ui_qt/models/recent_adapters_window.py:500
 msgid "Type"
 msgstr "タイプ:"
 
-#: ui/recent_adapters_window.py:158 ui_qt/models/recent_adapters_window.py:296
+#: ui/recent_adapters_window.py:158 ui_qt/models/recent_adapters_window.py:423
 msgid "IP Adapter File"
 msgstr "IPアダプタファイル"
 
-#: ui/recent_adapters_window.py:197 ui_qt/models/recent_adapters_window.py:318
+#: ui/recent_adapters_window.py:197 ui_qt/models/recent_adapters_window.py:489
 msgid "Individual files, including from directory-split runs (no directories)"
 msgstr "個々のファイル（ディレクトリ分割実行によるものを含む）（ディレクトリなし）"
 
-#: ui/recent_adapters_window.py:218 ui_qt/models/recent_adapters_window.py:329
+#: ui/recent_adapters_window.py:218 ui_qt/models/recent_adapters_window.py:500
 msgid "Adapter File"
 msgstr "アダプターファイル"
 
@@ -1089,19 +1105,19 @@ msgstr "IPアダプターに適用（置換）"
 msgid "Apply to IP Adapter (Add)"
 msgstr "IPアダプターに適用（追加）"
 
-#: ui/recent_adapters_window.py:265 ui_qt/models/recent_adapters_window.py:355
+#: ui/recent_adapters_window.py:265 ui_qt/models/recent_adapters_window.py:597
 msgid "Recent Adapters Configuration"
 msgstr "最近の適応器設定"
 
-#: ui/recent_adapters_window.py:271 ui_qt/models/recent_adapters_window.py:360
+#: ui/recent_adapters_window.py:271 ui_qt/models/recent_adapters_window.py:602
 msgid "Max Recent Items:"
 msgstr "最近使用したアイテムの上限:"
 
-#: ui/recent_adapters_window.py:277 ui_qt/models/recent_adapters_window.py:369
+#: ui/recent_adapters_window.py:277 ui_qt/models/recent_adapters_window.py:611
 msgid "Max Recent Split Items:"
 msgstr "最近分割したアイテムの最大数:"
 
-#: ui/recent_adapters_window.py:283 ui_qt/models/recent_adapters_window.py:378
+#: ui/recent_adapters_window.py:283 ui_qt/models/recent_adapters_window.py:620
 msgid ""
 "These settings control how many recent adapters are kept in memory.\n"
 "Higher values use more memory but keep more history.\n"
@@ -1113,14 +1129,14 @@ msgstr ""
 
 #: ui/auth/password_admin_window.py:258 ui/recent_adapters_window.py:294
 #: ui_qt/auth/password_admin_window.py:350
-#: ui_qt/models/recent_adapters_window.py:386
+#: ui_qt/models/recent_adapters_window.py:628
 msgid "Save Settings"
 msgstr "設定を保存する"
 
 #: ui/auth/password_admin_window.py:246 ui/auth/password_admin_window.py:305
 #: ui/recent_adapters_window.py:297 ui_qt/auth/password_admin_window.py:338
 #: ui_qt/auth/password_admin_window.py:402
-#: ui_qt/models/recent_adapters_window.py:389
+#: ui_qt/models/recent_adapters_window.py:631
 msgid "Reset to Defaults"
 msgstr "デフォルトにリセット"
 
@@ -1441,6 +1457,7 @@ msgid "Disabled"
 msgstr "無効"
 
 #: ui/tags_blacklist_window.py:755 ui/tags_blacklist_window.py:798
+#: ui_qt/models/recent_adapters_window.py:576
 #: ui_qt/prompts/blacklist_window.py:430 ui_qt/prompts/blacklist_window.py:473
 msgid "Remove"
 msgstr "削除"
@@ -1891,23 +1908,23 @@ msgid ""
 "configured."
 msgstr "このアクションにはパスワード保護が必要だが、現在は設定されていない。"
 
-#: ui_qt/app_window/app_window.py:350
+#: ui_qt/app_window/app_window.py:351
 msgid "Theme switched to {0}."
 msgstr "テーマを{0}に切り替えます。"
 
-#: ui_qt/app_window/app_window.py:676 ui_qt/app_window/app_window.py:691
+#: ui_qt/app_window/app_window.py:715 ui_qt/app_window/app_window.py:730
 msgid "Updating history for blacklist changes — please wait…"
 msgstr "履歴の更新：ブラックリストの変更 — お待ちください…"
 
-#: ui_qt/app_window/app_window.py:678
+#: ui_qt/app_window/app_window.py:717
 msgid "Saving application data is taking longer than expected — please wait…"
 msgstr "アプリケーショングレートを保存するのに時間がかかりすぎています — お待ちください…"
 
-#: ui_qt/app_window/app_window.py:680
+#: ui_qt/app_window/app_window.py:719
 msgid "Closing"
 msgstr "閉会"
 
-#: ui_qt/app_window/run_controller.py:213
+#: ui_qt/app_window/run_controller.py:298
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -1921,24 +1938,24 @@ msgstr ""
 "\n"
 "本当に進めるつもりですか？"
 
-#: ui_qt/app_window/sidebar_panel.py:315
+#: ui_qt/app_window/sidebar_panel.py:337
 msgid "Preset Schedule"
 msgstr "予め設定されたスケジュール"
 
-#: ui_qt/app_window/sidebar_panel.py:321
+#: ui_qt/app_window/sidebar_panel.py:343
 msgid "Presets"
 msgstr "プリセット"
 
-#: ui_qt/app_window/sidebar_panel.py:327
+#: ui_qt/app_window/sidebar_panel.py:349
 #: ui_qt/presets/timed_schedules_window.py:186
 msgid "Timed Schedules"
 msgstr "タイムド スケジュールズ"
 
-#: ui_qt/app_window/sidebar_panel.py:342
+#: ui_qt/app_window/sidebar_panel.py:364
 msgid "Expansions"
 msgstr "拡張"
 
-#: ui_qt/app_window/sidebar_panel.py:348
+#: ui_qt/app_window/sidebar_panel.py:370
 msgid "Prompt Config"
 msgstr "プロンプト設定"
 
@@ -1952,23 +1969,23 @@ msgstr "情報"
 msgid "Administration Error"
 msgstr "管理エラー"
 
-#: ui_qt/models/models_window.py:351
+#: ui_qt/models/models_window.py:542
 msgid "LoRA trigger extraction is not available."
 msgstr "LoRA トリガー抽出は利用できません。"
 
-#: ui_qt/models/recent_adapters_window.py:334
+#: ui_qt/models/recent_adapters_window.py:505
 msgid "ControlNet (Replace)"
 msgstr "コントロールネット (Replace)"
 
-#: ui_qt/models/recent_adapters_window.py:335
+#: ui_qt/models/recent_adapters_window.py:506
 msgid "ControlNet (Add)"
 msgstr "ControlNet（追加）"
 
-#: ui_qt/models/recent_adapters_window.py:336
+#: ui_qt/models/recent_adapters_window.py:507
 msgid "IP Adapter (Replace)"
 msgstr "IPアダプター (置換)"
 
-#: ui_qt/models/recent_adapters_window.py:337
+#: ui_qt/models/recent_adapters_window.py:508
 msgid "IP Adapter (Add)"
 msgstr "IPアダプター （追加）"
 
@@ -2030,7 +2047,7 @@ msgstr "結果:"
 
 #: ui_qt/prompts/blacklist_preview_window.py:129
 msgid "Enter some text above, then click Test."
-msgstr "上記にテキストを入力してください、その後、[Test] をクリックしてください。"
+msgstr "上にテキストを入力し、「テスト」をクリックしてください。"
 
 #: ui_qt/prompts/blacklist_preview_window.py:135
 msgid "No blacklist items matched."
@@ -2152,59 +2169,59 @@ msgstr "コンセプト エディター"
 msgid "Type to search concepts..."
 msgstr "入力して概念を検索します..."
 
-#: ui_qt/prompts/concept_editor_window.py:187
+#: ui_qt/prompts/concept_editor_window.py:194
 msgid "Add the search text as a new concept to the selected file"
 msgstr "検索テキストを新しいコンセプトとして選択したファイルに追加します。"
 
-#: ui_qt/prompts/concept_editor_window.py:194
+#: ui_qt/prompts/concept_editor_window.py:201
 msgid "Delete the selected concept from the file it belongs to"
 msgstr "選択した概念を所属しているファイルから削除します。"
 
-#: ui_qt/prompts/concept_editor_window.py:201
+#: ui_qt/prompts/concept_editor_window.py:208
 msgid "Import concepts from an external text file into the selected file"
 msgstr "外部のテキストファイルからコンセプトをインポートし、選択されたファイルに取り込む。"
 
-#: ui_qt/prompts/concept_editor_window.py:286
+#: ui_qt/prompts/concept_editor_window.py:345
 msgid "{0} concepts found"
 msgstr "{0} 概念が見つかりました"
 
-#: ui_qt/prompts/concept_editor_window.py:325
+#: ui_qt/prompts/concept_editor_window.py:390
 msgid "Enter a concept name first"
 msgstr "请输入概念名称。"
 
-#: ui_qt/prompts/concept_editor_window.py:344
+#: ui_qt/prompts/concept_editor_window.py:409
 msgid "Concept \"{0}\" already exists in {1}"
 msgstr "概念「{0}」はすでに{1}に存在しています。"
 
-#: ui_qt/prompts/concept_editor_window.py:367
+#: ui_qt/prompts/concept_editor_window.py:432
 msgid "Saved concept: {0} → {1}"
 msgstr "保存概念： {0} → {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:387
+#: ui_qt/prompts/concept_editor_window.py:452
 msgid "Select a concept first"
 msgstr "概念を選択せよ"
 
-#: ui_qt/prompts/concept_editor_window.py:395
+#: ui_qt/prompts/concept_editor_window.py:460
 msgid "Delete concept \"{0}\" from {1}?"
 msgstr "{1}から{0}を削除しますか？"
 
-#: ui_qt/prompts/concept_editor_window.py:407
+#: ui_qt/prompts/concept_editor_window.py:472
 msgid "Concept \"{0}\" was not found in {1} -- it may have already been removed."
 msgstr "概念 \"{0}\" は {1} 中に見つかりませんでした -- それはすでに削除されていた可能性があります。"
 
-#: ui_qt/prompts/concept_editor_window.py:423
+#: ui_qt/prompts/concept_editor_window.py:488
 msgid "Deleted concept: {0} from {1}"
 msgstr "削除した概念：{0} から {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:456
+#: ui_qt/prompts/concept_editor_window.py:521
 msgid "Text files (*.txt);;All files (*.*)"
 msgstr "テキストファイル（*.txt）；；すべてのファイル（*.*）"
 
-#: ui_qt/prompts/concept_editor_window.py:481
+#: ui_qt/prompts/concept_editor_window.py:546
 msgid "Successfully imported {0} concepts into {1}"
 msgstr "{0}の概念を{1}に成功して取り込むことができました。"
 
-#: ui_qt/prompts/concept_editor_window.py:493
+#: ui_qt/prompts/concept_editor_window.py:558
 msgid ""
 "Tip: You can prepend '!' to any concept line to force importation, or simply"
 " use the concept name as a search term to force import."
@@ -2212,7 +2229,7 @@ msgstr ""
 "※ "
 "チップ：どのコンセプト.LINEにも！を先頭に付けることで強制的にインポートさせることができます。また、コンセプト名を検索項目として使用することでも強制的にインポートさせることができます。"
 
-#: ui_qt/prompts/concept_editor_window.py:507
+#: ui_qt/prompts/concept_editor_window.py:572
 msgid "No new concepts to import from {0}"
 msgstr "{0} から新しい概念はありませんでした。"
 
@@ -2402,231 +2419,231 @@ msgstr "許可しない"
 msgid "Allow in NSFW"
 msgstr "NSFWモードでの表示を許可する"
 
-#: utils/globals.py:226
+#: utils/globals.py:333
 msgid "Simple Image Gen"
 msgstr "画像の簡単な生成"
 
-#: utils/globals.py:227
+#: utils/globals.py:334
 msgid "Simple Image Gen Lora"
 msgstr "LoRAによる画像の簡単な生成"
 
-#: utils/globals.py:228
+#: utils/globals.py:335
 msgid "Simple Image Gen Tiled Upscale"
 msgstr "タイル状の高解像度画像の簡単な生成"
 
-#: utils/globals.py:229
+#: utils/globals.py:336
 msgid "Ella"
 msgstr "ELLA"
 
-#: utils/globals.py:230
+#: utils/globals.py:337
 msgid "Instant Lora"
 msgstr "インスタント LoRA"
 
-#: utils/globals.py:231
+#: ui_qt/models/recent_adapters_window.py:553 utils/globals.py:338
 msgid "IP Adapter"
 msgstr "IPアダプター"
 
-#: utils/globals.py:232
+#: utils/globals.py:165 utils/globals.py:339
 msgid "Image to Image"
 msgstr "画像から画像へ"
 
-#: utils/globals.py:233
+#: ui_qt/models/recent_adapters_window.py:552 utils/globals.py:340
 msgid "ControlNet"
 msgstr "コントロールネット"
 
-#: utils/globals.py:234
+#: utils/globals.py:341
 msgid "Inpaint ClipSeg"
 msgstr "インペイント・クリップセグ"
 
-#: utils/globals.py:235
+#: utils/globals.py:342
 msgid "Animate Diff"
 msgstr "アニメーション差分"
 
-#: utils/globals.py:236
+#: utils/globals.py:343
 msgid "Renoiser"
 msgstr "レノイザー"
 
-#: utils/globals.py:237 utils/globals.py:456
+#: utils/globals.py:344 utils/globals.py:564
 msgid "Turbo"
 msgstr "ターボ"
 
-#: utils/globals.py:238
+#: utils/globals.py:345
 msgid "Upscale Simple"
 msgstr "画像を拡大する 簡単"
 
-#: utils/globals.py:239
+#: utils/globals.py:346
 msgid "Upscale Better"
 msgstr "画像を高画質化 より良いバージョン"
 
-#: utils/globals.py:240
+#: utils/globals.py:347
 msgid "Redo Prompt"
 msgstr "プロンプトを再表示する"
 
-#: utils/globals.py:304 utils/globals.py:365
+#: utils/globals.py:411 utils/globals.py:472
 msgid "Any"
 msgstr "いずれ"
 
-#: utils/globals.py:305
+#: utils/globals.py:412
 msgid "Euler"
 msgstr "オイラー"
 
-#: utils/globals.py:306
+#: utils/globals.py:413
 msgid "Euler Ancestral"
 msgstr "オイラー家系図"
 
-#: utils/globals.py:307
+#: utils/globals.py:414
 msgid "DPM 2"
 msgstr "DPM 2"
 
-#: utils/globals.py:308
+#: utils/globals.py:415
 msgid "DPM 2 Ancestral"
 msgstr "DPM 2 祖先の"
 
-#: utils/globals.py:309
+#: utils/globals.py:416
 msgid "DPM++ SDE"
 msgstr "DPM++ SDE"
 
-#: utils/globals.py:310
+#: utils/globals.py:417
 msgid "DPM++ SDE GPU"
 msgstr "DPM++ SDE GPU"
 
-#: utils/globals.py:311
+#: utils/globals.py:418
 msgid "DPM++ 2M"
 msgstr "DPM++ 2M"
 
-#: utils/globals.py:312
+#: utils/globals.py:419
 msgid "DPM++ 2M SDE"
 msgstr "DPM++ 2M SDE"
 
-#: utils/globals.py:313
+#: utils/globals.py:420
 msgid "DPM++ 2M SDE GPU"
 msgstr "DPM++ 2M SDE GPU"
 
-#: utils/globals.py:314
+#: utils/globals.py:421
 msgid "DPM++ 3M SDE"
 msgstr "DPM++ 3M SDE"
 
-#: utils/globals.py:315
+#: utils/globals.py:422
 msgid "DPM++ 3M SDE GPU"
 msgstr "DPM++ 3M SDE GPU"
 
-#: utils/globals.py:316
+#: utils/globals.py:423
 msgid "DDIM"
 msgstr "DDIM"
 
-#: utils/globals.py:317
+#: utils/globals.py:424
 msgid "DDPM"
 msgstr "DDPM"
 
-#: utils/globals.py:318
+#: utils/globals.py:425
 msgid "LCM"
 msgstr "LCM"
 
-#: utils/globals.py:366
+#: utils/globals.py:473
 msgid "Normal"
 msgstr "通常"
 
-#: utils/globals.py:367
+#: utils/globals.py:474
 msgid "Karras"
 msgstr "Karras"
 
-#: utils/globals.py:368
+#: utils/globals.py:475
 msgid "Simple"
 msgstr "シンプル"
 
-#: utils/globals.py:369
+#: utils/globals.py:476
 msgid "Exponential"
 msgstr "指数関数的"
 
-#: utils/globals.py:370
+#: utils/globals.py:477
 msgid "SGM Uniform"
 msgstr "SGMユニフォーム"
 
-#: utils/globals.py:371
+#: utils/globals.py:478
 msgid "DDIM Uniform"
 msgstr "DDIMユニフォーム"
 
-#: utils/globals.py:453
+#: utils/globals.py:561
 msgid "SD 1.5"
 msgstr "SD 1.5"
 
-#: utils/globals.py:454
+#: utils/globals.py:562
 msgid "SDXL"
 msgstr "SDXL"
 
-#: utils/globals.py:455
+#: utils/globals.py:563
 msgid "Illustrious"
 msgstr "Illustrious"
 
-#: utils/globals.py:457
+#: utils/globals.py:565
 msgid "Flux"
 msgstr "Flux"
 
-#: utils/globals.py:458
+#: utils/globals.py:566
 msgid "Chroma"
 msgstr "Chroma"
 
-#: utils/globals.py:459
+#: utils/globals.py:567
 msgid "ZImageTurbo"
 msgstr "ZImageTurbo"
 
-#: utils/globals.py:460
+#: utils/globals.py:568
 msgid "Qwen"
 msgstr "Qwen"
 
-#: utils/globals.py:486
+#: utils/globals.py:595
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:487
+#: utils/globals.py:596
 msgid "1328"
 msgstr "1328"
 
-#: utils/globals.py:488
+#: utils/globals.py:597
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:489
+#: utils/globals.py:598
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:490
+#: utils/globals.py:599
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:529
+#: utils/globals.py:638
 msgid "Open Application"
 msgstr "ソフトウェア・アプリケーションを開く"
 
-#: utils/globals.py:530
+#: utils/globals.py:639
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFLプロンプト・モード"
 
-#: utils/globals.py:531
+#: utils/globals.py:640
 msgid "Edit Blacklist"
 msgstr "ブラックリストの編集"
 
-#: utils/globals.py:532
+#: utils/globals.py:641
 msgid "Reveal Blacklist Concepts"
 msgstr "ブラックリストのコンセプトを明らかにする"
 
-#: utils/globals.py:533
+#: utils/globals.py:642
 msgid "Edit Schedules"
 msgstr "スケジュールの編集"
 
-#: utils/globals.py:534
+#: utils/globals.py:643
 msgid "Edit Timed Schedules"
 msgstr "タイムドスケジュールの編集"
 
-#: utils/globals.py:535
+#: utils/globals.py:644
 msgid "Edit Expansions"
 msgstr "エクスパンションの編集"
 
-#: utils/globals.py:536
+#: utils/globals.py:645
 msgid "Edit Presets"
 msgstr "プリセットの編集"
 
-#: utils/globals.py:538
+#: utils/globals.py:647
 msgid "Access Password Administration"
 msgstr "アクセスパスワードの管理"
 
@@ -2709,3 +2726,450 @@ msgstr "か月"
 #: utils/translations.py:68
 msgid "years"
 msgstr "年間"
+
+#: ui_qt/app_window/sidebar_panel.py:291
+msgid "Source Prompts from Directory"
+msgstr "ディレクトリからプロンプトを取得する"
+
+#: ui_qt/app_window/sidebar_panel.py:304
+msgid "Add User Prompt Tags to Sourced Prompt"
+msgstr "ユーザー プロンプト タグを追加する — ソースド プロンプト"
+
+#: ui_qt/app_window/sidebar_panel.py:379
+#: ui_qt/prompts/prompt_generator_window.py:53
+msgid "Prompt Generator"
+msgstr "プロンプトジェネレーター"
+
+#: ui_qt/app_window/sidebar_panel.py:390
+#: ui_qt/prompts/image_to_prompt_window.py:56
+msgid "Image to Prompt"
+msgstr "画像からプロンプトへ"
+
+#: ui_qt/models/models_window.py:102
+msgid "HF Hub"
+msgstr "HF Hub"
+
+#: ui_qt/models/models_window.py:242 ui_qt/models/models_window.py:300
+msgid "Search"
+msgstr "検索"
+
+#: ui_qt/models/models_window.py:244
+msgid "e.g. flux, sdxl, controlnet, ip-adapter"
+msgstr "例えば flux, sdxl, controlnet, IPアダプター"
+
+#: ui_qt/models/models_window.py:248 ui_qt/models/models_window.py:279
+msgid "Task"
+msgstr "タスク"
+
+#: ui_qt/models/models_window.py:254
+msgid "Sort"
+msgstr "並べ替え"
+
+#: ui_qt/models/models_window.py:261
+msgid "Direction"
+msgstr "方向"
+
+#: ui_qt/models/models_window.py:268
+msgid "Limit"
+msgstr "限界"
+
+#: ui_qt/models/models_window.py:279
+msgid "Repo"
+msgstr "リポ"
+
+#: ui_qt/models/models_window.py:279 utils/globals.py:206
+msgid "Downloads"
+msgstr "総ダウンロード数"
+
+#: ui_qt/models/models_window.py:279 utils/globals.py:207
+msgid "Likes"
+msgstr "いいね"
+
+#: ui_qt/models/models_window.py:279
+msgid "License"
+msgstr "ライセンス"
+
+#: ui_qt/models/models_window.py:279
+msgid "Gated"
+msgstr "ゲートド"
+
+#: ui_qt/models/models_window.py:296
+msgid "Filename"
+msgstr "ファイル名"
+
+#: ui_qt/models/models_window.py:304
+msgid "Download File"
+msgstr "ファイルをダウンロードする"
+
+#: ui_qt/models/models_window.py:308
+msgid "Download Snapshot"
+msgstr "スナップショットをダウンロード"
+
+#: ui_qt/models/models_window.py:322
+msgid "Select a model repository first"
+msgstr "まずモデルリポジトリを選択してください"
+
+#: ui_qt/models/models_window.py:355
+msgid "Found {0} results"
+msgstr "{0}件が発見されました"
+
+#: ui_qt/models/models_window.py:358
+msgid "HF Hub Search Error"
+msgstr "HFハブの検索エラー"
+
+#: ui_qt/models/models_window.py:370
+msgid "Enter a filename first"
+msgstr "ファイル名を入力してください"
+
+#: ui_qt/models/models_window.py:375
+msgid "Download Complete"
+msgstr "ダウンロード完了"
+
+#: ui_qt/models/models_window.py:376 ui_qt/models/models_window.py:403
+msgid ""
+"Downloaded to:\n"
+"{0}"
+msgstr ""
+"ダウンロードされました:\n"
+"{0}"
+
+#: ui_qt/models/models_window.py:381
+msgid "HF Hub Download Error"
+msgstr "HF Hub のダウンロードエラー"
+
+#: ui_qt/models/models_window.py:402
+msgid "Snapshot Download Complete"
+msgstr "スナップショットのダウンロードが完了しました"
+
+#: ui_qt/models/models_window.py:408
+msgid "HF Hub Snapshot Error"
+msgstr "HFハブのスナップショットエラー"
+
+#: ui_qt/models/recent_adapters_window.py:348
+msgid "Recent Source Prompts"
+msgstr "最近のソースプロンプト"
+
+#: ui_qt/models/recent_adapters_window.py:350
+msgid "Favorites"
+msgstr "お気に入り"
+
+#: ui_qt/models/recent_adapters_window.py:397
+#: ui_qt/models/recent_adapters_window.py:435
+#: ui_qt/models/recent_adapters_window.py:473
+#: ui_qt/models/recent_adapters_window.py:516
+msgid "Add to Favorites"
+msgstr "お気に入りに追加する"
+
+#: ui_qt/models/recent_adapters_window.py:461
+msgid "Source Prompt File"
+msgstr "プロンプトのソースとして使用されるファイル"
+
+#: ui_qt/models/recent_adapters_window.py:531
+msgid ""
+"Preferred adapters regardless of type. Directories are auto-added when seen "
+"in recents."
+msgstr "種類を問わず、優先的に使用されるアダプターです。最近使用した項目に表示されると、ディレクトリが自動的に追加されます。"
+
+#: ui_qt/models/recent_adapters_window.py:546
+msgid "Target Field"
+msgstr "入力欄"
+
+#: ui_qt/models/recent_adapters_window.py:554
+msgid "Source Prompt"
+msgstr "プロンプトを抽出する"
+
+#: ui_qt/models/recent_adapters_window.py:561
+msgid "Append (unchecked = Replace)"
+msgstr "追加 (未チェック状態 = 追加に相当する)"
+
+#: ui_qt/models/recent_adapters_window.py:568
+msgid "Favorite Adapter"
+msgstr "お気に入りのアダプター"
+
+#: ui_qt/models/recent_adapters_window.py:573
+msgid "Use Favorite"
+msgstr "お気に入りを使う"
+
+#: ui_qt/models/recent_adapters_window.py:665
+#: ui_qt/models/recent_adapters_window.py:854
+#: ui_qt/models/recent_adapters_window.py:867
+#: ui_qt/models/recent_adapters_window.py:883
+msgid "Select a row first"
+msgstr "まず一行を選択してください"
+
+#: ui_qt/models/recent_adapters_window.py:671
+msgid "Copied path to clipboard"
+msgstr "パスをクリップボードにコピーしました"
+
+#: ui_qt/models/recent_adapters_window.py:871
+msgid "Directories are auto-favorited and cannot be removed here"
+msgstr "ディレクトリーズは自動的にfavoritesされています。この場所では削除できません"
+
+#: ui_qt/models/recent_adapters_window.py:876
+msgid "Removed from favorites"
+msgstr "お気に入りから削除されました"
+
+#: ui_qt/models/recent_adapters_window.py:878
+msgid "Item was not in favorites"
+msgstr "アイテムはお気に入りにありませんでした"
+
+#: ui_qt/models/recent_adapters_window.py:889
+msgid "Added to favorites"
+msgstr "お気に入りに追加されました"
+
+#: ui_qt/models/recent_adapters_window.py:891
+msgid "Already in favorites"
+msgstr "すでにお気に入りです"
+
+#: ui_qt/prompts/concept_editor_window.py:256
+msgid "Selected concept: —"
+msgstr "選択された概念: —"
+
+#: ui_qt/prompts/concept_editor_window.py:261
+msgid "Selected concept: \"{0}\" — {1} ({2})"
+msgstr "選択された概念: \"{0}\" — {1} （{2}）"
+
+#: ui_qt/prompts/concept_editor_window.py:267
+msgid "Selected concept: \"{0}\" — {1}"
+msgstr "選択した概念: \"{0}\" — {1}"
+
+#: ui_qt/prompts/image_to_prompt_window.py:77
+msgid ""
+"Generate prompt text from an image using selectable backends. This does not "
+"start image generation."
+msgstr "選択可能なバックエンドを使用して、画像からプロンプトテキストを生成します。これにより画像の生成が開始されるわけではありません。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:86
+msgid "Image"
+msgstr "イメージ"
+
+#: ui_qt/prompts/image_to_prompt_window.py:89
+msgid "Browse"
+msgstr "ブラウズ"
+
+#: ui_qt/prompts/image_to_prompt_window.py:96
+msgid "Backend"
+msgstr "バックエンド"
+
+#: ui_qt/prompts/image_to_prompt_window.py:98
+msgid "Captioner (BLIP)"
+msgstr "字幕作成者 (BLIP)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:99
+msgid "Fast Tagger"
+msgstr "固定タグ"
+
+#: ui_qt/prompts/image_to_prompt_window.py:100
+msgid "VLM"
+msgstr "VLM"
+
+#: ui_qt/prompts/image_to_prompt_window.py:103
+msgid "Include Negative Prompt"
+msgstr "否定形のプロンプトを含める"
+
+#: ui_qt/prompts/image_to_prompt_window.py:111
+msgid "Prompt Hint (optional)"
+msgstr "プロンプト ヒント (任意)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:118
+msgid "Generate Prompt from Image"
+msgstr "画像からプロンプトを生成する"
+
+#: ui_qt/prompts/image_to_prompt_window.py:122
+#: ui_qt/prompts/prompt_generator_window.py:88
+msgid "Copy Positive"
+msgstr "コピー 正面"
+
+#: ui_qt/prompts/image_to_prompt_window.py:126
+#: ui_qt/prompts/prompt_generator_window.py:92
+msgid "Copy Negative"
+msgstr "コピー・ネガティブ"
+
+#: ui_qt/prompts/image_to_prompt_window.py:130
+msgid "Apply Positive to Main UI"
+msgstr "メインUIに正を適用する"
+
+#: ui_qt/prompts/image_to_prompt_window.py:138
+msgid "Positive Prompt"
+msgstr "前向きな促し"
+
+#: ui_qt/prompts/image_to_prompt_window.py:143
+msgid "Negative Prompt"
+msgstr "否定的なプロンプト"
+
+#: ui_qt/prompts/image_to_prompt_window.py:148
+msgid "No output yet."
+msgstr "まだ出力はありません。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:170
+msgid "Select Image"
+msgstr "画像を選択する"
+
+#: ui_qt/prompts/image_to_prompt_window.py:172
+msgid "Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"
+msgstr "画像 (*.png *.jpg *.jpeg *.webp *.bmp);;すべてのファイル(*.*)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:246
+msgid "Select an image first."
+msgstr "画像を選択してください。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:267
+msgid "updated"
+msgstr "更新された"
+
+#: ui_qt/prompts/image_to_prompt_window.py:267
+msgid "unchanged"
+msgstr "変更なし"
+
+#: ui_qt/prompts/image_to_prompt_window.py:271
+msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
+msgstr "バックエンド: {2} [{3}] を使用して生成 ({0}: {1})"
+
+#: ui_qt/prompts/image_to_prompt_window.py:285
+msgid "Fast tagger returned no tags; try a lower threshold."
+msgstr "Fast taggerはタグを返さなかった。しきい値を低く設定してみてください。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:288
+msgid "Backend Not Configured"
+msgstr "バックエンドが設定されていません"
+
+#: ui_qt/prompts/image_to_prompt_window.py:295
+msgid "Image to Prompt Error"
+msgstr "画像からプロンプトへの変換プロセスでエラーが発生しました"
+
+#: ui_qt/prompts/image_to_prompt_window.py:303
+msgid "Nothing to copy."
+msgstr "コピーする内容がありません。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:308
+#: ui_qt/prompts/prompt_generator_window.py:173
+msgid "Copied to clipboard"
+msgstr "クリップボードにコピーしました"
+
+#: ui_qt/prompts/image_to_prompt_window.py:313
+msgid "No positive prompt to apply."
+msgstr "肯定的なプロンプトがありませんでした。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:316
+msgid "Applied positive prompt to main UI"
+msgstr "ポジティブ プロンプト を メイン UI に 適用しました。"
+
+#: ui_qt/prompts/prompt_generator_window.py:75
+msgid ""
+"Generate one prompt at a time using current UI settings. This does not run "
+"image generation and does not modify prompt history unless you click \"Save "
+"to Prompt History\"."
+msgstr ""
+"現在のUI設定を使用して、プロンプトを1つずつ生成します。この操作では画像の生成は行われず、「プロンプト履歴に保存」をクリックしない限り、プロンプト履歴は変更されません。"
+
+#: ui_qt/prompts/prompt_generator_window.py:84
+msgid "Generate One Prompt"
+msgstr "生成 1 プロンプト"
+
+#: ui_qt/prompts/prompt_generator_window.py:96
+msgid "Save to Prompt History"
+msgstr "プロンプト履歴に保存"
+
+#: ui_qt/prompts/prompt_generator_window.py:103
+msgid "Generated Positive Prompt"
+msgstr "生成された前向きなプロンプト"
+
+#: ui_qt/prompts/prompt_generator_window.py:108
+msgid "Generated Negative Prompt"
+msgstr "生成されたネガティブプロンプト"
+
+#: ui_qt/prompts/prompt_generator_window.py:113
+msgid "No prompt generated yet."
+msgstr "まだプロンプトが生成されていません。"
+
+#: ui_qt/prompts/prompt_generator_window.py:162
+msgid "Generated a new prompt."
+msgstr "新しいプロンプトを生成しました。"
+
+#: ui_qt/prompts/prompt_generator_window.py:164
+msgid "Prompt Generation Error"
+msgstr "プロンプトジェネレーションエラー"
+
+#: ui_qt/prompts/prompt_generator_window.py:168
+msgid "Nothing to copy. Generate a prompt first."
+msgstr "コピーするものがありません。プロンプトを作成しますแรก。"
+
+#: ui_qt/prompts/prompt_generator_window.py:177
+msgid "Generate a prompt first."
+msgstr "まず、プロンプトを生成してください。"
+
+#: ui_qt/prompts/prompt_generator_window.py:185
+msgid "Nothing to save."
+msgstr "何も保存できません。"
+
+#: ui_qt/prompts/prompt_generator_window.py:188
+msgid "Saved generated prompt to prompt history"
+msgstr "生成したプロンプトをプロンプト履歴へ保存しました。"
+
+#: utils/globals.py:163
+msgid "All visual media"
+msgstr "すべてのビジュアルメディア"
+
+#: utils/globals.py:164
+msgid "Text to Image"
+msgstr "テキストからイメージへ"
+
+#: utils/globals.py:166
+msgid "Image to Text"
+msgstr "画像からテキストへ"
+
+#: utils/globals.py:167
+msgid "Image Classification"
+msgstr "画像分類"
+
+#: utils/globals.py:168
+msgid "Zero-shot Image Classification"
+msgstr "ゼロショット画像分類"
+
+#: utils/globals.py:169
+msgid "Object Detection"
+msgstr "物体検出"
+
+#: utils/globals.py:170
+msgid "Image Segmentation"
+msgstr "画像セグメンテーション"
+
+#: utils/globals.py:171
+msgid "Depth Estimation"
+msgstr "深度推定"
+
+#: utils/globals.py:172
+msgid "Visual Question Answering"
+msgstr "可視的 Q&A"
+
+#: utils/globals.py:173
+msgid "Video Classification"
+msgstr "ビデオ分類"
+
+#: utils/globals.py:174
+msgid "Text to Video"
+msgstr "テキストからビデオへ"
+
+#: utils/globals.py:175
+msgid "Image Feature Extraction"
+msgstr "画像特徴抽出"
+
+#: utils/globals.py:208
+msgid "Last Modified"
+msgstr "最終更新日"
+
+#: utils/globals.py:209
+msgid "Created At"
+msgstr "作成日付"
+
+#: utils/globals.py:210
+msgid "Trending Score"
+msgstr "トレンド スコア"
+
+#: utils/globals.py:234
+msgid "Descending"
+msgstr "降下"
+
+#: utils/globals.py:235
+msgid "Ascending"
+msgstr "上昇"

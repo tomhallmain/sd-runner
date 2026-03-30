@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2026-03-01 17:08-0500\n"
-"PO-Revision-Date: 2026-03-01 17:08-0500\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2026-03-30 15:06-0400\n"
+"PO-Revision-Date: 2026-03-30 15:06-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgstr "모델 태그"
 
 #: app.py:233 app.py:250 ui/models_window.py:27
 #: ui_qt/app_window/sidebar_panel.py:198 ui_qt/app_window/sidebar_panel.py:219
-#: ui_qt/models/models_window.py:80
+#: ui_qt/models/models_window.py:87
 msgid "Models"
 msgstr "모델"
 
@@ -83,7 +83,7 @@ msgid "Control Net or Redo files"
 msgstr "제어망 또는 파일 다시 실행"
 
 #: app.py:282 app.py:297 ui_qt/app_window/sidebar_panel.py:252
-#: ui_qt/app_window/sidebar_panel.py:272
+#: ui_qt/app_window/sidebar_panel.py:272 ui_qt/app_window/sidebar_panel.py:292
 msgid "Recent"
 msgstr "최근"
 
@@ -99,12 +99,12 @@ msgstr "IPAdapter 파일"
 msgid "Default IPAdapter Strength"
 msgstr "기본 IPAdapter 강도"
 
-#: app.py:310 ui_qt/app_window/sidebar_panel.py:291
+#: app.py:310 ui_qt/app_window/sidebar_panel.py:313
 msgid "Redo Parameters"
 msgstr "매개변수 다시 실행"
 
 #: app.py:326 app.py:343 ui/prompt_config_window.py:286
-#: ui_qt/app_window/sidebar_panel.py:309
+#: ui_qt/app_window/sidebar_panel.py:331
 #: ui_qt/prompts/prompt_config_window.py:285
 msgid "Prompts Configuration"
 msgstr "프롬프트 구성"
@@ -122,7 +122,7 @@ msgid "Timed Schedules Window"
 msgstr "시간별 일정 창"
 
 #: app.py:338 ui/tags_blacklist_window.py:519 ui/tags_blacklist_window.py:672
-#: ui_qt/app_window/sidebar_panel.py:336 ui_qt/prompts/blacklist_window.py:199
+#: ui_qt/app_window/sidebar_panel.py:358 ui_qt/prompts/blacklist_window.py:199
 msgid "Tag Blacklist"
 msgstr "태그 블랙리스트"
 
@@ -131,51 +131,51 @@ msgstr "태그 블랙리스트"
 msgid "Expansions Window"
 msgstr "확장 프로그램 창"
 
-#: app.py:346 ui_qt/app_window/sidebar_panel.py:357
+#: app.py:346 ui_qt/app_window/sidebar_panel.py:404
 msgid "Prompt Mode"
 msgstr "프롬프트 모드"
 
-#: app.py:353 ui_qt/app_window/sidebar_panel.py:367 utils/globals.py:537
+#: app.py:353 ui_qt/app_window/sidebar_panel.py:414 utils/globals.py:646
 msgid "Edit Concepts"
 msgstr "개념 편집"
 
-#: app.py:356 ui_qt/app_window/sidebar_panel.py:376
+#: app.py:356 ui_qt/app_window/sidebar_panel.py:423
 msgid "Concepts Dir"
 msgstr "개념 디렉토리"
 
-#: app.py:367 ui_qt/app_window/sidebar_panel.py:385
+#: app.py:367 ui_qt/app_window/sidebar_panel.py:432
 msgid "Override Resolution"
 msgstr "이미지 해상도 재정의"
 
-#: app.py:371 ui_qt/app_window/sidebar_panel.py:389
+#: app.py:371 ui_qt/app_window/sidebar_panel.py:436
 msgid "Inpainting"
 msgstr "실내 페인팅"
 
 #: app.py:375 ui/prompt_config_window.py:722
-#: ui_qt/app_window/sidebar_panel.py:393
+#: ui_qt/app_window/sidebar_panel.py:440
 #: ui_qt/prompts/prompt_config_window.py:257
 msgid "Override Base Negative"
 msgstr "기본 음수 재정의"
 
-#: app.py:379 ui_qt/app_window/sidebar_panel.py:398
+#: app.py:379 ui_qt/app_window/sidebar_panel.py:445
 msgid "Run Preset Schedule"
 msgstr "사전 설정 일정 실행"
 
 #: app.py:383 ui/prompt_config_window.py:743
-#: ui_qt/app_window/sidebar_panel.py:402
+#: ui_qt/app_window/sidebar_panel.py:449
 #: ui_qt/prompts/prompt_config_window.py:272
 msgid "Continuous Seed Variation"
 msgstr "연속적인 랜덤 시드 변동"
 
-#: app.py:387 ui_qt/app_window/sidebar_panel.py:407
+#: app.py:387 ui_qt/app_window/sidebar_panel.py:454
 msgid "Prompt Massage Tags"
 msgstr "프롬프트 마사지 태그"
 
-#: app.py:394 ui_qt/app_window/sidebar_panel.py:414
+#: app.py:394 ui_qt/app_window/sidebar_panel.py:461
 msgid "Positive Tags"
 msgstr "프롬프트 조정 태그"
 
-#: app.py:401 ui_qt/app_window/sidebar_panel.py:420
+#: app.py:401 ui_qt/app_window/sidebar_panel.py:467
 msgid "Negative Tags"
 msgstr "네거티브 태그"
 
@@ -183,15 +183,15 @@ msgstr "네거티브 태그"
 msgid " ComfyGen "
 msgstr " SD 러너 "
 
-#: app.py:427 ui_qt/app_window/app_window.py:359
+#: app.py:427 ui_qt/app_window/app_window.py:360
 msgid "Debug mode toggled."
 msgstr "디버그 모드 토글됨."
 
-#: app.py:495 ui_qt/app_window/app_window.py:760
+#: app.py:495 ui_qt/app_window/app_window.py:799
 msgid "Confirm Quit"
 msgstr "종료 확인"
 
-#: app.py:495 ui_qt/app_window/app_window.py:761
+#: app.py:495 ui_qt/app_window/app_window.py:800
 msgid "Would you like to quit the application?"
 msgstr "앱을 종료하시겠습니까?"
 
@@ -199,30 +199,30 @@ msgstr "앱을 종료하시겠습니까?"
 msgid "Storing caches..."
 msgstr "캐시 저장 중..."
 
-#: app.py:751 app.py:771 ui_qt/app_window/run_controller.py:139
-#: ui_qt/app_window/run_controller.py:169
+#: app.py:751 app.py:771 ui_qt/app_window/run_controller.py:140
+#: ui_qt/app_window/run_controller.py:170
 msgid "Confirm Run"
 msgstr "실행 확인"
 
-#: app.py:752 ui_qt/app_window/run_controller.py:140
+#: app.py:752 ui_qt/app_window/run_controller.py:141
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "새 실행을 시작하면 현재 미리 설정된 일정이 취소됩니다. 계속 진행하시겠습니까?"
 
-#: app.py:772 ui_qt/app_window/run_controller.py:170
+#: app.py:772 ui_qt/app_window/run_controller.py:171
 msgid "Are you sure you want to proceed?"
 msgstr "계속 진행하시겠습니까?"
 
-#: app.py:781 ui_qt/app_window/run_controller.py:178
+#: app.py:781 ui_qt/app_window/run_controller.py:183
 msgid "Setting up run..."
 msgstr "실행 설정 중..."
 
-#: app.py:794 ui_qt/app_window/run_controller.py:188
+#: app.py:794 ui_qt/app_window/run_controller.py:193
 msgid "No models found"
 msgstr "모델이 없습니다"
 
-#: app.py:815 ui_qt/app_window/run_controller.py:212
+#: app.py:815 ui_qt/app_window/run_controller.py:297
 msgid "Long Running Job Confirmation"
 msgstr "장시간 실행 작업 확인"
 
@@ -244,48 +244,48 @@ msgstr ""
 "\n"
 "계속 진행하시겠습니까?"
 
-#: app.py:954 ui_qt/app_window/run_controller.py:371
+#: app.py:954 ui_qt/app_window/run_controller.py:457
 msgid " (unlimited)"
 msgstr " (무제한)"
 
-#: app.py:971 ui_qt/app_window/run_controller.py:385
+#: app.py:971 ui_qt/app_window/run_controller.py:471
 msgid "Batch: {0}/{1}"
 msgstr "배치: {0}/{1}"
 
-#: app.py:977 ui_qt/app_window/run_controller.py:392
+#: app.py:977 ui_qt/app_window/run_controller.py:478
 msgid "Adapter: {0}/{1}"
 msgstr "어댑터: {0}/{1}"
 
-#: app.py:980 ui_qt/app_window/run_controller.py:396
+#: app.py:980 ui_qt/app_window/run_controller.py:482
 msgid "Remaining: {0} adapters"
 msgstr "남은 어댑터: {0}"
 
-#: app.py:987 ui_qt/app_window/run_controller.py:405
+#: app.py:987 ui_qt/app_window/run_controller.py:491
 msgid "{0} remaining adapters"
 msgstr "{0} 남은 어댑터"
 
-#: app.py:1007 ui_qt/app_window/run_controller.py:430
+#: app.py:1007 ui_qt/app_window/run_controller.py:516
 msgid "{0} pending generations"
 msgstr "{0} 보류 중인 세대"
 
-#: app.py:1088 ui_qt/app_window/run_controller.py:94
+#: app.py:1088 ui_qt/app_window/run_controller.py:95
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "프롬프트에서 블랙리스트 항목을 발견했습니다: {0}"
 
-#: app.py:1089 app.py:1092 ui_qt/app_window/run_controller.py:95
-#: ui_qt/app_window/run_controller.py:99
+#: app.py:1089 app.py:1092 ui_qt/app_window/run_controller.py:96
+#: ui_qt/app_window/run_controller.py:100
 msgid "Invalid Prompt Tags"
 msgstr "잘못된 프롬프트 태그"
 
-#: app.py:1092 ui_qt/app_window/run_controller.py:99
+#: app.py:1092 ui_qt/app_window/run_controller.py:100
 msgid "Blacklist validation failed!"
 msgstr "블랙리스트 유효성 검사에 실패했습니다!"
 
-#: app.py:1290 ui_qt/app_window/sidebar_panel.py:575
+#: app.py:1290 ui_qt/app_window/sidebar_panel.py:622
 msgid "Password Cancelled"
 msgstr "비밀번호 취소"
 
-#: app.py:1290 ui_qt/app_window/sidebar_panel.py:576
+#: app.py:1290 ui_qt/app_window/sidebar_panel.py:623
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되돌리기"
 
@@ -299,18 +299,18 @@ msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되
 #: ui_qt/auth/app_startup_auth_qt.py:124
 #: ui_qt/auth/password_admin_window.py:130
 #: ui_qt/auth/password_admin_window.py:534 ui_qt/auth/password_dialog.py:305
-#: ui_qt/models/models_window.py:369 ui_qt/models/models_window.py:505
-#: ui_qt/models/models_window.py:512 ui_qt/models/models_window.py:514
+#: ui_qt/models/models_window.py:560 ui_qt/models/models_window.py:696
+#: ui_qt/models/models_window.py:703 ui_qt/models/models_window.py:705
 #: ui_qt/prompts/blacklist_modify_window.py:132
 #: ui_qt/prompts/blacklist_preview_window.py:209
-#: ui_qt/prompts/concept_editor_window.py:331
-#: ui_qt/prompts/concept_editor_window.py:445
-#: ui_qt/prompts/concept_editor_window.py:469
+#: ui_qt/prompts/concept_editor_window.py:396
+#: ui_qt/prompts/concept_editor_window.py:510
+#: ui_qt/prompts/concept_editor_window.py:534
 msgid "Error"
 msgstr "오류"
 
 #: app_qt.py:38 ui_qt/app_window/app_window.py:128
-#: ui_qt/app_window/app_window.py:155 ui_qt/app_window/app_window.py:357
+#: ui_qt/app_window/app_window.py:155 ui_qt/app_window/app_window.py:358
 msgid " SD Runner "
 msgstr " SD 러너 "
 
@@ -349,16 +349,16 @@ msgstr "네"
 msgid "No"
 msgstr "아니요"
 
-#: sd_runner/blacklist.py:501
+#: sd_runner/blacklist.py:512
 msgid "Filtering concepts for blacklist: "
 msgstr "블랙리스트에 대한 필터링 개념: "
 
-#: sd_runner/models.py:559
+#: sd_runner/models.py:630
 msgid ""
 "One or more loras are blacklisted. Please try again with a different lora."
 msgstr "하나 이상의 LORA가 블랙리스트에 등록되었습니다. 다른 LORA로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/models.py:563
+#: sd_runner/models.py:634
 msgid ""
 "The following loras are blacklisted: {0}\n"
 "\n"
@@ -368,12 +368,12 @@ msgstr ""
 "\n"
 "다른 로라로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/models.py:568
+#: sd_runner/models.py:639
 msgid ""
 "One or more models are blacklisted. Please try again with a different model."
 msgstr "하나 이상의 모델이 블랙리스트에 등록되었습니다. 다른 모델로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/models.py:572
+#: sd_runner/models.py:643
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
@@ -383,23 +383,23 @@ msgstr ""
 "\n"
 "다른 모델로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/run_config.py:64
+#: sd_runner/run_config.py:66
 msgid "No prompter config found!"
 msgstr "프롬프터 구성을 찾을 수 없습니다!"
 
-#: sd_runner/run_config.py:68
+#: sd_runner/run_config.py:70
 msgid ""
 "Ensure configuration is correct - do you really want to create more than 10 "
 "images using the same prompt?"
 msgstr "구성이 올바른지 확인 - 동일한 프롬프트를 사용하여 10개 이상의 이미지를 생성하고 싶으신가요?"
 
-#: sd_runner/run_config.py:75
+#: sd_runner/run_config.py:77
 msgid ""
 "A model switch was detected and the model massage tags don't match. This "
 "warning will only be shown once."
 msgstr "모델 전환이 감지되었으며 모델 조정용 태그가 일치하지 않습니다. 이 경고는 한 번만 표시됩니다."
 
-#: sd_runner/run_config.py:168
+#: sd_runner/run_config.py:170
 msgid ""
 "WARNING: Multiple resolutions in renoiser workflow will produce nearly "
 "identical results (duplicates)."
@@ -443,15 +443,15 @@ msgstr "예정된 종료 시간: {}"
 msgid "Search/Add Concept:"
 msgstr "검색/개념 추가:"
 
-#: ui/concept_editor_window.py:159 ui_qt/prompts/concept_editor_window.py:168
+#: ui/concept_editor_window.py:159 ui_qt/prompts/concept_editor_window.py:175
 msgid "File:"
 msgstr "파일:"
 
-#: ui/concept_editor_window.py:164 ui_qt/prompts/concept_editor_window.py:177
+#: ui/concept_editor_window.py:164 ui_qt/prompts/concept_editor_window.py:184
 msgid "(Target file for saving new concepts and importing)"
 msgstr "(새 개념 저장 및 가져오기를 위한 대상 파일)"
 
-#: ui/concept_editor_window.py:172 ui_qt/prompts/concept_editor_window.py:184
+#: ui/concept_editor_window.py:172 ui_qt/prompts/concept_editor_window.py:191
 msgid "Save"
 msgstr "저장"
 
@@ -461,7 +461,7 @@ msgstr "저장"
 #: ui_qt/presets/presets_window.py:173 ui_qt/presets/schedules_window.py:129
 #: ui_qt/presets/schedules_window.py:287
 #: ui_qt/presets/timed_schedules_window.py:243
-#: ui_qt/prompts/concept_editor_window.py:191
+#: ui_qt/prompts/concept_editor_window.py:198
 #: ui_qt/prompts/expansions_window.py:227
 msgid "Delete"
 msgstr "삭제"
@@ -469,15 +469,15 @@ msgstr "삭제"
 #: ui/concept_editor_window.py:178 ui/tags_blacklist_window.py:578
 #: ui/tags_blacklist_window.py:645 ui_qt/prompts/blacklist_window.py:242
 #: ui_qt/prompts/blacklist_window.py:309
-#: ui_qt/prompts/concept_editor_window.py:198
+#: ui_qt/prompts/concept_editor_window.py:205
 msgid "Import"
 msgstr "가져오기"
 
-#: ui/concept_editor_window.py:219 ui_qt/prompts/concept_editor_window.py:252
+#: ui/concept_editor_window.py:219 ui_qt/prompts/concept_editor_window.py:306
 msgid "Enter search text to see concepts..."
 msgstr "개념을 보려면 검색 텍스트를 입력하세요..."
 
-#: ui/concept_editor_window.py:274 ui_qt/prompts/concept_editor_window.py:332
+#: ui/concept_editor_window.py:274 ui_qt/prompts/concept_editor_window.py:397
 msgid "Please select a file to save to"
 msgstr "저장할 파일을 선택하세요."
 
@@ -485,7 +485,7 @@ msgstr "저장할 파일을 선택하세요."
 msgid "Saved concept: {0}"
 msgstr "저장된 개념: {0}"
 
-#: ui/concept_editor_window.py:310 ui_qt/prompts/concept_editor_window.py:394
+#: ui/concept_editor_window.py:310 ui_qt/prompts/concept_editor_window.py:459
 msgid "Confirm"
 msgstr "확인"
 
@@ -497,11 +497,11 @@ msgstr "개념 삭제: {0}?"
 msgid "Deleted concept: {0}"
 msgstr "삭제된 개념: {0}"
 
-#: ui/concept_editor_window.py:333 ui_qt/prompts/concept_editor_window.py:446
+#: ui/concept_editor_window.py:333 ui_qt/prompts/concept_editor_window.py:511
 msgid "Please select a target file first"
 msgstr "먼저 대상 파일을 선택하세요."
 
-#: ui/concept_editor_window.py:338 ui_qt/prompts/concept_editor_window.py:454
+#: ui/concept_editor_window.py:338 ui_qt/prompts/concept_editor_window.py:519
 msgid "Select concepts file to import"
 msgstr "가져올 컨셉 파일 선택"
 
@@ -517,7 +517,7 @@ msgstr "모든 파일"
 msgid "Successfully imported {0} concepts"
 msgstr "{0} 개념을 성공적으로 가져왔습니다."
 
-#: ui/concept_editor_window.py:361 ui_qt/prompts/concept_editor_window.py:487
+#: ui/concept_editor_window.py:361 ui_qt/prompts/concept_editor_window.py:552
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr "{0} 개념을 가져오지 못했습니다(자세한 내용은 {1}_failed_import.txt 참조)."
 
@@ -527,7 +527,7 @@ msgid ""
 "simply use the concept name as a search term to force import."
 msgstr "팁: 개념 줄 앞에 \"!\" 를 추가하여 강제로 가져오거나 개념 이름을 검색어로 사용하여 강제로 가져올 수 있습니다."
 
-#: ui/concept_editor_window.py:364 ui_qt/prompts/concept_editor_window.py:498
+#: ui/concept_editor_window.py:364 ui_qt/prompts/concept_editor_window.py:563
 msgid "Import Results"
 msgstr "가져오기 결과"
 
@@ -605,7 +605,12 @@ msgstr "확장팩 지우기"
 msgid "Modify"
 msgstr "수정"
 
-#: ui/expansions_window.py:252 ui_qt/prompts/expansions_window.py:228
+#: ui/expansions_window.py:252 ui_qt/models/recent_adapters_window.py:394
+#: ui_qt/models/recent_adapters_window.py:432
+#: ui_qt/models/recent_adapters_window.py:470
+#: ui_qt/models/recent_adapters_window.py:513
+#: ui_qt/models/recent_adapters_window.py:579
+#: ui_qt/prompts/expansions_window.py:228
 msgid "Copy"
 msgstr "복사"
 
@@ -617,70 +622,77 @@ msgstr "잘못된 확장 ID “{0}” 또는 텍스트 “{1}”"
 msgid "Copied expansion text to clipboard"
 msgstr "확장 텍스트를 클립보드에 복사"
 
-#: ui/models_window.py:48 ui_qt/models/models_window.py:91
+#: ui/models_window.py:48 ui_qt/models/models_window.py:100
 msgid "Checkpoints"
 msgstr "검문소"
 
-#: ui/models_window.py:49 ui_qt/models/models_window.py:92
+#: ui/models_window.py:49 ui_qt/models/models_window.py:101
 msgid "LoRAs & Adapters"
 msgstr "LoRA 및 어댑터"
 
 #: ui/models_window.py:63 ui/models_window.py:119
 #: ui/recent_adapters_window.py:87 ui/recent_adapters_window.py:142
-#: ui/recent_adapters_window.py:202 ui_qt/models/models_window.py:119
-#: ui_qt/models/models_window.py:173
-#: ui_qt/models/recent_adapters_window.py:255
-#: ui_qt/models/recent_adapters_window.py:287
-#: ui_qt/models/recent_adapters_window.py:323
+#: ui/recent_adapters_window.py:202 ui_qt/models/models_window.py:130
+#: ui_qt/models/models_window.py:184
+#: ui_qt/models/recent_adapters_window.py:376
+#: ui_qt/models/recent_adapters_window.py:414
+#: ui_qt/models/recent_adapters_window.py:452
+#: ui_qt/models/recent_adapters_window.py:494
+#: ui_qt/models/recent_adapters_window.py:539
 msgid "Filter"
 msgstr "필터"
 
-#: ui/models_window.py:79 ui_qt/models/models_window.py:130
+#: ui/models_window.py:79 ui_qt/models/models_window.py:141
 msgid "Model Name"
 msgstr "모델명"
 
 #: ui/models_window.py:80 ui/models_window.py:136
-#: ui_qt/models/models_window.py:130 ui_qt/models/models_window.py:183
+#: ui_qt/models/models_window.py:141 ui_qt/models/models_window.py:194
 msgid "Architecture"
 msgstr "건축"
 
 #: ui/models_window.py:81 ui/models_window.py:137
 #: ui/recent_adapters_window.py:105 ui/recent_adapters_window.py:160
-#: ui/recent_adapters_window.py:220 ui_qt/models/models_window.py:130
-#: ui_qt/models/models_window.py:183
-#: ui_qt/models/recent_adapters_window.py:264
-#: ui_qt/models/recent_adapters_window.py:296
-#: ui_qt/models/recent_adapters_window.py:329
+#: ui/recent_adapters_window.py:220 ui_qt/models/models_window.py:141
+#: ui_qt/models/models_window.py:194
+#: ui_qt/models/recent_adapters_window.py:385
+#: ui_qt/models/recent_adapters_window.py:423
+#: ui_qt/models/recent_adapters_window.py:461
+#: ui_qt/models/recent_adapters_window.py:500
+#: ui_qt/models/recent_adapters_window.py:568
 msgid "Created"
 msgstr "생성됨"
 
 #: ui/models_window.py:96 ui/models_window.py:152
 #: ui/recent_adapters_window.py:120 ui/recent_adapters_window.py:175
-#: ui_qt/models/models_window.py:145 ui_qt/models/models_window.py:197
-#: ui_qt/models/recent_adapters_window.py:269
-#: ui_qt/models/recent_adapters_window.py:301
+#: ui_qt/models/models_window.py:156 ui_qt/models/models_window.py:208
+#: ui_qt/models/recent_adapters_window.py:390
+#: ui_qt/models/recent_adapters_window.py:428
+#: ui_qt/models/recent_adapters_window.py:466
 msgid "Replace"
 msgstr "바꾸다"
 
 #: ui/models_window.py:98 ui/models_window.py:154
 #: ui/recent_adapters_window.py:122 ui/recent_adapters_window.py:177
-#: ui_qt/models/models_window.py:148 ui_qt/models/models_window.py:200
-#: ui_qt/models/recent_adapters_window.py:269
-#: ui_qt/models/recent_adapters_window.py:301
+#: ui_qt/models/models_window.py:159 ui_qt/models/models_window.py:211
+#: ui_qt/models/recent_adapters_window.py:390
+#: ui_qt/models/recent_adapters_window.py:428
+#: ui_qt/models/recent_adapters_window.py:466
 msgid "Add"
 msgstr "추가"
 
 #: ui/models_window.py:100 ui/models_window.py:162
 #: ui/recent_adapters_window.py:124 ui/recent_adapters_window.py:179
-#: ui_qt/models/models_window.py:151 ui_qt/models/models_window.py:208
-#: ui_qt/models/recent_adapters_window.py:273
-#: ui_qt/models/recent_adapters_window.py:305
+#: ui_qt/models/models_window.py:162 ui_qt/models/models_window.py:219
+#: ui_qt/models/recent_adapters_window.py:400
+#: ui_qt/models/recent_adapters_window.py:438
+#: ui_qt/models/recent_adapters_window.py:476
 msgid "Refresh"
 msgstr "새로 고침"
 
 #: ui/models_window.py:102 ui/models_window.py:164 ui/models_window.py:412
-#: ui/models_window.py:414 ui_qt/models/models_window.py:154
-#: ui_qt/models/models_window.py:211 ui_qt/models/models_window.py:334
+#: ui/models_window.py:414 ui_qt/models/models_window.py:165
+#: ui_qt/models/models_window.py:222 ui_qt/models/models_window.py:525
 msgid "Show Blacklisted"
 msgstr "블랙리스트 표시"
 
@@ -689,39 +701,41 @@ msgstr "블랙리스트 표시"
 #: ui/prompt_config_window.py:355 ui/recent_adapters_window.py:126
 #: ui/recent_adapters_window.py:181 ui/recent_adapters_window.py:243
 #: ui/recent_adapters_window.py:300 ui/tags_blacklist_window.py:282
-#: ui_qt/auth/password_admin_window.py:354 ui_qt/models/models_window.py:157
-#: ui_qt/models/models_window.py:214 ui_qt/models/models_window.py:445
-#: ui_qt/models/recent_adapters_window.py:274
-#: ui_qt/models/recent_adapters_window.py:306
-#: ui_qt/models/recent_adapters_window.py:342
-#: ui_qt/models/recent_adapters_window.py:392
+#: ui_qt/auth/password_admin_window.py:354 ui_qt/models/models_window.py:168
+#: ui_qt/models/models_window.py:225 ui_qt/models/models_window.py:636
+#: ui_qt/models/recent_adapters_window.py:401
+#: ui_qt/models/recent_adapters_window.py:439
+#: ui_qt/models/recent_adapters_window.py:477
+#: ui_qt/models/recent_adapters_window.py:519
+#: ui_qt/models/recent_adapters_window.py:582
+#: ui_qt/models/recent_adapters_window.py:634
 #: ui_qt/prompts/blacklist_preview_window.py:84
 #: ui_qt/prompts/prompt_config_window.py:189
 msgid "Close"
 msgstr "닫기"
 
-#: ui/models_window.py:135 ui_qt/models/models_window.py:183
+#: ui/models_window.py:135 ui_qt/models/models_window.py:194
 msgid "LoRA/Adapter Name"
 msgstr "어댑터"
 
 #: ui/models_window.py:156 ui/models_window.py:161
-#: ui_qt/models/models_window.py:203
+#: ui_qt/models/models_window.py:214
 msgid "LoRA Info"
 msgstr "LoRA 정보"
 
 #: ui/models_window.py:374 ui/recent_adapters_window.py:587
-#: ui_qt/models/models_window.py:295
-#: ui_qt/models/recent_adapters_window.py:483
+#: ui_qt/models/models_window.py:486
+#: ui_qt/models/recent_adapters_window.py:769
 msgid "Cache"
 msgstr "캐시"
 
 #: ui/models_window.py:407 ui/models_window.py:409
-#: ui_qt/models/models_window.py:334
+#: ui_qt/models/models_window.py:525
 msgid "Hide Blacklisted"
 msgstr "블랙리스트 숨기기"
 
 #: ui/models_window.py:425 ui/models_window.py:663
-#: ui_qt/models/models_window.py:350
+#: ui_qt/models/models_window.py:541
 msgid "Feature Unavailable"
 msgstr "기능 사용 불가"
 
@@ -735,15 +749,15 @@ msgstr ""
 "\n"
 "이는 누락된 종속성이나 임포트 오류 때문일 수 있습니다."
 
-#: ui/models_window.py:433 ui_qt/models/models_window.py:359
+#: ui/models_window.py:433 ui_qt/models/models_window.py:550
 msgid "No Selection"
 msgstr "선택 없음"
 
-#: ui/models_window.py:433 ui_qt/models/models_window.py:360
+#: ui/models_window.py:433 ui_qt/models/models_window.py:551
 msgid "Please select a LoRA to view information."
 msgstr "정보를 보려면 LoRA를 선택하십시오."
 
-#: ui/models_window.py:443 ui_qt/models/models_window.py:370
+#: ui/models_window.py:443 ui_qt/models/models_window.py:561
 msgid "Model not found: {0}"
 msgstr "모델을 찾을 수 없습니다: {0}"
 
@@ -751,71 +765,72 @@ msgstr "모델을 찾을 수 없습니다: {0}"
 msgid "Failed to show LoRA information: {0}"
 msgstr "LoRA 정보 표시 실패: {0}"
 
-#: ui/models_window.py:464 ui_qt/models/models_window.py:388
+#: ui/models_window.py:464 ui_qt/models/models_window.py:579
 msgid "LoRA Information: {0}"
 msgstr "LoRA 정보: {0}"
 
-#: ui/models_window.py:484 ui_qt/models/models_window.py:398
+#: ui/models_window.py:484 ui_qt/models/models_window.py:589
 msgid "LoRA Information"
 msgstr "LoRA 정보"
 
-#: ui/models_window.py:494 ui_qt/models/models_window.py:403
+#: ui/models_window.py:494 ui_qt/models/models_window.py:594
 msgid "Name:"
 msgstr "이름:"
 
-#: ui/models_window.py:505 ui_qt/models/models_window.py:404
+#: ui/models_window.py:505 ui_qt/models/models_window.py:595
 msgid "Architecture:"
 msgstr "건축:"
 
-#: ui/models_window.py:516 ui_qt/models/models_window.py:405
+#: ui/models_window.py:516 ui_qt/models/models_window.py:596
 msgid "File Path:"
 msgstr "파일 경로:"
 
-#: ui/models_window.py:528 ui_qt/models/models_window.py:406
+#: ui/models_window.py:528 ui_qt/models/models_window.py:597
 msgid "Created:"
 msgstr "생성됨:"
 
-#: ui/models_window.py:539 ui_qt/models/models_window.py:407
+#: ui/models_window.py:539 ui_qt/models/models_window.py:598
 msgid "Strength:"
 msgstr "강점:"
 
-#: ui/models_window.py:554 ui_qt/models/models_window.py:427
+#: ui/models_window.py:554 ui_qt/models/models_window.py:618
 msgid "Trigger Information"
 msgstr "트리거 정보"
 
-#: ui/models_window.py:560 ui_qt/models/models_window.py:431
+#: ui/models_window.py:560 ui_qt/models/models_window.py:622
 msgid "Loading trigger information..."
 msgstr "트리거 정보 로딩 중..."
 
-#: ui/models_window.py:574 ui_qt/models/models_window.py:440
+#: ui/models_window.py:574 ui_qt/models/models_window.py:631
 msgid "Create .safetriggers File"
 msgstr ".safetriggers 파일 생성"
 
-#: ui/models_window.py:597 ui_qt/models/models_window.py:466
+#: ui/models_window.py:597 ui_qt/models/models_window.py:657
+#: utils/globals.py:569
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: ui/models_window.py:603 ui_qt/models/models_window.py:470
+#: ui/models_window.py:603 ui_qt/models/models_window.py:661
 msgid "Trigger extraction not available"
 msgstr "트리거 추출 불가"
 
-#: ui/models_window.py:614 ui_qt/models/models_window.py:477
+#: ui/models_window.py:614 ui_qt/models/models_window.py:668
 msgid "LoRA file not found"
 msgstr "LoRA 파일을 찾을 수 없습니다"
 
-#: ui/models_window.py:623 ui_qt/models/models_window.py:483
+#: ui/models_window.py:623 ui_qt/models/models_window.py:674
 msgid "No triggers found"
 msgstr "트리거가 발견되지 않았습니다"
 
-#: ui/models_window.py:624 ui_qt/models/models_window.py:484
+#: ui/models_window.py:624 ui_qt/models/models_window.py:675
 msgid "No triggers found: {0}"
 msgstr "트리거가 발견되지 않았습니다: {0}"
 
-#: ui/models_window.py:627 ui_qt/models/models_window.py:486
+#: ui/models_window.py:627 ui_qt/models/models_window.py:677
 msgid "Error loading triggers: {0}"
 msgstr "트리거 불러오기 중 오류 발생: {0}"
 
-#: ui/models_window.py:632 ui_qt/models/models_window.py:489
+#: ui/models_window.py:632 ui_qt/models/models_window.py:680
 msgid "Found {0} triggers"
 msgstr "{0}개의 트리거를 발견했습니다"
 
@@ -823,15 +838,15 @@ msgstr "{0}개의 트리거를 발견했습니다"
 msgid "Cannot create .safetriggers file: trigger extraction is not available."
 msgstr ".safetriggers 파일을 생성할 수 없습니다: 트리거 추출이 사용할 수 없습니다."
 
-#: ui/models_window.py:676 ui_qt/models/models_window.py:505
+#: ui/models_window.py:676 ui_qt/models/models_window.py:696
 msgid "LoRA file not found: {0}"
 msgstr "LoRA 파일을 찾을 수 없습니다: {0}"
 
-#: ui/models_window.py:685 ui_qt/models/models_window.py:510
+#: ui/models_window.py:685 ui_qt/models/models_window.py:701
 msgid "Success"
 msgstr "성공"
 
-#: ui/models_window.py:686 ui_qt/models/models_window.py:510
+#: ui/models_window.py:686 ui_qt/models/models_window.py:701
 msgid ""
 "Created .safetriggers file:\n"
 "{0}"
@@ -839,11 +854,11 @@ msgstr ""
 ".safetriggers 파일 생성됨:\n"
 "{0}"
 
-#: ui/models_window.py:689 ui_qt/models/models_window.py:512
+#: ui/models_window.py:689 ui_qt/models/models_window.py:703
 msgid "Failed to create .safetriggers file"
 msgstr ".safetriggers 파일 생성 실패"
 
-#: ui/models_window.py:693 ui_qt/models/models_window.py:514
+#: ui/models_window.py:693 ui_qt/models/models_window.py:705
 msgid "Failed to create .safetriggers file: {0}"
 msgstr ".safetriggers 파일 생성 실패: {0}"
 
@@ -1031,46 +1046,47 @@ msgstr "프롬프트 시작에 태그 적용"
 msgid "Sparse Mixed Tags"
 msgstr "희소 혼합 태그"
 
-#: ui/recent_adapters_window.py:42 ui_qt/models/recent_adapters_window.py:219
+#: ui/recent_adapters_window.py:42 ui_qt/models/recent_adapters_window.py:334
 msgid "Recent Adapters"
 msgstr "최근 어댑터"
 
-#: ui/recent_adapters_window.py:67 ui_qt/models/recent_adapters_window.py:229
+#: ui/recent_adapters_window.py:67 ui_qt/models/recent_adapters_window.py:346
 msgid "Recent ControlNets"
 msgstr "최근 ControlNets"
 
-#: ui/recent_adapters_window.py:68 ui_qt/models/recent_adapters_window.py:230
+#: ui/recent_adapters_window.py:68 ui_qt/models/recent_adapters_window.py:347
 msgid "Recent IP Adapters"
 msgstr "최근 IP 어댑터"
 
-#: ui/recent_adapters_window.py:69 ui_qt/models/recent_adapters_window.py:231
+#: ui/recent_adapters_window.py:69 ui_qt/models/recent_adapters_window.py:349
 msgid "All Recent Adapters"
 msgstr "최근 모든 어댑터"
 
-#: ui/recent_adapters_window.py:70 ui_qt/models/recent_adapters_window.py:232
+#: ui/recent_adapters_window.py:70 ui_qt/models/recent_adapters_window.py:351
 msgid "Configuration"
 msgstr "구성"
 
-#: ui/recent_adapters_window.py:103 ui_qt/models/recent_adapters_window.py:264
+#: ui/recent_adapters_window.py:103 ui_qt/models/recent_adapters_window.py:385
 msgid "ControlNet File"
 msgstr "ControlNet 파일"
 
 #: ui/recent_adapters_window.py:104 ui/recent_adapters_window.py:159
-#: ui/recent_adapters_window.py:219 ui_qt/models/recent_adapters_window.py:264
-#: ui_qt/models/recent_adapters_window.py:296
-#: ui_qt/models/recent_adapters_window.py:329
+#: ui/recent_adapters_window.py:219 ui_qt/models/recent_adapters_window.py:385
+#: ui_qt/models/recent_adapters_window.py:423
+#: ui_qt/models/recent_adapters_window.py:461
+#: ui_qt/models/recent_adapters_window.py:500
 msgid "Type"
 msgstr "제품정보"
 
-#: ui/recent_adapters_window.py:158 ui_qt/models/recent_adapters_window.py:296
+#: ui/recent_adapters_window.py:158 ui_qt/models/recent_adapters_window.py:423
 msgid "IP Adapter File"
 msgstr "IP 어댑터 파일"
 
-#: ui/recent_adapters_window.py:197 ui_qt/models/recent_adapters_window.py:318
+#: ui/recent_adapters_window.py:197 ui_qt/models/recent_adapters_window.py:489
 msgid "Individual files, including from directory-split runs (no directories)"
 msgstr "개별 파일들, 디렉터리 분할 실행 결과 포함 (디렉터리 없음)"
 
-#: ui/recent_adapters_window.py:218 ui_qt/models/recent_adapters_window.py:329
+#: ui/recent_adapters_window.py:218 ui_qt/models/recent_adapters_window.py:500
 msgid "Adapter File"
 msgstr "어댑터 파일"
 
@@ -1090,19 +1106,19 @@ msgstr "IP 어댑터에 적용(교체)"
 msgid "Apply to IP Adapter (Add)"
 msgstr "IP 어댑터에 적용 (추가)"
 
-#: ui/recent_adapters_window.py:265 ui_qt/models/recent_adapters_window.py:355
+#: ui/recent_adapters_window.py:265 ui_qt/models/recent_adapters_window.py:597
 msgid "Recent Adapters Configuration"
 msgstr "최근 어댑터 구성"
 
-#: ui/recent_adapters_window.py:271 ui_qt/models/recent_adapters_window.py:360
+#: ui/recent_adapters_window.py:271 ui_qt/models/recent_adapters_window.py:602
 msgid "Max Recent Items:"
 msgstr "최대 최근 항목:"
 
-#: ui/recent_adapters_window.py:277 ui_qt/models/recent_adapters_window.py:369
+#: ui/recent_adapters_window.py:277 ui_qt/models/recent_adapters_window.py:611
 msgid "Max Recent Split Items:"
 msgstr "최근 분할 항목 최대 개수:"
 
-#: ui/recent_adapters_window.py:283 ui_qt/models/recent_adapters_window.py:378
+#: ui/recent_adapters_window.py:283 ui_qt/models/recent_adapters_window.py:620
 msgid ""
 "These settings control how many recent adapters are kept in memory.\n"
 "Higher values use more memory but keep more history.\n"
@@ -1114,14 +1130,14 @@ msgstr ""
 
 #: ui/auth/password_admin_window.py:258 ui/recent_adapters_window.py:294
 #: ui_qt/auth/password_admin_window.py:350
-#: ui_qt/models/recent_adapters_window.py:386
+#: ui_qt/models/recent_adapters_window.py:628
 msgid "Save Settings"
 msgstr "설정 저장"
 
 #: ui/auth/password_admin_window.py:246 ui/auth/password_admin_window.py:305
 #: ui/recent_adapters_window.py:297 ui_qt/auth/password_admin_window.py:338
 #: ui_qt/auth/password_admin_window.py:402
-#: ui_qt/models/recent_adapters_window.py:389
+#: ui_qt/models/recent_adapters_window.py:631
 msgid "Reset to Defaults"
 msgstr "기본값으로 재설정"
 
@@ -1444,6 +1460,7 @@ msgid "Disabled"
 msgstr "사용 불가"
 
 #: ui/tags_blacklist_window.py:755 ui/tags_blacklist_window.py:798
+#: ui_qt/models/recent_adapters_window.py:576
 #: ui_qt/prompts/blacklist_window.py:430 ui_qt/prompts/blacklist_window.py:473
 msgid "Remove"
 msgstr "제거"
@@ -1895,23 +1912,23 @@ msgid ""
 "configured."
 msgstr "이 작업에는 비밀번호 보호가 필요하지만 현재 구성되어 있지 않습니다."
 
-#: ui_qt/app_window/app_window.py:350
+#: ui_qt/app_window/app_window.py:351
 msgid "Theme switched to {0}."
 msgstr "테마는 {0}에 전환."
 
-#: ui_qt/app_window/app_window.py:676 ui_qt/app_window/app_window.py:691
+#: ui_qt/app_window/app_window.py:715 ui_qt/app_window/app_window.py:730
 msgid "Updating history for blacklist changes — please wait…"
 msgstr "히스토리 업데이트 중 — 블랙리스트 변경 사항을 기다리고 있습니다… 잠시만 기다려 주세요."
 
-#: ui_qt/app_window/app_window.py:678
+#: ui_qt/app_window/app_window.py:717
 msgid "Saving application data is taking longer than expected — please wait…"
 msgstr "앱 데이터 저장이 예상보다 오래 걸리고 있습니다 — 잠시만 기다려주세요…"
 
-#: ui_qt/app_window/app_window.py:680
+#: ui_qt/app_window/app_window.py:719
 msgid "Closing"
 msgstr "폐장"
 
-#: ui_qt/app_window/run_controller.py:213
+#: ui_qt/app_window/run_controller.py:298
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -1925,24 +1942,24 @@ msgstr ""
 "\n"
 "계속하시겠습니까?"
 
-#: ui_qt/app_window/sidebar_panel.py:315
+#: ui_qt/app_window/sidebar_panel.py:337
 msgid "Preset Schedule"
 msgstr "고정 일정"
 
-#: ui_qt/app_window/sidebar_panel.py:321
+#: ui_qt/app_window/sidebar_panel.py:343
 msgid "Presets"
 msgstr "예약 설정"
 
-#: ui_qt/app_window/sidebar_panel.py:327
+#: ui_qt/app_window/sidebar_panel.py:349
 #: ui_qt/presets/timed_schedules_window.py:186
 msgid "Timed Schedules"
 msgstr "예약된 일정"
 
-#: ui_qt/app_window/sidebar_panel.py:342
+#: ui_qt/app_window/sidebar_panel.py:364
 msgid "Expansions"
 msgstr "확장들"
 
-#: ui_qt/app_window/sidebar_panel.py:348
+#: ui_qt/app_window/sidebar_panel.py:370
 msgid "Prompt Config"
 msgstr "프롬프트 컨피그"
 
@@ -1956,23 +1973,23 @@ msgstr "정보"
 msgid "Administration Error"
 msgstr "관리자 오류"
 
-#: ui_qt/models/models_window.py:351
+#: ui_qt/models/models_window.py:542
 msgid "LoRA trigger extraction is not available."
 msgstr "LoRA 트리거 추출은 사용할 수 없습니다."
 
-#: ui_qt/models/recent_adapters_window.py:334
+#: ui_qt/models/recent_adapters_window.py:505
 msgid "ControlNet (Replace)"
 msgstr "컨트롤넷 (대체)"
 
-#: ui_qt/models/recent_adapters_window.py:335
+#: ui_qt/models/recent_adapters_window.py:506
 msgid "ControlNet (Add)"
 msgstr "컨트롤퍼넷 (추가)"
 
-#: ui_qt/models/recent_adapters_window.py:336
+#: ui_qt/models/recent_adapters_window.py:507
 msgid "IP Adapter (Replace)"
 msgstr "IP 어댑터 (대체)"
 
-#: ui_qt/models/recent_adapters_window.py:337
+#: ui_qt/models/recent_adapters_window.py:508
 msgid "IP Adapter (Add)"
 msgstr "IP 어댑터 (추가)"
 
@@ -2156,65 +2173,65 @@ msgstr "컨셉 에디터"
 msgid "Type to search concepts..."
 msgstr "콘цеп트를 입력하여 검색하십시오..."
 
-#: ui_qt/prompts/concept_editor_window.py:187
+#: ui_qt/prompts/concept_editor_window.py:194
 msgid "Add the search text as a new concept to the selected file"
 msgstr "검색 텍스트를 선택한 파일에 새로운 개념으로 추가합니다."
 
-#: ui_qt/prompts/concept_editor_window.py:194
+#: ui_qt/prompts/concept_editor_window.py:201
 msgid "Delete the selected concept from the file it belongs to"
 msgstr "삭제된개념을 그 파일에서 삭제하다"
 
-#: ui_qt/prompts/concept_editor_window.py:201
+#: ui_qt/prompts/concept_editor_window.py:208
 msgid "Import concepts from an external text file into the selected file"
 msgstr "외부 텍스트 파일에서 개념들을 선택한 파일로 가져오다."
 
-#: ui_qt/prompts/concept_editor_window.py:286
+#: ui_qt/prompts/concept_editor_window.py:345
 msgid "{0} concepts found"
 msgstr "{0}개념이 발견되었습니다."
 
-#: ui_qt/prompts/concept_editor_window.py:325
+#: ui_qt/prompts/concept_editor_window.py:390
 msgid "Enter a concept name first"
 msgstr "개념 이름을 입력하세요."
 
-#: ui_qt/prompts/concept_editor_window.py:344
+#: ui_qt/prompts/concept_editor_window.py:409
 msgid "Concept \"{0}\" already exists in {1}"
 msgstr "개념 '{0}'은 이미 {1}에 존재하고 있습니다."
 
-#: ui_qt/prompts/concept_editor_window.py:367
+#: ui_qt/prompts/concept_editor_window.py:432
 msgid "Saved concept: {0} → {1}"
 msgstr "저장된개념: {0} → {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:387
+#: ui_qt/prompts/concept_editor_window.py:452
 msgid "Select a concept first"
 msgstr "컨셉을 먼저 선택하세요."
 
-#: ui_qt/prompts/concept_editor_window.py:395
+#: ui_qt/prompts/concept_editor_window.py:460
 msgid "Delete concept \"{0}\" from {1}?"
 msgstr "개념 '{0}'을 {1}에서 삭제합니다?"
 
-#: ui_qt/prompts/concept_editor_window.py:407
+#: ui_qt/prompts/concept_editor_window.py:472
 msgid "Concept \"{0}\" was not found in {1} -- it may have already been removed."
 msgstr "{0}라는 개념은 {1}에서 발견되지 않았습니다 -- 이미 삭제되었을 수 있습니다."
 
-#: ui_qt/prompts/concept_editor_window.py:423
+#: ui_qt/prompts/concept_editor_window.py:488
 msgid "Deleted concept: {0} from {1}"
 msgstr "삭제된 개념: {0}에서 {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:456
+#: ui_qt/prompts/concept_editor_window.py:521
 msgid "Text files (*.txt);;All files (*.*)"
 msgstr "텍스트 파일 (*.txt);;모든 파일 (*.*)."
 
-#: ui_qt/prompts/concept_editor_window.py:481
+#: ui_qt/prompts/concept_editor_window.py:546
 msgid "Successfully imported {0} concepts into {1}"
 msgstr "성공적으로 {0}개념들을 {1}에 도입되었습니다."
 
-#: ui_qt/prompts/concept_editor_window.py:493
+#: ui_qt/prompts/concept_editor_window.py:558
 msgid ""
 "Tip: You can prepend '!' to any concept line to force importation, or simply"
 " use the concept name as a search term to force import."
 msgstr "팁: 개념 줄 앞에 '!'를 붙일 수 있습니다. 또는 단순히 개념 이름을 검색어로 사용하여 강제 가져오기를 할 수 있습니다."
 
-#: ui_qt/prompts/concept_editor_window.py:507
+#: ui_qt/prompts/concept_editor_window.py:572
 msgid "No new concepts to import from {0}"
 msgstr "새로운 개념이 없어 {0}에서 가져올 없습니다."
 
@@ -2404,231 +2421,231 @@ msgstr "허용하지 않음"
 msgid "Allow in NSFW"
 msgstr "NSFW 모드에서 허용"
 
-#: utils/globals.py:226
+#: utils/globals.py:333
 msgid "Simple Image Gen"
 msgstr "이미지 생성 방법"
 
-#: utils/globals.py:227
+#: utils/globals.py:334
 msgid "Simple Image Gen Lora"
 msgstr "LoRA를 활용한 이미지 생성 방법"
 
-#: utils/globals.py:228
+#: utils/globals.py:335
 msgid "Simple Image Gen Tiled Upscale"
 msgstr "타일링된 고해상도 이미지 생성"
 
-#: utils/globals.py:229
+#: utils/globals.py:336
 msgid "Ella"
 msgstr "ELLA"
 
-#: utils/globals.py:230
+#: utils/globals.py:337
 msgid "Instant Lora"
 msgstr "즉시 LoRA"
 
-#: utils/globals.py:231
+#: ui_qt/models/recent_adapters_window.py:553 utils/globals.py:338
 msgid "IP Adapter"
 msgstr "IP 어댑터"
 
-#: utils/globals.py:232
+#: utils/globals.py:165 utils/globals.py:339
 msgid "Image to Image"
 msgstr "이미지에서 이미지로"
 
-#: utils/globals.py:233
+#: ui_qt/models/recent_adapters_window.py:552 utils/globals.py:340
 msgid "ControlNet"
 msgstr "컨트롤넷"
 
-#: utils/globals.py:234
+#: utils/globals.py:341
 msgid "Inpaint ClipSeg"
 msgstr "인페인팅 클립세그"
 
-#: utils/globals.py:235
+#: utils/globals.py:342
 msgid "Animate Diff"
 msgstr "애니메이트 디프"
 
-#: utils/globals.py:236
+#: utils/globals.py:343
 msgid "Renoiser"
 msgstr "레노이저"
 
-#: utils/globals.py:237 utils/globals.py:456
+#: utils/globals.py:344 utils/globals.py:564
 msgid "Turbo"
 msgstr "터보"
 
-#: utils/globals.py:238
+#: utils/globals.py:345
 msgid "Upscale Simple"
 msgstr "이미지 업스케일링 간단히"
 
-#: utils/globals.py:239
+#: utils/globals.py:346
 msgid "Upscale Better"
 msgstr "이미지 품질을 높이기 더 나은 버전"
 
-#: utils/globals.py:240
+#: utils/globals.py:347
 msgid "Redo Prompt"
 msgstr "프롬프트를 다시 입력하세요"
 
-#: utils/globals.py:304 utils/globals.py:365
+#: utils/globals.py:411 utils/globals.py:472
 msgid "Any"
 msgstr "어떤"
 
-#: utils/globals.py:305
+#: utils/globals.py:412
 msgid "Euler"
 msgstr "오일러"
 
-#: utils/globals.py:306
+#: utils/globals.py:413
 msgid "Euler Ancestral"
 msgstr "오일러 가계도"
 
-#: utils/globals.py:307
+#: utils/globals.py:414
 msgid "DPM 2"
 msgstr "DPM 2"
 
-#: utils/globals.py:308
+#: utils/globals.py:415
 msgid "DPM 2 Ancestral"
 msgstr "DPM 2 선조"
 
-#: utils/globals.py:309
+#: utils/globals.py:416
 msgid "DPM++ SDE"
 msgstr "DPM++ SDE"
 
-#: utils/globals.py:310
+#: utils/globals.py:417
 msgid "DPM++ SDE GPU"
 msgstr "DPM++ SDE GPU"
 
-#: utils/globals.py:311
+#: utils/globals.py:418
 msgid "DPM++ 2M"
 msgstr "DPM++ 2M"
 
-#: utils/globals.py:312
+#: utils/globals.py:419
 msgid "DPM++ 2M SDE"
 msgstr "DPM++ 2M SDE"
 
-#: utils/globals.py:313
+#: utils/globals.py:420
 msgid "DPM++ 2M SDE GPU"
 msgstr "DPM++ 2M SDE GPU"
 
-#: utils/globals.py:314
+#: utils/globals.py:421
 msgid "DPM++ 3M SDE"
 msgstr "DPM++ 3M SDE"
 
-#: utils/globals.py:315
+#: utils/globals.py:422
 msgid "DPM++ 3M SDE GPU"
 msgstr "DPM++ 3M SDE GPU"
 
-#: utils/globals.py:316
+#: utils/globals.py:423
 msgid "DDIM"
 msgstr "DDIM"
 
-#: utils/globals.py:317
+#: utils/globals.py:424
 msgid "DDPM"
 msgstr "DDPM"
 
-#: utils/globals.py:318
+#: utils/globals.py:425
 msgid "LCM"
 msgstr "LCM"
 
-#: utils/globals.py:366
+#: utils/globals.py:473
 msgid "Normal"
 msgstr "정상"
 
-#: utils/globals.py:367
+#: utils/globals.py:474
 msgid "Karras"
 msgstr "Karras"
 
-#: utils/globals.py:368
+#: utils/globals.py:475
 msgid "Simple"
 msgstr "단순한"
 
-#: utils/globals.py:369
+#: utils/globals.py:476
 msgid "Exponential"
 msgstr "지수적"
 
-#: utils/globals.py:370
+#: utils/globals.py:477
 msgid "SGM Uniform"
 msgstr "SGM 유니폼"
 
-#: utils/globals.py:371
+#: utils/globals.py:478
 msgid "DDIM Uniform"
 msgstr "DDIM 유니폼"
 
-#: utils/globals.py:453
+#: utils/globals.py:561
 msgid "SD 1.5"
 msgstr "SD 1.5"
 
-#: utils/globals.py:454
+#: utils/globals.py:562
 msgid "SDXL"
 msgstr "SDXL"
 
-#: utils/globals.py:455
+#: utils/globals.py:563
 msgid "Illustrious"
 msgstr "Illustrious"
 
-#: utils/globals.py:457
+#: utils/globals.py:565
 msgid "Flux"
 msgstr "Flux"
 
-#: utils/globals.py:458
+#: utils/globals.py:566
 msgid "Chroma"
 msgstr "Chroma"
 
-#: utils/globals.py:459
+#: utils/globals.py:567
 msgid "ZImageTurbo"
 msgstr "ZImageTurbo"
 
-#: utils/globals.py:460
+#: utils/globals.py:568
 msgid "Qwen"
 msgstr "Qwen"
 
-#: utils/globals.py:486
+#: utils/globals.py:595
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:487
+#: utils/globals.py:596
 msgid "1328"
 msgstr "1328"
 
-#: utils/globals.py:488
+#: utils/globals.py:597
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:489
+#: utils/globals.py:598
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:490
+#: utils/globals.py:599
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:529
+#: utils/globals.py:638
 msgid "Open Application"
 msgstr "소프트웨어 애플리케이션 열기"
 
-#: utils/globals.py:530
+#: utils/globals.py:639
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFL 프롬프트 모드"
 
-#: utils/globals.py:531
+#: utils/globals.py:640
 msgid "Edit Blacklist"
 msgstr "블랙리스트 편집"
 
-#: utils/globals.py:532
+#: utils/globals.py:641
 msgid "Reveal Blacklist Concepts"
 msgstr "블랙리스트 개념 공개"
 
-#: utils/globals.py:533
+#: utils/globals.py:642
 msgid "Edit Schedules"
 msgstr "일정 편집"
 
-#: utils/globals.py:534
+#: utils/globals.py:643
 msgid "Edit Timed Schedules"
 msgstr "시간별 일정 편집"
 
-#: utils/globals.py:535
+#: utils/globals.py:644
 msgid "Edit Expansions"
 msgstr "확장 프로그램 편집"
 
-#: utils/globals.py:536
+#: utils/globals.py:645
 msgid "Edit Presets"
 msgstr "사전 설정 편집"
 
-#: utils/globals.py:538
+#: utils/globals.py:647
 msgid "Access Password Administration"
 msgstr "액세스 비밀번호 관리"
 
@@ -2711,3 +2728,451 @@ msgstr "개월"
 #: utils/translations.py:68
 msgid "years"
 msgstr "년"
+
+#: ui_qt/app_window/sidebar_panel.py:291
+msgid "Source Prompts from Directory"
+msgstr "디렉토리에서 프롬프트 가져오기"
+
+#: ui_qt/app_window/sidebar_panel.py:304
+msgid "Add User Prompt Tags to Sourced Prompt"
+msgstr "소스 프롬프트에 사용자 프롬프트 태그 추가"
+
+#: ui_qt/app_window/sidebar_panel.py:379
+#: ui_qt/prompts/prompt_generator_window.py:53
+msgid "Prompt Generator"
+msgstr "프롬프트 제너레이터"
+
+#: ui_qt/app_window/sidebar_panel.py:390
+#: ui_qt/prompts/image_to_prompt_window.py:56
+msgid "Image to Prompt"
+msgstr "이미지에서 프롬프트로"
+
+#: ui_qt/models/models_window.py:102
+msgid "HF Hub"
+msgstr "HF Hub"
+
+#: ui_qt/models/models_window.py:242 ui_qt/models/models_window.py:300
+msgid "Search"
+msgstr "검색"
+
+#: ui_qt/models/models_window.py:244
+msgid "e.g. flux, sdxl, controlnet, ip-adapter"
+msgstr "예제: flux, sdxl, controlnet, ip-adapter"
+
+#: ui_qt/models/models_window.py:248 ui_qt/models/models_window.py:279
+msgid "Task"
+msgstr "할 일"
+
+#: ui_qt/models/models_window.py:254
+msgid "Sort"
+msgstr "정렬"
+
+#: ui_qt/models/models_window.py:261
+msgid "Direction"
+msgstr "목표"
+
+#: ui_qt/models/models_window.py:268
+msgid "Limit"
+msgstr "한도"
+
+#: ui_qt/models/models_window.py:279
+msgid "Repo"
+msgstr "리포지터리"
+
+#: ui_qt/models/models_window.py:279 utils/globals.py:206
+msgid "Downloads"
+msgstr "총 다운로드 수"
+
+#: ui_qt/models/models_window.py:279 utils/globals.py:207
+msgid "Likes"
+msgstr "좋아요"
+
+#: ui_qt/models/models_window.py:279
+msgid "License"
+msgstr "라이선스"
+
+#: ui_qt/models/models_window.py:279
+msgid "Gated"
+msgstr "가로 막힌"
+
+#: ui_qt/models/models_window.py:296
+msgid "Filename"
+msgstr "파일명"
+
+#: ui_qt/models/models_window.py:304
+msgid "Download File"
+msgstr "파일 다운로드"
+
+#: ui_qt/models/models_window.py:308
+msgid "Download Snapshot"
+msgstr "스냅샷 다운로드"
+
+#: ui_qt/models/models_window.py:322
+msgid "Select a model repository first"
+msgstr "먼저 모델 저장소를 선택하세요"
+
+#: ui_qt/models/models_window.py:355
+msgid "Found {0} results"
+msgstr "{0} 개의 결과를 발견 했습니다."
+
+#: ui_qt/models/models_window.py:358
+msgid "HF Hub Search Error"
+msgstr "HF 허브 검색 오류"
+
+#: ui_qt/models/models_window.py:370
+msgid "Enter a filename first"
+msgstr "파일명을 먼저 입력해 주세요"
+
+#: ui_qt/models/models_window.py:375
+msgid "Download Complete"
+msgstr "다운로드 완료"
+
+#: ui_qt/models/models_window.py:376 ui_qt/models/models_window.py:403
+msgid ""
+"Downloaded to:\n"
+"{0}"
+msgstr ""
+"다운로드 위치:\n"
+"{0}"
+
+#: ui_qt/models/models_window.py:381
+msgid "HF Hub Download Error"
+msgstr "HF 허브 다운로드 오류"
+
+#: ui_qt/models/models_window.py:402
+msgid "Snapshot Download Complete"
+msgstr "스냅샷 다운로드 완료"
+
+#: ui_qt/models/models_window.py:408
+msgid "HF Hub Snapshot Error"
+msgstr "HF 허브 스냅샷 오류"
+
+#: ui_qt/models/recent_adapters_window.py:348
+msgid "Recent Source Prompts"
+msgstr "최근 소스 프롬프트"
+
+#: ui_qt/models/recent_adapters_window.py:350
+msgid "Favorites"
+msgstr "즐겨찾기"
+
+#: ui_qt/models/recent_adapters_window.py:397
+#: ui_qt/models/recent_adapters_window.py:435
+#: ui_qt/models/recent_adapters_window.py:473
+#: ui_qt/models/recent_adapters_window.py:516
+msgid "Add to Favorites"
+msgstr "즐겨찾기에 추가하기"
+
+#: ui_qt/models/recent_adapters_window.py:461
+msgid "Source Prompt File"
+msgstr "프롬프트 소스로 사용되는 파일"
+
+#: ui_qt/models/recent_adapters_window.py:531
+msgid ""
+"Preferred adapters regardless of type. Directories are auto-added when seen "
+"in recents."
+msgstr "유형에 관계없이 선호하는 어댑터입니다. 최근 사용 내역에 표시된 디렉터리는 자동으로 추가됩니다."
+
+#: ui_qt/models/recent_adapters_window.py:546
+msgid "Target Field"
+msgstr "입력 필드"
+
+#: ui_qt/models/recent_adapters_window.py:554
+msgid "Source Prompt"
+msgstr "프롬프트 추출"
+
+#: ui_qt/models/recent_adapters_window.py:561
+msgid "Append (unchecked = Replace)"
+msgstr "앱엔드 (해제됨 = 바꾸기)"
+
+#: ui_qt/models/recent_adapters_window.py:568
+msgid "Favorite Adapter"
+msgstr "좋아하는 어댑터"
+
+#: ui_qt/models/recent_adapters_window.py:573
+msgid "Use Favorite"
+msgstr "즐겨찾기 사용"
+
+#: ui_qt/models/recent_adapters_window.py:665
+#: ui_qt/models/recent_adapters_window.py:854
+#: ui_qt/models/recent_adapters_window.py:867
+#: ui_qt/models/recent_adapters_window.py:883
+msgid "Select a row first"
+msgstr "먼저 한 행을 고르세요"
+
+#: ui_qt/models/recent_adapters_window.py:671
+msgid "Copied path to clipboard"
+msgstr "경로가 Clipboard에 복사되었습니다."
+
+#: ui_qt/models/recent_adapters_window.py:871
+msgid "Directories are auto-favorited and cannot be removed here"
+msgstr "목록은 자동으로 즐겨찾기로 추가되었으며 여기서는 삭제할 수 없습니다"
+
+#: ui_qt/models/recent_adapters_window.py:876
+msgid "Removed from favorites"
+msgstr "즐겨찾기에서 제거됨"
+
+#: ui_qt/models/recent_adapters_window.py:878
+msgid "Item was not in favorites"
+msgstr "항목은 즐겨찾기 목록에 없었습니다"
+
+#: ui_qt/models/recent_adapters_window.py:889
+msgid "Added to favorites"
+msgstr "즐겨찾기에 추가됨"
+
+#: ui_qt/models/recent_adapters_window.py:891
+msgid "Already in favorites"
+msgstr "이미 즐겨찾기에 있습니다"
+
+#: ui_qt/prompts/concept_editor_window.py:256
+msgid "Selected concept: —"
+msgstr "선정개념: —"
+
+#: ui_qt/prompts/concept_editor_window.py:261
+msgid "Selected concept: \"{0}\" — {1} ({2})"
+msgstr "선택된 개념: \"{0}\" — {1} ({2})"
+
+#: ui_qt/prompts/concept_editor_window.py:267
+msgid "Selected concept: \"{0}\" — {1}"
+msgstr "선택한 개념: \"{0}\" ― {1}"
+
+#: ui_qt/prompts/image_to_prompt_window.py:77
+msgid ""
+"Generate prompt text from an image using selectable backends. This does not "
+"start image generation."
+msgstr "선택 가능한 백엔드를 사용하여 이미지에서 프롬프트 텍스트를 생성합니다. 이 작업은 이미지 생성을 시작하지 않습니다."
+
+#: ui_qt/prompts/image_to_prompt_window.py:86
+msgid "Image"
+msgstr "이미지"
+
+#: ui_qt/prompts/image_to_prompt_window.py:89
+msgid "Browse"
+msgstr "참조하다"
+
+#: ui_qt/prompts/image_to_prompt_window.py:96
+msgid "Backend"
+msgstr "백엔드"
+
+#: ui_qt/prompts/image_to_prompt_window.py:98
+msgid "Captioner (BLIP)"
+msgstr "자막 제작자 (블립)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:99
+msgid "Fast Tagger"
+msgstr "고정 태그"
+
+#: ui_qt/prompts/image_to_prompt_window.py:100
+msgid "VLM"
+msgstr "VLM"
+
+#: ui_qt/prompts/image_to_prompt_window.py:103
+msgid "Include Negative Prompt"
+msgstr "부정적인 프롬프트 포함"
+
+#: ui_qt/prompts/image_to_prompt_window.py:111
+msgid "Prompt Hint (optional)"
+msgstr "프롬프트 힌트 (옵셔널)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:118
+msgid "Generate Prompt from Image"
+msgstr "이미지에서 프롬프트 생성"
+
+#: ui_qt/prompts/image_to_prompt_window.py:122
+#: ui_qt/prompts/prompt_generator_window.py:88
+msgid "Copy Positive"
+msgstr "긍정적인 복사"
+
+#: ui_qt/prompts/image_to_prompt_window.py:126
+#: ui_qt/prompts/prompt_generator_window.py:92
+msgid "Copy Negative"
+msgstr "부모 필름"
+
+#: ui_qt/prompts/image_to_prompt_window.py:130
+msgid "Apply Positive to Main UI"
+msgstr "메인 UI에 긍정적 적용"
+
+#: ui_qt/prompts/image_to_prompt_window.py:138
+msgid "Positive Prompt"
+msgstr "긍정적인 프롬프트"
+
+#: ui_qt/prompts/image_to_prompt_window.py:143
+msgid "Negative Prompt"
+msgstr "부정적인 프롬프트"
+
+#: ui_qt/prompts/image_to_prompt_window.py:148
+msgid "No output yet."
+msgstr "아직 출력 없음."
+
+#: ui_qt/prompts/image_to_prompt_window.py:170
+msgid "Select Image"
+msgstr "이미지 선택"
+
+#: ui_qt/prompts/image_to_prompt_window.py:172
+msgid "Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"
+msgstr "이미지 (*.png *.jpg *.jpeg *.webp *.bmp);;모든 파일 (*.*)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:246
+msgid "Select an image first."
+msgstr "먼저 이미지를 선택해 주세요."
+
+#: ui_qt/prompts/image_to_prompt_window.py:267
+msgid "updated"
+msgstr "업데이트됨"
+
+#: ui_qt/prompts/image_to_prompt_window.py:267
+msgid "unchanged"
+msgstr "변경되지 않다"
+
+#: ui_qt/prompts/image_to_prompt_window.py:271
+msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
+msgstr "백엔드: {2} [{3}]을 사용하여 ({0}: {1}) 생성됨"
+
+#: ui_qt/prompts/image_to_prompt_window.py:285
+msgid "Fast tagger returned no tags; try a lower threshold."
+msgstr "빠른 태그 지정 도구가 태그를 하나도 반환하지 않았습니다. 임계값을 낮춰 보세요."
+
+#: ui_qt/prompts/image_to_prompt_window.py:288
+msgid "Backend Not Configured"
+msgstr "백엔드가 구성되지 않았습니다"
+
+#: ui_qt/prompts/image_to_prompt_window.py:295
+msgid "Image to Prompt Error"
+msgstr "이미지를 프롬프트로 변환하는 과정에서 오류가 발생했습니다"
+
+#: ui_qt/prompts/image_to_prompt_window.py:303
+msgid "Nothing to copy."
+msgstr "복사할 내용이 없습니다."
+
+#: ui_qt/prompts/image_to_prompt_window.py:308
+#: ui_qt/prompts/prompt_generator_window.py:173
+msgid "Copied to clipboard"
+msgstr "클립보드에 복사되었습니다."
+
+#: ui_qt/prompts/image_to_prompt_window.py:313
+msgid "No positive prompt to apply."
+msgstr "긍정적인 프롬프트를 적용할 수 없습니다."
+
+#: ui_qt/prompts/image_to_prompt_window.py:316
+msgid "Applied positive prompt to main UI"
+msgstr "긍정적인 안내문구를 주요 UI에 적용했습니다."
+
+#: ui_qt/prompts/prompt_generator_window.py:75
+msgid ""
+"Generate one prompt at a time using current UI settings. This does not run "
+"image generation and does not modify prompt history unless you click \"Save "
+"to Prompt History\"."
+msgstr ""
+"현재 UI 설정을 사용하여 한 번에 하나의 프롬프트를 생성합니다. “프롬프트 기록에 저장”을 클릭하지 않는 한, 이미지 생성이 실행되지 "
+"않으며 프롬프트 기록도 수정되지 않습니다."
+
+#: ui_qt/prompts/prompt_generator_window.py:84
+msgid "Generate One Prompt"
+msgstr "하나의 프롬프트 생성"
+
+#: ui_qt/prompts/prompt_generator_window.py:96
+msgid "Save to Prompt History"
+msgstr "프롬프트 기록에 저장"
+
+#: ui_qt/prompts/prompt_generator_window.py:103
+msgid "Generated Positive Prompt"
+msgstr "생성된 긍정적인 프롬프트"
+
+#: ui_qt/prompts/prompt_generator_window.py:108
+msgid "Generated Negative Prompt"
+msgstr "생성된 부정적 프롬프트"
+
+#: ui_qt/prompts/prompt_generator_window.py:113
+msgid "No prompt generated yet."
+msgstr "아직 프롬프트가 생성되지 않았습니다."
+
+#: ui_qt/prompts/prompt_generator_window.py:162
+msgid "Generated a new prompt."
+msgstr "새로운 프롬프트를 생성했어요."
+
+#: ui_qt/prompts/prompt_generator_window.py:164
+msgid "Prompt Generation Error"
+msgstr "프롬프트 제너레이션 에러"
+
+#: ui_qt/prompts/prompt_generator_window.py:168
+msgid "Nothing to copy. Generate a prompt first."
+msgstr "скопировать нечего. Генерируйте сначала промпт."
+
+#: ui_qt/prompts/prompt_generator_window.py:177
+msgid "Generate a prompt first."
+msgstr "먼저 프롬프트를 생성하세요."
+
+#: ui_qt/prompts/prompt_generator_window.py:185
+msgid "Nothing to save."
+msgstr "저장할 것이 없습니다."
+
+#: ui_qt/prompts/prompt_generator_window.py:188
+msgid "Saved generated prompt to prompt history"
+msgstr "저장된 생성 프롬프트를 프롬프트 역사에 저장되었습니다."
+
+#: utils/globals.py:163
+msgid "All visual media"
+msgstr "모든 시각적 미디어"
+
+#: utils/globals.py:164
+msgid "Text to Image"
+msgstr "텍스트 이미지"
+
+#: utils/globals.py:166
+msgid "Image to Text"
+msgstr "이미지에서 텍스트로"
+
+#: utils/globals.py:167
+msgid "Image Classification"
+msgstr "이미지 분류"
+
+#: utils/globals.py:168
+msgid "Zero-shot Image Classification"
+msgstr "제로샷 이미지 분류"
+
+#: utils/globals.py:169
+msgid "Object Detection"
+msgstr "객체 감지"
+
+#: utils/globals.py:170
+msgid "Image Segmentation"
+msgstr "이미지 분할"
+
+#: utils/globals.py:171
+msgid "Depth Estimation"
+msgstr "심도 추정"
+
+#: utils/globals.py:172
+msgid "Visual Question Answering"
+msgstr "시각적 질문 응답"
+
+#: utils/globals.py:173
+msgid "Video Classification"
+msgstr "영상 분류"
+
+#: utils/globals.py:174
+msgid "Text to Video"
+msgstr "텍스트를 비디오로"
+
+#: utils/globals.py:175
+msgid "Image Feature Extraction"
+msgstr "이미지 특성추출"
+
+#: utils/globals.py:208
+msgid "Last Modified"
+msgstr "최근 수정일"
+
+#: utils/globals.py:209
+msgid "Created At"
+msgstr "생성일"
+
+#: utils/globals.py:210
+msgid "Trending Score"
+msgstr "트렌드 스코어"
+
+#: utils/globals.py:234
+msgid "Descending"
+msgstr "하강"
+
+#: utils/globals.py:235
+msgid "Ascending"
+msgstr "상승"
