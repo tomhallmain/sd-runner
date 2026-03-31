@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2026-03-30 15:06-0400\n"
-"PO-Revision-Date: 2026-03-30 15:06-0400\n"
+"POT-Creation-Date: 2026-03-31 17:27-0400\n"
+"PO-Revision-Date: 2026-03-31 17:27-0400\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: fr Team <<EMAIL>>\n"
 "Language: fr\n"
@@ -2004,6 +2004,14 @@ msgstr ""
 "\n"
 "Êtes-vous sûr de vouloir continuer?"
 
+#: ui_qt/app_window/sidebar_panel.py:291
+msgid "Source Prompts from Directory"
+msgstr "Récupérer les invites à partir d'un répertoire"
+
+#: ui_qt/app_window/sidebar_panel.py:304
+msgid "Add User Prompt Tags to Sourced Prompt"
+msgstr "Ajouter des balises de invite utilisateur aux invites d'origine"
+
 #: ui_qt/app_window/sidebar_panel.py:337
 msgid "Preset Schedule"
 msgstr "Préconfiguré Planning"
@@ -2025,6 +2033,16 @@ msgstr "Extensions"
 msgid "Prompt Config"
 msgstr "Paramètres de message"
 
+#: ui_qt/app_window/sidebar_panel.py:379
+#: ui_qt/prompts/prompt_generator_window.py:53
+msgid "Prompt Generator"
+msgstr "Générateur de invites"
+
+#: ui_qt/app_window/sidebar_panel.py:390
+#: ui_qt/prompts/image_to_prompt_window.py:56
+msgid "Image to Prompt"
+msgstr "Image vers l'invite"
+
 #: ui_qt/auth/password_admin_window.py:118
 #: ui_qt/auth/password_admin_window.py:536
 msgid "Info"
@@ -2035,9 +2053,128 @@ msgstr "Informations"
 msgid "Administration Error"
 msgstr "Erreur d'administration"
 
+#: ui_qt/models/models_window.py:102
+msgid "HF Hub"
+msgstr "HF Hub"
+
+#: ui_qt/models/models_window.py:242 ui_qt/models/models_window.py:300
+msgid "Search"
+msgstr "Rechercher"
+
+#: ui_qt/models/models_window.py:244
+msgid "e.g. flux, sdxl, controlnet, ip-adapter"
+msgstr "e.g. flux, sdxl, contrôlnet, ip-adaptateur"
+
+#: ui_qt/models/models_window.py:248 ui_qt/models/models_window.py:279
+msgid "Task"
+msgstr "Tâche"
+
+#: ui_qt/models/models_window.py:254
+msgid "Sort"
+msgstr "tri"
+
+#: ui_qt/models/models_window.py:261
+msgid "Direction"
+msgstr "Direction"
+
+#: ui_qt/models/models_window.py:268
+msgid "Limit"
+msgstr "Limite"
+
+#: ui_qt/models/models_window.py:279
+msgid "Repo"
+msgstr "Répertoire"
+
+#: ui_qt/models/models_window.py:279 utils/globals.py:206
+msgid "Downloads"
+msgstr "Téléchargements"
+
+#: ui_qt/models/models_window.py:279 utils/globals.py:207
+msgid "Likes"
+msgstr "J'aime"
+
+#: ui_qt/models/models_window.py:279
+msgid "License"
+msgstr "licence"
+
+#: ui_qt/models/models_window.py:279
+msgid "Gated"
+msgstr "Clôturé"
+
+#: ui_qt/models/models_window.py:296
+msgid "Filename"
+msgstr "Nom du fichier"
+
+#: ui_qt/models/models_window.py:304
+msgid "Download File"
+msgstr "Télécharger le fichier"
+
+#: ui_qt/models/models_window.py:308
+msgid "Download Snapshot"
+msgstr "Télécharger l'instantané"
+
+#: ui_qt/models/models_window.py:322
+msgid "Select a model repository first"
+msgstr "Commencez par sélectionner un référentiel de modèles"
+
+#: ui_qt/models/models_window.py:355
+msgid "Found {0} results"
+msgstr "Trouvez {0} résultats"
+
+#: ui_qt/models/models_window.py:358
+msgid "HF Hub Search Error"
+msgstr "HF Hub Recherche Erreur"
+
+#: ui_qt/models/models_window.py:370
+msgid "Enter a filename first"
+msgstr "Entrez un nom de fichier d'abord"
+
+#: ui_qt/models/models_window.py:375
+msgid "Download Complete"
+msgstr "Téléchargement complet"
+
+#: ui_qt/models/models_window.py:376 ui_qt/models/models_window.py:403
+msgid ""
+"Downloaded to:\n"
+"{0}"
+msgstr ""
+"Téléchargé vers :\n"
+"{0}"
+
+#: ui_qt/models/models_window.py:381
+msgid "HF Hub Download Error"
+msgstr "Erreur de téléchargement du Hub HF"
+
+#: ui_qt/models/models_window.py:402
+msgid "Snapshot Download Complete"
+msgstr "Téléchargement de l'instantané terminé"
+
+#: ui_qt/models/models_window.py:408
+msgid "HF Hub Snapshot Error"
+msgstr "Erreur d'instantané du hub HF"
+
 #: ui_qt/models/models_window.py:542
 msgid "LoRA trigger extraction is not available."
 msgstr "L'extraction des déclencheurs LoRA n'est pas disponible."
+
+#: ui_qt/models/recent_adapters_window.py:348
+msgid "Recent Source Prompts"
+msgstr "Relances des sources récentes"
+
+#: ui_qt/models/recent_adapters_window.py:350
+msgid "Favorites"
+msgstr "Favoris"
+
+#: ui_qt/models/recent_adapters_window.py:397
+#: ui_qt/models/recent_adapters_window.py:435
+#: ui_qt/models/recent_adapters_window.py:473
+#: ui_qt/models/recent_adapters_window.py:516
+msgid "Add to Favorites"
+msgstr "Ajouter aux favoris"
+
+#: ui_qt/models/recent_adapters_window.py:461
+msgid "Source Prompt File"
+msgstr "Fichier utilisé comme source de invite"
 
 #: ui_qt/models/recent_adapters_window.py:505
 msgid "ControlNet (Replace)"
@@ -2054,6 +2191,75 @@ msgstr "Adaptateur IP (Remplacement)"
 #: ui_qt/models/recent_adapters_window.py:508
 msgid "IP Adapter (Add)"
 msgstr "Adaptateur IP (Ajouter)"
+
+#: ui_qt/models/recent_adapters_window.py:531
+msgid ""
+"Preferred adapters regardless of type. Directories are auto-added when seen "
+"in recents."
+msgstr ""
+"Adaptateurs préférés, quel que soit leur type. Les répertoires sont ajoutés "
+"automatiquement lorsqu'ils apparaissent dans l'historique."
+
+#: ui_qt/models/recent_adapters_window.py:546
+msgid "Target Field"
+msgstr "Champ cible"
+
+#: ui_qt/models/recent_adapters_window.py:552 utils/globals.py:340
+msgid "ControlNet"
+msgstr "Réseau de contrôle"
+
+#: ui_qt/models/recent_adapters_window.py:553 utils/globals.py:338
+msgid "IP Adapter"
+msgstr "Adaptateur IP"
+
+#: ui_qt/models/recent_adapters_window.py:554
+msgid "Source Prompt"
+msgstr "Extraire l'invite"
+
+#: ui_qt/models/recent_adapters_window.py:561
+msgid "Append (unchecked = Replace)"
+msgstr "Ajouter (désactivée = Remplacer)"
+
+#: ui_qt/models/recent_adapters_window.py:568
+msgid "Favorite Adapter"
+msgstr "Prise alliant favorite"
+
+#: ui_qt/models/recent_adapters_window.py:573
+msgid "Use Favorite"
+msgstr "Utiliser le favori"
+
+#: ui_qt/models/recent_adapters_window.py:665
+#: ui_qt/models/recent_adapters_window.py:854
+#: ui_qt/models/recent_adapters_window.py:867
+#: ui_qt/models/recent_adapters_window.py:883
+msgid "Select a row first"
+msgstr "Sélectionnez une ligne d'abord"
+
+#: ui_qt/models/recent_adapters_window.py:671
+msgid "Copied path to clipboard"
+msgstr "Copié le chemin au presse-papiers"
+
+#: ui_qt/models/recent_adapters_window.py:871
+msgid "Directories are auto-favorited and cannot be removed here"
+msgstr ""
+"Les dossiers sont favorisés automatiquement et ne peuvent pas être supprimés"
+" ici"
+
+#: ui_qt/models/recent_adapters_window.py:876
+msgid "Removed from favorites"
+msgstr "Supprimé des favoris"
+
+#: ui_qt/models/recent_adapters_window.py:878
+msgid "Item was not in favorites"
+msgstr "L'élément n'était pas dans les favoris"
+
+#: ui_qt/models/recent_adapters_window.py:889
+msgid "Added to favorites"
+msgstr "Ajouté aux favoris"
+
+#: ui_qt/models/recent_adapters_window.py:891
+msgid "Already in favorites"
+msgstr "Déjà dans vos favoris"
 
 #: ui_qt/presets/scheduled_shutdown_dialog.py:59
 msgid "Schedule: {0}"
@@ -2259,6 +2465,18 @@ msgstr ""
 "Importer les concepts à partir d'un fichier texte externe dans le fichier "
 "sélectionné"
 
+#: ui_qt/prompts/concept_editor_window.py:256
+msgid "Selected concept: —"
+msgstr "Texte source : Concept sélectionné : —"
+
+#: ui_qt/prompts/concept_editor_window.py:261
+msgid "Selected concept: \"{0}\" — {1} ({2})"
+msgstr "Concept sélectionné : \"{0}\" — {1} ({2})"
+
+#: ui_qt/prompts/concept_editor_window.py:267
+msgid "Selected concept: \"{0}\" — {1}"
+msgstr "Concept sélectionné : \"{0}\" - {1}"
+
 #: ui_qt/prompts/concept_editor_window.py:345
 msgid "{0} concepts found"
 msgstr "{0} concepts trouvés"
@@ -2400,6 +2618,132 @@ msgstr "Ajouter Tag"
 msgid "Enter tag text:"
 msgstr "Entrez le texte de l'étiquette :"
 
+#: ui_qt/prompts/image_to_prompt_window.py:77
+msgid ""
+"Generate prompt text from an image using selectable backends. This does not "
+"start image generation."
+msgstr ""
+"Génère un texte de prompt à partir d'une image en utilisant des moteurs "
+"sélectionnables. Cela ne lance pas la génération de l'image."
+
+#: ui_qt/prompts/image_to_prompt_window.py:86
+msgid "Image"
+msgstr "Image"
+
+#: ui_qt/prompts/image_to_prompt_window.py:89
+msgid "Browse"
+msgstr "Parcourir"
+
+#: ui_qt/prompts/image_to_prompt_window.py:96
+msgid "Backend"
+msgstr "Back-end"
+
+#: ui_qt/prompts/image_to_prompt_window.py:98
+msgid "Captioner (BLIP)"
+msgstr "Sous-titreur (BLIP)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:99
+msgid "Fast Tagger"
+msgstr "Rapide Taggeur"
+
+#: ui_qt/prompts/image_to_prompt_window.py:100
+msgid "VLM"
+msgstr "VLM"
+
+#: ui_qt/prompts/image_to_prompt_window.py:103
+msgid "Include Negative Prompt"
+msgstr "Inclure une invite négative"
+
+#: ui_qt/prompts/image_to_prompt_window.py:111
+msgid "Prompt Hint (optional)"
+msgstr "Suggestion de invite (facultif)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:118
+msgid "Generate Prompt from Image"
+msgstr "Générer le motif à partir de l'image"
+
+#: ui_qt/prompts/image_to_prompt_window.py:122
+#: ui_qt/prompts/prompt_generator_window.py:88
+msgid "Copy Positive"
+msgstr "Copie Positive"
+
+#: ui_qt/prompts/image_to_prompt_window.py:126
+#: ui_qt/prompts/prompt_generator_window.py:92
+msgid "Copy Negative"
+msgstr "Copie Négative"
+
+#: ui_qt/prompts/image_to_prompt_window.py:130
+msgid "Apply Positive to Main UI"
+msgstr "Appliquer positif à l'interface utilisateur principale"
+
+#: ui_qt/prompts/image_to_prompt_window.py:138
+msgid "Positive Prompt"
+msgstr "Invite positive"
+
+#: ui_qt/prompts/image_to_prompt_window.py:143
+msgid "Negative Prompt"
+msgstr "Invite négative"
+
+#: ui_qt/prompts/image_to_prompt_window.py:148
+msgid "No output yet."
+msgstr "Pas de sortie encore."
+
+#: ui_qt/prompts/image_to_prompt_window.py:170
+msgid "Select Image"
+msgstr "Sélectionnez l'image"
+
+#: ui_qt/prompts/image_to_prompt_window.py:172
+msgid "Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"
+msgstr ""
+"Fichiers image (*.png *.jpg *.jpeg *.webp *.bmp);;Tous les fichiers (*.*)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:246
+msgid "Select an image first."
+msgstr "Sélectionnez une image en premier."
+
+#: ui_qt/prompts/image_to_prompt_window.py:267
+msgid "updated"
+msgstr "mise à jour"
+
+#: ui_qt/prompts/image_to_prompt_window.py:267
+msgid "unchanged"
+msgstr "invariable"
+
+#: ui_qt/prompts/image_to_prompt_window.py:271
+msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
+msgstr "Généré ({0} : {1}) à l'aide du backend : {2} [{3}]"
+
+#: ui_qt/prompts/image_to_prompt_window.py:285
+msgid "Fast tagger returned no tags; try a lower threshold."
+msgstr ""
+"Le module de balisage rapide n'a renvoyé aucune balise ; essayez un seuil "
+"plus bas."
+
+#: ui_qt/prompts/image_to_prompt_window.py:288
+msgid "Backend Not Configured"
+msgstr "Backend non configuré"
+
+#: ui_qt/prompts/image_to_prompt_window.py:295
+msgid "Image to Prompt Error"
+msgstr "Erreur lors de la conversion de l'image en invite"
+
+#: ui_qt/prompts/image_to_prompt_window.py:303
+msgid "Nothing to copy."
+msgstr "Il n'y a rien à copier."
+
+#: ui_qt/prompts/image_to_prompt_window.py:308
+#: ui_qt/prompts/prompt_generator_window.py:173
+msgid "Copied to clipboard"
+msgstr "Copié dans le presse-papiers"
+
+#: ui_qt/prompts/image_to_prompt_window.py:313
+msgid "No positive prompt to apply."
+msgstr "Aucune incitation positive à postuler."
+
+#: ui_qt/prompts/image_to_prompt_window.py:316
+msgid "Applied positive prompt to main UI"
+msgstr "Ajout d'une invite positive à l'interface utilisateur principale"
+
 #: ui_qt/prompts/prompt_config_window.py:256
 msgid "Options"
 msgstr "Options"
@@ -2433,6 +2777,61 @@ msgstr ""
 #: ui_qt/prompts/prompt_config_window.py:337
 msgid "Chance Sliders"
 msgstr "Glisseurs de Chance"
+
+#: ui_qt/prompts/prompt_generator_window.py:75
+msgid ""
+"Generate one prompt at a time using current UI settings. This does not run "
+"image generation and does not modify prompt history unless you click \"Save "
+"to Prompt History\"."
+msgstr ""
+"Générer une seule invite à la fois en utilisant les paramètres actuels de "
+"l'interface utilisateur. Cela ne lance pas la génération d'images et ne "
+"modifie pas l'historique des invites, sauf si vous cliquez sur « Enregistrer"
+" dans l'historique des invites »."
+
+#: ui_qt/prompts/prompt_generator_window.py:84
+msgid "Generate One Prompt"
+msgstr "Générer une invite"
+
+#: ui_qt/prompts/prompt_generator_window.py:96
+msgid "Save to Prompt History"
+msgstr "Enregistrer dans l'historique des invites"
+
+#: ui_qt/prompts/prompt_generator_window.py:103
+msgid "Generated Positive Prompt"
+msgstr "Invite positive générée"
+
+#: ui_qt/prompts/prompt_generator_window.py:108
+msgid "Generated Negative Prompt"
+msgstr "Invite négative générée"
+
+#: ui_qt/prompts/prompt_generator_window.py:113
+msgid "No prompt generated yet."
+msgstr "Aucun prompt n'a encore été généré."
+
+#: ui_qt/prompts/prompt_generator_window.py:162
+msgid "Generated a new prompt."
+msgstr "Une nouvelle invite a été générée."
+
+#: ui_qt/prompts/prompt_generator_window.py:164
+msgid "Prompt Generation Error"
+msgstr "Erreur de génération de prompt"
+
+#: ui_qt/prompts/prompt_generator_window.py:168
+msgid "Nothing to copy. Generate a prompt first."
+msgstr "Rien à copier. Générer un.prompt d'abord."
+
+#: ui_qt/prompts/prompt_generator_window.py:177
+msgid "Generate a prompt first."
+msgstr "Générez une invite en premier."
+
+#: ui_qt/prompts/prompt_generator_window.py:185
+msgid "Nothing to save."
+msgstr "Rien à économiser."
+
+#: ui_qt/prompts/prompt_generator_window.py:188
+msgid "Saved generated prompt to prompt history"
+msgstr "Enregistrement du invite généré dans l'historique des prompts"
 
 #: utils/globals.py:31
 msgid "Fixed"
@@ -2508,6 +2907,78 @@ msgstr "Interdire"
 msgid "Allow in NSFW"
 msgstr "Autoriser en mode NSFW"
 
+#: utils/globals.py:163
+msgid "All visual media"
+msgstr "Tous les visuels"
+
+#: utils/globals.py:164
+msgid "Text to Image"
+msgstr "Texte à Image"
+
+#: utils/globals.py:165 utils/globals.py:339
+msgid "Image to Image"
+msgstr "Image à image"
+
+#: utils/globals.py:166
+msgid "Image to Text"
+msgstr "Image vers le texte"
+
+#: utils/globals.py:167
+msgid "Image Classification"
+msgstr "Classification d'Image"
+
+#: utils/globals.py:168
+msgid "Zero-shot Image Classification"
+msgstr "Classification d'images à zéro-coupure"
+
+#: utils/globals.py:169
+msgid "Object Detection"
+msgstr "Détection d'objets"
+
+#: utils/globals.py:170
+msgid "Image Segmentation"
+msgstr "Segmentation d'Image"
+
+#: utils/globals.py:171
+msgid "Depth Estimation"
+msgstr "Estimation de la profondeur"
+
+#: utils/globals.py:172
+msgid "Visual Question Answering"
+msgstr "Visuel Réponse à la Question"
+
+#: utils/globals.py:173
+msgid "Video Classification"
+msgstr "Classification vidéo"
+
+#: utils/globals.py:174
+msgid "Text to Video"
+msgstr "Texte en vidéo"
+
+#: utils/globals.py:175
+msgid "Image Feature Extraction"
+msgstr "Extraction des caractéristiques d'image"
+
+#: utils/globals.py:208
+msgid "Last Modified"
+msgstr "Dernière modification"
+
+#: utils/globals.py:209
+msgid "Created At"
+msgstr "Créé à"
+
+#: utils/globals.py:210
+msgid "Trending Score"
+msgstr "Tendances Score"
+
+#: utils/globals.py:234
+msgid "Descending"
+msgstr "descendant"
+
+#: utils/globals.py:235
+msgid "Ascending"
+msgstr "Ascendant"
+
 #: utils/globals.py:333
 msgid "Simple Image Gen"
 msgstr "Gén simple d'images"
@@ -2527,18 +2998,6 @@ msgstr "ELLA"
 #: utils/globals.py:337
 msgid "Instant Lora"
 msgstr "LoRA instantané"
-
-#: ui_qt/models/recent_adapters_window.py:553 utils/globals.py:338
-msgid "IP Adapter"
-msgstr "Adaptateur IP"
-
-#: utils/globals.py:165 utils/globals.py:339
-msgid "Image to Image"
-msgstr "Image à image"
-
-#: ui_qt/models/recent_adapters_window.py:552 utils/globals.py:340
-msgid "ControlNet"
-msgstr "Réseau de contrôle"
 
 #: utils/globals.py:341
 msgid "Inpaint ClipSeg"
@@ -2815,462 +3274,3 @@ msgstr "mois"
 #: utils/translations.py:68
 msgid "years"
 msgstr "années"
-
-#: ui_qt/app_window/sidebar_panel.py:291
-msgid "Source Prompts from Directory"
-msgstr "Récupérer les invites à partir d'un répertoire"
-
-#: ui_qt/app_window/sidebar_panel.py:304
-msgid "Add User Prompt Tags to Sourced Prompt"
-msgstr "Ajouter des balises de invite utilisateur aux invites d'origine"
-
-#: ui_qt/app_window/sidebar_panel.py:379
-#: ui_qt/prompts/prompt_generator_window.py:53
-msgid "Prompt Generator"
-msgstr "Générateur de invites"
-
-#: ui_qt/app_window/sidebar_panel.py:390
-#: ui_qt/prompts/image_to_prompt_window.py:56
-msgid "Image to Prompt"
-msgstr "Image vers l'invite"
-
-#: ui_qt/models/models_window.py:102
-msgid "HF Hub"
-msgstr "HF Hub"
-
-#: ui_qt/models/models_window.py:242 ui_qt/models/models_window.py:300
-msgid "Search"
-msgstr "Rechercher"
-
-#: ui_qt/models/models_window.py:244
-msgid "e.g. flux, sdxl, controlnet, ip-adapter"
-msgstr "e.g. flux, sdxl, contrôlnet, ip-adaptateur"
-
-#: ui_qt/models/models_window.py:248 ui_qt/models/models_window.py:279
-msgid "Task"
-msgstr "Tâche"
-
-#: ui_qt/models/models_window.py:254
-msgid "Sort"
-msgstr "tri"
-
-#: ui_qt/models/models_window.py:261
-msgid "Direction"
-msgstr "Direction"
-
-#: ui_qt/models/models_window.py:268
-msgid "Limit"
-msgstr "Limite"
-
-#: ui_qt/models/models_window.py:279
-msgid "Repo"
-msgstr "Répertoire"
-
-#: ui_qt/models/models_window.py:279 utils/globals.py:206
-msgid "Downloads"
-msgstr "Téléchargements"
-
-#: ui_qt/models/models_window.py:279 utils/globals.py:207
-msgid "Likes"
-msgstr "J'aime"
-
-#: ui_qt/models/models_window.py:279
-msgid "License"
-msgstr "licence"
-
-#: ui_qt/models/models_window.py:279
-msgid "Gated"
-msgstr "Clôturé"
-
-#: ui_qt/models/models_window.py:296
-msgid "Filename"
-msgstr "Nom du fichier"
-
-#: ui_qt/models/models_window.py:304
-msgid "Download File"
-msgstr "Télécharger le fichier"
-
-#: ui_qt/models/models_window.py:308
-msgid "Download Snapshot"
-msgstr "Télécharger l'instantané"
-
-#: ui_qt/models/models_window.py:322
-msgid "Select a model repository first"
-msgstr "Commencez par sélectionner un référentiel de modèles"
-
-#: ui_qt/models/models_window.py:355
-msgid "Found {0} results"
-msgstr "Trouvez {0} résultats"
-
-#: ui_qt/models/models_window.py:358
-msgid "HF Hub Search Error"
-msgstr "HF Hub Recherche Erreur"
-
-#: ui_qt/models/models_window.py:370
-msgid "Enter a filename first"
-msgstr "Entrez un nom de fichier d'abord"
-
-#: ui_qt/models/models_window.py:375
-msgid "Download Complete"
-msgstr "Téléchargement complet"
-
-#: ui_qt/models/models_window.py:376 ui_qt/models/models_window.py:403
-msgid ""
-"Downloaded to:\n"
-"{0}"
-msgstr ""
-"Téléchargé vers :\n"
-"{0}"
-
-#: ui_qt/models/models_window.py:381
-msgid "HF Hub Download Error"
-msgstr "Erreur de téléchargement du Hub HF"
-
-#: ui_qt/models/models_window.py:402
-msgid "Snapshot Download Complete"
-msgstr "Téléchargement de l'instantané terminé"
-
-#: ui_qt/models/models_window.py:408
-msgid "HF Hub Snapshot Error"
-msgstr "Erreur d'instantané du hub HF"
-
-#: ui_qt/models/recent_adapters_window.py:348
-msgid "Recent Source Prompts"
-msgstr "Relances des sources récentes"
-
-#: ui_qt/models/recent_adapters_window.py:350
-msgid "Favorites"
-msgstr "Favoris"
-
-#: ui_qt/models/recent_adapters_window.py:397
-#: ui_qt/models/recent_adapters_window.py:435
-#: ui_qt/models/recent_adapters_window.py:473
-#: ui_qt/models/recent_adapters_window.py:516
-msgid "Add to Favorites"
-msgstr "Ajouter aux favoris"
-
-#: ui_qt/models/recent_adapters_window.py:461
-msgid "Source Prompt File"
-msgstr "Fichier utilisé comme source de invite"
-
-#: ui_qt/models/recent_adapters_window.py:531
-msgid ""
-"Preferred adapters regardless of type. Directories are auto-added when seen "
-"in recents."
-msgstr ""
-"Adaptateurs préférés, quel que soit leur type. Les répertoires sont ajoutés "
-"automatiquement lorsqu'ils apparaissent dans l'historique."
-
-#: ui_qt/models/recent_adapters_window.py:546
-msgid "Target Field"
-msgstr "Champ cible"
-
-#: ui_qt/models/recent_adapters_window.py:554
-msgid "Source Prompt"
-msgstr "Extraire l'invite"
-
-#: ui_qt/models/recent_adapters_window.py:561
-msgid "Append (unchecked = Replace)"
-msgstr "Ajouter (désactivée = Remplacer)"
-
-#: ui_qt/models/recent_adapters_window.py:568
-msgid "Favorite Adapter"
-msgstr "Prise alliant favorite"
-
-#: ui_qt/models/recent_adapters_window.py:573
-msgid "Use Favorite"
-msgstr "Utiliser le favori"
-
-#: ui_qt/models/recent_adapters_window.py:665
-#: ui_qt/models/recent_adapters_window.py:854
-#: ui_qt/models/recent_adapters_window.py:867
-#: ui_qt/models/recent_adapters_window.py:883
-msgid "Select a row first"
-msgstr "Sélectionnez une ligne d'abord"
-
-#: ui_qt/models/recent_adapters_window.py:671
-msgid "Copied path to clipboard"
-msgstr "Copié le chemin au presse-papiers"
-
-#: ui_qt/models/recent_adapters_window.py:871
-msgid "Directories are auto-favorited and cannot be removed here"
-msgstr ""
-"Les dossiers sont favorisés automatiquement et ne peuvent pas être supprimés"
-" ici"
-
-#: ui_qt/models/recent_adapters_window.py:876
-msgid "Removed from favorites"
-msgstr "Supprimé des favoris"
-
-#: ui_qt/models/recent_adapters_window.py:878
-msgid "Item was not in favorites"
-msgstr "L'élément n'était pas dans les favoris"
-
-#: ui_qt/models/recent_adapters_window.py:889
-msgid "Added to favorites"
-msgstr "Ajouté aux favoris"
-
-#: ui_qt/models/recent_adapters_window.py:891
-msgid "Already in favorites"
-msgstr "Déjà dans vos favoris"
-
-#: ui_qt/prompts/concept_editor_window.py:256
-msgid "Selected concept: —"
-msgstr "Texte source : Concept sélectionné : —"
-
-#: ui_qt/prompts/concept_editor_window.py:261
-msgid "Selected concept: \"{0}\" — {1} ({2})"
-msgstr "Concept sélectionné : \"{0}\" — {1} ({2})"
-
-#: ui_qt/prompts/concept_editor_window.py:267
-msgid "Selected concept: \"{0}\" — {1}"
-msgstr "Concept sélectionné : \"{0}\" - {1}"
-
-#: ui_qt/prompts/image_to_prompt_window.py:77
-msgid ""
-"Generate prompt text from an image using selectable backends. This does not "
-"start image generation."
-msgstr ""
-"Génère un texte de prompt à partir d'une image en utilisant des moteurs "
-"sélectionnables. Cela ne lance pas la génération de l'image."
-
-#: ui_qt/prompts/image_to_prompt_window.py:86
-msgid "Image"
-msgstr "Image"
-
-#: ui_qt/prompts/image_to_prompt_window.py:89
-msgid "Browse"
-msgstr "Parcourir"
-
-#: ui_qt/prompts/image_to_prompt_window.py:96
-msgid "Backend"
-msgstr "Back-end"
-
-#: ui_qt/prompts/image_to_prompt_window.py:98
-msgid "Captioner (BLIP)"
-msgstr "Sous-titreur (BLIP)"
-
-#: ui_qt/prompts/image_to_prompt_window.py:99
-msgid "Fast Tagger"
-msgstr "Rapide Taggeur"
-
-#: ui_qt/prompts/image_to_prompt_window.py:100
-msgid "VLM"
-msgstr "VLM"
-
-#: ui_qt/prompts/image_to_prompt_window.py:103
-msgid "Include Negative Prompt"
-msgstr "Inclure une invite négative"
-
-#: ui_qt/prompts/image_to_prompt_window.py:111
-msgid "Prompt Hint (optional)"
-msgstr "Suggestion de invite (facultif)"
-
-#: ui_qt/prompts/image_to_prompt_window.py:118
-msgid "Generate Prompt from Image"
-msgstr "Générer le motif à partir de l'image"
-
-#: ui_qt/prompts/image_to_prompt_window.py:122
-#: ui_qt/prompts/prompt_generator_window.py:88
-msgid "Copy Positive"
-msgstr "Copie Positive"
-
-#: ui_qt/prompts/image_to_prompt_window.py:126
-#: ui_qt/prompts/prompt_generator_window.py:92
-msgid "Copy Negative"
-msgstr "Copie Négative"
-
-#: ui_qt/prompts/image_to_prompt_window.py:130
-msgid "Apply Positive to Main UI"
-msgstr "Appliquer positif à l'interface utilisateur principale"
-
-#: ui_qt/prompts/image_to_prompt_window.py:138
-msgid "Positive Prompt"
-msgstr "Invite positive"
-
-#: ui_qt/prompts/image_to_prompt_window.py:143
-msgid "Negative Prompt"
-msgstr "Invite négative"
-
-#: ui_qt/prompts/image_to_prompt_window.py:148
-msgid "No output yet."
-msgstr "Pas de sortie encore."
-
-#: ui_qt/prompts/image_to_prompt_window.py:170
-msgid "Select Image"
-msgstr "Sélectionnez l'image"
-
-#: ui_qt/prompts/image_to_prompt_window.py:172
-msgid "Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"
-msgstr ""
-"Fichiers image (*.png *.jpg *.jpeg *.webp *.bmp);;Tous les fichiers (*.*)"
-
-#: ui_qt/prompts/image_to_prompt_window.py:246
-msgid "Select an image first."
-msgstr "Sélectionnez une image en premier."
-
-#: ui_qt/prompts/image_to_prompt_window.py:267
-msgid "updated"
-msgstr "mise à jour"
-
-#: ui_qt/prompts/image_to_prompt_window.py:267
-msgid "unchanged"
-msgstr "invariable"
-
-#: ui_qt/prompts/image_to_prompt_window.py:271
-msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
-msgstr "Généré ({0} : {1}) à l'aide du backend : {2} [{3}]"
-
-#: ui_qt/prompts/image_to_prompt_window.py:285
-msgid "Fast tagger returned no tags; try a lower threshold."
-msgstr ""
-"Le module de balisage rapide n'a renvoyé aucune balise ; essayez un seuil "
-"plus bas."
-
-#: ui_qt/prompts/image_to_prompt_window.py:288
-msgid "Backend Not Configured"
-msgstr "Backend non configuré"
-
-#: ui_qt/prompts/image_to_prompt_window.py:295
-msgid "Image to Prompt Error"
-msgstr "Erreur lors de la conversion de l'image en invite"
-
-#: ui_qt/prompts/image_to_prompt_window.py:303
-msgid "Nothing to copy."
-msgstr "Il n'y a rien à copier."
-
-#: ui_qt/prompts/image_to_prompt_window.py:308
-#: ui_qt/prompts/prompt_generator_window.py:173
-msgid "Copied to clipboard"
-msgstr "Copié dans le presse-papiers"
-
-#: ui_qt/prompts/image_to_prompt_window.py:313
-msgid "No positive prompt to apply."
-msgstr "Aucune incitation positive à postuler."
-
-#: ui_qt/prompts/image_to_prompt_window.py:316
-msgid "Applied positive prompt to main UI"
-msgstr "Ajout d'une invite positive à l'interface utilisateur principale"
-
-#: ui_qt/prompts/prompt_generator_window.py:75
-msgid ""
-"Generate one prompt at a time using current UI settings. This does not run "
-"image generation and does not modify prompt history unless you click \"Save "
-"to Prompt History\"."
-msgstr ""
-"Générer une seule invite à la fois en utilisant les paramètres actuels de "
-"l'interface utilisateur. Cela ne lance pas la génération d'images et ne "
-"modifie pas l'historique des invites, sauf si vous cliquez sur « Enregistrer"
-" dans l'historique des invites »."
-
-#: ui_qt/prompts/prompt_generator_window.py:84
-msgid "Generate One Prompt"
-msgstr "Générer une invite"
-
-#: ui_qt/prompts/prompt_generator_window.py:96
-msgid "Save to Prompt History"
-msgstr "Enregistrer dans l'historique des invites"
-
-#: ui_qt/prompts/prompt_generator_window.py:103
-msgid "Generated Positive Prompt"
-msgstr "Invite positive générée"
-
-#: ui_qt/prompts/prompt_generator_window.py:108
-msgid "Generated Negative Prompt"
-msgstr "Invite négative générée"
-
-#: ui_qt/prompts/prompt_generator_window.py:113
-msgid "No prompt generated yet."
-msgstr "Aucun prompt n'a encore été généré."
-
-#: ui_qt/prompts/prompt_generator_window.py:162
-msgid "Generated a new prompt."
-msgstr "Une nouvelle invite a été générée."
-
-#: ui_qt/prompts/prompt_generator_window.py:164
-msgid "Prompt Generation Error"
-msgstr "Erreur de génération de prompt"
-
-#: ui_qt/prompts/prompt_generator_window.py:168
-msgid "Nothing to copy. Generate a prompt first."
-msgstr "Rien à copier. Générer un.prompt d'abord."
-
-#: ui_qt/prompts/prompt_generator_window.py:177
-msgid "Generate a prompt first."
-msgstr "Générez une invite en premier."
-
-#: ui_qt/prompts/prompt_generator_window.py:185
-msgid "Nothing to save."
-msgstr "Rien à économiser."
-
-#: ui_qt/prompts/prompt_generator_window.py:188
-msgid "Saved generated prompt to prompt history"
-msgstr "Enregistrement du invite généré dans l'historique des prompts"
-
-#: utils/globals.py:163
-msgid "All visual media"
-msgstr "Tous les visuels"
-
-#: utils/globals.py:164
-msgid "Text to Image"
-msgstr "Texte à Image"
-
-#: utils/globals.py:166
-msgid "Image to Text"
-msgstr "Image vers le texte"
-
-#: utils/globals.py:167
-msgid "Image Classification"
-msgstr "Classification d'Image"
-
-#: utils/globals.py:168
-msgid "Zero-shot Image Classification"
-msgstr "Classification d'images à zéro-coupure"
-
-#: utils/globals.py:169
-msgid "Object Detection"
-msgstr "Détection d'objets"
-
-#: utils/globals.py:170
-msgid "Image Segmentation"
-msgstr "Segmentation d'Image"
-
-#: utils/globals.py:171
-msgid "Depth Estimation"
-msgstr "Estimation de la profondeur"
-
-#: utils/globals.py:172
-msgid "Visual Question Answering"
-msgstr "Visuel Réponse à la Question"
-
-#: utils/globals.py:173
-msgid "Video Classification"
-msgstr "Classification vidéo"
-
-#: utils/globals.py:174
-msgid "Text to Video"
-msgstr "Texte en vidéo"
-
-#: utils/globals.py:175
-msgid "Image Feature Extraction"
-msgstr "Extraction des caractéristiques d'image"
-
-#: utils/globals.py:208
-msgid "Last Modified"
-msgstr "Dernière modification"
-
-#: utils/globals.py:209
-msgid "Created At"
-msgstr "Créé à"
-
-#: utils/globals.py:210
-msgid "Trending Score"
-msgstr "Tendances Score"
-
-#: utils/globals.py:234
-msgid "Descending"
-msgstr "descendant"
-
-#: utils/globals.py:235
-msgid "Ascending"
-msgstr "Ascendant"

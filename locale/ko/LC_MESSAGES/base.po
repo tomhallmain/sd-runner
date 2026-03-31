@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2026-03-30 15:06-0400\n"
-"PO-Revision-Date: 2026-03-30 15:06-0400\n"
+"POT-Creation-Date: 2026-03-31 17:27-0400\n"
+"PO-Revision-Date: 2026-03-31 17:27-0400\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
@@ -1436,7 +1436,7 @@ msgstr "컨셉 공개"
 #: ui/tags_blacklist_window.py:721 ui/tags_blacklist_window.py:778
 #: ui_qt/prompts/blacklist_window.py:54
 msgid "[regex]"
-msgstr "[정규식]"
+msgstr "[regex]"
 
 #: ui/tags_blacklist_window.py:723 ui_qt/prompts/blacklist_window.py:56
 msgid "[no boundary]"
@@ -1942,6 +1942,14 @@ msgstr ""
 "\n"
 "계속하시겠습니까?"
 
+#: ui_qt/app_window/sidebar_panel.py:291
+msgid "Source Prompts from Directory"
+msgstr "디렉토리에서 프롬프트 가져오기"
+
+#: ui_qt/app_window/sidebar_panel.py:304
+msgid "Add User Prompt Tags to Sourced Prompt"
+msgstr "소스 프롬프트에 사용자 프롬프트 태그 추가"
+
 #: ui_qt/app_window/sidebar_panel.py:337
 msgid "Preset Schedule"
 msgstr "고정 일정"
@@ -1963,6 +1971,16 @@ msgstr "확장들"
 msgid "Prompt Config"
 msgstr "프롬프트 컨피그"
 
+#: ui_qt/app_window/sidebar_panel.py:379
+#: ui_qt/prompts/prompt_generator_window.py:53
+msgid "Prompt Generator"
+msgstr "프롬프트 제너레이터"
+
+#: ui_qt/app_window/sidebar_panel.py:390
+#: ui_qt/prompts/image_to_prompt_window.py:56
+msgid "Image to Prompt"
+msgstr "이미지에서 프롬프트로"
+
 #: ui_qt/auth/password_admin_window.py:118
 #: ui_qt/auth/password_admin_window.py:536
 msgid "Info"
@@ -1973,17 +1991,136 @@ msgstr "정보"
 msgid "Administration Error"
 msgstr "관리자 오류"
 
+#: ui_qt/models/models_window.py:102
+msgid "HF Hub"
+msgstr "HF Hub"
+
+#: ui_qt/models/models_window.py:242 ui_qt/models/models_window.py:300
+msgid "Search"
+msgstr "검색"
+
+#: ui_qt/models/models_window.py:244
+msgid "e.g. flux, sdxl, controlnet, ip-adapter"
+msgstr "예제: flux, sdxl, controlnet, ip-adapter"
+
+#: ui_qt/models/models_window.py:248 ui_qt/models/models_window.py:279
+msgid "Task"
+msgstr "할 일"
+
+#: ui_qt/models/models_window.py:254
+msgid "Sort"
+msgstr "정렬"
+
+#: ui_qt/models/models_window.py:261
+msgid "Direction"
+msgstr "목표"
+
+#: ui_qt/models/models_window.py:268
+msgid "Limit"
+msgstr "한도"
+
+#: ui_qt/models/models_window.py:279
+msgid "Repo"
+msgstr "리포지터리"
+
+#: ui_qt/models/models_window.py:279 utils/globals.py:206
+msgid "Downloads"
+msgstr "총 다운로드 수"
+
+#: ui_qt/models/models_window.py:279 utils/globals.py:207
+msgid "Likes"
+msgstr "좋아요"
+
+#: ui_qt/models/models_window.py:279
+msgid "License"
+msgstr "라이선스"
+
+#: ui_qt/models/models_window.py:279
+msgid "Gated"
+msgstr "가로 막힌"
+
+#: ui_qt/models/models_window.py:296
+msgid "Filename"
+msgstr "파일명"
+
+#: ui_qt/models/models_window.py:304
+msgid "Download File"
+msgstr "파일 다운로드"
+
+#: ui_qt/models/models_window.py:308
+msgid "Download Snapshot"
+msgstr "스냅샷 다운로드"
+
+#: ui_qt/models/models_window.py:322
+msgid "Select a model repository first"
+msgstr "먼저 모델 저장소를 선택하세요"
+
+#: ui_qt/models/models_window.py:355
+msgid "Found {0} results"
+msgstr "{0} 개의 결과를 발견 했습니다."
+
+#: ui_qt/models/models_window.py:358
+msgid "HF Hub Search Error"
+msgstr "HF 허브 검색 오류"
+
+#: ui_qt/models/models_window.py:370
+msgid "Enter a filename first"
+msgstr "파일명을 먼저 입력해 주세요"
+
+#: ui_qt/models/models_window.py:375
+msgid "Download Complete"
+msgstr "다운로드 완료"
+
+#: ui_qt/models/models_window.py:376 ui_qt/models/models_window.py:403
+msgid ""
+"Downloaded to:\n"
+"{0}"
+msgstr ""
+"다운로드 위치:\n"
+"{0}"
+
+#: ui_qt/models/models_window.py:381
+msgid "HF Hub Download Error"
+msgstr "HF 허브 다운로드 오류"
+
+#: ui_qt/models/models_window.py:402
+msgid "Snapshot Download Complete"
+msgstr "스냅샷 다운로드 완료"
+
+#: ui_qt/models/models_window.py:408
+msgid "HF Hub Snapshot Error"
+msgstr "HF 허브 스냅샷 오류"
+
 #: ui_qt/models/models_window.py:542
 msgid "LoRA trigger extraction is not available."
 msgstr "LoRA 트리거 추출은 사용할 수 없습니다."
 
+#: ui_qt/models/recent_adapters_window.py:348
+msgid "Recent Source Prompts"
+msgstr "최근 소스 프롬프트"
+
+#: ui_qt/models/recent_adapters_window.py:350
+msgid "Favorites"
+msgstr "즐겨찾기"
+
+#: ui_qt/models/recent_adapters_window.py:397
+#: ui_qt/models/recent_adapters_window.py:435
+#: ui_qt/models/recent_adapters_window.py:473
+#: ui_qt/models/recent_adapters_window.py:516
+msgid "Add to Favorites"
+msgstr "즐겨찾기에 추가하기"
+
+#: ui_qt/models/recent_adapters_window.py:461
+msgid "Source Prompt File"
+msgstr "프롬프트 소스로 사용되는 파일"
+
 #: ui_qt/models/recent_adapters_window.py:505
 msgid "ControlNet (Replace)"
-msgstr "컨트롤넷 (대체)"
+msgstr "ControlNet (교체)"
 
 #: ui_qt/models/recent_adapters_window.py:506
 msgid "ControlNet (Add)"
-msgstr "컨트롤퍼넷 (추가)"
+msgstr "ControlNet (추가)"
 
 #: ui_qt/models/recent_adapters_window.py:507
 msgid "IP Adapter (Replace)"
@@ -1992,6 +2129,71 @@ msgstr "IP 어댑터 (대체)"
 #: ui_qt/models/recent_adapters_window.py:508
 msgid "IP Adapter (Add)"
 msgstr "IP 어댑터 (추가)"
+
+#: ui_qt/models/recent_adapters_window.py:531
+msgid ""
+"Preferred adapters regardless of type. Directories are auto-added when seen "
+"in recents."
+msgstr "유형에 관계없이 선호하는 어댑터입니다. 최근 사용 내역에 표시된 디렉터리는 자동으로 추가됩니다."
+
+#: ui_qt/models/recent_adapters_window.py:546
+msgid "Target Field"
+msgstr "입력 필드"
+
+#: ui_qt/models/recent_adapters_window.py:552 utils/globals.py:340
+msgid "ControlNet"
+msgstr "컨트롤넷"
+
+#: ui_qt/models/recent_adapters_window.py:553 utils/globals.py:338
+msgid "IP Adapter"
+msgstr "IP 어댑터"
+
+#: ui_qt/models/recent_adapters_window.py:554
+msgid "Source Prompt"
+msgstr "프롬프트 추출"
+
+#: ui_qt/models/recent_adapters_window.py:561
+msgid "Append (unchecked = Replace)"
+msgstr "앱엔드 (해제됨 = 바꾸기)"
+
+#: ui_qt/models/recent_adapters_window.py:568
+msgid "Favorite Adapter"
+msgstr "좋아하는 어댑터"
+
+#: ui_qt/models/recent_adapters_window.py:573
+msgid "Use Favorite"
+msgstr "즐겨찾기 사용"
+
+#: ui_qt/models/recent_adapters_window.py:665
+#: ui_qt/models/recent_adapters_window.py:854
+#: ui_qt/models/recent_adapters_window.py:867
+#: ui_qt/models/recent_adapters_window.py:883
+msgid "Select a row first"
+msgstr "먼저 한 행을 고르세요"
+
+#: ui_qt/models/recent_adapters_window.py:671
+msgid "Copied path to clipboard"
+msgstr "경로를 클립보드에 복사했습니다"
+
+#: ui_qt/models/recent_adapters_window.py:871
+msgid "Directories are auto-favorited and cannot be removed here"
+msgstr "목록은 자동으로 즐겨찾기로 추가되었으며 여기서는 삭제할 수 없습니다"
+
+#: ui_qt/models/recent_adapters_window.py:876
+msgid "Removed from favorites"
+msgstr "즐겨찾기에서 제거됨"
+
+#: ui_qt/models/recent_adapters_window.py:878
+msgid "Item was not in favorites"
+msgstr "항목은 즐겨찾기 목록에 없었습니다"
+
+#: ui_qt/models/recent_adapters_window.py:889
+msgid "Added to favorites"
+msgstr "즐겨찾기에 추가됨"
+
+#: ui_qt/models/recent_adapters_window.py:891
+msgid "Already in favorites"
+msgstr "이미 즐겨찾기에 있습니다"
 
 #: ui_qt/presets/scheduled_shutdown_dialog.py:59
 msgid "Schedule: {0}"
@@ -2185,6 +2387,18 @@ msgstr "삭제된개념을 그 파일에서 삭제하다"
 msgid "Import concepts from an external text file into the selected file"
 msgstr "외부 텍스트 파일에서 개념들을 선택한 파일로 가져오다."
 
+#: ui_qt/prompts/concept_editor_window.py:256
+msgid "Selected concept: —"
+msgstr "선정개념: —"
+
+#: ui_qt/prompts/concept_editor_window.py:261
+msgid "Selected concept: \"{0}\" — {1} ({2})"
+msgstr "선택된 개념: \"{0}\" — {1} ({2})"
+
+#: ui_qt/prompts/concept_editor_window.py:267
+msgid "Selected concept: \"{0}\" — {1}"
+msgstr "선택한 개념: \"{0}\" ― {1}"
+
 #: ui_qt/prompts/concept_editor_window.py:345
 msgid "{0} concepts found"
 msgstr "{0}개념이 발견되었습니다."
@@ -2307,7 +2521,7 @@ msgstr "태그를 먼저 선택해 주세요"
 
 #: ui_qt/prompts/frequent_prompt_tags_window.py:225
 msgid "add_tags callback not wired yet. Tag: {0}"
-msgstr "추가 태그 콜백 연결되지 않음. 태그: {0}"
+msgstr "add_tags 콜백이 아직 연결되지 않았습니다. 태그: {0}"
 
 #: ui_qt/prompts/frequent_prompt_tags_window.py:232
 msgid "Add Tag"
@@ -2316,6 +2530,127 @@ msgstr "태그 추가"
 #: ui_qt/prompts/frequent_prompt_tags_window.py:232
 msgid "Enter tag text:"
 msgstr "태그 텍스트 입력:"
+
+#: ui_qt/prompts/image_to_prompt_window.py:77
+msgid ""
+"Generate prompt text from an image using selectable backends. This does not "
+"start image generation."
+msgstr "선택 가능한 백엔드를 사용하여 이미지에서 프롬프트 텍스트를 생성합니다. 이 작업은 이미지 생성을 시작하지 않습니다."
+
+#: ui_qt/prompts/image_to_prompt_window.py:86
+msgid "Image"
+msgstr "이미지"
+
+#: ui_qt/prompts/image_to_prompt_window.py:89
+msgid "Browse"
+msgstr "참조하다"
+
+#: ui_qt/prompts/image_to_prompt_window.py:96
+msgid "Backend"
+msgstr "백엔드"
+
+#: ui_qt/prompts/image_to_prompt_window.py:98
+msgid "Captioner (BLIP)"
+msgstr "자막 제작자 (BLIP)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:99
+msgid "Fast Tagger"
+msgstr "고정 태그"
+
+#: ui_qt/prompts/image_to_prompt_window.py:100
+msgid "VLM"
+msgstr "VLM"
+
+#: ui_qt/prompts/image_to_prompt_window.py:103
+msgid "Include Negative Prompt"
+msgstr "부정적인 프롬프트 포함"
+
+#: ui_qt/prompts/image_to_prompt_window.py:111
+msgid "Prompt Hint (optional)"
+msgstr "프롬프트 힌트 (옵셔널)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:118
+msgid "Generate Prompt from Image"
+msgstr "이미지에서 프롬프트 생성"
+
+#: ui_qt/prompts/image_to_prompt_window.py:122
+#: ui_qt/prompts/prompt_generator_window.py:88
+msgid "Copy Positive"
+msgstr "긍정적인 복사"
+
+#: ui_qt/prompts/image_to_prompt_window.py:126
+#: ui_qt/prompts/prompt_generator_window.py:92
+msgid "Copy Negative"
+msgstr "부모 필름"
+
+#: ui_qt/prompts/image_to_prompt_window.py:130
+msgid "Apply Positive to Main UI"
+msgstr "메인 UI에 긍정적 적용"
+
+#: ui_qt/prompts/image_to_prompt_window.py:138
+msgid "Positive Prompt"
+msgstr "긍정적인 프롬프트"
+
+#: ui_qt/prompts/image_to_prompt_window.py:143
+msgid "Negative Prompt"
+msgstr "부정적인 프롬프트"
+
+#: ui_qt/prompts/image_to_prompt_window.py:148
+msgid "No output yet."
+msgstr "아직 출력 없음."
+
+#: ui_qt/prompts/image_to_prompt_window.py:170
+msgid "Select Image"
+msgstr "이미지 선택"
+
+#: ui_qt/prompts/image_to_prompt_window.py:172
+msgid "Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"
+msgstr "이미지 (*.png *.jpg *.jpeg *.webp *.bmp);;모든 파일 (*.*)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:246
+msgid "Select an image first."
+msgstr "먼저 이미지를 선택해 주세요."
+
+#: ui_qt/prompts/image_to_prompt_window.py:267
+msgid "updated"
+msgstr "업데이트됨"
+
+#: ui_qt/prompts/image_to_prompt_window.py:267
+msgid "unchanged"
+msgstr "변경되지 않다"
+
+#: ui_qt/prompts/image_to_prompt_window.py:271
+msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
+msgstr "백엔드: {2} [{3}]을 사용하여 ({0}: {1}) 생성됨"
+
+#: ui_qt/prompts/image_to_prompt_window.py:285
+msgid "Fast tagger returned no tags; try a lower threshold."
+msgstr "빠른 태그 지정 도구가 태그를 하나도 반환하지 않았습니다. 임계값을 낮춰 보세요."
+
+#: ui_qt/prompts/image_to_prompt_window.py:288
+msgid "Backend Not Configured"
+msgstr "백엔드가 구성되지 않았습니다"
+
+#: ui_qt/prompts/image_to_prompt_window.py:295
+msgid "Image to Prompt Error"
+msgstr "이미지를 프롬프트로 변환하는 과정에서 오류가 발생했습니다"
+
+#: ui_qt/prompts/image_to_prompt_window.py:303
+msgid "Nothing to copy."
+msgstr "복사할 내용이 없습니다."
+
+#: ui_qt/prompts/image_to_prompt_window.py:308
+#: ui_qt/prompts/prompt_generator_window.py:173
+msgid "Copied to clipboard"
+msgstr "클립보드에 복사되었습니다."
+
+#: ui_qt/prompts/image_to_prompt_window.py:313
+msgid "No positive prompt to apply."
+msgstr "긍정적인 프롬프트를 적용할 수 없습니다."
+
+#: ui_qt/prompts/image_to_prompt_window.py:316
+msgid "Applied positive prompt to main UI"
+msgstr "긍정적인 안내문구를 주요 UI에 적용했습니다."
 
 #: ui_qt/prompts/prompt_config_window.py:256
 msgid "Options"
@@ -2348,6 +2683,59 @@ msgstr "0은 주로 속담입니다, 50은 같은 양의 믹스입니다, 100은
 #: ui_qt/prompts/prompt_config_window.py:337
 msgid "Chance Sliders"
 msgstr "기회 슬라이더"
+
+#: ui_qt/prompts/prompt_generator_window.py:75
+msgid ""
+"Generate one prompt at a time using current UI settings. This does not run "
+"image generation and does not modify prompt history unless you click \"Save "
+"to Prompt History\"."
+msgstr ""
+"현재 UI 설정을 사용하여 한 번에 하나의 프롬프트를 생성합니다. “프롬프트 기록에 저장”을 클릭하지 않는 한, 이미지 생성이 실행되지 "
+"않으며 프롬프트 기록도 수정되지 않습니다."
+
+#: ui_qt/prompts/prompt_generator_window.py:84
+msgid "Generate One Prompt"
+msgstr "하나의 프롬프트 생성"
+
+#: ui_qt/prompts/prompt_generator_window.py:96
+msgid "Save to Prompt History"
+msgstr "프롬프트 기록에 저장"
+
+#: ui_qt/prompts/prompt_generator_window.py:103
+msgid "Generated Positive Prompt"
+msgstr "생성된 긍정적인 프롬프트"
+
+#: ui_qt/prompts/prompt_generator_window.py:108
+msgid "Generated Negative Prompt"
+msgstr "생성된 부정적 프롬프트"
+
+#: ui_qt/prompts/prompt_generator_window.py:113
+msgid "No prompt generated yet."
+msgstr "아직 프롬프트가 생성되지 않았습니다."
+
+#: ui_qt/prompts/prompt_generator_window.py:162
+msgid "Generated a new prompt."
+msgstr "새로운 프롬프트를 생성했어요."
+
+#: ui_qt/prompts/prompt_generator_window.py:164
+msgid "Prompt Generation Error"
+msgstr "프롬프트 제너레이션 에러"
+
+#: ui_qt/prompts/prompt_generator_window.py:168
+msgid "Nothing to copy. Generate a prompt first."
+msgstr "복사할 내용이 없습니다. 먼저 프롬프트를 생성해 주세요."
+
+#: ui_qt/prompts/prompt_generator_window.py:177
+msgid "Generate a prompt first."
+msgstr "먼저 프롬프트를 생성하세요."
+
+#: ui_qt/prompts/prompt_generator_window.py:185
+msgid "Nothing to save."
+msgstr "저장할 것이 없습니다."
+
+#: ui_qt/prompts/prompt_generator_window.py:188
+msgid "Saved generated prompt to prompt history"
+msgstr "저장된 생성 프롬프트를 프롬프트 역사에 저장되었습니다."
 
 #: utils/globals.py:31
 msgid "Fixed"
@@ -2421,6 +2809,78 @@ msgstr "허용하지 않음"
 msgid "Allow in NSFW"
 msgstr "NSFW 모드에서 허용"
 
+#: utils/globals.py:163
+msgid "All visual media"
+msgstr "모든 시각적 미디어"
+
+#: utils/globals.py:164
+msgid "Text to Image"
+msgstr "텍스트 이미지"
+
+#: utils/globals.py:165 utils/globals.py:339
+msgid "Image to Image"
+msgstr "이미지에서 이미지로"
+
+#: utils/globals.py:166
+msgid "Image to Text"
+msgstr "이미지에서 텍스트로"
+
+#: utils/globals.py:167
+msgid "Image Classification"
+msgstr "이미지 분류"
+
+#: utils/globals.py:168
+msgid "Zero-shot Image Classification"
+msgstr "제로샷 이미지 분류"
+
+#: utils/globals.py:169
+msgid "Object Detection"
+msgstr "객체 감지"
+
+#: utils/globals.py:170
+msgid "Image Segmentation"
+msgstr "이미지 분할"
+
+#: utils/globals.py:171
+msgid "Depth Estimation"
+msgstr "심도 추정"
+
+#: utils/globals.py:172
+msgid "Visual Question Answering"
+msgstr "시각적 질문 응답"
+
+#: utils/globals.py:173
+msgid "Video Classification"
+msgstr "영상 분류"
+
+#: utils/globals.py:174
+msgid "Text to Video"
+msgstr "텍스트를 비디오로"
+
+#: utils/globals.py:175
+msgid "Image Feature Extraction"
+msgstr "이미지 특성추출"
+
+#: utils/globals.py:208
+msgid "Last Modified"
+msgstr "최근 수정일"
+
+#: utils/globals.py:209
+msgid "Created At"
+msgstr "생성일"
+
+#: utils/globals.py:210
+msgid "Trending Score"
+msgstr "트렌드 스코어"
+
+#: utils/globals.py:234
+msgid "Descending"
+msgstr "하강"
+
+#: utils/globals.py:235
+msgid "Ascending"
+msgstr "상승"
+
 #: utils/globals.py:333
 msgid "Simple Image Gen"
 msgstr "이미지 생성 방법"
@@ -2440,18 +2900,6 @@ msgstr "ELLA"
 #: utils/globals.py:337
 msgid "Instant Lora"
 msgstr "즉시 LoRA"
-
-#: ui_qt/models/recent_adapters_window.py:553 utils/globals.py:338
-msgid "IP Adapter"
-msgstr "IP 어댑터"
-
-#: utils/globals.py:165 utils/globals.py:339
-msgid "Image to Image"
-msgstr "이미지에서 이미지로"
-
-#: ui_qt/models/recent_adapters_window.py:552 utils/globals.py:340
-msgid "ControlNet"
-msgstr "컨트롤넷"
 
 #: utils/globals.py:341
 msgid "Inpaint ClipSeg"
@@ -2728,451 +3176,3 @@ msgstr "개월"
 #: utils/translations.py:68
 msgid "years"
 msgstr "년"
-
-#: ui_qt/app_window/sidebar_panel.py:291
-msgid "Source Prompts from Directory"
-msgstr "디렉토리에서 프롬프트 가져오기"
-
-#: ui_qt/app_window/sidebar_panel.py:304
-msgid "Add User Prompt Tags to Sourced Prompt"
-msgstr "소스 프롬프트에 사용자 프롬프트 태그 추가"
-
-#: ui_qt/app_window/sidebar_panel.py:379
-#: ui_qt/prompts/prompt_generator_window.py:53
-msgid "Prompt Generator"
-msgstr "프롬프트 제너레이터"
-
-#: ui_qt/app_window/sidebar_panel.py:390
-#: ui_qt/prompts/image_to_prompt_window.py:56
-msgid "Image to Prompt"
-msgstr "이미지에서 프롬프트로"
-
-#: ui_qt/models/models_window.py:102
-msgid "HF Hub"
-msgstr "HF Hub"
-
-#: ui_qt/models/models_window.py:242 ui_qt/models/models_window.py:300
-msgid "Search"
-msgstr "검색"
-
-#: ui_qt/models/models_window.py:244
-msgid "e.g. flux, sdxl, controlnet, ip-adapter"
-msgstr "예제: flux, sdxl, controlnet, ip-adapter"
-
-#: ui_qt/models/models_window.py:248 ui_qt/models/models_window.py:279
-msgid "Task"
-msgstr "할 일"
-
-#: ui_qt/models/models_window.py:254
-msgid "Sort"
-msgstr "정렬"
-
-#: ui_qt/models/models_window.py:261
-msgid "Direction"
-msgstr "목표"
-
-#: ui_qt/models/models_window.py:268
-msgid "Limit"
-msgstr "한도"
-
-#: ui_qt/models/models_window.py:279
-msgid "Repo"
-msgstr "리포지터리"
-
-#: ui_qt/models/models_window.py:279 utils/globals.py:206
-msgid "Downloads"
-msgstr "총 다운로드 수"
-
-#: ui_qt/models/models_window.py:279 utils/globals.py:207
-msgid "Likes"
-msgstr "좋아요"
-
-#: ui_qt/models/models_window.py:279
-msgid "License"
-msgstr "라이선스"
-
-#: ui_qt/models/models_window.py:279
-msgid "Gated"
-msgstr "가로 막힌"
-
-#: ui_qt/models/models_window.py:296
-msgid "Filename"
-msgstr "파일명"
-
-#: ui_qt/models/models_window.py:304
-msgid "Download File"
-msgstr "파일 다운로드"
-
-#: ui_qt/models/models_window.py:308
-msgid "Download Snapshot"
-msgstr "스냅샷 다운로드"
-
-#: ui_qt/models/models_window.py:322
-msgid "Select a model repository first"
-msgstr "먼저 모델 저장소를 선택하세요"
-
-#: ui_qt/models/models_window.py:355
-msgid "Found {0} results"
-msgstr "{0} 개의 결과를 발견 했습니다."
-
-#: ui_qt/models/models_window.py:358
-msgid "HF Hub Search Error"
-msgstr "HF 허브 검색 오류"
-
-#: ui_qt/models/models_window.py:370
-msgid "Enter a filename first"
-msgstr "파일명을 먼저 입력해 주세요"
-
-#: ui_qt/models/models_window.py:375
-msgid "Download Complete"
-msgstr "다운로드 완료"
-
-#: ui_qt/models/models_window.py:376 ui_qt/models/models_window.py:403
-msgid ""
-"Downloaded to:\n"
-"{0}"
-msgstr ""
-"다운로드 위치:\n"
-"{0}"
-
-#: ui_qt/models/models_window.py:381
-msgid "HF Hub Download Error"
-msgstr "HF 허브 다운로드 오류"
-
-#: ui_qt/models/models_window.py:402
-msgid "Snapshot Download Complete"
-msgstr "스냅샷 다운로드 완료"
-
-#: ui_qt/models/models_window.py:408
-msgid "HF Hub Snapshot Error"
-msgstr "HF 허브 스냅샷 오류"
-
-#: ui_qt/models/recent_adapters_window.py:348
-msgid "Recent Source Prompts"
-msgstr "최근 소스 프롬프트"
-
-#: ui_qt/models/recent_adapters_window.py:350
-msgid "Favorites"
-msgstr "즐겨찾기"
-
-#: ui_qt/models/recent_adapters_window.py:397
-#: ui_qt/models/recent_adapters_window.py:435
-#: ui_qt/models/recent_adapters_window.py:473
-#: ui_qt/models/recent_adapters_window.py:516
-msgid "Add to Favorites"
-msgstr "즐겨찾기에 추가하기"
-
-#: ui_qt/models/recent_adapters_window.py:461
-msgid "Source Prompt File"
-msgstr "프롬프트 소스로 사용되는 파일"
-
-#: ui_qt/models/recent_adapters_window.py:531
-msgid ""
-"Preferred adapters regardless of type. Directories are auto-added when seen "
-"in recents."
-msgstr "유형에 관계없이 선호하는 어댑터입니다. 최근 사용 내역에 표시된 디렉터리는 자동으로 추가됩니다."
-
-#: ui_qt/models/recent_adapters_window.py:546
-msgid "Target Field"
-msgstr "입력 필드"
-
-#: ui_qt/models/recent_adapters_window.py:554
-msgid "Source Prompt"
-msgstr "프롬프트 추출"
-
-#: ui_qt/models/recent_adapters_window.py:561
-msgid "Append (unchecked = Replace)"
-msgstr "앱엔드 (해제됨 = 바꾸기)"
-
-#: ui_qt/models/recent_adapters_window.py:568
-msgid "Favorite Adapter"
-msgstr "좋아하는 어댑터"
-
-#: ui_qt/models/recent_adapters_window.py:573
-msgid "Use Favorite"
-msgstr "즐겨찾기 사용"
-
-#: ui_qt/models/recent_adapters_window.py:665
-#: ui_qt/models/recent_adapters_window.py:854
-#: ui_qt/models/recent_adapters_window.py:867
-#: ui_qt/models/recent_adapters_window.py:883
-msgid "Select a row first"
-msgstr "먼저 한 행을 고르세요"
-
-#: ui_qt/models/recent_adapters_window.py:671
-msgid "Copied path to clipboard"
-msgstr "경로가 Clipboard에 복사되었습니다."
-
-#: ui_qt/models/recent_adapters_window.py:871
-msgid "Directories are auto-favorited and cannot be removed here"
-msgstr "목록은 자동으로 즐겨찾기로 추가되었으며 여기서는 삭제할 수 없습니다"
-
-#: ui_qt/models/recent_adapters_window.py:876
-msgid "Removed from favorites"
-msgstr "즐겨찾기에서 제거됨"
-
-#: ui_qt/models/recent_adapters_window.py:878
-msgid "Item was not in favorites"
-msgstr "항목은 즐겨찾기 목록에 없었습니다"
-
-#: ui_qt/models/recent_adapters_window.py:889
-msgid "Added to favorites"
-msgstr "즐겨찾기에 추가됨"
-
-#: ui_qt/models/recent_adapters_window.py:891
-msgid "Already in favorites"
-msgstr "이미 즐겨찾기에 있습니다"
-
-#: ui_qt/prompts/concept_editor_window.py:256
-msgid "Selected concept: —"
-msgstr "선정개념: —"
-
-#: ui_qt/prompts/concept_editor_window.py:261
-msgid "Selected concept: \"{0}\" — {1} ({2})"
-msgstr "선택된 개념: \"{0}\" — {1} ({2})"
-
-#: ui_qt/prompts/concept_editor_window.py:267
-msgid "Selected concept: \"{0}\" — {1}"
-msgstr "선택한 개념: \"{0}\" ― {1}"
-
-#: ui_qt/prompts/image_to_prompt_window.py:77
-msgid ""
-"Generate prompt text from an image using selectable backends. This does not "
-"start image generation."
-msgstr "선택 가능한 백엔드를 사용하여 이미지에서 프롬프트 텍스트를 생성합니다. 이 작업은 이미지 생성을 시작하지 않습니다."
-
-#: ui_qt/prompts/image_to_prompt_window.py:86
-msgid "Image"
-msgstr "이미지"
-
-#: ui_qt/prompts/image_to_prompt_window.py:89
-msgid "Browse"
-msgstr "참조하다"
-
-#: ui_qt/prompts/image_to_prompt_window.py:96
-msgid "Backend"
-msgstr "백엔드"
-
-#: ui_qt/prompts/image_to_prompt_window.py:98
-msgid "Captioner (BLIP)"
-msgstr "자막 제작자 (블립)"
-
-#: ui_qt/prompts/image_to_prompt_window.py:99
-msgid "Fast Tagger"
-msgstr "고정 태그"
-
-#: ui_qt/prompts/image_to_prompt_window.py:100
-msgid "VLM"
-msgstr "VLM"
-
-#: ui_qt/prompts/image_to_prompt_window.py:103
-msgid "Include Negative Prompt"
-msgstr "부정적인 프롬프트 포함"
-
-#: ui_qt/prompts/image_to_prompt_window.py:111
-msgid "Prompt Hint (optional)"
-msgstr "프롬프트 힌트 (옵셔널)"
-
-#: ui_qt/prompts/image_to_prompt_window.py:118
-msgid "Generate Prompt from Image"
-msgstr "이미지에서 프롬프트 생성"
-
-#: ui_qt/prompts/image_to_prompt_window.py:122
-#: ui_qt/prompts/prompt_generator_window.py:88
-msgid "Copy Positive"
-msgstr "긍정적인 복사"
-
-#: ui_qt/prompts/image_to_prompt_window.py:126
-#: ui_qt/prompts/prompt_generator_window.py:92
-msgid "Copy Negative"
-msgstr "부모 필름"
-
-#: ui_qt/prompts/image_to_prompt_window.py:130
-msgid "Apply Positive to Main UI"
-msgstr "메인 UI에 긍정적 적용"
-
-#: ui_qt/prompts/image_to_prompt_window.py:138
-msgid "Positive Prompt"
-msgstr "긍정적인 프롬프트"
-
-#: ui_qt/prompts/image_to_prompt_window.py:143
-msgid "Negative Prompt"
-msgstr "부정적인 프롬프트"
-
-#: ui_qt/prompts/image_to_prompt_window.py:148
-msgid "No output yet."
-msgstr "아직 출력 없음."
-
-#: ui_qt/prompts/image_to_prompt_window.py:170
-msgid "Select Image"
-msgstr "이미지 선택"
-
-#: ui_qt/prompts/image_to_prompt_window.py:172
-msgid "Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"
-msgstr "이미지 (*.png *.jpg *.jpeg *.webp *.bmp);;모든 파일 (*.*)"
-
-#: ui_qt/prompts/image_to_prompt_window.py:246
-msgid "Select an image first."
-msgstr "먼저 이미지를 선택해 주세요."
-
-#: ui_qt/prompts/image_to_prompt_window.py:267
-msgid "updated"
-msgstr "업데이트됨"
-
-#: ui_qt/prompts/image_to_prompt_window.py:267
-msgid "unchanged"
-msgstr "변경되지 않다"
-
-#: ui_qt/prompts/image_to_prompt_window.py:271
-msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
-msgstr "백엔드: {2} [{3}]을 사용하여 ({0}: {1}) 생성됨"
-
-#: ui_qt/prompts/image_to_prompt_window.py:285
-msgid "Fast tagger returned no tags; try a lower threshold."
-msgstr "빠른 태그 지정 도구가 태그를 하나도 반환하지 않았습니다. 임계값을 낮춰 보세요."
-
-#: ui_qt/prompts/image_to_prompt_window.py:288
-msgid "Backend Not Configured"
-msgstr "백엔드가 구성되지 않았습니다"
-
-#: ui_qt/prompts/image_to_prompt_window.py:295
-msgid "Image to Prompt Error"
-msgstr "이미지를 프롬프트로 변환하는 과정에서 오류가 발생했습니다"
-
-#: ui_qt/prompts/image_to_prompt_window.py:303
-msgid "Nothing to copy."
-msgstr "복사할 내용이 없습니다."
-
-#: ui_qt/prompts/image_to_prompt_window.py:308
-#: ui_qt/prompts/prompt_generator_window.py:173
-msgid "Copied to clipboard"
-msgstr "클립보드에 복사되었습니다."
-
-#: ui_qt/prompts/image_to_prompt_window.py:313
-msgid "No positive prompt to apply."
-msgstr "긍정적인 프롬프트를 적용할 수 없습니다."
-
-#: ui_qt/prompts/image_to_prompt_window.py:316
-msgid "Applied positive prompt to main UI"
-msgstr "긍정적인 안내문구를 주요 UI에 적용했습니다."
-
-#: ui_qt/prompts/prompt_generator_window.py:75
-msgid ""
-"Generate one prompt at a time using current UI settings. This does not run "
-"image generation and does not modify prompt history unless you click \"Save "
-"to Prompt History\"."
-msgstr ""
-"현재 UI 설정을 사용하여 한 번에 하나의 프롬프트를 생성합니다. “프롬프트 기록에 저장”을 클릭하지 않는 한, 이미지 생성이 실행되지 "
-"않으며 프롬프트 기록도 수정되지 않습니다."
-
-#: ui_qt/prompts/prompt_generator_window.py:84
-msgid "Generate One Prompt"
-msgstr "하나의 프롬프트 생성"
-
-#: ui_qt/prompts/prompt_generator_window.py:96
-msgid "Save to Prompt History"
-msgstr "프롬프트 기록에 저장"
-
-#: ui_qt/prompts/prompt_generator_window.py:103
-msgid "Generated Positive Prompt"
-msgstr "생성된 긍정적인 프롬프트"
-
-#: ui_qt/prompts/prompt_generator_window.py:108
-msgid "Generated Negative Prompt"
-msgstr "생성된 부정적 프롬프트"
-
-#: ui_qt/prompts/prompt_generator_window.py:113
-msgid "No prompt generated yet."
-msgstr "아직 프롬프트가 생성되지 않았습니다."
-
-#: ui_qt/prompts/prompt_generator_window.py:162
-msgid "Generated a new prompt."
-msgstr "새로운 프롬프트를 생성했어요."
-
-#: ui_qt/prompts/prompt_generator_window.py:164
-msgid "Prompt Generation Error"
-msgstr "프롬프트 제너레이션 에러"
-
-#: ui_qt/prompts/prompt_generator_window.py:168
-msgid "Nothing to copy. Generate a prompt first."
-msgstr "скопировать нечего. Генерируйте сначала промпт."
-
-#: ui_qt/prompts/prompt_generator_window.py:177
-msgid "Generate a prompt first."
-msgstr "먼저 프롬프트를 생성하세요."
-
-#: ui_qt/prompts/prompt_generator_window.py:185
-msgid "Nothing to save."
-msgstr "저장할 것이 없습니다."
-
-#: ui_qt/prompts/prompt_generator_window.py:188
-msgid "Saved generated prompt to prompt history"
-msgstr "저장된 생성 프롬프트를 프롬프트 역사에 저장되었습니다."
-
-#: utils/globals.py:163
-msgid "All visual media"
-msgstr "모든 시각적 미디어"
-
-#: utils/globals.py:164
-msgid "Text to Image"
-msgstr "텍스트 이미지"
-
-#: utils/globals.py:166
-msgid "Image to Text"
-msgstr "이미지에서 텍스트로"
-
-#: utils/globals.py:167
-msgid "Image Classification"
-msgstr "이미지 분류"
-
-#: utils/globals.py:168
-msgid "Zero-shot Image Classification"
-msgstr "제로샷 이미지 분류"
-
-#: utils/globals.py:169
-msgid "Object Detection"
-msgstr "객체 감지"
-
-#: utils/globals.py:170
-msgid "Image Segmentation"
-msgstr "이미지 분할"
-
-#: utils/globals.py:171
-msgid "Depth Estimation"
-msgstr "심도 추정"
-
-#: utils/globals.py:172
-msgid "Visual Question Answering"
-msgstr "시각적 질문 응답"
-
-#: utils/globals.py:173
-msgid "Video Classification"
-msgstr "영상 분류"
-
-#: utils/globals.py:174
-msgid "Text to Video"
-msgstr "텍스트를 비디오로"
-
-#: utils/globals.py:175
-msgid "Image Feature Extraction"
-msgstr "이미지 특성추출"
-
-#: utils/globals.py:208
-msgid "Last Modified"
-msgstr "최근 수정일"
-
-#: utils/globals.py:209
-msgid "Created At"
-msgstr "생성일"
-
-#: utils/globals.py:210
-msgid "Trending Score"
-msgstr "트렌드 스코어"
-
-#: utils/globals.py:234
-msgid "Descending"
-msgstr "하강"
-
-#: utils/globals.py:235
-msgid "Ascending"
-msgstr "상승"

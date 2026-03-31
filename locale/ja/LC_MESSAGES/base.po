@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2026-03-30 15:06-0400\n"
-"PO-Revision-Date: 2026-03-30 15:06-0400\n"
+"POT-Creation-Date: 2026-03-31 17:27-0400\n"
+"PO-Revision-Date: 2026-03-31 17:27-0400\n"
 "Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ja Team <<EMAIL>>\n"
 "Language: ja\n"
@@ -1405,7 +1405,7 @@ msgstr "モデルブラックリストの適用方法を選択してください
 
 #: ui/tags_blacklist_window.py:660 ui_qt/prompts/blacklist_window.py:327
 msgid "Add to model blacklist"
-msgstr "모델 블랙리스트에 추가"
+msgstr "モデルのブラックリストに追加"
 
 #: ui/tags_blacklist_window.py:692
 msgid ""
@@ -1433,7 +1433,7 @@ msgstr "コンセプトを明かす"
 #: ui/tags_blacklist_window.py:721 ui/tags_blacklist_window.py:778
 #: ui_qt/prompts/blacklist_window.py:54
 msgid "[regex]"
-msgstr "[正規表現]"
+msgstr "[regex]"
 
 #: ui/tags_blacklist_window.py:723 ui_qt/prompts/blacklist_window.py:56
 msgid "[no boundary]"
@@ -1938,6 +1938,14 @@ msgstr ""
 "\n"
 "本当に進めるつもりですか？"
 
+#: ui_qt/app_window/sidebar_panel.py:291
+msgid "Source Prompts from Directory"
+msgstr "ディレクトリからプロンプトを取得する"
+
+#: ui_qt/app_window/sidebar_panel.py:304
+msgid "Add User Prompt Tags to Sourced Prompt"
+msgstr "ユーザー プロンプト タグを追加する — ソースド プロンプト"
+
 #: ui_qt/app_window/sidebar_panel.py:337
 msgid "Preset Schedule"
 msgstr "予め設定されたスケジュール"
@@ -1959,6 +1967,16 @@ msgstr "拡張"
 msgid "Prompt Config"
 msgstr "プロンプト設定"
 
+#: ui_qt/app_window/sidebar_panel.py:379
+#: ui_qt/prompts/prompt_generator_window.py:53
+msgid "Prompt Generator"
+msgstr "プロンプトジェネレーター"
+
+#: ui_qt/app_window/sidebar_panel.py:390
+#: ui_qt/prompts/image_to_prompt_window.py:56
+msgid "Image to Prompt"
+msgstr "画像からプロンプトへ"
+
 #: ui_qt/auth/password_admin_window.py:118
 #: ui_qt/auth/password_admin_window.py:536
 msgid "Info"
@@ -1969,13 +1987,132 @@ msgstr "情報"
 msgid "Administration Error"
 msgstr "管理エラー"
 
+#: ui_qt/models/models_window.py:102
+msgid "HF Hub"
+msgstr "HF Hub"
+
+#: ui_qt/models/models_window.py:242 ui_qt/models/models_window.py:300
+msgid "Search"
+msgstr "検索"
+
+#: ui_qt/models/models_window.py:244
+msgid "e.g. flux, sdxl, controlnet, ip-adapter"
+msgstr "例：flux、sdxl、controlnet、ip-adapter"
+
+#: ui_qt/models/models_window.py:248 ui_qt/models/models_window.py:279
+msgid "Task"
+msgstr "タスク"
+
+#: ui_qt/models/models_window.py:254
+msgid "Sort"
+msgstr "並べ替え"
+
+#: ui_qt/models/models_window.py:261
+msgid "Direction"
+msgstr "方向"
+
+#: ui_qt/models/models_window.py:268
+msgid "Limit"
+msgstr "限界"
+
+#: ui_qt/models/models_window.py:279
+msgid "Repo"
+msgstr "リポ"
+
+#: ui_qt/models/models_window.py:279 utils/globals.py:206
+msgid "Downloads"
+msgstr "総ダウンロード数"
+
+#: ui_qt/models/models_window.py:279 utils/globals.py:207
+msgid "Likes"
+msgstr "いいね"
+
+#: ui_qt/models/models_window.py:279
+msgid "License"
+msgstr "ライセンス"
+
+#: ui_qt/models/models_window.py:279
+msgid "Gated"
+msgstr "ゲートド"
+
+#: ui_qt/models/models_window.py:296
+msgid "Filename"
+msgstr "ファイル名"
+
+#: ui_qt/models/models_window.py:304
+msgid "Download File"
+msgstr "ファイルをダウンロードする"
+
+#: ui_qt/models/models_window.py:308
+msgid "Download Snapshot"
+msgstr "スナップショットをダウンロード"
+
+#: ui_qt/models/models_window.py:322
+msgid "Select a model repository first"
+msgstr "まずモデルリポジトリを選択してください"
+
+#: ui_qt/models/models_window.py:355
+msgid "Found {0} results"
+msgstr "{0}件が発見されました"
+
+#: ui_qt/models/models_window.py:358
+msgid "HF Hub Search Error"
+msgstr "HFハブの検索エラー"
+
+#: ui_qt/models/models_window.py:370
+msgid "Enter a filename first"
+msgstr "ファイル名を入力してください"
+
+#: ui_qt/models/models_window.py:375
+msgid "Download Complete"
+msgstr "ダウンロード完了"
+
+#: ui_qt/models/models_window.py:376 ui_qt/models/models_window.py:403
+msgid ""
+"Downloaded to:\n"
+"{0}"
+msgstr ""
+"ダウンロードされました:\n"
+"{0}"
+
+#: ui_qt/models/models_window.py:381
+msgid "HF Hub Download Error"
+msgstr "HF Hub のダウンロードエラー"
+
+#: ui_qt/models/models_window.py:402
+msgid "Snapshot Download Complete"
+msgstr "スナップショットのダウンロードが完了しました"
+
+#: ui_qt/models/models_window.py:408
+msgid "HF Hub Snapshot Error"
+msgstr "HFハブのスナップショットエラー"
+
 #: ui_qt/models/models_window.py:542
 msgid "LoRA trigger extraction is not available."
 msgstr "LoRA トリガー抽出は利用できません。"
 
+#: ui_qt/models/recent_adapters_window.py:348
+msgid "Recent Source Prompts"
+msgstr "最近のソースプロンプト"
+
+#: ui_qt/models/recent_adapters_window.py:350
+msgid "Favorites"
+msgstr "お気に入り"
+
+#: ui_qt/models/recent_adapters_window.py:397
+#: ui_qt/models/recent_adapters_window.py:435
+#: ui_qt/models/recent_adapters_window.py:473
+#: ui_qt/models/recent_adapters_window.py:516
+msgid "Add to Favorites"
+msgstr "お気に入りに追加する"
+
+#: ui_qt/models/recent_adapters_window.py:461
+msgid "Source Prompt File"
+msgstr "プロンプトのソースとして使用されるファイル"
+
 #: ui_qt/models/recent_adapters_window.py:505
 msgid "ControlNet (Replace)"
-msgstr "コントロールネット (Replace)"
+msgstr "ControlNet（置換）"
 
 #: ui_qt/models/recent_adapters_window.py:506
 msgid "ControlNet (Add)"
@@ -1988,6 +2125,71 @@ msgstr "IPアダプター (置換)"
 #: ui_qt/models/recent_adapters_window.py:508
 msgid "IP Adapter (Add)"
 msgstr "IPアダプター （追加）"
+
+#: ui_qt/models/recent_adapters_window.py:531
+msgid ""
+"Preferred adapters regardless of type. Directories are auto-added when seen "
+"in recents."
+msgstr "種類を問わず、優先的に使用されるアダプターです。最近使用した項目に表示されると、ディレクトリが自動的に追加されます。"
+
+#: ui_qt/models/recent_adapters_window.py:546
+msgid "Target Field"
+msgstr "入力欄"
+
+#: ui_qt/models/recent_adapters_window.py:552 utils/globals.py:340
+msgid "ControlNet"
+msgstr "コントロールネット"
+
+#: ui_qt/models/recent_adapters_window.py:553 utils/globals.py:338
+msgid "IP Adapter"
+msgstr "IPアダプター"
+
+#: ui_qt/models/recent_adapters_window.py:554
+msgid "Source Prompt"
+msgstr "プロンプトを抽出する"
+
+#: ui_qt/models/recent_adapters_window.py:561
+msgid "Append (unchecked = Replace)"
+msgstr "追加 (未チェック状態 = 追加に相当する)"
+
+#: ui_qt/models/recent_adapters_window.py:568
+msgid "Favorite Adapter"
+msgstr "お気に入りのアダプター"
+
+#: ui_qt/models/recent_adapters_window.py:573
+msgid "Use Favorite"
+msgstr "お気に入りを使う"
+
+#: ui_qt/models/recent_adapters_window.py:665
+#: ui_qt/models/recent_adapters_window.py:854
+#: ui_qt/models/recent_adapters_window.py:867
+#: ui_qt/models/recent_adapters_window.py:883
+msgid "Select a row first"
+msgstr "まず一行を選択してください"
+
+#: ui_qt/models/recent_adapters_window.py:671
+msgid "Copied path to clipboard"
+msgstr "パスをクリップボードにコピーしました"
+
+#: ui_qt/models/recent_adapters_window.py:871
+msgid "Directories are auto-favorited and cannot be removed here"
+msgstr "ディレクトリーズは自動的にfavoritesされています。この場所では削除できません"
+
+#: ui_qt/models/recent_adapters_window.py:876
+msgid "Removed from favorites"
+msgstr "お気に入りから削除されました"
+
+#: ui_qt/models/recent_adapters_window.py:878
+msgid "Item was not in favorites"
+msgstr "アイテムはお気に入りにありませんでした"
+
+#: ui_qt/models/recent_adapters_window.py:889
+msgid "Added to favorites"
+msgstr "お気に入りに追加されました"
+
+#: ui_qt/models/recent_adapters_window.py:891
+msgid "Already in favorites"
+msgstr "すでにお気に入りです"
 
 #: ui_qt/presets/scheduled_shutdown_dialog.py:59
 msgid "Schedule: {0}"
@@ -2059,7 +2261,7 @@ msgstr "一致した{0}アイテム(s)："
 
 #: ui_qt/prompts/blacklist_preview_window.py:140
 msgid "  \"{0}\" -> rule \"{1}\""
-msgstr "  {0} → ルール {1}"
+msgstr "  \"{0}\" -> ルール \"{1}\""
 
 #: ui_qt/prompts/blacklist_window.py:365
 msgid ""
@@ -2180,6 +2382,18 @@ msgstr "選択した概念を所属しているファイルから削除します
 #: ui_qt/prompts/concept_editor_window.py:208
 msgid "Import concepts from an external text file into the selected file"
 msgstr "外部のテキストファイルからコンセプトをインポートし、選択されたファイルに取り込む。"
+
+#: ui_qt/prompts/concept_editor_window.py:256
+msgid "Selected concept: —"
+msgstr "選択された概念: —"
+
+#: ui_qt/prompts/concept_editor_window.py:261
+msgid "Selected concept: \"{0}\" — {1} ({2})"
+msgstr "選択された概念: \"{0}\" — {1} （{2}）"
+
+#: ui_qt/prompts/concept_editor_window.py:267
+msgid "Selected concept: \"{0}\" — {1}"
+msgstr "選択した概念: \"{0}\" — {1}"
 
 #: ui_qt/prompts/concept_editor_window.py:345
 msgid "{0} concepts found"
@@ -2315,6 +2529,127 @@ msgstr "タグを追加する"
 msgid "Enter tag text:"
 msgstr "タグテキストを入力してください："
 
+#: ui_qt/prompts/image_to_prompt_window.py:77
+msgid ""
+"Generate prompt text from an image using selectable backends. This does not "
+"start image generation."
+msgstr "選択可能なバックエンドを使用して、画像からプロンプトテキストを生成します。これにより画像の生成が開始されるわけではありません。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:86
+msgid "Image"
+msgstr "イメージ"
+
+#: ui_qt/prompts/image_to_prompt_window.py:89
+msgid "Browse"
+msgstr "ブラウズ"
+
+#: ui_qt/prompts/image_to_prompt_window.py:96
+msgid "Backend"
+msgstr "バックエンド"
+
+#: ui_qt/prompts/image_to_prompt_window.py:98
+msgid "Captioner (BLIP)"
+msgstr "字幕作成者 (BLIP)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:99
+msgid "Fast Tagger"
+msgstr "固定タグ"
+
+#: ui_qt/prompts/image_to_prompt_window.py:100
+msgid "VLM"
+msgstr "VLM"
+
+#: ui_qt/prompts/image_to_prompt_window.py:103
+msgid "Include Negative Prompt"
+msgstr "否定形のプロンプトを含める"
+
+#: ui_qt/prompts/image_to_prompt_window.py:111
+msgid "Prompt Hint (optional)"
+msgstr "プロンプト ヒント (任意)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:118
+msgid "Generate Prompt from Image"
+msgstr "画像からプロンプトを生成する"
+
+#: ui_qt/prompts/image_to_prompt_window.py:122
+#: ui_qt/prompts/prompt_generator_window.py:88
+msgid "Copy Positive"
+msgstr "コピー 正面"
+
+#: ui_qt/prompts/image_to_prompt_window.py:126
+#: ui_qt/prompts/prompt_generator_window.py:92
+msgid "Copy Negative"
+msgstr "コピー・ネガティブ"
+
+#: ui_qt/prompts/image_to_prompt_window.py:130
+msgid "Apply Positive to Main UI"
+msgstr "メインUIに正を適用する"
+
+#: ui_qt/prompts/image_to_prompt_window.py:138
+msgid "Positive Prompt"
+msgstr "前向きな促し"
+
+#: ui_qt/prompts/image_to_prompt_window.py:143
+msgid "Negative Prompt"
+msgstr "否定的なプロンプト"
+
+#: ui_qt/prompts/image_to_prompt_window.py:148
+msgid "No output yet."
+msgstr "まだ出力はありません。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:170
+msgid "Select Image"
+msgstr "画像を選択する"
+
+#: ui_qt/prompts/image_to_prompt_window.py:172
+msgid "Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"
+msgstr "画像 (*.png *.jpg *.jpeg *.webp *.bmp);;すべてのファイル(*.*)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:246
+msgid "Select an image first."
+msgstr "画像を選択してください。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:267
+msgid "updated"
+msgstr "更新された"
+
+#: ui_qt/prompts/image_to_prompt_window.py:267
+msgid "unchanged"
+msgstr "変更なし"
+
+#: ui_qt/prompts/image_to_prompt_window.py:271
+msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
+msgstr "バックエンド: {2} [{3}] を使用して生成 ({0}: {1})"
+
+#: ui_qt/prompts/image_to_prompt_window.py:285
+msgid "Fast tagger returned no tags; try a lower threshold."
+msgstr "Fast taggerはタグを返さなかった。しきい値を低く設定してみてください。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:288
+msgid "Backend Not Configured"
+msgstr "バックエンドが設定されていません"
+
+#: ui_qt/prompts/image_to_prompt_window.py:295
+msgid "Image to Prompt Error"
+msgstr "画像からプロンプトへの変換プロセスでエラーが発生しました"
+
+#: ui_qt/prompts/image_to_prompt_window.py:303
+msgid "Nothing to copy."
+msgstr "コピーする内容がありません。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:308
+#: ui_qt/prompts/prompt_generator_window.py:173
+msgid "Copied to clipboard"
+msgstr "クリップボードにコピーしました"
+
+#: ui_qt/prompts/image_to_prompt_window.py:313
+msgid "No positive prompt to apply."
+msgstr "肯定的なプロンプトがありませんでした。"
+
+#: ui_qt/prompts/image_to_prompt_window.py:316
+msgid "Applied positive prompt to main UI"
+msgstr "ポジティブ プロンプト を メイン UI に 適用しました。"
+
 #: ui_qt/prompts/prompt_config_window.py:256
 msgid "Options"
 msgstr "オプションズ"
@@ -2346,6 +2681,58 @@ msgstr "0 = 主に格言、50 = 同じ割合のブレンド、100 = 主に冗談
 #: ui_qt/prompts/prompt_config_window.py:337
 msgid "Chance Sliders"
 msgstr "チャンス スライダ"
+
+#: ui_qt/prompts/prompt_generator_window.py:75
+msgid ""
+"Generate one prompt at a time using current UI settings. This does not run "
+"image generation and does not modify prompt history unless you click \"Save "
+"to Prompt History\"."
+msgstr ""
+"現在のUI設定を使用して、プロンプトを1つずつ生成します。この操作では画像の生成は行われず、「プロンプト履歴に保存」をクリックしない限り、プロンプト履歴は変更されません。"
+
+#: ui_qt/prompts/prompt_generator_window.py:84
+msgid "Generate One Prompt"
+msgstr "生成 1 プロンプト"
+
+#: ui_qt/prompts/prompt_generator_window.py:96
+msgid "Save to Prompt History"
+msgstr "プロンプト履歴に保存"
+
+#: ui_qt/prompts/prompt_generator_window.py:103
+msgid "Generated Positive Prompt"
+msgstr "生成された前向きなプロンプト"
+
+#: ui_qt/prompts/prompt_generator_window.py:108
+msgid "Generated Negative Prompt"
+msgstr "生成されたネガティブプロンプト"
+
+#: ui_qt/prompts/prompt_generator_window.py:113
+msgid "No prompt generated yet."
+msgstr "まだプロンプトが生成されていません。"
+
+#: ui_qt/prompts/prompt_generator_window.py:162
+msgid "Generated a new prompt."
+msgstr "新しいプロンプトを生成しました。"
+
+#: ui_qt/prompts/prompt_generator_window.py:164
+msgid "Prompt Generation Error"
+msgstr "プロンプトジェネレーションエラー"
+
+#: ui_qt/prompts/prompt_generator_window.py:168
+msgid "Nothing to copy. Generate a prompt first."
+msgstr "コピーするものがありません。プロンプトを作成しますแรก。"
+
+#: ui_qt/prompts/prompt_generator_window.py:177
+msgid "Generate a prompt first."
+msgstr "まず、プロンプトを生成してください。"
+
+#: ui_qt/prompts/prompt_generator_window.py:185
+msgid "Nothing to save."
+msgstr "何も保存できません。"
+
+#: ui_qt/prompts/prompt_generator_window.py:188
+msgid "Saved generated prompt to prompt history"
+msgstr "生成したプロンプトをプロンプト履歴へ保存しました。"
 
 #: utils/globals.py:31
 msgid "Fixed"
@@ -2419,6 +2806,78 @@ msgstr "許可しない"
 msgid "Allow in NSFW"
 msgstr "NSFWモードでの表示を許可する"
 
+#: utils/globals.py:163
+msgid "All visual media"
+msgstr "すべてのビジュアルメディア"
+
+#: utils/globals.py:164
+msgid "Text to Image"
+msgstr "テキストからイメージへ"
+
+#: utils/globals.py:165 utils/globals.py:339
+msgid "Image to Image"
+msgstr "画像から画像へ"
+
+#: utils/globals.py:166
+msgid "Image to Text"
+msgstr "画像からテキストへ"
+
+#: utils/globals.py:167
+msgid "Image Classification"
+msgstr "画像分類"
+
+#: utils/globals.py:168
+msgid "Zero-shot Image Classification"
+msgstr "ゼロショット画像分類"
+
+#: utils/globals.py:169
+msgid "Object Detection"
+msgstr "物体検出"
+
+#: utils/globals.py:170
+msgid "Image Segmentation"
+msgstr "画像セグメンテーション"
+
+#: utils/globals.py:171
+msgid "Depth Estimation"
+msgstr "深度推定"
+
+#: utils/globals.py:172
+msgid "Visual Question Answering"
+msgstr "可視的 Q&A"
+
+#: utils/globals.py:173
+msgid "Video Classification"
+msgstr "ビデオ分類"
+
+#: utils/globals.py:174
+msgid "Text to Video"
+msgstr "テキストからビデオへ"
+
+#: utils/globals.py:175
+msgid "Image Feature Extraction"
+msgstr "画像特徴抽出"
+
+#: utils/globals.py:208
+msgid "Last Modified"
+msgstr "最終更新日"
+
+#: utils/globals.py:209
+msgid "Created At"
+msgstr "作成日付"
+
+#: utils/globals.py:210
+msgid "Trending Score"
+msgstr "トレンド スコア"
+
+#: utils/globals.py:234
+msgid "Descending"
+msgstr "降下"
+
+#: utils/globals.py:235
+msgid "Ascending"
+msgstr "上昇"
+
 #: utils/globals.py:333
 msgid "Simple Image Gen"
 msgstr "画像の簡単な生成"
@@ -2438,18 +2897,6 @@ msgstr "ELLA"
 #: utils/globals.py:337
 msgid "Instant Lora"
 msgstr "インスタント LoRA"
-
-#: ui_qt/models/recent_adapters_window.py:553 utils/globals.py:338
-msgid "IP Adapter"
-msgstr "IPアダプター"
-
-#: utils/globals.py:165 utils/globals.py:339
-msgid "Image to Image"
-msgstr "画像から画像へ"
-
-#: ui_qt/models/recent_adapters_window.py:552 utils/globals.py:340
-msgid "ControlNet"
-msgstr "コントロールネット"
 
 #: utils/globals.py:341
 msgid "Inpaint ClipSeg"
@@ -2726,450 +3173,3 @@ msgstr "か月"
 #: utils/translations.py:68
 msgid "years"
 msgstr "年間"
-
-#: ui_qt/app_window/sidebar_panel.py:291
-msgid "Source Prompts from Directory"
-msgstr "ディレクトリからプロンプトを取得する"
-
-#: ui_qt/app_window/sidebar_panel.py:304
-msgid "Add User Prompt Tags to Sourced Prompt"
-msgstr "ユーザー プロンプト タグを追加する — ソースド プロンプト"
-
-#: ui_qt/app_window/sidebar_panel.py:379
-#: ui_qt/prompts/prompt_generator_window.py:53
-msgid "Prompt Generator"
-msgstr "プロンプトジェネレーター"
-
-#: ui_qt/app_window/sidebar_panel.py:390
-#: ui_qt/prompts/image_to_prompt_window.py:56
-msgid "Image to Prompt"
-msgstr "画像からプロンプトへ"
-
-#: ui_qt/models/models_window.py:102
-msgid "HF Hub"
-msgstr "HF Hub"
-
-#: ui_qt/models/models_window.py:242 ui_qt/models/models_window.py:300
-msgid "Search"
-msgstr "検索"
-
-#: ui_qt/models/models_window.py:244
-msgid "e.g. flux, sdxl, controlnet, ip-adapter"
-msgstr "例えば flux, sdxl, controlnet, IPアダプター"
-
-#: ui_qt/models/models_window.py:248 ui_qt/models/models_window.py:279
-msgid "Task"
-msgstr "タスク"
-
-#: ui_qt/models/models_window.py:254
-msgid "Sort"
-msgstr "並べ替え"
-
-#: ui_qt/models/models_window.py:261
-msgid "Direction"
-msgstr "方向"
-
-#: ui_qt/models/models_window.py:268
-msgid "Limit"
-msgstr "限界"
-
-#: ui_qt/models/models_window.py:279
-msgid "Repo"
-msgstr "リポ"
-
-#: ui_qt/models/models_window.py:279 utils/globals.py:206
-msgid "Downloads"
-msgstr "総ダウンロード数"
-
-#: ui_qt/models/models_window.py:279 utils/globals.py:207
-msgid "Likes"
-msgstr "いいね"
-
-#: ui_qt/models/models_window.py:279
-msgid "License"
-msgstr "ライセンス"
-
-#: ui_qt/models/models_window.py:279
-msgid "Gated"
-msgstr "ゲートド"
-
-#: ui_qt/models/models_window.py:296
-msgid "Filename"
-msgstr "ファイル名"
-
-#: ui_qt/models/models_window.py:304
-msgid "Download File"
-msgstr "ファイルをダウンロードする"
-
-#: ui_qt/models/models_window.py:308
-msgid "Download Snapshot"
-msgstr "スナップショットをダウンロード"
-
-#: ui_qt/models/models_window.py:322
-msgid "Select a model repository first"
-msgstr "まずモデルリポジトリを選択してください"
-
-#: ui_qt/models/models_window.py:355
-msgid "Found {0} results"
-msgstr "{0}件が発見されました"
-
-#: ui_qt/models/models_window.py:358
-msgid "HF Hub Search Error"
-msgstr "HFハブの検索エラー"
-
-#: ui_qt/models/models_window.py:370
-msgid "Enter a filename first"
-msgstr "ファイル名を入力してください"
-
-#: ui_qt/models/models_window.py:375
-msgid "Download Complete"
-msgstr "ダウンロード完了"
-
-#: ui_qt/models/models_window.py:376 ui_qt/models/models_window.py:403
-msgid ""
-"Downloaded to:\n"
-"{0}"
-msgstr ""
-"ダウンロードされました:\n"
-"{0}"
-
-#: ui_qt/models/models_window.py:381
-msgid "HF Hub Download Error"
-msgstr "HF Hub のダウンロードエラー"
-
-#: ui_qt/models/models_window.py:402
-msgid "Snapshot Download Complete"
-msgstr "スナップショットのダウンロードが完了しました"
-
-#: ui_qt/models/models_window.py:408
-msgid "HF Hub Snapshot Error"
-msgstr "HFハブのスナップショットエラー"
-
-#: ui_qt/models/recent_adapters_window.py:348
-msgid "Recent Source Prompts"
-msgstr "最近のソースプロンプト"
-
-#: ui_qt/models/recent_adapters_window.py:350
-msgid "Favorites"
-msgstr "お気に入り"
-
-#: ui_qt/models/recent_adapters_window.py:397
-#: ui_qt/models/recent_adapters_window.py:435
-#: ui_qt/models/recent_adapters_window.py:473
-#: ui_qt/models/recent_adapters_window.py:516
-msgid "Add to Favorites"
-msgstr "お気に入りに追加する"
-
-#: ui_qt/models/recent_adapters_window.py:461
-msgid "Source Prompt File"
-msgstr "プロンプトのソースとして使用されるファイル"
-
-#: ui_qt/models/recent_adapters_window.py:531
-msgid ""
-"Preferred adapters regardless of type. Directories are auto-added when seen "
-"in recents."
-msgstr "種類を問わず、優先的に使用されるアダプターです。最近使用した項目に表示されると、ディレクトリが自動的に追加されます。"
-
-#: ui_qt/models/recent_adapters_window.py:546
-msgid "Target Field"
-msgstr "入力欄"
-
-#: ui_qt/models/recent_adapters_window.py:554
-msgid "Source Prompt"
-msgstr "プロンプトを抽出する"
-
-#: ui_qt/models/recent_adapters_window.py:561
-msgid "Append (unchecked = Replace)"
-msgstr "追加 (未チェック状態 = 追加に相当する)"
-
-#: ui_qt/models/recent_adapters_window.py:568
-msgid "Favorite Adapter"
-msgstr "お気に入りのアダプター"
-
-#: ui_qt/models/recent_adapters_window.py:573
-msgid "Use Favorite"
-msgstr "お気に入りを使う"
-
-#: ui_qt/models/recent_adapters_window.py:665
-#: ui_qt/models/recent_adapters_window.py:854
-#: ui_qt/models/recent_adapters_window.py:867
-#: ui_qt/models/recent_adapters_window.py:883
-msgid "Select a row first"
-msgstr "まず一行を選択してください"
-
-#: ui_qt/models/recent_adapters_window.py:671
-msgid "Copied path to clipboard"
-msgstr "パスをクリップボードにコピーしました"
-
-#: ui_qt/models/recent_adapters_window.py:871
-msgid "Directories are auto-favorited and cannot be removed here"
-msgstr "ディレクトリーズは自動的にfavoritesされています。この場所では削除できません"
-
-#: ui_qt/models/recent_adapters_window.py:876
-msgid "Removed from favorites"
-msgstr "お気に入りから削除されました"
-
-#: ui_qt/models/recent_adapters_window.py:878
-msgid "Item was not in favorites"
-msgstr "アイテムはお気に入りにありませんでした"
-
-#: ui_qt/models/recent_adapters_window.py:889
-msgid "Added to favorites"
-msgstr "お気に入りに追加されました"
-
-#: ui_qt/models/recent_adapters_window.py:891
-msgid "Already in favorites"
-msgstr "すでにお気に入りです"
-
-#: ui_qt/prompts/concept_editor_window.py:256
-msgid "Selected concept: —"
-msgstr "選択された概念: —"
-
-#: ui_qt/prompts/concept_editor_window.py:261
-msgid "Selected concept: \"{0}\" — {1} ({2})"
-msgstr "選択された概念: \"{0}\" — {1} （{2}）"
-
-#: ui_qt/prompts/concept_editor_window.py:267
-msgid "Selected concept: \"{0}\" — {1}"
-msgstr "選択した概念: \"{0}\" — {1}"
-
-#: ui_qt/prompts/image_to_prompt_window.py:77
-msgid ""
-"Generate prompt text from an image using selectable backends. This does not "
-"start image generation."
-msgstr "選択可能なバックエンドを使用して、画像からプロンプトテキストを生成します。これにより画像の生成が開始されるわけではありません。"
-
-#: ui_qt/prompts/image_to_prompt_window.py:86
-msgid "Image"
-msgstr "イメージ"
-
-#: ui_qt/prompts/image_to_prompt_window.py:89
-msgid "Browse"
-msgstr "ブラウズ"
-
-#: ui_qt/prompts/image_to_prompt_window.py:96
-msgid "Backend"
-msgstr "バックエンド"
-
-#: ui_qt/prompts/image_to_prompt_window.py:98
-msgid "Captioner (BLIP)"
-msgstr "字幕作成者 (BLIP)"
-
-#: ui_qt/prompts/image_to_prompt_window.py:99
-msgid "Fast Tagger"
-msgstr "固定タグ"
-
-#: ui_qt/prompts/image_to_prompt_window.py:100
-msgid "VLM"
-msgstr "VLM"
-
-#: ui_qt/prompts/image_to_prompt_window.py:103
-msgid "Include Negative Prompt"
-msgstr "否定形のプロンプトを含める"
-
-#: ui_qt/prompts/image_to_prompt_window.py:111
-msgid "Prompt Hint (optional)"
-msgstr "プロンプト ヒント (任意)"
-
-#: ui_qt/prompts/image_to_prompt_window.py:118
-msgid "Generate Prompt from Image"
-msgstr "画像からプロンプトを生成する"
-
-#: ui_qt/prompts/image_to_prompt_window.py:122
-#: ui_qt/prompts/prompt_generator_window.py:88
-msgid "Copy Positive"
-msgstr "コピー 正面"
-
-#: ui_qt/prompts/image_to_prompt_window.py:126
-#: ui_qt/prompts/prompt_generator_window.py:92
-msgid "Copy Negative"
-msgstr "コピー・ネガティブ"
-
-#: ui_qt/prompts/image_to_prompt_window.py:130
-msgid "Apply Positive to Main UI"
-msgstr "メインUIに正を適用する"
-
-#: ui_qt/prompts/image_to_prompt_window.py:138
-msgid "Positive Prompt"
-msgstr "前向きな促し"
-
-#: ui_qt/prompts/image_to_prompt_window.py:143
-msgid "Negative Prompt"
-msgstr "否定的なプロンプト"
-
-#: ui_qt/prompts/image_to_prompt_window.py:148
-msgid "No output yet."
-msgstr "まだ出力はありません。"
-
-#: ui_qt/prompts/image_to_prompt_window.py:170
-msgid "Select Image"
-msgstr "画像を選択する"
-
-#: ui_qt/prompts/image_to_prompt_window.py:172
-msgid "Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"
-msgstr "画像 (*.png *.jpg *.jpeg *.webp *.bmp);;すべてのファイル(*.*)"
-
-#: ui_qt/prompts/image_to_prompt_window.py:246
-msgid "Select an image first."
-msgstr "画像を選択してください。"
-
-#: ui_qt/prompts/image_to_prompt_window.py:267
-msgid "updated"
-msgstr "更新された"
-
-#: ui_qt/prompts/image_to_prompt_window.py:267
-msgid "unchanged"
-msgstr "変更なし"
-
-#: ui_qt/prompts/image_to_prompt_window.py:271
-msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
-msgstr "バックエンド: {2} [{3}] を使用して生成 ({0}: {1})"
-
-#: ui_qt/prompts/image_to_prompt_window.py:285
-msgid "Fast tagger returned no tags; try a lower threshold."
-msgstr "Fast taggerはタグを返さなかった。しきい値を低く設定してみてください。"
-
-#: ui_qt/prompts/image_to_prompt_window.py:288
-msgid "Backend Not Configured"
-msgstr "バックエンドが設定されていません"
-
-#: ui_qt/prompts/image_to_prompt_window.py:295
-msgid "Image to Prompt Error"
-msgstr "画像からプロンプトへの変換プロセスでエラーが発生しました"
-
-#: ui_qt/prompts/image_to_prompt_window.py:303
-msgid "Nothing to copy."
-msgstr "コピーする内容がありません。"
-
-#: ui_qt/prompts/image_to_prompt_window.py:308
-#: ui_qt/prompts/prompt_generator_window.py:173
-msgid "Copied to clipboard"
-msgstr "クリップボードにコピーしました"
-
-#: ui_qt/prompts/image_to_prompt_window.py:313
-msgid "No positive prompt to apply."
-msgstr "肯定的なプロンプトがありませんでした。"
-
-#: ui_qt/prompts/image_to_prompt_window.py:316
-msgid "Applied positive prompt to main UI"
-msgstr "ポジティブ プロンプト を メイン UI に 適用しました。"
-
-#: ui_qt/prompts/prompt_generator_window.py:75
-msgid ""
-"Generate one prompt at a time using current UI settings. This does not run "
-"image generation and does not modify prompt history unless you click \"Save "
-"to Prompt History\"."
-msgstr ""
-"現在のUI設定を使用して、プロンプトを1つずつ生成します。この操作では画像の生成は行われず、「プロンプト履歴に保存」をクリックしない限り、プロンプト履歴は変更されません。"
-
-#: ui_qt/prompts/prompt_generator_window.py:84
-msgid "Generate One Prompt"
-msgstr "生成 1 プロンプト"
-
-#: ui_qt/prompts/prompt_generator_window.py:96
-msgid "Save to Prompt History"
-msgstr "プロンプト履歴に保存"
-
-#: ui_qt/prompts/prompt_generator_window.py:103
-msgid "Generated Positive Prompt"
-msgstr "生成された前向きなプロンプト"
-
-#: ui_qt/prompts/prompt_generator_window.py:108
-msgid "Generated Negative Prompt"
-msgstr "生成されたネガティブプロンプト"
-
-#: ui_qt/prompts/prompt_generator_window.py:113
-msgid "No prompt generated yet."
-msgstr "まだプロンプトが生成されていません。"
-
-#: ui_qt/prompts/prompt_generator_window.py:162
-msgid "Generated a new prompt."
-msgstr "新しいプロンプトを生成しました。"
-
-#: ui_qt/prompts/prompt_generator_window.py:164
-msgid "Prompt Generation Error"
-msgstr "プロンプトジェネレーションエラー"
-
-#: ui_qt/prompts/prompt_generator_window.py:168
-msgid "Nothing to copy. Generate a prompt first."
-msgstr "コピーするものがありません。プロンプトを作成しますแรก。"
-
-#: ui_qt/prompts/prompt_generator_window.py:177
-msgid "Generate a prompt first."
-msgstr "まず、プロンプトを生成してください。"
-
-#: ui_qt/prompts/prompt_generator_window.py:185
-msgid "Nothing to save."
-msgstr "何も保存できません。"
-
-#: ui_qt/prompts/prompt_generator_window.py:188
-msgid "Saved generated prompt to prompt history"
-msgstr "生成したプロンプトをプロンプト履歴へ保存しました。"
-
-#: utils/globals.py:163
-msgid "All visual media"
-msgstr "すべてのビジュアルメディア"
-
-#: utils/globals.py:164
-msgid "Text to Image"
-msgstr "テキストからイメージへ"
-
-#: utils/globals.py:166
-msgid "Image to Text"
-msgstr "画像からテキストへ"
-
-#: utils/globals.py:167
-msgid "Image Classification"
-msgstr "画像分類"
-
-#: utils/globals.py:168
-msgid "Zero-shot Image Classification"
-msgstr "ゼロショット画像分類"
-
-#: utils/globals.py:169
-msgid "Object Detection"
-msgstr "物体検出"
-
-#: utils/globals.py:170
-msgid "Image Segmentation"
-msgstr "画像セグメンテーション"
-
-#: utils/globals.py:171
-msgid "Depth Estimation"
-msgstr "深度推定"
-
-#: utils/globals.py:172
-msgid "Visual Question Answering"
-msgstr "可視的 Q&A"
-
-#: utils/globals.py:173
-msgid "Video Classification"
-msgstr "ビデオ分類"
-
-#: utils/globals.py:174
-msgid "Text to Video"
-msgstr "テキストからビデオへ"
-
-#: utils/globals.py:175
-msgid "Image Feature Extraction"
-msgstr "画像特徴抽出"
-
-#: utils/globals.py:208
-msgid "Last Modified"
-msgstr "最終更新日"
-
-#: utils/globals.py:209
-msgid "Created At"
-msgstr "作成日付"
-
-#: utils/globals.py:210
-msgid "Trending Score"
-msgstr "トレンド スコア"
-
-#: utils/globals.py:234
-msgid "Descending"
-msgstr "降下"
-
-#: utils/globals.py:235
-msgid "Ascending"
-msgstr "上昇"
