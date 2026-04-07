@@ -292,6 +292,25 @@ def test_concept_editor_add_delete(qtbot, tmp_path):
 
 Before writing the above tests, the following scaffolding should be added.
 
+### 4.0 Cache and `app_info_cache` isolation
+
+`SizeAwarePicklableCache` and `AppInfoCache` / `AppInfoCacheQt` persist state to
+disk and hold class-level singletons, meaning tests that touch them can
+contaminate each other or corrupt real user data on a developer machine.
+
+A per-test isolation strategy (temp directory override + class-state reset) has
+already been solved in a **separate reference project** that faced the same
+problem. That strategy will be ported here once the reference project is
+available. Until then:
+
+- Tests that exercise `SizeAwarePicklableCache` directly (see existing
+  `test_cache.py`) are acceptable because they construct isolated instances.
+- **Do not** write new tests that call into `AppInfoCache`, `AppInfoCacheQt`,
+  or any module that imports them at module level, until the isolation fixtures
+  are in place.
+- Mark any such tests `@pytest.mark.skip(reason="requires cache isolation fixtures")`
+  as placeholders if needed.
+
 ### 4.1 `conftest.py`
 
 ```python
