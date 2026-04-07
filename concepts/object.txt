@@ -1,0 +1,429 @@
+
+# Objects - physical things, tools, containers, furniture, and tangible items
+
+# Household / furniture
+armrest
+bed sheets
+blinds
+bowl
+carpet
+ceiling
+chandelier
+curtain
+dish
+doily
+grandfather clock
+hutch
+kilim
+lantern
+lava lamp
+lid
+pillow
+shelving
+sliding screen
+table
+tray
+TV screen
+television
+wicker
+
+# Tools and mechanical devices
+a set of scales
+andiron
+axle
+baton
+blade
+blinker
+bollard
+boomerang
+buckle
+draw plate
+gyroscope
+hook
+hourglass
+hydraulic press
+joint
+knobs
+label
+lever
+lock
+loom
+metronome
+nail
+peg
+pegboard
+periscope
+pilaster
+pinball
+piston
+pliers
+plinth
+pulley
+rake
+ramp
+sconce
+sconces
+screws and washers
+shim
+sighted scope lens
+slide rule
+slinky
+socket
+solenoid
+spatula
+spokes
+sprocket
+sprockets
+T-bar
+thimble
+tire
+toggle
+tuner
+wheel
+winch
+wrench
+
+# Containers and vessels
+ammo box
+bag
+basin
+burse
+cage cup
+candelabrum
+cartridge
+cash register
+cereal box
+chest full of treasure
+ciborium
+giant vat
+ID badge
+jewel case
+joss paper
+jug
+phial
+pouch
+pyx
+stasis tank
+thermos
+vase
+wafer
+
+# Weapons and armor
+shield
+hilt
+horn
+horns
+trident
+poleaxe
+
+# Decorative objects and collectibles
+acrylic nameplate
+bauble
+bijou
+bracteate
+bucranium
+Christogram
+compass rose
+cornucopia
+disco ball
+dreamcatcher
+Etch A Sketch
+idol
+jade figurine
+magic the gathering card
+magic wand
+marquetry
+matryoshka
+medallion
+music box
+ocarina
+sigil
+signet
+sticker
+talisman
+tarot card
+teetotum
+totem
+touchstone
+trinket
+
+# Musical instruments
+drum
+hi-hat
+
+# Materials / raw substances
+bismuth
+boombox
+burl
+burlap
+canvas
+cast iron
+clay
+driftwood
+egg
+fabric
+felt
+honeycomb
+ivory
+jasper
+leather
+lumber
+mica
+mohair
+nacre
+nephrite
+noil
+obsidian
+onyx
+peridot
+plaster
+pumice
+pyroxene
+rebar
+resin
+vinyl
+wrought iron
+
+# Vehicles and transport
+convertible with the top down
+panzer
+roller coaster
+signal lamp
+steamboat
+train tracks
+UFO, alien spacecraft
+vehicles
+
+# Technology / electronics
+antenna
+antennae
+boombox
+cell phone
+central processing unit
+light box
+loupe
+magnifying glass
+radar gun
+universal serial bus
+wires
+wire sculpture
+
+# Sculpture and art objects
+Baldacchino
+Bernini sculpture
+bronze sculpture
+bust
+coral
+exoskeleton
+geode
+jade figurine
+prism
+robot
+skull
+stabile
+steel sculpture
+stuffed animals
+wax figure
+
+# Structural / architectural
+arch
+arches
+barrier
+columns
+construct
+contraption
+fence
+fountain
+jungle gym
+mechanism
+mesh
+metal molds
+portal
+printing press
+spool
+stamp
+
+# Natural objects
+buoy
+driftwood
+horseshoe
+mulch
+pumice
+rock crystal (clear quartz)
+rock face
+rubble
+sand
+speleothems
+speliothem
+spiderweb
+spiderwebs
+stone
+
+# Gemstones and minerals
+agate
+amphibole
+beryl
+carnelian
+electrum
+feldspar
+gypsum
+limestone
+marble
+marl
+porphyry
+sandstone
+shale
+slab
+soapstone
+
+# Textiles and fibres
+brocade
+calico fabric
+faille fabric
+hessian
+linen
+lint
+macramé
+muslin
+polyester
+quilt
+silk
+snoods
+suet
+synthetic fiber
+tarpaulin
+tweed
+twill
+twine
+velvet
+wool
+yarn
+
+# Additional materials and substances
+aerosol
+alloy
+aluminum foil
+bronze
+cellophane
+concrete
+dry ice
+earthenware
+enamel
+epoxy
+foam
+glass fibers
+glass former
+graphite
+gravel
+ice chips
+laminate
+rosin
+saran wrap
+sandpaper
+sealer
+seam
+shives
+silver
+spode
+stucco
+stucco carving
+tannin
+tapers
+terra cotta
+terrazzo
+tin
+tinsel
+upholstery
+varnish resin
+vas diatretum
+vault lights
+veneer
+wax
+
+# Additional tools, machines, and devices
+agrafe
+arc lamp
+backgammon board
+box set
+circuit
+construction crane
+conveyor belt
+corbel
+festoon
+Fresnel lens
+frets
+fuse box
+fusebox
+game controller
+gas pipes
+gasket
+grommet
+gussets
+gueridon
+Hurdy-Gurdy
+HVAC
+impluvium
+Jacquard card
+jali
+jamb
+lenticular lens
+motor
+nuclear missile
+nuclear reactor
+pavement lights
+pedestal
+pediment
+pendentive
+rigging
+rivets
+rosette
+roundel
+satellites
+scales
+scoop
+shining diamond
+situla
+spring-loaded
+squinch
+stele
+Tesla coil
+tile
+tileset
+truss
+trusses
+tympanum
+
+# Additional architectural elements
+arbor
+archivolt
+atria
+flying buttresses
+frieze
+oriel
+panel
+particleboard
+
+# Additional collectibles and decorative
+Nendoroid
+neolith
+noggin
+roll bar
+
+# Anatomical and biological structures
+cranium
+insect wings
+sinews
+spinal column
+wings
+
+# Additional weapons
+flintlock
+magnets
+
+# Additional miscellaneous objects
+mounted deer head on the wall
+museum display
+museum exhibit
+string
+wreckage
+zip tie

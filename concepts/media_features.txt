@@ -1,0 +1,1245 @@
+
+# Media features - image presentation, rendering, art styles, techniques, visual qualities,
+# photography terms, and media types derived from sfw_concepts.txt
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Rendering / technical image production
+# ──────────────────────────────────────────────────────────────────────────────
+(morphological operation)
+2D vector style
+35mm film
+360 degree view
+3d model
+3D render
+4k textures
+8k
+acrylic on canvas
+airbrushed
+albumen silver print
+antialiasing
+aquatint
+architectural render
+aspect ratio
+award winning image
+backward mapping
+bas-relief
+bayer filter
+best quality
+bi-linear interpolation
+bitmap
+blender
+blocky
+bloom
+blur
+blurry
+bokeh
+Carborundum mezzotint
+cart-de-visite
+carved pearwood block
+ccd
+CGI
+chromatic aberration
+clean lines
+collograph
+collagraphy
+colorized old photograph
+corrupted pixels
+crosshatch
+ct scan
+cyanotype darkroom processed image
+daguerrotype
+decal
+degaussing
+depth of field
+dgtlv2
+digital painting
+digital camera image
+digitally altered image
+dilation
+dithering
+dot art
+double exposure
+drypoint
+edge map
+electromagnetic spectrum
+engineering schematic
+excellent art
+extreme saturation image
+fiber optic strands
+fisheye lens
+flash photography
+formless shapes
+found footage
+gaussian noise
+gaussian splatting
+geometric process
+gilding
+glitch art
+gopro footage
+gouache and ink
+gouache on vellum
+gouache painting
+grainy
+graphic art
+graphic design
+grayscale
+halftone
+hard edges
+heat map
+heavy shading
+high pixel depth
+high-contrast
+high-contrast image
+high-key image
+high-pass filter
+high-resolution vector output
+highest definition
+highest resolution
+histogram equalized
+hologram
+holographic
+horizontal axis
+hyperrealistic
+illustration
+impressionism
+impulse noise
+infographic
+intaglio
+interpolated
+inverted image
+iron printing plate
+jpeg artifacts
+landscape painting
+layered
+lens flare
+limited palette
+line art
+line sketch
+linear brightness transformation
+linear rotation
+linear transformation
+liquid-crystal display
+logo
+lomo
+lomography
+low-contrast
+low-contrast image
+low-key image
+low-pass filter
+low-poly 3D render
+lowest resolution
+magenta coral cerulean teal gold orange rose marble texture
+magical realism
+mapping
+marble bust
+matita rossa e nera style
+matte
+matte painting
+median filtering
+mid-tones
+mind map
+moiré pattern
+monochrome
+motion blur
+multiview orthographic projections
+natural shell iridescence
+neon
+niello
+night photography
+night vision image
+noisy
+oil and paint on limewood
+oil on canvas
+oil on panel
+oil on poplar
+on vellum
+optical illusion
+organic light-emitting diode
+origami
+outlined
+overexposed
+page from photo album
+page from scrapbook
+painted sheet metal
+panorama
+paper mache
+papyrus
+parallax
+parcel-gilt
+parchment
+pen on paper
+pencil sketch
+perfect composition
+petrified wood
+photochrome
+photocopy
+photograph
+photomask
+photonegative
+photoprint
+photoshop
+pixel art
+pixel subtraction result
+pixelated
+plane shearing
+plasterwork
+Plique-à-jour
+PNG
+pointillist
+Polar coordinates
+polaroid
+polished
+polymorph
+polymorphism
+print art
+print screen image
+prism tile
+prismatic effect
+projection
+public domain image
+radiological scan
+raw photo
+raytracing
+raytraced image inspired by senior environment artist
+resampled image
+restored historic photograph
+retro artstyle
+risograph
+Ronde bosse
+rotated image
+rotational symmetry
+rotoscoped image
+roughcast
+s p a c i n g
+scan
+scanning electron microscope
+scanning electron microscopy
+screen capture
+Schlieren photography
+serigraph
+sfm
+sgraffito
+shadowgraph
+shaky camera view
+silk screen
+silver nitrate film
+simple sketch
+simulacrum
+sinusoidal
+sketchbook
+sketches
+skeuomorph
+slide film
+slides
+slo-mo
+smartphone capture
+Snap screenshot
+spirograph
+spray painted
+stereograph
+still life
+stippling
+stop-motion
+studio photography
+Sumi-e
+superimposed images
+tempera
+tesselation
+thermal camera image
+thick textured paint style impasto
+thresholding
+tiltshift
+tintype
+toleware
+traditional media
+transfer print
+transparent background
+Trois crayons
+trompe l'oeil
+trompe-l'œil
+unreal engine
+upsampling
+vectorization
+vectorized
+vertical axis
+very detailed
+vignette
+visualization
+visualization of algorithm
+voxel art
+watercolor
+webcam
+webcomic style
+western comic book art
+wetplate
+wide-angle shot
+ultra wide-angle shot
+wood engraving
+word cloud
+wove paper
+woven
+x-ray
+zentangle art
+zellij tilework
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Photography / camera styles
+# ──────────────────────────────────────────────────────────────────────────────
+(scenic nature, misty)
+amateur photo
+backlighting
+B-roll
+camera roll
+cart-de-visite
+closeup
+concept art
+deep-sea photography
+digital camera image
+direct on-camera flash
+documentary
+fashion editorial
+featured on cg society
+film
+fisheye lens
+flash photography
+gopro footage
+icloud photos
+landscape painting
+multiple light sources
+multiple views
+nanophotography
+night photography
+night vision image
+online photos
+photo op
+photostream
+pic
+pics
+pictionary
+picture
+portrait
+raw photo
+real-life dramatic staging of the $$random_word in a bright modern $$location
+selfie
+shaky camera view
+Schlieren photography
+smartphone capture
+Snap screenshot
+studio photography
+vacation pic
+view through a microscope
+view through a telescope
+viewfinder
+Vlog
+webcam
+wetplate
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Art styles and movements
+# ──────────────────────────────────────────────────────────────────────────────
+abstract
+anime
+art deco
+art nouveau
+Art Nouveau
+Beaux-Arts style
+Basse-taille
+batik
+blackwork
+Cameo carving
+cartoon
+cartoonish
+cel shading
+Champlevé
+chibi
+chivalric romance
+Chinoiserie
+Cloisonné
+cloissone
+collage
+comic book
+comic strip
+concept art
+cubism
+Currier and Ives
+dadaism
+digital painting
+dnd character portrait
+En résille
+enamelled glass
+engraved glass
+faience
+fashion editorial
+Fête galante
+flat design
+gemälde
+gongbi
+gothic
+(gothic script)
+Grisaille
+grimdark
+hardstone carving
+heraldry
+herringbone pattern
+Hiberno-Saxon art
+huile sur toile
+illuminated manuscript
+impressionism
+Insular art style
+intarsia
+itreous enamel
+kintsugi
+landscape painting
+leo nardo davinci design sketches
+luminism
+magical realism
+matita rossa e nera style
+matchbook art
+Meissen
+mezzotint
+mudéjar
+neoclassical
+niello
+noir
+nordic
+oil on canvas
+oil on panel
+oil on poplar
+oil and paint on limewood
+on vellum
+origami
+parcel-gilt
+pastoral
+Pietra dura
+platformer pixelart parallax video game background
+Plique-à-jour
+pointillist
+pop-up book
+pre-Raphaelite
+print art
+propaganda
+Raphaelite
+retro artstyle
+retro computer graphics
+retro-futuristic
+retro game
+risograph
+rockabilly
+Rococo style
+role-playing game
+Romanesque style
+Ronde bosse
+RPG tabletop
+sci fi
+science fiction
+serigraph
+sgraffito
+silk screen
+simple manga
+storybook
+stylized
+Sumi-e
+surrealism
+tapestry
+titian
+toile de jouy
+toleware
+traditional media
+Trois crayons
+trompe l'oeil
+trompe-l'œil
+vaporwave
+watercolor
+webcomic style
+western comic book art
+Wild West
+wuxia
+yarnbombing
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Image quality and visual descriptors
+# ──────────────────────────────────────────────────────────────────────────────
+abstract background
+aesthetic
+amorphous
+award-winning artwork
+award-winning photograph
+bioluminescence
+birefringence
+black borders
+black light
+black lines
+blocky
+bloom
+bold
+bold black outlines
+breathtaking
+bright
+burnt
+burnt-out colors
+busy
+Candlelit
+centered composition
+chromatic aberration
+cinematic render
+clean
+clean lines
+clean minimalism
+clear
+closed mouth
+cloudy
+clusters
+cold
+color gradients
+colorful
+colorgraded
+colorized old photograph
+complex
+concept art
+crisp
+crumpled paper
+dark
+dark dungeon
+decal
+degaussing
+depth of field
+design
+detailed
+detailed background
+diagonal axis
+distorted
+dynamic
+dynamic angle
+eerie
+electromagnetic
+emotive
+Ethereal
+ethereal light
+exquisite
+extravagant
+fashionable
+flat
+flat design
+flowing
+focused
+focusing
+formless shapes
+fractal
+futuristic
+generic
+geometric
+glam
+gloomy
+glossy
+glossy finish
+glowing
+gnarled
+godrays
+grainy
+grassy
+gritty
+grungy
+haze
+heavy shading
+high-contrast
+high-key image
+hollow
+horizontal axis
+hot
+humid
+hyperrealistic
+industrial
+inflated
+insane art
+inspired
+interpolated
+kaleidoscopic
+kinetic
+layered
+liminal space
+liquid metal
+low-contrast
+low-key image
+luminism
+lustrous
+luxurious
+main shape focus
+masses
+masterpiece
+maximalism
+maximized
+melancholy
+meticulous linework precision
+minimalism
+minimized
+mixed media
+monochrome
+moody
+motifs
+muted
+mysterious
+national geographic
+neat
+negative space
+nightmare
+noisy
+octane render
+organic
+ornate
+overcast
+over-exposed
+palatial
+patterned
+perfect composition
+perfectly arranged
+perfectly cut gemstone
+performance
+perspective
+phase congruence
+polished
+poor
+pre-Raphaelite
+rich
+risograph
+Rococo style
+rough
+royal
+rule of thirds
+ruined
+rusted
+rustic
+scattered
+scenic
+scuffed
+shards
+shiny
+silhouette
+simple background
+simple drawing
+simple image
+simple primitive shapes
+skewed
+smooth curves
+sloppy
+somewhat disorganized
+sparkles
+sparkling
+sparse
+spooky
+spread out
+stone veneer
+storybook
+strange
+strange magic
+striped
+stripes
+stylized
+supercell storm
+symbolic
+textural
+tiered
+tint
+titian
+tonal values
+trailing into the distance
+twisted
+unique
+unstaged
+vaporwave
+vintage
+vivid color
+void
+vortex
+wacky
+weathered
+whimsical
+white borders
+wormhole
+zebra stripes
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Media and publication types
+# ──────────────────────────────────────────────────────────────────────────────
+90s style VHS paused image
+advertising insert
+album cover
+animated GIF
+B movie
+billboard
+blog screenshot
+children's book
+clip art
+clipart
+comic book
+comic strip
+concert poster
+copy
+Coub video
+cover sheet
+Dear Diary
+dime novel
+doorbell cam
+dry erase board
+emergency broadcast
+gameplay screenshot
+gopro footage
+graph
+graphic design
+How-To book
+infographic
+leaflet
+live video feed
+loading screen
+logo
+lore map
+magazine cover
+magazine insert
+mail order catalog
+map
+matchbook art
+mind map
+motivational poster
+movie poster
+movie trailer
+mural
+national geographic
+news headline image
+online photos
+page from $$random_word
+page from photo album
+page from scrapbook
+pamphlet
+pie chart
+picture book
+placard
+PNG
+pop-up book
+poster
+posters
+print screen image
+product catalog
+promotional material
+prop comic
+rebus
+reality TV
+recipe
+remake of classic film
+retro game
+role-playing game
+RPG tabletop
+safety brochure
+screen capture
+screenshot from Teams call
+sears catalog
+selfie
+sign on storefront
+sketchbook
+storybook
+streaming video
+tabloid
+test image
+textbook page
+timeline
+tintype
+topographic map
+travel book
+tutorial
+Tee-Vee
+television aerial
+unfinished technical sketch
+user error
+vacation pic
+video embed
+videoconference
+Vlog
+wallpaper
+want ad
+webcam
+webcomic style
+(web page screenshot, modern web design, home page)
+western comic book art
+whodunit
+word cloud
+x-y plot
+x-ray
+yearbook pictures
+Yellow Pages
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Composition and view angle
+# ──────────────────────────────────────────────────────────────────────────────
+angle shot
+centered composition
+closeup
+dynamic angle
+from above
+from below
+from the side
+full shot
+landscape
+main shape focus
+multiple views
+negative space
+oblique view
+panorama
+portrait
+rule of thirds
+side profile
+tableau, framed wall of images
+wide-angle shot
+ultra wide-angle shot
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Geometric shapes (as composition elements)
+# ──────────────────────────────────────────────────────────────────────────────
+circle
+concentric circles
+cone
+cube
+cylinder
+decagon
+disjoint
+dodecahedron
+heptagon
+hexagon
+hypercube
+linear
+nonagon
+octagon
+pentagon
+polygon
+rectilinear
+rhombus
+sphere
+square
+trapezoid
+triangle
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Period / historical photo style tags
+# ──────────────────────────────────────────────────────────────────────────────
+1950s National Geographic photo
+1960s National Geographic photo
+1970s National Geographic photo
+1980s National Geographic photo
+1990s National Geographic photo
+2000s National Geographic photo
+Bronze Age reconstruction
+Copper Age reconstruction
+Egyptian Empire
+Elizabethan England
+Imperial Rome
+Iron Age reconstruction
+Middle Ages
+Persian Empire
+Renaissance
+Roman Republic
+Third Reich Deustchland
+Victorian England
+Worlds Fair
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Lighting Mood Prompts (from the sfw_concepts.txt lighting section)
+# ──────────────────────────────────────────────────────────────────────────────
+Bioluminescent Beach
+Candlelit
+Car Headlights on a Foggy Road
+Concert Stage Lights
+Candle Procession
+Dazzling Christmas Lights
+Ethereal Moonlight
+Fairy Lights
+Fire Dancers
+Fireworks Spectacle
+Fireplace Warmth
+Firelight
+fluorescent lights
+gas lighting
+glare effect
+glowing
+Glowing Desert Sands
+Glowing Fireflies
+Glowing Lanterns
+godrays
+halogen
+Hearth
+lamp
+led lights
+Lighthouse Beacon
+Lightning Storm
+lens flare
+Magical Forest Clearing
+moonlit
+Retro Cinema Marquee
+Solar Eclipse
+spotlight
+Spotlight on a Performer
+Starlit Night
+Starry Skyscrapers
+Street Vendor's Cart
+Sunset Silhouettes
+Torchlit
+torchlight
+Traffic at Dusk
+Urban Neon Lights
+Underwater Bioluminescence
+volumetric lighting
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Color Mood Prompts (from the sfw_concepts.txt color section)
+# ──────────────────────────────────────────────────────────────────────────────
+Abstract Watercolor
+Autumn Forest
+Autumn Leaves
+Autumn Vineyard
+Beach Umbrellas
+(Blossoming Cherry Trees:0.2)
+Bohemian Textiles
+Butterfly Garden
+(Carnival Carousel:0.2)
+(Colorful Frosted Cupcakes:0.2)
+(Colorful Street Market:0.4)
+Colorful Street Art
+Desert Sunrise
+Evening City Lights
+Fiery Red Sky
+Golden Fields
+Graffiti Art
+Green Rolling Hills
+(Monochromatic Blue)
+Mountain Sunrise
+Mountain Wildflowers
+Neon Cityscape
+(Orchard in Bloom:0.1)
+(Peaceful Lavender Fields:0.1)
+(Rainbow Over Waterfall:0.2)
+Subtle Pastels
+Tropic Sunset
+Tropical Paradise
+Underwater Paradise
+Vibrant Sunset
+Vintage Color Palette
+(Aurora Borealis:0.4)
+zigzag
+écorché-style [[painting,drawing,sculpture]]
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Additional art techniques and styles from excess
+# ──────────────────────────────────────────────────────────────────────────────
+acrylic
+analog
+analogue
+arabesque
+Bildungsroman
+biopic
+brushstrokes carefully placed
+brushstrokes finely computed
+brushtrokes
+Carpenter Gothic
+Certosina
+chromagraph
+copper etching
+cosmatesque
+craquelure
+cross stitch
+cuneiform
+cursive
+découpage
+embossed
+embroidery
+embroidered
+expressionism
+fond broderie
+Fujifilm
+girih
+high-definition rendering
+holophotal
+kanji
+lampoon
+lenticular print
+maiolica
+offset printing
+opus incertum
+opus sectile
+parchinkari
+parge coat
+pargeting
+patina
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Additional visual and composition terms from excess
+# ──────────────────────────────────────────────────────────────────────────────
+anidolic lighting
+annotation
+arc
+atlas
+audio sound data
+bar chart
+barrel distortion
+blurb
+boldface
+camouflage
+captivating visual narrative
+cartouche
+catadioptric
+chart
+circular
+Coat of Arms
+concave
+convex
+corrugated
+corrugation
+deformation
+delineation
+detailed $$random_word texture
+diagram
+die cut
+digital snapshot
+dioptric
+distortion
+dot
+edition
+ellipse
+emoji
+encased in glass
+engraved
+facsimile
+figure eight
+folded creased paper
+foley soundboard
+font
+frontispiece
+geometry diagram
+Gestalt
+glow
+golden ratio
+gradation
+graph paper
+hatch
+heads-up display
+health and stamina indicators
+high ISO noise
+high production value
+JPEG
+JPG
+keyframes
+large graphical advertisement on side of truck
+large photograph on wall
+legend inset
+magnetic field lines
+notations
+notes scribbled in the margin
+oil stain
+opal glint
+paint swatches
+patterns
+penny dreadful
+periodic table
+pile of $$random_word
+plans, assembly instructions, 2 d autocad
+plated
+pyrotechnics
+raining
+scratched up
+section
+sectioned
+signal
+signature
+sinuous
+spalting
+spiral matrix
+star charts
+statistic
+stormy
+symbol
+thatched
+torus
+vapor
+vectors
+virus in electron microscope
+wall made of water
+welding sparks
+whirlpool
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Additional publication and media types from excess
+# ──────────────────────────────────────────────────────────────────────────────
+airplane safety brochure
+Lighting of a Cathedral
+Monochromatic Blue
+Paint Palette
+Retro Disco
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Misc visual / image modifiers from throughout sfw_concepts.txt
+# ──────────────────────────────────────────────────────────────────────────────
+(dark club with neon lights)
+(desktop screenshot, computer screenshot, open application windows)
+(flat design, illustrstion, $$random_word promotional material)
+(partially obscured subject, $$random_word in foreground blocking view)
+90s style VHS paused image
+aura
+Allmoge style
+assemblage
+aurora
+B movie
+backlighting
+Basse-taille
+batik
+blackwork
+caricature
+ceramic
+Champlevé
+chalk on asphalt
+chalk on cement
+character modeling
+checkboard
+chibi
+chivalric romance
+chrome organic
+cinematic render
+city map
+clean minimalism
+cloissone
+collage
+collagraphy
+color gradients
+colorgraded
+cymatics
+deep learning
+diorama
+EGA graphics
+emergent complexity
+emotional photos
+encased in amber
+evolutionary computing
+faience
+film grain
+film noire
+fine china porcelain
+fractal
+futuristic
+game hud elements overlay
+geodesic
+gongbi
+heraldry
+herringbone pattern
+Hiberno-Saxon art
+highlighter marks
+illuminated manuscript
+Insular art style
+intarsia
+kintsugi
+kaleidoscopic
+kinetic
+leonardo davinci design sketches
+liminal space
+liquid metal
+luminism
+luster
+machine learning
+masterpiece
+maximalism
+mixed media
+molecular chemical bonds visualization
+moody
+motifs
+motivational poster
+neoclassical
+Nilotic landscape
+noir
+nordic
+octane render
+organic
+ornaments
+overcast
+palatial
+paperfold
+pastoral
+path tracing
+perfectly arranged
+perspective
+phase congruence
+picture book
+Pietra dura
+platformer pixelart parallax video game background
+pre-Raphaelite
+preview
+product catalog
+propaganda
+protein folding visualization
+Raphaelite
+rebus
+redshift
+reflections
+reflecting
+repeating patterns
+retro computer graphics
+retro-futuristic
+rich
+Rococo style
+roman numerals
+Romanesque style
+rows
+royal
+RPG tabletop
+rule of thirds
+runes
+rusted
+rustic
+scenic
+sci fi
+science fiction
+scuffed
+shagreen
+silhouette
+simple background
+simple drawing
+simple image
+simple manga
+simple primitive shapes
+skewed
+sloppy
+somewhat disorganized
+sparkles
+sparse
+speech bubble
+spliced
+splotches
+spooky
+spread out
+storybook
+stylized
+symbolic
+tableau, framed wall of images
+textural
+timeline
+tincture
+tint
+titian
+toile de jouy
+topographic map
+trailing into the distance
+twisted
+UI
+unfinished technical sketch
+unstaged
+vaporwave
+videoconference
+video embed
+screenshot from Teams call
+vintage
+void
+vortex
+wacky
+weathered
+(web page screenshot, modern web design, home page)
+whimsical
+white borders
+Wild West
+wormhole
+wuxia
+yarnbombing
+yearbook pictures
+x-y plot
+zebra stripes
