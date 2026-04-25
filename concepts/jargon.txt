@@ -131,8 +131,13 @@
 Baryon Acoustic Oscillations
 Epinephrine
 excipients
+idempotent
+intransitive
 Large low shear velocity provinces (LLSVPs)
 lyophilization
+Moment of Inertia
+osmosis
+phototropic
 π-calculus
 λProlog - λProlog
 μ-kernel - Microkernel

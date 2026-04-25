@@ -55,20 +55,24 @@ close at hand
 closeby
 closest to
 clustered together
+contained
 contiguous
 corner
 crosswise
 crouched
+deltoid
 direct route
 down below
 down here
 down there
 ducking under
+due [[east,west,north,south]]
 dynamic pose
 ears
 edgewise
 elbow
 encompassing
+endmost
 ends
 endwise
 everywhere
@@ -83,6 +87,7 @@ farthest from
 fetal position
 fingers
 fingers crossed
+folded
 from across the room
 from around
 glamour pose
@@ -107,6 +112,7 @@ in the middle
 in there
 in tow
 inclined
+instep
 inward
 jaw
 jazz hands
@@ -119,6 +125,7 @@ leaning back
 leaning on side
 leaning on railing
 leaning over
+leftmost
 legs crossed
 legs spread
 legs together
@@ -187,6 +194,7 @@ receding
 reclined
 reclining
 resting on elbows
+rightmost
 rolling over
 shin
 shoulder
@@ -217,6 +225,7 @@ time out gesture
 to and fro
 toe
 together
+topmost
 topsy-turvy
 tucked in
 turned inward
@@ -237,6 +246,7 @@ unusual position
 up above
 up here
 up there
+upended
 upheave
 upraised
 verge of $$random_word

@@ -1,5 +1,6 @@
 $$character costume
 $$random_word-ware
+3D glasses
 abaya
 accoutre
 Akubra
@@ -191,6 +192,7 @@ Dress Shirt and Tie
 Dress Shoes
 duckbill shoes
 duds
+duffel bag
 duffel coat
 dungaree shorts
 dungarees
@@ -201,10 +203,12 @@ elastic
 elbow pads
 Elegant Evening Gown
 epaulets
+ephod
 escoffion
 evening gown
 eyewear
 fancy watch
+Fanon
 farthingale
 fashion
 fatigues
@@ -404,6 +408,7 @@ petticoat
 Phrygian cap
 pigache
 pinafore
+pince-nez glasses
 Pith helmet
 Pixie Cut
 PJs
@@ -457,6 +462,7 @@ spectacles
 streetwear
 sweat pants
 tabard
+tache
 Tagelmust
 talisman
 tassle
@@ -602,6 +608,7 @@ vintage clothes
 visor
 waders
 waistcoat
+walking cane
 Wavy Lob
 wear
 wedding gown
@@ -622,6 +629,7 @@ Wool Coat
 woolens
 wrap
 Wrap Dress
+X-Ray specs
 Yoga Pants and Tank Top
 yoke
 zibellino

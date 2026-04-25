@@ -101,6 +101,7 @@ hatred
 hiccup
 hiss
 Ho-Hum
+hopping mad
 How?
 Huh?
 humph
@@ -118,6 +119,7 @@ jocund
 jolly
 jubilant
 laugh lines
+leery
 loony
 mania
 May I?
@@ -200,6 +202,7 @@ no way
 none the wiser
 nonplussed
 nope
+nuh-uh
 oh no
 Oho!
 Okay...
@@ -231,6 +234,7 @@ pursed lips
 questioning
 quizzical look
 rage
+rancor
 rapt
 Regretful
 Relaxed
@@ -268,6 +272,7 @@ snark
 snarl
 sneering
 snide
+sniffing at
 snivel
 snort
 solace
@@ -275,9 +280,11 @@ Solemn
 somber
 sourpuss
 Spirited
+standoffish
 staring intensely
 staring surreptitiously
 starstruck
+startled
 stern look
 stinkeye
 stoic
@@ -302,6 +309,7 @@ tired
 trained eye
 tranquil
 transfixed
+turn up [[his,her,one's]] nose at
 uh-oh
 umm..
 unamused

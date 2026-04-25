@@ -97,6 +97,7 @@ Angled Sunbeam Caterpillar
 Anglerfish
 Angora Ferret
 Angora Goat
+Angus cattle
 Anhinga
 Anna’s Hummingbird
 anoa
@@ -228,6 +229,7 @@ Barn Owl
 Barn Spider
 Barn Swallow
 Barnacle
+barnacles
 Barnevelder
 Barosaurus
 Barracuda
@@ -1342,6 +1344,7 @@ Irish Terrier
 Irish Water Spaniel
 Irish WolfHound
 Irukandji Jellyfish
+isopod
 Italian Greyhound
 Ivory-billed woodpecker
 Ivy Bee
@@ -1907,6 +1910,8 @@ Peppered Moth
 Peppermint Angelfish
 Perch Fish
 Polliwog
+pup
+puppy
 Père David’s Deer
 Peregrine Falcon
 Peringuey’s Adder
@@ -2162,6 +2167,7 @@ Ruby-Throated Hummingbird
 Ruddy Duck
 Ruddy Turnstone
 Rufous Hummingbird
+runt
 Russel’s Viper
 Russell Terrier
 Russian Bear Dog

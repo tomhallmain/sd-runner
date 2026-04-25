@@ -36,6 +36,7 @@ at the helm
 atelier
 atoll
 atrium
+auction house
 auto body shop
 avenue
 backroads
@@ -80,6 +81,7 @@ closet
 cloudy sky
 co-op
 comedy club
+conference rooms
 copse
 cordoned off
 corral
@@ -101,13 +103,17 @@ destination
 dining car
 diocese
 ditch
+dojo
 domain
 dome
 domicile
 dovecote
 dropshipper
+duplex
 dwelling
+elevated railway
 emporium
+enclave
 enclosure
 end zone
 entryway
@@ -139,6 +145,7 @@ gulch
 gulf
 gulley
 hairpin turn
+hatchery
 haven
 headquarters
 hectare
@@ -151,19 +158,23 @@ highway berm
 hiking trail
 historic monument
 historic site
+hither and yon
 hive
 home
 home office
 home site
 home turf
 hoogle
+hot-air balloon
 house on stilts
 hummock
 hut
 in a clearing
 in orbit
+inner city
 intersection
 jetty
+joke shop
 karst
 kiosk
 kitchenette
@@ -202,6 +213,8 @@ mount $$random_word
 municipality
 my old haunt
 niche
+No Entry
+No Exit
 nursery
 observation platform
 observation room
@@ -210,7 +223,6 @@ off-road
 oil rig
 old mill
 on deck
-on-ramp
 open house
 orlop deck
 out somewhere
@@ -226,6 +238,7 @@ passage
 peninsula
 people mover
 perch
+picnic
 pit stop
 platform
 plaza
@@ -237,10 +250,12 @@ railing
 raised house
 raised platform
 raised porch
+ramp
 ravine
 realm
 recreation center
 recreational vehicle - RV
+rectory
 rehab
 reservoir
 residence
@@ -258,6 +273,7 @@ route
 route $$number
 rowhouse
 royal court
+safe haven
 sanatorium
 sand dunes
 sandbox
@@ -272,6 +288,7 @@ shaft
 shelf
 shore
 shoreline
+shuttle
 side road
 sidecar
 silo
@@ -285,6 +302,7 @@ spot
 stall
 steakhouse
 steppe
+stilts
 store
 stowed away
 streetside
@@ -295,6 +313,7 @@ suite
 sump
 tatami mats
 taxi
+tee box
 terrace
 caverns
 territory
@@ -317,9 +336,11 @@ tram
 treetop
 trench
 tropics
+turnpike
 undergrowth
 upper atmosphere
 vacation spot
+vale
 ventilation shaft
 vestibule
 villa

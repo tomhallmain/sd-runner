@@ -23,8 +23,11 @@ alias
 All the King's horses and all the King's men
 ally
 Aloha
+Alvin
+Alvin and the Chipmunks
 Anais
 and his trusty sidekick
+Andre the Giant
 angler
 Angus
 Annette
@@ -52,8 +55,10 @@ Barbar the Elephant
 Barnum and Baileys
 baronet
 been there, done that
+behemoth
 bellhop
 Bender
+benefactor
 Betty Boop
 Black Desert Online
 Boba Fett
@@ -72,6 +77,7 @@ Bunny Foo-Foo
 bureau
 bushel and a peck
 buster
+Butterfingers
 Byzantine
 C-Suite
 caddy
@@ -97,6 +103,7 @@ chancellor
 charizard
 Charlie Dog
 Cheep Cheep
+Chickasaw
 Chicken Run
 chud
 churl
@@ -117,6 +124,7 @@ courtier
 cowpoke
 crook
 Crookshanks
+cryptid
 culprit
 curmudgeon
 Custos rotulorum
@@ -143,14 +151,18 @@ Dr. Seuss's The Cat in the Hat
 Draco Malfoy
 dragoon
 dragster
+drawl
 driver
 Dudley
 Dust bunnies
 dweeb
+Dwight Yoakam
 e'er
 easy peasy
 elitist
+Ellery
 Eloise
+Elvin
 Elvis has left the building
 Elvis Presley
 emeratus
@@ -191,6 +203,7 @@ French Foreign Legion
 fuddy-duddy
 Futurama
 G'Day M8t
+galoot
 gamester
 gateman
 genie
@@ -201,6 +214,7 @@ gigglemug
 Giles
 Gilgamesh
 goalie
+Goldie Hawn
 goner
 good grief
 Goofy Gophers
@@ -222,6 +236,7 @@ Hasbro
 Haw haw haw
 heathen
 heir
+Hellene
 Helmsley
 helot
 Henery Hawk
@@ -260,6 +275,7 @@ Inquisitor
 intel
 intelligence
 interring
+Isuzu
 It's a lie!
 It's a setup!
 it's only a game
@@ -274,9 +290,11 @@ Jolly Roger
 just cause
 justiciar
 Kai-El
+Kemo Sabe
 Keyboard Cat
 keynote speaker
 Kon-Tiki
+Koochie-koochie-koo
 L'oreal
 Labubu
 lackey
@@ -288,6 +306,8 @@ legal eagles
 Lennox
 Leroy
 Lester
+Liam
+Liberace
 lieabed
 liege
 lieutenant
@@ -297,6 +317,7 @@ Little Bo Peep
 little ditty
 llanero
 LMAO
+Loan Shark
 lol
 lolcat
 Lollards
@@ -306,10 +327,15 @@ lunk
 MacGuffin
 maiden
 mariner
+Marlene Dietrich
+Martian
+Master & Commander
 mate
 McNutt
 medic
+Melvin
 meme
+mendicant
 mentor
 Merle
 Merlin the Magic Mouse
@@ -318,6 +344,7 @@ Messiah
 mind over matter
 miner
 minister
+Minnesota Fats
 mithril
 mogul
 more than you know
@@ -329,6 +356,7 @@ mutant
 Naboo
 NANI!?
 ne'er
+Ne'er-do-well
 neener neener
 neighbor
 Nelson
@@ -340,6 +368,7 @@ Norton
 notary
 NPC
 numbnut
+Nyuk nyuk nyuk
 Octavian
 officer
 official
@@ -355,6 +384,7 @@ orator
 orderly
 Oreos
 Ori and the Blind Forest
+Osgood
 P.F. Flyers
 P.I.
 P.T. Barnum
@@ -373,8 +403,10 @@ Pepe Le Pew
 Pepto-Bismol
 perhaps
 Peter Cottontail
+Peyton
 Philistine
 Phineas T. Barnum
+Phoebe
 picador
 picaresque
 pick-me-up
@@ -394,6 +426,7 @@ poet
 Pogo the Possum
 poindexter
 Pooh Bear
+pool player
 Pop-O-Matic
 Porky Pig
 postman
@@ -424,9 +457,11 @@ REO Speedwagon
 retard
 retiree
 rival
+Road Hog
 Roku
 rook
 Roomba
+Royce
 rube
 Rumplestiltskin
 sales rep
@@ -449,11 +484,13 @@ sentry
 setter
 settler
 Shamu
+sherpa
 Shire reeve
 Shriners
 ShyGuy
 Silesian
 Simon & Garfunkel
+Sinead
 Sirius
 skater
 Skull and Crossbones
@@ -461,6 +498,7 @@ slang
 sleepers
 sluggard
 slugger
+Smee
 Snert
 sniper
 so be it
@@ -519,6 +557,7 @@ sentinel
 
 thane
 The Adoring Fan
+The Big Cheese
 The doctor is in
 The Dole
 The Fool
@@ -530,7 +569,9 @@ The Riddler
 The Roadrunner
 The Sandman
 The Secret of Nimh
+the usual suspects
 thief
+Tic-Tacs
 ting
 tinkerer
 Titan
@@ -552,11 +593,13 @@ Tweety Bird
 twerp
 ulterior motives
 Ultima Online
+Ultron
 umpire
 undertaker
 urethane
 valkyrie
 varmints
+Venusian
 vermin
 vermouth
 Viet Cong
@@ -684,6 +727,8 @@ Entertainment robot
 words to live by
 would I lie?
 wouldn't touch that with a ten-foot pole
+Xavier
+Yael
 yahoos
 yeah dude like totally hahuh
 yeomanry
@@ -694,6 +739,8 @@ Yorick
 Yosemite Sam
 your Honor
 Ysmir
+Yves
+Zebulon
 zing
 zinger
 Zip-a-Dee-Doo-Dah

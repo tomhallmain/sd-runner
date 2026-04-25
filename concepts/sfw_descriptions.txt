@@ -3,8 +3,10 @@ $$random_word-ish
 $$random_word-sized
 [[quite,really]] someone
 a far cry from $$random_word
+a la mode
 A-list
 A-OK
+abeyant
 abounding with $$random_word
 abrasive
 absentminded
@@ -56,12 +58,15 @@ ascendant
 aspiration
 astute
 at a loss
+at all
+at best
 at large
 at rest
 athwart
 atmospheric
 atonal
 attached
+attentive
 auspicious
 automatic
 auxiliary
@@ -84,6 +89,7 @@ bent
 bereft
 besmirched
 best in the world
+big-picture
 bimonthly
 bineural
 bipartite
@@ -113,6 +119,7 @@ charred
 chatlyant
 cheap
 chock-a-block
+clamped-on
 cleft
 cliché
 cloying
@@ -146,9 +153,11 @@ daring
 daunting
 dead-set
 dearest
+debonair
 declaring
 decorative
 deep
+defective
 deferential
 definite
 deftly
@@ -156,6 +165,7 @@ deific
 delimited
 deluxe
 derelict
+desist
 detached
 diagonal
 different
@@ -174,6 +184,7 @@ domed
 done up
 dour
 drastic
+drawl
 dreamlike
 dreamy
 dreary
@@ -181,7 +192,10 @@ dried out
 driven
 droll
 droopy
+earless
 easy
+eccentric
+effective
 elementary
 elongated
 elusive
@@ -198,6 +212,7 @@ equipped
 equivocal
 errant
 ersatz
+esoteric
 eternal
 evanescent
 evasive
@@ -218,6 +233,7 @@ facile
 failsafe
 fain
 fairly straightforward
+famished
 famous
 fantasmic
 far-out
@@ -242,11 +258,13 @@ flim-flam
 flimsy
 floppy
 floppy-eared
+floral
 foliate
 foolhardy
 foolish
 foreboding
 foresaken
+foreseeable
 former
 forthright
 fortuitous
@@ -261,6 +279,7 @@ fun-size
 functional
 fused
 gallant
+galore
 garish
 gaudy
 gaunt
@@ -269,6 +288,7 @@ generic
 genius
 gifted
 glacial
+glib
 glistening
 glorious
 godlike
@@ -277,12 +297,14 @@ good-tempered
 goody-goody
 goofy
 grand
+granular
 gratis
 groovy
 guarded
 habitual
 hale
 hard-hearted
+hardened
 hasty
 hazily
 hearty
@@ -297,11 +319,14 @@ hollow
 honed
 honest
 honorable
+hotsy-totsy
 humane
 hydraulic
 hydroponic
 hyper
 iffy
+ill
+ill-conceived
 imaginary
 imbued
 immortal
@@ -314,6 +339,7 @@ in a tizzy
 in high regard
 in jest
 in shape
+in tip-top shape
 in use
 incarnate
 incedental
@@ -321,6 +347,8 @@ incendiary?
 inconsistent
 inctremental
 indefinite
+inept
+inert
 inexact
 infernal
 infirm
@@ -332,6 +360,7 @@ instinctive
 intact
 integrity
 intelligent
+interactive
 interim
 interlaced
 internal
@@ -342,7 +371,6 @@ intuitive
 invariable
 inverted
 invincible
-ipso facto
 irrational
 isometric
 it has a mind of its own
@@ -354,6 +382,7 @@ just swell
 juvenile
 keen
 keepsake
+kempt
 kooky
 labeled
 labeled and color-coded
@@ -385,6 +414,7 @@ Mammalia
 manageable
 maniacal
 manic
+marital
 marred
 marvelous
 massless
@@ -420,6 +450,7 @@ mythical
 n-ary
 nameless
 natural
+neat
 nemisis
 nifty
 no brainer
@@ -447,9 +478,13 @@ oomph
 operational
 opportunistic
 opposable
+optic
 original
+ornate
 orthodox
+osseous
 ostentatious
+otiose
 overbearing
 overloaded
 overt
@@ -467,14 +502,17 @@ pending
 performative
 perilous
 perjurous
+pernicious
 personable
 personal
 petrified
 petty
+petulant
 philosophic
 piecemeal
 placid
 plagiarized
+plucky
 poetic
 polite
 polygonal
@@ -482,6 +520,7 @@ porky
 potted
 powerful
 precipitous
+preworn
 pricey
 primal
 primeval
@@ -491,6 +530,7 @@ prodigal
 prominent
 promontory
 promoted
+proscriptive
 prosperous
 pursuant to $$random_word
 quadratic
@@ -518,6 +558,7 @@ restored
 resurgent
 retractable
 ridiculous
+ridiculousness
 rife
 riled
 rinky-dink
@@ -576,6 +617,7 @@ round
 sappy
 sardonic
 sassy
+sbsent
 scandalous
 scar
 scathing
@@ -599,8 +641,10 @@ shrill
 sight for sore eyes
 sight unseen
 sincere
+single file
 skinny
 slangy
+slated
 slick
 slim
 small
@@ -663,6 +707,7 @@ susceptible
 swell
 swole
 sympathetic
+synoptic
 synthetic
 tabular
 taciturn
@@ -690,7 +735,9 @@ thrilling
 tidal
 tight
 timid
+tin-panny
 tiny
+to-go
 too true
 top-secret
 traditional
@@ -703,20 +750,24 @@ trifling
 triplet
 truncated
 trusty
+twee
 twin
 ugly
 ultra
 unannounced
 unassuming
 unbecoming
+unceasingly
 uncommitted
 unconditional
+uncool
 undefined
 undulating
 unequal
 uneven
 unfinished
 unfit
+unforeseeable
 unforeseen
 unguarded
 united
@@ -727,12 +778,14 @@ unobtrusive
 unordered
 unorthodox
 unpolished
+unready
 unreceptive
 unrecognizable
 unrelated
 unrelenting
 unserious
 unshakable
+unsparing
 unstable
 unyielding
 uproarious
@@ -741,6 +794,7 @@ used
 vain
 valourous
 variable
+vast
 venerable
 very fresh
 vexatious
@@ -755,6 +809,7 @@ wayward
 weary
 webbed
 weightless
+well-conceived
 well-mannered
 well-rested
 wellaway

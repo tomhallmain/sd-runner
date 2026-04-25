@@ -1,4 +1,6 @@
 Anglia
+Antwerp
+Appomattax
 Arcadia
 Bosra
 Cairo - Egypt
@@ -21,8 +23,12 @@ La Zarzuela
 Lake Huron
 lanai
 Mosul
+Mother Shipton's Cave
 Nantes
 Napoli
+Never-Neverland
+Nova Scotia
+Oahu
 Oceania
 Ojai California
 parliament
@@ -30,6 +36,7 @@ Pier One
 Pompeii -> Pompeii - Italy (locations_specific.txt) | The Last Days of Pompeii (sfw_characters.txt)
 Renfrew
 Sandringham Estate
+Scheldt
 Sea of Tranquility
 Serengeti
 Sheetz
@@ -43,7 +50,9 @@ The Pale
 the Pyrenees
 Troy
 Twin Cities
+Veld
 Walden Pond
+Walla Walla Washingtom
 Warped Tour
 Coachella
 Bonaroo

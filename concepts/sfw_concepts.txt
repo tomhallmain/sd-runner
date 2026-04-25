@@ -1341,6 +1341,7 @@ PNG
 poetic license
 pointillist
 pointy
+poise
 Polar coordinates
 polaroid
 poleaxe
