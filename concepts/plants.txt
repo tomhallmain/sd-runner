@@ -1,50 +1,47 @@
 
 # Flora - plants, trees, flowers, and plant-related concepts
 
-# Whole plants / trees
 anemone
-Forsythia
-houseplants
-Magnolia
-moss
-mushrooms
-palm
-plants
-reeds
-spruce
-topiary
-voronoi trees
-weeds
-willow tree
-
-# Plant groups and displays
+aril
+bast fibre
 floral
 floral arrangement
 flowering plant
 flowers
-fruits
-ivy-covered walls
-mulch
-palm plantation
-turf
-
-# Plant anatomy
-aril
-bast fibre
+Forsythia
 frond
+fruits
+houseplants
+ivy-covered walls
 legume
+Magnolia
+moss
+mulch
+mushrooms
+palm
+palm plantation
 palmette
 petiole
 phloem
 pith
+plants
+reeds
 seedling
+spore
 sprouting bud
+spruce
 stalks
 stem
 stems
 stoma
 thallus
+topiary
 tree bark
+tumbleweed
+turf
 twigs
 vegetal
+voronoi trees
+weeds
+willow tree
 xylem

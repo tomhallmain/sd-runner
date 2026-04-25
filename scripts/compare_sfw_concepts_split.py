@@ -4,7 +4,7 @@ Compare the union of the three new split concept files against sfw_concepts.txt
 to identify which original concepts are covered and which remain as excess.
 
 The three target split files are:
-  concepts/flora.txt
+  concepts/plants.txt
   concepts/object.txt
   concepts/media_features.txt
 
@@ -34,7 +34,7 @@ if PROJECT_ROOT not in sys.path:
 CONCEPTS_DIR = Path(PROJECT_ROOT) / "concepts"
 
 SPLIT_FILES = [
-    CONCEPTS_DIR / "flora.txt",
+    CONCEPTS_DIR / "plants.txt",
     CONCEPTS_DIR / "object.txt",
     CONCEPTS_DIR / "media_features.txt",
 ]
@@ -74,7 +74,7 @@ def build_lookup(concepts: list[str], case_sensitive: bool) -> set[str]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Compare sfw_concepts.txt against the union of flora/object/media_features split files."
+        description="Compare sfw_concepts.txt against the union of plants/object/media_features split files."
     )
     parser.add_argument(
         "--csv",
@@ -104,7 +104,7 @@ def main() -> None:
         metavar="PATH",
         nargs="+",
         default=[str(p) for p in SPLIT_FILES],
-        help="Split files whose union is compared against the source (default: flora/object/media_features).",
+        help="Split files whose union is compared against the source (default: plants/object/media_features).",
     )
     args = parser.parse_args()
 
