@@ -293,7 +293,8 @@ class PromptConfigWindow(SmartDialog):
         grid.addWidget(QLabel(_("High")), 0, 2)
 
         categories = [
-            "concepts", "positions", "locations", "animals", "colors",
+            "media_features", "objects",
+            "positions", "locations", "animals", "plants", "colors",
             "times", "dress", "expressions", "actions", "descriptions",
             "characters", "random_words", "nonsense", "jargon", "witticisms",
         ]

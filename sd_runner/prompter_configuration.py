@@ -5,6 +5,9 @@ import json
 from sd_runner.concepts import ConceptConfiguration
 from utils.config import config
 from utils.globals import PromptMode
+from utils.logging_setup import get_logger
+
+logger = get_logger("prompter_configuration")
 
 
 class LegacyPrompterConfiguration:
@@ -79,8 +82,11 @@ class LegacyPrompterConfiguration:
         categories = {}
         
         # Convert all categories
+        # Legacy "concepts" tuple maps to media_features; objects/plants get sensible defaults
         category_mappings = {
-            "concepts": self.concepts,
+            "media_features": self.concepts,
+            "objects": (0, 2),
+            "plants": (0, 1),
             "positions": self.positions,
             "locations": self.locations,
             "animals": self.animals,
@@ -160,19 +166,22 @@ class LegacyPrompterConfiguration:
 class PrompterConfiguration:
     # Required category names
     REQUIRED_CATEGORIES = [
-        "concepts", "positions", "locations", "animals", "colors", "times",
+        "media_features", "objects",
+        "positions", "locations", "animals", "plants", "colors", "times",
         "dress", "expressions", "actions", "descriptions", "characters",
         "random_words", "nonsense", "jargon", "witticisms"
     ]
-    
+
     @staticmethod
     def _get_default_categories() -> dict[str, ConceptConfiguration]:
         """Get default category configurations."""
         return {
-            "concepts": ConceptConfiguration(low=1, high=3),
+            "media_features": ConceptConfiguration(low=1, high=2),
+            "objects": ConceptConfiguration(low=0, high=2),
             "positions": ConceptConfiguration(low=0, high=2),
             "locations": ConceptConfiguration(low=0, high=1, specific_chance=0.3),
             "animals": ConceptConfiguration(low=0, high=1, inclusion_chance=0.1),
+            "plants": ConceptConfiguration(low=0, high=1),
             "colors": ConceptConfiguration(low=0, high=2),
             "times": ConceptConfiguration(low=0, high=1, specific_chance=0.3),
             "dress": ConceptConfiguration(low=0, high=2, inclusion_chance=0.5),
@@ -237,7 +246,7 @@ class PrompterConfiguration:
         if self.categories['locations'].specific_chance is None:
             # Return default value from default category configurations
             try:
-                return self.get_default_categories()['locations'].specific_chance
+                return self._get_default_categories()['locations'].specific_chance
             except KeyError:
                 return 0.3
         return self.categories['locations'].specific_chance
@@ -249,7 +258,7 @@ class PrompterConfiguration:
         if self.categories['times'].specific_chance is None:
             # Return default value from default category configurations
             try:
-                return self.get_default_categories()['times'].specific_chance
+                return self._get_default_categories()['times'].specific_chance
             except KeyError:
                 return 0.3
         return self.categories['times'].specific_chance
@@ -346,11 +355,15 @@ class PrompterConfiguration:
             # New format
             self.prompt_mode = PromptMode[_dict["prompt_mode"]]
             self.concepts_dir = _dict.get('concepts_dir', self.concepts_dir)
-            
+
             self.categories = {}
             for name, config_dict in _dict['categories'].items():
                 self.categories[name] = ConceptConfiguration.from_dict(config_dict)
-            
+
+            # Migrate saved configs that still carry the old "concepts" key
+            if "concepts" in self.categories and "media_features" not in self.categories:
+                self.categories["media_features"] = self.categories.pop("concepts")
+
             # Ensure all required categories exist
             self._ensure_required_categories()
         else:

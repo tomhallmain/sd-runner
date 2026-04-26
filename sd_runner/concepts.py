@@ -587,12 +587,20 @@ class Concepts:
         
         return results
 
-    def get_concepts(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+    def get_media_features(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
-        concepts = Concepts.load(SFW.concepts)
+        concepts = Concepts.load(SFW.media_features)
         if self.prompt_mode.is_nsfw():
             self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
         return Concepts.sample_whitelisted(concepts, low, high, self.prompt_mode)
+
+    def get_objects(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.objects), low, high, self.prompt_mode)
+
+    def get_plants(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.plants), low, high, self.prompt_mode)
 
     def get_positions(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
@@ -1139,7 +1147,6 @@ class SFW:
     animals = "animals.txt"
     characters = "sfw_characters.txt"
     colors = "colors.txt"
-    concepts = "sfw_concepts.txt"
     descriptions = "sfw_descriptions.txt"
     dress = "sfw_dress.txt"
     expressions = "sfw_expressions.txt"
@@ -1148,6 +1155,9 @@ class SFW:
     lighting = "lighting.txt"
     locations = "locations.txt"
     locations_specific = "locations_specific.txt"
+    media_features = "media_features.txt"
+    objects = "object.txt"
+    plants = "plants.txt"
     positions = "positions.txt"
     puns = "puns.txt"
     sayings = "sayings.txt"

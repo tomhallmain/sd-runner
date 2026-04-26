@@ -197,10 +197,12 @@ class Prompter:
     def _mix_concepts(self, humans_chance: float = 0.25) -> list[str]:
         mix = []
         # Access categories directly from the categories dict
-        mix.extend(self.concepts.get_concepts(self.prompter_config.get_category_config("concepts"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_media_features(self.prompter_config.get_category_config("media_features"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_objects(self.prompter_config.get_category_config("objects"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_positions(self.prompter_config.get_category_config("positions"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_locations(self.prompter_config.get_category_config("locations"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_animals(self.prompter_config.get_category_config("animals"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_plants(self.prompter_config.get_category_config("plants"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_colors(self.prompter_config.get_category_config("colors"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_times(self.prompter_config.get_category_config("times"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_dress(self.prompter_config.get_category_config("dress"), multiplier=self.prompter_config.multiplier))
@@ -640,8 +642,15 @@ class Prompter:
         concept = None
         if name.startswith("act"):
             concept = random.choice(concepts.get_actions(ConceptConfiguration(1, 1)))
+        elif name.startswith("media"):
+            concept = random.choice(concepts.get_media_features(ConceptConfiguration(1, 1)))
+        elif name.startswith("obj"):
+            concept = random.choice(concepts.get_objects(ConceptConfiguration(1, 1)))
+        elif name.startswith("plant") or name.startswith("flora"):
+            concept = random.choice(concepts.get_plants(ConceptConfiguration(1, 1)))
         elif name.startswith("concept"):
-            concept = random.choice(concepts.get_concepts(ConceptConfiguration(1, 1)))
+            # backward-compat alias: $concept expands from media_features
+            concept = random.choice(concepts.get_media_features(ConceptConfiguration(1, 1)))
         elif name == "dress":
             concept = random.choice(concepts.get_dress(ConceptConfiguration(1, 1, inclusion_chance=1.0)))
         elif name.startswith("time"):
