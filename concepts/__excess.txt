@@ -1,1 +1,0 @@
-# Concepts from this file were migrated into flora.txt, object.txt, and media_features.txt.
