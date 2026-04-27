@@ -596,7 +596,13 @@ class Concepts:
 
     def get_objects(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
-        return Concepts.sample_whitelisted(Concepts.load(SFW.objects), low, high, self.prompt_mode)
+        objects = Concepts.load(SFW.objects)
+        objects.extend(Concepts.load(SFW.objects_cosmic))
+        objects.extend(Concepts.load(SFW.objects_food))
+        objects.extend(Concepts.load(SFW.objects_furniture))
+        objects.extend(Concepts.load(SFW.objects_rpg))
+        objects.extend(Concepts.load(SFW.objects_scifi))
+        return Concepts.sample_whitelisted(objects, low, high, self.prompt_mode)
 
     def get_plants(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
@@ -605,6 +611,7 @@ class Concepts:
     def get_positions(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
         positions = Concepts.load(SFW.positions)
+        positions.extend(Concepts.load(SFW.positions_angles))
         # if self.prompt_mode.is_nsfw():
         #     self.extend(concepts, NSFW.concepts, 5, NSFL.concepts, 3)
         if len(positions) > 1 and random.random() > 0.4:
@@ -619,7 +626,10 @@ class Concepts:
         low, high = concept_config.get_adjusted_range(multiplier)
         if random.random() > concept_config.get_inclusion_chance():
             return []
-        return Concepts.sample_whitelisted(Concepts.load(SFW.animals), low, high, self.prompt_mode)
+        animals = Concepts.load(SFW.animals)
+        animals.extend(Concepts.load(SFW.animals_dinosaurs))
+        animals.extend(Concepts.load(SFW.animals_fantasy))
+        return Concepts.sample_whitelisted(animals, low, high, self.prompt_mode)
 
     def get_locations(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
@@ -676,6 +686,8 @@ class Concepts:
     def get_descriptions(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
         descriptions = Concepts.load(SFW.descriptions)
+        descriptions.extend(Concepts.load(SFW.descriptions_eyes))
+        descriptions.extend(Concepts.load(SFW.descriptions_nationality))
         if self.prompt_mode.is_nsfw():
             self.extend(descriptions, NSFW.descriptions, 3, NSFL.descriptions, 2)
         return Concepts.sample_whitelisted(descriptions, low, high, self.prompt_mode)
@@ -683,6 +695,8 @@ class Concepts:
     def get_characters(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
         characters = Concepts.load(SFW.characters)
+        characters.extend(Concepts.load(SFW.characters_scenario))
+        characters.extend(Concepts.load(SFW.characters_subject))
         if self.prompt_mode.is_nsfw():
             self.extend(characters, NSFW.characters, 3, NSFL.characters, 2)
         return Concepts.sample_whitelisted(characters, low, high, self.prompt_mode)
@@ -1142,12 +1156,21 @@ class HardConcepts:
     boring_concepts = Concepts.load("boring_concepts.txt")
 
 # Below files are reloaded every time there's a prompt generation to enable quick swapping
+# TODO: Convert SFW (and NSFW, NSFL, ArtStyles) to an enum with a parent field,
+#       so subcategory relationships are declared structurally rather than by
+#       naming convention, and get_* methods can discover children automatically.
 class SFW:
     actions = "sfw_actions.txt"
     animals = "animals.txt"
+    animals_dinosaurs = "animals_dinosaur.txt"
+    animals_fantasy = "animals_fantasy.txt"
     characters = "sfw_characters.txt"
+    characters_scenario = "sfw_characters_scenario.txt"
+    characters_subject = "sfw_characters_subject.txt"
     colors = "colors.txt"
     descriptions = "sfw_descriptions.txt"
+    descriptions_eyes = "sfw_descriptions_eyes.txt"
+    descriptions_nationality = "sfw_descriptions_nationality.txt"
     dress = "sfw_dress.txt"
     expressions = "sfw_expressions.txt"
     humans = "humans.txt"
@@ -1157,8 +1180,14 @@ class SFW:
     locations_specific = "locations_specific.txt"
     media_features = "media_features.txt"
     objects = "object.txt"
+    objects_cosmic = "objects_cosmic.txt"
+    objects_food = "objects_food.txt"
+    objects_furniture = "objects_furniture.txt"
+    objects_rpg = "objects_rpg.txt"
+    objects_scifi = "objects_scifi.txt"
     plants = "plants.txt"
     positions = "positions.txt"
+    positions_angles = "angles_and_views.txt"
     puns = "puns.txt"
     sayings = "sayings.txt"
     times = "times.txt"
