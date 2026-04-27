@@ -75,3 +75,118 @@ different people
 youth
 youths
 
+
+
+# --- sd-wildcards merge ---
+able-bodied seaman
+activist
+air force intelligence
+air force security forces
+air force weather
+air traffic controllers
+aircraft maintenance technicians
+aircrew
+airman,annalist
+anarchist
+artillery
+artilleryman
+artist
+barber
+bicyclist
+bus driver
+businessmen
+carpenter
+cavalryman
+chef
+client
+commander
+communications
+communications specialist
+commuter
+consumer
+corporal
+customer service representative
+democrat
+department manager
+diplomat
+doctor
+electrician
+firefighter
+garbage collector
+general
+gunner's mate
+infantry
+infantryman
+intelligence analyst
+janitor
+judge
+landscaper
+lawyer
+lawyers
+leader
+liaison officer
+libertarian
+listener
+lobbyist
+logisticics
+mail carrier
+marine
+mechanic
+merchandiser
+musician
+nanny
+navigator
+ordnance
+pararescuemen
+passenger
+patient
+pedestrian
+pilot
+plitician
+plumber
+police officer
+private
+progressive
+protester
+psychic
+quartermaster
+radarman
+recon
+reconnaissance specialist
+registered nurse
+republican
+retail associate
+retail clerk
+retail sales associate
+retail stocker
+retail supervisor
+sailor
+seaman
+sergeant
+shopper
+software engineer
+sonarman
+speaker
+specialist
+specops
+store manager
+storekeeper
+strategist
+student
+supply
+tactician
+tank crewman
+tanker
+taxi driver
+teacher
+terrorist
+traditionalist
+trooper
+uber driver
+waiter
+waitress
+web developer
+wingman
+worker
+writer
+yeoman

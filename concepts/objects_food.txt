@@ -1,0 +1,1018 @@
+
+
+# --- sd-wildcards merge ---
+abalone
+acorn squash
+adzuki bean paste
+adzuki beans
+aged japanese kurozu
+alcohol
+ale
+alfalfa sprouts
+algae
+almond
+almond milk
+almond paste
+almonds
+ancho chili powder
+anchovy
+anchovy paste
+angus beef
+anise
+appetite
+appetizer
+apple
+apple juice
+apples
+apricot
+apricots
+apricots, japanese
+arborio rice
+artichoke
+artichoke, jerusalem
+artichokes
+arugula
+asian greens
+asparagus
+asparagus, chinese
+aspic
+ate
+autumn crocus
+avocado
+avocado oil
+avocados
+açaí berries
+açaí juice
+bacon
+bagel
+bake
+balsamic vinegar
+bamboo shoots
+banana
+banana split
+bananas
+barbecue
+barbecued meat
+barley
+basil
+batter
+bean curd
+beancurd
+beans
+beef
+beer
+beet
+beets
+bell pepper
+bell peppers
+berry
+biscuit
+bitter almond oil
+bitter cucumber
+bitter melon
+black beans
+black currants
+black or purple rice
+black pepper
+black tea
+black-eyed peas
+blackbeans
+blackberries
+blackberry
+bland
+blueberries
+blueberry
+boil
+boiled egg
+bok choy
+boysenberries
+boysenberry
+bran
+brazil nuts
+bread
+breadfruit
+breakfast
+broccoli
+broccoli sprouts
+broil
+brown mustard
+brown rice
+brown rice syrup
+brownie
+brunch
+brussels sprouts
+buckwheat
+burrito
+butter
+butternut squash
+cabbage
+cake
+calorie
+candy
+canola oil
+cantaloupe
+capers
+caramel
+carbohydrate
+carrot
+carrots
+cashew
+cashews
+cassava
+casserole
+cater
+cauliflower
+caviar
+cayenne pepper
+celeriac
+celery
+celery seed
+cereal
+chamomile
+chard
+cheddar
+cheese
+cheesecake
+chef
+cherries
+cherry
+chew
+chick peas
+chickpeas
+chili
+chilli peppers
+chips
+chives
+chocolate
+chopsticks
+chow
+chutney
+cilantro
+cinnamon
+citron
+citrus
+clam
+clams
+cloves
+cobbler
+coconut
+coconut oil
+cod
+coffee
+coleslaw
+cook
+cookie
+corn
+corn oil
+cornflakes
+cottage cheese
+crackers
+cranberries
+cranberry
+crepe
+crunch
+crust
+cucumber
+cucumbers
+cuisine
+cupboard
+cupcake
+curcumin
+curds
+currants
+custard
+daidzein
+daikon
+dairy
+dal
+dandelion greens
+danish pastry
+dates
+dessert
+diet
+digest
+digestive system
+dill
+dine
+dinner
+dip
+doughnut
+dragonfruit
+dried
+dried herring
+dried mackerel
+drink
+dry beans
+durian
+eat
+edam cheese
+edamame
+eggplant
+eggs
+elderberry
+endive
+entree
+escargot
+fast
+fava beans
+fed
+feed
+fennel
+fennel seed
+fermented bean paste
+fermented milk
+fig
+fillet
+fire
+flan
+flax
+flaxseed
+flaxseed oil
+flour
+food
+food pyramid
+fork
+freezer
+french fries
+fried
+fried potatoes
+fritter
+frosting
+fruit
+fry
+garbanzo beans
+garden cress
+garlic
+gastronomy
+gelatin
+genistein
+ghee
+ginger
+gingerale
+gingerbread
+gouda cheese
+grain
+granola
+grape
+grape seed oil
+grapefruit
+grapes
+grated
+gravy
+green beans
+green onions
+green papaya
+green peas
+green tea
+greenbean
+greens
+guacamole
+guava
+gyro
+ham
+hamburger
+hazelnut
+herbs
+holy basil
+honey
+honeydew
+honeydew melon
+horseradish
+hot dog
+hot peppers
+hot sauce
+hotdog
+hummus
+hunger
+hungry
+ice
+iceberg lettuce
+iced tea
+indian mustard
+jalapeno
+jam
+jelly
+jellybeans
+jicama
+jimmies
+jordan almonds
+juice
+kale
+kebab
+kefir
+kelp
+ketchup
+kettle
+kidney beans
+kiwifruit
+knife
+kohlrabi
+kumquat
+kumquats
+ladle
+lamb
+lard
+lasagna
+lavender
+leeks
+legumes
+lemon
+lemonade
+lemons
+lentils
+lettuce
+licorice
+lima beans
+lime
+limes
+lingonberries
+liquor
+liver
+loaf
+loganberries
+lollipop
+long pepper
+loquat
+low-fat yogurt
+lox
+lunch
+lunchmeat
+lychee
+macadamia nut oil
+macadamia nuts
+macaroni
+macaroon
+mackerel
+main course
+maitake mushrooms
+maize
+mandarin orange
+mango
+mangoes
+mangosteen
+maple syrup
+margarine
+marionberrries
+marionberry
+marmalade
+marshmallow
+mashed
+maté
+mayonnaise
+meat
+meatballs
+meatloaf
+melon
+melons
+melted cheese
+meringue
+mexican oregano
+milk
+milkshake
+millet
+mincemeat
+minerals
+mint
+mint tea
+mints
+molasses
+mozzarella
+mug
+munch
+mung beans
+mushroom
+muskmelon
+mussels
+mustard
+mustard greens
+mustard oil
+mutton
+napkin
+navy beans
+nectar
+nectarine
+nibble
+noodles
+nosh
+nourish
+nourishment
+nut
+nutella
+nutmeg
+oatmeal
+oats
+ohyo
+oil
+okra
+oleo
+olive
+olive oil
+olives
+omelet
+omnivore
+onion
+onions
+orange
+oranges
+oregano
+oven
+oysters
+pan
+pancake
+papaya
+papaya seeds
+paprika
+parsley
+parsnip
+parsnips
+passion fruit
+pasta
+pastry
+pate
+patty
+pattypan squash
+paw paw
+pea
+peach
+peaches
+peanut
+peanut butter
+peanut butter and jelly
+peanut oil
+peanutbutter
+peanuts
+peapod
+pear
+pears
+peas
+pecan
+pecans
+pepper
+peppermint
+pepperoni
+persimmon
+persipan
+pesto sauce
+pickle
+pickled papaya
+pickled watermel. rind
+pickles
+pie
+pilaf
+pineapple
+pinto beans
+pistachio nuts
+pita bread
+pitcher
+pizza
+plantago
+plantains
+plate
+plum
+plums
+poached
+pomegranate
+pomegranate juice
+pomegranates
+pomelo
+popcorn
+popovers
+popsicle
+pork
+pork chops
+portobello mushrooms
+pot
+potato
+potatoes
+preserves
+pretzel
+protein
+prune
+prunes
+pudding
+pumpernickel
+pumpkin
+pumpkin seeds
+pumpkins
+punch
+pâtés
+quiche
+quinoa
+radicchio
+radish
+raisin
+raisins
+raspberries
+raspberry
+ravioli
+red bean paste
+red beans
+red cabbage
+red currants
+red onions
+red pepper flakes
+red pepper paste
+red rice
+red spinach
+red wine vinegar
+refrigerator
+reishi mushrooms
+relish
+rhubarb
+ribs
+rice
+rice bran
+rice bran oil
+rice wine vinegar
+risotto
+roast
+roast beef
+roasted almonds
+roasted pork
+roe
+roll
+rolled oats
+rolling pin
+romaine
+romaine lettuce
+rosemary
+rutabagas
+rye
+safflower oil
+sage tea
+salad
+salami
+salmon, wild
+salsa
+salt
+sandwich
+sauce
+sauerkraut
+sausage
+sausages
+savory
+scallions
+scrambled
+seaweed
+seeds
+sesame oil
+sesame seed
+sesame seeds
+shallots
+shellfish
+sherbet
+shiitake mushrooms
+shish kebab
+slaw
+slice
+smoked
+smoked mackerel
+snails
+snickers chocolate bar
+snow peas
+soba noodles
+soda
+sole
+sorbet
+sorghum
+sorrel
+soup
+sour
+soy
+soy infant formula
+soy milk
+soy protein bars
+soy protein isolate
+soybean curd
+soybean oil
+soybeans
+soysauce
+spaghetti
+spaghetti squash
+spareribs
+spearmint
+spices
+spinach
+split peas
+spoon
+spork
+sprinkles
+sprouts
+spuds
+squash
+steak
+stew
+stir-fry
+stomach
+stove
+straw
+strawberries
+strawberry
+string bean
+string beans
+stringy
+strudel
+subtropical ginger
+succotash
+sugar
+sugar beets
+sugar snap peas
+summer squash
+sundae
+sunflower
+sunflower oil
+sunflower seeds
+supper
+sushi
+sweet peas
+sweet potato
+sweet potatoes
+swiss chard
+syrup
+tabasco sauce
+taco
+tacos
+tahini
+take-out
+tallow
+tamale
+tangerine
+tangerines
+taro
+tarragon
+tart
+tartary buckwheat
+tea
+teapot
+teriyaki
+thyme
+toast
+toaster
+toffee
+tofu
+tomatillo
+tomato
+tomato paste
+tomatoes
+torte
+tortilla
+tropical ginger
+tuber
+turkey bacon
+turmeric
+turnip
+turnip greens
+turnips
+ugli fruit
+unleavened
+utensils
+vanilla
+veal
+vegetable
+venison
+vinegar
+vitamins
+waffle
+wakame
+walnut
+walnut oil
+walnuts
+wasabi
+water
+water chestnut
+watercress
+watermelon
+watermelon seeds
+well-done meat
+wheat
+wheat bran
+wheat germ
+wheat grass
+whey
+white beans
+white bread
+white button mush.
+white pepper
+white tea
+white vinegar
+whole wheat bread
+wild ginger
+wild rice
+wine
+winter squash
+wok
+yam
+yams
+yeast
+yerba maté
+yogurt
+yolk
+zucchini
+abiu
+acai
+acerola
+ackee
+african cherry orange
+alligator apple
+amazon grape
+ambarella
+american mayapple
+araza
+arhat
+babaco
+bael
+barbadine
+barbados cherry
+barberry
+bayberry
+beach plum
+bearberry
+beechnut
+betel nut
+bignay
+bilberry
+bilimbi
+bitter gourd
+black apple
+black cherry
+black mulberry
+black raspberry
+black sapote
+blackcurrant
+bolwarra
+bottle gourd
+bramble
+brazil nut
+broadleaf bramble
+buffaloberry
+burdekin plum
+burmese grape
+cacao
+caimito
+cajamanga
+calabashtree
+camucamu
+canistel
+cape gooseberry
+carambola
+cardon
+carob
+cedar bay cherry
+cempedak
+ceylon gooseberry
+che
+chenet
+cherimoya
+chinese bayberry
+chinese mulberry
+chokeberry
+clementine
+cloudberry
+cluster fig
+cocoplum
+common apple-berry
+conkerberry
+cornelian cherry
+crabapple
+crowberry
+cudrang
+cudrania
+cupuacu
+currant
+custard apple
+damson
+date
+date palm
+date-plum
+davidson's plum
+desert fig
+desert lime
+dewberry
+doubah
+durain
+eastern may hawthorn
+eggfruit
+elephant apple
+emblic
+emu apple
+entawak
+etrog
+feijoa
+fibrous satinash
+fiji longan
+finger lime
+galendar
+galia
+gandaria
+genip
+genipap
+giant granadilla
+golden apple
+gooseberry
+goumi
+gourds
+grapple
+greengage
+grenadilla
+guanabana
+guarana
+guavaberry
+hackberry
+hardy kiwi
+hawthorn
+hog plum
+honeycrisp apple
+honeysuckle
+horned melon
+huckleberry
+huito
+illawarra plum
+indian almond
+indian fig
+indian jujube
+indian prune
+indian strawberry
+ita palm
+jaboticaba
+jagua
+jamaica cherry
+jambul
+japanese bayberry
+japanese raisin
+jasmine
+jatoba
+jenipapo
+jocote
+jujube
+june plum
+kaffir lime
+kahikatea
+kakadu lime
+kakadu plum
+kandis fruit
+karkalla
+keppel fruit
+key lime
+kundong
+kutjera
+lablab
+lady apple
+langsat
+lanzones
+lapsi
+lemon aspen
+leucaena
+lillipilli
+lilly pilly
+lingonberry
+loganberry
+longan
+lucuma
+lulo
+mabolo
+macadamia
+malay apple
+mamey sapote
+mamoncillo
+mandarin
+manila tamarind
+manoao
+marang
+marion berry
+mayapple
+mayhaw
+maypop
+medlar
+melinjo
+melon pear
+midyim
+mock buckthorn
+mock strawberry
+monkey apple
+monstera
+morinda
+mountain soursop
+mulberry
+mundu
+muntries
+muskmelons
+myrtle
+nageia
+nance
+nannyberry
+naranja
+naranjilla
+native cherry
+native currant
+native gooseberry
+neem
+nungu
+oil palm
+olallieberry
+old world sycomore
+orangelo
+oregon grape
+otaheite apple
+pawpaw
+pequi
+pewa
+pigeon plum
+pigface
+pili nut
+pitaya
+pitomba
+plantain
+podocarpus
+poha
+pois doux
+pomcite
+pommecythere
+pommerac
+pond apple
+prickly pear
+prumnopitys
+pulasan
+pummelo
+pupunha
+purple apple-berry
+quandong
+quenepa
+quince
+rambutan
+rangpur
+red bayberry
+red mombin
+red mulberry
+redcurrant
+riberry
+ridged gourd
+rimu
+rose apple
+rose hip
+rose myrtle
+rose-leaf bramble
+rowan
+sageretia
+saguaro
+salak
+salal berry
+salmonberry
+sandpaper fig
+santol
+sapodilla
+sapote
+saskatoon
+saskatoonberry
+satsuma
+sea grape
+sea-buckthorn
+serviceberry
+shipova
+siberian kiwi
+silkworm thorn
+snow berry
+soncoya
+soursop
+star apple
+strawberry-guava
+strawberry-pear
+sugar apple
+surinam cherry
+sweet apple-berry
+sweet lemon
+sweetsop
+sycamore fig
+sycomore
+tamarillo
+tamarind
+tanjong
+taxus baccata
+texas persimmon
+thimbleberry
+toyon
+ugn
+uva/grape
+velvet tamarind
+voavanga
+water apple
+wax apple
+wax gourd
+white aspen
+white mulberry
+white sapote
+wild orange
+wineberry
+winter melon
+wolfberry
+wongi
+wood apple
+xigua
+xylocarp
+yali pear
+yamamomo
+yangmei
+yellow plum
+yumberry
+zhe
+zigzag vine
+ziziphus

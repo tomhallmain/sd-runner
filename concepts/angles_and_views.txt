@@ -74,3 +74,19 @@ Street, 35mm, f/2.8
 Astrophotography, 14mm, f/2.8
 Product, 50mm, f/8
 
+
+
+# --- sd-wildcards merge ---
+dutch angle
+from behind
+from behind, looking at viewer
+from behind, looking away
+from below, looking at viewer
+from below, looking away
+from side
+from side, looking at viewer
+from side, looking away
+pov, looking at viewer
+pov, looking away
+sideways
+straight-on

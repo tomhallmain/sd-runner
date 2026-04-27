@@ -862,3 +862,386 @@ yard sale
 yonder
 zeppelin
 zoo
+
+
+# --- sd-wildcards merge ---
+Xanadu: A magical kingdom ruled by a wise and benevolent queen
+neverland: A lost island where children can stay forever young
+Shambhala: A hidden paradise where enlightened beings live in perfect harmony
+Fairyland: A place where fairies and other magical creatures live
+Oz: A land of enchantment, where anything is possible
+Mordor: A dark and evil land ruled by the dark lord Sauron
+Narnia: A land of talking animals and magical creatures, ruled by Aslan the lion
+Middle Earth: A vast and ancient world, home to Elves, Dwarves, Hobbits, and Wizards
+Wonderland: A wild and fantastical place, ruled by the Queen of Hearts
+A magical kingdom where everything is perfect and everyone is happy
+A dark, foreboding castle where a wicked queen reigns
+A fairytale land where magical creatures live and thrive
+A tropical paradise where the sun shines brightly every day
+An enchanted forest where magical creatures and plants abound
+The Vale of Shadows: A dark and foreboding valley where no sunlight ever penetrates
+The Forest of Mirrors: A place where reality is distorted and nothing is as it seems
+The Crystal Cave: A fantastical place where gemstones and crystals grow in abundance
+The Dragon's Lair: A deadly place where fearsome dragons dwell
+The Tower of Oblivion: A stronghold where forgotten secrets and dark magic are hidden
+The Island of Dreams: A place where all your deepest desires come true
+The City of Glas
+The Enchanted Forest
+The Kingdom of the Unicorn
+The Isle of the Dragon
+The Valley of the Lost
+The City of Mirrors
+The Palace of Dreams
+The Tower of Destiny
+The Castle of Shadows
+The Mountain of Fire
+The Shattering Isles
+The Isle of Doom
+The Shrine of the Lost
+The Valley of the Damned
+The Tower of Shadows
+art deco interior
+art nouveau interior
+asian interior
+beach house interior
+bohemian interior
+boho chic interior
+cabin interior
+chic interior
+coastal interior
+colonial interior
+contemporary interior
+cottage interior
+country interior
+craftsman interior
+eclectic interior
+english country interior
+farmhouse interior
+french country interior
+futuristic interior
+glam interior
+gothic interior
+greek interior
+hippie chic interior
+hollywood regency interior
+industrial interior
+japanese interior
+luxury interior
+medieval interior
+mediterranean interior
+mid-century modern interior
+minimalist interior
+modern interior
+moroccan interior
+nautical interior
+old hollywood interior
+parisian interior
+provence interior
+romantic interior
+rustic interior
+scandinavian interior
+shabby chic interior
+shaker interior
+spanish interior
+steampunk interior
+traditional interior
+tropical interior
+tudor interior
+urban modern interior
+victorian interior
+abstract landscape
+aerial landscape
+architectural landscape
+botanical landscape
+cityscapes
+desertscapes
+ecological landscape
+fantasy landscape
+flowering landscape
+forestscapes
+historical landscape
+industrial landscape
+landscape in black and white
+landscape in color
+landscape with Analogous Colors
+landscape with animals
+landscape with Asymmetry
+landscape with Atmospheric Perspective
+landscape with Balance
+landscape with Bright Colors
+landscape with chroma
+landscape with colors
+landscape with Complementary Colors
+landscape with contrast
+landscape with Contrast of Brightness and Darkness
+landscape with Contrast of Earth Tones and Non-Earth Tones
+landscape with Contrast of Hue
+landscape with Contrast of Intensity
+landscape with Contrast of Lightness
+landscape with Contrast of Saturation
+landscape with Contrast of Visual Weight
+landscape with Contrast of Warmth and Coolth
+landscape with Cool Colors
+landscape with Curvilinear
+landscape with Dark Colors
+landscape with depth
+landscape with dimensions
+landscape with Dimetric Perspective
+landscape with Dominance
+landscape with earth
+landscape with Earth Colors
+landscape with Emphasis
+landscape with fire
+landscape with Focal Point
+landscape with form
+landscape with Four-Point Perspective
+landscape with Freeform
+landscape with Geometric
+landscape with Gradation
+landscape with Hard Texture
+landscape with Harmony
+landscape with Horizontal Balance
+landscape with hue
+landscape with intensity
+landscape with Isometric Perspective
+landscape with light
+landscape with lightness
+landscape with Linear Perspective
+landscape with moon
+landscape with movement
+landscape with Multi-Point Perspective
+landscape with Neutral Colors
+landscape with One-Point Perspective
+landscape with Organic
+landscape with Pattern
+landscape with people
+landscape with perspective
+landscape with Proportion
+landscape with Quadrilateral
+landscape with Radial Balance
+landscape with Rectilinear
+landscape with Repetition
+landscape with rhythm
+landscape with Rough Texture
+landscape with saturation
+landscape with scale
+landscape with shade
+landscape with shadow
+landscape with shapes
+landscape with Simultaneous Contrast
+landscape with Single-Point Perspective
+landscape with sky
+landscape with Smooth Texture
+landscape with Soft Texture
+landscape with space
+landscape with stars
+landscape with Subordination
+landscape with sun
+landscape with Symmetry
+landscape with temperature
+landscape with Texture
+landscape with Three-Point Perspective
+landscape with time
+landscape with tint
+landscape with tone
+landscape with Triangulation
+landscape with Trimetric Perspective
+landscape with Two-Point Perspective
+landscape with Unity
+landscape with value
+landscape with Variety
+landscape with Vertical Balance
+landscape with Visual Weight
+landscape with Warm Colors
+landscape with water
+landscape with wind
+landscape withlines
+maximalist landscape
+minimalist landscape
+mountainscapes
+mythological landscape
+panoramic landscape
+political landscape
+religious landscape
+scientific landscape
+seascapes
+skyscapes
+snowscapes
+surreal landscape
+airfield
+airplane interior
+alleyway
+amphitheater
+arena
+armory
+asteroid
+autumn
+bed room
+bell tower
+bouncy castle
+bowling alley
+bunker
+bus interior
+cafeteria
+camp
+capitol building
+car interior
+carousel
+cave
+changing room
+city
+classroom
+clock tower
+clubroom
+cockpit
+colosseum
+conservatory
+construction site
+control tower
+convention
+cooling tower
+corn maze
+cosmic
+court
+cubicle
+cyberpunk city
+dark tunnel
+dining room
+dirt road
+dock
+drydock
+fantasy city
+ferris wheel
+field of flowers
+field of wheat
+fire
+fitting room
+floating castle
+floating city
+floating island
+flower field
+flower garden
+flower shop
+frozen lakeside
+geyser
+glacier
+guard tower
+gym storeroom
+hangar
+haunted library
+hen house
+highway
+hotel room
+house
+infernal palace
+infirmary
+izakaya
+jewish temple
+jungle
+laboratory
+lake
+lighthouse
+locker room
+lunar base
+mall
+market stall
+meadow
+medieval village
+megastructure
+messy room
+military base
+minaret
+moon
+mosque
+mountain
+movie theater
+mushroom forest
+night sky
+nightclub
+nuclear powerplant
+oasis
+ocean bottom
+onsen
+otaku room
+pagoda
+path
+phone booth
+pier
+plain
+pond
+pool
+poolside
+powerplant
+prison
+prison cell
+railroad crossing
+railroad tracks
+ramen shop
+refinery
+rice paddy
+river
+road
+roman city
+rope bridge
+rose garden
+ruins
+runway
+rural
+ship
+shower
+simple
+skating rink
+slums
+soccer field
+spacecraft interior
+staff room
+stage
+stilt house
+stone walkway
+storage room
+stream
+sunset
+tank interior
+tavern
+tower
+town
+train interior
+underworld
+valley
+vehicle interior
+village
+volcano
+war
+wasteland
+water
+waterpark
+weapon shop
+well
+wetland
+wheat field
+windmill
+wooden bridge
+wrestling ring
+bog
+chasm
+clime
+crag
+creek
+crest
+delta
+gorge
+grassland
+grotto
+hinterland
+lagoon
+mesa
+moor
+morass
+mossland
+peak
+plateau
+reef
+rock
+sandbar
+scrubland
+sea

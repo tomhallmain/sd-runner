@@ -5294,3 +5294,988 @@ Animaniacs
 
 
 
+
+
+# --- sd-wildcards merge ---
+ancients
+andromedan
+angelic being
+annunaki
+ant people
+aquatic alien
+arcturian
+bigfoot
+cenobite
+centauroid
+crystalline being
+four-armed being
+fungoid
+gaseous being
+grey alien
+hive-mind
+interdimensional being
+jellyfish alien
+kaulder
+light being
+little green men
+lizard people
+mechanical alien
+mothman
+mothmen
+multi-dimensional being
+nephilim
+non-human entity
+parasitic entity
+phantom
+phantom entity
+pleiadian
+reptilian
+reptilian alien
+saurian
+shape-shifter
+ultraterrestrial
+vault dweller
+wormhole dweller
+zeta reticuli
+angel of destruction
+angel of healing
+angel of light
+angel of love
+angel of mercy
+angel of peace
+angel of power
+angel of prosperity
+angel of protection
+archai
+archangel
+archangel of destruction
+archangel of light
+archangel of love
+archangel of mercy
+archangel of peace
+archangel of power
+archangel of prosperity
+archangel of protection
+archangels of healing
+archangels of the elements
+archangels of the zodiac
+archon
+archon of the presence
+ascended master
+ascended master angel
+ascending angel
+cherub
+cherubim
+cherubim angel
+dominion
+dominion angel
+dominions
+elohim
+elohim angel
+guardian angel
+guardian angels of the element
+guardian seraphim
+healing angel
+malakhim
+malakhim angel
+principalities
+principalities angel
+seraph
+seraphim
+seraphim angel
+throne angel
+virtue angel
+abjurer
+acrobat
+alchemist
+anchorite
+apocalyptist
+arcane archer
+archmage
+armiger
+astromancer
+auspex
+avenger
+barbarian
+barbarian chieftain
+battle priest
+battlemage
+beast warrior
+beastlord
+berserker
+binder
+black belt
+black knight
+blackguard
+bladesinger
+blizzard mage
+blue mage
+bounty hunter
+brawler
+brewmaster
+builder
+cannoneer
+chaplain
+chi monk
+child of the moon
+chosen of the spider queen
+chronomancer
+chrononaut
+commando
+cryomancer
+cultist of the dark lady
+daemonhost
+dancer
+dawnstrider
+devastator
+devotee of the goblin king
+divine born
+diviner
+doomseeker
+dragon knight
+dragon rider
+dreadnaught
+druid
+duelist
+dust walker
+eclipse
+edgewalker
+elementalist
+enchanter
+enforcer
+evangelist
+executioner
+exorcist
+explorer
+far seer
+fencer
+firebrand
+flagellant
+forgeborn
+gambler
+geomancer
+ghoststrider
+gladiator
+grudge bearer
+gunner
+gunslinger
+halberdier
+harrower
+herald of endings
+hexer
+high cleric
+highlander
+holy matron
+horned one
+horse archer
+hydromancer
+ice apostle
+illusionist
+investigator
+invoker
+jack-of-all-trades
+juggernaut
+keeper of the flame
+kineticist
+lawbreaker
+legalist
+librarian
+machinist
+mage knight
+mage of the tower
+mageblade
+magic knight
+magician
+magister
+magus
+maleficant
+marauder
+martial artist
+mask
+mechanic
+mentalist
+mercenary
+mesmerist
+metallurgist
+mime
+mindwitch
+minstrel
+monster hunter
+mountebank
+musketeer
+myrmidon
+mystic knight
+mystic navigator
+nightstalker
+occultist
+orb master
+outlander
+paragon
+phantasmist
+pharmacist
+phaseshifter
+pit fighter
+preacher
+priest of old man winter
+priest of revel
+priest of summer
+priest of the dark gods
+priest of the honored dead
+priest of the horned king
+priest of the maiden
+priest of the new god
+priest of the old faith
+priest of the radiant one
+priest of the seer
+priest of the spider queen
+priest of the world mother
+priest of witchcraft
+prince of darkness
+privateer
+psion
+psyblade
+psychic warrior
+psychokinetic
+puppetmaster
+pyroclast
+raider
+ranger
+ravager
+reaver
+red cloak
+red mage
+road warrior
+rogue thief
+ruiner
+runecaster
+runepriest
+runewright
+saboteur
+saint
+samurai
+sapper
+satyr
+sea captain
+shadow
+shadowdancer
+shadowmancer
+shaman
+sharpshooter
+shroud
+silencer
+skindancer
+skirmisher
+skydancer
+slayer
+slayer of the dead
+sleuth
+spellbinder
+spellguard
+spellmaster
+spellsinger
+spellsniper
+spellweaver
+spider rider
+spider savant
+spidermage
+spiritualist
+stormbringer
+summoner
+swashbuckler
+sword dancer
+swordmage
+sylvan ranger
+tactician
+taskmaster
+technomancer
+tempest
+templar
+tenebrist
+thaumaturge
+thrallbinder
+trapper
+tree shepherd
+trickster
+troll hunter
+trooper
+vampire
+vampire hunter
+vancian magician
+vigilante
+warden
+wardscribe
+warlock
+warpriest
+warrior
+warrior spirit
+weapon master
+weather mage
+white mage
+winged warrior
+witch
+witch doctor
+witch hunter
+witchdoctor
+witchhunter
+world-breaker
+adonis
+amaterasu
+ana
+anansi
+anhur
+anubis
+aphrodite
+ares
+arjuna
+artemis
+astarte
+athena
+baldr
+baphomet
+baron samedi
+bastet
+brahma
+brigid
+cernunnos
+cerridwen
+cronus
+demeter
+dionysus
+durga
+epona
+eros
+fenrir
+freya
+ganesha
+green man
+hecate
+hera
+hercules
+horus
+indra
+ishtar
+isis
+kali
+kali ma
+krishna
+kwan yin
+lady of the lake
+maat
+marduk
+medusa
+mefistofele
+mermaids
+mithra
+monkey king
+morrigan
+nephthys
+norse gods
+odin
+oya
+persephone
+peter
+prometheus
+quan yin
+ra
+rajah
+raven
+shiva
+sirtis
+skadi
+talos
+taurus
+tiamat
+typhon
+uranus
+vishnu
+vyasa
+xochiquetzal
+xolotl
+yahweh
+yemoja
+yhwh
+zeus
+Aaliyah
+Abigail
+Adalyn
+Addison
+Adeline
+Adriana
+Ainsley
+Alaina
+Alana
+Alejandra
+Alexa
+Alexis
+Alicia
+Allison
+Alyssa
+Amaya
+Amelia
+Angélica
+Annabelle
+Antonia
+Aria
+Ariana
+Aubree
+Aubrey
+Audrey
+Autumn
+Averie
+Avery
+Avianna
+Aylin
+Bailey
+Beatriz
+Bella
+Blanca
+Brooklynn
+Brynlee
+Callie
+Cameron
+Camila
+Carlota
+Carmen
+Carolina
+Caroline
+Charlotte
+Claire
+Concepción
+Cora
+Dakota
+Daniela
+Dolores
+Eden
+Eleanor
+Eliana
+Eliza
+Elizabeth
+Ella
+Ellie
+Elsie
+Emerson
+Emery
+Emilia
+Emily
+Esperanza
+Eva
+Evelyn
+Everleigh
+Fernanda
+Finley
+Florencia
+Francisca
+Gabriela
+Gabriella
+Genevieve
+Gianna
+Gloria
+Grace
+Harper
+Hayden
+Hazel
+Inés
+Isabel
+Isabella
+Isabelle
+Isla
+Ivonne
+Ivy
+Jimena
+Jordyn
+Josie
+Juana
+Juliette
+Kaylee
+Kennedy
+Kinsley
+Kylie
+Laura
+Lauren
+Layla
+Leilani
+Leonor
+Lila
+Lilah
+Lillian
+Lily
+Lucy
+Lucía
+Luna
+Mackenzie
+Madeline
+Madelyn
+Madison
+Makayla
+Mariah
+Marisol
+Marta
+María
+María José
+María del Pilar
+Maya
+Melanie
+Mercedes
+Mia
+Mila
+Milagros
+Nadia
+Natalie
+Nora
+Norah
+Nova
+Olivia
+Paige
+Paisley
+Parker
+Patricia
+Pilar
+Piper
+Quinn
+Remi
+Riley
+Rosa
+Rylee
+Sadie
+Samantha
+Scarlett
+Serenity
+Shelby
+Sienna
+Skylar
+Sofía
+Soledad
+Sophia
+Sophie
+Stella
+Teresa
+Valeria
+Valerie
+Verónica
+Vivian
+Willow
+Ximena
+Yolanda
+Zoe
+Aarav
+Ace
+Adrian
+Aidan
+Alden
+Aldo
+Alec
+Alen
+Alex
+Alfredo
+Alistair
+Angel
+Anson
+Anthony
+Arjun
+Armando
+Arturo
+Ashton
+Atticus
+Austin
+Axel
+Ayden
+Baylor
+Beau
+Beckham
+Blake
+Bohdi
+Bowen
+Bradley
+Branden
+Brandon
+Brantley
+Brayden
+Brock
+Brody
+Brycen
+Bryson
+Caden
+Caiden
+Callum
+Camden
+Camron
+Cannon
+Carson
+Carter
+Cassius
+Cayson
+Cedric
+Channing
+Charles
+Chase
+Christian
+Christopher
+Colby
+Colton
+Connor
+Cooper
+Crew
+Damian
+Damon
+Daniel
+Darian
+David
+Declan
+Denver
+Derek
+Dominic
+Drake
+Drew
+Dylan
+Easton
+Edison
+Elian
+Elliot
+Emanuel
+Emmitt
+Enzo
+Evan
+Finnegan
+Ford
+Gael
+Gage
+Garrett
+Gavin
+Grayson
+Greyson
+Griffin
+Harris
+Harrison
+Hendrix
+Holden
+Hudson
+Ian
+Isaac
+Jack
+Jackson
+Jaden
+Jaiden
+Jake
+Jameson
+Jaxon
+Jaxson
+Jayce
+Jayden
+Jett
+John
+Juan
+Judah
+Julian
+Justice
+Justin
+Kai
+Kaiden
+Kairo
+Karter
+Keegan
+Kendrick
+Knox
+Kyrie
+Landon
+Landry
+Leo
+Lincoln
+Logan
+Maddox
+Mason
+Mateo
+Matteo
+Maverick
+Memphis
+Miles
+Miller
+Milo
+Nash
+Nathaniel
+Niko
+Nolan
+Oliver
+Otto
+Owen
+Pablo
+Phoenix
+Quentin
+Raylan
+Reid
+Remington
+Remy
+Rhett
+Rhys
+Riggs
+Riker
+River
+Rohan
+Roman
+Rowan
+Ryan
+Ryker
+Sebastian
+Shawn
+Soren
+Tanner
+Thatcher
+Theodore
+Thomas
+Tobias
+Tristan
+Tyler
+Vihaan
+Weston
+William
+Winston
+Wyatt
+Zane
+Zayn
+Alchemy
+Apprentice
+Archer
+Battering Ram
+Black Ice
+Black Magic
+Breaking Point
+Burn Mark
+Candlelight
+Castle Gate
+Castle Wall
+Countermeasure
+Dark Elf
+Dark Elves
+Defender
+Dreaming
+Drow Elf
+Drow Elves
+Dwarves
+Elves
+Explosion
+Fang
+Figure
+Gems
+Gemstones
+Gentle Wind
+Goblin
+Goblins
+Golum
+Ground
+Gryphon
+Guard
+Guardhouse
+Guild
+Hippogriff
+Hobbits
+Imp
+Imps
+Interloper
+Lich
+Magic Spell
+Magical Power
+Magnetic North
+Mayhem
+Monster
+Moonbeam
+Mystic
+Pandemonium
+Psychic
+Radiation
+Resistance
+Scroll
+Scrolls
+Serpent
+Shard
+Skeleton Warrior
+Skeleton
+Skeletons
+Society
+Sorceress
+Sorcery
+Southeast
+Spellcaster
+Spirit World
+Squire
+Stare Down
+Strike Down
+Stronghold
+Sunburst
+Survivor
+Tavern
+Third Eye
+Throw Back
+Thunderclap
+Treasure
+Undead
+Undersurface
+Underworld
+Watchman
+Whisperer
+Wind
+Wizardry
+Wood Elf
+Wood Elves
+World
+ant-man
+aquaman
+astro boy
+batgirl
+batman
+batwoman
+black canary
+black panther
+black widow
+bucky barnes
+cable
+cain marko
+captain america
+captain britain
+captain marvel
+carnage
+catwoman
+colossus
+conan the barbarian
+cyclone
+cyclops
+daredevil
+deadman
+deadpool
+deadshot
+doctor fate
+doctor octopus
+donatello
+electra
+electro
+elektra
+emma frost
+fantastic four
+flash gordon
+galactus
+gambit
+gamora
+gorilla grodd
+green arrow
+green lantern
+groot
+harley quinn
+harvey dent
+harvey two-face
+havok
+hawkeye
+hawkgirl
+hawkman
+hulk
+human torch
+iceman
+invisible woman
+iron man
+j jonah jameson
+jean grey
+johnny blaze
+judge dredd
+kamala khan
+kang the conqueror
+killer croc
+kilowog
+kingpin
+kitty pryde
+lady deathstrike
+larfleeze
+lex luthor
+luke cage
+magneto
+malekith
+martian manhunter
+mephisto
+mera
+mister fantastic
+mystique
+nick fury
+nightcrawler
+nightwing
+poison ivy
+power girl
+professor x
+red hood
+riddler
+rocket raccoon
+roy harper
+sabretooth
+sandman
+scarecrow
+scarlet witch
+shatterstar
+she-hulk
+she-venom
+shredder
+silver surfer
+sinestro
+spider-man
+spider-woman
+starfire
+storm
+sue storm
+supergirl
+superman
+superwoman
+the atom
+the black cat
+the crimson dynamo
+the defenders
+the falcon
+the flash
+the joker
+the kingpin
+the mandarin
+the phantom
+the rocketeer
+the thing
+the vision
+toad
+two-face
+venom
+vixen
+white queen
+wonder woman
+zatanna
+zoom
+aboriginal australians
+andamanese
+aymara
+baka
+bantu
+basque
+bedouin
+berber
+bushmen
+celt
+cherokee
+chukchi
+dene
+eskimo
+hmong
+inuit
+iroquois
+khoisan
+kikuyu
+kurd
+lakota
+mapuche
+navajo
+oromo
+papago
+pima
+roma
+semang
+seminole
+shoshone
+sioux
+toda
+tuareg
+uighur
+vedda
+wodaabe
+yakut
+yuchi
+yupik
+zulu

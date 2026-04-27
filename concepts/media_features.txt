@@ -2692,3 +2692,887 @@ zentangle art
 zest
 zigzag
 Zitternbewegung
+
+
+# --- sd-wildcards merge ---
+2d sprite
+ambient lighting
+ambient occlusion
+anti-aliasing
+augmented reality
+chromatic abberation
+direct lighting
+flat shading
+fxaa
+global illumination
+indirect illumination
+lumen global illumination
+manhattan distance
+microdisplacement
+nanite geometry
+path traced
+pbr material
+phong shading
+physically based rendering (pbr)
+post processed
+procedural generation
+procedural texture
+raster graphics
+ray traced
+screen space ambient occlusion
+skybox
+terrain rendering
+virtual reality
+voronoi manhattan
+voronoi minkowski
+voxel engine
+voxel geometry
+wireframe model
+wireframe rendering
+baroque
+baroque architecture
+bauhaus architecture
+bilateral symmetry
+brutalism architecture
+brutalist
+buddhist architecture
+byzantine architecture
+cambodian khmer architecture
+cantonese architecture
+chinese aesthetic
+churrigueresco architecture
+churrigueresque architecture
+colonial
+colonial architecture
+compact
+composite architecture
+confucius era
+congested
+corinthian architecture
+cosmological concept architecture
+cubist
+decorated style
+diminutive
+doric architecture
+early christian architecture
+early english architecture
+eastern roman
+eclectic architecture
+economical
+edwardian architecture
+effusive
+empire architecture
+engawa
+facade
+federation architecture
+french colonial architecture
+functionalism
+fusuma
+futurist
+gan architecture
+genkan
+georgian
+georgian architecture
+gothic architecture
+gothic revival architecture
+greek
+hakka architecture
+heisei architecture
+heisei period
+hokkien architecture
+horizontal emphasis
+hui style architecture
+hutong architecture
+imperial architecture
+imperial russia architecture
+international
+international style
+ionic
+islamic architecture
+italianate
+jacobean architecture
+japanese aesthetic
+kievan rus architecture
+korean aesthetic
+lingnan architecture
+longtang architecture
+louis quatorze
+louis quinze
+louis seize
+louis treize
+meiji architecture
+meiji period
+mid-century modern
+minimalist
+minnan architecture
+modern
+modern russian architecture
+moderne
+modernist
+monolithic
+moorish architecture
+morisco architecture
+mudéjar architecture
+muscovite architecture
+neo-tropical
+neoclassicial
+new indies architecture
+opaque
+pagan roman
+palladian
+persian architecture
+pervasive
+pleasant
+post-modernism
+postmodern
+postmodernism
+postwar soviet architecture
+queen-anne architecture
+queenslander
+reflective
+regency architecture
+relgious architecture
+renaissance architecture
+resemble
+revivalist
+rococo
+rococo architecture
+roman architecture
+romanesque
+romanesque architecture
+russian aesthetic
+saharan
+saracen architecture
+shanghainese architecture
+shanxi architecture
+shikumen architecture
+shoji
+shōwa architecture
+shōwa period
+southern colonial
+soviet union architecture
+spanish colonial
+spanish colonial architecture
+streamline
+suspended
+taishō architecture
+taishō period
+tatami
+tibetan architecture
+transition
+transitional
+tudor
+tudor architecture
+tudorbethan
+tuscan architecture
+victorian
+victorian architecture
+xinjiang architecture
+yaodong architecture
+4:3 aspect ratio
+5:4 aspect ratio
+2:1 aspect ratio
+1.33:1 aspect ratio
+16:9 aspect ratio
+1.85:1 aspect ratio
+2.39:1 anamorphic aspect ratio
+2.76:1 (70mm) aspect ratio
+1.37:1 (Academy) aspect ratio
+2.59:1 (Cinerama) aspect ratio
+2.65:1 (Cinerama) aspect ratio
+2.35:1 (Cinemascope) aspect ratio
+2.66:1 (Cinemascope) aspect ratio
+cosmic
+simple
+classroom
+jungle
+city
+lake
+ship
+roman city
+medieval village
+fantasy city
+cyberpunk city
+war
+fire
+prison
+valley
+field of flowers
+field of wheat
+mountain
+jewish temple
+colosseum
+lunar base
+cave
+slums
+sunset
+infernal palace
+frozen lakeside
+bouncy castle
+hen house
+autumn
+haunted library
+camp
+capitol building
+corn maze
+night sky
+moon
+alleyway
+court
+ramen shop
+pagoda
+wrestling ring
+mushroom forest
+Nikon
+Sony
+Olympus
+Panasonic
+Pentax
+Leica
+Hasselblad
+Kodak
+Canon EOS Rebel T7 DSLR Camera
+Sony a7 IV Mirrorless Camera
+Canon EOS R6 Mirrorless Camera
+Canon EOS 5D Mark IV DSLR Camera
+Sony a6600 Mirrorless Camera
+Canon EOS RP Mirrorless Camera
+Canon EOS Rebel T8i DSLR Camera
+Canon EOS R5 Mirrorless Camera
+Canon EOS R Mirrorless Camera
+Canon EOS M6 Mark II Mirrorless Camera
+Canon EOS M50 Mark II Mirrorless Camera
+Canon EOS 90D DSLR Camera
+Sony a7 III Mirrorless Camera
+Sony a6400 Mirrorless Camera
+Sony a7R IV Mirrorless Camera
+Sony a7S III Mirrorless Camera
+Sony ZV-E10 Mirrorless Camera
+Sony a9 II Mirrorless Camera
+Sony a7C Mirrorless Camera
+Sony a6100 Mirrorless Camera
+Nikon Z6 II Mirrorless Camera
+Nikon Z7 II Mirrorless Camera
+Nikon D3500 DSLR Camera
+Nikon D850 DSLR Camera
+Nikon Z fc Mirrorless Camera
+Nikon D7500 DSLR Camera
+Nikon Z5 Mirrorless Camera
+Fujifilm X-H2S Mirrorless Camera
+Fujifilm X-T30 II Mirrorless Camera
+Panasonic Lumix G7 Mirrorless Camera
+Fujifilm X-S10 Mirrorless Camera
+Panasonic Lumix GH6 Mirrorless Camera
+Fujifilm X-T4 Mirrorless Camera
+Panasonic Lumix GH5 II Mirrorless Camera
+Vest Pocket Autographic Kodak Camera
+Kodak 616 Junior Camera
+Kodak 35 Camera
+Kodak PIXPRO FZ43 16MP Digital Camera
+Kodak PIXPRO AZ252 16.15MP Digital Camera
+Kodak PIXPRO FZ152 16MP Digital Camera
+Kodak PIXPRO AZ241 16.15MP Digital Camera
+Kodak PIXPRO AZ401 16MP Digital Camera
+Kodak Smile 10MP Digital Camera
+Yashica T4 Camera
+Konica Hexar AF Camera
+Nikon L35AF Camera
+Olympus XA2 Camera
+Olympus OM-1 Camera
+Nikon F2 Camera
+Nikon FE Camera
+Pentax 67 Camera
+Pentax K1000 Camera
+Canon AE-1 Camera
+Canon A2/A2e Camera
+Plaubel Makina W67 Camera
+Lubitel 2
+Kodak No 3A Folding Pocket Camera
+Canon G III QL17 Camera
+Polaroid SX-70 Alpha Camera
+Graflex Century Graphic 2×3 Camera
+Pentacon Six TL Camera
+Zenza Bronica ETRSi Camera
+Hasselblad 500C Camera
+Contax G1/G2 Camera
+Leica M3 Double Stroke Camera
+Leica M6 Camera
+Horseman 4×5 (45HD) Camera
+Mamiya 7 II Camera
+Elaborate
+Intricate
+Complicated
+Convoluted
+Extensive
+Exhaustive
+Far-reaching
+Informative
+In-depth
+Thorough
+Step-by-step
+Exact
+Precise
+Lavish
+Sumptuous
+opulent
+Intricately designed
+Grandiose
+Magnificent
+Precious
+Imperceptible detail
+ƒ/1
+ƒ/1.4
+ƒ2
+ƒ/2.8
+ƒ4
+ƒ/5.6
+ƒ/8
+ƒ/11
+ƒ/16
+ƒ/22
+contemporary fantasy
+dark fantasy
+epic fantasy
+fairy tale fantasy
+fantasy of terror
+heroic fantasy
+high fantasy
+historical fantasy
+low fantasy
+magic realism
+mythic fantasy
+new weird fantasy
+paranormal fantasy
+portal fantasy
+science fantasy
+sword and sorcery
+urban fantasy
+weird fiction
+wuxia fantasy
+action
+adventure
+animation
+comedy
+crime
+film noir
+historical
+horror
+musical
+mystery
+romance
+western
+4mm - 14mm  focal length
+Fisheye focal length
+14mm - 35mm  focal length
+Wide angle focal length
+35mm - 85mm  focal length
+Standard focal length
+85mm - 135mm
+Short telephoto focal length
+135mm+ focal length
+Medium telephoto focal length
+300mm+ focal length
+Macro focal length
+60s kitsch and psychedelia
+abstract illusionism
+ambrotype
+american romanticism
+anaglyph effect
+anaglyph filter
+blueprint
+chillwave
+cottagecore
+crayon art
+dark academia
+digital art
+dutch golden age
+fractalism
+fresco
+futuresynth
+german romanticism
+gothic art
+graffiti
+hyperrealism
+infrared
+multiple exposure
+narrative realism
+photorealism
+realism
+retrowave
+Sabattier effect
+Sabattier filter
+street art
+synthwave
+afrofuturism
+avant-garde
+calotype
+camcorder effect
+daguerreotype
+doge
+figurativism
+holography
+inverted colors
+mac and cheese
+manga
+modernism
+naturalism
+positivism
+stuckism
+symbolism
+the matrix
+tonalism
+abstract art
+action painting
+agrarian art
+analytical cubism
+antique lithograph
+art brut
+black art
+classicism
+clean vector
+concept
+conceptual art
+cyberpunk
+dada
+decorative art
+dieselpunk
+fauvism
+fluxus
+folk art
+functional art
+futurism
+land art
+linocut
+massurrealism
+medieval
+modern art
+naive art
+neo-expressionism
+neo-impressionism
+neo-pop art
+neoclassicism
+new realism
+op art
+orientalism
+painting
+photoreal
+pop art
+post-impressionism
+post-impressionist
+post-modern art
+psychedelic
+romanticism
+sci-fi
+social realism
+steampunk
+tachisme
+visual art
+2k resolution
+4k resolution
+8k resolution
+12k resolution
+16k resolution
+32k resolution
+High resolution
+High definition
+HD
+HDR
+Blu-ray
+HD-DVD
+ISO 100
+ISO 200
+ISO 400
+ISO 800
+ISO 1600
+ISO 3200
+ISO 6400
+ISO 12500
+ISO 25600
+ISO 51200
+ISO 102400
+ISO 204800
+ISO 409600
+abstract expressionism
+academic art
+altermodern
+american barbizon school
+american impressionism
+american realism
+american scene painting
+analytical art
+antipodeans
+arbeitsrat für kunst
+art & language
+art informel
+art photography
+arte povera
+arts and crafts movement
+ascii art
+ashcan school
+australian tonalism
+auto-destructive art
+barbizon school
+bauhaus
+bengal school of art
+berlin secession
+black arts movement
+classical realism
+cloisonnism
+cobra
+color field
+computer art
+concrete art
+constructivism
+context art
+crystal cubism
+cubo-futurism
+cynical realism
+dansaekhwa
+danube school
+dau-al-set
+de stijl (also known as neoplasticism)
+deconstructivism
+ecological art
+environmental art
+excessivism
+fantastic realism
+feminist art
+figuration libre
+figurative art
+fine art
+funk art
+geometric abstract art
+golden age
+graffiti/street art
+gutai group
+harlem renaissance
+heidelberg school
+hudson river school
+hurufiyya
+hypermodernism
+incoherents
+institutional critique
+interactive art
+international gothic
+international typographic style
+kinetic art
+kinetic pointillism
+kitsch movement
+les automatistes
+les nabis
+letterism
+light and space
+lowbrow
+lyco art
+lyrical abstraction
+mail art
+metaphysical painting
+modern european ink painting
+modular constructivism
+neo-dada
+neo-fauvism
+neo-figurative
+neo-primitivism
+neo-romanticism
+neogeo (art)
+neoism
+net art
+new objectivity
+new sculpture
+northwest school
+nuclear art
+objective abstraction
+orphism
+panfuturism
+paris school
+plasticien
+plein air
+pointillism
+postminimalism
+pre-raphaelitism
+precisionism
+primitivism
+private press
+process art
+psychedelic art
+purism
+qajar art
+quito school
+rasquache
+rayonism
+regionalism
+remodernism
+retrofuturism
+samikshavad
+serial art
+shin hanga
+shock art
+socialist realism
+sots art
+space art
+sumatraism
+superflat
+suprematism
+synchromism
+synthetism
+sōsaku hanga
+tachisme (aka informel)
+temporary art
+toyism
+transgressive art
+ukiyo-e
+underground comix
+unilalianism
+vancouver school
+vanitas
+verdadism
+video art
+viennese actionism
+vorticism
+baroque oil painting
+cubism oil painting
+expressionism oil painting
+fauvism oil painting
+hyperrealism oil painting
+impressionism oil painting
+mannerism oil painting
+modernism oil painting
+pointillism oil painting
+realism oil painting
+renaissance oil painting
+romanticism oil painting
+surrealism oil painting
+tenebrism oil painting
+tonalism oil painting
+ubiquitous oil painting
+vanguardism oil painting
+asymmetry
+balance
+converging lines
+diagonal lines
+digital camera
+dof
+emphasis
+fill the frame
+focal point
+foreground interest
+frame within a frame
+golden triangle
+implied lines
+leading lines
+light and shadow
+odd numbers
+optical camera
+over exposed
+proximity
+radial balance
+repetition
+s-curve
+short exposure
+simplicity
+symmetry
+triangles
+Standing
+Against a wall
+Looking straight at the camera
+Looking off to the side
+Close-up
+Mid-range
+Wide shot
+Headshot
+3/4 shot
+Full body shot
+Environmental portrait
+Sitting down with legs crossed
+Laying down on one's back
+propped up on one elbow (resting)
+propped up on one hand (sitting or standing)
+leaning against a wall
+head tilted to the side
+looking over one shoulder
+looking off into the distance
+arnold
+corona renderer
+cycles
+eevee
+fstorm render
+luxcore render
+mantra
+octane
+thea render
+v-ray
+3d rendering
+cell shading render
+cgi render
+flat design render
+gouache render
+hyper-realism render
+isometric render
+line art render
+matte painting render
+mosaic render
+painterly render
+pixel art render
+realism render
+sculpted render
+stylized render
+technical drawing render
+toon shading render
+vector art render
+alternate history
+feminist science fiction
+hard science fiction
+military science fiction
+new wave science fiction
+post-apocalyptic
+science fiction alternate history
+science fiction apocalyptic and post-apocalyptic
+science fiction cyber-horror
+science fiction cyber-noir
+science fiction cyber-thriller
+science fiction cyberpunk
+science fiction detective
+science fiction dieselpunk
+science fiction dystopian
+science fiction hard science fiction
+science fiction hardboiled
+science fiction horror
+science fiction military science fiction
+science fiction noir
+science fiction science fantasy
+science fiction social science fiction
+science fiction soft science fiction
+science fiction space opera
+science fiction space western
+science fiction speculative fiction
+science fiction steam punk
+science fiction superhero
+science fiction time travel
+science fiction transhumanism
+science fiction western
+science fiction xenopunk
+social science fiction
+soft science fiction
+space opera
+superhero fiction
+time travel
+assembled
+bustrine
+busts
+cast
+column
+engraving
+etched
+figurine
+fountains
+glyph
+headstone
+hieroglyph
+high relief
+low relief
+modelled
+molded
+obelisk
+petroglyph
+pictogram
+plaques
+relief
+runestone
+scrimshaw
+statuary
+statue
+tombstone
+upside-down
+vanishing point
+glitch
+tachi-e
+zoom layer
+cover
+lineart
+photo
+postcard
+anime screencap
+official wallpaper
+official art
+fine art parody
+ligne claire
+nihonga
+realistic
+sketch
+style parody
+surreal
+acrylic paint (medium)
+airbrush (medium)
+ballpoint pen (medium)
+brush (medium)
+chalk (medium)
+calligraphy brush (medium)
+canvas (medium)
+charcoal (medium)
+colored pencil (medium)
+color ink (medium)
+coupy pencil (medium)
+crayon (medium)
+nib pen (medium)
+gouache (medium)
+graphite (medium)
+ink (medium)
+marker (medium)
+millipen (medium)
+oil painting (medium)
+painting (medium)
+pastel (medium)
+tempera (medium)
+watercolor (medium)
+watercolor pencil (medium)
+caustics
+chiaroscuro
+diffraction spikes
+drop shadow
+emphasis lines
+foreshortening
+image_fill
+motion lines
+multiple monochrome
+anaglyph
+exif thumbnail surprise
+open in internet explorer
+open in winamp
+stereogram
+scanlines
+speed lines
+vignetting
+aquarelle watercolor
+color wash watercolor
+dry brush watercolor
+flowing watercolor
+gouache watercolor
+impressionistic watercolor
+loose watercolor
+mosaic watercolor
+naturalistic watercolor
+opaque watercolor
+painterly watercolor
+realistic watercolor
+saturate watercolor
+staining watercolor
+transparent watercolor
+wash watercolor
+wet-on-wet watercolor
+cloud rap
+darkwave
+dream pop
+dreampunk
+electroclash
+electro-industrial
+electropop
+future funk
+glitch hop
+hypnagogic pop
+indietronica
+italo disco
+lo-fi
+new rave
+outrun
+post-disco
+post-punk

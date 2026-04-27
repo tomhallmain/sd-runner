@@ -717,3 +717,1498 @@ young man
 young woman
 xenomorph
 zip tie
+
+
+# --- sd-wildcards merge ---
+8-bit jrpg
+a short hike
+age of empires
+albion
+alone in the dark
+angry birds
+animal crossing
+baldur's gate ii
+baldurs gate
+bastion
+battle axe
+cadillacs and dinosaurs
+candy crush
+carmen sandiego
+castle wolfenstein
+castlevania
+civilization v
+command & conquer red alert
+commander keen
+crusaider no regret
+day of the tentacle
+desert strike
+diablo
+diablo 2
+discworld
+divinity original sin
+escape from monkey island
+factorio
+fall out
+final fantasy
+full throttle
+grand theft auto iii
+grim dawn
+grim fandango
+gta 1
+gta 2
+gta v
+harvest moon
+i have no mouth and i must scream
+indiana jones and the fate of atlantis
+jrpg
+legend of mana
+leisure suit larry
+lemmings
+little big adventure
+lucasarts
+lucasarts adventure games
+magic carpet
+maniac mansion
+mario galaxy
+mario odissey
+marvel vs. capcom
+mdk
+metal slug
+monster rancher
+mortal kombat
+myst
+neverwinter nights
+nintendo
+nintendo n64
+path of exile
+plants vs zombies
+playstation 1
+playstation 2
+prince of persia
+priston tale
+ps one
+quake
+ragnarok
+raptor call of the shadows
+redneck rampage
+resident evil
+retro rpg
+rimworld
+rockstar games
+roler coaster tycoon
+runescape
+sam & max hit the road
+samorost
+shadowrun
+sid meier’s civilization
+simant
+simcity 3000
+simon the sorcerer
+skyrim
+sony
+square enix
+star wars kotor
+star wars yoda stories
+starfox
+street fighter
+super mario bros 3
+super mario rpg
+superfrog
+syndicate
+team fortress 2
+the chaos engine
+the dig
+the elder scrolls
+the incredible machine
+the journey down
+the legend of zelda
+the secret of monkey island
+the witcher
+theme park
+tibia
+tomb raider
+transport tycoon
+tropico 5
+warcraft
+wing commander
+x-com ufo defense
+x-men
+yoshi's island
+alexandrite
+aquamarine
+black diamond
+black opal
+blue diamond
+blue sapphire
+citrine
+diamond
+fire opal
+garnet
+green sapphire
+jet
+kornerupine
+kunzite
+lapis lazuli
+moonstone
+morganite
+opal
+pearl
+pink diamond
+pink sapphire
+quartz
+red diamond
+red garnet
+red spinel
+spinels
+spinel
+tanzanite
+topaz
+tourmaline
+tsavorite
+yellow diamond
+yellow sapphire
+zircon
+ability
+abroad
+access
+accident
+account
+action
+active
+activity
+actor
+ad
+addition
+address
+administration
+adult
+advance
+advantage
+advertising
+advice
+affair
+affect
+age
+agency
+agent
+agreement
+airline
+alarm
+alcohol
+ambition
+amount
+analysis
+analyst
+anger
+animal
+annual
+anxiety
+anybody
+anywhere
+appeal
+appearance
+apple
+application
+appointment
+argument
+arm
+army
+art
+article
+ask
+assignment
+assist
+assistance
+assistant
+associate
+association
+assumption
+attack
+attention
+attitude
+audience
+author
+award
+awareness
+background
+bad
+bake
+balance
+ball
+band
+base
+basis
+basket
+battle
+beat
+bed
+beer
+beginning
+bell
+bench
+benefit
+bet
+beyond
+bicycle
+bid
+big
+bike
+bill
+birth
+birthday
+bit
+bite
+blame
+blank
+blind
+block
+blow
+board
+boat
+body
+bone
+bonus
+book
+border
+boss
+bother
+bottle
+bottom
+box
+boy
+boyfriend
+branch
+brave
+bread
+break
+breakfast
+breath
+brick
+brief
+broad
+brown
+brush
+budget
+bug
+burn
+bus
+business
+buy
+buyer
+cabinet
+cable
+cake
+calendar
+call
+camera
+camp
+campaign
+can
+cancel
+cancer
+candidate
+candle
+candy
+capital
+car
+care
+career
+carry
+case
+cash
+catch
+category
+cause
+cell
+chain
+chair
+challenge
+champion
+championship
+chance
+change
+character
+charge
+charity
+check
+cheek
+chemical
+chemistry
+chest
+childhood
+chip
+chocolate
+cigarette
+city
+claim
+class
+classic
+classroom
+click
+client
+climate
+clock
+cloud
+club
+clue
+coach
+coast
+code
+coffee
+collection
+combination
+combine
+comfort
+comfortable
+command
+comment
+commercial
+commission
+committee
+common
+communication
+community
+company
+comparison
+competition
+complaint
+computer
+concentrate
+concept
+concern
+concert
+conclusion
+conference
+confidence
+conflict
+confusion
+connection
+consequence
+consideration
+consist
+construction
+contact
+contest
+context
+contract
+contribution
+conversation
+convert
+cook
+cookie
+cost
+counter
+country
+county
+couple
+courage
+course
+court
+cousin
+cover
+crack
+craft
+crash
+crazy
+creative
+credit
+crew
+criticism
+cry
+culture
+cup
+currency
+current
+curve
+customer
+cut
+dad
+damage
+dance
+dare
+data
+date
+day
+dead
+deal
+dealer
+dear
+debate
+debt
+decision
+definition
+degree
+delay
+delivery
+demand
+department
+dependent
+deposit
+depression
+description
+designer
+desire
+desk
+detail
+development
+device
+diet
+difference
+difficulty
+dig
+dinner
+direction
+dirt
+disaster
+discipline
+discount
+discussion
+disease
+disk
+display
+distance
+distribution
+district
+divide
+doctor
+document
+door
+double
+doubt
+drag
+draw
+drawer
+dream
+drink
+drive
+drop
+drunk
+due
+dump
+dust
+ear
+earth
+ease
+east
+eat
+economics
+economy
+editor
+education
+effect
+efficiency
+effort
+election
+emotion
+emphasis
+employ
+employment
+end
+engine
+engineering
+entertainment
+enthusiasm
+entry
+environment
+equal
+equipment
+equivalent
+escape
+establishment
+estate
+estimate
+event
+exam
+example
+exchange
+excitement
+excuse
+exercise
+experience
+expert
+explanation
+expression
+extension
+extent
+extreme
+eye
+face
+fact
+factor
+failure
+familiar
+fan
+fault
+fear
+feature
+fee
+feed
+feedback
+feel
+female
+fight
+figure
+file
+fill
+final
+finance
+finding
+finger
+finish
+fire
+fix
+flight
+flow
+flower
+focus
+fold
+food
+foot
+force
+forever
+form
+formal
+fortune
+foundation
+freedom
+friendship
+front
+fruit
+fuel
+function
+funeral
+funny
+future
+gain
+game
+garbage
+gas
+gate
+gather
+gene
+general
+girl
+girlfriend
+give
+glad
+glass
+glove
+go
+goal
+good
+grab
+grandfather
+grandmother
+grass
+great
+grocery
+ground
+growth
+guarantee
+guard
+guess
+guidance
+guide
+guitar
+habit
+hair
+half
+hall
+hand
+handle
+hang
+harm
+hate
+health
+heart
+heat
+height
+help
+hide
+highlight
+highway
+hire
+historian
+history
+hit
+hold
+hole
+honey
+hope
+horror
+hour
+house
+hunt
+hurry
+hurt
+husband
+ice
+idea
+ideal
+if
+illegal
+image
+impact
+implement
+importance
+impress
+impression
+improvement
+income
+increase
+independence
+independent
+indication
+individual
+industry
+inevitable
+inflation
+influence
+information
+initial
+initiative
+injury
+inspection
+inspector
+instance
+instruction
+insurance
+intention
+interest
+international
+interview
+introduction
+investment
+invite
+iron
+issue
+job
+join
+judge
+judgment
+juice
+jump
+junior
+jury
+keep
+key
+kick
+kid
+kill
+kind
+knife
+knowledge
+lab
+lack
+ladder
+lake
+land
+language
+laugh
+law
+lawyer
+lay
+lead
+leader
+leadership
+league
+leave
+lecture
+leg
+length
+lesson
+let
+letter
+level
+lie
+life
+lift
+light
+line
+link
+lip
+listen
+load
+loan
+local
+log
+long
+look
+loss
+love
+luck
+lunch
+machine
+magazine
+mail
+main
+major
+make
+male
+mall
+management
+manager
+march
+mark
+marketing
+marriage
+master
+match
+math
+matter
+maximum
+maybe
+meal
+measurement
+meat
+media
+medicine
+medium
+meet
+member
+membership
+memory
+mention
+mess
+message
+metal
+might
+milk
+mind
+mine
+minimum
+minor
+miss
+mistake
+mix
+mixture
+mobile
+model
+mom
+money
+monitor
+month
+mood
+mortgage
+most
+mountain
+mouth
+move
+movie
+mud
+music
+name
+native
+necessary
+neck
+negotiation
+nerve
+net
+network
+news
+newspaper
+nobody
+noise
+north
+nose
+notice
+novel
+number
+nurse
+object
+objective
+obligation
+occasion
+offer
+oil
+one
+operation
+opinion
+opportunity
+option
+orange
+ordinary
+organization
+other
+outcome
+outside
+oven
+owner
+pace
+pack
+package
+pain
+paint
+painting
+panic
+parent
+parking
+partner
+party
+pass
+passenger
+passion
+past
+path
+patience
+patient
+pay
+payment
+peace
+peak
+penalty
+pension
+percentage
+perception
+period
+permission
+person
+personality
+phone
+photo
+phrase
+physical
+physics
+piano
+pick
+pie
+piece
+pin
+pipe
+pitch
+pizza
+place
+plan
+plane
+plant
+plate
+play
+player
+plenty
+poem
+point
+police
+policy
+politics
+pollution
+pool
+population
+position
+positive
+possession
+possibility
+possible
+post
+pot
+potato
+potential
+pound
+power
+practice
+preference
+preparation
+presence
+present
+presentation
+president
+press
+pressure
+price
+pride
+primary
+principle
+print
+prior
+priority
+private
+prize
+problem
+procedure
+produce
+profession
+professional
+professor
+profile
+profit
+program
+progress
+project
+promise
+promotion
+prompt
+property
+proposal
+protection
+psychology
+public
+pull
+punch
+purchase
+purple
+purpose
+push
+put
+quantity
+quarter
+quiet
+quit
+race
+radio
+rain
+raise
+rate
+ratio
+raw
+reach
+reaction
+read
+reason
+recognition
+recommendation
+record
+recording
+recover
+reflection
+refrigerator
+refuse
+region
+register
+regret
+regular
+relation
+relationship
+relative
+release
+relief
+remote
+remove
+rent
+repair
+repeat
+replacement
+reply
+report
+representative
+republic
+reputation
+request
+requirement
+research
+reserve
+resident
+resist
+resolution
+resource
+respect
+respond
+response
+responsibility
+rest
+return
+reveal
+revenue
+review
+revolution
+reward
+rice
+ride
+rip
+rise
+river
+road
+rock
+role
+roll
+rope
+row
+rub
+ruin
+rule
+run
+rush
+safe
+safety
+sail
+salad
+salary
+sale
+salt
+sample
+sandwich
+satisfaction
+savings
+scale
+scene
+schedule
+scheme
+science
+score
+scratch
+screen
+script
+sea
+search
+season
+seat
+second
+secret
+secretary
+security
+selection
+self
+sell
+senior
+sensitive
+sentence
+serve
+service
+session
+shake
+shape
+share
+she
+shelter
+shift
+shine
+ship
+shock
+shoot
+shopping
+shot
+show
+shower
+sick
+sign
+significance
+silly
+simple
+sing
+singer
+single
+sink
+site
+size
+skill
+skin
+sleep
+slice
+slip
+smoke
+snow
+society
+sock
+software
+solution
+somewhere
+song
+sort
+sound
+soup
+south
+spare
+speaker
+special
+specialist
+speech
+speed
+spell
+spend
+spiritual
+split
+sport
+spray
+spread
+stable
+staff
+stage
+stand
+standard
+star
+start
+state
+station
+status
+stay
+steak
+steal
+step
+stick
+still
+stock
+stomach
+stop
+storage
+storm
+story
+strain
+stranger
+strength
+stress
+stretch
+strike
+strip
+stroke
+struggle
+student
+study
+stuff
+stupid
+subject
+success
+sugar
+suggestion
+sun
+support
+surgery
+surprise
+surround
+survey
+suspect
+swim
+swing
+switch
+sympathy
+system
+tackle
+tale
+talk
+tank
+tap
+target
+task
+taste
+tax
+tea
+teach
+teacher
+tear
+telephone
+tell
+temperature
+term
+test
+text
+thanks
+theme
+thing
+thought
+throat
+ticket
+till
+time
+tip
+today
+tonight
+tool
+tooth
+topic
+total
+touch
+tough
+tourist
+towel
+tower
+town
+track
+trade
+traffic
+trainer
+training
+transition
+transportation
+travel
+treat
+tree
+trick
+trip
+trouble
+truck
+trust
+truth
+try
+tune
+turn
+twist
+two
+type
+uncle
+union
+university
+upper
+upstairs
+use
+user
+usual
+vacation
+valuable
+value
+variety
+vegetable
+vehicle
+version
+video
+view
+village
+virus
+visit
+visual
+voice
+volume
+wait
+wake
+walk
+wall
+war
+wash
+watch
+water
+wave
+way
+weakness
+wealth
+weather
+wedding
+week
+weight
+weird
+welcome
+west
+western
+whereas
+while
+whole
+wife
+will
+win
+wind
+window
+wine
+wing
+winner
+wish
+witness
+wonder
+wood
+word
+work
+worker
+world
+worry
+worth
+writer
+year
+young
+zone
+ambulance ship
+cargo ship
+carrier
+colony ship
+command ship
+cruiser
+destroyer
+docking ship
+dreadnought
+explorer
+fighter
+habitat ship
+heavy carrier
+interceptor
+interplanetary ship
+interstellar ship
+lifepod
+light carrier
+mining ship
+observatory ship
+patrol ship
+rescue ship
+research ship
+scout ship
+transport
+transporter
+apples
+art supplies
+baskets
+bell peppers
+bookends
+books
+bottles
+bowls
+bowls of fruit
+boxes
+branches
+cacti
+cans
+cards
+carrots
+cheese
+chocolate bars
+clocks
+coffee beans
+coffee cups
+crayons
+crystal glasses
+cups
+curling irons
+decanters
+desk lamps
+dictionaries
+dishes
+dried flowers
+egg timers
+eggcups
+eggs
+figures
+fishing lures
+flip flops
+fruit bowls
+furniture
+garden tools
+globes
+grapes
+hairbrushes
+hand mirrors
+handbags
+instruments
+jars
+keys
+kitchen tools
+knick-knacks
+knives
+lamps
+leaves
+lemons
+letters
+light fixtures
+lightbulbs
+lighters
+liquor bottles
+magazines
+magnifying glasses
+mangoes
+maps
+matches
+melons
+microscopes
+milk bottles
+milk jug
+mint
+model airplanes
+model ships
+mugs
+napkins
+newspapers
+nickels
+notebooks
+onions
+oranges
+paint brushes
+paint markers
+paint mixer
+paint palette knife
+paint rollers
+paint spatula
+paint tubes
+pears
+pencils
+photo frames
+photographic film
+photographic paper
+pipes
+pumpkins
+radishes
+ribbons
+salt and pepper shakers
+spoons
+tea cups
+teapots
+vases
+walnuts
+acela express
+amtrak
+bullet train
+cable car
+cog railway
+commuter rail
+commuter train
+crown rail
+dmu (diesel multiple unit)
+electric multiple unit (emu)
+electric train
+express train
+ferry train
+gondola lift
+heritage railway
+high-speed rail
+intercity express
+intercity train
+interregional train
+light rail
+locomotive
+long-distance train
+maglev train
+magnetic levitation train
+metro train
+monorail
+rack and pinion train
+rapid transit train
+regional express
+regional rail
+rolling stock
+shinkansen
+shuttle train
+steam train
+streetcar
+suburban train
+tgv (train à grande vitesse)
+trolley train
+trolleybus
+Dead Sea
+Caspian Sea
+Atlantic Ocean
+Pacific Ocean
+The Great Lakes
+Indian Ocean
+Salton Sea
+Arctic Ocean
+Mediterranean Sea
+Baltic Sea
+Black Sea
+Beaufort Sea
+Sea of Marmara
+Sea of Azov
+Red Sea
+Lake Natron
+Lake Michigan
+Lake Superior
+Great Salt Lake
+Don Juan Pond
+Lac Assal
+Garabogazkol Basin
+Aral Sea
+Lacul Sarat
+Lake Pikrolimni
+Issyk Kul
+Lake Techirghiol
+Qinghai Lake
+Lough Hyne
+Little Manitou Lake
+Great Bitter Lake
+Lake Urmia
+Chilika Lake
+Kati Thanda-Lake Eyre
+Lake Retba
+Lake Vanda
+Lake Tuz
+Sarygamysh Lake
+Lake Abert
+Van Lake
+Mono Lake
+Lake Baskunchak
+Nile
+Missouri River
+Lake Baikal
+Great Bear Lake
+Lake Tanganyika
+Mackenzie River
+Yangtze River
+Lena River

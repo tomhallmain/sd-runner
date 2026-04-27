@@ -100,3 +100,8 @@ Saturday
 Sunday
 yesteryear
 
+
+
+# --- sd-wildcards merge ---
+1910s
+day

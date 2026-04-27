@@ -18,3 +18,16 @@ mad-eye
 
 
 
+
+
+# --- sd-wildcards merge ---
+hazel
+brown
+grey
+purple
+aquamarine
+peach
+dark brown
+ice blue
+light blue
+grey-blue

@@ -22,3 +22,223 @@ Chinese
 Korean
 Russian
 
+
+
+# --- sd-wildcards merge ---
+Afghan
+Albanian
+American
+Andorran
+Angolan
+Anguillan
+Citizen of Antigua
+Barbuda
+Argentine
+Armenian
+Australian
+Azerbaijani
+Bahamian
+Bahraini
+Bangladeshi
+Barbadian
+Belarusian
+Belgian
+Belizean
+Beninese
+Bermudian
+Bhutanese
+Bolivian
+Citizen of Bosnia
+Herzegovina
+Botswanan
+Brazilian
+British
+Bruneian
+Bulgarian
+Burkinan
+Burundian
+Cambodian
+Cameroonian
+Canadian
+Cape Verdean
+Cayman Islander
+Central African
+Chadian
+Chilean
+Colombian
+Comoran
+Congolese (Congo)
+Congolese (DRC)
+Cook Islander
+Costa Rican
+Croatian
+Cuban
+Cymraes
+Cymro
+Cypriot
+Czech
+Djiboutian
+Dominican
+Citizen of the Dominican Republic
+East Timorese
+Ecuadorean
+Egyptian
+Emirati
+Equatorial Guinean
+Eritrean
+Estonian
+Faroese
+Fijian
+Filipino
+Gabonese
+Gambian
+Georgian
+Ghanaian
+Gibraltarian
+Greenlandic
+Grenadian
+Guamanian
+Citizen of Guinea-Bissau
+Guinean
+Guyanese
+Haitian
+Honduran
+Hong Konger
+Icelandic
+Indian
+Indonesian
+Iranian
+Iraqi
+Israeli
+Ivorian
+Jamaican
+Jordanian
+Kazakh
+Kenyan
+Kittitian
+Citizen of Kiribati
+Kosovan
+Kuwaiti
+Kyrgyz
+Lao
+Latvian
+Lebanese
+Liberian
+Libyan
+Liechtenstein citizen
+Lithuanian
+Luxembourger
+Macanese
+Malagasy
+Malawian
+Malaysian
+Maldivian
+Malian
+Marshallese
+Martiniquais
+Mauritanian
+Mauritian
+Micronesian
+Moldovan
+Monegasque
+Mongolian
+Montenegrin
+Montserratian
+Moroccan
+Mosotho
+Mozambican
+Namibian
+Nauruan
+Nepalese
+New Zealander
+Nicaraguan
+Nigerian
+Nigerien
+Niuean
+North Korean
+Northern Irish
+Omani
+Pakistani
+Palauan
+Palestinian
+Panamanian
+Papua New Guinean
+Paraguayan
+Peruvian
+Pitcairn Islander
+Polish
+Prydeinig
+Puerto Rican
+Qatari
+Romanian
+Rwandan
+Salvadorean
+Sammarinese
+Samoan
+Sao Tomean
+Saudi Arabian
+Scottish
+Senegalese
+Serbian
+Citizen of Seychelles
+Sierra Leonean
+Singaporean
+Slovak
+Solomon Islander
+South African
+South Korean
+South Sudanese
+Sri Lankan
+St Helenian
+St Lucian
+Stateless
+Sudanese
+Surinamese
+Swazi
+Swiss
+Taiwanese
+Tajik
+Tanzanian
+Thai
+Togolese
+Tongan
+Trinidadian
+Tristanian
+Tunisian
+Turkish
+Turkmen
+Turks
+Caicos Islander
+Tuvaluan
+Ugandan
+Ukrainian
+Uruguayan
+Uzbek
+Vatican citizen
+Citizen of Vanuatu
+Venezuelan
+Vietnamese
+Vincentian
+Wallisian
+Welsh
+Yemeni
+Zambian
+Zimbabwean
+african
+arab
+assamese
+bengali
+bihari
+european
+gujarati
+han chinese
+indo-aryan
+malay
+marathi
+mestizo
+nepali
+oriya
+punjabi
+sindhi
+tamil
+telugu

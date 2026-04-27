@@ -1,0 +1,91 @@
+
+
+# --- sd-wildcards merge ---
+alien
+android
+artifact
+asteroid
+astronaut
+astronomy
+base
+colony
+computer
+continent
+craft
+cryogenic
+cybernetics
+cyberwarfare
+dark matter
+droid
+earth
+energy field
+engine
+exploration
+extraterrestrial
+futurism
+galaxy
+genetic engineering
+gravity
+gravity drive
+holodeck
+hyperdrive
+hyperspace
+interdimensional
+interstellar
+ion propulsion
+jet
+kryptonite
+laboratory
+laser
+life form
+light year
+machine
+magnetosphere
+mech
+mecha
+megastructure
+meteor
+microgravity
+moon
+mothership
+nanotechnology
+nebula
+neural network
+neurolink
+neuron
+orbital
+planetoid
+plasma
+quantum
+robotics
+rocket
+scientist
+singularity
+star
+subspace
+supercomputer
+superhuman
+superweapon
+telekinesis
+telepathic
+teleportation
+time travel
+transhumanism
+ufo
+universe
+wormhole drive
+xenobiology
+zephyr
+zygote
+automaton
+autonomous robot
+bipedal robot
+cleaning robot
+combat robot
+drones
+humanoid robot
+microbot
+military robot
+nanobot
+personal robot
+quadruped robot

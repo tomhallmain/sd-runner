@@ -636,3 +636,577 @@ zibellino
 Zip-Up Hoodie
 zipper
 zoris
+
+
+# --- sd-wildcards merge ---
+army belt
+belt buckle
+boxing belt
+bronze belt
+camera belt
+canvas belt
+casual belt
+climbing belt
+diamond belt
+dress belt
+fashion belt
+formal belt
+gold belt
+guitar strap belt
+gun belt
+hiking belt
+jeans belt
+leather belt
+military belt
+military web belt
+money belt
+platinum belt
+ratchet belt
+reversible belt
+scuba diving belt
+silver belt
+skateboard belt
+sport belt
+suspenders belt
+travel belt
+trouser belt
+waist belt
+web belt
+webbed belt
+work belt
+woven belt
+wrestling belt
+button-up shirt
+chinos
+crew neck t-shirt
+crewneck
+denim jeans
+denim shirt
+dress shorts
+gym shorts
+henley
+joggers
+linen shirt
+long sleeve shirt
+long-sleeve shirt
+mackintosh
+muscle shirt
+oxford shirt
+short sleeve shirt
+sleeveless shirt
+sport coat
+suit jacket
+suit pants
+suit shorts
+suit trousers
+suit vest
+swim trunks
+t-shirt dress
+track jacket
+track pants
+windcheater
+armored dress
+athleisure
+backless dress
+band uniform
+baseball jersey
+bell bottoms
+bike shorts
+bikesuit
+bloomers
+body stocking
+bodystocking
+boots
+boubou
+boyshorts
+bra
+braces
+bubble skirt
+budget sarashi
+buruma
+bustier
+capes
+cargo shorts
+casuals
+cat suit
+chador
+chanchanko
+changpao
+chaps
+cheerleader outfit
+chest sarashi
+china dress
+china dress (cheongsam/qipao)
+chinese clothes
+cocktail dress
+competition swimsuit
+cowboy outfit
+criss-cross halter
+croptop
+denim shorts
+dolman
+dotera
+dress flower
+duster
+fengguan
+flower trim
+football jersey
+fundoshi
+fur trim
+furisode
+gakuran
+gambeson
+gathers
+geta
+ghost costume
+gold trim
+gym uniform
+habit
+habit uniform
+haik
+hakama
+hakama pants
+hakama skirt
+hanbok
+hanfu
+hanten
+haori
+happi
+harem outfit
+high-low skirt
+high-waist skirt
+hoop skirt
+hose
+jammers
+japanese clothes
+jerkin
+jubbah
+jupon
+kameez
+kanzu
+kaross
+kasaya
+kesa
+kimono skirt
+kittel
+korean clothes
+lace trim
+layered kimono
+legskin
+letter jacket
+long coat
+long skirt
+longpao
+lowleg shorts
+lowleg skirt
+maid uniform
+maillot
+manteau
+meiji schoolgirl uniform
+micro shorts
+microskirt
+miko
+miko uniform
+military uniform
+mino boushi
+navy uniform
+nehru jacket
+night gown
+nightdress
+nontraditional miko
+open robe
+overall skirt
+overskirt
+palazzo pants
+pallium
+pant suit
+parachute pants
+pilot suit
+plaid skirt
+plugsuit
+polo
+prom dress
+racing suit
+rash guard
+ribbon trim
+rompers
+sailor dress
+sarashi
+sari sarong
+serafuku
+serape
+shalwar kameez
+sherwani
+short jumpsuit
+short kimono
+shorts under skirt
+shosei
+silver trim
+skating dress
+ski suit
+skirt suit
+sports bra
+straw cape (mino)
+surcoat
+suspender skirt
+swimming trunks
+tabi
+tallit
+tangzhuang
+tankini
+tasuki
+taut shirt
+thobe
+tights
+torn clothes
+twinset
+uchikake (wedding kimono)
+undone sarashi
+vietnamese dress
+wedding dress
+wet suit
+yamakasa
+yoga pants
+yukata
+camo costume
+candy costume
+captain costume
+carnival costume
+catwoman costume
+cheerleader costume
+christmas costume
+cleopatra costume
+clown costume
+comic book character costume
+conductor costume
+convict costume
+cop costume
+cowboy costume
+dalmatian costume
+day of the dead costume
+decade costume
+deer costume
+disco costume
+doll costume
+dracula costume
+dwarf costume
+easter costume
+egyptian costume
+fairy costume
+fairy tale costume
+firefighter costume
+fitness costume
+flapper costume
+forest fairy costume
+french costume
+fruits costume
+funny costume
+galactic warrior costume
+gangster costume
+gazelle costume
+geisha costume
+gorilla costume
+gothic costume
+graduation costume
+greek costume
+gypsy costume
+hag costume
+herald costume
+hippie costume
+hula dancer costume
+indian costume
+irish costume
+jack-o-lantern costume
+japanese costume
+jester costume
+king costume
+kitty costume
+knight costume
+leprechaun costume
+lion costume
+little red riding hood costume
+luau costume
+maid costume
+mardi gras costume
+medieval costume
+mermaid costume
+moulin rouge costume
+mummy costume
+native american costume
+ninja costume
+nun costume
+nurse costume
+oriental costume
+pageant costume
+palace guard costume
+panda costume
+paratrooper costume
+patriotic costume
+peasant costume
+pharaoh costume
+pilgrim costume
+pirate costume
+pirate wench costume
+police officer costume
+policewoman costume
+princess costume
+pumpkin costume
+queen costume
+school girl costume
+spider-woman costume
+superhero costume
+vampire costume
+witch costume
+zombie cheerleader costume
+zombie costume
+biker costume
+burglar costume
+businessman costume
+butler costume
+camel costume
+geek costume
+outlaw costume
+psycho costume
+ranger costume
+renaissance costume
+robot costume
+santa claus costume
+scarecrow costume
+superman costume
+swashbuckler costume
+taxi driver costume
+teddy bear costume
+texan costume
+thief costume
+timber costume
+toga costume
+vandal costume
+viking costume
+zombie hunter costume
+ball earrings
+bar earrings
+boho earrings
+chandelier earrings
+clip-on earrings
+cluster earrings
+crawler earrings
+crescent earrings
+cuff earrings
+dangle earrings
+disc earrings
+drop earrings
+fan earrings
+french wire earrings
+front-back earrings
+gemstone earrings
+huggie earrings
+j-hoop earrings
+jacket earrings
+leaf earrings
+line earrings
+linear earrings
+long earrings
+medallion earrings
+mismatched earrings
+moon earrings
+oval earrings
+pearl earrings
+rectangle earrings
+rope earrings
+semi-hoop earrings
+shield earrings
+sphere earrings
+spiral earrings
+square earrings
+stud earrings
+tassel earrings
+teardrop earrings
+threader earrings
+torc earrings
+tribal earrings
+tulip earrings
+v-shaped earrings
+wave earrings
+wire earrings
+y-shaped earrings
+zipper earrings
+bobble hat
+floppy hat
+headband
+headwrap
+pillbox hat
+porkpie hat
+raccoon fur hat
+scrunchie
+skullcap
+wedding veil
+wide brim hat
+wimple
+bowler hat
+caps
+flat cap
+golf cap
+homburg
+scally cap
+ski hat
+snapback
+straw hat
+tam
+trucker hat
+ascot
+bolo tie
+bowtie
+choker
+ribbon choker
+neck bell
+pet cone
+feather boa
+goggles around neck
+headphones around neck
+jabot
+__gem__ necklace
+chain necklace
+flower necklace
+friendship charm
+pearl necklace
+pendant
+magatama
+pentacle
+neck ribbon
+neck ruff
+necktie
+necktie on head
+necktie grab
+necktie removed
+cross tie
+baguette bag
+beacon bag
+bowling bag
+box bag
+bucket bag
+butterfly bag
+cabas bag
+caddy bag
+calf hair bag
+camera bag
+carry-all bag
+cartwheel bag
+cinch bag
+circle bag
+clasp bag
+clutch
+clutch bag
+coin purse
+convertible bag
+couch bag
+courier bag
+crocodile bag
+cross-body bag
+crossbody bag
+crown bag
+cuff bag
+cylinder bag
+drawstring bag
+east-west bag
+envelope bag
+evening bag
+expandable bag
+flap bag
+frame bag
+fringe bag
+gaucho bag
+gift bag
+gig bag
+glam bag
+grainy leather bag
+half-moon bag
+handle bag
+hobo bag
+knick-knack bag
+saddlebag
+satchel
+shoulder bag
+structured bag
+tote bag
+waist bag
+blazer dress
+cocktail suit
+cotton suit
+evening suit
+fall suit
+formal suit
+funeral suit
+graduation suit
+jacket dress
+leisure suit
+linen suit
+nylon suit
+party suit
+polyester suit
+power suit
+prom suit
+rayon suit
+silk suit
+spring suit
+suit dress
+suit with belt
+suit with blazer
+suit with blouse
+suit with bracelets
+suit with brooch
+suit with cami
+suit with camisole
+suit with clutch
+suit with coat
+suit with earrings
+suit with gloves
+suit with handbag
+suit with hat
+suit with jacket
+suit with necklace
+suit with pashmina
+suit with pin
+suit with purse
+suit with ring
+suit with scarf
+suit with shawl
+suit with stole
+suit with t-shirt
+suit with tank top
+suit with tote
+suit with watch
+summer suit
+tweed suit
+two-piece suit
+wedding suit
+winter suit
+wool suit
+work suit
+american suit
+black tie
+british suit
+casual suit
+classic-fit suit
+custom-made suit
+dinner suit
+double-breasted suit
+french suit
+italian suit
+morning suit
+regular-fit suit
+single-breasted suit
+suit with boutonniere
+suit with bow tie
+suit with buttonhole
+suit with cufflinks
+suit with handkerchief
+suit with lapel chain
+suit with lapel flower
+suit with lapel pin
+suit with pocket square
+suit with pocket watch
+suit with suspenders
+suit with tie
+suit with tie clip
+suit with vest
+tailored-fit suit

@@ -45,3 +45,469 @@ voronoi trees
 weeds
 willow tree
 xylem
+
+
+# --- sd-wildcards merge ---
+alpine
+alpine desert
+alpine mountain
+arctic
+arctic alpine tundra
+arctic desert
+arctic forest
+arctic grassland
+arctic mountain
+arctic ocean
+arctic tundra
+arid desert
+boreal
+boreal desert
+boreal forest
+boreal jungle
+boreal mountain
+boreal ocean
+boreal savanna
+boreal steppe
+boreal swamp
+coastal desert
+cold desert
+desert mountain
+grassland
+hot desert
+jungle
+mountain
+mountain desert
+ocean desert
+polar
+polar alpine tundra
+polar desert
+polar forest
+polar grassland
+polar ice cap
+polar mountain
+polar ocean
+polar tundra
+savanna
+semi-arid desert
+subtropical desert
+temperate
+temperate alpine tundra
+temperate coniferous forest
+temperate deciduous forest
+temperate desert
+temperate forest
+temperate grassland
+temperate jungle
+temperate mixed forest
+temperate mountain
+temperate ocean
+temperate rainforest
+temperate savanna
+temperate steppe
+temperate swamp
+tropical
+tropical desert
+tropical dry forest
+tropical forest
+tropical grassland
+tropical jungle
+tropical moist forest
+tropical mountain
+tropical ocean
+tropical rain forest
+tropical rainforest
+tropical savanna
+tropical seasonal forest
+tropical steppe
+tropical swamp
+volcanic
+Acacia
+Achillea
+Adam's-needle
+African Boxwood
+African Lily
+Agapanthus
+Ageratum
+Ageratum houstonim
+Allium
+Alpina
+Alstroemeria
+Amaranthus hypochondriacus
+Amaryllis
+Ammi majus
+Anconitum
+Anigozanthus
+Annual Delphinium
+Anthurium
+Antirrhinum majus
+Artichoke thistle
+Asparagus
+Aster
+Astilbe
+Baby's Breath
+Bachelor's Button
+Banksia
+Bellflower
+Big Flax
+Bighead Knapweed
+Billy Buttons
+Blazing Star
+Blue Lace Flower
+Boronia
+Bouvardia
+Boxwood African
+Diosma
+Buckthorn Variegated
+Buddleia
+Bupleurum
+Butterfly Bush
+Butterfly Orchid
+Calla Lily
+Campanula
+Candytuft
+Canterbury Bells
+Carnation
+Carthamus
+Casa Blanca
+Caspia
+Cattleya
+Celosia
+Celosia argenta
+Centaurea cyanus
+Chamelaucium
+Chimney Bells
+Chrysanthemum
+Chrysanthemum x morifolium
+Clarkia
+Cockscomb Crested
+Coffee Bean Berry
+Common Myrtle
+Common Yarrow
+Cone Flower
+Consolida ambigua
+Convallaria
+Cordyline
+Cosmos
+Cornflower
+Craspedia
+Curly Willow
+Cymbidium
+Cymbidium Orchid
+Daffodil
+Dahlia
+Daisy Mums
+Delphinium Belladonna
+Delphinium Pacific Giant
+Dendrobium
+Dendrobium Orchid
+Dianthus barbatus
+Dianthus caryophyllus
+Dianthus caryophyllus nana
+Erica spp
+Eucalyptus seeded
+Eucalyptus silver dollar
+Eustoma grandiflorum
+False Bird of Paradise
+False Spirea
+Farewell-To-Spring
+Fernleaf Yarrow
+Feverfew
+Flamingo Flower
+Flax New Zealand
+Floss Flower
+Foxtail Fern
+Freesia
+Freesia x hybrida
+Fuji Mums
+Gardenia
+Gay Feather
+Genista
+Gerbera
+Gerbera Ruby Red
+Ginger
+Gladiolus
+Gladiolus hybrid nanus
+Goat's Beard
+Godetia
+Golden Rod
+Guersney Lily
+Gyp
+Gypsophila paniculata
+Hanging Helicona
+Heath
+Heather
+Helianthus annuus
+Heliconia spp.
+Hippeastrum
+Hydrangea
+Iberis amara
+Inca Lily
+Japhette Orchid
+Jonquil
+Knapweed
+Lace fern
+Larkspur
+Lathyrus odoratus
+Lavandula
+Lavender
+Liatris
+Lilac
+Lily
+Lilly-of-the-Valley
+Lily Casa Blanca
+Lily of the Field
+Lily of the Nile
+Lily Stargazer
+Limonium
+Lisianthus
+Marguerite daisy
+Mattholia incana
+Melaleuca
+Memosa
+Misty Blue Limonium
+Moluccella laevis
+Monkshood
+Montbretia
+Monte Cassino
+Moon orchid
+Musa
+Myrsine
+Myrtle
+Myrtus
+Nephrolepis
+Nerine
+Nerine Lily
+Nigella
+Ornithogalum
+Paeonia
+Paper Reed
+Papyrus lion's head
+Peony
+Peruvian Lily
+Phalaenopsis
+Philodendron
+Phlox
+Pincushion Flower
+Pink Mink
+Pitt
+Pittosporum
+Pixie Carnation
+Polianthes tuberosa
+Pompon Chrysanthemum
+Poppy Anemone
+Porium
+Queen Anne's Lace
+Ranunculus
+Red Ribbons
+Rice flower
+Rose
+Rose Bridal Pink
+Rose Bridal White
+Rose Champagne
+Rose Diadem
+Rose Emblem
+Rose Kardinal
+Rose Lady Liberty
+Rose Lavanda
+Rose Osiana
+Rose Royalty
+Safari Sunset
+Safflower
+Sage Perennial
+Salix
+Salmon Reagan
+Sansevieria
+Saponaria
+Satin Flowers
+Saxicola
+Scabiosa
+Schinus
+Sea lavender
+Shell Flowers
+Snake Plant
+Snapdragon
+Solidago
+Solidaster
+Speedwell
+Spider Lily
+Spider Mums
+Spray Carnation
+Sprengeri Fern
+Star of Bethlehem
+Statice
+Stenamezon
+Stephanotis
+Strawberry banksia
+Strawflower
+Summer poinsettia
+Summer's Darling
+Sunflower
+Sweet Pea
+Sweet William
+Sword Fern
+Tailflowers
+Tassel flower
+Thouroughwax
+Throatwort
+Tracelium
+Tree Fern
+Trumpet Lily
+Tuberose
+Tulip
+Tulipa
+Veronica
+Wattle
+Waxflower
+Wild Plantain
+Willow curly
+Windflower
+Wolfsbane
+Zantedeschia
+Zinna
+Zinnia elegans
+boreal and alpine broadleaf forest
+boreal and alpine coniferous forest
+boreal and alpine forest
+boreal and alpine mixed forest
+boreal and alpine rainforest
+boreal and alpine taiga
+boreal and alpine tundra
+boreal broadleaf forest
+boreal coniferous forest
+boreal mixed forest
+boreal needleleaf forest
+cliff forest
+cloud forest
+coastal broadleaf forest
+coastal coniferous forest
+coastal forest
+coastal mixed forest
+coastal redwood forest
+coniferous and broadleaf forest
+coniferous forest
+coral reef forest
+deciduous and broadleaf forest
+deciduous and coniferous forest
+deciduous forest
+dry conifer forest
+dry savanna forest
+evergreen and deciduous broadleaf forest
+evergreen and deciduous coniferous forest
+evergreen and deciduous forest
+evergreen and deciduous mixed forest
+evergreen and deciduous rainforest
+evergreen broadleaf forest
+evergreen coniferous forest
+evergreen forest
+evergreen rainforest
+grass forest
+island forest
+littoral forest
+lowland coniferous forest
+lowland deciduous forest
+lowland forest
+lowland mixed forest
+lowland rainforest
+mangrove forest
+mangrove swamps
+mediterranean forest
+montane forest
+montane rainforest
+mossy broad-leaved forest
+mossy coniferous forest
+mossy mixed-leaved forst
+mossy subtropical forest
+mossy temperate forest
+rainforest (montane)
+rainforest (subtropical)
+rainforest (temperate)
+rainforest (tropical)
+rainy savana forest
+savanna forest
+savanna tropical forest
+scrub forest
+seasonal forest
+subalpine conifer forest
+subalpine forest
+subalpine meadows
+subarctic forest
+subtropical broad-leaved forest
+subtropical coniferous forest
+subtropical dry forest
+subtropical forest
+subtropical mixed-leaved forest
+subtropical moist forest
+taiga forest
+temperate broad-leaved forest
+temperate broadleaf and mixed forest
+temperate mixed-leaved forest
+temperate needle forest
+temperate needleleaf forest
+alder
+apple
+arborvitae
+ash
+aspen
+avocado
+balsam
+bamboo
+banana
+baobab
+bay
+beech
+birch
+blackthorn
+bluegum
+buckeye
+butternut
+cedar
+cherry
+chestnut
+chinkapin
+cork
+cottonwood
+cucumber
+cypress
+dogwood
+elm
+fir
+guava
+hackberry
+hawthorn
+hemlock
+hickory
+holly
+hophornbean
+hornbean
+jacaranda
+juniper
+larch
+laurel
+lemon
+lime
+madrone
+maple
+moosewood
+mulberry
+nutmeg
+oak
+orange
+pear
+persimmon
+pine
+pineapple
+piñon
+pomegranate
+poplar
+redwood
+sassafras
+sequoia
+shadbush
+sumac
+sycamore
+tamarind
+torreya
+tupelo
+walnut
+willow
+yew

@@ -186,3 +186,342 @@ two-color
 tri-color
 four-color
 
+
+
+# --- sd-wildcards merge ---
+aqua background
+beige background
+black background
+blue background
+brown background
+green background
+grey background
+lavender background
+orange background
+pink background
+purple background
+red background
+sepia background
+tan background
+white background
+yellow background
+gradient background
+multicolored background
+rainbow background
+heaven condition
+two-tone background
+argyle background
+checkered background
+food-themed background
+halftone background
+honeycomb background
+paw print background
+plaid background
+polka dot background
+snowflake background
+spiral background
+strawberry background
+striped background
+sunburst background
+background text
+blurry background
+card background
+chibi inset
+drama layer
+fiery background
+flag background
+floral background
+fruit background
+heart background
+imageboard colors
+lace background
+mosaic background
+paneled background
+photo background
+projected inset
+starry background
+zoom layer
+Advent Purple
+Agreeable Gray
+Aluminum
+Amber Brown
+Antique Gray
+Apricot
+Army Brown
+Army Green
+Ash Gray
+Asphalt Gray
+Aqua Blue
+Aqua Green
+Baby Pink
+Baby Yellow
+Banana Yellow
+Bear Brown
+Bisque
+Bone
+Birch
+Brass
+Bright Red
+Brick Red
+Bright Green
+Bright Navy
+Bright Orange
+Blush Pink
+Bright Pink
+Bubblegum Pink
+Bright Blue
+Bright Yellow
+Bright Purple
+Burlap Brown
+Burnt Orange
+Carolina Blue
+Caramel
+Carnation Pink
+Cetacean Blue
+Cerise
+Champagne Pink
+Coffee Brown
+Chambray Blue
+Cherry Blossom Pink
+Cherry Red
+Chocolate Brown
+Chrome
+Christmas Red
+Cloud Burst Blue
+Cobalt Blue
+Columbia Green
+Comic Book Red
+Copper
+Coyote Brown
+Cement Gray
+Charcoal Gray
+Cool Gray
+Corn Green
+Canary Yellow
+Classic Purple
+Cocoa Brown
+Comic Book Yellow
+Construction Orange
+Coral Pink
+Cotton Candy Pink
+Cyan
+Christmas Green
+Cornflower Blue
+Cortana Blue
+Dark Blue
+Dark orange
+Dark Red
+Dark Sand Brown
+Dark Brown
+Dark Gray
+Dark Chocolate Brown
+Dark Steel Gray
+Dazzling Blue
+Denim Blue
+Dorian Gray
+Dirt Brown
+Dark Purple
+Dark Yellow
+Dusty Rose Pink
+Dark Pink
+Deep Pink
+Dark Green
+Earthy Red
+Electric Blue
+Emerald Green
+Espresso Brown
+Eucalyptus
+Eye Brown
+Fire Truck Red
+Flamingo Pink
+Fluorescent Blue
+Fluorescent Pink
+Fluorescent Yellow
+Flower Pink
+French Blue
+French Gray
+Fun Yellow
+Fluorescent Green
+Forest Green
+Gainsboro Gray
+Graphite Gray
+Gunmetal Gray
+Gun Smoke Gray
+Glowing Moon Yellow
+Golden Yellow
+Golden Brown
+Gold Pink
+Goldfish Orange
+Grapefruit Pink
+Green Screen Color
+Girl Scout Green
+Grass Green
+Halloween Orange
+Hair Brown
+Harvest Gold
+Heather Gray
+Heliconia
+Highlighter Pink
+Honolulu Blue
+Hot Pink
+Hunter Blaze Orange
+Hunter Green
+Ice Gray
+Indigo Blue
+Irish Green
+Jade Green
+Kelly Green
+King Blue
+Knockout Pink
+Leaf Green
+Leather Brown
+Light blue
+Light Blush
+Light Brown
+Light Orange
+Light Red
+Lightsaber Blue
+Lightsaber Green
+Lightsaber Red
+Lip Pink
+Light Pink
+Legendary Gray
+Light Gray
+Lavender
+Light purple
+Lilac
+Light Zerg Purple
+Lime Green
+Legal Pad Yellow
+Lemon Yellow
+Light Yellow
+Mint Blue
+Marines Blue
+Malibu Blue
+Matte Gray
+Medium Brown
+Medium Dark Red
+Melon
+Metallic Gray
+Midnight Purple
+Milano
+Millennial Pink
+Midnight Green
+Military Green
+Mocha
+Monarch Orange
+Mulberry
+Musket Brown
+Mustard Yellow
+Navy Blue
+Neon Blue
+Neon Green
+Neon Orange
+Neon Pink
+Neon Purple
+Neon Red
+Neon Yellow
+Neutral Gray
+Nickel Gray
+Oatmeal
+Ocean Blue
+Oxblood Red
+Olive Brown
+Olive Green
+Oxford Brown
+Oxford Gray
+Pacific Blue
+Pastel Green
+Pine Green
+Pale Gold
+Pastel Blue
+Pastel Red
+Pewter
+Plum Purple
+Pale Yellow
+Pastel Gray
+Pastel Purple
+Pastel Yellow
+Pale Pink
+Passion Pink
+Pastel Pink
+Pastel Orange
+Pearl Pink
+Primary Blue
+Powder Blue
+Police Blue
+Peacock Blue
+Periwinkle
+Petrol
+Pale Blue
+Paper Bag Brown
+Pumpkin Spice Orange
+Road Sign Yellow
+Rich Gray
+Racing Red
+Red Orange
+Rhodamine Red
+Rich Red
+Rose Red
+Road Sign Brown
+Road Sign Orange
+Ruby Red
+Rustic Red
+Rotary Blue
+Road Sign Green
+Robin Egg Blue
+Road Sign Blue
+Rich Blue
+Rich Brown
+Reflex Blue
+Royal Blue
+Rosy Brown
+Rosy Pink
+Sage Green
+Sapphire Blue
+Sea Blue
+Sky Blue
+Safety Yellow
+Sawgrass Brown
+Seafoam Green
+Sepia Brown
+Scarlet Red
+School Bus yellow
+Summer Yellow
+Sage Gray
+Sheffield Gray
+Shrek Green
+Slate Gray
+Spearmint
+Spring Green
+Steel Gray
+Satin Sheets Gold
+Salmon Pink
+Siena Brown
+Silvery Pink
+Soft Pink
+Strawberry
+Sweet Pink
+Taupe Brown
+Taxi Cab Yellow
+Teal Blue
+Templeton Gray
+Tennis Court Blue
+Tennis Court Green
+Tiger Orange
+Timberwolf Gray
+Tortoise Shell Brown
+True Silver
+US Navy Blue
+Valentine Pink
+Varsity Red
+Very Gray
+Vibrant Pink
+Watermelon
+Whiskey Brown
+Warm Brown
+Warm Gray
+Wood Brown
+Walnut Brown
+Wine Red
+Yellow Green

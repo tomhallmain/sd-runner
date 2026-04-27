@@ -335,3 +335,46 @@ yikes
 You don't say
 Zealous
 Zestful
+
+
+# --- sd-wildcards merge ---
+:/
+:3
+:<
+:d
+:o
+:p
+:q
+:|
+afraid
+anger
+bad
+bashful
+coy
+crazy
+disgust
+enraged
+fear
+flustered
+frightened
+frown
+furled brow
+guilty
+happiness
+hungry
+hurt
+interested
+neutral
+pained
+proud
+puzzled
+sadness
+scared
+shocked
+sick
+sleepy
+sorry
+stupid
+surprise
+thirsty
+withdrawn
