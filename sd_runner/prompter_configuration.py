@@ -164,6 +164,10 @@ class LegacyPrompterConfiguration:
 
 
 class PrompterConfiguration:
+    CATEGORY_ALIASES = {
+        "concepts": "media_features",
+    }
+
     # Required category names
     REQUIRED_CATEGORIES = [
         "media_features", "objects",
@@ -238,6 +242,11 @@ class PrompterConfiguration:
             if category_name not in self.categories:
                 logger.warning(f"Category {category_name} not found in categories, using default")
                 self.categories[category_name] = defaults[category_name]
+
+    @classmethod
+    def _canonical_category_name(cls, name: str) -> str:
+        """Map legacy category names to their canonical names."""
+        return cls.CATEGORY_ALIASES.get(name, name)
     
     def get_specific_locations_chance(self) -> float:
         """Get specific locations chance from category config."""
@@ -267,6 +276,7 @@ class PrompterConfiguration:
         """Set category from low, high, specific_chance, and inclusion_chance.
         
         Preserves existing specific_chance, inclusion_chance, and subcategory_weights if the category already exists."""
+        name = self._canonical_category_name(name)
         if name in self.categories:
             # Update existing configuration, preserving subcategory_weights and other fields
             self.categories[name].update(low=low, high=high, specific_chance=specific_chance, inclusion_chance=inclusion_chance)
@@ -275,10 +285,12 @@ class PrompterConfiguration:
 
     def get_category_config(self, name: str) -> ConceptConfiguration:
         """Get category configuration object."""
+        name = self._canonical_category_name(name)
         return self.categories.get(name, ConceptConfiguration(0, 0))
     
     def set_category_config(self, name: str, config: ConceptConfiguration):
         """Set category configuration object."""
+        name = self._canonical_category_name(name)
         self.categories[name] = config
     
     def get_witticisms_weights(self) -> tuple[float, float]:
@@ -357,12 +369,18 @@ class PrompterConfiguration:
             self.concepts_dir = _dict.get('concepts_dir', self.concepts_dir)
 
             self.categories = {}
-            for name, config_dict in _dict['categories'].items():
-                self.categories[name] = ConceptConfiguration.from_dict(config_dict)
+            saved_categories = _dict['categories']
+            had_legacy_concepts_alias = "concepts" in saved_categories
+            for name, config_dict in saved_categories.items():
+                canonical_name = self._canonical_category_name(name)
+                self.categories[canonical_name] = ConceptConfiguration.from_dict(config_dict)
 
-            # Migrate saved configs that still carry the old "concepts" key
-            if "concepts" in self.categories and "media_features" not in self.categories:
-                self.categories["media_features"] = self.categories.pop("concepts")
+            # Legacy split migration: old saved configs only had concepts/media_features and
+            # did not persist objects/plants yet. Backfill silently to avoid noisy warnings.
+            if had_legacy_concepts_alias:
+                defaults = self._get_default_categories()
+                self.categories.setdefault("objects", defaults["objects"])
+                self.categories.setdefault("plants", defaults["plants"])
 
             # Ensure all required categories exist
             self._ensure_required_categories()
