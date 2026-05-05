@@ -3,6 +3,7 @@ Irish
 English
 French
 Swedish
+Nicene
 Norwegian
 Italian
 Greek

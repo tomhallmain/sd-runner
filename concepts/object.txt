@@ -2,29 +2,77 @@
 # Objects - physical things, tools, containers, furniture, and tangible items
 
 # Household / furniture
+$$random_word processor
+aileron
 armrest
+balloon
+balsa wood
+bast
 bed sheets
+belt sander
 blinds
 bowl
+bract
+cabriole legs
 carpet
+caucus
 ceiling
 chandelier
+clamp
+container
+cortex
+coupe
+crosspiece
+cruet
+cubby
 curtain
 dish
 doily
+elixir
+flanger
+flock
+genome
 grandfather clock
+hayrig
+high pressure area
 hutch
+jowl
+jute
 kilim
+kit
 lantern
 lava lamp
 lid
+lobe
+low pressure area
+minus
+paper plane
+phenol
 pillow
+plus symbol
+prow
+purls
+rubber band
+rung
+rungs
+scepter
 shelving
+silica gel
 sliding screen
+stalk
 table
+terminus
+terry cloth
+trajectory
 tray
+trove
+trowel
 TV screen
 television
+U-trap
+vat
+whirlybird
+wick
 wicker
 
 # Tools and mechanical devices

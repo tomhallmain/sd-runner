@@ -14,6 +14,7 @@ angry
 annoying
 Anxious
 Apathetic
+apprehensive
 ardor
 Aren't I?
 ashamed
@@ -80,6 +81,7 @@ empty stare
 enthralled
 even so...
 exultant
+eyes averted
 flabbergasted
 flair
 frenzied
@@ -151,6 +153,7 @@ minds not
 minds quite a bit
 mirthful
 moody
+moping
 morose
 narrowed eyes
 Fatigued
@@ -252,6 +255,7 @@ Satisfied
 savoring
 scoff
 scrunched nose
+scruple
 shame
 sheepish
 shrug

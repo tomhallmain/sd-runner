@@ -4,6 +4,7 @@
 anemone
 aril
 bast fibre
+briar
 floral
 floral arrangement
 flowering plant
@@ -11,6 +12,7 @@ flowers
 Forsythia
 frond
 fruits
+gourd
 houseplants
 ivy-covered walls
 legume

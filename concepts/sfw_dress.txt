@@ -143,6 +143,7 @@ Cocktail Party Dress
 coif
 collar
 Comb Over
+comb-over
 Constable custodian hat
 coolie hat
 corded-ware
@@ -367,6 +368,7 @@ Mohawk
 mood ring
 Motorcycle Jacket
 muffler
+muller
 Muslin gown
 muumuu
 name tag

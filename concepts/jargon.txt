@@ -128,7 +128,12 @@
 .zip - Zip compressed file
 /. - Slashdot
 @Formula - @Formula
+aeroelastic flutter
+backwardation
 Baryon Acoustic Oscillations
+comparison basis
+contango
+counterfactual
 Epinephrine
 excipients
 idempotent
@@ -136,6 +141,7 @@ intransitive
 Large low shear velocity provinces (LLSVPs)
 lyophilization
 Moment of Inertia
+MSRP - Manufacturer's Suggested Retail Price
 osmosis
 phototropic
 π-calculus

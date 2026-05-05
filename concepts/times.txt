@@ -1,5 +1,7 @@
 $$number [[minutes,hours]] later
+a few hours ago
 a long time from now
+a minute ago
 a while ago
 abrupt
 again
@@ -74,10 +76,12 @@ summer
 fall
 two times
 until then
+very soon
 whenever
 winter
 midday
 midday
+years ago
 yesterday
 tomorrow
 last week

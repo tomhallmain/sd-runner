@@ -2,6 +2,7 @@
 # Media features - image presentation, rendering, art styles, techniques, visual qualities,
 # photography terms, and media types derived from sfw_concepts.txt
 
+$$color stamp
 'tis
 (Aurora Borealis:0.4)
 (Blossoming Cherry Trees:0.2)
@@ -80,6 +81,7 @@ addendum
 adorned
 advertising insert
 aeration
+aero
 aerosol
 aesthetic
 aesthetic distance
@@ -146,6 +148,7 @@ anomaly
 anomoly
 anonymous
 answer key
+anthem
 anthology
 anti-novel
 anti-play
@@ -163,6 +166,7 @@ apparatus
 appearances
 apropos of $$random_word
 aqua regia
+aquagraphics
 aquatint
 arabesque
 arabesque
@@ -300,6 +304,7 @@ bold
 bold black outlines
 boldface
 boldface
+book passage
 boom
 boon
 boring
@@ -311,6 +316,7 @@ breathtaking
 bright
 brighten
 brim
+broadtail
 brocade
 broken
 broken cup
@@ -336,6 +342,7 @@ Butterfly Garden
 buttressing
 Buy one get one free
 caliber
+cambric
 Cameo carving
 camera roll
 camouflage
@@ -588,6 +595,7 @@ cylinder
 cymatics
 dadaism
 daguerrotype
+damask
 dark
 dark dungeon
 darken
@@ -713,6 +721,33 @@ dynamical system
 dynasty
 dyne
 echo
+embodiment
+flair
+gift wrap
+gnomon
+hackle
+incarnation
+interactive menu
+learning curve
+Macrame
+manuscript
+monopoly board
+mushroom cloud
+out of print
+personal effects
+picots
+piece d'occasion
+public relations material
+saltbox style
+segue
+sitcom
+stage [[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]]
+stipple
+television programs
+The Oxford Book of $$random_word
+time table
+tremolo
+whirls
 écorché-style [[painting,drawing,sculpture]]
 ectoplasm
 Edda

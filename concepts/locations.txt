@@ -46,7 +46,9 @@ battlefield
 Bel-Air
 below deck
 Beverly Hills
+Biergarten
 bike path
+bistro
 blacksmith's shop
 bldg.
 bleachers
@@ -94,6 +96,7 @@ crater
 credit union
 crow's nest
 cruiseliner
+culvert
 cupola
 curb
 cénacle
@@ -108,6 +111,7 @@ domain
 dome
 domicile
 dovecote
+dream house
 dropshipper
 duplex
 dwelling
@@ -119,6 +123,7 @@ end zone
 entryway
 estate grounds
 event horizon
+eye of the hurricane
 facility
 fane
 fathoms
@@ -173,6 +178,7 @@ in a clearing
 in orbit
 inner city
 intersection
+Irish pub
 jetty
 joke shop
 karst
@@ -181,6 +187,7 @@ kitchenette
 lane
 law practice
 lea
+lean-to
 ledge
 levee
 lifted house
@@ -194,6 +201,7 @@ lounge
 low altitude
 lower atmosphere
 lowland
+magic shop
 main hall
 Main Street
 major metropolitan area
@@ -247,6 +255,7 @@ public house
 radio station
 radio tower
 railing
+railroad trestle
 raised house
 raised platform
 raised porch
@@ -256,7 +265,9 @@ realm
 recreation center
 recreational vehicle - RV
 rectory
+registrar
 rehab
+Renaissance fair
 reservoir
 residence
 rest stop

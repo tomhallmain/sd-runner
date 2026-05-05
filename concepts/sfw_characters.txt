@@ -5,6 +5,7 @@ $$random_word galore
 [[I,you,he,she]] go[[,es]] by $$random_word
 a real softy
 abbott
+Abbott & Costello
 Absentee
 Achilles
 Acme Corp product
@@ -61,6 +62,7 @@ Bender
 benefactor
 Betty Boop
 Black Desert Online
+Bob
 Boba Fett
 Bobby McGee
 bogatyr
@@ -115,9 +117,12 @@ cleric
 clerk
 Clippy
 coactor
+cohost
 composer
+con artist
 confessor
 constable
+consul
 corsair
 countryman
 courtier
@@ -194,6 +199,7 @@ Firebird
 First Mate
 flagger
 flash gun
+fleecer
 fly rink
 foofaraw
 forester
@@ -355,10 +361,12 @@ muffin-walloper
 mutant
 Naboo
 NANI!?
+Nate
 ne'er
 Ne'er-do-well
 neener neener
 neighbor
+Neil
 Nelson
 neophyte
 Neurothrope
@@ -441,6 +449,7 @@ primogeniture
 Privy Councillor
 prodigy
 prosecutor
+proselytes
 proverbs
 provost
 pugilist
@@ -572,10 +581,12 @@ The Secret of Nimh
 the usual suspects
 thief
 Tic-Tacs
+ticket taker
 ting
 tinkerer
 Titan
 TiVo
+Tom
 Tonka trucks
 Tonto
 Tony the Tiger
@@ -727,6 +738,7 @@ Entertainment robot
 words to live by
 would I lie?
 wouldn't touch that with a ten-foot pole
+wuss
 Xavier
 Yael
 yahoos

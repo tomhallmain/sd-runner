@@ -2,6 +2,7 @@ Anglia
 Antwerp
 Appomattax
 Arcadia
+Asia Minor
 Bosra
 Cairo - Egypt
 Catalonia
@@ -43,6 +44,7 @@ Sheetz
 South Pacific
 St. Lawrence Speedway
 St. Petersburg
+Taormina
 The Fantasmic World of No
 The Globe Theatre
 The Hundred-Acre Wood
@@ -50,9 +52,10 @@ The Pale
 the Pyrenees
 Troy
 Twin Cities
+UAE
 Veld
 Walden Pond
-Walla Walla Washingtom
+Walla Walla Washington
 Warped Tour
 Coachella
 Bonaroo

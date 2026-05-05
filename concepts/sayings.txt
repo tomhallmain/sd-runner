@@ -101,6 +101,7 @@ All the same
 All the world loves a lover
 All things excellent are as difficult as they are rare
 All things must pass
+All thumbs
 All work and no play makes Jack a dull boy
 All you need is love
 All's lost
@@ -156,6 +157,7 @@ Before setting out on a mission of vengeance, dig two graves
 Beggars belief
 Beggars can't be choosers
 Behind every great man, there is a great woman
+Behold!
 Believe it or not
 Bend [[my,his,her,their,one's]] ear
 Best bet
@@ -261,6 +263,7 @@ Do not put too many irons in the fire
 Do not spoil the ship for a ha'p'orth of tar
 Do not sympathize with those who can not empathize
 Do unto others as you would have them do unto you (the Golden Rule)
+Do you mind?
 Don't bite the hand that feeds you
 Don't count your chickens before they hatch
 Don't cry over spilled milk
@@ -328,6 +331,7 @@ Feeling a bit rusty
 Fight fire with fire
 Find your feet
 Finders keepers (losers weepers)
+Finders keepers losers weepers
 Fine by me
 Fine feathers make fine birds
 Fine words butter no parsnips
@@ -337,6 +341,7 @@ First things first
 Fish always rots from the head downwards
 Fish and guests smell after three days
 Fit as a fiddle
+Flash in the pan
 Flattery will get you nowhere
 Fly on the wall
 Fools rush in (where angels fear to tread)
@@ -361,6 +366,7 @@ Get out of hand
 Get the ball rolling
 Get the point
 Get your act together
+Getting [[my,your,his,her,one's,their]] ducks in a row
 Gilding the lily
 Give [[me,us]] a break
 Give a man a fish and you feed him for a day. Teach a man to fish and you feed him for a lifetime.
@@ -380,6 +386,7 @@ Go down in flames
 Go the extra mile
 Go with the flow
 God helps those who help themselves
+Going down the drain
 Good fences make good neighbours
 Good talk saves the food
 Great minds think alike
@@ -552,6 +559,7 @@ Knock on wood
 Know the ropes
 Know which side (one's) bread is buttered (on)
 Knowledge is power, guard it well
+Land ho!
 Late lunch makes day go faster
 Laugh all the way to the bank
 Laugh and the world laughs with you--weep and you weep alone
@@ -648,11 +656,13 @@ Money makes many things but also makes devil dance
 Money makes the world go [['round,around]]
 Money talks
 More haste less speed
+More or less
 More than meets the eye
 Mud sticks
 Music has charms to soothe the savage beast
 Nature abhors a vacuum
 Nature does not do anything in vain
+Ne plus ultra
 Necessity is the mother of invention
 Needle in a haystack
 Needs must when the devil drives
@@ -675,6 +685,7 @@ No bones about it
 No cap
 No friends but the mountains
 No guts no glory
+No hard feelings
 No man can serve two masters
 No man is an island
 No names no pack-drill
@@ -685,6 +696,7 @@ No rest for the wicked
 No strings attached
 No use in trying
 No way no how
+None too soon
 Not a chance
 Not all those who wander are lost
 Not my cup of tea
@@ -700,6 +712,7 @@ Of course my horse (trademarked by Guadalupe Schmidt-Mumm)
 Off the beaten path
 Off the top of my head
 Oil and water do not mix
+Okay this is epic
 Old as the hills
 Old sins cast long shadows
 Old soldiers never die (they simply/just fade away)
@@ -775,6 +788,7 @@ Put your foot in your mouth
 Put your money where your mouth is
 Quick as a flash
 Rain does not fall on one roof alone
+Rara avis
 Read [[me,you,him,her,us,them]] the riot act
 Read between the lines
 Ready or not here I come
@@ -790,6 +804,7 @@ Ring a bell
 Rise and shine
 Risk it for a biscuit
 Risk it for the biscuit
+Roll bones
 Rolling in the deep
 Rome [[wasn't,was not]] built in [[a,one]] day
 Rule of thumb
@@ -1080,6 +1095,7 @@ Who will bell the cat?
 Whom the Gods love die young
 Why am I not surprised?
 Wild goose chase
+Windbag
 With all due respect
 With great power comes great responsibility
 Without fail
