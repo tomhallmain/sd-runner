@@ -13,6 +13,7 @@ from sd_runner.captioner import Captioner
 from sd_runner.gen_config import GenConfig
 from sd_runner.image_converter import convert_image_if_needed, cleanup_converter, clear_converter_cache
 from sd_runner.models import Model
+from sd_runner.resolution import Resolution
 from sd_runner.workflow_prompt import WorkflowPrompt
 from ui.app_actions import AppActions
 from utils.config import config
@@ -178,6 +179,16 @@ class BaseImageGenerator(ABC):
         """Route to specific workflow implementation"""
         if self.random_skip():
             return
+
+        # Keep static selected resolutions unchanged and only randomize dimensions
+        # at the final generation call boundary.
+        resolution = kwargs.get("resolution")
+        if (
+            isinstance(resolution, Resolution)
+            and getattr(self.gen_config, "dimension_variation", False)
+            and not self.gen_config.is_redo_prompt()
+        ):
+            kwargs["resolution"] = resolution.with_random_variation()
 
         # Convert adapter images if needed
         control_net = kwargs.get('control_net')

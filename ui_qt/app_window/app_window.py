@@ -440,6 +440,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         sp.inpainting_check.setChecked(cfg.inpainting)
         sp.override_negative_check.setChecked(cfg.override_negative)
         sp.continuous_seed_var_check.setChecked(cfg.continuous_seed_variation)
+        sp.dimension_variation_check.setChecked(bool(getattr(cfg, "dimension_variation", False)))
 
         sp.prompt_massage_tags_box.setPlainText(cfg.prompt_massage_tags)
         sp.positive_tags_box.setPlainText(cfg.positive_tags)
@@ -483,6 +484,10 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         args.lora_tags = sp.lora_tags_entry.text()
         args.override_resolution = sp.override_resolution_check.isChecked()
         args.inpainting = sp.inpainting_check.isChecked()
+        args.continuous_seed_variation = sp.continuous_seed_var_check.isChecked()
+        args.dimension_variation = sp.dimension_variation_check.isChecked()
+        self.runner_app_config.continuous_seed_variation = args.continuous_seed_variation
+        self.runner_app_config.dimension_variation = args.dimension_variation
 
         # Sync prompt mode into runner_app_config before copying
         prompt_mode = PromptMode.get(sp.prompt_mode_combo.currentText())

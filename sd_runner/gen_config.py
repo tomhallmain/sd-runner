@@ -56,6 +56,7 @@ class GenConfig:
         self.software_type = run_config.software_type
         self.continuous_seed_variation = run_config.continuous_seed_variation
         self.batch_limit = run_config.batch_limit
+        self.dimension_variation = bool(getattr(run_config, "dimension_variation", False))
         self.run_config = run_config
         # Runtime-only context (not part of static run config)
         self.prompt_image_path = ""

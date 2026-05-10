@@ -36,6 +36,7 @@ class RunnerAppConfig:
         self.delay_time_seconds = str(Globals.GENERATION_DELAY_TIME_SECONDS)
         self.timestamp = datetime.datetime.now().isoformat()  # Add timestamp field
         self.continuous_seed_variation = False  # Whether to vary seed between every generation
+        self.dimension_variation = False  # Slight randomized dimension variation at generation time
 
         self.sampler = Sampler.ACCEPT_ANY.name
         self.scheduler = Scheduler.ACCEPT_ANY.name
@@ -83,6 +84,7 @@ class RunnerAppConfig:
         self.override_resolution = args.override_resolution
         self.inpainting = args.inpainting
         self.continuous_seed_variation = getattr(args, 'continuous_seed_variation', False)
+        self.dimension_variation = getattr(args, "dimension_variation", False)
 
     @staticmethod
     def from_dict(_dict):
@@ -102,6 +104,8 @@ class RunnerAppConfig:
             app_config.timestamp = datetime.datetime.now().isoformat()  # Add timestamp for old entries
         if not hasattr(app_config, 'continuous_seed_variation'):
             app_config.continuous_seed_variation = False  # Default to False for backward compatibility
+        if not hasattr(app_config, "dimension_variation"):
+            app_config.dimension_variation = False
         if not hasattr(app_config, 'sparse_mixed_tags'):
             app_config.sparse_mixed_tags = False  # Default to False for backward compatibility
         if not hasattr(app_config, 'batch_limit'):

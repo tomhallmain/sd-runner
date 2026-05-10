@@ -110,6 +110,7 @@ class PromptConfigWindow(SmartDialog):
         BaseImageGenerator.RANDOM_SKIP_CHANCE = float(cfg.random_skip_chance)
         Prompter.set_tags_apply_to_start(cfg.tags_apply_to_start)
         args.continuous_seed_variation = cfg.continuous_seed_variation
+        args.dimension_variation = cfg.dimension_variation
         cfg.prompter_config.sparse_mixed_tags = cfg.sparse_mixed_tags
 
     # ------------------------------------------------------------------
@@ -274,6 +275,11 @@ class PromptConfigWindow(SmartDialog):
         self._cb_continuous_seed.stateChanged.connect(self._on_widget_changed)
         col.addWidget(self._cb_continuous_seed)
 
+        self._cb_dimension_variation = QCheckBox(_("Slight Dimension Variation"))
+        self._cb_dimension_variation.setChecked(bool(self._cfg.dimension_variation))
+        self._cb_dimension_variation.stateChanged.connect(self._on_widget_changed)
+        col.addWidget(self._cb_dimension_variation)
+
         col.addStretch()
 
     # ------------------------------------------------------------------
@@ -412,6 +418,7 @@ class PromptConfigWindow(SmartDialog):
             cfg.sparse_mixed_tags = self._cb_sparse_mix.isChecked()
             pc.sparse_mixed_tags = cfg.sparse_mixed_tags
             cfg.continuous_seed_variation = self._cb_continuous_seed.isChecked()
+            cfg.dimension_variation = self._cb_dimension_variation.isChecked()
 
             # --- Category counts ------------------------------------------
             for name, (lo_cb, hi_cb) in self._cat_combos.items():

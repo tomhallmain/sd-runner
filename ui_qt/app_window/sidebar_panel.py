@@ -450,6 +450,10 @@ class SidebarPanel(QWidget):
         self.continuous_seed_var_check.setChecked(runner_cfg.continuous_seed_variation)
         layout.addWidget(self.continuous_seed_var_check)
 
+        self.dimension_variation_check = QCheckBox(_("Slight Dimension Variation"))
+        self.dimension_variation_check.setChecked(bool(getattr(runner_cfg, "dimension_variation", False)))
+        layout.addWidget(self.dimension_variation_check)
+
         # Prompt Massage Tags
         layout.addWidget(QLabel(_("Prompt Massage Tags")))
         self.prompt_massage_tags_box = QPlainTextEdit()

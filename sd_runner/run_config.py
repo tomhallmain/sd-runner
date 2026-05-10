@@ -47,6 +47,7 @@ class RunConfig:
         self.total = self.get("total")
         self.batch_limit = self.get("batch_limit")
         self.continuous_seed_variation = self.get("continuous_seed_variation")
+        self.dimension_variation = self.get("dimension_variation")
 
         if RunConfig.previous_model_tags != self.model_tags:
             RunConfig.model_switch_detected = True
@@ -55,11 +56,11 @@ class RunConfig:
 
     def get(self, name: str):
         if isinstance(self.args, dict):
-            return self.args[name]
+            return self.args.get(name)
         elif not self.args:
             return None
         else:
-            return getattr(self.args, name)
+            return getattr(self.args, name, None)
 
     def validate(self) -> bool:
         if self.prompter_config is None:

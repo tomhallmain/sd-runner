@@ -1,3 +1,4 @@
+import math
 import random
 import unittest
 
@@ -378,6 +379,116 @@ class TestUpscaleRounded(unittest.TestCase):
         w, h = res.upscale_rounded(1.5)
         self.assertEqual(w % 4, 0)
         self.assertEqual(h % 4, 0)
+
+
+class TestRandomDimensionVariation(unittest.TestCase):
+
+    def test_loose_dimensions_may_miss_multiple_of_four(self):
+        """Grid snap is stochastic; repeated draws should occasionally hit integral-only sides."""
+        random.seed(0)
+        saw_non_four = False
+        for _ in range(320):
+            r = Resolution.SQUARE(ArchitectureType.SDXL, ResolutionGroup.TEN_TWENTY_FOUR, scale=2)
+            varied = r.with_random_variation(variation_ratio=0.05)
+            if (varied.width % 4 != 0) or (varied.height % 4 != 0):
+                saw_non_four = True
+                break
+        self.assertTrue(saw_non_four)
+
+    def test_square_preset_sometimes_independent_axes(self):
+        """Square jitter uses independent axes at RANDOM_SQUARE_INDEPENDENT_AXIS_PROBABILITY — widths may differ."""
+        random.seed(42)
+        saw_unequal = False
+        for _ in range(800):
+            r = Resolution.SQUARE(ArchitectureType.SDXL, ResolutionGroup.TEN_TWENTY_FOUR, scale=2)
+            varied = r.with_random_variation(variation_ratio=0.05)
+            if varied.width != varied.height:
+                saw_unequal = True
+                break
+        self.assertTrue(saw_unequal)
+
+    def test_preserves_aspect_orientation(self):
+        random.seed(7)
+        res = Resolution.PORTRAIT(ArchitectureType.SDXL, ResolutionGroup.TEN_TWENTY_FOUR, scale=2)
+        varied = res.with_random_variation(variation_ratio=0.03, round_to=16)
+        self.assertGreater(varied.height, varied.width)
+
+    def test_stays_within_resolution_group_tolerance(self):
+        random.seed(13)
+        v_ratio = 0.1
+        res = Resolution.LANDSCAPE(ArchitectureType.SDXL, ResolutionGroup.TEN_TWENTY_FOUR, scale=3)
+        varied = res.with_random_variation(variation_ratio=v_ratio, round_to=16)
+        tr = Resolution.get_tolerance_range(
+            architecture_type=ArchitectureType.SDXL,
+            resolution_group=ResolutionGroup.TEN_TWENTY_FOUR,
+        )
+        j_lo, j_hi = Resolution.jitter_tolerance_pixel_extent(tr[0], tr[1], v_ratio)
+        pixels = varied.width * varied.height
+        self.assertGreaterEqual(pixels, math.floor(j_lo))
+        self.assertLessEqual(pixels, math.ceil(j_hi))
+
+    def test_monte_carlo_pixel_band_all_orientations(self):
+        """Every draw stays inside jitter_tolerance_pixel_extent (matches sampler script totals)."""
+        v_ratio = 0.05
+        arch = ArchitectureType.SDXL
+        rg = ResolutionGroup.TEN_TWENTY_FOUR
+        tr = Resolution.get_tolerance_range(architecture_type=arch, resolution_group=rg)
+        j_lo, j_hi = Resolution.jitter_tolerance_pixel_extent(tr[0], tr[1], v_ratio)
+        random.seed(123)
+        for factory in (
+            lambda: Resolution.LANDSCAPE(arch, rg, scale=2),
+            lambda: Resolution.SQUARE(arch, rg, scale=2),
+            lambda: Resolution.PORTRAIT(arch, rg, scale=2),
+        ):
+            for _ in range(300):
+                base = factory()
+                varied = base.with_random_variation(variation_ratio=v_ratio, round_to=16)
+                pixels = varied.width * varied.height
+                self.assertGreaterEqual(
+                    pixels, math.floor(j_lo),
+                    msg=f"{base.width}x{base.height} -> {varied.width}x{varied.height}",
+                )
+                self.assertLessEqual(
+                    pixels, math.ceil(j_hi),
+                    msg=f"{base.width}x{base.height} -> {varied.width}x{varied.height}",
+                )
+
+    def test_landscape_portrait_aspect_stays_near_base(self):
+        """Shared axis factor keeps aspect ratio near the preset (quantization slack only)."""
+        v_ratio = 0.05
+        arch = ArchitectureType.SDXL
+        rg = ResolutionGroup.TEN_TWENTY_FOUR
+        random.seed(201)
+        for factory in (
+            lambda: Resolution.LANDSCAPE(arch, rg, scale=2),
+            lambda: Resolution.PORTRAIT(arch, rg, scale=2),
+        ):
+            base = factory()
+            ar0 = base.aspect_ratio()
+            self.assertGreater(ar0, 0)
+            for _ in range(200):
+                varied = base.with_random_variation(variation_ratio=v_ratio, round_to=16)
+                ar1 = varied.aspect_ratio()
+                rel = abs(ar1 - ar0) / ar0
+                self.assertLess(rel, 0.03, msg=f"{base.width}x{base.height} -> {varied.width}x{varied.height}")
+
+    def test_square_aspect_deviation_bounded(self):
+        """Square jitter may use independent axes; |W/H − 1| stays within a coarse bound."""
+        v_ratio = 0.05
+        arch = ArchitectureType.SDXL
+        rg = ResolutionGroup.TEN_TWENTY_FOUR
+        random.seed(37)
+        base = Resolution.SQUARE(arch, rg, scale=2)
+        for _ in range(600):
+            varied = base.with_random_variation(variation_ratio=v_ratio, round_to=16)
+            drift = abs(varied.aspect_ratio() - 1.0)
+            self.assertLess(drift, 0.145, msg=f"{varied.width}x{varied.height}")
+
+    def test_zero_variation_returns_copy(self):
+        res = Resolution(1024, 768, resolution_group=ResolutionGroup.TEN_TWENTY_FOUR)
+        varied = res.with_random_variation(variation_ratio=0.0)
+        self.assertEqual(varied, res)
+        self.assertIsNot(varied, res)
 
 
 if __name__ == "__main__":

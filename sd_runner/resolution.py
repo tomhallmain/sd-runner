@@ -1,4 +1,5 @@
 
+import math
 import random
 from typing import Optional, TypeVar
 
@@ -8,6 +9,12 @@ from utils.utils import Utils
 
 class Resolution:
     T = TypeVar('T', bound='Resolution')
+    #: When jittering dimensions, snap both sides to multiples of *round_to* this often;
+    #: otherwise sides are integers only (may not be multiples of 4 / 16).
+    RANDOM_DIMENSION_GRID_SNAP_PROBABILITY = 0.5
+    #: For square presets only: use independent width/height scale factors this often; otherwise
+    #: one shared factor (output stays square aside from symmetric quantization).
+    RANDOM_SQUARE_INDEPENDENT_AXIS_PROBABILITY = 0.5
     TOTAL_PIXELS_TOLERANCE_RANGE = []
     XL_TOTAL_PIXELS_TOLERANCE_RANGE = []
     ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE = []
@@ -197,18 +204,159 @@ class Resolution:
 
     @staticmethod
     def round_int(value: int, multiplier: int = 4) -> int:
-        modified_value = int(value)
+        """Prefer a multiple of *multiplier*, using alternating widen-away-from-*value*
+        exploration (historical behaviour). Bounded work + fallback so this never spins.
+        """
+        m = int(multiplier)
+        v = int(value)
+        if m <= 1:
+            return v
+        modified_value = v
         try_above = True
         difference = 1
-        while modified_value % multiplier != 0:
-            modified_value = value + difference if try_above else value - difference
+        # Original loop always terminates quickly for valid width/height; cap defensively.
+        safeguard = min(m * 256 + 8192, 200_000)
+        iterations = 0
+        while modified_value % m != 0:
+            modified_value = v + difference if try_above else v - difference
             try_above = not try_above
+            difference += 1
+            iterations += 1
+            if iterations >= safeguard:
+                if v <= 0:
+                    return m
+                return ((v + m // 2) // m) * m
         return modified_value
 
     def upscale_rounded(self, factor: float = 1.5) -> tuple[int, int]:
         width = Resolution.round_int(int(self.width * factor))
         height = Resolution.round_int(int(self.height * factor))
         return width, height
+
+    def copy(self) -> T:
+        return Resolution(
+            width=self.width,
+            height=self.height,
+            scale=self.scale,
+            random_skip=self.random_skip,
+            resolution_group=self.resolution_group,
+        )
+
+    @staticmethod
+    def _default_architecture_type_for_group(resolution_group: ResolutionGroup) -> ArchitectureType:
+        if resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
+            return ArchitectureType.SDXL
+        if resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
+            return ArchitectureType.ILLUSTRIOUS
+        if resolution_group == ResolutionGroup.THIRTEEN_TWENTY_EIGHT:
+            return ArchitectureType.QWEN
+        return ArchitectureType.SD_15
+
+    @staticmethod
+    def jitter_tolerance_pixel_extent(
+        min_pixels: int,
+        max_pixels: int,
+        variation_ratio: float,
+    ) -> tuple[float, float]:
+        """Pixel-count band that matches uniform geometric scale jitter.
+
+        The discrete preset envelope [min_pixels, max_pixels] is intentionally tight—e.g. for SDXL
+        squares the nominal max equals the preset square area, so any scale-up hits the clamp and
+        quantizes straight back to the base side length. Stretch the band symmetrically in *area*
+        using the same (1 ± variation_ratio)**2 extremes implied by scaling both sides.
+        """
+        v = max(0.0, min(float(variation_ratio), 0.2))
+        loosen_sq = (1.0 + v) ** 2
+        lo = float(min_pixels) / loosen_sq
+        hi = float(max_pixels) * loosen_sq
+        return lo, hi
+
+    def with_random_variation(self, variation_ratio: float = 0.05, round_to: int = 16) -> T:
+        """Scale jitter per side with optional grid snap and soft pixel clamp.
+
+        Square presets (:pyattr:`width` == :pyattr:`height`) with probability
+        :pyattr:`RANDOM_SQUARE_INDEPENDENT_AXIS_PROBABILITY` draw **independent** scale factors
+        for width and height (mild non-square aspect); otherwise they use one shared factor.
+
+        Non-square presets always use one shared scale factor so landscape/portrait orientation is kept.
+
+        With probability :pyattr:`RANDOM_DIMENSION_GRID_SNAP_PROBABILITY`, snaps each side to a
+        multiple of *round_to* (normally 16, hence multiples of 4); otherwise rounds to nearest
+        integer pixels only (often not divisible by 4).
+
+        Uses bounded arithmetic; pixel clamp may run a short guarded loop when grid
+        snap rounds past the soft area band.
+        """
+        variation_ratio = max(0.0, min(float(variation_ratio), 0.2))
+        if variation_ratio == 0:
+            return self.copy()
+
+        rt = max(2, min(int(round_to), 4096))
+        snap_grid = random.random() < Resolution.RANDOM_DIMENSION_GRID_SNAP_PROBABILITY
+
+        architecture_type = Resolution._default_architecture_type_for_group(self.resolution_group)
+        min_pixels, max_pixels = Resolution.get_tolerance_range(
+            architecture_type=architecture_type,
+            resolution_group=self.resolution_group,
+        )
+
+        def _quantize_side(side: float) -> int:
+            if snap_grid:
+                qi = Resolution.round_int(int(side), multiplier=rt)
+                return max(rt, qi)
+            return max(rt, int(round(side)))
+
+        lo_f = 1.0 - variation_ratio
+        hi_f = 1.0 + variation_ratio
+        if self.width == self.height and random.random() < Resolution.RANDOM_SQUARE_INDEPENDENT_AXIS_PROBABILITY:
+            factor_w = random.uniform(lo_f, hi_f)
+            factor_h = random.uniform(lo_f, hi_f)
+        else:
+            factor_w = factor_h = random.uniform(lo_f, hi_f)
+
+        wf = float(self.width) * factor_w
+        hf = float(self.height) * factor_h
+
+        varied = Resolution(
+            width=_quantize_side(wf),
+            height=_quantize_side(hf),
+            scale=self.scale,
+            random_skip=self.random_skip,
+            resolution_group=self.resolution_group,
+        )
+
+        pixels_area = wf * hf
+        if pixels_area <= 0:
+            return varied
+
+        j_lo, j_hi = Resolution.jitter_tolerance_pixel_extent(
+            min_pixels, max_pixels, variation_ratio
+        )
+        # Enforce band on quantized pixels: float wf*hf can sit inside the band while integer
+        # W×H after snap/round overshoots (e.g. 1024 preset → 1088×1088).
+        pix_int = varied.width * varied.height
+        if j_lo <= pix_int <= j_hi:
+            return varied
+
+        clamped_pf = min(max(float(pix_int), j_lo), j_hi)
+        ar_raw = wf / hf if hf != 0 else 1.0
+        safeguard = 48
+        for _ in range(safeguard):
+            wf2 = math.sqrt(max(1.0, clamped_pf * ar_raw))
+            hf2 = math.sqrt(max(1.0, clamped_pf / ar_raw))
+            varied.width = _quantize_side(wf2)
+            varied.height = _quantize_side(hf2)
+            pix_int = varied.width * varied.height
+            if j_lo <= pix_int <= j_hi:
+                return varied
+            if pix_int > j_hi:
+                clamped_pf *= (float(j_hi) / float(pix_int)) * 0.99995
+                continue
+            if pix_int < j_lo:
+                clamped_pf *= (float(j_lo) / float(pix_int)) * 1.00005
+                continue
+            break
+        return varied
 
     def is_xl(self) -> bool:
         return self.width > 768 and self.height > 768

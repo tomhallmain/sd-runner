@@ -67,6 +67,7 @@ class PromptConfigWindow:
         BaseImageGenerator.RANDOM_SKIP_CHANCE = float(cls._runner_app_config.random_skip_chance)
         Prompter.set_tags_apply_to_start(cls._runner_app_config.tags_apply_to_start)
         args.continuous_seed_variation = cls._runner_app_config.continuous_seed_variation
+        args.dimension_variation = cls._runner_app_config.dimension_variation
         cls._runner_app_config.prompter_config.sparse_mixed_tags = cls._runner_app_config.sparse_mixed_tags
     
     def __init__(self, master, app_actions, runner_app_config: RunnerAppConfig):
@@ -169,6 +170,7 @@ class PromptConfigWindow:
         self.tags_at_start_var.trace_add('write', self.update_config_from_widgets)
         self.tags_sparse_mix_var.trace_add('write', self.update_config_from_widgets)
         self.continuous_seed_variation_var.trace_add('write', self.update_config_from_widgets)
+        self.dimension_variation_var.trace_add('write', self.update_config_from_widgets)
         
     def update_config_from_widgets(self, *args):
         """Update the configuration from the current widget values."""
@@ -206,6 +208,7 @@ class PromptConfigWindow:
             self.runner_app_config.override_negative = self.override_negative_var.get()
             self.runner_app_config.tags_apply_to_start = self.tags_at_start_var.get()
             self.runner_app_config.continuous_seed_variation = self.continuous_seed_variation_var.get()
+            self.runner_app_config.dimension_variation = self.dimension_variation_var.get()
             self.runner_app_config.sparse_mixed_tags = self.tags_sparse_mix_var.get()
             
         except (ValueError, AttributeError) as e:
@@ -743,6 +746,11 @@ class PromptConfigWindow:
         self.continuous_seed_variation_choice = Checkbutton(self.first_column, text=_("Continuous Seed Variation"), 
                                                             variable=self.continuous_seed_variation_var, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
         self.apply_to_grid(self.continuous_seed_variation_choice, sticky=W, columnspan=3, column=0)
+
+        self.dimension_variation_var = BooleanVar(value=self.runner_app_config.dimension_variation)
+        self.dimension_variation_choice = Checkbutton(self.first_column, text=_("Slight Dimension Variation"),
+                                                      variable=self.dimension_variation_var, bg=AppStyle.BG_COLOR, fg=AppStyle.FG_COLOR, selectcolor=AppStyle.BG_COLOR)
+        self.apply_to_grid(self.dimension_variation_choice, sticky=W, columnspan=3, column=0)
         
     def add_section_header(self, text, columnspan=1, sticky=W, column=0):
         """Add a section header label."""
