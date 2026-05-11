@@ -166,6 +166,10 @@ class AppInfoCache:
         been checked. The cache is keyed by entry content hash and blacklist version
         to ensure consistency. Only clears cache when blacklist version changes.
         
+        If every entry would be removed, the most recent run is still kept so the
+        user's last-used configuration can load on the next session. Truly empty
+        history (never saved) is unchanged; ``get_history(0)`` then returns defaults.
+
         Must be called from within a locked context.
         """
         if not self._cache.get(AppInfoCache.HISTORY_KEY):
@@ -174,7 +178,9 @@ class AppInfoCache:
         prompt_mode = PromptMode.get(self.get("prompt_mode", default_val=PromptMode.SFW.name))
         if prompt_mode.is_nsfw() and Blacklist.get_blacklist_prompt_mode() == BlacklistPromptMode.ALLOW_IN_NSFW:
             return
-        
+
+        raw_history = list(self._cache[AppInfoCache.HISTORY_KEY])
+
         # Get current blacklist version
         current_version = Blacklist.get_version()
         
@@ -194,7 +200,7 @@ class AppInfoCache:
         filtered_history = []
         count_removed = 0
 
-        for config_dict in self._cache[AppInfoCache.HISTORY_KEY]:
+        for config_dict in raw_history:
             config = RunnerAppConfig.from_dict(config_dict)
             if not config.positive_tags or not config.positive_tags.strip():
                 filtered_history.append(config_dict)
@@ -226,10 +232,17 @@ class AppInfoCache:
             else:
                 count_removed += 1
 
+        if not filtered_history and raw_history:
+            filtered_history.append(raw_history[0])
+            logger.info(
+                "All run history entries matched blacklist rules; retaining the "
+                "most recent entry so the last-used configuration can still be restored."
+            )
+
         if count_removed > 0:
             logger.info(f"Removed {count_removed} history entries with blacklisted items.")
             logger.info(f"Remaining history entries: {len(filtered_history)}")
-            
+
         # Ensure we don't exceed MAX_HISTORY_ENTRIES after filtering
         if len(filtered_history) > AppInfoCache.MAX_HISTORY_ENTRIES:
             filtered_history = filtered_history[:AppInfoCache.MAX_HISTORY_ENTRIES]
@@ -336,12 +349,27 @@ class AppInfoCache:
     def get_last_history_index(self):
         with self._lock:
             history = self._get_history()
+            if not history:
+                return 0
             return len(history) - 1
+
+    def clamp_config_history_index(self, index: int) -> int:
+        """Clamp a persisted config-history navigation index to a valid row after load/purge."""
+        with self._lock:
+            history = self._get_history()
+            idx = max(0, index)
+            if not history:
+                return 0
+            return min(idx, len(history) - 1)
 
     def get_history(self, _idx=0):
         with self._lock:
             history = self._get_history()
-            if _idx >= len(history):
+            if not history:
+                if _idx == 0:
+                    return RunnerAppConfig().to_dict()
+                raise Exception("Invalid history index " + str(_idx))
+            if _idx < 0 or _idx >= len(history):
                 raise Exception("Invalid history index " + str(_idx))
             return history[_idx]
 

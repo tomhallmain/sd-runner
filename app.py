@@ -531,6 +531,7 @@ class App():
             BlacklistWindow.set_blacklist()
             # Run cache post-init once, now that blacklist settings have been restored.
             app_info_cache.post_init()
+            self.config_history_index = app_info_cache.clamp_config_history_index(self.config_history_index)
             PresetsWindow.set_recent_presets()
             SchedulesWindow.set_schedules()
             ExpansionsWindow.set_expansions()

@@ -67,6 +67,29 @@ def _base_resolution(
     raise ValueError(label)
 
 
+def sample_orientation_counts(
+    label: str,
+    architecture_type: ArchitectureType,
+    resolution_group: ResolutionGroup,
+    scale: int,
+    *,
+    variation_ratio: float,
+    round_to: int,
+    n: int,
+) -> tuple[Counter[tuple[int, int]], Resolution]:
+    """
+    Draw *n* jittered resolutions for one orientation; return (WxH counts, base resolution).
+    """
+    base = _base_resolution(label, architecture_type, resolution_group, scale)
+    counter: Counter[tuple[int, int]] = Counter()
+    for _ in range(n):
+        out = base.with_random_variation(
+            variation_ratio=variation_ratio, round_to=round_to
+        )
+        counter[(out.width, out.height)] += 1
+    return counter, base
+
+
 def _run_group(
     label: str,
     architecture_type: ArchitectureType,
@@ -77,14 +100,15 @@ def _run_group(
     round_to: int,
     n: int,
 ) -> None:
-    base = _base_resolution(label, architecture_type, resolution_group, scale)
-    counter: Counter[tuple[int, int]] = Counter()
-
-    for _ in range(n):
-        out = base.with_random_variation(
-            variation_ratio=variation_ratio, round_to=round_to
-        )
-        counter[(out.width, out.height)] += 1
+    counter, base = sample_orientation_counts(
+        label,
+        architecture_type,
+        resolution_group,
+        scale,
+        variation_ratio=variation_ratio,
+        round_to=round_to,
+        n=n,
+    )
 
     base_ar = float(base.width) / float(base.height) if base.height else 1.0
     base_px = base.width * base.height

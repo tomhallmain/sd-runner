@@ -62,9 +62,9 @@ class CacheController:
                 "config_history_index", default_val=0
             )
             BlacklistWindow.set_blacklist()
-            # Run cache post-init once, now that blacklist settings have been
-            # restored.
+            # Run cache post-init once, now that blacklist settings have been restored.
             app_info_cache.post_init()
+            self._app.config_history_index = app_info_cache.clamp_config_history_index(self._app.config_history_index)
             PresetsWindow.set_recent_presets()
             SchedulesWindow.set_schedules()
             _set_expansions()
