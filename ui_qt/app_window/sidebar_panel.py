@@ -505,7 +505,7 @@ class SidebarPanel(QWidget):
 
     def construct_preset(self, name: str):
         """Build a ``Preset`` from the current widget values."""
-        from ui.preset import Preset
+        from ui_qt.presets.preset import Preset
         args, _ = self._app.get_args()
         self._app.runner_app_config.set_from_run_config(args)
         self._app.cache_ctrl.store_info_cache()

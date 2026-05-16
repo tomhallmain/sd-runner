@@ -33,7 +33,7 @@ from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
 from utils.time_estimator import TimeEstimator
-from ui.app_actions import AppActions
+from ui_qt.app_actions import AppActions
 from ui.app_style import AppStyle
 from ui.concept_editor_window import ConceptEditorWindow
 from ui.expansions_window import ExpansionsWindow
@@ -42,7 +42,7 @@ from ui.auth.password_utils import check_password_required, require_password
 from ui.auth.password_core import get_security_config
 from ui.models_window import ModelsWindow
 from ui.recent_adapters_window import RecentAdaptersWindow
-from ui.preset import Preset
+from ui_qt.presets.preset import Preset
 from ui.presets_window import PresetsWindow
 from ui.schedules_windows import SchedulesWindow
 from ui.timed_schedules_window import TimedSchedulesWindow

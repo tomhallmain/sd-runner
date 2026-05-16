@@ -5,7 +5,7 @@ import shutil
 from unittest.mock import Mock, patch, MagicMock
 from sd_runner.control_nets import get_control_nets
 from sd_runner.ip_adapters import get_ip_adapters
-from ui.app_actions import AppActions
+from ui_qt.app_actions import AppActions
 
 
 class TestAdapterSorting(unittest.TestCase):

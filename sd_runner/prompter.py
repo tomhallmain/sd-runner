@@ -6,7 +6,7 @@ import subprocess
 from sd_runner.blacklist import Blacklist
 from sd_runner.concepts import ConceptConfiguration, Concepts
 from sd_runner.prompter_configuration import PrompterConfiguration
-from ui.expansion import Expansion
+from sd_runner.expansion import Expansion
 from utils.config import config
 from utils.globals import PromptMode
 from utils.logging_setup import get_logger

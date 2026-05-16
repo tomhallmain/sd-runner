@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from ui.presets_window import PresetsWindow as _PresetsBackend
-from ui.schedule import PresetTask, Schedule
+from ui_qt.presets.schedule import PresetTask, Schedule
 from ui.schedules_windows import SchedulesWindow as _SchedulesBackend
 from ui_qt.presets.presets_window import PresetsWindow
 from ui_qt.app_style import AppStyle
@@ -29,7 +29,7 @@ from utils.globals import ProtectedActions
 from utils.translations import I18N
 
 if TYPE_CHECKING:
-    from ui.app_actions import AppActions
+    from ui_qt.app_actions import AppActions
 
 _ = I18N._
 
@@ -188,7 +188,7 @@ class SchedulesWindow(SmartDialog):
     @staticmethod
     def set_schedules():
         from utils.app_info_cache import app_info_cache
-        from ui.schedule import Schedule
+        from ui_qt.presets.schedule import Schedule
         for schedule_dict in list(app_info_cache.get("recent_schedules", default_val=[])):
             SchedulesWindow.recent_schedules.append(Schedule.from_dict(schedule_dict))
         current_schedule_dict = app_info_cache.get("current_schedule", default_val=None)

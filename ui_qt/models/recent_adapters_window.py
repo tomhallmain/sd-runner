@@ -34,7 +34,7 @@ from utils.translations import I18N
 from utils.utils import Utils
 
 if TYPE_CHECKING:
-    from ui.app_actions import AppActions
+    from ui_qt.app_actions import AppActions
 
 _ = I18N._
 logger = get_logger("ui_qt.recent_adapters_window")

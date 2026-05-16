@@ -25,7 +25,7 @@ from lib.multi_display_qt import SmartMainWindow
 from run import Run
 from sd_runner.comfy_gen import ComfyGen
 from sd_runner.models import Model
-from ui.app_actions import AppActions
+from ui_qt.app_actions import AppActions
 from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
 from ui_qt.app_style import AppStyle
 from utils.app_icon import get_app_icon_path

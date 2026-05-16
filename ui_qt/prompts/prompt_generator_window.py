@@ -33,7 +33,7 @@ from utils.globals import Globals, PromptMode
 from utils.translations import I18N
 
 if TYPE_CHECKING:
-    from ui.app_actions import AppActions
+    from ui_qt.app_actions import AppActions
     from ui_qt.app_window.app_window import AppWindow
 
 _ = I18N._

@@ -6,7 +6,7 @@ from tkinter.ttk import Entry, Button
 
 from lib.multi_display import SmartToplevel
 from ui.app_style import AppStyle
-from ui.expansion import Expansion
+from sd_runner.expansion import Expansion
 from ui.auth.password_utils import require_password
 from utils.globals import ProtectedActions
 from utils.app_info_cache import app_info_cache

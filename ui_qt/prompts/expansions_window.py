@@ -31,7 +31,7 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from ui.expansion import Expansion
+from sd_runner.expansion import Expansion
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
 from utils.globals import ProtectedActions
@@ -39,7 +39,7 @@ from utils.translations import I18N
 from utils.utils import Utils
 
 if TYPE_CHECKING:
-    from ui.app_actions import AppActions
+    from ui_qt.app_actions import AppActions
 
 _ = I18N._
 

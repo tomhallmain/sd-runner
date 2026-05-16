@@ -20,15 +20,15 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from ui.preset import Preset
 from ui.presets_window import PresetsWindow as _PresetsBackend
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
+from ui_qt.presets.preset import Preset
 from utils.globals import ProtectedActions
 from utils.translations import I18N
 
 if TYPE_CHECKING:
-    from ui.app_actions import AppActions
+    from ui_qt.app_actions import AppActions
 
 _ = I18N._
 
@@ -50,7 +50,7 @@ class PresetsWindow(SmartDialog):
     @staticmethod
     def set_recent_presets():
         from utils.app_info_cache import app_info_cache
-        from ui.preset import Preset
+        from ui_qt.presets.preset import Preset
         for preset_dict in list(app_info_cache.get("recent_presets", default_val=[])):
             PresetsWindow.recent_presets.append(Preset.from_dict(preset_dict))
 

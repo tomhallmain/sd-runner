@@ -7,7 +7,7 @@ from tkinter.ttk import Entry, Button
 from lib.multi_display import SmartToplevel
 from ui.app_style import AppStyle
 from ui.presets_window import PresetsWindow
-from ui.schedule import PresetTask, Schedule
+from ui_qt.presets.schedule import PresetTask, Schedule
 from ui.auth.password_utils import require_password
 from utils.globals import ProtectedActions
 from utils.app_info_cache import app_info_cache
