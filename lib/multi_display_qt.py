@@ -718,8 +718,8 @@ class SmartMainWindow(QMainWindow):
             return  # Already restored
             
         try:
-            from utils.app_info_cache_qt import app_info_cache
-            
+            from utils.app_info_cache import app_info_cache
+
             position_data = app_info_cache.get_display_position()
             
             if position_data and position_data.is_valid():
@@ -783,8 +783,8 @@ class SmartMainWindow(QMainWindow):
         """Handle window close event - save geometry if enabled"""
         if self._restore_geometry:
             try:
-                from utils.app_info_cache_qt import app_info_cache
-                
+                from utils.app_info_cache import app_info_cache
+
                 # Save window position using app_info_cache
                 app_info_cache.set_display_position(self)
                 

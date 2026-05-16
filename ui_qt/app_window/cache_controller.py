@@ -135,7 +135,6 @@ class CacheController:
     def store_display_position(self) -> None:
         """Save current window position and virtual screen info to cache."""
         try:
-            from utils.app_info_cache_qt import app_info_cache as app_info_cache
             app_info_cache.set_display_position(self._app)
             app_info_cache.set_virtual_screen_info(self._app)
         except Exception as e:
@@ -149,9 +148,6 @@ class CacheController:
         Ported from App.apply_cached_display_position (sibling project).
         """
         try:
-            from utils.app_info_cache_qt import app_info_cache as app_info_cache
-            from lib.position_data_qt import PositionData
-
             position_data = app_info_cache.get_display_position()
             if not position_data or not position_data.is_valid():
                 return False

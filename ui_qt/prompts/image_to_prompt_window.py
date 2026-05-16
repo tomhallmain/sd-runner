@@ -30,7 +30,7 @@ from PySide6.QtWidgets import (
 from lib.multi_display_qt import SmartDialog
 from sd_runner.image_to_prompt import ImageToPromptBackend, ImageToPromptService
 from ui_qt.app_style import AppStyle
-from utils.app_info_cache_qt import app_info_cache
+from utils.app_info_cache import app_info_cache
 from utils.translations import I18N
 
 if TYPE_CHECKING:
