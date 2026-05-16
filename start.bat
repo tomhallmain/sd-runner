@@ -1,2 +1,2 @@
 CALL TITLE SD Runner
-python %~dp0\app.py
+python %~dp0\app_qt.py

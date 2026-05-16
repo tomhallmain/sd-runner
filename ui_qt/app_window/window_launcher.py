@@ -1,11 +1,7 @@
 """
 WindowLauncher -- opens all secondary windows and dialogs.
 
-A thin class where each method creates the appropriate dialog/window.
-Extracted from: all open_*_window methods.
-
-Ported windows import from ``ui_qt/`` (e.g. ``ui_qt.presets``).
-Windows still awaiting port import from the original ``ui/``.
+Each method creates the appropriate secondary window or dialog.
 """
 
 from __future__ import annotations

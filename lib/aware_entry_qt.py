@@ -1,10 +1,9 @@
 """
 Focus-aware QLineEdit for PySide6.
 
-Port of lib/aware_entry.py. Provides a class-level flag that tracks whether
-any AwareEntry instance currently has keyboard focus. This is used by the
-main application window to suppress single-key shortcuts while the user is
-typing in a text field.
+Provides a class-level flag that tracks whether any AwareEntry instance
+currently has keyboard focus. This is used by the main application window
+to suppress single-key shortcuts while the user is typing in a text field.
 """
 
 from PySide6.QtWidgets import QLineEdit

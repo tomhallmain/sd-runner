@@ -1,7 +1,5 @@
 """
-BlacklistModifyWindow -- edit a single blacklist item (PySide6 port).
-
-Ported from ``ui/tags_blacklist_window.py :: BlacklistModifyWindow``.
+BlacklistModifyWindow -- edit a single blacklist item.
 """
 
 from __future__ import annotations

@@ -1,11 +1,10 @@
 """
 Autocomplete QLineEdit for PySide6.
 
-Port of lib/autocomplete_entry.py.  Provides a text entry with a dropdown
-completion list that supports custom matching and selection functions.  This
-enables multi-tag autocomplete (e.g. comma- or plus-separated values) when
-the caller supplies appropriate *matches_function* and *set_function*
-callbacks.
+Provides a text entry with a dropdown completion list that supports custom
+matching and selection functions.  This enables multi-tag autocomplete (e.g.
+comma- or plus-separated values) when the caller supplies appropriate 
+*matches_function* and *set_function* callbacks.
 
 Modified from source: https://gist.github.com/uroshekic/11078820
 """

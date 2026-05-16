@@ -1,8 +1,7 @@
 """
-TimedSchedulesWindow + TimedScheduleModifyWindow -- day/time-based schedules (PySide6 port).
+TimedSchedulesWindow + TimedScheduleModifyWindow -- day/time-based schedules.
 
-Ported from ``ui/timed_schedules_window.py``.  Backend data lives on the
-``timed_schedules_manager`` singleton which is imported unchanged.
+Backend data lives on the ``timed_schedules_manager`` singleton which is imported unchanged.
 """
 
 from __future__ import annotations

@@ -1,5 +1,5 @@
 """
-BlacklistPreviewWindow -- preview and test blacklist items (PySide6 port).
+BlacklistPreviewWindow -- preview and test blacklist items.
 
 Two sections:
 1. **Test Text** -- enter arbitrary text and see which blacklist rules

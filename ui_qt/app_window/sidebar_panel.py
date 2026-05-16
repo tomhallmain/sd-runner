@@ -34,7 +34,7 @@ logger = get_logger("ui_qt.sidebar_panel")
 
 
 # ---------------------------------------------------------------------------
-# Tag-splitting helpers (ported from app.py module-level functions)
+# Tag-splitting helpers
 # ---------------------------------------------------------------------------
 
 def matches_tag(field_value: str, ac_list_entry: str) -> bool:

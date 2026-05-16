@@ -1,7 +1,5 @@
 """
-ExpansionsWindow / ExpansionModifyWindow -- manage prompt expansions (PySide6 port).
-
-Ported from ``ui/expansions_window.py``.
+ExpansionsWindow / ExpansionModifyWindow -- manage prompt expansions.
 
 Static data helpers (``set_expansions``, ``store_expansions``, etc.) live on
 :class:`ExpansionsWindow` for persistence via ``CacheController``.

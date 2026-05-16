@@ -1,7 +1,6 @@
 """
-BlacklistWindow -- Tag / Model blacklist management (PySide6 port).
+BlacklistWindow -- Tag / Model blacklist management.
 
-Ported from ``ui/tags_blacklist_window.py :: BlacklistWindow``.
 Static data helpers (``set_blacklist``, ``store_blacklist``, etc.) live on
 this class for persistence via ``CacheController``.
 

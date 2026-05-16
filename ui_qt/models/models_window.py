@@ -1,7 +1,7 @@
 """
-ModelsWindow + LoRAInfoWindow -- model/adapter browser (PySide6 port).
+ModelsWindow + LoRAInfoWindow -- model/adapter browser.
 
-Ported from ``ui/models_window.py``.  Checkpoint/adapter scan cache lives on
+Checkpoint/adapter scan cache lives on
 this class (``_checkpoints_cache``, ``_adapters_cache``, ``_cache_timestamp``).
 """
 

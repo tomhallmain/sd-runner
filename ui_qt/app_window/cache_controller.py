@@ -43,8 +43,8 @@ class CacheController:
         """
         Load all caches from disk and return a ``RunnerAppConfig``.
 
-        Ported from App.load_info_cache -- calls the static loaders on
-        every module that persists data through the app_info_cache.
+        Calls the static loaders on every module that persists data through
+        the app_info_cache.
         """
         from utils.runner_app_config import RunnerAppConfig
         from ui_qt.prompts.blacklist_window import BlacklistWindow
@@ -90,8 +90,6 @@ class CacheController:
     def store_info_cache(self) -> None:
         """
         Persist all application state to the encrypted cache.
-
-        Ported from App.store_info_cache.
         """
         from ui_qt.prompts.blacklist_window import BlacklistWindow
         from ui_qt.presets.presets_window import PresetsWindow
@@ -144,8 +142,6 @@ class CacheController:
         """
         Restore the window geometry from the cached display position.
         Returns True if a position was applied.
-
-        Ported from App.apply_cached_display_position (sibling project).
         """
         try:
             position_data = app_info_cache.get_display_position()

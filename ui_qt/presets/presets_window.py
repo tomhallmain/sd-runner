@@ -1,7 +1,7 @@
 """
-PresetsWindow -- manage prompt presets (PySide6 port).
+PresetsWindow -- manage prompt presets.
 
-Ported from ``ui/presets_window.py``.  The ``Preset`` data class lives in
+The ``Preset`` data class lives in
 ``ui_qt.presets.preset``; static class-level preset list state lives on this
 class for persistence via ``CacheController``.
 """

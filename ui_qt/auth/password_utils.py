@@ -173,7 +173,6 @@ def require_password(
         def wrapper(self, *args, **kwargs):
             # Resolve the parent window for the password dialog.
             # Different classes store it under different names:
-            #   - Tkinter App / dialogs:  self.master
             #   - Qt controllers:         self._app  (the AppWindow)
             #   - Qt dialogs:             self._parent
             #   - Class-level fallback:   cls.top_level

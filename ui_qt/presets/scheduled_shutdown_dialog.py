@@ -1,9 +1,7 @@
 """
-ScheduledShutdownDialog -- countdown dialog before scheduled shutdown (PySide6 port).
+ScheduledShutdownDialog -- countdown dialog before scheduled shutdown.
 
-Ported from ``ui/scheduled_shutdown_dialog.py``.  Replaces the
-background-thread countdown with a ``QTimer`` so no cross-thread widget
-access occurs.
+Uses a ``QTimer`` for the countdown so no cross-thread widget access occurs.
 """
 
 from __future__ import annotations

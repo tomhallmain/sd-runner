@@ -1,9 +1,9 @@
 """
-RecentAdaptersWindow -- recent ControlNet and IP Adapter browser (PySide6 port).
+RecentAdaptersWindow -- recent ControlNet and IP Adapter browser.
 
-Ported from ``ui/recent_adapters_window.py``.  Static class-level data and
-helper methods (``load_recent_adapters``, ``save_recent_adapters``, etc.)
-live on this class for ``CacheController`` and ``AppActions``.
+Static class-level data and helper methods (``load_recent_adapters``,
+``save_recent_adapters``, etc.) live on this class for persistence
+via ``CacheController`` and ``AppActions``.
 """
 
 from __future__ import annotations

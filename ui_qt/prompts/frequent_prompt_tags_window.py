@@ -1,7 +1,5 @@
 """
-FrequentPromptTagsWindow -- browse and apply frequently-used prompt tags (PySide6 port).
-
-Ported from ``ui/frequent_prompt_tags_window.py``.
+FrequentPromptTagsWindow -- browse and apply frequently-used prompt tags.
 
 .. note::
 

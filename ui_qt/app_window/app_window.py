@@ -451,12 +451,12 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         sp.sync_globals_from_widgets()
 
     # ------------------------------------------------------------------
-    # Build run config from UI (ported from App.get_basic_run_config)
+    # Build run config from UI
     # ------------------------------------------------------------------
     def get_basic_run_config(self):
         """Build a base ``RunConfig`` from the current widget values.
 
-        Ported from ``App.get_basic_run_config``.  Sets all scalar fields
+        Sets all scalar fields
         and -- critically -- copies the ``prompter_config`` from
         ``runner_app_config`` so that ``RunConfig.validate()`` succeeds.
         """
@@ -509,7 +509,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         Returns ``(args, args_copy)`` where ``args_copy`` is a deepcopy
         for storing in the config cache.
 
-        Ported from ``App.get_args``.  Syncs all sidebar widget values
+        Syncs all sidebar widget values
         into ``runner_app_config`` and builds the ``RunConfig``.
         """
         from copy import deepcopy
@@ -576,8 +576,6 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self, model_name: str, is_lora: bool = False, replace: bool = False,
     ) -> None:
         """Insert a model name into the model or LoRA tags entry.
-
-        Ported from ``App.set_model_from_models_window``.
 
         *replace* = True  → overwrite the field with just the new name.
         *replace* = False → append with the appropriate separator.

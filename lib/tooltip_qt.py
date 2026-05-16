@@ -1,9 +1,9 @@
 """
 Simple tooltip implementation for PySide6 widgets.
 
-Port of lib/tooltip.py. Uses QToolTip for lightweight, native-feeling tooltips
-with a configurable show delay. The tooltip appears after a delay when the mouse
-enters the widget and hides when the mouse leaves or a button is pressed.
+Uses QToolTip for lightweight, native-feeling tooltips with a configurable
+show delay. The tooltip appears after a delay when the mouse enters the widget
+and hides when the mouse leaves or a button is pressed.
 """
 
 from PySide6.QtCore import QEvent, QObject, QPoint, QTimer
@@ -70,5 +70,5 @@ class ToolTip:
 
 
 def create_tooltip(widget: QWidget, text: str, delay_ms: int = 500) -> ToolTip:
-    """Create a tooltip for the given widget. Drop-in replacement for the tkinter version."""
+    """Create a tooltip for the given widget."""
     return ToolTip(widget, text, delay_ms)

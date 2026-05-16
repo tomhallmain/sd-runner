@@ -1,10 +1,8 @@
 cryptography
 keyring
 piexif
-ttkthemes
-# GUI framework -- PySide6 for the Qt port, ttkthemes for the legacy tkinter path
+# GUI framework
 PySide6>=6.6.0
-# ttkthemes  # Only needed for the legacy tkinter entry point (app.py)
 
 # Optional dependencies for image format conversion
 # Uncomment the following lines to enable image conversion capabilities:

@@ -18,11 +18,9 @@ This code is primarily a prompt engineering application that triggers ComfyUI wo
 
 ## Running the Application
 
-The primary frontend is now PySide6/Qt.
+- **Entry point:** `python app_qt.py` or `start.bat`
 
-- **PySide6 (Qt):** `python app_qt.py` or `start_qt.bat`
-
-The legacy Tkinter frontend is slated for deprecation and kept only for transition/testing. Both frontends are still installable from the same `requirements.txt`. The PySide6 version offers a modernized interface with custom theming, frameless windows, and configurable UI scaling (`ui_scale_factor` in `config.json`).
+The application uses PySide6 with custom theming, optional frameless windows, and configurable UI scaling (`ui_scale_factor` in `config.json`).
 
 ## Configuration Options
 

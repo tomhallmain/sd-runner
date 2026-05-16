@@ -1,7 +1,5 @@
 """
-PromptConfigWindow -- detailed prompt configuration settings (PySide6 port).
-
-Ported from ``ui/prompt_config_window.py``.
+PromptConfigWindow -- detailed prompt configuration settings.
 
 **Integration with ``AppWindow``:**
 

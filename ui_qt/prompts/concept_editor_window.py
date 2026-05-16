@@ -1,7 +1,5 @@
 """
-ConceptEditorWindow -- browse, search, add, delete, and import concepts (PySide6 port).
-
-Ported from ``ui/concept_editor_window.py``.
+ConceptEditorWindow -- browse, search, add, delete, and import concepts.
 
 Key safety properties:
     - **Save** only writes to the file selected in the file combo.

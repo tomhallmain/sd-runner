@@ -5,7 +5,7 @@ Extracted from the key-binding block in App.__init__.
 Each shortcut is guarded by a focus check so that single-key shortcuts
 are suppressed while the user is typing in an AwareEntry.
 
-Tkinter key syntax → Qt key syntax mapping:
+Legacy key syntax → Qt key sequence examples:
     <Control-Return>    → Ctrl+Return
     <Shift-R>           → Shift+R
     <Prior>             → PgUp
@@ -69,7 +69,7 @@ class KeyBindingManager:
         self._shortcuts.append(shortcut)
 
     # ------------------------------------------------------------------
-    # All bindings -- ported from App.__init__
+    # All bindings
     # ------------------------------------------------------------------
     def _bind_all(self) -> None:
         """Register all keyboard shortcuts."""

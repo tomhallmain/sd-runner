@@ -1,10 +1,8 @@
 """
 Scrollable frame widget for PySide6.
 
-Port of lib/tk_scroll_demo.py (ScrollFrame). In PySide6, QScrollArea already
-provides native scroll support with automatic scroll-bar management and mouse
-wheel forwarding, so the heavy lifting that the tkinter version does manually
-is unnecessary.
+QScrollArea provides native scroll support with automatic scroll-bar management
+and mouse-wheel forwarding.
 
 This module provides a thin convenience wrapper so that consumer code has a
 consistent API: add child widgets to ``scroll_frame.viewPort`` (a QWidget with

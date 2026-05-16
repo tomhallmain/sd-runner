@@ -73,7 +73,6 @@ class RunController:
         """Validate *text* against the blacklist.
 
         Returns True if validation passes, False if blacklisted items found.
-        Ported from ``App.validate_blacklist``.
         """
         from utils.config import config
         from utils.globals import PromptMode, BlacklistMode, BlacklistPromptMode
@@ -109,7 +108,7 @@ class RunController:
     def run(self, event=None) -> None:
         """Start an image generation run (or enqueue it).
 
-        Ported from ``App.run``.  The heavy lifting runs on a background
+        The heavy lifting runs on a background
         thread; UI updates are marshalled to the main thread via
         ``_MainThreadBridge``-wrapped ``AppActions``.
         """
@@ -349,10 +348,7 @@ class RunController:
     # Preset schedule execution
     # ------------------------------------------------------------------
     def run_preset_schedule(self, override_args: dict | None = None) -> None:
-        """Execute a preset schedule in a background thread.
-
-        Ported from ``App.run_preset_schedule``.
-        """
+        """Execute a preset schedule in a background thread."""
         from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
         from utils.config import config
 
@@ -442,10 +438,7 @@ class RunController:
         adapter_current: int | None = None,
         adapter_total: int | None = None,
     ) -> None:
-        """Update progress labels on the sidebar.
-
-        Ported from ``App.update_progress``.
-        """
+        """Update progress labels on the sidebar."""
         sp = self._sp
 
         if override_text is not None:
@@ -499,10 +492,7 @@ class RunController:
                 sp.label_pending_preset_schedules.setText(preset_text if preset_text else "")
 
     def update_pending(self, count_pending: int = 0) -> None:
-        """Update the pending-generations label.
-
-        Ported from ``App.update_pending``.
-        """
+        """Update the pending-generations label."""
         sp = self._sp
         if count_pending <= 0:
             sp.label_pending.setText("")
@@ -523,7 +513,6 @@ class RunController:
     ) -> None:
         """Update the time-estimation label.
 
-        Ported from ``App.update_time_estimation``.
         """
         from utils.time_estimator import TimeEstimator
 
@@ -575,10 +564,7 @@ class RunController:
     # Server callback
     # ------------------------------------------------------------------
     def server_run_callback(self, workflow_type, args: dict):
-        """Called by ``SDRunnerServer`` when a remote run request arrives.
-
-        Ported from ``App.server_run_callback``.
-        """
+        """Called by ``SDRunnerServer`` when a remote run request arrives."""
         from utils.globals import WorkflowType
         from utils.config import config
 

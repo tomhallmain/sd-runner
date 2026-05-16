@@ -1,7 +1,7 @@
 """
-SchedulesWindow + ScheduleModifyWindow -- manage preset schedules (PySide6 port).
+SchedulesWindow + ScheduleModifyWindow -- manage preset schedules.
 
-Ported from ``ui/schedules_windows.py``.  Static / class-level schedule data
+Static / class-level schedule data
 lives on this class for persistence via ``CacheController``.
 """
 
