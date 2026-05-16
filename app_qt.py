@@ -11,9 +11,9 @@ import sys
 import traceback
 
 from PySide6.QtWidgets import QApplication
-from PySide6.QtGui import QIcon
 
 from ui_qt.app_style import AppStyle
+from utils.app_icon import apply_app_icon
 from utils.config import config
 from utils.logging_setup import get_logger
 from utils.translations import I18N
@@ -38,11 +38,7 @@ def main():
     qt_app.setApplicationName(_(" SD Runner "))
     qt_app.setStyleSheet(AppStyle.get_stylesheet())
 
-    # Application icon
-    assets = os.path.join(os.path.dirname(os.path.realpath(__file__)), "assets")
-    icon_path = os.path.join(assets, "icon.png")
-    if os.path.isfile(icon_path):
-        qt_app.setWindowIcon(QIcon(icon_path))
+    apply_app_icon(qt_app)
 
     # ------------------------------------------------------------------
     # Graceful shutdown handler

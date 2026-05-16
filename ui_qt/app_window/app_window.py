@@ -28,6 +28,7 @@ from sd_runner.models import Model
 from ui.app_actions import AppActions
 from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
 from ui_qt.app_style import AppStyle
+from utils.app_icon import get_app_icon_path
 from ui_qt.app_window.cache_controller import CacheController
 from ui_qt.app_window.key_binding_manager import KeyBindingManager
 from ui_qt.app_window.notification_controller import NotificationController
@@ -129,11 +130,8 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         )
 
         # Set icon in the custom title bar
-        _root = os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-        )
-        icon_path = os.path.join(_root, "assets", "icon.png")
-        if os.path.isfile(icon_path):
+        icon_path = get_app_icon_path()
+        if icon_path:
             title_bar = self.get_title_bar()
             if title_bar:
                 title_bar.set_icon(icon_path)
