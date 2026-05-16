@@ -1,7 +1,7 @@
 import unittest
 from sd_runner.blacklist import Blacklist, BlacklistItem
 from sd_runner.concepts import Concepts
-from ui.tags_blacklist_window import BlacklistWindow
+from ui_qt.prompts.blacklist_window import BlacklistWindow
 from utils.app_info_cache import app_info_cache
 
 class TestBlacklist(unittest.TestCase):

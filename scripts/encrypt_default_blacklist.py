@@ -3,7 +3,7 @@ import os
 import sys
 
 from sd_runner.blacklist import Blacklist
-from ui.tags_blacklist_window import BlacklistWindow
+from ui_qt.prompts.blacklist_window import BlacklistWindow
 
 # Ensure we are running from the project root for imports and relative paths
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -8,7 +8,7 @@ sys.path.insert(0, PROJECT_ROOT)
 
 from sd_runner.concepts import Concepts
 from sd_runner.blacklist import Blacklist
-from ui.tags_blacklist_window import BlacklistWindow
+from ui_qt.prompts.blacklist_window import BlacklistWindow
 
 # Set the input file path here for your use case
 INPUT_PATH = Concepts.URBAN_DICTIONARY_CORPUS_PATH

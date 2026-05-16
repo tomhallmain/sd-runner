@@ -154,6 +154,19 @@ class BlacklistWindow(SmartDialog):
         return not app_info_cache.get(BlacklistWindow.DEFAULT_BLACKLIST_KEY, default_val=False)
 
     @staticmethod
+    def load_default_blacklist() -> bool:
+        """Load the default encrypted blacklist without UI. Returns True on success."""
+        from utils.app_info_cache import app_info_cache
+
+        try:
+            Blacklist.decrypt_blacklist()
+            app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, False)
+            BlacklistWindow.store_blacklist()
+            return True
+        except Exception:
+            return False
+
+    @staticmethod
     def update_history(item):
         if len(BlacklistWindow.item_history) > 0 and item == BlacklistWindow.item_history[0]:
             return
@@ -753,16 +766,15 @@ class BlacklistWindow(SmartDialog):
                 master=self,
             ):
                 return
-        try:
-            Blacklist.decrypt_blacklist()
-            from utils.app_info_cache import app_info_cache
-            app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, False)
-            BlacklistWindow.store_blacklist()
+        if BlacklistWindow.load_default_blacklist():
             self._app_actions.toast(_("Loaded default blacklist"))
             self._refresh()
-        except Exception as e:
+        else:
             self._app_actions.alert(
-                _("Error loading default blacklist"), str(e), kind="error", master=self,
+                _("Error loading default blacklist"),
+                _("Could not decrypt or load the default blacklist."),
+                kind="error",
+                master=self,
             )
 
     # ==================================================================
