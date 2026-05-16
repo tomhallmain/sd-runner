@@ -1,4 +1,4 @@
-from ui.presets_window import PresetsWindow
+from ui_qt.presets.presets_window import PresetsWindow
 from utils.translations import I18N
 
 _ = I18N._

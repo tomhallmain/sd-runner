@@ -1,10 +1,8 @@
 """
 SchedulesWindow + ScheduleModifyWindow -- manage preset schedules (PySide6 port).
 
-Ported from ``ui/schedules_windows.py``.  Static / class-level data
-(``recent_schedules``, ``current_schedule``, etc.) lives on the *original*
-``ui.schedules_windows.SchedulesWindow`` and is imported from there so
-that persistence via ``CacheController`` continues to work.
+Ported from ``ui/schedules_windows.py``.  Static / class-level schedule data
+lives on this class for persistence via ``CacheController``.
 """
 
 from __future__ import annotations
@@ -19,9 +17,7 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from ui.presets_window import PresetsWindow as _PresetsBackend
 from ui_qt.presets.schedule import PresetTask, Schedule
-from ui.schedules_windows import SchedulesWindow as _SchedulesBackend
 from ui_qt.presets.presets_window import PresetsWindow
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
@@ -148,7 +144,7 @@ class ScheduleModifyWindow(SmartDialog):
     @require_password(ProtectedActions.EDIT_SCHEDULES)
     def _add_preset_task(self) -> None:
         self._schedule.add_preset_task(
-            PresetTask(_PresetsBackend.get_most_recent_preset_name(), 1)
+            PresetTask(PresetsWindow.get_most_recent_preset_name(), 1)
         )
         self._rebuild_rows()
 

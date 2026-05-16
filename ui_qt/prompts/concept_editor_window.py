@@ -50,17 +50,6 @@ if TYPE_CHECKING:
 _ = I18N._
 
 
-# ---------------------------------------------------------------------------
-# Re-export static helpers from the Tkinter backend
-# ---------------------------------------------------------------------------
-from ui.concept_editor_window import ConceptEditorWindow as _Backend  # noqa: E402
-
-load_concept_changes = _Backend.load_concept_changes
-store_concept_changes = _Backend.store_concept_changes
-get_history_concept_change = _Backend.get_history_concept_change
-update_history = _Backend.update_history
-
-
 # ======================================================================
 # ConceptEditorWindow
 # ======================================================================
@@ -90,6 +79,41 @@ class ConceptEditorWindow(SmartDialog):
         "Art Styles": (ArtStyles, True),
         "Dictionary": (None, False),
     }
+
+    last_set_concept = None
+    concept_change_history = []
+    MAX_CONCEPTS = 50
+
+    @staticmethod
+    def load_concept_changes():
+        ConceptEditorWindow.concept_change_history = app_info_cache.get(
+            "concept_changes", default_val=[]
+        )
+
+    @staticmethod
+    def store_concept_changes():
+        app_info_cache.set(
+            "concept_changes", ConceptEditorWindow.concept_change_history
+        )
+
+    @staticmethod
+    def get_history_concept_change(start_index=0):
+        for i in range(len(ConceptEditorWindow.concept_change_history)):
+            if i < start_index:
+                continue
+            return ConceptEditorWindow.concept_change_history[i]
+        return None
+
+    @staticmethod
+    def update_history(tag):
+        if (
+            len(ConceptEditorWindow.concept_change_history) > 0
+            and tag == ConceptEditorWindow.concept_change_history[0]
+        ):
+            return
+        ConceptEditorWindow.concept_change_history.insert(0, tag)
+        if len(ConceptEditorWindow.concept_change_history) > ConceptEditorWindow.MAX_CONCEPTS:
+            del ConceptEditorWindow.concept_change_history[-1]
 
     def __init__(
         self,
@@ -426,7 +450,7 @@ class ConceptEditorWindow(SmartDialog):
         self._invalidate_cache(selected_file)
 
         # Record in history
-        _Backend.update_history(new_concept)
+        ConceptEditorWindow.update_history(new_concept)
 
         self._app_actions.toast(
             _("Saved concept: {0} → {1}").format(new_concept, selected_file)
@@ -482,7 +506,7 @@ class ConceptEditorWindow(SmartDialog):
         self._invalidate_cache(source_file)
 
         # Record in history
-        _Backend.update_history(concept)
+        ConceptEditorWindow.update_history(concept)
 
         self._app_actions.toast(
             _("Deleted concept: {0} from {1}").format(concept, source_file)

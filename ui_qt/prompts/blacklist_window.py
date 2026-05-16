@@ -2,11 +2,8 @@
 BlacklistWindow -- Tag / Model blacklist management (PySide6 port).
 
 Ported from ``ui/tags_blacklist_window.py :: BlacklistWindow``.
-Static data helpers (``set_blacklist``, ``store_blacklist``,
-``mark_user_confirmed_non_default``, ``is_in_default_state``,
-``update_history``, ``get_history_item``) remain on the *original*
-``ui.tags_blacklist_window.BlacklistWindow`` so that the rest of
-the application can call them without importing the PySide6 module.
+Static data helpers (``set_blacklist``, ``store_blacklist``, etc.) live on
+this class for persistence via ``CacheController``.
 
 Each tab uses a ``QTableWidget`` for the item list (much more
 efficient than per-row widgets) with selection-based action buttons
@@ -30,7 +27,6 @@ from PySide6.QtWidgets import (
 from lib.multi_display_qt import SmartDialog
 from lib.tooltip_qt import create_tooltip
 from sd_runner.blacklist import Blacklist, BlacklistItem
-from ui.tags_blacklist_window import BlacklistWindow as _Backend
 from ui_qt.auth.password_utils import require_password
 from utils.globals import (
     BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, ProtectedActions,
@@ -175,7 +171,14 @@ class BlacklistWindow(SmartDialog):
             break
         return item
 
-    warning_text = _Backend.warning_text
+    warning_text = _(
+        "WARNING: Are you sure you want to reveal the blacklist concepts? "
+        "These concepts are damaging or offensive and WILL cause you severe "
+        "psychological harm. Do not, under any circumstances, reveal these "
+        "concepts to minors.\n\n"
+        "If you are young, not sure, or even an adult, click the close button "
+        "on this window now and do something fun instead."
+    )
 
     def __init__(self, parent: QWidget, app_actions: AppActions):
         super().__init__(
@@ -700,7 +703,11 @@ class BlacklistWindow(SmartDialog):
                 )
                 break
 
-    @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS, custom_text=_Backend.warning_text, allow_unauthenticated=False)
+    @require_password(
+        ProtectedActions.REVEAL_BLACKLIST_CONCEPTS,
+        custom_text=warning_text,
+        allow_unauthenticated=False,
+    )
     def _reveal_concepts(self) -> None:
         self._concepts_revealed = True
         self._refresh()

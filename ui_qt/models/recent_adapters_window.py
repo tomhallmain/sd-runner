@@ -1,13 +1,9 @@
 """
 RecentAdaptersWindow -- recent ControlNet and IP Adapter browser (PySide6 port).
 
-Ported from ``ui/recent_adapters_window.py``.  All static class-level
-data (``_recent_controlnets``, ``_recent_ipadapters``,
-``_recent_adapter_files_split``, etc.) and the static helper methods
-(``load_recent_adapters``, ``save_recent_adapters``,
-``add_recent_adapter_file``, ``contains_recent_adapter_file``, etc.)
-stay on the *original* ``ui.recent_adapters_window.RecentAdaptersWindow``
-so that ``CacheController`` and ``AppActions`` continue to work.
+Ported from ``ui/recent_adapters_window.py``.  Static class-level data and
+helper methods (``load_recent_adapters``, ``save_recent_adapters``, etc.)
+live on this class for ``CacheController`` and ``AppActions``.
 """
 
 from __future__ import annotations
@@ -27,7 +23,6 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from ui.recent_adapters_window import RecentAdaptersWindow as _Backend
 from utils.app_info_cache import app_info_cache
 from utils.logging_setup import get_logger
 from utils.translations import I18N

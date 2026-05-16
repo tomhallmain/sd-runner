@@ -3,10 +3,8 @@ ExpansionsWindow / ExpansionModifyWindow -- manage prompt expansions (PySide6 po
 
 Ported from ``ui/expansions_window.py``.
 
-Static data helpers (``set_expansions``, ``store_expansions``, ``get_expansion_names``,
-``get_most_recent_expansion_name``, ``get_history_expansion``, ``update_history``,
-``next_expansion``) are re-exported from the original Tkinter backend so that
-call-sites can keep using one import path.
+Static data helpers (``set_expansions``, ``store_expansions``, etc.) live on
+:class:`ExpansionsWindow` for persistence via ``CacheController``.
 """
 
 from __future__ import annotations
@@ -42,20 +40,6 @@ if TYPE_CHECKING:
     from ui_qt.app_actions import AppActions
 
 _ = I18N._
-
-
-# ---------------------------------------------------------------------------
-# Re-export static helpers from the Tkinter backend
-# ---------------------------------------------------------------------------
-from ui.expansions_window import ExpansionsWindow as _Backend  # noqa: E402
-
-set_expansions = _Backend.set_expansions
-store_expansions = _Backend.store_expansions
-get_expansion_names = _Backend.get_expansion_names
-get_most_recent_expansion_name = _Backend.get_most_recent_expansion_name
-get_history_expansion = _Backend.get_history_expansion
-update_history = _Backend.update_history
-next_expansion = _Backend.next_expansion
 
 
 # ======================================================================
@@ -167,6 +151,61 @@ class ExpansionsWindow(SmartDialog):
     """Manage the list of prompt expansions."""
 
     _modify_window: Optional[ExpansionModifyWindow] = None
+    last_set_expansion = None
+    expansion_history = []
+    MAX_EXPANSIONS = 50
+
+    @staticmethod
+    def set_expansions():
+        from utils.app_info_cache import app_info_cache
+
+        for expansion_dict in list(app_info_cache.get("expansions", default_val=[])):
+            Expansion.expansions.append(Expansion.from_dict(expansion_dict))
+
+    @staticmethod
+    def store_expansions():
+        from utils.app_info_cache import app_info_cache
+
+        expansion_dicts = [expansion.to_dict() for expansion in Expansion.expansions]
+        app_info_cache.set("expansions", expansion_dicts)
+
+    @staticmethod
+    def get_expansion_names():
+        return sorted(exp.id for exp in Expansion.expansions)
+
+    @staticmethod
+    def get_most_recent_expansion_name():
+        if len(Expansion.expansions) > 0:
+            return Expansion.expansions[0]
+        return _("New Expansion (ERROR no expansions found)")
+
+    @staticmethod
+    def get_history_expansion(start_index=0):
+        for i in range(len(ExpansionsWindow.expansion_history)):
+            if i < start_index:
+                continue
+            return ExpansionsWindow.expansion_history[i]
+        return None
+
+    @staticmethod
+    def update_history(expansion):
+        if (
+            len(ExpansionsWindow.expansion_history) > 0
+            and expansion == ExpansionsWindow.expansion_history[0]
+        ):
+            return
+        ExpansionsWindow.expansion_history.insert(0, expansion)
+        if len(ExpansionsWindow.expansion_history) > ExpansionsWindow.MAX_EXPANSIONS:
+            del ExpansionsWindow.expansion_history[-1]
+
+    @staticmethod
+    def next_expansion(alert_callback):
+        if len(Expansion.expansions) == 0:
+            alert_callback(_("Not enough expansions found."))
+        next_expansion = Expansion.expansions[-1]
+        Expansion.expansions.remove(next_expansion)
+        Expansion.expansions.insert(0, next_expansion)
+        return next_expansion
 
     def __init__(
         self,
@@ -335,13 +374,13 @@ class ExpansionsWindow(SmartDialog):
         )
 
     def _refresh_after_modify(self, expansion: Expansion) -> None:
-        _Backend.update_history(expansion)
+        ExpansionsWindow.update_history(expansion)
         if expansion in Expansion.expansions:
             Expansion.expansions.remove(expansion)
         Expansion.expansions.insert(0, expansion)
         self._filtered_expansions = Expansion.expansions[:]
         self._filter_text = ""
-        _Backend.store_expansions()
+        ExpansionsWindow.store_expansions()
         self._rebuild_table()
 
     @require_password(ProtectedActions.EDIT_EXPANSIONS)
@@ -349,7 +388,7 @@ class ExpansionsWindow(SmartDialog):
         Expansion.expansions.insert(0, Expansion("", ""))
         self._filtered_expansions = Expansion.expansions[:]
         self._filter_text = ""
-        _Backend.store_expansions()
+        ExpansionsWindow.store_expansions()
         self._rebuild_table()
 
     @require_password(ProtectedActions.EDIT_EXPANSIONS)
@@ -361,7 +400,7 @@ class ExpansionsWindow(SmartDialog):
         if exp in Expansion.expansions:
             Expansion.expansions.remove(exp)
         self._filtered_expansions = Expansion.expansions[:]
-        _Backend.store_expansions()
+        ExpansionsWindow.store_expansions()
         self._rebuild_table()
 
     @require_password(ProtectedActions.EDIT_EXPANSIONS)
@@ -369,7 +408,7 @@ class ExpansionsWindow(SmartDialog):
         Expansion.expansions.clear()
         self._filtered_expansions.clear()
         self._filter_text = ""
-        _Backend.store_expansions()
+        ExpansionsWindow.store_expansions()
         self._rebuild_table()
 
     def _copy_selected(self) -> None:
@@ -443,3 +482,13 @@ class ExpansionsWindow(SmartDialog):
                     tier3.append(exp)
             self._filtered_expansions = tier1 + tier2 + tier3
         self._rebuild_table()
+
+
+# Module-level aliases for CacheController and other call sites
+set_expansions = ExpansionsWindow.set_expansions
+store_expansions = ExpansionsWindow.store_expansions
+get_expansion_names = ExpansionsWindow.get_expansion_names
+get_most_recent_expansion_name = ExpansionsWindow.get_most_recent_expansion_name
+get_history_expansion = ExpansionsWindow.get_history_expansion
+update_history = ExpansionsWindow.update_history
+next_expansion = ExpansionsWindow.next_expansion

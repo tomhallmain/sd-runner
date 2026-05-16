@@ -12,7 +12,7 @@ Ported from ``ui/frequent_prompt_tags_window.py``.
     functional.
 
 Static data helpers (``set_recent_tags``, ``get_history_tag``,
-``update_history``) are re-exported from the original Tkinter backend.
+``update_history``) live on :class:`FrequentPromptTagsWindow`.
 """
 
 from __future__ import annotations
@@ -38,6 +38,7 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from ui_qt.app_style import AppStyle
+from ui_qt.prompts.frequent_tags import FrequentTags
 from utils.translations import I18N
 
 if TYPE_CHECKING:
@@ -46,28 +47,38 @@ if TYPE_CHECKING:
 _ = I18N._
 
 
-# ---------------------------------------------------------------------------
-# Re-export the FrequentTags data holder and static helpers
-# ---------------------------------------------------------------------------
-from ui.frequent_prompt_tags_window import FrequentTags  # noqa: E402
-from ui.frequent_prompt_tags_window import (  # noqa: E402
-    FrequentPromptTagsWindow as _Backend,
-)
-
-set_recent_tags = _Backend.set_recent_tags
-get_history_tag = _Backend.get_history_tag
-update_history = _Backend.update_history
-
-
 # ======================================================================
 # FrequentPromptTagsWindow
 # ======================================================================
 class FrequentPromptTagsWindow(SmartDialog):
     """Display, filter, and apply frequently-used prompt tags."""
 
-    MAX_TAGS = _Backend.MAX_TAGS
-
+    tag_history = []
+    MAX_TAGS = 50
     last_set_tag: Optional[str] = None
+
+    @staticmethod
+    def set_recent_tags(recent_tags):
+        FrequentTags.tags = recent_tags
+
+    @staticmethod
+    def get_history_tag(start_index=0):
+        for i in range(len(FrequentPromptTagsWindow.tag_history)):
+            if i < start_index:
+                continue
+            return FrequentPromptTagsWindow.tag_history[i]
+        return None
+
+    @staticmethod
+    def update_history(tag):
+        if (
+            len(FrequentPromptTagsWindow.tag_history) > 0
+            and tag == FrequentPromptTagsWindow.tag_history[0]
+        ):
+            return
+        FrequentPromptTagsWindow.tag_history.insert(0, tag)
+        if len(FrequentPromptTagsWindow.tag_history) > FrequentPromptTagsWindow.MAX_TAGS:
+            del FrequentPromptTagsWindow.tag_history[-1]
 
     def __init__(
         self,
@@ -211,7 +222,7 @@ class FrequentPromptTagsWindow(SmartDialog):
 
     def _apply_tag(self, tag: str) -> None:
         """Apply the tag via app_actions callback, update history, close."""
-        _Backend.update_history(tag)
+        FrequentPromptTagsWindow.update_history(tag)
         # Move to front of the tags list
         if tag in FrequentTags.tags:
             FrequentTags.tags.remove(tag)

@@ -1,11 +1,9 @@
 """
 PresetsWindow -- manage prompt presets (PySide6 port).
 
-Ported from ``ui/presets_window.py``.  The ``Preset`` data class and all
-static class-level data (``recent_presets``, ``preset_history``, etc.) live on
-the *original* ``ui.presets_window.PresetsWindow`` and are imported from
-there so that persistence and ``CacheController`` continue to work
-unchanged.  This module only replaces the **UI** portion.
+Ported from ``ui/presets_window.py``.  The ``Preset`` data class lives in
+``ui_qt.presets.preset``; static class-level preset list state lives on this
+class for persistence via ``CacheController``.
 """
 
 from __future__ import annotations
@@ -20,7 +18,6 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from ui.presets_window import PresetsWindow as _PresetsBackend
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
 from ui_qt.presets.preset import Preset
@@ -72,6 +69,14 @@ class PresetsWindow(SmartDialog):
     @staticmethod
     def get_preset_names():
         return sorted(list(map(lambda x: x.name, PresetsWindow.recent_presets)))
+
+    @staticmethod
+    def get_most_recent_preset_name():
+        return (
+            PresetsWindow.recent_presets[0].name
+            if len(PresetsWindow.recent_presets) > 0
+            else _("New Preset (ERROR no presets found)")
+        )
 
     @staticmethod
     def next_preset(alert_callback):

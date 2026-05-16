@@ -1,10 +1,8 @@
 """
 ModelsWindow + LoRAInfoWindow -- model/adapter browser (PySide6 port).
 
-Ported from ``ui/models_window.py``.  Static class-level cache data
-(``_checkpoints_cache``, ``_adapters_cache``, ``_cache_timestamp``)
-stays on the *original* ``ui.models_window.ModelsWindow`` so that
-cache state is shared with any code that references the original class.
+Ported from ``ui/models_window.py``.  Checkpoint/adapter scan cache lives on
+this class (``_checkpoints_cache``, ``_adapters_cache``, ``_cache_timestamp``).
 """
 
 from __future__ import annotations
@@ -25,7 +23,6 @@ from PySide6.QtWidgets import (
 from extensions.hf_hub_api import HfHubApiBackend
 from lib.multi_display_qt import SmartDialog
 from sd_runner.models import Model
-from ui.models_window import ModelsWindow as _ModelsBackend
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
 from utils.globals import (
@@ -82,6 +79,10 @@ def _sort_tree(tree: QTreeWidget, col: int) -> None:
 
 class ModelsWindow(SmartDialog):
     """PySide6 model and adapter browser with tabbed Checkpoints / LoRAs."""
+
+    _checkpoints_cache: Optional[list[tuple[str, str, str]]] = None
+    _adapters_cache: Optional[list[tuple[str, str, str]]] = None
+    _cache_timestamp: Optional[float] = None
 
     def __init__(self, parent: QWidget, app_actions: AppActions):
         super().__init__(parent=parent, title=_("Models"), geometry="980x560")
@@ -435,16 +436,16 @@ class ModelsWindow(SmartDialog):
         return data
 
     def _get_cached_checkpoints(self) -> list[tuple[str, str, str]]:
-        if _ModelsBackend._checkpoints_cache is None:
-            _ModelsBackend._checkpoints_cache = self._build_checkpoints_data()
-            _ModelsBackend._cache_timestamp = time.time()
-        return _ModelsBackend._checkpoints_cache
+        if ModelsWindow._checkpoints_cache is None:
+            ModelsWindow._checkpoints_cache = self._build_checkpoints_data()
+            ModelsWindow._cache_timestamp = time.time()
+        return ModelsWindow._checkpoints_cache
 
     def _get_cached_adapters(self) -> list[tuple[str, str, str]]:
-        if _ModelsBackend._adapters_cache is None:
-            _ModelsBackend._adapters_cache = self._build_adapters_data()
-            _ModelsBackend._cache_timestamp = time.time()
-        return _ModelsBackend._adapters_cache
+        if ModelsWindow._adapters_cache is None:
+            ModelsWindow._adapters_cache = self._build_adapters_data()
+            ModelsWindow._cache_timestamp = time.time()
+        return ModelsWindow._adapters_cache
 
     # ------------------------------------------------------------------
     # Refresh lists
@@ -475,19 +476,19 @@ class ModelsWindow(SmartDialog):
         tree.sortItems(1, Qt.SortOrder.AscendingOrder)
 
     def _refresh_cache(self) -> None:
-        _ModelsBackend._checkpoints_cache = None
-        _ModelsBackend._adapters_cache = None
-        _ModelsBackend._cache_timestamp = None
+        ModelsWindow._checkpoints_cache = None
+        ModelsWindow._adapters_cache = None
+        ModelsWindow._cache_timestamp = None
         self._refresh_checkpoint_list()
         self._refresh_adapter_list()
         self._update_cache_status()
 
     def _update_cache_status(self) -> None:
         prefix = _("Cache")
-        if _ModelsBackend._cache_timestamp is None:
+        if ModelsWindow._cache_timestamp is None:
             text = f"{prefix}: {_('Not loaded')}"
         else:
-            ts = datetime.fromtimestamp(_ModelsBackend._cache_timestamp).strftime(
+            ts = datetime.fromtimestamp(ModelsWindow._cache_timestamp).strftime(
                 "%Y-%m-%d %H:%M:%S"
             )
             text = f"{prefix}: {ts}"
@@ -525,9 +526,9 @@ class ModelsWindow(SmartDialog):
         label = _("Hide Blacklisted") if self._show_blacklisted else _("Show Blacklisted")
         self._cp_blacklist_btn.setText(label)
         self._ad_blacklist_btn.setText(label)
-        _ModelsBackend._checkpoints_cache = None
-        _ModelsBackend._adapters_cache = None
-        _ModelsBackend._cache_timestamp = None
+        ModelsWindow._checkpoints_cache = None
+        ModelsWindow._adapters_cache = None
+        ModelsWindow._cache_timestamp = None
         self._refresh_checkpoint_list()
         self._refresh_adapter_list()
         self._update_cache_status()
