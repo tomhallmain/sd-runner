@@ -25,6 +25,8 @@ class Prompter:
     INLINE_VAR_PATTERN = re.compile(r'^\|\|\|\s*([A-Za-z_][A-Za-z0-9_]*)\s*->\s*(.+)$')
     INLINE_VAR_PATTERN2 = re.compile(r'^::\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.+)$')
     DOUBLE_DOLLAR_VAR_PATTERN = re.compile(r'\$\$([A-Za-z_][A-Za-z0-9_]*)')
+    EXPANSION_VAR_PATTERN_UI = r"(?<!\$)(\$)[A-Za-z_][A-Za-z0-9_]*|(\$)?\{[A-Za-z_][A-Za-z0-9_]*\}"
+    EXPANSION_VAR_PATTERN = r"(\$)(\$)?[A-Za-z_][A-Za-z0-9_]*|(\$)?\{[A-Za-z_][A-Za-z0-9_]*\}"
     POSITIVE_TAGS_INLINE_VARS: dict = {}
     IMAGE_DATA_EXTRACTOR = None
     IMAGE_TO_PROMPT_CAPTIONER = None
@@ -667,9 +669,9 @@ class Prompter:
             # Without this, contains_expansion_var returns True for $$var text,
             # the loop enters, _expand_one_pass skips every match, has_more stays
             # True, and the loop spins all 10 iterations producing a spurious warning.
-            return r"(?<!\$)(\$)[A-Za-z_]+|(\$)?\{[A-Za-z_]+\}"
+            return Prompter.EXPANSION_VAR_PATTERN_UI
         else:
-            return r"(\$)(\$)?[A-Za-z_]+|(\$)?\{[A-Za-z_]+\}"
+            return Prompter.EXPANSION_VAR_PATTERN
 
     @staticmethod
     def contains_expansion_var(text: str, from_ui: bool = False) -> bool:
