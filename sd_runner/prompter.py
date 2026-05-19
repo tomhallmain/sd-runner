@@ -21,6 +21,7 @@ class Prompter:
     POSITIVE_TAGS = config.dict["default_positive_tags"]
     NEGATIVE_TAGS = config.dict["default_negative_tags"]
     TAGS_APPLY_TO_START = True
+    INLINE_VAR_PATTERN = re.compile(r'^\|\|\|([A-Za-z_][A-Za-z0-9_]*)->(.+)$')
     IMAGE_DATA_EXTRACTOR = None
     IMAGE_TO_PROMPT_CAPTIONER = None
     IMAGE_TO_PROMPT_TAGGER = None
@@ -71,6 +72,11 @@ class Prompter:
         negative: str = "",
         related_image_path: str = ""
     ) -> tuple[str, str]:
+        # Extract and strip any inline variable definitions from the positive prompt.
+        # This must happen before prompt-mode processing so the header is removed
+        # even when a mode replaces the prompt body entirely.
+        inline_vars, positive = Prompter.extract_inline_vars(positive)
+
         if self.prompt_mode in (PromptMode.SFW, PromptMode.NSFW, PromptMode.NSFL):
             positive = self.mix_concepts()
         elif PromptMode.RANDOM == self.prompt_mode:
@@ -110,7 +116,7 @@ class Prompter:
             elif not negative.endswith(Prompter.NEGATIVE_TAGS):
                 negative += ", " + Prompter.NEGATIVE_TAGS
         if Prompter.contains_expansion_var(positive):
-            positive = self.apply_expansions(positive, concepts=self.concepts, specific_locations_chance=self.prompter_config.get_specific_locations_chance())
+            positive = self.apply_expansions(positive, concepts=self.concepts, specific_locations_chance=self.prompter_config.get_specific_locations_chance(), inline_vars=inline_vars if inline_vars else None)
         if Prompter.contains_expansion_var(negative):
             negative = self.apply_expansions(negative, concepts=self.concepts, specific_locations_chance=self.prompter_config.get_specific_locations_chance())
         if Prompter.contains_choice_set(positive):
@@ -638,6 +644,37 @@ class Prompter:
         return False
 
     @staticmethod
+    def extract_inline_vars(text: str) -> tuple[dict, str]:
+        """Parse inline variable definitions from the top of a prompt.
+
+        Lines of the form ``|||VarName->value`` at the very start of *text*
+        are treated as variable definitions.  The definition block and any
+        whitespace that immediately follows it are stripped, and the remaining
+        prompt text is returned alongside the mapping.
+
+        Values may use the ``[[a,b,c]]`` choice-set syntax; the value is stored
+        verbatim and the choice-set is resolved later by ``apply_choices``.
+
+        Returns ``({}, text)`` unchanged when no ``|||`` header is found.
+        """
+        if not text or '|||' not in text:
+            return {}, text
+        lines = text.split('\n')
+        vars_dict = {}
+        header_line_count = 0
+        for line in lines:
+            m = Prompter.INLINE_VAR_PATTERN.match(line.strip())
+            if m:
+                vars_dict[m.group(1).lower()] = m.group(2).strip()
+                header_line_count += 1
+            else:
+                break
+        if not vars_dict:
+            return {}, text
+        remaining = '\n'.join(lines[header_line_count:]).lstrip()
+        return vars_dict, remaining
+
+    @staticmethod
     def _select_concept(name: str, concepts: Concepts, specific_locations_chance: float = 0.3) -> str:
         concept = None
         if name.startswith("act"):
@@ -700,7 +737,8 @@ class Prompter:
         text: str,
         from_ui: bool = False,
         concepts: Concepts = None,
-        specific_locations_chance: float = 0.3
+        specific_locations_chance: float = 0.3,
+        inline_vars: dict = None,
     ) -> tuple[str, bool]:
         """
         Performs a single pass of expansion on the text.
@@ -721,7 +759,9 @@ class Prompter:
             if "}" in name:
                 name = name.replace("}", "")
             replacement = None
-            if name in config.wildcards:
+            if inline_vars and name in inline_vars:
+                replacement = inline_vars[name]
+            elif name in config.wildcards:
                 replacement = config.wildcards[name]
             elif Expansion.contains_expansion(name):
                 replacement = Expansion.get_expansion_text_by_id(name)
@@ -746,12 +786,18 @@ class Prompter:
         text: str,
         from_ui: bool = False,
         concepts: Concepts = None,
-        specific_locations_chance: float = 0.3
+        specific_locations_chance: float = 0.3,
+        inline_vars: dict = None,
     ) -> str:
         """
         Applies prompt expansions recursively until no more expansion variables are found.
         When from_ui=False, converts $$var to $var before expanding.
-        
+
+        *inline_vars* is an optional mapping of lowercased variable names to their
+        replacement text, extracted from a ``|||Name->value`` header block by
+        ``extract_inline_vars``.  These take priority over config wildcards and
+        stored expansions.
+
         Note: Self-referencing (e.g., wildcard1 = "$wildcard1") or circular references
         (e.g., wildcard1 = "$wildcard2", wildcard2 = "$wildcard1") will cause the
         expansion to stop after max_iterations, with a warning logged. The maximum
@@ -765,17 +811,18 @@ class Prompter:
             # Convert $$var to $var when not in UI mode (for final expansion)
             if not from_ui:
                 current_text = re.sub(r'\$\$([A-Za-z_]+)', r'$\1', current_text)
-            
+
             # Perform one expansion pass
             current_text, has_more = Prompter._expand_one_pass(
-                current_text, 
-                from_ui=from_ui, 
-                concepts=concepts, 
-                specific_locations_chance=specific_locations_chance
+                current_text,
+                from_ui=from_ui,
+                concepts=concepts,
+                specific_locations_chance=specific_locations_chance,
+                inline_vars=inline_vars,
             )
-            
+
             iteration += 1
-            
+
             # If no expansions were made or no more expansions exist, break
             if not has_more:
                 break
