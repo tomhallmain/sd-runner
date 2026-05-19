@@ -24,6 +24,7 @@ class Prompter:
     TAGS_APPLY_TO_START = True
     INLINE_VAR_PATTERN = re.compile(r'^\|\|\|\s*([A-Za-z_][A-Za-z0-9_]*)\s*->\s*(.+)$')
     INLINE_VAR_PATTERN2 = re.compile(r'^::\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.+)$')
+    DOUBLE_DOLLAR_VAR_PATTERN = re.compile(r'\$\$([A-Za-z_][A-Za-z0-9_]*)')
     POSITIVE_TAGS_INLINE_VARS: dict = {}
     IMAGE_DATA_EXTRACTOR = None
     IMAGE_TO_PROMPT_CAPTIONER = None
@@ -707,6 +708,15 @@ class Prompter:
                     var_value = Prompter.apply_choices(var_value)
                 if '@@' in var_value:
                     var_value = Prompter.apply_file_choices(var_value)
+                # Substitute $$VarName references to variables defined above this line.
+                if '$$' in var_value and vars_dict:
+                    try:
+                        var_value = Prompter.DOUBLE_DOLLAR_VAR_PATTERN.sub(
+                            lambda m2: vars_dict[m2.group(1).lower()],
+                            var_value,
+                        )
+                    except KeyError as e:
+                        raise ValueError(f"Inline variable {e} referenced before it was defined")
                 vars_dict[m.group(1).lower()] = var_value
                 header_line_count += 1
             else:
@@ -852,7 +862,7 @@ class Prompter:
         while Prompter.contains_expansion_var(current_text, from_ui=from_ui) and iteration < max_iterations:
             # Convert $$var to $var when not in UI mode (for final expansion)
             if not from_ui:
-                current_text = re.sub(r'\$\$([A-Za-z_]+)', r'$\1', current_text)
+                current_text = Prompter.DOUBLE_DOLLAR_VAR_PATTERN.sub(r'$\1', current_text)
 
             # Perform one expansion pass
             current_text, has_more = Prompter._expand_one_pass(
