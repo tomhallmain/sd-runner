@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 
 from lib.autocomplete_entry_qt import AutocompleteEntry, default_matches
+from lib.plain_text_edit_qt import EscapeAwarePlainTextEdit
 from lib.aware_entry_qt import AwareEntry
 from ui_qt.app_style import AppStyle
 from utils.globals import (
@@ -463,13 +464,13 @@ class SidebarPanel(QWidget):
 
         # Positive Tags
         layout.addWidget(QLabel(_("Positive Tags")))
-        self.positive_tags_box = QPlainTextEdit()
+        self.positive_tags_box = EscapeAwarePlainTextEdit()
         self.positive_tags_box.setPlainText(runner_cfg.positive_tags)
         layout.addWidget(self.positive_tags_box)
 
         # Negative Tags
         layout.addWidget(QLabel(_("Negative Tags")))
-        self.negative_tags_box = QPlainTextEdit()
+        self.negative_tags_box = EscapeAwarePlainTextEdit()
         self.negative_tags_box.setMaximumHeight(80)
         self.negative_tags_box.setPlainText(runner_cfg.negative_tags)
         layout.addWidget(self.negative_tags_box)
