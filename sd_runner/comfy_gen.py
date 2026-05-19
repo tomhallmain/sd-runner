@@ -277,7 +277,7 @@ class ComfyGen(BaseImageGenerator):
                         # Save image with EXIF data containing original prompt decomposition
                         if prompter_config is not None:
                             # Construct the expected file path where ComfyUI saves the image
-                            save_path = os.path.join(config.get_comfyui_save_path(), f'ComfyUI_{image["filename"]}')
+                            save_path = os.path.join(config.get_comfyui_save_path(), image["filename"])
                             if related_image_path is not None:
                                 Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
                             Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(save_path, prompter_config.original_positive_tags, original_negative_tags=None)
@@ -301,7 +301,7 @@ class ComfyGen(BaseImageGenerator):
     def get_image(filename, subfolder, folder_type):
         data = {"filename": filename, "subfolder": subfolder, "type": folder_type}
         url_values = parse.urlencode(data)
-        with request.urlopen("http://{}/view?{}".format(ComfyGen.PROMPT_URL, url_values)) as response:
+        with request.urlopen("http://{}/view?{}".format(ComfyGen.BASE_URL, url_values)) as response:
             return response.read()
 
     def simple_image_gen(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, **kw):
