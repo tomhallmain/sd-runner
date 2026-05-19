@@ -652,8 +652,11 @@ class Prompter:
         Tokens whose path resolves to no content are left unchanged.
         """
         def _replace(m):
-            lines = Concepts.load(m.group(1))
-            return random.choice(lines) if lines else m.group(0)
+            path = os.path.normpath(m.group(1))
+            lines = Concepts.load(path)
+            if lines:
+                return random.choice(lines)
+            raise ValueError(f"@@file reference '{m.group(1)}' could not be resolved — file not found or empty")
         return re.sub(r'@@(\S+\.\S+)', _replace, text)
 
     @staticmethod

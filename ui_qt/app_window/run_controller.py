@@ -313,9 +313,10 @@ class RunController:
                 app.current_run.execute()
             except ScheduledShutdownException as e:
                 self._handle_scheduled_shutdown(e)
-            except Exception:
+            except Exception as e:
                 traceback.print_exc()
                 app.current_run.cancel("Run failure")
+                app.notification_ctrl.alert(_("Run Error"), str(e), kind="error")
             sp.cancel_btn.setVisible(False)
             app.job_queue.job_running = False
             next_job_args = app.job_queue.take()
