@@ -89,6 +89,14 @@ class Prompter:
             merged = dict(Prompter.POSITIVE_TAGS_INLINE_VARS)
             merged.update(inline_vars)
             inline_vars = merged
+        # Re-resolve @@filepath tokens in inline var values on every generate_prompt
+        # call so that each prompt in a multi-total run draws a fresh line from the
+        # file.  The resolution must happen here — before apply_expansions — so that
+        # all $VarName references within a single prompt share the same resolved value.
+        if inline_vars:
+            for _k in list(inline_vars.keys()):
+                if '@@' in inline_vars[_k]:
+                    inline_vars[_k] = Prompter.apply_file_choices(inline_vars[_k])
 
         if self.prompt_mode in (PromptMode.SFW, PromptMode.NSFW, PromptMode.NSFL):
             positive = self.mix_concepts()
@@ -705,11 +713,12 @@ class Prompter:
             m = Prompter.INLINE_VAR_PATTERN.match(stripped) or Prompter.INLINE_VAR_PATTERN2.match(stripped)
             if m:
                 var_value = m.group(2).strip()
-                # Resolve now so every reference to this variable shares the same value.
+                # Resolve choice sets now so every reference to this variable shares
+                # the same value within a single prompt.  @@filepath tokens are NOT
+                # resolved here; they are resolved per generate_prompt() call so that
+                # each prompt in a multi-total run draws a fresh line from the file.
                 if Prompter.contains_choice_set(var_value):
                     var_value = Prompter.apply_choices(var_value)
-                if '@@' in var_value:
-                    var_value = Prompter.apply_file_choices(var_value)
                 # Substitute $$VarName references to variables defined above this line.
                 if '$$' in var_value and vars_dict:
                     try:
