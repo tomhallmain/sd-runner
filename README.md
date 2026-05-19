@@ -58,6 +58,10 @@ Nested choice sets are also available:
 
 Note that choice sets can be stored in preset prompt variables to cut down on visible prompt lengths.
 
+A `@@filepath` token can appear anywhere in a prompt (or as an inline variable value) to draw one random line from a text file as if it were a choice set. The path must contain a dot (e.g. `@@animals.txt`, `@@/abs/path/file.txt`). Bare filenames are looked up in the concepts directory with `.txt` appended automatically.
+
+`"A @@animals.txt in a forest"` -> `"A lion in a forest"` (one possible result)
+
 Variables can also be defined inline at the top of the prompt itself, without going through the Expansions window. Two syntaxes are supported — either prefix each definition line with `|||` and separate the name from the value with `->`, or prefix with `::` and use `=`. Access the variable with the `$$` accessor. The definition block is stripped from the final delivered prompt along with any trailing whitespace, so the prompt body receives only the resolved text.
 
 ```

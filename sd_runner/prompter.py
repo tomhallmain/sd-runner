@@ -1,4 +1,5 @@
 import json
+import os
 import random
 import re
 import subprocess
@@ -132,6 +133,10 @@ class Prompter:
             positive = self.apply_choices(positive)
         if Prompter.contains_choice_set(negative):
             negative = self.apply_choices(negative)
+        if '@@' in positive:
+            positive = Prompter.apply_file_choices(positive)
+        if '@@' in negative:
+            negative = Prompter.apply_file_choices(negative)
         
         # Validate final prompts against blacklist
         positive_concepts = [c.strip() for c in positive.split(',')]
@@ -634,8 +639,22 @@ class Prompter:
         
         if iteration >= max_iterations:
             logger.warning(f"apply_choices stopped after {max_iterations} iterations to prevent infinite loop")
-        
+
         return text
+
+    @staticmethod
+    def apply_file_choices(text: str) -> str:
+        """Replace @filepath tokens with a randomly chosen line from that file.
+
+        The token must use the @@ prefix and contain a dot (e.g. @@choices.txt,
+        @@/path/to/file.txt). Paths are resolved via Concepts.load, so bare names
+        are looked up in the concepts directory with .txt appended automatically.
+        Tokens whose path resolves to no content are left unchanged.
+        """
+        def _replace(m):
+            lines = Concepts.load(m.group(1))
+            return random.choice(lines) if lines else m.group(0)
+        return re.sub(r'@@(\S+\.\S+)', _replace, text)
 
     @staticmethod
     def _expansion_var_pattern(from_ui: bool = False) -> str:
@@ -680,10 +699,11 @@ class Prompter:
             m = Prompter.INLINE_VAR_PATTERN.match(stripped) or Prompter.INLINE_VAR_PATTERN2.match(stripped)
             if m:
                 var_value = m.group(2).strip()
-                # Resolve choice sets now so every reference to this variable shares
-                # the same value rather than re-rolling independently on each use.
+                # Resolve now so every reference to this variable shares the same value.
                 if Prompter.contains_choice_set(var_value):
                     var_value = Prompter.apply_choices(var_value)
+                if '@@' in var_value:
+                    var_value = Prompter.apply_file_choices(var_value)
                 vars_dict[m.group(1).lower()] = var_value
                 header_line_count += 1
             else:
