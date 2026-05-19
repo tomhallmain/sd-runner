@@ -481,7 +481,7 @@ class Concepts:
     ):
         if Concepts.set_concepts_dir(concepts_dir):
             Concepts.ALL_WORDS_LIST = []
-            Concepts.ensure_dictionary_loaded()
+        Concepts.ensure_dictionary_loaded()
         self.prompt_mode = prompt_mode
         self.get_specific_locations = get_specific_locations
         self.get_specific_times = get_specific_times
@@ -722,10 +722,6 @@ class Concepts:
 
     def get_random_words(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
-        if len(Concepts.ALL_WORDS_LIST) == 0:
-            logger.warning("For some reason, all words list was empty.")
-            Concepts.ensure_dictionary_loaded()
-        
         # Get initial whitelisted words and load extra words as needed
         all_words = Concepts.ALL_WORDS_LIST.copy()
         if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0 and self.prompt_mode.is_nsfw():
