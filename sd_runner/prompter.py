@@ -677,7 +677,12 @@ class Prompter:
         for line in lines:
             m = Prompter.INLINE_VAR_PATTERN.match(line.strip())
             if m:
-                vars_dict[m.group(1).lower()] = m.group(2).strip()
+                var_value = m.group(2).strip()
+                # Resolve choice sets now so every reference to this variable shares
+                # the same value rather than re-rolling independently on each use.
+                if Prompter.contains_choice_set(var_value):
+                    var_value = Prompter.apply_choices(var_value)
+                vars_dict[m.group(1).lower()] = var_value
                 header_line_count += 1
             else:
                 break
