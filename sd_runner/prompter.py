@@ -22,6 +22,7 @@ class Prompter:
     NEGATIVE_TAGS = config.dict["default_negative_tags"]
     TAGS_APPLY_TO_START = True
     INLINE_VAR_PATTERN = re.compile(r'^\|\|\|([A-Za-z_][A-Za-z0-9_]*)->(.+)$')
+    POSITIVE_TAGS_INLINE_VARS: dict = {}
     IMAGE_DATA_EXTRACTOR = None
     IMAGE_TO_PROMPT_CAPTIONER = None
     IMAGE_TO_PROMPT_TAGGER = None
@@ -56,7 +57,9 @@ class Prompter:
 
     @classmethod
     def set_positive_tags(cls, tags: str) -> None:
-        cls.POSITIVE_TAGS = tags
+        inline_vars, stripped = cls.extract_inline_vars(tags)
+        cls.POSITIVE_TAGS_INLINE_VARS = inline_vars
+        cls.POSITIVE_TAGS = stripped
 
     @classmethod
     def set_negative_tags(cls, tags: str) -> None:
@@ -72,10 +75,15 @@ class Prompter:
         negative: str = "",
         related_image_path: str = ""
     ) -> tuple[str, str]:
-        # Extract and strip any inline variable definitions from the positive prompt.
-        # This must happen before prompt-mode processing so the header is removed
-        # even when a mode replaces the prompt body entirely.
+        # Extract inline variable definitions.  The user's full prompt lives in
+        # Prompter.POSITIVE_TAGS (already stripped of its header by set_positive_tags).
+        # Any header in the `positive` arg itself is handled here as a fallback.
         inline_vars, positive = Prompter.extract_inline_vars(positive)
+        # Merge: POSITIVE_TAGS vars are the base; vars from the `positive` arg override.
+        if Prompter.POSITIVE_TAGS_INLINE_VARS:
+            merged = dict(Prompter.POSITIVE_TAGS_INLINE_VARS)
+            merged.update(inline_vars)
+            inline_vars = merged
 
         if self.prompt_mode in (PromptMode.SFW, PromptMode.NSFW, PromptMode.NSFL):
             positive = self.mix_concepts()
@@ -631,7 +639,11 @@ class Prompter:
     @staticmethod
     def _expansion_var_pattern(from_ui: bool = False) -> str:
         if from_ui:
-            return r"(\$)[A-Za-z_]+|(\$)?\{[A-Za-z_]+\}"
+            # (?<!\$) prevents matching the inner $var portion of a $$var token.
+            # Without this, contains_expansion_var returns True for $$var text,
+            # the loop enters, _expand_one_pass skips every match, has_more stays
+            # True, and the loop spins all 10 iterations producing a spurious warning.
+            return r"(?<!\$)(\$)[A-Za-z_]+|(\$)?\{[A-Za-z_]+\}"
         else:
             return r"(\$)(\$)?[A-Za-z_]+|(\$)?\{[A-Za-z_]+\}"
 
@@ -772,7 +784,7 @@ class Prompter:
             elif concepts is not None:
                 replacement = Prompter._get_concept_expansion(name, concepts, specific_locations_chance)
             if replacement is None:
-                logger.error(f"Invalid prompt replacement ID: \"{name}\"")
+                logger.debug(f"No expansion found for prompt variable: \"{name}\"")
                 continue
             text = left + replacement + right
             offset += len(replacement) - original_length
