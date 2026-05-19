@@ -56,6 +56,36 @@ class TestExtractInlineVars(unittest.TestCase):
         self.assertEqual(vars_dict, {"a": "alpha", "b": "beta"})
         self.assertEqual(remaining, "")
 
+    def test_colon_syntax_single_var(self):
+        text = "::MyVar = hello\nA $$MyVar photo"
+        vars_dict, remaining = Prompter.extract_inline_vars(text)
+        self.assertEqual(vars_dict, {"myvar": "hello"})
+        self.assertEqual(remaining, "A $$MyVar photo")
+
+    def test_colon_syntax_multiple_vars(self):
+        text = "::Color = blue\n::Style = watercolor\nA $$Color $$Style painting"
+        vars_dict, remaining = Prompter.extract_inline_vars(text)
+        self.assertEqual(vars_dict, {"color": "blue", "style": "watercolor"})
+        self.assertEqual(remaining, "A $$Color $$Style painting")
+
+    def test_colon_syntax_choice_set(self):
+        text = "::Animal = [[cat,dog,bird]]\nA cute $$Animal"
+        vars_dict, remaining = Prompter.extract_inline_vars(text)
+        self.assertIn(vars_dict["animal"], ["cat", "dog", "bird"])
+        self.assertEqual(remaining, "A cute $$Animal")
+
+    def test_colon_syntax_mixed_with_pipe_syntax(self):
+        text = "|||Color->red\n::Style = watercolor\nA $$Color $$Style image"
+        vars_dict, remaining = Prompter.extract_inline_vars(text)
+        self.assertEqual(vars_dict, {"color": "red", "style": "watercolor"})
+        self.assertEqual(remaining, "A $$Color $$Style image")
+
+    def test_colon_syntax_no_match_if_not_at_start(self):
+        text = "Normal prompt\n::MyVar = foo"
+        vars_dict, remaining = Prompter.extract_inline_vars(text)
+        self.assertEqual(vars_dict, {})
+        self.assertEqual(remaining, text)
+
 
 class TestApplyExpansionsWithInlineVars(unittest.TestCase):
     def test_plain_value_expansion(self):

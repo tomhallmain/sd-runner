@@ -21,7 +21,8 @@ class Prompter:
     POSITIVE_TAGS = config.dict["default_positive_tags"]
     NEGATIVE_TAGS = config.dict["default_negative_tags"]
     TAGS_APPLY_TO_START = True
-    INLINE_VAR_PATTERN = re.compile(r'^\|\|\|([A-Za-z_][A-Za-z0-9_]*)->(.+)$')
+    INLINE_VAR_PATTERN = re.compile(r'^\|\|\|\s*([A-Za-z_][A-Za-z0-9_]*)\s*->\s*(.+)$')
+    INLINE_VAR_PATTERN2 = re.compile(r'^::\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.+)$')
     POSITIVE_TAGS_INLINE_VARS: dict = {}
     IMAGE_DATA_EXTRACTOR = None
     IMAGE_TO_PROMPT_CAPTIONER = None
@@ -669,13 +670,14 @@ class Prompter:
 
         Returns ``({}, text)`` unchanged when no ``|||`` header is found.
         """
-        if not text or '|||' not in text:
+        if not text or ('|||' not in text and '::' not in text):
             return {}, text
         lines = text.split('\n')
         vars_dict = {}
         header_line_count = 0
         for line in lines:
-            m = Prompter.INLINE_VAR_PATTERN.match(line.strip())
+            stripped = line.strip()
+            m = Prompter.INLINE_VAR_PATTERN.match(stripped) or Prompter.INLINE_VAR_PATTERN2.match(stripped)
             if m:
                 var_value = m.group(2).strip()
                 # Resolve choice sets now so every reference to this variable shares

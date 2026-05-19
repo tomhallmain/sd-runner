@@ -58,7 +58,7 @@ Nested choice sets are also available:
 
 Note that choice sets can be stored in preset prompt variables to cut down on visible prompt lengths.
 
-Variables can also be defined inline at the top of the prompt itself, without going through the Expansions window. Prefix each definition line with `|||`, separate the name from the value with `->`, and access the variable with the `$$` accessor. The definition block is stripped from the final delivered prompt along with any trailing whitespace, so the prompt body receives only the resolved text.
+Variables can also be defined inline at the top of the prompt itself, without going through the Expansions window. Two syntaxes are supported — either prefix each definition line with `|||` and separate the name from the value with `->`, or prefix with `::` and use `=`. Access the variable with the `$$` accessor. The definition block is stripped from the final delivered prompt along with any trailing whitespace, so the prompt body receives only the resolved text.
 
 ```
 |||MyVar1->[[a,b,c]]
@@ -68,6 +68,16 @@ A $$MyVar1 image in $$MyVar2 tones, quality: $$MyVar3
 ```
 
 -> `"A b image in e tones, quality: my_current_value"` (one possible result)
+
+The `::` syntax is an alternative form that may feel more natural:
+
+```
+::Animal = [[cat,dog,bird]]
+::Style = watercolor
+A $$Animal in $$Style style
+```
+
+-> `"A dog in watercolor style"` (one possible result)
 
 Inline variable values support the full choice-set syntax (`[[...]]`), so `$$MyVar1` above would randomly resolve to `a`, `b`, or `c` each run. Inline variables take priority over config wildcards and stored expansions when names collide. The definition lines must appear at the very start of the prompt with no blank lines between them.
 
