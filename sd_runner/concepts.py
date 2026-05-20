@@ -62,8 +62,11 @@ class ConceptConfiguration:
         if multiplier == 0:
             return 0, 0
         if multiplier == 1:
+            if self.high < self.low:
+                logger.warning(f"ConceptConfiguration has low={self.low} > high={self.high}; clamping high to low")
+                return self.low, self.low
             return self.low, self.high
-        
+
         # Calculate the range size
         range_size = self.high - self.low
         # Scale the range size by the multiplier
@@ -71,14 +74,14 @@ class ConceptConfiguration:
         # Calculate new low and high values
         new_low = max(0, int(self.low * multiplier))
         new_high = new_low + scaled_range
-        
+
         # Ensure we don't return 0 if the original range was non-zero
         if new_low == 0 and self.low != 0:
             new_low = 1
         if new_high == 0 and self.high != 0:
             new_high = 1
-            
-        return new_low, new_high
+
+        return new_low, max(new_low, new_high)
 
     @classmethod
     def from_tuple(cls, value: tuple, specific_chance: float = None, inclusion_chance: float = None) -> "ConceptConfiguration":

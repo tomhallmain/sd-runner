@@ -546,7 +546,6 @@ class RunController:
         sp.label_batch_info.setText("")
         sp.label_adapter_progress.setText("")
         sp.label_progress.setText("")
-        sp.label_pending.setText("")
         sp.label_pending_adapters.setText("")
         sp.label_pending_preset_schedules.setText("")
 

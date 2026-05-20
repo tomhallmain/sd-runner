@@ -421,7 +421,7 @@ class PromptConfigWindow(SmartDialog):
             # --- Category counts ------------------------------------------
             for name, (lo_cb, hi_cb) in self._cat_combos.items():
                 lo = int(lo_cb.currentText())
-                hi = int(hi_cb.currentText())
+                hi = max(int(hi_cb.currentText()), lo)
                 extra: dict = {}
                 if name == "locations":
                     extra["specific_chance"] = self._sliders["specific_locations"].value() / 100.0
