@@ -126,20 +126,23 @@ class ComfyGen(BaseImageGenerator):
         if config.debug:
             print(data.decode("utf-8"))
         images = None
+        connection_id = str(uuid.uuid4())  # Unique per connection so ComfyUI routes events correctly
         try:
             ws = websocket.WebSocket()
-            ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, ComfyGen.CLIENT_ID))
-            ComfyGen.add_connection(ws)  # Track the new connection
+            ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, connection_id))
+            ComfyGen.add_connection(ws)
             images = ComfyGen.get_images(
                 ws,
                 json.loads(data.decode('utf-8')),
                 self.gen_config.get_prompter_config(),
                 related_image_path=self.gen_config.prompt_image_path if self.gen_config.prompt_image_path else None,
+                client_id=connection_id,
             )
             try:
-                ws.close() # Need this to avoid random timeouts, memory leaks, etc.
+                ws.close()
             except Exception:
                 pass
+            ComfyGen.remove_connection(ws)
         except error.URLError:
             raise Exception("Failed to connect to ComfyUI. Is ComfyUI running?")
         finally:
@@ -149,9 +152,10 @@ class ComfyGen(BaseImageGenerator):
             return images
 
     @staticmethod
-    def _queue_prompt(prompt):
-        # p = {"prompt": prompt, "client_id": ComfyGen.CLIENT_ID}
-        data = json.dumps(prompt).encode('utf-8')
+    def _queue_prompt(prompt, client_id: str):
+        body = dict(prompt)  # already {"prompt": {...workflow...}}; avoid mutating the original
+        body["client_id"] = client_id
+        data = json.dumps(body).encode('utf-8')
         req = request.Request(
             "http://{}/prompt".format(ComfyGen.BASE_URL),
             data=data,
@@ -199,9 +203,10 @@ class ComfyGen(BaseImageGenerator):
         prompt,
         prompter_config: Optional[PrompterConfiguration]=None,
         related_image_path: Optional[str] = None,
+        client_id: Optional[str] = None,
     ):
         logger.debug("Queueing prompt to ComfyUI...")
-        prompt_id = ComfyGen._queue_prompt(prompt)['prompt_id']
+        prompt_id = ComfyGen._queue_prompt(prompt, client_id or ComfyGen.CLIENT_ID)['prompt_id']
         logger.debug(f"Got prompt ID: {prompt_id}")
         output_images = {}
         current_node = None
