@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2026-03-31 17:27-0400\n"
-"PO-Revision-Date: 2026-03-31 17:27-0400\n"
-"Last-Translator: Translator Name <translator@example.com>\n"
+"POT-Creation-Date: 2026-05-21 17:18-0400\n"
+"PO-Revision-Date: 2026-05-21 17:18-0400\n"
+"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
 "Language-Team: pt Team <<EMAIL>>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -12,334 +12,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.py:148 ui_qt/app_window/sidebar_panel.py:109
-msgid "Run SD Workflows"
-msgstr "Executar fluxos de trabalho SD"
-
-#: app.py:152 ui_qt/app_window/sidebar_panel.py:114
-msgid "Run Workflows"
-msgstr "Executar fluxos de trabalho"
-
-#: app.py:154 ui_qt/app_window/sidebar_panel.py:118
-msgid "Cancel Run"
-msgstr "Cancelar execução"
-
-#: app.py:176 ui_qt/app_window/sidebar_panel.py:150
-msgid "Software"
-msgstr "Aplicações"
-
-#: app.py:184 ui_qt/app_window/sidebar_panel.py:156
-msgid "Workflow"
-msgstr "Fluxo de trabalho"
-
-#: app.py:191 ui_qt/app_window/sidebar_panel.py:164
-msgid "Set N Latents"
-msgstr "Número de latentes"
-
-#: app.py:197 ui_qt/app_window/sidebar_panel.py:170
-msgid "Set Total"
-msgstr "Total"
-
-#: app.py:205 ui_qt/app_window/sidebar_panel.py:175
-msgid "Batch Limit"
-msgstr "Limite de lote"
-
-#: app.py:212 ui_qt/app_window/sidebar_panel.py:178
-msgid "Delay Seconds"
-msgstr "Segundos de atraso"
-
-#: app.py:218 ui_qt/app_window/sidebar_panel.py:186
-msgid "Resolutions"
-msgstr "Resoluções"
-
-#: app.py:225 ui_qt/app_window/sidebar_panel.py:189
-msgid "Resolution Group"
-msgstr "Grupo de resolução"
-
-#: app.py:231 ui_qt/app_window/sidebar_panel.py:197
-msgid "Model Tags"
-msgstr "Etiquetas de modelos"
-
-#: app.py:233 app.py:250 ui/models_window.py:27
-#: ui_qt/app_window/sidebar_panel.py:198 ui_qt/app_window/sidebar_panel.py:219
-#: ui_qt/models/models_window.py:87
-msgid "Models"
-msgstr "Modelos"
-
-#: app.py:248 ui_qt/app_window/sidebar_panel.py:218
-msgid "LoRA Tags"
-msgstr "Etiquetas LoRA"
-
-#: app.py:266 ui_qt/app_window/sidebar_panel.py:238
-msgid "Default LoRA Strength"
-msgstr "Força LoRA por defeito"
-
-#: app.py:272 ui_qt/app_window/sidebar_panel.py:245
-msgid "B/W Colorization Tags"
-msgstr "Etiquetas de coloração P/B"
-
-#: app.py:280 ui_qt/app_window/sidebar_panel.py:251
-msgid "Control Net or Redo files"
-msgstr "Controlar a rede ou refazer ficheiros"
-
-#: app.py:282 app.py:297 ui_qt/app_window/sidebar_panel.py:252
-#: ui_qt/app_window/sidebar_panel.py:272 ui_qt/app_window/sidebar_panel.py:292
-msgid "Recent"
-msgstr "Recente"
-
-#: app.py:289 ui_qt/app_window/sidebar_panel.py:264
-msgid "Default Control Net Strength"
-msgstr "Força da rede de controlo por defeito"
-
-#: app.py:295 ui_qt/app_window/sidebar_panel.py:271
-msgid "IPAdapter files"
-msgstr "Ficheiros IPAdapter"
-
-#: app.py:304 ui_qt/app_window/sidebar_panel.py:284
-msgid "Default IPAdapter Strength"
-msgstr "Força do IPAdapter por defeito"
-
-#: app.py:310 ui_qt/app_window/sidebar_panel.py:313
-msgid "Redo Parameters"
-msgstr "Parâmetros de repetição"
-
-#: app.py:326 app.py:343 ui/prompt_config_window.py:286
-#: ui_qt/app_window/sidebar_panel.py:331
-#: ui_qt/prompts/prompt_config_window.py:285
-msgid "Prompts Configuration"
-msgstr "Configuração de avisos"
-
-#: app.py:331
-msgid "Preset Schedule Window"
-msgstr "Janela Programações predefinidas"
-
-#: app.py:332 ui/presets_window.py:99 ui_qt/presets/presets_window.py:108
-msgid "Presets Window"
-msgstr "Janela Predefinições"
-
-#: app.py:333
-msgid "Timed Schedules Window"
-msgstr "Janela de horários programados"
-
-#: app.py:338 ui/tags_blacklist_window.py:519 ui/tags_blacklist_window.py:672
-#: ui_qt/app_window/sidebar_panel.py:358 ui_qt/prompts/blacklist_window.py:199
-msgid "Tag Blacklist"
-msgstr "Lista negra de etiquetas"
-
-#: app.py:339 ui/expansions_window.py:180
-#: ui_qt/prompts/expansions_window.py:179
-msgid "Expansions Window"
-msgstr "Janela Expansões"
-
-#: app.py:346 ui_qt/app_window/sidebar_panel.py:404
-msgid "Prompt Mode"
-msgstr "Modo de solicitação"
-
-#: app.py:353 ui_qt/app_window/sidebar_panel.py:414 utils/globals.py:646
-msgid "Edit Concepts"
-msgstr "Editar conceitos"
-
-#: app.py:356 ui_qt/app_window/sidebar_panel.py:423
-msgid "Concepts Dir"
-msgstr "Diretório de conceitos"
-
-#: app.py:367 ui_qt/app_window/sidebar_panel.py:432
-msgid "Override Resolution"
-msgstr "Substituir a resolução"
-
-#: app.py:371 ui_qt/app_window/sidebar_panel.py:436
-msgid "Inpainting"
-msgstr "Pintura interior"
-
-#: app.py:375 ui/prompt_config_window.py:722
-#: ui_qt/app_window/sidebar_panel.py:440
-#: ui_qt/prompts/prompt_config_window.py:257
-msgid "Override Base Negative"
-msgstr "Anular o negativo de base"
-
-#: app.py:379 ui_qt/app_window/sidebar_panel.py:445
-msgid "Run Preset Schedule"
-msgstr "Executar programa predefinido"
-
-#: app.py:383 ui/prompt_config_window.py:743
-#: ui_qt/app_window/sidebar_panel.py:449
-#: ui_qt/prompts/prompt_config_window.py:272
-msgid "Continuous Seed Variation"
-msgstr "Variação contínua da semente"
-
-#: app.py:387 ui_qt/app_window/sidebar_panel.py:454
-msgid "Prompt Massage Tags"
-msgstr "Etiquetas de ajustamento de solicitação"
-
-#: app.py:394 ui_qt/app_window/sidebar_panel.py:461
-msgid "Positive Tags"
-msgstr "Etiquetas positivas"
-
-#: app.py:401 ui_qt/app_window/sidebar_panel.py:467
-msgid "Negative Tags"
-msgstr "Etiquetas negativas"
-
-#: app.py:426 app.py:1490
-msgid " ComfyGen "
-msgstr " Corredor SD "
-
-#: app.py:427 ui_qt/app_window/app_window.py:360
-msgid "Debug mode toggled."
-msgstr "Modo de depuração ativado."
-
-#: app.py:495 ui_qt/app_window/app_window.py:799
-msgid "Confirm Quit"
-msgstr "Confirmar Sair"
-
-#: app.py:495 ui_qt/app_window/app_window.py:800
-msgid "Would you like to quit the application?"
-msgstr "Deseja abandonar a aplicação?"
-
-#: app.py:516
-msgid "Storing caches..."
-msgstr "A guardar caches..."
-
-#: app.py:751 app.py:771 ui_qt/app_window/run_controller.py:140
-#: ui_qt/app_window/run_controller.py:170
-msgid "Confirm Run"
-msgstr "Confirmar execução"
-
-#: app.py:752 ui_qt/app_window/run_controller.py:141
-msgid ""
-"Starting a new run will cancel the current preset schedule. Are you sure you"
-" want to proceed?"
-msgstr ""
-"O início de um novo ciclo cancelará o programa predefinido atual. Tem a "
-"certeza de que pretende continuar?"
-
-#: app.py:772 ui_qt/app_window/run_controller.py:171
-msgid "Are you sure you want to proceed?"
-msgstr "Tens a certeza de que queres continuar?"
-
-#: app.py:781 ui_qt/app_window/run_controller.py:183
-msgid "Setting up run..."
-msgstr "Configurando a execução..."
-
-#: app.py:794 ui_qt/app_window/run_controller.py:193
-msgid "No models found"
-msgstr "Nenhum modelo encontrado"
-
-#: app.py:815 ui_qt/app_window/run_controller.py:297
-msgid "Long Running Job Confirmation"
-msgstr "Confirmação de tarefa de longa duração"
-
-#: app.py:816
-msgid ""
-"The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
-"\n"
-"This run will generate {2} images.\n"
-"\n"
-"Note: This estimate is for a single generation configuration. If you have multiple control nets, IP adapters, or other variations, the actual run time could be significantly longer.\n"
-"\n"
-"Are you sure you want to proceed?"
-msgstr ""
-"O tempo estimado para esta execução é {0}, o que excede o limite de {1}.\n"
-"\n"
-"Esta execução irá gerar {2} imagens.\n"
-"\n"
-"Nota: Esta estimativa é para uma configuração de geração única. Se tiver várias redes de controlo, adaptadores IP ou outras variações, o tempo de execução real poderá ser significativamente mais longo.\n"
-"\n"
-"Tem a certeza de que deseja continuar?"
-
-#: app.py:954 ui_qt/app_window/run_controller.py:457
-msgid " (unlimited)"
-msgstr " (ilimitado)"
-
-#: app.py:971 ui_qt/app_window/run_controller.py:471
-msgid "Batch: {0}/{1}"
-msgstr "Lote: {0}/{1}"
-
-#: app.py:977 ui_qt/app_window/run_controller.py:478
-msgid "Adapter: {0}/{1}"
-msgstr "Adaptador: {0}/{1}"
-
-#: app.py:980 ui_qt/app_window/run_controller.py:482
-msgid "Remaining: {0} adapters"
-msgstr "Restantes: {0} adaptadores"
-
-#: app.py:987 ui_qt/app_window/run_controller.py:491
-msgid "{0} remaining adapters"
-msgstr "{0} adaptadores restantes"
-
-#: app.py:1007 ui_qt/app_window/run_controller.py:516
-msgid "{0} pending generations"
-msgstr "{0} gerações pendentes"
-
-#: app.py:1088 ui_qt/app_window/run_controller.py:95
-msgid "Blacklisted items found in prompt: {0}"
-msgstr "Itens na lista negra encontrados no prompt: {0}"
-
-#: app.py:1089 app.py:1092 ui_qt/app_window/run_controller.py:96
-#: ui_qt/app_window/run_controller.py:100
-msgid "Invalid Prompt Tags"
-msgstr "Etiquetas de aviso inválidas"
-
-#: app.py:1092 ui_qt/app_window/run_controller.py:100
-msgid "Blacklist validation failed!"
-msgstr "A validação da lista negra falhou!"
-
-#: app.py:1290 ui_qt/app_window/sidebar_panel.py:622
-msgid "Password Cancelled"
-msgstr "Palavra-passe cancelada"
-
-#: app.py:1290 ui_qt/app_window/sidebar_panel.py:623
-msgid "Password cancelled or incorrect, revert to previous mode"
-msgstr "Palavra-passe cancelada ou incorrecta, voltar ao modo anterior"
-
-#: app.py:1333 ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:261
-#: ui/concept_editor_window.py:274 ui/concept_editor_window.py:333
-#: ui/concept_editor_window.py:352 ui/models_window.py:443
-#: ui/models_window.py:451 ui/models_window.py:676 ui/models_window.py:689
-#: ui/models_window.py:693 ui/tags_blacklist_window.py:147
-#: ui/tags_blacklist_window.py:322
-#: ui_qt/app_window/notification_controller.py:169
-#: ui_qt/auth/app_startup_auth_qt.py:124
-#: ui_qt/auth/password_admin_window.py:130
-#: ui_qt/auth/password_admin_window.py:534 ui_qt/auth/password_dialog.py:305
-#: ui_qt/models/models_window.py:560 ui_qt/models/models_window.py:696
-#: ui_qt/models/models_window.py:703 ui_qt/models/models_window.py:705
-#: ui_qt/prompts/blacklist_modify_window.py:132
-#: ui_qt/prompts/blacklist_preview_window.py:209
-#: ui_qt/prompts/concept_editor_window.py:396
-#: ui_qt/prompts/concept_editor_window.py:510
-#: ui_qt/prompts/concept_editor_window.py:534
-msgid "Error"
-msgstr "Erro"
-
-#: app_qt.py:38 ui_qt/app_window/app_window.py:128
-#: ui_qt/app_window/app_window.py:155 ui_qt/app_window/app_window.py:358
+#: app_qt.py:38 ui_qt/app_window/app_window.py:129
+#: ui_qt/app_window/app_window.py:153 ui_qt/app_window/app_window.py:356
 msgid " SD Runner "
 msgstr " Corredor SD "
 
-#: app_qt.py:99
+#: app_qt.py:95
 msgid "Startup Error"
 msgstr "Erro de Startup"
 
-#: app_qt.py:100
+#: app_qt.py:96
 msgid "Failed to create main window:"
 msgstr "Falhou ao criar janela principal:"
 
-#: lib/caps_lock_mixin.py:64 ui_qt/auth/password_dialog.py:61
-msgid "⚠ Caps Lock is ON"
-msgstr "⚠ A tecla Caps Lock está ativada"
-
-#: lib/qt_alert.py:27 ui/auth/app_startup_auth.py:96
-#: ui/auth/password_dialog.py:161 ui_qt/auth/app_startup_auth_qt.py:79
+#: lib/qt_alert.py:27 ui_qt/auth/app_startup_auth_qt.py:78
 #: ui_qt/auth/password_dialog.py:200
 msgid "OK"
 msgstr "CERTO"
 
-#: lib/qt_alert.py:28 ui/auth/app_startup_auth.py:99
-#: ui/auth/password_admin_window.py:461 ui/auth/password_dialog.py:164
-#: ui/auth/password_dialog.py:233 ui/auth/password_dialog.py:250
-#: ui_qt/auth/app_startup_auth_qt.py:76 ui_qt/auth/password_admin_window.py:83
-#: ui_qt/auth/password_dialog.py:197 ui_qt/auth/password_dialog.py:267
-#: ui_qt/auth/password_dialog.py:288
+#: lib/qt_alert.py:28 ui_qt/auth/app_startup_auth_qt.py:75
+#: ui_qt/auth/password_admin_window.py:83 ui_qt/auth/password_dialog.py:197
+#: ui_qt/auth/password_dialog.py:267 ui_qt/auth/password_dialog.py:288
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -389,11 +82,11 @@ msgstr ""
 "\n"
 "Tente novamente com um modelo diferente."
 
-#: sd_runner/run_config.py:66
+#: sd_runner/run_config.py:67
 msgid "No prompter config found!"
 msgstr "Não foi encontrada nenhuma configuração do prompter!"
 
-#: sd_runner/run_config.py:70
+#: sd_runner/run_config.py:71
 msgid ""
 "Ensure configuration is correct - do you really want to create more than 10 "
 "images using the same prompt?"
@@ -401,7 +94,7 @@ msgstr ""
 "Certifique-se de que a configuração está correta - quer mesmo criar mais de "
 "dez imagens utilizando o mesmo prompt?"
 
-#: sd_runner/run_config.py:77
+#: sd_runner/run_config.py:78
 msgid ""
 "A model switch was detected and the model massage tags don't match. This "
 "warning will only be shown once."
@@ -409,7 +102,7 @@ msgstr ""
 "Foi detectada uma mudança de modelo e as etiquetas para o ajuste do modelo "
 "não coincidem. Este aviso só é apresentado uma vez."
 
-#: sd_runner/run_config.py:170
+#: sd_runner/run_config.py:171
 msgid ""
 "WARNING: Multiple resolutions in renoiser workflow will produce nearly "
 "identical results (duplicates)."
@@ -417,8 +110,7 @@ msgstr ""
 "AVISO: Várias resoluções no fluxo de trabalho do Renoiser produzirão "
 "resultados quase idênticos (duplicados)."
 
-#: sd_runner/timed_schedule.py:8 ui/schedule.py:14 ui/schedules_windows.py:43
-#: ui/timed_schedules_window.py:40
+#: sd_runner/timed_schedule.py:8 ui_qt/presets/schedule.py:14
 msgid "New Schedule"
 msgstr "Novo calendário"
 
@@ -426,8 +118,7 @@ msgstr "Novo calendário"
 msgid "Tomorrow"
 msgstr "Amanhã"
 
-#: sd_runner/timed_schedule.py:75 ui/timed_schedules_window.py:53
-#: ui_qt/presets/timed_schedules_window.py:70
+#: sd_runner/timed_schedule.py:75 ui_qt/presets/timed_schedules_window.py:69
 msgid "Every day"
 msgstr "Todos os dias"
 
@@ -443,7 +134,7 @@ msgstr "Padrão"
 msgid "Default Shutdown"
 msgstr "Desligamento padrão"
 
-#: sd_runner/timed_schedules_manager.py:94 ui/schedules_windows.py:234
+#: sd_runner/timed_schedules_manager.py:94
 msgid "Not enough schedules found."
 msgstr "Não foram encontrados programaçãos suficientes."
 
@@ -451,1532 +142,93 @@ msgstr "Não foram encontrados programaçãos suficientes."
 msgid "Shutdown scheduled: {}"
 msgstr "Desligamento programado: {}"
 
-#: ui/concept_editor_window.py:110 ui_qt/prompts/concept_editor_window.py:135
-msgid "Search/Add Concept:"
-msgstr "Conceito de pesquisa/adição:"
-
-#: ui/concept_editor_window.py:159 ui_qt/prompts/concept_editor_window.py:175
-msgid "File:"
-msgstr "Ficheiro:"
-
-#: ui/concept_editor_window.py:164 ui_qt/prompts/concept_editor_window.py:184
-msgid "(Target file for saving new concepts and importing)"
-msgstr "(Ficheiro de destino para guardar novos conceitos e importar)"
-
-#: ui/concept_editor_window.py:172 ui_qt/prompts/concept_editor_window.py:191
-msgid "Save"
-msgstr "Guardar"
-
-#: ui/concept_editor_window.py:175 ui/expansions_window.py:245
-#: ui/presets_window.py:152 ui/schedules_windows.py:91
-#: ui/schedules_windows.py:305 ui/timed_schedules_window.py:215
-#: ui_qt/presets/presets_window.py:173 ui_qt/presets/schedules_window.py:129
-#: ui_qt/presets/schedules_window.py:287
-#: ui_qt/presets/timed_schedules_window.py:243
-#: ui_qt/prompts/concept_editor_window.py:198
-#: ui_qt/prompts/expansions_window.py:227
-msgid "Delete"
-msgstr "Eliminar"
-
-#: ui/concept_editor_window.py:178 ui/tags_blacklist_window.py:578
-#: ui/tags_blacklist_window.py:645 ui_qt/prompts/blacklist_window.py:242
-#: ui_qt/prompts/blacklist_window.py:309
-#: ui_qt/prompts/concept_editor_window.py:205
-msgid "Import"
-msgstr "Importar"
-
-#: ui/concept_editor_window.py:219 ui_qt/prompts/concept_editor_window.py:306
-msgid "Enter search text to see concepts..."
-msgstr "Introduzir texto de pesquisa para ver conceitos..."
-
-#: ui/concept_editor_window.py:274 ui_qt/prompts/concept_editor_window.py:397
-msgid "Please select a file to save to"
-msgstr "Selecione um ficheiro para guardar"
-
-#: ui/concept_editor_window.py:288
-msgid "Saved concept: {0}"
-msgstr "Conceito guardado: {0}"
-
-#: ui/concept_editor_window.py:310 ui_qt/prompts/concept_editor_window.py:459
-msgid "Confirm"
-msgstr "Confirmar"
-
-#: ui/concept_editor_window.py:310
-msgid "Delete concept: {0}?"
-msgstr "Eliminar conceito: {0}?"
-
-#: ui/concept_editor_window.py:316
-msgid "Deleted concept: {0}"
-msgstr "Conceito eliminado: {0}"
-
-#: ui/concept_editor_window.py:333 ui_qt/prompts/concept_editor_window.py:511
-msgid "Please select a target file first"
-msgstr "Selecione primeiro um ficheiro de destino"
-
-#: ui/concept_editor_window.py:338 ui_qt/prompts/concept_editor_window.py:519
-msgid "Select concepts file to import"
-msgstr "Selecionar o ficheiro de conceitos a importar"
-
-#: ui/concept_editor_window.py:339
-msgid "Text files"
-msgstr "Ficheiros de texto"
-
-#: ui/concept_editor_window.py:339
-msgid "All files"
-msgstr "Todos os ficheiros"
-
-#: ui/concept_editor_window.py:359
-msgid "Successfully imported {0} concepts"
-msgstr "Importou com sucesso {0} conceitos"
-
-#: ui/concept_editor_window.py:361 ui_qt/prompts/concept_editor_window.py:552
-msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
-msgstr ""
-"{0} conceitos não foram importados (ver {1}_failed_import.txt para mais "
-"pormenores)"
-
-#: ui/concept_editor_window.py:363
-msgid ""
-"Tip: You can prepend '!' to any concept line to force importation, or use "
-"simply use the concept name as a search term to force import."
-msgstr ""
-"Sugestão: Pode acrescentar “!” a qualquer linha de conceito para forçar a "
-"importação ou utilizar simplesmente o nome do conceito como um termo de "
-"pesquisa para forçar a importação."
-
-#: ui/concept_editor_window.py:364 ui_qt/prompts/concept_editor_window.py:563
-msgid "Import Results"
-msgstr "Resultados da importação"
-
-#: ui/expansions_window.py:32 ui_qt/prompts/expansions_window.py:82
-msgid "Modify Expansion: {0}"
-msgstr "Modificar a expansão: {0}"
-
-#: ui/expansions_window.py:40 ui_qt/prompts/expansions_window.py:97
-msgid "Expansion ID"
-msgstr "ID de expansão"
-
-#: ui/expansions_window.py:47 ui_qt/prompts/expansions_window.py:105
-msgid "Expansion Text"
-msgstr "Texto de expansão"
-
-#: ui/expansions_window.py:49 ui_qt/prompts/expansions_window.py:107
-msgid "New Expansion Text"
-msgstr "Novo texto de expansão"
-
-#: ui/expansions_window.py:62 ui/tags_blacklist_window.py:120
-#: ui_qt/prompts/blacklist_modify_window.py:101
-#: ui_qt/prompts/expansions_window.py:121
-msgid "Done"
-msgstr "Feito"
-
-#: ui/expansions_window.py:70 ui_qt/prompts/expansions_window.py:137
-msgid ""
-"Warning: This expansion ID matches a wildcard in config.json. Changes will "
-"not take effect until the wildcard is removed or renamed."
-msgstr ""
-"Aviso: Este ID de expansão corresponde a um curinga em config.json. As "
-"alterações não terão efeito até que o curinga seja removido ou renomeado."
-
-#: ui/expansions_window.py:82 ui/tags_blacklist_window.py:884
-#: ui_qt/prompts/expansions_window.py:148
-msgid "Warning"
-msgstr "Aviso"
-
-#: ui/expansions_window.py:83 ui_qt/prompts/expansions_window.py:149
-msgid ""
-"This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
-"\n"
-"Do you want to save anyway?"
-msgstr ""
-"Esta ID de expansão corresponde a um carácter universal em config.json. As alterações não terão efeito até que o curinga seja removido ou renomeado.\n"
-"\n"
-"Deseja salvar mesmo assim?"
-
-#: ui/expansions_window.py:141
-msgid "New Expansion (ERROR no expansions found)"
-msgstr "Nova expansão (ERRO não foram encontradas expansões)"
-
-#: ui/expansions_window.py:172
-msgid "Not enough expansions found."
-msgstr "Não foram encontradas expansões suficientes."
-
-#: ui/expansions_window.py:208 ui_qt/prompts/expansions_window.py:204
-msgid "Add or update expansions"
-msgstr "Adicionar ou atualizar expansões"
-
-#: ui/expansions_window.py:210 ui_qt/prompts/expansions_window.py:206
-msgid "Add expansion"
-msgstr "Adicionar expansão"
-
-#: ui/expansions_window.py:212 ui_qt/prompts/expansions_window.py:209
-msgid "Clear expansions"
-msgstr "Limpar expansões"
-
-#: ui/expansions_window.py:238 ui/schedules_windows.py:298
-#: ui/tags_blacklist_window.py:739 ui/tags_blacklist_window.py:792
-#: ui/timed_schedules_window.py:208 ui_qt/presets/schedules_window.py:282
-#: ui_qt/presets/timed_schedules_window.py:236
-#: ui_qt/prompts/blacklist_window.py:429 ui_qt/prompts/blacklist_window.py:472
-#: ui_qt/prompts/expansions_window.py:226
-msgid "Modify"
-msgstr "Modificar"
-
-#: ui/expansions_window.py:252 ui_qt/models/recent_adapters_window.py:394
-#: ui_qt/models/recent_adapters_window.py:432
-#: ui_qt/models/recent_adapters_window.py:470
-#: ui_qt/models/recent_adapters_window.py:513
-#: ui_qt/models/recent_adapters_window.py:579
-#: ui_qt/prompts/expansions_window.py:228
-msgid "Copy"
-msgstr "Cópia"
-
-#: ui/expansions_window.py:290
-msgid "Invalid expansion ID \"{0}\" or text \"{1}\""
-msgstr "ID de expansão inválida “{0}” ou texto “{1}”"
-
-#: ui/expansions_window.py:462 ui_qt/prompts/expansions_window.py:384
-msgid "Copied expansion text to clipboard"
-msgstr "Texto de expansão copiado para a área de transferência"
-
-#: ui/models_window.py:48 ui_qt/models/models_window.py:100
-msgid "Checkpoints"
-msgstr "Pontos de controlo"
-
-#: ui/models_window.py:49 ui_qt/models/models_window.py:101
-msgid "LoRAs & Adapters"
-msgstr "LoRAs e adaptadores"
-
-#: ui/models_window.py:63 ui/models_window.py:119
-#: ui/recent_adapters_window.py:87 ui/recent_adapters_window.py:142
-#: ui/recent_adapters_window.py:202 ui_qt/models/models_window.py:130
-#: ui_qt/models/models_window.py:184
-#: ui_qt/models/recent_adapters_window.py:376
-#: ui_qt/models/recent_adapters_window.py:414
-#: ui_qt/models/recent_adapters_window.py:452
-#: ui_qt/models/recent_adapters_window.py:494
-#: ui_qt/models/recent_adapters_window.py:539
-msgid "Filter"
-msgstr "Filtro"
-
-#: ui/models_window.py:79 ui_qt/models/models_window.py:141
-msgid "Model Name"
-msgstr "Nome do modelo"
-
-#: ui/models_window.py:80 ui/models_window.py:136
-#: ui_qt/models/models_window.py:141 ui_qt/models/models_window.py:194
-msgid "Architecture"
-msgstr "Arquitetura"
-
-#: ui/models_window.py:81 ui/models_window.py:137
-#: ui/recent_adapters_window.py:105 ui/recent_adapters_window.py:160
-#: ui/recent_adapters_window.py:220 ui_qt/models/models_window.py:141
-#: ui_qt/models/models_window.py:194
-#: ui_qt/models/recent_adapters_window.py:385
-#: ui_qt/models/recent_adapters_window.py:423
-#: ui_qt/models/recent_adapters_window.py:461
-#: ui_qt/models/recent_adapters_window.py:500
-#: ui_qt/models/recent_adapters_window.py:568
-msgid "Created"
-msgstr "Criado"
-
-#: ui/models_window.py:96 ui/models_window.py:152
-#: ui/recent_adapters_window.py:120 ui/recent_adapters_window.py:175
-#: ui_qt/models/models_window.py:156 ui_qt/models/models_window.py:208
-#: ui_qt/models/recent_adapters_window.py:390
-#: ui_qt/models/recent_adapters_window.py:428
-#: ui_qt/models/recent_adapters_window.py:466
-msgid "Replace"
-msgstr "Substituir"
-
-#: ui/models_window.py:98 ui/models_window.py:154
-#: ui/recent_adapters_window.py:122 ui/recent_adapters_window.py:177
-#: ui_qt/models/models_window.py:159 ui_qt/models/models_window.py:211
-#: ui_qt/models/recent_adapters_window.py:390
-#: ui_qt/models/recent_adapters_window.py:428
-#: ui_qt/models/recent_adapters_window.py:466
-msgid "Add"
-msgstr "Adicionar"
-
-#: ui/models_window.py:100 ui/models_window.py:162
-#: ui/recent_adapters_window.py:124 ui/recent_adapters_window.py:179
-#: ui_qt/models/models_window.py:162 ui_qt/models/models_window.py:219
-#: ui_qt/models/recent_adapters_window.py:400
-#: ui_qt/models/recent_adapters_window.py:438
-#: ui_qt/models/recent_adapters_window.py:476
-msgid "Refresh"
-msgstr "Atualizar"
-
-#: ui/models_window.py:102 ui/models_window.py:164 ui/models_window.py:412
-#: ui/models_window.py:414 ui_qt/models/models_window.py:165
-#: ui_qt/models/models_window.py:222 ui_qt/models/models_window.py:525
-msgid "Show Blacklisted"
-msgstr "Mostrar lista negra"
-
-#: ui/auth/password_admin_window.py:262 ui/models_window.py:104
-#: ui/models_window.py:166 ui/models_window.py:580
-#: ui/prompt_config_window.py:355 ui/recent_adapters_window.py:126
-#: ui/recent_adapters_window.py:181 ui/recent_adapters_window.py:243
-#: ui/recent_adapters_window.py:300 ui/tags_blacklist_window.py:282
-#: ui_qt/auth/password_admin_window.py:354 ui_qt/models/models_window.py:168
-#: ui_qt/models/models_window.py:225 ui_qt/models/models_window.py:636
-#: ui_qt/models/recent_adapters_window.py:401
-#: ui_qt/models/recent_adapters_window.py:439
-#: ui_qt/models/recent_adapters_window.py:477
-#: ui_qt/models/recent_adapters_window.py:519
-#: ui_qt/models/recent_adapters_window.py:582
-#: ui_qt/models/recent_adapters_window.py:634
-#: ui_qt/prompts/blacklist_preview_window.py:84
-#: ui_qt/prompts/prompt_config_window.py:189
-msgid "Close"
-msgstr "Fechar"
-
-#: ui/models_window.py:135 ui_qt/models/models_window.py:194
-msgid "LoRA/Adapter Name"
-msgstr "Adaptador"
-
-#: ui/models_window.py:156 ui/models_window.py:161
-#: ui_qt/models/models_window.py:214
-msgid "LoRA Info"
-msgstr "Info sobre LoRA"
-
-#: ui/models_window.py:374 ui/recent_adapters_window.py:587
-#: ui_qt/models/models_window.py:486
-#: ui_qt/models/recent_adapters_window.py:769
-msgid "Cache"
-msgstr "Cache"
-
-#: ui/models_window.py:407 ui/models_window.py:409
-#: ui_qt/models/models_window.py:525
-msgid "Hide Blacklisted"
-msgstr "Ocultar lista negra"
-
-#: ui/models_window.py:425 ui/models_window.py:663
-#: ui_qt/models/models_window.py:541
-msgid "Feature Unavailable"
-msgstr "Recurso indisponível"
-
-#: ui/models_window.py:426
-msgid ""
-"LoRA trigger extraction is not available.\n"
-"\n"
-"This may be due to missing dependencies or import errors."
-msgstr ""
-"A extração do gatilho LoRA não está disponível.\n"
-"\n"
-"Isso pode ser devido a dependências ausentes ou erros de importação."
-
-#: ui/models_window.py:433 ui_qt/models/models_window.py:550
-msgid "No Selection"
-msgstr "Sem seleção"
-
-#: ui/models_window.py:433 ui_qt/models/models_window.py:551
-msgid "Please select a LoRA to view information."
-msgstr "Selecione um LoRA para visualizar as informações."
-
-#: ui/models_window.py:443 ui_qt/models/models_window.py:561
-msgid "Model not found: {0}"
-msgstr "Modelo não encontrado: {0}"
-
-#: ui/models_window.py:451
-msgid "Failed to show LoRA information: {0}"
-msgstr "Falha ao mostrar informações LoRA: {0}"
-
-#: ui/models_window.py:464 ui_qt/models/models_window.py:579
-msgid "LoRA Information: {0}"
-msgstr "Informações LoRA: {0}"
-
-#: ui/models_window.py:484 ui_qt/models/models_window.py:589
-msgid "LoRA Information"
-msgstr "Informações LoRA"
-
-#: ui/models_window.py:494 ui_qt/models/models_window.py:594
-msgid "Name:"
-msgstr "Nome:"
-
-#: ui/models_window.py:505 ui_qt/models/models_window.py:595
-msgid "Architecture:"
-msgstr "Arquitetura:"
-
-#: ui/models_window.py:516 ui_qt/models/models_window.py:596
-msgid "File Path:"
-msgstr "Caminho do ficheiro:"
-
-#: ui/models_window.py:528 ui_qt/models/models_window.py:597
-msgid "Created:"
-msgstr "Criado:"
-
-#: ui/models_window.py:539 ui_qt/models/models_window.py:598
-msgid "Strength:"
-msgstr "Força:"
-
-#: ui/models_window.py:554 ui_qt/models/models_window.py:618
-msgid "Trigger Information"
-msgstr "Informações sobre acionadores"
-
-#: ui/models_window.py:560 ui_qt/models/models_window.py:622
-msgid "Loading trigger information..."
-msgstr "A carregar informações do ativador..."
-
-#: ui/models_window.py:574 ui_qt/models/models_window.py:631
-msgid "Create .safetriggers File"
-msgstr "Criar ficheiro .safetriggers"
-
-#: ui/models_window.py:597 ui_qt/models/models_window.py:657
-#: utils/globals.py:569
-msgid "Unknown"
-msgstr "Desconhecido"
-
-#: ui/models_window.py:603 ui_qt/models/models_window.py:661
-msgid "Trigger extraction not available"
-msgstr "Extração de gatilho não disponível"
-
-#: ui/models_window.py:614 ui_qt/models/models_window.py:668
-msgid "LoRA file not found"
-msgstr "Arquivo LoRA não encontrado"
-
-#: ui/models_window.py:623 ui_qt/models/models_window.py:674
-msgid "No triggers found"
-msgstr "Não foram encontrados ativadores"
-
-#: ui/models_window.py:624 ui_qt/models/models_window.py:675
-msgid "No triggers found: {0}"
-msgstr "Não foram encontrados ativadores: {0}"
-
-#: ui/models_window.py:627 ui_qt/models/models_window.py:677
-msgid "Error loading triggers: {0}"
-msgstr "Erro ao carregar ativadores: {0}"
-
-#: ui/models_window.py:632 ui_qt/models/models_window.py:680
-msgid "Found {0} triggers"
-msgstr "Encontrados {0} ativadores"
-
-#: ui/models_window.py:664
-msgid "Cannot create .safetriggers file: trigger extraction is not available."
-msgstr ""
-"Não é possível criar o ficheiro .safetriggers: a extração do ativador não "
-"está disponível."
-
-#: ui/models_window.py:676 ui_qt/models/models_window.py:696
-msgid "LoRA file not found: {0}"
-msgstr "Arquivo LoRA não encontrado: {0}"
-
-#: ui/models_window.py:685 ui_qt/models/models_window.py:701
-msgid "Success"
-msgstr "Sucesso"
-
-#: ui/models_window.py:686 ui_qt/models/models_window.py:701
-msgid ""
-"Created .safetriggers file:\n"
-"{0}"
-msgstr ""
-"Ficheiro .safetriggers criado:\n"
-"{0}"
-
-#: ui/models_window.py:689 ui_qt/models/models_window.py:703
-msgid "Failed to create .safetriggers file"
-msgstr "Falha ao criar o ficheiro .safetriggers"
-
-#: ui/models_window.py:693 ui_qt/models/models_window.py:705
-msgid "Failed to create .safetriggers file: {0}"
-msgstr "Falha ao criar o ficheiro .safetriggers: {0}"
-
-#: ui/presets_window.py:59
-msgid "New Preset (ERROR no presets found)"
-msgstr "Nova predefinição (ERRO não foram encontradas predefinições)"
-
-#: ui/presets_window.py:91 ui_qt/presets/presets_window.py:81
-msgid "Not enough presets found."
-msgstr "Não foram encontradas predefinições suficientes."
-
-#: ui/presets_window.py:120 ui_qt/presets/presets_window.py:115
-msgid "Set a new preset"
-msgstr "Definir uma nova predefinição"
-
-#: ui/presets_window.py:121 ui_qt/presets/presets_window.py:116
-msgid "New Preset"
-msgstr "Nova predefinição"
-
-#: ui/presets_window.py:125 ui_qt/presets/presets_window.py:119
-msgid "Add preset"
-msgstr "Adicionar predefinição"
-
-#: ui/presets_window.py:127 ui_qt/presets/presets_window.py:122
-msgid "Clear presets"
-msgstr "Limpar as predefinições"
-
-#: ui/presets_window.py:145 ui/schedules_windows.py:291
-#: ui_qt/presets/presets_window.py:168 ui_qt/presets/schedules_window.py:277
-#: ui_qt/prompts/frequent_prompt_tags_window.py:127
-msgid "Set"
-msgstr "Definir"
-
-#: ui/presets_window.py:169 ui_qt/presets/presets_window.py:189
-msgid "Invalid preset: {0}"
-msgstr "Predefinição inválida: {0}"
-
-#: ui/prompt_config_window.py:84 ui_qt/prompts/prompt_config_window.py:127
-msgid "Prompt Configuration"
-msgstr "Configuração das instruções"
-
-#: ui/prompt_config_window.py:219 ui_qt/prompts/prompt_config_window.py:158
-msgid "Detailed Prompt Configuration"
-msgstr "Configuração detalhada das instruções"
-
-#: ui/prompt_config_window.py:224 ui_qt/prompts/prompt_config_window.py:198
-msgid "Basic Generation Settings"
-msgstr "Configurações básicas de geração"
-
-#: ui/prompt_config_window.py:227 ui_qt/prompts/prompt_config_window.py:207
-msgid "Sampler"
-msgstr "Amostra"
-
-#: ui/prompt_config_window.py:236 ui_qt/prompts/prompt_config_window.py:218
-msgid "Scheduler"
-msgstr "Programador"
-
-#: ui/prompt_config_window.py:245 ui_qt/prompts/prompt_config_window.py:230
-msgid "Seed"
-msgstr "Semente"
-
-#: ui/prompt_config_window.py:253 ui_qt/prompts/prompt_config_window.py:231
-msgid "Steps"
-msgstr "Etapas"
-
-#: ui/prompt_config_window.py:261 ui_qt/prompts/prompt_config_window.py:232
-msgid "CFG"
-msgstr "CFG"
-
-#: ui/prompt_config_window.py:269 ui_qt/prompts/prompt_config_window.py:233
-msgid "Denoise"
-msgstr "Redução de ruído"
-
-#: ui/prompt_config_window.py:277 ui_qt/prompts/prompt_config_window.py:234
-msgid "Random Skip Chance"
-msgstr "Aleatório Saltar o acaso"
-
-#: ui/prompt_config_window.py:334 ui_qt/prompts/prompt_config_window.py:245
-msgid "Multiplier"
-msgstr "Multiplicador"
-
-#: ui/prompt_config_window.py:362
-msgid "Concepts"
-msgstr "Conceitos"
-
-#: ui/prompt_config_window.py:380
-msgid "Positions"
-msgstr "Cargos"
-
-#: ui/prompt_config_window.py:398
-msgid "Locations"
-msgstr "Localizações"
-
-#: ui/prompt_config_window.py:416
-msgid "Animals"
-msgstr "Animais"
-
-#: ui/prompt_config_window.py:434
-msgid "Colors"
-msgstr "Cores"
-
-#: ui/prompt_config_window.py:452
-msgid "Times"
-msgstr "Tempos"
-
-#: ui/prompt_config_window.py:470
-msgid "Dress"
-msgstr "Vestuário"
-
-#: ui/prompt_config_window.py:488
-msgid "Expressions"
-msgstr "Expressões"
-
-#: ui/prompt_config_window.py:506
-msgid "Actions"
-msgstr "Acções"
-
-#: ui/prompt_config_window.py:524
-msgid "Descriptions"
-msgstr "Descrições"
-
-#: ui/prompt_config_window.py:542
-msgid "Characters"
-msgstr "Personagens"
-
-#: ui/prompt_config_window.py:560
-msgid "Random Words"
-msgstr "Palavras aleatórias"
-
-#: ui/prompt_config_window.py:578 utils/globals.py:37
-msgid "Nonsense"
-msgstr "Disparate"
-
-#: ui/prompt_config_window.py:596
-msgid "Jargon"
-msgstr "Jargão"
-
-#: ui/prompt_config_window.py:617
-msgid "Witticisms"
-msgstr "Piadas"
-
-#: ui/prompt_config_window.py:634
-msgid "Sayings / Puns Weights"
-msgstr "Pesos das frases / trocadilhos"
-
-#: ui/prompt_config_window.py:649
-msgid ""
-"Adjust the ratio between sayings and puns. 50% = equal blend, 0% = mostly "
-"sayings, 100% = mostly puns."
-msgstr ""
-"Ajuste a proporção entre provérbios e trocadilhos. 50% = mistura igual, 0% ="
-" principalmente provérbios, 100% = principalmente trocadilhos."
-
-#: ui/prompt_config_window.py:654 ui_qt/prompts/prompt_config_window.py:339
-msgid "Specific Locations Chance"
-msgstr "Possibilidade de especificar localizações"
-
-#: ui/prompt_config_window.py:663 ui_qt/prompts/prompt_config_window.py:341
-msgid "Specific Times Chance"
-msgstr "Probabilidade em momentos específicos"
-
-#: ui/prompt_config_window.py:672 ui_qt/prompts/prompt_config_window.py:343
-msgid "Specify Humans Chance"
-msgstr "Possibilidade de especificar humanos"
-
-#: ui/prompt_config_window.py:681 ui_qt/prompts/prompt_config_window.py:345
-msgid "Art Styles Chance"
-msgstr "Possibilidade de estilos artísticos"
-
-#: ui/prompt_config_window.py:690 ui_qt/prompts/prompt_config_window.py:347
-msgid "Emphasis Chance"
-msgstr "Possibilidade de ênfase"
-
-#: ui/prompt_config_window.py:699 ui_qt/prompts/prompt_config_window.py:349
-msgid "Animals Inclusion Chance"
-msgstr "Possibilidade de inclusão de animais"
-
-#: ui/prompt_config_window.py:709 ui_qt/prompts/prompt_config_window.py:351
-msgid "Dress Inclusion Chance"
-msgstr "Possibilidade de inclusão do vestido"
-
-#: ui/prompt_config_window.py:729 ui_qt/prompts/prompt_config_window.py:262
-msgid "Tags Applied to Prompt Start"
-msgstr "As etiquetas aplicadas no início do prompt"
-
-#: ui/prompt_config_window.py:736 ui_qt/prompts/prompt_config_window.py:267
-msgid "Sparse Mixed Tags"
-msgstr "Etiquetas mistas esparsas"
-
-#: ui/recent_adapters_window.py:42 ui_qt/models/recent_adapters_window.py:334
-msgid "Recent Adapters"
-msgstr "Adaptadores recentes"
-
-#: ui/recent_adapters_window.py:67 ui_qt/models/recent_adapters_window.py:346
-msgid "Recent ControlNets"
-msgstr "ControlNets recentes"
-
-#: ui/recent_adapters_window.py:68 ui_qt/models/recent_adapters_window.py:347
-msgid "Recent IP Adapters"
-msgstr "Adaptadores IP recentes"
-
-#: ui/recent_adapters_window.py:69 ui_qt/models/recent_adapters_window.py:349
-msgid "All Recent Adapters"
-msgstr "Todos os adaptadores recentes"
-
-#: ui/recent_adapters_window.py:70 ui_qt/models/recent_adapters_window.py:351
-msgid "Configuration"
-msgstr "Configuração"
-
-#: ui/recent_adapters_window.py:103 ui_qt/models/recent_adapters_window.py:385
-msgid "ControlNet File"
-msgstr "Arquivo ControlNet"
-
-#: ui/recent_adapters_window.py:104 ui/recent_adapters_window.py:159
-#: ui/recent_adapters_window.py:219 ui_qt/models/recent_adapters_window.py:385
-#: ui_qt/models/recent_adapters_window.py:423
-#: ui_qt/models/recent_adapters_window.py:461
-#: ui_qt/models/recent_adapters_window.py:500
-msgid "Type"
-msgstr "Tipo"
-
-#: ui/recent_adapters_window.py:158 ui_qt/models/recent_adapters_window.py:423
-msgid "IP Adapter File"
-msgstr "Ficheiro do adaptador IP"
-
-#: ui/recent_adapters_window.py:197 ui_qt/models/recent_adapters_window.py:489
-msgid "Individual files, including from directory-split runs (no directories)"
-msgstr ""
-"Ficheiros individuais, incluindo os provenientes de execuções com divisão de"
-" diretórios (sem diretórios)"
-
-#: ui/recent_adapters_window.py:218 ui_qt/models/recent_adapters_window.py:500
-msgid "Adapter File"
-msgstr "Ficheiro adaptador"
-
-#: ui/recent_adapters_window.py:234
-msgid "Apply to ControlNet (Replace)"
-msgstr "Aplicar ao ControlNet (Substituir)"
-
-#: ui/recent_adapters_window.py:236
-msgid "Apply to ControlNet (Add)"
-msgstr "Aplicar ao ControlNet (Adicionar)"
-
-#: ui/recent_adapters_window.py:239
-msgid "Apply to IP Adapter (Replace)"
-msgstr "Aplicar ao adaptador IP (substituir)"
-
-#: ui/recent_adapters_window.py:241
-msgid "Apply to IP Adapter (Add)"
-msgstr "Aplicar ao adaptador IP (Adicionar)"
-
-#: ui/recent_adapters_window.py:265 ui_qt/models/recent_adapters_window.py:597
-msgid "Recent Adapters Configuration"
-msgstr "Configuração recente dos adaptadores"
-
-#: ui/recent_adapters_window.py:271 ui_qt/models/recent_adapters_window.py:602
-msgid "Max Recent Items:"
-msgstr "Máximo de itens recentes:"
-
-#: ui/recent_adapters_window.py:277 ui_qt/models/recent_adapters_window.py:611
-msgid "Max Recent Split Items:"
-msgstr "Itens divididos mais recentes:"
-
-#: ui/recent_adapters_window.py:283 ui_qt/models/recent_adapters_window.py:620
-msgid ""
-"These settings control how many recent adapters are kept in memory.\n"
-"Higher values use more memory but keep more history.\n"
-"Changes take effect immediately and are saved automatically."
-msgstr ""
-"Essas configurações controlam quantos adaptadores recentes são mantidos na memória.\n"
-"Valores mais altos usam mais memória, mas mantêm mais histórico.\n"
-"As alterações entram em vigor imediatamente e são guardadas automaticamente."
-
-#: ui/auth/password_admin_window.py:258 ui/recent_adapters_window.py:294
-#: ui_qt/auth/password_admin_window.py:350
-#: ui_qt/models/recent_adapters_window.py:628
-msgid "Save Settings"
-msgstr "Guardar definições"
-
-#: ui/auth/password_admin_window.py:246 ui/auth/password_admin_window.py:305
-#: ui/recent_adapters_window.py:297 ui_qt/auth/password_admin_window.py:338
-#: ui_qt/auth/password_admin_window.py:402
-#: ui_qt/models/recent_adapters_window.py:631
-msgid "Reset to Defaults"
-msgstr "Repor as predefinições"
-
-#: ui/schedule.py:72
-msgid "{0} ({1} runs)"
-msgstr "{0} ({1} corre)"
-
-#: ui/scheduled_shutdown_dialog.py:26 ui/scheduled_shutdown_dialog.py:43
-#: ui_qt/presets/scheduled_shutdown_dialog.py:42
-#: ui_qt/presets/scheduled_shutdown_dialog.py:54
-msgid "Scheduled Shutdown"
-msgstr "Desligamento programado"
-
-#: ui/scheduled_shutdown_dialog.py:50
-msgid "Schedule: {}"
-msgstr "Agenda: {}"
-
-#: ui/scheduled_shutdown_dialog.py:57 ui/scheduled_shutdown_dialog.py:97
-msgid "Shutting down in {} seconds..."
-msgstr "Desligando em {} segundos..."
-
-#: ui/scheduled_shutdown_dialog.py:72
-#: ui_qt/presets/scheduled_shutdown_dialog.py:74
-msgid "Shutdown Now"
-msgstr "Desligar agora"
-
-#: ui/schedules_windows.py:27 ui/timed_schedules_window.py:27
-#: ui_qt/presets/schedules_window.py:53
-msgid "Modify Preset Schedule: {0}"
-msgstr "Modificar programação predefinido: {0}"
-
-#: ui/schedules_windows.py:41 ui_qt/presets/schedules_window.py:60
-msgid "Modify Schedule"
-msgstr "Modificar o calendário"
-
-#: ui/schedules_windows.py:48 ui/schedules_windows.py:268
-#: ui/timed_schedules_window.py:45 ui/timed_schedules_window.py:185
-#: ui_qt/presets/schedules_window.py:232
-#: ui_qt/presets/timed_schedules_window.py:194
-msgid "Add schedule"
-msgstr "Adicionar programação"
-
-#: ui/schedules_windows.py:51 ui_qt/presets/schedules_window.py:67
-msgid "Add Preset Task"
-msgstr "Adicionar tarefa de predefinições"
-
-#: ui/schedules_windows.py:98 ui_qt/presets/schedules_window.py:123
-msgid "Move Down"
-msgstr "Mover para baixo"
-
-#: ui/schedules_windows.py:242 ui/timed_schedules_window.py:157
-#: ui_qt/presets/schedules_window.py:223
-msgid "Preset Schedules"
-msgstr "Programaçãos de predefinições"
-
-#: ui/schedules_windows.py:270 ui/timed_schedules_window.py:187
-#: ui_qt/presets/schedules_window.py:235
-#: ui_qt/presets/timed_schedules_window.py:197
-msgid "Clear schedules"
-msgstr "Limpar os programaçãos"
-
-#: ui/schedules_windows.py:327 ui_qt/presets/schedules_window.py:259
-msgid "Current schedule: {0}"
-msgstr "Programação atual: {0}"
-
-#: ui/schedules_windows.py:332 ui_qt/presets/schedules_window.py:298
-msgid "Set schedule: {0}"
-msgstr "Definir programação: {0}"
-
-#: ui/schedules_windows.py:339 ui_qt/presets/schedules_window.py:324
-msgid "Deleted schedule: {0}"
-msgstr "Programação eliminada: {0}"
-
-#: ui/schedules_windows.py:425 ui_qt/presets/schedules_window.py:331
-msgid "Cleared schedules"
-msgstr "Limparam os programaçãos"
-
-#: ui/tags_blacklist_window.py:35 ui_qt/prompts/blacklist_modify_window.py:50
-msgid "Modify Blacklist Item: {0}"
-msgstr "Modificar o Item da Lista Negra: {0}"
-
-#: ui/tags_blacklist_window.py:54 ui_qt/prompts/blacklist_modify_window.py:70
-msgid "Blacklist String"
-msgstr "Texto da lista negra"
-
-#: ui/tags_blacklist_window.py:64 ui/timed_schedules_window.py:228
-#: ui_qt/presets/timed_schedules_window.py:250
-#: ui_qt/prompts/blacklist_modify_window.py:75
-#: ui_qt/prompts/blacklist_window.py:411 ui_qt/prompts/blacklist_window.py:455
-msgid "Enabled"
-msgstr "Ativado"
-
-#: ui/tags_blacklist_window.py:76 ui_qt/prompts/blacklist_modify_window.py:79
-msgid "Use glob-based regex"
-msgstr "Utilizar regex baseado em glob"
-
-#: ui/tags_blacklist_window.py:88 ui_qt/prompts/blacklist_modify_window.py:83
-msgid "Use word boundary matching"
-msgstr "Utilizar a correspondência de limites de palavras"
-
-#: ui/tags_blacklist_window.py:100 ui_qt/prompts/blacklist_modify_window.py:87
-msgid "Convert spaces to optional non-word characters"
-msgstr "Converter espaços em caracteres não alfabéticos opcionais"
-
-#: ui/tags_blacklist_window.py:110 ui_qt/prompts/blacklist_modify_window.py:92
-msgid "Exception Pattern (optional regex to unfilter tags)"
-msgstr "Padrão de exceção (expressão regular opcional para desfiltrar tags)"
-
-#: ui/tags_blacklist_window.py:119 ui/tags_blacklist_window.py:747
-#: ui_qt/prompts/blacklist_modify_window.py:98
-#: ui_qt/prompts/blacklist_window.py:432
-msgid "Preview"
-msgstr "Prévia"
-
-#: ui/tags_blacklist_window.py:147
-#: ui_qt/prompts/blacklist_modify_window.py:132
-msgid "Blacklist string cannot be empty."
-msgstr "O texto da lista negra não pode estar vazio."
-
-#: ui/tags_blacklist_window.py:183
-#: ui_qt/prompts/blacklist_modify_window.py:162
-msgid "No changes were made"
-msgstr "Não foram efectuadas alterações"
-
-#: ui/tags_blacklist_window.py:195
-#: ui_qt/prompts/blacklist_modify_window.py:174
-#: ui_qt/prompts/blacklist_modify_window.py:193
-msgid "Unsaved Changes"
-msgstr "Alterações não guardadas"
-
-#: ui/tags_blacklist_window.py:195
-#: ui_qt/prompts/blacklist_modify_window.py:175
-#: ui_qt/prompts/blacklist_modify_window.py:194
-msgid "Do you want to save changes before closing?"
-msgstr "Pretende guardar as alterações antes de as fechar?"
-
-#: ui/tags_blacklist_window.py:230
-#: ui_qt/prompts/blacklist_preview_window.py:63
-msgid "Blacklist Preview"
-msgstr "Prévia da lista negra"
-
-#: ui/tags_blacklist_window.py:246
-#: ui_qt/prompts/blacklist_preview_window.py:151
-msgid "Concepts filtered by: {0}"
-msgstr "Conceitos filtrados por: {0}"
-
-#: ui/tags_blacklist_window.py:250
-#: ui_qt/prompts/blacklist_preview_window.py:155
-msgid "All filtered concepts"
-msgstr "Todos os conceitos filtrados"
-
-#: ui/tags_blacklist_window.py:311
-#: ui_qt/prompts/blacklist_preview_window.py:200
-msgid "Found {0} filtered concepts"
-msgstr "Encontrou {0} conceitos filtrados"
-
-#: ui/tags_blacklist_window.py:319
-#: ui_qt/prompts/blacklist_preview_window.py:206
-msgid "Error loading concepts: {0}"
-msgstr "Erro ao carregar conceitos: {0}"
-
-#: ui/tags_blacklist_window.py:347
-msgid ""
-"WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
-"\n"
-"If you are young, not sure, or even an adult, click the close button on this window now and do something fun instead."
-msgstr ""
-"AVISO: Tem a certeza de que quer revelar os conceitos da lista negra? Estes conceitos são prejudiciais ou ofensivos e IRÃO causar-lhe graves danos psicológicos. Não revele, em circunstância alguma, estes conceitos a menores.\n"
-"\n"
-"Se és jovem, não tens a certeza, ou mesmo se és adulto, clica no botão fechar desta janela agora e faz algo divertido."
-
-#: ui/tags_blacklist_window.py:429 ui_qt/prompts/blacklist_window.py:741
-msgid "Confirm Load Default Blacklist"
-msgstr "Confirmar a carga da lista negra predefinida"
-
-#: ui/tags_blacklist_window.py:430
-msgid ""
-"Are you sure you want to load the default blacklist?\n"
-"\n"
-"⚠️ WARNING: This will erase your current blacklist and replace it with the default items.\n"
-"• All your current blacklist items will be permanently deleted\n"
-"• You will need to rebuild your blacklist from scratch if you want to restore it later\n"
-"\n"
-"Do you want to continue?"
-msgstr ""
-"Tens a certeza de que pretendes carregar a lista negra predefinida?\n"
-"\n"
-"⚠️ AVISO: Isto irá apagar a sua lista negra atual e substituí-la pelos itens predefinidos.\n"
-"- Todos os itens da sua lista negra atual serão permanentemente eliminados\n"
-"- Terá de reconstruir a sua lista negra a partir do zero se a quiser restaurar mais tarde\n"
-"\n"
-"Deseja continuar?"
-
-#: ui/tags_blacklist_window.py:444 ui_qt/prompts/blacklist_window.py:754
-msgid "Loaded default blacklist"
-msgstr "Lista negra padrão carregada"
-
-#: ui/tags_blacklist_window.py:448 ui_qt/prompts/blacklist_window.py:758
-msgid "Error loading default blacklist"
-msgstr "Erro ao carregar a lista negra predefinida"
-
-#: ui/tags_blacklist_window.py:492 ui_qt/prompts/blacklist_window.py:183
-msgid "Tags/Models Blacklist"
-msgstr "Lista negra de tags e modelos"
-
-#: ui/tags_blacklist_window.py:522 ui_qt/prompts/blacklist_window.py:200
-msgid "Model Blacklist"
-msgstr "Lista negra para modelos"
-
-#: ui/tags_blacklist_window.py:546 ui/tags_blacklist_window.py:614
-#: ui_qt/prompts/blacklist_window.py:220 ui_qt/prompts/blacklist_window.py:287
-msgid "Global Settings:"
-msgstr "Definições globais"
-
-#: ui/tags_blacklist_window.py:548 ui/tags_blacklist_window.py:616
-#: ui_qt/prompts/blacklist_window.py:221 ui_qt/prompts/blacklist_window.py:288
-msgid "These settings affect how the blacklist is applied globally."
-msgstr ""
-"Estas definições afectam a forma como a lista negra é aplicada globalmente."
-
-#: ui/tags_blacklist_window.py:557 ui/tags_blacklist_window.py:625
-#: ui_qt/prompts/blacklist_window.py:228 ui_qt/prompts/blacklist_window.py:295
-msgid "Choose how the blacklist is enforced: block, warn, or allow."
-msgstr "Escolha como a lista negra é aplicada: bloquear, avisar ou permitir."
-
-#: ui/tags_blacklist_window.py:563 ui/tags_blacklist_window.py:631
-#: ui_qt/prompts/blacklist_window.py:231 ui_qt/prompts/blacklist_window.py:298
-msgid "Silent Removal"
-msgstr "Remoção silenciosa"
-
-#: ui/tags_blacklist_window.py:571 ui/tags_blacklist_window.py:639
-#: ui_qt/prompts/blacklist_window.py:234 ui_qt/prompts/blacklist_window.py:301
-msgid ""
-"If enabled, blacklisted words are removed silently without notification."
-msgstr ""
-"Se activada, as palavras colocadas na lista negra são removidas "
-"silenciosamente sem notificação."
-
-#: ui/tags_blacklist_window.py:579 ui/tags_blacklist_window.py:646
-#: ui_qt/prompts/blacklist_window.py:243 ui_qt/prompts/blacklist_window.py:310
-msgid "Export"
-msgstr "Exportação"
-
-#: ui/tags_blacklist_window.py:580 ui/tags_blacklist_window.py:647
-#: ui_qt/prompts/blacklist_window.py:244 ui_qt/prompts/blacklist_window.py:311
-msgid "Preview All"
-msgstr "Pré-visualizar tudo"
-
-#: ui/tags_blacklist_window.py:581 ui_qt/prompts/blacklist_window.py:245
-msgid "Load Default"
-msgstr "Carregar por defeito"
-
-#: ui/tags_blacklist_window.py:590 ui_qt/prompts/blacklist_window.py:259
-msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
-msgstr ""
-"Escolha como a lista negra será aplicada: proibir ou permitir em NSFW."
-
-#: ui/tags_blacklist_window.py:593 ui_qt/prompts/blacklist_window.py:261
-msgid "Add to tag blacklist"
-msgstr "Adicionar à lista negra de etiquetas"
-
-#: ui/tags_blacklist_window.py:595 ui/tags_blacklist_window.py:661
-#: ui_qt/prompts/blacklist_window.py:264 ui_qt/prompts/blacklist_window.py:330
-msgid "Clear items"
-msgstr "Limpar itens"
-
-#: ui/tags_blacklist_window.py:655 ui_qt/prompts/blacklist_window.py:325
-msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
-msgstr ""
-"Escolha como a lista negra do modelo é aplicada: proibir ou permitir em "
-"NSFW."
-
-#: ui/tags_blacklist_window.py:660 ui_qt/prompts/blacklist_window.py:327
-msgid "Add to model blacklist"
-msgstr "Adicionar à lista negra de modelos"
-
-#: ui/tags_blacklist_window.py:692
-msgid ""
-"No blacklist items found. You can add items by clicking the 'Add to tag "
-"blacklist' button below, or load the default blacklist."
-msgstr ""
-"Não foram encontrados itens na lista negra. Pode adicionar itens clicando no"
-" botão “Adicionar à lista negra de etiquetas” abaixo, ou carregar a lista "
-"negra predefinida."
-
-#: ui/tags_blacklist_window.py:694 ui_qt/prompts/blacklist_window.py:368
-msgid "Click below to reveal blacklist concepts."
-msgstr "Clique abaixo para revelar os conceitos da lista negra."
-
-#: ui/tags_blacklist_window.py:696 ui_qt/prompts/blacklist_window.py:371
-msgid ""
-"Default blacklist is loaded. You can load your own blacklist by editing the "
-"existing concepts, clearing the blacklist and adding your own, or importing "
-"concepts from a file."
-msgstr ""
-"A lista negra predefinida é carregada. O utilizador pode carregar a sua "
-"própria lista negra editando os conceitos existentes, limpando a lista negra"
-" e adicionando os seus próprios conceitos ou importando conceitos de um "
-"ficheiro."
-
-#: ui/tags_blacklist_window.py:702 ui_qt/prompts/blacklist_window.py:379
-msgid "Reveal Concepts"
-msgstr "Revelar os conceitos"
-
-#: ui/tags_blacklist_window.py:721 ui/tags_blacklist_window.py:778
-#: ui_qt/prompts/blacklist_window.py:54
-msgid "[regex]"
-msgstr "[regex]"
-
-#: ui/tags_blacklist_window.py:723 ui_qt/prompts/blacklist_window.py:56
-msgid "[no boundary]"
-msgstr "[sem limite de palavra]"
-
-#: ui/tags_blacklist_window.py:725 ui/tags_blacklist_window.py:780
-#: ui_qt/prompts/blacklist_window.py:58
-msgid "[no space conversion]"
-msgstr "[sem conversão de espaço]"
-
-#: ui/tags_blacklist_window.py:727 ui/tags_blacklist_window.py:782
-#: ui_qt/prompts/blacklist_window.py:60
-msgid "[exception: {0}]"
-msgstr "[exceção: {0}]"
-
-#: ui/tags_blacklist_window.py:731 ui/tags_blacklist_window.py:786
-#: ui/tags_blacklist_window.py:1052 ui/tags_blacklist_window.py:1230
-#: ui_qt/prompts/blacklist_window.py:421 ui_qt/prompts/blacklist_window.py:465
-#: ui_qt/prompts/blacklist_window.py:693 ui_qt/prompts/blacklist_window.py:789
-msgid "Disabled"
-msgstr "Não ativado"
-
-#: ui/tags_blacklist_window.py:755 ui/tags_blacklist_window.py:798
-#: ui_qt/models/recent_adapters_window.py:576
-#: ui_qt/prompts/blacklist_window.py:430 ui_qt/prompts/blacklist_window.py:473
-msgid "Remove"
-msgstr "Remover"
-
-#: ui/tags_blacklist_window.py:767
-msgid ""
-"No model blacklist items found. You can add items by clicking the 'Add to "
-"model blacklist' button above, or load the default model blacklist."
-msgstr ""
-"Não foram encontrados itens na lista negra do modelo. Pode adicionar itens "
-"clicando no botão «Adicionar à lista negra do modelo» acima ou carregar a "
-"lista negra padrão do modelo."
-
-#: ui/tags_blacklist_window.py:859 ui/tags_blacklist_window.py:894
-#: ui_qt/prompts/blacklist_window.py:847
-msgid "Added item to blacklist: {0}"
-msgstr "Item adicionado à lista negra: {0}"
-
-#: ui/tags_blacklist_window.py:861 ui_qt/prompts/blacklist_window.py:847
-msgid "Modified blacklist item: {0}"
-msgstr "Item da lista negra modificado: {0}"
-
-#: ui/tags_blacklist_window.py:874 ui_qt/prompts/blacklist_window.py:680
-msgid "Removed item: {0}"
-msgstr "Item removido: {0}"
-
-#: ui/tags_blacklist_window.py:884
-msgid "Please enter a string to add to the blacklist."
-msgstr "Introduza uma cadeia de caracteres para adicionar à lista negra."
-
-#: ui/tags_blacklist_window.py:974 ui_qt/prompts/blacklist_window.py:722
-msgid "Confirm Clear Blacklist"
-msgstr "Confirmar a eliminação da lista negra"
-
-#: ui/tags_blacklist_window.py:975
-msgid ""
-"Are you sure you want to clear all blacklist items?\n"
-"\n"
-"⚠️ WARNING: This action cannot be undone!\n"
-"• All blacklist items will be permanently deleted\n"
-"• The blacklist helps improve image output quality\n"
-"• You will need to rebuild your blacklist from scratch\n"
-"\n"
-"Do you want to continue?"
-msgstr ""
-"Tem a certeza de que pretende limpar todos os itens da lista negra?\n"
-"\n"
-"⚠️ AVISO: Esta ação não pode ser anulada!\n"
-"- Todos os itens da lista negra serão permanentemente eliminados\n"
-"- A lista negra ajuda a melhorar a qualidade de saída da imagem\n"
-"- Terá de reconstruir a sua lista negra a partir do zero\n"
-"\n"
-"Deseja continuar?"
-
-#: ui/tags_blacklist_window.py:995 ui_qt/prompts/blacklist_window.py:734
-msgid "Cleared item blacklist"
-msgstr "Lista negra de itens limpa"
-
-#: ui/tags_blacklist_window.py:1055 ui_qt/prompts/blacklist_window.py:696
-msgid "Item \"{0}\" is now {1}"
-msgstr "O item “{0}” é agora {1}"
-
-#: ui/tags_blacklist_window.py:1057 ui/tags_blacklist_window.py:1234
-#: ui_qt/prompts/blacklist_window.py:698 ui_qt/prompts/blacklist_window.py:793
-msgid "enabled"
-msgstr "ativado"
-
-#: ui/tags_blacklist_window.py:1057 ui/tags_blacklist_window.py:1234
-#: ui_qt/prompts/blacklist_window.py:698 ui_qt/prompts/blacklist_window.py:793
-msgid "disabled"
-msgstr "desativado"
-
-#: ui/tags_blacklist_window.py:1067 ui_qt/prompts/blacklist_window.py:707
-msgid "Concepts revealed"
-msgstr "Conceitos revelados"
-
-#: ui/tags_blacklist_window.py:1098 ui/tags_blacklist_window.py:1265
-#: ui_qt/prompts/blacklist_window.py:920
-msgid "Import Blacklist"
-msgstr "Importar lista negra"
-
-#: ui/tags_blacklist_window.py:1117 ui_qt/prompts/blacklist_window.py:933
-msgid "Successfully imported blacklist"
-msgstr "Lista negra importada com êxito"
-
-#: ui/tags_blacklist_window.py:1119 ui/tags_blacklist_window.py:1286
-#: ui_qt/prompts/blacklist_window.py:936 ui_qt/prompts/blacklist_window.py:976
-msgid "Import Error"
-msgstr "Erro de importação"
-
-#: ui/tags_blacklist_window.py:1130 ui_qt/prompts/blacklist_window.py:941
-msgid "Export Blacklist"
-msgstr "Exportar a lista negra"
-
-#: ui/tags_blacklist_window.py:1145 ui_qt/prompts/blacklist_window.py:953
-msgid "Successfully exported blacklist"
-msgstr "Lista negra exportada com êxito"
-
-#: ui/tags_blacklist_window.py:1147 ui/tags_blacklist_window.py:1307
-#: ui_qt/prompts/blacklist_window.py:955 ui_qt/prompts/blacklist_window.py:990
-msgid "Export Error"
-msgstr "Erro de exportação"
-
-#: ui/tags_blacklist_window.py:1157 ui_qt/prompts/blacklist_window.py:883
-msgid "Blacklist mode set to: {0}"
-msgstr "Modo de lista negra definido para: {0}"
-
-#: ui/tags_blacklist_window.py:1167 ui_qt/prompts/blacklist_window.py:892
-msgid "Blacklist prompt mode set to: {0}"
-msgstr "Modo de aviso da lista negra definido como: {0}"
-
-#: ui/tags_blacklist_window.py:1177 ui_qt/prompts/blacklist_window.py:901
-msgid "Model blacklist mode set to: {0}"
-msgstr "Modo de lista negra do modelo definido como: {0}"
-
-#: ui/tags_blacklist_window.py:1183 ui_qt/prompts/blacklist_window.py:912
-msgid "Silent removal set to: {0}"
-msgstr "Remoção silenciosa definida para: {0}"
-
-#: ui/tags_blacklist_window.py:1221 ui_qt/prompts/blacklist_window.py:865
-msgid "Model blacklist updated: {0}"
-msgstr "Lista negra de modelos atualizada: {0}"
-
-#: ui/tags_blacklist_window.py:1232 ui_qt/prompts/blacklist_window.py:791
-msgid "Model item '{0}' is now {1}"
-msgstr "O item modelo ‘{0}’ agora é {1}"
-
-#: ui/tags_blacklist_window.py:1246 ui_qt/prompts/blacklist_window.py:777
-msgid "Removed model blacklist item: {0}"
-msgstr "Item removido da lista negra do modelo: {0}"
-
-#: ui/tags_blacklist_window.py:1253 ui_qt/prompts/blacklist_window.py:803
-msgid "Cleared model blacklist items"
-msgstr "Itens da lista negra do modelo eliminados"
-
-#: ui/tags_blacklist_window.py:1284 ui_qt/prompts/blacklist_window.py:973
-msgid "Successfully imported model blacklist"
-msgstr "Lista negra de modelos importada com sucesso"
-
-#: ui/tags_blacklist_window.py:1295 ui_qt/prompts/blacklist_window.py:981
-msgid "Export Model Blacklist"
-msgstr "Exportar a lista negra de modelos"
-
-#: ui/tags_blacklist_window.py:1305 ui_qt/prompts/blacklist_window.py:988
-msgid "Successfully exported model blacklist"
-msgstr "Lista negra de modelos exportada com sucesso"
-
-#: ui/timed_schedules_window.py:39 ui_qt/presets/timed_schedules_window.py:59
-msgid "Schedule Name"
-msgstr "Nome da Agenda"
-
-#: ui/timed_schedules_window.py:67 ui_qt/presets/timed_schedules_window.py:93
-msgid "Start Time"
-msgstr "Hora de início"
-
-#: ui/timed_schedules_window.py:77 ui_qt/presets/timed_schedules_window.py:105
-msgid "End Time"
-msgstr "Hora do fim"
-
-#: ui/timed_schedules_window.py:87 ui_qt/presets/timed_schedules_window.py:117
-msgid "Shutdown Time"
-msgstr "Hora de encerramento"
-
-#: ui/timed_schedules_window.py:183
-msgid "Create and modify schedules"
-msgstr "Criar e modificar agendamentos"
-
-#: ui/auth/app_startup_auth.py:33 ui/auth/app_startup_auth.py:64
-#: ui_qt/auth/app_startup_auth_qt.py:28 ui_qt/auth/app_startup_auth_qt.py:41
-msgid "Application Password Required"
-msgstr "Palavra-passe de aplicação necessária"
-
-#: ui/auth/app_startup_auth.py:71 ui_qt/auth/app_startup_auth_qt.py:49
-msgid "A password is required to open this application."
-msgstr "É necessária uma palavra-passe para abrir esta aplicação de software."
-
-#: ui/auth/app_startup_auth.py:80 ui/auth/password_dialog.py:145
-#: ui_qt/auth/app_startup_auth_qt.py:56 ui_qt/auth/password_dialog.py:178
-msgid "Password:"
-msgstr "Palavra-passe:"
-
-#: ui/auth/app_startup_auth.py:113 ui/auth/password_dialog.py:261
-#: ui_qt/auth/app_startup_auth_qt.py:124 ui_qt/auth/password_dialog.py:306
-msgid "Incorrect password"
-msgstr "Palavra-passe incorrecta"
-
-#: ui/auth/password_admin_window.py:35 ui_qt/auth/password_admin_window.py:144
-msgid "Password Administration"
-msgstr "Administração da palavra-passe"
-
-#: ui/auth/password_admin_window.py:84 ui_qt/auth/password_admin_window.py:189
-msgid "Password Protection Settings"
-msgstr "Definições de proteção por palavra-passe"
-
-#: ui/auth/password_admin_window.py:96 ui_qt/auth/password_admin_window.py:201
-msgid "Protected Actions"
-msgstr "Acções protegidas"
-
-#: ui/auth/password_admin_window.py:102
-#: ui_qt/auth/password_admin_window.py:209
-msgid "Select which actions require password authentication:"
-msgstr "Selecione as acções que requerem autenticação por palavra-passe:"
-
-#: ui/auth/password_admin_window.py:118
-#: ui_qt/auth/password_admin_window.py:225
-msgid "(Always protected if a password is set)"
-msgstr "(Sempre protegido se estiver definida uma palavra-passe)"
-
-#: ui/auth/password_admin_window.py:137
-#: ui_qt/auth/password_admin_window.py:241
-msgid "Session Timeout Settings"
-msgstr "Definições de tempo limite da sessão"
-
-#: ui/auth/password_admin_window.py:143
-#: ui_qt/auth/password_admin_window.py:249
-msgid "Enable session timeout (remember password for a period)"
-msgstr ""
-"Ativar o tempo limite da sessão (memorizar a palavra-passe durante um "
-"período)"
-
-#: ui/auth/password_admin_window.py:155
-#: ui_qt/auth/password_admin_window.py:258
-msgid "Session timeout duration (minutes):"
-msgstr "Duração do tempo limite da sessão (minutos):"
-
-#: ui/auth/password_admin_window.py:164
-#: ui_qt/auth/password_admin_window.py:268
-msgid "Security Advice Settings"
-msgstr "Configurações de conselhos de segurança"
-
-#: ui/auth/password_admin_window.py:170
-#: ui_qt/auth/password_admin_window.py:273
-msgid "Show security advice when no password is configured"
-msgstr ""
-"Mostrar aviso de segurança quando nenhuma palavra-passe estiver configurada"
-
-#: ui/auth/password_admin_window.py:178
-#: ui_qt/auth/password_admin_window.py:279
-msgid "Password Setup"
-msgstr "Configuração da palavra-passe"
-
-#: ui/auth/password_admin_window.py:188
-#: ui_qt/auth/password_admin_window.py:286
-msgid "Password is configured"
-msgstr "A palavra-passe está configurada"
-
-#: ui/auth/password_admin_window.py:194 ui/auth/password_admin_window.py:383
-#: ui/auth/password_admin_window.py:398 ui/auth/password_admin_window.py:458
-#: ui_qt/auth/password_admin_window.py:38
-#: ui_qt/auth/password_admin_window.py:53
-#: ui_qt/auth/password_admin_window.py:86
-#: ui_qt/auth/password_admin_window.py:290
-msgid "Change Password"
-msgstr "Alterar a palavra-passe"
-
-#: ui/auth/password_admin_window.py:199 ui/auth/password_admin_window.py:471
-#: ui_qt/auth/password_admin_window.py:294
-#: ui_qt/auth/password_admin_window.py:493
-msgid "Remove Password"
-msgstr "Remover a palavra-passe"
-
-#: ui/auth/password_admin_window.py:204
-#: ui_qt/auth/password_admin_window.py:298
-msgid "Set up a password to enable protection:"
-msgstr "Definir uma palavra-passe para ativar a proteção:"
-
-#: ui/auth/password_admin_window.py:214 ui/auth/password_admin_window.py:414
-#: ui_qt/auth/password_admin_window.py:67
-#: ui_qt/auth/password_admin_window.py:306
-msgid "New Password:"
-msgstr "Nova palavra-passe:"
-
-#: ui/auth/password_admin_window.py:227
-#: ui_qt/auth/password_admin_window.py:317
-msgid "Confirm Password:"
-msgstr "Confirmar a palavra-passe:"
-
-#: ui/auth/password_admin_window.py:236
-#: ui_qt/auth/password_admin_window.py:325
-msgid "Set Password"
-msgstr "Definir palavra-passe"
-
-#: ui/auth/password_admin_window.py:250 ui/auth/password_admin_window.py:330
-#: ui_qt/auth/password_admin_window.py:342
-#: ui_qt/auth/password_admin_window.py:427
-msgid "Set to Current"
-msgstr "Definir como atual"
-
-#: ui/auth/password_admin_window.py:254
-#: ui_qt/auth/password_admin_window.py:346
-msgid "Export Cache as JSON"
-msgstr "Exportar cache como JSON"
-
-#: ui/auth/password_admin_window.py:299
-#: ui_qt/auth/password_admin_window.py:396
-msgid "Password protection settings saved."
-msgstr "Definições de proteção por palavra-passe guardadas."
-
-#: ui/auth/password_admin_window.py:306
-#: ui_qt/auth/password_admin_window.py:403
-msgid ""
-"Are you sure you want to reset all password protection settings to their "
-"default values?"
-msgstr ""
-"Tem a certeza de que pretende repor todas as definições de proteção por "
-"palavra-passe para os valores predefinidos?"
-
-#: ui/auth/password_admin_window.py:325
-#: ui_qt/auth/password_admin_window.py:422
-msgid "Settings reset to defaults."
-msgstr "As definições são repostas para os valores predefinidos."
-
-#: ui/auth/password_admin_window.py:331
-#: ui_qt/auth/password_admin_window.py:428
-msgid ""
-"Are you sure you want to restore all settings to their current saved state? "
-"This will discard any unsaved changes."
-msgstr ""
-"Tem a certeza de que pretende restaurar todas as definições para o estado "
-"atual guardado? Isto irá eliminar quaisquer alterações não guardadas."
-
-#: ui/auth/password_admin_window.py:349
-#: ui_qt/auth/password_admin_window.py:446
-msgid "Settings restored to current saved state."
-msgstr "Definições restauradas para o estado atual guardado."
-
-#: ui/auth/password_admin_window.py:358
-#: ui_qt/auth/password_admin_window.py:457
-msgid "Please enter a password."
-msgstr "Introduzir uma palavra-passe."
-
-#: ui/auth/password_admin_window.py:362
-#: ui_qt/auth/password_admin_window.py:463
-msgid "Passwords do not match."
-msgstr "As palavras-passe não coincidem."
-
-#: ui/auth/password_admin_window.py:366 ui/auth/password_admin_window.py:448
-#: ui_qt/auth/password_admin_window.py:107
-#: ui_qt/auth/password_admin_window.py:469
-msgid "Password must be at least 6 characters long."
-msgstr "A palavra-passe deve ter pelo menos 6 caracteres."
-
-#: ui/auth/password_admin_window.py:371
-#: ui_qt/auth/password_admin_window.py:475
-msgid "Password set successfully."
-msgstr "Palavra-passe definida com êxito."
-
-#: ui/auth/password_admin_window.py:378
-#: ui_qt/auth/password_admin_window.py:481
-msgid "Failed to set password."
-msgstr "Falha na definição da palavra-passe."
-
-#: ui/auth/password_admin_window.py:405 ui_qt/auth/password_admin_window.py:60
-msgid "Current Password:"
-msgstr "Palavra-passe atual:"
-
-#: ui/auth/password_admin_window.py:423 ui_qt/auth/password_admin_window.py:74
-msgid "Confirm New Password:"
-msgstr "Confirmar a nova palavra-passe:"
-
-#: ui/auth/password_admin_window.py:440 ui_qt/auth/password_admin_window.py:99
-msgid "Current password is incorrect."
-msgstr "A palavra-passe atual está incorrecta."
-
-#: ui/auth/password_admin_window.py:444
-#: ui_qt/auth/password_admin_window.py:103
-msgid "New passwords do not match."
-msgstr "As novas palavras-passe não correspondem."
-
-#: ui/auth/password_admin_window.py:453
-#: ui_qt/auth/password_admin_window.py:115
-#: ui_qt/auth/password_admin_window.py:118
-msgid "Password changed successfully."
-msgstr "Palavra-passe alterada com sucesso."
-
-#: ui/auth/password_admin_window.py:456
-#: ui_qt/auth/password_admin_window.py:122
-msgid "Failed to change password."
-msgstr "Falha ao alterar a palavra-passe."
-
-#: ui/auth/password_admin_window.py:472
-#: ui_qt/auth/password_admin_window.py:494
-msgid ""
-"Are you sure you want to remove password protection? This will disable all "
-"password requirements."
-msgstr ""
-"Tem a certeza de que pretende remover a proteção por palavra-passe? Isto irá"
-" desativar todos os requisitos de palavra-passe."
-
-#: ui/auth/password_admin_window.py:478
-#: ui_qt/auth/password_admin_window.py:502
-msgid "Password removed successfully."
-msgstr "Palavra-passe removida com sucesso."
-
-#: ui/auth/password_admin_window.py:482
-#: ui_qt/auth/password_admin_window.py:506
-msgid "Failed to remove password."
-msgstr "Falha ao remover a palavra-passe."
-
-#: ui/auth/password_admin_window.py:517
-#: ui_qt/auth/password_admin_window.py:546
-msgid "Cache exported as JSON to:"
-msgstr "Cache exportada como JSON para:"
-
-#: ui/auth/password_admin_window.py:519
-#: ui_qt/auth/password_admin_window.py:550
-msgid "Failed to export cache as JSON:"
-msgstr "Falha ao exportar a cache como JSON:"
-
-#: ui/auth/password_dialog.py:45 ui/auth/password_dialog.py:115
-#: ui_qt/auth/password_dialog.py:97 ui_qt/auth/password_dialog.py:152
-msgid "Password Required"
-msgstr "Palavra-passe necessária"
-
-#: ui/auth/password_dialog.py:45 ui_qt/auth/password_dialog.py:99
-msgid "Password Protection"
-msgstr "Proteção por palavra-passe"
-
-#: ui/auth/password_dialog.py:122 ui_qt/auth/password_dialog.py:160
-msgid "Password required for: {0}"
-msgstr "Palavra-passe necessária para: {0}"
-
-#: ui/auth/password_dialog.py:170 ui_qt/auth/password_dialog.py:207
-msgid "Password Protection Available"
-msgstr "Proteção por palavra-passe disponível"
-
-#: ui/auth/password_dialog.py:177 ui_qt/auth/password_dialog.py:215
-msgid "This action requires password protection: {0}"
-msgstr "Esta ação requer a proteção por palavra-passe: {0}"
-
-#: ui/auth/password_dialog.py:193 ui_qt/auth/password_dialog.py:234
-msgid "Password protection is not currently configured. You can:"
-msgstr ""
-"A proteção por palavra-passe não está atualmente configurada. É possível:"
-
-#: ui/auth/password_dialog.py:203 ui_qt/auth/password_dialog.py:243
-msgid "• Configure password protection for sensitive actions"
-msgstr "• Configurar a proteção por palavra-passe para acções sensíveis"
-
-#: ui/auth/password_dialog.py:208 ui_qt/auth/password_dialog.py:251
-msgid "• Continue without password protection (less secure)"
-msgstr "• Continuar sem proteção por palavra-passe (menos seguro)"
-
-#: ui/auth/password_dialog.py:215 ui_qt/auth/password_dialog.py:258
-msgid "Don't show this security advice again"
-msgstr "Não mostrar mais este aviso de segurança"
-
-#: ui/auth/password_dialog.py:225 ui/auth/password_dialog.py:246
-#: ui_qt/auth/password_dialog.py:273 ui_qt/auth/password_dialog.py:291
-msgid "Configure Protection"
-msgstr "Configurar a proteção"
-
-#: ui/auth/password_dialog.py:229 ui_qt/auth/password_dialog.py:270
-msgid "Continue Without Protection"
-msgstr "Continuar sem proteção"
-
-#: ui/auth/password_dialog.py:237 ui_qt/auth/password_dialog.py:279
-msgid ""
-"Password protection is required for this action but is not currently "
-"configured."
-msgstr ""
-"A proteção por palavra-passe é necessária para esta ação, mas não está "
-"atualmente configurada."
-
-#: ui_qt/app_window/app_window.py:351
+#: ui_qt/app_window/app_window.py:349
 msgid "Theme switched to {0}."
 msgstr "O tema mudou para {0}."
 
-#: ui_qt/app_window/app_window.py:715 ui_qt/app_window/app_window.py:730
+#: ui_qt/app_window/app_window.py:358
+msgid "Debug mode toggled."
+msgstr "Modo de depuração ativado."
+
+#: ui_qt/app_window/app_window.py:716 ui_qt/app_window/app_window.py:731
 msgid "Updating history for blacklist changes — please wait…"
 msgstr ""
 "Atualizando a história para alterações na lista negra — por favor aguarde…"
 
-#: ui_qt/app_window/app_window.py:717
+#: ui_qt/app_window/app_window.py:718
 msgid "Saving application data is taking longer than expected — please wait…"
 msgstr ""
 "Salvando os dados da aplicação está demorando mais do que o esperado — por "
 "favor aguarde..."
 
-#: ui_qt/app_window/app_window.py:719
+#: ui_qt/app_window/app_window.py:720
 msgid "Closing"
 msgstr "Encerramento"
 
-#: ui_qt/app_window/run_controller.py:298
+#: ui_qt/app_window/app_window.py:800
+msgid "Confirm Quit"
+msgstr "Confirmar Sair"
+
+#: ui_qt/app_window/app_window.py:801
+msgid "Would you like to quit the application?"
+msgstr "Deseja abandonar a aplicação?"
+
+#: ui_qt/app_window/notification_controller.py:169
+#: ui_qt/auth/app_startup_auth_qt.py:123
+#: ui_qt/auth/password_admin_window.py:130
+#: ui_qt/auth/password_admin_window.py:534 ui_qt/auth/password_dialog.py:305
+#: ui_qt/models/models_window.py:561 ui_qt/models/models_window.py:697
+#: ui_qt/models/models_window.py:704 ui_qt/models/models_window.py:706
+#: ui_qt/prompts/blacklist_modify_window.py:130
+#: ui_qt/prompts/blacklist_preview_window.py:209
+#: ui_qt/prompts/concept_editor_window.py:418
+#: ui_qt/prompts/concept_editor_window.py:532
+#: ui_qt/prompts/concept_editor_window.py:556
+msgid "Error"
+msgstr "Erro"
+
+#: ui_qt/app_window/run_controller.py:94
+msgid "Blacklisted items found in prompt: {0}"
+msgstr "Itens na lista negra encontrados no prompt: {0}"
+
+#: ui_qt/app_window/run_controller.py:95 ui_qt/app_window/run_controller.py:99
+msgid "Invalid Prompt Tags"
+msgstr "Etiquetas de aviso inválidas"
+
+#: ui_qt/app_window/run_controller.py:99
+msgid "Blacklist validation failed!"
+msgstr "A validação da lista negra falhou!"
+
+#: ui_qt/app_window/run_controller.py:139
+#: ui_qt/app_window/run_controller.py:169
+msgid "Confirm Run"
+msgstr "Confirmar execução"
+
+#: ui_qt/app_window/run_controller.py:140
+msgid ""
+"Starting a new run will cancel the current preset schedule. Are you sure you"
+" want to proceed?"
+msgstr ""
+"O início de um novo ciclo cancelará o programa predefinido atual. Tem a "
+"certeza de que pretende continuar?"
+
+#: ui_qt/app_window/run_controller.py:170
+msgid "Are you sure you want to proceed?"
+msgstr "Tens a certeza de que queres continuar?"
+
+#: ui_qt/app_window/run_controller.py:182
+msgid "Setting up run..."
+msgstr "Configurando a execução..."
+
+#: ui_qt/app_window/run_controller.py:192
+msgid "No models found"
+msgstr "Nenhum modelo encontrado"
+
+#: ui_qt/app_window/run_controller.py:296
+msgid "Long Running Job Confirmation"
+msgstr "Confirmação de tarefa de longa duração"
+
+#: ui_qt/app_window/run_controller.py:297
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -1990,136 +242,674 @@ msgstr ""
 "\n"
 "Você tem certeza de que quer continuar?"
 
-#: ui_qt/app_window/sidebar_panel.py:291
+#: ui_qt/app_window/run_controller.py:319
+msgid "Run Error"
+msgstr "Erro de execução"
+
+#: ui_qt/app_window/run_controller.py:451
+msgid " (unlimited)"
+msgstr " (ilimitado)"
+
+#: ui_qt/app_window/run_controller.py:465
+msgid "Batch: {0}/{1}"
+msgstr "Lote: {0}/{1}"
+
+#: ui_qt/app_window/run_controller.py:472
+msgid "Adapter: {0}/{1}"
+msgstr "Adaptador: {0}/{1}"
+
+#: ui_qt/app_window/run_controller.py:476
+msgid "Remaining: {0} adapters"
+msgstr "Restantes: {0} adaptadores"
+
+#: ui_qt/app_window/run_controller.py:485
+msgid "{0} remaining adapters"
+msgstr "{0} adaptadores restantes"
+
+#: ui_qt/app_window/run_controller.py:507
+msgid "{0} pending generations"
+msgstr "{0} gerações pendentes"
+
+#: ui_qt/app_window/sidebar_panel.py:110
+msgid "Run SD Workflows"
+msgstr "Executar fluxos de trabalho SD"
+
+#: ui_qt/app_window/sidebar_panel.py:115
+msgid "Run Workflows"
+msgstr "Executar fluxos de trabalho"
+
+#: ui_qt/app_window/sidebar_panel.py:119
+msgid "Cancel Run"
+msgstr "Cancelar execução"
+
+#: ui_qt/app_window/sidebar_panel.py:151
+msgid "Software"
+msgstr "Aplicações"
+
+#: ui_qt/app_window/sidebar_panel.py:157
+msgid "Workflow"
+msgstr "Fluxo de trabalho"
+
+#: ui_qt/app_window/sidebar_panel.py:165
+msgid "Set N Latents"
+msgstr "Número de latentes"
+
+#: ui_qt/app_window/sidebar_panel.py:171
+msgid "Set Total"
+msgstr "Total"
+
+#: ui_qt/app_window/sidebar_panel.py:176
+msgid "Batch Limit"
+msgstr "Limite de lote"
+
+#: ui_qt/app_window/sidebar_panel.py:179
+msgid "Delay Seconds"
+msgstr "Segundos de atraso"
+
+#: ui_qt/app_window/sidebar_panel.py:187
+msgid "Resolutions"
+msgstr "Resoluções"
+
+#: ui_qt/app_window/sidebar_panel.py:190
+msgid "Resolution Group"
+msgstr "Grupo de resolução"
+
+#: ui_qt/app_window/sidebar_panel.py:198
+msgid "Model Tags"
+msgstr "Etiquetas de modelos"
+
+#: ui_qt/app_window/sidebar_panel.py:199 ui_qt/app_window/sidebar_panel.py:220
+#: ui_qt/models/models_window.py:88
+msgid "Models"
+msgstr "Modelos"
+
+#: ui_qt/app_window/sidebar_panel.py:219
+msgid "LoRA Tags"
+msgstr "Etiquetas LoRA"
+
+#: ui_qt/app_window/sidebar_panel.py:239
+msgid "Default LoRA Strength"
+msgstr "Força LoRA por defeito"
+
+#: ui_qt/app_window/sidebar_panel.py:246
+msgid "B/W Colorization Tags"
+msgstr "Etiquetas de coloração P/B"
+
+#: ui_qt/app_window/sidebar_panel.py:252
+msgid "Control Net or Redo files"
+msgstr "Controlar a rede ou refazer ficheiros"
+
+#: ui_qt/app_window/sidebar_panel.py:253 ui_qt/app_window/sidebar_panel.py:273
+#: ui_qt/app_window/sidebar_panel.py:293
+msgid "Recent"
+msgstr "Recente"
+
+#: ui_qt/app_window/sidebar_panel.py:265
+msgid "Default Control Net Strength"
+msgstr "Força da rede de controlo por defeito"
+
+#: ui_qt/app_window/sidebar_panel.py:272
+msgid "IPAdapter files"
+msgstr "Ficheiros IPAdapter"
+
+#: ui_qt/app_window/sidebar_panel.py:285
+msgid "Default IPAdapter Strength"
+msgstr "Força do IPAdapter por defeito"
+
+#: ui_qt/app_window/sidebar_panel.py:292
 msgid "Source Prompts from Directory"
 msgstr "Obter os prompts a partir de um diretório"
 
-#: ui_qt/app_window/sidebar_panel.py:304
+#: ui_qt/app_window/sidebar_panel.py:305
 msgid "Add User Prompt Tags to Sourced Prompt"
 msgstr "Adicionar etiquetas de prompt do utilizador ao prompt de origem"
 
-#: ui_qt/app_window/sidebar_panel.py:337
+#: ui_qt/app_window/sidebar_panel.py:314
+msgid "Redo Parameters"
+msgstr "Parâmetros de repetição"
+
+#: ui_qt/app_window/sidebar_panel.py:332
+#: ui_qt/prompts/prompt_config_window.py:289
+msgid "Prompts Configuration"
+msgstr "Configuração de avisos"
+
+#: ui_qt/app_window/sidebar_panel.py:338
 msgid "Preset Schedule"
 msgstr "Agendamento Pronto"
 
-#: ui_qt/app_window/sidebar_panel.py:343
+#: ui_qt/app_window/sidebar_panel.py:344
 msgid "Presets"
 msgstr "Pré-configurações"
 
-#: ui_qt/app_window/sidebar_panel.py:349
-#: ui_qt/presets/timed_schedules_window.py:186
+#: ui_qt/app_window/sidebar_panel.py:350
+#: ui_qt/presets/timed_schedules_window.py:185
 msgid "Timed Schedules"
 msgstr "Horários agendados"
 
-#: ui_qt/app_window/sidebar_panel.py:364
+#: ui_qt/app_window/sidebar_panel.py:359 ui_qt/prompts/blacklist_window.py:214
+msgid "Tag Blacklist"
+msgstr "Lista negra de etiquetas"
+
+#: ui_qt/app_window/sidebar_panel.py:365
 msgid "Expansions"
 msgstr "Expansões"
 
-#: ui_qt/app_window/sidebar_panel.py:370
+#: ui_qt/app_window/sidebar_panel.py:371
 msgid "Prompt Config"
 msgstr "Configuração de Prompt"
 
-#: ui_qt/app_window/sidebar_panel.py:379
+#: ui_qt/app_window/sidebar_panel.py:380
 #: ui_qt/prompts/prompt_generator_window.py:53
 msgid "Prompt Generator"
 msgstr "Gereador de Prompt"
 
-#: ui_qt/app_window/sidebar_panel.py:390
+#: ui_qt/app_window/sidebar_panel.py:391
 #: ui_qt/prompts/image_to_prompt_window.py:56
 msgid "Image to Prompt"
 msgstr "Imagem para Prompt"
+
+#: ui_qt/app_window/sidebar_panel.py:405
+msgid "Prompt Mode"
+msgstr "Modo de solicitação"
+
+#: ui_qt/app_window/sidebar_panel.py:415 utils/globals.py:646
+msgid "Edit Concepts"
+msgstr "Editar conceitos"
+
+#: ui_qt/app_window/sidebar_panel.py:424
+msgid "Concepts Dir"
+msgstr "Diretório de conceitos"
+
+#: ui_qt/app_window/sidebar_panel.py:433
+msgid "Override Resolution"
+msgstr "Substituir a resolução"
+
+#: ui_qt/app_window/sidebar_panel.py:437
+msgid "Inpainting"
+msgstr "Pintura interior"
+
+#: ui_qt/app_window/sidebar_panel.py:441
+#: ui_qt/prompts/prompt_config_window.py:256
+msgid "Override Base Negative"
+msgstr "Anular o negativo de base"
+
+#: ui_qt/app_window/sidebar_panel.py:446
+msgid "Run Preset Schedule"
+msgstr "Executar programa predefinido"
+
+#: ui_qt/app_window/sidebar_panel.py:450
+#: ui_qt/prompts/prompt_config_window.py:271
+msgid "Continuous Seed Variation"
+msgstr "Variação contínua da semente"
+
+#: ui_qt/app_window/sidebar_panel.py:454
+#: ui_qt/prompts/prompt_config_window.py:276
+msgid "Slight Dimension Variation"
+msgstr "Ligeira variação dimensional"
+
+#: ui_qt/app_window/sidebar_panel.py:459
+msgid "Prompt Massage Tags"
+msgstr "Etiquetas de ajustamento de solicitação"
+
+#: ui_qt/app_window/sidebar_panel.py:466
+msgid "Positive Tags"
+msgstr "Etiquetas positivas"
+
+#: ui_qt/app_window/sidebar_panel.py:472
+msgid "Negative Tags"
+msgstr "Etiquetas negativas"
+
+#: ui_qt/app_window/sidebar_panel.py:627
+msgid "Password Cancelled"
+msgstr "Palavra-passe cancelada"
+
+#: ui_qt/app_window/sidebar_panel.py:628
+msgid "Password cancelled or incorrect, revert to previous mode"
+msgstr "Palavra-passe cancelada ou incorrecta, voltar ao modo anterior"
+
+#: ui_qt/auth/app_startup_auth_qt.py:27 ui_qt/auth/app_startup_auth_qt.py:40
+msgid "Application Password Required"
+msgstr "Palavra-passe de aplicação necessária"
+
+#: ui_qt/auth/app_startup_auth_qt.py:48
+msgid "A password is required to open this application."
+msgstr "É necessária uma palavra-passe para abrir esta aplicação de software."
+
+#: ui_qt/auth/app_startup_auth_qt.py:55 ui_qt/auth/password_dialog.py:178
+msgid "Password:"
+msgstr "Palavra-passe:"
+
+#: ui_qt/auth/app_startup_auth_qt.py:123 ui_qt/auth/password_dialog.py:306
+msgid "Incorrect password"
+msgstr "Palavra-passe incorrecta"
+
+#: ui_qt/auth/password_admin_window.py:38
+#: ui_qt/auth/password_admin_window.py:53
+#: ui_qt/auth/password_admin_window.py:86
+#: ui_qt/auth/password_admin_window.py:290
+msgid "Change Password"
+msgstr "Alterar a palavra-passe"
+
+#: ui_qt/auth/password_admin_window.py:60
+msgid "Current Password:"
+msgstr "Palavra-passe atual:"
+
+#: ui_qt/auth/password_admin_window.py:67
+#: ui_qt/auth/password_admin_window.py:306
+msgid "New Password:"
+msgstr "Nova palavra-passe:"
+
+#: ui_qt/auth/password_admin_window.py:74
+msgid "Confirm New Password:"
+msgstr "Confirmar a nova palavra-passe:"
+
+#: ui_qt/auth/password_admin_window.py:99
+msgid "Current password is incorrect."
+msgstr "A palavra-passe atual está incorrecta."
+
+#: ui_qt/auth/password_admin_window.py:103
+msgid "New passwords do not match."
+msgstr "As novas palavras-passe não correspondem."
+
+#: ui_qt/auth/password_admin_window.py:107
+#: ui_qt/auth/password_admin_window.py:469
+msgid "Password must be at least 6 characters long."
+msgstr "A palavra-passe deve ter pelo menos 6 caracteres."
+
+#: ui_qt/auth/password_admin_window.py:115
+#: ui_qt/auth/password_admin_window.py:118
+msgid "Password changed successfully."
+msgstr "Palavra-passe alterada com sucesso."
 
 #: ui_qt/auth/password_admin_window.py:118
 #: ui_qt/auth/password_admin_window.py:536
 msgid "Info"
 msgstr "Informações"
 
+#: ui_qt/auth/password_admin_window.py:122
+msgid "Failed to change password."
+msgstr "Falha ao alterar a palavra-passe."
+
 #: ui_qt/auth/password_admin_window.py:127
 #: ui_qt/auth/password_admin_window.py:528
 msgid "Administration Error"
 msgstr "Erro de Administração"
 
+#: ui_qt/auth/password_admin_window.py:144
+msgid "Password Administration"
+msgstr "Administração da palavra-passe"
+
+#: ui_qt/auth/password_admin_window.py:189
+msgid "Password Protection Settings"
+msgstr "Definições de proteção por palavra-passe"
+
+#: ui_qt/auth/password_admin_window.py:201
+msgid "Protected Actions"
+msgstr "Acções protegidas"
+
+#: ui_qt/auth/password_admin_window.py:209
+msgid "Select which actions require password authentication:"
+msgstr "Selecione as acções que requerem autenticação por palavra-passe:"
+
+#: ui_qt/auth/password_admin_window.py:225
+msgid "(Always protected if a password is set)"
+msgstr "(Sempre protegido se estiver definida uma palavra-passe)"
+
+#: ui_qt/auth/password_admin_window.py:241
+msgid "Session Timeout Settings"
+msgstr "Definições de tempo limite da sessão"
+
+#: ui_qt/auth/password_admin_window.py:249
+msgid "Enable session timeout (remember password for a period)"
+msgstr ""
+"Ativar o tempo limite da sessão (memorizar a palavra-passe durante um "
+"período)"
+
+#: ui_qt/auth/password_admin_window.py:258
+msgid "Session timeout duration (minutes):"
+msgstr "Duração do tempo limite da sessão (minutos):"
+
+#: ui_qt/auth/password_admin_window.py:268
+msgid "Security Advice Settings"
+msgstr "Configurações de conselhos de segurança"
+
+#: ui_qt/auth/password_admin_window.py:273
+msgid "Show security advice when no password is configured"
+msgstr ""
+"Mostrar aviso de segurança quando nenhuma palavra-passe estiver configurada"
+
+#: ui_qt/auth/password_admin_window.py:279
+msgid "Password Setup"
+msgstr "Configuração da palavra-passe"
+
+#: ui_qt/auth/password_admin_window.py:286
+msgid "Password is configured"
+msgstr "A palavra-passe está configurada"
+
+#: ui_qt/auth/password_admin_window.py:294
+#: ui_qt/auth/password_admin_window.py:493
+msgid "Remove Password"
+msgstr "Remover a palavra-passe"
+
+#: ui_qt/auth/password_admin_window.py:298
+msgid "Set up a password to enable protection:"
+msgstr "Definir uma palavra-passe para ativar a proteção:"
+
+#: ui_qt/auth/password_admin_window.py:317
+msgid "Confirm Password:"
+msgstr "Confirmar a palavra-passe:"
+
+#: ui_qt/auth/password_admin_window.py:325
+msgid "Set Password"
+msgstr "Definir palavra-passe"
+
+#: ui_qt/auth/password_admin_window.py:338
+#: ui_qt/auth/password_admin_window.py:402
+#: ui_qt/models/recent_adapters_window.py:626
+msgid "Reset to Defaults"
+msgstr "Repor as predefinições"
+
+#: ui_qt/auth/password_admin_window.py:342
+#: ui_qt/auth/password_admin_window.py:427
+msgid "Set to Current"
+msgstr "Definir como atual"
+
+#: ui_qt/auth/password_admin_window.py:346
+msgid "Export Cache as JSON"
+msgstr "Exportar cache como JSON"
+
+#: ui_qt/auth/password_admin_window.py:350
+#: ui_qt/models/recent_adapters_window.py:623
+msgid "Save Settings"
+msgstr "Guardar definições"
+
+#: ui_qt/auth/password_admin_window.py:354 ui_qt/models/models_window.py:169
+#: ui_qt/models/models_window.py:226 ui_qt/models/models_window.py:637
+#: ui_qt/models/recent_adapters_window.py:396
+#: ui_qt/models/recent_adapters_window.py:434
+#: ui_qt/models/recent_adapters_window.py:472
+#: ui_qt/models/recent_adapters_window.py:514
+#: ui_qt/models/recent_adapters_window.py:577
+#: ui_qt/models/recent_adapters_window.py:629
+#: ui_qt/prompts/blacklist_preview_window.py:84
+#: ui_qt/prompts/prompt_config_window.py:188
+msgid "Close"
+msgstr "Fechar"
+
+#: ui_qt/auth/password_admin_window.py:396
+msgid "Password protection settings saved."
+msgstr "Definições de proteção por palavra-passe guardadas."
+
+#: ui_qt/auth/password_admin_window.py:403
+msgid ""
+"Are you sure you want to reset all password protection settings to their "
+"default values?"
+msgstr ""
+"Tem a certeza de que pretende repor todas as definições de proteção por "
+"palavra-passe para os valores predefinidos?"
+
+#: ui_qt/auth/password_admin_window.py:422
+msgid "Settings reset to defaults."
+msgstr "As definições são repostas para os valores predefinidos."
+
+#: ui_qt/auth/password_admin_window.py:428
+msgid ""
+"Are you sure you want to restore all settings to their current saved state? "
+"This will discard any unsaved changes."
+msgstr ""
+"Tem a certeza de que pretende restaurar todas as definições para o estado "
+"atual guardado? Isto irá eliminar quaisquer alterações não guardadas."
+
+#: ui_qt/auth/password_admin_window.py:446
+msgid "Settings restored to current saved state."
+msgstr "Definições restauradas para o estado atual guardado."
+
+#: ui_qt/auth/password_admin_window.py:457
+msgid "Please enter a password."
+msgstr "Introduzir uma palavra-passe."
+
+#: ui_qt/auth/password_admin_window.py:463
+msgid "Passwords do not match."
+msgstr "As palavras-passe não coincidem."
+
+#: ui_qt/auth/password_admin_window.py:475
+msgid "Password set successfully."
+msgstr "Palavra-passe definida com êxito."
+
+#: ui_qt/auth/password_admin_window.py:481
+msgid "Failed to set password."
+msgstr "Falha na definição da palavra-passe."
+
+#: ui_qt/auth/password_admin_window.py:494
+msgid ""
+"Are you sure you want to remove password protection? This will disable all "
+"password requirements."
+msgstr ""
+"Tem a certeza de que pretende remover a proteção por palavra-passe? Isto irá"
+" desativar todos os requisitos de palavra-passe."
+
+#: ui_qt/auth/password_admin_window.py:502
+msgid "Password removed successfully."
+msgstr "Palavra-passe removida com sucesso."
+
+#: ui_qt/auth/password_admin_window.py:506
+msgid "Failed to remove password."
+msgstr "Falha ao remover a palavra-passe."
+
+#: ui_qt/auth/password_admin_window.py:546
+msgid "Cache exported as JSON to:"
+msgstr "Cache exportada como JSON para:"
+
+#: ui_qt/auth/password_admin_window.py:550
+msgid "Failed to export cache as JSON:"
+msgstr "Falha ao exportar a cache como JSON:"
+
+#: ui_qt/auth/password_dialog.py:61
+msgid "⚠ Caps Lock is ON"
+msgstr "⚠ A tecla Caps Lock está ativada"
+
+#: ui_qt/auth/password_dialog.py:97 ui_qt/auth/password_dialog.py:152
+msgid "Password Required"
+msgstr "Palavra-passe necessária"
+
+#: ui_qt/auth/password_dialog.py:99
+msgid "Password Protection"
+msgstr "Proteção por palavra-passe"
+
+#: ui_qt/auth/password_dialog.py:160
+msgid "Password required for: {0}"
+msgstr "Palavra-passe necessária para: {0}"
+
+#: ui_qt/auth/password_dialog.py:207
+msgid "Password Protection Available"
+msgstr "Proteção por palavra-passe disponível"
+
+#: ui_qt/auth/password_dialog.py:215
+msgid "This action requires password protection: {0}"
+msgstr "Esta ação requer a proteção por palavra-passe: {0}"
+
+#: ui_qt/auth/password_dialog.py:234
+msgid "Password protection is not currently configured. You can:"
+msgstr ""
+"A proteção por palavra-passe não está atualmente configurada. É possível:"
+
+#: ui_qt/auth/password_dialog.py:243
+msgid "• Configure password protection for sensitive actions"
+msgstr "• Configurar a proteção por palavra-passe para acções sensíveis"
+
+#: ui_qt/auth/password_dialog.py:251
+msgid "• Continue without password protection (less secure)"
+msgstr "• Continuar sem proteção por palavra-passe (menos seguro)"
+
+#: ui_qt/auth/password_dialog.py:258
+msgid "Don't show this security advice again"
+msgstr "Não mostrar mais este aviso de segurança"
+
+#: ui_qt/auth/password_dialog.py:270
+msgid "Continue Without Protection"
+msgstr "Continuar sem proteção"
+
+#: ui_qt/auth/password_dialog.py:273 ui_qt/auth/password_dialog.py:291
+msgid "Configure Protection"
+msgstr "Configurar a proteção"
+
+#: ui_qt/auth/password_dialog.py:279
+msgid ""
+"Password protection is required for this action but is not currently "
+"configured."
+msgstr ""
+"A proteção por palavra-passe é necessária para esta ação, mas não está "
+"atualmente configurada."
+
+#: ui_qt/models/models_window.py:101
+msgid "Checkpoints"
+msgstr "Pontos de controlo"
+
 #: ui_qt/models/models_window.py:102
+msgid "LoRAs & Adapters"
+msgstr "LoRAs e adaptadores"
+
+#: ui_qt/models/models_window.py:103
 msgid "HF Hub"
 msgstr "HF Hub"
 
-#: ui_qt/models/models_window.py:242 ui_qt/models/models_window.py:300
+#: ui_qt/models/models_window.py:131 ui_qt/models/models_window.py:185
+#: ui_qt/models/recent_adapters_window.py:371
+#: ui_qt/models/recent_adapters_window.py:409
+#: ui_qt/models/recent_adapters_window.py:447
+#: ui_qt/models/recent_adapters_window.py:489
+#: ui_qt/models/recent_adapters_window.py:534
+msgid "Filter"
+msgstr "Filtro"
+
+#: ui_qt/models/models_window.py:142
+msgid "Model Name"
+msgstr "Nome do modelo"
+
+#: ui_qt/models/models_window.py:142 ui_qt/models/models_window.py:195
+msgid "Architecture"
+msgstr "Arquitetura"
+
+#: ui_qt/models/models_window.py:142 ui_qt/models/models_window.py:195
+#: ui_qt/models/recent_adapters_window.py:380
+#: ui_qt/models/recent_adapters_window.py:418
+#: ui_qt/models/recent_adapters_window.py:456
+#: ui_qt/models/recent_adapters_window.py:495
+#: ui_qt/models/recent_adapters_window.py:563
+msgid "Created"
+msgstr "Criado"
+
+#: ui_qt/models/models_window.py:157 ui_qt/models/models_window.py:209
+#: ui_qt/models/recent_adapters_window.py:385
+#: ui_qt/models/recent_adapters_window.py:423
+#: ui_qt/models/recent_adapters_window.py:461
+msgid "Replace"
+msgstr "Substituir"
+
+#: ui_qt/models/models_window.py:160 ui_qt/models/models_window.py:212
+#: ui_qt/models/recent_adapters_window.py:385
+#: ui_qt/models/recent_adapters_window.py:423
+#: ui_qt/models/recent_adapters_window.py:461
+msgid "Add"
+msgstr "Adicionar"
+
+#: ui_qt/models/models_window.py:163 ui_qt/models/models_window.py:220
+#: ui_qt/models/recent_adapters_window.py:395
+#: ui_qt/models/recent_adapters_window.py:433
+#: ui_qt/models/recent_adapters_window.py:471
+msgid "Refresh"
+msgstr "Atualizar"
+
+#: ui_qt/models/models_window.py:166 ui_qt/models/models_window.py:223
+#: ui_qt/models/models_window.py:526
+msgid "Show Blacklisted"
+msgstr "Mostrar lista negra"
+
+#: ui_qt/models/models_window.py:195
+msgid "LoRA/Adapter Name"
+msgstr "Adaptador"
+
+#: ui_qt/models/models_window.py:215
+msgid "LoRA Info"
+msgstr "Info sobre LoRA"
+
+#: ui_qt/models/models_window.py:243 ui_qt/models/models_window.py:301
 msgid "Search"
 msgstr "Pesquisar"
 
-#: ui_qt/models/models_window.py:244
+#: ui_qt/models/models_window.py:245
 msgid "e.g. flux, sdxl, controlnet, ip-adapter"
 msgstr "por exemplo, flux, sdxl, controlnet, ip-adapter"
 
-#: ui_qt/models/models_window.py:248 ui_qt/models/models_window.py:279
+#: ui_qt/models/models_window.py:249 ui_qt/models/models_window.py:280
 msgid "Task"
 msgstr "Tarefa"
 
-#: ui_qt/models/models_window.py:254
+#: ui_qt/models/models_window.py:255
 msgid "Sort"
 msgstr "Ordenar"
 
-#: ui_qt/models/models_window.py:261
+#: ui_qt/models/models_window.py:262
 msgid "Direction"
 msgstr "Direção"
 
-#: ui_qt/models/models_window.py:268
+#: ui_qt/models/models_window.py:269
 msgid "Limit"
 msgstr "Limite"
 
-#: ui_qt/models/models_window.py:279
+#: ui_qt/models/models_window.py:280
 msgid "Repo"
 msgstr "Repositório"
 
-#: ui_qt/models/models_window.py:279 utils/globals.py:206
+#: ui_qt/models/models_window.py:280 utils/globals.py:206
 msgid "Downloads"
 msgstr "Downloads"
 
-#: ui_qt/models/models_window.py:279 utils/globals.py:207
+#: ui_qt/models/models_window.py:280 utils/globals.py:207
 msgid "Likes"
 msgstr "Gostos"
 
-#: ui_qt/models/models_window.py:279
+#: ui_qt/models/models_window.py:280
 msgid "License"
 msgstr "licença"
 
-#: ui_qt/models/models_window.py:279
+#: ui_qt/models/models_window.py:280
 msgid "Gated"
 msgstr "Fiscaliado"
 
-#: ui_qt/models/models_window.py:296
+#: ui_qt/models/models_window.py:297
 msgid "Filename"
 msgstr "Nome do arquivo"
 
-#: ui_qt/models/models_window.py:304
+#: ui_qt/models/models_window.py:305
 msgid "Download File"
 msgstr "Baixar Arquivo"
 
-#: ui_qt/models/models_window.py:308
+#: ui_qt/models/models_window.py:309
 msgid "Download Snapshot"
 msgstr "Download Instantâneo"
 
-#: ui_qt/models/models_window.py:322
+#: ui_qt/models/models_window.py:323
 msgid "Select a model repository first"
 msgstr "Selecione um repositório de modelos"
 
-#: ui_qt/models/models_window.py:355
+#: ui_qt/models/models_window.py:356
 msgid "Found {0} results"
 msgstr "Foram encontrados {0} resultados"
 
-#: ui_qt/models/models_window.py:358
+#: ui_qt/models/models_window.py:359
 msgid "HF Hub Search Error"
 msgstr "Erro de pesquisa no HF Hub"
 
-#: ui_qt/models/models_window.py:370
+#: ui_qt/models/models_window.py:371
 msgid "Enter a filename first"
 msgstr "Insira um nome de arquivo primeiro"
 
-#: ui_qt/models/models_window.py:375
+#: ui_qt/models/models_window.py:376
 msgid "Download Complete"
 msgstr "Download Concluído"
 
-#: ui_qt/models/models_window.py:376 ui_qt/models/models_window.py:403
+#: ui_qt/models/models_window.py:377 ui_qt/models/models_window.py:404
 msgid ""
 "Downloaded to:\n"
 "{0}"
@@ -2127,58 +917,229 @@ msgstr ""
 "Baixado para:\n"
 "{0}"
 
-#: ui_qt/models/models_window.py:381
+#: ui_qt/models/models_window.py:382
 msgid "HF Hub Download Error"
 msgstr "Erro de download do HF Hub"
 
-#: ui_qt/models/models_window.py:402
+#: ui_qt/models/models_window.py:403
 msgid "Snapshot Download Complete"
 msgstr "Download do instantâneo concluído"
 
-#: ui_qt/models/models_window.py:408
+#: ui_qt/models/models_window.py:409
 msgid "HF Hub Snapshot Error"
 msgstr "Erro do Snapshot do Hub de HF"
 
+#: ui_qt/models/models_window.py:487
+#: ui_qt/models/recent_adapters_window.py:764
+msgid "Cache"
+msgstr "Cache"
+
+#: ui_qt/models/models_window.py:526
+msgid "Hide Blacklisted"
+msgstr "Ocultar lista negra"
+
 #: ui_qt/models/models_window.py:542
+msgid "Feature Unavailable"
+msgstr "Recurso indisponível"
+
+#: ui_qt/models/models_window.py:543
 msgid "LoRA trigger extraction is not available."
 msgstr "A extração de gatilhos LoRA não está disponível."
 
-#: ui_qt/models/recent_adapters_window.py:348
+#: ui_qt/models/models_window.py:551
+msgid "No Selection"
+msgstr "Sem seleção"
+
+#: ui_qt/models/models_window.py:552
+msgid "Please select a LoRA to view information."
+msgstr "Selecione um LoRA para visualizar as informações."
+
+#: ui_qt/models/models_window.py:562
+msgid "Model not found: {0}"
+msgstr "Modelo não encontrado: {0}"
+
+#: ui_qt/models/models_window.py:580
+msgid "LoRA Information: {0}"
+msgstr "Informações LoRA: {0}"
+
+#: ui_qt/models/models_window.py:590
+msgid "LoRA Information"
+msgstr "Informações LoRA"
+
+#: ui_qt/models/models_window.py:595
+msgid "Name:"
+msgstr "Nome:"
+
+#: ui_qt/models/models_window.py:596
+msgid "Architecture:"
+msgstr "Arquitetura:"
+
+#: ui_qt/models/models_window.py:597
+msgid "File Path:"
+msgstr "Caminho do ficheiro:"
+
+#: ui_qt/models/models_window.py:598
+msgid "Created:"
+msgstr "Criado:"
+
+#: ui_qt/models/models_window.py:599
+msgid "Strength:"
+msgstr "Força:"
+
+#: ui_qt/models/models_window.py:619
+msgid "Trigger Information"
+msgstr "Informações sobre acionadores"
+
+#: ui_qt/models/models_window.py:623
+msgid "Loading trigger information..."
+msgstr "A carregar informações do ativador..."
+
+#: ui_qt/models/models_window.py:632
+msgid "Create .safetriggers File"
+msgstr "Criar ficheiro .safetriggers"
+
+#: ui_qt/models/models_window.py:658 utils/globals.py:569
+msgid "Unknown"
+msgstr "Desconhecido"
+
+#: ui_qt/models/models_window.py:662
+msgid "Trigger extraction not available"
+msgstr "Extração de gatilho não disponível"
+
+#: ui_qt/models/models_window.py:669
+msgid "LoRA file not found"
+msgstr "Arquivo LoRA não encontrado"
+
+#: ui_qt/models/models_window.py:675
+msgid "No triggers found"
+msgstr "Não foram encontrados ativadores"
+
+#: ui_qt/models/models_window.py:676
+msgid "No triggers found: {0}"
+msgstr "Não foram encontrados ativadores: {0}"
+
+#: ui_qt/models/models_window.py:678
+msgid "Error loading triggers: {0}"
+msgstr "Erro ao carregar ativadores: {0}"
+
+#: ui_qt/models/models_window.py:681
+msgid "Found {0} triggers"
+msgstr "Encontrados {0} ativadores"
+
+#: ui_qt/models/models_window.py:697
+msgid "LoRA file not found: {0}"
+msgstr "Arquivo LoRA não encontrado: {0}"
+
+#: ui_qt/models/models_window.py:702
+msgid "Success"
+msgstr "Sucesso"
+
+#: ui_qt/models/models_window.py:702
+msgid ""
+"Created .safetriggers file:\n"
+"{0}"
+msgstr ""
+"Ficheiro .safetriggers criado:\n"
+"{0}"
+
+#: ui_qt/models/models_window.py:704
+msgid "Failed to create .safetriggers file"
+msgstr "Falha ao criar o ficheiro .safetriggers"
+
+#: ui_qt/models/models_window.py:706
+msgid "Failed to create .safetriggers file: {0}"
+msgstr "Falha ao criar o ficheiro .safetriggers: {0}"
+
+#: ui_qt/models/recent_adapters_window.py:329
+msgid "Recent Adapters"
+msgstr "Adaptadores recentes"
+
+#: ui_qt/models/recent_adapters_window.py:341
+msgid "Recent ControlNets"
+msgstr "ControlNets recentes"
+
+#: ui_qt/models/recent_adapters_window.py:342
+msgid "Recent IP Adapters"
+msgstr "Adaptadores IP recentes"
+
+#: ui_qt/models/recent_adapters_window.py:343
 msgid "Recent Source Prompts"
 msgstr "Promptes de Origem Recente"
 
-#: ui_qt/models/recent_adapters_window.py:350
+#: ui_qt/models/recent_adapters_window.py:344
+msgid "All Recent Adapters"
+msgstr "Todos os adaptadores recentes"
+
+#: ui_qt/models/recent_adapters_window.py:345
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ui_qt/models/recent_adapters_window.py:397
-#: ui_qt/models/recent_adapters_window.py:435
-#: ui_qt/models/recent_adapters_window.py:473
-#: ui_qt/models/recent_adapters_window.py:516
+#: ui_qt/models/recent_adapters_window.py:346
+msgid "Configuration"
+msgstr "Configuração"
+
+#: ui_qt/models/recent_adapters_window.py:380
+msgid "ControlNet File"
+msgstr "Arquivo ControlNet"
+
+#: ui_qt/models/recent_adapters_window.py:380
+#: ui_qt/models/recent_adapters_window.py:418
+#: ui_qt/models/recent_adapters_window.py:456
+#: ui_qt/models/recent_adapters_window.py:495
+msgid "Type"
+msgstr "Tipo"
+
+#: ui_qt/models/recent_adapters_window.py:389
+#: ui_qt/models/recent_adapters_window.py:427
+#: ui_qt/models/recent_adapters_window.py:465
+#: ui_qt/models/recent_adapters_window.py:508
+#: ui_qt/models/recent_adapters_window.py:574
+#: ui_qt/prompts/expansions_window.py:265
+msgid "Copy"
+msgstr "Cópia"
+
+#: ui_qt/models/recent_adapters_window.py:392
+#: ui_qt/models/recent_adapters_window.py:430
+#: ui_qt/models/recent_adapters_window.py:468
+#: ui_qt/models/recent_adapters_window.py:511
 msgid "Add to Favorites"
 msgstr "Adicionar aos Favoritos"
 
-#: ui_qt/models/recent_adapters_window.py:461
+#: ui_qt/models/recent_adapters_window.py:418
+msgid "IP Adapter File"
+msgstr "Ficheiro do adaptador IP"
+
+#: ui_qt/models/recent_adapters_window.py:456
 msgid "Source Prompt File"
 msgstr "Ficheiro utilizado como fonte de prompts"
 
-#: ui_qt/models/recent_adapters_window.py:505
+#: ui_qt/models/recent_adapters_window.py:484
+msgid "Individual files, including from directory-split runs (no directories)"
+msgstr ""
+"Ficheiros individuais, incluindo os provenientes de execuções com divisão de"
+" diretórios (sem diretórios)"
+
+#: ui_qt/models/recent_adapters_window.py:495
+msgid "Adapter File"
+msgstr "Ficheiro adaptador"
+
+#: ui_qt/models/recent_adapters_window.py:500
 msgid "ControlNet (Replace)"
 msgstr "ControlNet (Substituir)"
 
-#: ui_qt/models/recent_adapters_window.py:506
+#: ui_qt/models/recent_adapters_window.py:501
 msgid "ControlNet (Add)"
 msgstr "ControlNet (Adicionar)"
 
-#: ui_qt/models/recent_adapters_window.py:507
+#: ui_qt/models/recent_adapters_window.py:502
 msgid "IP Adapter (Replace)"
 msgstr "Adaptador de IP (Substituir)"
 
-#: ui_qt/models/recent_adapters_window.py:508
+#: ui_qt/models/recent_adapters_window.py:503
 msgid "IP Adapter (Add)"
 msgstr "Adaptador de IP (Adicionar)"
 
-#: ui_qt/models/recent_adapters_window.py:531
+#: ui_qt/models/recent_adapters_window.py:526
 msgid ""
 "Preferred adapters regardless of type. Directories are auto-added when seen "
 "in recents."
@@ -2186,98 +1147,314 @@ msgstr ""
 "Adaptadores preferenciais, independentemente do tipo. As pastas são "
 "adicionadas automaticamente quando aparecem na lista de acessos recentes."
 
-#: ui_qt/models/recent_adapters_window.py:546
+#: ui_qt/models/recent_adapters_window.py:541
 msgid "Target Field"
 msgstr "Campo de entrada do destino"
 
-#: ui_qt/models/recent_adapters_window.py:552 utils/globals.py:340
+#: ui_qt/models/recent_adapters_window.py:547 utils/globals.py:340
 msgid "ControlNet"
 msgstr "ControlNet"
 
-#: ui_qt/models/recent_adapters_window.py:553 utils/globals.py:338
+#: ui_qt/models/recent_adapters_window.py:548 utils/globals.py:338
 msgid "IP Adapter"
 msgstr "Adaptador IP"
 
-#: ui_qt/models/recent_adapters_window.py:554
+#: ui_qt/models/recent_adapters_window.py:549
 msgid "Source Prompt"
 msgstr "Extrair o prompt"
 
-#: ui_qt/models/recent_adapters_window.py:561
+#: ui_qt/models/recent_adapters_window.py:556
 msgid "Append (unchecked = Replace)"
 msgstr "Anexar (não marcado = Substituir)"
 
-#: ui_qt/models/recent_adapters_window.py:568
+#: ui_qt/models/recent_adapters_window.py:563
 msgid "Favorite Adapter"
 msgstr "Favorito Adaptador"
 
-#: ui_qt/models/recent_adapters_window.py:573
+#: ui_qt/models/recent_adapters_window.py:568
 msgid "Use Favorite"
 msgstr "Use Favorito"
 
-#: ui_qt/models/recent_adapters_window.py:665
-#: ui_qt/models/recent_adapters_window.py:854
-#: ui_qt/models/recent_adapters_window.py:867
-#: ui_qt/models/recent_adapters_window.py:883
+#: ui_qt/models/recent_adapters_window.py:571
+#: ui_qt/prompts/blacklist_window.py:445 ui_qt/prompts/blacklist_window.py:488
+msgid "Remove"
+msgstr "Remover"
+
+#: ui_qt/models/recent_adapters_window.py:592
+msgid "Recent Adapters Configuration"
+msgstr "Configuração recente dos adaptadores"
+
+#: ui_qt/models/recent_adapters_window.py:597
+msgid "Max Recent Items:"
+msgstr "Máximo de itens recentes:"
+
+#: ui_qt/models/recent_adapters_window.py:606
+msgid "Max Recent Split Items:"
+msgstr "Itens divididos mais recentes:"
+
+#: ui_qt/models/recent_adapters_window.py:615
+msgid ""
+"These settings control how many recent adapters are kept in memory.\n"
+"Higher values use more memory but keep more history.\n"
+"Changes take effect immediately and are saved automatically."
+msgstr ""
+"Essas configurações controlam quantos adaptadores recentes são mantidos na memória.\n"
+"Valores mais altos usam mais memória, mas mantêm mais histórico.\n"
+"As alterações entram em vigor imediatamente e são guardadas automaticamente."
+
+#: ui_qt/models/recent_adapters_window.py:660
+#: ui_qt/models/recent_adapters_window.py:849
+#: ui_qt/models/recent_adapters_window.py:862
+#: ui_qt/models/recent_adapters_window.py:878
 msgid "Select a row first"
 msgstr "Selecione uma linha primeiro"
 
-#: ui_qt/models/recent_adapters_window.py:671
+#: ui_qt/models/recent_adapters_window.py:666
 msgid "Copied path to clipboard"
 msgstr "Caminho copiado para o clipboard"
 
-#: ui_qt/models/recent_adapters_window.py:871
+#: ui_qt/models/recent_adapters_window.py:866
 msgid "Directories are auto-favorited and cannot be removed here"
 msgstr ""
 "Os directórios são favoritados automaticamente e não podem ser removidos "
 "aqui"
 
-#: ui_qt/models/recent_adapters_window.py:876
+#: ui_qt/models/recent_adapters_window.py:871
 msgid "Removed from favorites"
 msgstr "Removido dos favoritos"
 
-#: ui_qt/models/recent_adapters_window.py:878
+#: ui_qt/models/recent_adapters_window.py:873
 msgid "Item was not in favorites"
 msgstr "O item não estava nos favoritos"
 
-#: ui_qt/models/recent_adapters_window.py:889
+#: ui_qt/models/recent_adapters_window.py:884
 msgid "Added to favorites"
 msgstr "Adicionado aos favoritos"
 
-#: ui_qt/models/recent_adapters_window.py:891
+#: ui_qt/models/recent_adapters_window.py:886
 msgid "Already in favorites"
 msgstr "Já está nos favoritos"
 
-#: ui_qt/presets/scheduled_shutdown_dialog.py:59
+#: ui_qt/presets/presets_window.py:78
+msgid "New Preset (ERROR no presets found)"
+msgstr "Nova predefinição (ERRO não foram encontradas predefinições)"
+
+#: ui_qt/presets/presets_window.py:86
+msgid "Not enough presets found."
+msgstr "Não foram encontradas predefinições suficientes."
+
+#: ui_qt/presets/presets_window.py:113
+msgid "Presets Window"
+msgstr "Janela Predefinições"
+
+#: ui_qt/presets/presets_window.py:120
+msgid "Set a new preset"
+msgstr "Definir uma nova predefinição"
+
+#: ui_qt/presets/presets_window.py:121
+msgid "New Preset"
+msgstr "Nova predefinição"
+
+#: ui_qt/presets/presets_window.py:124
+msgid "Add preset"
+msgstr "Adicionar predefinição"
+
+#: ui_qt/presets/presets_window.py:127
+msgid "Clear presets"
+msgstr "Limpar as predefinições"
+
+#: ui_qt/presets/presets_window.py:173 ui_qt/presets/schedules_window.py:273
+#: ui_qt/prompts/frequent_prompt_tags_window.py:136
+msgid "Set"
+msgstr "Definir"
+
+#: ui_qt/presets/presets_window.py:178 ui_qt/presets/schedules_window.py:125
+#: ui_qt/presets/schedules_window.py:283
+#: ui_qt/presets/timed_schedules_window.py:242
+#: ui_qt/prompts/concept_editor_window.py:220
+#: ui_qt/prompts/expansions_window.py:264
+msgid "Delete"
+msgstr "Eliminar"
+
+#: ui_qt/presets/presets_window.py:194
+msgid "Invalid preset: {0}"
+msgstr "Predefinição inválida: {0}"
+
+#: ui_qt/presets/schedule.py:72
+msgid "{0} ({1} runs)"
+msgstr "{0} ({1} corre)"
+
+#: ui_qt/presets/scheduled_shutdown_dialog.py:40
+#: ui_qt/presets/scheduled_shutdown_dialog.py:52
+msgid "Scheduled Shutdown"
+msgstr "Desligamento programado"
+
+#: ui_qt/presets/scheduled_shutdown_dialog.py:57
 msgid "Schedule: {0}"
 msgstr "Horário: {0}"
 
-#: ui_qt/presets/scheduled_shutdown_dialog.py:64
-#: ui_qt/presets/scheduled_shutdown_dialog.py:104
+#: ui_qt/presets/scheduled_shutdown_dialog.py:62
+#: ui_qt/presets/scheduled_shutdown_dialog.py:102
 msgid "Shutting down in {0} seconds..."
 msgstr "Desligando em {0} segundos..."
 
-#: ui_qt/presets/schedules_window.py:64
-#: ui_qt/presets/timed_schedules_window.py:63
+#: ui_qt/presets/scheduled_shutdown_dialog.py:72
+msgid "Shutdown Now"
+msgstr "Desligar agora"
+
+#: ui_qt/presets/schedules_window.py:49
+msgid "Modify Preset Schedule: {0}"
+msgstr "Modificar programação predefinido: {0}"
+
+#: ui_qt/presets/schedules_window.py:56
+msgid "Modify Schedule"
+msgstr "Modificar o calendário"
+
+#: ui_qt/presets/schedules_window.py:60
+#: ui_qt/presets/timed_schedules_window.py:62
 msgid "Save schedule"
 msgstr "Salvar agendamento"
 
-#: ui_qt/presets/timed_schedules_window.py:49
+#: ui_qt/presets/schedules_window.py:63
+msgid "Add Preset Task"
+msgstr "Adicionar tarefa de predefinições"
+
+#: ui_qt/presets/schedules_window.py:119
+msgid "Move Down"
+msgstr "Mover para baixo"
+
+#: ui_qt/presets/schedules_window.py:219
+msgid "Preset Schedules"
+msgstr "Programaçãos de predefinições"
+
+#: ui_qt/presets/schedules_window.py:228
+#: ui_qt/presets/timed_schedules_window.py:193
+msgid "Add schedule"
+msgstr "Adicionar programação"
+
+#: ui_qt/presets/schedules_window.py:231
+#: ui_qt/presets/timed_schedules_window.py:196
+msgid "Clear schedules"
+msgstr "Limpar os programaçãos"
+
+#: ui_qt/presets/schedules_window.py:255
+msgid "Current schedule: {0}"
+msgstr "Programação atual: {0}"
+
+#: ui_qt/presets/schedules_window.py:278
+#: ui_qt/presets/timed_schedules_window.py:235
+#: ui_qt/prompts/blacklist_window.py:444 ui_qt/prompts/blacklist_window.py:487
+#: ui_qt/prompts/expansions_window.py:263
+msgid "Modify"
+msgstr "Modificar"
+
+#: ui_qt/presets/schedules_window.py:294
+msgid "Set schedule: {0}"
+msgstr "Definir programação: {0}"
+
+#: ui_qt/presets/schedules_window.py:320
+msgid "Deleted schedule: {0}"
+msgstr "Programação eliminada: {0}"
+
+#: ui_qt/presets/schedules_window.py:327
+msgid "Cleared schedules"
+msgstr "Limparam os programaçãos"
+
+#: ui_qt/presets/timed_schedules_window.py:48
 msgid "Modify Timed Schedule: {0}"
 msgstr "Modificar Horário Agendado: {0}"
 
-#: ui_qt/presets/timed_schedules_window.py:145
-#: ui_qt/presets/timed_schedules_window.py:148
+#: ui_qt/presets/timed_schedules_window.py:58
+msgid "Schedule Name"
+msgstr "Nome da Agenda"
+
+#: ui_qt/presets/timed_schedules_window.py:92
+msgid "Start Time"
+msgstr "Hora de início"
+
+#: ui_qt/presets/timed_schedules_window.py:104
+msgid "End Time"
+msgstr "Hora do fim"
+
+#: ui_qt/presets/timed_schedules_window.py:116
+msgid "Shutdown Time"
+msgstr "Hora de encerramento"
+
+#: ui_qt/presets/timed_schedules_window.py:144
+#: ui_qt/presets/timed_schedules_window.py:147
 msgid "Validation Error"
 msgstr "Erro de validação"
 
-#: ui_qt/presets/timed_schedules_window.py:145
-#: ui_qt/presets/timed_schedules_window.py:148
+#: ui_qt/presets/timed_schedules_window.py:144
+#: ui_qt/presets/timed_schedules_window.py:147
 msgid "No days selected"
 msgstr "Nenhum dia foi selecionado."
 
-#: ui_qt/presets/timed_schedules_window.py:193
+#: ui_qt/presets/timed_schedules_window.py:192
 msgid "Create and modify timed schedules"
 msgstr "Criar e modificar horários agendados"
+
+#: ui_qt/presets/timed_schedules_window.py:249
+#: ui_qt/prompts/blacklist_modify_window.py:73
+#: ui_qt/prompts/blacklist_window.py:426 ui_qt/prompts/blacklist_window.py:470
+msgid "Enabled"
+msgstr "Ativado"
+
+#: ui_qt/prompts/blacklist_modify_window.py:48
+msgid "Modify Blacklist Item: {0}"
+msgstr "Modificar o Item da Lista Negra: {0}"
+
+#: ui_qt/prompts/blacklist_modify_window.py:68
+msgid "Blacklist String"
+msgstr "Texto da lista negra"
+
+#: ui_qt/prompts/blacklist_modify_window.py:77
+msgid "Use glob-based regex"
+msgstr "Utilizar regex baseado em glob"
+
+#: ui_qt/prompts/blacklist_modify_window.py:81
+msgid "Use word boundary matching"
+msgstr "Utilizar a correspondência de limites de palavras"
+
+#: ui_qt/prompts/blacklist_modify_window.py:85
+msgid "Convert spaces to optional non-word characters"
+msgstr "Converter espaços em caracteres não alfabéticos opcionais"
+
+#: ui_qt/prompts/blacklist_modify_window.py:90
+msgid "Exception Pattern (optional regex to unfilter tags)"
+msgstr "Padrão de exceção (expressão regular opcional para desfiltrar tags)"
+
+#: ui_qt/prompts/blacklist_modify_window.py:96
+#: ui_qt/prompts/blacklist_window.py:447
+msgid "Preview"
+msgstr "Prévia"
+
+#: ui_qt/prompts/blacklist_modify_window.py:99
+#: ui_qt/prompts/expansions_window.py:103
+msgid "Done"
+msgstr "Feito"
+
+#: ui_qt/prompts/blacklist_modify_window.py:130
+msgid "Blacklist string cannot be empty."
+msgstr "O texto da lista negra não pode estar vazio."
+
+#: ui_qt/prompts/blacklist_modify_window.py:160
+msgid "No changes were made"
+msgstr "Não foram efectuadas alterações"
+
+#: ui_qt/prompts/blacklist_modify_window.py:172
+#: ui_qt/prompts/blacklist_modify_window.py:191
+msgid "Unsaved Changes"
+msgstr "Alterações não guardadas"
+
+#: ui_qt/prompts/blacklist_modify_window.py:173
+#: ui_qt/prompts/blacklist_modify_window.py:192
+msgid "Do you want to save changes before closing?"
+msgstr "Pretende guardar as alterações antes de as fechar?"
+
+#: ui_qt/prompts/blacklist_preview_window.py:63
+msgid "Blacklist Preview"
+msgstr "Prévia da lista negra"
 
 #: ui_qt/prompts/blacklist_preview_window.py:75
 msgid "Test Text"
@@ -2321,7 +1498,121 @@ msgstr "Foram encontrados {0} item(s):"
 msgid "  \"{0}\" -> rule \"{1}\""
 msgstr "  {0} -> regra {1}"
 
-#: ui_qt/prompts/blacklist_window.py:365
+#: ui_qt/prompts/blacklist_preview_window.py:151
+msgid "Concepts filtered by: {0}"
+msgstr "Conceitos filtrados por: {0}"
+
+#: ui_qt/prompts/blacklist_preview_window.py:155
+msgid "All filtered concepts"
+msgstr "Todos os conceitos filtrados"
+
+#: ui_qt/prompts/blacklist_preview_window.py:200
+msgid "Found {0} filtered concepts"
+msgstr "Encontrou {0} conceitos filtrados"
+
+#: ui_qt/prompts/blacklist_preview_window.py:206
+msgid "Error loading concepts: {0}"
+msgstr "Erro ao carregar conceitos: {0}"
+
+#: ui_qt/prompts/blacklist_window.py:49
+msgid "[regex]"
+msgstr "[regex]"
+
+#: ui_qt/prompts/blacklist_window.py:51
+msgid "[no boundary]"
+msgstr "[sem limite de palavra]"
+
+#: ui_qt/prompts/blacklist_window.py:53
+msgid "[no space conversion]"
+msgstr "[sem conversão de espaço]"
+
+#: ui_qt/prompts/blacklist_window.py:55
+msgid "[exception: {0}]"
+msgstr "[exceção: {0}]"
+
+#: ui_qt/prompts/blacklist_window.py:187
+msgid ""
+"WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
+"\n"
+"If you are young, not sure, or even an adult, click the close button on this window now and do something fun instead."
+msgstr ""
+"AVISO: Tem a certeza de que quer revelar os conceitos da lista negra? Estes conceitos são prejudiciais ou ofensivos e IRÃO causar-lhe graves danos psicológicos. Não revele, em circunstância alguma, estes conceitos a menores.\n"
+"\n"
+"Se és jovem, não tens a certeza, ou mesmo se és adulto, clica no botão fechar desta janela agora e faz algo divertido."
+
+#: ui_qt/prompts/blacklist_window.py:198
+msgid "Tags/Models Blacklist"
+msgstr "Lista negra de tags e modelos"
+
+#: ui_qt/prompts/blacklist_window.py:215
+msgid "Model Blacklist"
+msgstr "Lista negra para modelos"
+
+#: ui_qt/prompts/blacklist_window.py:235 ui_qt/prompts/blacklist_window.py:302
+msgid "Global Settings:"
+msgstr "Definições globais"
+
+#: ui_qt/prompts/blacklist_window.py:236 ui_qt/prompts/blacklist_window.py:303
+msgid "These settings affect how the blacklist is applied globally."
+msgstr ""
+"Estas definições afectam a forma como a lista negra é aplicada globalmente."
+
+#: ui_qt/prompts/blacklist_window.py:243 ui_qt/prompts/blacklist_window.py:310
+msgid "Choose how the blacklist is enforced: block, warn, or allow."
+msgstr "Escolha como a lista negra é aplicada: bloquear, avisar ou permitir."
+
+#: ui_qt/prompts/blacklist_window.py:246 ui_qt/prompts/blacklist_window.py:313
+msgid "Silent Removal"
+msgstr "Remoção silenciosa"
+
+#: ui_qt/prompts/blacklist_window.py:249 ui_qt/prompts/blacklist_window.py:316
+msgid ""
+"If enabled, blacklisted words are removed silently without notification."
+msgstr ""
+"Se activada, as palavras colocadas na lista negra são removidas "
+"silenciosamente sem notificação."
+
+#: ui_qt/prompts/blacklist_window.py:257 ui_qt/prompts/blacklist_window.py:324
+#: ui_qt/prompts/concept_editor_window.py:227
+msgid "Import"
+msgstr "Importar"
+
+#: ui_qt/prompts/blacklist_window.py:258 ui_qt/prompts/blacklist_window.py:325
+msgid "Export"
+msgstr "Exportação"
+
+#: ui_qt/prompts/blacklist_window.py:259 ui_qt/prompts/blacklist_window.py:326
+msgid "Preview All"
+msgstr "Pré-visualizar tudo"
+
+#: ui_qt/prompts/blacklist_window.py:260
+msgid "Load Default"
+msgstr "Carregar por defeito"
+
+#: ui_qt/prompts/blacklist_window.py:274
+msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
+msgstr ""
+"Escolha como a lista negra será aplicada: proibir ou permitir em NSFW."
+
+#: ui_qt/prompts/blacklist_window.py:276
+msgid "Add to tag blacklist"
+msgstr "Adicionar à lista negra de etiquetas"
+
+#: ui_qt/prompts/blacklist_window.py:279 ui_qt/prompts/blacklist_window.py:345
+msgid "Clear items"
+msgstr "Limpar itens"
+
+#: ui_qt/prompts/blacklist_window.py:340
+msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
+msgstr ""
+"Escolha como a lista negra do modelo é aplicada: proibir ou permitir em "
+"NSFW."
+
+#: ui_qt/prompts/blacklist_window.py:342
+msgid "Add to model blacklist"
+msgstr "Adicionar à lista negra de modelos"
+
+#: ui_qt/prompts/blacklist_window.py:380
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag "
 "blacklist' button above, or load the default blacklist."
@@ -2330,31 +1621,55 @@ msgstr ""
 " botão «Adicionar à lista negra de tags» acima ou carregar a lista negra "
 "padrão."
 
-#: ui_qt/prompts/blacklist_window.py:388
+#: ui_qt/prompts/blacklist_window.py:383
+msgid "Click below to reveal blacklist concepts."
+msgstr "Clique abaixo para revelar os conceitos da lista negra."
+
+#: ui_qt/prompts/blacklist_window.py:386
+msgid ""
+"Default blacklist is loaded. You can load your own blacklist by editing the "
+"existing concepts, clearing the blacklist and adding your own, or importing "
+"concepts from a file."
+msgstr ""
+"A lista negra predefinida é carregada. O utilizador pode carregar a sua "
+"própria lista negra editando os conceitos existentes, limpando a lista negra"
+" e adicionando os seus próprios conceitos ou importando conceitos de um "
+"ficheiro."
+
+#: ui_qt/prompts/blacklist_window.py:394
+msgid "Reveal Concepts"
+msgstr "Revelar os conceitos"
+
+#: ui_qt/prompts/blacklist_window.py:403
 msgid "Filter: \"{0}\"  ({1} of {2} items)"
 msgstr "Filtro: \"{0}\"  ({1} de {2} itens)"
 
-#: ui_qt/prompts/blacklist_window.py:392
+#: ui_qt/prompts/blacklist_window.py:407
 msgid "{0} items"
 msgstr "{0} ítens"
 
-#: ui_qt/prompts/blacklist_window.py:399
+#: ui_qt/prompts/blacklist_window.py:414
 msgid "No items match the current filter."
 msgstr "Nenhum item corresponde ao filtro atual."
 
-#: ui_qt/prompts/blacklist_window.py:401
+#: ui_qt/prompts/blacklist_window.py:416
 msgid "The blacklist is empty."
 msgstr "A lista negra está vazia."
 
-#: ui_qt/prompts/blacklist_window.py:411 ui_qt/prompts/blacklist_window.py:455
+#: ui_qt/prompts/blacklist_window.py:426 ui_qt/prompts/blacklist_window.py:470
 msgid "Item"
 msgstr "Item"
 
-#: ui_qt/prompts/blacklist_window.py:431 ui_qt/prompts/blacklist_window.py:474
+#: ui_qt/prompts/blacklist_window.py:436 ui_qt/prompts/blacklist_window.py:480
+#: ui_qt/prompts/blacklist_window.py:708 ui_qt/prompts/blacklist_window.py:807
+msgid "Disabled"
+msgstr "Não ativado"
+
+#: ui_qt/prompts/blacklist_window.py:446 ui_qt/prompts/blacklist_window.py:489
 msgid "Toggle"
 msgstr "Alternar"
 
-#: ui_qt/prompts/blacklist_window.py:446
+#: ui_qt/prompts/blacklist_window.py:461
 msgid ""
 "No model blacklist items found. You can add items by clicking the 'Add to "
 "model blacklist' button above."
@@ -2362,14 +1677,38 @@ msgstr ""
 "Não foram encontrados itens na lista negra do modelo. Pode adicionar itens "
 "clicando no botão «Adicionar à lista negra do modelo» acima."
 
-#: ui_qt/prompts/blacklist_window.py:515 ui_qt/prompts/blacklist_window.py:522
-#: ui_qt/prompts/blacklist_window.py:529 ui_qt/prompts/blacklist_window.py:536
-#: ui_qt/prompts/blacklist_window.py:543 ui_qt/prompts/blacklist_window.py:550
-#: ui_qt/prompts/blacklist_window.py:557
+#: ui_qt/prompts/blacklist_window.py:530 ui_qt/prompts/blacklist_window.py:537
+#: ui_qt/prompts/blacklist_window.py:544 ui_qt/prompts/blacklist_window.py:551
+#: ui_qt/prompts/blacklist_window.py:558 ui_qt/prompts/blacklist_window.py:565
+#: ui_qt/prompts/blacklist_window.py:572
 msgid "Select an item first"
 msgstr "Escolha um item primeiro"
 
-#: ui_qt/prompts/blacklist_window.py:723
+#: ui_qt/prompts/blacklist_window.py:695
+msgid "Removed item: {0}"
+msgstr "Item removido: {0}"
+
+#: ui_qt/prompts/blacklist_window.py:711
+msgid "Item \"{0}\" is now {1}"
+msgstr "O item “{0}” é agora {1}"
+
+#: ui_qt/prompts/blacklist_window.py:713 ui_qt/prompts/blacklist_window.py:811
+msgid "enabled"
+msgstr "ativado"
+
+#: ui_qt/prompts/blacklist_window.py:713 ui_qt/prompts/blacklist_window.py:811
+msgid "disabled"
+msgstr "desativado"
+
+#: ui_qt/prompts/blacklist_window.py:726
+msgid "Concepts revealed"
+msgstr "Conceitos revelados"
+
+#: ui_qt/prompts/blacklist_window.py:741
+msgid "Confirm Clear Blacklist"
+msgstr "Confirmar a eliminação da lista negra"
+
+#: ui_qt/prompts/blacklist_window.py:742
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
@@ -2385,7 +1724,15 @@ msgstr ""
 "\n"
 "Quer continuar?"
 
-#: ui_qt/prompts/blacklist_window.py:742
+#: ui_qt/prompts/blacklist_window.py:753
+msgid "Cleared item blacklist"
+msgstr "Lista negra de itens limpa"
+
+#: ui_qt/prompts/blacklist_window.py:760
+msgid "Confirm Load Default Blacklist"
+msgstr "Confirmar a carga da lista negra predefinida"
+
+#: ui_qt/prompts/blacklist_window.py:761
 msgid ""
 "Are you sure you want to load the default blacklist?\n"
 "\n"
@@ -2399,109 +1746,240 @@ msgstr ""
 "\n"
 "Deseja continuar?"
 
+#: ui_qt/prompts/blacklist_window.py:769
+msgid "Loaded default blacklist"
+msgstr "Lista negra padrão carregada"
+
+#: ui_qt/prompts/blacklist_window.py:773
+msgid "Error loading default blacklist"
+msgstr "Erro ao carregar a lista negra predefinida"
+
+#: ui_qt/prompts/blacklist_window.py:774
+msgid "Could not decrypt or load the default blacklist."
+msgstr "Não foi possível descodificar ou carregar a lista negra predefinida."
+
+#: ui_qt/prompts/blacklist_window.py:795
+msgid "Removed model blacklist item: {0}"
+msgstr "Item removido da lista negra do modelo: {0}"
+
 #: ui_qt/prompts/blacklist_window.py:809
+msgid "Model item '{0}' is now {1}"
+msgstr "O item modelo ‘{0}’ agora é {1}"
+
+#: ui_qt/prompts/blacklist_window.py:821
+msgid "Cleared model blacklist items"
+msgstr "Itens da lista negra do modelo eliminados"
+
+#: ui_qt/prompts/blacklist_window.py:827
 msgid "Not Implemented"
 msgstr "Não Implementado"
 
-#: ui_qt/prompts/blacklist_window.py:810
+#: ui_qt/prompts/blacklist_window.py:828
 msgid "Preview all models not implemented yet."
 msgstr "Visualizar todos os modelos que não foram ainda implementados."
 
-#: ui_qt/prompts/blacklist_window.py:921 ui_qt/prompts/blacklist_window.py:961
+#: ui_qt/prompts/blacklist_window.py:865
+msgid "Added item to blacklist: {0}"
+msgstr "Item adicionado à lista negra: {0}"
+
+#: ui_qt/prompts/blacklist_window.py:865
+msgid "Modified blacklist item: {0}"
+msgstr "Item da lista negra modificado: {0}"
+
+#: ui_qt/prompts/blacklist_window.py:883
+msgid "Model blacklist updated: {0}"
+msgstr "Lista negra de modelos atualizada: {0}"
+
+#: ui_qt/prompts/blacklist_window.py:901
+msgid "Blacklist mode set to: {0}"
+msgstr "Modo de lista negra definido para: {0}"
+
+#: ui_qt/prompts/blacklist_window.py:910
+msgid "Blacklist prompt mode set to: {0}"
+msgstr "Modo de aviso da lista negra definido como: {0}"
+
+#: ui_qt/prompts/blacklist_window.py:919
+msgid "Model blacklist mode set to: {0}"
+msgstr "Modo de lista negra do modelo definido como: {0}"
+
+#: ui_qt/prompts/blacklist_window.py:930
+msgid "Silent removal set to: {0}"
+msgstr "Remoção silenciosa definida para: {0}"
+
+#: ui_qt/prompts/blacklist_window.py:938
+msgid "Import Blacklist"
+msgstr "Importar lista negra"
+
+#: ui_qt/prompts/blacklist_window.py:939 ui_qt/prompts/blacklist_window.py:979
 msgid ""
 "All supported (*.csv *.json *.txt);;CSV (*.csv);;JSON (*.json);;Text (*.txt)"
 msgstr ""
 "Todos os suportados (*.csv *.json *.txt);;CSV (*.csv);;JSON (*.json);;Texto "
 "(*.txt)"
 
-#: ui_qt/prompts/blacklist_window.py:942
+#: ui_qt/prompts/blacklist_window.py:951
+msgid "Successfully imported blacklist"
+msgstr "Lista negra importada com êxito"
+
+#: ui_qt/prompts/blacklist_window.py:954 ui_qt/prompts/blacklist_window.py:994
+msgid "Import Error"
+msgstr "Erro de importação"
+
+#: ui_qt/prompts/blacklist_window.py:959
+msgid "Export Blacklist"
+msgstr "Exportar a lista negra"
+
+#: ui_qt/prompts/blacklist_window.py:960
 msgid "CSV (*.csv);;JSON (*.json);;Text (*.txt)"
 msgstr "CSV (*.csv);;JSON (*.json);;Texto (*.txt)"
 
-#: ui_qt/prompts/blacklist_window.py:960
+#: ui_qt/prompts/blacklist_window.py:971
+msgid "Successfully exported blacklist"
+msgstr "Lista negra exportada com êxito"
+
+#: ui_qt/prompts/blacklist_window.py:973
+#: ui_qt/prompts/blacklist_window.py:1008
+msgid "Export Error"
+msgstr "Erro de exportação"
+
+#: ui_qt/prompts/blacklist_window.py:978
 msgid "Import Model Blacklist"
 msgstr "Importar Modelo Lista Negra"
 
-#: ui_qt/prompts/blacklist_window.py:982
+#: ui_qt/prompts/blacklist_window.py:991
+msgid "Successfully imported model blacklist"
+msgstr "Lista negra de modelos importada com sucesso"
+
+#: ui_qt/prompts/blacklist_window.py:999
+msgid "Export Model Blacklist"
+msgstr "Exportar a lista negra de modelos"
+
+#: ui_qt/prompts/blacklist_window.py:1000
 msgid "JSON (*.json)"
 msgstr "JSON (*.json)"
 
-#: ui_qt/prompts/concept_editor_window.py:102
+#: ui_qt/prompts/blacklist_window.py:1006
+msgid "Successfully exported model blacklist"
+msgstr "Lista negra de modelos exportada com sucesso"
+
+#: ui_qt/prompts/concept_editor_window.py:124
 msgid "Concept Editor"
 msgstr "Editor de Conceito"
 
-#: ui_qt/prompts/concept_editor_window.py:137
+#: ui_qt/prompts/concept_editor_window.py:157
+msgid "Search/Add Concept:"
+msgstr "Conceito de pesquisa/adição:"
+
+#: ui_qt/prompts/concept_editor_window.py:159
 msgid "Type to search concepts..."
 msgstr "Digite para pesquisar conceitos..."
 
-#: ui_qt/prompts/concept_editor_window.py:194
+#: ui_qt/prompts/concept_editor_window.py:197
+msgid "File:"
+msgstr "Ficheiro:"
+
+#: ui_qt/prompts/concept_editor_window.py:206
+msgid "(Target file for saving new concepts and importing)"
+msgstr "(Ficheiro de destino para guardar novos conceitos e importar)"
+
+#: ui_qt/prompts/concept_editor_window.py:213
+msgid "Save"
+msgstr "Guardar"
+
+#: ui_qt/prompts/concept_editor_window.py:216
 msgid "Add the search text as a new concept to the selected file"
 msgstr ""
 "Adicionar o texto de pesquisa como um novo conceito ao arquivo selecionado"
 
-#: ui_qt/prompts/concept_editor_window.py:201
+#: ui_qt/prompts/concept_editor_window.py:223
 msgid "Delete the selected concept from the file it belongs to"
 msgstr "Excluir o conceito selecionado do arquivo ao qual pertence"
 
-#: ui_qt/prompts/concept_editor_window.py:208
+#: ui_qt/prompts/concept_editor_window.py:230
 msgid "Import concepts from an external text file into the selected file"
 msgstr ""
 "Importar conceitos de um arquivo de texto externo para o arquivo selecionado"
 
-#: ui_qt/prompts/concept_editor_window.py:256
+#: ui_qt/prompts/concept_editor_window.py:278
 msgid "Selected concept: —"
 msgstr "Conceito selecionado: —"
 
-#: ui_qt/prompts/concept_editor_window.py:261
+#: ui_qt/prompts/concept_editor_window.py:283
 msgid "Selected concept: \"{0}\" — {1} ({2})"
 msgstr "Conceito selecionado: '{0}' — {1} ({2})"
 
-#: ui_qt/prompts/concept_editor_window.py:267
+#: ui_qt/prompts/concept_editor_window.py:289
 msgid "Selected concept: \"{0}\" — {1}"
 msgstr "Conceito selecionado: \"{0}\" — {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:345
+#: ui_qt/prompts/concept_editor_window.py:328
+msgid "Enter search text to see concepts..."
+msgstr "Introduzir texto de pesquisa para ver conceitos..."
+
+#: ui_qt/prompts/concept_editor_window.py:367
 msgid "{0} concepts found"
 msgstr "{0} conceitos encontrados"
 
-#: ui_qt/prompts/concept_editor_window.py:390
+#: ui_qt/prompts/concept_editor_window.py:412
 msgid "Enter a concept name first"
 msgstr "Insira o nome do conceito primeiro"
 
-#: ui_qt/prompts/concept_editor_window.py:409
+#: ui_qt/prompts/concept_editor_window.py:419
+msgid "Please select a file to save to"
+msgstr "Selecione um ficheiro para guardar"
+
+#: ui_qt/prompts/concept_editor_window.py:431
 msgid "Concept \"{0}\" already exists in {1}"
 msgstr "O conceito '{0}' já existe em {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:432
+#: ui_qt/prompts/concept_editor_window.py:454
 msgid "Saved concept: {0} → {1}"
 msgstr "Conceito salvo: {0} → {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:452
+#: ui_qt/prompts/concept_editor_window.py:474
 msgid "Select a concept first"
 msgstr "Escolha um conceito primeiro"
 
-#: ui_qt/prompts/concept_editor_window.py:460
+#: ui_qt/prompts/concept_editor_window.py:481
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: ui_qt/prompts/concept_editor_window.py:482
 msgid "Delete concept \"{0}\" from {1}?"
 msgstr "Excluir o conceito \"{0}\" de {1}?"
 
-#: ui_qt/prompts/concept_editor_window.py:472
+#: ui_qt/prompts/concept_editor_window.py:494
 msgid "Concept \"{0}\" was not found in {1} -- it may have already been removed."
 msgstr ""
 "O conceito \"{0}\" não foi encontrado em {1} -- pode ter sido removido já."
 
-#: ui_qt/prompts/concept_editor_window.py:488
+#: ui_qt/prompts/concept_editor_window.py:510
 msgid "Deleted concept: {0} from {1}"
 msgstr "Conceito excluído: {0} de {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:521
-msgid "Text files (*.txt);;All files (*.*)"
-msgstr "Arquivos de texto (*.txt);;Todos os arquivos (*.*)."
+#: ui_qt/prompts/concept_editor_window.py:533
+msgid "Please select a target file first"
+msgstr "Selecione primeiro um ficheiro de destino"
 
-#: ui_qt/prompts/concept_editor_window.py:546
+#: ui_qt/prompts/concept_editor_window.py:541
+msgid "Select concepts file to import"
+msgstr "Selecionar o ficheiro de conceitos a importar"
+
+#: ui_qt/prompts/concept_editor_window.py:543
+msgid "Text files (*.txt);;All files (*.*)"
+msgstr "Arquivos de texto (*.txt);;Todos os arquivos (*.*)"
+
+#: ui_qt/prompts/concept_editor_window.py:568
 msgid "Successfully imported {0} concepts into {1}"
 msgstr "Importados com sucesso {0} conceitos para {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:558
+#: ui_qt/prompts/concept_editor_window.py:574
+msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
+msgstr ""
+"{0} conceitos não foram importados (ver {1}_failed_import.txt para mais "
+"pormenores)"
+
+#: ui_qt/prompts/concept_editor_window.py:580
 msgid ""
 "Tip: You can prepend '!' to any concept line to force importation, or simply"
 " use the concept name as a search term to force import."
@@ -2510,91 +1988,161 @@ msgstr ""
 "forçar a importação ou simplesmente usar o nome do conceito como um termo de"
 " pesquisa para força a importação."
 
-#: ui_qt/prompts/concept_editor_window.py:572
+#: ui_qt/prompts/concept_editor_window.py:585
+msgid "Import Results"
+msgstr "Resultados da importação"
+
+#: ui_qt/prompts/concept_editor_window.py:594
 msgid "No new concepts to import from {0}"
 msgstr "Nenhum novo conceito para importar de {0}"
 
-#: ui_qt/prompts/expansions_window.py:259
+#: ui_qt/prompts/expansions_window.py:64
+msgid "Modify Expansion: {0}"
+msgstr "Modificar a expansão: {0}"
+
+#: ui_qt/prompts/expansions_window.py:79
+msgid "Expansion ID"
+msgstr "ID de expansão"
+
+#: ui_qt/prompts/expansions_window.py:87
+msgid "Expansion Text"
+msgstr "Texto de expansão"
+
+#: ui_qt/prompts/expansions_window.py:89
+msgid "New Expansion Text"
+msgstr "Novo texto de expansão"
+
+#: ui_qt/prompts/expansions_window.py:119
+msgid ""
+"Warning: This expansion ID matches a wildcard in config.json. Changes will "
+"not take effect until the wildcard is removed or renamed."
+msgstr ""
+"Aviso: Este ID de expansão corresponde a um curinga em config.json. As "
+"alterações não terão efeito até que o curinga seja removido ou renomeado."
+
+#: ui_qt/prompts/expansions_window.py:130
+msgid "Warning"
+msgstr "Aviso"
+
+#: ui_qt/prompts/expansions_window.py:131
+msgid ""
+"This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or renamed.\n"
+"\n"
+"Do you want to save anyway?"
+msgstr ""
+"Esta ID de expansão corresponde a um carácter universal em config.json. As alterações não terão efeito até que o curinga seja removido ou renomeado.\n"
+"\n"
+"Deseja salvar mesmo assim?"
+
+#: ui_qt/prompts/expansions_window.py:178
+msgid "New Expansion (ERROR no expansions found)"
+msgstr "Nova expansão (ERRO não foram encontradas expansões)"
+
+#: ui_qt/prompts/expansions_window.py:202
+msgid "Not enough expansions found."
+msgstr "Não foram encontradas expansões suficientes."
+
+#: ui_qt/prompts/expansions_window.py:216
+msgid "Expansions Window"
+msgstr "Janela Expansões"
+
+#: ui_qt/prompts/expansions_window.py:241
+msgid "Add or update expansions"
+msgstr "Adicionar ou atualizar expansões"
+
+#: ui_qt/prompts/expansions_window.py:243
+msgid "Add expansion"
+msgstr "Adicionar expansão"
+
+#: ui_qt/prompts/expansions_window.py:246
+msgid "Clear expansions"
+msgstr "Limpar expansões"
+
+#: ui_qt/prompts/expansions_window.py:296
 msgid "Filter: \"{0}\"  ({1} of {2} expansions)"
 msgstr "Filtro: \"{0}\"  ({1} de {2} expansões)"
 
-#: ui_qt/prompts/expansions_window.py:265
+#: ui_qt/prompts/expansions_window.py:302
 msgid "{0} expansions"
 msgstr "{0} expansões"
 
-#: ui_qt/prompts/expansions_window.py:270
+#: ui_qt/prompts/expansions_window.py:307
 msgid "No expansions match the current filter."
 msgstr "Nenhuma expansão corresponde ao filtro atual."
 
-#: ui_qt/prompts/expansions_window.py:272
+#: ui_qt/prompts/expansions_window.py:309
 msgid "No expansions defined. Click 'Add expansion' to create one."
 msgstr ""
 "Nenhuma expansão definida. Clique em 'Adicionar expansão' para criar uma."
 
-#: ui_qt/prompts/expansions_window.py:281
+#: ui_qt/prompts/expansions_window.py:318
 msgid "ID"
 msgstr "ID"
 
-#: ui_qt/prompts/expansions_window.py:281
+#: ui_qt/prompts/expansions_window.py:318
 msgid "Text"
 msgstr "Texto"
 
-#: ui_qt/prompts/expansions_window.py:324
-#: ui_qt/prompts/expansions_window.py:359
-#: ui_qt/prompts/expansions_window.py:378
+#: ui_qt/prompts/expansions_window.py:361
+#: ui_qt/prompts/expansions_window.py:396
+#: ui_qt/prompts/expansions_window.py:415
 msgid "Select an expansion first"
 msgstr "Selecione uma expansão primeiro"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:80
-msgid "Frequent Prompt Tags"
-msgstr "Frequente Tags de Prompt"
+#: ui_qt/prompts/expansions_window.py:421
+msgid "Copied expansion text to clipboard"
+msgstr "Texto de expansão copiado para a área de transferência"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:106
+#: ui_qt/prompts/frequent_prompt_tags_window.py:89
+msgid "Frequent Prompt Tags"
+msgstr "Etiquetas de prompts frequentes"
+
+#: ui_qt/prompts/frequent_prompt_tags_window.py:115
 msgid "Select or add prompt tags"
 msgstr "Selecione ou adicione tags de prompt"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:108
+#: ui_qt/prompts/frequent_prompt_tags_window.py:117
 msgid "Add tag"
 msgstr "Adicionar tag"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:111
+#: ui_qt/prompts/frequent_prompt_tags_window.py:120
 msgid "Clear tags"
 msgstr "Limpar marcadores"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:151
+#: ui_qt/prompts/frequent_prompt_tags_window.py:160
 msgid "Filter: \"{0}\"  ({1} of {2} tags)"
 msgstr "Filtro: \"{0}\"  ({1} de {2} etiquetas)"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:157
+#: ui_qt/prompts/frequent_prompt_tags_window.py:166
 msgid "{0} tags"
 msgstr "{0} etiquetas"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:162
+#: ui_qt/prompts/frequent_prompt_tags_window.py:171
 msgid "No tags match the current filter."
 msgstr "Nenhuma tag corresponde ao filtro atual."
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:164
+#: ui_qt/prompts/frequent_prompt_tags_window.py:173
 msgid "No frequent tags yet. Click 'Add tag' to create one."
 msgstr ""
 "Ainda não há tags frequentes. Clique em 'Adicionar tag' para criar uma."
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:173
+#: ui_qt/prompts/frequent_prompt_tags_window.py:182
 msgid "Tag"
 msgstr "Marcação"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:210
+#: ui_qt/prompts/frequent_prompt_tags_window.py:219
 msgid "Select a tag first"
 msgstr "Selecione uma etiqueta primeiro"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:225
+#: ui_qt/prompts/frequent_prompt_tags_window.py:234
 msgid "add_tags callback not wired yet. Tag: {0}"
 msgstr "add_tags retorno de chamada ainda não conectado. Tag: {0}"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:232
+#: ui_qt/prompts/frequent_prompt_tags_window.py:241
 msgid "Add Tag"
 msgstr "Adicionar Marca"
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:232
+#: ui_qt/prompts/frequent_prompt_tags_window.py:241
 msgid "Enter tag text:"
 msgstr "Digite o texto da tag:"
 
@@ -2723,39 +2271,119 @@ msgstr "Não há qualquer incentivo para se candidatar."
 msgid "Applied positive prompt to main UI"
 msgstr "Apliquei prompt positivo à interface de utilizador principal"
 
-#: ui_qt/prompts/prompt_config_window.py:256
+#: ui_qt/prompts/prompt_config_window.py:126
+msgid "Prompt Configuration"
+msgstr "Configuração das instruções"
+
+#: ui_qt/prompts/prompt_config_window.py:157
+msgid "Detailed Prompt Configuration"
+msgstr "Configuração detalhada das instruções"
+
+#: ui_qt/prompts/prompt_config_window.py:197
+msgid "Basic Generation Settings"
+msgstr "Configurações básicas de geração"
+
+#: ui_qt/prompts/prompt_config_window.py:206
+msgid "Sampler"
+msgstr "Amostra"
+
+#: ui_qt/prompts/prompt_config_window.py:217
+msgid "Scheduler"
+msgstr "Programador"
+
+#: ui_qt/prompts/prompt_config_window.py:229
+msgid "Seed"
+msgstr "Semente"
+
+#: ui_qt/prompts/prompt_config_window.py:230
+msgid "Steps"
+msgstr "Etapas"
+
+#: ui_qt/prompts/prompt_config_window.py:231
+msgid "CFG"
+msgstr "CFG"
+
+#: ui_qt/prompts/prompt_config_window.py:232
+msgid "Denoise"
+msgstr "Redução de ruído"
+
+#: ui_qt/prompts/prompt_config_window.py:233
+msgid "Random Skip Chance"
+msgstr "Aleatório Saltar o acaso"
+
+#: ui_qt/prompts/prompt_config_window.py:244
+msgid "Multiplier"
+msgstr "Multiplicador"
+
+#: ui_qt/prompts/prompt_config_window.py:255
 msgid "Options"
 msgstr "Opções"
 
-#: ui_qt/prompts/prompt_config_window.py:291
+#: ui_qt/prompts/prompt_config_window.py:261
+msgid "Tags Applied to Prompt Start"
+msgstr "As etiquetas aplicadas no início do prompt"
+
+#: ui_qt/prompts/prompt_config_window.py:266
+msgid "Sparse Mixed Tags"
+msgstr "Etiquetas mistas esparsas"
+
+#: ui_qt/prompts/prompt_config_window.py:295
 msgid "Category"
 msgstr "Categoria"
 
-#: ui_qt/prompts/prompt_config_window.py:292
+#: ui_qt/prompts/prompt_config_window.py:296
 msgid "Low"
 msgstr "Baixo"
 
-#: ui_qt/prompts/prompt_config_window.py:293
+#: ui_qt/prompts/prompt_config_window.py:297
 msgid "High"
 msgstr "Alto"
 
-#: ui_qt/prompts/prompt_config_window.py:319
+#: ui_qt/prompts/prompt_config_window.py:324
 msgid "Subcategory Weights"
 msgstr "Pesos de Subcategoria"
 
-#: ui_qt/prompts/prompt_config_window.py:321
+#: ui_qt/prompts/prompt_config_window.py:326
 msgid "Sayings / Puns Ratio"
 msgstr "Dizeres / Gambitos Razão"
 
-#: ui_qt/prompts/prompt_config_window.py:324
+#: ui_qt/prompts/prompt_config_window.py:329
 msgid "0 = mostly sayings, 50 = equal blend, 100 = mostly puns"
 msgstr ""
 "0 = principalmente ditados, 50 = mistura equilibrada, 100 = principalmente "
 "gracejos"
 
-#: ui_qt/prompts/prompt_config_window.py:337
+#: ui_qt/prompts/prompt_config_window.py:342
 msgid "Chance Sliders"
 msgstr "Chance dos Quadradinhos"
+
+#: ui_qt/prompts/prompt_config_window.py:344
+msgid "Specific Locations Chance"
+msgstr "Possibilidade de especificar localizações"
+
+#: ui_qt/prompts/prompt_config_window.py:346
+msgid "Specific Times Chance"
+msgstr "Probabilidade em momentos específicos"
+
+#: ui_qt/prompts/prompt_config_window.py:348
+msgid "Specify Humans Chance"
+msgstr "Possibilidade de especificar humanos"
+
+#: ui_qt/prompts/prompt_config_window.py:350
+msgid "Art Styles Chance"
+msgstr "Possibilidade de estilos artísticos"
+
+#: ui_qt/prompts/prompt_config_window.py:352
+msgid "Emphasis Chance"
+msgstr "Possibilidade de ênfase"
+
+#: ui_qt/prompts/prompt_config_window.py:354
+msgid "Animals Inclusion Chance"
+msgstr "Possibilidade de inclusão de animais"
+
+#: ui_qt/prompts/prompt_config_window.py:356
+msgid "Dress Inclusion Chance"
+msgstr "Possibilidade de inclusão do vestido"
 
 #: ui_qt/prompts/prompt_generator_window.py:75
 msgid ""
@@ -2834,6 +2462,10 @@ msgstr "Toma"
 #: utils/globals.py:36
 msgid "Random"
 msgstr "Aleatório"
+
+#: utils/globals.py:37
+msgid "Nonsense"
+msgstr "Disparate"
 
 #: utils/globals.py:38
 msgid "Any Art"
