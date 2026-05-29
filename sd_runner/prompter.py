@@ -158,9 +158,85 @@ class Prompter:
             positive = ', '.join(positive_whitelist)
             if config.debug:
                 print(f"Filtered concepts from blacklist tags: {positive_filtered}")
-        
+
+        positive = self._apply_random_stops_returns(positive)
+        negative = self._apply_random_stops_returns(negative)
+
         self.last_prompt = positive
         return (positive, negative)
+
+    def _apply_random_stops_returns(self, text: str) -> str:
+        """Randomly replace some comma/period separators with stops or paragraph breaks.
+
+        Return rolls use ``.\\n\\n``; stop rolls use ``.`` plus the original whitespace.
+        Only splits on punctuation followed by whitespace (space, tab, or newline).
+        Boundaries inside emphasis ``(...)`` are left unchanged.
+        """
+        stop_chance = self.prompter_config.stop_insertion_chance
+        return_chance = self.prompter_config.return_insertion_chance
+        if not text or (stop_chance <= 0 and return_chance <= 0):
+            return text
+
+        text = self._apply_random_stops_returns_delimiter_pass(
+            text, ".", stop_chance, return_chance
+        )
+        text = self._apply_random_stops_returns_delimiter_pass(
+            text, ",", stop_chance, return_chance
+        )
+        return text
+
+    @staticmethod
+    def _paren_depth_before(text: str, index: int) -> int:
+        """Nesting depth of unclosed ``(`` immediately before *index*."""
+        depth = 0
+        for ch in text[:index]:
+            if ch == "(":
+                depth += 1
+            elif ch == ")":
+                depth = max(0, depth - 1)
+        return depth
+
+    @staticmethod
+    def _apply_random_stops_returns_delimiter_pass(
+        text: str,
+        delimiter: str,
+        stop_chance: float,
+        return_chance: float,
+    ) -> str:
+        """Apply stop/return rolls at ``delimiter`` boundaries that are followed by whitespace.
+
+        Boundaries inside balanced emphasis ``(... )`` are left unchanged.
+        """
+        pattern = re.compile(rf"({re.escape(delimiter)})([ \t\n])")
+        matches = list(pattern.finditer(text))
+        if not matches:
+            return text
+
+        pieces: list[str] = []
+        last_end = 0
+        for i, match in enumerate(matches):
+            pieces.append(text[last_end:match.start()])
+            delim_char = match.group(1)
+            delim_ws = match.group(2)
+            segment_end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+            segment = text[match.end():segment_end]
+
+            if Prompter._paren_depth_before(text, match.start()) > 0:
+                pieces.append(delim_char + delim_ws + segment)
+            else:
+                roll = random.random()
+                if roll < return_chance:
+                    pieces.append(".\n\n" + segment)
+                elif roll < return_chance + stop_chance:
+                    if delimiter == ",":
+                        pieces.append("." + delim_ws + segment)
+                    else:
+                        pieces.append(delim_char + delim_ws + segment)
+                else:
+                    pieces.append(delim_char + delim_ws + segment)
+            last_end = segment_end
+        pieces.append(text[last_end:])
+        return "".join(pieces)
 
     def gather_data(self) -> dict:
         # Use subprocess to call local LLaVA installation and gather data about the image

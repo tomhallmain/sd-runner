@@ -214,7 +214,9 @@ class PrompterConfiguration:
         sparse_mixed_tags: bool = False,
         original_positive_tags: str = "",
         original_negative_tags: str = "",
-        specify_humans_chance: float = 0.25
+        specify_humans_chance: float = 0.25,
+        stop_insertion_chance: float = 0.5,
+        return_insertion_chance: float = 0.5,
     ):
         self.prompt_mode = prompt_mode
         self.art_styles_chance = art_styles_chance
@@ -225,6 +227,8 @@ class PrompterConfiguration:
         self.original_positive_tags = original_positive_tags
         self.original_negative_tags = original_negative_tags
         self.specify_humans_chance = specify_humans_chance
+        self.stop_insertion_chance = stop_insertion_chance
+        self.return_insertion_chance = return_insertion_chance
         
         # Initialize categories dict
         if categories is not None:
@@ -350,6 +354,8 @@ class PrompterConfiguration:
             "sparse_mixed_tags": self.sparse_mixed_tags,
             "original_positive_tags": self.original_positive_tags,
             "original_negative_tags": self.original_negative_tags,
+            "stop_insertion_chance": self.stop_insertion_chance,
+            "return_insertion_chance": self.return_insertion_chance,
         }
         
         # Save categories in new format
@@ -401,6 +407,8 @@ class PrompterConfiguration:
         self.specify_humans_chance = _dict.get('specify_humans_chance', self.specify_humans_chance)
         self.emphasis_chance = _dict.get('emphasis_chance', self.emphasis_chance)
         self.sparse_mixed_tags = _dict.get('sparse_mixed_tags', self.sparse_mixed_tags)
+        self.stop_insertion_chance = _dict.get('stop_insertion_chance', self.stop_insertion_chance)
+        self.return_insertion_chance = _dict.get('return_insertion_chance', self.return_insertion_chance)
         
         # Ensure missing original tags keys exist
         if not hasattr(self, 'original_positive_tags'):
