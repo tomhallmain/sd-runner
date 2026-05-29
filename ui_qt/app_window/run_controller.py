@@ -15,6 +15,7 @@ from typing import Optional
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication
 
+from ui_qt.sound_player import play_sound
 from utils.logging_setup import get_logger
 from utils.translations import I18N
 from utils.utils import Utils
@@ -292,6 +293,7 @@ class RunController:
             threshold_formatted = TimeEstimator.format_time(
                 Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS
             )
+            play_sound("alert")
             ok = app.notification_ctrl.alert(
                 _("Long Running Job Confirmation"),
                 _("The estimated time for this run is {0}, which exceeds the threshold of {1}.\n\n"
@@ -501,7 +503,7 @@ class RunController:
                     and not self._app.job_queue_preset_schedules.has_pending()
                     and self._app.current_run is not None
                     and self._app.current_run.is_complete):
-                Utils.play_sound()
+                play_sound()
                 sp.label_pending_adapters.setText("")
         else:
             sp.label_pending.setText(_("{0} pending generations").format(count_pending))

@@ -249,14 +249,6 @@ class Utils:
         return _locale
 
     @staticmethod
-    def play_sound(sound="success"):
-        if sys.platform != 'win32':
-            return
-        sound = os.path.join(os.path.dirname(os.path.dirname(__file__)), "lib", "sounds", sound + ".wav")
-        import winsound
-        winsound.PlaySound(sound, winsound.SND_ASYNC)
-
-    @staticmethod
     def prevent_sleep(prevent_sleep: bool = False) -> None:
         """Delegate to :mod:`lib.sleep_prevention` — system / idle sleep only (not display)."""
         if prevent_sleep:
