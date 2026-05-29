@@ -28,6 +28,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QScrollArea,
+    QSizePolicy,
     QSlider,
     QVBoxLayout,
     QWidget,
@@ -119,7 +120,7 @@ class PromptConfigWindow(SmartDialog):
         parent: QWidget,
         app_actions: AppActions,
         runner_app_config: RunnerAppConfig,
-        geometry: str = "1050x720",
+        geometry: str = "1150x820",
     ):
         super().__init__(
             parent=parent,
@@ -167,17 +168,25 @@ class PromptConfigWindow(SmartDialog):
         body_layout.setContentsMargins(0, 0, 0, 0)
         body_layout.setSpacing(16)
 
-        # --- Left column (basic generation) ---
-        left = QVBoxLayout()
+        left_widget = QWidget()
+        left = QVBoxLayout(left_widget)
+        left.setContentsMargins(0, 0, 0, 0)
         left.setSpacing(4)
         self._build_left_column(left)
-        body_layout.addLayout(left)
 
-        # --- Right column (prompts configuration) ---
-        right = QVBoxLayout()
+        right_widget = QWidget()
+        right = QVBoxLayout(right_widget)
+        right.setContentsMargins(0, 0, 0, 0)
         right.setSpacing(4)
         self._build_right_column(right)
-        body_layout.addLayout(right)
+
+        column_policy = QSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.MinimumExpanding,
+        )
+        for column_widget in (left_widget, right_widget):
+            column_widget.setSizePolicy(column_policy)
+            body_layout.addWidget(column_widget, stretch=1)
 
         scroll.setWidget(body)
         root.addWidget(scroll, stretch=1)
@@ -278,49 +287,12 @@ class PromptConfigWindow(SmartDialog):
         self._cb_dimension_variation.stateChanged.connect(self._on_widget_changed)
         col.addWidget(self._cb_dimension_variation)
 
+        self._build_slider_sections(col, pc)
+
         col.addStretch()
 
-    # ------------------------------------------------------------------
-    # Right column
-    # ------------------------------------------------------------------
-    def _build_right_column(self, col: QVBoxLayout) -> None:
-        pc = self._cfg.prompter_config
-
-        col.addWidget(self._section_label(_("Prompts Configuration")))
-
-        # --- Category count combos ----------------------------------------
-        grid = QGridLayout()
-        grid.setHorizontalSpacing(6)
-        grid.setVerticalSpacing(4)
-        grid.addWidget(QLabel(_("Category")), 0, 0)
-        grid.addWidget(QLabel(_("Low")), 0, 1)
-        grid.addWidget(QLabel(_("High")), 0, 2)
-
-        categories = [
-            "media_features", "objects",
-            "positions", "locations", "animals", "plants", "colors",
-            "times", "dress", "expressions", "actions", "descriptions",
-            "characters", "random_words", "nonsense", "jargon", "witticisms",
-        ]
-        for i, name in enumerate(categories, start=1):
-            cc = pc.get_category_config(name)
-            display_name = name.replace("_", " ").title()
-            grid.addWidget(QLabel(_(display_name)), i, 0)
-            lo = QComboBox()
-            lo.addItems(_COUNT_ITEMS)
-            lo.setCurrentText(str(cc.low))
-            lo.currentTextChanged.connect(self._on_widget_changed)
-            hi = QComboBox()
-            hi.addItems(_COUNT_ITEMS)
-            hi.setCurrentText(str(cc.high))
-            hi.currentTextChanged.connect(self._on_widget_changed)
-            grid.addWidget(lo, i, 1)
-            grid.addWidget(hi, i, 2)
-            self._cat_combos[name] = (lo, hi)
-
-        col.addLayout(grid)
-
-        # --- Witticisms ratio slider --------------------------------------
+    def _build_slider_sections(self, col: QVBoxLayout, pc: PrompterConfiguration) -> None:
+        """Witticisms ratio and all chance sliders (left column)."""
         col.addWidget(self._section_label(_("Subcategory Weights")))
         witt_row = QHBoxLayout()
         lbl = QLabel(_("Sayings / Puns Ratio"))
@@ -338,7 +310,6 @@ class PromptConfigWindow(SmartDialog):
         witt_row.addWidget(self._witticisms_slider, stretch=1)
         col.addLayout(witt_row)
 
-        # --- Chance sliders -----------------------------------------------
         col.addWidget(self._section_label(_("Chance Sliders")))
         slider_defs = [
             (_("Specific Locations Chance"), "specific_locations",
@@ -351,6 +322,10 @@ class PromptConfigWindow(SmartDialog):
              pc.art_styles_chance),
             (_("Emphasis Chance"), "emphasis",
              pc.emphasis_chance),
+            (_("Stop Insertion Chance"), "stop_insertion",
+             pc.stop_insertion_chance),
+            (_("Return Insertion Chance"), "return_insertion",
+             pc.return_insertion_chance),
             (_("Animals Inclusion Chance"), "animals_inclusion",
              pc.get_category_config("animals").get_inclusion_chance()),
             (_("Dress Inclusion Chance"), "dress_inclusion",
@@ -367,6 +342,57 @@ class PromptConfigWindow(SmartDialog):
             row.addWidget(sl, stretch=1)
             col.addLayout(row)
 
+    # ------------------------------------------------------------------
+    # Right column
+    # ------------------------------------------------------------------
+    def _build_right_column(self, col: QVBoxLayout) -> None:
+        pc = self._cfg.prompter_config
+
+        col.addWidget(self._section_label(_("Prompts Configuration")))
+
+        # --- Category count combos ----------------------------------------
+        grid = QGridLayout()
+        grid.setHorizontalSpacing(6)
+        grid.setVerticalSpacing(4)
+        grid.addWidget(QLabel(_("Category")), 0, 0)
+        grid.addWidget(QLabel(_("Low")), 0, 1)
+        grid.addWidget(QLabel(_("High")), 0, 2)
+        grid.setColumnStretch(0, 2)
+        grid.setColumnStretch(1, 1)
+        grid.setColumnStretch(2, 1)
+        combo_policy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        combo_min_chars = 4
+        combo_size_policy = QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon
+
+        categories = [
+            "media_features", "objects",
+            "positions", "locations", "animals", "plants", "colors",
+            "times", "dress", "expressions", "actions", "descriptions",
+            "characters", "random_words", "nonsense", "jargon", "witticisms",
+        ]
+        for i, name in enumerate(categories, start=1):
+            cc = pc.get_category_config(name)
+            display_name = name.replace("_", " ").title()
+            grid.addWidget(QLabel(_(display_name)), i, 0)
+            lo = QComboBox()
+            lo.addItems(_COUNT_ITEMS)
+            lo.setCurrentText(str(cc.low))
+            lo.setSizePolicy(combo_policy)
+            lo.setMinimumContentsLength(combo_min_chars)
+            lo.setSizeAdjustPolicy(combo_size_policy)
+            lo.currentTextChanged.connect(self._on_widget_changed)
+            hi = QComboBox()
+            hi.addItems(_COUNT_ITEMS)
+            hi.setCurrentText(str(cc.high))
+            hi.setSizePolicy(combo_policy)
+            hi.setMinimumContentsLength(combo_min_chars)
+            hi.setSizeAdjustPolicy(combo_size_policy)
+            hi.currentTextChanged.connect(self._on_widget_changed)
+            grid.addWidget(lo, i, 1)
+            grid.addWidget(hi, i, 2)
+            self._cat_combos[name] = (lo, hi)
+
+        col.addLayout(grid)
         col.addStretch()
 
     # ------------------------------------------------------------------
@@ -447,6 +473,8 @@ class PromptConfigWindow(SmartDialog):
             pc.specify_humans_chance = self._sliders["specify_humans"].value() / 100.0
             pc.art_styles_chance = self._sliders["art_styles"].value() / 100.0
             pc.emphasis_chance = self._sliders["emphasis"].value() / 100.0
+            pc.stop_insertion_chance = self._sliders["stop_insertion"].value() / 100.0
+            pc.return_insertion_chance = self._sliders["return_insertion"].value() / 100.0
             pc.get_category_config("animals").inclusion_chance = (
                 self._sliders["animals_inclusion"].value() / 100.0
             )
