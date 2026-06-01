@@ -607,5 +607,36 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
         app_info_cache.set("blacklist_user_confirmed_non_default", False)
 
 
+class TestAccentNormalization(unittest.TestCase):
+    def test_plain_text_accent_variations(self):
+        test_cases = [
+            ("cafe", ["cafe", "café", "cafë", "cafè"], ["coffee", "tea"]),
+            ("test w b", ["test w b", "tëst w b"], ["test x b", "different"]),
+            ("hello", ["hello", "héllo", "hëllo"], ["goodbye", "hi"]),
+        ]
+        for input_string, should_match, should_not_match in test_cases:
+            item = BlacklistItem(input_string)
+            for test_word in should_match:
+                with self.subTest(input=input_string, word=test_word, expect_match=True):
+                    self.assertTrue(item.matches_tag(test_word))
+            for test_word in should_not_match:
+                with self.subTest(input=input_string, word=test_word, expect_match=False):
+                    self.assertFalse(item.matches_tag(test_word))
+
+    def test_regex_accent_variations(self):
+        test_cases = [
+            (r"test(\W)*a", ["test a", "tëst a", "test á"], ["test b", "different"]),
+            ("[ai]pple", ["apple", "ipple"], ["orange", "banana"]),
+        ]
+        for input_string, should_match, should_not_match in test_cases:
+            item = BlacklistItem(input_string, use_regex=True)
+            for test_word in should_match:
+                with self.subTest(input=input_string, word=test_word, expect_match=True):
+                    self.assertTrue(item.matches_tag(test_word))
+            for test_word in should_not_match:
+                with self.subTest(input=input_string, word=test_word, expect_match=False):
+                    self.assertFalse(item.matches_tag(test_word))
+
+
 if __name__ == '__main__':
     unittest.main() 

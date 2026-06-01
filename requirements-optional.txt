@@ -21,8 +21,10 @@ huggingface_hub
 
 # Fast tagger (WD-style ONNX inference).
 onnxruntime
-numpy
-Pillow
 
 # Captioner preferred path (Transformers BLIP). Falls back to legacy captioner if missing.
 transformers
+
+# Legacy/local BLIP captioner backend (blip/* modules).
+torch
+torchvision

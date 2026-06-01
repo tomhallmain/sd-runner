@@ -1126,57 +1126,31 @@ class Blacklist:
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump([item.to_dict() for item in Blacklist.MODEL_BLACKLIST], f, indent=2)
 
+    @staticmethod
+    def filter_file_lines(
+        lines: list[str],
+        do_cache: bool = False,
+    ) -> tuple[list[str], list[str]]:
+        """Split file lines into non-blacklisted and blacklisted, preserving order.
 
+        Empty or whitespace-only lines are treated as non-blacklisted.
+        """
+        concepts_with_idx = [(i, line.strip()) for i, line in enumerate(lines) if line.strip()]
+        blacklisted_indices: set[int] = set()
+        if concepts_with_idx:
+            indices, concepts = zip(*concepts_with_idx)
+            _, filtered = Blacklist.filter_concepts(
+                list(concepts), do_cache=do_cache, user_prompt=False
+            )
+            blacklisted_indices = {
+                indices[i] for i, concept in enumerate(concepts) if concept in filtered
+            }
 
-if __name__ == "__main__":
-    print("Testing accent normalization patterns...")
-    
-    # Test cases: (input, should_match, should_not_match)
-    test_cases = [
-        ("cafe", ["cafe", "café", "cafë", "cafè"], ["coffee", "tea"]),
-        ("test w b", ["test w b", "test w b", "tëst w b"], ["test x b", "different"]),
-        ("hello", ["hello", "héllo", "hëllo"], ["goodbye", "hi"]),
-    ]
-    
-    for input_string, should_match, should_not_match in test_cases:
-        print(f"\nTesting: '{input_string}'")
-        item = BlacklistItem(input_string)
-        print(f"Pattern: {item.regex_pattern.pattern}")
-        
-        # Test matches that should work
-        for test_word in should_match:
-            matches = item.matches_tag(test_word)
-            status = "✓" if matches else "✗"
-            print(f"  {status} '{test_word}' -> {matches}")
-        
-        # Test matches that should NOT work
-        for test_word in should_not_match:
-            matches = item.matches_tag(test_word)
-            status = "✓" if not matches else "✗"
-            print(f"  {status} '{test_word}' -> {matches} (should be False)")
-    
-    print("\n" + "="*50)
-    print("Testing regex patterns with accent normalization...")
-    
-    # Test regex patterns
-    regex_test_cases = [
-        ("test(\W)*a", ["test a", "tëst a", "test á"], ["test b", "different"]),
-        ("[ai]pple", ["apple", "ipple"], ["orange", "banana"]),
-    ]
-    
-    for input_string, should_match, should_not_match in regex_test_cases:
-        print(f"\nTesting regex: '{input_string}'")
-        item = BlacklistItem(input_string, use_regex=True)
-        print(f"Pattern: {item.regex_pattern.pattern}")
-        
-        # Test matches that should work
-        for test_word in should_match:
-            matches = item.matches_tag(test_word)
-            status = "✓" if matches else "✗"
-            print(f"  {status} '{test_word}' -> {matches}")
-        
-        # Test matches that should NOT work
-        for test_word in should_not_match:
-            matches = item.matches_tag(test_word)
-            status = "✓" if not matches else "✗"
-            print(f"  {status} '{test_word}' -> {matches} (should be False)")
+        non_blacklisted: list[str] = []
+        blacklisted: list[str] = []
+        for i, line in enumerate(lines):
+            if i in blacklisted_indices:
+                blacklisted.append(line)
+            else:
+                non_blacklisted.append(line)
+        return non_blacklisted, blacklisted

@@ -123,7 +123,7 @@ class Config:
 
         if self.override_dictionary_path is not None:
             self.set_filepaths("override_dictionary_path")
-            print("Set override_dictionary_path to: " + self.override_dictionary_path)
+            print(f"Set override_dictionary_path to: {self.override_dictionary_path}")
 
         self.concepts_dirs = {}
         self.default_concepts_dir = "concepts"
@@ -156,8 +156,7 @@ class Config:
     def validate_and_set_directory(self, key, override=False):
         loc = key if override else self.dict[key]
         if loc and loc.strip() != "":
-            if "{HOME}" in loc:
-                loc = loc.strip().replace("{HOME}", os.path.expanduser("~"))
+            loc = self._normalize_config_path(loc)
             if not os.path.isdir(loc):
                 raise Exception(f"Invalid location provided for {key}: {loc}")
             return loc
@@ -166,20 +165,29 @@ class Config:
     def validate_and_set_filepath(self, key):
         filepath = self.dict[key]
         if filepath and filepath.strip() != "":
-            if "{HOME}" in filepath:
-                filepath = filepath.strip().replace("{HOME}", os.path.expanduser("~"))
+            filepath = self._normalize_config_path(filepath)
             if not os.path.isfile(filepath):
                 raise Exception(f"Invalid location provided for {key}: {filepath}")
             return filepath
         return None
 
+    def _normalize_config_path(self, path_value: str) -> str:
+        """Normalize configured paths across platforms and user input styles."""
+        normalized = path_value.strip()
+        if "{HOME}" in normalized:
+            normalized = normalized.replace("{HOME}", os.path.expanduser("~"))
+        # Handle Windows separators in configs used on POSIX machines.
+        normalized = normalized.replace("\\", os.sep)
+        return os.path.normpath(normalized)
+
     def set_directories(self, *directories):
         for directory in directories:
-            # try:
-            setattr(self, directory, self.validate_and_set_directory(directory))
-            # except Exception as e:
-            #     logger.error(e)
-            #     logger.warning(f"Failed to set {directory} from config.json file. Ensure the key is set.")
+            try:
+                setattr(self, directory, self.validate_and_set_directory(directory))
+            except Exception as e:
+                pass
+            #    setattr(self, directory, None)
+            #    logger.warning(f"Failed to set {directory} from config.json: {e}")
 
     def set_filepaths(self, *filepaths):
         for filepath in filepaths:
@@ -194,7 +202,12 @@ class Config:
         for name in names:
             if type:
                 try:
-                    setattr(self, name, type(self.dict[name]))
+                    raw_value = self.dict[name]
+                    # Keep explicit nulls as None instead of coercing to "None".
+                    if type is str and raw_value is None:
+                        setattr(self, name, None)
+                    else:
+                        setattr(self, name, type(raw_value))
                 except Exception as e:
                     pass
 #                    logger.error(e)

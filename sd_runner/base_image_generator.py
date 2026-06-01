@@ -9,7 +9,6 @@ import traceback
 from utils.globals import Globals, WorkflowType
 
 from sd_runner.blacklist import Blacklist
-from sd_runner.captioner import Captioner
 from sd_runner.gen_config import GenConfig
 from sd_runner.image_converter import convert_image_if_needed, cleanup_converter, clear_converter_cache
 from sd_runner.models import Model
@@ -72,6 +71,8 @@ class BaseImageGenerator(ABC):
 
     def get_captioner(self):
         if self.captioner is None:
+            # Lazy import avoids requiring BLIP/torch stack for flows that never caption.
+            from sd_runner.captioner import Captioner
             self.captioner = Captioner()
         return self.captioner
 
