@@ -70,6 +70,19 @@ class ComfyGen(BaseImageGenerator):
                 prompt = WorkflowPromptComfy("instant_lora_xl.json")
             if workflow_type == WorkflowType.RENOISER and model.is_xl():
                 prompt = WorkflowPromptComfy("renoiser_xl.json")
+            if model.is_flux2_klein():
+                if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
+                    if model.is_flux2_klein_4b():
+                        prompt = WorkflowPromptComfy("image_flux2_text_to_image_4b.json")
+                    else:
+                        prompt = WorkflowPromptComfy("image_flux2_text_to_image_9b.json")
+                elif workflow_type == WorkflowType.SIMPLE_IMAGE_GEN_LORA:
+                    if model.is_flux2_klein_4b():
+                        prompt = WorkflowPromptComfy("image_flux2_text_to_image_4b.json")
+                    else:
+                        prompt = WorkflowPromptComfy("image_flux2_text_to_image_9b.json")
+                else:
+                    raise Exception("Flux2 Klein workflows other than simple image gen and simple image gen lora are not supported in SDRunner's ComfyUI implementation at this time")
             if model.is_flux():
                 if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
                     prompt = WorkflowPromptComfy("simple_image_gen_flux.json")
@@ -314,7 +327,12 @@ class ComfyGen(BaseImageGenerator):
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN, "Assembling Simple Image Gen prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, **kw)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
-        if model.is_flux():
+        if model.is_flux2_klein():
+            # Flux2 Klein has no negative prompt; prompt nodes are in a subgraph
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                None, positive_id="75:74", model=model)
+        elif model.is_flux():
             # NOTE Flux models don't have a negative prompt
             prompt.set_clip_text_by_id(
                 self.gen_config.redo_param("positive", positive),
@@ -348,7 +366,14 @@ class ComfyGen(BaseImageGenerator):
                 positive_id="3", negative_id="4", model=model)
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
-        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
+        if model.is_flux2_klein():
+            # Resolution is sourced from PrimitiveInt nodes shared by EmptyFlux2LatentImage and Flux2Scheduler
+            resolution_val = self.gen_config.redo_param("resolution", resolution)
+            if resolution_val:
+                prompt.set_by_id("75:68", "value", resolution_val.width)
+                prompt.set_by_id("75:69", "value", resolution_val.height)
+        else:
+            prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         self.queue_prompt(prompt)
 
@@ -358,9 +383,15 @@ class ComfyGen(BaseImageGenerator):
         model.validate_loras(lora)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
-        prompt.set_vae(self.gen_config.redo_param("vae", vae))
+        if not model.is_flux2_klein():
+            prompt.set_vae(self.gen_config.redo_param("vae", vae))
         prompt.set_lora(self.gen_config.redo_param("lora", lora))
-        if model.is_chroma():
+        if model.is_flux2_klein():
+            # Flux2 Klein has no negative; prompt positive node is in a subgraph
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                None, positive_id="75:74", model=model)
+        elif model.is_chroma():
             # NOTE Chroma uses different node IDs: positive="748", negative="749"
             prompt.set_clip_text_by_id(
                 self.gen_config.redo_param("positive", positive),
@@ -385,7 +416,13 @@ class ComfyGen(BaseImageGenerator):
                 positive_id="3", negative_id="4", model=model)
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
-        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
+        if model.is_flux2_klein():
+            resolution_val = self.gen_config.redo_param("resolution", resolution)
+            if resolution_val:
+                prompt.set_by_id("75:68", "value", resolution_val.width)
+                prompt.set_by_id("75:69", "value", resolution_val.height)
+        else:
+            prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         self.queue_prompt(prompt)
 

@@ -535,6 +535,9 @@ class ComfyNodeName:
     ELLA_T5_EMBEDS = "ella_t5_embeds"
     ELLA_SAMPLER = "ella_sampler"
     BASIC_SCHEDULER = "BasicScheduler"
+    FLUX2_SCHEDULER = "Flux2Scheduler"
+    SAMPLER_CUSTOM_ADVANCED = "SamplerCustomAdvanced"
+    EMPTY_FLUX2_LATENT = "EmptyFlux2LatentImage"
 
 
 class SoftwareType(Enum):
@@ -547,6 +550,8 @@ class ArchitectureType(Enum):
     ILLUSTRIOUS = "ILLUSTRIOUS"
     TURBO = "TURBO"
     FLUX = "FLUX"
+    FLUX2_KLEIN = "FLUX2_KLEIN"
+    FLUX2_KLEIN_4B = "FLUX2_KLEIN_4B"
     CHROMA = "CHROMA"
     Z_IMAGE_TURBO = "Z_IMAGE_TURBO"
     QWEN = "QWEN"
@@ -563,6 +568,8 @@ class ArchitectureType(Enum):
             ArchitectureType.ILLUSTRIOUS: _("Illustrious"),
             ArchitectureType.TURBO: _("Turbo"),
             ArchitectureType.FLUX: _("Flux"),
+            ArchitectureType.FLUX2_KLEIN: _("Flux2 Klein 9B"),
+            ArchitectureType.FLUX2_KLEIN_4B: _("Flux2 Klein 4B"),
             ArchitectureType.CHROMA: _("Chroma"),
             ArchitectureType.Z_IMAGE_TURBO: _("ZImageTurbo"),
             ArchitectureType.QWEN: _("Qwen"),

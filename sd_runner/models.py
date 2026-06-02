@@ -79,7 +79,7 @@ class Model:
         )
 
     @staticmethod
-    def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo, is_qwen):
+    def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo, is_qwen, is_flux2_klein=False):
         # NOTE this can be overridden by the presets
         path_normalized = path.replace("/", "\\") if path is not None else None
         path_l = path_normalized.lower() if path_normalized is not None else None
@@ -100,6 +100,12 @@ class Model:
             architecture_type = ArchitectureType.SDXL
         elif path_normalized is not None and path_normalized.startswith("Turbo") or is_turbo:
             architecture_type = ArchitectureType.TURBO
+        elif path_l is not None and path_l.startswith("fluxklein") or is_flux2_klein:
+            # Match "4b" only when not preceded by a digit, to avoid false positives
+            # from version strings like "v14base" where "4b" is part of "14".
+            _4b_pattern = re.compile(r'(?<!\d)4b')
+            is_4b = bool(_4b_pattern.search(path_l or "")) or bool(_4b_pattern.search(model_id.lower()))
+            architecture_type = ArchitectureType.FLUX2_KLEIN_4B if is_4b else ArchitectureType.FLUX2_KLEIN
         elif path_l is not None and (path_l.startswith("flux")) or is_flux:
             architecture_type = ArchitectureType.FLUX
         elif path_scope in ("sd1.5", "sd15", "sd_15"):
@@ -116,6 +122,7 @@ class Model:
         is_xl: bool = False,
         is_turbo: bool = False,
         is_flux: bool = False,
+        is_flux2_klein: bool = False,
         is_chroma: bool = False,
         is_z_image_turbo: bool = False,
         is_qwen: bool = False,
@@ -125,7 +132,7 @@ class Model:
         self.id = id
         self.path = path if path else os.path.join(Model.MODELS_DIR, id)
         self.architecture_type = Model.determine_architecture_type(
-            id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo, is_qwen
+            id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo, is_qwen, is_flux2_klein
         )
         self.is_lora = is_lora
         self.positive_tags = None
@@ -149,6 +156,15 @@ class Model:
 
     def is_flux(self):
         return not self.is_lora and self.architecture_type == ArchitectureType.FLUX
+
+    def is_flux2_klein(self):
+        return not self.is_lora and self.architecture_type in (ArchitectureType.FLUX2_KLEIN, ArchitectureType.FLUX2_KLEIN_4B)
+
+    def is_flux2_klein_9b(self):
+        return not self.is_lora and self.architecture_type == ArchitectureType.FLUX2_KLEIN
+
+    def is_flux2_klein_4b(self):
+        return not self.is_lora and self.architecture_type == ArchitectureType.FLUX2_KLEIN_4B
 
     def is_chroma(self):
         return not self.is_lora and self.architecture_type == ArchitectureType.CHROMA
@@ -177,6 +193,8 @@ class Model:
         elif self.is_turbo():
             return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_flux():
+            return ResolutionGroup.TEN_TWENTY_FOUR
+        elif self.is_flux2_klein():  # covers both 4b and 9b
             return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_chroma():
             return ResolutionGroup.TEN_TWENTY_FOUR
@@ -260,8 +278,8 @@ class Model:
         return Model.DEFAULT_SD15_VAE if self.is_sd_15() else Model.DEFAULT_SDXL_VAE
 
     def validate_vae(self, vae):
-        if self.is_flux():
-            return # Flux models use their own VAE
+        if self.is_flux() or self.is_flux2_klein():
+            return # Flux/Flux2 Klein models use their own VAE
         if self.is_chroma():
             if vae != Model.DEFAULT_CHROMA_VAE:
                 raise Exception(f"Invalid VAE {vae} for Chroma model {self.id}. Expected {Model.DEFAULT_CHROMA_VAE}")
@@ -495,7 +513,8 @@ class Model:
             file_l = file.lower()
             is_xl = file_l.startswith("xl\\")
             is_turbo = file_l.startswith("turbo\\")
-            is_flux = file_l.startswith("flux\\")
+            is_flux2_klein = file_l.startswith("fluxklein\\")
+            is_flux = file_l.startswith("flux\\") and not is_flux2_klein
             is_chroma = file.lower().startswith("chroma") or "chroma" in file.lower()
             is_z_image_turbo = file.lower().startswith("zimage") or "z_image" in file.lower() or "zimage" in file.lower()
             is_qwen = "qwen" in file.lower()
@@ -506,6 +525,7 @@ class Model:
                 is_lora=is_lora,
                 is_turbo=is_turbo,
                 is_flux=is_flux,
+                is_flux2_klein=is_flux2_klein,
                 is_chroma=is_chroma,
                 is_z_image_turbo=is_z_image_turbo,
                 is_qwen=is_qwen,

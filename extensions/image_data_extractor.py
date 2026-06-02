@@ -110,22 +110,34 @@ class ImageDataExtractor:
         negative = ""
         prompt_dicts = {}
         node_inputs = {}
+        has_found_discriminator = False
         prompt = self.extract_prompt(image_path)
 
         if prompt is not None:
             for k, v in prompt.items():
                 if ImageDataExtractor.CLASS_TYPE in v and ImageDataExtractor.INPUTS in v:
-                    #print(v[ImageDataExtractor.CLASS_TYPE])
                     if v[ImageDataExtractor.CLASS_TYPE] == "CLIPTextEncode":
-                        prompt_dicts[k] = v[ImageDataExtractor.INPUTS]["text"]
-                    elif v[ImageDataExtractor.CLASS_TYPE] == "KSampler":
+                        text = v[ImageDataExtractor.INPUTS].get("text", "")
+                        if isinstance(text, list) and len(text) == 2:
+                            # text is a node reference [node_id, output_idx] — follow it
+                            ref_node = prompt.get(str(text[0]), {})
+                            text = ref_node.get(ImageDataExtractor.INPUTS, {}).get("value", "")
+                        prompt_dicts[k] = text
+                    elif v[ImageDataExtractor.CLASS_TYPE] == "ImpactWildcardProcessor":
+                        positive = v[ImageDataExtractor.INPUTS]["populated_text"]
+                    elif (ImageDataExtractor.POSITIVE in v[ImageDataExtractor.INPUTS] and
+                          ImageDataExtractor.NEGATIVE in v[ImageDataExtractor.INPUTS]):
+                        if has_found_discriminator and v[ImageDataExtractor.CLASS_TYPE].startswith("KSampler"):
+                            continue
+                        has_found_discriminator = True
                         node_inputs[ImageDataExtractor.POSITIVE] = v[ImageDataExtractor.INPUTS][ImageDataExtractor.POSITIVE][0]
                         node_inputs[ImageDataExtractor.NEGATIVE] = v[ImageDataExtractor.INPUTS][ImageDataExtractor.NEGATIVE][0]
 
-            positive = prompt_dicts.get(node_inputs[ImageDataExtractor.POSITIVE], "")
-            negative = prompt_dicts.get(node_inputs[ImageDataExtractor.NEGATIVE], "")
-            # print(f"Positive: \"{positive}\"")
-            # print(f"Negative: \"{negative}\"")
+            pos_key = node_inputs.get(ImageDataExtractor.POSITIVE)
+            neg_key = node_inputs.get(ImageDataExtractor.NEGATIVE)
+            if not positive:
+                positive = prompt_dicts.get(pos_key, "") if pos_key is not None else ""
+            negative = prompt_dicts.get(neg_key, "") if neg_key is not None else ""
 
         return (positive, negative)
 

@@ -9,6 +9,23 @@ from sd_runner.models import Model, LoraBundle
 from sd_runner.resolution import Resolution
 
 
+def _is_api_node_id(key: str) -> bool:
+    """Return True for integer node IDs and subgraph node IDs (e.g. '75:42')."""
+    try:
+        int(key)
+        return True
+    except ValueError:
+        parts = key.split(":")
+        if len(parts) == 2:
+            try:
+                int(parts[0])
+                int(parts[1])
+                return True
+            except ValueError:
+                pass
+    return False
+
+
 class TempRedoInputs:
     def __init__(self, model, ksampler_inputs, clip_last_layer, positive, negative, resolution, vae, lora, control_net, ip_adapter):
         self.model = model
@@ -141,10 +158,16 @@ class WorkflowPromptComfy(WorkflowPrompt):
         node = self.find_node_of_class_type(ComfyNodeName.KSAMPLER, raise_exc=False)
         if node is None:
             node = self.find_node_of_class_type(ComfyNodeName.KSAMPLER_ADVANCED, raise_exc=False)
-            if node is None:
-                node = self.find_node_of_class_type(ComfyNodeName.BASIC_SCHEDULER)
-                if node is None:
-                    node = self.find_node_of_class_type(ComfyNodeName.SAMPLER_CUSTOM)[WorkflowPromptComfy.INPUTS]
+        if node is None:
+            node = self.find_node_of_class_type(ComfyNodeName.BASIC_SCHEDULER, raise_exc=False)
+        if node is None:
+            node = self.find_node_of_class_type(ComfyNodeName.FLUX2_SCHEDULER, raise_exc=False)
+        if node is None:
+            node = self.find_node_of_class_type(ComfyNodeName.SAMPLER_CUSTOM, raise_exc=False)
+            if node is not None:
+                node = node[WorkflowPromptComfy.INPUTS]
+        if node is None:
+            raise Exception(f"No sampler node found in workflow: {self.workflow_filename}")
         return node
 
     def get_ksampler_node_inputs(self):
@@ -210,13 +233,11 @@ class WorkflowPromptComfy(WorkflowPrompt):
         return self.get_for_class_type(ComfyNodeName.LOAD_VAE, "vae_name")
 
     def _get_empty_latent_node(self):
-        try:
-            return self.find_node_of_class_type(ComfyNodeName.EMPTY_LATENT)
-        except Exception:
-            try:
-                return self.find_node_of_class_type(ComfyNodeName.EMPTY_LATENT_SD3)
-            except Exception:
-                raise Exception("No empty latent node found in workflow.")
+        for node_type in (ComfyNodeName.EMPTY_LATENT, ComfyNodeName.EMPTY_LATENT_SD3, ComfyNodeName.EMPTY_FLUX2_LATENT):
+            node = self.find_node_of_class_type(node_type, raise_exc=False)
+            if node is not None:
+                return node
+        raise Exception("No empty latent node found in workflow.")
 
     def set_empty_latents(self, n_latents):
         if not n_latents:
@@ -475,9 +496,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
         if len(self.json) == 0:
             return False
         for key, node in self.json.items():
-            try:
-                int(key)
-            except Exception:
+            if not _is_api_node_id(key):
                 return False
             if "class_type" not in node:
                 return False
