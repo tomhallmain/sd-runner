@@ -246,26 +246,35 @@ class RunController:
         except Exception as e:
             logger.warning(f"Failed to include adapters in run estimate: {e}")
 
-        valid_control_nets = [c for c in control_nets if c.is_valid()]
-        valid_ip_adapters = [i for i in ip_adapters if i.is_valid()]
         iterate_control = bool(is_dir_controlnet)
         iterate_ip = bool(is_dir_ipadapter)
         iterate_source = source_prompt_multiplier > 1
 
         # For directory iteration modes, estimate one adapter per iteration,
         # then multiply by the number of adapter iterations separately.
-        estimate_control_nets = (
-            valid_control_nets[:1] if iterate_control and len(valid_control_nets) > 0 else valid_control_nets
-        )
-        estimate_ip_adapters = (
-            valid_ip_adapters[:1] if iterate_ip and len(valid_ip_adapters) > 0 else valid_ip_adapters
-        )
+        # Directory paths come from glob so existence is guaranteed — skip is_valid().
+        # Manual entries may not exist, so keep the validity filter for that case.
+        if iterate_control:
+            n_control_nets = len(control_nets)
+            estimate_control_nets = control_nets[:1] if n_control_nets > 0 else control_nets
+        else:
+            valid_control_nets = [c for c in control_nets if c.is_valid()]
+            n_control_nets = len(valid_control_nets)
+            estimate_control_nets = valid_control_nets
+
+        if iterate_ip:
+            n_ip_adapters = len(ip_adapters)
+            estimate_ip_adapters = ip_adapters[:1] if n_ip_adapters > 0 else ip_adapters
+        else:
+            valid_ip_adapters = [i for i in ip_adapters if i.is_valid()]
+            n_ip_adapters = len(valid_ip_adapters)
+            estimate_ip_adapters = valid_ip_adapters
 
         adapter_iterations = 1
         if iterate_control:
-            adapter_iterations *= len(valid_control_nets)
+            adapter_iterations *= n_control_nets
         if iterate_ip:
-            adapter_iterations *= len(valid_ip_adapters)
+            adapter_iterations *= n_ip_adapters
         if iterate_source:
             adapter_iterations *= source_prompt_multiplier
         if adapter_iterations < 1:
