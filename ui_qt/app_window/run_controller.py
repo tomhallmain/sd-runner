@@ -586,6 +586,12 @@ class RunController:
                     )
                 else:
                     sp.source_prompt_file_entry.setText(source_path)
+            if "control_net" in args and workflow_type == WorkflowType.IMAGE_EDIT:
+                cn_path = args["control_net"].replace(",", "\\,")
+                if "append" in args and args["append"] and sp.controlnet_file_entry.text().strip():
+                    sp.controlnet_file_entry.setText(sp.controlnet_file_entry.text() + "," + cn_path)
+                else:
+                    sp.controlnet_file_entry.setText(cn_path)
             if "image" in args:
                 image_path = args["image"].replace(",", "\\,")
                 if workflow_type in [

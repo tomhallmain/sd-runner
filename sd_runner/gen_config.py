@@ -190,6 +190,8 @@ class GenConfig:
         if self.workflow_id in [
             WorkflowType.INSTANT_LORA,
             WorkflowType.IP_ADAPTER,
+            WorkflowType.IMG2IMG,
+            WorkflowType.IMAGE_EDIT,
             WorkflowType.CONTROLNET
             ]:
             n_control_nets = len(self.control_nets) if len(self.control_nets) > 0 else 1

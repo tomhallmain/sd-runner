@@ -707,6 +707,10 @@ class ComfyGen(BaseImageGenerator):
         # Primary source image to edit (LoadImage node 76)
         if ip_adapter and ip_adapter.id:
             prompt.set_load_image_by_id("76", ip_adapter.generation_path)
+        # Secondary reference image (LoadImage node 81) — combinatorial mode
+        control_net = self.gen_config.redo_param("control_net", control_net)
+        if control_net and control_net.id:
+            prompt.set_load_image_by_id("81", control_net.generation_path)
         self.queue_prompt(prompt)
 
     def animate_diff(self, prompt="", resolution=None, model=None, vae=None, lora=None, n_latents=None, positive=None, negative=None, control_net=None, ip_adapter=None, **kw):
