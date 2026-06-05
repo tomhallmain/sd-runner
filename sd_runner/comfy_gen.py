@@ -692,8 +692,17 @@ class ComfyGen(BaseImageGenerator):
         # Seed targets the RandomNoise node (set_seed handles this via class type check)
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
-        # Resolution is derived from the source image inside the workflow (75:80 → 75:100);
-        # only batch size needs to be set here
+        # Resolution is derived from the source image inside the workflow (75:80 → 75:100)
+        # by default. When override_resolution is set, replace the node references on
+        # EmptyFlux2LatentImage and Flux2Scheduler with explicit dimensions instead.
+        if self.gen_config.override_resolution and resolution is not None:
+            resolution = resolution.convert_for_model_type(model.architecture_type)
+            resolution_val = self.gen_config.redo_param("resolution", resolution)
+            if resolution_val:
+                prompt.set_by_id("75:66", "width", resolution_val.width)
+                prompt.set_by_id("75:66", "height", resolution_val.height)
+                prompt.set_by_id("75:62", "width", resolution_val.width)
+                prompt.set_by_id("75:62", "height", resolution_val.height)
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         # Primary source image to edit (LoadImage node 76)
         if ip_adapter and ip_adapter.id:
