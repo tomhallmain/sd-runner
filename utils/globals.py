@@ -319,6 +319,7 @@ class WorkflowType(Enum):
     INSTANT_LORA = "instant_lora.json"
     IP_ADAPTER = "ip_adapter.json"
     IMG2IMG = "img2img.json"
+    IMAGE_EDIT = "image_flux2_klein_image_edit_4b_base.json"
     CONTROLNET = "controlnet.json"
     INPAINT_CLIPSEG = "inpaint_clipseg.json"
     ANIMATE_DIFF = "animate_diff.json"
@@ -337,6 +338,7 @@ class WorkflowType(Enum):
             WorkflowType.INSTANT_LORA: _("Instant Lora"),
             WorkflowType.IP_ADAPTER: _("IP Adapter"),
             WorkflowType.IMG2IMG: _("Image to Image"),
+            WorkflowType.IMAGE_EDIT: _("Image Edit"),
             WorkflowType.CONTROLNET: _("ControlNet"),
             WorkflowType.INPAINT_CLIPSEG: _("Inpaint ClipSeg"),
             WorkflowType.ANIMATE_DIFF: _("Animate Diff"),

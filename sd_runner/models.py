@@ -166,6 +166,9 @@ class Model:
     def is_flux2_klein_4b(self):
         return not self.is_lora and self.architecture_type == ArchitectureType.FLUX2_KLEIN_4B
 
+    def is_flux2_klein_base(self):
+        return self.is_flux2_klein() and "base" in self.path.lower()
+
     def is_chroma(self):
         return not self.is_lora and self.architecture_type == ArchitectureType.CHROMA
 

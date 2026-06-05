@@ -145,7 +145,8 @@ class RunConfig:
         ip_adapter_required_workflows = [
             WorkflowType.INSTANT_LORA,
             WorkflowType.IP_ADAPTER,
-            WorkflowType.IMG2IMG
+            WorkflowType.IMG2IMG,
+            WorkflowType.IMAGE_EDIT,
         ]
 
         # Workflows that require control nets

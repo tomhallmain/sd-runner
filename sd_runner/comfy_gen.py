@@ -81,8 +81,10 @@ class ComfyGen(BaseImageGenerator):
                         prompt = WorkflowPromptComfy("image_flux2_text_to_image_4b.json")
                     else:
                         prompt = WorkflowPromptComfy("image_flux2_text_to_image_9b.json")
+                elif workflow_type == WorkflowType.IMAGE_EDIT:
+                    prompt = WorkflowPromptComfy("image_flux2_klein_image_edit_4b_base.json")
                 else:
-                    raise Exception("Flux2 Klein workflows other than simple image gen and simple image gen lora are not supported in SDRunner's ComfyUI implementation at this time")
+                    raise Exception("Flux2 Klein workflows other than simple image gen, simple image gen lora, and image edit are not supported in SDRunner's ComfyUI implementation at this time")
             if model.is_flux():
                 if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
                     prompt = WorkflowPromptComfy("simple_image_gen_flux.json")
@@ -120,6 +122,7 @@ class ComfyGen(BaseImageGenerator):
             WorkflowType.ANIMATE_DIFF: self.animate_diff,
             WorkflowType.CONTROLNET: self.control_net,
             WorkflowType.ELLA: self.ella,
+            WorkflowType.IMAGE_EDIT: self.image_edit,
             WorkflowType.INPAINT_CLIPSEG: self.inpaint_clipseg,
             WorkflowType.INSTANT_LORA: self.instant_lora,
             WorkflowType.IP_ADAPTER: self.ip_adapter,
@@ -127,7 +130,7 @@ class ComfyGen(BaseImageGenerator):
             WorkflowType.REDO_PROMPT: self.redo_with_different_parameter,
             WorkflowType.RENOISER: self.renoiser,
             WorkflowType.SIMPLE_IMAGE_GEN_LORA: self.simple_image_gen_lora,
-            WorkflowType.SIMPLE_IMAGE_GEN_TILED_UPSCALE: self.simple_image_gen_tiled_upscale,            
+            WorkflowType.SIMPLE_IMAGE_GEN_TILED_UPSCALE: self.simple_image_gen_tiled_upscale,
             WorkflowType.SIMPLE_IMAGE_GEN: self.simple_image_gen,
             WorkflowType.TURBO: self.simple_image_gen_turbo,
             WorkflowType.UPSCALE_BETTER: self.upscale_better,
@@ -670,6 +673,31 @@ class ComfyGen(BaseImageGenerator):
             prompt.set_by_id("12", "height", resolution.height)  # ImageScale node
         # prompt.set_image_duplicator(self.gen_config.redo_param("n_latents", n_latents))
         # TODO: Figure out how to handle the image duplicator
+        self.queue_prompt(prompt)
+
+    def image_edit(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
+        if not model.is_flux2_klein_base():
+            raise Exception("Image Edit workflow requires a Flux2 Klein base model (e.g. flux-2-klein-base-4b.safetensors).")
+        prompt, model, vae = self.prompt_setup(
+            WorkflowType.IMAGE_EDIT, "Assembling Image Edit prompt",
+            prompt=prompt, model=model, vae=vae, resolution=None,
+            n_latents=n_latents, positive=positive, negative=negative,
+            control_net=control_net, ip_adapter=ip_adapter)
+        model = self.gen_config.redo_param("model", model)
+        prompt.set_model(model)
+        # Positive text lives in the subgraph at node 75:74
+        prompt.set_clip_text_by_id(
+            self.gen_config.redo_param("positive", positive),
+            None, positive_id="75:74", model=model)
+        # Seed targets the RandomNoise node (set_seed handles this via class type check)
+        prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
+        prompt.set_other_sampler_inputs(self.gen_config)
+        # Resolution is derived from the source image inside the workflow (75:80 → 75:100);
+        # only batch size needs to be set here
+        prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
+        # Primary source image to edit (LoadImage node 76)
+        if ip_adapter and ip_adapter.id:
+            prompt.set_load_image_by_id("76", ip_adapter.generation_path)
         self.queue_prompt(prompt)
 
     def animate_diff(self, prompt="", resolution=None, model=None, vae=None, lora=None, n_latents=None, positive=None, negative=None, control_net=None, ip_adapter=None, **kw):

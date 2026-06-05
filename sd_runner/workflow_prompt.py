@@ -64,6 +64,7 @@ class WorkflowPrompt:
     PROMPTS_LOC = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), "prompts")
     LAST_PROMPT_FILENAME = "test.json"
     LAST_PROMPT_FILE = os.path.join(PROMPTS_LOC, LAST_PROMPT_FILENAME)
+    save_prompt = config.save_last_prompt
 
     def __init__(self, workflow_filename):
         pass
@@ -90,7 +91,8 @@ class WorkflowPrompt:
         if workflow not in [
                 WorkflowType.INSTANT_LORA,
                 WorkflowType.IP_ADAPTER,
-                WorkflowType.IMG2IMG]:
+                WorkflowType.IMG2IMG,
+                WorkflowType.IMAGE_EDIT]:
             if workflow != WorkflowType.ANIMATE_DIFF or len(ip_adapters) > 1:
                 ip_adapters.clear()
                 ip_adapters.append(None)
@@ -100,7 +102,8 @@ class WorkflowPrompt:
                 WorkflowType.RENOISER,
                 WorkflowType.UPSCALE_SIMPLE,
                 WorkflowType.UPSCALE_BETTER,
-                WorkflowType.ANIMATE_DIFF]:
+                WorkflowType.ANIMATE_DIFF,
+                WorkflowType.IMAGE_EDIT]:
             control_nets.clear()
             control_nets.append(None)
         return workflow
@@ -136,8 +139,9 @@ class WorkflowPromptComfy(WorkflowPrompt):
 
     def get_json(self):
         self.handle_old_prompt_image_location() # Tries to find the original image location if it's not found
-        with open(WorkflowPrompt.LAST_PROMPT_FILE, "w") as store:
-            json.dump(self.json, store, indent=2)
+        if self.save_prompt:
+            with open(WorkflowPrompt.LAST_PROMPT_FILE, "w") as store:
+                json.dump(self.json, store, indent=2)
         p = {"prompt": self.json}
         return json.dumps(p).encode('utf-8')
 
@@ -318,6 +322,11 @@ class WorkflowPromptComfy(WorkflowPrompt):
         if not image_path:
             return
         self.set_for_class_type(ComfyNodeName.LOAD_IMAGE, "image", image_path)
+
+    def set_load_image_by_id(self, node_id: str, image_path: str):
+        if not image_path:
+            return
+        self.set_by_id(node_id, "image", image_path)
 
     def set_load_image_mask(self, image_path):
         if not image_path:
@@ -692,8 +701,9 @@ class WorkflowPromptSDWebUI(WorkflowPrompt):
         self.json = json.load(open(self.full_path, "r"))
 
     def get_json(self):
-        with open(WorkflowPrompt.LAST_PROMPT_FILE, "w") as store:
-            json.dump(self.json, store, indent=2)
+        if self.save_prompt:
+            with open(WorkflowPrompt.LAST_PROMPT_FILE, "w") as store:
+                json.dump(self.json, store, indent=2)
         return json.dumps(self.json).encode('utf-8')
 
     def set_by_id(self, id_key, value):

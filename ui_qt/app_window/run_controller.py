@@ -602,7 +602,7 @@ class RunController:
                         )
                     else:
                         sp.controlnet_file_entry.setText(image_path)
-                elif workflow_type in [WorkflowType.IP_ADAPTER, WorkflowType.IMG2IMG]:
+                elif workflow_type in [WorkflowType.IP_ADAPTER, WorkflowType.IMG2IMG, WorkflowType.IMAGE_EDIT]:
                     if (sp.run_preset_schedule_check.isChecked()
                             and self._app.job_queue_preset_schedules is not None
                             and self._app.job_queue_preset_schedules.has_pending()):

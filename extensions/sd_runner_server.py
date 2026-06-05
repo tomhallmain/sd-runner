@@ -15,6 +15,7 @@ class CommandType(Enum):
     RENOISER = 'renoiser'
     CONTROL_NET = 'control_net'
     IP_ADAPTER = 'ip_adapter'
+    IMAGE_EDIT = 'image_edit'
     TAKE_PROMPT = 'take_prompt'
     IMG2IMG = 'img2img'
     LAST_SETTINGS = 'last_settings'
@@ -124,6 +125,8 @@ class SDRunnerServer:
                 resp = self.run_callback(WorkflowType.CONTROLNET, args)
             elif command_type == CommandType.IP_ADAPTER:
                 resp = self.run_callback(WorkflowType.IP_ADAPTER, args)
+            elif command_type == CommandType.IMAGE_EDIT:
+                resp = self.run_callback(WorkflowType.IMAGE_EDIT, args)
             elif command_type == CommandType.TAKE_PROMPT:
                 args_copy = dict(args or {})
                 if "image" in args_copy and "source_prompt" not in args_copy:
