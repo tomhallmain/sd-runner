@@ -54,6 +54,9 @@ class Config:
         self.server_password = "<PASSWORD>"
         self.server_host = "localhost"
 
+        # Cloud backends — all keys live in one subdict loaded from config.json
+        self.cloud_backends: dict = {}
+
         configs =  [ f.path for f in os.scandir(Config.CONFIGS_DIR_LOC) if f.is_file() and f.path.endswith(".json") ]
         self.config_path = None
 
@@ -126,6 +129,9 @@ class Config:
         if self.override_dictionary_path is not None:
             self.set_filepaths("override_dictionary_path")
             print(f"Set override_dictionary_path to: {self.override_dictionary_path}")
+
+        if isinstance(self.dict.get("cloud_backends"), dict):
+            self.cloud_backends = self.dict["cloud_backends"]
 
         self.concepts_dirs = {}
         self.default_concepts_dir = "concepts"
@@ -243,6 +249,40 @@ class Config:
         if self.comfyui_loc:
             return os.path.join(self.comfyui_loc, "output")
         return "."
+
+    def get_cloud_save_path(self) -> str:
+        """Return the output directory for cloud-generated images.
+
+        Falls back to ``img_dir`` and then ``"."`` if ``cloud_backends.save_path``
+        is not configured.
+        """
+        path = self.cloud_backends.get("save_path")
+        if path:
+            return self._normalize_config_path(path)
+        return self.img_dir or "."
+
+    def require_api_key(self, backend_name: str) -> str:
+        """Return the API key for *backend_name*, raising clearly if it is missing.
+
+        The key must be present in the ``cloud_backends`` subdict of ``config.json``
+        under the name ``{backend_name}_api_key``, e.g.::
+
+            "cloud_backends": { "bfl_api_key": "my-secret-key" }
+
+        Args:
+            backend_name: Short identifier used in the config key, e.g. ``"bfl"``.
+
+        Raises:
+            ValueError: If the key is absent or empty.
+        """
+        key_name = f"{backend_name}_api_key"
+        value = self.cloud_backends.get(key_name)
+        if not value:
+            raise ValueError(
+                f"API key for '{backend_name}' is not configured. "
+                f"Add '{key_name}' to the 'cloud_backends' section of config.json."
+            )
+        return value
 
 
 

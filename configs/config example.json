@@ -121,5 +121,15 @@
 
     "server_port": 6000,
     "server_host": "127.0.0.1",
-    "server_password": "<PASSWORD>"
+    "server_password": "<PASSWORD>",
+
+    "cloud_backends": {
+        "save_path": null,
+        "stability_ai_api_key": null,
+        "bfl_api_key": null,
+        "replicate_api_key": null,
+        "fal_api_key": null,
+        "huggingface_api_key": null,
+        "openai_api_key": null
+    }
 }

@@ -533,6 +533,33 @@ class Resolution:
             height += 1
         return Resolution(width, height, resolution_group=resolution_group)
 
+    def to_aspect_ratio_string(self, ratios: list[str]) -> str:
+        """Return the entry from *ratios* whose aspect ratio is closest to this resolution.
+
+        Each entry must be a colon-separated string such as ``"16:9"`` or ``"2:3"``.
+        Comparison is by absolute difference of the floating-point ratios, so both
+        portrait and landscape orientations are matched correctly.
+
+        Example::
+
+            # Stability AI supported ratios
+            STABILITY_RATIOS = ["16:9", "1:1", "21:9", "2:3", "3:2", "4:5", "5:4", "9:16", "9:21"]
+            res = Resolution(1216, 832)   # landscape SDXL
+            res.to_aspect_ratio_string(STABILITY_RATIOS)  # -> "3:2"
+        """
+        if not ratios:
+            raise ValueError("ratios list must not be empty")
+
+        own_ratio = self.width / self.height
+
+        def _parse(r: str) -> float:
+            parts = r.split(":")
+            if len(parts) != 2:
+                raise ValueError(f"Invalid ratio string: {r!r}")
+            return float(parts[0]) / float(parts[1])
+
+        return min(ratios, key=lambda r: abs(_parse(r) - own_ratio))
+
     def __str__(self) -> str:
         return f"{self.width}x{self.height}"
 
