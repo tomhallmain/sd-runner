@@ -4,7 +4,7 @@ from utils.globals import Globals
 from utils.globals import ComfyNodeName
 from utils.globals import Sampler
 from utils.globals import Scheduler
-from utils.globals import LoraBundle
+from sd_runner.model_adapters import LoraBundle
 from .base import WorkflowPrompt
 
 

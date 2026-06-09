@@ -58,7 +58,7 @@ class KSamplerInputs:
 
 
 class WorkflowPrompt:
-    PROMPTS_LOC = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), "prompts")
+    PROMPTS_LOC = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), "prompts")
     LAST_PROMPT_FILENAME = "test.json"
     LAST_PROMPT_FILE = os.path.join(PROMPTS_LOC, LAST_PROMPT_FILENAME)
     save_prompt = config.save_last_prompt
