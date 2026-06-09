@@ -2,7 +2,7 @@ import glob
 import re
 
 from utils.config import config
-from sd_runner.workflow_prompt import WorkflowPrompt
+from sd_runner.workflow_prompts.base import WorkflowPrompt
 
 
 class ImageSearcher:

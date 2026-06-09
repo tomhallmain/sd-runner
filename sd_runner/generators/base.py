@@ -15,7 +15,7 @@ from sd_runner.gen_config import GenConfig
 from sd_runner.image_converter import convert_image_if_needed, cleanup_converter, clear_converter_cache
 from sd_runner.models import Model
 from sd_runner.resolution import Resolution
-from sd_runner.workflow_prompt import WorkflowPrompt
+from sd_runner.workflow_prompts.base import WorkflowPrompt
 from ui_qt.app_actions import AppActions
 from utils.config import config
 from utils.logging_setup import get_logger

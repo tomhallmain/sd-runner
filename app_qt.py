@@ -78,7 +78,7 @@ def main():
         from ui_qt.app_window.app_window import AppWindow
 
         # Clean up any old image converter temporary files on startup
-        from sd_runner.base_image_generator import BaseImageGenerator
+        from sd_runner.generators.base import BaseImageGenerator
         BaseImageGenerator.cleanup_image_converter()
 
         try:

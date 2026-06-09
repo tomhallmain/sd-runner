@@ -11,10 +11,11 @@ import time
 from sd_runner.gen_config import GenConfig
 from utils.globals import Globals, WorkflowType, ComfyNodeName
 
-from sd_runner.base_image_generator import BaseImageGenerator
+from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.models import Model, LoraBundle
 from sd_runner.prompter_configuration import PrompterConfiguration
-from sd_runner.workflow_prompt import WorkflowPrompt, WorkflowPromptComfy
+from sd_runner.workflow_prompts.base import WorkflowPrompt
+from sd_runner.workflow_prompts.comfy import WorkflowPromptComfy
 from utils.config import config
 from utils.logging_setup import get_logger
 from utils.utils import Utils

@@ -36,7 +36,7 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from lib.tooltip_qt import create_tooltip
-from sd_runner.base_image_generator import BaseImageGenerator
+from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.prompter_configuration import PrompterConfiguration
 from sd_runner.prompter import Prompter
 from sd_runner.run_config import RunConfig

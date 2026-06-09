@@ -6,7 +6,7 @@ import traceback
 from typing import Optional
 
 from utils.globals import Globals, PromptMode, ResolutionGroup, WorkflowType # must import first
-from sd_runner.comfy_gen import ComfyGen
+from sd_runner.generators.comfy import ComfyGen
 from sd_runner.control_nets import get_control_nets, redo_files, ControlNet
 from sd_runner.gen_config import GenConfig, MultiGenProgressTracker
 from sd_runner.ip_adapters import get_ip_adapters, IPAdapter
@@ -16,9 +16,9 @@ from sd_runner.source_prompts import SourcePrompt, get_source_prompts
 from sd_runner.models import Model
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
-from sd_runner.sdwebui_gen import SDWebuiGen
+from sd_runner.generators.sdwebui import SDWebuiGen
 from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
-from sd_runner.workflow_prompt import WorkflowPrompt
+from sd_runner.workflow_prompts.base import WorkflowPrompt
 from utils.config import config
 from utils.logging_setup import get_logger
 from utils.translations import I18N

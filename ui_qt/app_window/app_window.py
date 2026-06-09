@@ -23,7 +23,7 @@ from PySide6.QtWidgets import (
 from lib.custom_title_bar import FramelessWindowMixin, WindowResizeHandler
 from lib.multi_display_qt import SmartMainWindow
 from run import Run
-from sd_runner.comfy_gen import ComfyGen
+from sd_runner.generators.comfy import ComfyGen
 from sd_runner.models import Model
 from ui_qt.app_actions import AppActions
 from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
@@ -786,7 +786,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
 
         # Shutdown executor and clean up temp files
         try:
-            from sd_runner.base_image_generator import BaseImageGenerator
+            from sd_runner.generators.base import BaseImageGenerator
             BaseImageGenerator.shutdown_executor(wait=False)
             BaseImageGenerator.cleanup_image_converter()
         except Exception as e:
