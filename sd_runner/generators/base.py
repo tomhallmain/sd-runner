@@ -8,7 +8,7 @@ import time
 import threading
 import traceback
 
-from utils.globals import Globals, WorkflowType
+from utils.globals import Globals, WorkflowType, SoftwareType
 
 from sd_runner.blacklist import Blacklist
 from sd_runner.gen_config import GenConfig
@@ -158,8 +158,9 @@ class BaseImageGenerator(ABC):
                                 positive_copy = self.validate_prompt_against_blacklist(positive_copy)
 
                                 if self.gen_config.is_redo_prompt():
-                                    if self.gen_config.software_type == "SDWebUI":
-                                        raise Exception("Redo prompt is not supported for SD Web UI.")
+                                    sw = SoftwareType[self.gen_config.software_type]
+                                    if sw != SoftwareType.ComfyUI:
+                                        raise Exception(f"Redo prompt is not supported for {sw.value}.")
                                     self.redo_with_different_parameter(source_file=workflow_id, model=model, vae=vae, lora=lora, resolution=resolution,
                                                                        n_latents=self.gen_config.n_latents, control_net=control_net, ip_adapter=ip_adapter)
                                     self.has_run_one_workflow = True
