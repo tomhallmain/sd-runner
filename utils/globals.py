@@ -545,6 +545,18 @@ class ComfyNodeName:
 class SoftwareType(Enum):
     ComfyUI = "ComfyUI"
     SDWebUI = "SDWebUI"
+    StabilityAI = "StabilityAI"
+    BFLFlux = "BFLFlux"
+    FalAI = "FalAI"
+    HuggingFace = "HuggingFace"
+    Replicate = "Replicate"
+    OpenAI = "OpenAI"
+    Grok = "Grok"
+    GoogleImagen = "GoogleImagen"
+    Ideogram = "Ideogram"
+
+    def is_cloud(self) -> bool:
+        return self not in (SoftwareType.ComfyUI, SoftwareType.SDWebUI)
 
 class ArchitectureType(Enum):
     SD_15 = "SD_15"

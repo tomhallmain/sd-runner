@@ -5,7 +5,8 @@ import time
 import traceback
 from typing import Optional
 
-from utils.globals import Globals, PromptMode, ResolutionGroup, WorkflowType # must import first
+from utils.globals import Globals, PromptMode, ResolutionGroup, WorkflowType, ArchitectureType, SoftwareType # must import first
+from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.generators.comfy import ComfyGen
 from sd_runner.control_nets import get_control_nets, redo_files, ControlNet
 from sd_runner.gen_config import GenConfig, MultiGenProgressTracker
@@ -60,7 +61,7 @@ class Run:
 
     def run(
         self,
-        gen: ComfyGen | SDWebuiGen,
+        gen: BaseImageGenerator,
         original_positive: str,
         original_negative: str,
         prompt_image_path: str = "",
@@ -127,7 +128,7 @@ class Run:
 
     def finalize_gen(
         self,
-        gen: ComfyGen | SDWebuiGen,
+        gen: BaseImageGenerator,
         original_positive: str,
         original_negative: str,
         prompt_image_path: str = "",
@@ -146,6 +147,9 @@ class Run:
         control_nets: list[ControlNet],
         ip_adapters: list[IPAdapter],
     ) -> ComfyGen | SDWebuiGen:
+        if SoftwareType[self.args.software_type].is_cloud():
+            return self._construct_cloud_gen(workflow, positive_prompt, negative_prompt)
+
         models = Model.get_models(self.args.model_tags,
                                   default_tag=Model.get_default_model_tag(workflow),
                                   inpainting=self.args.inpainting)
@@ -171,6 +175,60 @@ class Run:
             raise Exception(f"Unhandled software type: {self.args.software_type}")
         return gen
 
+    def _construct_cloud_gen(
+        self,
+        workflow: str | WorkflowType,
+        positive_prompt: str,
+        negative_prompt: str,
+    ):
+        model_tag = (self.args.model_tags or "").split(",")[0].strip()
+        model = Model(id=model_tag) if model_tag else Model(id="default")
+        resolution_group = ResolutionGroup.get(self.args.resolution_group)
+        resolutions = Resolution.get_resolutions(
+            self.args.res_tags,
+            architecture_type=ArchitectureType.UNKNOWN,
+            resolution_group=resolution_group,
+        )
+        gen_config = GenConfig(
+            workflow_id=workflow,
+            models=[model],
+            n_latents=self.args.n_latents,
+            positive=positive_prompt,
+            negative=negative_prompt,
+            resolutions=resolutions,
+            run_config=self.args,
+        )
+        sw = SoftwareType[self.args.software_type]
+        if sw == SoftwareType.StabilityAI:
+            from sd_runner.generators.stability_ai import StabilityAIGen
+            return StabilityAIGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.BFLFlux:
+            from sd_runner.generators.bfl import BFLGen
+            return BFLGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.FalAI:
+            from sd_runner.generators.fal_ai import FalAIGen
+            return FalAIGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.HuggingFace:
+            from sd_runner.generators.huggingface import HuggingFaceGen
+            return HuggingFaceGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.Replicate:
+            from sd_runner.generators.replicate import ReplicateGen
+            return ReplicateGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.OpenAI:
+            from sd_runner.generators.openai_gen import OpenAIGen
+            return OpenAIGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.Grok:
+            from sd_runner.generators.grok import GrokGen
+            return GrokGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.GoogleImagen:
+            from sd_runner.generators.google_imagen import GoogleImagenGen
+            return GoogleImagenGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.Ideogram:
+            from sd_runner.generators.ideogram import IdeogramGen
+            return IdeogramGen(gen_config, self.ui_callbacks)
+        else:
+            raise Exception(f"Unknown cloud software type: {sw}")
+
     def do_workflow(
         self,
         workflow: str | WorkflowType,
@@ -179,7 +237,7 @@ class Run:
         control_nets: list[ControlNet],
         ip_adapters: list[IPAdapter],
         prompt_image_path: str = "",
-    ) -> None:
+    ) -> None:  # gen type is BaseImageGenerator; local variable only
         if self.is_cancelled:
             return
         gen = self.construct_gen(workflow, positive_prompt, negative_prompt, control_nets, ip_adapters)

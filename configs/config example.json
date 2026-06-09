@@ -130,6 +130,9 @@
         "replicate_api_key": null,
         "fal_api_key": null,
         "huggingface_api_key": null,
-        "openai_api_key": null
+        "openai_api_key": null,
+        "grok_api_key": null,
+        "google_api_key": null,
+        "ideogram_api_key": null
     }
 }
