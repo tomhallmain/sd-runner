@@ -23,6 +23,8 @@ class Config:
         self.forge_save_path = "."
         self.sdnext_url = None
         self.sdnext_save_path = "."
+        self.swarmui_url = None
+        self.swarmui_save_path = "."
         self.concepts_dir = "concepts"
         self.models_dir = ""
         self.img_dir = None
@@ -102,6 +104,7 @@ class Config:
                         "sd_webui_url",
                         "forge_url",
                         "sdnext_url",
+                        "swarmui_url",
                         "server_password",
                         "override_dictionary_path",
         )
@@ -124,6 +127,7 @@ class Config:
             "sd_webui_save_path",
             "forge_save_path",
             "sdnext_save_path",
+            "swarmui_save_path",
             "sd_prompt_reader_loc",
             "image_searcher_dir2",
             "interrogator_interrogation_dir",
