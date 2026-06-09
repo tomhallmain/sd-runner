@@ -181,6 +181,9 @@ class Run:
         elif sw == SoftwareType.SwarmUI:
             from sd_runner.generators.swarmui import SwarmUIGen
             gen = SwarmUIGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.InvokeAI:
+            from sd_runner.generators.invokeai import InvokeAIGen
+            gen = InvokeAIGen(gen_config, self.ui_callbacks)
         else:
             raise Exception(f"Unhandled software type: {self.args.software_type}")
         return gen

@@ -109,6 +109,8 @@
     "sdnext_save_path": ".",
     "swarmui_url": "http://127.0.0.1:7801",
     "swarmui_save_path": ".",
+    "invokeai_url": "http://127.0.0.1:9090",
+    "invokeai_save_path": ".",
     "sd_prompt_reader_loc": "{HOME}\\repos\\stable-diffusion-prompt-reader",
     "image_searcher_dir": "F:\\stable-diffusion-webui\\log\\images",
     "image_searcher_dir2": "F:\\img",

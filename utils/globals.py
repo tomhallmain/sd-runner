@@ -557,6 +557,7 @@ class SoftwareType(Enum):
     GoogleImagen = "GoogleImagen"
     Ideogram = "Ideogram"
     SwarmUI = "SwarmUI"
+    InvokeAI = "InvokeAI"
 
     def is_cloud(self) -> bool:
         _LOCAL = (
@@ -565,6 +566,7 @@ class SoftwareType(Enum):
             SoftwareType.Forge,
             SoftwareType.SDNext,
             SoftwareType.SwarmUI,
+            SoftwareType.InvokeAI,
         )
         return self not in _LOCAL
 
