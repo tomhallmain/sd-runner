@@ -111,10 +111,16 @@ class SidebarPanel(QWidget):
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(title)
 
-        # Run / Cancel buttons
+        # Run / Cancel / Runs-window buttons
+        run_row = QHBoxLayout()
         self.run_btn = QPushButton(_("Run Workflows"))
         self.run_btn.clicked.connect(lambda: self._app.run_ctrl.run())
-        layout.addWidget(self.run_btn)
+        run_row.addWidget(self.run_btn)
+        self.runs_window_btn = QPushButton(_("Runs"))
+        self.runs_window_btn.setToolTip(_("View queue and run history"))
+        self.runs_window_btn.clicked.connect(lambda: self._app.window_launcher.open_runs_window())
+        run_row.addWidget(self.runs_window_btn)
+        layout.addLayout(run_row)
 
         self.cancel_btn = QPushButton(_("Cancel Run"))
         self.cancel_btn.clicked.connect(lambda: self._app.run_ctrl.cancel())

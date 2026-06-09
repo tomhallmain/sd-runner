@@ -331,10 +331,28 @@ class RunController:
             sp.cancel_btn.setVisible(False)
             app.job_queue.job_running = False
             next_job_args = app.job_queue.take()
+
+            # A slot just opened; promote one staged server request into the main
+            # queue now so staging and the main queue drain in parallel (FIFO order).
+            # If the main queue still has items the promoted job queues behind them;
+            # if the main queue is empty it starts its own run_async via server_run_callback.
+            staging = getattr(app, "server_staging_queue", None)
+            promoted = False
+            if staging is not None and staging.has_pending():
+                staged = staging.take()
+                if staged is not None:
+                    wf_type, staged_args = staged
+                    logger.info(
+                        f"Promoting staged server request "
+                        f"({staging.pending_count()} remaining in staging queue)"
+                    )
+                    app.app_actions.server_run_callback(wf_type, staged_args)
+                    promoted = True
+
             if next_job_args:
                 app.current_run.delay_after_last_run = True
                 Utils.start_thread(run_async, use_asyncio=False, args=[next_job_args])
-            else:
+            elif not promoted:
                 Utils.prevent_sleep(False)
                 self.clear_progress()
 
@@ -578,6 +596,22 @@ class RunController:
         """Called by ``SDRunnerServer`` when a remote run request arrives."""
         from utils.globals import WorkflowType
         from utils.config import config
+
+        app = self._app
+
+        # If the main run queue is at its limit, stage the request rather than reject it.
+        staging = getattr(app, "server_staging_queue", None)
+        if staging is not None and len(app.job_queue.pending_jobs) >= app.job_queue.max_size:
+            try:
+                pos = staging.add(workflow_type, args)
+                logger.info(
+                    f"Main run queue full ({app.job_queue.max_size}) — "
+                    f"staged server request at position {pos}"
+                )
+                return {"queued": "staged", "position": pos}
+            except Exception as e:
+                logger.error(f"Server staging queue full: {e}")
+                return {"error": "staging queue full", "data": str(e)}
 
         sp = self._sp
 

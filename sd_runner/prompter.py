@@ -496,7 +496,7 @@ class Prompter:
                         nested_content = base_text[i + 1:close_pos]
                         logger.debug(f"Nested content: '{nested_content}'")
                         
-                        # Split by top-level commas (respecting bracket depth)
+                        # Split by top-level pipes or commas (respecting bracket depth)
                         options = []
                         current_option = ""
                         depth = 0
@@ -507,7 +507,7 @@ class Prompter:
                             elif char == "]":
                                 depth -= 1
                                 current_option += char
-                            elif char == "," and depth == 0:
+                            elif char in ("|", ",") and depth == 0:
                                 if current_option.strip():
                                     options.append(current_option.strip())
                                 current_option = ""
@@ -515,11 +515,11 @@ class Prompter:
                                 current_option += char
                         if current_option.strip():
                             options.append(current_option.strip())
-                        
+
                         # LOGGING POINT 5: Options found
                         logger.debug(f"Found {len(options)} options: {options}")
-                        
-                        # If no commas found, treat entire content as one option
+
+                        # If no separators found, treat entire content as one option
                         if not options:
                             options = [nested_content]
                         
@@ -641,7 +641,7 @@ class Prompter:
                 # Extract the inner content (between the double brackets)
                 inner_content = original_text[outer_start + 2:inner_close]
                 
-                # Split by top-level commas (respecting bracket depth)
+                # Split by top-level pipes or commas (respecting bracket depth)
                 options = []
                 current_option = ""
                 depth = 0
@@ -652,7 +652,7 @@ class Prompter:
                     elif char == "]":
                         depth -= 1
                         current_option += char
-                    elif char == "," and depth == 0:
+                    elif char in ("|", ",") and depth == 0:
                         if current_option.strip():
                             options.append(current_option.strip())
                         current_option = ""
@@ -660,8 +660,8 @@ class Prompter:
                         current_option += char
                 if current_option.strip():
                     options.append(current_option.strip())
-                
-                # If no commas found, treat entire content as one option
+
+                # If no separators found, treat entire content as one option
                 if not options:
                     options = [inner_content]
                 

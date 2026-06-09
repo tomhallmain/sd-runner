@@ -92,13 +92,11 @@ class BaseImageGenerator(ABC):
 
     def print_stats(self) -> None:
         with self._lock:
-            logger.info(f"Started {self.counter} prompts, {self.latent_counter} images to be saved if all complete")
+            if self.counter > 0:
+                logger.info(f"Started {self.counter} prompts, {self.latent_counter} images to be saved if all complete")
             self.reset_counters()
 
     def print_pre(self, action: str, **kw):
-        if not "n_latents" in kw:
-            raise Exception("Missing n_latents setting!")
-        self.latent_counter += kw["n_latents"]
         out = f"{Utils.format_white(action)} with config: "
         for item in kw.items():
             if not item[1]:
@@ -164,10 +162,11 @@ class BaseImageGenerator(ABC):
                                         raise Exception("Redo prompt is not supported for SD Web UI.")
                                     self.redo_with_different_parameter(source_file=workflow_id, model=model, vae=vae, lora=lora, resolution=resolution,
                                                                        n_latents=self.gen_config.n_latents, control_net=control_net, ip_adapter=ip_adapter)
+                                    self.has_run_one_workflow = True
                                 else:
-                                    self.run_workflow(workflow_id, prompt=None, resolution=resolution, model=model, vae=vae, n_latents=n_latents, positive=positive_copy,
-                                                      negative=negative, lora=lora, control_net=control_net, ip_adapter=ip_adapter)
-                                self.has_run_one_workflow = True
+                                    if not self.run_workflow(workflow_id, prompt=None, resolution=resolution, model=model, vae=vae, n_latents=n_latents, positive=positive_copy,
+                                                             negative=negative, lora=lora, control_net=control_net, ip_adapter=ip_adapter):
+                                        self.gen_config.resolutions_skipped += 1
         self.print_stats()
         return
 
@@ -178,10 +177,10 @@ class BaseImageGenerator(ABC):
         # add a high chance to skip this resolution because those combinations
         # often produce incoherent results
 
-    def run_workflow(self, workflow_id: str, **kwargs) -> None:
-        """Route to specific workflow implementation"""
+    def run_workflow(self, workflow_id: str, **kwargs) -> bool:
+        """Route to specific workflow implementation. Returns False if skipped, True if scheduled."""
         if self.random_skip():
-            return
+            return False
 
         # Keep static selected resolutions unchanged and only randomize dimensions
         # at the final generation call boundary.
@@ -197,7 +196,7 @@ class BaseImageGenerator(ABC):
         control_net = kwargs.get('control_net')
         ip_adapter = kwargs.get('ip_adapter')
         converted_control_net, converted_ip_adapter = self.convert_adapter_images(control_net, ip_adapter)
-        
+
         # Update kwargs with converted images
         kwargs['control_net'] = converted_control_net
         kwargs['ip_adapter'] = converted_ip_adapter
@@ -207,9 +206,11 @@ class BaseImageGenerator(ABC):
         with self._lock:
             self.pending_counter += 1
             self.counter += 1
+            self.latent_counter += kwargs.get('n_latents', 1)
             self.has_run_one_workflow = True
             self.update_ui_pending()
         time.sleep(0.2)
+        return True
 
     def validate_workflow(self, workflow_id: str, **kwargs) -> None:
         """Validate the workflow and its parameters"""

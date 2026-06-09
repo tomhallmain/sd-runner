@@ -181,6 +181,16 @@ class WindowLauncher:
             self._handle_error(e, "Source Prompt Adapters Window Error")
 
     # ------------------------------------------------------------------
+    # Runs (queue + history)
+    # ------------------------------------------------------------------
+    def open_runs_window(self) -> None:
+        try:
+            from ui_qt.runs.runs_window import RunsWindow
+            self._open_window(RunsWindow)
+        except Exception as e:
+            self._handle_error(e, "Runs Window Error")
+
+    # ------------------------------------------------------------------
     # Auth / Admin
     # ------------------------------------------------------------------
     @require_password(ProtectedActions.ACCESS_ADMIN)

@@ -136,5 +136,49 @@ class PresetSchedulesQueue(JobQueue):
                 print(f"Error estimating time for schedule: {schedule_args}")
                 print(f"Error details: {str(e)}")
                 continue
-                
+
         return total_time
+
+
+class ServerStagingQueue:
+    """Overflow queue for incoming server requests when the main run queue is full.
+
+    Stores raw (workflow_type, args) pairs so they can be replayed through
+    server_run_callback when the main queue drains.  The limit is intentionally
+    high — the objects stored here are lightweight dicts, not full Run objects.
+    """
+
+    MAX_SIZE = 1000
+
+    def __init__(self):
+        self._requests: list[tuple] = []
+
+    def add(self, workflow_type, args: dict) -> int:
+        """Stage a request. Returns the 1-based queue position."""
+        if len(self._requests) >= self.MAX_SIZE:
+            raise Exception(
+                f"Server staging queue full ({self.MAX_SIZE} pending requests) - request rejected"
+            )
+        self._requests.append((workflow_type, args))
+        return len(self._requests)
+
+    def take(self):
+        """Pop and return the next (workflow_type, args) tuple, or None if empty."""
+        if not self._requests:
+            return None
+        return self._requests.pop(0)
+
+    def has_pending(self) -> bool:
+        return len(self._requests) > 0
+
+    def pending_count(self) -> int:
+        return len(self._requests)
+
+    def cancel(self) -> None:
+        self._requests = []
+
+    def pending_text(self) -> str:
+        n = self.pending_count()
+        if n == 0:
+            return ""
+        return _("Server staging: {0} pending").format(n)

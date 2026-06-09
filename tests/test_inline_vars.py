@@ -98,6 +98,11 @@ class TestApplyExpansionsWithInlineVars(unittest.TestCase):
         result = Prompter.apply_expansions("A $$Hue car", inline_vars=inline_vars)
         self.assertIn(result, ["A red car", "A green car", "A blue car"])
 
+    def test_choice_set_pipe_separated(self):
+        inline_vars = {"hue": "[[red|green|blue]]"}
+        result = Prompter.apply_expansions("A $$Hue car", inline_vars=inline_vars)
+        self.assertIn(result, ["A red car", "A green car", "A blue car"])
+
     def test_inline_vars_take_priority_over_nothing(self):
         # A name that isn't in wildcards or expansions should still resolve from inline_vars
         inline_vars = {"customtag": "my custom text"}
@@ -128,6 +133,12 @@ class TestExtractAndExpandRoundtrip(unittest.TestCase):
 
     def test_choice_set_roundtrip(self):
         raw = "|||Animal->[[cat,dog,bird]]\nA cute $$Animal"
+        inline_vars, body = Prompter.extract_inline_vars(raw)
+        result = Prompter.apply_expansions(body, inline_vars=inline_vars)
+        self.assertIn(result, ["A cute cat", "A cute dog", "A cute bird"])
+
+    def test_choice_set_pipe_roundtrip(self):
+        raw = "|||Animal->[[cat|dog|bird]]\nA cute $$Animal"
         inline_vars, body = Prompter.extract_inline_vars(raw)
         result = Prompter.apply_expansions(body, inline_vars=inline_vars)
         self.assertIn(result, ["A cute cat", "A cute dog", "A cute bird"])

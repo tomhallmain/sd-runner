@@ -37,7 +37,7 @@ from ui_qt.app_window.sidebar_panel import SidebarPanel
 from ui_qt.app_window.window_launcher import WindowLauncher
 from utils.app_info_cache import app_info_cache
 from utils.config import config
-from utils.job_queue import SDRunsQueue, PresetSchedulesQueue
+from utils.job_queue import SDRunsQueue, PresetSchedulesQueue, ServerStagingQueue
 from utils.logging_setup import get_logger, set_logger_level
 from utils.runner_app_config import RunnerAppConfig
 from utils.translations import I18N
@@ -148,6 +148,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self.current_run: Run = Run(RunConfig())
         self.job_queue = SDRunsQueue()
         self.job_queue_preset_schedules: PresetSchedulesQueue | None = None
+        self.server_staging_queue = ServerStagingQueue()
 
         # Window title
         self.setWindowTitle(_(" SD Runner "))
@@ -289,6 +290,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             "run": ts(self.run_ctrl.run),
             "cancel": ts(self.run_ctrl.cancel),
             "revert_to_simple_gen": ts(self.run_ctrl.revert_to_simple_gen),
+            "server_run_callback": ts(self.run_ctrl.server_run_callback),
             "has_runs_pending": self.run_ctrl.has_runs_pending,
             "validate_blacklist": self.run_ctrl.validate_blacklist,
             # Presets
