@@ -673,17 +673,27 @@ class RunController:
     # Scheduled shutdown
     # ------------------------------------------------------------------
     def _handle_scheduled_shutdown(self, e) -> None:
-        """Handle a scheduled shutdown exception with countdown dialog."""
-        schedule_name = e.schedule.name if e.schedule else "Unknown Schedule"
+        """Route to main thread and show the shutdown countdown dialog.
+
+        Safe to call from any thread: routes through _MainThreadBridge so that
+        Qt widget creation and the countdown QTimer always run on the GUI thread.
+        """
+        self._app._thread_bridge.invoke(self._run_shutdown_dialog, e)
+
+    def _run_shutdown_dialog(self, e) -> None:
+        """Show the shutdown countdown dialog. Must be called on the main thread."""
         logger.info(f"Scheduled shutdown requested: {e}")
+        schedule_name = e.schedule.name if e.schedule else "Unknown Schedule"
         try:
             from ui_qt.presets.scheduled_shutdown_dialog import ScheduledShutdownDialog
             shutdown_dialog = ScheduledShutdownDialog(
                 self._app, schedule_name, countdown_seconds=6
             )
-            cancelled = shutdown_dialog.show()
-            if not cancelled:
-                self._app.on_closing()
+            # exec() blocks this method (on the main thread) while the countdown
+            # runs.  The dialog calls on_closing() itself via _force_shutdown();
+            # we only need to quit() the event loop after it closes.
+            shutdown_dialog.exec()
+            if not shutdown_dialog.cancelled:
                 QApplication.instance().quit()
         except ImportError:
             logger.warning("ScheduledShutdownDialog not available, shutting down immediately")
