@@ -25,6 +25,7 @@ class AppInfoCache:
     MAX_PROMPT_HISTORY_ENTRIES = 5000  # Larger limit for prompt history
     DIRECTORIES_KEY = "directories"
     HISTORY_PURGE_CACHE_KEY = "history_purge_cache"  # Cache for history purge results
+    EDIT_HISTORY_KEY = "edit_history"
     NUM_BACKUPS = 4  # Number of backup files to maintain
 
     def __init__(self):
@@ -51,7 +52,8 @@ class AppInfoCache:
                 AppInfoCache.HISTORY_KEY: [],
                 AppInfoCache.PROMPT_HISTORY_KEY: [],
                 AppInfoCache.DIRECTORIES_KEY: {},
-                AppInfoCache.HISTORY_PURGE_CACHE_KEY: {}
+                AppInfoCache.HISTORY_PURGE_CACHE_KEY: {},
+                AppInfoCache.EDIT_HISTORY_KEY: {},
             }
 
     def store(self):
@@ -267,6 +269,24 @@ class AppInfoCache:
         if AppInfoCache.DIRECTORIES_KEY not in self._cache:
             self._cache[AppInfoCache.DIRECTORIES_KEY] = {}
         return self._cache[AppInfoCache.DIRECTORIES_KEY]
+
+    def _get_edit_history(self) -> dict:
+        """Get edit history dict (basename → ISO timestamp). Must be called within a locked context."""
+        # TODO: At some point the stored timestamps may be used to trim old entries
+        #       from this history (e.g. drop anything older than N days) to bound growth.
+        if AppInfoCache.EDIT_HISTORY_KEY not in self._cache:
+            self._cache[AppInfoCache.EDIT_HISTORY_KEY] = {}
+        return self._cache[AppInfoCache.EDIT_HISTORY_KEY]
+
+    def record_edit_output(self, basename: str) -> None:
+        """Record an edit output basename with the current timestamp."""
+        with self._lock:
+            self._get_edit_history()[basename] = datetime.datetime.now().isoformat()
+
+    def edit_output_exists(self, basename: str) -> bool:
+        """Return True if this basename was previously produced by an edit."""
+        with self._lock:
+            return basename in self._get_edit_history()
 
     def set(self, key, value):
         with self._lock:

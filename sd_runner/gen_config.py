@@ -65,7 +65,7 @@ class GenConfig:
     @property
     def active_edit_suffix(self) -> str:
         """Returns edit_suffix only for workflows that support output renaming."""
-        if self.workflow_id == WorkflowType.IMAGE_EDIT.value:
+        if self.workflow_id == WorkflowType.IMAGE_EDIT:
             return self.edit_suffix
         return ""
 

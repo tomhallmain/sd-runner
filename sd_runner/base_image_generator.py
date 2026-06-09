@@ -333,17 +333,29 @@ class BaseImageGenerator(ABC):
 
     @staticmethod
     def rename_to_edit_suffix(save_path: str, related_image_path: str, edit_suffix: str) -> None:
-        """Rename a generated edit output to {source_stem}{edit_suffix}{ext}, resolving collisions."""
+        """Rename a generated edit output to {source_stem}{edit_suffix}{ext}, resolving collisions.
+
+        Collision detection consults the application's edit history before the
+        filesystem, so a counter suffix is added even when a prior output has
+        been moved out of the directory.
+        """
+        from utils.app_info_cache import app_info_cache
         stem = Path(related_image_path).stem
         ext = Path(save_path).suffix
-        new_path = os.path.join(os.path.dirname(save_path), f"{stem}{edit_suffix}{ext}")
-        if os.path.exists(new_path):
+        dest_dir = os.path.dirname(save_path)
+        separator = " " if " " in stem else "_"
+        new_path = os.path.join(dest_dir, f"{stem}{separator}{edit_suffix}{ext}")
+        if app_info_cache.edit_output_exists(os.path.basename(new_path)) or os.path.exists(new_path):
             base = new_path[:-len(ext)]
             i = 2
-            while os.path.exists(f"{base}_{i}{ext}"):
+            while True:
+                candidate = f"{base}_{i}{ext}"
+                if not app_info_cache.edit_output_exists(os.path.basename(candidate)) and not os.path.exists(candidate):
+                    break
                 i += 1
-            new_path = f"{base}_{i}{ext}"
+            new_path = candidate
         os.rename(save_path, new_path)
+        app_info_cache.record_edit_output(os.path.basename(new_path))
         logger.debug(f"Renamed edit output: {save_path} -> {new_path}")
 
     # Abstract methods to be implemented per generator -------------------------
