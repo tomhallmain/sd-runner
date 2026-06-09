@@ -27,6 +27,8 @@ class Config:
         self.swarmui_save_path = "."
         self.invokeai_url = None
         self.invokeai_save_path = "."
+        self.fooocus_url = None
+        self.fooocus_save_path = "."
         self.concepts_dir = "concepts"
         self.models_dir = ""
         self.img_dir = None
@@ -108,6 +110,7 @@ class Config:
                         "sdnext_url",
                         "swarmui_url",
                         "invokeai_url",
+                        "fooocus_url",
                         "server_password",
                         "override_dictionary_path",
         )
@@ -132,6 +135,7 @@ class Config:
             "sdnext_save_path",
             "swarmui_save_path",
             "invokeai_save_path",
+            "fooocus_save_path",
             "sd_prompt_reader_loc",
             "image_searcher_dir2",
             "interrogator_interrogation_dir",

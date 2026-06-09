@@ -88,9 +88,26 @@ Inline variable values support the full choice-set syntax (`[[...]]`), so `$$MyV
 ## Supported Systems, Architectures, and Workflows
 
 ### Systems
-The application supports two image generation backends:
-- **ComfyUI**: Full-featured workflow support with advanced node-based processing
-- **SDWebUI (Automatic1111)**: Web-based interface with streamlined workflow support
+
+#### Local backends
+- **ComfyUI** — Primary target; full node-graph workflow support across all architectures
+- **SDWebUI (Automatic1111)** — Standard A1111 API; txt2img, img2img, ControlNet, IP-Adapter, LoRA, upscale
+- **Forge** — Drop-in SDWebUI replacement at a different port; identical API and workflow coverage
+- **SD.Next** — SDWebUI-compatible API with extended sampler support
+- **SwarmUI** — Session-based REST API; LoRA injected via prompt embedding; txt2img, ControlNet, img2img, IP-Adapter
+- **InvokeAI** — Node-graph queue API (v3.x); model keys resolved by name lookup; txt2img, LoRA, ControlNet, img2img, IP-Adapter
+- **Fooocus** — Synchronous REST API (`--listen --api`); SDXL-only; performance presets map to sampler field; txt2img, LoRA, ControlNet, img2img, IP-Adapter, upscale
+
+#### Cloud / API backends
+- **Stability AI** — Multipart POST to `/v2beta/stable-image/generate`; aspect-ratio sizing
+- **BFL Flux** — `api.bfl.ai`; async poll; Flux models only
+- **Fal.ai** — `fal.run`; sync POST; native batch support
+- **HuggingFace** — Inference API; binary PNG response; 503 retry loop
+- **Replicate** — `/v1/predictions` with `Prefer: wait`; polling fallback; URL output list
+- **OpenAI (DALL·E / GPT-Image)** — `dall-e-2`, `dall-e-3`, `gpt-image-1`; per-model size constraints; `n=1` loop for dall-e-3
+- **Grok (xAI)** — OpenAI-compatible endpoint at `api.x.ai`
+- **Google Imagen** — Vertex-style `predict` endpoint; aspect-ratio sizing; base64 response
+- **Ideogram** — `api.ideogram.ai/generate`; named aspect-ratio mapping; V2/V2 Turbo/V3
 
 ### Model Architectures
 The following model architectures are supported. Resolution tags automatically scale to match each architecture's expected output dimensions:
@@ -106,7 +123,11 @@ The following model architectures are supported. Resolution tags automatically s
 Model files may be organized in scoped subfolders under your backend model roots (for example `Stable-diffusion/SD1.5`, `Stable-diffusion/XL`, `Lora/SD1.5`, `Lora/Flux`, etc.). SD 1.5 models and LoRAs can now be referenced from scoped paths the same way as newer architectures.
 
 ### Workflows
-The following workflows are available. The table shows which systems (ComfyUI/SDWebUI) support each workflow across all architectures. Note that most workflows work with all supported architectures, with system availability varying by workflow. **Note:** Flux, Chroma, ZImageTurbo, and Qwen architectures have not been implemented/tested in SDWebUI, so workflows for these architectures are marked as ComfyUI-only (C):
+The table below covers ComfyUI (C) and SDWebUI (S) — the two backends with full architecture-specific tracking. Flux, Chroma, ZImageTurbo, and Qwen have not been implemented/tested in SDWebUI, so those columns are ComfyUI-only:
+
+**Additional local backends:** Forge and SD.Next share SDWebUI's full coverage (treat as S). SwarmUI, InvokeAI, and Fooocus support txt2img, LoRA, ControlNet, img2img, and IP-Adapter for SD 1.5/SDXL architectures; Fooocus is SDXL-only.
+
+**Cloud backends:** All support txt2img regardless of architecture. LoRA support varies by provider; img2img and IP-Adapter are available on select backends (see itemized list above).
 
 | Workflow | Description | SD1.5 | SDXL | Illust. | Flux | Chroma | ZIT | Qwen |
 |----------|-------------|--------|------|-------------|------|--------|-------------|------|
@@ -123,7 +144,7 @@ The following workflows are available. The table shows which systems (ComfyUI/SD
 | Upscale Simple | Simple upscaling | C/S | C/S | C/S |  |  |  |  |
 | Upscale Better | Advanced upscaling | C | C | C |  |  |  |  |
 
-**Legend:** C = ComfyUI, S = SDWebUI, C/S = Both systems
+**Legend:** C = ComfyUI, S = SDWebUI (also Forge/SD.Next), C/S = Both
 
 ## Image Resolutions
 
