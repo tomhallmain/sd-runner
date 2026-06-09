@@ -23,6 +23,7 @@ class RunnerAppConfig:
         self.prompt_massage_tags = ""
         self.positive_tags = ""
         self.negative_tags = ""
+        self.exclusion_tags = ""
         self.b_w_colorization = ""  # Globals.DEFAULT_B_W_COLORIZATION
         self.lora_strength = str(Globals.DEFAULT_LORA_STRENGTH)
         self.control_net_file = ""
@@ -117,6 +118,8 @@ class RunnerAppConfig:
             app_config.source_prompt_add_user_prompt = False
         if not hasattr(app_config, 'edit_suffix'):
             app_config.edit_suffix = ""
+        if not hasattr(app_config, 'exclusion_tags'):
+            app_config.exclusion_tags = ""
         if not isinstance(app_config.prompter_config, dict):
             raise Exception("Prompter config is not a dict")
         prompter_config_dict = deepcopy(app_config.prompter_config)

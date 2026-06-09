@@ -446,6 +446,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         sp.prompt_massage_tags_box.setPlainText(cfg.prompt_massage_tags)
         sp.positive_tags_box.setPlainText(cfg.positive_tags)
         sp.negative_tags_box.setPlainText(cfg.negative_tags)
+        sp.exclusion_tags_entry.setText(getattr(cfg, "exclusion_tags", ""))
 
         from ui_qt.prompts.prompt_config_window import PromptConfigWindow
         PromptConfigWindow.set_runner_app_config(cfg)
@@ -525,6 +526,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         sp.set_prompt_massage_tags()
         sp.set_positive_tags()
         sp.set_negative_tags()
+        sp.set_exclusion_tags()
 
         args = self.get_basic_run_config()
 

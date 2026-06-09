@@ -487,6 +487,14 @@ class SidebarPanel(QWidget):
         self.negative_tags_box.setPlainText(runner_cfg.negative_tags)
         layout.addWidget(self.negative_tags_box)
 
+        # Exclusion Tags (regex)
+        layout.addWidget(QLabel(_("Exclusion Tags (regex)")))
+        self.exclusion_tags_entry = QLineEdit()
+        self.exclusion_tags_entry.setPlaceholderText(_("regex to exclude concepts, e.g. cat|dog"))
+        self.exclusion_tags_entry.setText(getattr(runner_cfg, "exclusion_tags", ""))
+        self.exclusion_tags_entry.setToolTip(_("Per-run regex filter: any generated concept matching this pattern is removed from the prompt"))
+        layout.addWidget(self.exclusion_tags_entry)
+
         layout.addStretch()
         return widget
 
@@ -564,9 +572,10 @@ class SidebarPanel(QWidget):
         # Redo params
         GenConfig.set_redo_params(self.redo_params_entry.text())
 
-        # Positive / negative tags
+        # Positive / negative / exclusion tags
         Prompter.set_positive_tags(self.positive_tags_box.toPlainText())
         Prompter.set_negative_tags(self.negative_tags_box.toPlainText())
+        Prompter.set_exclusion_tags(self.exclusion_tags_entry.text())
 
     # ==================================================================
     # Sidebar-triggered actions (signal handlers)
@@ -723,6 +732,13 @@ class SidebarPanel(QWidget):
         text = self._apply_expansions(text, positive=False)
         self._app.runner_app_config.negative_tags = text
         Prompter.set_negative_tags(text)
+
+    def set_exclusion_tags(self) -> None:
+        """Sync exclusion tags (regex) from widget to config and prompter."""
+        from sd_runner.prompter import Prompter
+        text = self.exclusion_tags_entry.text()
+        self._app.runner_app_config.exclusion_tags = text
+        Prompter.set_exclusion_tags(text)
 
     def _apply_expansions(self, text: str, positive: bool = False) -> str:
         """Substitute expansion variables in *text* if present."""

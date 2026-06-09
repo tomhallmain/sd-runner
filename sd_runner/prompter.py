@@ -21,6 +21,7 @@ class Prompter:
     # Set these to include constant detail in all prompts
     POSITIVE_TAGS = config.dict["default_positive_tags"]
     NEGATIVE_TAGS = config.dict["default_negative_tags"]
+    EXCLUSION_TAGS: str = ""
     TAGS_APPLY_TO_START = True
     INLINE_VAR_PATTERN = re.compile(r'^\|\|\|\s*([A-Za-z_][A-Za-z0-9_]*)\s*->\s*(.+)$')
     INLINE_VAR_PATTERN2 = re.compile(r'^::\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.+)$')
@@ -69,6 +70,10 @@ class Prompter:
     @classmethod
     def set_negative_tags(cls, tags: str) -> None:
         cls.NEGATIVE_TAGS = tags
+
+    @classmethod
+    def set_exclusion_tags(cls, tags: str) -> None:
+        cls.EXCLUSION_TAGS = tags
 
     @classmethod
     def set_tags_apply_to_start(cls, apply: bool) -> None:
@@ -158,6 +163,19 @@ class Prompter:
             positive = ', '.join(positive_whitelist)
             if config.debug:
                 print(f"Filtered concepts from blacklist tags: {positive_filtered}")
+
+        if Prompter.EXCLUSION_TAGS:
+            try:
+                excl_pattern = re.compile(Prompter.EXCLUSION_TAGS, re.IGNORECASE)
+                excl_concepts = [c.strip() for c in positive.split(',') if c.strip()]
+                kept = [c for c in excl_concepts if not excl_pattern.search(c)]
+                if len(kept) < len(excl_concepts):
+                    positive = ', '.join(kept)
+                    if config.debug:
+                        dropped = [c for c in excl_concepts if excl_pattern.search(c)]
+                        print(f"Filtered concepts from exclusion tags: {dropped}")
+            except re.error:
+                logger.warning(f"Invalid exclusion tags regex: {Prompter.EXCLUSION_TAGS!r}")
 
         positive = self._apply_random_stops_returns(positive)
         negative = self._apply_random_stops_returns(negative)
