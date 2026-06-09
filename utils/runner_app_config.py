@@ -37,6 +37,7 @@ class RunnerAppConfig:
         self.timestamp = datetime.datetime.now().isoformat()  # Add timestamp field
         self.continuous_seed_variation = False  # Whether to vary seed between every generation
         self.dimension_variation = False  # Slight randomized dimension variation at generation time
+        self.edit_suffix = ""  # Appended to source filename when renaming edit workflow output
 
         self.sampler = Sampler.ACCEPT_ANY.name
         self.scheduler = Scheduler.ACCEPT_ANY.name
@@ -114,6 +115,8 @@ class RunnerAppConfig:
             app_config.source_prompt_file = ""
         if not hasattr(app_config, 'source_prompt_add_user_prompt'):
             app_config.source_prompt_add_user_prompt = False
+        if not hasattr(app_config, 'edit_suffix'):
+            app_config.edit_suffix = ""
         if not isinstance(app_config.prompter_config, dict):
             raise Exception("Prompter config is not a dict")
         prompter_config_dict = deepcopy(app_config.prompter_config)

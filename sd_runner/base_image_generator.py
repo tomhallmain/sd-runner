@@ -1,6 +1,8 @@
 from concurrent.futures import ThreadPoolExecutor, Future
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Optional, Dict, Any, Type
+import os
 import random
 import time
 import threading
@@ -328,6 +330,21 @@ class BaseImageGenerator(ABC):
                 logger.info(f"Converted ip_adapter image: {ip_adapter.id} -> {converted_path}")
         
         return control_net, ip_adapter
+
+    @staticmethod
+    def rename_to_edit_suffix(save_path: str, related_image_path: str, edit_suffix: str) -> None:
+        """Rename a generated edit output to {source_stem}{edit_suffix}{ext}, resolving collisions."""
+        stem = Path(related_image_path).stem
+        ext = Path(save_path).suffix
+        new_path = os.path.join(os.path.dirname(save_path), f"{stem}{edit_suffix}{ext}")
+        if os.path.exists(new_path):
+            base = new_path[:-len(ext)]
+            i = 2
+            while os.path.exists(f"{base}_{i}{ext}"):
+                i += 1
+            new_path = f"{base}_{i}{ext}"
+        os.rename(save_path, new_path)
+        logger.debug(f"Renamed edit output: {save_path} -> {new_path}")
 
     # Abstract methods to be implemented per generator -------------------------
 

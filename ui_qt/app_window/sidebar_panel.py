@@ -287,6 +287,12 @@ class SidebarPanel(QWidget):
         )
         self.ipadapter_strength_slider.valueChanged.connect(self._on_ipadapter_strength_changed)
 
+        # Edit Suffix
+        self.edit_suffix_entry = self._add_entry_row(
+            layout, _("Edit Suffix"),
+            getattr(runner_cfg, 'edit_suffix', ''),
+        )
+
         # Source Prompts
         row_sp = QHBoxLayout()
         row_sp.addWidget(QLabel(_("Source Prompts from Directory")))
@@ -501,6 +507,7 @@ class SidebarPanel(QWidget):
         self.prompt_mode_combo.setCurrentText(preset.prompt_mode)
         self.positive_tags_box.setPlainText(preset.positive_tags)
         self.negative_tags_box.setPlainText(preset.negative_tags)
+        self.edit_suffix_entry.setText(getattr(preset, 'edit_suffix', ''))
         if manual:
             self.run_preset_schedule_check.setChecked(False)
 

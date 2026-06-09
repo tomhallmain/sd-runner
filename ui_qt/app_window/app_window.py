@@ -419,6 +419,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             int(float(cfg.control_net_strength) * 100)
         )
         sp.ipadapter_file_entry.setText(cfg.ip_adapter_file)
+        sp.edit_suffix_entry.setText(getattr(cfg, 'edit_suffix', ''))
         sp.source_prompt_file_entry.setText(getattr(cfg, "source_prompt_file", ""))
         sp.source_prompt_add_user_prompt_check.setChecked(
             bool(getattr(cfg, "source_prompt_add_user_prompt", False))
@@ -549,6 +550,11 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self.runner_app_config.ip_adapter_file = str(ipadapter_file)
         args.ip_adapters = ipadapter_file
         RecentAdaptersWindow.add_recent_ipadapter(ipadapter_file)
+
+        # Edit suffix
+        edit_suffix = sp.edit_suffix_entry.text().strip()
+        self.runner_app_config.edit_suffix = edit_suffix
+        args.edit_suffix = edit_suffix
 
         source_prompt_file = clear_quotes(sp.source_prompt_file_entry.text())
         self.runner_app_config.source_prompt_file = str(source_prompt_file)

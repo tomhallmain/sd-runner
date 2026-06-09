@@ -1,6 +1,7 @@
 import json
 import os
 import traceback
+from pathlib import Path
 from typing import Optional
 from urllib import request, response, parse, error
 import uuid
@@ -153,6 +154,7 @@ class ComfyGen(BaseImageGenerator):
                 self.gen_config.get_prompter_config(),
                 related_image_path=self.gen_config.prompt_image_path if self.gen_config.prompt_image_path else None,
                 client_id=connection_id,
+                edit_suffix=self.gen_config.active_edit_suffix,
             )
             try:
                 ws.close()
@@ -220,6 +222,7 @@ class ComfyGen(BaseImageGenerator):
         prompter_config: Optional[PrompterConfiguration]=None,
         related_image_path: Optional[str] = None,
         client_id: Optional[str] = None,
+        edit_suffix: str = "",
     ):
         logger.debug("Queueing prompt to ComfyUI...")
         prompt_id = ComfyGen._queue_prompt(prompt, client_id or ComfyGen.CLIENT_ID)['prompt_id']
@@ -294,7 +297,7 @@ class ComfyGen(BaseImageGenerator):
                         images_output.append(image_data)
 
                         # TODO - this path is not working because the connection is typically hitting a 404,
-                        # probably because ComfyUI is either not ready when we request or it closes it for some reason.                        
+                        # probably because ComfyUI is either not ready when we request or it closes it for some reason.
                         # Save image with EXIF data containing original prompt decomposition
                         if prompter_config is not None:
                             # Construct the expected file path where ComfyUI saves the image
@@ -302,6 +305,8 @@ class ComfyGen(BaseImageGenerator):
                             if related_image_path is not None:
                                 Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
                             Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(save_path, prompter_config.original_positive_tags, original_negative_tags=None)
+                            if edit_suffix and related_image_path:
+                                BaseImageGenerator.rename_to_edit_suffix(save_path, related_image_path, edit_suffix)
                 output_images[node_id] = images_output
 
             ComfyGen.clear_history(prompt_id)
@@ -707,6 +712,7 @@ class ComfyGen(BaseImageGenerator):
         # Primary source image to edit (LoadImage node 76)
         if ip_adapter and ip_adapter.id:
             prompt.set_load_image_by_id("76", ip_adapter.generation_path)
+            self.gen_config.prompt_image_path = ip_adapter.generation_path
         # Secondary reference image (LoadImage node 81) — combinatorial mode
         control_net = self.gen_config.redo_param("control_net", control_net)
         if control_net and control_net.id:

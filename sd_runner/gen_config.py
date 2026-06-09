@@ -60,6 +60,14 @@ class GenConfig:
         self.run_config = run_config
         # Runtime-only context (not part of static run config)
         self.prompt_image_path = ""
+        self.edit_suffix = getattr(run_config, 'edit_suffix', '') or ""
+
+    @property
+    def active_edit_suffix(self) -> str:
+        """Returns edit_suffix only for workflows that support output renaming."""
+        if self.workflow_id == WorkflowType.IMAGE_EDIT.value:
+            return self.edit_suffix
+        return ""
 
     def is_xl(self) -> bool:
         return self.models[0].is_xl()
