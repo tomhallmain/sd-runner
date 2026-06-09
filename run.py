@@ -167,10 +167,17 @@ class Run:
             positive=positive_prompt, negative=negative_prompt, resolutions=resolutions,
             run_config=self.args,
         )
-        if self.args.software_type == "ComfyUI":
+        sw = SoftwareType[self.args.software_type]
+        if sw == SoftwareType.ComfyUI:
             gen = ComfyGen(gen_config, self.ui_callbacks)
-        elif self.args.software_type == "SDWebUI":
+        elif sw == SoftwareType.SDWebUI:
             gen = SDWebuiGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.Forge:
+            from sd_runner.generators.forge import ForgeGen
+            gen = ForgeGen(gen_config, self.ui_callbacks)
+        elif sw == SoftwareType.SDNext:
+            from sd_runner.generators.sdnext import SDNextGen
+            gen = SDNextGen(gen_config, self.ui_callbacks)
         else:
             raise Exception(f"Unhandled software type: {self.args.software_type}")
         return gen

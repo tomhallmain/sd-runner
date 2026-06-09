@@ -549,6 +549,8 @@ class SoftwareType(Enum):
     BFLFlux = "BFLFlux"
     FalAI = "FalAI"
     HuggingFace = "HuggingFace"
+    Forge = "Forge"
+    SDNext = "SDNext"
     Replicate = "Replicate"
     OpenAI = "OpenAI"
     Grok = "Grok"
@@ -556,7 +558,13 @@ class SoftwareType(Enum):
     Ideogram = "Ideogram"
 
     def is_cloud(self) -> bool:
-        return self not in (SoftwareType.ComfyUI, SoftwareType.SDWebUI)
+        _LOCAL = (
+            SoftwareType.ComfyUI,
+            SoftwareType.SDWebUI,
+            SoftwareType.Forge,
+            SoftwareType.SDNext,
+        )
+        return self not in _LOCAL
 
 class ArchitectureType(Enum):
     SD_15 = "SD_15"

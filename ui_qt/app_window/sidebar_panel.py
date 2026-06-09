@@ -199,7 +199,7 @@ class SidebarPanel(QWidget):
         )
 
         # Model Tags (with autocomplete)
-        model_names = [str(m).split(".")[0] for m in Model.CHECKPOINTS]
+        self._local_model_names = [str(m).split(".")[0] for m in Model.CHECKPOINTS]
         row_m = QHBoxLayout()
         row_m.addWidget(QLabel(_("Model Tags")))
         self.models_window_btn = QPushButton(_("Models"))
@@ -210,7 +210,7 @@ class SidebarPanel(QWidget):
         layout.addLayout(row_m)
 
         self.model_tags_entry = AutocompleteEntry(
-            model_names, parent=self,
+            self._local_model_names, parent=self,
             listbox_length=6,
             matches_function=matches_tag,
             set_function=set_tag,
@@ -582,6 +582,14 @@ class SidebarPanel(QWidget):
     # ==================================================================
     def _on_software_changed(self, text: str) -> None:
         self._app.runner_app_config.software_type = text
+        try:
+            is_cloud = SoftwareType[text].is_cloud()
+        except KeyError:
+            is_cloud = False
+        self.model_tags_entry.close_listbox()
+        self.model_tags_entry.set_autocomplete_list(
+            [] if is_cloud else self._local_model_names
+        )
 
     def _on_workflow_changed(self, text: str) -> None:
         try:

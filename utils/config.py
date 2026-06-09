@@ -19,6 +19,10 @@ class Config:
         self.comfyui_url = None
         self.sd_webui_url = None
         self.sd_webui_save_path = "."
+        self.forge_url = None
+        self.forge_save_path = "."
+        self.sdnext_url = None
+        self.sdnext_save_path = "."
         self.concepts_dir = "concepts"
         self.models_dir = ""
         self.img_dir = None
@@ -96,6 +100,8 @@ class Config:
                         "background_color",
                         "comfyui_url",
                         "sd_webui_url",
+                        "forge_url",
+                        "sdnext_url",
                         "server_password",
                         "override_dictionary_path",
         )
@@ -116,6 +122,8 @@ class Config:
             "comfyui_loc",
             "sd_webui_loc",
             "sd_webui_save_path",
+            "forge_save_path",
+            "sdnext_save_path",
             "sd_prompt_reader_loc",
             "image_searcher_dir2",
             "interrogator_interrogation_dir",

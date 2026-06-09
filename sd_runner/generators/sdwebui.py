@@ -51,6 +51,8 @@ def decode_and_save_base64(base64_str, save_path):
 
 class SDWebuiGen(BaseImageGenerator):
     BASE_URL = config.sd_webui_url
+    SAVE_PATH = config.sd_webui_save_path
+    FILE_PREFIX = "SDWebUI"
     TXT_2_IMG = "sdapi/v1/txt2img"
     IMG_2_IMG = "sdapi/v1/img2img"
     _has_run_txt2img = False  # Class-level flag to track if txt2img has been run
@@ -95,10 +97,11 @@ class SDWebuiGen(BaseImageGenerator):
     #     Utils.start_thread(self.queue_prompt, use_asyncio=False, args=[prompt, img2img, related_image_path, workflow])
 
     def queue_prompt(self, prompt: WorkflowPromptSDWebUI, img2img: bool=False, related_image_path: Optional[str]=None, workflow: Optional[WorkflowType]=None):
-        api_endpoint = SDWebuiGen.IMG_2_IMG if img2img else SDWebuiGen.TXT_2_IMG
+        cls = type(self)
+        api_endpoint = cls.IMG_2_IMG if img2img else cls.TXT_2_IMG
         data = prompt.get_json()
         req = request.Request(
-            f'{SDWebuiGen.BASE_URL}/{api_endpoint}',
+            f'{cls.BASE_URL}/{api_endpoint}',
             headers={'Content-Type': 'application/json'},
             data=data,
         )
@@ -130,7 +133,8 @@ class SDWebuiGen(BaseImageGenerator):
         for index, image in enumerate(resp_json.get('images')):
             if workflow == PromptTypeSDWebUI.CONTROLNET and index % 2 == 1:
                 continue # Extra control net mask is not an image we want to save.
-            save_path = os.path.join(config.sd_webui_save_path, f'SDWebUI_{timestamp_str()}_{index}.png')
+            cls = type(self)
+            save_path = os.path.join(cls.SAVE_PATH, f'{cls.FILE_PREFIX}_{timestamp_str()}_{index}.png')
             decode_and_save_base64(image, save_path)
             if related_image_path is not None:
                 Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
@@ -161,8 +165,9 @@ class SDWebuiGen(BaseImageGenerator):
             model: The model to use for the fake generation, should match the model being used for img2img
             vae: The VAE to use for the fake generation, should match the VAE being used for img2img
         """
-        with SDWebuiGen._txt2img_lock:
-            if not SDWebuiGen._has_run_txt2img:
+        cls = type(self)
+        with cls._txt2img_lock:
+            if not cls._has_run_txt2img:
                 print("Running initial txt2img to fix SD WebUI img2img bug...")
                 prompt = WorkflowPromptSDWebUI(WorkflowType.SIMPLE_IMAGE_GEN.value)
                 prompt.set_model(model)
@@ -182,7 +187,7 @@ class SDWebuiGen(BaseImageGenerator):
                         os.unlink(fake_image_path)
                 except Exception as e:
                     print(f"Warning: Failed to clean up fake txt2img image: {e}")
-                SDWebuiGen._has_run_txt2img = True
+                cls._has_run_txt2img = True
 
     def simple_image_gen(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
