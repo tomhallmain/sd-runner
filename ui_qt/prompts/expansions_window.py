@@ -59,9 +59,10 @@ class ExpansionModifyWindow(SmartDialog):
         self._refresh_callback = refresh_callback
         self._app_actions = app_actions
 
+        title = _("New Expansion") if self._is_new else _("Modify Expansion: {0}").format(self._expansion.id)
         super().__init__(
             parent=parent,
-            title=_("Modify Expansion: {0}").format(self._expansion.id),
+            title=title,
             geometry=geometry,
         )
         self.setStyleSheet(AppStyle.get_stylesheet())
@@ -85,9 +86,10 @@ class ExpansionModifyWindow(SmartDialog):
 
         # Expansion Text
         layout.addWidget(QLabel(_("Expansion Text")))
-        self._text_edit = QLineEdit(
+        self._text_edit = QPlainTextEdit(
             _("New Expansion Text") if self._is_new else self._expansion.text
         )
+        self._text_edit.setFixedHeight(80)
         layout.addWidget(self._text_edit)
 
         # Warning label for wildcard clashes
@@ -125,6 +127,18 @@ class ExpansionModifyWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def _finalize_expansion(self) -> None:
+        new_id = self._name_edit.text().strip()
+        new_text = self._text_edit.toPlainText().strip()
+
+        if not new_id or not new_text:
+            self._app_actions.alert(
+                _("Invalid Expansion"),
+                _("Both the expansion ID and text must be non-empty."),
+                kind="showwarning",
+                master=self,
+            )
+            return
+
         if self._check_wildcard_clash():
             if not self._app_actions.alert(
                 _("Warning"),
@@ -136,8 +150,8 @@ class ExpansionModifyWindow(SmartDialog):
             ):
                 return
 
-        self._expansion.id = self._name_edit.text().strip()
-        self._expansion.text = self._text_edit.text().strip()
+        self._expansion.id = new_id
+        self._expansion.text = new_text
         self.close()
         self._refresh_callback(self._expansion)
 
@@ -218,7 +232,6 @@ class ExpansionsWindow(SmartDialog):
         )
         self.setStyleSheet(AppStyle.get_stylesheet())
         self._app_actions = app_actions
-        self._filter_text = ""
         self._filtered_expansions: list[Expansion] = Expansion.expansions[:]
         self._table: Optional[QTableWidget] = None
 
@@ -247,6 +260,12 @@ class ExpansionsWindow(SmartDialog):
         clear_btn.clicked.connect(self._clear_expansions)
         header.addWidget(clear_btn)
         root.addLayout(header)
+
+        # Search / filter bar
+        self._search_edit = QLineEdit()
+        self._search_edit.setPlaceholderText(_("Filter by ID or text…"))
+        self._search_edit.textChanged.connect(self._apply_filter)
+        root.addWidget(self._search_edit)
 
         # Status / filter label
         self._status_label = QLabel("")
@@ -291,10 +310,11 @@ class ExpansionsWindow(SmartDialog):
         showing = len(self._filtered_expansions)
 
         # Status line
-        if self._filter_text.strip():
+        search_text = self._search_edit.text()
+        if search_text.strip():
             self._status_label.setText(
                 _("Filter: \"{0}\"  ({1} of {2} expansions)").format(
-                    self._filter_text, showing, total,
+                    search_text, showing, total,
                 )
             )
         else:
@@ -305,7 +325,7 @@ class ExpansionsWindow(SmartDialog):
         if showing == 0:
             msg = (
                 _("No expansions match the current filter.")
-                if self._filter_text.strip()
+                if search_text.strip()
                 else _("No expansions defined. Click 'Add expansion' to create one.")
             )
             lbl = QLabel(msg)
@@ -376,18 +396,11 @@ class ExpansionsWindow(SmartDialog):
         if expansion in Expansion.expansions:
             Expansion.expansions.remove(expansion)
         Expansion.expansions.insert(0, expansion)
-        self._filtered_expansions = Expansion.expansions[:]
-        self._filter_text = ""
         ExpansionsWindow.store_expansions()
-        self._rebuild_table()
+        self._apply_filter()
 
-    @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def _add_empty_expansion(self) -> None:
-        Expansion.expansions.insert(0, Expansion("", ""))
-        self._filtered_expansions = Expansion.expansions[:]
-        self._filter_text = ""
-        ExpansionsWindow.store_expansions()
-        self._rebuild_table()
+        self._open_modify_window(expansion=None)
 
     @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def _delete_selected(self) -> None:
@@ -397,17 +410,24 @@ class ExpansionsWindow(SmartDialog):
             return
         if exp in Expansion.expansions:
             Expansion.expansions.remove(exp)
-        self._filtered_expansions = Expansion.expansions[:]
         ExpansionsWindow.store_expansions()
-        self._rebuild_table()
+        self._apply_filter()
 
     @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def _clear_expansions(self) -> None:
+        if not self._app_actions.alert(
+            _("Clear all expansions?"),
+            _("This will permanently delete all {0} expansions. Are you sure?").format(
+                len(Expansion.expansions)
+            ),
+            kind="askyesno",
+            master=self,
+        ):
+            return
         Expansion.expansions.clear()
-        self._filtered_expansions.clear()
-        self._filter_text = ""
         ExpansionsWindow.store_expansions()
-        self._rebuild_table()
+        self._search_edit.clear()
+        self._apply_filter()
 
     def _copy_selected(self) -> None:
         exp = self._selected_expansion()
@@ -423,52 +443,11 @@ class ExpansionsWindow(SmartDialog):
     # ------------------------------------------------------------------
     # Keyboard filter
     # ------------------------------------------------------------------
-    def keyPressEvent(self, event) -> None:  # noqa: N802
-        # Don't intercept when a text widget has focus
-        fw = self.focusWidget()
-        if isinstance(fw, (QLineEdit, QPlainTextEdit)):
-            super().keyPressEvent(event)
-            return
-
-        mods = event.modifiers()
-        if mods & (Qt.KeyboardModifier.ControlModifier | Qt.KeyboardModifier.AltModifier):
-            super().keyPressEvent(event)
-            return
-
-        key = event.key()
-
-        # Arrow keys: rotate the filtered list
-        if key in (Qt.Key.Key_Up, Qt.Key.Key_Down) and self._filtered_expansions:
-            if key == Qt.Key.Key_Down:
-                self._filtered_expansions = (
-                    self._filtered_expansions[1:] + [self._filtered_expansions[0]]
-                )
-            else:
-                self._filtered_expansions = (
-                    [self._filtered_expansions[-1]] + self._filtered_expansions[:-1]
-                )
-            self._rebuild_table()
-            return
-
-        if key == Qt.Key.Key_Backspace:
-            if self._filter_text:
-                self._filter_text = self._filter_text[:-1]
-            else:
-                return
-        else:
-            text = event.text()
-            if not text or not text.isprintable():
-                super().keyPressEvent(event)
-                return
-            self._filter_text += text
-
-        self._apply_filter()
-
     def _apply_filter(self) -> None:
-        if not self._filter_text.strip():
+        ft = self._search_edit.text().lower()
+        if not ft.strip():
             self._filtered_expansions = Expansion.expansions[:]
         else:
-            ft = self._filter_text.lower()
             tier1, tier2, tier3 = [], [], []
             for exp in Expansion.expansions:
                 combined = f"{exp.id} {exp.text}".lower()
