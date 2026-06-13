@@ -9,6 +9,22 @@ logger = get_logger("config")
 class Config:
     CONFIGS_DIR_LOC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "configs")
 
+    @staticmethod
+    def resolve_config_path():
+        """Resolve the active config file path, preferring config.json."""
+        configs_dir = os.environ.get("SD_RUNNER_CONFIGS_DIR") or Config.CONFIGS_DIR_LOC
+        configs = [f.path for f in os.scandir(configs_dir) if f.is_file() and f.path.endswith(".json")]
+        config_path = None
+        for c in configs:
+            if os.path.basename(c) == "config.json":
+                config_path = c
+                break
+            elif os.path.basename(c) != "config_example.json":
+                config_path = c
+        if config_path is None:
+            config_path = os.path.join(configs_dir, "config example.json")
+        return config_path
+
     def __init__(self):
         self.dict = {}
         self.debug = False
@@ -67,18 +83,7 @@ class Config:
         # Cloud backends — all keys live in one subdict loaded from config.json
         self.cloud_backends: dict = {}
 
-        configs =  [ f.path for f in os.scandir(Config.CONFIGS_DIR_LOC) if f.is_file() and f.path.endswith(".json") ]
-        self.config_path = None
-
-        for c in configs:
-            if os.path.basename(c) == "config.json":
-                self.config_path = c
-                break
-            elif os.path.basename(c) != "config_example.json":
-                self.config_path = c
-
-        if self.config_path is None:
-            self.config_path = os.path.join(Config.CONFIGS_DIR_LOC, "config_example.json")
+        self.config_path = Config.resolve_config_path()
 
         try:
             self.dict = json.load(open(self.config_path, "r"))
