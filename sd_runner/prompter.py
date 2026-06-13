@@ -607,6 +607,75 @@ class Prompter:
         return result
 
     @staticmethod
+    def _expand_range(inner_content: str):
+        """
+        If inner_content matches `start--stop` or `start--stop--step`, return the
+        list of string values for that range (inclusive of stop).  Returns None if
+        the content is not a valid range expression.
+
+        Supports integers, floats, and single ASCII characters.  No weighted
+        choices — every value in the range has equal probability.
+        """
+        if not inner_content or "," in inner_content or "|" in inner_content:
+            return None
+        parts = inner_content.split("--")
+        if len(parts) < 2 or len(parts) > 3:
+            return None
+        start_str = parts[0].strip()
+        stop_str = parts[1].strip()
+        step_str = parts[2].strip() if len(parts) == 3 else None
+
+        # --- numeric range ---
+        try:
+            use_float = any("." in s for s in [start_str, stop_str] + ([step_str] if step_str else []))
+            if use_float:
+                start = float(start_str)
+                stop = float(stop_str)
+                step = float(step_str) if step_str else 1.0
+                if step == 0:
+                    return None
+                decimals = max(
+                    len(s.split(".")[-1]) if "." in s else 0
+                    for s in [start_str, stop_str] + ([step_str] if step_str else [])
+                )
+                fmt = f"{{:.{decimals}f}}"
+                values = []
+                v = start
+                epsilon = abs(step) * 1e-9
+                while (step > 0 and v <= stop + epsilon) or (step < 0 and v >= stop - epsilon):
+                    values.append(fmt.format(round(v, decimals)))
+                    v = round(v + step, decimals)
+            else:
+                start = int(start_str)
+                stop = int(stop_str)
+                step = int(step_str) if step_str else 1
+                if step == 0:
+                    return None
+                stop_exclusive = stop + (1 if step > 0 else -1)
+                values = [str(v) for v in range(start, stop_exclusive, step)]
+            return values if values else None
+        except ValueError:
+            pass
+
+        # --- single-character range (e.g. a--z) ---
+        if len(start_str) == 1 and len(stop_str) == 1:
+            step = 1
+            if step_str:
+                try:
+                    step = int(step_str)
+                except ValueError:
+                    return None
+            if step == 0:
+                return None
+            start_ord = ord(start_str)
+            stop_ord = ord(stop_str)
+            stop_exclusive = stop_ord + (1 if step > 0 else -1)
+            values = [chr(c) for c in range(start_ord, stop_exclusive, step)]
+            return values if values else None
+
+        return None
+
+    @staticmethod
     def contains_choice_set(text: str) -> bool:
         if "[[" not in text or "]]" not in text:
             return False
@@ -658,7 +727,18 @@ class Prompter:
                 
                 # Extract the inner content (between the double brackets)
                 inner_content = original_text[outer_start + 2:inner_close]
-                
+
+                # Range syntax: [[start--stop]] or [[start--stop--step]]
+                range_values = Prompter._expand_range(inner_content)
+                if range_values:
+                    choice = random.choice(range_values)
+                    adjusted_start = outer_start + offset
+                    adjusted_end = outer_end + offset
+                    text = text[:adjusted_start] + choice + text[adjusted_end:]
+                    offset += len(choice) - (outer_end - outer_start)
+                    i = outer_end
+                    continue
+
                 # Split by top-level pipes or commas (respecting bracket depth)
                 options = []
                 current_option = ""

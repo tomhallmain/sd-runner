@@ -52,6 +52,14 @@ To define a set of words to randomly choose from, surround a comma-separated lis
 
 `"A [[red,blue,yellow:2]] car"` -> `"A yellow car"`
 
+To pick a value from a numeric or character range instead of a fixed list, use `--` as a separator. An optional third value sets the step (default 1). Ranges are always inclusive of the end value. Floats are supported; decimal precision is inferred from the values given.
+
+`"[[1--10]] steps"` -> `"7 steps"` (one possible result)
+
+`"[[0.5--1.0--0.1]] strength"` -> `"0.8 strength"` (one possible result)
+
+`"[[a--z]] style"` -> `"m style"` (one possible result)
+
 Nested choice sets are also available:
 
 `"In over [[[my,your,his,her] head,[our,their] heads]]"` -> `"In over my head"` OR `"In over our heads"`
@@ -167,6 +175,8 @@ After having defined presets using the presets window, you can create and modify
 A preset schedule should specify the number of times each preset should run, as well as the order. If the run count for a preset is set to -1, it should inherit the run count from the value set before starting the run schedule.
 
 Note that similar to normal image generation runs, run schedules can be queued while one is already running.
+
+The run queue can be paused at any time using the **Pause Queue** button (sidebar or Runs window). The current job completes normally; subsequent queued jobs are held until **Resume Queue** is clicked. Pending jobs are also saved to cache on exit and restored as a paused queue on next launch.
 
 ## Concepts Folder
 
