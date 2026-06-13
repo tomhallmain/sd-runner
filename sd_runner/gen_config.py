@@ -256,14 +256,14 @@ class GenConfig:
         return hash((
             self.workflow_id,
             self.n_latents,
-            self.models,
-            self.vaes,
-            self.control_nets,
-            self.ip_adapters,
+            tuple(self.models or []),
+            tuple(self.vaes or []),
+            tuple(self.control_nets or []),
+            tuple(self.ip_adapters or []),
             self.positive,
             self.negative,
-            self.loras,
-            self.resolutions,
+            tuple(self.loras or []),
+            tuple(self.resolutions or []),
             self.software_type,
         ))
     

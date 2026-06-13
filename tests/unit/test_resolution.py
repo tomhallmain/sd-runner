@@ -344,7 +344,7 @@ class TestEqualityAndStr(unittest.TestCase):
     def test_hash_consistent_with_equality(self):
         a = Resolution(1024, 1024)
         b = Resolution(1024, 1024)
-        self.assertEqual(a.hash(), b.hash())
+        self.assertEqual(hash(a), hash(b))
 
 
 class TestGetToleranceRange(unittest.TestCase):

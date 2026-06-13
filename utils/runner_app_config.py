@@ -150,12 +150,6 @@ class RunnerAppConfig:
         return self_dict == other_dict
 
     def __hash__(self):
-        class EnumsEncoder(json.JSONEncoder):
-            def default(self, z):
-                if isinstance(z, SoftwareType) or isinstance(z, WorkflowType) or isinstance(z, Sampler) or isinstance(z, Scheduler):
-                    return (str(z.name))
-                else:
-                    return super().default(z)
-        # Create a copy of the dict without timestamp
-        dict_without_timestamp = {k: v for k, v in self.__dict__.items() if k != 'timestamp'}
-        return hash(json.dumps(dict_without_timestamp, cls=EnumsEncoder, sort_keys=True))
+        # to_dict() converts PrompterConfiguration and enums to JSON-safe types
+        dict_without_timestamp = {k: v for k, v in self.to_dict().items() if k != 'timestamp'}
+        return hash(json.dumps(dict_without_timestamp, sort_keys=True))

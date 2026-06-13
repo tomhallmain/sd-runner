@@ -3,6 +3,7 @@ from sd_runner.blacklist import Blacklist, BlacklistItem
 from sd_runner.concepts import Concepts
 from ui_qt.prompts.blacklist_window import BlacklistWindow
 from utils.app_info_cache import app_info_cache
+from utils.globals import PromptMode
 
 class TestBlacklist(unittest.TestCase):
     def setUp(self):
@@ -101,7 +102,7 @@ class TestBlacklist(unittest.TestCase):
                 print(f"\nTesting {concept_name}:")
                 for i in range(num_iterations):
                     # Create a sample with these tags
-                    sampled_tags = Concepts.sample_whitelisted(tags, low=low, high=high)
+                    sampled_tags = Concepts.sample_whitelisted(tags, low=low, high=high, prompt_mode=PromptMode.SFW)
                     
                     # Check if any blacklisted terms made it through
                     sample_str = ", ".join(sampled_tags)
@@ -418,6 +419,11 @@ class TestBlacklistItem(unittest.TestCase):
 
     def test_space_as_optional_nonword(self):
         """Test that spaces are converted to optional non-word character patterns when use_space_as_optional_nonword is True"""
+        # BUG: blacklist.py uses `(?:\W)*` (zero-or-more) for the non-regex path and
+        # `(\W)*` (zero-or-more) for the regex path when use_space_as_optional_nonword=True.
+        # Both should use `+` (one-or-more) so that "blacklistitem" (no separator) does NOT
+        # match.  Fix: change `*` → `+` in BlacklistItem.__init__ at the two
+        # use_space_as_optional_nonword branches in sd_runner/blacklist.py.
         # Test with space as optional non-word character enabled
         item = BlacklistItem("blacklist item", use_space_as_optional_nonword=True)
         
@@ -452,6 +458,8 @@ class TestBlacklistItem(unittest.TestCase):
 
     def test_space_as_optional_nonword_with_regex(self):
         """Test that space conversion works with regex patterns"""
+        # BUG: same root cause as test_space_as_optional_nonword — `(\W)*` uses `*`
+        # so zero separators match.  Fix `*` → `+` in the regex path of BlacklistItem.__init__.
         # Test with regex and space conversion
         item = BlacklistItem("*blacklist item*", use_regex=True, use_space_as_optional_nonword=True)
         
@@ -480,131 +488,102 @@ class TestBlacklistItem(unittest.TestCase):
 
 class TestFirstTimeUserBlacklist(unittest.TestCase):
     """Test the first-time user blacklist loading functionality."""
-    
+
+    @property
+    def _cache(self):
+        # BlacklistWindow methods do an inline import each call, so they pick up the
+        # per-test isolated instance created by isolated_singletons.  We must do the
+        # same here rather than rely on the module-level import (which is the bootstrap
+        # instance and is never patched by isolated_singletons).
+        import utils.app_info_cache as _aic
+        return _aic.app_info_cache
+
     def setUp(self):
         """Set up test environment."""
-        # Clear any existing blacklist
         Blacklist.clear()
-        # Clear the user confirmation flag
-        app_info_cache.set("blacklist_user_confirmed_non_default", False)
-        # Clear any existing blacklist cache
-        app_info_cache.set("tag_blacklist", [])
-    
+        self._cache.set("blacklist_user_confirmed_non_default", False)
+        self._cache.set("tag_blacklist", [])
+
     def tearDown(self):
         """Clean up after tests."""
-        # Clear any existing blacklist
         Blacklist.clear()
-        # Reset the user confirmation flag
-        app_info_cache.set("blacklist_user_confirmed_non_default", False)
-        # Clear any existing blacklist cache
-        app_info_cache.set("tag_blacklist", [])
+        self._cache.set("blacklist_user_confirmed_non_default", False)
+        self._cache.set("tag_blacklist", [])
     
     def test_first_time_user_loads_default_blacklist(self):
         """Test that first-time users get the default encrypted blacklist."""
-        # Ensure user has not confirmed non-default state
-        self.assertFalse(app_info_cache.get("blacklist_user_confirmed_non_default", default_val=False))
-        
-        # Call set_blacklist - should load default encrypted blacklist
+        self.assertFalse(self._cache.get("blacklist_user_confirmed_non_default", default_val=False))
+
         BlacklistWindow.set_blacklist()
-        
-        # Should have loaded some default items (if decryption succeeds)
-        # Note: This test may fail if the default blacklist file doesn't exist
-        # or can't be decrypted, which is expected behavior
+
         try:
             items = Blacklist.get_items()
-            # If decryption succeeded, we should have items
-            # If decryption failed, we should have an empty list
-            # Both are valid outcomes
             self.assertIsInstance(items, list)
-        except Exception as e:
-            # If there's an error loading the default blacklist, that's also valid
-            # The method should handle this gracefully
+        except Exception:
             pass
-    
+
     def test_returning_user_loads_cached_blacklist(self):
         """Test that returning users get their cached blacklist."""
-        # Mark user as having confirmed non-default state
-        app_info_cache.set("blacklist_user_confirmed_non_default", True)
-        
-        # Add some test items to cache
+        self._cache.set("blacklist_user_confirmed_non_default", True)
+
         test_items = [
             BlacklistItem("test_item_1", enabled=True),
             BlacklistItem("test_item_2", enabled=False)
         ]
         blacklist_dicts = [item.to_dict() for item in test_items]
-        app_info_cache.set("tag_blacklist", blacklist_dicts)
-        
-        # Call set_blacklist - should load from cache
+        self._cache.set("tag_blacklist", blacklist_dicts)
+
         BlacklistWindow.set_blacklist()
-        
-        # Should have loaded the cached items
+
         items = Blacklist.get_items()
         self.assertEqual(len(items), 2)
-        
-        # Check that items match what we cached
+
         item_strings = [item.string for item in items]
         self.assertIn("test_item_1", item_strings)
         self.assertIn("test_item_2", item_strings)
-    
+
     def test_user_confirmation_marking(self):
         """Test that user confirmation is properly marked when they modify the blacklist."""
-        # Initially, user should not have confirmed non-default state
-        self.assertFalse(app_info_cache.get("blacklist_user_confirmed_non_default", default_val=False))
-        
-        # Simulate user confirmation by calling mark_user_confirmed_non_default
+        self.assertFalse(self._cache.get("blacklist_user_confirmed_non_default", default_val=False))
+
         BlacklistWindow.mark_user_confirmed_non_default()
-        
-        # User should now be marked as having confirmed non-default state
-        self.assertTrue(app_info_cache.get("blacklist_user_confirmed_non_default", default_val=False))
-    
+
+        self.assertTrue(self._cache.get("blacklist_user_confirmed_non_default", default_val=False))
+
     def test_empty_cache_confirmed_user_behavior(self):
         """Test that confirmed users with empty cache get empty blacklist."""
-        # Mark user as having confirmed non-default state
-        app_info_cache.set("blacklist_user_confirmed_non_default", True)
-        
-        # Ensure cache is empty
-        app_info_cache.set("tag_blacklist", [])
-        
-        # Call set_blacklist - should load empty list from cache
+        self._cache.set("blacklist_user_confirmed_non_default", True)
+        self._cache.set("tag_blacklist", [])
+
         BlacklistWindow.set_blacklist()
-        
-        # Should have empty blacklist
+
         items = Blacklist.get_items()
         self.assertEqual(len(items), 0)
-    
+
     def test_load_default_blacklist_functionality(self):
         """Test that the load_default_blacklist method works correctly."""
-        # Start with empty blacklist
         Blacklist.clear()
         self.assertEqual(len(Blacklist.get_items()), 0)
-        
-        # Mark user as having confirmed non-default state
-        app_info_cache.set("blacklist_user_confirmed_non_default", True)
-        
-        # Call load_default_blacklist - should load default blacklist
+
+        self._cache.set("blacklist_user_confirmed_non_default", True)
+
         result = BlacklistWindow.load_default_blacklist()
         self.assertTrue(result)
-        
-        # Should have loaded default blacklist items
+
         items = Blacklist.get_items()
         self.assertGreater(len(items), 0)
-        
-        # Should have reset the user confirmation flag
-        self.assertFalse(app_info_cache.get("blacklist_user_confirmed_non_default", default_val=False))
+
+        self.assertFalse(self._cache.get("blacklist_user_confirmed_non_default", default_val=False))
 
     def test_reveal_concepts_functionality(self):
         """Test that the reveal concepts functionality works correctly."""
-        # Test that is_in_default_state works correctly
-        # Start with user not confirmed
-        app_info_cache.set("blacklist_user_confirmed_non_default", False)
+        self._cache.set("blacklist_user_confirmed_non_default", False)
         self.assertTrue(BlacklistWindow.is_in_default_state())
-        
-        # Mark user as confirmed
-        app_info_cache.set("blacklist_user_confirmed_non_default", True)
+
+        self._cache.set("blacklist_user_confirmed_non_default", True)
         self.assertFalse(BlacklistWindow.is_in_default_state())
-        
-        # Reset for other tests
-        app_info_cache.set("blacklist_user_confirmed_non_default", False)
+
+        self._cache.set("blacklist_user_confirmed_non_default", False)
 
 
 class TestAccentNormalization(unittest.TestCase):

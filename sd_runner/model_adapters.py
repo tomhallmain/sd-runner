@@ -91,7 +91,7 @@ class IPAdapter:
             return self.id == other.id
         return False
 
-    def hash(self) -> int:
+    def __hash__(self) -> int:
         return hash(self.id)
 
 
@@ -124,5 +124,5 @@ class ControlNet:
     def __ne__(self, other: object) -> bool:
         return not self.__eq__(other)
 
-    def hash(self) -> int:
+    def __hash__(self) -> int:
         return hash(self.id)

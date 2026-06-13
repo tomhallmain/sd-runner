@@ -327,7 +327,7 @@ class Model:
             return self.id == other.id
         return False
 
-    def hash(self):
+    def __hash__(self):
         return hash(self.id)
 
     def get_illustrious_model(self):

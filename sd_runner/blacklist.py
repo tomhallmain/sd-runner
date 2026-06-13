@@ -16,9 +16,18 @@ _ = I18N._
 
 logger = get_logger("blacklist")
 
-# Define cache file path
-CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "configs")
-BLACKLIST_CACHE_FILE = os.path.join(CACHE_DIR, "blacklist_filter_cache.pkl")
+# Define cache file path — respects SD_RUNNER_CACHE_DIR so tests can redirect it
+# without touching the real configs/ directory (mirrors AppInfoCache's pattern).
+_DEFAULT_CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "configs")
+
+
+def _resolve_blacklist_cache_file() -> str:
+    override = os.environ.get("SD_RUNNER_CACHE_DIR")
+    base = override if override else _DEFAULT_CACHE_DIR
+    return os.path.join(base, "blacklist_filter_cache.pkl")
+
+
+BLACKLIST_CACHE_FILE = _resolve_blacklist_cache_file()
 
 
 def normalize_accents_for_regex(text: str, is_regex: bool = False) -> str:
@@ -946,6 +955,23 @@ class Blacklist:
             Blacklist._filter_cache.save()
         except Exception as e:
             raise Exception(f"Error saving blacklist cache: {e}", e)
+
+    @staticmethod
+    def reset_filter_cache() -> None:
+        """Replace _filter_cache with a fresh empty instance at the current
+        SD_RUNNER_CACHE_DIR location (or the default configs/ dir if unset).
+
+        Called by the test suite between tests to guarantee isolation — cached
+        filter results and version_cache never bleed across test boundaries, and
+        save() writes to the temp dir rather than the real configs/ directory.
+        """
+        Blacklist._filter_cache = SizeAwarePicklableCache(
+            filename=_resolve_blacklist_cache_file(),
+            maxsize=Blacklist.CACHE_MAXSIZE,
+            large_threshold=Blacklist.CACHE_LARGE_THRESHOLD,
+            max_large_items=Blacklist.CACHE_MAX_LARGE_ITEMS,
+            protected_large_items=Blacklist.CACHE_PROTECTED_LARGE_ITEMS,
+        )
 
     @staticmethod
     def encrypt_blacklist() -> None:

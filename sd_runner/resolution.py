@@ -568,5 +568,5 @@ class Resolution:
             return self.width == other.width and self.height == other.height
         return False
 
-    def hash(self) -> int:
+    def __hash__(self) -> int:
         return hash((self.width, self.height))

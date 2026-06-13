@@ -50,6 +50,16 @@ from utils.app_info_cache import AppInfoCache
 import atexit
 atexit.register(shutil.rmtree, _bootstrap_tmp, True)
 
+# ---------------------------------------------------------------------------
+# Locale: force English for the entire test run so that any assertion that
+# compares against a translated string is deterministic regardless of the
+# host system locale (e.g. Windows with a German UI language).
+# install_locale() replaces the class-level I18N.translate object, which
+# I18N._() always dereferences at call time, so this covers all future calls.
+# ---------------------------------------------------------------------------
+from utils.translations import I18N
+I18N.install_locale("en", verbose=False)
+
 
 # ---------------------------------------------------------------------------
 # Singleton patch helpers

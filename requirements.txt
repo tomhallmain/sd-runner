@@ -5,6 +5,9 @@ Pillow>=9.0.0
 numpy
 # GUI framework
 PySide6>=6.6.0
+# Testing
+pytest
+pytest-qt
 
 # Optional dependencies for image format conversion
 # Uncomment the following lines to enable image conversion capabilities:
