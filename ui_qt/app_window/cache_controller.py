@@ -32,6 +32,9 @@ class CacheController:
     Also owns the periodic cache-store timer.
     """
 
+    PENDING_SD_RUNS_KEY = "pending_sd_runs"
+    PENDING_SERVER_REQUESTS_KEY = "pending_server_requests"
+
     def __init__(self, app_window: AppWindow):
         self._app = app_window
         self._store_cache_timer: Optional[QTimer] = None
@@ -77,12 +80,49 @@ class CacheController:
                 app_info_cache.get_history(0)
             )
             PromptConfigWindow.set_runner_app_config(runner_config)
+            self._restore_pending_queues()
             return runner_config
         except Exception as e:
             logger.error(f"Failed to load info cache: {e}")
             import traceback
             logger.error(traceback.format_exc())
             return RunnerAppConfig()
+
+    def _restore_pending_queues(self) -> None:
+        """Restore pending SD runs and server staging requests saved at last shutdown."""
+        from copy import deepcopy
+        from sd_runner.run_config import RunConfig
+        from utils.runner_app_config import RunnerAppConfig
+
+        runs_data = app_info_cache.get(self.PENDING_SD_RUNS_KEY) or []
+        if runs_data:
+            restored = 0
+            for run_dict in runs_data:
+                try:
+                    runner_cfg = RunnerAppConfig.from_dict(deepcopy(run_dict))
+                    self._app.job_queue.pending_jobs.append(RunConfig(args=runner_cfg))
+                    restored += 1
+                except Exception as exc:
+                    logger.warning(f"Failed to restore pending run: {exc}")
+            if restored:
+                self._app.job_queue.paused = True
+                logger.info(f"Restored {restored} pending SD run(s) from previous session")
+            app_info_cache.set(self.PENDING_SD_RUNS_KEY, [])
+
+        requests_data = app_info_cache.get(self.PENDING_SERVER_REQUESTS_KEY) or []
+        if requests_data:
+            from utils.globals import WorkflowType
+            restored = 0
+            for req in requests_data:
+                try:
+                    wf_type = WorkflowType[req["workflow_type"]]
+                    self._app.server_staging_queue._requests.append((wf_type, req.get("args", {})))
+                    restored += 1
+                except Exception as exc:
+                    logger.warning(f"Failed to restore staging request: {exc}")
+            if restored:
+                logger.info(f"Restored {restored} server staging request(s) from previous session")
+            app_info_cache.set(self.PENDING_SERVER_REQUESTS_KEY, [])
 
     # ------------------------------------------------------------------
     # Store
@@ -126,6 +166,54 @@ class CacheController:
             logger.debug("Info cache stored successfully")
         except Exception as e:
             logger.error(f"Failed to store info cache: {e}")
+
+    # ------------------------------------------------------------------
+    # Pending queues (cross-session persistence)
+    # ------------------------------------------------------------------
+    def store_pending_queues(self) -> None:
+        """
+        Snapshot pending SD runs and server staging requests into the cache
+        so they can be restored in the next session.  Called once at shutdown,
+        not during periodic saves.
+        """
+        try:
+            from copy import deepcopy
+
+            job_queue = getattr(self._app, "job_queue", None)
+            runs_data: list = []
+            if job_queue is not None:
+                for run_config in job_queue.pending_jobs:
+                    try:
+                        args = getattr(run_config, "args", None)
+                        if args is None:
+                            continue
+                        if hasattr(args, "to_dict"):
+                            runs_data.append(args.to_dict())
+                        elif isinstance(args, dict):
+                            runs_data.append(deepcopy(args))
+                    except Exception as exc:
+                        logger.warning(f"Failed to serialize pending run: {exc}")
+            app_info_cache.set(self.PENDING_SD_RUNS_KEY, runs_data)
+
+            staging = getattr(self._app, "server_staging_queue", None)
+            requests_data: list = []
+            if staging is not None:
+                for wf_type, args_dict in staging._requests:
+                    try:
+                        requests_data.append({
+                            "workflow_type": wf_type.name if hasattr(wf_type, "name") else str(wf_type),
+                            "args": args_dict,
+                        })
+                    except Exception as exc:
+                        logger.warning(f"Failed to serialize staging request: {exc}")
+            app_info_cache.set(self.PENDING_SERVER_REQUESTS_KEY, requests_data)
+
+            logger.debug(
+                f"Saved {len(runs_data)} pending SD run(s) and "
+                f"{len(requests_data)} server request(s) to cache"
+            )
+        except Exception as e:
+            logger.error(f"Failed to store pending queues: {e}")
 
     # ------------------------------------------------------------------
     # Display position

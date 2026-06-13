@@ -56,8 +56,10 @@ class RunsWindow(SmartDialog):
         self._tabs = QTabWidget()
         queue_page = QWidget()
         history_page = QWidget()
+        saved_page = QWidget()
         self._tabs.addTab(queue_page, _("Queue"))
         self._tabs.addTab(history_page, _("History"))
+        self._tabs.addTab(saved_page, _("Saved Runs"))
 
         root = QVBoxLayout(self)
         root.setContentsMargins(12, 12, 12, 12)
@@ -120,6 +122,10 @@ class RunsWindow(SmartDialog):
         refresh_btn = QPushButton(_("Refresh"))
         refresh_btn.clicked.connect(self._refresh_queue)
         btn_row.addWidget(refresh_btn)
+        resume_btn = QPushButton(_("Resume Queue"))
+        resume_btn.setToolTip(_("Start processing restored jobs from the previous session"))
+        resume_btn.clicked.connect(self._resume_queue)
+        btn_row.addWidget(resume_btn)
         edit_btn = QPushButton(_("Edit Pending"))
         edit_btn.setToolTip(_("Edit N and Total counts for the selected pending job"))
         edit_btn.clicked.connect(self._edit_pending_job)
@@ -160,6 +166,12 @@ class RunsWindow(SmartDialog):
             item = QTreeWidgetItem(self._running_tree, [wf, model, n, total, status])
             item.setForeground(4, self.palette().highlight().color())
             self._queue_status_label.setText(_("Status: Running"))
+        elif job_queue is not None and job_queue.paused and job_queue.pending_jobs:
+            self._queue_status_label.setText(
+                _("Status: Paused — {0} restored job(s) from previous session").format(
+                    len(job_queue.pending_jobs)
+                )
+            )
         else:
             self._queue_status_label.setText(_("Status: Idle"))
 
@@ -236,6 +248,10 @@ class RunsWindow(SmartDialog):
 
         run_config.n_latents = n_spin.value()
         run_config.total = total_spin.value()
+        self._refresh_queue()
+
+    def _resume_queue(self) -> None:
+        self._app.run_controller.resume_paused_queue()
         self._refresh_queue()
 
     def _cancel_run(self) -> None:

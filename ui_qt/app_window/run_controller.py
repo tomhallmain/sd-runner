@@ -104,6 +104,64 @@ class RunController:
         return True
 
     # ------------------------------------------------------------------
+    # Run async worker (shared by run() and resume_paused_queue())
+    # ------------------------------------------------------------------
+    def _run_async(self, run_args) -> None:
+        from run import Run
+        from sd_runner.timed_schedules_manager import ScheduledShutdownException
+
+        app = self._app
+        sp = self._sp
+        Utils.prevent_sleep(True)
+        app.job_queue.job_running = True
+        sp.cancel_btn.setVisible(True)
+        app.current_run = Run(run_args, ui_callbacks=app.app_actions, delay_after_last_run=self.has_runs_pending())
+        try:
+            app.current_run.execute()
+        except ScheduledShutdownException as e:
+            self._handle_scheduled_shutdown(e)
+        except Exception as e:
+            traceback.print_exc()
+            app.current_run.cancel("Run failure")
+            app.notification_ctrl.alert(_("Run Error"), str(e), kind="error")
+        sp.cancel_btn.setVisible(False)
+        app.job_queue.job_running = False
+        next_job_args = app.job_queue.take()
+
+        # A slot just opened; promote one staged server request into the main
+        # queue now so staging and the main queue drain in parallel (FIFO order).
+        # If the main queue still has items the promoted job queues behind them;
+        # if the main queue is empty it starts its own run via server_run_callback.
+        staging = getattr(app, "server_staging_queue", None)
+        promoted = False
+        if staging is not None and staging.has_pending():
+            staged = staging.take()
+            if staged is not None:
+                wf_type, staged_args = staged
+                logger.info(
+                    f"Promoting staged server request "
+                    f"({staging.pending_count()} remaining in staging queue)"
+                )
+                app.app_actions.server_run_callback(wf_type, staged_args)
+                promoted = True
+
+        if next_job_args:
+            app.current_run.delay_after_last_run = True
+            Utils.start_thread(self._run_async, use_asyncio=False, args=[next_job_args])
+        elif not promoted:
+            Utils.prevent_sleep(False)
+            self.clear_progress()
+
+    def resume_paused_queue(self) -> None:
+        """Start processing a paused/restored queue without adding a new run."""
+        app = self._app
+        if not app.job_queue.pending_jobs or app.job_queue.job_running:
+            return
+        app.job_queue.paused = False
+        first = app.job_queue.take()
+        Utils.start_thread(self._run_async, use_asyncio=False, args=[first])
+
+    # ------------------------------------------------------------------
     # Run
     # ------------------------------------------------------------------
     def run(self, event=None) -> None:
@@ -113,7 +171,6 @@ class RunController:
         thread; UI updates are marshalled to the main thread via
         ``_MainThreadBridge``-wrapped ``AppActions``.
         """
-        from run import Run
         from sd_runner.blacklist import BlacklistException
         from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
         from sd_runner.models import Model
@@ -315,51 +372,17 @@ class RunController:
             if not ok:
                 return
 
-        def run_async(run_args) -> None:
-            Utils.prevent_sleep(True)
-            app.job_queue.job_running = True
-            sp.cancel_btn.setVisible(True)
-            app.current_run = Run(run_args, ui_callbacks=app.app_actions, delay_after_last_run=self.has_runs_pending())
-            try:
-                app.current_run.execute()
-            except ScheduledShutdownException as e:
-                self._handle_scheduled_shutdown(e)
-            except Exception as e:
-                traceback.print_exc()
-                app.current_run.cancel("Run failure")
-                app.notification_ctrl.alert(_("Run Error"), str(e), kind="error")
-            sp.cancel_btn.setVisible(False)
-            app.job_queue.job_running = False
-            next_job_args = app.job_queue.take()
-
-            # A slot just opened; promote one staged server request into the main
-            # queue now so staging and the main queue drain in parallel (FIFO order).
-            # If the main queue still has items the promoted job queues behind them;
-            # if the main queue is empty it starts its own run_async via server_run_callback.
-            staging = getattr(app, "server_staging_queue", None)
-            promoted = False
-            if staging is not None and staging.has_pending():
-                staged = staging.take()
-                if staged is not None:
-                    wf_type, staged_args = staged
-                    logger.info(
-                        f"Promoting staged server request "
-                        f"({staging.pending_count()} remaining in staging queue)"
-                    )
-                    app.app_actions.server_run_callback(wf_type, staged_args)
-                    promoted = True
-
-            if next_job_args:
-                app.current_run.delay_after_last_run = True
-                Utils.start_thread(run_async, use_asyncio=False, args=[next_job_args])
-            elif not promoted:
-                Utils.prevent_sleep(False)
-                self.clear_progress()
-
-        if app.job_queue.has_pending():
+        if app.job_queue.job_running:
             app.job_queue.add(args)
+        elif app.job_queue.pending_jobs:
+            # Queue has restored/pending jobs but isn't running — add new job at
+            # the end and kick off execution from the first pending job.
+            app.job_queue.paused = False
+            app.job_queue.add(args)
+            first = app.job_queue.take()
+            Utils.start_thread(self._run_async, use_asyncio=False, args=[first])
         else:
-            Utils.start_thread(run_async, use_asyncio=False, args=[args])
+            Utils.start_thread(self._run_async, use_asyncio=False, args=[args])
 
     def cancel(self, event=None, reason: str | None = None) -> None:
         """Cancel the current run."""

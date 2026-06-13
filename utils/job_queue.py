@@ -16,6 +16,7 @@ class JobQueue:
         self.max_size = max_size
         self.pending_jobs = []
         self.job_running = False
+        self.paused = False
 
     def has_pending(self):
         return self.job_running or len(self.pending_jobs) > 0
