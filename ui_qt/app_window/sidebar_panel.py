@@ -207,6 +207,11 @@ class SidebarPanel(QWidget):
             lambda: self._app.window_launcher.open_models_window()
         )
         row_m.addWidget(self.models_window_btn)
+        self.model_presets_btn = QPushButton(_("Model Presets"))
+        self.model_presets_btn.clicked.connect(
+            lambda: self._app.window_launcher.open_model_presets_window()
+        )
+        row_m.addWidget(self.model_presets_btn)
         layout.addLayout(row_m)
 
         self.model_tags_entry = AutocompleteEntry(

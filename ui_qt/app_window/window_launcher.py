@@ -148,6 +148,13 @@ class WindowLauncher:
         except Exception as e:
             self._handle_error(e, "Models Window Error")
 
+    def open_model_presets_window(self) -> None:
+        try:
+            from ui_qt.models.model_presets_window import ModelPresetsWindow
+            self._open_window(ModelPresetsWindow)
+        except Exception as e:
+            self._handle_error(e, "Model Presets Window Error")
+
     def open_lora_models_window(self) -> None:
         try:
             from ui_qt.models.models_window import ModelsWindow
