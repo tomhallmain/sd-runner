@@ -37,6 +37,7 @@ from PySide6.QtWidgets import (
 from lib.multi_display_qt import SmartDialog
 from sd_runner.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
 from ui_qt.app_style import AppStyle
+from utils.config import config
 from ui_qt.auth.password_utils import require_password
 from utils.globals import ProtectedActions
 from utils.app_info_cache import app_info_cache
@@ -151,6 +152,20 @@ class ConceptEditorWindow(SmartDialog):
         root = QVBoxLayout(self)
         root.setContentsMargins(10, 10, 10, 10)
         root.setSpacing(8)
+
+        # --- Concepts directory selector ----------------------------------
+        dir_row = QHBoxLayout()
+        dir_row.addWidget(QLabel(_("Concepts dir:")))
+        self._dir_combo = QComboBox()
+        for basename, full_path in config.concepts_dirs.items():
+            self._dir_combo.addItem(basename, full_path)
+        default_idx = self._dir_combo.findText(config.default_concepts_dir)
+        if default_idx >= 0:
+            self._dir_combo.setCurrentIndex(default_idx)
+        self._dir_combo.currentIndexChanged.connect(self._on_dir_changed)
+        dir_row.addWidget(self._dir_combo)
+        dir_row.addStretch()
+        root.addLayout(dir_row)
 
         # --- Search row ---------------------------------------------------
         search_row = QHBoxLayout()
@@ -304,6 +319,26 @@ class ConceptEditorWindow(SmartDialog):
     # ------------------------------------------------------------------
     # Refresh / search
     # ------------------------------------------------------------------
+    def _on_dir_changed(self) -> None:
+        """Concepts directory combo changed -- switch active dir and refresh."""
+        full_path = self._dir_combo.currentData()
+        if not full_path:
+            return
+        try:
+            Concepts.set_concepts_dir(full_path)
+        except Exception as e:
+            self._app_actions.alert(
+                _("Invalid Directory"),
+                str(e),
+                kind="error",
+                master=self,
+            )
+            return
+        self._loaded_concepts.clear()
+        self._current_concept = None
+        self._current_file = None
+        self._refresh()
+
     def _on_category_changed(self) -> None:
         """Category checkbox toggled -- invalidate all caches and refresh."""
         self._loaded_concepts.clear()
