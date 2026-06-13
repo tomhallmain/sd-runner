@@ -115,6 +115,7 @@ class RunController:
         Utils.prevent_sleep(True)
         app.job_queue.job_running = True
         sp.cancel_btn.setVisible(True)
+        sp.pause_queue_btn.setVisible(True)
         app.current_run = Run(run_args, ui_callbacks=app.app_actions, delay_after_last_run=self.has_runs_pending())
         try:
             app.current_run.execute()
@@ -125,6 +126,7 @@ class RunController:
             app.current_run.cancel("Run failure")
             app.notification_ctrl.alert(_("Run Error"), str(e), kind="error")
         sp.cancel_btn.setVisible(False)
+        sp.pause_queue_btn.setVisible(False)
         app.job_queue.job_running = False
         next_job_args = app.job_queue.take()
 
@@ -146,8 +148,13 @@ class RunController:
                 promoted = True
 
         if next_job_args:
-            app.current_run.delay_after_last_run = True
-            Utils.start_thread(self._run_async, use_asyncio=False, args=[next_job_args])
+            if app.job_queue.paused:
+                app.job_queue.pending_jobs.insert(0, next_job_args)
+                Utils.prevent_sleep(False)
+                self.clear_progress()
+            else:
+                app.current_run.delay_after_last_run = True
+                Utils.start_thread(self._run_async, use_asyncio=False, args=[next_job_args])
         elif not promoted:
             Utils.prevent_sleep(False)
             self.clear_progress()
@@ -160,6 +167,13 @@ class RunController:
         app.job_queue.paused = False
         first = app.job_queue.take()
         Utils.start_thread(self._run_async, use_asyncio=False, args=[first])
+
+    def toggle_pause_queue(self) -> None:
+        """Toggle the queue pause state and update the sidebar button label."""
+        app = self._app
+        app.job_queue.paused = not app.job_queue.paused
+        label = _("Resume Queue") if app.job_queue.paused else _("Pause Queue")
+        self._sp.pause_queue_btn.setText(label)
 
     # ------------------------------------------------------------------
     # Run

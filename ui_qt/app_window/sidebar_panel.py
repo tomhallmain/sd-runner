@@ -122,10 +122,17 @@ class SidebarPanel(QWidget):
         run_row.addWidget(self.runs_window_btn)
         layout.addLayout(run_row)
 
+        cancel_row = QHBoxLayout()
         self.cancel_btn = QPushButton(_("Cancel Run"))
         self.cancel_btn.clicked.connect(lambda: self._app.run_ctrl.cancel())
         self.cancel_btn.setVisible(False)
-        layout.addWidget(self.cancel_btn)
+        cancel_row.addWidget(self.cancel_btn)
+        self.pause_queue_btn = QPushButton(_("Pause Queue"))
+        self.pause_queue_btn.setToolTip(_("Pause after the current job completes"))
+        self.pause_queue_btn.clicked.connect(lambda: self._app.run_ctrl.toggle_pause_queue())
+        self.pause_queue_btn.setVisible(False)
+        cancel_row.addWidget(self.pause_queue_btn)
+        layout.addLayout(cancel_row)
 
         # Progress labels
         self.label_progress = QLabel("")

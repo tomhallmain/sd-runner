@@ -122,8 +122,12 @@ class RunsWindow(SmartDialog):
         refresh_btn = QPushButton(_("Refresh"))
         refresh_btn.clicked.connect(self._refresh_queue)
         btn_row.addWidget(refresh_btn)
+        pause_btn = QPushButton(_("Pause Queue"))
+        pause_btn.setToolTip(_("Pause after the current job completes"))
+        pause_btn.clicked.connect(self._pause_queue)
+        btn_row.addWidget(pause_btn)
         resume_btn = QPushButton(_("Resume Queue"))
-        resume_btn.setToolTip(_("Start processing restored jobs from the previous session"))
+        resume_btn.setToolTip(_("Start processing pending jobs"))
         resume_btn.clicked.connect(self._resume_queue)
         btn_row.addWidget(resume_btn)
         edit_btn = QPushButton(_("Edit Pending"))
@@ -248,6 +252,10 @@ class RunsWindow(SmartDialog):
 
         run_config.n_latents = n_spin.value()
         run_config.total = total_spin.value()
+        self._refresh_queue()
+
+    def _pause_queue(self) -> None:
+        self._app.job_queue.paused = True
         self._refresh_queue()
 
     def _resume_queue(self) -> None:
