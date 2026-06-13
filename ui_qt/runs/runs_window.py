@@ -12,8 +12,9 @@ from typing import TYPE_CHECKING
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
+    QDialog, QDialogButtonBox, QFormLayout,
     QHBoxLayout, QHeaderView, QLabel, QLineEdit,
-    QPushButton, QTabWidget, QTreeWidget, QTreeWidgetItem,
+    QPushButton, QSpinBox, QTabWidget, QTreeWidget, QTreeWidgetItem,
     QVBoxLayout, QWidget,
 )
 
@@ -48,7 +49,7 @@ class RunsWindow(SmartDialog):
     """PySide6 queue + history browser for image generation runs."""
 
     def __init__(self, parent, app_actions: AppActions):
-        super().__init__(parent=parent, title=_("Runs"), geometry="900x560")
+        super().__init__(parent=parent, title=_("Runs"), geometry="1020x560")
         self._app = parent
         self._app_actions = app_actions
 
@@ -98,7 +99,7 @@ class RunsWindow(SmartDialog):
 
         layout.addWidget(QLabel(_("Pending Jobs")))
         self._pending_tree = self._make_tree(
-            [_("#"), _("Workflow"), _("Model"), _("N"), _("Total"), _("Positive Tags")],
+            [_("#"), _("Workflow"), _("Model"), _("N"), _("Total"), _("Batch"), _("Positive Tags")],
             page,
         )
         layout.addWidget(self._pending_tree)
@@ -119,6 +120,10 @@ class RunsWindow(SmartDialog):
         refresh_btn = QPushButton(_("Refresh"))
         refresh_btn.clicked.connect(self._refresh_queue)
         btn_row.addWidget(refresh_btn)
+        edit_btn = QPushButton(_("Edit Pending"))
+        edit_btn.setToolTip(_("Edit N and Total counts for the selected pending job"))
+        edit_btn.clicked.connect(self._edit_pending_job)
+        btn_row.addWidget(edit_btn)
         cancel_btn = QPushButton(_("Cancel Current Run"))
         cancel_btn.clicked.connect(self._cancel_run)
         btn_row.addWidget(cancel_btn)
@@ -166,8 +171,9 @@ class RunsWindow(SmartDialog):
                 model = _short(str(getattr(run_config, "model_tags", "")), 30)
                 n = str(getattr(run_config, "n_latents", ""))
                 total = str(getattr(run_config, "total", ""))
+                batch = str(getattr(run_config, "batch_limit", "") or "")
                 pos = _short(str(getattr(run_config, "positive_prompt", "") or ""), 40)
-                QTreeWidgetItem(self._pending_tree, [str(idx + 1), wf, model, n, total, pos])
+                QTreeWidgetItem(self._pending_tree, [str(idx + 1), wf, model, n, total, batch, pos])
 
         # -- preset schedules --
         preset_queue = getattr(app, "job_queue_preset_schedules", None)
@@ -185,6 +191,52 @@ class RunsWindow(SmartDialog):
                 wf = str(wf_type.name if hasattr(wf_type, "name") else wf_type or "")
                 args_str = _short(str(req_args), 60)
                 QTreeWidgetItem(self._staging_tree, [str(idx + 1), wf, args_str])
+
+    def _edit_pending_job(self) -> None:
+        job_queue = getattr(self._app, "job_queue", None)
+        if job_queue is None:
+            return
+
+        selected = self._pending_tree.currentItem()
+        if selected is None:
+            self._app_actions.toast(_("Select a pending job first"))
+            return
+
+        row = self._pending_tree.indexOfTopLevelItem(selected)
+        if row < 0 or row >= len(job_queue.pending_jobs):
+            return
+
+        run_config = job_queue.pending_jobs[row]
+
+        dialog = QDialog(self)
+        dialog.setWindowTitle(_("Edit Pending Job"))
+        layout = QFormLayout(dialog)
+        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setSpacing(8)
+
+        n_spin = QSpinBox()
+        n_spin.setRange(1, 9999)
+        n_spin.setValue(int(getattr(run_config, "n_latents", 1) or 1))
+        layout.addRow(_("N (images per run):"), n_spin)
+
+        total_spin = QSpinBox()
+        total_spin.setRange(1, 9999)
+        total_spin.setValue(int(getattr(run_config, "total", 1) or 1))
+        layout.addRow(_("Total (runs):"), total_spin)
+
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
+        buttons.accepted.connect(dialog.accept)
+        buttons.rejected.connect(dialog.reject)
+        layout.addRow(buttons)
+
+        if dialog.exec() != QDialog.DialogCode.Accepted:
+            return
+
+        run_config.n_latents = n_spin.value()
+        run_config.total = total_spin.value()
+        self._refresh_queue()
 
     def _cancel_run(self) -> None:
         try:
