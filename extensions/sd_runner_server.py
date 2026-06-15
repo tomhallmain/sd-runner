@@ -8,6 +8,8 @@ from utils.logging_setup import get_logger
 
 logger = get_logger("sd_runner_server")
 
+_RECV_POLL_INTERVAL = 0.5  # seconds between recv() calls in the connection loop
+
 
 class CommandType(Enum):
     """Enum for server command types"""
@@ -55,51 +57,79 @@ class SDRunnerServer:
         self.listener = Listener((self._host, self._port), authkey=str.encode(config.server_password))
         self._running = True
         while self._running and not self._is_stopping:
+            # Errors here are Listener-level (port in use, closed listener) — unrecoverable.
             try:
                 self._conn = self.listener.accept()
                 logger.debug('connection accepted from: ' + str(self.listener.last_accepted))
-
-                while not self._is_stopping:
-                    try:
-                        msg = self._conn.recv()
-                        if msg is None:
-                            continue
-                        if config.debug:
-                            print(msg)
-                        if msg == 'close server' or msg == 'close connection':
-                            self._conn.close()
-                            if msg == 'close server':
-                                self._running = False
-                            break
-                        if msg == 'validate':
-                            self._conn.send('valid')
-                        elif isinstance(msg, dict):
-                            if "command" not in msg or "type" not in msg or "args" not in msg:
-                                self._conn.send({"error": "invalid command", "data": msg})
-                            else:
-                                self.run_command(msg["command"], msg["type"], msg["args"])
-                    except KeyboardInterrupt:
-                        pass
-                    except Exception as e:
-                        logger.error(e)
-                        self._conn.send({'error': 'server error', 'data': str(e)})
-                        self._conn.close()
-                    time.sleep(0.5)
             except OSError as e:
                 if not self._is_stopping:
-                    logger.error(f"Socket error: {e}")
-                    break
+                    logger.error(f"Listener error: {e}")
+                break
             except Exception as e:
                 if not self._is_stopping:
-                    logger.error(f"Unexpected error: {e}")
-                    break
+                    logger.error(f"Unexpected listener error: {e}")
+                break
+
+            self._handle_connection()
+
         if self.listener:
             try:
                 self.listener.close()
-            except:
+            except Exception:
                 pass
         self._running = False
         self._is_stopping = False
+
+    def _handle_connection(self) -> None:
+        """Read and dispatch messages on self._conn until the client disconnects or an error occurs.
+
+        Connection-level errors (EOFError, ConnectionResetError, broken pipe) cause this method
+        to return so the outer loop can accept the next client.  The connection is always closed
+        on exit.
+        """
+        try:
+            while not self._is_stopping:
+                try:
+                    msg = self._conn.recv()
+                    if msg is None:
+                        continue
+                    if config.debug:
+                        print(msg)
+                    if msg == 'close server' or msg == 'close connection':
+                        self._conn.close()
+                        if msg == 'close server':
+                            self._running = False
+                        return
+                    if msg == 'validate':
+                        self._conn.send('valid')
+                    elif isinstance(msg, dict):
+                        if "command" not in msg or "type" not in msg or "args" not in msg:
+                            self._conn.send({"error": "invalid command", "data": msg})
+                        else:
+                            self.run_command(msg["command"], msg["type"], msg["args"])
+                except KeyboardInterrupt:
+                    pass
+                except EOFError:
+                    # Client closed the connection cleanly.
+                    logger.debug("Client disconnected (EOF)")
+                    return
+                except (ConnectionResetError, BrokenPipeError, OSError) as e:
+                    logger.warning(f"Client connection lost: {e}")
+                    return
+                except Exception as e:
+                    logger.error(f"Error handling message: {e}")
+                    try:
+                        self._conn.send({'error': 'server error', 'data': str(e)})
+                    except Exception:
+                        pass  # Connection may already be dead; drop it.
+                    return
+                time.sleep(_RECV_POLL_INTERVAL)
+        finally:
+            try:
+                self._conn.close()
+            except Exception:
+                pass
+            self._conn = None
 
     def run_command(self, command: str, _type: str, args: dict) -> None:
         if self._conn is None:
@@ -149,15 +179,17 @@ class SDRunnerServer:
 
     def stop(self) -> None:
         self._is_stopping = True
+        self._running = False
         if self._conn:
             try:
                 self._conn.close()
-            except:
+            except Exception:
                 pass
         if self.listener:
+            # Closing the listener while accept() is blocking raises OSError inside
+            # start(), which checks _is_stopping and exits cleanly.
             try:
                 self.listener.close()
-            except:
+            except Exception:
                 pass
-        self._running = False
 
