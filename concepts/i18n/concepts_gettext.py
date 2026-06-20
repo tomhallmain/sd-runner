@@ -7,13 +7,15 @@ Excludes any .txt files whose basename starts with temp_.
 Uses gettext context (msgctxt) = file basename and msgid = concept string
 for uniqueness and translator-friendly keys.
 
-Workflow:
+Workflow (run from concepts/i18n/):
   1. Export: python concepts_gettext.py export
-     -> Writes locale/concepts.pot from default concepts/ (excludes dictionary.txt).
-  2. Create/update locale PO: e.g. msgmerge -U locale/de/LC_MESSAGES/concepts.po locale/concepts.pot
+     -> Writes locale/concepts.pot and locale/en/LC_MESSAGES/concepts.po (msgstr = msgid).
+  2. Create/update other locale PO: e.g. msgmerge -U locale/de/LC_MESSAGES/concepts.po locale/concepts.pot
   3. Translate in concepts.po (msgstr).
   4. Import: python concepts_gettext.py import --po locale/de/LC_MESSAGES/concepts.po --output concepts_de
      -> Writes concepts_de/ with translated lines; add that path to config concepts_dirs.
+
+Locale files live under concepts/i18n/locale/, separate from the app locale/ at repo root.
 """
 
 import argparse
@@ -90,22 +92,26 @@ def write_pot_string(f, key: str, value: str, indent: str = "") -> None:
         f.write(f'{indent}{key} "{escaped}"\n')
 
 
-def export_concepts_to_pot(
+def export_concepts_to_gettext(
     concepts_dir: str,
-    pot_path: str,
+    output_path: str,
     exclude_files: frozenset[str] | None = None,
     domain: str = "concepts",
+    *,
+    copy_msgid_to_msgstr: bool = False,
+    language: str | None = None,
 ) -> None:
     """
     Scan concepts_dir for .txt files (excluding exclude_files), load each,
-    and write a gettext POT template to pot_path.
+    and write a gettext POT or PO file to output_path.
     Uses msgctxt = file basename (no .txt) and msgid = concept line.
+    When copy_msgid_to_msgstr is True, msgstr is set to msgid (for English PO).
     """
     exclude = exclude_files if exclude_files is not None else DEFAULT_EXCLUDE_FILES
     files = get_concept_txt_files(concepts_dir, exclude)
-    os.makedirs(os.path.dirname(pot_path) or ".", exist_ok=True)
+    os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
 
-    with open(pot_path, "w", encoding="utf-8") as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(
             f'# Concepts template for domain "{domain}".\n'
             "# Export from concepts directory; msgctxt = file basename, msgid = concept string.\n"
@@ -115,8 +121,10 @@ def export_concepts_to_pot(
             'msgstr ""\n'
             '"Content-Type: text/plain; charset=UTF-8\\n"\n'
             '"Content-Transfer-Encoding: 8bit\\n"\n'
-            "\n"
         )
+        if language:
+            f.write(f'"Language: {language}\\n"\n')
+        f.write("\n")
         for filename in files:
             filepath = os.path.join(concepts_dir, filename)
             basename = os.path.splitext(filename)[0]
@@ -125,8 +133,24 @@ def export_concepts_to_pot(
                 f.write(f"# {filename}\n")
                 write_pot_string(f, "msgctxt", basename)
                 write_pot_string(f, "msgid", line)
-                write_pot_string(f, "msgstr", "")
+                write_pot_string(f, "msgstr", line if copy_msgid_to_msgstr else "")
                 f.write("\n")
+
+
+def export_concepts_to_pot(
+    concepts_dir: str,
+    pot_path: str,
+    exclude_files: frozenset[str] | None = None,
+    domain: str = "concepts",
+) -> None:
+    """Write a gettext POT template with empty msgstr entries."""
+    export_concepts_to_gettext(
+        concepts_dir,
+        pot_path,
+        exclude_files=exclude_files,
+        domain=domain,
+        copy_msgid_to_msgstr=False,
+    )
 
 
 def _unescape_po(raw: str) -> str:
@@ -266,12 +290,12 @@ def main() -> int:
     parser.add_argument(
         "--pot",
         default=None,
-        help="Path to concepts.pot (export). Default: locale/concepts.pot relative to concepts dir.",
+        help="Path to concepts.pot (export). Default: locale/concepts.pot under concepts/i18n/.",
     )
     parser.add_argument(
         "--po",
         default=None,
-        help="Path to locale concepts.po (import). e.g. locale/de/LC_MESSAGES/concepts.po",
+        help="Path to locale concepts.po (import). e.g. locale/de/LC_MESSAGES/concepts.po under concepts/i18n/.",
     )
     parser.add_argument(
         "--output",
@@ -289,7 +313,7 @@ def main() -> int:
     base = os.path.abspath(os.path.dirname(__file__))
     repo_root = os.path.abspath(os.path.join(base, "..", ".."))
     default_concepts = os.path.join(repo_root, "concepts")
-    default_locale = os.path.join(repo_root, "locale")
+    default_locale = os.path.join(base, "locale")
 
     concepts_dir = _resolve_path(args.concepts_dir or "concepts", repo_root)
     if not os.path.isdir(concepts_dir):
@@ -303,9 +327,18 @@ def main() -> int:
         if pot_path is None:
             pot_path = os.path.join(default_locale, "concepts.pot")
         else:
-            pot_path = _resolve_path(pot_path, repo_root)
+            pot_path = _resolve_path(pot_path, base)
+        en_po_path = os.path.join(default_locale, "en", "LC_MESSAGES", "concepts.po")
         export_concepts_to_pot(concepts_dir, pot_path, exclude_files=exclude)
+        export_concepts_to_gettext(
+            concepts_dir,
+            en_po_path,
+            exclude_files=exclude,
+            copy_msgid_to_msgstr=True,
+            language="en",
+        )
         print(f"Exported to {pot_path}")
+        print(f"Exported English PO to {en_po_path}")
 
     else:
         if args.po is None:
@@ -314,7 +347,7 @@ def main() -> int:
         if args.output is None:
             print("Import requires --output (path to output concepts directory).", file=sys.stderr)
             return 1
-        po_path = _resolve_path(args.po, repo_root)
+        po_path = _resolve_path(args.po, base)
         output_dir = _resolve_path(args.output, repo_root)
         if not os.path.isfile(po_path):
             print(f"PO file not found: {po_path}", file=sys.stderr)
