@@ -67,6 +67,18 @@ class PresetsWindow(SmartDialog):
         raise Exception(f"No preset found with name: {name}. Set it on the Presets Window.")
 
     @staticmethod
+    def get_preset_by_suffix(suffix: str) -> 'Preset | None':
+        """Return the first preset whose edit_suffix matches *suffix*, or None.
+
+        A preset matches if its edit_suffix equals the incoming suffix or is a
+        prefix of it (e.g. preset "_cher" matches incoming "_cherry").
+        """
+        for preset in PresetsWindow.recent_presets:
+            if preset.edit_suffix and suffix.startswith(preset.edit_suffix):
+                return preset
+        return None
+
+    @staticmethod
     def get_preset_names():
         return sorted(list(map(lambda x: x.name, PresetsWindow.recent_presets)))
 

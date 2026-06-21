@@ -667,6 +667,15 @@ class RunController:
             logger.debug("Rerunning from server request with last settings.")
 
         if len(args) > 0:
+            if "edit_suffix" in args:
+                from ui_qt.presets.presets_window import PresetsWindow
+                edit_suffix = args["edit_suffix"]
+                preset = PresetsWindow.get_preset_by_suffix(edit_suffix)
+                if preset is not None:
+                    logger.info(f"Switching to preset '{preset.name}' for edit_suffix '{edit_suffix}'")
+                    sp.set_widgets_from_preset(preset, manual=False)
+                else:
+                    logger.warning(f"No preset found with edit_suffix matching '{edit_suffix}'")
             if "source_prompt" in args:
                 source_path = args["source_prompt"].replace(",", "\\,")
                 if "append" in args and args["append"] and sp.source_prompt_file_entry.text().strip():
