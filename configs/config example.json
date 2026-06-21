@@ -29,6 +29,7 @@
     "prompter_get_specific_times": true,
     "random_skip_chance": 0,
     "save_last_prompt": false,
+    "delay_after_single_run": true,
     "gen_order": [
         "control_nets",
         "ip_adapters",

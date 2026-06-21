@@ -58,6 +58,7 @@ class Config:
         self.blacklist_prevent_execution = False  # Whether blacklisted items should prevent prompt execution
         self.purge_blacklisted_prompt_history = True  # Whether to purge blacklisted prompts from history on cache write
         self.save_last_prompt = False
+        self.delay_after_single_run = True  # Post-run delay when total == 1 (e.g. standalone server requests)
 
         self.gen_order = ["control_nets", "ip_adapters", "resolutions", "models", "vaes", "loras"]
         self.redo_parameters = ["n_latents", "resolutions", "models", "loras"]
@@ -104,6 +105,7 @@ class Config:
                         "override_dictionary_append",
                         "blacklist_prevent_execution",
                         "purge_blacklisted_prompt_history",
+                        "delay_after_single_run",
         )
         self.set_values(str,
                         "locale",

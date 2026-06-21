@@ -9,10 +9,7 @@ import datetime
 import os
 import time
 import traceback
-from copy import deepcopy
-from typing import Optional
 
-from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication
 
 from ui_qt.sound_player import play_sound
@@ -67,6 +64,14 @@ class RunController:
                 and self._app.job_queue_preset_schedules.has_pending())
         )
 
+    def should_delay_after_last_run(self, run_args) -> bool:
+        """Return whether the final iteration should use post-run delay."""
+        from utils.config import config
+        if run_args and run_args.total == 1:
+            if config.delay_after_single_run:
+                return True
+        return self.has_runs_pending()
+
     # ------------------------------------------------------------------
     # Blacklist validation
     # ------------------------------------------------------------------
@@ -116,7 +121,11 @@ class RunController:
         app.job_queue.job_running = True
         sp.cancel_btn.setVisible(True)
         sp.pause_queue_btn.setVisible(True)
-        app.current_run = Run(run_args, ui_callbacks=app.app_actions, delay_after_last_run=self.has_runs_pending())
+        app.current_run = Run(
+            run_args,
+            ui_callbacks=app.app_actions,
+            delay_after_last_run=self.should_delay_after_last_run(run_args),
+        )
         try:
             app.current_run.execute()
         except ScheduledShutdownException as e:

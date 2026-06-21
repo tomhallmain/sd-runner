@@ -1,6 +1,7 @@
+import queue
+import threading
 from enum import Enum
 from multiprocessing.connection import Listener
-import time
 
 from utils.config import config
 from utils.globals import WorkflowType
@@ -8,7 +9,7 @@ from utils.logging_setup import get_logger
 
 logger = get_logger("sd_runner_server")
 
-_RECV_POLL_INTERVAL = 0.5  # seconds between recv() calls in the connection loop
+_GEN_QUEUE_ITEM_DELAY = 1.0  # seconds to wait between consecutive queued generation requests
 
 
 class CommandType(Enum):
@@ -52,8 +53,14 @@ class SDRunnerServer:
         self.run_callback = run_callback
         self.cancel_callback = cancel_callback
         self.revert_callback = revert_callback
+        self._gen_queue: queue.Queue = queue.Queue()
+        self._gen_worker_thread: threading.Thread | None = None
 
     def start(self) -> None:
+        self._gen_worker_thread = threading.Thread(
+            target=self._process_gen_queue, daemon=True, name="sd-gen-queue-worker"
+        )
+        self._gen_worker_thread.start()
         self.listener = Listener((self._host, self._port), authkey=str.encode(config.server_password))
         self._running = True
         while self._running and not self._is_stopping:
@@ -80,6 +87,79 @@ class SDRunnerServer:
         self._running = False
         self._is_stopping = False
 
+    def _process_gen_queue(self) -> None:
+        """Worker thread: drain the generation queue one item at a time."""
+        import time
+        idle = True
+        while True:
+            try:
+                fn = self._gen_queue.get(timeout=1.0)
+            except queue.Empty:
+                if not idle:
+                    logger.info("Generation queue drained.")
+                    idle = True
+                if self._is_stopping:
+                    break
+                continue
+            if fn is None:  # shutdown sentinel
+                break
+            if idle:
+                logger.info(
+                    "Generation queue worker starting batch (%d item(s) pending).",
+                    self._gen_queue.qsize() + 1,  # +1 for the item just dequeued
+                )
+                idle = False
+            try:
+                fn()
+            except Exception as e:
+                logger.error("Error processing queued generation: %s", e)
+            finally:
+                self._gen_queue.task_done()
+            if not self._gen_queue.empty():
+                time.sleep(_GEN_QUEUE_ITEM_DELAY)
+
+    def _make_queue_item(self, type_str: str, args: dict):
+        """Return a zero-argument callable for the given command type and args."""
+        command_type = CommandType.resolve(type_str)
+        if command_type == CommandType.LAST_SETTINGS:
+            return lambda: self.run_callback(None, args)
+        elif command_type == CommandType.RENOISER:
+            return lambda: self.run_callback(WorkflowType.RENOISER, args)
+        elif command_type == CommandType.CONTROL_NET:
+            return lambda: self.run_callback(WorkflowType.CONTROLNET, args)
+        elif command_type == CommandType.IP_ADAPTER:
+            return lambda: self.run_callback(WorkflowType.IP_ADAPTER, args)
+        elif command_type == CommandType.IMAGE_EDIT:
+            return lambda: self.run_callback(WorkflowType.IMAGE_EDIT, args)
+        elif command_type == CommandType.TAKE_PROMPT:
+            args_copy = dict(args or {})
+            if "image" in args_copy and "source_prompt" not in args_copy:
+                args_copy["source_prompt"] = args_copy["image"]
+            args_copy.pop("image", None)
+            return lambda: self.run_callback(None, args_copy)
+        elif command_type == CommandType.IMG2IMG:
+            return lambda: self.run_callback(WorkflowType.IMG2IMG, args)
+        elif command_type == CommandType.REDO_PROMPT:
+            return lambda: self.run_callback(WorkflowType.REDO_PROMPT, args)
+        else:
+            raise ValueError(f"Command type {command_type} cannot be batched")
+
+    def _handle_run_batch(self, msg: dict) -> None:
+        """Enqueue all requests from a run_batch message and ack immediately."""
+        requests = msg.get('requests', [])
+        enqueued = 0
+        for req in requests:
+            if 'type' not in req or 'args' not in req:
+                logger.warning("Skipping malformed batch request: %s", req)
+                continue
+            try:
+                self._gen_queue.put(self._make_queue_item(req['type'], req['args']))
+                enqueued += 1
+            except ValueError as e:
+                logger.warning("Skipping un-batchable request: %s", e)
+        logger.info("run_batch: enqueued %d of %d item(s)", enqueued, len(requests))
+        self._conn.send({'status': 'queued', 'count': enqueued})
+
     def _handle_connection(self) -> None:
         """Read and dispatch messages on self._conn until the client disconnects or an error occurs.
 
@@ -103,10 +183,16 @@ class SDRunnerServer:
                     if msg == 'validate':
                         self._conn.send('valid')
                     elif isinstance(msg, dict):
-                        if "command" not in msg or "type" not in msg or "args" not in msg:
-                            self._conn.send({"error": "invalid command", "data": msg})
+                        command = msg.get('command')
+                        if command == 'run_batch':
+                            self._handle_run_batch(msg)
+                        elif command == 'run':
+                            if "type" not in msg or "args" not in msg:
+                                self._conn.send({"error": "invalid command", "data": msg})
+                            else:
+                                self.run_command(command, msg["type"], msg["args"])
                         else:
-                            self.run_command(msg["command"], msg["type"], msg["args"])
+                            self._conn.send({"error": "invalid command", "data": msg})
                 except KeyboardInterrupt:
                     pass
                 except EOFError:
@@ -123,7 +209,6 @@ class SDRunnerServer:
                     except Exception:
                         pass  # Connection may already be dead; drop it.
                     return
-                time.sleep(_RECV_POLL_INTERVAL)
         finally:
             try:
                 self._conn.close()
@@ -192,4 +277,8 @@ class SDRunnerServer:
                 self.listener.close()
             except Exception:
                 pass
+        # Signal the queue worker to drain and exit.
+        self._gen_queue.put(None)
+        if self._gen_worker_thread is not None:
+            self._gen_worker_thread.join(timeout=5.0)
 
