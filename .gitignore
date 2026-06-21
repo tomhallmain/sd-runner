@@ -1,5 +1,6 @@
 __pycache__
 .cursorignore
+*.log
 *.swp
 app_info_cache*.json
 app_info_cache*.enc*

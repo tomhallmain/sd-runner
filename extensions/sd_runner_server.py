@@ -9,8 +9,6 @@ from utils.logging_setup import get_logger
 
 logger = get_logger("sd_runner_server")
 
-_GEN_QUEUE_ITEM_DELAY = 1.0  # seconds to wait between consecutive queued generation requests
-
 
 class CommandType(Enum):
     """Enum for server command types"""
@@ -55,6 +53,10 @@ class SDRunnerServer:
         self.revert_callback = revert_callback
         self._gen_queue: queue.Queue = queue.Queue()
         self._gen_worker_thread: threading.Thread | None = None
+        # Set when no run is active; cleared while a run is executing so the
+        # queue worker blocks before starting the next item.
+        self.run_idle_event: threading.Event = threading.Event()
+        self.run_idle_event.set()
 
     def start(self) -> None:
         self._gen_worker_thread = threading.Thread(
@@ -89,7 +91,6 @@ class SDRunnerServer:
 
     def _process_gen_queue(self) -> None:
         """Worker thread: drain the generation queue one item at a time."""
-        import time
         idle = True
         while True:
             try:
@@ -109,14 +110,18 @@ class SDRunnerServer:
                     self._gen_queue.qsize() + 1,  # +1 for the item just dequeued
                 )
                 idle = False
+            # Wait until the previous run has fully completed before handing
+            # off the next item, then mark the slot as busy.
+            self.run_idle_event.wait()
+            self.run_idle_event.clear()
             try:
                 fn()
             except Exception as e:
                 logger.error("Error processing queued generation: %s", e)
+                # Release the slot so the queue doesn't stall on errors.
+                self.run_idle_event.set()
             finally:
                 self._gen_queue.task_done()
-            if not self._gen_queue.empty():
-                time.sleep(_GEN_QUEUE_ITEM_DELAY)
 
     def _make_queue_item(self, type_str: str, args: dict):
         """Return a zero-argument callable for the given command type and args."""

@@ -161,12 +161,16 @@ class RunController:
                 app.job_queue.pending_jobs.insert(0, next_job_args)
                 Utils.prevent_sleep(False)
                 self.clear_progress()
+                app.server_run_idle_event.set()
             else:
                 app.current_run.delay_after_last_run = True
                 Utils.start_thread(self._run_async, use_asyncio=False, args=[next_job_args])
+                # Chained _run_async will set the event when it finishes.
         elif not promoted:
             Utils.prevent_sleep(False)
             self.clear_progress()
+            app.server_run_idle_event.set()
+        # promoted=True: the promoted run spawns its own _run_async, which sets the event.
 
     def resume_paused_queue(self) -> None:
         """Start processing a paused/restored queue without adding a new run."""
