@@ -341,7 +341,7 @@ imperative
 imperiled
 impertinent
 imputed
-in a league of [my,his,her,our,their] own
+in a league of [[my,his,her,our,their]] own
 in a tizzy
 in high regard
 in jest
@@ -349,10 +349,10 @@ in shape
 in tip-top shape
 in use
 incarnate
-incedental
-incendiary?
+incidental
+incendiary
 inconsistent
-inctremental
+incremental
 indefinite
 inept
 inert
@@ -463,7 +463,7 @@ n-ary
 nameless
 natural
 neat
-nemisis
+nemesis
 newish
 nifty
 no brainer
@@ -505,7 +505,7 @@ overbearing
 overloaded
 overt
 packed
-palacial
+palatial
 paltry
 paramount
 parasitic
@@ -517,7 +517,7 @@ pedantic
 pending
 performative
 perilous
-perjurous
+perjurious
 pernicious
 personable
 personal
@@ -637,7 +637,7 @@ round
 sappy
 sardonic
 sassy
-sbsent
+absent
 scandalous
 scar
 scathing
@@ -758,6 +758,7 @@ tidal
 tight
 timid
 tin-panny
+tinny
 tiny
 to-go
 too true
@@ -840,7 +841,7 @@ well-conceived
 well-mannered
 well-rested
 wellaway
-whimsical -> whimsical (sfw_concepts.txt)
+whimsical
 whirly
 whiskers
 whiz
@@ -1019,7 +1020,7 @@ fair skin
 pale skin
 
 
-$$amish
+Amish
 
 
 

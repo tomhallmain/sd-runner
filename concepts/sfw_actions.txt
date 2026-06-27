@@ -14,7 +14,7 @@ $$random_word-eve
 [[one,two,three,four]] at a time
 [[set,feast,cast]] [[my,your]] [[gaze,eyes]] on [[this,that,$$random_word]]
 a $$random_word the likes of which have never been seen before
-aadding up
+adding up
 abandoning
 abjuring
 abrading
@@ -63,7 +63,7 @@ aiming
 aiming at $$random_word
 air drop
 airbrushing
-akido
+aikido
 alienated
 aligning
 alive and kicking
@@ -102,7 +102,7 @@ archery
 Architecting
 are you sure?
 arguing
-ariding
+riding
 arise
 arising
 arming
@@ -278,7 +278,7 @@ buzz off
 buzzer
 buzzing
 c-c-c-combo!
-cacaphony
+cacophony
 cadence
 cake pans
 calendars
@@ -365,6 +365,7 @@ cliff diving
 clinched
 clinching
 clinging
+cloning
 clipping onto
 cloppity-clop
 closing
@@ -488,7 +489,7 @@ debating
 debugging
 decanting
 deceiving
-deceloping
+developing
 deciding
 Deciphering
 decking the halls
@@ -635,7 +636,7 @@ embarking
 Embellishing
 embezzling
 embroidery
-embuing
+imbuing
 emergency
 emerging
 emitting
@@ -660,7 +661,7 @@ entitling
 entreating
 envisioning
 epiphany
-equippong
+equipping
 eschewing
 establishing
 estop
@@ -782,7 +783,7 @@ follow-through
 following
 following a curve
 football
-foresaking
+forsaking
 forewarned
 forging
 Forming
@@ -999,7 +1000,7 @@ Hurrah!
 hurting
 hushing
 hustling
-hypermiling
+hypermilling
 Hyperspacing
 I can't do it
 I double dog dare you
@@ -1037,7 +1038,6 @@ in favor
 in jeopardy
 in pursuit of
 in touch with [[him,her,us,them,$$random_word]]
-incantantion
 incantation
 incidence
 incident
@@ -1065,7 +1065,7 @@ integrating
 intending
 intercepting
 interning
-intertia
+inertia
 interview with $$random_word
 interview with bystander
 intoning
@@ -1080,10 +1080,10 @@ is it a go?
 is that so?
 it's a sham
 it's happening
-it's not $$random _word per se
+it's not $$random_word per se
 it's on!
 itching
-its on me
+it's on me
 jabbering
 jabs and hooks
 jazzercise/aerobics
@@ -1112,7 +1112,7 @@ jumping up in the air
 just for the [[thrill,heck]] of it
 karaoke
 karate
-kawai or Japanese items or collectibles
+kawaii or Japanese items or collectibles
 kayaking
 keeping at it
 keeping it
@@ -1156,7 +1156,6 @@ learning a new language
 leather crafting
 Leavening
 leaving
-leeping
 LEGO sets
 leisure
 lend-lease
@@ -1266,7 +1265,7 @@ messing with $$random_word
 metal detecting
 Metamorphosing
 meting out
-miling
+milling
 military parade
 milking a cow
 milling
@@ -1308,7 +1307,7 @@ mountain biking
 mounting
 moving
 mowing the lawn
-muahahaha... he fell right into my " $random_word trap! "
+muahahaha... he fell right into my "$$random_word trap!"
 Mulling
 mulling it over
 murmur
@@ -1414,7 +1413,7 @@ painting a picture
 painting a portrait
 painting a wall
 painting rocks
-palpatations
+palpitations
 palpating
 pangs
 panning
@@ -1685,7 +1684,7 @@ remark
 remastering
 remonstrating
 removing
-renarking
+remarking
 renouncing
 rent to own
 reopening
@@ -1856,7 +1855,6 @@ setting
 setting aside
 setting in
 setting out
-setting put
 setting sail
 setting up
 settling
@@ -1968,7 +1966,7 @@ so there!
 soap making and soap packaging
 soaring
 sobbing
-so then I says to the guy I says " $random_word !"
+so then I says to the guy I says "$$random_word!"
 soccer
 Sock-hopping
 soldering
@@ -2062,7 +2060,7 @@ strolling
 strumming
 strutting
 stubbing
-stubbing [[my,your,hid,her]] toe
+stubbing [[my,your,his,her]] toe
 studying
 studying hard
 stuffed animals
@@ -2143,7 +2141,7 @@ team spirit
 tearing
 tee hee
 teetering
-teetotsling
+teetotaling
 telehealth
 telescoping
 tell it to the judge

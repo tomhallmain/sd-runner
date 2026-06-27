@@ -130,14 +130,14 @@ African Boxwood
 African Lily
 Agapanthus
 Ageratum
-Ageratum houstonim
+Ageratum houstonianum
 Allium
 Alpina
 Alstroemeria
 Amaranthus hypochondriacus
 Amaryllis
 Ammi majus
-Anconitum
+Aconitum
 Anigozanthus
 Annual Delphinium
 Anthurium
@@ -232,10 +232,10 @@ Gladiolus hybrid nanus
 Goat's Beard
 Godetia
 Golden Rod
-Guersney Lily
+Guernsey Lily
 Gyp
 Gypsophila paniculata
-Hanging Helicona
+Hanging Heliconia
 Heath
 Heather
 Helianthus annuus
@@ -255,7 +255,7 @@ Lavender
 Liatris
 Lilac
 Lily
-Lilly-of-the-Valley
+Lily-of-the-Valley
 Lily Casa Blanca
 Lily of the Field
 Lily of the Nile
@@ -263,9 +263,9 @@ Lily Stargazer
 Limonium
 Lisianthus
 Marguerite daisy
-Mattholia incana
+Matthiola incana
 Melaleuca
-Memosa
+Mimosa
 Misty Blue Limonium
 Moluccella laevis
 Monkshood
@@ -337,7 +337,7 @@ Spray Carnation
 Sprengeri Fern
 Star of Bethlehem
 Statice
-Stenamezon
+Stenomeria
 Stephanotis
 Strawberry banksia
 Strawflower
@@ -349,7 +349,7 @@ Sweet William
 Sword Fern
 Tailflowers
 Tassel flower
-Thouroughwax
+Thoroughwax
 Throatwort
 Tracelium
 Tree Fern
@@ -365,7 +365,7 @@ Willow curly
 Windflower
 Wolfsbane
 Zantedeschia
-Zinna
+Zinnia
 Zinnia elegans
 boreal and alpine broadleaf forest
 boreal and alpine coniferous forest
@@ -417,14 +417,14 @@ montane forest
 montane rainforest
 mossy broad-leaved forest
 mossy coniferous forest
-mossy mixed-leaved forst
+mossy mixed-leaved forest
 mossy subtropical forest
 mossy temperate forest
 rainforest (montane)
 rainforest (subtropical)
 rainforest (temperate)
 rainforest (tropical)
-rainy savana forest
+rainy savanna forest
 savanna forest
 savanna tropical forest
 scrub forest

@@ -757,6 +757,7 @@ aufregend
 gezeitenbedingt
 eng
 schüchtern
+tin-panny
 blechern
 winzig
 zum Mitnehmen
@@ -1012,7 +1013,7 @@ weiches Haar
 struppiges Haar
 helle Haut
 blasse Haut
-$$amish
+Amish
 verlassen
 fähig
 absolut

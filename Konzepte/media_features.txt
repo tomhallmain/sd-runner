@@ -579,7 +579,7 @@ Kursivschrift
 Kursivschrift
 gekrümmt
 gekrümmter Spiegel
-cushv
+cushy
 Spitze
 Spucknapf
 angepasst

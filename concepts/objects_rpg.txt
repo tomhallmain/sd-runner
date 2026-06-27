@@ -94,7 +94,7 @@ Chaos Magic Stone
 Chaos Pickaxe
 Charm
 Chaser
-Chest of tresures
+Chest of treasures
 Chrono Chaser
 Chronos, the Cannon of Time
 Claws of Beriel
@@ -137,7 +137,7 @@ Crown of Fervor
 Crown of Great Rage
 Crown of Rage
 Crown of Serenity
-Crown of Transcendance
+Crown of Transcendence
 Crystal Golem Token
 Curse of Greed
 Cursed Mask
@@ -228,7 +228,7 @@ Fragment of Corrupt Angel's Feather
 Fragment of Oblivion
 Fragment of Soul
 Fragment of the Wind
-Frorist
+Florist
 Frost Fairy Wings
 Frost Herald's Garment
 Frost Web Brooch
@@ -458,7 +458,7 @@ Sacred Helm
 Sanguis, the Robe of Sacrifice
 Scale Protector
 Scarab Bone
-Scroll Oblivion
+Scroll of Oblivion
 Sea God Token
 Sea Jewel
 Seal Breaking Gemstone
@@ -603,7 +603,7 @@ Tidal Robe
 Titan's Plates
 Token of Darkness
 Token of Underlord
-Tresure Keys
+Treasure Keys
 Triple Snow
 Troll Axe
 Troll Battlewear
@@ -615,8 +615,8 @@ True Dragonstaff Irave
 True Dragonsword Lainhart
 True Guardian Ring
 Trueblood Ring
-Tthe Ring of Chaos
-Tthe Ring of Overlord
+The Ring of Chaos
+The Ring of Overlord
 Tunic of Subtlety
 Tunic of the Wraith
 Turtle Lord

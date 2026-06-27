@@ -2,7 +2,7 @@ $$character costume
 $$random_word-ware
 3D glasses
 abaya
-accoutre
+accoutrement
 Akubra
 amulet
 ancient greek dress
@@ -135,7 +135,6 @@ cloak
 cloche
 Cloche hat
 clogs
-cloning
 clothes
 clothing
 coat
@@ -150,8 +149,8 @@ corded-ware
 corsage
 corset
 costume
-courduroy
-courduroy pants
+corduroy
+corduroy pants
 couture
 coveralls
 covert coat
@@ -215,7 +214,7 @@ fashion
 fatigues
 Faux Fur Coat
 Faux Hawk
-feather headress
+feather headdress
 fedora
 fez
 fireman's helmet
@@ -368,7 +367,6 @@ Mohawk
 mood ring
 Motorcycle Jacket
 muffler
-muller
 Muslin gown
 muumuu
 name tag
@@ -467,7 +465,7 @@ tabard
 tache
 Tagelmust
 talisman
-tassle
+tassel
 thawb
 tonsure
 torn shirt
@@ -669,7 +667,6 @@ scuba diving belt
 silver belt
 skateboard belt
 sport belt
-suspenders belt
 travel belt
 trouser belt
 waist belt
@@ -1066,7 +1063,7 @@ feather boa
 goggles around neck
 headphones around neck
 jabot
-__gem__ necklace
+$$gem necklace
 chain necklace
 flower necklace
 friendship charm

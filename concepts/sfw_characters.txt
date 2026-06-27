@@ -85,7 +85,7 @@ C-Suite
 caddy
 Calypso
 can I get a true
-canester
+canister
 Capri Sun
 Captain Haddock
 caretaker
@@ -110,7 +110,7 @@ Chicken Run
 chud
 churl
 Cindy Lou
-Cirque de Soleil
+Cirque du Soleil
 claimant
 Claude Cat
 cleric
@@ -170,7 +170,7 @@ Eloise
 Elvin
 Elvis has left the building
 Elvis Presley
-emeratus
+emeritus
 Emeril
 employee
 employer
@@ -225,7 +225,7 @@ goner
 good grief
 Goofy Gophers
 Governor
-Gragantua et Pantagruel
+Gargantua et Pantagruel
 groundskeeper
 Grover
 growler
@@ -295,7 +295,7 @@ John Deere
 Jolly Roger
 just cause
 justiciar
-Kai-El
+Kal-El
 Kemo Sabe
 Keyboard Cat
 keynote speaker
@@ -442,7 +442,7 @@ prankster
 prat
 predecessor
 prefect
-presdident of $$random_word
+president of $$random_word
 press agent
 pretender
 primogeniture
@@ -472,7 +472,7 @@ rook
 Roomba
 Royce
 rube
-Rumplestiltskin
+Rumpelstiltskin
 sales rep
 Sam Sheepdog
 Sam-I-Am
@@ -488,7 +488,7 @@ Seeburg Wall-O-Matic 200
 seeker
 seer
 SEGA
-seneschall
+seneschal
 sentry
 setter
 settler
@@ -542,7 +542,7 @@ Monsieur $$random_word
 Madame $$random_word
 Herr $$random_word
 Frau $$random_word
-Madmoiselle
+Mademoiselle
 
 South Park
 Cartman from South Park
@@ -625,7 +625,7 @@ whippoorwill
 whoop-dee-doo
 William the Conqueror
 Ivan the Terrible
-Catharine the Great
+Catherine the Great
 earl
 count
 viscount
@@ -682,7 +682,7 @@ Call of Duty: Black Ops II
 Call of Duty: Modern Warfare
 Call of Duty: Modern Warfare 3
 Care Bears
-Carmen San Diego
+Carmen Sandiego
 Castlevania: Symphony of the Night
 Ceres
 chad meme
@@ -745,7 +745,7 @@ yahoos
 yeah dude like totally hahuh
 yeomanry
 Yeti
-Yogi the Bear
+Yogi Bear
 Yoo-Hoo
 Yorick
 Yosemite Sam
@@ -906,7 +906,7 @@ Minecraft
 Minerva
 Mini Brands
 Minnie Mouse
-Mobile Wingsuit Gundam
+Mobile Suit Gundam
 mobster
 Monkey Island 2: LeChuck's Revenge
 Monster Hunter: World
@@ -915,7 +915,7 @@ Mortal Kombat 11
 Mr. Potato Head
 Mr. Potato Head
 Ms. Pac-Man
-Ms. Piggy
+Miss Piggy
 muppets
 My Little Pony
 Myndólfur
@@ -960,7 +960,7 @@ Playmobil
 Playmobil
 Playstation
 Pluto
-Pokémn
+Pokémon
 Pokemon
 Pokémon Diamond / Pearl / Platinum
 Pokémon Gold / Silver / Crystal
@@ -1048,7 +1048,7 @@ Stick Horse
 Stickers
 Stickle bricks
 STIKFAS
-Strawberry shortcake
+Strawberry Shortcake
 Street Fighter II
 Stuart Little
 Super Dimension Fortress Macross
@@ -1077,7 +1077,7 @@ Terra
 Terraria
 Tetris
 Tetris - Game Boy / NES
-The Anemois
+The Anemoi
 The Elder Scrolls I: Arena
 The Elder Scrolls II: Daggerfall
 The Elder Scrolls III: Morrowind
@@ -1094,10 +1094,9 @@ The Smurfs
 The Walking Dead
 The Witcher 3: Wild Hunt
 The Witness
-Thesis
+Theia
 Thief II: The Metal Age
 Thor
-Thruer
 Tickle Me Elmo
 Tinkertoy
 Titanfall 2
@@ -1111,7 +1110,6 @@ Toy rattle
 Troll
 Trolls toy
 Twister game
-Týr
 Týr
 tyranid
 Ullr
@@ -1945,7 +1943,7 @@ Chloe
 Chorashan
 Chorazin
 Chozeba
-Christs
+Christ
 Chun
 Chushanrishathaim
 Chuza
@@ -4220,7 +4218,7 @@ Stablish
 Stachys
 Stephanas
 Stephen
-Stoicks
+Stoics
 Suah
 Succoth
 Succothbenoth

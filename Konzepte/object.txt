@@ -348,6 +348,7 @@ Kerzen
 Terrakotta
 Terrazzo
 Zinn
+Blechpfanne
 Lametta
 Polsterung
 Lackharz

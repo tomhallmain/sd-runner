@@ -135,7 +135,6 @@ Umhang
 Cloche
 Cloche-Hut
 Clogs
-Klonen
 Kleidung
 Kleidung
 Mantel
@@ -146,7 +145,7 @@ Combover
 Combover
 Constable-Wächterhut
 Reishut
-Kordstoff
+Schnurkeramik
 Corsage
 Korsett
 Kostüm
@@ -368,7 +367,6 @@ Iro
 Stimmungsring
 Motorradjacke
 Schal
-Mullgewand
 Mullkleid
 Muumuu
 Namensschild
@@ -666,7 +664,6 @@ Tauchgürtel
 Silber-Gürtel
 Skateboard-Gürtel
 Sport-Gürtel
-Hosenträger-Gürtel
 Reise-Gürtel
 Hosen-Gürtel
 Taillengürtel

@@ -12,7 +12,7 @@ $$color stamp
 (dark club with neon lights)
 (desktop screenshot, computer screenshot, open application windows)
 (ferrofluid:0.8)
-(flat design, illustrstion, $$random_word promotional material)
+(flat design, illustration, $$random_word promotional material)
 (gothic script)
 (Monochromatic Blue)
 (morphological operation)
@@ -145,7 +145,7 @@ annealing
 annotation
 annotation
 anomaly
-anomoly
+anomaly
 anonymous
 answer key
 anthem
@@ -325,8 +325,8 @@ brushstrokes carefully placed
 brushstrokes carefully placed
 brushstrokes finely computed
 brushstrokes finely computed
-brushtrokes
-brushtrokes
+brushstrokes
+brushstrokes
 brutalism
 bulk
 bullseye
@@ -363,7 +363,7 @@ Carborundum mezzotint
 care package
 caricature
 Carpenter Gothic
-Carpenter Gothoc
+Carpenter Gothic
 cart-de-visite
 cart-de-visite
 Cartesian coordinates
@@ -410,7 +410,7 @@ chasse
 chatelaine
 chatoyancy
 chatroom
-checkboard
+checkerboard
 chemical reaction
 chibi
 chibi
@@ -458,8 +458,8 @@ clef
 clip art
 clipart
 Cloisonné
-cloissone
-cloissone
+cloisonné
+cloisonné
 clone
 closed mouth
 closeup
@@ -583,7 +583,7 @@ cursive
 cursive
 curved
 curved mirror
-cushv
+cushy
 cusp
 cuspidor
 customized
@@ -673,7 +673,7 @@ disassembled
 disjoint
 dislocation
 disorder
-dissapating
+dissipating
 dissonance
 distillate
 distorted
@@ -764,7 +764,7 @@ Egyptian Empire
 Eigenfunction
 eigenvector
 eighths
-eigths
+eighths
 electromagnetic
 electromagnetic spectrum
 elegy
@@ -827,7 +827,7 @@ eulogy
 Evening City Lights
 everything
 evidence
-evilute
+evolute
 evolute
 evolutionary computing
 excellent art
@@ -875,7 +875,7 @@ figure eight
 figure eight
 film
 film grain
-film noire
+film noir
 Final Notice
 fine china porcelain
 fine print
@@ -938,8 +938,8 @@ fractal
 fragmentation
 frame
 framed
-franework
-frenquency
+framework
+frequency
 Fresnel lens
 frets
 fretsaw
@@ -1017,7 +1017,7 @@ golden ratio
 golden ratio
 gongbi
 gongbi
-googleplex
+googolplex
 gopro footage
 gopro footage
 gopro footage
@@ -1130,7 +1130,7 @@ honorific
 horde
 horizontal axis
 horizontal axis
-horsehoe
+horseshoe
 hot
 house of $$random_word
 house party
@@ -1160,7 +1160,7 @@ illuminated manuscript
 Illumination
 illumination angle
 illustration
-Image projected into polar coordinatrs
+Image projected into polar coordinates
 immortality
 Imperial Rome
 impluvium
@@ -1231,7 +1231,7 @@ issue $$number
 italic
 italic
 item
-itreous enamel
+vitreous enamel
 jali
 jamb
 jargon
@@ -1290,7 +1290,7 @@ lens flare
 lenticular lens
 lenticular print
 lenticular print
-leo nardo davinci design sketches
+leonardo davinci design sketches
 leonardo davinci design sketches
 level [[$$number,A,B,G]]
 level $$number
@@ -1615,7 +1615,7 @@ origami
 origami
 ornaments
 ornate
-orthagonal
+orthogonal
 ortho-
 orthography
 osmosis
@@ -1803,7 +1803,7 @@ polyester
 polygon
 polymorph
 polymorphism
-polypropelene
+polypropylene
 poor
 pop-up book
 pop-up book
@@ -1928,7 +1928,7 @@ remnant
 Renaissance
 repeating patterns
 repertoire
-repitition
+repetition
 replica
 representational
 reprint
@@ -2018,7 +2018,7 @@ rustic
 rustic
 rustication
 RV design
-rwo-for-one
+two-for-one
 s p a c i n g
 safety brochure
 sagittal plane
@@ -2219,7 +2219,7 @@ specks
 spectra
 speech bubble
 speleothems
-speliothem
+speleothem
 Sperrsatz
 SPF
 sphere
@@ -2289,12 +2289,12 @@ storybook
 storybook
 storybook
 storybook
-stpryboard
+storyboard
 strands
 strange
 strange magic
 strata
-strategem
+stratagem
 strategy
 streak
 streaming video
@@ -2356,7 +2356,7 @@ symbol
 symbol
 symbolic
 symbolic
-symcopation
+syncopation
 symmetrical
 synecdoche
 synopsis
@@ -2382,7 +2382,7 @@ tapestry
 taut
 tchotchke
 tear drops
-technicolor pallette
+technicolor palette
 technology
 Tee-Vee
 television aerial
@@ -2421,7 +2421,7 @@ thespian
 thick textured paint style impasto
 thingamajig
 thingie
-Third Reich Deustchland
+Third Reich Deutschland
 thirds
 this and that
 thou
@@ -2696,7 +2696,7 @@ wit
 wood engraving
 word cloud
 word cloud
-Worlds Fair
+World's Fair
 wormhole
 wormhole
 wove paper
@@ -2716,7 +2716,7 @@ yarnbombing
 yay!
 yearbook pictures
 yearbook pictures
-yellow jounslism
+yellow journalism
 Yellow Pages
 zebra stripes
 zebra stripes
@@ -2735,7 +2735,7 @@ ambient lighting
 ambient occlusion
 anti-aliasing
 augmented reality
-chromatic abberation
+chromatic aberration
 direct lighting
 flat shading
 fxaa
@@ -2850,7 +2850,7 @@ morisco architecture
 mudéjar architecture
 muscovite architecture
 neo-tropical
-neoclassicial
+neoclassical
 new indies architecture
 opaque
 pagan roman
@@ -2866,7 +2866,7 @@ queen-anne architecture
 queenslander
 reflective
 regency architecture
-relgious architecture
+religious architecture
 renaissance architecture
 resemble
 revivalist
@@ -3057,9 +3057,9 @@ Precious
 Imperceptible detail
 ƒ/1
 ƒ/1.4
-ƒ2
+ƒ/2
 ƒ/2.8
-ƒ4
+ƒ/4
 ƒ/5.6
 ƒ/8
 ƒ/11
@@ -3096,11 +3096,11 @@ musical
 mystery
 romance
 western
-4mm - 14mm  focal length
+4mm - 14mm focal length
 Fisheye focal length
-14mm - 35mm  focal length
+14mm - 35mm focal length
 Wide angle focal length
-35mm - 85mm  focal length
+35mm - 85mm focal length
 Standard focal length
 85mm - 135mm
 Short telephoto focal length
@@ -3480,7 +3480,7 @@ science fiction soft science fiction
 science fiction space opera
 science fiction space western
 science fiction speculative fiction
-science fiction steam punk
+science fiction steampunk
 science fiction superhero
 science fiction time travel
 science fiction transhumanism

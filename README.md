@@ -182,7 +182,7 @@ The run queue can be paused at any time using the **Pause Queue** button (sideba
 
 The prompts are generated using text concepts files. Each line in each file represents a concept that can be added randomly to the prompt, based on the prompter configuration.
 
-A custom concepts folder can be defined by setting the `concepts_dir` config option. Restart the UI and select the new folder from the concepts dropdown to use this instead of the default concepts folder.
+Additional concepts folders can be defined by adding paths to the `concepts_dirs` array in config (see `configs/config example.json`). Restart the UI and select the desired folder from the concepts dropdown in the sidebar. The repo includes English `concepts/` and German `Konzepte/`; both are listed in the example config.
 
 ## Concept Editor Window
 
@@ -222,7 +222,7 @@ The PySide6 UI includes an **Image to Prompt** window that can generate prompt t
 
 For stable-diffusion-webui, the img2img workflow is set up as the IP Adapter workflow. In ComfyUI, the Image to Image workflow provides a dedicated image-to-image transformation with the same inverse strength behavior, while the IP Adapter workflow uses IP-Adapter models for style transfer. In all img2img cases, modifying the IP adapter strength in the UI will inversely modify the denoising strength to produce a similar effect as IP adapter strength would for that workflow. 
 
-The following locales are supported in the UI: en (English), de (Deutsch), es (Español), fr (Français), ja (日本語), ko (한국어), pt (Português), ru (Русский), zh (中文). Theoretically the prompt outputs could be set up for any written language that has Unicode support by modifying the existing concepts files or adding a path to the config `concepts_dirs` to override concepts files.
+The following locales are supported in the UI: en (English), de (Deutsch), es (Español), fr (Français), ja (日本語), ko (한국어), pt (Português), ru (Русский), zh (中文). Prompt text language follows the selected concepts directory (English in `concepts/`, German in `Konzepte/`); see **Concepts Folder** above. Other written languages with Unicode support can use the same pattern by adding another concepts path to `concepts_dirs`.
 
 Excepting the concepts files, application data is encrypted for security. Logs are not currently being stored and will not be until they can be encrypted.
 

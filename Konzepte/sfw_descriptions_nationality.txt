@@ -28,8 +28,7 @@ amerikanisch
 andorranisch
 angolanisch
 anguillanisch
-Staatsbürger von Antigua
-Barbuda
+Staatsbürger von Antigua und Barbuda
 argentinisch
 armenisch
 australisch
@@ -45,8 +44,7 @@ beninisch
 bermudisch
 bhutanisch
 bolivianisch
-Staatsbürger von Bosnien
-Herzegowina
+Staatsbürger von Bosnien und Herzegowina
 botswanisch
 brasilianisch
 britisch
@@ -204,8 +202,7 @@ Tristaner
 tunesisch
 türkisch
 turkmenisch
-Türken
-Caicosinsulaner
+Staatsbürger der Turks- und Caicosinseln
 tuvaluisch
 ugandisch
 ukrainisch

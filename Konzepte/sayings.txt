@@ -129,7 +129,6 @@ Auge um Auge macht die ganze Welt blind
 Auge um Auge, Zahn um Zahn
 Ein ehrlicher Mensch muss sich nicht viel merken
 Eine Unze Vorbeugung ist ein Pfund Heilung wert
-Eine Unze Vorbeugung ist ein Pfund Heilung wert
 Und sie laufen!
 Ein neuer Tag, ein neuer Dollar
 Noch eine glückliche Landung
@@ -1027,8 +1026,7 @@ Diese Seite nach oben
 Wer nicht aus der Geschichte lernt, ist dazu verdammt, sie zu wiederholen
 Wer viele Sprachen kennt, lebt so viele Leben, wie er Sprachen kennt
 Wer in Glashäusern sitzt, soll nicht mit Steinen werfen
-Wer in Glashäusern sitzt, soll nicht mit Steinen werfen
-Wer in Glashäusern sitzt, soll nicht mit Steinen werfen
+Wer in Glashäusern sitzt, sollte nicht mit Steinen werfen
 Mit Hunden gehen, mit Flöhen aufstehen
 Durch dick und dünn
 Vorsicht in den Wind schlagen

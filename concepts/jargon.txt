@@ -1820,7 +1820,7 @@ GSL - GNU Scientific Library
 GSL - Godot Shading Language
 GSM - Global System for Mobile Communications
 GSMA - Global System for Mobile Communications Association
-GSO - Gram-Schmidt orthagonalization, Gram-Schimdt process
+GSO - Gram-Schmidt orthogonalization, Gram-Schimdt process
 GT.M - Greystone Technology MUMPS
 GT/s - Gigatransfers per second
 GTK, GTK+ - GIMP Toolkit
@@ -2691,7 +2691,7 @@ Mohol - Machine Oriented High Order Language
 Mojibake
 MOLA - Model transformation Language
 MOLAP - Multidimensional Online Analytical Processing (OLAP)
-MOLS - Mutually orthagonal Latin squares
+MOLS - Mutually orthogonal Latin squares
 MOM - Message-Oriented Middleware
 Monoid
 Monoid factorization
@@ -2922,7 +2922,7 @@ NXP - Next eXPerience Semiconductors Inc.
 NXT-G - Lego Mindstorms NXT Graphical environment
 o-score - Ohlson score
 O() - Big O notation
-O(n, F) - Orthagonal Group of degree n over field F
+O(n, F) - Orthogonal Group of degree n over field F
 o:XML - Object-oriented Extensible Markup Language
 OAI-ORE - OAI Object Reuse and Exchange
 OAI-PMH - Open Archives Initiative Protocol for Metadata Harvesting
@@ -3807,7 +3807,7 @@ SNR - Signal-to-Noise Ratio
 sns - 
 SNTP - Simple Network Time Protocol
 SO-DIMM - Small Outline Dual Inline Memory Module
-SO(n, F) - Special Orthagonal Group of degree n over field F
+SO(n, F) - Special Orthogonal Group of degree n over field F
 SOA - Service-Oriented Architecture
 SOAP - Simple Object Access Protocol
 SOAP - Symbolic Optimal Assembly Program

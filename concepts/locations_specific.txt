@@ -312,7 +312,7 @@ Moustiers Sainte Marie French village
 Edinburgh Scotland
 Glasgow Scotland
 Phoenician Steps of Anacapri
-Quedlinburg Deustchland
+Quedlinburg Deutschland
 Tyrol Osterreich
 Innsbruck Osterreich
 Cagliari Sicily
@@ -352,7 +352,7 @@ York Castle
 Dunalastair Castle Scotland
 Ajlun Castle Jordan
 Bamburgh Castle England
-Heidelberg Castle Deustchland
+Heidelberg Castle Deutschland
 Montfort Castle Crusader Fortress
 
 London
@@ -1339,7 +1339,8 @@ Denali National Park and Preserve
 Dry Tortugas National Park
 Everglades National Park
 Gates of the Arctic National Park and Preserve
-Glacier National Park Glacier Bay National Park and Preserve
+Glacier National Park and Preserve
+Glacier Bay National Park and Preserve
 Grand Canyon National Park
 Grand Teton National Park
 Great Basin National Park
@@ -1386,7 +1387,7 @@ Paris, France
 Montreal, Canada
 San Francisco, California
 Marrakesh, Morocco
-Cartagena, Columbia
+Cartagena, Colombia
 Bali, Indonesia
 New Orleans, Louisiana
 Kerry, Ireland
@@ -1409,7 +1410,7 @@ Santorini, Greece
 Moscow, Russia
 Rio de Janeiro, Brazil
 Petra, Jordan
-Barbabos
+Barbados
 Amsterdam, Netherlands
 Santiago, Chile
 Cairo, Egypt
@@ -1430,7 +1431,7 @@ Buenos Aires, Argentina
 Las Vegas
 Matterhorn, Switzerland
 Tahiti
-Turks & Caicos, Dominican Republic
+Turks & Caicos Islands
 Phuket, Thailand
 Glacier National Park, Montana
 Banff, Alberta

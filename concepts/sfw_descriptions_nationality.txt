@@ -32,8 +32,7 @@ American
 Andorran
 Angolan
 Anguillan
-Citizen of Antigua
-Barbuda
+Citizen of Antigua and Barbuda
 Argentine
 Armenian
 Australian
@@ -49,14 +48,13 @@ Beninese
 Bermudian
 Bhutanese
 Bolivian
-Citizen of Bosnia
-Herzegovina
+Citizen of Bosnia and Herzegovina
 Botswanan
 Brazilian
 British
 Bruneian
 Bulgarian
-Burkinan
+Burkinabe
 Burundian
 Cambodian
 Cameroonian
@@ -208,8 +206,7 @@ Tristanian
 Tunisian
 Turkish
 Turkmen
-Turks
-Caicos Islander
+Turks and Caicos Islander
 Tuvaluan
 Ugandan
 Ukrainian

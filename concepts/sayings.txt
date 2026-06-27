@@ -1,6 +1,6 @@
 10 out of 10
 [[$$random_word is a ,]]Paper Tiger
-[[[He's,She's] got ,]]two left feet
+[[[He's,She's] got, ]] two left feet
 [[[I,you,we,they] have,[he,she,it] has,]] an axe to grind
 [[A,The]] leopard [[can't,cannot,does not]] change [[its,his]] spots
 [[All g,G]]ood things come to [[him who waits,those who wait]]
@@ -117,7 +117,6 @@ An eye for an eye makes the whole world blind
 An eye for an eye, a tooth for a tooth
 An honest man doesn't need to remember much
 An ounce of prevention is worth a pound of cure
-An ounce of prevention is worth a pound pf cure
 And they're off!
 Another day, another dollar
 Another happy landing
@@ -349,7 +348,7 @@ For here or to go?
 For Hire
 For the birds
 For want of a nail the shoe was lost; for want of a shoe the horse was lost; and for want of a horse the man was lost
-For what it's woth
+For what it's worth
 Forewarned is forearmed
 Fortune [[favors,smiles on]] the [[bold,brave]]
 Free is for me
@@ -431,7 +430,7 @@ Hope for the best, and prepare for the worst
 Hope springs eternal
 Horses for courses
 How is [[it,this]] possible?
-How it panned put
+How it panned out
 How long is a piece of string?
 Hunger never knows the taste, sleep never knows the comfort
 I come in peace
@@ -760,7 +759,7 @@ Patience is a virtue
 Pay the piper
 Pearls of wisdom
 Penny for your thoughts
-Penny Penny. Makes many.
+A penny saved makes many
 Penny wise and pound foolish
 Pet owners tend to look like their pets
 Physician, heal thyself
@@ -842,7 +841,7 @@ so long and farewell
 so long to $$random_word
 Softly softly catchee monkey
 Soldier on
-Solid as s rock
+Solid as a rock
 Some are more equal than others
 Somehow or other
 Sometimes we are the student. Sometimes we are the master. And sometimes we are merely the lesson.
@@ -982,7 +981,6 @@ Third time is a charm
 This End Up
 Those who do not learn from history are doomed to repeat it
 Those who know many languages live as many lives as the languages they know
-Those who live in glass houses shoukd not throw stones
 Those who live in glass houses should not throw stones
 Those who live in glass houses shouldn't throw stones
 Those who sleep with dogs will rise with fleas
@@ -1141,7 +1139,7 @@ You're toast
 You've got to separate the wheat from the chaff
 You've made your bed and you must lie [[in,on]] it
 Your guess is as good as mine
-Your mileage my vary
+Your mileage may vary
 Youth is wasted on the young
 Zeal without knowledge is fire without light
 Zero tolerance

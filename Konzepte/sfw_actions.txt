@@ -366,6 +366,7 @@ Klippenspringen
 Festgezogen
 Festziehen
 Klammern
+Klonen
 Anklipsen
 Klapperklapper
 Schließen
@@ -1039,7 +1040,6 @@ In Gefahr
 Auf der Jagd nach
 In Kontakt mit [[ihm,ihr,uns,ihnen,$$random_word]]
 Zauberspruch
-Zauberspruch
 Vorkommen
 Vorfall
 Eingehend
@@ -1158,7 +1158,6 @@ Eine neue Sprache lernen
 Lederarbeit
 Backen
 Verlassen
-Schlafen
 LEGO-Sets
 Freizeit
 Leih-Pacht
@@ -1858,7 +1857,6 @@ einstellen
 beiseite legen
 einziehen
 aufbrechen
-absetzen
 in See stechen
 aufstellen
 sich niederlassen

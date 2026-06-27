@@ -1,7 +1,7 @@
 
 $$number st.
-$$random _word north
-$$random _word south
+$$random_word north
+$$random_word south
 $$random_word department
 $$random_word east
 $$random_word estates

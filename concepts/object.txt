@@ -302,7 +302,7 @@ rock face
 rubble
 sand
 speleothems
-speliothem
+speleothem
 spiderweb
 spiderwebs
 stone
@@ -380,6 +380,7 @@ tapers
 terra cotta
 terrazzo
 tin
+tin pan
 tinsel
 upholstery
 varnish resin
@@ -537,7 +538,7 @@ glass former
 government
 graph paper
 gravel
-Guiness Book of World Records record for [biggest,tallest,smallest,longest,widest,most] $$random_word
+Guinness Book of World Records record for [biggest,tallest,smallest,longest,widest,most] $$random_word
 gypsum
 herd
 hoof
@@ -655,7 +656,7 @@ animatronic
 angle
 apex
 atomic bomb
-bacterium in electron micrscope
+bacterium in electron microscope
 black hole
 black tar and oil
 brain
@@ -709,7 +710,7 @@ missile arc
 mitosis
 mounted deer head on the wall
 muons
-musculoskelatal system
+musculoskeletal system
 museum display
 museum exhibit
 nervous system
@@ -787,7 +788,7 @@ castlevania
 civilization v
 command & conquer red alert
 commander keen
-crusaider no regret
+Crusader: No Regret
 day of the tentacle
 desert strike
 diablo
@@ -796,7 +797,7 @@ discworld
 divinity original sin
 escape from monkey island
 factorio
-fall out
+Fallout
 final fantasy
 full throttle
 grand theft auto iii
@@ -818,7 +819,7 @@ lucasarts adventure games
 magic carpet
 maniac mansion
 mario galaxy
-mario odissey
+Mario Odyssey
 marvel vs. capcom
 mdk
 metal slug
@@ -843,7 +844,7 @@ resident evil
 retro rpg
 rimworld
 rockstar games
-roler coaster tycoon
+RollerCoaster Tycoon
 runescape
 sam & max hit the road
 samorost

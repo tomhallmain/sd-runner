@@ -352,7 +352,7 @@ mangoes
 mangosteen
 maple syrup
 margarine
-marionberrries
+marionberries
 marionberry
 marmalade
 marshmallow
@@ -455,7 +455,7 @@ persipan
 pesto sauce
 pickle
 pickled papaya
-pickled watermel. rind
+pickled watermelon rind
 pickles
 pie
 pilaf
@@ -691,7 +691,7 @@ wheat grass
 whey
 white beans
 white bread
-white button mush.
+white button mushrooms
 white pepper
 white tea
 white vinegar
@@ -789,7 +789,7 @@ desert fig
 desert lime
 dewberry
 doubah
-durain
+durian
 eastern may hawthorn
 eggfruit
 elephant apple
@@ -925,7 +925,6 @@ plantain
 podocarpus
 poha
 pois doux
-pomcite
 pommecythere
 pommerac
 pond apple

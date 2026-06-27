@@ -192,7 +192,7 @@ Lazy
 Lighthearted
 Lonely
 Melancholic
-mischevious
+mischievous
 Miserable
 mortified
 moue
@@ -219,7 +219,7 @@ Overjoyed
 Overwhelmed
 Panicked
 peevish
-penache
+panache
 Pensive
 Perplexed
 Pessimistic
@@ -303,7 +303,7 @@ suspicion
 Suspicious
 Tearful
 tedium
-tempremental
+temperamental
 Tense
 then again
 thinking face
