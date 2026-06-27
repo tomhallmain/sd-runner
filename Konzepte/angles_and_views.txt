@@ -1,0 +1,86 @@
+Luftaufnahme
+Vogelperspektive
+Kameraansicht von oben
+Schrägwinkel (Holländische Neigung)
+Cinematisches Panorama
+Nahaufnahme
+Drohnenperspektive
+Holländischer Winkel (Schrägsicht)
+Aufnahme auf Augenhöhe
+Extreme Nahaufnahme (ECU)
+Extreme Totale
+Fernaufnahme
+Ego-Perspektive
+Frontansicht
+Froschperspektive
+Ganzkörperaufnahme
+Bodenaufnahme
+Aufnahme aus erhöhter Perspektive
+Isometrische Ansicht
+Aufnahme auf Kniehöhe
+Langzeitbelichtung
+Totale
+Untersicht
+Halbnahe Aufnahme
+Halbtotale
+Medium-Einstellung
+Mikroskopische Ansicht
+Aufnahme auf Nasenhöhe
+Weltraumansicht
+Über-die-Schulter-Ansicht
+Subjektive Aufnahme (POV)
+Produktansicht
+Rückansicht
+Satellitenansicht
+Aufnahme auf Schulterhöhe
+Seitenansicht
+Schräge Perspektive
+Geteilte Bildschirmansicht
+Tilt-Shift
+Zwei-Einstellung / Drei-Einstellung
+Draufsicht
+Ultraweitwinkel
+Weitwinkelansicht
+Wurmperspektive
+14mm
+18mm
+24mm
+35mm
+50mm
+85mm
+100mm
+200mm
+300mm
+400mm
+500mm
+360-VR-Objektiv
+Unscharfes Objektiv
+Bokeh-Objektiv
+Fischauge
+Fischaugenobjektiv
+Makroobjektiv
+Mikroobjektiv
+Teleobjektiv
+Ultraweitwinkelobjektiv
+Weitwinkelobjektiv
+Porträt, 85mm, f/1.4
+Landschaft, 24mm, f/11
+Makro, 100mm (Makroobjektiv), f/2.8
+Schwachlicht, 50mm, f/1.8 oder heller
+Sport, 300mm, f/2.8
+Straßenfotografie, 35mm, f/2.8
+Astrofotografie, 14mm, f/2.8
+Produkt, 50mm, f/8
+holländischer Winkel
+von hinten
+von hinten, Blick zum Betrachter
+von hinten, Blick abgewandt
+von unten, Blick zum Betrachter
+von unten, Blick abgewandt
+von der Seite
+von der Seite, Blick zum Betrachter
+von der Seite, Blick abgewandt
+POV, Blick zum Betrachter
+POV, Blick abgewandt
+seitlich
+frontal

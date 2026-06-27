@@ -35,7 +35,12 @@ SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
 if SCRIPT_DIR not in sys.path:
     sys.path.insert(0, SCRIPT_DIR)
 
-from concepts_gettext import _parse_po_string, write_pot_string  # noqa: E402
+from concepts_gettext import (  # noqa: E402
+    _parse_po_string,
+    lookup_po_translation,
+    po_translation_lookups,
+    write_pot_string,
+)
 
 FIELD_SEP = "\t"
 CHUNK_NAME_RE = re.compile(r"^chunk_(\d+)\.(?:tsv|txt)$")
@@ -622,11 +627,12 @@ def merge_chunks(po_path: str, chunks_dir: str, *, output: str | None = None) ->
         print("No translations found in chunk files.", file=sys.stderr)
         return 1
 
+    exact, by_norm = po_translation_lookups(translations)
     updated = 0
     for entry in entries:
-        key = (entry.msgctxt, entry.msgid)
-        if key in translations:
-            entry.msgstr = translations[key]
+        msgstr = lookup_po_translation(entry.msgctxt, entry.msgid, exact, by_norm)
+        if msgstr is not None:
+            entry.msgstr = msgstr
             updated += 1
 
     out_path = output or po_path

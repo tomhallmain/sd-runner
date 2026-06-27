@@ -1,0 +1,350 @@
+$$random_word spiegelt sich im Fenster eines $$random_word
+unter
+3/4-Ansicht
+[[auf,zur]] linken Seite
+[[auf,zur]] rechten Seite
+ein Viertel des Weges
+einen Steinwurf entfernt von
+angrenzend an $$random_word
+gegenüber von
+auf der anderen Tischseite
+angrenzend an
+in der Ferne
+voraus
+Hände in die Hüften gestemmt
+die ganze $$random_word entlang
+überall
+hoch oben
+neben
+nach unten geneigt
+nach oben geneigt
+Knöchel
+sich nähernd
+gewölbter Rücken
+Arm verschränkt
+Arme verschränkt
+Arme unten
+Arme ausgestreckt
+Arme gefaltet
+Arme oben
+herum
+um den Block
+beiseite
+eine Haltung einnehmend
+in Bewegung
+schräg
+stramm stehend
+entspannt stehend
+am Ende
+am Anfang
+geneigt
+zurück
+Rücken zur Kamera
+Rücksitz
+dahinter
+neben
+zwischen
+zwischen
+wehend
+gestützt
+zusammengedrängt in
+Schwiele
+ungestellt
+auskragend bei
+Kinn
+in Griffnähe
+in der Nähe
+am nächsten bei
+zusammengedrängt
+eingeschlossen
+angrenzend
+Ecke
+quer
+in der Hocke
+Deltamuskel
+direkter Weg
+unten
+hier unten
+dort unten
+sich duckend unter
+genau [[Osten,Westen,Norden,Süden]]
+dynamische Pose
+Ohren
+auf der Kante
+Ellbogen
+umschließend
+ganz am Ende
+Enden
+längs
+überall
+auf Augenhöhe
+von der Kamera abgewandt
+nach unten gerichtet
+einander zugewandt
+nach oben gerichtet
+zum Betrachter gerichtet
+bei weitem
+am weitesten von
+Embryonalhaltung
+Finger
+gekreuzte Finger
+gefaltet
+von der anderen Seite des Raums
+von ringsum
+Vordersitz
+Glamour-Pose
+halbe Drehung
+auf halbem Weg
+Hände
+Hände in die Hüften gestemmt
+Kopf
+Kopf gesenkt
+Kopf nach vorn
+Kopf auf die Hand gestützt
+Kopf gedreht
+Versteck
+hoch
+hoch oben
+heimwärts
+vor
+hier drinnen
+in einer Reihe
+drinnen oder draußen?
+hinten
+vorne
+in der Mitte
+dort drinnen
+im Schlepptau
+geneigt
+Fußrücken
+nach innen
+Kiefer
+Jazzhände
+genauso weit
+Knie
+seitlich
+lehnend
+nach vorn gelehnt
+zurückgelehnt
+auf die Seite gelehnt
+am Geländer lehnend
+sich vorbeugend
+ganz links
+Beine übereinandergeschlagen
+Beine gespreizt
+Beine zusammen
+Aufstellung
+sich umsehend
+über die Schulter zurückblickend
+nach unten blickend
+nach links blickend
+nach rechts blickend
+nach oben blickend
+niedrig
+liegend
+in Bauchlage
+auf dem Rücken liegend
+auf der Seite liegend
+auf dem Bauch liegend
+in der Luft
+in der Mitte
+Modelpose
+aufgesetzt
+nahe
+nahe dem $$random_word
+in der Nähe
+näher
+am nächsten
+benachbart
+einnickend
+dennoch
+nicht weit
+über
+verdeckt
+auf [[meinen,seinen,ihren,deren,deinen]] Schultern
+auf einer höheren Ebene
+auf einer niedrigeren Ebene
+aufrecht
+im Ziel
+am Rand
+seitlich
+auf Zehenspitzen
+auf einem Präsentationssockel
+auf dem Boden
+offene Arme
+gegenüber
+Ausrichtung
+äußerer
+nach außen
+hier drüben
+dort drüben
+da drüben
+über Kopf
+eingequetscht
+perfekt positioniert
+gedreht
+Positionen
+vorausgehend
+aufgestützt
+Vierteldrehung
+thront
+POV-Hände
+POV-Beine
+POV-Füße
+Profilpose
+nach unten greifend
+nach oben greifend
+sich entfernend
+zurückgelehnt
+liegend zurückgelehnt
+auf den Ellbogen gestützt
+ganz rechts
+sich umdrehend
+Schienbein
+Schulter
+Seite
+Seitenprofil
+lässig herumsitzend
+zurückgesunken sitzend
+aufrecht sitzend
+sitzend
+positioniert
+sich erstreckend über
+ausgestreckt
+in der Hocke
+Haltungen
+auf einem Fuß stehend
+gerade aufrecht stehend
+stehend mit beiden erhobenen Händen
+stehend mit einer erhobenen Hand
+stehend mit einer Hand oben, auf einem Fuß ruhend
+sich bückend
+T-Pose
+das
+darin
+dies
+drei Viertel des Weges
+schräg geneigt
+Auszeit-Geste
+hin und her
+Zehe
+zusammen
+ganz oben
+auf dem Kopf stehend
+eingesteckt
+nach innen gedreht
+nach außen gedreht
+sich abwendend
+sich umdrehend
+Hand oben
+Cowboy-Einstellung
+einen anderen anblickend
+den Betrachter anblickend
+wegblickend
+aus jedem Winkel
+dezentrierte Ansicht
+Aufnahme auf Hüfthöhe
+(entferntes Motiv, Ultraweitwinkelaufnahme)
+umgebend
+ungewöhnliche Position
+oben
+hier oben
+dort oben
+bis [[dort,hier]]
+auf den Kopf gestellt
+emporgehoben
+erhoben
+am Rand von $$random_word
+Blick von unten auf $$random_word
+Luftaufnahme
+Vogelperspektive
+Kameraansicht von oben
+Schräge Kamera (Holländischer Winkel)
+Kinopanorama
+Nahaufnahme
+dramatischer Winkel
+Drohnenansicht
+Holländischer Winkel (schräge Ansicht)
+Aufnahme auf Augenhöhe
+Extreme Nahaufnahme (ECU)
+Extreme Totale
+Fernaufnahme
+Ich-Perspektive
+Frontalansicht
+Froschperspektive
+Ganzkörperaufnahme
+Bodenaufnahme
+Aufnahme aus dem Vogelwinkel
+Isometrische Ansicht
+Aufnahme auf Kniehöhe
+Langzeitbelichtung
+Totale
+Aufnahme aus der Froschperspektive
+Halbnahaufnahme
+Amerikanische Einstellung
+Halbtotale
+Mikroskopische Ansicht
+Aufnahme auf Nasenhöhe
+Weltraumansicht
+Über-die-Schulter-Ansicht
+Subjektive Kamera (POV-Aufnahme)
+Produktansicht
+Rückansicht
+Satellitenansicht
+Aufnahme auf Schulterhöhe
+Seitenansicht
+Schrägwinkel
+Splitscreen-Ansicht
+Tilt-Shift
+Zwei-Einstellung / Drei-Einstellung
+Draufsicht
+Ultraweitwinkel
+Blickpunkt
+Weitwinkelaufnahme
+Wurmperspektive
+(Ansicht von weit oben)
+(Ansicht von weit entfernt)
+(Blick durch ein Fenster)
+Blick durch ein 360-VR-Objektiv
+Unscharfes Objektiv
+Bokeh-Objektiv
+Fischauge
+Fischauge-Objektiv
+Makroobjektiv
+Mikroobjektiv
+Teleobjektiv
+Ultraweitwinkelobjektiv
+Weitwinkelobjektiv
+Porträt, 85 mm, f/1,4
+Landschaft, 24 mm, f/11
+Makro, 100 mm (Makroobjektiv), f/2,8
+Schwachlicht, 50 mm, f/1,8 oder weiter
+Sport, 300 mm, f/2,8
+Straße, 35 mm, f/2,8
+Astrofotografie, 14 mm, f/2,8
+Produkt, 50 mm, f/8
+Yogaposen
+jenseits von $$random_word
+Contrapposto
+kniend
+kniend, auf einem Knie
+liegend, Beine übereinander
+liegend, Embryonalhaltung
+liegend, auf dem Rücken
+liegend, auf der Seite
+liegend, auf dem Bauch
+sitzend, Schmetterlingssitz
+sitzend, Beine übereinander
+sitzend, im Schneidersitz
+sitzend, die Beine umarmend
+sitzend, Lotussitz
+sitzend, Seiza
+sitzend, auf dem Schoß
+sitzend, auf einer Person
+sitzend, rittlings
+sitzend, Wariza
+sitzend, Yokozuwari
+stehend
+stehend, balancierend
+stehend, Beine übereinander
+stehend, auf einem Bein

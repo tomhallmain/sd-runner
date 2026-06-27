@@ -91,7 +91,7 @@
 
     "purge_blacklisted_prompt_history": true,
 
-    "concepts_dirs": ["concepts"],
+    "concepts_dirs": ["concepts", "Konzepte"],
     "default_concepts_dir": null,
     "override_dictionary_path": null,
     "override_dictionary_append": false,

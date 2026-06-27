@@ -1,0 +1,4535 @@
+()ג - Gimel-Funktion
+.3g2 - 3GPP2-Multimediadatei
+.3gp - 3GPP-Multimediadatei
+.7z - 7-Zip-komprimierte Datei
+.ai - Adobe-Illustrator-Datei
+.aif - AIF-Audiodatei
+.apk - Android-Paketdatei
+.arj - ARJ-komprimierte Datei
+.asp, .aspx - Active-Server-Page-Datei
+.avi - AVI-Datei
+.bak - Sicherungsdatei
+.bat - Batch-Datei
+.bin - Binäres Disc-Image
+.bin - Binärdatei
+.bmp - Bitmap-Bild
+.btm - 4DOS-Skript-Standarddateierweiterung
+.c - C- und C++-Quellcodedatei
+.cab - Windows-Cabinet-Datei
+.cda - CD-Audiotrack-Datei
+.cer - Internet-Sicherheitszertifikat
+.cfg - Konfigurationsdatei
+.cfm - ColdFusion-Markup-Datei
+.cgi, .pl - Perl-Skriptdatei
+.class - Java-Klassendatei
+.com - MS-DOS-Befehlsdatei
+.cpl - Windows-Systemsteuerungsdatei
+.cpp - C++-Quellcodedatei
+.cs - Visual C
+.css - CSS-Datei
+.csv - CSV-Datei
+.cur - Windows-Cursor-Datei
+.dat - Datendatei
+.db, .dbf - Datenbankdatei
+.deb - Debian-Softwarepaket
+.dll - DLL-Datei
+.dmg - macOS-Disk-Image
+.dmp - Dump-Datei
+.doc, .docx - Microsoft-Word-Datei
+.drv - Gerätetreiberdatei
+.exe - Ausführbare Datei
+.flv - Adobe-Flash-Datei
+.fnt - Windows-Schriftdatei
+.fon - Schriftdatei
+.gadget - Windows-Gadget
+.gif - GIF-Bild
+.h - C-, C++- und Objective-C-Headerdatei
+.h264 - H.264-Videodatei
+.htm - HTML-Datei
+.icns - macOS-Icon-Ressourcendatei
+.ico - Icon-Datei
+.ini - Initialisierungsdatei
+.iso - ISO-Disc-Image
+.jar - Java-Archivdatei
+.java - Java-Quellcodedatei
+.jpeg, .jpg - JPEG-Bild
+.js - JavaScript-Datei
+.jsp - Java-Server-Page-Datei
+.key - Keynote-Präsentation
+.lnk - Windows-Verknüpfung
+.log - Protokolldatei
+.m4v - Apple-MP4-Videodatei
+.mdb - Microsoft-Access-Datenbank
+.mid, .midi - MIDI-Audiodatei
+.mkv - Matroska-Multimedia-Container
+.mov - Apple-QuickTime-Filmdatei
+.mp3 - MP3-Audiodatei
+.mp4 - MPEG4-Videodatei
+.mpa - MPEG-2-Audiodatei
+.mpg, .mpeg - MPEG-Videodatei
+.msi - Windows-Installationspaket
+.NET - dot net
+.odp - OpenOffice-Impress-Präsentation
+.ods - OpenOffice-Calc-Tabelle
+.odt - OpenOffice-Writer-Dokument
+.ogg - Ogg-Vorbis-Audiodatei
+.otf - OpenType-Schriftdatei
+.part - Teilweise heruntergeladene Datei
+.pdf - PDF-Datei
+.php - PHP-Datei
+.pkg - Paketdatei
+.png - PNG-Bild
+.pps - PowerPoint-Diashow
+.ppt - PowerPoint-Präsentation
+.pptx - PowerPoint-Open-XML-Präsentation
+.ps - PostScript-Datei
+.psd - PSD-Bild
+.py - Python-Datei
+.QL - Dot-Abfragesprache (objektorientiert)
+.rar - RAR-Datei
+.rm - RealMedia-Datei
+.rpm - Red-Hat-Paketmanager
+.rss - RSS-Datei
+.rtf - Rich-Text-Format
+.sav - Speicherdatei (z. B. Spielstand)
+.sh - Bash-Shell-Skript
+.sql - SQL-Datenbankdatei
+.svg - SVG-Datei
+.swf - Shockwave-Flash-Datei
+.swift - Swift-Quellcodedatei
+.sys - Windows-Systemdatei
+.tar - Linux-/Unix-Tarball-Archiv
+.tar.gz - Komprimierte Tarball-Datei
+.tex - LaTeX-Dokumentdatei
+.tif, .tiff - TIFF-Bild
+.tmp - Temporäre Datei
+.toast - Toast-Disc-Image
+.ttf - TrueType-Schriftdatei
+.txt - Klartextdatei
+.vb - Visual-Basic-Datei
+.vcd - Virtuelle CD
+.vob - DVD-Video-Objekt
+.wav - WAV-Datei
+.webm - WebM-Video
+.wks, .wps - Microsoft-Works-Datei
+.wma - WMA-Audiodatei
+.wmv - Windows-Media-Video-Datei
+.wpd - WordPerfect-Dokument
+.wpl - Windows-Media-Player-Wiedergabeliste
+.wsf - Windows-Skriptdatei
+.xhtml - XHTML-Datei
+.xlr - Microsoft-Works-Tabelle
+.xls - Microsoft-Excel-Datei
+.xlsx - Microsoft-Excel-Open-XML-Tabelle
+.xml - XML-Datei
+.z - Z-komprimierte Datei
+.zip - ZIP-komprimierte Datei
+/. - Slashdot
+@Formula - @Formula
+aeroelastisches Flattern
+Backwardation
+BAO - Baryonische Akustische Oszillationen
+Vergleichsbasis
+Contango
+kontrafaktisch
+Epinephrin
+Hilfsstoffe
+idempotent
+intransitiv
+Große Provinzen mit niedriger Schergeschwindigkeit (LLSVPs)
+Lyophilisation
+Trägheitsmoment
+UVP - Unverbindliche Verkaufspreisempfehlung
+Osmose
+phototrop
+π-Kalkül
+λProlog - λProlog
+μ-Kernel - Mikrokernel
+μ-law, mu-law, u-law - μ-law-Kompandierungsalgorithmus
+Φ(n), Phi-Funktion - Eulersche Totientenfunktion
+100 - HTML-Status - Fortfahren
+101 - HTML-Status - Protokollwechsel
+102 - HTML-Status - Verarbeitung (WebDAV; RFC 2518)
+103 - HTML-Status - Checkpoint
+103 - HTML-Status - Frühe Hinweise (RFC 8297)
+1C -
+1D, 2D, 3D, 4D, usw. - N-dimensional
+1GL, 2GL, 3GL, 4GL, 5GL - Programmiersprache der N-ten Generation
+1NF, 2NF, 3NF, 4NF, 5NF, 6NF - N. Normalform
+1xx - HTML-Status - Informationsantwort
+200 - HTML-Status - OK
+201 - HTML-Status - Erstellt
+202 - HTML-Status - Akzeptiert
+203 - HTML-Status - Nicht maßgebliche Information (seit HTTP/1.1)
+204 - HTML-Status - Kein Inhalt
+205 - HTML-Status - Inhalt zurücksetzen
+206 - HTML-Status - Teilinhalt (RFC 7233)
+207 - HTML-Status - Multi-Status (WebDAV; RFC 4918)
+208 - HTML-Status - Bereits gemeldet (WebDAV; RFC 5842)
+218 - HTML-Status - Alles in Ordnung (Apache Web Server)
+226 - HTML-Status - IM verwendet (RFC 3229)
+2B1Q - 2 Binär 1 Quaternär
+ZFA - Zwei-Faktor-Authentifizierung
+2G, 3G, 4G, 5G - Zweite, Dritte, Vierte, Fünfte Generation
+2xx - HTML-Status - Erfolg
+300 - HTML-Status - Mehrere Auswahlmöglichkeiten
+301 - HTML-Status - Dauerhaft verschoben
+302 - HTML-Status - Gefunden (früher „Vorübergehend verschoben“)
+303 - HTML-Status - Siehe andere Ressource (seit HTTP/1.1)
+304 - HTML-Status - Nicht geändert (RFC 7232)
+305 - HTML-Status - Proxy verwenden (seit HTTP/1.1)
+306 - HTML-Status - Proxy wechseln
+307 - HTML-Status - Vorübergehende Weiterleitung (seit HTTP/1.1)
+308 - HTML-Status - Dauerhafte Weiterleitung (RFC 7538)
+DGE - Datengesteuerte Entscheidungsfindung
+3xx - HTML-Status - Weiterleitung
+400 - HTML-Status - Ungültige Anfrage
+401 - HTML-Status - Nicht autorisiert (RFC 7235)
+402 - HTML-Status - Zahlung erforderlich
+403 - HTML-Status - Verboten
+404 - HTML-Status - Fehler auf Wikipedia
+404 - HTML-Status - Nicht gefunden
+405 - HTML-Status - Methode nicht erlaubt
+406 - HTML-Status - Nicht akzeptabel
+407 - HTML-Status - Proxy-Authentifizierung erforderlich (RFC 7235)
+408 - HTML-Status - Anfrage-Zeitüberschreitung
+409 - HTML-Status - Konflikt
+410 - HTML-Status - Nicht mehr verfügbar
+411 - HTML-Status - Länge erforderlich
+412 - HTML-Status - Vorbedingung fehlgeschlagen (RFC 7232)
+413 - HTML-Status - Nutzlast zu groß (RFC 7231)
+414 - HTML-Status - URI zu lang (RFC 7231)
+415 - HTML-Status - Nicht unterstützter Medientyp (RFC 7231)
+416 - HTML-Status - Bereich nicht erfüllbar (RFC 7233)
+417 - HTML-Status - Erwartung fehlgeschlagen
+418 - HTML-Status - Ich bin eine Teekanne (RFC 2324, RFC 7168)
+419 - HTML-Status - Seite abgelaufen (Laravel Framework)
+420 - HTML-Status - Beruhige dich (Twitter)
+420 - HTML-Status - Methodenfehler (Spring Framework)
+421 - HTML-Status - Fehlgeleitete Anfrage (RFC 7540)
+422 - HTML-Status - Nicht verarbeitbare Entität (WebDAV; RFC 4918)
+423 - HTML-Status - Gesperrt (WebDAV; RFC 4918)
+424 - HTML-Status - Abhängigkeit fehlgeschlagen (WebDAV; RFC 4918)
+425 - HTML-Status - Zu früh (RFC 8470)
+426 - HTML-Status - Upgrade erforderlich
+428 - HTML-Status - Vorbedingung erforderlich (RFC 6585)
+429 - HTML-Status - Zu viele Anfragen (RFC 6585)
+430 - HTML-Status - Anfrage-Header-Felder zu groß (Shopify)
+431 - HTML-Status - Anfrage-Header-Felder zu groß (RFC 6585)
+440 - HTML-Status - Anmelde-Zeitüberschreitung
+444 - HTML-Status - Keine Antwort
+449 - HTML-Status - Erneut versuchen mit
+450 - HTML-Status - Blockiert durch Windows-Jugendschutz (Microsoft)
+451 - HTML-Status - Weiterleitung
+451 - HTML-Status - Aus rechtlichen Gründen nicht verfügbar (RFC 7725)
+494 - HTML-Status - Anfrage-Header zu groß
+495 - HTML-Status - SSL-Zertifikatsfehler
+496 - HTML-Status - SSL-Zertifikat erforderlich
+497 - HTML-Status - HTTP-Anfrage an HTTPS-Port gesendet
+498 - HTML-Status - Ungültiges Token (Esri)
+499 - HTML-Status - Client hat Anfrage geschlossen
+499 - HTML-Status - Token erforderlich (Esri)
+VFS - Vier-Farben-Satz
+4DOS - 4 Disk Operating System
+4xx - HTML-Status - Client-Fehler
+500 - HTML-Status - Interner Serverfehler
+501 - HTML-Status - Nicht implementiert
+502 - HTML-Status - Ungültiges Gateway
+503 - HTML-Status - Dienst nicht verfügbar
+504 - HTML-Status - Gateway-Zeitüberschreitung
+505 - HTML-Status - HTTP-Version nicht unterstützt
+506 - HTML-Status - Variante verhandelt ebenfalls (RFC 2295)
+507 - HTML-Status - Unzureichender Speicher (WebDAV; RFC 4918)
+508 - HTML-Status - Schleife erkannt (WebDAV; RFC 5842)
+509 - HTML-Status - Bandbreitenlimit überschritten (Apache Web Server/cPanel)
+510 - HTML-Status - Nicht erweitert (RFC 2774)
+511 - HTML-Status - Netzwerk-Authentifizierung erforderlich (RFC 6585)
+520 - HTML-Status - Webserver hat unbekannten Fehler zurückgegeben
+521 - HTML-Status - Webserver ist offline
+522 - HTML-Status - Verbindungs-Zeitüberschreitung
+523 - HTML-Status - Ursprung nicht erreichbar
+524 - HTML-Status - Zeitüberschreitung aufgetreten
+525 - HTML-Status - SSL-Handshake fehlgeschlagen
+526 - HTML-Status - Ungültiges SSL-Zertifikat
+527 - HTML-Status - Railgun-Fehler
+529 - HTML-Status - Website überlastet
+530 - HTML-Status -
+530 - HTML-Status - Website eingefroren
+598 - HTML-Status - (Informelle Konvention) Netzwerk-Lese-Zeitüberschreitung
+5xx - HTML-Status - Server-Fehler
+8VSB - 8-stufige Restseitenband-Modulation
+A-0-System - A-0-System
+A-law - A-law-Kompandierungsalgorithmus
+A
+A* - A*-Suchalgorithmus
+a.e. - Fast überall
+A.L.I.C.E., Alice - Artificial Linguistic Internet Computer Entity
+A+ - APL erweitert
+A++, ARS - Abstraktion plus Referenz plus Synthese
+AAA - Authentifizierung, Autorisierung, Abrechnung
+AAAI - Association for the Advancement of Artificial Intelligence
+AAC - Advanced Audio Coding
+AADL - Architecture Analysis & Design Language
+AAHL - Architecture Analysis & Design Language
+AAL - ATM-Anpassungsschicht
+AALC - ATM-Anpassungsschicht-Verbindung
+AARP - AppleTalk Address Resolution Protocol
+AARP - Association for Automated Reasoning
+ABZK - Attributbasierte Zugriffskontrolle
+ABACUS - Architekturbasierte Analyse, Kommunikation und Systemverständnis
+ABAP - Advanced Business Application Processing
+ABB - ASEA Brown Boveri
+Abbe-Fehler
+ABC - ABC-Stromchiffre-Algorithmus
+ABB - Approximative Bayessche Berechnung
+ZVB - Zuweisungen, Verzweigungen, Bedingungen
+ABC - Einfache Programmiersprache
+ABC ALGOL - ALGOL-ABC-algebraische Erweiterung
+KBS-Algorithmus - Künstlicher-Bienen-Schwarm-Algorithmus
+ABCL, ABCL/1, ABCL/R, ABCL/R2, ABCL/c+ - Actor-Based Concurrent Language
+ABEL - Advanced Boolean Expression Language
+ABI - Application Binary Interface
+AgBM - Agentenbasiertes Modell
+AAM - Asynchroner ausgeglichener Modus
+EBNF - Erweiterte Backus-Naur-Form
+ABP - Alternierendes-Bit-Protokoll
+ABR - Automatische Baudratenerkennung
+VBR - Verfügbare Bitrate
+DBR - Durchschnittliche Bitrate
+ABS - Absolutwert
+AS - Absolut stetig
+AK - Akustische Kopplung
+WS - Wechselstrom
+AX - Auswahlaxiom
+AKB - Aufsteigende Kettenbedingung
+ACC - Assembler und Compiler wie C (?)
+Accent - Accent
+AKBH - Aufsteigende Kettenbedingung auf Hauptidealen
+AAV - Automatische Anrufverteilung
+ACF - Autokorrelationsfunktion
+AKS - Automatisierte Clearingstelle
+NKI - Nachbarkanal-Interferenz
+AKID - Atomarität, Konsistenz, Isolation und Dauerhaftigkeit
+ACK - Bestätigung
+ZKL - Zugriffskontrollliste
+ASS - Aktive Stromschleife
+AKS - Agent-Kommunikationssprache
+AVM - Amplitudenvergleichs-Monopuls
+ACM - Association for Computing Machinery
+ACM SIGGRAPH - Special Interest Group on Computer Graphics and Interactive Techniques
+
+AKME - Automatisierte Klassifizierung medizinischer Entitäten
+AKO - Ameisenkolonie-Optimierung
+AkP - Algebra kommunizierender Prozesse
+ACPI - Advanced Configuration and Power Interface
+NKV - Nachbarkanal-Leistungsverhältnis
+ACR - Absolute Category Rating
+EZR - Erlaubte Zellenrate
+DNV - Dämpfung-zu-Nebelsprechen-Verhältnis
+AKS - Antizipatives Klassifikatorsystem
+ACT-R - Adaptive Control of Thought—Rational
+Action! - Action!
+ActionScript - ActionScript
+Actor - Actor-Programmiersprache für Windows
+AD - Active Directory
+VD - Verwaltungsdomäne
+AD - Automatische Differentiation
+Ada - Ada-Programmiersprache
+Adaboost - Adaptives Boosting
+Adam - Adam-Methode für stochastische Optimierung
+AdaMax - AdaMax-Methode für stochastische Optimierung
+AEPA - Adaptive Entscheidungs- und Prädiktivanalyse
+ADW - Analog-Digital-Wandler
+ADCCP - Advanced Data Communications Control Procedures
+Adressdecoder
+Adenine - Adenin
+ADEPT - Ascriptive & Descriptive Entities for Process & Translation
+ABS - Architekturbeschreibungssprache
+ARMM - Alternierende Richtungsmethode der Multiplikatoren
+ADO - ActiveX Data Objects
+ADV - Automatisierte Datenverarbeitung
+ADSL - Asymmetrische Digital-Teilnehmerleitung
+ADT - Abstrakter Datentyp
+AE - Adaptiver Equalizer
+AV - Authentifizierte Verschlüsselung
+AE - Autoencoder
+AVzD - Authentifizierte Verschlüsselung mit zugeordneten Daten
+AGE - Asymptotische Gleichverteilungseigenschaft
+AES - Advanced Encryption Standard
+BF - Beschleunigungsfaktor
+AF - Anisotropes Filtern
+AFP - Advanced Function Presentation
+AFP - Apple Filing Protocol
+ARSR - Analoges Rückkopplungs-Schieberegister
+BAZM - Beschleunigtes-Ausfallzeit-Modell
+AGA - Adaptiver genetischer Algorithmus
+AGAL - Adobe Graphics Assembly Language
+Agda - Agda-Programmiersprache und Beweiser
+KGI - Künstliche allgemeine Intelligenz
+agm(x,y), M(x,y) - Arithmetisch-geometrisches Mittel
+Agora - Agora-Programmiersprache
+AGP - Accelerated Graphics Port
+AGPL - Affero General Public License
+AH - Aktiver Hub
+AHDL - Altera Hardware Description Language
+KI - Künstliche Intelligenz
+AIC - Akaike-Informationskriterium
+UIG - Und-Inverter-Graph
+AIM - AOL Instant Messenger
+AIML - Artificial Intelligence Markup Language
+AIMMS - Advanced Interactive Multidimensional Modeling System
+AEA - Asynchroner E/A
+KIS - Künstliches Immunsystem
+AIT - Algorithmische Informationstheorie
+AIX - Advanced Interactive Executive
+Ajax - Asynchrones JavaScript und XML
+ZL - Zugriffsliste
+AL - Aktiver Link
+ALAC - Apple Lossless Audio Codec
+Aldor - Aldor-Programmiersprache
+Alef - Alef-Programmiersprache
+Aleph - Aleph-Zahlen
+Alexa - Amazon Alexa persönlicher Assistent
+AlexNet - Alex' neuronales Netzwerk
+ALF - Action Language for Foundational UML
+ALFA - Abgekürzte Sprache für Autorisierung
+ALGOL - Algorithmische Sprache
+ALGOL W - ALGOL Wirth
+Alice, Alice ML - Alice Meta Language
+ALL - Affine lineare Logik
+ALM - Application Lifecycle Management
+Alma-0 - Alma-0
+Alphard - Alphard
+ALSA - Advanced Linux Sound Architecture
+ALTO - Analyzed Layout and Text Object
+ALTRAN - Algebraischer Übersetzer
+RLE - Arithmetisch-logische Einheit
+ZM - Zugriffsmethode
+AM - Active Matrix
+AM - Aktiver Monitor
+AM - Allied Mastercomputer
+AM - Amplitudenmodulation
+AM - Arithmetisches Mittel
+AM - Arthur-Merlin-2-Nachrichten-Protokoll polynomielle Zeit
+Amazon S3 - Amazon Simple Storage Service
+Amazon SQS - Amazon Simple Queue Service
+AmbientTalk - AmbientTalk
+AMD - Advanced Micro Devices
+AMD64 - Advanced Micro Devices 64-Bit-Architektur
+AmI - Ambiente Intelligenz
+Amiga E - Amiga E
+AMOLED - Active-Matrix Organic Light-Emitting Diode
+AMOS - AMOS BASIC
+AMPL - A Mathematical Programming Language
+AMQP - Advanced Message Queuing Protocol
+AMR - Audio Modem Riser
+AMS - American Mathematical Society
+AnalogySpace -
+Analytica - Analytica
+AND - Und, Konjunktion
+ANF - Algebraische Normalform
+AngelScript - AngelScript
+WM - Winkelmodulation
+KNN - Künstliches neuronales Netzwerk
+Annihilator
+VA - Varianzanalyse
+ANSI - American National Standards Institute
+ANT - Another Neat Tool
+ANTLR - ANother Tool for Language Recognition
+AODV - Ad-hoc-On-Demand-Distance-Vector-Routing
+AoE - ATA over Ethernet
+AOP - Aspektorientierte Programmierung
+AOSD - Aspektorientierte Softwareentwicklung
+AP - Aktionspotential
+LZP - Lineares Zuordnungsproblem
+Apache - Apache HTTP Server
+ASPA - Steuerinformationen des Anwendungsschichtprotokolls
+Apex - SalesForce Apex-Programmiersprache
+APS - Anwendungsprogrammierschnittstelle
+APIC - Advanced Programmable Interrupt Controller
+APPA - Automatische private IP-Adressierung
+APL - A Programming Language
+App Inventor - App Inventor für Androids visuelle Blocksprache
+APP, AtomPub - Atom Publishing Protocol
+Apple Swift -
+AppleScript - AppleScript
+APR - Apache Portable Runtime
+APU - Amplituden- und Phasen-Umtastung, Asymmetrische Phasen-Umtastung
+APSP - Paralleler All-Pairs-Shortest-Path-Algorithmus
+APT - Automatically Programmed Tool
+AQL - Annotation Query Language
+AR-Modell - Autoregressives Modell
+ARB-Assembly - OpenGL Architecture Review Board-Assemblersprache
+ARC - Adaptive Replacement Cache
+ARC - Advanced RISC Computing
+Arc - Arc-Programmiersprache
+ARC - Augmentation Research Center
+ARCH - Autoregressive bedingte Heteroskedastizität
+ARB - Automatische Relevanzbestimmung
+Arel - Eine relationale Algebra
+ARexx - Amiga-Rexx-Programmiersprache
+arg - Argument von
+argmax - Argument des Maximums
+argmin - Argument des Minimums
+Argus - Argus-Programmiersprache
+ARIMA - Autoregressives integriertes gleitendes Mittel
+ARIN - American Registry for Internet Numbers
+ARIS - Architektur integrierter Informationssysteme
+AssRL - Assoziationsregellernen
+ARM - Advanced/Acorn RISC Machine
+ARMA - Autoregressives gleitendes Mittel-Modell
+AROS - AROS Research Operating System
+ARP - Address Resolution Protocol
+ARPA - Address and Routing Parameter Area
+ARPA - Advanced Research Projects Agency
+ARPANET - Advanced Research Projects Agency Network
+AWA - Automatische Wiederholungsanfrage
+arXiv - Archiv
+AS - Access Server
+ASCII - American Standard Code for Information Interchange
+ASDL - Analytical Sciences Digital Library
+ASET - Automated Security Enhancement Tool
+ASF - Advanced Systems Format (früher Advanced Streaming Format, Active Streaming Format)
+
+ASG - Abstrakter semantischer Graph
+KSI - Künstliche Schwarmintelligenz
+AIS - Anwendungsspezifischer integrierter Schaltkreis
+ASIMO - Advanced Step in Innovative Mobility
+AMU - Amplituden-Umtastung
+ASLR - Address Space Layout Randomization
+AZM - Algorithmische Zustandsmaschine
+AMP - Asymmetrisches Multiprocessing
+ASN.1 - Abstract Syntax Notation 1
+ASP - Active Server Pages
+ASP - Application Service Provider
+ASP - Application Service Provider
+ASR - Asynchrone Signalroutine
+ASR - Automatische Spracherkennung
+Assembly language - Assemblersprache
+ASB - Abstrakter Syntaxbaum
+ASTM - American Society for Testing and Materials
+ZZ - Zugriffszeit
+AT - Aktiver Terminator
+AT - Advanced Technology
+ATA - Advanced Technology Attachment
+ATAG - Authoring Tool Accessibility Guidelines
+ATAPI - Advanced Technology Attachment Packet Interface
+Ateji PX - Ateji-PX-Programmiersprache
+ATL - ATLAS Transformation Language
+ATLAS - Automatically Tuned Linear Algebra Software
+ATM - Asynchronous Transfer Mode
+ABWES - Annahmebasiertes Wahrheitserhaltungssystem
+EUN - Erweitertes Übergangsnetzwerk
+ATS - Applied Type System
+ATS - Automatisiertes Handelssystem
+ATSC - Advanced Television Systems Committee-Standard
+FuK - Fläche unter der Kurve
+aUI - aUI-Konstruierte Sprache
+FuK - Fläche unter der ROC-Kurve
+AuthIP - Authenticated Internet Protocol
+AuthN - Authentifizierung
+AuthZ - Autorisierung
+AutoHotKey - AutoHotKey-Skriptsprache
+AutoIt - AutoIt-Skriptsprache
+AutoLISP - AutoLISP / Visual LISP
+AV - Antivirus
+AVC - Advanced Video Coding
+Averest - Averest
+AVG - Durchschnitt
+AVI - Audio Video Interleaved
+AVL-Baum - Adelson-Velsky-und-Landis-Baum
+AWFL - Akronym mit vier Buchstaben
+AWGN - Additives weißes Gaußsches Rauschen
+AWK - Aho Weinberger Kernighan
+fwPP - Fast weite probabilistische polynomielle Zeit
+AWS - Amazon Web Services
+AWT - Abstract Window Toolkit
+Axum - Axum-Programmiersprache
+B-Baum (B*-Baum, B+-Baum) - B-Baum (Bayer und McCreight erklärten nie, wofür das B steht: Boeing, balanced, broad, bushy und Bayer wurden vorgeschlagen. McCreight sagte: „Je mehr man darüber nachdenkt, was das B in B-Bäumen bedeutet, desto besser versteht man B-Bäume.")
+
+B - B-Programmiersprache
+B TAM - Basic Telecommunications Access Method
+B2B - Business-to-Business
+B2C - Business-to-Consumer
+B2E - Business-to-Employee
+Babbage - Babbage
+BABOK - Business Analysis Body of Knowledge
+BACS - Bankers Automated Clearing System
+BAL - Basic Assembly Language
+Bilanzgleichung
+Kugel - Feste Kugel
+Ballerina - Ballerina
+BAM - Block Availability Map
+Banach-Raum
+Bar-Hillel-Lemma - Pumping-Lemma für kontextfreie Sprachen
+BASE - Basically Available, Soft-State, Eventually Consistent
+Base64 - Base64-Kodierung
+bash - Bourne-again shell
+BASIC - Beginner's All-Purpose Symbolic Instruction Code
+BATON - Balanced Tree Overlay Network
+BBP - Baseband Processor
+BBS - Blum Blum Shub
+BBS - Bulletin Board System
+BC - Business Continuity
+BKD - Binär kodierte Dezimalzahl
+BCD - Boot Configuration Data
+BCF - Blake-Kanonicalform
+BCH-Codes - Bose-Chaudhuri-Hocquenghem-Codes
+BCL - Base Class Library
+BCL - Binary Cutter Language
+BCL - Botnet Controller List
+BCMP-Netzwerk - Baskett-Chandy-Muntz-und-Palacios-Netzwerk
+BCNF - Boyce-Codd-Normalform
+BCPL - Basic Combined Programming Language
+BD - Blockdesign
+BDA - Big-Data-Analytik
+VgE - Verhaltensgetriebene Entwicklung
+BED - Binäres Entscheidungsdiagramm
+BDI - Belief-Desire-Intention-Softwaremodell
+Beanbag - Beanbag
+BeanShell - BeanShell
+Beatnik - Beatnik
+BEEP - Blocks Extensible Exchange Protocol
+Befunge - Befunge
+BFR - Bitfehlerrate
+BFV - Bitfehlerverhältnis
+Berlekamp-Algorithmus
+BERT - Bidirectional Encoder Representations from Transformers
+Bertrand - Bertrand-Programmiersprache
+BETA - BETA-Programmiersprache
+beta - Thermodynamisches Beta
+BFD - Bidirectional Forwarding Detection
+BFD - Binary File Descriptor
+BFGS - Broyden-Fletcher-Goldfarb-Shanno-Algorithmus
+BFO - Kompakte bakterielle Schwarmoptimierung
+BFS - Breitensuche
+BFT - Byzantinisch fehlertolerant
+BGAN - Broadband Global Area Network
+BGP - Border Gateway Protocol (Routing-Protokoll)
+BHHH - Berndt-Hall-Hall-Hausman-Algorithmus
+BI - Business Intelligence
+BIAS - Biometric Identity Assurance Services
+AUBD - Ausgewogenes unvollständiges Blockdesign
+BIC, SIC, SBC, SBIC - Bayessches Informationskriterium, Schwarz-Informationskriterium
+
+Biclique - Vollständiger bipartiter Graph
+Biclique-Angriff
+BiDi - Bidirektional
+Bigraph - Bipartiter Graph
+Bigraph - Link-und-Baum-Mengen-Graphenprodukt
+Bijektion
+Bilateraler Filter
+bin - Binär
+BINAC - Binärer automatischer Computer
+Binäre Relation
+BIND - Berkeley Internet Name Domain
+BinHex - Binär-zu-Hexadezimal-Kodierung
+BinText, ASCII armor - Binär-zu-Text-Kodierung
+BIOS - Basic Input/Output-System
+Biplot - Biplot
+BIPM - Internationales Büro für Maß und Gewicht
+BIRCH - Ausgewogenes iteratives Reduzieren und Clustering mit Hierarchien
+Geburtstagsparadoxon
+Bit - Binärziffer
+BJT - Bipolarer Transistor
+BLAKE - Kein Akronym gefunden
+BLAS - Basis-Lineare-Algebra-Subprogramme
+BLISS - Basic Language for Implementation of System Software
+BLISS - Bimodales Gitter-Signaturschema
+BgO - Binäres großes Objekt
+Blockierung
+Blockly - Blockly
+Blog - Weblog
+Bloom-Filter
+BlooP - Sprache mit beschränkten Schleifen
+BLP - Bell-LaPadula-Modell
+BLUS - Bester linearer unverzerrter Schätzer
+Bluespec - Bluespec
+BM3D - Block-Matching und 3D-Filterung
+BMDA - Bivariater Randverteilungsalgorithmus
+BMDFM - Binäre modulare Datenflussmaschine
+GME - Grundlegende multilinguale Ebene
+BN-Paar - (B, N)-Paar, Tits-System
+BNC - Baby-Neill-Konstante
+BNF - Backus-Naur-Form, Backus-Normalform
+BNN - Binäres neuronales Netz
+BO - Back Orifice
+BOA - Bayesscher Optimierungsalgorithmus
+Boids - Bird-oid-Objektprogramm
+BOINC - Berkeley Open Infrastructure for Network Computing
+Stückliste - Stückliste
+BRM - Byte-Reihenfolge-Markierung
+boo - boo-Programmiersprache
+Boomerang - Boomerang
+BOOTP - Bootstrap-Protokoll
+Bootstrapping
+Bosque - Bosque-Programmiersprache
+box - Boxizität
+RP, Backprop - Rückpropagierung
+BPE - Basis-Pursuit-Entrauschung
+BPDU - Bridge-Protokolldateneinheit
+BPEL, WS-BPEL - Business Process Execution Language
+BÜS - Breitband über Stromleitungen
+GPM - Geschäftsprozessmanagement
+GPMo - Geschäftsprozessmodellierung
+GPMS - Geschäftsprozessmodellierungssprache
+GPMN - Geschäftsprozessmodell und -notation
+pEZ - Polynomialzeit mit beschränktem Fehler
+bps - Bits pro Sekunde
+BPU - Binäre Phasenumtastung
+RPS - Rückpropagierung durch Struktur
+RPZ - Rückpropagierung durch die Zeit
+BQ - BigQuery
+QpEZ - Quantenpolynomialzeit mit beschränktem Fehler
+Brainfuck - Brainfuck-Programmiersprache
+BRGC - Binärer reflektierter Gray-Code
+GRM - Geschäftsreferenzmodell
+GRMS - Geschäftsregelmanagementsystem
+PBN - Protokoll mit beschränkter Neuübertragung
+BGB - Bewertung der Geschäftsbereitschaft
+BbF - Breitband-Funkdienst
+BSA - Business Software Alliance
+BSB - Backside-Bus
+BSK - Binäre synchrone Kommunikation
+BSD - Berkeley Software Distribution
+BdT - Bluescreen des Todes
+BSP - Bulk-synchron parallel
+USP - Unternehmenssystemplanung
+BST - Basisstations-Teilsystem
+BSS - Basic Service Set (Wi-Fi)
+BSS - Block Started by Symbol
+BT - BitTorrent
+BT - Bluetooth
+BTC - Bitcoin
+BSF, BS, Node B - Basisstations-Funkgerät, Basisstation
+Gebäude
+BVA - Bayessche Vektor-Autoregression
+BB - Bandbreite
+VPBB - Verzweigungsprogramme mit beschränkter Breite und polynomieller Länge
+DW - Durch Widerspruch
+BWT - Burrows-Wheeler-Transformation
+BYOD - Bring Your Own Device
+Byte - Acht-Bit-Gruppe
+C-- - C-- Programmiersprache
+C - Verbesserte Version von B für Unix
+C
+C* - C*-Programmiersprache
+C/AL (C/SIDE) - Client/Server-Anwendungssprache
+C++ - C erweitert, C mit Klassen
+Céu - Céu-Programmiersprache
+Cω – C Omega - Cω – C Omega
+C0, C1 - C0- und C1-Steuerzeichen
+FKS - Führungs- und Kontrollsysteme
+KKK - Konstruktive kooperative Koevolution
+IDEAL - Interaktive Entwicklungsumgebung für einen Anwendungslebenszyklus
+ZA - Zellularer Automat
+CB - Computer-Buchhaltung
+KA - Korrespondenzanalyse
+KWB - Konstante Winkelbeschleunigung
+Caché - InterSystems Caché DBMS
+Caché ObjectScript - Caché ObjectScript
+CuK - Computerunterstütztes Konstruieren
+KfAS - Konferenz für automatisches Schließen
+KAvP - Konstruktion und Analyse verteilter Prozesse
+CuI - Computerunterstütztes Ingenieurwesen
+CuU - Computerunterstützter Unterricht
+CuID - Computerunterstütztes Industriedesign
+CAL - Cakewalk Application Language
+KAS - Konversationelle algebraische Sprache
+Caltech, CIT - California Institute of Technology
+CuF - Computerunterstützte Fertigung
+IAS - Inhaltsadressierbarer Speicher
+Caml - Categorical Abstract Machine Language
+IAN - Inhaltsadressierbares Netzwerk
+Canonware Onyx - Canonware Onyx
+Cantor-Zassenhaus-Algorithmus
+CAO - Chief Algorithms Officer
+KVP - Konsistenz, Verfügbarkeit, Partitionstoleranz
+KaNN - Kapsel-Neuronales Netz
+VAPT - Vollautomatischer öffentlicher Turing-Test zur Unterscheidung von Computern und Menschen
+
+CuQS - Computerunterstützte Qualitätssicherung
+KRB - Klassifikations- und Regressionsbäume
+Kartesisches Produkt
+CAS - Computer-Algebra-System
+CASC - CADE-ATP-System-Wettbewerb
+CuSE - Computerunterstütztes Software-Engineering
+KfAW - Konferenz für Automatisierungswissenschaft und -technik (IEEE)
+KbSE - Kontextbewusste semantische Erweiterung
+CASH - Clustering in beliebigen Teilräumen auf Basis der Hough-Transformation
+Kat - Kategorie (z. B. CAT-5-Kabel)
+CuÜ - Computerunterstützte Übersetzung
+cat - Verketten
+Katzenabbildung - Arnolds Katzenabbildung
+Catalan-Zahl
+KWG - Konstante Winkelgeschwindigkeit
+Cayenne - Cayenne
+CBC-MAC - Cipher-Block-Chaining-Nachrichtenauthentifizierungscode
+CBOM - Konfigurierbare Stückliste
+CBR - Konstante Bitrate
+CBS - Kalkül der Broadcasting-Systeme
+CC - C-Compiler
+CC - Compiler-Compiler
+CC - Kooperative Koevolution
+CC - Creative-Commons-Lizenz
+CCA - Kanonische Korrelationsanalyse
+CCD - Ladungsgekoppeltes Bauelement
+CCG - Constraint-Kompositgraph
+CCI - Gleichkanalstörung
+CCITT (veralt.) - Normungsorganisation, ersetzt durch ITU-T
+CCM - Konvergentes Cross-Mapping
+CCNF, PoS - Kanonische konjunktive Normalform, Summenprodukt
+CCS - Kalkül kommunizierender Systeme
+CCS, CCIS - Gemeinschaftskanal-(Fern-)Signalisierung
+CD-R - CD-beschreibbar
+CD-ROM - CD Read-Only Memory
+CD-RW - CD-wiederbeschreibbar
+cd - Verzeichnis wechseln
+CD - Compact Disc
+CDC - Change Data Capture
+CDC - Clock-Domain-Crossing
+CDCL - Konfliktgetriebenes Klausellernen
+CDDL - Common Development and Distribution License
+CDE - Common Desktop Environment
+CDE - Kompakte differentielle Evolution
+CDF - Kumulative Verteilungsfunktion
+CDFS - Compact-Disk-Dateisystem
+CDM - Copy Data Management
+CDMA - Code Division Multiple Access
+CDN - Content Delivery Network
+CDNF, SoP - Kanonische disjunktive Normalform, Summenprodukt
+CDO - Chief Data Officer
+CDO - Verbriefte Schuldverschreibung
+CDO - Connected Data Objects
+CDP - Cisco Discovery Protocol
+CDP - Kontinuierlicher Datenschutz
+CDS - Core Data Services
+CDS/ISIS - Computerised Documentation Service / Integrated Set of Information Systems
+
+CDSA - Common Data Security Architecture
+CDuce - CDuce-Programmiersprache
+CE-Methode - Kreuzentropie-Methode
+Cecil - Cecil-Programmiersprache
+CEIR - Zentrales Geräte-Identitätsregister
+CENELEC - Europäisches Komitee für Elektrotechnische Normung
+CEP - Complex Event Processing
+CERN - Conseil européen pour la recherche nucléaire - Europäische Organisation für Kernforschung
+
+CERT - Computer Emergency Response Team
+CES - Consumer Electronics Show
+Cesil - Computer Education in Schools Instruction Language
+Ceylon - Ceylon
+cf - Kofinalität
+CF - Compact Flash
+CFA - Konfirmatorische Faktorenanalyse
+CFD - Numerische Strömungsmechanik
+CFEngine - Configuration Engine
+CFG - Kontextfreie Grammatik
+CFG - Kontrollflussgraph
+CFL - Kontextfreie Sprache
+Cg - C for Graphics
+CG - Computergrafik
+CGA - Color Graphics Array
+CGA - Kompakter genetischer Algorithmus
+CGI - Common Gateway Interface
+CGI - Computer-generierte Bilder
+CGM - Konjugierte-Gradienten-Methode
+CGT - Berechnungstheoretische Graphentheorie
+Ch - Ch-Programmiersprache, IDE und Shell
+Kettencode
+CHAP - Challenge-Handshake-Authentifizierungsprotokoll (PPP)
+Chapel - Chapel
+CHAPS - Clearinghouse Automated Payments System
+Charity - Charity
+Charm - Charm-Programmiersprache
+Tschebyscheff-Distanz, Tschebyscheff-Distanz, Maximum-Metrik, L∞-Metrik
+Prüfsumme
+CHILL - CCITT-Hochsprache
+Chinese BASIC - Chinese BASIC
+CHIP-8 - CHIP-8-Programmiersprache
+chmod - Modus ändern
+chomski - chomski
+chown - Besitzer ändern
+CHR - Regeln zur Constraint-Behandlung
+CHS - Zylinder-Kopf-Sektor
+ChucK - ChucK-Audio-Programmiersprache
+GI - Gruppierter Index
+KlI - Kollektive Intelligenz
+CI/CD - Kontinuierliche Integration/Kontinuierliche Bereitstellung
+CICS - Customer Information Control System
+CIDR - Classless Inter-Domain Routing
+CIE - Internationale Beleuchtungskommission
+CIFAR-10 - Canadian Institute For Advanced Research 10-Klassen-Datensatz
+CIFAR-100 - Canadian Institute For Advanced Research 100-Klassen-Datensatz
+CIFS - Common Internet Filesystem
+CIL - Common Intermediate Language
+Cilk - Cilk-(Concurrent-C)-Programmiersprache
+CIM - Common Information Model
+RUM - Rechnerisch unabhängiges Modell
+CIF - Computerintegrierte Fertigung
+CIMOSA - Computer Integrated Manufacturing Open System Architecture
+CIO - Chief Information Officer
+CIR - Committed Information Rate (Frame Relay)
+CISC - Complex Instruction Set Computer
+Citrine - Citrine
+KS - Kandidatenschlüssel
+CL - Common Lisp
+KL - Kontrastives Lernen
+CL - IBM-i-Steuersprache
+cl - Lemniskaten-Kosinus, Koslemn
+cl - Topologischer Abschluss
+CLACL - CLAC-Language
+Claire - Claire
+CLARION - Connectionist Learning with Adaptive Rule Induction On-line
+CLARION - Cortical Learning Algorithm
+Clean - Clean-Forschungssprache für funktionale Programmierung
+CLEO - Klare Sprache zum Ausdrücken von Befehlen
+CLI - Call-Level-Schnittstelle
+BKS - Befehlszeilenschnittstelle
+BZI - Befehlszeileninterpreter
+CLI - Common Language Infrastructure
+Clipper - Clipper
+CLIPS - C Language Integrated Production System
+CLIST - MVS-Befehlsliste
+KLL - Klassische lineare Logik
+ZgO - Zeichen großes Objekt
+Clojure - Clojure
+CLOS - Common Lisp Object System
+CLR - Common Language Runtime
+CLS - Common Language Specification
+ZGW - Zentraler Grenzwertsatz
+CLU - Cluster-Sprache
+KLG - Konstante lineare Geschwindigkeit
+KM - Konfigurationsmanagement
+IM - Inhaltsmanagement
+KoM - Kovarianzmodell
+ZM-Skizze - Zähl-Minimum-Skizze
+KMD - Konfigurationsmanagement-Datenbank
+SML, QKL - Strommodus-Logik, Quellengekoppelte Logik
+CMMI - Capability Maturity Model Integration
+BAV - Betriebsmodus
+CMOS, COS-MOS - Komplementärer Metall-Oxid-Halbleiter, Komplementär-symmetrischer Metall-Oxid-Halbleiter
+
+CMS-2 - Compiler Monitor System 2
+CMS - Content-Management-System
+CMS - Conversational Monitor System
+CMS EXEC - Conversational Monitor System Executor-Programmiersprache
+KN - Kanonischer Name
+GN - Gebräuchlicher Name
+CNC, NC - Computer Numerical Control
+CNF - Chomsky-Normalform
+KNF - Konjunktive Normalform, Klauselnormalform
+KGR - Komfort-Rauscherzeugung
+CNG - Cryptographic Next Generation
+CNG-Scree-Test -
+FNN - Faltungsneuronales Netzwerk
+KNV, MO/TO, MOTOEC - Kartennicht-vorhanden-Transaktion, Mail Order / Telephone Order
+
+CNR - Communications and Networking Riser
+KVR - Kontrast-zu-Rauschen-Verhältnis
+TNR - Träger-zu-Rauschen-Verhältnis
+Co-Array-Fortran - Co-Array-Fortran
+co-NP-vollständig -
+KdK - Kontenplan
+BWB - Basiswechsel
+COBOL - Common Business-Oriented Language
+CobolScript - COBOL-Skriptsprache
+Cobra - Cobra-Programmiersprache
+COBWEB - Spinnweb-Clustering-System
+COCO - Microsoft Common Objects in Context
+Coco/R - Coco/R
+COCOMO - Konstruktives Kostenmodell
+Kb - Kodomain
+CODASYL - Conference/Committee on Data Systems Languages
+CoffeeScript - CoffeeScript
+Kograph - Kograph
+COIN-OR - Computational Infrastructure for Operations Research
+Kok, Koker - Kokernel
+ColdFusion - ColdFusion
+colorForth - colorForth
+COM - Component Object Model oder Kommunikation
+COMA - Cache-only memory architecture
+COMAL - Common Algorithmic Language
+Kombinatorische Optimierung
+Kombinatorische Suche
+Comet - Comet-Programmiersprache
+COMIT - COMIT-Programmiersprache
+COMPASS - Comprehensive Assembler
+Komplementgraph
+vollständig k-partit - Vollständiger multipartiter Graph
+Komponente (Graphentheorie)
+Component Pascal - Component Pascal
+KS - Kommunikationssicherheit
+COMTRAN - Commercial Translator
+Concurrent Pascal - Concurrent Pascal
+Confluence - Confluence
+Conley-Index-Theorie
+conv - Überzeugung
+Faltung
+Cool - Classroom Object Oriented Language
+Teilerfremd
+Koprodukt
+Kopula - Kopula
+Coq (Gallina) - Coq (Gallina)
+Coral 66 - Coral 66
+CORBA - Common Object Request Broker Architecture
+CORS - Cross-Origin Resource Sharing
+CorVision - CorVision
+Nebenklasse
+COSYSMO - Konstruktives Systems-Engineering-Kostenmodell
+Zählermaschine
+Kov - Kovarianz
+Überdeckung - Topologische Überdeckung
+COWSEL - Controlled Working Space Language
+cp - Kopieren
+CP-Zerlegung - Tensor-Rang-Zerlegung, kanonische polyadische Zerlegung
+CP/CMS - Control Program/Cambridge Monitor System
+CP/M - Control Program/Monitor
+CPA - Cell Processor Architecture
+CPAN - Comprehensive Perl Archive Network
+KEA - Kundenseitige Endausstattung
+TPB - Takte pro Befehl
+CPL - Combined Programming Language
+CPLD - Constant positive linear dependence constraint qualification
+KPM - Kontinuierliche Phasenmodulation
+cpp - C-Präprozessor
+CPPN - Compositional Pattern-Producing Network
+CPRI - Common Public Radio Interface
+ZPS - Zeichen pro Sekunde
+KPSO - Kompakte Partikel-Schwarm-Optimierung
+CPU - Central Processing Unit
+CQL - Cassandra Query Language
+CQL - Categorical Query Language
+CQL - Common Query Language
+CQL - Contextual Query Language
+CQL - Cypher Query Language
+WZ - Wagenrücklauf
+KR - Kognitives Funk
+CRAN - Comprehensive R Archive Network
+CRC-16-CCITT - Zyklische Redundanzprüfung (X.25, HDLC)
+KVZ - Klassen-Verantwortlichkeits-Zusammenarbeits-Karte
+ZRP - Zyklische Redundanzprüfung
+KRB - Konstante-Rang-Constraint-Qualifikation
+BZF - Bedingtes Zufallsfeld
+WZLF - Wagenrücklauf-Zeilenvorschub
+KBM - Kundenbeziehungsmanagement
+cron - Chronos (Zeit)
+CBS - Computer-Reservierungssystem
+BR - Bildröhre
+ERUL - Erstellen, Lesen, Aktualisieren und Löschen
+Cryptol - Cryptol
+Crystal - Crystal
+CS-1 - Cognitive System One
+KA - Kabelauswahl
+Inf - Informatik
+KS - Cursor-Stabilität
+CSAIL - MIT Computer Science and Artificial Intelligence Laboratory
+CSC's GraphTalk - Computer Sciences Corporation GraphTalk 4GL
+KSC, KVC, KVD, KVV, KVV2 - Kartensicherheitscode, Kartenverifizierungscode / -daten / -wert
+
+InfT - Informatik und Technik
+KVS - Kaskade von Schrumpfungsfeldern
+KZF - Konfigurationszustandsfunktion
+KSG - Kontextspezifische Grammatik
+csh, tcsh - C-Shell
+CSI - Cauchy-Schwarz-Ungleichung
+CSI - Common System Interface
+KUM - Kompatibilitätsunterstützungsmodul
+CSMA/CA - Trägersensor-Mehrfachzugriff / Kollisionsvermeidung
+CSMA/CD - Trägersensor-Mehrfachzugriff / Kollisionserkennung
+Csound - Csound
+KSV - Clientseitige Vorhersage
+CSP - Cloud Service Provider
+KSP - Kommunizierende sequenzielle Prozesse
+EBP - Erfüllbarkeitsproblem
+CSRF - Cross-Site Request Forgery
+CSS - Cascading Style Sheets
+CSS - Chirp Spread Spectrum
+CSS - Closed Source Software
+CSS - Content-Scramble System
+CSS - Cross-Site Scripting
+KDE/KDD - Kanaldienst-Einheit / Datendienst-Einheit
+CSV - Comma-Separated Values
+CT - Computer-Tomographie
+CTAN - Comprehensive TeX Archive Network
+CTC - Connectionist Temporal Classification
+CTCP - Client-To-Client Protocol
+GTA - Gemeinsamer Tabellenausdruck
+KZFA - Kompilierzeit-Funktionsausführung
+CTI - Computer-Telefonie-Integration
+BLB - Berechnungsbaum-Logik
+CTM - Close To Metal
+KZMK - Kontinuierliche-Zeit-Markov-Kette
+KRP - Kanadisches-Reisenden-Problem
+ZVB - Zusammengesetzte-Begriffs-Verarbeitung
+FZ - Frei zum Senden
+CTSS - Compatible Time-Sharing System
+KTT - Klassische Testtheorie
+KBG - Konstante-Baum-Gewichtung
+CUA - Common User Access
+CUDA - Compute Unified Device Architecture
+Kumulante
+Cuneiform - Cuneiform
+CURL - Conttrastive Unsupervised Reinforcement Learning
+Curl - Curl-Programmiersprache
+curl, cURL - Client Uniform Resource Locator
+Curry - Curry-Programmiersprache
+Fluch der Dimensionalität
+CUSIP - Committee on Uniform Security Identification Procedures
+KV - Kreuzvalidierung
+KfCV - Konferenz für Computer Vision und Mustererkennung
+CVS - Concurrent Versioning System
+CWIC - Compiler for Writing and Implementing Compilers
+CWM - Common Warehouse Metamodel
+Cybil - Cyber Implementation Language of the Control Data Network Operating System
+
+Cyc („syke“) - Enzyklopädieprojekt
+CycL - Enzyklopädiesprache, „Cycle“ der Inferenz in einem Wissensgraphen
+Zyklus
+Cyclone - Cyclone-Programmiersprache
+CYK, CKY-Algorithmus - Cocke-Younger-Kasami-Parsing-Algorithmus
+Cypher - Cypher-Programmiersprache
+Cython - Cython-Programmiersprache
+D - Data & Date/Darwin (Nachnamen der Entwickler)
+DAA - Data Authentication Algorithm
+DAC - Data Authentication Code
+DAC - Digital-Analog-Wandler
+DAC - Discretionary Access Control
+DAD - Discover, Access, Distill
+DAE - Denoising Autoencoder
+DAFSA - Deterministischer azyklischer endlicher Automat
+DAG - Gerichteter azyklischer Graph
+DAI - Digital Author Identifier
+VKI - Verteilte künstliche Intelligenz
+DAL - Database Abstraction Layer
+DAM - Database activity monitoring
+DAM - Digital asset management
+DAML - DARPA Agent Markup Language
+DAO - Data Access Object
+DAO - Disk-At-Once
+DAP - Directory Access Protocol
+DARPA - Defense Advanced Research Projects Agency
+Dart - Dart-Programmiersprache
+Darwin - Darwin
+Darwin-Maschine
+DASL - DASL (Datapoint's Advanced Systems Language)
+DASL - Distributed Application Specification Language
+DAT - Digital Audio Tape
+Datenmapping
+DataFlex - DataFlex
+Datalog - Datalog
+DATATRIEVE - Data Retrieval Language
+DAWG - Gerichteter azyklischer Wortgraph
+DAX - Data Analysis Expressions
+DB - Datenbank
+DBA - Datenbankadministrator
+dBase - dBase DBMS
+VV - Vertrag nach Vorgabe, Vertragsprogrammierung
+DBCS - Doppelbyte-Zeichensatz
+DBL - Domain Block List
+DBMS - Datenbankmanagementsystem
+DBN - Deep Belief Network
+DBSCAN - Density-based spatial clustering of applications with noise
+RZ - Rechenzentrum
+dc - Taschenrechner
+GS - Gleichstrom
+DCC - Data Communications Channel
+DCC - Descending Chain Condition
+DCC - Direct Client-to-Client
+DCC - Distributed Checksum Clearinghouse
+DCCA - Debian Common Core Alliance
+DCCP - Datagram Congestion Control Protocol
+DCE - Data communications equipment
+DCE - Dead code elimination
+DCE - Distributed Computing Environment
+DCG - Definitive Clause Grammar
+DCGAN - Deep convolutional generative adversarial networks
+DCL - Data Control Language
+DCL - DIGITAL Command Language
+DCM - Dehaene-Changeux-Modell
+DCMES - Dublin Core Metadata Element Set
+DCMI - Dublin Core Metadata Initiative
+DCOM - Distributed Component Object Model
+VSS - Verteiltes Steuerungssystem
+DCS - Dublin-Core-Schema
+DKT - Diskrete Kosinustransformation
+DGKTL - Direktgekoppelte Transistorlogik
+DD - Doppelte Dichte
+DDC - Dewey-Dezimalklassifikation, Dewey-Dezimalsystem
+DDA - Dynamischer Datenaustausch
+FVG - Faktorisierung nach verschiedenen Graden
+DDI - DNS-, DHCP- und IP-Adressverwaltung
+DW - Datenwörterbuch
+DDL - Datendefinitionssprache
+DDoS - Verteilte Dienstverweigerung
+DDR - Double Data Rate
+DE - Differentielle Evolution
+de-Bruijn-Folge
+De-Morgan-Gesetze
+Koppelnavigation
+DEC (veralt.) - Digital Equipment Corporation
+Deep Blue - IBMs Deep-Blue-Supercomputer
+DEFLATE - Deflate-Kompressionsalgorithmus
+DELETE - SQL-Lösch-Anweisung
+DeLi-Clu - Density-Link-Clustering
+Delphi Object Pascal - Delphi Object Pascal
+Delta-Sigma, Sigma-Delta - Delta-Sigma-Modulation
+Ableitung
+DES - Data Encryption Standard
+DES - Diskrete-Ereignis-Simulation
+dev - Entwicklung
+df - Dataframe
+RF - Richtungsfindung
+DEA - Deterministischer endlicher Automat
+DFD - Datenflussdiagramm
+DFM - Datenformat-Management
+TFS - Tiefensuche
+VDS - Verteiltes Dateisystem
+DFT - Diskrete-Fourier-Transformation
+DGD - Dworkin's Game Driver
+DH - Diffie-Hellman-Schlüsselaustausch
+DHCP - Dynamic Host Configuration Protocol
+DHSL - Distributed Hadoop Storage Layer
+VHT - Verteilte Hash-Tabelle
+DHTML - Dynamisches Hypertext-Markup-Language
+DIBOL - Digital Interactive Business Oriented Language
+DIK - Divergenz-Informationskriterium
+DIF - Datenintegritätsfeld
+digraph - Gerichteter Graph
+DIMM - Dual Inline Memory Module
+DIN - Deutsches Institut für Normung
+DinkC - Dink-Smallwood-Spiel-Skriptsprache
+DIP - Deep Image Prior
+DIP, DIL, DIPP - Dual In-line Package, Dual In-line Pin Package
+Disjunkte Vereinigung
+DISM - Deployment Image and Service Management Tool
+Distribution / verallgemeinerte Funktion
+DITA - Darwin Information Typing Architecture
+Divergenz
+DIVX - Digital Video Express
+DKIM - Domain Keys Identified Mail
+DKL - Kullback-Leibler-Divergenz, relative Entropie, Diskriminierungsinformation, gerichtete Divergenz
+
+DKW-Ungleichung - Dvoretzky-Kiefer-Wolfowitz-Ungleichung
+DL - Download
+DL, DRL - Diodenlogik, Dioden-Widerstandslogik
+DLL - Dynamic Link Library
+DLNA - Digital Living Network Alliance
+DSV - Datenschutz vor Datenverlust
+DLPAR - Dynamic Logical Partitioning
+GKM - Gedämpfte Kleinste-Quadrate
+DLX - Dancing-Links-Algorithmus X
+AM - Anzeigemanager
+DMA-BUF - DMA Buffer Sharing API
+DMA - Direkter Speicherzugriff
+DMK - Dynamische Markov-Kompression
+DMCA - Digital Millennium Copyright Act
+DMI - Desktop Management Interface
+DMI - Direct Media Interface
+DML - Datenmanipulationssprache
+DMB - Definitive Mediathek
+DMR - Dennis M. Ritchie
+DMS - Dokumentenmanagementsystem
+DMÜ - Diskrete Multiton-Übertragung
+DMAns - Dynamische Management-Ansichten
+DME - Data-Mining-Erweiterungen
+DMZ - Entmilitarisierte Zone
+UN - Unterscheidender Name
+DNC - Differenzierbarer neuronaler Computer
+ZuA - Ziehen und Ablegen
+DNF - Disjunktive Normalform
+DNN - Dekonvolutionales neuronales Netz
+TNN - Tiefes neuronales Netz
+DNS - Domain Name System
+DNSBL - Domain Name System-based Blackhole List
+DNSWL - DNS-basierte Whitelist
+TbA - Tot bei Ankunft
+RA - Richtung der Ankunft
+DOAP - Description of a Project
+DOCSIS - Data Over Cable Service Interface Specification
+Dog - Dog-Programmiersprache mit sozialem Fokus
+DOI - Digital Object Identifier
+DOM - Document Object Model
+Dominierende Menge
+DoS - Dienstverweigerung
+DOS - Disk-Betriebssystem
+DOS-Batch-Sprache -
+DP - DisplayPort
+PA - Punktabstand
+APA - Aufgeschobener Prozeduraufruf
+DPCM - Differenzielle Pulscodemodulation
+TPI - Tiefen-Paketinspektion
+DPI - Punkte pro Zoll
+DPLL - Davis-Putnam-Logemann-Loveland-Algorithmus
+DPMI - DOS Protected Mode Interface
+DPMS - Display-Power-Management-Signalisierung
+DPO - Doppel-Pushout-Graphenumschreibung
+DR-DOS - Digital Research - Disk Operating System
+NW - Notfallwiederherstellung
+Draco - Draco-Programmiersprache
+DRAKON - Akronym ist Russisch für freundliche russische algorithmische [Sprache], die veranschaulicht (oder Klarheit schafft)
+
+DRAM - Dynamischer Arbeitsspeicher
+DRBD - Distributed Replicated Block Device
+DZB - Deterministischer Zufallsbitgenerator
+DRDA - Distributed Relational Database Architecture
+DRI - Deklarative referenzielle Integrität
+DRI - Direct Rendering Infrastructure
+DRM - Digital Rights Management
+DRM - Direct Rendering Manager
+DA - Digitalanzeige
+Drools - Drools
+DROP - Don't Route Or Peer list
+Dropout - Neuronales-Netzwerk-Dropout
+WWD - Wiederhole dich nicht
+DW - Datenwissenschaft
+DSA - Digital Signature Algorithm
+DSAL - DirectX Shader Assembly Language
+DSD - Direct Stream Digital
+DSDL - Document Schema Definition Languages
+DSDM - Dynamic Systems Development Method
+DSL - Digital subscriber line
+DSL - Domänenspezifische Sprache
+DSLAM - Digital subscriber line access multiplexer
+DSM - Domänenspezifische Modellierung
+DSMGA - Dependency Structure Matrix Genetic Algorithm
+DSN - Datensatzname
+DSN - Database Source Name
+DSP - Digitaler Signalprozessor
+DSR - Dynamisches Quellrouting
+EUS - Entscheidungsunterstützungssysteme
+DSSS - Direktfolgen-Spektrumspreizung
+DSSSL - Document Style Semantics and Specification Language
+DST - Dempster-Shafer-Theorie, Theorie der Glaubensfunktionen, Evidenztheorie
+DST - Diskrete Sinustransformation
+EB - Entscheidungsbaum
+DTD - Dokumenttypdefinition
+DTE - Datenterminaleinheit
+DZFT - Diskrete-Zeit-Fourier-Transformation
+DTL - Dioden-Transistor-Logik
+DTMB - Digital Terrestrial Multimedia Broadcast
+DZMK - Diskrete-Zeit-Markov-Kette
+DTMF - Zweiton-Multifrequenz-Signalisierung
+DTP - Desktop Publishing
+DTR - Data Terminal Ready oder Datenübertragungsrate
+DÜR - Datenübertragungsrate
+DÜ - Diskontinuierliche Übertragung
+Dualer Code
+Dualraum
+DVB - Digital Video Broadcasting
+DVD-R - DVD-beschreibbar
+DVD-ROM - DVD Read-Only Memory
+DVD-RW - DVD-wiederbeschreibbar
+DVD - Digital Versatile Disc
+DVI - Geräteunabhängiges Dateiformat
+DVI - Digital Visual Interface
+DVR - Digitaler Videorekorder
+DW, DWH - Data Warehouse
+DWT - Diskrete Wavelet-Transformation
+Dyck-Wort - Basiskomponente der Dyck-Sprache
+Dylan - Dylan-(Dynamic Language)-Programmiersprache
+DYNAMO - Dynamic Models language
+E-Mail, E-Mail - Elektronische Post
+E - E-Programmiersprache
+E2RC - Efficiently-Encodable Rate-Compatible
+E4X - ECMAScript for XML
+UA - Unternehmensarchitektur
+EA - Evolutionärer Algorithmus
+UAI - Unternehmensanwendungsintegration
+EAP - Enterprise Architecture Planning
+EAP - Extensible Authentication Protocol
+EAS - Exchange ActiveSync
+Ease - Ease-Programmiersprache
+Easytrieve Plus - Erweiterte einfache Berichtsabfragesprache
+EAV - Entität-Attribut-Wert (aka. der Erzfeind)
+Eb/N0 - Energie pro Bit zu Rauschleistungsspektraldichte-Verhältnis
+EBCDIC - Erweiterter binär kodierter Dezimal-Austauschcode
+EBDB - Elastic-Beanstalk-Datenbank
+EBIT - Ergebnis vor Zinsen und Steuern
+EBITDA - Ergebnis vor Zinsen, Steuern, Abschreibungen und Amortisation
+EBM - Energiebasiertes Modell
+EBML - Erweiterbare binäre Meta-Sprache
+EBNA - Schätzalgorithmus für Bayessche Netzwerke
+eBook, E-Book - Elektronisches Buch
+EBU - Europäische Rundfunkunion
+ebXML - Elektronischer Geschäftsverkehr mit erweiterbarer Auszeichnungssprache
+eC - Ecere C-Programmiersprache
+eC - Ecere-C-Programmiersprache
+EG - Eingebetteter Controller
+EC, EC2 - Elastic Compute
+ECC - Elliptic Curve Cryptography
+EKG - Elektrokardiografie
+ERGA - Erweiterter kompakter genetischer Algorithmus
+ECL - Emitter-gekoppelte Logik
+ECL - Enterprise Control Language
+ECLiPSe - ECLiPSe-Constraint-Logik-Programmiersprache
+ECM - Elliptic-curve factorization method
+UCM - Unternehmens-Content-Management
+ECMA - European Computer Manufacturers Association
+ECME-Algorithmus - Expectation-Conditional-Maximization-Either-Algorithmus
+ECN - Explicit Congestion Notification
+ECOS - Embedded Configurable Operating System
+ECRS - Expense and Cost Recovery System
+FE - Fehlererkennend
+EDA - Elektronische Designautomatisierung
+SAV - Schätzalgorithmus für Verteilungen
+EBA - Ereignisgesteuerte Architektur
+EDA - Explorative Datenanalyse
+EVF - Empirische Verteilungsfunktion
+EDGE - Erweiterte Datenraten für GSM-Evolution
+Kantenüberdeckung
+EDI - Elektronischer Datenaustausch
+EDIF - Elektronisches Design-Austauschformat
+Edinburgh IMP - Edinburgh-IMP-Programmiersprache
+EDM - Elektronisches Dokumentenmanagement
+EDO - Extended Data Out
+EVP - Energie-Verzögerungs-Produkt
+EDS - Elektronisches Dokumentensystem
+EDSAC - Elektronischer Verzögerungsspeicher-Automatenrechner
+EDVAC - Elektronischer diskreter variabler Automatenrechner
+EEG - Elektroenzephalografie
+EEL - Erweiterbare einbettbare Sprache
+EEPROM - Elektrisch löschbarer programmierbarer Nur-Lese-Speicher
+EFA - Explorative Faktorenanalyse
+EFF - Electronic Frontier Foundation
+EFI - Erweiterbare Firmware-Schnittstelle
+EFM - Acht-zu-Vierzehn-Modulation
+EFM - Ethernet in the First Mile
+EFS - Verschlüsselndes Dateisystem
+EGA - Enhanced Graphics Array
+egf - Exponentielle erzeugende Funktion
+EGL - Enterprise Generation Language
+EGNA - Schätzalgorithmus für Gaußsche Netzwerke
+EGP - Exterior Gateway Protocol
+EHA - Ethernet-Hardware-Adresse (MAC-Adresse)
+EIA - Electronics Industry Alliance
+EICASLAB - Europäisches Labor für industrielle Steuerungsautomatisierung (?)
+eID - Elektronischer Personalausweis
+EIDE - Erweiterte IDE
+Eiffel - Eiffel
+EIGRP - Enhanced Interior Gateway Routing Protocol
+EIR - Geräte-Identitätsregister
+eIRA - Erweitertes unregelmäßiges Wiederholen-Akkumulieren
+EISA - Extended Industry Standard Architecture
+ELAN - Elan-Programmiersprache
+ELF - Ausführbares und linkbares Format
+ELF - Extrem niedrige Frequenz
+Elixir - Elixir
+ELIZA - Eliza-Chatbot
+ELKI - Umgebung zur Entwicklung von KDD-Anwendungen mit Indexstrukturen
+ELLA - ELLA-Hardware-Beschreibungssprache
+ELM - Elaborations-Wahrscheinlichkeits-Modell der Überzeugung
+EM - Elektronische Post
+Elman-Netzwerk
+ELRPL - EusLisp-Roboter-Programmiersprache
+ELU - Exponentielle lineare Einheit
+EM - Erwartungs-Maximierungs-Algorithmus
+Emacs - Editor-Makros
+Emacs Lisp - Emacs Lisp
+Emerald - Emerald
+EMF - Eclipse Modeling Framework
+EMG - Elektromyografie
+EMNA - Schätzalgorithmus für multivariate Normalverteilung
+EMS - Expanded Memory Specification
+Bytereihenfolge
+ENIAC - Elektronischer numerischer Integrator und Computer
+ENSEEIHT - École nationale supérieure d'électrotechnique, d'électronique, d'informatique, d'hydraulique et des télécommunications
+
+Entropierate
+env - Umgebungsvariablen
+TdT - Tagesende
+EOF - Ende der Datei
+RE - Rahmenende (HDLC usw.)
+ZE - Zeilenende
+NE - Nachrichtenende
+EOS - Erdbeobachtungssystem
+EoU - Ende des Supports
+epi - Epigraph
+EPIC - Explizit paralleles Befehlsrechnen
+Epigram - Epigram
+EPL - Einfache Programmiersprache
+EPL - Eclipse Public License
+EPL - Eltron-Programmiersprache
+EPMEM - Episodisches Gedächtnis
+EPN - Ereignisverarbeitungsknoten
+EPROM - Löschbarer programmierbarer Nur-Lese-Speicher
+Epsilon-Familie - Epsilon-Familie
+EPUB, .epub - Elektronische Publikation
+ER-Modell - Entitäts-Beziehungs-Modell
+FWS - Fehlerwiederherstellungssteuerung
+ERD - Entitäts-Beziehungs-Diagramm
+erf - Fehlerfunktion
+ERF - Extrem zufälliger Wald
+ERIL - Entitäts-Beziehungs- und Vererbungssprache
+Erlang - Erlang
+ERM - Empirische Risikominimierung
+UBM - Unternehmens-Berichtsmanagement
+ERM - Entitäts-Beziehungs-Modell
+EROS - Ereigniskorreliertes optisches Signal
+ERP - Unternehmensressourcenplanung
+ERPT - Energie-Umverteilungs-Pfad-Verfolgung
+ES - ECMAScript
+ESA - Europäisches Symposium über Algorithmen
+eSATA - Externes SATA
+ESB - Unternehmens-Service-Bus
+Escher - Escher
+ESCON - Enterprise Systems Connection
+ESD - Elektrostatische Entladung
+ESI - Elektronisch gespeicherte Information
+ESM - ECMAScript-Modell
+ESP - Erzwungene Teilpopulationen
+ESPOL - Executive Systems Problem Oriented Language
+ESR - Eric Steven Raymond
+ESS - Extended Service Set (Wi-Fi-Gruppe)
+ess inf - Essentielles Infimum
+ess sup - Essentielles Supremum
+ESS, SSR - Erklärte Quadratsumme, Modell-Quadratsumme, Quadratsumme durch Regression
+
+Esterel - Esterel
+ESys.net - ESys.net-HDL-Framework
+VZA - Voraussichtliche Ankunftszeit
+ETH - Ethereum
+ETL - Extrahieren, Transformieren, Laden
+Etoys in Squeak - Etoys in Squeak
+ETSI - Europäisches Institut für Telekommunikationsnormen
+ETW - Ereignisverfolgung für Windows
+EUC - Erweiterter Unix-Code
+Euclid - Euclid-Programmiersprache
+Euklidischer Algorithmus
+EULA - Endbenutzer-Lizenzvereinbarung
+Euler - Euler-Programmiersprache
+Euphoria - Euphoria
+EVaR - Entropischer Value-at-Risk
+Evens - Ausgeglichene Chancen
+FVB - Fehlervektor-Betrag
+EVM - Ethereum Virtual Machine
+UAM - Unternehmens-Arbeitsmanagement
+EWMH - Erweiterte Window-Manager-Hinweise
+Exakte Überdeckung
+EXEC 2 - Conversational Monitor System Executor 2
+ExOR - Extrem opportunistisches Routing
+EXP, EXPTIME - Exponentielle polynomielle Zeit
+Expect - Expect
+EXT - Erweitertes Dateisystem
+Ezhil - Ezhil (bedeutet Schönheit auf Tamil)
+EZW - Eingebettete Nullbäume von Wavelet-Transformationen
+F-Alloy - F-Alloy
+F-Koalgebra
+F-Logik - Frame-Logik
+F-Script - F-Script
+F-Raum -
+F-Test - F-Test
+F - F-(Fortran-basierte)-Programmiersprache
+F
+F* - F*-Programmiersprache
+Fabrik - Fabrik
+Factor - Factor
+FAE - Fundamentaler Attributionsfehler
+Fan-in - Fan-in
+Fan-out - Fan-out
+Fantom - Fantom
+FAP - FORTRAN-Assembler-Programm
+FAQ - Häufig gestellte Fragen
+FASB - Financial Accounting Standards Board
+FASM - Flat Assembler
+FAT - Dateizuordnungstabelle
+FAUST - Funktionaler Audiostream
+fbdev - Linux-Framebuffer
+FBDIMM - Voll gepuffertes Dual-Inline-Speichermodul
+FC-AL - Fibre-Channel-Arbitrated Loop
+FC - Fibre Channel
+FCA - Formale Begriffsanalyse
+FCB - Dateisteuerblock
+FCC - Federal Communications Commission (USA)
+FCC - Endliche klassische Berechnungen
+FCFS - Wer zuerst kommt, mahlt zuerst
+FCL - Framework-Klassenbibliothek
+FCP - Fibre-Channel-Protokoll
+FCS - Rahmenprüfsequenz (Ethernet)
+FDC - Diskettencontroller
+FDD - Merkmalsgetriebene Entwicklung
+FDD - Diskettenlaufwerk
+FDD - Frequenz-Duplex-Verfahren
+FDDI - Fiber Distributed Data Interface
+FDM - Frequenzmultiplexverfahren
+FDMA - Frequenzvielfachzugriff
+FDR - Failures-Divergences Refinement
+FDS - Fedora Directory Server
+FDW - Foreign Data Wrapper (PostgreSQL)
+FEAF - Föderales Unternehmensarchitektur-Framework
+Merkmals-Hashing
+FEC - Vorwärtsfehlerkorrektur
+FEMB - Front-End-Motherboard
+FERET - Gesichtserkennungstechnologie-Datenbank
+FET - Feldeffekttransistor
+FEVD - Prognosefehler-Varianz-Zerlegung
+FFI - Fremdsprachen-Funktionsschnittstelle
+FFmpeg - Fast Forward MPEG
+FFP - Formale funktionale Programmierung
+FFT - Schnelle Fourier-Transformation
+FHS - Dateisystem-Hierarchie-Standard
+FHSS - Frequenzsprung-Spektrumspreizung
+fi - Bash-if-Ende
+Faserbündel
+Faserprodukt
+FIC - Fokussiertes Informationskriterium
+FICON - Fiber Connectivity
+FIDO - Fast Identity Online Alliance
+FIFO - First In, First Out
+Filetab - Filetab
+Endlicher Körper, Galois-Körper
+FIPA - Foundation for Intelligent Physical Agents
+FIPS - Federal Information Processing Standards
+FIR - Filter mit endlicher Impulsantwort
+fish - Friendly Interactive Shell
+FISTA - Schneller iterativer Shrinkage-Thresholding-Algorithmus
+Fjölnir - Fjölnir
+FK - Fremdschlüssel
+FL - Funktionsebene
+FLAC - Free Lossless Audio Codec
+FLAP - Rahmenschichtprotokoll
+Flavors - Flavors
+FlooP - Funktion mathematisch unbeschränkte Schleife
+FLOPS - Gleitkommaoperationen pro Sekunde
+FLOSS - Freie/Libre/Open-Source-Software
+FLOW-MATIC, B-0 - Englische Flusssprache, Business Language Version 0
+FLWOR - For, Let, Where, Order, Return
+FM - Frequenzmodulation
+FMA, FMAC, fmadd - Fused Multiply-Add, Fused Multiply-Accumulate
+Fmap - Merkmalsabbildung
+FMC - Fixed Mobile Convergence „Mobile UC oder Unified Communications over Wireless“
+
+FME - Fourier-Motzkin-Elimination
+FMO - Zukünftiger Betriebsmodus
+fMRT - Funktionelle Magnetresonanztomographie
+FOK - Erstordnungslogik-Komplexität
+FOAF - Freund eines Freundes
+EOB - Erstordnungsbedingung
+FOCAL - Formulierung von Online-Berechnungen in algebraischer Sprache
+FOCUS - FOCUS-Programmiersprache
+FOIL - Dateiorientierte interpretierende Sprache
+FOIL - Erstordnungs-induktiver Lerner
+FOIL - First Outer Inner Last
+EOL - Erstordnungslogik
+fold - Fold-Higher-Order-Funktion
+foldl - Linkes Fold
+FOLDOC - Freies Online-Wörterbuch der Informatik
+foldr - Rechtes Fold
+FORMAC - Formelmanipulations-Compiler
+Forth - FORTH - kein Akronym - 1968 „hieß die Datei mit dem Interpreter FOURTH für Software der 4. (nächsten) Generation, aber das IBM-1130-Betriebssystem beschränkte Dateinamen auf fünf Zeichen.“
+
+FORTRAN - Formelübersetzung
+Fortran 2003 - Fortran 2003
+Fortran 90 - Fortran 90
+Fortress - Fortress
+Vorwärts-Rückwärts-Algorithmus
+FM - Familie von Mengen
+FOSDEM - Europäisches Treffen freier und quelloffener Softwareentwickler
+FOSI - Instanz der formatierten Ausgabespezifikation
+FOSS - Freie und quelloffene Software
+FP-growth - Algorithmus für häufiges Musterwachstum
+FP - Function Point
+FP - Funktionale Programmierung
+fpc - Flexible Verfahren für Clustering
+FPC - Free Pascal
+FPD-Link - Flachbildschirm-Anzeige-Verbindung
+FPGA - Field Programmable Gate Array
+FPS - Schnelleres Zahlungssystem
+FPS - Gleitkommasysteme
+FPU - Gleitkomma-Einheit
+FQB - Endliche Quantenberechnungen
+FQDN - Vollqualifizierter Domänenname
+Frank-Wolfe-Algorithmus
+Franz Lisp - Franz Lisp
+Freemat - Freies Matlab
+Fril - Fuzzy-Relationale-Inferenz-Sprache
+FRU - Vor Ort austauschbare Einheit
+FS - Dateisystem
+FSB - Front-Side-Bus
+fsck - Dateisystemprüfung
+FSF - Free Software Foundation
+FSK - Frequenzumtastung
+EA - Endlicher Automat
+FMG - Funktionale Größenmessung
+FSS - Fischschwarm-Suche
+FT - Fourier-Transformation
+FTP - Dateiübertragungsprotokoll
+VTS - Volltextsuche
+FTTA - Glasfaser bis zur Antenne
+FTTC - Glasfaser bis zum Bordstein
+FTTH - Glasfaser bis ins Haus
+FTTP - Glasfaser bis zum Gebäude
+FUD - Furcht, Unsicherheit, Zweifel
+fUML - Fundamentale Unified Modeling Language
+FUSE - Dateisystem im Userspace
+Futhark - Futhark
+FVEK - Vollvolumen-Verschlüsselungsschlüssel
+ANV - Anteil unerklärter Varianz
+FWS - Faltbares Leerzeichen
+FXP - Dateiaustauschprotokoll
+FYI - Zu Ihrer Information
+G-Code, RS-274 - G-(Anweisung für Bearbeitungsvorbereitung)-Code
+G-Netzwerk - Verallgemeinertes Warteschlangennetzwerk, Gelenbe-Netzwerk
+G - G-Programmiersprache
+G - Gruppe
+G.711 - ITU-T-Standard - Pulscodemodulation von Sprachfrequenzen
+Gödels Unvollständigkeitssätze
+Gödel - Gödel-Logik-Programmiersprache
+G11N - Globalisierung
+GA - Genetischer Algorithmus
+GAAP - Allgemein anerkannte Rechnungslegungsgrundsätze
+GALS - Global asynchron, lokal synchron
+Gambas - Gambas
+Gambit Scheme - Gambit Scheme
+GameMonkey Script - GameMonkey Script
+gamma - Gammakorrektur
+GAMS - Allgemeines algebraisches Modellierungssystem
+GAMS - Leitfaden für verfügbare mathematische Software
+GAN - Generatives adversariales Netzwerk
+GAP - Verallgemeinertes Zuordnungsproblem
+GAP - Groups Algorithms and Programming
+GapP - Lücken-definierbare zählende polynomielle Zeit
+GARCH - Generalisierte autoregressive bedingte Heteroskedastizität
+GART - Grafik-Adress-Umordnungstabelle
+Gas - GNU Assembler
+GASP - Allgemeines Aktivitäts-Simulationsprogramm
+GAT - Graph-Attention-Netzwerk
+GATE - Allgemeine Architektur für Text-Engineering
+GAUSS - GAUSS-Programmiersprache
+Gb - Gigabit
+GB - Gigabyte
+GB - Gradient Boosting
+GBAC - Graph-basierte Zugriffskontrolle
+GBIC - Gigabit-Schnittstellenkonverter
+GBM - Gradient-Boosting-Maschine
+GBP - Gruppen-Pufferpool
+gbps - Gigabit pro Sekunde
+GCC - GNU Compiler Collection
+ggT - Größter gemeinsamer Teiler
+ggF - Größter gemeinsamer Faktor
+GCFG - Verallgemeinerte kontextfreie Grammatik
+GCJ - GNU Compiler for Java
+GCL - Bewachte-Befehls-Sprache
+GCM - Galois/Counter Mode
+GCP - Google Cloud Platform
+GCR - Gruppenkodierte Aufzeichnung
+GCS - Galaktisches Koordinatensystem
+GCS - Gauss Centre for Supercomputing
+GCS - Geografisches Koordinatensystem
+GCS - Google Cloud Storage
+GDB - GNU Debugger
+GDB - GNU Debugger
+GDDR - Graphics Double Data Rate
+GDI - Grafikgeräteschnittstelle
+GDL - Spielbeschreibungssprache
+GDL - Verallgemeinertes Verteilungsgesetz
+GDL - Geometrische Beschreibungssprache
+GDL - Gestenbeschreibungssprache
+GDL - GNU Data Language
+GDScript - Godot-Skriptsprache
+GEL, GJE - Gauß-Elimination, Gauß-Jordan-Elimination
+GEE - Verallgemeinerte Schätzgleichung
+GEM - Grafik-Ausführungsmanager
+GEMM - Allgemeine Matrixmultiplikation
+Genie - Genie-Programmiersprache
+GEO - Geostationäre Erdumlaufbahn
+GEO - Geosynchrone Erdumlaufbahn
+GEO - Geosynchrone Äquatorumlaufbahn
+GEOFF - Graph-Serialisierungsformat
+GEORGE - GEORGE-Frühprogrammiersprache
+GEPOF - Gigabit-Ethernet über Kunststoff-Lichtwellenleiter
+GERAM - Generalisierte Unternehmens-Referenzarchitektur und -Methodik
+GERAN - GSM-EDGE-Funkzugangsnetz
+GEV - Verallgemeinerte Extremwertverteilung
+GK - Galois-Körper
+gf - Erzeugende Funktion
+GFDL - GNU Free Documentation License
+KI - Künstliche Intelligenz
+GIF - Graphics Interchange Format
+GIGO - Müll rein, Müll raus
+GIMP - GNU Image Manipulation Program
+GIMPS - Große Internet-Mersenne-Primzahlsuche
+GIS - Geoinformationssystem
+GiST - Verallgemeinerter Suchbaum
+GL - Hauptbuch
+GL(n, F) - Allgemeine lineare Gruppe vom Grad n über dem Körper F
+GLAM - Grafiksprache und Markup
+UG - Untere Grenze
+glex/gyacc - GoboSoft-Compiler-Compiler nach Eiffel
+GLFW - Grafikbibliotheks-Framework
+GLM - Verallgemeinertes lineares Modell
+glob - Globaler Befehl
+GloMoSim - Globaler Mobilfunk-Informations-System-Simulator
+GLSL - OpenGL Shading Language
+GLSL, glslang - OpenGL Shading Language
+GLUT - OpenGL Utility Toolkit
+GM - Geometrisches Mittel
+GMANOVA - Verallgemeinerte multivariate Varianzanalyse / Wachstumskurvenmodell
+GML - Game-Maker-Sprache
+GML - Geography Markup Language
+GMM - Gaußsches Mischmodell
+GMM - Verallgemeinerte Momentenmethode
+GNA - Gauß-Newton-Algorithmus
+GND, GGD - Verallgemeinerte Normalverteilung, verallgemeinerte Gaußverteilung
+GND, IAF - Gemeinsame Normdatei. Integrated Authority File
+GNF - Greibach-Normalform
+GNFS - Allgemeines Zahlkörper-Sieb
+GNOME - GNU Network Object Model Environment
+GNOWSYS - Gnowledge Networking and Organizing System
+GNSS - Globale Navigationssatellitensysteme
+GNU - GNU's Not Unix
+GNU bison - GNU's Not Unix Bison
+GNU E - GNU's Not Unix Exodus-Erweiterung
+GNU Flex - Schneller lexikalischer Analysator-Generator
+GNU Guile - GNU Ubiquitous Intelligent Language for Extensions
+Go - Go-Programmiersprache
+Go! - Go!-Agenten-Programmiersprache
+GOAL - GOAL-Agenten-Programmiersprache
+GoI - Geometrie der Interaktion
+Golo - Golo-Programmiersprache
+GOM - Good Old Mad
+GOMS - Ziele, Operatoren, Methoden und Auswahlregeln
+Google Apps Script - Google Apps Script
+Google Assistant - Googles virtueller Assistent
+Gosu - Gosu-Programmiersprache
+GOTRAN - GOTRAN-Programmiersprache
+GP - Generative Programmierung
+GP - Geometrische Folge
+GPASM - GNU-PIC-Assembler
+GPFS - Allgemeines paralleles Dateisystem
+GPG - GNU Privacy Guard
+GPGPU - Allzweck-Rechnen auf Grafikprozessoren
+GPIB - Allzweck-Instrumentierungsbus
+AP - Allzwecksprache
+GPL - GNU General Public License
+GPRS - General Packet Radio Service
+GPS - Globales Positionsbestimmungssystem
+GPSS - Allzweck-Simulationssystem
+GPT-n - Generative Pre-trained Transformer-Reihe
+GPT - GUID-Partitionstabelle
+GPU - Grafikprozessor
+GQL - Graph-Abfragesprache
+Gradient
+Gradsect
+Granger-Kausalität
+Graphenfaktorisierung
+GraphTalk - GraphTalk
+GRASP - Greedy Randomized Adaptive Search Procedure
+GRASS - Graphics Symbiosis System
+Grasshopper - Grasshopper
+GRDDL - Ressourcenbeschreibungen aus Sprachdialekten gewinnen
+GReAT - Graph-Umschreibung und -Transformation
+Gremlin - Gremlin
+grep - Global regulären Ausdruck suchen und passende Zeilen ausgeben
+gretl - GNU-Regressions-, Ökonometrie- und Zeitreihen-Bibliothek
+GRF - Gaußsches Zufallsfeld
+GRID - Globale Forschungs-Identifikator-Datenbank
+Groovy - Groovy
+Gruppe
+Grovers Algorithmus
+GRU - Gated Recurrent Unit
+GRUB - Grand Unified Boot-Loader
+GS1 - Global Standards 1 (?)
+GSL - Gelato Shading Language
+GSL - GNU Scientific Library
+GSL - Godot Shading Language
+GSM - Global System for Mobile Communications
+GSMA - Global System for Mobile Communications Association
+GSO - Gram-Schmidt-Orthogonalisierung, Gram-Schmidt-Verfahren
+GT.M - Greystone Technology MUMPS
+GT/s - Gigatransfers pro Sekunde
+GTK, GTK+ - GIMP Toolkit
+GTL - Gunning Transceiver Logic
+GUI - Grafische Benutzeroberfläche
+GUID - Global eindeutiger Bezeichner
+GVIF - Gigabit-Video-Schnittstelle
+GWT - Global-Workspace-Theorie
+GWT - Google Web Toolkit
+GYR - IT-Netzwerk
+H(p), Hb(p) - Binäre Entropiefunktion
+HA - Hohe Verfügbarkeit
+Hack - Hack-Programmiersprache
+HADR - Notfallwiederherstellung mit hoher Verfügbarkeit
+Haggis - Haggis-Programmiersprache
+HAIFA - Hash-Iterative-Framework-Konstruktion
+HAL - Hardware-Abstraktionsschicht
+HAL/S - High-order Assembly Language/Shuttle
+Halide - Halide
+HAM - Hierarchisches aufmerksames Gedächtnis
+HAM - Holographisches assoziatives Gedächtnis
+Hamilton C shell - Hamilton C shell
+Hamiltonian
+Hamming-Distanz
+Handel-C - Handel-C
+HAR - Hadoop-Archiv
+Harbour - Harbour
+HARD - Schnelle HTML-Anwendungsentwicklung
+HARQ - Hybride automatische Wiederholungsanfrage
+Hartmann-Pipelines - Hartmann-Pipelines
+Haskell - Haskell
+HASP - Houston Automatic Spooling Priority
+Hausdorff-Young-Ungleichung
+Haxe - Haxe-Programmiersprache
+HBA - Host-Bus-Adapter
+HBS - Handlebars-Datei
+HC - Hillclimbing mit Lernen
+MCI - Mensch-Computer-Interaktion
+HCL - Hardware-Kompatibilitätsliste
+HD - Hohe Dichte
+HD DVD - High-Definition-DVD
+HDCP - High-bandwidth Digital Content Protection
+HDD - Festplattenlaufwerk
+HDFS - Hadoop Distributed File System
+HDFS ACL - Hadoop-Distributed-File-System-Zugriffskontrollliste
+HDL - Hardware-Beschreibungssprache
+HDLC - High-level Data Link Control
+HDMI - High-Definition Multimedia Interface
+HECI - Host Embedded Controller Interface
+Heisenbug
+Henshin - Henshin-Programmiersprache
+Hermes - Hermes-Programmiersprache
+HF - Hochfrequenz
+HF/DF, huff duff - Hochfrequenz-Richtungsfindung
+HFS - Hierarchisches Dateisystem
+HG(x, y), M(x,y) - Geometrisch-harmonisches Mittel (äquivalent harmonisch-geometrisches Mittel)
+
+HHD - Hybride Festplatte
+HHMM - Hierarchisches verstecktes Markov-Modell
+HHVM - HipHop Virtual Machine
+HID - Human Interface Device
+hideLanguage - hideLanguage
+Hierarchisches Clustering
+HIG - Human Interface Guidelines
+HIRD - Hurd of Interfaces Representing Depth
+History-Monoid
+HITL - Mensch in der Schleife
+HL - Hoare-Logik, Floyd-Hoare-Logik, Hoare-Regeln
+HLA - High Level Assembly
+HLASM - High Level Assembler
+HLL - HyperLogLog
+HLS - HTTP Live Streaming
+HLSL - High-Level Shading Language
+HM - Harmonisches Mittel
+HMA - High Memory Area
+HMAC - Hash-basierter Nachrichtenauthentifizierungscode, schlüsselbasierter Hash-Nachrichtenauthentifizierungscode
+
+HMM - Verstecktes Markov-Modell
+hOCR - Hypertext-Optische-Zeichenerkennung
+HOG - Histogramm geordneter Gradienten
+HOL - Höherstufige Logik
+HOLAP - Hybride Online-Analytische-Verarbeitung (OLAP)
+Hollywood - Hollywood
+HolyC - HolyC-Programmiersprache
+Homotopie-Fortsetzung
+Homotopiegruppe
+Honeywell TEX - Text Executive Textverarbeitungssystem
+HOOD - Hierarchisches objektorientiertes Design
+Hop - Hop-Programmiersprache
+Hope - Hope-Programmiersprache
+Hopfield-Netzwerk
+Hopscotch - Hopscotch
+HOSVD - Höherordnungs-Singularwertzerlegung
+HOT - Höherstufiger Term
+HOTP - HMAC-basierter Einmalpasswort-Algorithmus
+HP - Hewlett-Packard
+HPC - Hochleistungsrechnen
+HPCC - Hochleistungsrechner-Cluster
+HPD - Hierarchische Schutzdomäne, Schutzring
+hPDL - Hadoop-Prozessdefinitions-Sprache
+HPFS - Hochleistungs-Dateisystem
+HPIL - Hadoop-Physische-Infrastruktur-Schicht
+HQC - Hannan-Quinn-Informationskriterium
+HRRN - Höchstes Antwortverhältnis als Nächstes
+HRW - Höchstes Zufallsgewicht
+HSDPA - High-Speed Downlink Packet Access
+HSLS - Hazy Sighted Link State Routing Protocol
+HSM - Hierarchisches Speichermanagement
+HST - Hubble-Weltraumteleskop
+HSUPA - High-Speed Uplink Packet Access
+HT - Hyper-Threading
+HTAP - Hybride transaktionale und analytische Verarbeitung
+HTC - Hochdurchsatz-Rechnen
+HTL - High Threshold Logic
+HTM - Hierarchisches temporales Gedächtnis
+HTML - Hypertext-Auszeichnungssprache
+HTTP - Hypertext-Übertragungsprotokoll
+HTTPd - Hypertext-Transport-Protokoll-Daemon
+HTTPS - Hypertext-Übertragungsprotokoll Secure
+HTX - HyperTransport Expansion
+Hume - Higher-order Unified Meta-Environment
+HURD - Herd of Unix-Replacing Daemons
+HVD - Holographic Versatile Disc
+Hyperfunktion
+Hypergraph
+HyperTalk - HyperTalk
+Hz - Hertz
+I-Projektion - Informationsprojektion
+i.o. - Unendlich oft
+i.u.a.r. - Unabhängig gleichverteilt zufällig
+E/A - Eingabe/Ausgabe
+I²C, I2C, IIC - Inter-Integrated Circuit („I-quadrat-C“)
+I²L, I2L, IIL - Integrierte Injektionslogik
+I²S - Integrierter Interchip-Sound
+I18N - Internationalisierung
+IA, AIA - Intelligenter Agent, abstrakter intelligenter Agent
+IaaS - Infrastruktur als Dienst
+IaC - Infrastruktur als Code
+IAM - Identitäts- und Zugriffsmanagement
+IANA - Internet Assigned Numbers Authority
+IAS-Maschine - Von-Neumann-Maschine
+iBCS - Intel Binary Compatibility Standard
+IBM - International Business Machines Corp
+IBM AIX - IBM Advanced Interactive Executive
+IBM HAScript - IBM Host Access Script
+IBM VisualAge - IBM VisualAge-IDE-Familie
+IC - Integrierter Schaltkreis
+ICA - Unabhängige Komponentenanalyse
+ICA - Internationaler Archivrat
+ICaaS - Integrationsfähigkeit als Dienst
+ICAM - Integrierte computerunterstützte Fertigung
+ICANN - Internet Corporation for Assigned Names and Numbers
+ICCC - Internationale Konferenz für Computer-Kommunikation
+ICCID - Integrierter-Schaltkreis-Karten-Identifikator
+ICE - In-Circuit-Emulator
+ICE - Intrusion Countermeasure Electronics
+ICH - E/A-Controller-Hub
+ICI - ICI-(icky)-Programmiersprache
+ICML - Internationale Konferenz für maschinelles Lernen
+ICMP - Internet Control Message Protocol
+Icon - Icon-Programmiersprache
+ICP - Index-Condition-Pushdown (MySQL)
+ICP - Internet Cache Protocol
+ICQ - I Seek You-Messaging-Plattform
+ICS - Internet Connection Sharing
+IKT - Informations- und Kommunikationstechnologie
+IDA - Initiale Datenanalyse
+IDE - Integrierte Entwicklungsumgebung
+IDE - Integrated Drive Electronics
+IDEF - Ursprünglich Abkürzung für ICAM Definition, 1999 umbenannt in Integration Definition
+
+Identität
+IDF - Intermediate Data Format
+IDF - Intermediate Distribution Frame
+IDL - Interactive Data Language
+IDL - Schnittstellen-Definitions-Sprache
+IDL - Internationale Datumsgrenze
+IDP - Inverse Tiefenparametrisierung
+Idris - Idris-Funktionale-Programmiersprache
+EDE - Eindringungserkennungssystem
+IE - Internet Explorer
+IEC - Internationale Elektrotechnische Kommission
+IEEE - Institute of Electrical and Electronics Engineers
+IETF - Internet Engineering Task Force
+gdw - genau dann, wenn
+IFF - Interchange File Format
+IFGICT - International Federation of Global & Green ICT
+IFL - Integrated Facility for Linux
+IFRS - Internationale Rechnungslegungsstandards
+IG - Informationsgewinn
+IGD - Interaktive grafische Dokumente
+IGDT - Info-Gap-Entscheidungstheorie
+IGFET - Isolierschicht-Feldeffekttransistor
+IGMP - Internet Group Management Protocol
+IGRP - Interior Gateway Routing Protocol
+IGSO - Geneigte geostationäre Umlaufbahn
+IH - Induktionshypothese
+IHV - Unabhängiger Hardware-Anbieter
+iid, i.i.d. - Unabhängig und identisch verteilt (Zufallsvariablen)
+IIFE - Sofort aufgerufener Funktionsausdruck
+IIM - Informationsaustauschmodell
+IIN - Issuer Identification Number
+IIOP - Internet Inter-ORB Protocol
+IIR - Filter mit unendlicher Impulsantwort
+IIS - Internet Information Services
+IIT - Integrierte Informationstheorie
+IJCAR - Internationale gemeinsame Konferenz für automatisches Schließen
+IKE - Internet Key Exchange
+IL - Intermediate Language
+ILIKE - Groß-/Kleinschreibung-unempfindliches like
+ILP - Befehlsebenen-Parallelität
+ILP - Ganzzahliges lineares Programm
+ILSVRC - ImageNet Large Scale Visual Recognition Challenge
+im - Bild
+IM - Instant Messaging
+IMABS - Imaginärer Absolutwert
+ImageNet - ImageNet-Visuelle-Datenbank
+IMAP - Internet Message Access Protocol
+IME - Eingabemethoden-Editor
+IMEI - Internationale Mobilgeräte-Identität
+IMG - Disk-Image-Dateiformat
+IMP - Interface Message Processor
+Unpräzise Wahrscheinlichkeit
+Impulse C - Impulse C
+IMR - Internet Monthly Report
+IMS - Information Management System
+IMS VDEX - IMS Vocabulary Definition Exchange
+IMSI-Catcher, Stingray - Internationaler-Mobilfunk-Teilnehmer-Identitäts-Fänger
+
+IMSI - Internationale Mobilfunk-Teilnehmer-Identität
+In-Crowd-Algorithmus
+Index-Kalkül-Algorithmus
+inf - Infimum
+Inform - Inform
+Information - Fisher-Information
+Informix-4GL - IBM Informix 4GL
+INFOSEC - Informationssystemsicherheit
+Skalarprodukt
+Inpainting
+Inria - Institut national de recherche en informatique et en automatique (Nationales Institut für Informatik- und Automatisierungsforschung)
+
+INSERT - SQL-Einfüge-Anweisung
+Integralgraph
+Interaktion
+INTERCAL - Compilersprache ohne aussprechbares Akronym
+Innere-Punkte-Methode
+Schnittmengen-Algorithmus
+Io - Io-Programmiersprache
+IOPS - Ein-Ausgabe-Operationen pro Sekunde
+IOT - Index Organized Table (Oracle)
+IoT - Internet der Dinge
+IG - Geistiges Eigentum
+IP - Internet Protocol
+IPAM - IP-Adressverwaltung
+IPK - Interprozesskommunikation
+IPFS - InterPlanetary File System
+IPL-v -
+IPL - Information Processing Language
+IPL - Initial Program Load
+IPMI - Intelligent Platform Management Interface
+IPO - Interprozedurale Optimierung
+IPOPT - Innere-Punkte-Optimierer
+IPP - Internet Printing Protocol
+IPS - In-Plane Switching
+BPS - Befehle pro Sekunde
+EVS - Eindringungsverhinderungssystem
+IPsec - Internet Protocol Security
+IPSN - IEEE/ACM Internationale Konferenz für Informationsverarbeitung in Sensornetzen
+
+IPTC - Information Press Telecommunications Council
+IPTV - Internet Protocol Television
+IPv4 - Internet Protocol Version 4
+IPv6 - Internet Protocol Version 6
+IPX - Internetwork Packet Exchange
+IR - Informationsabruf
+ZR - Zwischenrepräsentation
+IRad - Informationsradius, totale Divergenz zum Mittelwert, Jensen-Shannon-Divergenz
+
+IRC - Internet Relay Chat
+IrDA - Infrared Data Association
+IRI - Internationalized Resource Identifier
+IRLS - Iterativ re-gewichtete Kleinste-Quadrate
+IRP - E/A-Anfragepaket
+IRQ - Interrupt Request
+IRT - Item-Response-Theorie
+IRW - Indirektes Referenzwort
+IS-IS - Intermediate System to Intermediate System (Routing-Protokoll)
+IS - Informationswissenschaft
+IS - Informationssysteme
+ISA - Industry Standard Architecture
+BSA - Befehlssatzarchitektur
+ISAAR - International Standard Archival Authority Record
+ISAM - Indexed Sequential Access Method
+ISATAP - Intra-Site Automatic Tunnel Addressing Protocol
+ISBN - Internationale Standardbuchnummer
+ISC - Internet Storm Center
+iSCSI - Internet Small Computer System Interface
+ISDB - Integrated Services Digital Broadcasting
+ISDN - Integrated Services Digital Network
+ISI - Inter-Spike-Intervall
+ISI - Intersymbol-Interferenz
+ISIN - Internationale Wertpapierkennnummer
+ISM-Band - Industrie-, Wissenschafts- und Medizin-Funkbänder
+ISMN - Internationale Standardmusiknummer
+ISNI - International Standard Name Identifier
+iSNS - Internet Storage Name Service
+ISO - Internationale Organisation für Normung
+ISP - Internetdienstanbieter
+ISPF - Interactive System Productivity Facility
+ISQ - Internationales System der Größen
+ISR - Interrupt-Service-Routine
+ISS - Internationale Raumstation
+ISSN - Internationale Standardseriennummer
+ISV - Unabhängiger Software-Anbieter
+ISWIM - If you See What I Mean
+IT - Informationstechnologie
+ITIL - Information Technology Infrastructure Library
+ITL - Intervall-Temporal-Logik
+ITS - Incompatible Timesharing System
+ITSM - IT-Service-Management
+ITU-R - International Telecommunication Union Radiocommunication Standardization Sector
+
+ITU-T - International Telecommunication Union Telecommunication Standardization Sector
+
+ITU - Internationale Telekommunikationsunion
+IV - Initialisierungsvektor
+IV - Intravenöse Therapie
+IVCR - Interaktives virtuelles Klassenzimmer
+IVRS - Interaktives Sprachantwortsystem
+IWD-Algorithmus - Intelligente-Wassertropfen-Algorithmus
+IWM - Integrated Woz Machine
+J - J-Programmiersprache
+J
+J++ - Visual-J++-Programmiersprache
+J2EE - Java 2 Enterprise Edition
+J2ME - Java 2 Micro Edition
+J2SE - Java 2 Standard Edition
+Jacobian
+JADE - Java Agent Development Framework
+JAL - Just Another Language
+Janus - Janus-Nebenläufige-Constraint-Programmiersprache
+Janus - Janus-Zeit-reversible-Programmiersprache
+JAQL - JSON-Abfragesprache
+JASS - Just Another Scripting Syntax
+Java - Java-Programmiersprache
+JavaCC - Java Compiler Compiler
+JavaFX Script - JavaFX-Skriptsprache
+JAX-RPC - Java XML for Remote Procedure Calls
+JAXB - Java Architecture for XML Binding
+JAXP - Java API for XML Processing
+JBOD - Just a Bunch of Disks
+JC3IEDM - Joint Consultation, Command and Control Information Exchange Data Model
+
+JCE - Java Cryptography Extension
+JCL - Job Control Language
+JCP - Java Community Process
+JDBC - Java Database Connectivity
+JDK - Java Development Kit
+JDS - Java Desktop System
+JEAN - JOSS Extended and Adapted for Nineteen-hundred
+JEE - Java Enterprise Edition
+JES - Job Entry Subsystem
+Jess - Jess-Regel-Engine, Java-Expertensystem-Shell (?)
+JFC - Java Foundation Classes
+JFET - Sperrschicht-Feldeffekttransistor
+JFS - IBM Journaling File System
+JHDL - Just-Another Hardware Description Language
+JINI - Jini Is Not Initials
+Jira, JIRA - Atlassians Jira-Issue-Tracking-Software
+JIT - Just-In-Time
+JME - Java Micro Edition
+JMS - Java Message Service
+JMX - Java Management Extensions
+JNA - Java Native Access
+JNDI - Java Naming and Directory Interface
+JNI - Java Native Interface
+JNZ - Sprung bei ungleich null
+JOHNNIAC - John-v.-Neumann-Numerischer-Integrator-und-Automatenrechner
+Join Java - Join Java
+Jordan-Netzwerk
+JOSS - JOHNNIAC Open Shop System
+Joule - Joule-Programmiersprache
+JOVIAL - Jules' Own Version of the International Algorithmic Language
+Joy - Joy-Programmiersprache
+JPEG - Joint Photographic Experts Group
+JRE - Java-Laufzeitumgebung
+JS - JavaScript
+JScript - ECMAScript für Microsofts Internet Explorer
+JScript .NET - JScript-.NET-Programmiersprache
+JSE - Java Standard Edition
+JSON-LD - JSON für verknüpfte Daten
+JSON - JavaScript Object Notation
+JSP - Jackson Structured Programming
+JSP - JavaServer Pages
+JSTOR - Journal Storage
+JTAG - Joint Test Action Group
+JTL - J-Transformationssprache (?)
+Julia
+Julia - Julia-Programmiersprache
+JVM - Java Virtual Machine
+JWT - JSON Web Token
+Jython - Jython
+k-Anonymität - Quantifiziertes Datenschutz-Anonymitätsniveau
+k-d-Baum - k-dimensionaler Baum
+k-partit - Multipartiter Graph
+K-Raum -
+K - K-Baum-hierarchische-Array-Programmiersprache
+K&R - Kernighan und Ritchie
+K8 - Kubernetes
+kaggle - Kaggle-Community und -Unternehmen
+Kaleidoscope - Kaleidoscope
+KANT - KANT-Software (kein Akronym)
+Karel - Karel-the-Robot-Bildungs-Programmiersprache
+TB - Tastatur
+Kb - Kilobit
+KB - Kilobyte
+WB - Wissensbasis
+kbps - Kilobit pro Sekunde
+KK - Kolmogorov-Komplexität, algorithmische Komplexität, Solomonoff-Kolmogorov-Chaitin-Komplexität, Programmgrößen-Komplexität, deskriptive Komplexität, algorithmische Entropie
+
+KDD - Wissensentdeckung in Datenbanken
+KDE - K Desktop Environment
+KEE - Knowledge Engineering Environment
+ker - Kernel
+Kermeta - Kermeta
+Kermit - Kermit-Protokoll
+KF - Kalman-Filter
+KFS - Kosmos File System
+kHz - Kilohertz
+KiB - Kibibyte
+KIF - Knowledge Interchange Format
+Kixtart - Kixtart
+KKT - Karush-Kuhn-Tucker-Bedingungen
+KL-ONE - Knowledge One
+Kleene-Stern
+Klerer-May-System - Klerer-May-System
+KLM-Protokoll - Knill-Laflamme-und-Milburn-Protokoll
+KLT - Karhunen-Loève-Theorem
+KM - Knowledge Machine
+KM, K-map - Karnaugh-Tabelle
+KMS - Kernel Mode-Setting
+WMS - Wissensmanagementsystem (Hypertext)
+Rucksackproblem
+KNIME - Konstanz Information Miner
+kNN - k-nächste Nachbarn
+Kodu - Kodu Game Lab visuelle IDE
+Kojo - Kojo-Bildungs-Programmiersprache
+Kotlin - Kotlin
+KPCA - Kernel-Hauptkomponentenanalyse
+KQML - Knowledge Query and Manipulation Language
+KRC - Kent Recursive Calculator
+KRL - Wissensrepräsentationssprache
+KRL - Wissensrepräsentationssprache
+KRL - KUKA-Robotersprache
+Kronecker-Delta
+KRYPTON - Krypton - Wissensrepräsentationssprache
+ksh - K-Shell
+ksh - Korn-Shell (ksh)
+KSV - Schlüsselauswahlvektor
+KSVM - Kernel-Support-Vector-Machine
+KTurtle - KDE-Turtle-Grafikumgebung
+SW - Schlüssel/Wert
+KVM - Tastatur, Video, Maus
+K-S-Test, KS-Test - Kolmogorov-Smirnov-Test
+L-BFGS, LM-BFGS - BFGS mit begrenztem Speicher
+l-Diversität -
+L-Moment - Legendre-Moment
+L-Notation - Logarithmische Schranken-Notation
+L-System - Lindenmayer-System
+L/poly - Logarithmische Zeit polynomiell beschränkter Rat
+L1, L2, L3, L4, L5 - Lagrange-Punkte 1-5
+L10N - Lokalisierung
+L2TP - Layer-2-Tunneling-Protokoll
+LA - Lineare Algebra
+LabVIEW - Laboratory Virtual Instrument Engineering Workbench
+LACP - Link Aggregation Control Protocol
+Ladder - Ladder
+Lagrange-Multiplikator
+LAI - Location Area Identity
+LAKE - LAKE-Hash-Funktion
+LAMP - Linux Apache MySQL Perl
+LAMP - Linux Apache MySQL PHP
+LAMP - Linux Apache MySQL Python
+LAN - Lokales Netzwerk
+LANSA - LANSA-IDE
+LAPACK - Lineare-Algebra-Paket
+LAPB - Link Access Procedure, Balanced
+LAPF - Link-Access-Verfahren für Frame Relay
+Laplace-Transformation
+Laplace-Matrix
+LAR - Log Area Ratio
+Lasso - Lasso-Programmiersprache
+LASSO, Lasso - Least Absolute Shrinkage and Selection Operator
+LaTeX - Lamberts TeX (tau epsilon chi)
+Lava - Lava-Programmierumgebung und -sprache
+LB - Bestenliste
+LB - Lastenausgleich
+lb, ld - Binärer Logarithmus
+LBA - Logische Blockadressierung
+LBAC - Label-basierte Zugriffskontrolle
+LBAC - Gitter-basierte Zugriffskontrolle
+LBAP - Lineares Engpass-Zuordnungsproblem
+LBF - Lineare Glaubensfunktion
+LC-3 - Little Computer 3
+LCD - Flüssigkristallanzeige
+kgN - Kleinsten gemeinsamen Nenner
+LCFS - Last Come, First Served
+LKG - Linearer Kongruenzgenerator
+LQG - Linear-quadratisches-Gauß-Kontrollproblem
+UKG - Untere Kontrollgrenze
+LKM - Latentes Klassenmodell
+kgV - Kleinstes gemeinsames Vielfaches
+LCOS - Flüssigkristall auf Silizium
+LCQ - Linearitäts-Constraint-Qualifikation
+LCR - Günstigste-Kosten-Routing
+LCS - Lernendes Klassifikatorsystem
+LD - Verknüpfte Daten
+LDA - Latente Dirichlet-Allokation
+LDA - Lineare Diskriminanzanalyse
+LDAP - Lightweight Directory Access Protocol
+LDPC - Low-Density-Parity-Check-Code
+LDU-Zerlegung - Unter-Diagonal-Oben-Zerlegung / Faktorisierung
+LE - Logische Extents
+LED - Leuchtdiode
+Legoscript - Legoscript
+LEN - Länge
+lerp - Lineare Interpolation
+lex - Lexikalische Analyse
+Lexico - Lexico
+LF - Zeilenvorschub
+LF - Niederfrequenz
+LFE - Lisp-Flavored Erlang
+lfp, LFP - Kleinster Fixpunkt
+LFS - Linux From Scratch
+LFSR - Linear-Feedback-Schieberegister
+LGA - Land Grid Array
+LGPL - GNU Lesser General Public License
+LHMM - Geschichtetes verstecktes Markov-Modell
+LHS - Latin-Hypercube-Stichprobe
+LHS - Linke Seite
+Li-Fi - Light Fidelity
+li - Linear unabhängig
+li - Logarithmische Integralfunktion
+LIB - Bibliothek
+LIBLINEAR - Bibliothek für große lineare Klassifikation
+LICQ - Linear-Unabhängigkeits-Constraint-Qualifikation
+LIDA - Learning Intelligent Distribution Agent
+LIDAR - Lichtdetektion und Entfernungsmessung, Lichtradar
+LIF - Low Insertion Force
+LIFO - Last In, First Out
+lift - Lift
+LIL - Little Implementation Language
+LILO - Linux Loader
+LilyPond - LilyPond
+Limbo - Limbo-Programmiersprache
+LIME - Lokale interpretierbare modellagnostische Erklärungen
+Limnor - Limnor
+LINBSVM - Bibliothek für Support-Vector-Machines
+LINC 4GL - Logic and Information Network Compiler
+Linearisierbarkeit
+Lingo - Lingo-Skriptsprache
+LINPACK - Lineare-Algebra-Paket
+LINQ - Language Integrated Query
+LIP - Schleifen-Initialisierungs-Primitiv
+LIQUi|> - Liquid-Quantencomputing-Sprache
+LIRIS-ACCEDE - Diskrete, kontinuierliche, mittelalterliche LIRIS-ACCEDE-Datensätze
+
+LIS - Line-Intercept-Stichprobe
+LISA - Sprache für Befehlssatzarchitektur
+LISP - Listenverarbeitung
+Lite-C - Lite-C
+Lithe - Lithe-Syntax-Wahl-Programmiersprache
+Litotes
+Little b - Little biologische Modellierungs-Computersprache
+Little Smalltalk - Little Smalltalk
+LiveCode - LiveCode
+LiveScript - LiveScript
+LJD - Verlustfreie Join-Zerlegung
+LKML - Linux-Kernel-Mailingliste
+LL-Parser - Links-nach-rechts, linksmoste-Ableitung-Parser
+LLC - Logical Link Control
+LLDB - LLVM-Debugger
+LLDP - Link-Layer-Discovery-Protokoll
+LLE - Lokal lineare Einbettung
+LLL - Lovász-Lokal-Lemma
+LLL - Lisp-ähnliche Sprache niedriger Ebene
+LLL-Algorithmus - Lenstra-Lenstra-Lovász-Gitterbasisreduktions-Algorithmus
+GGZ - Gesetz der großen Zahlen
+LLP - Lineare Logikprogrammierung
+LLVM - LLVM (kein Akronym, anscheinend)
+LM - LAN Manager
+LMA, LM - Levenberg-Marquardt-Algorithmus
+ln - Natürlicher Logarithmus
+LOB - Großes Objekt
+LOC - Codezeilen
+LOD - Linked Open Data Cloud
+LOF - Lokaler Ausreißer-Faktor
+Logistische Einheit - Logistische Aktivierungsfunktion
+Logit, log-odds - Logarithmus der Odds-Funktion
+Logits-Schicht - Neuronales-Netzwerk-Logits-Schicht
+Logo - Logo-(thought)-Programmiersprache
+Logtalk - Logtalk
+Lola - Lola-HDL
+LOLCODE - Lolcat-Code
+LOOCV - Leave-One-Out-Kreuzvalidierung
+LOP - Sprachorientierte Programmierung
+LOQC - Lineare optische Quantenberechnung
+LOTOS - Sprache der temporalen Ordnungsspezifikation
+LOTUS - Gesetz des unbewussten Statistikers
+LotusScript - LotusScript
+LP-FDMA - Linear vorkodiertes orthogonales Frequenzvielfachzugriffsverfahren
+Lp-Raum, ℓp-Raum - Lebesgue-Raum
+LPAR - Logische Partition
+LPC - Lars Pensjö C
+LPC - Lineare prädiktive Kodierung
+LPI - Linux Professional Institute
+LpO-CV - Leave-p-out-Kreuzvalidierung
+LPT - Zeilendruck-Terminal
+LQE - Linear-quadratische Schätzung
+LQR - Linear-quadratischer Regler
+LR-Parser - Links-nach-rechts, rechtsmoste-Ableitung-rückwärts-Parser
+LRA - Log-Verhältnis-Analyse
+lrd - Lokale Erreichbarkeitsdichte
+LReLU - Leaky Rectified Linear Unit
+LRU - Zuletzt kürzlich verwendet
+LRU - Am wenigsten kürzlich verwendet
+LS-1 - Learning System One
+ls - Liste
+ls - Dateien und Verzeichnisse auflisten
+LSA, LSI - Latente semantische Analyse / Allokation / Indexierung
+LSB - Niederwertigstes Bit
+LSB - Linux Standard Base
+LSE - Langage symbolique d'enseignement, Symbolische Lehrsprache
+LSE - Kleinste-Quadrate-Schätzung
+LSE, LogSumExp, softmax - Logarithmus-Summe-Exponent-Maximum-Approximationsfunktion
+
+LSF - Linienspektrale Frequenz
+LSH - Locality-sensitive Hashing
+LSI - Large-Scale Integration
+LSL - Linden-Skriptsprache
+LSLMT - Kleinste-Quadrate-Lineare-Abbildungs-Technik
+LSM-Baum - Log-strukturierter Merge-Baum
+LSP - Linienspektrales Paar
+LSSA - Kleinste-Quadrate-Spektralanalyse
+LSTM - Long Short Term Memory
+LTE - Long Term Evolution
+LTGA - Linkage-Tree-Genetischer-Algorithmus
+LTI - Linear zeitinvariant
+LTL - Lineare temporale Logik
+LTM - Langzeitgedächtnis
+LTP, RPE-LTP - Regular Pulse Excitation-Long Term Prediction
+LTR - Links nach rechts
+LTU - Lineare Schwellwert-Einheit
+LU-Zerlegung - Unter-Oben-Zerlegung
+Lua - Lua-(Mond)-Programmiersprache
+UB - Obere Schranke
+LUBM - Lehigh-University-Benchmark
+Lucid - Lucid-Programmiersprache
+Ludics
+LUG - Linux-Benutzergruppe
+LUN - Logical Unit Number
+LUP-Faktorisierung - LU-Faktorisierung mit partiellem Pivoting
+Lustre - Lustre
+LV - Logisches Volume
+LVD - Niederspannungs-Differentiell
+LVDS - Niederspannungs-Differenzsignalübertragung
+LVM - Modell mit latenten Variablen
+LVM - Logisches Volume Management
+Lx-Familie - Lx-Familie
+LYaPAS - Logische Sprache zur Darstellung von Synthesealgorithmen
+Lyapunov-Funktion
+Lyndon-Wort
+Lynx - Lynx-Verteilte-Programmiersprache
+LZ77, LZ1 - Lempel-Ziv 1977
+LZ78, LZ2 - Lempel-Ziv 1978
+LZMA - Lempel-Ziv-Markov-Ketten-Algorithmus
+LZO - Lempel-Ziv-Oberhumer
+LZSS - Lempel-Ziv-Storer-Szymanski
+LZW - Lempel-Ziv-Welch
+LZX - Lempel-Ziv-Kompressionsalgorithmus X
+LZX - OpenLaszlo XML
+M-Schätzer
+M - M-Hardware-Beschreibungssprache
+M
+Máni - Máni-(Mond)-Programmiersprache
+M1 -
+M2 -
+M2001 - M2001-Mathematik-Präsentations-Programmiersprache
+M2M - Maschine-zu-Maschine
+M2M - Maschine-zu-Maschine-Sprache
+M2T - Modell zu Text
+M2T - Modell-zu-Text-Transformationssprache
+m4 - Makro 4
+MA - Arthur-Merlin-1-Nachrichten-Protokoll polynomielle Zeit
+MAC - Obligatorischer Zugriff
+MAC - Media Access Control
+MAC - Nachrichtenauthentifizierungscode
+MAC - Multiplizieren-Akkumulieren-Operation
+MAC-Zeiten - mtime, atime, ctime - Änderungs-, Zugriffs-, Metadaten-Änderungszeiten
+
+MAD - Michigan Algorithm Decoder
+MAD/I - Michigan Algorithm Decoder Extended
+MADS - Metadaten-Autoritäts-Beschreibungsschema
+Magik - Inspirational Magik
+Magma - Magma-Computer-Algebra-System
+Magma - Magma, Gruppoid
+Make - Make (Software)
+Malbolge - Malbolge
+MALL - Multiplikativ-additive lineare Logik
+Mallows's Cp - Mallows's Cp
+MAM - Medienzugriffsmanagement (bezogen auf Digital Asset Management)
+MAN - Metropolitan Area Network
+Manpage - Handbuchseite
+MANET - Mobiles Ad-hoc-Netzwerk
+MANIAC I - Mathematical Analyzer Numerical Integrator And Computer Model I
+MANOVA - Multivariate Varianzanalyse
+MAP - Maximum-a-posteriori-Schätzung
+MAP-Test - Velicers Minimum-Average-Partial-Test
+MAPE - Mittlerer absoluter prozentualer Fehler
+MAPI - Messaging Application Programming Interface
+Maple - Maple-Computer-Algebra-System
+MAPPER - Maintain, Prepare, and Produce Executive Reports
+MARC - Maschinenlesbare Katalogisierungsstandards
+MARCXML - Maschinenlesbare Katalogisierungs-XML-Standards
+MARK-IV - MARK-IV
+Mary - Mary-Programmiersprache
+MAS - Multiagentensystem
+MASCOT - Modular Approach to Software Construction Operation and Test
+MASM - Microsoft Macro Assembler
+Matching
+MATH-MATIC - MATH-MATIC-UNIVAC-Compiler
+Mathcad - Mathcad
+Mathematica - Mathematica (Wolfram-Sprache)
+MathML - Mathematical Markup Language
+MATLAB - Matrix Laboratory
+Matrix
+Matrix-Normalverteilung
+Maude-System - Maude-System
+Max MSP - Max-MSP-Grafische-Programmierumgebung
+Maxima, Macsyma - Project MAC's Symbolic Manipulator
+MAXScript - Autodesk-3ds-Max-Skriptsprache
+Mb - Megabit
+MB - Megabyte
+MBCS - Mehrbyte-Zeichensatz
+MBD - Modellbasiertes Design
+Mbps - Megabit pro Sekunde
+MBR - Master Boot Record
+MBT - Modellbasiertes Testen
+MC - Monte-Carlo-Methode
+MCA - Micro Channel Architecture
+MCA - Multiple Correspondence Analysis
+MCAS - Maneuvering Characteristics Augmentation System
+MCC - Mobile Country Code
+MCI - Monte-Carlo-Integration
+MCMC - Markov-Chain-Monte-Carlo
+MCPC - Multiple Channels Per Carrier
+MCS - Minimales Klassifikatorsystem
+MCS - Multilevel-Coordinate-Search-Algorithmus
+MCTS - Monte-Carlo-Baumsuche
+MD5 - Message-Digest-Algorithmus 5
+MDA - Mail Delivery Agent
+MDA - Modellgetriebene Architektur
+MDA - Monochrome Display Adapter
+MDAX, X++ - Microsoft Dynamics AX, X++
+MDC - Multidimensionale Clustering-Tabelle
+MDD-SLAP - MDD-System-Level-Agiler-Prozess
+MDD, MDSD - Modellgetriebene (Software-)Entwicklung
+MDE - Modellgetriebenes Engineering
+MDF - Hauptverteiler
+MDI - Multiple Document Interface
+MDL - Minimum-Description-Length-Prinzip
+MDM - Stammdatenmanagement
+MDP - Markov-Entscheidungsprozesse
+MDS - Multidimensionale Skalierung
+MDX - Multidimensionale Ausdrücke
+ME - Windows Millennium Edition
+MEAN - MongoDB Express.js AngularJS Node.js
+MED - Verwaltung externer Daten
+MEG - Magnetoenzephalografie
+MEL - Maya Embedded Language
+MELL - Multiplikativ-exponentielle lineare Logik
+MEMS - Mikroelektromechanische Systeme
+MER - Modulationsfehlerverhältnis
+Mercury - Mercury
+Mersenne-Twister
+MESA - Maximum-Entropy-Spektralschätzung
+Mesa - Mesa, eine „High-Level“-Programmiersprache
+META II, META I - META II (und META I, eine Teilmenge)
+Metadaten
+Metafont - Metafont
+MetaH - MetaHoneywell
+Metaheuristik
+Metaobjekt-Protokolle - Metaobjekt-Protokolle
+MetaOCaml - OCaml-Programmiersprache-Metaprogrammierungs-Erweiterung
+MetaPost - MetaPost
+METS - Metadaten-Kodierungs- und Übertragungsstandard
+MF - Mittelfrequenz
+MFCQ - Mangasarian-Fromovitz-Constraint-Qualifikation
+MFM - Modified Frequency Modulation
+MGCP - Media Gateway Control Protocol
+MGF - Momentenerzeugende Funktion
+MH - Metropolis-Hastings-Algorithmus
+MHAD - Berkeley Multimodal Human Action Database
+MHEG-5 - Multimedia and Hypermedia Experts Group Standards 5
+MHL - Mobile High-definition Link
+MI - Mathematische Induktion
+MI - Gegenseitige Information
+Mia-TL - Mia-Transformationssprache
+MIB - Management Information Base (SNMP)
+MIC - Market Identifier Code
+MIC - Nachrichtenintegritätscode
+MICR - Magnetische Tintenzeichenerkennung
+Microcode - Microcode
+MicroScript - MicroScript
+MIDI - Musical Instrument Digital Interface
+MIIS - Meditech Interpretive Information System
+Milk - Für ein einzelnes Datenelement jedes Mal in den Hauptspeicher zu gehen ist miserabel ineffizient. „Es ist, als würde man jedes Mal, wenn man einen Löffel Müsli will, den Kühlschrank öffnen, die Milchpackung öffnen, einen Löffel Milch eingießen, die Packung schließen und wieder in den Kühlschrank stellen“ - Vladimir Kiriansky
+
+MIMD - Multiple Instruction, Multiple Data
+MIME - Multipurpose Internet Mail Extensions
+MIMIC - MIMIC-(Simulations-)Sprache
+MIMIC - Gegenseitige-Information-maximierendes-Eingabe-Clustering
+MIMO - Multiple-Input Multiple-Output
+Min-Cut - Minimaler Schnitt (Graphentheorie)
+Min-RVLS - Minimale relevante Variablen in linearem System
+MinHash - Min-wise-unabhängige-Permutationen-Locality-Sensitive-Hashing-Schema
+MiniD - Miniature-D-Erweiterungs-Programmiersprache
+MINIX - MIni-Unix
+MIP - Multilateral Interoperability Programme
+MIPS - Microprocessor without Interlocked Pipelined Stages
+MIPS - Million Instructions per Second
+Mirah - Mirah-(Ruby-in-Java)-Programmiersprache
+Miranda - Miranda
+MIS - Management-Informationssysteme
+MISD - Multiple Instruction, Single Data
+MIT - Massachusetts Institute of Technology
+MITM - Man-in-the-Middle-Angriff
+MIVA Script - MIVA Script
+Mixal - MIX-Assemblersprache
+mkdir - Verzeichnis erstellen
+MKL - Math Kernel Library
+MKL - Multiple-Kernel-Learning
+ML - Maschinelles Lernen
+ML - Meta-Language
+ML/I - Macro Language/One
+MLE - Maximum-Likelihood-Schätzung
+MLL - Multiplikative lineare Logik
+MLP - Mehrschicht-Perceptrons
+MLS - Mehrstufige Sicherheit
+MLS, m-Sequenz, n-Sequenz - Maximum-Längen-Sequenz
+MLT - Metropolis Light Transport
+MM - Majorize/Minimize- oder Minorize/Maximize-Algorithmus
+MMDS - Mortality Medical Data System
+MMDS - Multichannel Multipoint Distribution Service
+MMF - Multimode-(optische)-Faser
+MMI - Mensch-Maschine-Schnittstelle
+MMIO - Speicher-gemapptes E/A
+MML - Minimale Nachrichtenlänge
+MMORPG - Massively Multiplayer Online Role-Playing Game
+MMU - Speicherverwaltungseinheit
+MMX - Multi-Media Extensions
+MNC - Mobile Network Code
+MNG - Multiple-image Network Graphics
+MNIST - Modified National Institute of Standards and Technology
+MO:DCA-P - Mixed Object:Document Content Architecture-Presentation
+MoBo - Motherboard
+MoCA - Multimedia over Coax Alliance
+mod - Modulo
+Mod-10-Algorithmus - Luhn-Algorithmus
+Model 204 - Model 204
+Modelica - Modelica
+MODS - Metadaten-Objekt-Beschreibungsschema
+MODS-Disc - Multiplexed Optical Data Storage-Disc
+Modula-2 - Modula-2
+Modula-3 - Modula-3
+Modula - Modula
+Modul
+MOF - Managed Object Format
+MOF - Meta-Object Facility
+MOF - Microsoft Operations Framework
+MOFM2T, Mof2Text - MOF-Modell-zu-Text-Transformationssprache
+Mohol - Maschinenorientierte höhere Sprache
+Mojibake
+MOLA - Modell-Transformationssprache
+MOLAP - Multidimensionale Online-Analytische-Verarbeitung (OLAP)
+MOLS - Gegenseitig orthogonale lateinische Quadrate
+MOM - Nachrichtenorientierte Middleware
+Monoid
+Monoid-Faktorisierung
+MOO - MUD Object Oriented
+MOP - Meta-Object Protocol
+Mortran - Mortran
+MOS - Mean Opinion Score
+MOS - Metall-Oxid-Halbleiter
+MOSFET - Metall-Oxid-Halbleiter-Feldeffekttransistor
+MOTD - Nachricht des Tages
+Mouse - Mouse-Programmiersprache
+MOV - Apple-QuickTime-Multimediadatei
+MP - Modellparallelität
+MPAA - Motion Picture Association of America
+MPD - Multithreaded, Parallel, and Distributed Programming
+MPEC - Mathematische Programmierung mit Gleichgewichtsbedingungen
+MPEG - Motion Pictures Experts Group
+MPF - Speicher-Vorhersage-Framework
+MPI - Message Passing Interface
+MPL - Mozilla Public License
+MPL - Mystic Programming Language (MPL)
+MPLS - Multiprotocol Label Switching
+MPP - Massively Parallel Processing
+MPPT - Maximum Power Point Tracking
+MPU - Microprocessor Unit
+MQ - Magic Quadrant
+MQT - Materialized Query Table (IBM DB2)
+MQTT - Message Queuing Telemetry Transport
+MRAM - Magnetoresistiver Arbeitsspeicher
+MRAR - Multi-Relation-Assoziationsregeln
+MRC - Maximal-Ratio-Combining
+MRT - Magnetresonanztomographie
+MRS, NMR - Kernspinresonanz-Spektroskopie
+MS-DOS - Microsoft Disk Operating System
+MS - Memory Stick
+MS - Microsoft
+MSA - Mail Submission Agent
+MSB - Most Significant Bit
+MSC - Mathematics Subject Classification
+MSDN - Microsoft Developer Network
+MSE - Mittlerer quadratischer Fehler
+MSI - Medium-Scale Integration
+MSI - Message Signaled Interrupt
+MSI - Microsoft Installer
+MSIN - Mobile Subscription Identification Number
+MSL - Metal Shading Language
+MSL - Multilineares Teilraumlernen
+MSN - Microsoft Network
+MSPE - Mittlerer quadratischer Prognosefehler
+MST - Minimaler Spannbaum, minimaler Gewichtsspannbaum
+MT - Maschinelle Übersetzung
+MT - MT-Transformationssprache
+MT/s - Megatransfers pro Sekunde
+MTA - Mail Transfer Agent
+MTBF - Mittlere Zeit zwischen Ausfällen
+MTF - Move-to-front-Transformation, Buchstapel
+MTL - Modell-Transformationssprache
+MTM - Multiple-try Metropolis
+MTU - Maximum Transmission Unit
+MUA - Mail User Agent
+MUBs - Gegenseitig unverzerrte Basen
+MUD - Multi-User Dungeon
+MultiLisp - MultiLisp
+MULTIX - Multiplexed Information and Computing Service
+MUMPS - Multifrontal Massively Parallel sparse direct Solver
+MUMPS, M - Massachusetts General Hospital Utility Multi-Programming System
+MuPAD - Multi Processing Algebra Data
+MUSHRA - Multiple Stimuli with Hidden Reference and Anchor
+MUSIC - Multiple SIgnal Classification
+MV - Materialisierte Ansicht
+mv - Verschieben
+mv - Verschieben
+MVC - Model-View-Controller
+MVCC - Multiversion Concurrency Control
+MVN - Multivariate Normalverteilung, multivariate Gaußverteilung, gemeinsame Normalverteilung
+
+MVP - Most Valuable Professional
+MVS - Multiple Virtual Storage
+MWC - Mobile World Congress
+MWSN - Mobiles drahtloses Sensornetzwerk
+MX - Mail Exchange
+MXF - Material Exchange Format
+MXML - Macromedia Extensible Markup Language
+MYCIN - Mycin medizinisches Expertensystem
+MyHDL - My-Hardware-Beschreibungssprache
+n-Gramm - n-Gramm
+n-Gramm-Modell - n-Gramm-Modell
+n-Tupel - n-Tupel
+N - Die Menge aller natürlichen Zahlen
+N3 - Notation3
+NAC - Netzwerkzugriffskontrolle
+NACK - Negative Bestätigung
+NAG - Numerical Algorithms Group Numerical Library
+NAIL - NASAs KI-Sprache
+NAK - Negatives Bestätigungszeichen
+NaN - Not a Number
+NAND - Nicht-Und
+NAP - Network Access Protection
+Napier88 - Napier88
+NAS - Netzwerkgebundener Speicher
+NASA - National Aeronautics and Space Administration
+NASA COOL - CLIPS Object Oriented Language
+NASM - Netwide Assembler
+nat - Natürlicher Logarithmus Bit
+NAT - Network Address Translation
+NATURAL - NATURAL
+NB - Naive Bayes
+NBG - Von-Neumann-Bernays-Gödel-Mengenlehre
+NBIC - Nanotechnologie, Biotechnologie, Informationstechnologie und Kognitionswissenschaft
+
+NBMA - Non-Broadcast Multiple Access (z. B. Frame Relay ATM)
+NC - Nick's Class
+NCC - Neuronale Korrelate des Bewusstseins
+NCG - Nichtlineare Konjugierte-Gradienten-Methode
+NCI - Nicht-gruppierter Index
+NCP - NetWare Core Protocol
+NCQ - Native Command Queuing
+NCSA - National Center for Supercomputing Applications
+NDAG - NATO Data Administration Group
+NDIF - New Disk Image Format
+NDIS - Network Driver Interface Specification
+NDLP - National Digital Library Program
+NDPS - Novell Distributed Print Services
+NDS - Novell Directory Services
+NEAT - NeuroEvolution of Augmenting Topologies
+Needham-Schroeder-Protokoll
+Neko - Neko-Programmiersprache
+NELL - Never-Ending Language Learning
+Nemerle - Nemerle
+NENGO - Neural Engineering Object
+NEO - Nah-Erd-Objekt
+Neo4j - Network engine for objects for Java (?)
+NEP - Netzwerkausrüster
+NESL - Nested-Data-Parallelism-Sprache
+Net.Data - Net.Data
+NetBIOS - Network Basic Input/Output System
+NetBT - NetBIOS over TCP/IP
+NetLogo - NetLogo
+NetRexx - NetRexx
+NewLISP - NewLISP
+NEWP - New Executive Programming Language
+Newspeak - Newspeak
+NewtonScript - NewtonScript
+Newton-Raphson-Algorithmus
+NEXT - Near-End CrossTalk
+NF - Normalform (z. B. 1NF, erste Normalform)
+NF, NFU, ML - New Foundations, Mathematical Logic
+NFA - Nichtdeterministischer endlicher Automat
+NFC - Near Field Communication
+NFS - Network File System
+NFS - Zahlkörper-Sieb
+NGC - Next Generation Shell
+Nginx - Engine-X-Webserver
+NGSCB - Next-Generation Secure Computing Base
+NGSCB - Next Generation Sequencing
+NI - National Instruments
+Nial - Nested Interactive Array Language
+NIC - Netzwerkschnittstellenkarte
+NIC - Netzwerkschnittstellencontroller
+NIC, InterNIC - Network Information Center
+nice -
+Nice - Nice-Programmiersprache
+NIM - No Internal Message
+NIO - Nicht-blockierendes E/A
+NIPS, NeurIPS - Konferenz für Neuronale Informationsverarbeitungssysteme
+NIRS - Nahinfrarot-Spektroskopie
+NIST - National Institute of Standards and Technology
+NITIN - Nickle
+NLDR - Nichtlineare Dimensionsreduktion
+NLG - Natürliche Sprachgenerierung
+NLP - Natürliche Sprachverarbeitung
+NLS - Native Language Support
+NLS - On-Line-System
+NLTK - Werkzeugkasten für natürliche Sprache
+nm - Namensliste
+NMF - Nichtnegative Matrixfaktorisierung
+NMF, NNMF - Nichtnegative Matrixfaktorisierung
+NMI - Nicht maskierbare Unterbrechung
+NMS - Netzwerkmanagementsystem
+NN - Neuronales Netz
+NNS - Nächste-Nachbarn-Suche
+NNTP - Network News Transfer Protocol
+NOC - Netzwerk-Betriebszentrum
+Satz über die Kodierung verrauschter Kanäle
+NOP - Keine Operation
+NOR - Nicht-Oder
+NOS - Netzwerkbetriebssystem
+NP - Nichtdeterministische polynomielle Zeit
+np-Kontrollkarte - Anzahl-Nichtkonformitäts-Kontrollkarte
+NPL - Netscape Public License
+NPTL - Native POSIX Thread Library
+NPU - Netzwerkprozessoreinheit
+NQC - Not Quite C
+NRAO - National Radio Astronomy Observatory
+NRZ - Non-Return-to-Zero
+NRZI - Non-Return-to-Zero Inverted
+ns - Netzwerksimulator
+NSA - National Security Agency
+NSA - Network Security Appliance
+NSD - Nassi-Shneiderman-Diagramm
+NSE - Nash-Sutcliffe-Modell-Effizienzkoeffizient
+NSF - National Science Foundation
+NSI - Network Service Interface
+NSIS - Nullsoft Scriptable Install System
+NSL - Nitrous Shading Language
+NSPR - Netscape Portable Runtime
+NSS - Name Service Switch
+NSS - Network Security Services
+NSS - Netzwerkumschalt-Teilsystem
+NSS - Novell Storage Service
+NT - New Technology
+NTFS - New Technology Filesystem
+NTIME - Funktion von n Eingaben in der Zeit
+NTK - Neuronaler Tangentialkernel
+NTLM - NT Lan Manager
+NTM - Neuronale Turing-Maschine
+NTP - Network Time Protocol
+NTSC - National Television System Committee-Standard
+NTT - Nippon Telegraph & Telephone
+Nu - Nu-Programmiersprache
+NUMA - Nicht-uniformer Speicherzugriff
+NuPIC - Numenta Platform for Intelligent Computer
+NURBS - Nicht-uniforme rationale B-Splines
+NVR - Netzwerk-Videorekorder
+NVRAM - Nichtflüchtiger Arbeitsspeicher
+NWScript - NWScript
+NX-Bit - No-Execute-Bit
+NXC - Not eXactly C
+NXP - Next eXPerience Semiconductors Inc.
+NXT-G - Lego Mindstorms NXT grafische Umgebung
+o-Score - Ohlson-Score
+O()-Notation - Groß-O-Notation
+O(n, F) - Orthogonale Gruppe vom Grad n über Körper F
+o:XML - Objektorientierte erweiterbare Auszeichnungssprache
+OAI-ORE - OAI Object Reuse and Exchange
+OAI-PMH - Open Archives Initiative Protocol for Metadata Harvesting
+OAI - Open Archives Initiative
+Oak - Oak-Programmiersprache, Vorgänger von Java
+OASIS - Organization for the Advancement of Structured Information Standards
+OAT - Operative Abnahmetests
+OATH - Initiative for Open Authentication
+OAuth - Open Authentication
+Oberon-2 - Oberon-2
+Oberon - Oberon
+OBJ2 - Object 2
+Object Lisp - Object Lisp
+Object Pascal - Object Pascal
+Objective-C - Objective-C
+Objective-J - Objective-J
+ObjectLOGO - ObjectLOGO
+Obliq - Obliq-Programmiersprache
+Obliq Modula 3 variant - Obliq Modula 3 variant
+OBSAI - Open Base Station Architecture Initiative
+Beobachter-Muster
+Beobachter-Muster
+OC -
+OCaml - Objective Caml
+occam-π - occam-π
+occam - occam-Programmiersprache
+OCL - Object Constraint Language
+OCLC - Ohio College Library Center, Online Computer Library Center
+OCR - Optische Zeichenerkennung
+OCR - Output Control Register
+Octave - Octave
+od - Oktal-Dump
+OData - Open Data Protocol
+ODBC - Open Database Connectivity
+Odds - Quote für / Quote von, Quote auf / Quote gegen, Likelihood, Auszahlung aus einer Wette
+
+
+Odds-Algorithmus
+ODE - Gewöhnliche Differentialgleichung
+ODMA - Open Document Management API
+ODS - Operativer Datenspeicher
+ODT -
+OEIS - Online Encyclopedia of Integer Sequences
+OEM - Original Equipment Manufacturer
+OES - Open Enterprise Server
+OF - OpenFlow-Protokoll
+OFDM - Orthogonale Frequenzmultiplexierung
+OFTC - Open and Free Technology Community
+OGML - Ontologie-basierte Metalanguage
+OID - Objektkennung
+OIDC - OpenID Connect
+OIF - Optical Internetworking Forum
+OIL - Ontology Inference Layer
+OIRDS - Overhead Imagery Research Data Set
+OISC - Ein-Befehl-Set-Computer
+OLAP - Online-Analytische-Verarbeitung
+OLE - Object Linking and Embedding
+OLED - Organische Leuchtdiode
+OLPC - One Laptop per Child
+OLS - Gewöhnliche-Kleinste-Quadrate-Regression
+OLTP - Online-Transaktionsverarbeitung
+OMAC - Ein-Schlüssel-Nachrichtenauthentifizierungscode
+OMCS - Open Mind Common Sense
+OMF - Object Module Format
+OMG - Object Management Group
+OmniMark - OmniMark
+OMR - Optische Markierungserkennung, Optische Markierungserkennung
+one-cold - One-cold
+one-hot - One-hot
+One-Hot-Vektor
+Einwegfunktion
+ONF - Open Networking Foundation
+OO - Objektorientiert
+OO - OpenOffice
+OOAD - Objektorientierte Analyse und Design
+OOB - Out-of-bag-Bewertung
+OODBMS - Objektorientiertes Datenbankmanagementsystem
+OOE - Out-of-Order-Ausführung
+OOF - Out-of-fold-Vorhersagen
+OOK - On-Off-Keying
+OOM - Speicher erschöpft
+OoOE - Out-of-Order-Ausführung
+OOP - Objektorientierte Programmierung
+OOR - Orchestrated Objective Reduction
+OOS - Out-of-sample-Vorhersagen
+OOTB - Sofort einsatzbereit
+OOV - Außerhalb des Wortschatzes
+Opa - Opa-Programmiersprache
+Opal - Optimized Applicative Language
+opcode - Operationscode
+OpenBTS - Open Base Transceiver Station
+OpenCL - Open Computing Language
+OpenEdge ABL - OpenEdge ABL
+OpenGL - Open Graphics Library
+OpenVera - OpenVera
+OPIC - On-line Page Importance Computation
+OPL - Open Programming Language
+OPML - Outline Processor Markup Language
+OPS5 - Official Production System language 5
+OPTICS - Anordnung von Punkten zur Identifikation der Clusterstruktur
+OptimJ - OptimJ
+OR - Odds-Ratio
+OR - Oder, Disjunktion
+Orange - Orange (Software)
+ORB - Object Request Broker
+Orc - Orc-Programmiersprache
+ORCA/Modula-2 - ORCA/Modula-2
+Orchestrierung
+OREXX, OOREXX - Object REXX
+Oriel - Oriel-Skriptsprache
+ORIM - Objekt-relationaler Impedanz-Mismatch
+ORM - Objekt-Relationales Mapping
+Orwell - Orwell-Programmiersprache
+OS - Open Source
+OS - Betriebssystem
+OSCAR - Open System for Communication in Realtime
+OSCON - O'Reilly Open Source Convention
+OSDN - Open Source Development Network
+OSF - Open Software Foundation
+OSI - Open Source Initiative
+OSI - Open System Interconnect (gemeinsamer ISO- und ITU-Standard)
+OSL - Open Shading Language
+OSPF - Open Shortest Path First (Routing-Protokoll)
+OSS - Open-Source-Software
+OSS - Open Sound System
+OSS - Operations Support System
+OSTG - Open Source Technology Group
+OT - Oblivious Transfer
+OTP - Einmalpasswort
+OUI - Organization Unique Identifier
+Äußeres Produkt
+OWASP - Open Web Application Security Project
+OWC - Optische drahtlose Kommunikation
+OWHF - Einweg-Hash-Funktion
+OWL-QN - Orthant-wise limited-memory quasi-Newton
+OWL - Web Ontology Language
+Oxygene - Oxygene
+Oz -
+p-Kontrollkarte - Wahrscheinlichkeits-Nichtkonformitäts-Kontrollkarte
+P, PTIME - Polynomielle Zeit
+P/poly - Polynomielle Zeit mit polynomiell beschränktem Rat
+P2P - Peer-To-Peer
+P4 - Programming Protocol-Independent Packet Processors
+PaaS - Platform as a Service
+PAC-MDP - Probably Approximately Correct in Markov Decision Processes
+PAC-Lernen - Wahrscheinlich annähernd korrektes Lernen
+PACF - Partielle Autokorrelationsfunktion
+PACS - Physics and Astronomy Classification Scheme
+PAE - Physical Address Extension, Page Address Extension
+PAF - Hauptachsen-Faktorisierung
+PAL - Pedagogic Algorithmic Language
+PAL - Permissive Action Link
+PAL - Phase Alternating Line
+PAL - Programmable Array Logic
+PALASM - Programmable Array Logic ASM
+PAM - Pulsamplitudenmodulation
+PAN - Personal Area Network
+PAP - Password Authentication Protocol
+par - Multiplikative Disjunktion
+ParaSail - ParaSail
+PARC - Palo Alto Research Center
+PARI/GP - PARI/GP
+PARRY - PARRY-Chatterbot
+Sparsamkeit, Occams Rasiermesser
+Pascal - Pascal
+Pascal Script - Pascal Script
+PASCAL VOC - PASCAL-VOC-Datensatz
+PAT - Portadressübersetzung
+PATA - Parallel ATA
+PBD - Paarweise ausgewogenes Design
+PBIL - Populationsbasiertes inkrementelles Lernen
+PBL - Policy Block List
+PBS - Portable Batch System
+PBX - Private Branch Exchange
+PC - Personal Computer (Host)
+PC - Probability Collectives
+PC DOS - Personal Computer Disc Operating System
+PCA - Hauptkomponentenanalyse
+PCASTL - Parent and Childset Accessible Syntax Tree Language
+PCB - Leiterplatte
+PCB - Process Control Block
+PCC - Proof-carrying Code
+PCC, PPMCC - Pearson-Korrelationskoeffizient, Pearson's r, Pearson-Produkt-Moment-Korrelationskoeffizient, bivariate Korrelation
+
+
+PCF - Point Coordination Function
+pcf - Mögliche Kofinalitäten
+PCF - Programming Computable Functions
+PCFG - Probabilistische kontextfreie Grammatik
+PCI-X - PCI Extended
+PCI - Peripheral Component Interconnect
+PCIe - PCI Express
+PCL - Page Description Language
+PCL - Printer Command Language
+PCM - Pulscode-Modulation
+PCMCIA - Personal Computer Memory Card International Association
+pCN - Vorkonditionierter Crank-Nicolson-Algorithmus
+PCRE - Perl-kompatible reguläre Ausdrücke
+PD - Gemeinfrei
+PDA - Personal Digital Assistant
+PDA - Tonhöhenerkennungsalgorithmus
+PDA - Kellerautomat
+PDF - Portable Document Format
+PDF - Wahrscheinlichkeitsdichtefunktion
+PDH - Plesiochronous Digital Hierarchy
+PDL - Perl Data Language
+PDM - Puls-Dichte-Modulation
+PDM - Puls-Dauer-Modulation
+PDP - Parallel Distributed Processing
+PDP - Leistungs-Verzögerungs-Produkt
+PDP - Programmed Data Processor
+PDR - Fußgänger-Dead-Reckoning
+PDU - Protokolldateneinheit (z. B. Segment, Paket, Frame usw.)
+PE - Physikalische Extents
+PEARL - Prozess- und Experimentautomatisierungssprache in Echtzeit
+PEG - Parsing-Expression-Grammatik
+PEMDAS - Klammern, Potenzierung, Multiplikation, Division, Addition, Subtraktion
+
+
+PeopleCode - PeopleCode
+PEP - Performance-Enhancing Proxy
+PEPA - Performance Evaluation Process Algebra
+Periodogramm
+PERL - Paketfehlerrate
+PERL - Practical Extraction and Reporting Language
+Perl 5 - Perl 5
+perm - Permanente
+Permutation
+PESQ - Perceptual Evaluation of Speech Quality
+PET - Positronen-Emissions-Tomographie
+Petri-Netz
+PFA - Bitte Anhang beachten
+PG - Peripheral Gateway
+PGA - Pin Grid Array
+PGA - Programmierbares Gate-Array
+PGAS - Partitionierter globaler Adressraum
+PGL(n, F) - Projektive lineare Gruppe vom Grad n über Körper F
+PGO - Profilgesteuerte Optimierung
+PGP - Pretty Good Privacy
+Pharo - Pharo-(Leuchtturm)-Programmiersprache
+PHP - Hypertext Preprocessor
+PhySH - Physics Subject Headings
+PIC - Peripheral Interface Controller
+PIC - Programmierbarer Interrupt-Controller
+Pico - Pico-(klein)-Programmiersprache
+Picolisp - Picolisp
+PICS - Platform for Internet Content Selection
+Pict - Pict visuelle Programmiersprache
+PID - Hauptidealring
+PID - Prozess-ID
+PID - Proportional-Integral-Derivative
+Piet - Piet-Mondrian-Programmiersprache
+Pig - Apache-Pig-Programmiertool
+Pike - Pike-Programmiersprache
+PILOT - Programmed Instruction, Learning, or Teaching
+PIM - Personal Information Manager
+PIM - Plattformunabhängiges Modell
+PIM - Privileged Identity Management
+PINE - Program for Internet News and Email
+PIO - Programmiertes E/A
+PIPE - Probabilistische inkrementelle Programmevolution
+Pipelines - Pipelines
+PIR - Private Information Retrieval
+Pizza - Pizza-Java-Erweiterungen
+PK - Primärschlüssel
+PKCS - Public Key Cryptography Standards
+PKI - Public Key Infrastructure
+PL-11 - Programmiersprache für PDP-11
+PL-6 - Programmiersprache für Honeywell CP-6
+PL - Stückweise lineare Funktion, segmentierte Funktion
+PL/0 - Programmiersprache 0
+PL/8 - Etwa 80 % PL/I (Programming Language One)
+PL/B - Programming Language for Business
+PL/C - Programming Language One Cornell
+PL/I - Programming Language One
+PL/M - Programming Language for Microcomputers
+PL/P - Programming Language for Prime
+PL/pgSQL, Postgres - Procedural Language/SQL (PostgreSQL)
+PL/S - Programming Language/Systems
+PL/SQL - Procedural Language/SQL (Oracle)
+PL360 - Programmiersprache für IBM 360
+PLANC - Programming Language for Nd Computers
+Plankalkül - Plankalkül
+Planner - Planner
+PLC - Paketverlust-Kompensation
+PLC - Power Line Communication
+PLC - Speicherprogrammierbare Steuerung
+PLD - Programmierbares Logikbaustein
+PLEX - Programming Language for EXchanges
+PLEXIL - Plan Execution Interchange Language
+PLL - Phase-Locked Loop
+PLSA, PLSI - Probabilistische latente semantische Zuordnung / Analyse / Indexierung
+
+PLT - Power Line Telecommunications
+Plus - Plus-Programmiersprache
+PM - Phasenmodulation
+PM - Principia Mathematica
+PMAC - Parallelisierbarer Nachrichtenauthentifizierungscode
+PMBGA - Probabilistischer modellaufbauender genetischer Algorithmus
+PMF - Wahrscheinlichkeitsmassenfunktion
+PMI - Punktweise gegenseitige Information
+PMM - POST Memory Manager
+PMML - Predictive Model Markup Language
+PN, NPN - Polnische Notation
+PNG - Portable Network Graphics
+PnP - Plug-and-Play
+PNRP - Peer Name Resolution Protocol
+POCS - Projektion auf konvexe Mengen
+PoE - Power over Ethernet
+POE - PowerOpen Environment
+POID - Persistente Objektkennung
+POJO - Plain Old Java Object
+POM - Musterorientierte Modellierung
+PoM - Polarmodulation
+POP-11 - Package for Online Programming 3
+POP-2 - Package for Online Programming 2
+POP - Point of Presence
+POP3 - Post Office Protocol, Version 3
+Poplog - Poplog
+PortablE - PortablE
+POS - Point-of-Sale-System
+PoS - Proof of Stake
+poset - Partiell geordnete Menge
+POSIX - Portable Operating System Interface, früher IEEE-IX
+POST - Power-on Self-Test
+POTS - Plain Old Telephone Service
+POV-Ray SDL - POV-Ray SDL
+POVM - Positiv-operator-wertiges Maß
+PoW - Proof of Work
+POWER -
+Power ISA - Power Instruction Set Architecture
+PowerBuilder - PowerBuilder
+Powerhouse - Powerhouse
+PowerPC - Performance Optimization With Enhanced RISC – Performance Computing
+Powershell - Windows PowerShell (.NET-basierte CLI)
+PP - Probabilistische polynomielle Zeit
+PPC - PowerPC
+PPCC-Diagramm - Wahrscheinlichkeitsdiagramm-Korrelationskoeffizienten-Diagramm
+PPI - Pixel pro Zoll
+PPL - Polymorphic Programming Language
+PPM - Prediction by Partial Matching
+PPM - Puls-Positions-Modulation
+PPP - Point-to-Point Protocol
+PPPoA - PPP over ATM
+PPPoE - PPP over Ethernet
+PPT - Probabilistische polynomielle Turing-Maschine
+PPTP - Point-to-Point Tunneling Protocol
+PR - Pull Request
+PRA - Primitiv-rekursive Arithmetik
+PRAM - Parallel Random Access Machine
+PRC - Product Representation Compact
+PReLU - Parametrisiertes ReLU
+PREMIS - Preservation Metadata: Implementation Strategies
+printf - Formatiert ausgeben
+Prioritätsencoder
+PRL - Proportionale Verlustreduktion
+PRM - Pseudo-Range-Multilateration
+PRNG - Pseudozufallszahlengenerator
+Pro*C - Pro*C
+Processing - Processing
+Processing.js - Processing.js
+Produkt
+Prograph - Prograph
+PROGRES - Programmed Graph Rewriting Systems
+Progress 4GL - Progress 4GL
+PROIV - ProIV-Programmiersprache
+Project MAC - Project on Mathematics and Computation, später Multiple Access Computer, Machine Aided Cognitions oder Man and Computer
+
+
+Projektion
+Prolog - Prolog
+PROMAL - Programmer's Microapplication Language
+Promela - Promela
+PROMIS - Problem-Oriented Medical Information System
+Beweisnetz
+PROSE - PROSE-Modellierungssprache
+PROTEL - Procedure Oriented Type Enforcing Language
+ProvideX - ProvideX
+Proximale Gradientenmethode
+PS - PostScript
+ps - Prozessstatus
+PS/2 - Personal System/2
+PSA - Professional Services Automation
+PSD - Leistungsspektraldichte
+PSL - Profile Scripting Language
+PSM - Plattformspezifisches Modell
+PSO - Partikelschwarm-Optimierung
+PSP - Personal Software Process
+PSPACE - Polynomieller Problembereich
+PSPP - Kein offizielles Akronym - Ergänzung zu SPSS
+PSQM - Perceptual Speech Quality Measure
+PSSL - PlayStation Shader Language
+PSTN - Öffentliches Telefonnetz
+PSU - Netzteil
+PSVI - Post-Schema-Validation Infoset
+PTS-DOS - PhysTechSoft - Disk Operating System
+PTT - Post-, Telefon- und Telegrafendienst
+PTT - Public Telephone and Telegraph
+PU - Projektive unitäre Gruppe
+pull - Pull-Coding, Client-Pull
+Pure - Pure-Programmiersprache
+Pure Data - Pure Data
+PureScript - PureScript
+push - Push-Technologie, Server-Push
+PV-Wave - PV-Wave
+PV - Physikalisches Volume
+pv - Hauptwert
+PVG - Physikalische-Volume-Gruppe
+PVM - Parallel Virtual Machine
+PVM - Projektionswertiges Maß
+PVR - Personal Video Recorder
+PVST - Per-VLAN Spanning Tree
+PWM - Wahrscheinlichkeits-gewichtetes Moment
+PWM - Pulsweitenmodulation
+PXE - Preboot Execution Environment
+PXF - Pivotal Xtension Frameworks
+PXI - PCI eXtensions for Instrumentation
+Python - Python
+P′′ -
+Q -
+Q -
+Q - Die Menge aller rationalen Zahlen
+Q
+QA - Qualitätssicherung
+Qalb - Qalb-(Herz)-Programmiersprache
+QAM - Quadraturamplitudenmodulation
+Qbasic - Qbasic
+QDR - Quad Data Rate
+QFP - Quad Flat Package
+QIP - Quanteninformationsverarbeitung
+QM-Algorithmus - Quine-McCluskey-Algorithmus, Methode der Primimplikanten
+QML - Qt (Cute) Modeling Language
+QML - Quantum Modeling Language
+QNCQ - Quasi-Normalitäts-Constraint-Qualifikation
+QNN - Quanten-Neuronales Netz
+QoS - Quality of Service
+QP - Quadratische Programmierung
+QPL - Qt Public License
+QPL - Quantum Programming Language
+QPS - Abfragen pro Sekunde
+QPSK - Quadratur-Phasenumtastung
+QR, QU - QR-Zerlegung, QR-Faktorisierung, QU-Faktorisierung
+QSOP - Quarter Small Outline Package
+Qt - Quasar Toolkit
+QTAM - Queued Teleprocessing Access Method
+QtScript - QtScript
+QuakeC - QuakeC
+Quantenlogikgatter
+QuArC - Quantum Architectures and Computation Group
+Quartz Composer - Quartz Composer
+Quaternion
+qubit - Quantenbinärziffer
+Quicksort
+quitrit - Quantenternärziffer
+Quotientenfilter
+QVT - Query/View/Transformation
+qWave - Quality Windows Audio/Video Experience
+Q-Q-Diagramm - Quantil-Quantil-Diagramm
+R-Baum (R*-Baum) - Rechteckbaum
+R - R-Programmiersprache
+R - Die Menge aller reellen Zahlen
+R++ - Regelbasiertes C++
+R2, r2, R-squared - Bestimmtheitsmaß
+RAC - Real Application Clusters (Oracle)
+Race Condition, Race Hazard
+RACF - Resource Access Control Facility
+Racket - Racket
+RAD - Rapid Application Development
+RADIUS - Remote Authentication Dial-In User Service
+Radix-Baum
+RAID - Redundantes Array unabhängiger Festplatten
+RAII - Resource Acquisition Is Initialization
+RAIT - Redundantes Array preiswerter Bänder
+Raku - Raku Perl-basierte Programmiersprache
+RAM - Random-Access-Machine
+RAM - Random Access Memory
+RAMIS - Random Access Management Information System
+RAND Corp - Research and Development Corporation
+RAND, FRAND - Faire, angemessene und nicht-diskriminierende Lizenzierung
+Zufällige Indexierung
+RAPID - RAPID-Programmiersprache (Roboter?)
+Rapira - Rapira
+RAR - Roshal-Archivdateiformat
+RARP - Reverse Address Resolution Protocol
+RAS - Reliability, Availability and Serviceability
+RAS - Remote Access Service
+RASP - Random-access stored-program machine
+Ratfiv - Ratfiv
+Ratfor - Ratfor
+Rationales Sieb
+RAVE - Rapid Action Value Estimation
+RBAC - Rollenbasierte Zugriffskontrolle
+RBAR - Row By Agonizing Row
+RBC, RB - Gray-Code, Reflektierter Binärcode, Einfach-Distanz-Code
+RBF - Radiale Basisfunktion
+RBM - Restricted Boltzmann Machines
+RBML - Regelbasiertes maschinelles Lernen
+RBR - Zeilenbasierte Replikation (MySQL)
+RC - Region Code
+RC - Release Candidate
+RC - Run Commands
+rc - Befehle ausführen
+RC4 - Rivest Cipher 4 (Ron's Code 4, ARC4 oder ARCFOUR, Alleged RC4)
+RCA - Ursachenanalyse
+RCAT - Reversed Compound Agent Theorem
+RCE - Relativer Konstellationsfehler
+RCP - Royal College of Physicians
+RCS - Revision Control System
+RCU - Read-copy-update
+RD - Remote Desktop
+rd - Verzeichnis entfernen
+RDBMS - Relationales Datenbankmanagementsystem
+RDC - Remote Desktop Connection
+RDD - Resilient Distributed Database (or Datasets)
+RDF - Radio Direction Finding
+RDF - Resource Description Framework
+RDFS - Resource Description Framework Schema
+RDM - Relationales Datenmodell
+RDML - Rapid Development and Maintenance Language
+RDOS - Real-time Disk Operating System
+RDP - Remote Desktop Protocol
+RDQL - RDF-Abfragesprache
+RDS - Remote Data Services
+REA - Ressourcen-Ereignisse-Agenten-Modell
+Einmal-Lese-Funktion
+Reaktor - Reaktor
+REASON - Regularized Epoch-based Admm for Stochastic Optimization in high-dimensioN
+
+
+REBOL - Relative Expression Based Object Language
+Red - Red Rebol-basierte Programmiersprache
+Redcode - Redcode
+Redis - Remote Dictionary Server
+REFAL - Recursive Functions Algorithmic Language
+regex, regexp - Regulärer Ausdruck
+ReLU - Rectified Linear Unit
+ReM - Resource Map
+REP - RAID Error Propagation
+REPL - Read-Eval-Print Loop
+ResNet - Residual Neural Network
+REST - Representational State Transfer
+Revolution - Revolution
+Rexx - Restructured Extended Executor
+RF - Radio Frequency
+RF - Random Forest
+RFC - Request for Comments
+RFE - Rekursive Merkmalseliminierung
+RFI - Radio Frequency Interference
+RFID - Radio Frequency Identification
+RGB - Rot, Grün, Blau
+RGBA - Rot, Grün, Blau, Alpha
+RHEL - Red Hat Enterprise Linux
+RHL - Red Hat Linux
+RHS - Rechte Seite
+RIA - Rich Internet Application
+RIAA - Recording Industry Association of America
+ridge - Ridge-Regression, Tikhonov-Regularisierung
+RIE - Reaktives-Ionen-Ätzen
+RIF - Rule Interchange Format
+RIFF - Resource Interchange File Format
+rig - Rig, Halbgruppe
+ring - Ring
+RIP - Raster Image Processor
+RIP - Routeninspektionsproblem
+RIP - Routing Information Protocol
+RIR - Regional Internet Registry
+RISC - Reduced Instruction Set Computer
+RISC OS - Reduced Instruction Set Computer Operating System
+RJE - Remote Job Entry
+RL - Reinforcement Learning
+Rlab - Our Lab
+RLE - Lauflängenkodierung
+RLG - Research Libraries Group
+RLIKE - Regulärer-Ausdruck-like
+RLL - Run-Length Limited
+RLWE - Ring Learning with Errors
+rm, rmdir - Entfernen, Verzeichnis entfernen
+rmdir - Verzeichnis entfernen
+RMI - Remote Method Invocation
+RMS - Richard Matthew Stallman
+RMS - Root Mean Square
+RMSEA - Wurzel des mittleren quadratischen Approximationsfehlers
+RMSLE - Mittlerer quadratischer logarithmischer Fehler
+RMW - Read-modify-write
+RNG - Zufallszahlengenerierung
+RNN - Rekurrentes neuronales Netz
+RNT - Radon-Nikodym-Theorem
+RNTN - Rekursives neuronales Tensor-Netzwerk
+ROC - Receiver Operating Characteristic
+ROKSO - Register of Known Spam Operations
+ROLAP - Relationale Online-Analytische-Verarbeitung (OLAP)
+ROM-DOS - Read Only Memory - Disk Operating System
+ROM - Read-Only Memory
+ROMB - Read-Out Motherboard
+ROOP - Regelbasierte objektorientierte Programmiersprache
+Einheitswurzel, de-Moivre-Zahl
+RP - Randomisierte polynomielle Zeit
+RPC - Remote Procedure Call
+RPG - Report Program Generator
+RPL - Reverse Polish Lisp
+RPM - RPM Package Manager
+RPN - Umgekehrte polnische Notation
+RPO - Recovery Point Objective
+RR - Repeatable Read
+RRAS - Routing and Remote Access Service
+RREF - Reduzierte Zeilenstufenform
+RRID - Research Resource Identifier
+RRT - Rapidly-exploring random tree
+RS - Read Stability
+RS - Replica Set
+RSA - Rivest-Shamir-Adleman
+RSL - RenderMan Shading Language
+RSL - Robot Scripting Language
+RSNF, RNF - Ring-Summen-Normalform
+RSO - Reactive Search Optimization
+RSS - Radio Service Software
+RSS - Really Simple Syndication
+RSS - Rich Site Summary, RDF Site Summary
+RSS, SSR, SSE - Residualsumme der Quadrate, Summe der quadrierten Residuen, Summe der quadrierten Fehlerschätzungen
+
+
+RSTP - Rapid Spanning Tree Protocol
+RTAI - Real-Time Application Interface
+RTC - Real-Time Clock
+RTC - Real-Time Computing
+RTE - Real-Time Enterprise
+RTE - Round-trip Engineering
+RTEMS - Real-Time Executive for Multiprocessor Systems
+RTF - Regression Tree Fields
+RTL - Widerstand-Transistor-Logik
+RTL - Rechts-nach-Links
+RTL/2 - Echtzeitsprache
+RTMP - Real Time Messaging Protocol
+RTN - Rekursives Übergangsnetzwerk
+RTO - Recovery Time Objective
+RTOS - Echtzeit-Betriebssystem
+RTP - Real-Time Payments
+RTP - Real-time Transport Protocol
+RTRL - Real Time Recurrent Learning
+RTS - Ready To Send
+RTSP - Real Time Streaming Protocol
+RTTI - Laufzeit-Typinformation
+Ruby - Ruby-Hardware-Beschreibungssprache
+Ruby - Ruby-Programmiersprache
+Rust - Rust-Programmiersprache
+RV - Zufallsvariable
+RVM - Relevance Vector Machine
+RWD - Responsive Web Design
+S-HTTP - Secure HTTP (selten verwendet)
+S-Lang - S-Lang
+S-PLUS - Erweiterte-S-Programmiersprache
+S - Statistische Programmiersprache
+S/MIME - Secure/Multipurpose Internet Mail Extensions
+S/SL - Syntax/Semantic Language
+S2 - Style System 2
+S3 - S3 Computer Language
+S4 - Simple Scalable Streaming System
+SA-C - Single Assignment C
+SA - Simuliertes Abkühlen
+SaaS - Software as a Service
+SabreTalk - SabreTalk
+SAC - Single Assignment C
+SACD - Super Audio Compact Disk
+SACK - Selektive Bestätigung
+SADT - Strukturierte Analyse- und Design-Technik
+SAE - Society of Automotive Engineers
+SAIL - Stanford Artificial Intelligence Language
+SAM - Security Account Manager
+SAM76 - SAM76-Makrosprache
+SAMV - Iteratives spärliches asymptotisches Minimum-Varianz
+SAN - Storage Area Network
+SANE - Symbiotic Adaptive NeuroEvolution
+SAP - Systems, Applications, and Products in Data Processing
+Sargan-Hansen-J-Test
+SAS - Serial attached SCSI
+SASD - Strukturierte Analyse und strukturiertes Design
+SASE - Secure Access Service Edge
+SASL - Simple Authentication and Security Layer
+SASL - St Andrews Static Language
+SASS - Syntatically Awesome Style Sheets
+SAT - Boolesches Erfüllbarkeitsproblem, propositionales Erfüllbarkeitsproblem
+SATA - Serial Advanced Technology Attachment
+Sather - Sather
+Sawzall - Sawzall
+SAX - Simple API for XML
+SBC - Einplatinencomputer
+sbin - Superuser-Binary
+SBL - Spamhaus Block List
+SBOD - Spinning Beachball of Death
+SBP-2 - Serial Bus Protocol 2
+SBR - Anweisungsbasierte Replikation (MySQL)
+sbs - Small Business Server
+SBU - Standard Build Unit
+SC-DRF - Sequential Consistency for Data Race Freedom
+SC-FDMA - Single-carrier frequency-division multiple access
+SCADA - Supervisory Control And Data Acquisition
+Scala - Skalierbare Sprache
+SCD - Langsam ändernde Dimension
+Scheme - Scheme
+SCI - System Call Interface
+SCID - Source Code in Database
+Scilab - Scilab
+SCM - Software Configuration Management
+SCM - Source Code Management
+Score-Test
+SCP - Secure Copy
+SCPC - Single Channel Per Carrier
+SCPI - Standard Commands for Programmable Instrumentation
+Scratch - Scratch
+Scree - Scree-Plot
+Script.NET - Script.NET
+SCSA - Secure Content Storage Association
+SCSI - Small Computer System Interface
+SCTP - Stream Control Transmission Protocol
+SD - Secure Digital
+SD - Standardabweichung
+SDDL - Security Descriptor Definition Language
+SDE - Spektraldichteschätzung
+SDE - Stochastische Differentialgleichung
+SDF - Synthetische Diskriminantenfunktion
+SDH - Synchronous Digital Hierarchy
+SDI - Single Document Interface
+SDIO - Secure Digital Input Output
+SDK - Software Development Kit
+SDL - Simple DirectMedia Layer
+SDL - Specification and Description Language
+SDL - Standard Deontic Logic
+SDL/GR - Specification and Description Language - Graphical Representation
+SDL/PR - Specification and Description Language - Phrase Representation
+SDLC - Synchronous Data Link Control
+SDM - Spärlich verteilter Speicher
+SDMX - Statistical Data and Metadata Exchange
+SDN - Service Delivery Network
+SDN - Software Defined Networking
+SDP - Session Description Protocol
+SDR - Software-Defined Radio
+SDRAM - Synchronous Dynamic Random Access Memory
+SDS - Stochastische Diffusionssuche
+SDSL - Symmetric DSL
+SE - Single Ended
+SE - Standardfehler (der Schätzung oder Messung)
+SE - Storage Engine (MySQL und Forks)
+Naht-Carving
+SEC - Single Edge Contact
+SECAM - Séquentiel couleur à mémoire
+sed - Stream-Editor
+Seed7 - Seed7-Programmiersprache
+SEER-SEM - SEER for Software
+SEI - Software Engineering Institute
+SELECT - SQL-SELECT-Anweisung
+Self - Self-Programmiersprache
+SEM - Standardfehler des Mittelwerts
+SEM - Strukturgleichungsmodellierung
+Semantisches Tableau
+Seneca - Seneca
+SenseTalk - SenseTalk
+SEO - Suchmaschinenoptimierung
+SEQUEL - Structured English Query Language
+Folge
+Folgenraum
+SequenceL - SequenceL
+SerDes - Serializer/Deserializer
+Reihe
+Serpent - Serpent
+Service-Choreographie
+Ses -
+SESE - Single Entry, Single Exit
+Menge
+Mengenüberdeckung
+Mengenschätzung
+Set TSP - Generalisiertes Traveling-Salesman-Problem
+SETL - Set Language
+SFD - Start-of-Frame-Delimiter (Ethernet, HDLC usw.)
+SfM - Structure-from-Motion-Software
+SFP - Small Form-Factor Pluggable
+SFTP - Simple File Transfer Protocol
+SFTP - SSH File Transfer Protocol
+SGA - Selfish-Gene-Algorithmus
+SGB - Stochastisches Gradient-Boosting
+SGD - Stochastischer Gradientenabstieg
+SGI - Silicon Graphics, Incorporated
+SGML - Standard Generalized Markup Language
+sgn, signum - Signum-Funktion
+SGR - Select Graphic Rendition
+sh - Shell
+SHA - Secure Hash Algorithm
+SHACL - Shapes Constraint Language
+Shakespeare - Shakespeare
+SHAP - Shapley Additive Explanations
+Zerschmetterte Menge
+SHCLVND - Stochastisches Hill Climbing mit Lernen durch Vektoren von Normalverteilungen
+
+
+SHDSL - Single-pair High-speed Digital Subscriber Line
+Shlaer-Mellor-Methode
+Shot noise - Poisson-Rauschen
+SHRDLU - SHRDLU
+SI - Internationales Einheitensystem
+SI - Schwarmintelligenz
+SI Ratio, SIR - Signal-zu-Intermodulations-Verhältnis
+SIC-POVM - Symmetrisches, informationell vollständiges, positiv-operator-wertiges Maß
+
+
+SIFT - Scale-Invariant Feature Transform
+SIGCAT - Special Interest Group on CD-ROM Applications and Technology
+Sight draft -
+SIGINT - Signalaufklärung
+Sigmoid - Sigmoid-Funktion, Sigmoid-Kurve
+SIGNAL - SIGNAL-Programmiersprache
+SIM-Karte - Subscriber Identity/Identification Module
+SIMD - Single Instruction, Multiple Data
+SimHash - Similarity Hashing
+SIMM - Single Inline Memory Module
+SiMPLE - SiMPLE Modular Programming Language & Environment
+Simplex
+Simplex-Algorithmus
+SIMPOL - SIMPOL-Programmiersprache
+SIMSCRIPT - SIMSCRIPT
+SIMT - Single Instruction, Multiple Threads
+Simula - Simula
+Simulink - Simulink
+SINAD - Signal-zu-Rausch- und Verzerrungsverhältnis
+SIND - Microsoft Sequential Image Narrative Dataset
+Singkong - Singkong
+Single Dispatch - Single Dispatch
+Singularity - Singularity
+SIP - Session Initiation Protocol
+SIP - Strongly Implicit Procedure
+SIP - Supplementary Ideographic Plane
+SIP, SIPP - Single in-line (pin) package
+SIPO - Serial Input Parallel Output
+SIR - Sequential Importance Resampling, Bootstrap-Filteralgorithmus
+SIR-Modell - Susceptible-Infectious-Recovered-Modell
+SIR, S/I, SI Ratio - Signal-zu-Interferenz-Verhältnis
+Siri - Apples Siri virtueller Assistent
+SIS - Scientific Information System
+SIS - Scientific Instruction Set
+SIS - Halbleiter-Isolator-Halbleiter
+SIS - Sequential Importance Sampling
+SISAL - Streams and Iteration in a Single Assignment Language
+SISD - Single Instruction, Single Data
+SISO - Single-Input and Single-Output
+SiTra -
+SJN, SJF - Kürzester-Job-Next (oder First)
+SKOS - Simple Knowledge Organization System
+SKU - Stock Keeping Unit
+sl - Lemniskaten-Sinus, sinlemn
+SL - Saturated Logic
+SL - Sequential Logic
+SL - Static Logic
+SL - Symbolische Logik
+SL(n, F) - Spezielle lineare Gruppe vom Grad n über Körper F
+SLAC - Stanford Linear Accelerator
+SLAM - Simultane Lokalisierung und Kartierung
+SLARP - Serial Line Address Resolution Protocol
+SLED - SUSE Linux Enterprise Desktop
+SLES - SUSE Linux Enterprise Server
+SLF - Straight-Line Frequency
+SLI - Scalable Link Interface
+SLIDE -
+SLIP - Serial Line Internet Protocol (veraltet)
+SLM - Service Level Management
+SLOC - Source Lines of Code
+SM - Space Modulation
+SMA - SubMiniature version A
+SMALL - SMALL Machine ALGOL Like Language
+Smalltalk - Smalltalk
+SMB - Server Message Block
+SMB - System Management Bus
+SMBIOS - System Management BIOS
+SMC - Sequential Monte Carlo
+SME - Fachexperte
+SMEM - Semantisches Gedächtnis
+SMF - Single-Mode-(optische)-Faser
+SMIL - Synchronized Multimedia Integration Language
+SML, Standard ML - Standard Meta Language
+SMO - Sequenzielle minimale Optimierung
+SMOTE - Synthetic Minority Over-sampling Technique
+SMP - Supplementary Multilingual Plane
+SMP - Symmetric Multi-Processing
+SMPS - Schaltnetzteil
+SMS - Short Message Service
+SMS - System Management Server
+SMT-COMP - Satisfiability Modulo Theories Competition
+SMT - Simultaneous Multithreading
+SMTP - Simple Mail Transfer Protocol
+SMX - Server Macro Expansion
+SNA - Systems Network Architecture (IBM)
+SNAC - Simple Network Atomic Communication
+SNAP - SubNet Access Protocol
+Snap! - Snap! Lernprogrammiersprache
+SNFS - Spezielles Zahlkörper-Sieb
+SNMP - Simple Network Management Protocol
+SNN - Spiking-Neuronales-Netz
+SNOBOL (SPITBOL) - String Oriented and Symbolic Language
+Snowball - Snowball
+SNQP - Sensornetzwerk-Abfrageprozessor
+SNR - Signal-zu-Rausch-Verhältnis
+sns -
+SNTP - Simple Network Time Protocol
+SO-DIMM - Small Outline Dual Inline Memory Module
+SO(n, F) - Spezielle orthogonale Gruppe vom Grad n über Körper F
+SOA - Service-Oriented Architecture
+SOAP - Simple Object Access Protocol
+SOAP - Symbolic Optimal Assembly Program
+SOAR, Soar - State, Operator and Result, Soar cognitive architecture
+SoC - System-on-a-Chip
+Sodar - Sonic Detection And Ranging
+SOE - Standard Operating Environment
+SOF - Start of Frame
+SOFA - Simulation Open Framework Architecture
+softmax, softargmax - Normalisierte Exponentialfunktion
+softplus, SmoothReLU - Geglättete Rectified Linear Unit
+SOHO - Small Office/Home Office
+SOI - Silicon On Insulator
+SOIC - Small Outline Integrated Circuit
+SOL - Secure Operations Language
+SOL - Simple Object Language
+SOLID - Single-Responsibility-, Open-Closed-, Liskov-Substitution-, Interface-Segregation- und Dependency-Inversion-Prinzipien
+
+
+Solidity - Solidity
+Soln - Lösung
+SoM - System on Module
+SOM, SOFM - Self-Organizing (Feature) Map
+Sonar - Sound Navigation Ranging
+SONET - Synchronous Optical Networking
+SOPA - Stop Online Piracy Act
+SOPHAEROS - Knowledge of Aerosols
+SoS - System of Systems
+Source - Source
+SOV - Subjekt-Objekt-Verb
+SOVA - Soft-Output-Viterbi-Algorithmus
+SP - Service Pack
+SP - Stored Procedure
+SP/k - Structured Programming by Subsets Language
+SPA - Single Page Application
+Raum
+spaCy - spaCy
+SPARC - Scalable Processor Architecture
+SPARK -
+Spark SL - Spark Shading Language
+SPARQL - SPARQL Protocol and RDF Query Language
+SPARQL* - SPARQL extended
+SPD - Spektrale Leistungsverteilung
+Speakeasy - Speakeasy
+SPECT, SPET - Einzelphotonen-Emissions-Tomographie
+Spektrales Clustering
+Speedcode - Speedcode
+SPEM - Software Process Engineering Management
+SPF - Sender Policy Framework
+SPF-Algorithmus - Dijkstras Shortest Path First Algorithmus
+SPI - Serial Peripheral Interface
+SPI - Stateful Packet Inspection
+SPIHT - Set Partitioning in Hierarchical Trees
+SPIN - Spin Parallax Propelllor processor programming language
+Spinglas
+SPM - Softwareprojektmanagement
+SPMD - Single Program, Multiple Data
+SPN - Shortest Process Next
+SPO - Single Pushout Graph Rewriting
+Schwammfunktion
+Spreadsheets - Tabellenkalkulationen
+SPS - IBM 1401 Symbolic Programming System
+SQL - Structured Query Language
+SQL PL - SQL Procedure Language
+SQL/JRF - SQL Routines and Types for the Java Programming Language
+SQL/OLB - SQL Object Language Bindings
+SQL/PSM - SQL Persistent Stored Modules
+SQL/XML - SQL Extensible Markup Language
+SQNR, SNqR - Signal-zu-Quantisierungs-Rausch-Verhältnis
+SQR - Structured Query Reporter
+Squeak - Squeak
+Squirrel - Squirrel
+SR - Super-Resolution Imaging
+SR - Synchronizing Resources
+SR, slew - Slew Rate
+SRAM - Statischer Arbeitsspeicher
+sRGB - Standard Rot Grün Blau
+SRI - Stanford Research Institute
+SRN - Einfaches rekurrentes Netz
+SRS - String-Rewriting-System, Semi-Thue-System
+SRSL - Shining Rock Shading Language
+SRT - Shortest Remaining Time First
+SRT-Division - Sweeney-Robertson-Tocher-Divisionsalgorithmus
+SS - Spread Spectrum
+SSA - Static Single Assignment
+SSB, SSB-SC - Einseitenbandmodulation, Einseitenbandmodulation mit unterdrücktem Träger
+
+
+SSD - Software Specification Document
+SSD - Solid-State Drive
+SSDP - Simple Service Discovery Protocol
+SSE - Streaming SIMD Extensions
+SSH - Secure Shell
+SSI - Server Side Includes
+SSI - Single-System Image
+SSI - Small-Scale Integration
+SSID - Service Set Identifier (Wi-Fi)
+SSL - Secure Socket Layer
+SSO - Single Sign On
+SSP - Supplementary Special-purpose Plane
+SSPPR - Stochastic Shortest Path Problem with Recourse
+SSS - Shamir's Secret Sharing
+SSSE - Supplementary Streaming SIMD Extensions
+SSSP - Single Source Shortest Path
+SSTP - Secure Socket Tunneling Protocol
+Starlogo - Starlogo
+Stata - Statistics Language
+Zustandsraum
+Stateflow - Stateflow
+stdin, stdout, stderr - Standard streams - Standard-Eingabe, -Ausgabe, Fehlerausgabe
+
+
+STL -
+STL - Standard Template Library
+STM - Kurzzeitgedächtnis
+Stop-and-wait ARQ - Stop-and-wait Automatic Repeat-Request
+STP - Spanning Tree Protocol
+STP - Sufficient To Prove
+str - String
+Strand - Strand
+Stratego/XT - Stratego/XT-Transformationssprache
+StreamBase StreamSQL EventFlow
+Strongtalk - Strongtalk
+Strukturierte Sparsity-Regularisierung
+SU - Spezielle unitäre Gruppe
+su - Superuser
+SUBCLU - Subspace Clustering
+Unterableitung
+Subgradient
+Subtext - Subtext
+SUMO - Suggested Upper Merged Ontology
+sup - Supremum
+SuperCollider - SuperCollider
+SuperTalk - SuperTalk
+supp - Support
+Surrogatschlüssel, synthetischer Schlüssel, Entitätskennung, systemgenerierter Schlüssel, Datenbanksequenznummer, faktischer Schlüssel, technischer Schlüssel, beliebiger eindeutiger Bezeichner
+
+
+SUS - Single UNIX Specification
+SUS - Stochastisches universelles Sampling
+SUSE - Software und System-Entwicklung
+SVC - Scalable Video Coding
+SVD - Singulärwertzerlegung
+SVD - Structured VLSI Design
+SVG - Scalable Vector Graphics
+SVGA - Super Video Graphics Array
+SVM - Support Vector Machine
+SVO - Subjekt-Verb-Objekt
+SWAR - SIMD (Single Instruction, Multiple Data) within a register
+SWEBOK - Software Engineering Body of Knowledge
+SWF - Shock Wave Flash
+Swift -
+SWIG - Simplified Wrapper and Interface Generator
+SWT - Standard Widget Toolkit
+Sx, Sym(x) - Symmetrische Gruppe vom Grad x
+SYMPL - Simple, supposedly
+SYN (TCP) - Synchronisation
+Sysop - Systemoperator
+SystemC - SystemC
+SystemVerilog - SystemVerilog
+t-closeness -
+T-NLG - Turing Natural Language Generation
+t-SNE - t-Distributed Stochastic Neighbor Embedding
+T-SQL - Transact-SQL
+t-Test - Student's t-Test
+T - T ist nicht NIL
+TA - Throughput Accounting
+TAC - Type Allocation Code
+TACL - Tandem Advanced Command Language
+TACPOL - Tactical Procedure Oriented Language
+TADS - Text Adventure Development System
+TAG - Transaction Aggregation Graph
+Taguchi-Methoden
+TAL - Template Attribute Language
+TAL - Transaction Application Language, Tandem Application Language
+TAL - Typed Assembly Language
+TAO - Track-At-Once
+TAOCP - The Art of Computer Programming
+TAPI - Telephony Application Programming Interface
+TASM - Turbo Assembler
+Tautologie
+Taylor-Reihe
+TB - Terabyte
+TBM - Transferable Belief Model
+TCA - Temporale Konzeptanalyse
+Tcl - Tcl-(Tickle)-Programmiersprache
+Tcl - Tool Command Language
+TCM - Trellis Coded Modulation
+TCP, TCP/IP - Transmission Control Protocol/Internet Protocol
+TCU - Telecommunication Control Unit
+TD - Temporal-Difference-Lernen
+TDA - Topologische Datenanalyse
+TDD - Testgetriebene Entwicklung
+TDM - Zeitmultiplex
+TDMA - Time-Division Multiple Access
+TDOA - Zeitdifferenz der Ankünfte
+TDPL - Top-Down-Parsing-Sprache
+TDWG - Taxonomic Databases Working Group, Biodiversity Information Standards
+Tea - Tea-Programmiersprache
+TECO - Text Editor & Corrector
+Tefkat - Tefkat
+TELCOMP - Teletype-Computing-Programmiersprache
+Telnet - Teletype Network
+Tensor
+Tensorinvariante
+Tesseract - Tesseract-OCR-Engine
+TeX - Tau Epsilon Chi
+tf-idf, TFIDF - Termhäufigkeit, inverse Dokumenthäufigkeit
+TF - TensorFlow
+TFM - TeX Font Metric
+TFP - Tapered Floating Point
+TFT - Thin-Film Transistor
+TFTP - Trivial File Transfer Protocol
+thinBasic - thinBasic-Skriptsprache
+THSS - Time-Hopping Spread Spectrum
+THUMOS - THUMOS-Datensatz
+TI - Texas Instruments
+TIA - Telecommunications Industry Alliance
+TIE - Tensilica Instruction Extension
+TIE - Zinsdeckungsgrad, Zinsdeckungsquote
+TIES - Time Independent Escape Sequence
+TIFF - Tagged Image File Format
+TLA - Three-Letter Acronym
+TLB - Translation Lookaside Buffer
+TLD - Top-Level Domain
+TLM - Transaction-Level Modeling
+TLS - Thread-Local Storage
+TLS - Transport Layer Security
+TLV - Type-Length-Value
+TMDS - Transition-Minimized Differential Signaling
+TMG - TransMoGrifier
+tmp - Temporär
+TMS - Truth Maintenance System
+TNC - Terminal Node Controller
+TNC - Threaded Neill-Concelman connector
+TOA - Time of Arrival
+TOC - Talk to OSCAR Protocol
+TOCTOU - Time-of-Check to Time-of-Use
+TOFU - Trust On First Use
+TOGAF - The Open Group Architecture Framework
+Toi - Toi-(Spielzeug)-Programmiersprache
+ToM - Theory of Mind
+Tom - Tom-Mustererkennungssprache
+TOM - TOM-Programmiersprache
+ToonTalk - ToonTalk
+top - Prozesstabelle
+Topspeed - Topspeed
+TorqueScript - TorqueScript
+TOT - Time of Transmission
+TOTP - Time-based One-Time Password Algorithmus
+Zähigkeit (Graphentheorie)
+Körperturm
+TP - Tensorprodukt
+TPC-W - Transaction Processing Performance Council Benchmark
+TPF - Transaction Processing Facility
+TPM - Trusted Platform Module
+TPOT - Tree-Based Pipeline Optimization Tool
+TPS* - Transaktionen pro Sekunde
+TPU - Tensor Processing Unit
+TPU, DECTPU - DEC Text Processing Utility
+tr - Übersetzen
+TRAC - Text Reckoning And Compiling
+Transcript - Transcript
+TRANSEC - Transmission Security Key
+TREEMETA - Tree Meta Translator Writing System
+trit - Ternärziffer
+TROFF - Trace Off
+TRON - The Real-time Operating system Nucleus
+TRON - Trace On
+TRSDOS - Tandy Radio Shack - Disk Operating System
+Wahrheitstabelle
+TS - Tabu-Suche
+TSIMMIS - The Stanford-IBM Manager of Multiple Information Sources
+TSO - Time Sharing Option
+TSP - Traveling Salesman Problem
+TSR - Terminate and Stay Resident
+TST - Typisierte Mengenlehre
+TTA - True Tap Audio
+TTCN - Tree and Tabular Combined Notation (Versionen 1 & 2) - Testing and Test Control Notation (Version 3 und später)
+
+
+TTF - TrueType Font
+TTL - Terse RDF Triple Language (Turtle) file
+TTL - Time To Live
+TTL - Transistor-Transistor Logic
+TTM - T Text Macroprocessor (?)
+TTM - Translation Table Maps
+TTS - Text-to-Speech
+TTY - Teletype, Teletypewriter
+TUCOWS - The Ultimate Collection of Winsock Software
+TUG - TeX Users Group
+tuple - Tupel
+Turán-Graph
+Turing - Turing
+TUTOR - PLATO Author Language
+Tutorial D - Tutorial D
+TV - Fernsehen
+TWAIN - Technology Without An Interesting Name
+TXL - Turing Extender Language
+Tynker - Tynker
+TypeScript - TypeScript
+U2F - Universal Second Factor
+U3D - Universal 3D
+UAAG - User Agent Accessibility Guidelines
+UAC - User Account Control
+UART - Universal Asynchronous Receiver/Transmitter
+UAT - User Acceptance Testing
+UBE - Unrecoverbarer Bitfehler
+UBL - Universal Business Language
+UCC - Unified Code Count
+UCC - Uniform Code Council
+UCC - Uniform Commercial Code
+UCL - Obere Kontrollgrenze
+UCS - Uniform Cost Search
+UCS - Universal Character Set
+UCS - Unsupervised Classifier System
+UCSD Pascal -
+UDAF - Benutzerdefinierte Aggregatfunktion
+UDDI - Universal Description, Discovery and Integration
+UDF - Universal Disk Format
+UDF - Benutzerdefinierte Funktion
+UDI - Unified Display Interface
+UDIF - Universal Disk Image Format
+UDMA - Ultra DMA
+UDO - Ultra Density Optical
+UDP - User Datagram Protocol
+UDT - Benutzerdefinierter Typ
+UDTF - Benutzerdefinierte Tabellengenerierungsfunktion
+UEFI - Unified Extensible Firmware Interface
+UFD - Integritätsring, faktorieller Ring
+UHF - Ultra High Frequency
+UI - Benutzeroberfläche
+UICC - Universal Integrated Circuit Card
+UIMA - Unstructured Information Management Architecture
+UL - Upload
+ULA - Uncommitted Logic Array
+UMA - Upper Memory Area
+UMAC - Universal-hash-based Message Authentication Code
+UMAP - Uniform Manifold Approximation and Projection
+UMB - Upper Memory Block
+UMBEL - Upper Mapping and Binding Exchange Layer
+UMDA - Univariate Marginal Distribution Algorithm
+UMFPACK -
+UML-RSDS -
+UML - Unified Modeling Language
+UML - User-Mode Linux
+UMP - Gleichmäßig mächtigster Test
+UMPC - Ultra-Mobile Personal Computer
+Umple - Ample simple UML
+UMS - User-Space Mode-Setting
+UMTS - Universal Mobile Telecommunications System
+UNC - Universal Naming Convention
+Unicon - Unicon
+Uniface - Uniface
+Unified Parallel C - Unified Parallel C
+UNITY - Unity theoretical programming language
+UNIVAC - Universal Automatic Computer
+UNIX - Uniplexed Information and Computing Service
+Unix shell - Unix-Shell
+UnrealScript - UnrealScript
+UPDATE - SQL-UPDATE-Anweisung
+UPPI - Universal PMML Plug-in
+UPS - Unterbrechungsfreie Stromversorgung
+UR - Uncommitted Read
+Ur - Ur/Web-Programmiersprache
+URE - Unrecoverbarer Lesefehler
+URI - Uniform Resource Identifier
+URL - Uniform Resource Locator
+URLT - Update Resume; Leave Town
+URN - Uniform Resource Name
+urn:lex - Uniform Resource Name: lex
+USART - Universal Synchronous and Asynchronous Receiver-Transmitter
+USB - Universal Serial Bus
+USR - U.S. Robotics
+usr - User
+UTC - Koordinierte Weltzeit
+UTF - Unicode Transformation Format
+UTM - Universelle Turing-Maschine
+UTP - Unshielded Twisted Pair
+UTRAN - Universal Terrestrial Radio Access Network
+UUCP - Unix to Unix Copy
+uuencode - Unix-to-Unix-Kodierung
+UUID - Universally Unique Identifier
+UUN - Universal User Name
+UVC - Universal Virtual Computer
+UWP - Universal Windows Platform
+UX - User Experience
+V - Volumen
+VAD - Sprachaktivitätserkennung
+VAL - Value-oriented Algorithmic Language
+Vala - Vala-Programmiersprache
+VaR - Value at Risk
+var - Variable
+VAR - Varianz
+VAR(p) - Vektorautoregression p-ter Ordnung
+VAX - Virtual Address Extension
+VB - Visual Basic
+VB .NET - Visual Basic .NET
+VBA - Visual Basic for Applications
+VBR - Variable Bitrate
+VBR - Vouch by Reference
+VBS - Visual Basic Script
+VBScript - Visual Basic Script
+VC - Vapnik-Chervonenkis-Dimension
+VC - Virtueller Kanal
+VC-Dimension - Vapnik-Chervonenkis-Dimension
+VC-Theorie - Vapnik-Chervonenkis-Theorie
+VCPI - Virtual Control Program Interface
+VCR - Videokassettengerät
+VCS - Versionskontrollsystem
+VDI - Virtual Desktop Infrastructure
+VDM - Virtual DOS Machine
+VDSL - Very High Bitrate Digital Subscriber Line
+VDU - Visual Display Unit
+Vektorraum
+VEE - Keysight Visual Engineering Environment
+VEGAS - VEGAS, an Adaptive Multi-dimensional Integration Program
+Verilog-AMS - Verilog for Analog and Mixed-Signal
+Verilog - Verilog
+VES - Virtual Electronic System
+VESA - Video Electronics Standards Association
+VEX - Houdini VEX Shading Language
+VFAT - Virtual File Allocation Table
+VFR - Value-Flow Rate
+VFS - Virtual File System
+VG - Volume Group
+VGA - Video Graphics Array
+VHD - Virtual Hard Disk
+VHDL-AMS - VHDL with Analog/Mixed-Signal extension
+VHDL - VHDL (VHSIC HDL)
+VHF - Very High Frequency
+VHLL - Ubercode, Very High Level Language
+vi, vim - Visueller Editor, Verbesserter visueller Editor
+VIAF - Virtual International Authority File
+VIATRA - Visual Automated model Transformations
+Vim script - Vim script
+VisSim - VisSim
+Visual Basic - Visual Basic
+Visual DataFlex - Visual DataFlex
+Visual DialogScript - Visual DialogScript
+Visual Fortran - Visual Fortran
+Visual FoxPro - Visual FoxPro
+Visual J++ - Visual J++
+Visual LISP - Visual List Processing
+Visual Objects - Visual Objects
+Visual Prolog - Visual Prolog
+VisualWorks - VisualWorks
+VLAD - Vector of Locally Aggregated Descriptors
+VLAN - Virtuelles lokales Netzwerk
+VLB - Vesa Local Bus
+VLBI - Very-long-baseline interferometry
+VLC - VideoLAN Client media player
+VLC - Visible Light Communications
+VLF - Very Low Frequency
+VLIW - Very Long Instruction Word
+VLSI - Very-Large-Scale Integration
+VLSM - Variable Length Subnet Mask
+VM - Virtuelle Maschine
+VM - Virtueller Speicher
+VMAC - VHASH Message Authentication Code
+VMM - Virtual Machine Monitor
+VMPC - Variably Modified Permutation Composition
+VNC - Virtual Network Computing
+VOD - Video On Demand
+VOID - Vocabulary of Interlinked Datasets
+VoIP - Voice over Internet Protocol
+Von-Neumann-Architektur
+Von-Neumann-Entropie
+VOS, VOA - Verb-Objekt-Subjekt oder Verb-Objekt-Agent
+VPN - Virtuelles privates Netzwerk
+VPU - Visual Processing Unit
+VR - Virtual Reality
+VRAM - Video Random Access Memory
+VRML - Virtual Reality Modeling Language
+VRP - Vehicle Routing Problem
+VSAM - Virtual Storage Access Method
+VSAT - Very Small Aperture Terminal
+VSO - Verb-Subjekt-Objekt
+VSS - Very Simple Structure
+VSXu - VSX Ultra
+VT - Video Terminal?
+VTAM - Virtual Telecommunications Access Method
+VTL - Virtual Tape Library
+vvvv, v4 - Video Visual something something (?)
+VWAP - Volumengewichteter Durchschnittspreis
+Vyper - Vyper-Programmiersprache
+w-Shingling - Gewichtetes Shingling
+W3C - World Wide Web Consortium
+WADE - Workflows and Agents Development Environment
+WAFS - Wide Area File Services
+WAI - Web Accessibility Initiative
+WAIC - Watanabe-Akaike-Informationskriterium, widely applicable information criterion
+
+
+WAIS - Wide Area Information Server
+walog - Ohne Beschränkung der Allgemeinheit
+WAM - Warren Abstract Machine
+WAN - Weitverkehrsnetz
+WANET - Drahtloses Ad-hoc-Netzwerk
+WAP - Wireless Access Point
+WAP - Wireless Application Protocol
+WASM - Watcom Assembler
+WATFIV, WATFOR - Waterloo FORTRAN IV, Waterloo Fortran
+Watir - Web Application Testing in Ruby
+Watson - IBM Watson
+WBEM - Web-Based Enterprise Management
+WBIC - Widely applicable Bayesian information criterion
+WCAG - Web Content Accessibility Guidelines
+WCF - Windows Communication Foundation
+WCSP - Gewichtetes Constraint-Satisfaction-Problem
+WDM - Wavelength-Division Multiplexing
+WDM - Wavelet Modulation
+WebAssembly - WebAssembly
+WebDAV - Web Distributed Authoring and Versioning
+WebDNA - WebDNA-Skriptsprache
+WebGL - Web Graphics Library
+WebMethods Flow - WebMethods Flow
+Keilprodukt
+WEKA - Waikato Environment for Knowledge Analysis
+WEP - Wired Equivalent Privacy
+WFI - Wait For Interrupt
+WfMS - Workflow Management System
+WFST - Weighted Finite-State Transducers
+wget - World Wide Web get file
+Whiley - Whiley
+Whitespace - Whitespace
+Wi-Fi - IEEE 802.11 (Wi-Fi Alliance)
+WiMAX - Worldwide Interoperability for Microwave Access
+Winbatch - Winbatch
+Windows batch language - Windows-Batch-Sprache
+WinFS - Windows Future Storage
+WinRT - Windows RunTime
+WINS - Windows Internet Name Service
+WLAN - Wireless Local Area Network
+wlog - Ohne Beschränkung der Allgemeinheit
+WM - Arbeitsgedächtnis
+WMA - We May Assume
+WMA - Windows Media Audio
+WMFP - Weighted Micro Function Points
+WMI - Windows Management Instrumentation
+WMV - Windows Media Video
+WNS - Windows Push Notification Service
+WO - Wohlgeordnete Menge
+WOL - Wake-on-LAN
+WOR - Wake-on-Ring
+WORA - Write once, run anywhere
+WORE - Write once, run everywhere
+WORM - Write once, read many
+wp - Schwächste Vorbedingung
+wp1 - Mit Wahrscheinlichkeit 1
+WPA - Wi-Fi Protected Access
+WPAD - Web Proxy Autodiscovery Protocol
+WPAN - Wireless Personal Area Network
+WPF - Windows Presentation Foundation
+WS-CDL - Web Services Choreography Description Language
+WS-D - Web Services-Discovery
+WSCI - Web Services Choreography Interface
+WSDL - Web Services Description Language
+WSFL - Web Services Flow Language
+WSJF - Weighted shortest job first
+WSN - Wireless Sensor Network
+WTA - Weapon target assignment problem
+WUSB - Wireless Universal Serial Bus
+WWAN - Wireless Wide Area Network
+WWDC - Apple World Wide Developer Conference
+WWID - World Wide Identifier
+WWMM - World Wide Molecular Matrix
+WWN - World Wide Name
+WWW - World Wide Web
+WYSIWYG - What You See Is What You Get
+Wyvern - Wyvern
+WZC - Wireless Zero Configuration
+X++ - MorphX C++
+X10 -
+X3D - Extensible Three Dimensional graphics language
+x86-64 - 64-Bit-Version des x86-Befehlssatzes
+XACML - Extensible Access Control Markup Language
+XAG - XML Accessibility Guidelines
+XAML - Extensible Application Markup Language
+xargs - Extended arguments
+xBase - dBase oder dBase-ähnliche Sprache
+xBase++ - xBase++
+XBL - XML Binding Language
+XBRL - Extensible Business Reporting Language
+XBRL GL - Extensible Business Reporting Language Global Ledger Taxonomy Framework
+
+
+XCBL - XML Common Business Library
+XCF - Cross Correlation
+XCS - X classifier system
+XDM - X Window Display Manager
+XDM - XQuery and XPath Data Model
+XDMCP - X Display Manager Control Protocol
+XDW - Extended Data Warehouse
+XGBoost - Cross Gradient Boost
+xHarbour - xHarbour
+XHTML - Extensible HyperText Markup Language
+XILP - X Interactive ListProc
+XL - Extensible Language
+XLS - Excel-Datei (alte Version)
+XLSM - Excel-Datei Makros
+XLSX - Excel-Datei (neue Version)
+XMI - XML Metadata Interchange
+XML - Extensible Markup Language
+XMMS - X Multimedia System
+XMP - Extensible Metadata Platform
+XMPP - Extensible Messaging and Presence Protocol
+XMS - Extended Memory Specification
+XNOR - Exklusives Nicht-Oder / Logische Gleichheit
+XNS - Xerox Network Systems
+XOD - XOD-Mikrocontroller-Sprache
+Xojo - Xojo-Programmiersprache
+XOR - Exklusives Oder / Logische Ungleichheit
+XOTcl - Extended Object-oriented Tool Command Language
+XP - Cross-Platform
+XP - Extreme Programming
+Xpath - XML Path Language
+XPCOM - Cross Platform Component Object Model
+XPIDL - Cross-Platform IDL
+XPL - PL/I for compilers
+XPL0 - Experimental Programming Language level Zero
+XProc - XML-Verarbeitungssprache
+XPS - XML Paper Specification
+XQuery - XML Query language
+XSB - Prolog XSB
+XSD - XML Schema Definition
+XSharp, X
+XSL-FO - Extensible Stylesheet Language Formatting Objects
+XSL - Extensible Stylesheet Language
+XSLT - Extensible Stylesheet Language Transformations
+XSS - Cross-Site Scripting
+Xtend - Extend Java Virtual Machine
+XTF - Extended Triton Format
+XTF - Extensible Tag Framework
+XUL - XML User Interface Language
+xUML, xtUML - Executable Unified Modeling Language
+XVGA - Extended Video Graphics Adapter
+Y2038, Y2K38 - Jahr-2038-Problem, Unix-Y2K
+Y2K - Jahr-2000-Problem
+YAAF - Yet Another Application Framework
+YACC - Yet Another Compiler Compiler
+YAGO - Yet Another Great Ontology
+YAML - YAML Ain't Markup Language
+YARN - Yet Another Resource Negotiator
+YaST - Yet Another Setup Tool
+YAWL - Yet Another Workflow Language
+YDAT - Yoix Data Analysis Tool
+yEnc - Why encode encoding
+Yoix - Yoix-Programmiersprache
+Yorick - Yorick
+Youden-J-Statistik
+YQL - Yahoo! Query Language
+YUI - Yahoo! User Interface Library
+YWAIT - Yoix Web Application Instant Template
+Z-Score - Altman Z-Score
+Z-Score - Standardwert
+Z-Test - Z-Test
+Z - Die Menge aller ganzen Zahlen
+Z notation - Z notation
+ZBR - Zone Bit Recording
+ZCAV - Zone Constant Angular Velocity
+ZCS - Zero Code Suppression
+ZCS - Zeroth-level classifier system
+Zebra, ZPL, ZPL2 - Zebra-Programmiersprache
+Zeno - Zeno-Programmiersprache
+ZeRO - Zero Redundancy Optimizer
+ZetaLisp - ZetaLisp
+ZF, ZFC - Zermelo-Fraenkel-Axiome der Mengenlehre, ZF mit Auswahlaxiom
+ZFS - Zettabyte File System by Sun Microsystem
+ZIF - Zero Insertion Force
+ZIFS - Zero Insertion Force Socket
+Zilog Z80 - Zilog Z80
+ZOG - ZOG (does not stand for anything)
+ZOPL - Version Z, Our Programming Language
+ZPP - Nullfehler polynomielle Zeit
+Zsh - Z shell

@@ -12,8 +12,8 @@ Workflow (run from concepts/i18n/):
      -> Writes locale/concepts.pot and locale/en/LC_MESSAGES/concepts.po (msgstr = msgid).
   2. Create/update other locale PO: e.g. msgmerge -U locale/de/LC_MESSAGES/concepts.po locale/concepts.pot
   3. Translate in concepts.po (msgstr).
-  4. Import: python concepts_gettext.py import --po locale/de/LC_MESSAGES/concepts.po --output concepts_de
-     -> Writes concepts_de/ with translated lines; add that path to config concepts_dirs.
+  4. Import: python concepts_gettext.py import --po locale/de/LC_MESSAGES/concepts.po --output Konzepte
+     -> Writes Konzepte/ with translated lines; add that path to config concepts_dirs.
 
 Locale files live under concepts/i18n/locale/, separate from the app locale/ at repo root.
 """
@@ -199,6 +199,41 @@ def _parse_po_string(lines: list[str], start_list: list[int]) -> tuple[str, int]
     return ("".join(parts), i)
 
 
+def normalize_po_msgid(msgid: str) -> str:
+    """
+    Normalize msgid for lookup against source catalog lines.
+
+    Source concepts/*.txt lines have no trailing newline; PO msgids may pick up
+    one or more trailing newlines from gettext multiline encoding or repeated
+    write/parse round-trips. Match on rstrip("\\n") only — not general fuzzy
+    matching.
+    """
+    return msgid.rstrip("\n")
+
+
+def po_translation_lookups(
+    translations: dict[tuple[str, str], str],
+) -> tuple[dict[tuple[str, str], str], dict[tuple[str, str], str]]:
+    """Exact keys plus normalized (msgctxt, normalize_po_msgid(msgid))."""
+    by_norm: dict[tuple[str, str], str] = {}
+    for (msgctxt, msgid), msgstr in translations.items():
+        by_norm[(msgctxt, normalize_po_msgid(msgid))] = msgstr
+    return translations, by_norm
+
+
+def lookup_po_translation(
+    msgctxt: str,
+    msgid: str,
+    exact: dict[tuple[str, str], str],
+    by_norm: dict[tuple[str, str], str],
+) -> str | None:
+    """Resolve msgstr by exact PO key, then normalized msgid (trailing newlines)."""
+    key = (msgctxt, msgid)
+    if key in exact:
+        return exact[key]
+    return by_norm.get((msgctxt, normalize_po_msgid(msgid)))
+
+
 def parse_po(po_path: str) -> dict[tuple[str, str], str]:
     """
     Parse a PO file and return a mapping (msgctxt, msgid) -> msgstr.
@@ -247,9 +282,14 @@ def import_locale_to_concepts(
     translation from the PO if present, else the original. Order is preserved.
     Excluded files (e.g. dictionary.txt) are skipped; use a separate dictionary
     for that locale.
+
+    Lookup uses exact (msgctxt, msgid) first, then normalized msgid (trailing
+    newlines stripped) so import matches merge/chunk behavior when PO keys
+    differ only in trailing "\\n" bytes.
     """
     exclude = exclude_files if exclude_files is not None else DEFAULT_EXCLUDE_FILES
     translations = parse_po(po_path)
+    exact, by_norm = po_translation_lookups(translations)
     files = get_concept_txt_files(concepts_dir_source, exclude)
     os.makedirs(output_concepts_dir, exist_ok=True)
 
@@ -260,10 +300,8 @@ def import_locale_to_concepts(
         out_path = os.path.join(output_concepts_dir, filename)
         with open(out_path, "w", encoding="utf-8") as f:
             for line in lines:
-                key = (basename, line)
-                out_line = translations.get(key) or line
-                if not out_line:
-                    out_line = line
+                msgstr = lookup_po_translation(basename, line, exact, by_norm)
+                out_line = msgstr if msgstr else line
                 f.write(out_line + "\n")
 
 
@@ -300,7 +338,7 @@ def main() -> int:
     parser.add_argument(
         "--output",
         default=None,
-        help="Output concepts directory (import only). e.g. concepts_de",
+        help="Output concepts directory (import only). e.g. Konzepte",
     )
     parser.add_argument(
         "--exclude",

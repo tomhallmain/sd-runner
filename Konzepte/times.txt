@@ -1,0 +1,107 @@
+$$number [[Minuten,Stunden]] später
+vor ein paar Stunden
+in ferner Zukunft
+vor einer Minute
+vor einer Weile
+abrupt
+wieder
+die ganze Zeit
+die ganze Zeit
+immer
+ab $$number
+endlich
+zu keiner Zeit
+sofort
+vorher
+bald
+circa $$number [[v. Chr.,n. Chr.,n. Chr.]]
+früher Morgen
+schließlich
+jemals
+ewig
+zuerst
+zuerst
+früher
+von nun an
+Feiertag
+augenblicklich
+ist schon eine Weile her
+in letzter Zeit
+später
+Minute
+Moment
+Momente
+Morgen
+Morgen
+Vormittag
+später Vormittag
+nie
+als Nächstes
+Mittag
+früher Nachmittag
+Nachmittag
+Nachmittag
+mittlerer Nachmittag
+später Nachmittag
+Abend
+Morgengrauen
+Dämmerung
+nicht mehr lange
+noch einmal
+Parsec
+langandauernd
+kürzlich
+seitdem
+irgendwann
+irgendwann [[heute,morgen,nächste Woche,nächsten Monat,nächstes Jahr]]
+bald
+plötzlich
+an jenem Tag
+dreimal
+dreimal
+zu früh
+zweimal
+Dämmerung
+weiches Morgenlicht
+goldene Stunde
+Nacht
+Mitternacht
+3 Uhr morgens
+9 Uhr morgens
+16 Uhr
+17 Uhr
+22 Uhr
+Frühling
+Sommer
+Herbst
+zweimal
+bis dahin
+ganz bald
+wann immer
+Winter
+Mittag
+Mittag
+vor Jahren
+gestern
+morgen
+letzte Woche
+nächste Woche
+diese Woche
+vor zwei Wochen
+vor langer Zeit
+weit in der Zukunft
+Blick in die Vergangenheit
+uralt
+prähistorisch
+Montag bis Freitag
+Wochenende
+Montag
+Dienstag
+Mittwoch
+Donnerstag
+Freitag
+Samstag
+Sonntag
+vorvoriges Jahr
+1910er
+Tag

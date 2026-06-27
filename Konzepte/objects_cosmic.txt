@@ -1,0 +1,381 @@
+Abell-Galaxie
+Alcyoneus-Galaxie
+Andromedagalaxie
+Antennengalaxien
+Antlia-2-Galaxie
+Rückwärtsgalaxie
+Schwarzaugen-Galaxie
+Bodes Galaxie
+Schmetterlingsgalaxien
+Canes-Venatici-I-Galaxie
+Canis-Major-Zwerggalaxie
+Karussellgalaxie
+Zigarrengalaxie
+Circinus-Galaxie
+Coma-Pinwheel-Galaxie
+Kometengalaxie
+Kondor-Galaxie
+Cosmos-Redshift-7-Galaxie
+Crater-II-Galaxie
+Draco-Zwerggalaxie
+Auge-von-Sauron-Galaxie
+Feuerwerksgalaxie
+Herkules-A-Galaxie
+Hoags Objekt
+Hockeyschläger-Galaxien
+Große Magellansche Wolke
+Lindsay-Shapley-Ring
+Kleine Sombrerogalaxie
+Malin-1-Galaxie
+Mayalls Objekt
+Medusa-Verschmelzungsgalaxie
+Mäusegalaxien
+Milchstraße
+Nadelgalaxie
+Feuerrohrgalaxie
+Skulptor-Zwerggalaxie
+Skulptorgalaxie
+Kleine Magellansche Wolke
+Sombrerogalaxie
+Südliche Feuerrohrgalaxie
+Sonnenblumengalaxie
+Kaulquappengalaxie
+Dreiecksgalaxie
+Ursa-Major-I-Zwerggalaxie
+Kleine Bärengalaxie
+Whirlpool-Galaxie
+Wolf-Lundmark-Melotte
+Löwenzahn-Pustekuchen-Nebel
+Fliegennebel
+Geist-des-Jupiter-Nebel
+Clownsgesicht-Nebel
+Ringnebel
+Katzenaugen-Nebel
+Kleiner Geisternebel
+Medusennebel
+Helixnebel
+Kleiner Hantelnebel
+Eulennebel
+Zwillingsjet-Nebel
+Fußabdruck-Nebel
+Schmetterlingsnebel
+Jones-Emberson-1-Nebel
+Zitronenscheiben-Nebel
+Seifenblasen-Nebel
+Schädelnebel
+Austernnebel
+Blitz-Nebel
+Blauer Schneeball-Nebel
+Fußball-Nebel
+Südlicher Krebsnebel
+Roter Spinnennebel
+Käfernebel
+Saturnnebel
+Acht-Burst-Nebel
+Ersatzreifen-Nebel
+Stachelrochen-Nebel
+Netzhaut-Nebel
+Spiral-Planetarischer Nebel
+Ameisennebel
+Gravierte Sanduhr-Nebel
+Fleming-Nebel
+Südlicher Eulennebel
+Rotkehlchen-Ei-Nebel
+Kleopatras Auge
+Box-Nebel
+Phantomstreifen-Nebel
+Kleiner Edelstein-Nebel
+Der Box-Nebel
+Auge-von-Sauron-Nebel
+Bumerang-Nebel
+Kalebasse-Nebel
+Ei-Nebel
+Frostiger-Löwe-Nebel
+Rotes-Rechteck-Nebel
+Zuckerwatte-Nebel
+Seerosen-Nebel
+Westbrook-Nebel
+LL-Pegasi-Nebel
+M1-92-Nebel
+Minkowskis Schmetterlingsnebel
+Blasennebel
+Kalifornien-Nebel
+Carina-Nebel
+Höhlennebel
+Kegelnebel
+Sichelnebel
+Doppelhelix-Nebel
+Adlernebel
+Elefantenrüssel-Nebel
+Eta-Carinae-Nebel
+Flammennebel
+Gum-Nebel
+Herznebel
+Homunkulus-Nebel
+Pferdekopfnebel
+Lagunennebel
+Nordamerika-Nebel
+Omega-Nebel
+Pistolennebel
+Rosettennebel
+Laufendes-Huhn-Nebel
+Seelennebel
+Tarantelnebel
+Trifidnebel
+Hexenkopf-Nebel
+Messier-43-Nebel
+Messier-78-Nebel
+Reflexionsnebel
+Pacman-Nebel
+Orionnebel
+Geisterkopf-Nebel
+NGC-604-Nebel
+Drachenfisch-Nebel
+RCW-49-Nebel
+Garnelennebel
+Serpens-Aquila-Rift-Nebel
+Canis-Major-Überdichte-Nebel
+Barnard-Schleife-Nebel
+Kohlsack-Nebel
+Schleiernebel
+Sonne
+Sirius
+Kanopus
+Rigil Kentaurus
+Toliman
+Arktur
+Wega
+Capella
+Rigel
+Prokyon
+Achernar
+Betelgeuse
+Hadar
+Altair
+Acrux
+Aldebaran
+Antares
+Spica
+Pollux
+Fomalhaut
+Deneb
+Mimosa
+Regulus
+Adhara
+Shaula
+Castor
+Gacrux
+Bellatrix
+Elnath
+Miaplacidus
+Alnilam
+Gamma Velorum
+Alnair
+Alnitak
+Alioth
+Dubhe
+Mirfak
+Wezen
+Sargas
+Kaus Australis
+Avior
+Alkaid
+Menkalinan
+Atria
+Alhena
+Pfau
+Alsephina
+Mirzam
+Alphard
+Polaris
+Hamal
+Algieba
+Diphda
+Mizar
+Nunki
+Menkent
+Mirach
+Alpheratz
+Rasalhague
+Kochab
+Saiph
+Denebola
+Algol
+Tiaki
+Muhlifain
+Aspidiske
+Suhail
+Alphecca
+Mintaka
+Sadr
+Eltanin
+Schedar
+Naos
+Almach
+Izar
+Dschubba
+Larawag
+Merak
+Ankaa
+Enif
+Scheat
+Sabik
+Phecda
+Aludra
+Markeb
+Markab
+Aljanah
+Acrab
+Riesiger GRB-Ring
+Keplersches Gesetz
+Supernova
+Asteroid
+Asteroidengürtel
+Asteroidenfeld
+Asteroiden
+Astronaut
+Hintergrundstrahlung
+Urknalltheorie
+Doppelstern
+Doppelsternsystem
+Binärsystem
+Schwarzer Körper
+Himmelsäquator
+cislunar
+Komet
+Kometen
+Korona
+Kosmischer Staub
+Kosmische Strahlung
+Kosmologie
+Kosmonaut
+Kosmos
+Dunkle Materie
+Trümmerfeld
+Tiefraum
+Zwergplanet
+Zwergplaneten
+elliptische Umlaufbahn
+Exoplanet
+Exoplaneten
+extragalaktisch
+Sternschnuppe
+Flares
+Vorbeiflug
+Galaxien
+Galaxie
+Gammastrahlung
+Gammastrahlen
+geostationär
+Gravitation
+Gravitationslinse
+Gravitationslinseneffekt
+Schwerkraft
+Heliosphäre
+Helium
+Hubble-Gesetz
+Wasserstoff
+hyperbolische Umlaufbahn
+hyperkompaktes Sternsystem
+Hypernova
+Eisriese
+unterer Planet
+untere Planeten
+innere Planeten
+interstellar
+interstellarer Staub
+Ionosphäre
+Kuipergürtel
+Lagrange-Punkt
+Linse
+Lichtjahre breit
+Lokale Gruppe
+lunar
+Leuchtkraftklasse
+Masse
+Meteor
+Meteorschauer
+Meteoroid
+Meteore
+Mikrogravitation
+Kleinplanet
+Mond
+Monde
+Nebel
+Nebel
+Neutronenstern
+Neutronensterne
+Nova
+Novae
+Oortsche Wolke
+Bahneckzentrizität
+Bahnneigung
+äußere Planeten
+Planetarischer Nebel
+Planetenkindergarten
+Planetoid
+Planetoiden
+Planeten
+Pulsar
+Quasar
+Quasare
+Ringe
+Roche-Grenze
+irrer Planet
+irre Planeten
+Satellit
+Sternschnuppe
+Singularität
+solar
+Sonnensystem
+Sonnensysteme
+Sonnenwind
+Sonnenwende
+Weltraumlabor
+Spektrum
+Sternenlicht
+Stratosphäre
+Subraum
+Sonnenfleck
+obere Planeten
+Supernovae
+Telemetrie
+Teleskop
+totale Finsternis
+Totalität
+Transit
+translunar
+transneptunisch
+Funkeln
+Umbra
+Universum
+Van-Allen-Gürtel
+veränderlicher Stern
+veränderliche Sterne
+visuelle Helligkeit
+Weißes Loch
+Schwerelosigkeit
+Röntgenstrahlen
+Brauner Zwerg
+Kohlenstoffplanet
+Wüstenplanet
+Gasriese
+Heißer Jupiter
+Eisenplanet
+Jupiter-Planet
+Jupiter-ähnlicher Planet
+Kuipergürtelobjekt
+Lava-Planet
+Megastern
+Megastruktur
+Mini-Neptun
+Neptun-ähnlicher Planet
+Neptun-Planet
+Ozeanplanet
+Pulsarplanet
+Gesteinsplanet
+Super-Erde
+Erdähnlicher Planet
+Ultra-heißer Jupiter
+dampfreicher Planet
+Wasserwelt
