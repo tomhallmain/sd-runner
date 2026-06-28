@@ -680,6 +680,8 @@ class RunController:
                     sp.set_widgets_from_preset(preset, manual=False)
                 else:
                     logger.warning(f"No preset found with edit_suffix matching '{edit_suffix}'")
+            if "target_dir" in args:
+                sp.target_dir_entry.setText(str(args["target_dir"] or ""))
             if "source_prompt" in args:
                 source_path = args["source_prompt"].replace(",", "\\,")
                 if "append" in args and args["append"] and sp.source_prompt_file_entry.text().strip():

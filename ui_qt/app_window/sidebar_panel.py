@@ -311,6 +311,15 @@ class SidebarPanel(QWidget):
             getattr(runner_cfg, 'edit_suffix', ''),
         )
 
+        # Target Dir
+        self.target_dir_entry = self._add_entry_row(
+            layout, _("Target Dir"),
+            getattr(runner_cfg, "target_dir", ""),
+        )
+        self.target_dir_entry.setToolTip(
+            _("Optional directory to move generated images into after save")
+        )
+
         # Source Prompts
         row_sp = QHBoxLayout()
         row_sp.addWidget(QLabel(_("Source Prompts from Directory")))

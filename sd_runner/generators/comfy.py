@@ -156,6 +156,7 @@ class ComfyGen(BaseImageGenerator):
                 related_image_path=self.gen_config.prompt_image_path if self.gen_config.prompt_image_path else None,
                 client_id=connection_id,
                 edit_suffix=self.gen_config.active_edit_suffix,
+                target_dir=self.gen_config.target_dir,
             )
             try:
                 ws.close()
@@ -224,6 +225,7 @@ class ComfyGen(BaseImageGenerator):
         related_image_path: Optional[str] = None,
         client_id: Optional[str] = None,
         edit_suffix: str = "",
+        target_dir: str = "",
     ):
         logger.debug("Queueing prompt to ComfyUI...")
         prompt_id = ComfyGen._queue_prompt(prompt, client_id or ComfyGen.CLIENT_ID)['prompt_id']
@@ -297,17 +299,18 @@ class ComfyGen(BaseImageGenerator):
                         image_data = ComfyGen.get_image(image['filename'], image['subfolder'], image['type'])
                         images_output.append(image_data)
 
-                        # TODO - this path is not working because the connection is typically hitting a 404,
-                        # probably because ComfyUI is either not ready when we request or it closes it for some reason.
-                        # Save image with EXIF data containing original prompt decomposition
+                        save_path = os.path.join(config.get_comfyui_save_path(), image["filename"])
                         if prompter_config is not None:
-                            # Construct the expected file path where ComfyUI saves the image
-                            save_path = os.path.join(config.get_comfyui_save_path(), image["filename"])
                             if related_image_path is not None:
                                 Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
-                            Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(save_path, prompter_config.original_positive_tags, original_negative_tags=None)
-                            if edit_suffix and related_image_path:
-                                BaseImageGenerator.rename_to_edit_suffix(save_path, related_image_path, edit_suffix)
+                            Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(
+                                save_path,
+                                prompter_config.original_positive_tags,
+                                original_negative_tags=None,
+                            )
+                        save_path = BaseImageGenerator.apply_output_postprocessing(
+                            save_path, target_dir, edit_suffix, related_image_path
+                        )
                 output_images[node_id] = images_output
 
             ComfyGen.clear_history(prompt_id)

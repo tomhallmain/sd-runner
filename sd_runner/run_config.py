@@ -48,6 +48,7 @@ class RunConfig:
         self.batch_limit = self.get("batch_limit")
         self.continuous_seed_variation = self.get("continuous_seed_variation")
         self.dimension_variation = self.get("dimension_variation")
+        self.target_dir = self.get("target_dir")
 
         if RunConfig.previous_model_tags != self.model_tags:
             RunConfig.model_switch_detected = True

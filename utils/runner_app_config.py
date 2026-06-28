@@ -39,6 +39,7 @@ class RunnerAppConfig:
         self.continuous_seed_variation = False  # Whether to vary seed between every generation
         self.dimension_variation = False  # Slight randomized dimension variation at generation time
         self.edit_suffix = ""  # Appended to source filename when renaming edit workflow output
+        self.target_dir = ""  # Optional directory to move generated images into after save
 
         self.sampler = Sampler.ACCEPT_ANY.name
         self.scheduler = Scheduler.ACCEPT_ANY.name
@@ -87,6 +88,7 @@ class RunnerAppConfig:
         self.inpainting = args.inpainting
         self.continuous_seed_variation = getattr(args, 'continuous_seed_variation', False)
         self.dimension_variation = getattr(args, "dimension_variation", False)
+        self.target_dir = getattr(args, "target_dir", "") or ""
 
     @staticmethod
     def from_dict(_dict):
@@ -118,6 +120,8 @@ class RunnerAppConfig:
             app_config.source_prompt_add_user_prompt = False
         if not hasattr(app_config, 'edit_suffix'):
             app_config.edit_suffix = ""
+        if not hasattr(app_config, "target_dir"):
+            app_config.target_dir = ""
         if not hasattr(app_config, 'exclusion_tags'):
             app_config.exclusion_tags = ""
         if not isinstance(app_config.prompter_config, dict):

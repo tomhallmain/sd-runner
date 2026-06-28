@@ -125,6 +125,7 @@ class FooocusGen(BaseImageGenerator):
                 save_path = os.path.join(cls.SAVE_PATH, f"{cls.FILE_PREFIX}_{_timestamp_str()}_{i}.png")
                 with open(save_path, "wb") as fh:
                     fh.write(img_bytes)
+                self.finalize_output_path(save_path)
 
     def queue_prompt(self, endpoint: str, payload: dict) -> None:
         try:

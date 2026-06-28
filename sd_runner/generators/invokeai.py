@@ -282,6 +282,7 @@ class InvokeAIGen(BaseImageGenerator):
                 save_path = os.path.join(cls.SAVE_PATH, f"{cls.FILE_PREFIX}_{_timestamp_str()}_{i}.png")
                 with open(save_path, "wb") as fh:
                     fh.write(img_bytes)
+                self.finalize_output_path(save_path)
         except urllib_error.URLError as exc:
             raise Exception(f"Failed to connect to InvokeAI. Is it running? ({exc})") from exc
         finally:

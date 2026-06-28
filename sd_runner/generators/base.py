@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Optional, Dict, Any, Type
 import os
 import random
+import shutil
 import time
 import threading
 import traceback
@@ -334,12 +335,14 @@ class BaseImageGenerator(ABC):
         return control_net, ip_adapter
 
     @staticmethod
-    def rename_to_edit_suffix(save_path: str, related_image_path: str, edit_suffix: str) -> None:
+    def rename_to_edit_suffix(save_path: str, related_image_path: str, edit_suffix: str) -> str:
         """Rename a generated edit output to {source_stem}{edit_suffix}{ext}, resolving collisions.
 
         Collision detection consults the application's edit history before the
         filesystem, so a counter suffix is added even when a prior output has
         been moved out of the directory.
+
+        Returns the final on-disk path after renaming.
         """
         from utils.app_info_cache import app_info_cache
         stem = Path(related_image_path).stem
@@ -359,6 +362,77 @@ class BaseImageGenerator(ABC):
         os.rename(save_path, new_path)
         app_info_cache.record_edit_output(os.path.basename(new_path))
         logger.debug(f"Renamed edit output: {save_path} -> {new_path}")
+        return new_path
+
+    @staticmethod
+    def _normalize_target_dir(target_dir: str | None) -> str | None:
+        if target_dir is None:
+            return None
+        normalized = str(target_dir).strip()
+        if not normalized:
+            return None
+        if "{HOME}" in normalized:
+            normalized = normalized.replace("{HOME}", os.path.expanduser("~"))
+        normalized = os.path.normpath(normalized.replace("\\", os.sep))
+        if not os.path.isdir(normalized):
+            logger.warning(f"target_dir is not a valid directory, skipping move: {normalized}")
+            return None
+        return normalized
+
+    @staticmethod
+    def move_to_target_dir(save_path: str, target_dir: str | None) -> str:
+        """Move *save_path* into *target_dir* when it is a valid directory.
+
+        Returns the final path (unchanged when no move is performed).
+        """
+        dest_dir = BaseImageGenerator._normalize_target_dir(target_dir)
+        if dest_dir is None or not save_path:
+            return save_path
+        if not os.path.isfile(save_path):
+            logger.warning(f"target_dir move skipped, output file not found: {save_path}")
+            return save_path
+
+        filename = os.path.basename(save_path)
+        dest_path = os.path.join(dest_dir, filename)
+        if os.path.exists(dest_path):
+            stem, ext = os.path.splitext(filename)
+            i = 2
+            while os.path.exists(dest_path):
+                dest_path = os.path.join(dest_dir, f"{stem}_{i}{ext}")
+                i += 1
+
+        shutil.move(save_path, dest_path)
+        logger.info(f"Moved output to target_dir: {save_path} -> {dest_path}")
+        return dest_path
+
+    @staticmethod
+    def apply_output_postprocessing(
+        save_path: str,
+        target_dir: str | None,
+        edit_suffix: str = "",
+        related_image_path: str | None = None,
+    ) -> str:
+        """Rename for edit workflows, then relocate to ``target_dir`` when configured."""
+        if edit_suffix and related_image_path:
+            save_path = BaseImageGenerator.rename_to_edit_suffix(
+                save_path, related_image_path, edit_suffix
+            )
+        return BaseImageGenerator.move_to_target_dir(save_path, target_dir)
+
+    def _output_related_image_path(self, related_image_path: str | None = None) -> str | None:
+        if related_image_path:
+            return related_image_path
+        prompt_image = getattr(self.gen_config, "prompt_image_path", "") or ""
+        return prompt_image or None
+
+    def finalize_output_path(self, save_path: str, related_image_path: str | None = None) -> str:
+        """Apply edit-suffix rename and ``target_dir`` relocation after save."""
+        return BaseImageGenerator.apply_output_postprocessing(
+            save_path,
+            getattr(self.gen_config, "target_dir", None),
+            self.gen_config.active_edit_suffix,
+            self._output_related_image_path(related_image_path),
+        )
 
     # Abstract methods to be implemented per generator -------------------------
 

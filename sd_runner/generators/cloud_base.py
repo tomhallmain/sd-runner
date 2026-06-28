@@ -64,12 +64,13 @@ class CloudGenBase(BaseImageGenerator, ABC):
     ) -> str:
         """Save raw image bytes and return the local path."""
         from utils.cloud_image_saver import save_image_bytes
-        return save_image_bytes(
+        path = save_image_bytes(
             data,
             save_dir=save_dir,
             prefix=self.BACKEND_NAME or "cloud",
             index=index,
         )
+        return self.finalize_output_path(path)
 
     def _save_image_from_url(
         self,
@@ -80,13 +81,14 @@ class CloudGenBase(BaseImageGenerator, ABC):
     ) -> str:
         """Download an image URL and save it locally, returning the local path."""
         from utils.cloud_image_saver import save_image_from_url
-        return save_image_from_url(
+        path = save_image_from_url(
             url,
             save_dir=save_dir,
             prefix=self.BACKEND_NAME or "cloud",
             index=index,
             headers=headers,
         )
+        return self.finalize_output_path(path)
 
     # ------------------------------------------------------------------
     # HTTP helpers

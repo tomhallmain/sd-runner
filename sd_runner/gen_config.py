@@ -61,6 +61,7 @@ class GenConfig:
         # Runtime-only context (not part of static run config)
         self.prompt_image_path = ""
         self.edit_suffix = getattr(run_config, 'edit_suffix', '') or ""
+        self.target_dir = getattr(run_config, "target_dir", None) or ""
 
     @property
     def active_edit_suffix(self) -> str:

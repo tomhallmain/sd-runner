@@ -75,7 +75,8 @@ class TestRunnerAppConfigSerialization:
         d = RunnerAppConfig().to_dict()
         # Remove fields that were added later
         for key in ("edit_suffix", "exclusion_tags", "source_prompt_add_user_prompt",
-                    "batch_limit", "dimension_variation", "continuous_seed_variation"):
+                    "batch_limit", "dimension_variation", "continuous_seed_variation",
+                    "target_dir"):
             d.pop(key, None)
         restored = RunnerAppConfig.from_dict(d)
         assert hasattr(restored, "edit_suffix")

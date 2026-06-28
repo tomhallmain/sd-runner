@@ -114,6 +114,7 @@ class SwarmUIGen(BaseImageGenerator):
                 )
                 with open(save_path, "wb") as fh:
                     fh.write(base64.b64decode(img_data))
+                self.finalize_output_path(save_path)
         except urllib_error.URLError as exc:
             raise Exception(f"Failed to connect to SwarmUI. Is it running? ({exc})") from exc
         finally:
