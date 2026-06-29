@@ -155,7 +155,15 @@ class ServerStagingQueue:
         self._requests: list[tuple] = []
 
     def add(self, workflow_type, args: dict) -> int:
-        """Stage a request. Returns the 1-based queue position."""
+        """Stage a request. Returns the 1-based queue position.
+
+        NOTE: the MAX_SIZE guard and the append are not atomic. If two threads
+        both pass the length check before either appends, the queue can briefly
+        exceed MAX_SIZE. In practice both callers (server_batch_enqueue and
+        server_run_callback) run on the main thread via the bridge, so no lock
+        is currently needed — but this would become a real race if either caller
+        were ever moved off the main thread.
+        """
         if len(self._requests) >= self.MAX_SIZE:
             raise Exception(
                 f"Server staging queue full ({self.MAX_SIZE} pending requests) - request rejected"
@@ -164,7 +172,13 @@ class ServerStagingQueue:
         return len(self._requests)
 
     def take(self):
-        """Pop and return the next (workflow_type, args) tuple, or None if empty."""
+        """Pop and return the next (workflow_type, args) tuple, or None if empty.
+
+        NOTE: has_pending() + take() is not atomic. _post_run (main thread) and
+        server_batch_enqueue (main thread via bridge) are serialised by the bridge
+        lock, so the check-then-act is safe today. If either caller moves off the
+        main thread a threading.Lock will be required here.
+        """
         if not self._requests:
             return None
         return self._requests.pop(0)

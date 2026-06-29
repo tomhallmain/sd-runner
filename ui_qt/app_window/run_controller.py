@@ -123,38 +123,28 @@ class RunController:
     # ------------------------------------------------------------------
     # Run async worker (shared by run() and resume_paused_queue())
     # ------------------------------------------------------------------
-    def _run_async(self, run_args) -> None:
-        from run import Run
-        from sd_runner.timed_schedules_manager import ScheduledShutdownException
-
-        app = self._app
+    def set_run_controls_visible(self, visible: bool) -> None:
+        """Show or hide the cancel/pause buttons. Must be called on the main thread."""
         sp = self._sp
-        Utils.prevent_sleep(True)
-        app.job_queue.job_running = True
-        sp.cancel_btn.setVisible(True)
-        sp.pause_queue_btn.setVisible(True)
-        app.current_run = Run(
-            run_args,
-            ui_callbacks=app.app_actions,
-            delay_after_last_run=self.should_delay_after_last_run(run_args),
-        )
-        try:
-            app.current_run.execute()
-        except ScheduledShutdownException as e:
-            self._handle_scheduled_shutdown(e)
-        except Exception as e:
-            traceback.print_exc()
-            app.current_run.cancel("Run failure")
-            app.notification_ctrl.alert(_("Run Error"), str(e), kind="error")
-        sp.cancel_btn.setVisible(False)
-        sp.pause_queue_btn.setVisible(False)
+        sp.cancel_btn.setVisible(visible)
+        sp.pause_queue_btn.setVisible(visible)
+
+    def _post_run(self) -> None:
+        """Post-run queue cleanup and next-run dispatch.
+
+        Runs on the main thread via the bridge so it cannot race with
+        server_batch_enqueue, which also executes on the main thread through
+        the same bridge. Both paths read and write job_queue and the staging
+        queue, so serialising them here prevents a double-_run_async launch that
+        could otherwise occur in the window between job_running=False and the
+        staging promotion completing.
+        """
+        app = self._app
         app.job_queue.job_running = False
         next_job_args = app.job_queue.take()
 
         # A slot just opened; promote one staged server request into the main
         # queue now so staging and the main queue drain in parallel (FIFO order).
-        # If the main queue still has items the promoted job queues behind them;
-        # if the main queue is empty it starts its own run via server_run_callback.
         staging = getattr(app, "server_staging_queue", None)
         promoted = False
         if staging is not None and staging.has_pending():
@@ -165,7 +155,8 @@ class RunController:
                     f"Promoting staged server request "
                     f"({staging.pending_count()} remaining in staging queue)"
                 )
-                app.app_actions.server_run_callback(wf_type, staged_args)
+                # Already on the main thread — call directly rather than via bridge.
+                self.server_run_callback(wf_type, staged_args)
                 promoted = True
 
         if next_job_args:
@@ -179,6 +170,39 @@ class RunController:
         elif not promoted:
             Utils.prevent_sleep(False)
             self.clear_progress()
+
+    def _run_async(self, run_args) -> None:
+        from run import Run
+        from sd_runner.timed_schedules_manager import ScheduledShutdownException
+
+        app = self._app
+        Utils.prevent_sleep(True)
+        app.job_queue.job_running = True
+        # Route button visibility through the bridge — Qt widgets must only be
+        # mutated on the main (GUI) thread; direct calls from here would violate
+        # that rule and can produce non-deterministic crashes.
+        app.app_actions.set_run_controls_visible(True)
+        # NOTE: app.current_run is written on a background thread while the main
+        # thread may read it (e.g. current_run.is_infinite()). The assignment is
+        # effectively atomic under CPython's GIL, but a logical race remains.
+        app.current_run = Run(
+            run_args,
+            ui_callbacks=app.app_actions,
+            delay_after_last_run=self.should_delay_after_last_run(run_args),
+        )
+        try:
+            app.current_run.execute()
+        except ScheduledShutdownException as e:
+            self._handle_scheduled_shutdown(e)
+        except Exception as e:
+            traceback.print_exc()
+            app.current_run.cancel("Run failure")
+            app.notification_ctrl.alert(_("Run Error"), str(e), kind="error")
+        app.app_actions.set_run_controls_visible(False)
+        # All post-run state changes (job_running flag, queue take, staging
+        # promotion, next-run dispatch) are marshalled to the main thread so
+        # they cannot interleave with server_batch_enqueue.
+        app.app_actions.post_run()
 
     def resume_paused_queue(self) -> None:
         """Start processing a paused/restored queue without adding a new run."""

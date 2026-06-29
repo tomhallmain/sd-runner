@@ -287,6 +287,8 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             "update_pending": ts(self.run_ctrl.update_pending),
             "update_time_estimation": ts(self.run_ctrl.update_time_estimation),
             "clear_progress": ts(self.run_ctrl.clear_progress),
+            "set_run_controls_visible": ts(self.run_ctrl.set_run_controls_visible),
+            "post_run": ts(self.run_ctrl._post_run),
             "run": ts(self.run_ctrl.run),
             "cancel": ts(self.run_ctrl.cancel),
             "revert_to_simple_gen": ts(self.run_ctrl.revert_to_simple_gen),
