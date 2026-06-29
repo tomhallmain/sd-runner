@@ -1,0 +1,349 @@
+ace
+action
+aged horse
+aging
+agistment (AUS)
+agister (UK)
+AI
+aids
+airs above the ground, airs
+amateur
+amble
+ankle
+arena
+artificial insemination
+astride
+average earnings index (AEI)
+balk, balking (US, UK) or baulking (UK)
+barefoot, unshod
+baroque movement
+bearing rein, overcheck or checkrein
+bell boot
+billet (US), girth strap, girth point (UK)
+bit
+bitting rig or bitting harness
+black type
+bloodhorse, blood
+blowing, blow
+blue hen
+bolt, bolting
+bone
+botfly, bot
+bowed tendon
+box stall (US)
+boxwalking (UK)
+brand, branding
+breeching
+breeder
+breeding
+breed registry
+bridle
+bronco or bronc
+broodmare
+broodmare sire
+brothers-in-blood
+buck
+bumper pull
+bute
+by
+cannon or cannon bone
+canner (US)
+canter
+carriage
+cart
+cast, casting
+castration
+chariot
+chef d'équipe
+chestnut
+chesnut
+choke
+chrome
+cinch
+clipping
+clumper (AU)
+coach
+coach house (UK/Ir), carriage house (NAm)
+cob
+cold-backed
+cold-blood
+colic
+colt
+combined driving
+combined training
+conformation
+coronary band or coronet
+counter canter
+coupling
+cover
+cribbing (US) or crib biting (UK)
+crop
+crossbred
+croup
+crowhop (US)
+crownpiece (US), headpiece (UK)
+crupper
+curb
+daisy cutter
+dam
+dam line
+damsire
+destrier
+diagonal
+distaff
+dock
+dogger (AU)
+draft horse
+draught horse
+dressage
+drift
+driving
+dry
+easy keeper (US) or good doer (UK)
+endurance riding
+English riding (US), riding (UK)
+English saddle
+equestrian
+equestrianism
+equine
+equitation
+equus
+ergot
+eventing
+false martingale
+farrier
+feathering or feather
+Fédération Équestre Internationale
+feedbag, nosebag
+feral horse
+fetlock
+filly
+five gaited
+float
+flying change
+foal
+foaling box (UK), foaling stall (US)
+form
+founder
+foundation sire
+four-in-hand
+frog
+from
+full board (US), full livery (UK)
+full-brother, full-sister
+furlong
+futurity
+gait
+gaited horse
+gallop
+Galloway
+gelding
+get
+girth
+glass eye, wall eye
+good doer
+gooseneck
+grade, grade horse
+Grand Prix
+green
+green, green-broke
+groom
+grooming
+groundwork
+hack
+hackamore
+half-breed
+half-brother, half-sister
+halter
+halter class
+hand
+hand gallop
+hard keeper (US), poor doer (UK)
+haute école, high school
+harness
+harness racing, trotting races
+hayloft, hay loft
+head collar (Australasia and UK)
+head shy, headshy
+headstall, head stall
+hinny, hinney
+hitch
+hitch and hop
+hobble
+hock
+horse
+horse blanket, blanket (US), rug (UK), sheet
+horsecar, horsebus, omnibus
+horse-drawn
+horse passport
+horsepower (hp)
+horse racing
+horseshoe
+horse show
+horsiculture (UK)
+horse trailer (US), horse van, horse box (UK), horse float (Australasia)
+hostler (NAm), ostler (UK/Ir)
+hot-blood, hot-blooded
+hunt seat (US)
+hunter
+in-hand
+International Federation for Equestrian Sports
+irons or stirrup irons
+jack
+jading (UK)
+jennet
+jenny
+jerk line
+jib (AU)
+jockey
+jog
+jump
+jumper
+kimblewick
+knacker
+knee
+laminitis
+lead
+lead change, change of leg
+leader
+live foal guarantee
+Liverpool bit
+livery yard, livery stable (UK), boarding stable (US)
+longeing (US), lungeing (UK, Australasia, US)
+long-reining, long-lining, line driving, ground-driving
+loose box (UK), box stall (US)
+lope (US)
+loriner (UK)
+mare
+mare line
+markings
+meat-money (UK)
+martingale
+mechanical hackamore
+mob (AU)
+mule
+muster (AU/NZ)
+nappy, napping (UK)
+natural cover, live cover
+near side
+neigh, whinny
+nicker, whicker
+numnah (UK)
+off side
+on the bit
+ostler
+out of
+outlaw
+pace
+paddock
+pair
+parrot mouth
+pastern
+pedigree
+performance class
+phenotype
+[[pigroot,pigjump]]
+pinhooking
+plug
+points, point coloration
+points of a horse
+pointing
+pole
+poling
+poll
+pony
+poor doer
+posting
+produce
+pulling
+purebred
+purse
+putting to
+quirt
+rearing
+[[registration,pedigree]] [[papers,certificate]]
+rein
+ridgling, rig
+ring sour (US)
+rising [to the trot]
+roller
+roundup
+rug
+saddle
+saddle blanket, saddle pad (US)
+saddle seat
+sand roll
+semi-feral
+shafts
+show
+show jumping
+shying
+side reins
+sidesaddle
+sire
+sire line
+smooth mouth
+snaffle bit
+snort
+sound
+sour
+splint
+sport horse
+stable
+stable hand
+stable [[lad,lass]]
+stable vice
+stagecoach
+stall (US), stable (UK)
+stallion
+stirrup
+stock horse
+stock saddle
+stride
+string
+stringhalt
+stud
+stud book
+substance
+suckling
+sulky
+surcingle
+tack
+tack room
+tail-female, mare line, dam line, bottom line
+tail-male
+tandem
+team
+teamster
+Thoroughbred
+three-quarter brother/sister
+tie stall
+topline
+transition
+trap, pony trap
+tree
+troika
+trot
+trotting race
+twitch
+typey
+unshod
+unsound
+veterinarian
+vice
+wagon, waggon
+walk
+warmblood
+weanling
+western riding
+western saddle
+wheeler
+whicker
+whinny or whinney
+whorl
+wild horse
+win
+Xenophon
+yearling
+yellow horse
+zebroid or zebra mule"
