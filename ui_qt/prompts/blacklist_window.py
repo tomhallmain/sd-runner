@@ -54,6 +54,8 @@ def _item_display_text(item: BlacklistItem) -> str:
         parts.append(_("[no space conversion]"))
     if getattr(item, "exception_pattern", None):
         parts.append(_("[exception: {0}]").format(item.exception_pattern))
+    if getattr(item, "apply_to_whole_prompt", False):
+        parts.append(_("[whole prompt]"))
     return " ".join(parts)
 
 
@@ -948,7 +950,7 @@ class BlacklistWindow(SmartDialog):
         from ui_qt.prompts.blacklist_modify_window import BlacklistModifyWindow
         callback = self._refresh_model_bl_item if is_model else self._refresh_tag_bl_item
         BlacklistWindow._modify_window = BlacklistModifyWindow(
-            self, callback, item, self._app_actions,
+            self, callback, item, self._app_actions, is_model=is_model,
         )
         if is_model and item is None:
             BlacklistWindow._modify_window._item.blacklist_type = "model"

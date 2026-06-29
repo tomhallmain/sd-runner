@@ -35,8 +35,10 @@ class BlacklistModifyWindow(SmartDialog):
         blacklist_item: Optional[BlacklistItem],
         app_actions: AppActions,
         geometry: str = "600x400",
+        is_model: bool = False,
     ):
         self._is_new = blacklist_item is None
+        self._is_model = is_model
         self._item = (
             BlacklistItem("", enabled=True, use_regex=False,
                           use_word_boundary=True, use_space_as_optional_nonword=True)
@@ -61,6 +63,7 @@ class BlacklistModifyWindow(SmartDialog):
             "use_word_boundary": self._item.use_word_boundary,
             "use_space_as_optional_nonword": getattr(self._item, "use_space_as_optional_nonword", False),
             "exception_pattern": getattr(self._item, "exception_pattern", "") or "",
+            "apply_to_whole_prompt": getattr(self._item, "apply_to_whole_prompt", False),
         }
 
         root = QVBoxLayout(self)
@@ -92,6 +95,13 @@ class BlacklistModifyWindow(SmartDialog):
         self._exception_entry = QLineEdit(getattr(self._item, "exception_pattern", "") or "")
         root.addWidget(self._exception_entry)
 
+        # --- Whole-prompt matching (tag items only) --------------------------
+        self._whole_prompt_cb = QCheckBox(_("Apply to whole prompt (match full text, not individual tags)"))
+        self._whole_prompt_cb.setChecked(getattr(self._item, "apply_to_whole_prompt", False))
+        if is_model:
+            self._whole_prompt_cb.setVisible(False)
+        root.addWidget(self._whole_prompt_cb)
+
         # --- Buttons --------------------------------------------------------
         btn_row = QHBoxLayout()
         preview_btn = QPushButton(_("Preview"))
@@ -122,6 +132,7 @@ class BlacklistModifyWindow(SmartDialog):
             "use_word_boundary": self._boundary_cb.isChecked(),
             "use_space_as_optional_nonword": self._space_cb.isChecked(),
             "exception_pattern": self._exception_entry.text().strip(),
+            "apply_to_whole_prompt": self._whole_prompt_cb.isChecked(),
         } != self._original_values
 
     def _validate_and_build(self) -> Optional[BlacklistItem]:
@@ -140,6 +151,7 @@ class BlacklistModifyWindow(SmartDialog):
             use_word_boundary=self._boundary_cb.isChecked(),
             use_space_as_optional_nonword=self._space_cb.isChecked(),
             exception_pattern=exc,
+            apply_to_whole_prompt=self._whole_prompt_cb.isChecked(),
         )
 
     # ------------------------------------------------------------------

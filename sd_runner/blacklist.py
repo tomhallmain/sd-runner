@@ -158,12 +158,14 @@ class BlacklistItem:
         use_word_boundary: bool = True,
         use_space_as_optional_nonword: bool = True,
         exception_pattern: str = None,
+        apply_to_whole_prompt: bool = False,
     ):
         self.enabled = enabled
         self.use_regex = use_regex
         self.use_word_boundary = use_word_boundary
         self.exception_pattern = exception_pattern
         self.use_space_as_optional_nonword = use_space_as_optional_nonword
+        self.apply_to_whole_prompt = apply_to_whole_prompt
         
         # Process the string based on the new property
         
@@ -208,6 +210,14 @@ class BlacklistItem:
 
         # print(f"BlacklistItem: {self.string} -> {self.regex_pattern.pattern}")
 
+    def find_match_text(self, text: str) -> str | None:
+        """Return the matched substring from *text*, or ``None`` if no match."""
+        text_to_check = text if self.use_regex else text.lower()
+        m = self.regex_pattern.search(text_to_check)
+        if m:
+            return m.group(0).strip() or None
+        return None
+
     def to_dict(self) -> dict:
         return {
             "string": self.string,
@@ -216,6 +226,7 @@ class BlacklistItem:
             "use_word_boundary": self.use_word_boundary,
             "use_space_as_optional_nonword": self.use_space_as_optional_nonword,
             "exception_pattern": self.exception_pattern,
+            "apply_to_whole_prompt": self.apply_to_whole_prompt,
         }
 
     @classmethod
@@ -239,7 +250,10 @@ class BlacklistItem:
         exception_pattern = data.get("exception_pattern", None)
         if exception_pattern is not None and not isinstance(exception_pattern, str):
             exception_pattern = None
-        return cls(data["string"], enabled, use_regex, use_word_boundary, use_space_as_optional_nonword, exception_pattern)
+        apply_to_whole_prompt = data.get("apply_to_whole_prompt", False)
+        if not isinstance(apply_to_whole_prompt, bool):
+            apply_to_whole_prompt = False
+        return cls(data["string"], enabled, use_regex, use_word_boundary, use_space_as_optional_nonword, exception_pattern, apply_to_whole_prompt)
 
     def matches_tag(self, tag: str) -> bool:
         """Check if a tag matches this blacklist item.
@@ -546,6 +560,8 @@ class Blacklist:
             for blacklist_item in Blacklist.TAG_BLACKLIST:
                 if not blacklist_item.enabled:
                     continue
+                if blacklist_item.apply_to_whole_prompt:
+                    continue  # whole-prompt items don't apply to individual concept filtering
                 if blacklist_item.matches_tag(concept_cased):
                     filtered[concept_cased] = blacklist_item.string
                     match_found = True
@@ -738,27 +754,40 @@ class Blacklist:
                  Empty if no blacklisted items are found.
         """
         filtered = {}
+
+        # Whole-prompt items: match against full text before splitting by tag
+        for blacklist_item in Blacklist.TAG_BLACKLIST:
+            if not blacklist_item.enabled:
+                continue
+            if not blacklist_item.apply_to_whole_prompt:
+                continue
+            if blacklist_item.matches_tag(text):
+                match_text = blacklist_item.find_match_text(text) or text[:60]
+                filtered[match_text] = blacklist_item.string
+
         user_tags = text.split(',')
-        
+
         for tag in user_tags:
             # Clean the tag by removing parentheses and extra whitespace
             tag = tag.strip()
             if not tag:
                 continue
-                
+
             # Remove outer parentheses if they exist
             while tag.startswith('(') or tag.startswith('['):
                 tag = tag[1:].strip()
             while tag.endswith(')') or tag.endswith(']'):
                 tag = tag[:-1].strip()
-                
+
             for blacklist_item in Blacklist.TAG_BLACKLIST:
                 if not blacklist_item.enabled:
+                    continue
+                if blacklist_item.apply_to_whole_prompt:
                     continue
                 if blacklist_item.matches_tag(tag):
                     filtered[tag] = blacklist_item.string
                     break
-                    
+
         return filtered
 
     @staticmethod
