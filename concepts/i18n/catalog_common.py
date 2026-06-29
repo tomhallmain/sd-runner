@@ -126,7 +126,7 @@ def aligned_rows(
 
 def first_differing_index(left_lines: list[str], right_lines: list[str]) -> int | None:
     """First index where line text differs (only meaningful when counts match)."""
-    for i, (left, right) in enumerate(zip(left_lines, right_lines, strict=False)):
+    for i, (left, right) in enumerate(zip(left_lines, right_lines)):
         if left != right:
             return i
     if len(left_lines) != len(right_lines):

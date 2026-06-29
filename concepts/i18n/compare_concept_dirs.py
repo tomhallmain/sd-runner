@@ -111,9 +111,9 @@ def cmd_pair(args: argparse.Namespace) -> int:
     right = resolve_concepts_dir(args.right)
     left_lines = load_catalog_file(left, args.file)
     right_lines = load_catalog_file(right, args.file)
-    left = left_lines[args.index] if args.index < len(left_lines) else None
-    right = right_lines[args.index] if args.index < len(right_lines) else None
-    print(format_pair(args.index, left, right, width=100))
+    left_line = left_lines[args.index] if args.index < len(left_lines) else None
+    right_line = right_lines[args.index] if args.index < len(right_lines) else None
+    print(format_pair(args.index, left_line, right_line, width=100))
     return 0
 
 

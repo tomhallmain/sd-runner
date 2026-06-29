@@ -2,6 +2,12 @@
 """
 Diagnose and optionally repair trailing-newline mismatches in concepts PO msgids.
 
+Note: the root cause of msgid drift (write_pot_string appending a spurious
+trailing \\n for long single-line strings) has been fixed in concepts_gettext.py.
+After regenerating the POT/PO from a clean export, new drift no longer occurs and
+this script is not needed for routine maintenance. It is retained as a one-shot
+diagnostic tool for pre-existing PO files that accumulated drift before the fix.
+
 Problem
 -------
 Some PO msgid values accumulated extra trailing newlines (gettext multiline

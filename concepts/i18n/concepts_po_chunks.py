@@ -79,7 +79,6 @@ def parse_po_entries(po_path: str) -> tuple[str, list[PoEntry]]:
         stripped = body_lines[idx[0]].strip()
         if stripped.startswith("msgctxt "):
             comment = body_lines[idx[0] - 1] if idx[0] > 0 and body_lines[idx[0] - 1].startswith("#") else ""
-            idx[0] = idx[0]
             msgctxt, _ = _parse_po_string(body_lines, idx)
             if idx[0] < len(body_lines) and body_lines[idx[0]].strip().startswith("msgid "):
                 msgid, _ = _parse_po_string(body_lines, idx)
@@ -479,7 +478,7 @@ def validate_chunk_file(
                 f"{chunk_name}: expected {len(expected_keys)} keys from split, found {len(actual_keys)}"
             )
         else:
-            for i, (expected, actual) in enumerate(zip(expected_keys, actual_keys, strict=False), start=1):
+            for i, (expected, actual) in enumerate(zip(expected_keys, actual_keys), start=1):
                 if expected != actual:
                     errors.append(
                         f"{chunk_name}: key mismatch at row {i}: "
@@ -847,7 +846,10 @@ def main() -> int:
             from_chunks=not args.from_po,
         )
 
-    return chunk_status(_resolve_path(args.chunks_dir, base))
+    if args.action == "status":
+        return chunk_status(_resolve_path(args.chunks_dir, base))
+
+    raise ValueError(f"Unknown action: {args.action}")
 
 
 if __name__ == "__main__":

@@ -55,6 +55,7 @@ def load_typo_log(path: Path) -> list[TypoRow]:
                 continue
             parts = line.split("\t")
             if parts[0] not in {"open", "fixed", "wontfix", "deferred"}:
+                print(f"Warning: unrecognized status {parts[0]!r} in typo log, skipping row", file=sys.stderr)
                 continue
             if len(parts) < 5:
                 continue
@@ -133,15 +134,22 @@ def print_row_report(row: TypoRow, info: dict[str, object], *, locale_dir: Path 
         _safe_print(f"  suggested already @{info['suggested_hits']}  -> {info['action']}")
     else:
         _safe_print(f"  suggested hits: none  -> {info['action']}")
-    if locale_dir is not None and info["source_hits"]:
-        idxs = info["source_hits"]
-        assert isinstance(idxs, list)
+    if locale_dir is not None and (info["source_hits"] or info["suggested_hits"]):
         filename = info["filename"]
         assert isinstance(filename, str)
         locale_lines = load_catalog_file(locale_dir, filename)
-        for i in idxs:
-            if i < len(locale_lines):
-                _safe_print(f"  Konzepte @{i}: {locale_lines[i]}")
+        if info["source_hits"]:
+            idxs = info["source_hits"]
+            assert isinstance(idxs, list)
+            for i in idxs:
+                if i < len(locale_lines):
+                    _safe_print(f"  Konzepte @{i}: {locale_lines[i]}")
+        if info["suggested_hits"]:
+            suggested_locale_hits = info["locale_suggested_hits"]
+            assert isinstance(suggested_locale_hits, list)
+            for i in suggested_locale_hits:
+                if i < len(locale_lines):
+                    _safe_print(f"  Konzepte @{i} (suggested): {locale_lines[i]}")
     if row.notes:
         _safe_print(f"  notes: {row.notes}")
     print()

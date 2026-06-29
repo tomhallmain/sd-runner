@@ -83,11 +83,17 @@ def escape_po_string(s: str) -> str:
 def write_pot_string(f, key: str, value: str, indent: str = "") -> None:
     """Write one key (msgctxt or msgid or msgstr) with value; handle multiline."""
     escaped = escape_po_string(value)
-    if "\n" in value or len(escaped) > 78:
-        # Multiline: opening quote, then "\\n" lines
+    if "\n" in value:
+        # true multiline: emit \n only between segments, not after the last one
         f.write(f'{indent}{key} ""\n')
-        for line in value.split("\n"):
-            f.write(f'{indent}"{escape_po_string(line)}\\n"\n')
+        segments = value.split("\n")
+        for i, seg in enumerate(segments):
+            suffix = r"\n" if i < len(segments) - 1 else ""
+            f.write(f'{indent}"{escape_po_string(seg)}{suffix}"\n')
+    elif len(escaped) > 78:
+        # long single line: wrap without adding a spurious trailing \n
+        f.write(f'{indent}{key} ""\n')
+        f.write(f'{indent}"{escaped}"\n')
     else:
         f.write(f'{indent}{key} "{escaped}"\n')
 
@@ -154,7 +160,7 @@ def export_concepts_to_pot(
 
 
 def _unescape_po(raw: str) -> str:
-    """Unescape gettext string content (\\, \", \\n, \\t)."""
+    """Unescape gettext string content (\\, \", \\n, \\t, \\r)."""
     decoded = []
     j = 0
     while j < len(raw):
@@ -164,6 +170,8 @@ def _unescape_po(raw: str) -> str:
                 decoded.append("\n")
             elif n == "t":
                 decoded.append("\t")
+            elif n == "r":
+                decoded.append("\r")
             elif n == '"':
                 decoded.append('"')
             elif n == "\\":
