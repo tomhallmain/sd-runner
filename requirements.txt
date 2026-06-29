@@ -9,6 +9,12 @@ PySide6>=6.6.0
 pytest
 pytest-qt
 
+# Optional dependency for ONNX-based CLIP similarity checking (Blacklist → Similarity Check tab).
+# Also requires a tokenizer: pip install git+https://github.com/openai/CLIP.git
+#                         or: pip install transformers  (with openai/clip-vit-base-patch32 cached locally)
+# Torch CLIP is also supported automatically if 'clip' and 'torch' are already installed.
+# onnxruntime>=1.16.0
+
 # Optional dependencies for image format conversion
 # Uncomment the following lines to enable image conversion capabilities:
 # opencv-python>=4.5.0  # For video frame extraction (MP4, AVI, MOV, MKV, WebM, GIF)

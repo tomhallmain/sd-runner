@@ -196,6 +196,27 @@ A UI window for managing terms to filter from generated prompts. Add, remove, or
 
 **Enhanced Security**: The blacklist features multi-level password protection with separate permissions for revealing and editing concepts. A default encrypted blacklist is provided for first-time users, and blacklist operations require security to be configured with user confirmation to prevent accidental data loss and exposure of problematic concepts.
 
+### Similarity Check
+
+The **Similarity Check** tab in the Blacklist window adds a complementary cosine-similarity filter that catches evasion the regex blacklist may miss (e.g. deliberate misspellings, Unicode substitutions, or semantically equivalent phrasing with a CLIP backend).
+
+Configure it in **Blacklist → Similarity Check**:
+- **Blocked concepts** — one phrase per line; the engine compares the full prompt against each phrase and blocks it when the cosine similarity score meets or exceeds the threshold.
+- **Threshold** — 0.50–1.00 (default 0.85). Lower values are more sensitive.
+- **Enable** checkbox — off by default; enable when phrases are configured.
+
+The similarity engine is selected automatically in priority order:
+
+| Backend | Requirement | Capability |
+|---------|-------------|------------|
+| ONNX CLIP | `onnxruntime` + a `.onnx` text-encoder model + `clip` or `transformers` for tokenization | Full semantic similarity |
+| Torch CLIP | `clip` package + `torch` | Full semantic similarity |
+| N-gram (fallback) | `numpy` only — always available | Character-level similarity; catches misspellings and substitution tricks but not unrelated synonyms |
+
+**Setup for CLIP backends:** Set `clip_model_path` in **Config → Similarity Check** to the path of your `.onnx` CLIP text encoder file (for ONNX) or a named Torch CLIP model (e.g. `ViT-B/32`). With no path set the n-gram backend is used automatically with no additional dependencies. The optional `onnxruntime` package can be uncommented in `requirements.txt`.
+
+A similarity violation always prevents execution regardless of the blacklist mode setting, and respects the **Silent Removal** toggle for alert visibility.
+
 ## Password Protection
 
 The application includes a password protection system that can be configured to require authentication for sensitive actions. Password settings are stored securely in the encrypted application cache. Access the Password Administration window using `<Control-P>` to configure which actions require password verification.

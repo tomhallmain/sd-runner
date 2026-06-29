@@ -372,6 +372,13 @@ class ModelBlacklistItem(BlacklistItem):
 class Blacklist:
     TAG_BLACKLIST: list[BlacklistItem] = []
     MODEL_BLACKLIST: list[ModelBlacklistItem] = []
+
+    # Similarity check state — managed via set_similarity_* / check_similarity.
+    SIMILARITY_PHRASES: list[str] = []
+    similarity_threshold: float = 0.85
+    similarity_enabled: bool = False
+    _similarity_engine = None  # TextSimilarityEngine | None
+
     CACHE_MAXSIZE = 128
     CACHE_LARGE_THRESHOLD = 1024 * 1024 * 8
     CACHE_MAX_LARGE_ITEMS = 12
@@ -947,6 +954,66 @@ class Blacklist:
     def set_ui_callbacks(ui_callbacks):
         """Set the UI callbacks to be used for notifications during filtering."""
         Blacklist._ui_callbacks = ui_callbacks
+
+    # ------------------------------------------------------------------
+    # Similarity check API
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def set_similarity_phrases(phrases: list[str]) -> None:
+        Blacklist.SIMILARITY_PHRASES = [p.strip() for p in phrases if p.strip()]
+        Blacklist._rebuild_similarity_engine()
+
+    @staticmethod
+    def get_similarity_phrases() -> list[str]:
+        return Blacklist.SIMILARITY_PHRASES
+
+    @staticmethod
+    def set_similarity_threshold(threshold: float) -> None:
+        Blacklist.similarity_threshold = max(0.0, min(1.0, float(threshold)))
+
+    @staticmethod
+    def get_similarity_threshold() -> float:
+        return Blacklist.similarity_threshold
+
+    @staticmethod
+    def set_similarity_enabled(enabled: bool) -> None:
+        Blacklist.similarity_enabled = bool(enabled)
+
+    @staticmethod
+    def get_similarity_enabled() -> bool:
+        return Blacklist.similarity_enabled
+
+    @staticmethod
+    def _rebuild_similarity_engine() -> None:
+        """Rebuild the engine from current phrases and config model path."""
+        if not Blacklist.SIMILARITY_PHRASES:
+            Blacklist._similarity_engine = None
+            return
+        from sd_runner.clip_text_similarity import TextSimilarityEngine
+        from utils.config import config
+        try:
+            engine = TextSimilarityEngine.build(getattr(config, "clip_model_path", None))
+            engine.precompute(Blacklist.SIMILARITY_PHRASES)
+            Blacklist._similarity_engine = engine
+            logger.info(
+                "Similarity engine built (%s backend, %d phrases)",
+                engine.backend_name, len(Blacklist.SIMILARITY_PHRASES),
+            )
+        except Exception as exc:
+            logger.error("Failed to build similarity engine: %s", exc)
+            Blacklist._similarity_engine = None
+
+    @staticmethod
+    def check_similarity(text: str) -> tuple[bool, float, str]:
+        """Return ``(violated, score, matched_phrase)`` for *text*.
+
+        Always returns ``(False, 0.0, "")`` when disabled or no engine.
+        """
+        if not Blacklist.similarity_enabled or Blacklist._similarity_engine is None:
+            return False, 0.0, ""
+        score, phrase = Blacklist._similarity_engine.max_similarity(text)
+        return score >= Blacklist.similarity_threshold, score, phrase or ""
 
     @staticmethod
     def save_cache() -> None:

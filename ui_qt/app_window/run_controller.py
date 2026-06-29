@@ -106,6 +106,18 @@ class RunController:
                     )
                 raise BlacklistException("Blacklist validation failed", [], filtered)
             return False
+
+        violated, score, phrase = Blacklist.check_similarity(text)
+        if violated:
+            alert_text = _(
+                "Prompt too similar to blocked concept \"{0}\" ({1:.0%})"
+            ).format(phrase, score)
+            if not Blacklist.get_blacklist_silent_removal():
+                self._app.notification_ctrl.alert(
+                    _("Similarity Check Failed"), alert_text, kind="error"
+                )
+            raise BlacklistException("Similarity check failed", [], {text: phrase})
+
         return True
 
     # ------------------------------------------------------------------

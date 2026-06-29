@@ -95,6 +95,7 @@
     "default_concepts_dir": null,
     "override_dictionary_path": null,
     "override_dictionary_append": false,
+    "clip_model_path": null,
     "models_dir": "F:\\stable-diffusion-webui\\models",
     "img_dir": "{HOME}\\img",
     "img_temps_dir": "{HOME}\\img\\img_temps",

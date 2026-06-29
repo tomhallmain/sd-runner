@@ -61,6 +61,8 @@ class Config:
         # Dictionary override
         "override_dictionary_path":         None,
         "override_dictionary_append":       bool,
+        # Similarity check — path to ONNX or Torch CLIP text encoder (nullable)
+        "clip_model_path":                  None,
     }
 
     @staticmethod
@@ -122,6 +124,7 @@ class Config:
 
         self.override_dictionary_path = None
         self.override_dictionary_append = True
+        self.clip_model_path = None
 
         self.interrogator_interrogation_dir = None
         self.interrogator_initial_questions_file = None
@@ -174,6 +177,7 @@ class Config:
                         "fooocus_url",
                         "server_password",
                         "override_dictionary_path",
+                        "clip_model_path",
         )
         self.set_values(list,
                         "gen_order",

@@ -192,6 +192,13 @@ class ConfigWindow(SmartDialog):
             _("Append to Default Dictionary"), config.override_dictionary_append,
         )
 
+        # ── Similarity Check ──────────────────────────────────────────
+        self._add_section(_("Similarity Check"))
+        self._le_clip_model_path = self._add_entry(
+            _("CLIP Model Path"),
+            str(config.clip_model_path or ""),
+        )
+
         # ── Save bar (always visible) ─────────────────────────────────
         save_bar = QWidget()
         save_bar.setStyleSheet(
@@ -270,6 +277,7 @@ class ConfigWindow(SmartDialog):
             ("_le_server_port",           "server_port"),
             ("_le_server_password",       "server_password"),
             ("_le_override_dict_path",    "override_dictionary_path"),
+            ("_le_clip_model_path",       "clip_model_path"),
         ]
 
         raw: dict[str, object] = {}

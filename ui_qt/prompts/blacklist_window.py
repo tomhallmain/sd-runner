@@ -17,8 +17,8 @@ from typing import TYPE_CHECKING, Optional
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
-    QAbstractItemView, QApplication, QCheckBox, QComboBox, QFileDialog,
-    QHBoxLayout, QHeaderView, QLabel, QLineEdit, QPushButton,
+    QAbstractItemView, QApplication, QCheckBox, QComboBox, QDoubleSpinBox,
+    QFileDialog, QHBoxLayout, QHeaderView, QLabel, QLineEdit, QPushButton,
     QPlainTextEdit, QTabWidget, QTableWidget, QTableWidgetItem,
     QVBoxLayout, QWidget,
 )
@@ -80,6 +80,9 @@ class BlacklistWindow(SmartDialog):
     MODEL_BLACKLIST_MODE_KEY = "model_blacklist_mode"
     BLACKLIST_SILENT_KEY = "blacklist_silent_removal"
     MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY = "model_blacklist_all_prompt_modes"
+    SIMILARITY_PHRASES_KEY = "similarity_phrases"
+    SIMILARITY_THRESHOLD_KEY = "similarity_threshold"
+    SIMILARITY_ENABLED_KEY = "similarity_enabled"
     item_history = []
     MAX_ITEMS = 50
 
@@ -121,6 +124,15 @@ class BlacklistWindow(SmartDialog):
         raw_model_blacklist = app_info_cache.get(BlacklistWindow.MODEL_BLACKLIST_CACHE_KEY, default_val=[])
         Blacklist.set_model_blacklist(raw_model_blacklist)
 
+        Blacklist.set_similarity_enabled(
+            bool(app_info_cache.get(BlacklistWindow.SIMILARITY_ENABLED_KEY, default_val=False))
+        )
+        Blacklist.set_similarity_threshold(
+            float(app_info_cache.get(BlacklistWindow.SIMILARITY_THRESHOLD_KEY, default_val=0.85))
+        )
+        raw_phrases = app_info_cache.get(BlacklistWindow.SIMILARITY_PHRASES_KEY, default_val=[])
+        Blacklist.set_similarity_phrases([str(p) for p in raw_phrases if p])
+
     @staticmethod
     def store_blacklist():
         """Store blacklist to cache."""
@@ -137,6 +149,9 @@ class BlacklistWindow(SmartDialog):
         app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_MODE_KEY, str(Blacklist.get_model_blacklist_mode()))
         app_info_cache.set(BlacklistWindow.BLACKLIST_SILENT_KEY, Blacklist.get_blacklist_silent_removal())
         app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY, Blacklist.get_model_blacklist_all_prompt_modes())
+        app_info_cache.set(BlacklistWindow.SIMILARITY_PHRASES_KEY, Blacklist.get_similarity_phrases())
+        app_info_cache.set(BlacklistWindow.SIMILARITY_THRESHOLD_KEY, Blacklist.get_similarity_threshold())
+        app_info_cache.set(BlacklistWindow.SIMILARITY_ENABLED_KEY, Blacklist.get_similarity_enabled())
         # Once the blacklist has been persisted at least once, subsequent
         # loads should use the cached items instead of the encrypted default.
         if blacklist_dicts or model_blacklist_dicts:
@@ -214,8 +229,10 @@ class BlacklistWindow(SmartDialog):
 
         tag_page = QWidget()
         model_page = QWidget()
+        similarity_page = QWidget()
         self._tabs.addTab(tag_page, _("Tag Blacklist"))
         self._tabs.addTab(model_page, _("Model Blacklist"))
+        self._tabs.addTab(similarity_page, _("Similarity Check"))
 
         root = QVBoxLayout(self)
         root.setContentsMargins(10, 10, 10, 10)
@@ -223,6 +240,7 @@ class BlacklistWindow(SmartDialog):
 
         self._build_tag_tab(tag_page)
         self._build_model_tab(model_page)
+        self._build_similarity_tab(similarity_page)
 
         QShortcut(QKeySequence("Escape"), self, self.close)
         self.show()
@@ -573,6 +591,85 @@ class BlacklistWindow(SmartDialog):
             self._toggle_model_item(item)
         else:
             self._app_actions.toast(_("Select an item first"))
+
+    # ==================================================================
+    # Similarity Check tab
+    # ==================================================================
+    def _build_similarity_tab(self, page: QWidget) -> None:
+        layout = QVBoxLayout(page)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(8)
+
+        # ── Enable + threshold ─────────────────────────────────────
+        top_row = QHBoxLayout()
+        self._sim_enabled_cb = QCheckBox(_("Enable similarity check"))
+        self._sim_enabled_cb.setChecked(Blacklist.get_similarity_enabled())
+        create_tooltip(
+            self._sim_enabled_cb,
+            _("When enabled, prompts are rejected if cosine similarity to any "
+              "blocked phrase exceeds the threshold."),
+        )
+        top_row.addWidget(self._sim_enabled_cb)
+        top_row.addStretch()
+
+        top_row.addWidget(QLabel(_("Threshold:")))
+        self._sim_threshold_spin = QDoubleSpinBox()
+        self._sim_threshold_spin.setRange(0.50, 1.00)
+        self._sim_threshold_spin.setSingleStep(0.01)
+        self._sim_threshold_spin.setDecimals(2)
+        self._sim_threshold_spin.setValue(Blacklist.get_similarity_threshold())
+        create_tooltip(
+            self._sim_threshold_spin,
+            _("Cosine similarity score at which a prompt is blocked (0.50–1.00). "
+              "Lower = more sensitive."),
+        )
+        top_row.addWidget(self._sim_threshold_spin)
+        layout.addLayout(top_row)
+
+        # ── Blocked phrases ───────────────────────────────────────
+        layout.addWidget(QLabel(_("Blocked concepts (one per line):")))
+        self._sim_phrases_edit = QPlainTextEdit()
+        self._sim_phrases_edit.setPlaceholderText(
+            _("Enter one phrase per line, e.g.:\n  violent content\n  explicit material")
+        )
+        self._sim_phrases_edit.setPlainText(
+            "\n".join(Blacklist.get_similarity_phrases())
+        )
+        layout.addWidget(self._sim_phrases_edit, stretch=1)
+
+        # ── Backend note ──────────────────────────────────────────
+        note = QLabel(
+            _("Backend: ONNX CLIP if an .onnx model path is set in Config → "
+              "Torch CLIP if the clip package is available → n-gram cosine "
+              "(always available, character-level only).")
+        )
+        note.setWordWrap(True)
+        layout.addWidget(note)
+
+        # ── Apply button ──────────────────────────────────────────
+        btn_row = QHBoxLayout()
+        apply_btn = QPushButton(_("Apply && Save"))
+        apply_btn.clicked.connect(self._on_similarity_apply)
+        create_tooltip(apply_btn, _("Apply settings and rebuild the similarity engine."))
+        btn_row.addStretch()
+        btn_row.addWidget(apply_btn)
+        layout.addLayout(btn_row)
+
+    def _on_similarity_apply(self) -> None:
+        phrases = [
+            line.strip()
+            for line in self._sim_phrases_edit.toPlainText().splitlines()
+            if line.strip()
+        ]
+        Blacklist.set_similarity_enabled(self._sim_enabled_cb.isChecked())
+        Blacklist.set_similarity_threshold(self._sim_threshold_spin.value())
+        Blacklist.set_similarity_phrases(phrases)  # also triggers engine rebuild
+        BlacklistWindow.store_blacklist()
+        self._app_actions.toast(
+            _("Similarity settings saved ({0} phrases, threshold {1:.0%})").format(
+                len(phrases), Blacklist.get_similarity_threshold()
+            )
+        )
 
     # ==================================================================
     # Close
