@@ -768,6 +768,7 @@ class RunController:
             return {"error": "staging queue not available", "count": 0}
 
         enqueued = 0
+        rejected = 0
         for req in requests:
             type_str = (req.get('type', '') or '').lower().replace(' ', '_')
             args = dict(req.get('args', {}) or {})
@@ -785,9 +786,14 @@ class RunController:
             try:
                 staging.add(_TYPE_TO_WORKFLOW[type_str], args)
                 enqueued += 1
-            except Exception as e:
-                logger.warning("server_batch_enqueue: staging queue rejected request: %s", e)
+            except Exception:
+                rejected += 1
 
+        if rejected:
+            logger.warning(
+                "server_batch_enqueue: staging queue full — %d of %d request(s) rejected",
+                rejected, rejected + enqueued,
+            )
         logger.info("server_batch_enqueue: staged %d item(s)", enqueued)
 
         # If nothing is running yet, promote the first staging item so work starts immediately.

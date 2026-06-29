@@ -247,7 +247,8 @@ class TextSimilarityEngine:
 
     def max_similarity(self, text: str) -> tuple[float, str | None]:
         """Return ``(score, best_matching_phrase)`` — score in ``[0, 1]``."""
-        return self._backend.max_similarity(text)
+        score, phrase = self._backend.max_similarity(text)
+        return min(1.0, max(0.0, score)), phrase
 
     @classmethod
     def build(cls, model_path: str | None = None) -> "TextSimilarityEngine":
