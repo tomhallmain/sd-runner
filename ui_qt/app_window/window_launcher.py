@@ -190,6 +190,18 @@ class WindowLauncher:
         except Exception as e:
             self._handle_error(e, "Image to Prompt Window Error")
 
+    def open_config_window(self) -> None:
+        try:
+            from ui_qt.config_window import ConfigWindow
+            existing = ConfigWindow._instance
+            if existing is not None:
+                if try_focus_existing_window(existing):
+                    return
+                ConfigWindow._instance = None
+            self._open_window(ConfigWindow)
+        except Exception as e:
+            self._handle_error(e, "Config Window Error")
+
     # ------------------------------------------------------------------
     # Models / Adapters
     # ------------------------------------------------------------------

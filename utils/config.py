@@ -9,6 +9,60 @@ logger = get_logger("config")
 class Config:
     CONFIGS_DIR_LOC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "configs")
 
+    # Registry of config keys the Config dialog exposes as editable.
+    # Maps key → expected Python type for coercion:
+    #   bool  — checkbox; value supplied as Python bool
+    #   int   — line edit; coerced with int()
+    #   float — line edit; coerced with float()
+    #   str   — line edit; stored as stripped string
+    #   None  — nullable str: empty string is stored as Python None
+    DIALOG_FIELDS: dict[str, type | None] = {
+        # Backend URLs
+        "comfyui_url":                      None,
+        "sd_webui_url":                     None,
+        "forge_url":                        None,
+        "sdnext_url":                       None,
+        "swarmui_url":                      None,
+        "invokeai_url":                     None,
+        "fooocus_url":                      None,
+        # Save paths
+        "sd_webui_save_path":               str,
+        "forge_save_path":                  str,
+        "sdnext_save_path":                 str,
+        "swarmui_save_path":                str,
+        "invokeai_save_path":               str,
+        "fooocus_save_path":                str,
+        # Directories
+        "models_dir":                       str,
+        "img_dir":                          None,
+        "img_temps_dir":                    None,
+        "ipadapter_dir":                    None,
+        "comfyui_loc":                      None,
+        "sd_webui_loc":                     None,
+        "sd_prompt_reader_loc":             None,
+        "image_searcher_dir2":              None,
+        # UI
+        "foreground_color":                 None,
+        "background_color":                 None,
+        "ui_scale_factor":                  float,
+        "locale":                           str,
+        # Behavior
+        "blacklist_prevent_execution":      bool,
+        "purge_blacklisted_prompt_history": bool,
+        "save_last_prompt":                 bool,
+        "delay_after_single_run":           bool,
+        "debug":                            bool,
+        "print_settings":                   bool,
+        "max_executor_threads":             int,
+        # Server
+        "server_host":                      str,
+        "server_port":                      int,
+        "server_password":                  str,
+        # Dictionary override
+        "override_dictionary_path":         None,
+        "override_dictionary_append":       bool,
+    }
+
     @staticmethod
     def resolve_config_path():
         """Resolve the active config file path, preferring config.json."""
@@ -276,6 +330,71 @@ class Config:
         if self.comfyui_loc:
             return os.path.join(self.comfyui_loc, "output")
         return "."
+
+    def _build_persisted_config_dict(self) -> dict:
+        """Build config dict for serialization, preserving all existing keys."""
+        return dict(self.dict) if isinstance(self.dict, dict) else {}
+
+    def apply_and_persist(self, raw: dict[str, object]) -> list[str]:
+        """Validate *raw* field values, apply them in-memory, and persist to disk.
+
+        *raw* maps config-key → value, where:
+          - bool fields supply a Python ``bool`` directly (e.g. from a checkbox)
+          - all other fields supply a ``str`` that will be coerced to the
+            registered type (see ``DIALOG_FIELDS``)
+
+        Returns a list of validation-error strings.  When the list is non-empty
+        nothing has been changed — neither in-memory nor on disk.
+        """
+        errors: list[str] = []
+        typed: dict[str, object] = {}
+        for key, value in raw.items():
+            if key not in self.DIALOG_FIELDS:
+                logger.warning("apply_and_persist: unknown key %r ignored", key)
+                continue
+            expected = self.DIALOG_FIELDS[key]
+            if expected is bool:
+                typed[key] = bool(value)
+            elif expected is None:
+                s = str(value).strip()
+                typed[key] = s if s else None
+            elif expected is str:
+                typed[key] = str(value).strip()
+            else:
+                try:
+                    typed[key] = expected(str(value).strip())  # type: ignore[call-arg]
+                except (ValueError, TypeError):
+                    name = getattr(expected, "__name__", str(expected))
+                    errors.append(f"{key}: expected {name}, got {str(value)!r}")
+        if errors:
+            return errors
+        for key, val in typed.items():
+            self.dict[key] = val
+            setattr(self, key, val)
+        self.persist()
+        return []
+
+    def persist(self) -> None:
+        """Write current config.dict back to the active config file atomically.
+
+        Uses a write-then-rename swap so a crash mid-write never leaves the
+        config file in a partially-written state.
+        """
+        config_dict = self._build_persisted_config_dict()
+        tmp_path = self.config_path + ".tmp"
+        try:
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(config_dict, f, ensure_ascii=False, indent=2)
+            with open(tmp_path, "r", encoding="utf-8") as f:
+                json.load(f)  # verify readable before replacing original
+            os.replace(tmp_path, self.config_path)
+        except Exception:
+            try:
+                os.remove(tmp_path)
+            except OSError:
+                pass
+            raise
+        self.dict = config_dict
 
     def get_cloud_save_path(self) -> str:
         """Return the output directory for cloud-generated images.

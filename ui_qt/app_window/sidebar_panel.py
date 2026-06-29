@@ -430,7 +430,15 @@ class SidebarPanel(QWidget):
         )
         btn_row3.addWidget(self.image_to_prompt_btn, 1)
 
-        btn_row3.addStretch(1)
+        self.config_btn = QPushButton(_("Config"))
+        self.config_btn.clicked.connect(
+            lambda: self._app.window_launcher.open_config_window()
+        )
+        self.config_btn.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
+        )
+        btn_row3.addWidget(self.config_btn, 1)
+
         layout.addLayout(btn_row3)
 
         # Prompt Mode + Concept Editor
