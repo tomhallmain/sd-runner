@@ -173,16 +173,12 @@ class RunController:
                 app.job_queue.pending_jobs.insert(0, next_job_args)
                 Utils.prevent_sleep(False)
                 self.clear_progress()
-                app.server_run_idle_event.set()
             else:
                 app.current_run.delay_after_last_run = True
                 Utils.start_thread(self._run_async, use_asyncio=False, args=[next_job_args])
-                # Chained _run_async will set the event when it finishes.
         elif not promoted:
             Utils.prevent_sleep(False)
             self.clear_progress()
-            app.server_run_idle_event.set()
-        # promoted=True: the promoted run spawns its own _run_async, which sets the event.
 
     def resume_paused_queue(self) -> None:
         """Start processing a paused/restored queue without adding a new run."""
@@ -741,6 +737,67 @@ class RunController:
 
         self.run()
         return {}
+
+    def server_batch_enqueue(self, requests: list) -> dict:
+        """Add all batch items from a run_batch command directly to ServerStagingQueue.
+
+        Called via the _MainThreadBridge as a single bridge call for the whole
+        batch, avoiding the per-item BlockingQueuedConnection calls that previously
+        caused crashes under high request volume.
+        """
+        from utils.globals import WorkflowType
+
+        # Maps command type strings to the WorkflowType (or None) that
+        # server_run_callback / the staging queue expect.  CANCEL and
+        # REVERT_TO_SIMPLE_GEN cannot be batched — they are skipped.
+        _TYPE_TO_WORKFLOW: dict[str, WorkflowType | None] = {
+            'last_settings': None,
+            'take_prompt':   None,
+            'renoiser':      WorkflowType.RENOISER,
+            'control_net':   WorkflowType.CONTROLNET,
+            'ip_adapter':    WorkflowType.IP_ADAPTER,
+            'image_edit':    WorkflowType.IMAGE_EDIT,
+            'img2img':       WorkflowType.IMG2IMG,
+            'redo_prompt':   WorkflowType.REDO_PROMPT,
+        }
+        _UNBATCHABLE = {'cancel', 'revert_to_simple_gen'}
+
+        app = self._app
+        staging = getattr(app, "server_staging_queue", None)
+        if staging is None:
+            return {"error": "staging queue not available", "count": 0}
+
+        enqueued = 0
+        for req in requests:
+            type_str = (req.get('type', '') or '').lower().replace(' ', '_')
+            args = dict(req.get('args', {}) or {})
+            if type_str in _UNBATCHABLE:
+                logger.warning("server_batch_enqueue: skipping unbatchable type %r", type_str)
+                continue
+            if type_str not in _TYPE_TO_WORKFLOW:
+                logger.warning("server_batch_enqueue: unknown command type %r, skipping", type_str)
+                continue
+            # Normalise take_prompt args the same way run_command does.
+            if type_str == 'take_prompt':
+                if "image" in args and "source_prompt" not in args:
+                    args["source_prompt"] = args["image"]
+                args.pop("image", None)
+            try:
+                staging.add(_TYPE_TO_WORKFLOW[type_str], args)
+                enqueued += 1
+            except Exception as e:
+                logger.warning("server_batch_enqueue: staging queue rejected request: %s", e)
+
+        logger.info("server_batch_enqueue: staged %d item(s)", enqueued)
+
+        # If nothing is running yet, promote the first staging item so work starts immediately.
+        if enqueued > 0 and not app.job_queue.has_pending():
+            staged = staging.take()
+            if staged is not None:
+                wf_type, staged_args = staged
+                self.server_run_callback(wf_type, staged_args)
+
+        return {"count": enqueued}
 
     # ------------------------------------------------------------------
     # Scheduled shutdown

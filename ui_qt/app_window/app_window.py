@@ -677,8 +677,8 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             bridge(self.run_ctrl.server_run_callback),
             bridge(self.run_ctrl.cancel),
             bridge(self.run_ctrl.revert_to_simple_gen),
+            bridge(self.run_ctrl.server_batch_enqueue),
         )
-        self.server_run_idle_event = server.run_idle_event
         try:
             Utils.start_thread(server.start)
             return server
