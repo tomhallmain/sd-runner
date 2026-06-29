@@ -41,6 +41,7 @@ from run import Run
 from sd_runner.models import Model
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
+from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
 from ui_qt.presets.schedule import PresetTask, Schedule
 from ui_qt.presets.schedules_window import SchedulesWindow
 from ui_qt.presets.presets_window import PresetsWindow
@@ -122,6 +123,9 @@ def run_stubs(monkeypatch, execute_calls):
     monkeypatch.setattr(RunConfig, "validate", lambda self: True)
     monkeypatch.setattr(TimeEstimator, "estimate_queue_time", lambda images, latents: 0)
     monkeypatch.setattr(time_module, "sleep", lambda s: None)
+    # Suppress the default 11 PM schedule that set_schedules() creates for an
+    # empty cache — these tests cover dispatch logic, not shutdown behavior.
+    monkeypatch.setattr(timed_schedules_manager, "check_for_shutdown_request", lambda dt: None)
 
     return execute_calls
 
@@ -287,3 +291,36 @@ class TestPresetScheduleDispatch:
         assert run_stubs[0].args.total == 3
         assert run_stubs[1].args.total == 10   # -1 → starting total
         assert run_stubs[2].args.total == 5
+
+
+# ---------------------------------------------------------------------------
+# Scheduled-shutdown gating
+# ---------------------------------------------------------------------------
+
+class TestScheduledShutdownGating:
+    """run() must abort before execute() when a shutdown schedule is active."""
+
+    def test_run_aborted_when_shutdown_requested(self, app_window, run_stubs, monkeypatch):
+        """run() returns without calling execute() if check_for_shutdown_request raises."""
+        def raise_shutdown(dt):
+            raise ScheduledShutdownException("shutdown", None)
+
+        monkeypatch.setattr(timed_schedules_manager, "check_for_shutdown_request", raise_shutdown)
+        # Suppress the dialog that would otherwise block the test thread.
+        monkeypatch.setattr(app_window.run_ctrl, "_handle_scheduled_shutdown", lambda e: None)
+        app_window.sidebar_panel.run_preset_schedule_check.setChecked(False)
+        app_window.run_ctrl.run()
+        assert len(run_stubs) == 0
+
+    def test_preset_schedule_run_aborted_when_shutdown_requested(self, app_window, run_stubs, monkeypatch):
+        """run_preset_schedule() aborts without any execute() if shutdown fires."""
+        schedule = make_schedule(tasks=[("A", 1)])
+        _install_schedule(app_window, schedule, monkeypatch)
+
+        def raise_shutdown(dt):
+            raise ScheduledShutdownException("shutdown", None)
+
+        monkeypatch.setattr(timed_schedules_manager, "check_for_shutdown_request", raise_shutdown)
+        monkeypatch.setattr(app_window.run_ctrl, "_handle_scheduled_shutdown", lambda e: None)
+        app_window.run_ctrl.run()
+        assert len(run_stubs) == 0

@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
 from lib.multi_display_qt import SmartDialog
 from sd_runner.blacklist import BlacklistItem
 from ui_qt.auth.password_utils import require_password
+from ui_qt.window_focus import clear_class_ref_if_self
 from utils.globals import ProtectedActions
 from utils.translations import I18N
 
@@ -185,6 +186,8 @@ class BlacklistModifyWindow(SmartDialog):
 
     def closeEvent(self, event) -> None:  # noqa: N802
         if self._saved or not self._has_changes():
+            from ui_qt.prompts.blacklist_window import BlacklistWindow
+            clear_class_ref_if_self(BlacklistWindow, "_modify_window", self)
             event.accept()
             return
         resp = self._app_actions.alert(
@@ -197,12 +200,16 @@ class BlacklistModifyWindow(SmartDialog):
             item = self._validate_and_build()
             if item is not None:
                 self._saved = True
+                from ui_qt.prompts.blacklist_window import BlacklistWindow
+                clear_class_ref_if_self(BlacklistWindow, "_modify_window", self)
                 event.accept()
                 self._refresh_callback(item, self._is_new, self._original_string)
                 return
             event.ignore()
             return
         elif resp is False:
+            from ui_qt.prompts.blacklist_window import BlacklistWindow
+            clear_class_ref_if_self(BlacklistWindow, "_modify_window", self)
             event.accept()
             return
         else:

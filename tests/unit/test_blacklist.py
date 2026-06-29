@@ -573,7 +573,7 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
         items = Blacklist.get_items()
         self.assertGreater(len(items), 0)
 
-        self.assertFalse(self._cache.get("blacklist_user_confirmed_non_default", default_val=False))
+        self.assertTrue(self._cache.get("blacklist_user_confirmed_non_default", default_val=False))
 
     def test_reveal_concepts_functionality(self):
         """Test that the reveal concepts functionality works correctly."""

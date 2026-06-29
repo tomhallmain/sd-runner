@@ -27,6 +27,7 @@ from lib.multi_display_qt import SmartDialog
 from lib.tooltip_qt import create_tooltip
 from sd_runner.blacklist import Blacklist, BlacklistItem
 from ui_qt.auth.password_utils import require_password
+from ui_qt.window_focus import try_focus_existing_window
 from utils.globals import (
     BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, ProtectedActions,
 )
@@ -67,6 +68,7 @@ class BlacklistWindow(SmartDialog):
     (Modify / Remove / Toggle / Preview) below each table.
     """
 
+    _instance = None
     _modify_window = None  # singleton reference
 
     # Cache key constants
@@ -198,6 +200,7 @@ class BlacklistWindow(SmartDialog):
             title=_("Tags/Models Blacklist"),
             geometry="1000x800",
         )
+        BlacklistWindow._instance = self
         self._app_actions = app_actions
         self._concepts_revealed = False
         self._filter_text = ""
@@ -575,6 +578,7 @@ class BlacklistWindow(SmartDialog):
     # Close
     # ==================================================================
     def closeEvent(self, event) -> None:  # noqa: N802
+        BlacklistWindow._instance = None
         if BlacklistWindow._modify_window is not None:
             try:
                 BlacklistWindow._modify_window._saved = True
@@ -835,11 +839,15 @@ class BlacklistWindow(SmartDialog):
     def _open_modify_window(
         self, item: Optional[BlacklistItem], *, is_model: bool
     ) -> None:
-        if BlacklistWindow._modify_window is not None:
+        existing = BlacklistWindow._modify_window
+        if existing is not None:
+            if try_focus_existing_window(existing):
+                return
             try:
-                BlacklistWindow._modify_window.close()
+                existing.close()
             except RuntimeError:
                 pass
+            BlacklistWindow._modify_window = None
         from ui_qt.prompts.blacklist_modify_window import BlacklistModifyWindow
         callback = self._refresh_model_bl_item if is_model else self._refresh_tag_bl_item
         BlacklistWindow._modify_window = BlacklistModifyWindow(

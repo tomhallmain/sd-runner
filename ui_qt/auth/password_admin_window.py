@@ -506,18 +506,20 @@ class PasswordAdminWindow(SmartWindow):
                 _("Failed to remove password."), error=True
             )
 
-    def refresh_ui(self):
-        """Refresh the UI to reflect current state."""
+    def _clear_top_level_ref(self) -> None:
         if PasswordAdminWindow.top_level is self:
             PasswordAdminWindow.top_level = None
+
+    def refresh_ui(self):
+        """Refresh the UI to reflect current state."""
+        self._clear_top_level_ref()
         self.close()
         new_win = PasswordAdminWindow(self._parent, self.app_actions)
         new_win.show()
 
     def close_window(self, event=None):
         """Close the window."""
-        if PasswordAdminWindow.top_level is self:
-            PasswordAdminWindow.top_level = None
+        self._clear_top_level_ref()
         self.close()
 
     def _show_toast_or_messagebox(self, message, error=False):
@@ -551,8 +553,7 @@ class PasswordAdminWindow(SmartWindow):
             )
 
     def closeEvent(self, event):
-        if PasswordAdminWindow.top_level is self:
-            PasswordAdminWindow.top_level = None
+        self._clear_top_level_ref()
         event.accept()
 
     def keyPressEvent(self, event):

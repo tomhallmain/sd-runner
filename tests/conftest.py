@@ -148,6 +148,12 @@ def _reset_class_state() -> None:
     except Exception:
         pass
 
+    try:
+        from sd_runner.timed_schedules_manager import TimedSchedulesManager
+        TimedSchedulesManager.recent_timed_schedules = []
+    except Exception:
+        pass
+
 
 # ---------------------------------------------------------------------------
 # Fixtures

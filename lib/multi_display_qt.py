@@ -671,6 +671,8 @@ class SmartDialog(QDialog):
             except Exception as e:
                 logger.warning(f"Failed to position SmartDialog on same display: {e}")
 
+        self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
+
 
 class SmartMainWindow(QMainWindow):
     """

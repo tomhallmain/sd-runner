@@ -39,6 +39,7 @@ class PresetsWindow(SmartDialog):
     sidebar configuration.
     """
 
+    _instance = None
     recent_presets = []
     last_set_preset = None
     preset_history = []
@@ -125,6 +126,7 @@ class PresetsWindow(SmartDialog):
             title=_("Presets Window"),
             geometry="700x400",
         )
+        PresetsWindow._instance = self
         self._app_actions = app_actions
 
         # --- Top bar: new-preset name entry + Add / Clear buttons ----------
@@ -250,3 +252,7 @@ class PresetsWindow(SmartDialog):
                 else PresetsWindow.recent_presets[0]
             )
             self._set_preset(preset)
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        PresetsWindow._instance = None
+        super().closeEvent(event)

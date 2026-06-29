@@ -21,6 +21,7 @@ from ui_qt.presets.schedule import PresetTask, Schedule
 from ui_qt.presets.presets_window import PresetsWindow
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
+from ui_qt.window_focus import clear_class_ref_if_self, try_focus_existing_window
 from utils.globals import ProtectedActions
 from utils.translations import I18N
 
@@ -164,6 +165,10 @@ class ScheduleModifyWindow(SmartDialog):
         self.close()
         self._refresh_callback(self._schedule)
 
+    def closeEvent(self, event) -> None:  # noqa: N802
+        clear_class_ref_if_self(SchedulesWindow, "_modify_window", self)
+        super().closeEvent(event)
+
 
 # ======================================================================
 # SchedulesWindow
@@ -176,6 +181,7 @@ class SchedulesWindow(SmartDialog):
     Delete buttons per row, plus top-level Add / Clear buttons.
     """
 
+    _instance = None
     current_schedule = None  # Will be set from Schedule() during set_schedules
     recent_schedules = []
     schedule_history = []
@@ -219,6 +225,7 @@ class SchedulesWindow(SmartDialog):
             title=_("Preset Schedules"),
             geometry="700x400",
         )
+        SchedulesWindow._instance = self
         self._app_actions = app_actions
 
         # --- Top bar -------------------------------------------------------
@@ -296,11 +303,15 @@ class SchedulesWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_SCHEDULES)
     def _open_modify_window(self, schedule: Schedule | None = None) -> None:
-        if SchedulesWindow._modify_window is not None:
+        existing = SchedulesWindow._modify_window
+        if existing is not None:
+            if try_focus_existing_window(existing):
+                return
             try:
-                SchedulesWindow._modify_window.close()
+                existing.close()
             except RuntimeError:
                 pass
+            SchedulesWindow._modify_window = None
         SchedulesWindow._modify_window = ScheduleModifyWindow(
             self, self._on_schedule_modified, schedule,
         )
@@ -325,3 +336,7 @@ class SchedulesWindow(SmartDialog):
         SchedulesWindow.recent_schedules.clear()
         self._rebuild_rows()
         self._app_actions.toast(_("Cleared schedules"))
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        SchedulesWindow._instance = None
+        super().closeEvent(event)

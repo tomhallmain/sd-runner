@@ -30,6 +30,7 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from ui_qt.app_style import AppStyle
+from ui_qt.window_focus import clear_class_ref_if_self, try_focus_existing_window
 from utils.config import config
 from utils.globals import ArchitectureType, PromptMode
 from utils.translations import I18N
@@ -256,6 +257,10 @@ class PresetModifyWindow(SmartDialog):
         self.close()
         self._refresh_callback(self._original, result)
 
+    def closeEvent(self, event) -> None:  # noqa: N802
+        clear_class_ref_if_self(ModelPresetsWindow, "_modify_window", self)
+        super().closeEvent(event)
+
 
 # ======================================================================
 # ModelPresetsWindow
@@ -264,11 +269,13 @@ class PresetModifyWindow(SmartDialog):
 class ModelPresetsWindow(SmartDialog):
     """Browse and edit the model_presets list from config.json."""
 
+    _instance = None
     _modify_window: Optional[PresetModifyWindow] = None
 
     def __init__(self, parent: QWidget, app_actions: AppActions, geometry: str = "780x440"):
         super().__init__(parent=parent, title=_("Model Presets"), geometry=geometry)
         self.setStyleSheet(AppStyle.get_stylesheet())
+        ModelPresetsWindow._instance = self
         self._app_actions = app_actions
         self._filtered: list[dict] = list(config.model_presets)
         self._table: Optional[QTableWidget] = None
@@ -415,11 +422,15 @@ class ModelPresetsWindow(SmartDialog):
             self._app_actions.toast(_("Select a preset first"))
 
     def _open_modify_window(self, preset: Optional[dict]) -> None:
-        if ModelPresetsWindow._modify_window is not None:
+        existing = ModelPresetsWindow._modify_window
+        if existing is not None:
+            if try_focus_existing_window(existing):
+                return
             try:
-                ModelPresetsWindow._modify_window.close()
+                existing.close()
             except RuntimeError:
                 pass
+            ModelPresetsWindow._modify_window = None
         ModelPresetsWindow._modify_window = PresetModifyWindow(
             self, self._refresh_after_modify, preset, self._app_actions,
         )
@@ -463,3 +474,7 @@ class ModelPresetsWindow(SmartDialog):
             self._app_actions.alert(
                 _("Save Error"), str(e), kind="error", master=self,
             )
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        ModelPresetsWindow._instance = None
+        super().closeEvent(event)

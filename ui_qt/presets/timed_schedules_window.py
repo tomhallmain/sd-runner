@@ -19,6 +19,7 @@ from lib.multi_display_qt import SmartDialog
 from sd_runner.timed_schedule import TimedSchedule
 from sd_runner.timed_schedules_manager import timed_schedules_manager
 from ui_qt.auth.password_utils import require_password
+from ui_qt.window_focus import clear_class_ref_if_self, try_focus_existing_window
 from utils.globals import ProtectedActions
 from utils.translations import I18N
 
@@ -165,6 +166,10 @@ class TimedScheduleModifyWindow(SmartDialog):
         self.close()
         self._refresh_callback(self._schedule)
 
+    def closeEvent(self, event) -> None:  # noqa: N802
+        clear_class_ref_if_self(TimedSchedulesWindow, "_modify_window", self)
+        super().closeEvent(event)
+
 
 # ======================================================================
 # TimedSchedulesWindow
@@ -177,6 +182,7 @@ class TimedSchedulesWindow(SmartDialog):
     controls per row.
     """
 
+    _instance = None
     _modify_window: Optional[TimedScheduleModifyWindow] = None
 
     def __init__(self, parent: QWidget, app_actions: AppActions):
@@ -185,6 +191,7 @@ class TimedSchedulesWindow(SmartDialog):
             title=_("Timed Schedules"),
             geometry="900x400",
         )
+        TimedSchedulesWindow._instance = self
         self._app_actions = app_actions
 
         # --- Top bar -------------------------------------------------------
@@ -262,11 +269,15 @@ class TimedSchedulesWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_TIMED_SCHEDULES)
     def _open_modify_window(self, schedule: TimedSchedule | None = None) -> None:
-        if TimedSchedulesWindow._modify_window is not None:
+        existing = TimedSchedulesWindow._modify_window
+        if existing is not None:
+            if try_focus_existing_window(existing):
+                return
             try:
-                TimedSchedulesWindow._modify_window.close()
+                existing.close()
             except RuntimeError:
                 pass
+            TimedSchedulesWindow._modify_window = None
         TimedSchedulesWindow._modify_window = TimedScheduleModifyWindow(
             self, self._on_schedule_modified, schedule,
             app_actions=self._app_actions,
@@ -285,3 +296,7 @@ class TimedSchedulesWindow(SmartDialog):
     def _clear_schedules(self) -> None:
         timed_schedules_manager.clear_all_schedules()
         self._rebuild_rows()
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        TimedSchedulesWindow._instance = None
+        super().closeEvent(event)

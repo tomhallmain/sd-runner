@@ -48,8 +48,11 @@ def _short(value: str, max_len: int = 40) -> str:
 class RunsWindow(SmartDialog):
     """PySide6 queue + history browser for image generation runs."""
 
+    _instance = None
+
     def __init__(self, parent, app_actions: AppActions):
         super().__init__(parent=parent, title=_("Runs"), geometry="1020x560")
+        RunsWindow._instance = self
         self._app = parent
         self._app_actions = app_actions
 
@@ -395,5 +398,6 @@ class RunsWindow(SmartDialog):
             self._refresh_history()
 
     def closeEvent(self, event):
+        RunsWindow._instance = None
         self._refresh_timer.stop()
         super().closeEvent(event)

@@ -489,8 +489,14 @@ class PromptConfigWindow(SmartDialog):
     # ------------------------------------------------------------------
     # Lifecycle
     # ------------------------------------------------------------------
-    def closeEvent(self, event) -> None:  # noqa: N802
-        # Final sync before closing
+    def _on_close(self) -> None:
         self._sync_config_from_widgets()
         self.__class__.set_prompt_config_window_instance(None)
+
+    def reject(self) -> None:  # noqa: N802
+        self._on_close()
+        super().reject()
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        self._on_close()
         super().closeEvent(event)

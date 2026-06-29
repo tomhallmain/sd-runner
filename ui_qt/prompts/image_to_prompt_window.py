@@ -43,6 +43,7 @@ _ = I18N._
 class ImageToPromptWindow(SmartDialog):
     """One-shot image description/tagging -> prompt generation."""
     LAST_IMAGE_TO_PROMPT_CACHE_KEY = "last_image_to_prompt"
+    _instance = None
     _last_cached_payload: dict = {}
 
     def __init__(
@@ -57,6 +58,7 @@ class ImageToPromptWindow(SmartDialog):
             geometry=geometry,
         )
         self.setStyleSheet(AppStyle.get_stylesheet())
+        ImageToPromptWindow._instance = self
         self._app = parent
         self._app_actions = app_actions
         self._service_cache: dict[ImageToPromptBackend, ImageToPromptService] = {}
@@ -314,3 +316,7 @@ class ImageToPromptWindow(SmartDialog):
             return
         self._app.sidebar_panel.positive_tags_box.setPlainText(text)
         self._app_actions.toast(_("Applied positive prompt to main UI"))
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        ImageToPromptWindow._instance = None
+        super().closeEvent(event)

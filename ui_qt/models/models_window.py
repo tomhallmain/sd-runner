@@ -80,6 +80,7 @@ def _sort_tree(tree: QTreeWidget, col: int) -> None:
 class ModelsWindow(SmartDialog):
     """PySide6 model and adapter browser with tabbed Checkpoints / LoRAs."""
 
+    _instance = None
     _checkpoints_cache: Optional[list[tuple[str, str, str]]] = None
     _adapters_cache: Optional[list[tuple[str, str, str]]] = None
     _cache_timestamp: Optional[float] = None
@@ -111,6 +112,7 @@ class ModelsWindow(SmartDialog):
         self._build_adapters_tab(ad_page)
         self._build_hf_hub_tab(hf_page)
 
+        ModelsWindow._instance = self
         QShortcut(QKeySequence("Escape"), self, self.close)
         self.show()
 
@@ -565,6 +567,10 @@ class ModelsWindow(SmartDialog):
             )
             return
         LoRAInfoWindow(self, model, self._app_actions)
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        ModelsWindow._instance = None
+        super().closeEvent(event)
 
 
 # ======================================================================

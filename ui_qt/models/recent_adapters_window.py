@@ -83,6 +83,7 @@ class RecentAdaptersWindow(SmartDialog):
     _recent_controlnets: list[str] = []
     _recent_ipadapters: list[str] = []
     _recent_source_prompts: list[str] = []
+    _instance = None
     _recent_adapter_files_split: list[str] = []
     _favorite_adapters: list[str] = []
     _controlnet_cache = None
@@ -327,6 +328,7 @@ class RecentAdaptersWindow(SmartDialog):
 
     def __init__(self, parent: QWidget, app_actions: AppActions):
         super().__init__(parent=parent, title=_("Recent Adapters"), geometry="1000x500")
+        RecentAdaptersWindow._instance = self
         self._app_actions = app_actions
         self._max_recent = RecentAdaptersWindow._get_max_recent_items()
         self._max_split = RecentAdaptersWindow._get_max_recent_split_items()
@@ -916,3 +918,7 @@ class RecentAdaptersWindow(SmartDialog):
             RecentAdaptersWindow._recent_source_prompts = RecentAdaptersWindow._recent_source_prompts[:max_items]
         if len(RecentAdaptersWindow._recent_adapter_files_split) > max_split:
             RecentAdaptersWindow._recent_adapter_files_split = RecentAdaptersWindow._recent_adapter_files_split[:max_split]
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        RecentAdaptersWindow._instance = None
+        super().closeEvent(event)

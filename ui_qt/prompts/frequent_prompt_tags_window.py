@@ -51,6 +51,7 @@ _ = I18N._
 class FrequentPromptTagsWindow(SmartDialog):
     """Display, filter, and apply frequently-used prompt tags."""
 
+    _instance = None
     tag_history = []
     MAX_TAGS = 50
     last_set_tag: Optional[str] = None
@@ -90,6 +91,7 @@ class FrequentPromptTagsWindow(SmartDialog):
             geometry=geometry,
         )
         self.setStyleSheet(AppStyle.get_stylesheet())
+        FrequentPromptTagsWindow._instance = self
         self._app_actions = app_actions
         self._filter_text = ""
         self._filtered_tags: list[str] = FrequentTags.tags[:]
@@ -330,3 +332,7 @@ class FrequentPromptTagsWindow(SmartDialog):
                     tier3.append(tag)
             self._filtered_tags = tier1 + tier2 + tier3
         self._rebuild_table()
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        FrequentPromptTagsWindow._instance = None
+        super().closeEvent(event)

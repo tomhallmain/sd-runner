@@ -79,6 +79,7 @@ class ConceptEditorWindow(SmartDialog):
         "Dictionary": (None, False),
     }
 
+    _instance = None
     last_set_concept = None
     concept_change_history = []
     MAX_CONCEPTS = 50
@@ -126,6 +127,7 @@ class ConceptEditorWindow(SmartDialog):
             geometry=geometry,
         )
         self.setStyleSheet(AppStyle.get_stylesheet())
+        ConceptEditorWindow._instance = self
         self._app_actions = app_actions
 
         self._search_text: str = ""
@@ -630,3 +632,7 @@ class ConceptEditorWindow(SmartDialog):
                     Path(import_path).name
                 )
             )
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        ConceptEditorWindow._instance = None
+        super().closeEvent(event)

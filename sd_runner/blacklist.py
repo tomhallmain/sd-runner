@@ -175,7 +175,7 @@ class BlacklistItem:
             processed_string = normalized_string
             if use_space_as_optional_nonword:
                 # Convert spaces to optional non-word character patterns
-                processed_string = re.sub(r'\s+', r'(\\W)*', processed_string)
+                processed_string = re.sub(r'\s+', r'(?:[\\W_])+', processed_string)
             # Use glob-to-regex conversion for regex mode with case-insensitive flag
             self.regex_pattern = re.compile(self._glob_to_regex(processed_string), re.IGNORECASE)
         else:
@@ -185,7 +185,7 @@ class BlacklistItem:
                 # Split on whitespace, escape tokens, and join with an optional non-word pattern.
                 # This avoids leaving the backslash that escapes spaces from re.escape() in front of the inserted group.
                 words = re.split(r'\s+', self.string)
-                processed_string = r'(?:\W)*'.join(re.escape(w) for w in words if w)
+                processed_string = r'(?:[\W_])+'.join(re.escape(w) for w in words if w)
             else:
                 processed_string = re.escape(self.string)
             # Apply accent normalization to prevent filter evasion via accent variations

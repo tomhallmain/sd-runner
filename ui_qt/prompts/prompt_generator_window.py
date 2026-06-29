@@ -42,6 +42,8 @@ _ = I18N._
 class PromptGeneratorWindow(SmartDialog):
     """Generate prompts without starting any image generation run."""
 
+    _instance = None
+
     def __init__(
         self,
         parent: AppWindow,
@@ -54,6 +56,7 @@ class PromptGeneratorWindow(SmartDialog):
             geometry=geometry,
         )
         self.setStyleSheet(AppStyle.get_stylesheet())
+        PromptGeneratorWindow._instance = self
         self._app = parent
         self._app_actions = app_actions
         self._last_positive = ""
@@ -186,3 +189,7 @@ class PromptGeneratorWindow(SmartDialog):
             return
         app_info_cache.store()
         self._app_actions.toast(_("Saved generated prompt to prompt history"))
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        PromptGeneratorWindow._instance = None
+        super().closeEvent(event)

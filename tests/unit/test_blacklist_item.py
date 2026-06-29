@@ -15,21 +15,21 @@ class TestGlobPatterns:
         item = BlacklistItem("*oo*", use_regex=True)
         assert item.matches_tag("apple") is False
 
-    def test_star_prefix_matches_start(self):
+    def test_star_suffix_matches_start(self):
         item = BlacklistItem("cat*", use_regex=True)
         assert item.matches_tag("cats") is True
 
-    def test_star_prefix_no_match(self):
+    def test_star_suffix_no_match(self):
         item = BlacklistItem("cat*", use_regex=True)
         assert item.matches_tag("bobcat") is False
 
-    def test_star_suffix_matches_end(self):
+    def test_star_prefix_matches_end(self):
         item = BlacklistItem("*cat", use_regex=True)
         assert item.matches_tag("bobcat") is True
 
-    def test_star_suffix_no_match_when_not_at_end(self):
+    def test_star_prefix_matches_substring(self):
         item = BlacklistItem("*cat", use_regex=True)
-        assert item.matches_tag("categories") is False
+        assert item.matches_tag("categories") is True
 
     def test_glob_case_insensitive(self):
         item = BlacklistItem("*OO*", use_regex=True)

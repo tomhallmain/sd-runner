@@ -30,6 +30,7 @@ from lib.multi_display_qt import SmartDialog
 from sd_runner.expansion import Expansion
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
+from ui_qt.window_focus import clear_class_ref_if_self, try_focus_existing_window
 from utils.globals import ProtectedActions
 from utils.translations import I18N
 from utils.utils import Utils
@@ -155,6 +156,10 @@ class ExpansionModifyWindow(SmartDialog):
         self.close()
         self._refresh_callback(self._expansion)
 
+    def closeEvent(self, event) -> None:  # noqa: N802
+        clear_class_ref_if_self(ExpansionsWindow, "_modify_window", self)
+        super().closeEvent(event)
+
 
 # ======================================================================
 # ExpansionsWindow
@@ -162,6 +167,7 @@ class ExpansionModifyWindow(SmartDialog):
 class ExpansionsWindow(SmartDialog):
     """Manage the list of prompt expansions."""
 
+    _instance = None
     _modify_window: Optional[ExpansionModifyWindow] = None
     last_set_expansion = None
     expansion_history = []
@@ -231,6 +237,7 @@ class ExpansionsWindow(SmartDialog):
             geometry=geometry,
         )
         self.setStyleSheet(AppStyle.get_stylesheet())
+        ExpansionsWindow._instance = self
         self._app_actions = app_actions
         self._filtered_expansions: list[Expansion] = Expansion.expansions[:]
         self._table: Optional[QTableWidget] = None
@@ -382,11 +389,15 @@ class ExpansionsWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_EXPANSIONS)
     def _open_modify_window(self, expansion: Optional[Expansion] = None) -> None:
-        if ExpansionsWindow._modify_window is not None:
+        existing = ExpansionsWindow._modify_window
+        if existing is not None:
+            if try_focus_existing_window(existing):
+                return
             try:
-                ExpansionsWindow._modify_window.close()
+                existing.close()
             except RuntimeError:
                 pass
+            ExpansionsWindow._modify_window = None
         ExpansionsWindow._modify_window = ExpansionModifyWindow(
             self, self._refresh_after_modify, expansion, self._app_actions,
         )
@@ -459,6 +470,11 @@ class ExpansionsWindow(SmartDialog):
                     tier3.append(exp)
             self._filtered_expansions = tier1 + tier2 + tier3
         self._rebuild_table()
+
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        ExpansionsWindow._instance = None
+        super().closeEvent(event)
 
 
 # Module-level aliases for CacheController and other call sites
