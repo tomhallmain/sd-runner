@@ -18,14 +18,14 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
     QAbstractItemView, QApplication, QCheckBox, QComboBox, QDoubleSpinBox,
-    QFileDialog, QHBoxLayout, QHeaderView, QLabel, QLineEdit, QPushButton,
-    QPlainTextEdit, QTabWidget, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget,
+    QFileDialog, QHBoxLayout, QHeaderView, QInputDialog, QLabel, QLineEdit,
+    QListWidget, QListWidgetItem, QPushButton, QTabWidget, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget,
 )
 
 from lib.multi_display_qt import SmartDialog
 from lib.tooltip_qt import create_tooltip
-from sd_runner.blacklist import Blacklist, BlacklistItem
+from sd_runner.blacklist import Blacklist, BlacklistItem, SimilarityPhrase
 from ui_qt.auth.password_utils import require_password
 from ui_qt.window_focus import try_focus_existing_window
 from utils.globals import (
@@ -133,7 +133,8 @@ class BlacklistWindow(SmartDialog):
             float(app_info_cache.get(BlacklistWindow.SIMILARITY_THRESHOLD_KEY, default_val=0.85))
         )
         raw_phrases = app_info_cache.get(BlacklistWindow.SIMILARITY_PHRASES_KEY, default_val=[])
-        Blacklist.set_similarity_phrases([str(p) for p in raw_phrases if p])
+        phrase_items = [SimilarityPhrase.from_dict(p) for p in raw_phrases if p]
+        Blacklist.set_similarity_phrase_items([it for it in phrase_items if it is not None])
 
     @staticmethod
     def store_blacklist():
@@ -151,7 +152,10 @@ class BlacklistWindow(SmartDialog):
         app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_MODE_KEY, str(Blacklist.get_model_blacklist_mode()))
         app_info_cache.set(BlacklistWindow.BLACKLIST_SILENT_KEY, Blacklist.get_blacklist_silent_removal())
         app_info_cache.set(BlacklistWindow.MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY, Blacklist.get_model_blacklist_all_prompt_modes())
-        app_info_cache.set(BlacklistWindow.SIMILARITY_PHRASES_KEY, Blacklist.get_similarity_phrases())
+        app_info_cache.set(
+            BlacklistWindow.SIMILARITY_PHRASES_KEY,
+            [it.to_dict() for it in Blacklist.get_similarity_phrase_items()],
+        )
         app_info_cache.set(BlacklistWindow.SIMILARITY_THRESHOLD_KEY, Blacklist.get_similarity_threshold())
         app_info_cache.set(BlacklistWindow.SIMILARITY_ENABLED_KEY, Blacklist.get_similarity_enabled())
         # Once the blacklist has been persisted at least once, subsequent
@@ -628,16 +632,28 @@ class BlacklistWindow(SmartDialog):
         top_row.addWidget(self._sim_threshold_spin)
         layout.addLayout(top_row)
 
-        # ── Blocked phrases ───────────────────────────────────────
-        layout.addWidget(QLabel(_("Blocked concepts (one per line):")))
-        self._sim_phrases_edit = QPlainTextEdit()
-        self._sim_phrases_edit.setPlaceholderText(
-            _("Enter one phrase per line, e.g.:\n  violent content\n  explicit material")
-        )
-        self._sim_phrases_edit.setPlainText(
-            "\n".join(Blacklist.get_similarity_phrases())
-        )
-        layout.addWidget(self._sim_phrases_edit, stretch=1)
+        # ── Blocked phrases list ──────────────────────────────────
+        layout.addWidget(QLabel(_("Blocked concepts (check to enable):")))
+        self._sim_list = QListWidget()
+        for item in Blacklist.get_similarity_phrase_items():
+            lw_item = QListWidgetItem(item.phrase)
+            lw_item.setFlags(lw_item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+            lw_item.setCheckState(
+                Qt.CheckState.Checked if item.enabled else Qt.CheckState.Unchecked
+            )
+            self._sim_list.addItem(lw_item)
+        layout.addWidget(self._sim_list, stretch=1)
+
+        # ── List action buttons ───────────────────────────────────
+        list_btn_row = QHBoxLayout()
+        add_btn = QPushButton(_("Add phrase..."))
+        add_btn.clicked.connect(self._sim_add_phrase)
+        list_btn_row.addWidget(add_btn)
+        remove_btn = QPushButton(_("Remove selected"))
+        remove_btn.clicked.connect(self._sim_remove_phrase)
+        list_btn_row.addWidget(remove_btn)
+        list_btn_row.addStretch()
+        layout.addLayout(list_btn_row)
 
         # ── Backend note ──────────────────────────────────────────
         note = QLabel(
@@ -657,19 +673,36 @@ class BlacklistWindow(SmartDialog):
         btn_row.addWidget(apply_btn)
         layout.addLayout(btn_row)
 
+    def _sim_add_phrase(self) -> None:
+        text, ok = QInputDialog.getText(
+            self, _("Add Phrase"), _("Enter blocked concept:"),
+        )
+        if ok and text.strip():
+            lw_item = QListWidgetItem(text.strip())
+            lw_item.setFlags(lw_item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+            lw_item.setCheckState(Qt.CheckState.Checked)
+            self._sim_list.addItem(lw_item)
+
+    def _sim_remove_phrase(self) -> None:
+        for lw_item in self._sim_list.selectedItems():
+            self._sim_list.takeItem(self._sim_list.row(lw_item))
+
     def _on_similarity_apply(self) -> None:
-        phrases = [
-            line.strip()
-            for line in self._sim_phrases_edit.toPlainText().splitlines()
-            if line.strip()
-        ]
+        items = []
+        for i in range(self._sim_list.count()):
+            lw_item = self._sim_list.item(i)
+            phrase = lw_item.text().strip()
+            if phrase:
+                enabled = lw_item.checkState() == Qt.CheckState.Checked
+                items.append(SimilarityPhrase(phrase, enabled=enabled))
         Blacklist.set_similarity_enabled(self._sim_enabled_cb.isChecked())
         Blacklist.set_similarity_threshold(self._sim_threshold_spin.value())
-        Blacklist.set_similarity_phrases(phrases)  # also triggers engine rebuild
+        Blacklist.set_similarity_phrase_items(items)
         BlacklistWindow.store_blacklist()
+        enabled_count = sum(1 for it in items if it.enabled)
         self._app_actions.toast(
             _("Similarity settings saved ({0} phrases, threshold {1:.0%})").format(
-                len(phrases), Blacklist.get_similarity_threshold()
+                enabled_count, Blacklist.get_similarity_threshold()
             )
         )
 
@@ -703,7 +736,7 @@ class BlacklistWindow(SmartDialog):
         """Keyboard-driven filtering: type to filter, Backspace to trim,
         Up/Down to rotate the list, Enter to add new, Escape to close."""
         focus = QApplication.focusWidget()
-        if focus and isinstance(focus, (QLineEdit, QPlainTextEdit)):
+        if focus and isinstance(focus, QLineEdit):
             super().keyPressEvent(event)
             return
 

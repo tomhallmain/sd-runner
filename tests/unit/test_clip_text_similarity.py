@@ -10,7 +10,7 @@ import numpy as np
 import pytest
 
 from sd_runner.clip_text_similarity import NGramBackend, TextSimilarityEngine
-from sd_runner.blacklist import Blacklist
+from sd_runner.blacklist import Blacklist, SimilarityPhrase
 
 
 # ---------------------------------------------------------------------------
@@ -67,6 +67,48 @@ _skip_torch = pytest.mark.skipif(
         f"{_TORCH_MODEL_ENV}=<model name or path, e.g. ViT-B/32>"
     ),
 )
+
+
+# ---------------------------------------------------------------------------
+# SimilarityPhrase — unit tests
+# ---------------------------------------------------------------------------
+
+class TestSimilarityPhrase:
+    def test_defaults_to_enabled(self):
+        item = SimilarityPhrase("violent content")
+        assert item.enabled is True
+
+    def test_disabled_flag_stored(self):
+        item = SimilarityPhrase("violent content", enabled=False)
+        assert item.enabled is False
+
+    def test_to_dict_roundtrip(self):
+        item = SimilarityPhrase("test phrase", enabled=False)
+        d = item.to_dict()
+        assert d == {"phrase": "test phrase", "enabled": False}
+
+    def test_from_dict_restores_enabled_false(self):
+        item = SimilarityPhrase.from_dict({"phrase": "test phrase", "enabled": False})
+        assert item.phrase == "test phrase"
+        assert item.enabled is False
+
+    def test_from_dict_backward_compat_plain_string(self):
+        item = SimilarityPhrase.from_dict("  violent content  ")
+        assert item.phrase == "violent content"
+        assert item.enabled is True
+
+    def test_from_dict_blank_string_returns_none(self):
+        assert SimilarityPhrase.from_dict("   ") is None
+
+    def test_from_dict_non_bool_enabled_defaults_true(self):
+        item = SimilarityPhrase.from_dict({"phrase": "test", "enabled": "yes"})
+        assert item.enabled is True
+
+    def test_from_dict_missing_phrase_returns_none(self):
+        assert SimilarityPhrase.from_dict({"enabled": True}) is None
+
+    def test_from_dict_invalid_type_returns_none(self):
+        assert SimilarityPhrase.from_dict(42) is None
 
 
 # ---------------------------------------------------------------------------
@@ -263,6 +305,51 @@ class TestBlacklistSimilarity:
         violated_partial, _, _ = Blacklist.check_similarity("violent")
         assert violated_exact is True
         assert violated_partial is False
+
+    def test_set_phrase_items_preserves_enabled_state(self):
+        items = [
+            SimilarityPhrase("active phrase", enabled=True),
+            SimilarityPhrase("inactive phrase", enabled=False),
+        ]
+        Blacklist.set_similarity_phrase_items(items)
+        stored = Blacklist.get_similarity_phrase_items()
+        assert stored[0].enabled is True
+        assert stored[1].enabled is False
+
+    def test_get_similarity_phrases_returns_all_including_disabled(self):
+        items = [
+            SimilarityPhrase("phrase a", enabled=True),
+            SimilarityPhrase("phrase b", enabled=False),
+        ]
+        Blacklist.set_similarity_phrase_items(items)
+        assert Blacklist.get_similarity_phrases() == ["phrase a", "phrase b"]
+
+    def test_disabled_phrase_not_fed_to_engine(self):
+        # Engine should only precompute enabled phrases; a disabled exact match
+        # should not trigger violation.
+        Blacklist.set_similarity_enabled(True)
+        Blacklist.set_similarity_threshold(0.85)
+        Blacklist.set_similarity_phrase_items([
+            SimilarityPhrase("violent content", enabled=False),
+        ])
+        # Engine should be None (no enabled phrases → no engine).
+        assert Blacklist._similarity_engine is None
+        violated, score, _ = Blacklist.check_similarity("violent content")
+        assert violated is False
+        assert score == 0.0
+
+    def test_engine_built_only_for_enabled_phrases(self):
+        Blacklist.set_similarity_phrase_items([
+            SimilarityPhrase("active", enabled=True),
+            SimilarityPhrase("inactive", enabled=False),
+        ])
+        assert Blacklist._similarity_engine is not None
+        # The engine's precomputed phrases should only include "active".
+        score_active, phrase = Blacklist._similarity_engine.max_similarity("active")
+        assert phrase == "active"
+        # "inactive" should not be in the engine at all.
+        score_inactive, matched = Blacklist._similarity_engine.max_similarity("inactive")
+        assert matched != "inactive" or score_inactive < 0.99
 
 
 # ---------------------------------------------------------------------------

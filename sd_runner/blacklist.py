@@ -383,12 +383,39 @@ class ModelBlacklistItem(BlacklistItem):
         return cls(data["string"], enabled, use_regex, use_space_as_optional_nonword, exception_pattern)
 
 
+class SimilarityPhrase:
+    """A single phrase used in the cosine-similarity blacklist check."""
+
+    def __init__(self, phrase: str, enabled: bool = True):
+        self.phrase = phrase
+        self.enabled = enabled
+
+    def to_dict(self) -> dict:
+        return {"phrase": self.phrase, "enabled": self.enabled}
+
+    @classmethod
+    def from_dict(cls, data) -> "SimilarityPhrase | None":
+        """Accept a dict *or* a plain str (backward-compat with old cache format)."""
+        if isinstance(data, str):
+            phrase = data.strip()
+            return cls(phrase) if phrase else None
+        if not isinstance(data, dict):
+            return None
+        phrase = data.get("phrase", "")
+        if not isinstance(phrase, str) or not phrase.strip():
+            return None
+        enabled = data.get("enabled", True)
+        if not isinstance(enabled, bool):
+            enabled = True
+        return cls(phrase.strip(), enabled)
+
+
 class Blacklist:
     TAG_BLACKLIST: list[BlacklistItem] = []
     MODEL_BLACKLIST: list[ModelBlacklistItem] = []
 
     # Similarity check state — managed via set_similarity_* / check_similarity.
-    SIMILARITY_PHRASES: list[str] = []
+    SIMILARITY_PHRASE_ITEMS: list[SimilarityPhrase] = []
     similarity_threshold: float = 0.85
     similarity_enabled: bool = False
     _similarity_engine = None  # TextSimilarityEngine | None
@@ -990,12 +1017,26 @@ class Blacklist:
 
     @staticmethod
     def set_similarity_phrases(phrases: list[str]) -> None:
-        Blacklist.SIMILARITY_PHRASES = [p.strip() for p in phrases if p.strip()]
+        """Set phrases from a plain string list; all items default to enabled."""
+        Blacklist.SIMILARITY_PHRASE_ITEMS = [
+            SimilarityPhrase(p.strip()) for p in phrases if p.strip()
+        ]
+        Blacklist._rebuild_similarity_engine()
+
+    @staticmethod
+    def set_similarity_phrase_items(items: list[SimilarityPhrase]) -> None:
+        """Set phrase items directly, preserving per-item enabled state."""
+        Blacklist.SIMILARITY_PHRASE_ITEMS = list(items)
         Blacklist._rebuild_similarity_engine()
 
     @staticmethod
     def get_similarity_phrases() -> list[str]:
-        return Blacklist.SIMILARITY_PHRASES
+        """Return all phrase strings regardless of enabled state."""
+        return [item.phrase for item in Blacklist.SIMILARITY_PHRASE_ITEMS]
+
+    @staticmethod
+    def get_similarity_phrase_items() -> list[SimilarityPhrase]:
+        return Blacklist.SIMILARITY_PHRASE_ITEMS
 
     @staticmethod
     def set_similarity_threshold(threshold: float) -> None:
@@ -1016,18 +1057,21 @@ class Blacklist:
     @staticmethod
     def _rebuild_similarity_engine() -> None:
         """Rebuild the engine from current phrases and config model path."""
-        if not Blacklist.SIMILARITY_PHRASES:
+        enabled_phrases = [
+            item.phrase for item in Blacklist.SIMILARITY_PHRASE_ITEMS if item.enabled
+        ]
+        if not enabled_phrases:
             Blacklist._similarity_engine = None
             return
         from sd_runner.clip_text_similarity import TextSimilarityEngine
         from utils.config import config
         try:
             engine = TextSimilarityEngine.build(getattr(config, "clip_model_path", None))
-            engine.precompute(Blacklist.SIMILARITY_PHRASES)
+            engine.precompute(enabled_phrases)
             Blacklist._similarity_engine = engine
             logger.info(
                 "Similarity engine built (%s backend, %d phrases)",
-                engine.backend_name, len(Blacklist.SIMILARITY_PHRASES),
+                engine.backend_name, len(enabled_phrases),
             )
         except Exception as exc:
             logger.error("Failed to build similarity engine: %s", exc)
