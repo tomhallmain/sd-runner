@@ -262,7 +262,7 @@ class RunsWindow(SmartDialog):
         self._refresh_queue()
 
     def _resume_queue(self) -> None:
-        self._app.run_controller.resume_paused_queue()
+        self._app.run_ctrl.resume_paused_queue()
         self._refresh_queue()
 
     def _cancel_run(self) -> None:

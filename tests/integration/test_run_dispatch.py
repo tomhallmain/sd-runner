@@ -324,3 +324,89 @@ class TestScheduledShutdownGating:
         monkeypatch.setattr(app_window.run_ctrl, "_handle_scheduled_shutdown", lambda e: None)
         app_window.run_ctrl.run()
         assert len(run_stubs) == 0
+
+
+# ---------------------------------------------------------------------------
+# Paused queue resume
+# ---------------------------------------------------------------------------
+
+class TestResumePausedQueue:
+    def test_noop_when_idle(self, app_window, run_stubs, monkeypatch):
+        """resume_paused_queue does nothing when both queues are empty."""
+        callbacks = []
+        monkeypatch.setattr(
+            app_window.run_ctrl, "server_run_callback",
+            lambda wf, args: callbacks.append((wf, args)),
+        )
+        app_window.run_ctrl.resume_paused_queue()
+        assert len(run_stubs) == 0
+        assert callbacks == []
+
+    def test_noop_when_job_running(self, app_window, run_stubs, monkeypatch):
+        """resume_paused_queue does nothing while a job is already running."""
+        from utils.globals import WorkflowType
+
+        callbacks = []
+        monkeypatch.setattr(
+            app_window.run_ctrl, "server_run_callback",
+            lambda wf, args: callbacks.append((wf, args)),
+        )
+        app_window.job_queue.job_running = True
+        app_window.server_staging_queue.add(WorkflowType.RENOISER, {"image": "test.png"})
+        app_window.run_ctrl.resume_paused_queue()
+        assert len(run_stubs) == 0
+        assert callbacks == []
+        assert app_window.server_staging_queue.pending_count() == 1
+
+    def test_resumes_pending_job(self, app_window, run_stubs):
+        """resume_paused_queue starts the first pending SD run."""
+        args, _ = app_window.get_args()
+        app_window.job_queue.pending_jobs.append(args)
+        app_window.job_queue.paused = True
+        app_window.run_ctrl.resume_paused_queue()
+        assert app_window.job_queue.paused is False
+        assert len(app_window.job_queue.pending_jobs) == 0
+        assert len(run_stubs) == 1
+
+    def test_promotes_staging_when_job_queue_empty(self, app_window, run_stubs, monkeypatch):
+        """resume_paused_queue promotes a staged server request when no SD runs are pending."""
+        from utils.globals import WorkflowType
+
+        staged_args = {"image": "staged.png"}
+        app_window.server_staging_queue.add(WorkflowType.RENOISER, staged_args)
+        app_window.job_queue.paused = True
+
+        callbacks = []
+        monkeypatch.setattr(
+            app_window.run_ctrl, "server_run_callback",
+            lambda wf, args: callbacks.append((wf, args)),
+        )
+
+        app_window.run_ctrl.resume_paused_queue()
+
+        assert app_window.job_queue.paused is False
+        assert app_window.server_staging_queue.pending_count() == 0
+        assert len(callbacks) == 1
+        assert callbacks[0] == (WorkflowType.RENOISER, staged_args)
+        assert len(run_stubs) == 0
+
+    def test_pending_jobs_take_priority_over_staging(self, app_window, run_stubs, monkeypatch):
+        """When both queues have work, resume starts the pending SD run first."""
+        from utils.globals import WorkflowType
+
+        callbacks = []
+        monkeypatch.setattr(
+            app_window.run_ctrl, "server_run_callback",
+            lambda wf, args: callbacks.append((wf, args)),
+        )
+        args, _ = app_window.get_args()
+        app_window.job_queue.pending_jobs.append(args)
+        app_window.server_staging_queue.add(WorkflowType.RENOISER, {"image": "staged.png"})
+        app_window.job_queue.paused = True
+
+        app_window.run_ctrl.resume_paused_queue()
+
+        assert len(run_stubs) == 1
+        assert callbacks == []
+        assert app_window.server_staging_queue.pending_count() == 1
+

@@ -207,11 +207,26 @@ class RunController:
     def resume_paused_queue(self) -> None:
         """Start processing a paused/restored queue without adding a new run."""
         app = self._app
-        if not app.job_queue.pending_jobs or app.job_queue.job_running:
+        if app.job_queue.job_running:
+            return
+        staging = getattr(app, "server_staging_queue", None)
+        has_pending_jobs = bool(app.job_queue.pending_jobs)
+        has_staging = staging is not None and staging.has_pending()
+        if not has_pending_jobs and not has_staging:
             return
         app.job_queue.paused = False
-        first = app.job_queue.take()
-        Utils.start_thread(self._run_async, use_asyncio=False, args=[first])
+        if has_pending_jobs:
+            first = app.job_queue.take()
+            Utils.start_thread(self._run_async, use_asyncio=False, args=[first])
+        else:
+            staged = staging.take()
+            if staged is not None:
+                wf_type, staged_args = staged
+                logger.info(
+                    f"Promoting staged server request on queue resume "
+                    f"({staging.pending_count()} remaining in staging queue)"
+                )
+                self.server_run_callback(wf_type, staged_args)
 
     def toggle_pause_queue(self) -> None:
         """Toggle the queue pause state and update the sidebar button label."""
