@@ -34,6 +34,11 @@ if not os.environ.get("SD_RUNNER_CONFIGS_DIR") or not os.environ.get("SD_RUNNER_
         os.environ["SD_RUNNER_CACHE_DIR"] = _fb_cache
     atexit.register(shutil.rmtree, _fb_tmp, True)
 
+if not os.environ.get("SD_RUNNER_SERVER_PORT"):
+    # Ephemeral port (OS-assigned) so a real AppWindow built by the app_window
+    # fixture never contends for the real app's server port.
+    os.environ["SD_RUNNER_SERVER_PORT"] = "0"
+
 
 @pytest.fixture(scope="session")
 def qapp():

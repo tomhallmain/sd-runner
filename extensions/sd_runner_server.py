@@ -38,13 +38,19 @@ class SDRunnerServer:
         cancel_callback: callable,
         revert_callback: callable,
         batch_enqueue_callback: callable,
-        host: str = 'localhost',
-        port: int = config.server_port,
+        host: str = None,
+        port: int = None,
     ):
+        # Resolved at call time via a local import rather than the module-level
+        # `config` binding (or a parameter default, which is bound once at
+        # first import): tests swap in a fresh Config instance per test by
+        # patching the utils.config.config attribute, and only a fresh lookup
+        # of that attribute picks up the swap.
+        from utils.config import config as _config
         self._running = False
         self._is_stopping = False
-        self._host = host
-        self._port = port
+        self._host = host if host is not None else _config.server_host
+        self._port = port if port is not None else _config.server_port
         self.listener = None
         self._conn = None
         self.run_callback = run_callback

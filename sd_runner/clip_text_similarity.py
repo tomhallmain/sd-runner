@@ -61,7 +61,7 @@ class NGramBackend:
         if n == 0 or v == 0:
             self._ref_matrix = None
             return
-        mat = np.zeros((n, v), dtype=np.float32)
+        mat = np.zeros((n, v), dtype=np.float64)
         for i, phrase in enumerate(phrases):
             for ng in self._ngrams(phrase, self._n_sizes):
                 j = self._vocab_idx.get(ng)
@@ -74,7 +74,7 @@ class NGramBackend:
     def max_similarity(self, text: str) -> tuple[float, str | None]:
         if self._ref_matrix is None or not self._ref_phrases:
             return 0.0, None
-        q = np.zeros(len(self._vocab_idx), dtype=np.float32)
+        q = np.zeros(len(self._vocab_idx), dtype=np.float64)
         for ng in self._ngrams(text, self._n_sizes):
             j = self._vocab_idx.get(ng)
             if j is not None:

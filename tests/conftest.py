@@ -43,6 +43,9 @@ if os.path.isfile(_config_example_src):
 # Must be set before Config() and AppInfoCache() are first instantiated.
 os.environ["SD_RUNNER_CONFIGS_DIR"] = _bootstrap_configs_dir
 os.environ["SD_RUNNER_CACHE_DIR"] = _bootstrap_cache_dir
+# Ephemeral port (OS-assigned) so any AppWindow built during tests never
+# contends for the real app's server port (see extensions/sd_runner_server.py).
+os.environ["SD_RUNNER_SERVER_PORT"] = "0"
 
 from utils.config import Config
 from utils.app_info_cache import AppInfoCache
@@ -180,6 +183,7 @@ def isolated_singletons(tmp_path, monkeypatch):
 
     monkeypatch.setenv("SD_RUNNER_CONFIGS_DIR", str(configs_dir))
     monkeypatch.setenv("SD_RUNNER_CACHE_DIR", str(cache_dir))
+    monkeypatch.setenv("SD_RUNNER_SERVER_PORT", "0")
 
     import utils.config as cfg_mod
     import utils.app_info_cache as aic_mod

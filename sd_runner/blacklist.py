@@ -1086,7 +1086,12 @@ class Blacklist:
         if not Blacklist.similarity_enabled or Blacklist._similarity_engine is None:
             return False, 0.0, ""
         score, phrase = Blacklist._similarity_engine.max_similarity(text)
-        return score >= Blacklist.similarity_threshold, score, phrase or ""
+        # Cosine similarity of an exact match should be 1.0, but floating-point
+        # rounding in the normalization step can leave it a hair under or over
+        # depending on backend/BLAS summation order. Round before comparing so
+        # a genuine exact match always clears a threshold of 1.0.
+        violated = round(score, 6) >= Blacklist.similarity_threshold
+        return violated, score, phrase or ""
 
     @staticmethod
     def save_cache() -> None:

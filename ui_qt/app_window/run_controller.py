@@ -47,6 +47,11 @@ class RunController:
 
     def __init__(self, app_window):
         self._app = app_window
+        # Set by resume_paused_queue() when it starts a pending SD run while
+        # staged server requests are also waiting. Consumed by the very next
+        # _post_run() so that run doesn't immediately cascade into promoting
+        # a staged request — the user's resume already chose the SD queue.
+        self._skip_next_staging_promotion = False
 
     # ------------------------------------------------------------------
     # Helpers
@@ -147,7 +152,9 @@ class RunController:
         # queue now so staging and the main queue drain in parallel (FIFO order).
         staging = getattr(app, "server_staging_queue", None)
         promoted = False
-        if staging is not None and staging.has_pending():
+        skip_staging = self._skip_next_staging_promotion
+        self._skip_next_staging_promotion = False
+        if not skip_staging and staging is not None and staging.has_pending():
             staged = staging.take()
             if staged is not None:
                 wf_type, staged_args = staged
@@ -216,6 +223,8 @@ class RunController:
             return
         app.job_queue.paused = False
         if has_pending_jobs:
+            if has_staging:
+                self._skip_next_staging_promotion = True
             first = app.job_queue.take()
             Utils.start_thread(self._run_async, use_asyncio=False, args=[first])
         else:

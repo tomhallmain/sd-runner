@@ -134,7 +134,11 @@ class Config:
         self.ui_scale_factor = 1.0
         self.max_executor_threads = 4
 
-        self.server_port = 6000
+        # Overridable so test runs can bind an OS-assigned ephemeral port
+        # (SD_RUNNER_SERVER_PORT=0) instead of colliding with a real running
+        # app instance's server on the default port.
+        _server_port_override = os.environ.get("SD_RUNNER_SERVER_PORT")
+        self.server_port = int(_server_port_override) if _server_port_override else 6000
         self.server_password = "<PASSWORD>"
         self.server_host = "localhost"
 
