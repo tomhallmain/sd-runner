@@ -19,7 +19,7 @@ msgstr " SD 러너 "
 
 #: app_qt.py:95
 msgid "Startup Error"
-msgstr "서버가 시작 중입니다"
+msgstr "시작 오류"
 
 #: app_qt.py:96
 msgid "Failed to create main window:"
@@ -507,7 +507,7 @@ msgstr "{0} 남은 어댑터"
 
 #: ui_qt/app_window/run_controller.py:633
 msgid "{0} pending generations"
-msgstr "{0} 보류 중인 세대"
+msgstr "{0}개의 이미지 생성 대기 중"
 
 #: ui_qt/app_window/sidebar_panel.py:110
 msgid "Run SD Workflows"
@@ -697,7 +697,7 @@ msgstr "이미지 해상도 재정의"
 
 #: ui_qt/app_window/sidebar_panel.py:478
 msgid "Inpainting"
-msgstr "실내 페인팅"
+msgstr "인페인팅"
 
 #: ui_qt/app_window/sidebar_panel.py:482
 #: ui_qt/prompts/prompt_config_window.py:265
@@ -1475,7 +1475,7 @@ msgstr ".safetriggers 파일 생성 실패: {0}"
 
 #: ui_qt/models/recent_adapters_window.py:330
 msgid "Recent Adapters"
-msgstr "최근 어댑터"
+msgstr "최근 사용한 어댑터"
 
 #: ui_qt/models/recent_adapters_window.py:343
 msgid "Recent ControlNets"
@@ -1584,7 +1584,7 @@ msgstr "프롬프트 추출"
 
 #: ui_qt/models/recent_adapters_window.py:558
 msgid "Append (unchecked = Replace)"
-msgstr "앱엔드 (해제됨 = 바꾸기)"
+msgstr "추가 (선택 안 함 = 바꾸기)"
 
 #: ui_qt/models/recent_adapters_window.py:565
 msgid "Favorite Adapter"
@@ -1626,7 +1626,7 @@ msgstr ""
 #: ui_qt/models/recent_adapters_window.py:864
 #: ui_qt/models/recent_adapters_window.py:880
 msgid "Select a row first"
-msgstr "먼저 한 행을 고르세요"
+msgstr "먼저 한 행을 선택하세요"
 
 #: ui_qt/models/recent_adapters_window.py:668
 msgid "Copied path to clipboard"
@@ -1634,7 +1634,7 @@ msgstr "경로를 클립보드에 복사했습니다"
 
 #: ui_qt/models/recent_adapters_window.py:868
 msgid "Directories are auto-favorited and cannot be removed here"
-msgstr "목록은 자동으로 즐겨찾기로 추가되었으며 여기서는 삭제할 수 없습니다"
+msgstr "디렉터리는 자동으로 즐겨찾기로 추가되었으며 여기서는 삭제할 수 없습니다"
 
 #: ui_qt/models/recent_adapters_window.py:873
 msgid "Removed from favorites"
@@ -1654,7 +1654,7 @@ msgstr "이미 즐겨찾기에 있습니다"
 
 #: ui_qt/presets/presets_window.py:91
 msgid "New Preset (ERROR no presets found)"
-msgstr "새 프리셋(오류 프리셋을 찾을 수 없음)"
+msgstr "새 프리셋(오류: 프리셋을 찾을 수 없음)"
 
 #: ui_qt/presets/presets_window.py:99
 msgid "Not enough presets found."
@@ -1687,7 +1687,7 @@ msgstr "잘못된 사전 설정입니다: {0}"
 
 #: ui_qt/presets/schedule.py:72
 msgid "{0} ({1} runs)"
-msgstr "{0} ({1} 실행)"
+msgstr "{0} ({1}회 실행)"
 
 #: ui_qt/presets/scheduled_shutdown_dialog.py:40
 #: ui_qt/presets/scheduled_shutdown_dialog.py:52
@@ -1701,7 +1701,7 @@ msgstr "일정표: {0}"
 #: ui_qt/presets/scheduled_shutdown_dialog.py:62
 #: ui_qt/presets/scheduled_shutdown_dialog.py:102
 msgid "Shutting down in {0} seconds..."
-msgstr "곧 {0}초 후에 중단됨..."
+msgstr "곧 {0}초 후에 종료됩니다..."
 
 #: ui_qt/presets/scheduled_shutdown_dialog.py:72
 msgid "Shutdown Now"
@@ -1829,7 +1829,7 @@ msgstr "전체 프롬프트에 적용 (개별 태그가 아닌 전체 텍스트�
 #: ui_qt/prompts/blacklist_modify_window.py:107
 #: ui_qt/prompts/blacklist_window.py:474
 msgid "Preview"
-msgstr "미리 보기"
+msgstr "미리보기"
 
 #: ui_qt/prompts/blacklist_modify_window.py:142
 msgid "Blacklist string cannot be empty."
@@ -2052,7 +2052,7 @@ msgstr "아이템"
 #: ui_qt/prompts/blacklist_window.py:463 ui_qt/prompts/blacklist_window.py:507
 #: ui_qt/prompts/blacklist_window.py:844 ui_qt/prompts/blacklist_window.py:943
 msgid "Disabled"
-msgstr "사용 불가"
+msgstr "사용 안 함"
 
 #: ui_qt/prompts/blacklist_window.py:473 ui_qt/prompts/blacklist_window.py:516
 msgid "Toggle"
@@ -2146,7 +2146,7 @@ msgstr "활성화"
 
 #: ui_qt/prompts/blacklist_window.py:849 ui_qt/prompts/blacklist_window.py:947
 msgid "disabled"
-msgstr "장애인"
+msgstr "비활성화"
 
 #: ui_qt/prompts/blacklist_window.py:862
 msgid "Concepts revealed"
@@ -2653,7 +2653,7 @@ msgstr "부정적인 프롬프트 포함"
 
 #: ui_qt/prompts/image_to_prompt_window.py:113
 msgid "Prompt Hint (optional)"
-msgstr "프롬프트 힌트 (옵셔널)"
+msgstr "프롬프트 힌트 (선택 사항)"
 
 #: ui_qt/prompts/image_to_prompt_window.py:120
 msgid "Generate Prompt from Image"
@@ -2683,7 +2683,7 @@ msgstr "부정적인 프롬프트"
 
 #: ui_qt/prompts/image_to_prompt_window.py:150
 msgid "No output yet."
-msgstr "아직 출력 없음."
+msgstr "아직 출력이 없습니다."
 
 #: ui_qt/prompts/image_to_prompt_window.py:172
 msgid "Select Image"
@@ -2727,7 +2727,7 @@ msgstr "복사할 내용이 없습니다."
 
 #: ui_qt/prompts/image_to_prompt_window.py:315
 msgid "No positive prompt to apply."
-msgstr "긍정적인 프롬프트를 적용할 수 없습니다."
+msgstr "적용할 긍정적 프롬프트가 없습니다."
 
 #: ui_qt/prompts/image_to_prompt_window.py:318
 msgid "Applied positive prompt to main UI"
@@ -2755,7 +2755,7 @@ msgstr "스케줄러"
 
 #: ui_qt/prompts/prompt_config_window.py:238
 msgid "Seed"
-msgstr "씨앗"
+msgstr "시드"
 
 #: ui_qt/prompts/prompt_config_window.py:239
 msgid "Steps"
@@ -2795,7 +2795,7 @@ msgstr "서브카테고리 웨이츠"
 
 #: ui_qt/prompts/prompt_config_window.py:298
 msgid "Sayings / Puns Ratio"
-msgstr "諺 ngữ와 말장난의 비율"
+msgstr "속담 / 말장난 비율"
 
 #: ui_qt/prompts/prompt_config_window.py:301
 msgid "0 = mostly sayings, 50 = equal blend, 100 = mostly puns"
@@ -2807,7 +2807,7 @@ msgstr "기회 슬라이더"
 
 #: ui_qt/prompts/prompt_config_window.py:315
 msgid "Specific Locations Chance"
-msgstr "위치 지정 기회"
+msgstr "위치 지정 확률"
 
 #: ui_qt/prompts/prompt_config_window.py:317
 msgid "Specific Times Chance"
@@ -2815,11 +2815,11 @@ msgstr "특정 시간 확률"
 
 #: ui_qt/prompts/prompt_config_window.py:319
 msgid "Specify Humans Chance"
-msgstr "인간을 지정할 기회"
+msgstr "인간 지정 확률"
 
 #: ui_qt/prompts/prompt_config_window.py:321
 msgid "Art Styles Chance"
-msgstr "아트 스타일의 기회"
+msgstr "아트 스타일 확률"
 
 #: ui_qt/prompts/prompt_config_window.py:323
 msgid "Emphasis Chance"
@@ -2835,11 +2835,11 @@ msgstr "반환 삽입 확률"
 
 #: ui_qt/prompts/prompt_config_window.py:329
 msgid "Animals Inclusion Chance"
-msgstr "동물 포함 가능성"
+msgstr "동물 포함 확률"
 
 #: ui_qt/prompts/prompt_config_window.py:331
 msgid "Dress Inclusion Chance"
-msgstr "드레스 포함 가능성"
+msgstr "의상 포함 확률"
 
 #: ui_qt/prompts/prompt_config_window.py:357
 msgid "Category"
@@ -2847,11 +2847,11 @@ msgstr "카테고리"
 
 #: ui_qt/prompts/prompt_config_window.py:358
 msgid "Low"
-msgstr "낮아"
+msgstr "낮음"
 
 #: ui_qt/prompts/prompt_config_window.py:359
 msgid "High"
-msgstr "높다"
+msgstr "높음"
 
 #: ui_qt/prompts/prompt_generator_window.py:78
 msgid ""
@@ -2916,7 +2916,7 @@ msgstr "역사"
 
 #: ui_qt/runs/runs_window.py:65
 msgid "Saved Runs"
-msgstr "득점 기회"
+msgstr "저장된 실행"
 
 #: ui_qt/runs/runs_window.py:93 ui_qt/runs/runs_window.py:183
 msgid "Status: Idle"
@@ -2947,7 +2947,7 @@ msgstr "현재 상영 중"
 
 #: ui_qt/runs/runs_window.py:105
 msgid "Pending Jobs"
-msgstr "진행 중인 작업"
+msgstr "대기 중인 작업"
 
 #: ui_qt/runs/runs_window.py:107 ui_qt/runs/runs_window.py:118
 msgid "#"
@@ -3023,7 +3023,7 @@ msgstr "N (실행당 이미지 수):"
 
 #: ui_qt/runs/runs_window.py:244
 msgid "Total (runs):"
-msgstr "합계 (득점):"
+msgstr "합계 (실행 횟수):"
 
 #: ui_qt/runs/runs_window.py:308
 msgid "workflow, model, or tags…"
@@ -3111,7 +3111,7 @@ msgstr "전체 태그 제거(일치하는 부분이 있는 경우)"
 
 #: utils/globals.py:77
 msgid "Fail prompt (block generation)"
-msgstr "실패 프롬프트(모든 세대 차단)"
+msgstr "실패 프롬프트(모든 생성 차단)"
 
 #: utils/globals.py:78
 msgid "Log only (do not remove, just log)"
@@ -3259,7 +3259,7 @@ msgstr "오일러"
 
 #: utils/globals.py:415
 msgid "Euler Ancestral"
-msgstr "오일러 가계도"
+msgstr "Euler Ancestral"
 
 #: utils/globals.py:416
 msgid "DPM 2"
@@ -3267,7 +3267,7 @@ msgstr "DPM 2"
 
 #: utils/globals.py:417
 msgid "DPM 2 Ancestral"
-msgstr "DPM 2 선조"
+msgstr "DPM 2 Ancestral"
 
 #: utils/globals.py:418
 msgid "DPM++ SDE"

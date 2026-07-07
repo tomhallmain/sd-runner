@@ -214,7 +214,7 @@ msgstr "Chemin d'enregistrement de Fooocus"
 
 #: ui_qt/config_window.py:109
 msgid "Directories"
-msgstr "Annuaires"
+msgstr "Dossiers"
 
 #: ui_qt/config_window.py:111
 msgid "Models Directory"
@@ -246,7 +246,7 @@ msgstr "Emplacement de SD Prompt Reader"
 
 #: ui_qt/config_window.py:132
 msgid "Image Searcher Directory 2"
-msgstr "Annuaire des moteurs de recherche d'images 2"
+msgstr "Dossier des moteurs de recherche d'images 2"
 
 #: ui_qt/config_window.py:136
 msgid "UI"
@@ -715,7 +715,7 @@ msgstr "Ignorer la résolution"
 
 #: ui_qt/app_window/sidebar_panel.py:478
 msgid "Inpainting"
-msgstr "Peinture"
+msgstr "Inpainting"
 
 #: ui_qt/app_window/sidebar_panel.py:482
 #: ui_qt/prompts/prompt_config_window.py:265
@@ -1616,7 +1616,7 @@ msgstr "Champ cible"
 
 #: ui_qt/models/recent_adapters_window.py:549 utils/globals.py:342
 msgid "ControlNet"
-msgstr "Réseau de contrôle"
+msgstr "ControlNet"
 
 #: ui_qt/models/recent_adapters_window.py:550 utils/globals.py:339
 msgid "IP Adapter"
@@ -1624,7 +1624,7 @@ msgstr "Adaptateur IP"
 
 #: ui_qt/models/recent_adapters_window.py:551
 msgid "Source Prompt"
-msgstr "Extraire l'invite"
+msgstr "Prompt source"
 
 #: ui_qt/models/recent_adapters_window.py:558
 msgid "Append (unchecked = Replace)"
@@ -1632,7 +1632,7 @@ msgstr "Ajouter (désactivée = Remplacer)"
 
 #: ui_qt/models/recent_adapters_window.py:565
 msgid "Favorite Adapter"
-msgstr "Prise alliant favorite"
+msgstr "Adaptateur favori"
 
 #: ui_qt/models/recent_adapters_window.py:570
 msgid "Use Favorite"
@@ -1674,7 +1674,7 @@ msgstr "Sélectionnez une ligne d'abord"
 
 #: ui_qt/models/recent_adapters_window.py:668
 msgid "Copied path to clipboard"
-msgstr "Copié le chemin au presse-papiers"
+msgstr "Chemin copié dans le presse-papiers"
 
 #: ui_qt/models/recent_adapters_window.py:868
 msgid "Directories are auto-favorited and cannot be removed here"
@@ -1776,7 +1776,7 @@ msgstr "Déplacer vers le bas"
 
 #: ui_qt/presets/schedules_window.py:225
 msgid "Preset Schedules"
-msgstr "Horaires des préréglages"
+msgstr "Planifications des préréglages"
 
 #: ui_qt/presets/schedules_window.py:235
 #: ui_qt/presets/timed_schedules_window.py:200
@@ -1786,7 +1786,7 @@ msgstr "Ajouter un horaire"
 #: ui_qt/presets/schedules_window.py:238
 #: ui_qt/presets/timed_schedules_window.py:203
 msgid "Clear schedules"
-msgstr "Effacer les horaires"
+msgstr "Effacer les planifications"
 
 #: ui_qt/presets/schedules_window.py:262
 msgid "Current schedule: {0}"
@@ -1802,7 +1802,7 @@ msgstr "Horaire supprimé: {0}"
 
 #: ui_qt/presets/schedules_window.py:338
 msgid "Cleared schedules"
-msgstr "Effacement des horaires"
+msgstr "Planifications effacées"
 
 #: ui_qt/presets/timed_schedules_window.py:49
 msgid "Modify Timed Schedule: {0}"
@@ -2017,7 +2017,7 @@ msgstr ""
 
 #: ui_qt/prompts/blacklist_window.py:273 ui_qt/prompts/blacklist_window.py:340
 msgid "Silent Removal"
-msgstr "Suppression silencieux"
+msgstr "Suppression silencieuse"
 
 #: ui_qt/prompts/blacklist_window.py:276 ui_qt/prompts/blacklist_window.py:343
 msgid ""
@@ -2029,11 +2029,11 @@ msgstr ""
 #: ui_qt/prompts/blacklist_window.py:284 ui_qt/prompts/blacklist_window.py:351
 #: ui_qt/prompts/concept_editor_window.py:244
 msgid "Import"
-msgstr "Importation"
+msgstr "Importer"
 
 #: ui_qt/prompts/blacklist_window.py:285 ui_qt/prompts/blacklist_window.py:352
 msgid "Export"
-msgstr "Exportations"
+msgstr "Exporter"
 
 #: ui_qt/prompts/blacklist_window.py:286 ui_qt/prompts/blacklist_window.py:353
 msgid "Preview All"
@@ -2041,7 +2041,7 @@ msgstr "Tout prévisualiser"
 
 #: ui_qt/prompts/blacklist_window.py:287
 msgid "Load Default"
-msgstr "Charger le défaut"
+msgstr "Charger les valeurs par défaut"
 
 #: ui_qt/prompts/blacklist_window.py:301
 msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
@@ -2251,7 +2251,7 @@ msgstr ""
 
 #: ui_qt/prompts/blacklist_window.py:889
 msgid "Cleared item blacklist"
-msgstr "Effacement de la liste noire"
+msgstr "Éléments de la liste noire effacés"
 
 #: ui_qt/prompts/blacklist_window.py:896
 msgid "Confirm Load Default Blacklist"
@@ -2289,7 +2289,7 @@ msgstr "Élément supprimé de la liste noire des modèles : {0}"
 
 #: ui_qt/prompts/blacklist_window.py:945
 msgid "Model item '{0}' is now {1}"
-msgstr "L'article modèle « {0} » est désormais {1}."
+msgstr "L'élément modèle « {0} » est désormais {1}."
 
 #: ui_qt/prompts/blacklist_window.py:957
 msgid "Cleared model blacklist items"
@@ -2305,7 +2305,7 @@ msgstr "Aperçu de tous les modèles non implémentés encore."
 
 #: ui_qt/prompts/blacklist_window.py:1005
 msgid "Added item to blacklist: {0}"
-msgstr "Ajout de l'article à la liste noire: {0}"
+msgstr "Ajout de l'élément à la liste noire : {0}"
 
 #: ui_qt/prompts/blacklist_window.py:1005
 msgid "Modified blacklist item: {0}"
@@ -2407,7 +2407,7 @@ msgstr "Tapez pour rechercher des concepts..."
 
 #: ui_qt/prompts/concept_editor_window.py:214
 msgid "File:"
-msgstr "Dossier :"
+msgstr "Fichier :"
 
 #: ui_qt/prompts/concept_editor_window.py:223
 msgid "(Target file for saving new concepts and importing)"
@@ -2910,11 +2910,11 @@ msgstr "Glisseurs de Chance"
 
 #: ui_qt/prompts/prompt_config_window.py:315
 msgid "Specific Locations Chance"
-msgstr "Chance des lieux spécifiques"
+msgstr "Probabilité des lieux spécifiques"
 
 #: ui_qt/prompts/prompt_config_window.py:317
 msgid "Specific Times Chance"
-msgstr "Heures spécifiques Chance"
+msgstr "Chance d'heures spécifiques"
 
 #: ui_qt/prompts/prompt_config_window.py:319
 msgid "Specify Humans Chance"
@@ -2969,7 +2969,7 @@ msgstr ""
 
 #: ui_qt/prompts/prompt_generator_window.py:87
 msgid "Generate One Prompt"
-msgstr "Générer une invite"
+msgstr "Générer un prompt"
 
 #: ui_qt/prompts/prompt_generator_window.py:99
 msgid "Save to Prompt History"
@@ -2977,11 +2977,11 @@ msgstr "Enregistrer dans l'historique des invites"
 
 #: ui_qt/prompts/prompt_generator_window.py:106
 msgid "Generated Positive Prompt"
-msgstr "Invite positive générée"
+msgstr "Prompt positif généré"
 
 #: ui_qt/prompts/prompt_generator_window.py:111
 msgid "Generated Negative Prompt"
-msgstr "Invite négative générée"
+msgstr "Prompt négatif généré"
 
 #: ui_qt/prompts/prompt_generator_window.py:116
 msgid "No prompt generated yet."
@@ -2997,7 +2997,7 @@ msgstr "Erreur de génération de prompt"
 
 #: ui_qt/prompts/prompt_generator_window.py:171
 msgid "Nothing to copy. Generate a prompt first."
-msgstr "Rien à copier. Générer un.prompt d'abord."
+msgstr "Rien à copier. Générer un prompt d'abord."
 
 #: ui_qt/prompts/prompt_generator_window.py:180
 msgid "Generate a prompt first."
@@ -3005,7 +3005,7 @@ msgstr "Générez une invite en premier."
 
 #: ui_qt/prompts/prompt_generator_window.py:188
 msgid "Nothing to save."
-msgstr "Rien à économiser."
+msgstr "Rien à sauvegarder."
 
 #: ui_qt/prompts/prompt_generator_window.py:191
 msgid "Saved generated prompt to prompt history"
@@ -3021,7 +3021,7 @@ msgstr "Histoire"
 
 #: ui_qt/runs/runs_window.py:65
 msgid "Saved Runs"
-msgstr "Points marqués"
+msgstr "Exécutions enregistrées"
 
 #: ui_qt/runs/runs_window.py:93 ui_qt/runs/runs_window.py:183
 msgid "Status: Idle"
@@ -3040,7 +3040,7 @@ msgstr "N"
 #: ui_qt/runs/runs_window.py:98 ui_qt/runs/runs_window.py:107
 #: ui_qt/runs/runs_window.py:314
 msgid "Total"
-msgstr "Fixer Total"
+msgstr "Total"
 
 #: ui_qt/runs/runs_window.py:98
 msgid "Status"
@@ -3052,7 +3052,7 @@ msgstr "En cours de diffusion"
 
 #: ui_qt/runs/runs_window.py:105
 msgid "Pending Jobs"
-msgstr "Postes à pourvoir"
+msgstr "Tâches en attente"
 
 #: ui_qt/runs/runs_window.py:107 ui_qt/runs/runs_window.py:118
 msgid "#"
@@ -3129,7 +3129,7 @@ msgstr "N (nombre d'images par série) :"
 
 #: ui_qt/runs/runs_window.py:244
 msgid "Total (runs):"
-msgstr "Total (points) :"
+msgstr "Total (exécutions) :"
 
 #: ui_qt/runs/runs_window.py:308
 msgid "workflow, model, or tags…"
@@ -3219,7 +3219,7 @@ msgstr "Supprimer l'ensemble de la balise (si une partie correspond)"
 
 #: utils/globals.py:77
 msgid "Fail prompt (block generation)"
-msgstr "Demande d'échec (blocage de les générations)"
+msgstr "Demande d'échec (blocage des générations)"
 
 #: utils/globals.py:78
 msgid "Log only (do not remove, just log)"

@@ -114,7 +114,7 @@ msgstr "毎日"
 
 #: sd_runner/timed_schedule.py:78
 msgid "{0} - Days: {1} - Times: {2}-{3} - Shutdown: {4}"
-msgstr "{0} - 日数: {1} - 回数: {2}-{3} - 停止: {4}"
+msgstr "{0} - 日数: {1} - 時間: {2}-{3} - 停止: {4}"
 
 #: sd_runner/timed_schedules_manager.py:22
 msgid "Default"
@@ -208,7 +208,7 @@ msgstr "ディレクトリ"
 
 #: ui_qt/config_window.py:111
 msgid "Models Directory"
-msgstr "モデル一覧"
+msgstr "モデルディレクトリ"
 
 #: ui_qt/config_window.py:114
 msgid "Image Output Directory"
@@ -390,7 +390,7 @@ msgstr "閉会"
 
 #: ui_qt/app_window/app_window.py:819
 msgid "Confirm Quit"
-msgstr "終了を確認する"
+msgstr "終了の確認"
 
 #: ui_qt/app_window/app_window.py:820
 msgid "Would you like to quit the application?"
@@ -697,7 +697,7 @@ msgstr "画像解像度の上書き"
 
 #: ui_qt/app_window/sidebar_panel.py:478
 msgid "Inpainting"
-msgstr "インテリア・ペインティング"
+msgstr "インペインティング"
 
 #: ui_qt/app_window/sidebar_panel.py:482
 #: ui_qt/prompts/prompt_config_window.py:265
@@ -1156,7 +1156,7 @@ msgstr "プリセットは定義されていません。「プリセットを追
 #: ui_qt/models/model_presets_window.py:363 ui_qt/models/models_window.py:144
 #: ui_qt/models/models_window.py:197
 msgid "Architecture"
-msgstr "建築"
+msgstr "アーキテクチャ"
 
 #: ui_qt/models/model_presets_window.py:363
 msgid "CLIP Req"
@@ -1475,7 +1475,7 @@ msgstr ".safetriggers ファイルの作成に失敗しました: {0}"
 
 #: ui_qt/models/recent_adapters_window.py:330
 msgid "Recent Adapters"
-msgstr "最近の適応者"
+msgstr "最近使用したアダプター"
 
 #: ui_qt/models/recent_adapters_window.py:343
 msgid "Recent ControlNets"
@@ -1584,7 +1584,7 @@ msgstr "プロンプトを抽出する"
 
 #: ui_qt/models/recent_adapters_window.py:558
 msgid "Append (unchecked = Replace)"
-msgstr "追加 (未チェック状態 = 追加に相当する)"
+msgstr "追加 (チェックなし = 置換)"
 
 #: ui_qt/models/recent_adapters_window.py:565
 msgid "Favorite Adapter"
@@ -1634,7 +1634,7 @@ msgstr "パスをクリップボードにコピーしました"
 
 #: ui_qt/models/recent_adapters_window.py:868
 msgid "Directories are auto-favorited and cannot be removed here"
-msgstr "ディレクトリーズは自動的にfavoritesされています。この場所では削除できません"
+msgstr "お気に入りに自動追加されています。この場所では削除できません"
 
 #: ui_qt/models/recent_adapters_window.py:873
 msgid "Removed from favorites"
@@ -1687,12 +1687,12 @@ msgstr "無効なプリセットです： {0}"
 
 #: ui_qt/presets/schedule.py:72
 msgid "{0} ({1} runs)"
-msgstr "{0} ({1}が走る)"
+msgstr "{0} ({1}回実行)"
 
 #: ui_qt/presets/scheduled_shutdown_dialog.py:40
 #: ui_qt/presets/scheduled_shutdown_dialog.py:52
 msgid "Scheduled Shutdown"
-msgstr "計画停止"
+msgstr "予約シャットダウン"
 
 #: ui_qt/presets/scheduled_shutdown_dialog.py:57
 msgid "Schedule: {0}"
@@ -1701,7 +1701,7 @@ msgstr "スケジュール: {0}"
 #: ui_qt/presets/scheduled_shutdown_dialog.py:62
 #: ui_qt/presets/scheduled_shutdown_dialog.py:102
 msgid "Shutting down in {0} seconds..."
-msgstr "終了中に {0} 秒..."
+msgstr "{0}秒後に終了します..."
 
 #: ui_qt/presets/scheduled_shutdown_dialog.py:72
 msgid "Shutdown Now"
@@ -1867,7 +1867,7 @@ msgstr "テスト用のテキストを入力してください (タグはコン�
 
 #: ui_qt/prompts/blacklist_preview_window.py:105
 msgid "Type or paste text here, then click Test..."
-msgstr "ここにテキストを入力または貼り付けし、然后テストをクリックしてください..."
+msgstr "ここにテキストを入力または貼り付けし、その後テストをクリックしてください..."
 
 #: ui_qt/prompts/blacklist_preview_window.py:112
 msgid "Test against blacklist"
@@ -2137,7 +2137,7 @@ msgstr "削除されたアイテム {0}"
 
 #: ui_qt/prompts/blacklist_window.py:847
 msgid "Item \"{0}\" is now {1}"
-msgstr "アイテム「{0}」が{1}になった"
+msgstr "アイテム「{0}」は現在{1}です"
 
 #: ui_qt/prompts/blacklist_window.py:849 ui_qt/prompts/blacklist_window.py:947
 msgid "enabled"
@@ -2145,7 +2145,7 @@ msgstr "使用可能"
 
 #: ui_qt/prompts/blacklist_window.py:849 ui_qt/prompts/blacklist_window.py:947
 msgid "disabled"
-msgstr "使用不能"
+msgstr "無効"
 
 #: ui_qt/prompts/blacklist_window.py:862
 msgid "Concepts revealed"
@@ -2835,11 +2835,11 @@ msgstr "リターン挿入確率"
 
 #: ui_qt/prompts/prompt_config_window.py:329
 msgid "Animals Inclusion Chance"
-msgstr "動物の包含の可能性"
+msgstr "動物を含める確率"
 
 #: ui_qt/prompts/prompt_config_window.py:331
 msgid "Dress Inclusion Chance"
-msgstr "ドレスの採用可能性"
+msgstr "服装の採用確率"
 
 #: ui_qt/prompts/prompt_config_window.py:357
 msgid "Category"
@@ -2891,7 +2891,7 @@ msgstr "プロンプトジェネレーションエラー"
 
 #: ui_qt/prompts/prompt_generator_window.py:171
 msgid "Nothing to copy. Generate a prompt first."
-msgstr "コピーするものがありません。プロンプトを作成しますแรก。"
+msgstr "コピーするものがありません。まずプロンプトを作成してください。"
 
 #: ui_qt/prompts/prompt_generator_window.py:180
 msgid "Generate a prompt first."
@@ -2915,7 +2915,7 @@ msgstr "沿革"
 
 #: ui_qt/runs/runs_window.py:65
 msgid "Saved Runs"
-msgstr "セーブしたラン"
+msgstr "保存済み実行"
 
 #: ui_qt/runs/runs_window.py:93 ui_qt/runs/runs_window.py:183
 msgid "Status: Idle"
@@ -2946,7 +2946,7 @@ msgstr "現在公開中"
 
 #: ui_qt/runs/runs_window.py:105
 msgid "Pending Jobs"
-msgstr "保留中の案件"
+msgstr "保留中のジョブ"
 
 #: ui_qt/runs/runs_window.py:107 ui_qt/runs/runs_window.py:118
 msgid "#"
@@ -3022,7 +3022,7 @@ msgstr "N（1回の実行あたりの画像数）："
 
 #: ui_qt/runs/runs_window.py:244
 msgid "Total (runs):"
-msgstr "合計（得点）："
+msgstr "合計（実行回数）："
 
 #: ui_qt/runs/runs_window.py:308
 msgid "workflow, model, or tags…"
@@ -3110,7 +3110,7 @@ msgstr "タグ全体を削除する（一致する部分があれば）"
 
 #: utils/globals.py:77
 msgid "Fail prompt (block generation)"
-msgstr "フェイルプロンプト（全世代をブロック）"
+msgstr "フェイルプロンプト（全生成をブロック）"
 
 #: utils/globals.py:78
 msgid "Log only (do not remove, just log)"
@@ -3226,7 +3226,7 @@ msgstr "インペイント・クリップセグ"
 
 #: utils/globals.py:344
 msgid "Animate Diff"
-msgstr "アニメーション差分"
+msgstr "AnimateDiff"
 
 #: utils/globals.py:345
 msgid "Renoiser"
@@ -3258,7 +3258,7 @@ msgstr "オイラー"
 
 #: utils/globals.py:415
 msgid "Euler Ancestral"
-msgstr "オイラー家系図"
+msgstr "Euler Ancestral"
 
 #: utils/globals.py:416
 msgid "DPM 2"
@@ -3266,7 +3266,7 @@ msgstr "DPM 2"
 
 #: utils/globals.py:417
 msgid "DPM 2 Ancestral"
-msgstr "DPM 2 祖先の"
+msgstr "DPM 2 Ancestral"
 
 #: utils/globals.py:418
 msgid "DPM++ SDE"

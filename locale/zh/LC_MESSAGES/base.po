@@ -15,7 +15,7 @@ msgstr ""
 #: app_qt.py:38 ui_qt/app_window/app_window.py:129
 #: ui_qt/app_window/app_window.py:154 ui_qt/app_window/app_window.py:360
 msgid " SD Runner "
-msgstr " SD 转轮 "
+msgstr " SD 运行器 "
 
 #: app_qt.py:95
 msgid "Startup Error"
@@ -114,7 +114,7 @@ msgstr "每天"
 
 #: sd_runner/timed_schedule.py:78
 msgid "{0} - Days: {1} - Times: {2}-{3} - Shutdown: {4}"
-msgstr "{0} - 天数：{1} - 次数：{2}-{3} - 关机：{4}"
+msgstr "{0} - 天数：{1} - 时间：{2}-{3} - 关机：{4}"
 
 #: sd_runner/timed_schedules_manager.py:22
 msgid "Default"
@@ -208,7 +208,7 @@ msgstr "目录"
 
 #: ui_qt/config_window.py:111
 msgid "Models Directory"
-msgstr "模特名录"
+msgstr "模型目录"
 
 #: ui_qt/config_window.py:114
 msgid "Image Output Directory"
@@ -697,7 +697,7 @@ msgstr "覆盖图像分辨率"
 
 #: ui_qt/app_window/sidebar_panel.py:478
 msgid "Inpainting"
-msgstr "油画"
+msgstr "重绘"
 
 #: ui_qt/app_window/sidebar_panel.py:482
 #: ui_qt/prompts/prompt_config_window.py:265
@@ -1156,7 +1156,7 @@ msgstr "未定义任何预设。点击“添加预设”以创建一个。"
 #: ui_qt/models/model_presets_window.py:363 ui_qt/models/models_window.py:144
 #: ui_qt/models/models_window.py:197
 msgid "Architecture"
-msgstr "建筑"
+msgstr "架构"
 
 #: ui_qt/models/model_presets_window.py:363
 msgid "CLIP Req"
@@ -1945,7 +1945,7 @@ msgstr "黑名单标签和模型"
 
 #: ui_qt/prompts/blacklist_window.py:240
 msgid "Model Blacklist"
-msgstr "模特黑名单"
+msgstr "模型黑名单"
 
 #: ui_qt/prompts/blacklist_window.py:262 ui_qt/prompts/blacklist_window.py:329
 msgid "Global Settings:"
@@ -1961,7 +1961,7 @@ msgstr "选择执行黑名单的方式：阻止、警告或允许。"
 
 #: ui_qt/prompts/blacklist_window.py:273 ui_qt/prompts/blacklist_window.py:340
 msgid "Silent Removal"
-msgstr "无声搬运"
+msgstr "静默移除"
 
 #: ui_qt/prompts/blacklist_window.py:276 ui_qt/prompts/blacklist_window.py:343
 msgid ""
@@ -1971,11 +1971,11 @@ msgstr "如果启用，黑名单上的词语会在没有通知的情况下被无
 #: ui_qt/prompts/blacklist_window.py:284 ui_qt/prompts/blacklist_window.py:351
 #: ui_qt/prompts/concept_editor_window.py:244
 msgid "Import"
-msgstr "进口"
+msgstr "导入"
 
 #: ui_qt/prompts/blacklist_window.py:285 ui_qt/prompts/blacklist_window.py:352
 msgid "Export"
-msgstr "出口"
+msgstr "导出"
 
 #: ui_qt/prompts/blacklist_window.py:286 ui_qt/prompts/blacklist_window.py:353
 msgid "Preview All"
@@ -2143,7 +2143,7 @@ msgstr "启用"
 
 #: ui_qt/prompts/blacklist_window.py:849 ui_qt/prompts/blacklist_window.py:947
 msgid "disabled"
-msgstr "残"
+msgstr "已禁用"
 
 #: ui_qt/prompts/blacklist_window.py:862
 msgid "Concepts revealed"
@@ -2333,7 +2333,7 @@ msgstr "(用于保存新概念和导入的目标文件）"
 
 #: ui_qt/prompts/concept_editor_window.py:230
 msgid "Save"
-msgstr "节省"
+msgstr "保存"
 
 #: ui_qt/prompts/concept_editor_window.py:233
 msgid "Add the search text as a new concept to the selected file"
@@ -2435,7 +2435,7 @@ msgstr "提示：您可以在任何概念行前添加'!'以强制导入，或者
 
 #: ui_qt/prompts/concept_editor_window.py:622
 msgid "Import Results"
-msgstr "进口结果"
+msgstr "导入结果"
 
 #: ui_qt/prompts/concept_editor_window.py:631
 msgid "No new concepts to import from {0}"
@@ -2535,7 +2535,7 @@ msgstr "未定义任何扩展。点击'添加扩展'创建一个。"
 
 #: ui_qt/prompts/expansions_window.py:345
 msgid "ID"
-msgstr "身份证号"
+msgstr "ID"
 
 #: ui_qt/prompts/expansions_window.py:345
 msgid "Text"
@@ -2651,7 +2651,7 @@ msgstr "提示词提示（可选）"
 
 #: ui_qt/prompts/image_to_prompt_window.py:120
 msgid "Generate Prompt from Image"
-msgstr "生成提示从图片"
+msgstr "从图片生成提示词"
 
 #: ui_qt/prompts/image_to_prompt_window.py:124
 #: ui_qt/prompts/prompt_generator_window.py:91
@@ -2801,23 +2801,23 @@ msgstr "机会滑块"
 
 #: ui_qt/prompts/prompt_config_window.py:315
 msgid "Specific Locations Chance"
-msgstr "指定地点的机会"
+msgstr "指定地点的概率"
 
 #: ui_qt/prompts/prompt_config_window.py:317
 msgid "Specific Times Chance"
-msgstr "特定时间机会"
+msgstr "特定时间概率"
 
 #: ui_qt/prompts/prompt_config_window.py:319
 msgid "Specify Humans Chance"
-msgstr "指定人类的机会"
+msgstr "指定人类的概率"
 
 #: ui_qt/prompts/prompt_config_window.py:321
 msgid "Art Styles Chance"
-msgstr "艺术风格的机会"
+msgstr "艺术风格的概率"
 
 #: ui_qt/prompts/prompt_config_window.py:323
 msgid "Emphasis Chance"
-msgstr "强调的机会"
+msgstr "强调的概率"
 
 #: ui_qt/prompts/prompt_config_window.py:325
 msgid "Stop Insertion Chance"
@@ -2829,11 +2829,11 @@ msgstr "返回插入概率"
 
 #: ui_qt/prompts/prompt_config_window.py:329
 msgid "Animals Inclusion Chance"
-msgstr "动物被纳入的可能性"
+msgstr "动物纳入概率"
 
 #: ui_qt/prompts/prompt_config_window.py:331
 msgid "Dress Inclusion Chance"
-msgstr "服装被纳入的可能性"
+msgstr "服装纳入概率"
 
 #: ui_qt/prompts/prompt_config_window.py:357
 msgid "Category"
@@ -2908,7 +2908,7 @@ msgstr "历史"
 
 #: ui_qt/runs/runs_window.py:65
 msgid "Saved Runs"
-msgstr "挽救的得分"
+msgstr "已保存的运行"
 
 #: ui_qt/runs/runs_window.py:93 ui_qt/runs/runs_window.py:183
 msgid "Status: Idle"
@@ -3015,7 +3015,7 @@ msgstr "N（每次运行的图像数量）："
 
 #: ui_qt/runs/runs_window.py:244
 msgid "Total (runs):"
-msgstr "总计（得分）："
+msgstr "总计（运行次数）："
 
 #: ui_qt/runs/runs_window.py:308
 msgid "workflow, model, or tags…"
@@ -3103,7 +3103,7 @@ msgstr "移除整个标签（如果有任何部分匹配）"
 
 #: utils/globals.py:77
 msgid "Fail prompt (block generation)"
-msgstr "失败提示（阻止所有世代）"
+msgstr "失败提示（阻止所有生成）"
 
 #: utils/globals.py:78
 msgid "Log only (do not remove, just log)"
@@ -3219,7 +3219,7 @@ msgstr "Inpaint ClipSeg"
 
 #: utils/globals.py:344
 msgid "Animate Diff"
-msgstr "动画差异"
+msgstr "AnimateDiff"
 
 #: utils/globals.py:345
 msgid "Renoiser"
@@ -3251,7 +3251,7 @@ msgstr "欧拉"
 
 #: utils/globals.py:415
 msgid "Euler Ancestral"
-msgstr "欧拉祖先"
+msgstr "Euler Ancestral"
 
 #: utils/globals.py:416
 msgid "DPM 2"
@@ -3259,7 +3259,7 @@ msgstr "DPM 2"
 
 #: utils/globals.py:417
 msgid "DPM 2 Ancestral"
-msgstr "DPM 2 祖传"
+msgstr "DPM 2 Ancestral"
 
 #: utils/globals.py:418
 msgid "DPM++ SDE"

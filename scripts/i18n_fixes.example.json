@@ -1,0 +1,20 @@
+{
+  "fixes": {
+    "de": {
+      "Quit": "Beenden",
+      "Home folder": "Benutzerordner"
+    },
+    "es": {
+      "Quit": "Salir",
+      "Home folder": "Carpeta personal"
+    }
+  },
+  "multiline_fixes": {
+    "de": {
+      "Move marked files to inferred target (filtered row, filter text, or last used)": [
+        "Markierte Dateien zum abgeleiteten Ziel verschieben (gefilterte Zeile, ",
+        "Filtertext oder zuletzt verwendet)"
+      ]
+    }
+  }
+}

@@ -1,9 +1,9 @@
 """
 AppWindow -- main application window orchestrator (PySide6).
 
-This is the thin shell described in APP_DECOMPOSITION.md.  It owns the
-top-level SmartMainWindow, instantiates all controller objects, assembles
-the AppActions dict, and handles top-level lifecycle events.
+This is the thin orchestrator shell. It owns the top-level SmartMainWindow,
+instantiates all controller objects, assembles the AppActions dict, and
+handles top-level lifecycle events.
 
 All substantial logic lives in the controller modules:
     SidebarPanel, RunController, WindowLauncher, KeyBindingManager,

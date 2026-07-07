@@ -659,7 +659,7 @@ msgstr "Wiederherstellungsparameter"
 #: ui_qt/app_window/sidebar_panel.py:365
 #: ui_qt/prompts/prompt_config_window.py:351
 msgid "Prompts Configuration"
-msgstr "Aufforderungen zur Konfiguration"
+msgstr "Aufforderungskonfiguration"
 
 #: ui_qt/app_window/sidebar_panel.py:371
 msgid "Preset Schedule"
@@ -915,7 +915,7 @@ msgstr "Auf Standardwerte zurücksetzen"
 #: ui_qt/auth/password_admin_window.py:342
 #: ui_qt/auth/password_admin_window.py:427
 msgid "Set to Current"
-msgstr "Auf Strom einstellen"
+msgstr "Auf aktuellen Stand setzen"
 
 #: ui_qt/auth/password_admin_window.py:346
 msgid "Export Cache as JSON"
@@ -1509,7 +1509,7 @@ msgstr "Die Erstellung der Datei .safetriggers ist fehlgeschlagen: {0}"
 
 #: ui_qt/models/recent_adapters_window.py:330
 msgid "Recent Adapters"
-msgstr "Aktuelle Adapter"
+msgstr "Letzte Adapter"
 
 #: ui_qt/models/recent_adapters_window.py:343
 msgid "Recent ControlNets"
@@ -1521,7 +1521,7 @@ msgstr "Aktuelle IP-Adapter"
 
 #: ui_qt/models/recent_adapters_window.py:345
 msgid "Recent Source Prompts"
-msgstr "Aktuelle Quellenaufforderungen"
+msgstr "Letzte Quellenaufforderungen"
 
 #: ui_qt/models/recent_adapters_window.py:346
 msgid "All Recent Adapters"
@@ -1611,7 +1611,7 @@ msgstr "Ziel-Eingabefeld"
 
 #: ui_qt/models/recent_adapters_window.py:549 utils/globals.py:342
 msgid "ControlNet"
-msgstr "Steuerungsnetzwerk"
+msgstr "ControlNet"
 
 #: ui_qt/models/recent_adapters_window.py:550 utils/globals.py:339
 msgid "IP Adapter"
@@ -1619,7 +1619,7 @@ msgstr "IP-Adapter"
 
 #: ui_qt/models/recent_adapters_window.py:551
 msgid "Source Prompt"
-msgstr "Nimm die Aufforderung"
+msgstr "Quellaufforderung"
 
 #: ui_qt/models/recent_adapters_window.py:558
 msgid "Append (unchecked = Replace)"
@@ -1631,7 +1631,7 @@ msgstr "Lieblings-Adapter"
 
 #: ui_qt/models/recent_adapters_window.py:570
 msgid "Use Favorite"
-msgstr "Verwenden Sie Ihren Liebling"
+msgstr "Liebling verwenden"
 
 #: ui_qt/models/recent_adapters_window.py:573
 #: ui_qt/prompts/blacklist_window.py:472 ui_qt/prompts/blacklist_window.py:515
@@ -1669,7 +1669,7 @@ msgstr "Eine Zeile zuerst auswählen"
 
 #: ui_qt/models/recent_adapters_window.py:668
 msgid "Copied path to clipboard"
-msgstr "Der Pfad wurde in den Zweiabriss kopiert."
+msgstr "Der Pfad wurde in die Zwischenablage kopiert."
 
 #: ui_qt/models/recent_adapters_window.py:868
 msgid "Directories are auto-favorited and cannot be removed here"
@@ -1679,7 +1679,7 @@ msgstr ""
 
 #: ui_qt/models/recent_adapters_window.py:873
 msgid "Removed from favorites"
-msgstr "Aus den Lieblinge entfernt"
+msgstr "Aus den Lieblingen entfernt"
 
 #: ui_qt/models/recent_adapters_window.py:875
 msgid "Item was not in favorites"
@@ -1687,11 +1687,11 @@ msgstr "Element wurde nicht in den Lieblinge gefunden"
 
 #: ui_qt/models/recent_adapters_window.py:886
 msgid "Added to favorites"
-msgstr "Zu den Lieblinge hinzugefügt"
+msgstr "Zu den Lieblingen hinzugefügt"
 
 #: ui_qt/models/recent_adapters_window.py:888
 msgid "Already in favorites"
-msgstr "Schon im Bereich Lieblinge"
+msgstr "Schon in den Lieblingen"
 
 #: ui_qt/presets/presets_window.py:91
 msgid "New Preset (ERROR no presets found)"
@@ -1703,7 +1703,7 @@ msgstr "Nicht genügend Voreinstellungen gefunden."
 
 #: ui_qt/presets/presets_window.py:126
 msgid "Presets Window"
-msgstr "Fenster Voreinstellungen"
+msgstr "Voreinstellungsfenster"
 
 #: ui_qt/presets/presets_window.py:134
 msgid "Set a new preset"
@@ -1750,7 +1750,7 @@ msgstr "Jetzt ausschalten"
 
 #: ui_qt/presets/schedules_window.py:50
 msgid "Modify Preset Schedule: {0}"
-msgstr "Voreingestellten Zeitplan ändern: {0}"
+msgstr "Zeitplan für Voreinstellungen ändern: {0}"
 
 #: ui_qt/presets/schedules_window.py:57
 msgid "Modify Schedule"
@@ -1877,7 +1877,7 @@ msgstr "Voransicht"
 
 #: ui_qt/prompts/blacklist_modify_window.py:142
 msgid "Blacklist string cannot be empty."
-msgstr "Der Text der schwarzen Liste darf nicht leer sein."
+msgstr "Der Eintrag in der Schwarzen Liste darf nicht leer sein."
 
 #: ui_qt/prompts/blacklist_modify_window.py:173
 msgid "No changes were made"
@@ -1913,7 +1913,7 @@ msgstr ""
 
 #: ui_qt/prompts/blacklist_preview_window.py:105
 msgid "Type or paste text here, then click Test..."
-msgstr "Typen oder Text einfügen hier, dann auf Test klicken..."
+msgstr "Tippen oder Text hier einfügen, dann auf Test klicken..."
 
 #: ui_qt/prompts/blacklist_preview_window.py:112
 msgid "Test against blacklist"
@@ -2031,7 +2031,7 @@ msgstr "Ausfuhr"
 
 #: ui_qt/prompts/blacklist_window.py:286 ui_qt/prompts/blacklist_window.py:353
 msgid "Preview All"
-msgstr "Alle anzeigen"
+msgstr "Vorschau für alle"
 
 #: ui_qt/prompts/blacklist_window.py:287
 msgid "Load Default"
@@ -2112,7 +2112,7 @@ msgstr "Element"
 #: ui_qt/prompts/blacklist_window.py:463 ui_qt/prompts/blacklist_window.py:507
 #: ui_qt/prompts/blacklist_window.py:844 ui_qt/prompts/blacklist_window.py:943
 msgid "Disabled"
-msgstr "Nicht aktiviert"
+msgstr "Deaktiviert"
 
 #: ui_qt/prompts/blacklist_window.py:473 ui_qt/prompts/blacklist_window.py:516
 msgid "Toggle"
@@ -2250,7 +2250,7 @@ msgstr "Gelöschte schwarze Liste"
 
 #: ui_qt/prompts/blacklist_window.py:896
 msgid "Confirm Load Default Blacklist"
-msgstr "Bestätigen Sie das Laden der Standard-Swarzenliste"
+msgstr "Bestätigen Sie das Laden der Standard-Schwarzenliste"
 
 #: ui_qt/prompts/blacklist_window.py:897
 msgid ""
@@ -2285,7 +2285,7 @@ msgstr "Entferntes Modell-Schwarzeliste-Element: {0}"
 
 #: ui_qt/prompts/blacklist_window.py:945
 msgid "Model item '{0}' is now {1}"
-msgstr "Modellartikel ‚{0}‘ ist jetzt {1}"
+msgstr "Modellelement ‚{0}‘ ist jetzt {1}"
 
 #: ui_qt/prompts/blacklist_window.py:957
 msgid "Cleared model blacklist items"
@@ -2317,7 +2317,7 @@ msgstr "Modus der schwarzen Liste auf gesetzt: {0}"
 
 #: ui_qt/prompts/blacklist_window.py:1050
 msgid "Blacklist prompt mode set to: {0}"
-msgstr "Schwarzeliste-Eingabeaufforderungsmodus eingestellt auf: {0}"
+msgstr "Schwarze-Liste-Aufforderungsmodus eingestellt auf: {0}"
 
 #: ui_qt/prompts/blacklist_window.py:1059
 msgid "Model blacklist mode set to: {0}"
@@ -2725,7 +2725,7 @@ msgstr "Browsen"
 
 #: ui_qt/prompts/image_to_prompt_window.py:98
 msgid "Backend"
-msgstr "Rückendeckung"
+msgstr "Backend"
 
 #: ui_qt/prompts/image_to_prompt_window.py:100
 msgid "Captioner (BLIP)"
@@ -2745,11 +2745,11 @@ msgstr "Negative Aufforderung einbeziehen"
 
 #: ui_qt/prompts/image_to_prompt_window.py:113
 msgid "Prompt Hint (optional)"
-msgstr "Hinweisaufforderung (optional)"
+msgstr "Aufforderungshinweis (optional)"
 
 #: ui_qt/prompts/image_to_prompt_window.py:120
 msgid "Generate Prompt from Image"
-msgstr "Generiere Prompt aus dem Bild"
+msgstr "Generiere Aufforderung aus dem Bild"
 
 #: ui_qt/prompts/image_to_prompt_window.py:124
 #: ui_qt/prompts/prompt_generator_window.py:91
@@ -2795,7 +2795,7 @@ msgstr "aktualisiert"
 
 #: ui_qt/prompts/image_to_prompt_window.py:269
 msgid "unchanged"
-msgstr "unaufgeändert"
+msgstr "unverändert"
 
 #: ui_qt/prompts/image_to_prompt_window.py:273
 msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
@@ -2821,7 +2821,7 @@ msgstr "Nichts zum Kopieren."
 
 #: ui_qt/prompts/image_to_prompt_window.py:315
 msgid "No positive prompt to apply."
-msgstr "Es gibt keinen Aufforderung, sich zu bewerben."
+msgstr "Keine positive Aufforderung zum Anwenden vorhanden."
 
 #: ui_qt/prompts/image_to_prompt_window.py:318
 msgid "Applied positive prompt to main UI"
@@ -2829,7 +2829,7 @@ msgstr "Positive Aufforderung auf die Hauptbenutzeroberfläche angewendet"
 
 #: ui_qt/prompts/prompt_config_window.py:127
 msgid "Prompt Configuration"
-msgstr "Konfiguration der Eingabeaufforderungen"
+msgstr "Aufforderungskonfiguration"
 
 #: ui_qt/prompts/prompt_config_window.py:158
 msgid "Detailed Prompt Configuration"
@@ -2902,27 +2902,27 @@ msgstr "Chance Slider"
 
 #: ui_qt/prompts/prompt_config_window.py:315
 msgid "Specific Locations Chance"
-msgstr "Spezifische Standorte-Möglichkeit"
+msgstr "Wahrscheinlichkeit für bestimmte Standorte"
 
 #: ui_qt/prompts/prompt_config_window.py:317
 msgid "Specific Times Chance"
-msgstr "Spezifische Zeiten-Möglichkeit"
+msgstr "Wahrscheinlichkeit für bestimmte Zeiten"
 
 #: ui_qt/prompts/prompt_config_window.py:319
 msgid "Specify Humans Chance"
-msgstr "Spezifizieren Menschen-Möglichkeit"
+msgstr "Wahrscheinlichkeit für die Angabe von Menschen"
 
 #: ui_qt/prompts/prompt_config_window.py:321
 msgid "Art Styles Chance"
-msgstr "Kunststile-Möglichkeit"
+msgstr "Wahrscheinlichkeit für Kunststile"
 
 #: ui_qt/prompts/prompt_config_window.py:323
 msgid "Emphasis Chance"
-msgstr "Hervorhebung-Möglichkeit"
+msgstr "Wahrscheinlichkeit für Hervorhebung"
 
 #: ui_qt/prompts/prompt_config_window.py:325
 msgid "Stop Insertion Chance"
-msgstr "Stopp-Einfüge-Chance"
+msgstr "Stopp-Einfüge-Wahrscheinlichkeit"
 
 #: ui_qt/prompts/prompt_config_window.py:327
 msgid "Return Insertion Chance"
@@ -2930,11 +2930,11 @@ msgstr "Rückgabewahrscheinlichkeit"
 
 #: ui_qt/prompts/prompt_config_window.py:329
 msgid "Animals Inclusion Chance"
-msgstr "Möglichkeit auf Einbeziehung von Tieren"
+msgstr "Wahrscheinlichkeit für die Einbeziehung von Tieren"
 
 #: ui_qt/prompts/prompt_config_window.py:331
 msgid "Dress Inclusion Chance"
-msgstr "Möglichkeit der Einbeziehung von Kleidung"
+msgstr "Wahrscheinlichkeit für die Einbeziehung von Kleidung"
 
 #: ui_qt/prompts/prompt_config_window.py:357
 msgid "Category"
@@ -2961,7 +2961,7 @@ msgstr ""
 
 #: ui_qt/prompts/prompt_generator_window.py:87
 msgid "Generate One Prompt"
-msgstr "Generiere eine Eingabeaufforderung"
+msgstr "Generiere eine Aufforderung"
 
 #: ui_qt/prompts/prompt_generator_window.py:99
 msgid "Save to Prompt History"
@@ -2969,15 +2969,15 @@ msgstr "In Verlauf speichern"
 
 #: ui_qt/prompts/prompt_generator_window.py:106
 msgid "Generated Positive Prompt"
-msgstr "Generiertes positives Eingabeaufforderung"
+msgstr "Generierte positive Aufforderung"
 
 #: ui_qt/prompts/prompt_generator_window.py:111
 msgid "Generated Negative Prompt"
-msgstr "Generiertes Negative Eingabeaufforderung"
+msgstr "Generierte negative Aufforderung"
 
 #: ui_qt/prompts/prompt_generator_window.py:116
 msgid "No prompt generated yet."
-msgstr "Es wurde noch kein Eingabeaufforderung generiert."
+msgstr "Es wurde noch keine Aufforderung generiert."
 
 #: ui_qt/prompts/prompt_generator_window.py:165
 msgid "Generated a new prompt."
@@ -2985,11 +2985,11 @@ msgstr "Generiert einen neuen Eingabeaufforderung."
 
 #: ui_qt/prompts/prompt_generator_window.py:167
 msgid "Prompt Generation Error"
-msgstr "Aufforderungsgenerationsfehler"
+msgstr "Fehler bei der Aufforderungserstellung"
 
 #: ui_qt/prompts/prompt_generator_window.py:171
 msgid "Nothing to copy. Generate a prompt first."
-msgstr "Nichts kopieren. Generiere zuerst einen Eingabeaufforderung."
+msgstr "Nichts zu kopieren. Generiere zuerst eine Aufforderung."
 
 #: ui_qt/prompts/prompt_generator_window.py:180
 msgid "Generate a prompt first."
@@ -3001,7 +3001,7 @@ msgstr "Nichts zu speichern."
 
 #: ui_qt/prompts/prompt_generator_window.py:191
 msgid "Saved generated prompt to prompt history"
-msgstr "Generiertes Eingabeaufforderung wurde in die Geschichte gespeichert"
+msgstr "Generierte Aufforderung wurde im Aufforderungsverlauf gespeichert"
 
 #: ui_qt/runs/runs_window.py:63
 msgid "Queue"
@@ -3328,7 +3328,7 @@ msgstr "Inpaint ClipSeg"
 
 #: utils/globals.py:344
 msgid "Animate Diff"
-msgstr "Animieren Diff"
+msgstr "AnimateDiff"
 
 #: utils/globals.py:345
 msgid "Renoiser"
@@ -3360,7 +3360,7 @@ msgstr "Euler"
 
 #: utils/globals.py:415
 msgid "Euler Ancestral"
-msgstr "Euler-Vorfahren"
+msgstr "Euler Ancestral"
 
 #: utils/globals.py:416
 msgid "DPM 2"
@@ -3368,7 +3368,7 @@ msgstr "DPM 2"
 
 #: utils/globals.py:417
 msgid "DPM 2 Ancestral"
-msgstr "DPM 2-Vorfahren"
+msgstr "DPM 2 Ancestral"
 
 #: utils/globals.py:418
 msgid "DPM++ SDE"

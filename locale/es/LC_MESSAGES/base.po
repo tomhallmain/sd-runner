@@ -662,7 +662,7 @@ msgstr "Rehacer parámetros"
 #: ui_qt/app_window/sidebar_panel.py:365
 #: ui_qt/prompts/prompt_config_window.py:351
 msgid "Prompts Configuration"
-msgstr "Configuración de avisos"
+msgstr "Configuración de prompts"
 
 #: ui_qt/app_window/sidebar_panel.py:371
 msgid "Preset Schedule"
@@ -1621,7 +1621,7 @@ msgstr "Adaptador IP"
 
 #: ui_qt/models/recent_adapters_window.py:551
 msgid "Source Prompt"
-msgstr "Extrae la indicación"
+msgstr "Prompt de origen"
 
 #: ui_qt/models/recent_adapters_window.py:558
 msgid "Append (unchecked = Replace)"
@@ -1773,7 +1773,7 @@ msgstr "Bajar"
 
 #: ui_qt/presets/schedules_window.py:225
 msgid "Preset Schedules"
-msgstr "Horarios de preselecciones"
+msgstr "Horarios de preajustes"
 
 #: ui_qt/presets/schedules_window.py:235
 #: ui_qt/presets/timed_schedules_window.py:200
@@ -1799,7 +1799,7 @@ msgstr "Horario borrado: {0}"
 
 #: ui_qt/presets/schedules_window.py:338
 msgid "Cleared schedules"
-msgstr "Despejado los horarios"
+msgstr "Horarios borrados"
 
 #: ui_qt/presets/timed_schedules_window.py:49
 msgid "Modify Timed Schedule: {0}"
@@ -2035,7 +2035,7 @@ msgstr "Avance Todos"
 
 #: ui_qt/prompts/blacklist_window.py:287
 msgid "Load Default"
-msgstr "Carga por defecto"
+msgstr "Cargar predeterminados"
 
 #: ui_qt/prompts/blacklist_window.py:301
 msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
@@ -2854,7 +2854,7 @@ msgstr "Ruido de fondo"
 
 #: ui_qt/prompts/prompt_config_window.py:242
 msgid "Random Skip Chance"
-msgstr "Salto aleatorio Casualidad"
+msgstr "Probabilidad de salto aleatorio"
 
 #: ui_qt/prompts/prompt_config_window.py:253
 msgid "Multiplier"
@@ -2878,7 +2878,7 @@ msgstr "Pesos de subcategoría"
 
 #: ui_qt/prompts/prompt_config_window.py:298
 msgid "Sayings / Puns Ratio"
-msgstr "Frases / Punos Razón"
+msgstr "Frases / Juegos de palabras - Ratio"
 
 #: ui_qt/prompts/prompt_config_window.py:301
 msgid "0 = mostly sayings, 50 = equal blend, 100 = mostly puns"
@@ -2892,7 +2892,7 @@ msgstr "Sliders de la suerte"
 
 #: ui_qt/prompts/prompt_config_window.py:315
 msgid "Specific Locations Chance"
-msgstr "Lugares específicos Probabilidad"
+msgstr "Probabilidad de lugares específicos"
 
 #: ui_qt/prompts/prompt_config_window.py:317
 msgid "Specific Times Chance"
@@ -2900,15 +2900,15 @@ msgstr "Probabilidad en momentos específicos"
 
 #: ui_qt/prompts/prompt_config_window.py:319
 msgid "Specify Humans Chance"
-msgstr "Especificar Humanos Probabilidad"
+msgstr "Probabilidad de especificar humanos"
 
 #: ui_qt/prompts/prompt_config_window.py:321
 msgid "Art Styles Chance"
-msgstr "Estilos artísticos Probabilidad"
+msgstr "Probabilidad de estilos artísticos"
 
 #: ui_qt/prompts/prompt_config_window.py:323
 msgid "Emphasis Chance"
-msgstr "Énfasis Probabilidad"
+msgstr "Probabilidad de énfasis"
 
 #: ui_qt/prompts/prompt_config_window.py:325
 msgid "Stop Insertion Chance"
@@ -2951,7 +2951,7 @@ msgstr ""
 
 #: ui_qt/prompts/prompt_generator_window.py:87
 msgid "Generate One Prompt"
-msgstr "Generar One Prompt"
+msgstr "Generar un prompt"
 
 #: ui_qt/prompts/prompt_generator_window.py:99
 msgid "Save to Prompt History"
@@ -2959,15 +2959,15 @@ msgstr "Guardar en el historial de indicaciones"
 
 #: ui_qt/prompts/prompt_generator_window.py:106
 msgid "Generated Positive Prompt"
-msgstr "Indicación positiva generada"
+msgstr "Prompt positivo generado"
 
 #: ui_qt/prompts/prompt_generator_window.py:111
 msgid "Generated Negative Prompt"
-msgstr "Indicación negativa generada"
+msgstr "Prompt negativo generado"
 
 #: ui_qt/prompts/prompt_generator_window.py:116
 msgid "No prompt generated yet."
-msgstr "No se ha generado ningúna indicación aún."
+msgstr "No se ha generado ningún prompt aún."
 
 #: ui_qt/prompts/prompt_generator_window.py:165
 msgid "Generated a new prompt."
@@ -3003,7 +3003,7 @@ msgstr "Historia"
 
 #: ui_qt/runs/runs_window.py:65
 msgid "Saved Runs"
-msgstr "Carreras salvadas"
+msgstr "Ejecuciones guardadas"
 
 #: ui_qt/runs/runs_window.py:93 ui_qt/runs/runs_window.py:183
 msgid "Status: Idle"
@@ -3034,7 +3034,7 @@ msgstr "Actualmente en marcha"
 
 #: ui_qt/runs/runs_window.py:105
 msgid "Pending Jobs"
-msgstr "Ofertas de empleo pendientes"
+msgstr "Trabajos pendientes"
 
 #: ui_qt/runs/runs_window.py:107 ui_qt/runs/runs_window.py:118
 msgid "#"
@@ -3110,7 +3110,7 @@ msgstr "N (imágenes por serie):"
 
 #: ui_qt/runs/runs_window.py:244
 msgid "Total (runs):"
-msgstr "Total (carreras):"
+msgstr "Total (ejecuciones):"
 
 #: ui_qt/runs/runs_window.py:308
 msgid "workflow, model, or tags…"
