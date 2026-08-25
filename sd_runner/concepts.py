@@ -663,6 +663,10 @@ class Concepts:
                 times[t] = specific_inclusion_chance
         return Concepts.sample_whitelisted(times, low, high, self.prompt_mode)
 
+    def get_units(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.units), low, high, self.prompt_mode)
+
     def get_dress(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
         if random.random() > concept_config.get_inclusion_chance():
@@ -1191,6 +1195,7 @@ class SFW:
     sayings = "sayings.txt"
     times = "times.txt"
     times_specific = "times_specific.txt"
+    units = "units.txt"
 
 class NSFW:
     characters = "nsfw_characters.txt"

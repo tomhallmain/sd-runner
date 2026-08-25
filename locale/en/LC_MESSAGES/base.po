@@ -2572,6 +2572,74 @@ msgstr "Low"
 msgid "High"
 msgstr "High"
 
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Media Features"
+msgstr "Media Features"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Objects"
+msgstr "Objects"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Positions"
+msgstr "Positions"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Locations"
+msgstr "Locations"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Animals"
+msgstr "Animals"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Plants"
+msgstr "Plants"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Colors"
+msgstr "Colors"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Times"
+msgstr "Times"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Units"
+msgstr "Units"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Dress"
+msgstr "Dress"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Expressions"
+msgstr "Expressions"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Actions"
+msgstr "Actions"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Descriptions"
+msgstr "Descriptions"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Characters"
+msgstr "Characters"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Random Words"
+msgstr "Random Words"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Jargon"
+msgstr "Jargon"
+
+#: ui_qt/prompts/prompt_config_window.py
+msgid "Witticisms"
+msgstr "Witticisms"
+
 #: ui_qt/prompts/prompt_generator_window.py:78
 msgid ""
 "Generate one prompt at a time using current UI settings. This does not run "

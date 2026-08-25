@@ -330,6 +330,7 @@ class Prompter:
         mix.extend(self.concepts.get_plants(self.prompter_config.get_category_config("plants"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_colors(self.prompter_config.get_category_config("colors"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_times(self.prompter_config.get_category_config("times"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_units(self.prompter_config.get_category_config("units"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_dress(self.prompter_config.get_category_config("dress"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_expressions(self.prompter_config.get_category_config("expressions"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_actions(self.prompter_config.get_category_config("actions"), multiplier=self.prompter_config.multiplier))
@@ -929,6 +930,8 @@ class Prompter:
             concept = random.choice(concepts.get_dress(ConceptConfiguration(1, 1, inclusion_chance=1.0)))
         elif name.startswith("time"):
             concept = random.choice(concepts.get_times(ConceptConfiguration(1, 1)))
+        elif name.startswith("unit"):
+            concept = random.choice(concepts.get_units(ConceptConfiguration(1, 1)))
         elif name.startswith("expr"):
             concept = random.choice(concepts.get_expressions(ConceptConfiguration(1, 1)))
         elif name.startswith("animal"):

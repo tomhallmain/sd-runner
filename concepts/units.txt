@@ -1,0 +1,166 @@
+# Measurement units and dimension phrases for prompts.
+# Bare unit names are plural-only. Choice-set phrases pair units with descriptors.
+
+# --- length (metric) ---
+angstroms
+centimeters
+decimeters
+kilometers
+meters
+micrometers
+microns
+millimeters
+nanometers
+picometers
+
+# --- length (imperial / US customary) ---
+feet
+inches
+miles
+mils
+thous
+yards
+
+# --- length (informal / relative) ---
+arm's lengths
+armspans
+breadths of a hair
+finger-widths
+handspans
+paces
+strides
+thumb-widths
+wingspans
+
+# --- length (astronomical / large scale) ---
+astronomical units
+light-years
+parsecs
+
+# --- area ---
+acres
+hectares
+square centimeters
+square feet
+square inches
+square kilometers
+square meters
+square miles
+square yards
+
+# --- volume ---
+centiliters
+cubic centimeters
+cubic feet
+cubic inches
+cubic meters
+cups
+fluid ounces
+gallons
+liters
+milliliters
+pints
+quarts
+tablespoons
+teaspoons
+
+# --- mass / weight ---
+carats
+grams
+kilograms
+micrograms
+milligrams
+ounces
+pounds
+stones
+tonnes
+tons
+
+# --- temperature ---
+kelvins
+degrees celsius
+degrees fahrenheit
+below freezing
+above freezing
+room temperature
+body temperature
+absolute zero
+
+# --- time (unit names; times.txt covers temporal phrases) ---
+days
+hours
+microseconds
+milliseconds
+minutes
+months
+nanoseconds
+seconds
+weeks
+years
+
+# --- speed / rate ---
+kilometers per hour
+knots
+machs
+meters per second
+miles per hour
+
+# --- force / pressure / energy / power ---
+amperes
+ampere-hours
+atmospheres
+bars
+calories
+coulombs
+horsepowers
+joules
+kilowatts
+kilowatt-hours
+newtons
+pascals
+psis
+volts
+watts
+
+# --- angle / frequency / sound / light ---
+candelas
+cycles
+decibels
+degrees
+hertz
+kilohertz
+lumens
+lux
+megahertz
+radians
+steradians
+
+# --- data ---
+bits
+bytes
+gigabytes
+kilobytes
+megabytes
+terabytes
+
+# --- count-ish units (prompt-friendly) ---
+dozens
+grosses
+pairs
+percents
+percentages
+scores
+
+# --- unit + descriptor phrases ---
+[[millimeters,centimeters,meters]] [[tall,high,wide,long,deep,thick,across]]
+[[inches,feet,yards]] [[tall,high,wide,long,deep,thick,across]]
+[[meters,feet]] tall
+[[meters,feet]] wide
+[[meters,feet]] long
+[[meters,feet]] deep
+[[centimeters,inches]] thick
+[[kilometers,miles]] [[away,distant,across]]
+[[light-years,parsecs,astronomical units]] [[away,distant]]
+[[kilograms,pounds]] heavy
+[[degrees,radians]] [[angle,arc,rotation,tilt]]
+[[x,times]] magnification

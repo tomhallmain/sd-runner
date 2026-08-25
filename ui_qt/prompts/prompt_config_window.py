@@ -64,6 +64,36 @@ _base.insert(1, "0.1")
 _MULTIPLIER_ITEMS = _base
 
 
+def _category_label(name: str) -> str:
+    """Return the translated display label for a prompt category key.
+
+    Literals are passed through ``_()`` so they are extractable for i18n.
+    """
+    labels = {
+        "media_features": _("Media Features"),
+        "objects": _("Objects"),
+        "positions": _("Positions"),
+        "locations": _("Locations"),
+        "animals": _("Animals"),
+        "plants": _("Plants"),
+        "colors": _("Colors"),
+        "times": _("Times"),
+        "units": _("Units"),
+        "dress": _("Dress"),
+        "expressions": _("Expressions"),
+        "actions": _("Actions"),
+        "descriptions": _("Descriptions"),
+        "characters": _("Characters"),
+        "random_words": _("Random Words"),
+        "nonsense": _("Nonsense"),
+        "jargon": _("Jargon"),
+        "witticisms": _("Witticisms"),
+    }
+    if name in labels:
+        return labels[name]
+    return _(name.replace("_", " ").title())
+
+
 class PromptConfigWindow(SmartDialog):
     """
     Detailed prompt configuration -- concept counts, chance sliders,
@@ -367,13 +397,13 @@ class PromptConfigWindow(SmartDialog):
         categories = [
             "media_features", "objects",
             "positions", "locations", "animals", "plants", "colors",
-            "times", "dress", "expressions", "actions", "descriptions",
+            "times", "units", "dress", "expressions", "actions", "descriptions",
             "characters", "random_words", "nonsense", "jargon", "witticisms",
         ]
         for i, name in enumerate(categories, start=1):
             cc = pc.get_category_config(name)
-            display_name = name.replace("_", " ").title()
-            grid.addWidget(QLabel(_(display_name)), i, 0)
+            label = _category_label(name)
+            grid.addWidget(QLabel(label), i, 0)
             lo = QComboBox()
             lo.addItems(_COUNT_ITEMS)
             lo.setCurrentText(str(cc.low))

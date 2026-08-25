@@ -1,0 +1,166 @@
+# Maßeinheiten und Dimensionsphrasen für Prompts.
+# Bloße Einheitsnamen nur im Plural. Auswahlphrasen koppeln Einheiten mit Deskriptoren.
+
+# --- Länge (metrisch) ---
+Ångström
+Zentimeter
+Dezimeter
+Kilometer
+Meter
+Mikrometer
+Mikron
+Millimeter
+Nanometer
+Pikometer
+
+# --- Länge (imperial / US-gebräuchlich) ---
+Fuß
+Zoll
+Meilen
+Mil
+Thou
+Yards
+
+# --- Länge (informell / relativ) ---
+Armlängen
+Armspannweiten
+Haarbreiten
+Fingerbreiten
+Handspannen
+Schritte
+Schrittlängen
+Daumenbreiten
+Spannweiten
+
+# --- Länge (astronomisch / großer Maßstab) ---
+astronomische Einheiten
+Lichtjahre
+Parsecs
+
+# --- Fläche ---
+Acres
+Hektar
+Quadratzentimeter
+Quadratfuß
+Quadratzoll
+Quadratkilometer
+Quadratmeter
+Quadratmeilen
+Quadratyards
+
+# --- Volumen ---
+Zentiliter
+Kubikzentimeter
+Kubikfuß
+Kubikzoll
+Kubikmeter
+Tassen
+Flüssigunzen
+Gallonen
+Liter
+Milliliter
+Pints
+Quarts
+Esslöffel
+Teelöffel
+
+# --- Masse / Gewicht ---
+Karat
+Gramm
+Kilogramm
+Mikrogramm
+Milligramm
+Unzen
+Pfund
+Stone
+Tonnen
+Tons
+
+# --- Temperatur ---
+Kelvin
+Grad Celsius
+Grad Fahrenheit
+unter dem Gefrierpunkt
+über dem Gefrierpunkt
+Raumtemperatur
+Körpertemperatur
+absoluter Nullpunkt
+
+# --- Zeit (Einheitsnamen; times.txt deckt temporale Phrasen ab) ---
+Tage
+Stunden
+Mikrosekunden
+Millisekunden
+Minuten
+Monate
+Nanosekunden
+Sekunden
+Wochen
+Jahre
+
+# --- Geschwindigkeit / Rate ---
+Kilometer pro Stunde
+Knoten
+Mach
+Meter pro Sekunde
+Meilen pro Stunde
+
+# --- Kraft / Druck / Energie / Leistung ---
+Ampere
+Amperestunden
+Atmosphären
+Bar
+Kalorien
+Coulomb
+Pferdestärken
+Joule
+Kilowatt
+Kilowattstunden
+Newton
+Pascal
+psi
+Volt
+Watt
+
+# --- Winkel / Frequenz / Schall / Licht ---
+Candela
+Zyklen
+Dezibel
+Grad
+Hertz
+Kilohertz
+Lumen
+Lux
+Megahertz
+Radiant
+Steradiant
+
+# --- Daten ---
+Bits
+Bytes
+Gigabytes
+Kilobytes
+Megabytes
+Terabytes
+
+# --- zählartige Einheiten (promptfreundlich) ---
+Dutzende
+Gros
+Paare
+Prozente
+Prozentsätze
+Scores
+
+# --- Einheit + Deskriptor-Phrasen ---
+[[Millimeter,Zentimeter,Meter]] [[groß,hoch,breit,lang,tief,dick,quer]]
+[[Zoll,Fuß,Yards]] [[groß,hoch,breit,lang,tief,dick,quer]]
+[[Meter,Fuß]] hoch
+[[Meter,Fuß]] breit
+[[Meter,Fuß]] lang
+[[Meter,Fuß]] tief
+[[Zentimeter,Zoll]] dick
+[[Kilometer,Meilen]] [[entfernt,weit entfernt,quer]]
+[[Lichtjahre,Parsecs,astronomische Einheiten]] [[entfernt,weit entfernt]]
+[[Kilogramm,Pfund]] schwer
+[[Grad,Radiant]] [[Winkel,Bogen,Drehung,Neigung]]
+[[x,fach]] Vergrößerung

@@ -171,7 +171,7 @@ class PrompterConfiguration:
     # Required category names
     REQUIRED_CATEGORIES = [
         "media_features", "objects",
-        "positions", "locations", "animals", "plants", "colors", "times",
+        "positions", "locations", "animals", "plants", "colors", "times", "units",
         "dress", "expressions", "actions", "descriptions", "characters",
         "random_words", "nonsense", "jargon", "witticisms"
     ]
@@ -188,6 +188,7 @@ class PrompterConfiguration:
             "plants": ConceptConfiguration(low=0, high=1),
             "colors": ConceptConfiguration(low=0, high=2),
             "times": ConceptConfiguration(low=0, high=1, specific_chance=0.3),
+            "units": ConceptConfiguration(low=0, high=0),
             "dress": ConceptConfiguration(low=0, high=2, inclusion_chance=0.5),
             "expressions": ConceptConfiguration(low=1, high=1),
             "actions": ConceptConfiguration(low=0, high=2),
@@ -387,6 +388,10 @@ class PrompterConfiguration:
                 defaults = self._get_default_categories()
                 self.categories.setdefault("objects", defaults["objects"])
                 self.categories.setdefault("plants", defaults["plants"])
+
+            # Newly added required categories: backfill silently for older saved configs.
+            defaults = self._get_default_categories()
+            self.categories.setdefault("units", defaults["units"])
 
             # Ensure all required categories exist
             self._ensure_required_categories()
