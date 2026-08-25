@@ -22,3 +22,6 @@ pytest-qt
 # pypdfium2>=4.0.0  # For PDF first page extraction
 # cairosvg>=2.5.0  # For SVG to PNG conversion
 # pyppeteer>=1.0.0  # For HTML to image conversion
+# pillow-avif-plugin>=1.4.0  # For AVIF conversion (registered via utils/pillow_plugins.py)
+# pillow-heif>=0.16.0  # For HEIC/HEIF conversion (registered via utils/pillow_plugins.py)
+# pillow-jxl-plugin>=1.3.0  # For JPEG XL conversion (registered via utils/pillow_plugins.py)

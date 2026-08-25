@@ -149,7 +149,7 @@ class ServerStagingQueue:
     high — the objects stored here are lightweight dicts, not full Run objects.
     """
 
-    MAX_SIZE = 5000
+    MAX_SIZE = 50000
 
     def __init__(self):
         self._requests: list[tuple] = []

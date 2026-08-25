@@ -82,6 +82,9 @@ class FastTaggerOnnx:
         return tags
 
     def _preprocess(self, image_path: str) -> np.ndarray:
+        from utils.pillow_plugins import ensure_pillow_plugins_registered
+
+        ensure_pillow_plugins_registered()
         image = Image.open(image_path).convert("RGBA")
         # Match SmilingWolf Space preprocessing:
         # alpha composite on white -> pad to square -> resize -> RGB->BGR.

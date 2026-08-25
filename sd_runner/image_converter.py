@@ -7,7 +7,7 @@ dependencies are missing, it will gracefully fail rather than breaking the core 
 
 Supported formats:
 - RAW formats: .raw, .cr2, .nef, .arw, .dng
-- Image formats: .bmp, .svg, .avif
+- Image formats: .bmp, .svg, .avif, .heic, .heif, .jxl
 - Video formats: .mp4, .avi, .mov, .mkv, .webm, .gif (extracts random frame)
 - Document formats: .pdf (first page), .html/.htm (rendered snapshot)
 """
@@ -42,8 +42,8 @@ class ImageConverter:
     CONVERTIBLE_FORMATS = {
         # RAW formats
         '.raw', '.cr2', '.nef', '.arw', '.dng',
-        # Image formats
-        '.bmp', '.svg', '.avif',
+        # Image formats (AVIF/HEIF/JXL need Pillow plugins; see utils/pillow_plugins.py)
+        '.bmp', '.svg', '.avif', '.heic', '.heif', '.jxl',
         # Video formats
         '.mp4', '.avi', '.mov', '.mkv', '.webm', '.gif',
         # Document formats
@@ -52,6 +52,14 @@ class ImageConverter:
     
     # Standard output format
     OUTPUT_FORMAT = '.png'
+
+    # Hint packages when Pillow cannot identify a plugin-backed format.
+    _PIL_PLUGIN_HINTS = {
+        '.avif': 'pillow-avif-plugin',
+        '.heic': 'pillow-heif',
+        '.heif': 'pillow-heif',
+        '.jxl': 'pillow-jxl-plugin',
+    }
     
     def __init__(self):
         """Initialize the image converter with optional dependencies."""
@@ -79,6 +87,9 @@ class ImageConverter:
         try:
             import PIL
             from PIL import Image
+            from utils.pillow_plugins import ensure_pillow_plugins_registered
+            # AVIF/HEIF/JXL need runtime plugin registration before Image.open.
+            ensure_pillow_plugins_registered()
             self._conversion_methods.add('pil')
             logger.debug("PIL/Pillow available for image conversion")
         except ImportError:
@@ -176,6 +187,8 @@ class ImageConverter:
             # Try to get image dimensions without loading the full image
             if 'pil' in self._conversion_methods:
                 from PIL import Image, ImageSequence
+                from utils.pillow_plugins import ensure_pillow_plugins_registered
+                ensure_pillow_plugins_registered()
                 try:
                     with Image.open(file_path) as img:
                         width, height = img.size
@@ -270,7 +283,7 @@ class ImageConverter:
                     result = self._convert_html(input_path, output_path)
                 else:
                     raise ConversionFailedError("HTML conversion requires pyppeteer library")
-            elif extension in ['.bmp', '.avif']:
+            elif extension in ['.bmp', '.avif', '.heic', '.heif', '.jxl']:
                 if 'pil' in self._conversion_methods:
                     result = self._convert_with_pil(input_path, output_path)
                 else:
@@ -282,21 +295,35 @@ class ImageConverter:
             self._converted_files[str(input_path)] = result
             return result
                 
+        except ImageHandlingError:
+            raise
         except Exception as e:
             logger.error(f"Failed to convert image {input_path}: {e}")
             return None
     
     def _convert_with_pil(self, input_path: Path, output_path: Path) -> str:
         """Convert image using PIL/Pillow."""
-        from PIL import Image
-        
-        with Image.open(input_path) as img:
-            # Convert to RGB if necessary (handles RGBA, P, etc.)
-            if img.mode in ('RGBA', 'P'):
-                img = img.convert('RGB')
-            
-            img.save(output_path, 'PNG')
-        
+        from PIL import Image, UnidentifiedImageError
+        from utils.pillow_plugins import ensure_pillow_plugins_registered
+
+        ensure_pillow_plugins_registered()
+        try:
+            with Image.open(input_path) as img:
+                # Convert to RGB if necessary (handles RGBA, P, etc.)
+                if img.mode in ('RGBA', 'P'):
+                    img = img.convert('RGB')
+
+                img.save(output_path, 'PNG')
+        except UnidentifiedImageError as e:
+            extension = input_path.suffix.lower()
+            plugin = self._PIL_PLUGIN_HINTS.get(extension)
+            if plugin:
+                raise ConversionFailedError(
+                    f"{extension.upper()} conversion failed — install {plugin} "
+                    "(see requirements.txt optional image conversion deps)"
+                ) from e
+            raise
+
         logger.debug(f"Converted {input_path} to {output_path} using PIL")
         return str(output_path)
     

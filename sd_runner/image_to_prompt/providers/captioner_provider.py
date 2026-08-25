@@ -106,7 +106,9 @@ class CaptionerProvider(ImageToPromptProvider):
     def _generate_transformers(self, image_path: str) -> str:
         import torch
         from PIL import Image
+        from utils.pillow_plugins import ensure_pillow_plugins_registered
 
+        ensure_pillow_plugins_registered()
         image = Image.open(image_path).convert("RGB")
         inputs = self._processor(images=image, return_tensors="pt")
         inputs = {k: v.to(self._device) for k, v in inputs.items()}

@@ -270,6 +270,7 @@ class Utils:
         ".raw", ".arw", ".cr2", ".nrw", ".k25",  # RAW variants
         ".heic", ".heif",  # HEIF variants
         ".avif",  # AVIF
+        ".jxl",  # JPEG XL
         ".jp2", ".j2k", ".jpf", ".jpx", ".jpm", ".mj2",  # JPEG 2000 variants
     ]
 

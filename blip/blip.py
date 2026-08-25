@@ -260,6 +260,8 @@ class WAS_BLIP_Analyze_Image:
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
         conf = getSuiteConfig()
+        from utils.pillow_plugins import ensure_pillow_plugins_registered
+        ensure_pillow_plugins_registered()
         image = Image.open(image_path)
         size = 384
         tensor = transformImage(image, size, device)

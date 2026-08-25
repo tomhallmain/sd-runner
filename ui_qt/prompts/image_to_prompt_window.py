@@ -171,7 +171,7 @@ class ImageToPromptWindow(SmartDialog):
             self,
             _("Select Image"),
             self._initial_image_dir(),
-            _("Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"),
+            _("Images (*.png *.jpg *.jpeg *.webp *.bmp *.avif *.heic *.heif *.jxl);;All files (*.*)"),
         )
         if path:
             self._image_path.setText(path)
