@@ -691,6 +691,201 @@ class Prompter:
         return False
 
     @staticmethod
+    def _split_choice_options(inner_content: str) -> list[str]:
+        """Split choice-set content on top-level ``|`` or ``,``.
+
+        Separators inside nested brackets are left alone, so
+        ``"a,[[b,c]]"`` yields ``["a", "[[b,c]]"]``. Empty options are dropped.
+        """
+        options = []
+        current_option = ""
+        depth = 0
+        for char in inner_content:
+            if char == "[":
+                depth += 1
+                current_option += char
+            elif char == "]":
+                depth -= 1
+                current_option += char
+            elif char in ("|", ",") and depth == 0:
+                if current_option.strip():
+                    options.append(current_option.strip())
+                current_option = ""
+            else:
+                current_option += char
+        if current_option.strip():
+            options.append(current_option.strip())
+        return options
+
+    @staticmethod
+    def _split_option_weight(option: str) -> tuple[str, float]:
+        """Split ``"red:3"`` into ``("red", 3.0)``.
+
+        Only the last colon outside all brackets counts, and only when what
+        follows it parses as a number: ``"a:b"`` keeps its colon and weight 1.0.
+        Note the consequence -- an option ending in a number after a colon is
+        read as a weight whether or not that was meant, so ``"ratio 16:9"``
+        becomes ``("ratio 16", 9.0)``. Longstanding choice-set behaviour, kept
+        as-is here so conversion and expansion agree on what an item is.
+        """
+        weight = 1.0
+        option_text = option
+        if ":" in option:
+            colon_pos = -1
+            depth = 0
+            for j, char in enumerate(option):
+                if char == "[":
+                    depth += 1
+                elif char == "]":
+                    depth -= 1
+                elif char == ":" and depth == 0:
+                    colon_pos = j
+            if colon_pos != -1:
+                try:
+                    weight = float(option[colon_pos + 1:])
+                    option_text = option[:colon_pos].strip()
+                except ValueError:
+                    pass
+        return option_text, weight
+
+    @staticmethod
+    def choice_set_items(choice_set) -> list[str]:
+        """Return the selectable items of *choice_set*, without weights.
+
+        Accepts a list of strings, a bare ``"red,blue"`` string, or a wrapped
+        ``"[[red,blue]]"`` one. Range syntax (``"[[1--5]]"``) is expanded to its
+        values. Nested sets are returned as written rather than expanded --
+        conversion matches literal text, and a nested set has no literal form.
+        """
+        if choice_set is None:
+            return []
+        if isinstance(choice_set, (list, tuple, set)):
+            return [str(item).strip() for item in choice_set if str(item).strip()]
+
+        content = str(choice_set).strip()
+        if content.startswith("[[") and content.endswith("]]"):
+            content = content[2:-2]
+        if not content.strip():
+            return []
+
+        range_values = Prompter._expand_range(content)
+        if range_values:
+            return list(range_values)
+
+        options = Prompter._split_choice_options(content)
+        if not options:
+            options = [content]
+        return [
+            text for text, _weight in (Prompter._split_option_weight(o) for o in options)
+            if text.strip()
+        ]
+
+    @staticmethod
+    def _choice_conversion_pattern(item: str) -> str:
+        """Regex matching *item* as a standalone word or phrase.
+
+        Lookarounds rather than ``\\b`` so items starting or ending with
+        punctuation still anchor correctly, and runs of whitespace in the item
+        match any run in the text. Because the boundaries only exclude word
+        characters, an item still matches inside the emphasis form the prompter
+        produces -- ``red`` is found in ``(red:1.2)``.
+        """
+        parts = [re.escape(part) for part in re.split(r"\s+", item.strip()) if part]
+        if not parts:
+            return None
+        return r"(?<!\w)" + r"\s+".join(parts) + r"(?!\w)"
+
+    @staticmethod
+    def find_choice_conversions(
+        text: str,
+        choice_set_a,
+        choice_set_b,
+        case_sensitive: bool = False,
+    ) -> list[tuple[int, int, str, str]]:
+        """Locate the conversions ``convert_choices`` would apply.
+
+        Returns ``(start, end, matched_text, replacement)`` tuples ordered by
+        position and guaranteed not to overlap. An empty list means nothing in
+        *text* came from choice set A, which callers should surface rather than
+        silently returning the text unchanged.
+        """
+        items_a = Prompter.choice_set_items(choice_set_a)
+        items_b = Prompter.choice_set_items(choice_set_b)
+        if not text or not items_a or not items_b:
+            return []
+        if len(items_a) != len(items_b):
+            raise ValueError(
+                f"Choice sets must be the same length to convert positionally: "
+                f"A has {len(items_a)}, B has {len(items_b)}"
+            )
+
+        flags = 0 if case_sensitive else re.IGNORECASE
+        candidates = []
+        seen_items = set()
+        for item_a, item_b in zip(items_a, items_b):
+            key = item_a if case_sensitive else item_a.lower()
+            if key in seen_items:
+                # A duplicate source item is ambiguous; the first pairing wins.
+                continue
+            seen_items.add(key)
+            pattern = Prompter._choice_conversion_pattern(item_a)
+            if pattern is None:
+                continue
+            try:
+                compiled = re.compile(pattern, flags)
+            except re.error:
+                logger.warning(f"Could not build a conversion pattern for {item_a!r}")
+                continue
+            for match in compiled.finditer(text):
+                candidates.append((match.start(), match.end(), match.group(), item_b))
+
+        # Longest match wins at a given position, then leftmost; a longer item
+        # elsewhere never displaces an earlier match. Keeps "dark red" from
+        # being converted as "red".
+        candidates.sort(key=lambda c: (c[0], -(c[1] - c[0])))
+        resolved = []
+        last_end = -1
+        for start, end, matched, replacement in candidates:
+            if start < last_end:
+                continue
+            resolved.append((start, end, matched, replacement))
+            last_end = end
+        return resolved
+
+    @staticmethod
+    def convert_choices(
+        text: str,
+        choice_set_a,
+        choice_set_b,
+        case_sensitive: bool = False,
+    ) -> str:
+        """Rewrite *text*, replacing items of choice set A with their B counterpart.
+
+        The sets are paired positionally: the first item of A becomes the first
+        item of B, and so on. No template is needed -- matching is done against
+        the rendered prompt text, so this works on a prompt read back out of an
+        image, typed by hand, or produced by another tool.
+
+        Substitution is a single pass over non-overlapping spans, so an item that
+        appears in both sets cannot be converted twice: converting
+        ``["red", "blue"]`` to ``["blue", "green"]`` turns ``"red"`` into
+        ``"blue"`` and leaves it there, rather than carrying on to ``"green"``.
+        """
+        conversions = Prompter.find_choice_conversions(
+            text, choice_set_a, choice_set_b, case_sensitive=case_sensitive
+        )
+        if not conversions:
+            return text
+        out = []
+        cursor = 0
+        for start, end, _matched, replacement in conversions:
+            out.append(text[cursor:start])
+            out.append(replacement)
+            cursor = end
+        out.append(text[cursor:])
+        return "".join(out)
+
+    @staticmethod
     def apply_choices(text: str) -> str:
         """
         Applies choice set expansion, supporting nested [choice1,choice2] patterns
@@ -741,57 +936,18 @@ class Prompter:
                     continue
 
                 # Split by top-level pipes or commas (respecting bracket depth)
-                options = []
-                current_option = ""
-                depth = 0
-                for char in inner_content:
-                    if char == "[":
-                        depth += 1
-                        current_option += char
-                    elif char == "]":
-                        depth -= 1
-                        current_option += char
-                    elif char in ("|", ",") and depth == 0:
-                        if current_option.strip():
-                            options.append(current_option.strip())
-                        current_option = ""
-                    else:
-                        current_option += char
-                if current_option.strip():
-                    options.append(current_option.strip())
+                options = Prompter._split_choice_options(inner_content)
 
                 # If no separators found, treat entire content as one option
                 if not options:
                     options = [inner_content]
-                
+
                 # Expand nested choices in each option and build final population
                 population = []
                 weights = []
-                
+
                 for option in options:
-                    # Extract weight if present (at the end, after any nested brackets)
-                    weight = 1.0
-                    option_text = option
-                    
-                    # Find weight (colon after the last bracket or at end)
-                    if ":" in option:
-                        # Check if colon is outside all brackets
-                        colon_pos = -1
-                        depth = 0
-                        for j, char in enumerate(option):
-                            if char == "[":
-                                depth += 1
-                            elif char == "]":
-                                depth -= 1
-                            elif char == ":" and depth == 0:
-                                colon_pos = j
-                        
-                        if colon_pos != -1:
-                            try:
-                                weight = float(option[colon_pos + 1:])
-                                option_text = option[:colon_pos].strip()
-                            except ValueError:
-                                pass
+                    option_text, weight = Prompter._split_option_weight(option)
                     
                     # Expand nested [choice1,choice2] patterns in this option
                     expanded = Prompter._expand_nested_choices(option_text)
