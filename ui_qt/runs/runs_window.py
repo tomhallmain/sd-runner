@@ -397,7 +397,25 @@ class RunsWindow(SmartDialog):
         if index == 1:
             self._refresh_history()
 
-    def closeEvent(self, event):
+    def _release(self) -> None:
+        """Cleanup shared by both ways this window can be dismissed.
+
+        Idempotent, because the two paths can both run for a single dismissal.
+        """
         RunsWindow._instance = None
-        self._refresh_timer.stop()
+        try:
+            self._refresh_timer.stop()
+        except RuntimeError:
+            pass
+
+    def closeEvent(self, event):
+        self._release()
         super().closeEvent(event)
+
+    def reject(self) -> None:
+        # Escape reaches reject(), which hides the dialog without firing
+        # closeEvent -- so without this the refresh timer would keep firing
+        # against a hidden window for the rest of the session, and another
+        # timer would start with the next window.
+        self._release()
+        super().reject()

@@ -64,6 +64,46 @@ class TestRunsWindowTabs:
             win.close()
 
 
+class TestRunsWindowDismissal:
+    """Escape reaches reject(), not closeEvent, so both must release resources.
+
+    RunsWindow drives a repeating refresh timer. Left running on a dismissed
+    window it keeps firing for the rest of the session, and reopening starts a
+    second one -- so the timer has to stop on either path out.
+    """
+
+    def test_close_stops_the_refresh_timer(self, app_window):
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        assert win._refresh_timer.isActive()
+        win.close()
+        assert not win._refresh_timer.isActive()
+
+    def test_reject_stops_the_refresh_timer(self, app_window):
+        """Regression: Escape used to leave the timer running forever."""
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        assert win._refresh_timer.isActive()
+        win.reject()
+        assert not win._refresh_timer.isActive()
+
+    def test_close_clears_the_singleton_reference(self, app_window):
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        win.close()
+        assert RunsWindow._instance is None
+
+    def test_reject_clears_the_singleton_reference(self, app_window):
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        win.reject()
+        assert RunsWindow._instance is None
+
+    def test_release_is_idempotent(self, app_window):
+        """Both paths can run for one dismissal, so cleanup must tolerate repeats."""
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        win.reject()
+        win.close()
+        assert RunsWindow._instance is None
+        assert not win._refresh_timer.isActive()
+
+
 class TestRunsWindowQueue:
     def test_status_idle_when_no_job_running(self, app_window):
         win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)

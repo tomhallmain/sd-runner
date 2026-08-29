@@ -719,7 +719,11 @@ class BlacklistWindow(SmartDialog):
     # ==================================================================
     # Close
     # ==================================================================
-    def closeEvent(self, event) -> None:  # noqa: N802
+    def _release(self) -> None:
+        """Cleanup shared by both ways this window can be dismissed.
+
+        Idempotent, because the two paths can both run for a single dismissal.
+        """
         BlacklistWindow._instance = None
         if BlacklistWindow._modify_window is not None:
             try:
@@ -728,6 +732,16 @@ class BlacklistWindow(SmartDialog):
             except RuntimeError:
                 pass
             BlacklistWindow._modify_window = None
+
+    def reject(self) -> None:
+        # Escape reaches reject(), which hides the dialog without firing
+        # closeEvent -- so without this an open modify window would be left
+        # orphaned with a dangling class reference to it.
+        self._release()
+        super().reject()
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        self._release()
         # # Flush blacklist state to disk now so changes survive even if
         # # shutdown crashes (the failsafe os._exit can cause access
         # # violations that prevent the normal store_info_cache path).
