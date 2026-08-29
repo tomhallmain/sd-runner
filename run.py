@@ -377,7 +377,20 @@ class Run:
                 Prompter.set_tags_apply_to_start(prior_tags_apply_to_start)
 
     @staticmethod
-    def _group_for_iteration(items: list, should_iterate: bool, is_valid) -> list[list]:
+    def _group_for_iteration(items: list, should_iterate: bool, is_valid, skip_validation: bool = False) -> list[list]:
+        """Group adapters into the units a single generation consumes.
+
+        *skip_validation* is for directory mode: those paths came from a glob, so
+        existence is already guaranteed, and running is_valid() over them would
+        construct every adapter object up front -- defeating the lazy list. Each
+        group is then built by index, so only the adapters actually reached get
+        constructed. Manually entered paths keep the filter, since those may not
+        exist.
+        """
+        if skip_validation:
+            if should_iterate:
+                return [[items[i]] for i in range(len(items))]
+            return [items]
         valid_items = [item for item in items if is_valid(item)]
         if should_iterate:
             return [[item] for item in valid_items]
@@ -401,8 +414,14 @@ class Run:
         iterate_ip_adapters: bool,
         iterate_source_prompts: bool,
     ):
-        control_groups = self._group_for_iteration(control_nets, iterate_control_nets, lambda c: c.is_valid())
-        ip_groups = self._group_for_iteration(ip_adapters, iterate_ip_adapters, lambda i: i.is_valid())
+        control_groups = self._group_for_iteration(
+            control_nets, iterate_control_nets, lambda c: c.is_valid(),
+            skip_validation=iterate_control_nets,
+        )
+        ip_groups = self._group_for_iteration(
+            ip_adapters, iterate_ip_adapters, lambda i: i.is_valid(),
+            skip_validation=iterate_ip_adapters,
+        )
         source_groups = self._source_prompt_group(source_prompts, iterate_source_prompts)
         for control_group in control_groups:
             for ip_group in ip_groups:
@@ -441,11 +460,14 @@ class Run:
             if self.args.total < 1:
                 raise Exception("Infinite run not possible when iterating adapter/prompt source files")
             
-            # Create progress tracker for directory processing
+            # Create progress tracker for directory processing.
+            # Directory paths come from glob so existence is guaranteed -- filtering
+            # on is_valid() here would construct every adapter object just to count
+            # them, which is what the lazy list exists to avoid.
             if is_dir_controlnet:
-                total_adapter_iterations *= len([c for c in control_nets if c.is_valid()])
+                total_adapter_iterations *= len(control_nets)
             if is_dir_ipadapter:
-                total_adapter_iterations *= len([i for i in ip_adapters if i.is_valid()])
+                total_adapter_iterations *= len(ip_adapters)
             if iterate_source_prompts:
                 source_count = len([sp for sp in source_prompts if sp.has_valid_path()])
                 total_adapter_iterations *= source_count

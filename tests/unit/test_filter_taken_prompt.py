@@ -161,7 +161,7 @@ class TestOptOuts:
         assert positive == TAKEN_POSITIVE
 
     def test_allow_in_nsfw_does_not_exempt_take_mode(self):
-        """Answers the spec's open question: TAKE is not NSFW, just uncontrolled.
+        """TAKE is not an NSFW mode, just an uncontrolled one, so it is not exempt.
 
         The exemption is decided by the shared is_allowed_prompt_mode helper,
         whose ALLOW_IN_NSFW branch tests prompt_mode.is_nsfw() -- false for TAKE.

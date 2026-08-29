@@ -46,6 +46,22 @@ class LazyAdapterList(Generic[T]):
             index = len(self._paths) + index
         return self._get(index)
 
+    def append(self, item: T) -> None:
+        """Append an already-constructed adapter (or the None sentinel).
+
+        GenConfig.prepare() pads an empty adapter list with None and, on a redo
+        run, clears and re-pads it. Without these two methods that raises
+        AttributeError as soon as a lazy list reaches it -- which is every run
+        with no adapters configured, since the preset lists are empty.
+        """
+        index = len(self._paths)
+        self._paths.append(None)
+        self._cache[index] = item
+
+    def clear(self) -> None:
+        self._paths.clear()
+        self._cache.clear()
+
     def __repr__(self) -> str:
         return f"LazyAdapterList({len(self._paths)} items, {len(self._cache)} constructed)"
 

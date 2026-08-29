@@ -59,3 +59,108 @@ class TestAdapterSorting:
         assert is_dir
         assert len(control_nets) == 0
         mock_app_actions.contains_recent_adapter_file.assert_not_called()
+
+
+# ---------------------------------------------------------------------------
+# LazyAdapterList — list compatibility and actual laziness
+#
+# The lazy list only pays off if callers avoid touching every element. Two
+# places used to defeat that by filtering the whole list through is_valid(),
+# and GenConfig.prepare() needs list mutation the wrapper did not implement.
+# ---------------------------------------------------------------------------
+
+class TestLazyAdapterList:
+    def _lazy(self, count=5):
+        from sd_runner.adapter_sorting import LazyAdapterList
+        built = []
+
+        def factory(path):
+            built.append(path)
+            return f"adapter:{path}"
+
+        return LazyAdapterList([f"p{i}" for i in range(count)], factory), built
+
+    def test_len_constructs_nothing(self):
+        lazy, built = self._lazy()
+        assert len(lazy) == 5
+        assert built == []
+
+    def test_bool_constructs_nothing(self):
+        lazy, built = self._lazy()
+        assert bool(lazy) is True
+        assert built == []
+
+    def test_indexing_constructs_only_that_item(self):
+        lazy, built = self._lazy()
+        lazy[2]
+        assert built == ["p2"]
+
+    def test_repeated_access_constructs_once(self):
+        lazy, built = self._lazy()
+        lazy[2]
+        lazy[2]
+        assert built == ["p2"]
+
+    def test_negative_index_works(self):
+        lazy, _built = self._lazy()
+        assert lazy[-1] == "adapter:p4"
+
+    def test_slice_returns_a_plain_list(self):
+        lazy, built = self._lazy()
+        assert lazy[:2] == ["adapter:p0", "adapter:p1"]
+        assert built == ["p0", "p1"]
+
+    def test_iteration_constructs_everything(self):
+        lazy, built = self._lazy()
+        list(lazy)
+        assert len(built) == 5
+
+    def test_empty_list_is_falsy(self):
+        from sd_runner.adapter_sorting import LazyAdapterList
+        assert not LazyAdapterList([], lambda p: p)
+
+
+class TestLazyAdapterListMutation:
+    """GenConfig.prepare() pads and clears these lists; both must work."""
+
+    def test_append_to_empty_list(self):
+        from sd_runner.adapter_sorting import LazyAdapterList
+        lazy = LazyAdapterList([], lambda p: p)
+        lazy.append(None)
+        assert len(lazy) == 1
+        assert lazy[0] is None
+
+    def test_appended_item_is_returned_as_given(self):
+        from sd_runner.adapter_sorting import LazyAdapterList
+        lazy = LazyAdapterList(["p0"], lambda p: f"adapter:{p}")
+        lazy.append(None)
+        assert lazy[1] is None
+        assert lazy[0] == "adapter:p0"
+
+    def test_clear_empties_the_list(self):
+        from sd_runner.adapter_sorting import LazyAdapterList
+        lazy = LazyAdapterList(["p0", "p1"], lambda p: p)
+        lazy.clear()
+        assert len(lazy) == 0
+
+    def test_clear_then_append_matches_the_redo_branch(self):
+        from sd_runner.adapter_sorting import LazyAdapterList
+        lazy = LazyAdapterList(["p0", "p1"], lambda p: p)
+        lazy.clear()
+        lazy.append(None)
+        assert len(lazy) == 1
+        assert lazy[0] is None
+
+    def test_gen_config_prepare_accepts_a_lazy_list(self):
+        """Regression: prepare() raised AttributeError on a lazy adapter list."""
+        from sd_runner.adapter_sorting import LazyAdapterList
+        from tests.utils import make_gen_config
+
+        config = make_gen_config(
+            control_nets=LazyAdapterList([], lambda p: p),
+            ip_adapters=LazyAdapterList([], lambda p: p),
+        )
+        config.prepare()
+        assert len(config.control_nets) == 1
+        assert config.control_nets[0] is None
+        assert config.ip_adapters[0] is None
