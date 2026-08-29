@@ -36,6 +36,7 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from sd_runner.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
+from sd_runner.pending_translation import stage_for_translation
 from ui_qt.app_style import AppStyle
 from utils.config import config
 from ui_qt.auth.password_utils import require_password
@@ -484,8 +485,9 @@ class ConceptEditorWindow(SmartDialog):
         # Invalidate cache so next load picks up the disk state
         self._invalidate_cache(selected_file)
 
-        # Record in history
+        # Record in history, and stage for the next translation pass
         ConceptEditorWindow.update_history(new_concept)
+        stage_for_translation(new_concept, selected_file)
 
         self._app_actions.toast(
             _("Saved concept: {0} → {1}").format(new_concept, selected_file)
@@ -596,6 +598,9 @@ class ConceptEditorWindow(SmartDialog):
 
         # Invalidate cache for the target file
         self._invalidate_cache(target_file)
+
+        if imported:
+            stage_for_translation(imported, target_file)
 
         # Build results message
         if imported or failed:

@@ -576,6 +576,12 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         args.source_prompts_add_user_prompt = source_prompt_add
         if source_prompt_file.strip():
             from utils.globals import PromptMode
+            # Forcing the mode here skips the permission gate, which lives on the
+            # prompt mode combo's change handler. Reaching this state means moving
+            # the combo off TAKE while leaving a source prompt file set, so the run
+            # uses TAKE without having authenticated for it. Blacklist filtering of
+            # the extracted prompt still applies either way. Not addressed yet:
+            # gating at run time would prompt from the run thread.
             self.runner_app_config.prompter_config.prompt_mode = PromptMode.TAKE
             if args.prompter_config is not None:
                 args.prompter_config.prompt_mode = PromptMode.TAKE
