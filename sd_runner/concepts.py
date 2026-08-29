@@ -648,7 +648,9 @@ class Concepts:
     def get_colors(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
         colors = Concepts.sample_whitelisted(Concepts.load(SFW.colors), low, high, self.prompt_mode)
-        if "rainbow" in colors and random.random() > 0.5:
+        # Halve how often rainbow shows up, but never at the cost of returning
+        # nothing -- callers requesting a single color would be left empty-handed.
+        if len(colors) > 1 and "rainbow" in colors and random.random() > 0.5:
             colors.remove("rainbow")
         return colors
 

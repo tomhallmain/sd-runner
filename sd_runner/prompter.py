@@ -913,51 +913,61 @@ class Prompter:
         return vars_dict, remaining
 
     @staticmethod
+    def _choose(concept_list: list[str]) -> str:
+        """Pick one item, or None if the category returned nothing.
+
+        A concept getter can legitimately come back empty -- an inclusion-chance
+        roll, post-sampling filtering, or a subcategory file that failed to load.
+        Returning None leaves the variable unexpanded instead of raising.
+        """
+        return random.choice(concept_list) if concept_list else None
+
+    @staticmethod
     def _select_concept(name: str, concepts: Concepts, specific_locations_chance: float = 0.3) -> str:
         concept = None
         if name.startswith("act"):
-            concept = random.choice(concepts.get_actions(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_actions(ConceptConfiguration(1, 1)))
         elif name.startswith("media"):
-            concept = random.choice(concepts.get_media_features(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_media_features(ConceptConfiguration(1, 1)))
         elif name.startswith("obj"):
-            concept = random.choice(concepts.get_objects(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_objects(ConceptConfiguration(1, 1)))
         elif name.startswith("plant") or name.startswith("flora"):
-            concept = random.choice(concepts.get_plants(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_plants(ConceptConfiguration(1, 1)))
         elif name.startswith("concept"):
             # backward-compat alias: $concept expands from media_features
-            concept = random.choice(concepts.get_media_features(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_media_features(ConceptConfiguration(1, 1)))
         elif name == "dress":
-            concept = random.choice(concepts.get_dress(ConceptConfiguration(1, 1, inclusion_chance=1.0)))
+            concept = Prompter._choose(concepts.get_dress(ConceptConfiguration(1, 1, inclusion_chance=1.0)))
         elif name.startswith("time"):
-            concept = random.choice(concepts.get_times(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_times(ConceptConfiguration(1, 1)))
         elif name.startswith("unit"):
-            concept = random.choice(concepts.get_units(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_units(ConceptConfiguration(1, 1)))
         elif name.startswith("expr"):
-            concept = random.choice(concepts.get_expressions(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_expressions(ConceptConfiguration(1, 1)))
         elif name.startswith("animal"):
-            concept = random.choice(concepts.get_animals(ConceptConfiguration(1, 1, inclusion_chance=1.0)))
+            concept = Prompter._choose(concepts.get_animals(ConceptConfiguration(1, 1, inclusion_chance=1.0)))
         elif name.startswith("desc"):
-            concept = random.choice(concepts.get_descriptions(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_descriptions(ConceptConfiguration(1, 1)))
         elif name == "random_word":
-            concept = random.choice(concepts.get_random_words(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_random_words(ConceptConfiguration(1, 1)))
         elif name.startswith("nons"):
-            concept = random.choice(concepts.get_nonsense(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_nonsense(ConceptConfiguration(1, 1)))
         elif name.startswith("color"):
-            concept = random.choice(concepts.get_colors(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_colors(ConceptConfiguration(1, 1)))
         elif name.startswith("loc"):
-            concept = random.choice(concepts.get_locations(ConceptConfiguration(1, 1, specific_chance=specific_locations_chance)))
+            concept = Prompter._choose(concepts.get_locations(ConceptConfiguration(1, 1, specific_chance=specific_locations_chance)))
         elif name.startswith("human"):
-            concept = random.choice(concepts.get_humans(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_humans(ConceptConfiguration(1, 1)))
         elif name.startswith("posit"):
-            concept = random.choice(concepts.get_positions(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_positions(ConceptConfiguration(1, 1)))
         elif name.startswith("witt"):
-            concept = random.choice(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["sayings", "puns"])))
+            concept = Prompter._choose(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["sayings", "puns"])))
         elif name.startswith("saying"):
-            concept = random.choice(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["sayings"])))
+            concept = Prompter._choose(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["sayings"])))
         elif name.startswith("pun"):
-            concept = random.choice(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["puns"])))
+            concept = Prompter._choose(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["puns"])))
         elif name.startswith("jarg"):
-            concept = random.choice(concepts.get_jargon(ConceptConfiguration(1, 1)))
+            concept = Prompter._choose(concepts.get_jargon(ConceptConfiguration(1, 1)))
         elif name.startswith("number"):
             concept = str(random.randint(1, 999))
         return concept
