@@ -295,3 +295,123 @@ class TestConceptsFileLoad:
         cf = ConceptsFile(str(f))
         assert "apple" in cf.concept_indices
         assert "banana" in cf.concept_indices
+
+
+# ---------------------------------------------------------------------------
+# Concepts.get_with_subcategories — proportional sampling across weighted files
+#
+# Backs get_witticisms(), whose category config carries
+# {"sayings": 1.0, "puns": 0.5}. A subcategory whose file fails to load is
+# skipped with a warning, which can leave the result short or empty -- the case
+# that used to reach random.choice() in Prompter._select_concept.
+# ---------------------------------------------------------------------------
+
+class TestGetWithSubcategories:
+    FILES = {
+        "sayings.txt": [f"saying_{i}" for i in range(40)],
+        "puns.txt": [f"pun_{i}" for i in range(40)],
+    }
+
+    @pytest.fixture(autouse=True)
+    def subcategory_files(self, monkeypatch):
+        monkeypatch.setattr(Concepts, "ensure_dictionary_loaded", staticmethod(lambda: None))
+        monkeypatch.setattr(
+            Concepts, "load",
+            staticmethod(lambda filename: list(TestGetWithSubcategories.FILES.get(filename, []))),
+        )
+
+    def _concepts(self):
+        return Concepts(PromptMode.SFW, get_specific_locations=False)
+
+    def _config(self, low, high, weights=None):
+        return ConceptConfiguration(
+            low=low, high=high,
+            subcategory_weights=weights if weights is not None else {"sayings.txt": 1.0, "puns.txt": 0.5},
+        )
+
+    def test_zero_range_returns_empty(self):
+        assert self._concepts().get_with_subcategories(self._config(0, 0)) == []
+
+    def test_zero_total_weight_returns_empty(self):
+        config = self._config(2, 4, weights={"sayings.txt": 0.0, "puns.txt": 0.0})
+        assert self._concepts().get_with_subcategories(config) == []
+
+    def test_no_subcategories_returns_empty(self):
+        assert self._concepts().get_with_subcategories(self._config(2, 4, weights={})) == []
+
+    def test_count_within_requested_range(self):
+        concepts = self._concepts()
+        for _ in range(25):
+            assert 2 <= len(concepts.get_with_subcategories(self._config(2, 5))) <= 5
+
+    def test_fixed_range_returns_exactly_that_many(self):
+        concepts = self._concepts()
+        for _ in range(25):
+            assert len(concepts.get_with_subcategories(self._config(4, 4))) == 4
+
+    def test_all_items_come_from_the_subcategory_files(self):
+        concepts = self._concepts()
+        allowed = set(self.FILES["sayings.txt"]) | set(self.FILES["puns.txt"])
+        for _ in range(25):
+            assert set(concepts.get_with_subcategories(self._config(3, 6))) <= allowed
+
+    def test_heavier_weight_contributes_more(self):
+        """sayings is weighted 1.0 against puns at 0.5, so it should dominate."""
+        concepts = self._concepts()
+        sayings = puns = 0
+        for _ in range(80):
+            for item in concepts.get_with_subcategories(self._config(6, 6)):
+                if item.startswith("saying_"):
+                    sayings += 1
+                else:
+                    puns += 1
+        assert sayings > puns
+
+    def test_single_subcategory_supplies_everything(self):
+        config = self._config(5, 5, weights={"puns.txt": 1.0})
+        result = self._concepts().get_with_subcategories(config)
+        assert len(result) == 5
+        assert all(item.startswith("pun_") for item in result)
+
+    def test_missing_file_is_skipped_not_fatal(self, monkeypatch):
+        """An unreadable subcategory file warns and is skipped rather than raising."""
+        monkeypatch.setattr(
+            Concepts, "load",
+            staticmethod(lambda filename: [] if filename == "puns.txt"
+                         else list(TestGetWithSubcategories.FILES[filename])),
+        )
+        result = self._concepts().get_with_subcategories(self._config(4, 4))
+        assert all(item.startswith("saying_") for item in result)
+
+    def test_every_file_failing_yields_empty_rather_than_raising(self, monkeypatch):
+        monkeypatch.setattr(Concepts, "load", staticmethod(lambda filename: []))
+        assert self._concepts().get_with_subcategories(self._config(4, 4)) == []
+
+    def test_raising_loader_is_caught(self, monkeypatch):
+        def boom(filename):
+            raise OSError("unreadable")
+        monkeypatch.setattr(Concepts, "load", staticmethod(boom))
+        # ensure_dictionary_loaded is already stubbed, so construction is safe.
+        assert self._concepts().get_with_subcategories(self._config(4, 4)) == []
+
+    def test_multiplier_scales_the_range(self):
+        concepts = self._concepts()
+        base = self._config(2, 2)
+        assert len(concepts.get_with_subcategories(base, multiplier=0)) == 0
+        assert len(concepts.get_with_subcategories(base, multiplier=1)) == 2
+
+    @pytest.mark.parametrize("total", [1, 2, 3, 4, 5, 6, 7])
+    def test_equal_weights_never_over_allocate(self, total):
+        """Regression: the per-subcategory cap compared against the full total.
+
+        With equal weights each subcategory rounds the same way, so an odd total
+        allocated one extra item per subcategory that rounded up (3 -> 2 + 2).
+        """
+        config = self._config(total, total, weights={"sayings.txt": 1.0, "puns.txt": 1.0})
+        assert len(self._concepts().get_with_subcategories(config)) == total
+
+    @pytest.mark.parametrize("total", [1, 2, 3, 4, 5, 6, 7])
+    def test_three_equal_weights_never_over_allocate(self, total):
+        weights = {"sayings.txt": 1.0, "puns.txt": 1.0, "extra.txt": 1.0}
+        config = self._config(total, total, weights=weights)
+        assert len(self._concepts().get_with_subcategories(config)) <= total

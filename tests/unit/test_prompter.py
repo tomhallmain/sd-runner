@@ -8,46 +8,22 @@ set to 0 so _apply_random_stops_returns is a no-op and output is deterministic.
 
 import pytest
 from sd_runner.prompter import Prompter
-from sd_runner.prompter_configuration import PrompterConfiguration
 from sd_runner.concepts import Concepts
+from tests.utils import make_prompter
 from utils.globals import PromptMode
 
 
 # ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
-def make_config(prompt_mode=PromptMode.FIXED, **overrides):
-    cfg = PrompterConfiguration()
-    cfg.prompt_mode = prompt_mode
-    cfg.stop_insertion_chance = 0.0
-    cfg.return_insertion_chance = 0.0
-    for k, v in overrides.items():
-        setattr(cfg, k, v)
-    return cfg
-
-
-def make_prompter(prompt_mode=PromptMode.FIXED, prompt_list=None, **config_overrides):
-    cfg = make_config(prompt_mode=prompt_mode, **config_overrides)
-    kwargs = {}
-    if prompt_list is not None:
-        kwargs["prompt_list"] = prompt_list
-    return Prompter(prompter_config=cfg, **kwargs)
-
-
-# ---------------------------------------------------------------------------
-# Module-level fixture: disable dictionary loading and reset class state
+# Module-level fixture: keep the real dictionary off disk
+#
+# Prompter's class-level tag attributes are reset by the root conftest, so only
+# the dictionary stub is needed here -- these are unit tests and should not pay
+# for loading concepts/dictionary.txt.
 # ---------------------------------------------------------------------------
 
 @pytest.fixture(autouse=True)
-def reset_prompter_class_state(monkeypatch):
-    """Patch out disk-bound dictionary loading and reset Prompter class attributes."""
+def stub_dictionary_loading(monkeypatch):
     monkeypatch.setattr(Concepts, "ensure_dictionary_loaded", staticmethod(lambda: None))
-    monkeypatch.setattr(Prompter, "POSITIVE_TAGS", "")
-    monkeypatch.setattr(Prompter, "NEGATIVE_TAGS", "")
-    monkeypatch.setattr(Prompter, "EXCLUSION_TAGS", "")
-    monkeypatch.setattr(Prompter, "TAGS_APPLY_TO_START", True)
-    monkeypatch.setattr(Prompter, "POSITIVE_TAGS_INLINE_VARS", {})
 
 
 # ---------------------------------------------------------------------------

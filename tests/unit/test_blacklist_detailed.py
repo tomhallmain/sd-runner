@@ -86,16 +86,15 @@ class TestCheckUserPromptDetailed:
 
 
 # ---------------------------------------------------------------------------
-# import — CSV  (tested via manually written files)
+# import — CSV
 #
-# NOTE: export_blacklist_csv() uses csv.DictWriter without extrasaction='ignore',
-# so it raises ValueError when BlacklistItem.to_dict() returns fields beyond
-# ['string', 'enabled'].  The export bug is documented by the xfail test below;
-# the import tests are written against hand-crafted CSV files to stay independent.
+# The import tests below write their own two-column files, which is also the
+# legacy export format, so they stay independent of export_blacklist_csv.
+# TestCSVRoundTrip covers the two working against each other.
 # ---------------------------------------------------------------------------
 
 def _write_csv(path: str, rows: list[dict]) -> None:
-    """Write a minimal CSV file in the format import_blacklist_csv expects."""
+    """Write a legacy two-column CSV, the older export_blacklist_csv format."""
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["string", "enabled"])
         writer.writeheader()
@@ -132,7 +131,6 @@ class TestCSVImport:
 
 class TestCSVExport:
     def test_empty_blacklist_writes_header_only(self, tmp_path):
-        # Empty list never calls writerow(), so no extrasaction error.
         csv_path = str(tmp_path / "empty.csv")
         Blacklist.export_blacklist_csv(csv_path)
         with open(csv_path, encoding="utf-8") as f:
@@ -141,17 +139,81 @@ class TestCSVExport:
         lines = [ln for ln in content.splitlines() if ln.strip()]
         assert len(lines) == 1  # header only
 
-    @pytest.mark.xfail(
-        strict=True,
-        reason=(
-            "export_blacklist_csv uses csv.DictWriter(fieldnames=['string','enabled']) "
-            "without extrasaction='ignore', but BlacklistItem.to_dict() returns extra "
-            "fields (use_regex, use_word_boundary, etc.), causing ValueError."
-        ),
-    )
-    def test_export_nonempty_list_raises(self, tmp_path):
+    def test_export_nonempty_list_succeeds(self, tmp_path):
+        """Regression: DictWriter used to raise ValueError on the extra to_dict keys."""
         _add("cat")
-        Blacklist.export_blacklist_csv(str(tmp_path / "blacklist.csv"))
+        csv_path = str(tmp_path / "blacklist.csv")
+        Blacklist.export_blacklist_csv(csv_path)
+        with open(csv_path, encoding="utf-8") as f:
+            lines = [ln for ln in f.read().splitlines() if ln.strip()]
+        assert len(lines) == 2  # header + one item
+
+    def test_header_covers_every_to_dict_field(self, tmp_path):
+        _add("cat")
+        csv_path = str(tmp_path / "blacklist.csv")
+        Blacklist.export_blacklist_csv(csv_path)
+        with open(csv_path, newline="", encoding="utf-8") as f:
+            header = next(csv.reader(f))
+        assert set(header) == set(Blacklist.TAG_BLACKLIST[0].to_dict().keys())
+
+    def test_multiple_items_each_get_a_row(self, tmp_path):
+        for tag in ("cat", "dog", "bird"):
+            _add(tag)
+        csv_path = str(tmp_path / "blacklist.csv")
+        Blacklist.export_blacklist_csv(csv_path)
+        with open(csv_path, newline="", encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        assert {r["string"] for r in rows} == {"cat", "dog", "bird"}
+
+
+class TestCSVRoundTrip:
+    """Export then import must preserve the settings, not just the string."""
+
+    def _round_trip(self, tmp_path, item):
+        Blacklist.TAG_BLACKLIST = [item]
+        csv_path = str(tmp_path / "roundtrip.csv")
+        Blacklist.export_blacklist_csv(csv_path)
+        Blacklist.TAG_BLACKLIST = []
+        Blacklist.import_blacklist_csv(csv_path)
+        assert len(Blacklist.TAG_BLACKLIST) == 1
+        return Blacklist.TAG_BLACKLIST[0]
+
+    def test_string_preserved(self, tmp_path):
+        assert self._round_trip(tmp_path, BlacklistItem("wolf")).string == "wolf"
+
+    def test_disabled_state_preserved(self, tmp_path):
+        item = BlacklistItem("wolf", enabled=False)
+        assert self._round_trip(tmp_path, item).enabled is False
+
+    def test_regex_flag_preserved(self, tmp_path):
+        item = BlacklistItem("wo.f", use_regex=True)
+        assert self._round_trip(tmp_path, item).use_regex is True
+
+    def test_word_boundary_flag_preserved(self, tmp_path):
+        item = BlacklistItem("wolf", use_word_boundary=False)
+        assert self._round_trip(tmp_path, item).use_word_boundary is False
+
+    def test_whole_prompt_flag_preserved(self, tmp_path):
+        item = BlacklistItem("wolf", apply_to_whole_prompt=True)
+        assert self._round_trip(tmp_path, item).apply_to_whole_prompt is True
+
+    def test_exception_pattern_preserved(self, tmp_path):
+        item = BlacklistItem("wolf", exception_pattern="wolfram")
+        assert self._round_trip(tmp_path, item).exception_pattern == "wolfram"
+
+    def test_absent_exception_pattern_stays_none(self, tmp_path):
+        assert self._round_trip(tmp_path, BlacklistItem("wolf")).exception_pattern is None
+
+    def test_legacy_two_column_file_still_imports(self, tmp_path):
+        """Older exports had only string/enabled; the rest fall back to defaults."""
+        path = str(tmp_path / "legacy.csv")
+        _write_csv(path, [{"string": "wolf", "enabled": "False"}])
+        Blacklist.import_blacklist_csv(path)
+        item = Blacklist.TAG_BLACKLIST[0]
+        assert item.string == "wolf"
+        assert item.enabled is False
+        assert item.use_regex is False
+        assert item.use_word_boundary is True
 
 
 # ---------------------------------------------------------------------------
@@ -243,3 +305,79 @@ class TestGetVersion:
         assert Blacklist.TAG_BLACKLIST == []
         v = Blacklist.get_version()
         assert isinstance(v, str) and v
+
+    def test_same_length_replacement_changes_version(self):
+        """The cached version keys on list length, so a swap could go unnoticed."""
+        Blacklist.set_blacklist([BlacklistItem("alpha")])
+        v0 = Blacklist.get_version()
+        Blacklist.set_blacklist([BlacklistItem("omega")])
+        assert Blacklist.get_version() != v0
+
+    def test_invalidate_version_cache_forces_recompute(self):
+        _add("alpha")
+        v0 = Blacklist.get_version()
+        Blacklist.TAG_BLACKLIST[0].enabled = False
+        Blacklist.invalidate_version_cache()
+        assert Blacklist.get_version() != v0
+
+    def test_clear_changes_version(self):
+        _add("alpha")
+        v0 = Blacklist.get_version()
+        Blacklist.clear()
+        assert Blacklist.get_version() != v0
+
+
+# ---------------------------------------------------------------------------
+# Filter cache invalidation
+#
+# The cache is keyed on the concept list plus the blacklist version. Keying on
+# the concept list alone meant a result computed under one blacklist was served
+# under another -- and the cache persists to disk between sessions.
+# ---------------------------------------------------------------------------
+
+class TestFilterCacheInvalidation:
+    CONCEPTS = ["wolf", "meadow"]
+
+    def test_filtering_reflects_a_later_add(self):
+        before, _ = Blacklist.filter_concepts(list(self.CONCEPTS))
+        assert "wolf" in before
+        _add("wolf")
+        after, _ = Blacklist.filter_concepts(list(self.CONCEPTS))
+        assert "wolf" not in after
+
+    def test_filtering_reflects_a_later_remove(self):
+        _add("wolf")
+        before, _ = Blacklist.filter_concepts(list(self.CONCEPTS))
+        assert "wolf" not in before
+        Blacklist.remove_item(Blacklist.TAG_BLACKLIST[0])
+        after, _ = Blacklist.filter_concepts(list(self.CONCEPTS))
+        assert "wolf" in after
+
+    def test_filtering_reflects_a_same_length_replacement(self):
+        """set_blacklist defaults to clear_cache=False, so only the key protects this."""
+        Blacklist.set_blacklist([BlacklistItem("wolf")])
+        before, _ = Blacklist.filter_concepts(list(self.CONCEPTS))
+        assert "wolf" not in before and "meadow" in before
+
+        Blacklist.set_blacklist([BlacklistItem("meadow")])
+        after, _ = Blacklist.filter_concepts(list(self.CONCEPTS))
+        assert "wolf" in after
+        assert "meadow" not in after
+
+    def test_cache_key_includes_the_blacklist_version(self):
+        Blacklist.set_blacklist([BlacklistItem("wolf")])
+        Blacklist.filter_concepts(list(self.CONCEPTS))
+        keys_before = set(Blacklist._filter_cache.cache.keys())
+
+        Blacklist.set_blacklist([BlacklistItem("meadow")])
+        Blacklist.filter_concepts(list(self.CONCEPTS))
+        keys_after = set(Blacklist._filter_cache.cache.keys())
+
+        assert keys_after - keys_before, "same concepts under a new blacklist reused the key"
+
+    def test_repeated_identical_call_reuses_the_entry(self):
+        Blacklist.set_blacklist([BlacklistItem("wolf")])
+        Blacklist.filter_concepts(list(self.CONCEPTS))
+        count_after_first = len(Blacklist._filter_cache.cache)
+        Blacklist.filter_concepts(list(self.CONCEPTS))
+        assert len(Blacklist._filter_cache.cache) == count_after_first

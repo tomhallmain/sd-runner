@@ -316,12 +316,14 @@ class ConceptsFile:
                     print(f"Found insertion point at index {current_idx} (before line \"{line}\")")
                 self.lines.insert(current_idx, f"{concept}\n")
                 self.concepts.append(concept)
-                self.concept_indices[concept] = current_idx
-                
-                # Update indices for concepts after insertion
+
+                # Shift the concepts displaced by the insertion. This must happen
+                # before recording the new concept's own index, or it would be
+                # shifted by its own insertion and point at the displaced line.
                 for c, i in self.concept_indices.items():
                     if i >= current_idx:
                         self.concept_indices[c] = i + 1
+                self.concept_indices[concept] = current_idx
                 return True
                 
             # Check if we're out of order
@@ -562,6 +564,10 @@ class Concepts:
             count = min(count, remaining_count)
             subcategory_counts.append(count)
             allocated += count
+            # Without this the cap above always compares against the full total,
+            # so rounding up in several subcategories can allocate more than
+            # requested (equal weights with an odd total: 3 items -> 2 + 2).
+            remaining_count -= count
         
         # Adjust for rounding errors - distribute remaining items
         remaining = total_count - allocated

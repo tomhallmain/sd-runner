@@ -16,27 +16,10 @@ protected (EDIT_SCHEDULES defaults to False).
 import pytest
 from PySide6.QtWidgets import QApplication, QComboBox, QLabel
 
+from tests.utils import make_app_actions, make_schedule
 from ui_qt.presets.schedule import PresetTask, Schedule
 from ui_qt.presets.schedules_window import SchedulesWindow, ScheduleModifyWindow
 from ui_qt.presets.presets_window import PresetsWindow
-
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
-def make_schedule(name="Test", tasks=None):
-    s = Schedule()
-    s.name = name
-    for task_name, count in (tasks or []):
-        s.add_preset_task(PresetTask(task_name, count))
-    return s
-
-
-def make_app_actions():
-    from ui_qt.app_actions import AppActions
-    noop = lambda *a, **kw: None
-    return AppActions({action: noop for action in AppActions.REQUIRED_ACTIONS})
 
 
 # ---------------------------------------------------------------------------

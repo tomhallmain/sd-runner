@@ -150,6 +150,41 @@ class BlacklistException(Exception):
 
 
 class BlacklistItem:
+    #: Column order for CSV export; matches the keys to_dict() returns.
+    CSV_FIELDNAMES = (
+        "string",
+        "enabled",
+        "use_regex",
+        "use_word_boundary",
+        "use_space_as_optional_nonword",
+        "exception_pattern",
+        "apply_to_whole_prompt",
+    )
+    #: CSV round-trips every value as text, so these need coercing back on import.
+    CSV_BOOL_FIELDS = (
+        "enabled",
+        "use_regex",
+        "use_word_boundary",
+        "use_space_as_optional_nonword",
+        "apply_to_whole_prompt",
+    )
+
+    @classmethod
+    def from_csv_row(cls, row: dict) -> "BlacklistItem":
+        """Build an item from a DictReader row, coercing the text booleans.
+
+        Only the columns actually present are used, so a two-column file written
+        by an older export still imports with the constructor defaults.
+        """
+        data = {"string": (row.get("string") or "").strip()}
+        for field in cls.CSV_BOOL_FIELDS:
+            if row.get(field) is not None:
+                data[field] = str(row[field]).strip().lower() in ("true", "t", "1", "yes")
+        pattern = row.get("exception_pattern")
+        if pattern is not None and str(pattern).strip() != "":
+            data["exception_pattern"] = str(pattern)
+        return cls.from_dict(data)
+
     def __init__(
         self,
         string: str,
@@ -537,15 +572,34 @@ class Blacklist:
         return version_cache[1]
 
     @staticmethod
+    def invalidate_version_cache() -> None:
+        """Force the next get_version() to recompute from the current items.
+
+        get_version() otherwise reuses its cached hash unless the list *length*
+        changed, which misses a replacement of the same length and an item
+        edited in place. Every mutator calls this so neither the filter cache
+        nor the history purge cache can be keyed on a stale version.
+        """
+        try:
+            Blacklist._filter_cache.version_cache = None
+        except Exception:
+            pass
+
+    @staticmethod
     def _filter_concepts_cached(
         concepts_tuple: tuple[str],
         do_cache: bool = True,
         user_prompt: bool = True,
     ) -> tuple[list[str], dict[str, str]]:
-        key_version = getattr(Blacklist._filter_cache, "version", 1)
+        # The key must include the blacklist state, not just the concepts: the
+        # same concept list filtered under two different blacklists has two
+        # different answers, and this cache persists to disk across sessions.
+        # (This used to read _filter_cache.version, which is the pickle format
+        # version of the cache container -- a constant, so every blacklist
+        # produced the same key.)
         # Keep cache keys compact: tuple payloads are massive (millions of terms).
         cache_key = (
-            f"v{key_version}",
+            f"v{Blacklist.get_version()}",
             len(concepts_tuple),
             fingerprint_string_sequence(concepts_tuple),
         )
@@ -654,6 +708,7 @@ class Blacklist:
     def add_item(item: BlacklistItem) -> None:
         Blacklist.TAG_BLACKLIST.append(item)
         Blacklist.sort()
+        Blacklist.invalidate_version_cache()
         try:
             Blacklist._filter_cache.clear()
             Blacklist._filter_cache.save()
@@ -665,6 +720,7 @@ class Blacklist:
         """Remove a BlacklistItem from the blacklist."""
         try:
             Blacklist.TAG_BLACKLIST.remove(item)
+            Blacklist.invalidate_version_cache()
             try:
                 Blacklist._filter_cache.clear()
                 if do_save:
@@ -682,6 +738,7 @@ class Blacklist:
     @staticmethod
     def clear() -> None:
         Blacklist.TAG_BLACKLIST.clear()
+        Blacklist.invalidate_version_cache()
         try:
             Blacklist._filter_cache.clear()
             Blacklist._filter_cache.save()
@@ -716,6 +773,7 @@ class Blacklist:
                 logger.error(f"Invalid blacklist item type: {type(item)}")
         
         Blacklist.TAG_BLACKLIST = validated_blacklist
+        Blacklist.invalidate_version_cache()
         try:
             if clear_cache:
                 Blacklist._filter_cache.clear()
@@ -923,14 +981,14 @@ class Blacklist:
             f.seek(0)  # Reset file pointer to start
             
             if ',' in first_line:
-                # Two-column format with headers
+                # Multi-column format with headers. Only the columns present are
+                # read, so both the old two-column files and the full export
+                # written by export_blacklist_csv round-trip.
                 reader = csv.DictReader(f)
                 for row in reader:
-                    enabled = True
-                    if 'enabled' in row:
-                        enabled_str = row['enabled'].lower()
-                        enabled = enabled_str == 'true' or enabled_str == 't' or enabled_str == '1'
-                    Blacklist.add_to_blacklist(BlacklistItem(row['string'].strip(), enabled))
+                    item = BlacklistItem.from_csv_row(row)
+                    if item is not None:
+                        Blacklist.add_to_blacklist(item)
             else:
                 # Single-column format
                 reader = csv.reader(f)
@@ -983,9 +1041,15 @@ class Blacklist:
 
     @staticmethod
     def export_blacklist_csv(filename: str) -> None:
-        """Export blacklist to a CSV file."""
+        """Export blacklist to a CSV file.
+
+        Every field of BlacklistItem.to_dict() gets a column. Narrowing this to
+        ['string', 'enabled'] made DictWriter raise ValueError on any non-empty
+        blacklist, since to_dict() returns the regex and boundary settings too.
+        Importers that only read string/enabled ignore the extra columns.
+        """
         with open(filename, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=['string', 'enabled'])
+            writer = csv.DictWriter(f, fieldnames=list(BlacklistItem.CSV_FIELDNAMES))
             writer.writeheader()
             for item in Blacklist.TAG_BLACKLIST:
                 writer.writerow(item.to_dict())

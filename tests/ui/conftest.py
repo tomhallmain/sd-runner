@@ -1,9 +1,9 @@
 """
 UI-test subdirectory conftest — isolation safety net + QApplication fixture.
 
-Same isolation guard as tests/unit/conftest.py. Also provides a session-scoped
-QApplication and a factory for no-op AppActions mocks so individual tests don't
-have to set those up themselves.
+Same isolation guard as tests/unit/conftest.py, plus a session-scoped
+QApplication and a real AppWindow fixture. Object factories (including no-op
+AppActions) live in tests/utils, which any test module can import directly.
 """
 import atexit
 import os
@@ -46,13 +46,6 @@ def qapp():
     from PySide6.QtWidgets import QApplication
     app = QApplication.instance() or QApplication(sys.argv[:1])
     yield app
-
-
-def make_app_actions():
-    """Return an AppActions instance with no-op callbacks for all required actions."""
-    from ui_qt.app_actions import AppActions
-    noop = lambda *a, **kw: None
-    return AppActions({action: noop for action in AppActions.REQUIRED_ACTIONS})
 
 
 @pytest.fixture

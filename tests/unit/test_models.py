@@ -1,15 +1,7 @@
 import pytest
 from sd_runner.models import Model
+from tests.utils import make_model
 from utils.globals import ArchitectureType, ResolutionGroup
-
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
-def make_model(id="model.safetensors", path="some/path", **kwargs):
-    """Construct a Model with an explicit path to avoid MODELS_DIR dependency."""
-    return Model(id=id, path=path, **kwargs)
 
 
 # ---------------------------------------------------------------------------

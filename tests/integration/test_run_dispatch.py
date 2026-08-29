@@ -42,7 +42,8 @@ from sd_runner.models import Model
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
-from ui_qt.presets.schedule import PresetTask, Schedule
+from tests.utils import make_schedule
+from ui_qt.presets.schedule import Schedule
 from ui_qt.presets.schedules_window import SchedulesWindow
 from ui_qt.presets.presets_window import PresetsWindow
 from utils.utils import Utils
@@ -53,12 +54,6 @@ from utils.time_estimator import TimeEstimator
 # Helpers
 # ---------------------------------------------------------------------------
 
-def make_schedule(name="Test Schedule", tasks=()):
-    s = Schedule()
-    s.name = name
-    for task_name, count in tasks:
-        s.add_preset_task(PresetTask(task_name, count))
-    return s
 
 
 # ---------------------------------------------------------------------------

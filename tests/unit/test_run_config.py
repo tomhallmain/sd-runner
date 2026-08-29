@@ -1,10 +1,7 @@
 import pytest
 from sd_runner.run_config import RunConfig
+from tests.utils import make_run_config
 from utils.globals import WorkflowType
-
-
-def make_run_config(**kwargs):
-    return RunConfig(args=kwargs if kwargs else None)
 
 
 # ---------------------------------------------------------------------------

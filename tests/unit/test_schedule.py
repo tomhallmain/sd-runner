@@ -1,12 +1,9 @@
 import pytest
 from unittest.mock import patch
+
+from tests.utils import make_schedule
 from ui_qt.presets.schedule import PresetTask, Schedule
 
-
-def make_schedule(name="Test Schedule") -> Schedule:
-    s = Schedule()
-    s.name = name
-    return s
 
 
 class TestPresetTask:

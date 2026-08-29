@@ -269,12 +269,12 @@ class Prompter:
         return "New prompt based on original image: " + str(data)
 
     def random(self) -> str:
-        random_words = self.concepts.get_random_words(*self.prompter_config.get_category_config("random_words"), multiplier=self.prompter_config.multiplier)
+        random_words = self.concepts.get_random_words(self.prompter_config.get_category_config("random_words"), multiplier=self.prompter_config.multiplier)
         Prompter.emphasize(random_words, emphasis_chance=self.prompter_config.emphasis_chance)
         return ', '.join(random_words)
 
     def nonsense(self) -> str:
-        nonsense = self.concepts.get_nonsense(*self.prompter_config.get_category_config("nonsense"), multiplier=self.prompter_config.multiplier)
+        nonsense = self.concepts.get_nonsense(self.prompter_config.get_category_config("nonsense"), multiplier=self.prompter_config.multiplier)
         Prompter.emphasize(nonsense, emphasis_chance=self.prompter_config.emphasis_chance)
         return ', '.join(nonsense)
 
