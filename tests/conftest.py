@@ -195,6 +195,12 @@ def _reset_class_state() -> None:
         Blacklist.similarity_threshold = 0.85
         Blacklist.similarity_enabled = False
         Blacklist._similarity_engine = None
+        # AppWindow assigns the app's actions here on construction, and they are
+        # thread-bridged to a window that a later test no longer has. Leaving it
+        # set means any code that notifies through Blacklist reaches a dead
+        # bridge -- or worse, a modal dialog with nobody to dismiss it, which
+        # hangs the run rather than failing it.
+        Blacklist._ui_callbacks = None
         # The filter cache keys only on the concept list, never on blacklist
         # contents, so a result cached under one blacklist is returned verbatim
         # under another. Without this a test that filters the same concepts as

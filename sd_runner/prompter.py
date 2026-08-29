@@ -4,15 +4,17 @@ import random
 import re
 import subprocess
 
-from sd_runner.blacklist import Blacklist
+from sd_runner.blacklist import Blacklist, BlacklistException
 from sd_runner.concepts import ConceptConfiguration, Concepts
 from sd_runner.prompter_configuration import PrompterConfiguration
 from sd_runner.expansion import Expansion
 from utils.config import config
-from utils.globals import PromptMode
+from utils.globals import BlacklistMode, PromptMode
 from utils.logging_setup import get_logger
+from utils.translations import I18N
 from extensions.image_data_extractor import ImageDataExtractor
 
+_ = I18N._
 logger = get_logger("prompter")
 
 
@@ -119,6 +121,7 @@ class Prompter:
             if related_image_path == "":
                 raise Exception("No related image path provided to take prompt from")
             positive, negative = Prompter.take_prompt_from_image(related_image_path)
+            positive, negative = Prompter.filter_taken_prompt(positive, negative)
         elif PromptMode.LIST == self.prompt_mode:
             positive = self.prompt_list[self.count % len(self.prompt_list)]
         elif PromptMode.IMPROVE == self.prompt_mode:
@@ -389,6 +392,97 @@ class Prompter:
         random.shuffle(mix)
         Prompter.emphasize(mix)
         return ', '.join(mix)
+
+    @staticmethod
+    def _notify_taken_prompt_filtering(message: str) -> None:
+        """Surface a filtering notice from the run thread, if a UI is attached.
+
+        Prompter has no UI reference of its own, but Blacklist is given the app's
+        actions at startup and those are thread-bridged, so this is safe from the
+        background thread. Absent (CLI, tests) it degrades to the log.
+
+        Uses ``warn`` rather than ``alert``: the severity is right, but an alert
+        is modal -- ``qt_alert`` calls ``exec()`` -- which over a batch of taken
+        prompts would stop the run on every affected image waiting to be
+        dismissed. ``AppActions.warn`` is a toast in the warning colour, so it
+        keeps the severity without blocking the run thread.
+        """
+        callbacks = getattr(Blacklist, "_ui_callbacks", None)
+        if callbacks is None:
+            return
+        try:
+            callbacks.warn(message)
+        except Exception as e:
+            logger.warning(f"Could not surface taken-prompt filtering notice: {e}")
+
+    @staticmethod
+    def filter_taken_prompt(positive: str, negative: str) -> tuple[str, str]:
+        """Apply blacklist filtering to a prompt extracted from a source image.
+
+        PromptMode.TAKE is the one mode whose prompt is not user-authored: it is
+        read out of an image's metadata during the run, after
+        RunController.validate_blacklist has already passed on the (empty)
+        sidebar text. This is the runtime equivalent of that check, and honours
+        the same BlacklistMode / blacklist_prevent_execution /
+        blacklist_silent_removal settings.
+
+        - REMOVE_WORD_OR_PHRASE / REMOVE_ENTIRE_TAG: strip matching tags, notify,
+          and let the run continue with what is left.
+        - FAIL_PROMPT: raise BlacklistException, which aborts the run.
+        - LOG_ONLY: log and return unchanged.
+
+        The negative prompt is returned untouched. Extracted negatives routinely
+        carry safety terms (``nsfw``, ``explicit``) that exist precisely to
+        suppress that content, and filtering them would strip the protection.
+        """
+        if not config.blacklist_prevent_execution:
+            return positive, negative
+        if Blacklist.is_allowed_prompt_mode(PromptMode.TAKE):
+            return positive, negative
+        if not positive or positive.strip() == "":
+            return positive, negative
+
+        mode = Blacklist.get_blacklist_mode()
+        silent = Blacklist.get_blacklist_silent_removal()
+
+        tags = [tag.strip() for tag in positive.split(",")]
+        whitelist, filtered = Blacklist.filter_concepts(tags, prompt_mode=PromptMode.TAKE)
+
+        if filtered:
+            if mode == BlacklistMode.FAIL_PROMPT:
+                # Aborts the run regardless of silent_removal, matching
+                # validate_blacklist: a failed prompt is never silently skipped.
+                raise BlacklistException(
+                    _("Blacklist validation failed on extracted image prompt"),
+                    whitelist,
+                    filtered,
+                )
+            if mode == BlacklistMode.LOG_ONLY:
+                logger.warning(f"Blacklisted tags in extracted prompt (log only): {filtered}")
+            else:
+                logger.info(f"Removed blacklisted tags from extracted prompt: {filtered}")
+                positive = ", ".join(whitelist)
+                if not silent:
+                    Prompter._notify_taken_prompt_filtering(
+                        _("Blacklisted tags removed from extracted prompt: {0}").format(
+                            ", ".join(filtered.keys())
+                        )
+                    )
+
+        # Similarity runs on the surviving text: removing a tag may well have
+        # removed the resemblance, and re-checking the original would fail a
+        # prompt that is no longer the one about to be generated.
+        violated, score, phrase = Blacklist.check_similarity(positive)
+        if violated:
+            raise BlacklistException(
+                _("Extracted prompt too similar to blocked concept \"{0}\" ({1:.0%})").format(
+                    phrase, score
+                ),
+                [],
+                {positive: phrase},
+            )
+
+        return positive, negative
 
     @staticmethod
     def take_prompt_from_image(related_image_path: str) -> tuple[str, str]:

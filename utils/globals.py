@@ -650,6 +650,7 @@ class ProtectedActions(Enum):
     """Enumeration of actions that can be password protected."""
     OPEN_APPLICATION = "open_application"
     NSFW_PROMPTS = "nsfw_prompts"
+    TAKE_PROMPT = "take_prompt"
     EDIT_BLACKLIST = "edit_blacklist"
     REVEAL_BLACKLIST_CONCEPTS = "reveal_blacklist_concepts"
     EDIT_SCHEDULES = "edit_schedules"
@@ -672,6 +673,7 @@ class ProtectedActions(Enum):
         descriptions = {
             ProtectedActions.OPEN_APPLICATION: _("Open Application"),
             ProtectedActions.NSFW_PROMPTS: _("NSFW/NSFL Prompt Modes"),
+            ProtectedActions.TAKE_PROMPT: _("Take Prompt Mode (unfiltered image prompts)"),
             ProtectedActions.EDIT_BLACKLIST: _("Edit Blacklist"),
             ProtectedActions.REVEAL_BLACKLIST_CONCEPTS: _("Reveal Blacklist Concepts"),
             ProtectedActions.EDIT_SCHEDULES: _("Edit Schedules"),

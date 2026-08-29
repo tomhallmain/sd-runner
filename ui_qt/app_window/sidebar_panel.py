@@ -673,11 +673,33 @@ class SidebarPanel(QWidget):
         GenConfig.set_redo_params(val)
 
     def _on_prompt_mode_changed(self, text: str) -> None:
-        """Handle prompt mode change -- check NSFW password if needed."""
+        """Handle prompt mode change -- check NSFW password if needed.
+
+        NSFW/NSFL always require NSFW_PROMPTS. TAKE requires its own
+        TAKE_PROMPT action, and only when the blacklist is inactive: its prompt
+        comes out of an image's metadata rather than from the user, so with
+        nothing filtering it the content is unconstrained. An active blacklist
+        intercepts the extracted tags at generation time
+        (Prompter.filter_taken_prompt), which is what makes the mode safe enough
+        to enter without authenticating.
+
+        The two are separate actions because they are separate decisions:
+        choosing to generate adult content is deliberate, while taking a prompt
+        from a file is content of unknown character. A user may reasonably want
+        one gated and not the other.
+        """
         try:
+            from utils.globals import ProtectedActions
+
             mode = PromptMode.get(text)
+            required_action = None
             if mode.is_nsfw():
-                from utils.globals import ProtectedActions
+                required_action = ProtectedActions.NSFW_PROMPTS
+            elif mode == PromptMode.TAKE:
+                from sd_runner.blacklist import Blacklist
+                if not Blacklist.is_active():
+                    required_action = ProtectedActions.TAKE_PROMPT
+            if required_action is not None:
                 from ui_qt.auth.password_utils import check_password_required
 
                 def password_callback(result):
@@ -692,7 +714,7 @@ class SidebarPanel(QWidget):
                         self.prompt_mode_combo.blockSignals(False)
 
                 check_password_required(
-                    [ProtectedActions.NSFW_PROMPTS], self._app, password_callback
+                    [required_action], self._app, password_callback
                 )
         except Exception as e:
             logger.exception(f"Error checking prompt mode password: {e}")

@@ -701,6 +701,23 @@ class Blacklist:
         return len(Blacklist.TAG_BLACKLIST) == 0
 
     @staticmethod
+    def is_active() -> bool:
+        """True when the blacklist can actually intercept something.
+
+        Both halves are required: enforcement has to be switched on, *and* at
+        least one item has to be enabled. An empty list, or one whose every item
+        is disabled, offers no protection however the setting is configured.
+
+        Callers use this to decide whether an unfiltered prompt source needs
+        gating -- see the TAKE-mode branch of the prompt mode selector.
+        """
+        from utils.config import config
+
+        if not config.blacklist_prevent_execution:
+            return False
+        return any(item.enabled for item in Blacklist.TAG_BLACKLIST)
+
+    @staticmethod
     def is_model_empty() -> bool:
         return len(Blacklist.MODEL_BLACKLIST) == 0
 
