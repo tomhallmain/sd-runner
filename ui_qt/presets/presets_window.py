@@ -53,12 +53,22 @@ class PresetsWindow(SmartDialog):
             PresetsWindow.recent_presets.append(Preset.from_dict(preset_dict))
 
     @staticmethod
-    def store_recent_presets():
+    def store_recent_presets(persist: bool = True):
+        """Store recent presets to cache.
+
+        Writes through to disk unless *persist* is False. The write is skipped
+        when nothing actually changed, so calling this from an edit handler is
+        cheap even when the edit was a no-op. store_info_cache passes False
+        because it writes once itself after collecting every subsystem.
+        """
         from utils.app_info_cache import app_info_cache
         preset_dicts = []
         for preset in PresetsWindow.recent_presets:
             preset_dicts.append(preset.to_dict())
         app_info_cache.set("recent_presets", preset_dicts)
+
+        if persist:
+            app_info_cache.store(only_if_changed=True)
 
     @staticmethod
     def get_preset_by_name(name):
@@ -215,10 +225,12 @@ class PresetsWindow(SmartDialog):
             if preset in PresetsWindow.recent_presets:
                 PresetsWindow.recent_presets.remove(preset)
             PresetsWindow.recent_presets.insert(0, preset)
+            PresetsWindow.store_recent_presets()
             return preset
         if preset in PresetsWindow.recent_presets:
             PresetsWindow.recent_presets.remove(preset)
         PresetsWindow.recent_presets.insert(0, preset)
+        PresetsWindow.store_recent_presets()
         self._set_preset(preset)
         return preset
 
@@ -234,11 +246,13 @@ class PresetsWindow(SmartDialog):
     def _delete_preset(self, preset: Preset | None = None) -> None:
         if preset is not None and preset in PresetsWindow.recent_presets:
             PresetsWindow.recent_presets.remove(preset)
+            PresetsWindow.store_recent_presets()
         self._rebuild_rows()
 
     @require_password(ProtectedActions.EDIT_PRESETS)
     def _clear_recent_presets(self) -> None:
         PresetsWindow.recent_presets.clear()
+        PresetsWindow.store_recent_presets()
         self._rebuild_rows()
 
     def _do_action(self) -> None:

@@ -2,9 +2,11 @@ import hashlib
 import json
 import os
 import shutil
+import tempfile
 import threading
 import datetime
 
+from lib.equivalence import are_equivalent
 from lib.position_data_qt import PositionData
 from sd_runner.blacklist import Blacklist
 from utils.config import config
@@ -42,6 +44,13 @@ class AppInfoCache:
         # Set True while _purge_blacklisted_history is running so that
         # external code (e.g. shutdown failsafe) can extend its timeout.
         self.purging_history = False
+        # Set by every mutator, cleared by a successful store. Lets the periodic
+        # store skip writing when nothing has actually moved.
+        self._has_changes = False
+        # Set by wipe_instance. Shutdown deliberately empties the cache from
+        # memory after its final write, so any store attempted afterwards would
+        # overwrite good data with nothing.
+        self._wiped = False
         _override = os.environ.get("SD_RUNNER_CACHE_DIR")
         self._cache_loc = os.path.join(_override, "app_info_cache.enc") if _override else AppInfoCache.CACHE_LOC
         self._json_loc = os.path.join(_override, "app_info_cache.json") if _override else AppInfoCache.JSON_LOC
@@ -58,10 +67,65 @@ class AppInfoCache:
                 AppInfoCache.HISTORY_PURGE_CACHE_KEY: {},
                 AppInfoCache.EDIT_HISTORY_KEY: {},
             }
+            self._wiped = True
 
-    def store(self):
-        """Persist cache to encrypted file. Returns True on success, False if encrypted store failed but JSON fallback succeeded. Raises on encoding or JSON fallback failure."""
+    @property
+    def has_changes(self) -> bool:
+        """True if there are pending writes that have not yet been stored."""
         with self._lock:
+            return self._has_changes
+
+    def _encrypt_to_path_atomically(self, cache_data, destination) -> None:
+        """Encrypt *cache_data* to *destination* via a temp file and one rename.
+
+        Writing straight to the destination truncates it first, so a crash or
+        power loss part-way through leaves an unreadable cache. Building the new
+        file alongside it and renaming means the destination is only ever the
+        old complete file or the new complete file.
+
+        The temp file is created in the destination's own directory so the
+        rename stays on one filesystem, which is what makes it atomic.
+        """
+        destination_dir = os.path.dirname(destination) or "."
+        os.makedirs(destination_dir, exist_ok=True)
+        fd, temp_path = tempfile.mkstemp(
+            prefix=".app_info_cache_", suffix=".tmp", dir=destination_dir
+        )
+        os.close(fd)
+        try:
+            encrypt_data_to_file(
+                cache_data,
+                Globals.SERVICE_NAME,
+                Globals.APP_IDENTIFIER,
+                temp_path
+            )
+            os.replace(temp_path, destination)
+        except Exception:
+            try:
+                if os.path.exists(temp_path):
+                    os.remove(temp_path)
+            except Exception:
+                pass
+            raise
+
+    def store(self, only_if_changed: bool = False):
+        """Persist cache to encrypted file. Returns True on success, False if encrypted store failed but JSON fallback succeeded. Raises on encoding or JSON fallback failure.
+
+        With *only_if_changed*, a store where nothing has been modified since the
+        last one is skipped entirely and None is returned. Callers that must
+        write regardless -- anything tied to a prompt execution, because the
+        blacklist purge below runs as part of the store and there is no purge on
+        load -- should leave it False.
+        """
+        with self._lock:
+            if self._wiped:
+                # Refuses rather than raises: the callers that could hit this
+                # are shutdown and crash paths, which must not be derailed.
+                logger.warning("Refusing to store a wiped cache over the saved one")
+                return None
+            if only_if_changed and not self._has_changes:
+                logger.debug("No cache changes since last store; skipping")
+                return None
             try:
                 if config.purge_blacklisted_prompt_history:
                     logger.debug("Purging blacklisted prompt history...")
@@ -76,12 +140,8 @@ class AppInfoCache:
 
             logger.debug("Encrypting cache...")
             try:
-                encrypt_data_to_file(
-                    cache_data,
-                    Globals.SERVICE_NAME,
-                    Globals.APP_IDENTIFIER,
-                    self._cache_loc
-                )
+                self._encrypt_to_path_atomically(cache_data, self._cache_loc)
+                self._has_changes = False
                 return True  # Encryption successful
             except Exception as e:
                 logger.error(f"Error encrypting cache: {e}")
@@ -90,6 +150,7 @@ class AppInfoCache:
             try:
                 with open(self._json_loc, "w", encoding="utf-8") as f:
                     json.dump(self._cache, f)
+                self._has_changes = False
                 return False  # Encryption failed, but JSON fallback succeeded
             except Exception as e:
                 raise Exception(f"Error storing application cache", e)
@@ -253,6 +314,8 @@ class AppInfoCache:
             filtered_history = filtered_history[:AppInfoCache.MAX_HISTORY_ENTRIES]
             logger.info(f"Truncated history to {AppInfoCache.MAX_HISTORY_ENTRIES} entries")
             
+        if len(filtered_history) != len(raw_history):
+            self._has_changes = True
         self._cache[AppInfoCache.HISTORY_KEY] = filtered_history
 
     def _get_history(self) -> list:
@@ -285,6 +348,7 @@ class AppInfoCache:
         """Record an edit output basename with the current timestamp."""
         with self._lock:
             self._get_edit_history()[basename] = datetime.datetime.now().isoformat()
+            self._has_changes = True
 
     def edit_output_exists(self, basename: str) -> bool:
         """Return True if this basename was previously produced by an edit."""
@@ -295,7 +359,12 @@ class AppInfoCache:
         with self._lock:
             if AppInfoCache.INFO_KEY not in self._cache:
                 self._cache[AppInfoCache.INFO_KEY] = {}
-            self._cache[AppInfoCache.INFO_KEY][key] = value
+            # Already dirty means the comparison cannot change the outcome.
+            if self._has_changes or not are_equivalent(
+                self._cache[AppInfoCache.INFO_KEY].get(key), value
+            ):
+                self._cache[AppInfoCache.INFO_KEY][key] = value
+                self._has_changes = True
 
     def get(self, key, default_val=None):
         with self._lock:
@@ -337,6 +406,7 @@ class AppInfoCache:
                 
             config_dict = runner_app_config.to_dict()
             history.insert(0, config_dict)
+            self._has_changes = True
             
             # Add to prompt history if there are positive tags
             self.add_prompt_history_entry(
@@ -365,6 +435,7 @@ class AppInfoCache:
                 logger.debug("Prompt history already contains this prompt at top")
                 return False
             prompt_history.insert(0, entry)
+            self._has_changes = True
             while len(prompt_history) > AppInfoCache.MAX_PROMPT_HISTORY_ENTRIES:
                 prompt_history.pop()
             return True
@@ -459,7 +530,11 @@ class AppInfoCache:
             directory_info = self._get_directory_info()
             if directory not in directory_info:
                 directory_info[directory] = {}
-            directory_info[directory][key] = value
+            if self._has_changes or not are_equivalent(
+                directory_info[directory].get(key), value
+            ):
+                directory_info[directory][key] = value
+                self._has_changes = True
 
     def get_directory(self, directory, key, default_val=None):
         with self._lock:

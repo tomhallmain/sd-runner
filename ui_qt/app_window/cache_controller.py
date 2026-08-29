@@ -127,9 +127,15 @@ class CacheController:
     # ------------------------------------------------------------------
     # Store
     # ------------------------------------------------------------------
-    def store_info_cache(self) -> None:
+    def store_info_cache(self, only_if_changed: bool = False) -> None:
         """
         Persist all application state to the encrypted cache.
+
+        *only_if_changed* is for the periodic timer: the subsystem state is
+        still collected (that is what makes the change detection accurate), but
+        the encrypt-and-write is skipped when nothing moved. Every other caller
+        leaves it False, so a save tied to a prompt execution always writes and
+        therefore always runs the blacklist history purge.
         """
         from ui_qt.prompts.blacklist_window import BlacklistWindow
         from ui_qt.presets.presets_window import PresetsWindow
@@ -147,22 +153,27 @@ class CacheController:
                     if self._app.config_history_index > 0:
                         self._app.config_history_index -= 1
             app_info_cache.set("config_history_index", self._app.config_history_index)
+            # persist=False throughout: these subsystems write through on their
+            # own edit handlers, but here they are only collecting, and the
+            # single write below covers all of them at once.
             logger.debug("Storing blacklist...")
-            BlacklistWindow.store_blacklist()
+            BlacklistWindow.store_blacklist(persist=False)
             logger.debug("Storing presets...")
-            PresetsWindow.store_recent_presets()
+            PresetsWindow.store_recent_presets(persist=False)
             logger.debug("Storing schedules...")
-            SchedulesWindow.store_schedules()
+            SchedulesWindow.store_schedules(persist=False)
             logger.debug("Storing expansions...")
-            _store_expansions()
+            _store_expansions(persist=False)
             logger.debug("Storing timed schedules...")
             timed_schedules_manager.store_schedules()
             logger.debug("Storing recent adapters...")
-            RecentAdaptersWindow.save_recent_adapters()
+            RecentAdaptersWindow.save_recent_adapters(persist=False)
             logger.debug("Storing security config...")
             get_security_config().save_settings()
+            logger.debug("Storing pending queues...")
+            self.store_pending_queues()
             logger.debug("Storing app info cache...")
-            app_info_cache.store()
+            app_info_cache.store(only_if_changed=only_if_changed)
             logger.debug("Info cache stored successfully")
         except Exception as e:
             logger.error(f"Failed to store info cache: {e}")
@@ -173,8 +184,13 @@ class CacheController:
     def store_pending_queues(self) -> None:
         """
         Snapshot pending SD runs and server staging requests into the cache
-        so they can be restored in the next session.  Called once at shutdown,
-        not during periodic saves.
+        so they can be restored in the next session.
+
+        Called from store_info_cache, so it runs on every save path rather than
+        only at shutdown. Saving these only on a clean exit covered the one case
+        where nothing was at risk and missed every case where it was -- a crash
+        or a kill lost the whole queue. Cost is bounded by the queue sizes
+        (SDRunsQueue caps at 50, and staging entries are lightweight dicts).
         """
         try:
             from copy import deepcopy
@@ -251,14 +267,28 @@ class CacheController:
     # ------------------------------------------------------------------
     # Periodic cache store
     # ------------------------------------------------------------------
-    def start_periodic_store(self, interval_ms: int = 300_000) -> None:
+    def start_periodic_store(self, interval_ms: Optional[int] = None) -> None:
         """
         Start a periodic timer to store the cache at intervals.
-        Default is 5 minutes (300 000 ms).
+
+        With no argument the interval comes from
+        ``config.cache_store_interval_seconds`` (default 300). Zero or less
+        disables the timer, in which case the cache is still written on every
+        run, on preset creation, and at shutdown.
 
         Replaces the async ``do_periodic_store_cache`` pattern.
         """
+        if interval_ms is None:
+            from utils.config import config
+            try:
+                interval_ms = int(config.cache_store_interval_seconds) * 1000
+            except (TypeError, ValueError):
+                logger.warning(
+                    "Invalid cache_store_interval_seconds; falling back to 300s"
+                )
+                interval_ms = 300_000
         if interval_ms <= 0:
+            logger.info("Periodic cache store disabled by configuration")
             return
         self._store_cache_timer = QTimer()
         self._store_cache_timer.timeout.connect(self._on_periodic_store)
@@ -277,6 +307,6 @@ class CacheController:
         """
         try:
             self.store_display_position()
-            self.store_info_cache()
+            self.store_info_cache(only_if_changed=True)
         except Exception as e:
             logger.debug(f"Error in periodic store info cache: {e}")

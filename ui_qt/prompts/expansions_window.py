@@ -181,11 +181,21 @@ class ExpansionsWindow(SmartDialog):
             Expansion.expansions.append(Expansion.from_dict(expansion_dict))
 
     @staticmethod
-    def store_expansions():
+    def store_expansions(persist: bool = True):
+        """Store expansions to cache.
+
+        Writes through to disk unless *persist* is False. The write is skipped
+        when nothing actually changed, so calling this from an edit handler is
+        cheap even when the edit was a no-op. store_info_cache passes False
+        because it writes once itself after collecting every subsystem.
+        """
         from utils.app_info_cache import app_info_cache
 
         expansion_dicts = [expansion.to_dict() for expansion in Expansion.expansions]
         app_info_cache.set("expansions", expansion_dicts)
+
+        if persist:
+            app_info_cache.store(only_if_changed=True)
 
     @staticmethod
     def get_expansion_names():

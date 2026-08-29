@@ -137,8 +137,14 @@ class BlacklistWindow(SmartDialog):
         Blacklist.set_similarity_phrase_items([it for it in phrase_items if it is not None])
 
     @staticmethod
-    def store_blacklist():
-        """Store blacklist to cache."""
+    def store_blacklist(persist: bool = True):
+        """Store blacklist to cache.
+
+        Writes through to disk unless *persist* is False. The write is skipped
+        when nothing actually changed, so calling this from an edit handler is
+        cheap even when the edit was a no-op. store_info_cache passes False
+        because it writes once itself after collecting every subsystem.
+        """
         from utils.app_info_cache import app_info_cache
         from sd_runner.blacklist import Blacklist
 
@@ -162,6 +168,10 @@ class BlacklistWindow(SmartDialog):
         # loads should use the cached items instead of the encrypted default.
         if blacklist_dicts or model_blacklist_dicts:
             app_info_cache.set(BlacklistWindow.DEFAULT_BLACKLIST_KEY, True)
+
+        # Last: everything above has to be in the cache before it is written.
+        if persist:
+            app_info_cache.store(only_if_changed=True)
 
     @staticmethod
     def mark_user_confirmed_non_default():

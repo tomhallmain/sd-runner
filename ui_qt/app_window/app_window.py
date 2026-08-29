@@ -712,7 +712,8 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
 
         def _store_cache():
             try:
-                self.cache_ctrl.store_pending_queues()
+                # store_info_cache snapshots the pending queues itself now, so
+                # shutdown takes the same path as every other save.
                 self.cache_ctrl.store_display_position()
                 self.cache_ctrl.store_info_cache()
                 app_info_cache.wipe_instance()

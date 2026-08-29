@@ -5,9 +5,11 @@ Creates the QApplication, handles startup authentication, signal handlers,
 single-instance locking, and launches the main AppWindow.
 """
 
+import atexit
 import os
 import signal
 import sys
+import threading
 import traceback
 
 from PySide6.QtWidgets import QApplication
@@ -54,6 +56,54 @@ def main():
 
     signal.signal(signal.SIGINT, graceful_shutdown)
     signal.signal(signal.SIGTERM, graceful_shutdown)
+
+    # ------------------------------------------------------------------
+    # Emergency cache save
+    #
+    # The signal handlers above cover a polite kill and Ctrl-C. They do not
+    # cover a crash: an unhandled exception never raises a signal, so without
+    # the hooks below the process dies with everything since the last save
+    # still only in memory. See _emergency_store for what each hook catches.
+    # ------------------------------------------------------------------
+    emergency_store_done = [False]
+
+    def _emergency_store(reason: str) -> None:
+        """Best-effort cache write from a failure path.
+
+        Deliberately does the minimum: one store, guarded, never raising. The
+        process is already in an unknown state, so this must not turn a crash
+        into a hang or mask the original traceback.
+        """
+        if emergency_store_done[0] or app_window is None:
+            return
+        emergency_store_done[0] = True
+        try:
+            logger.error(f"Emergency cache store ({reason})")
+            app_window.cache_ctrl.store_info_cache()
+        except Exception as store_error:
+            # Never let the rescue attempt replace the failure being reported.
+            logger.error(f"Emergency cache store failed: {store_error}")
+
+    def _handle_uncaught(exc_type, exc_value, exc_traceback):
+        # KeyboardInterrupt reaches here when it lands outside the signal
+        # handler; it is an orderly exit, not a crash worth a rescue write.
+        if not issubclass(exc_type, KeyboardInterrupt):
+            _emergency_store(f"unhandled {exc_type.__name__}")
+        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+
+    def _handle_uncaught_in_thread(args):
+        if not issubclass(args.exc_type, SystemExit):
+            _emergency_store(f"unhandled {args.exc_type.__name__} in thread")
+        threading.__excepthook__(args)
+
+    sys.excepthook = _handle_uncaught
+    threading.excepthook = _handle_uncaught_in_thread
+    # Covers the orderly-exit paths that bypass on_closing (a stray sys.exit, or
+    # the interpreter simply running out of main). Does not run on os._exit,
+    # which the paths above use once they have already saved. Safe to run after
+    # a normal shutdown because AppInfoCache.store refuses once the instance has
+    # been wiped, so this cannot write an emptied cache over the saved one.
+    atexit.register(lambda: _emergency_store("interpreter exit"))
 
     # Periodically yield to the Python interpreter so that signal handlers
     # (SIGINT, SIGTERM) can fire.  Without this, Qt's C++ event loop never

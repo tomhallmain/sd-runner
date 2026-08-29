@@ -196,7 +196,14 @@ class RecentAdaptersWindow(SmartDialog):
             RecentAdaptersWindow._favorite_adapters = []
 
     @staticmethod
-    def save_recent_adapters() -> None:
+    def save_recent_adapters(persist: bool = True) -> None:
+        """Store recent and favorite adapters to cache.
+
+        Writes through to disk unless *persist* is False. The write is skipped
+        when nothing actually changed, so calling this from an edit handler is
+        cheap even when the edit was a no-op. store_info_cache passes False
+        because it writes once itself after collecting every subsystem.
+        """
         from utils.app_info_cache import app_info_cache
         try:
             # Re-check existence before saving so stale favorites are not persisted.
@@ -208,6 +215,8 @@ class RecentAdaptersWindow(SmartDialog):
             app_info_cache.set(RecentAdaptersWindow.RECENT_SOURCE_PROMPTS_KEY, RecentAdaptersWindow._recent_source_prompts)
             app_info_cache.set(RecentAdaptersWindow.RECENT_ADAPTER_FILES_SPLIT_KEY, RecentAdaptersWindow._recent_adapter_files_split)
             app_info_cache.set(RecentAdaptersWindow.FAVORITE_ADAPTERS_KEY, RecentAdaptersWindow._favorite_adapters)
+            if persist:
+                app_info_cache.store(only_if_changed=True)
         except Exception as e:
             import logging
             logging.getLogger("ui_qt.recent_adapters_window").error(f"Failed to save recent adapters to cache: {e}")

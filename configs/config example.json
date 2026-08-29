@@ -90,6 +90,7 @@
     },
 
     "purge_blacklisted_prompt_history": true,
+    "cache_store_interval_seconds": 300,
 
     "concepts_dirs": ["concepts", "Konzepte"],
     "default_concepts_dir": null,

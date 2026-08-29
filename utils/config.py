@@ -49,6 +49,7 @@ class Config:
         # Behavior
         "blacklist_prevent_execution":      bool,
         "purge_blacklisted_prompt_history": bool,
+        "cache_store_interval_seconds":     int,
         "save_last_prompt":                 bool,
         "delay_after_single_run":           bool,
         "debug":                            bool,
@@ -113,6 +114,7 @@ class Config:
         self.image_searcher_dir2 = None
         self.blacklist_prevent_execution = False  # Whether blacklisted items should prevent prompt execution
         self.purge_blacklisted_prompt_history = True  # Whether to purge blacklisted prompts from history on cache write
+        self.cache_store_interval_seconds = 300  # Periodic cache store interval; 0 or less disables the timer
         self.save_last_prompt = False
         self.delay_after_single_run = True  # Post-run delay when total == 1 (e.g. standalone server requests)
 
@@ -155,6 +157,7 @@ class Config:
 
         self.set_values(int,
                         "max_executor_threads",
+                        "cache_store_interval_seconds",
         )
         self.set_values(float,
                         "ui_scale_factor",

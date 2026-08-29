@@ -200,7 +200,14 @@ class SchedulesWindow(SmartDialog):
             SchedulesWindow.current_schedule = Schedule()
 
     @staticmethod
-    def store_schedules():
+    def store_schedules(persist: bool = True):
+        """Store schedules to cache.
+
+        Writes through to disk unless *persist* is False. The write is skipped
+        when nothing actually changed, so calling this from an edit handler is
+        cheap even when the edit was a no-op. store_info_cache passes False
+        because it writes once itself after collecting every subsystem.
+        """
         from utils.app_info_cache import app_info_cache
         schedule_dicts = []
         for schedule in SchedulesWindow.recent_schedules:
@@ -208,6 +215,9 @@ class SchedulesWindow(SmartDialog):
         app_info_cache.set("recent_schedules", schedule_dicts)
         if SchedulesWindow.current_schedule is not None:
             app_info_cache.set("current_schedule", SchedulesWindow.current_schedule.to_dict())
+
+        if persist:
+            app_info_cache.store(only_if_changed=True)
 
     @staticmethod
     def update_history(schedule):
@@ -322,18 +332,21 @@ class SchedulesWindow(SmartDialog):
         if schedule in SchedulesWindow.recent_schedules:
             SchedulesWindow.recent_schedules.remove(schedule)
         SchedulesWindow.recent_schedules.insert(0, schedule)
+        SchedulesWindow.store_schedules()
         self._set_schedule(schedule)
 
     @require_password(ProtectedActions.EDIT_SCHEDULES)
     def _delete_schedule(self, schedule: Schedule | None = None) -> None:
         if schedule is not None and schedule in SchedulesWindow.recent_schedules:
             SchedulesWindow.recent_schedules.remove(schedule)
+            SchedulesWindow.store_schedules()
             self._app_actions.toast(_("Deleted schedule: {0}").format(schedule))
         self._rebuild_rows()
 
     @require_password(ProtectedActions.EDIT_SCHEDULES)
     def _clear_recent_schedules(self) -> None:
         SchedulesWindow.recent_schedules.clear()
+        SchedulesWindow.store_schedules()
         self._rebuild_rows()
         self._app_actions.toast(_("Cleared schedules"))
 
