@@ -18,11 +18,22 @@ NOTE: To run the tests, run ``python -m lib.sleep_prevention`` from the repo roo
 * ``WakeLevel.FULL`` (``SYSTEM | DISPLAY``) — default for :func:`prevent_sleep`
   and legacy :func:`acquire` / :func:`release`.
 
-**OS hooks** are owned by *this process only*. File totals do not defer
-``release_wake`` for other PIDs.
+**OS hooks** are owned by *this process only*, and must stay that way: on every
+supported platform the inhibitor is per-process and the OS aggregates them
+natively (Win32 keeps the system awake while *any* process holds
+``ES_SYSTEM_REQUIRED``; ``caffeinate`` and ``systemd-inhibit`` are per-process).
+Deferring ``release_wake`` until the *shared* total reaches zero would therefore
+leave this process's own inhibitor asserted long after its work finished --
+on Windows re-asserted every 60s by the refresh thread. The shared totals exist
+for reporting, and for exactly one decision: :func:`_bootstrap_file_state`
+clears stale OS state at startup when nothing anywhere is holding a request.
 
 **Shared JSON** (see :func:`state_path`, :func:`state_dir`), version 3:
 
+* The state directory is **not** namespaced per application -- every
+  participating app (sd_runner, weidr, muse) reads and writes one machine-local
+  file, which is what makes the totals meaningful across applications. The
+  per-app dimension lives *inside* the JSON, not in the path.
 * Top-level keys are **application IDs** (e.g. ``sd_runner``), not
   ``app:pid`` strings.
 * Under each app, **process id strings** hold per-PID state so dead processes
@@ -87,32 +98,75 @@ class WakeLevel(IntFlag):
     FULL = SYSTEM | DISPLAY
 
 
-def _app_identifier() -> str:
-    """Avoid importing ``utils.globals`` at module load (circular import with ``utils.utils``)."""
-    try:
-        from utils.globals import Globals
+# Identifier used when the host application's own constant can't be resolved.
+# Each copy of this module sets this to its own app; a wrong value silently
+# files this process's rows under another application's name.
+_FALLBACK_APP_ID = "sd_runner"
 
-        return Globals.APP_IDENTIFIER
-    except Exception:
-        return "sd_runner"
+# Shown by ``systemd-inhibit --list`` alongside the app id in ``--who``. Kept
+# app-neutral: this module is shared, and naming one app's workload here
+# mislabels every other app's inhibitor.
+_INHIBIT_REASON = "long-running task"
+
+# Directory name under the platform's user-state base. Deliberately free of any
+# application name: all participating apps must agree on one path, or the
+# per-app totals inside the file can never see each other.
+_SHARED_STATE_DIRNAME = "sleep_prevention"
+
+# Overrides the resolved state directory outright. Intended for tests, which
+# must not read or mutate the real machine-local state.
+_STATE_DIR_ENV_VAR = "SLEEP_PREVENTION_STATE_DIR"
+
+_app_id_cache: Optional[str] = None
+
+
+def _app_identifier() -> str:
+    """This application's key in the shared state file.
+
+    Imported lazily to avoid pulling ``utils.globals`` in at module load
+    (circular import with ``utils.utils``), and cached so the resolution and
+    its failure log happen once. Resolution failure is logged rather than
+    silently adopting another application's identity -- with the state file
+    now shared, a wrong id files this process's rows under someone else.
+    """
+    global _app_id_cache
+    if _app_id_cache is None:
+        try:
+            from utils.globals import Globals
+
+            _app_id_cache = Globals.APP_IDENTIFIER
+        except Exception as e:
+            logger.warning(
+                "sleep_prevention could not resolve APP_IDENTIFIER (%s); filing state under %r",
+                e, _FALLBACK_APP_ID,
+            )
+            _app_id_cache = _FALLBACK_APP_ID
+    return _app_id_cache
 
 
 def state_dir() -> str:
-    """Directory for sleep-prevention JSON + lock (user / machine-local, not the repo)."""
-    app = _app_identifier()
-    if sys.platform == "win32":
+    """Directory for sleep-prevention JSON + lock (user / machine-local, not the repo).
+
+    Shared by every participating application -- see the module docstring.
+    """
+    override = os.environ.get(_STATE_DIR_ENV_VAR)
+    if override:
+        path = override
+    elif sys.platform == "win32":
         base = os.environ.get("LOCALAPPDATA")
         if not base:
             base = os.path.join(os.path.expanduser("~"), "AppData", "Local")
-        path = os.path.join(base, app, "sleep_prevention")
+        path = os.path.join(base, _SHARED_STATE_DIRNAME)
     elif sys.platform == "darwin":
-        path = os.path.join(os.path.expanduser("~"), "Library", "Application Support", app, "sleep_prevention")
+        path = os.path.join(
+            os.path.expanduser("~"), "Library", "Application Support", _SHARED_STATE_DIRNAME
+        )
     else:
         xdg = os.environ.get("XDG_STATE_HOME")
         if xdg:
-            path = os.path.join(xdg, app, "sleep_prevention")
+            path = os.path.join(xdg, _SHARED_STATE_DIRNAME)
         else:
-            path = os.path.join(os.path.expanduser("~"), ".local", "state", app, "sleep_prevention")
+            path = os.path.join(os.path.expanduser("~"), ".local", "state", _SHARED_STATE_DIRNAME)
     try:
         os.makedirs(path, exist_ok=True)
     except OSError as e:
@@ -449,13 +503,19 @@ def _file_lock() -> Iterator[None]:
                 import msvcrt
 
                 lock_f.seek(0)
-                msvcrt.locking(lock_f.fileno(), msvcrt.LK_UNLOCK, 1)
+                # LK_UNLCK, not LK_UNLOCK -- the latter does not exist, and
+                # naming it raised AttributeError out of this finally block,
+                # discarding the result of the with-body. That silently
+                # disabled all shared-state reads and writes on Windows.
+                msvcrt.locking(lock_f.fileno(), msvcrt.LK_UNLCK, 1)
             else:
                 import fcntl
 
                 fcntl.flock(lock_f.fileno(), fcntl.LOCK_UN)
-        except OSError:
-            pass
+        except Exception as e:
+            # Releasing is best-effort: closing the file drops the lock anyway,
+            # and a release failure must never invalidate a completed write.
+            logger.debug("sleep_prevention lock release failed: %s", e)
         lock_f.close()
 
 
@@ -745,7 +805,7 @@ def _linux_apply(effective: WakeLevel) -> None:
                 exe,
                 f"--what={what}",
                 f"--who={_app_identifier()}",
-                "--why=image-generation",
+                f"--why={_INHIBIT_REASON}",
                 "--mode=block",
                 "sleep",
                 "999999999",
@@ -1019,10 +1079,21 @@ __all__ = [
 
 
 if __name__ == "__main__":
-    # Allow ``python lib/sleep_prevention.py`` (repo root resolves ``utils``, etc.).
+    # Allow ``python lib/sleep_prevention.py`` as well as ``python -m
+    # lib.sleep_prevention`` (repo root resolves ``utils``, etc.; redundant
+    # but harmless under -m).
     _repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if _repo_root not in sys.path:
         sys.path.insert(0, _repo_root)
+
+    # Redirect to a scratch state dir before touching the API. These smoke
+    # tests end in reset_state_for_application(), which drops every row for
+    # this app id -- including rows belonging to other live instances of it.
+    # Against the real shared file that would clear a running app's state.
+    import tempfile
+
+    os.environ[_STATE_DIR_ENV_VAR] = tempfile.mkdtemp(prefix="sleep_prevention_selftest_")
+    print("self-test state dir: " + os.environ[_STATE_DIR_ENV_VAR])
 
     # Smoke tests (run from repo root).
     assert WakeLevel.FULL == WakeLevel.SYSTEM | WakeLevel.DISPLAY
