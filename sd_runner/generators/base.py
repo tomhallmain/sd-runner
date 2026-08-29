@@ -419,6 +419,32 @@ class BaseImageGenerator(ABC):
             )
         return BaseImageGenerator.move_to_target_dir(save_path, target_dir)
 
+    @staticmethod
+    def recover_related_image_path(image_path: str) -> str | None:
+        """The input image a previously generated image was produced from.
+
+        Every generator records this through finalize_output_path, so reading it
+        back is not specific to any backend. It matters most where the backend's
+        own metadata omits the input: A1111 notes that ControlNet ran and with
+        what settings but never on which image, so this is what allows such a
+        generation to be rebuilt.
+
+        Returns None when nothing was recorded, when the image came from another
+        tool, or when the recorded path no longer resolves -- it is a path from
+        the generating machine and the file may since have moved.
+        """
+        try:
+            related = Globals.get_image_data_extractor().get_related_image_path(image_path)
+        except Exception as e:
+            logger.warning(f"Could not read the related image path: {e}")
+            return None
+        if not related:
+            return None
+        if not os.path.isfile(related):
+            logger.warning(f"Recorded source image no longer exists: {related}")
+            return None
+        return related
+
     def _output_related_image_path(self, related_image_path: str | None = None) -> str | None:
         if related_image_path:
             return related_image_path

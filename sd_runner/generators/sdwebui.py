@@ -15,7 +15,10 @@ from sd_runner.models import Model, LoraBundle
 from sd_runner.prompter_configuration import PrompterConfiguration
 from sd_runner.workflow_prompts.sdwebui import WorkflowPromptSDWebUI
 from utils.config import config
+from utils.logging_setup import get_logger
 from utils.utils import Utils
+
+logger = get_logger("sdwebui_gen")
 
 
 def timestamp_str():
@@ -63,9 +66,10 @@ class SDWebuiGen(BaseImageGenerator):
 
     def prompt_setup(self, workflow_type: WorkflowType, action: str, prompt: Optional[WorkflowPromptSDWebUI], model: Model, vae=None, resolution=None, **kw):
         if prompt:
-            raise Exception("Redo prompt not supported for SDWebui at this time")
-            # prompt.set_from_workflow(workflow_type.value)
-            # model, vae = prompt.check_for_existing_image(model, vae, resolution)
+            # A redo arrives with its prompt already rebuilt from the source
+            # image's metadata, so there is nothing to load -- reuse it as-is
+            # rather than overwriting it with a blank template.
+            self.print_pre(action=action, model=model, vae=vae, resolution=resolution, **kw)
         else:
             self.print_pre(action=action, model=model, vae=vae, resolution=resolution, **kw)
             if not prompt:
@@ -355,11 +359,45 @@ class SDWebuiGen(BaseImageGenerator):
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         self.queue_prompt(prompt, img2img=True, related_image_path=ip_adapter.id)
 
+    @staticmethod
+    def _apply_recovered_source_image(prompt, image_path: str) -> None:
+        """Feed a recovered source image into whichever slot the template expects."""
+        encoded = encode_file_to_base64(image_path)
+        try:
+            if prompt.workflow_filename in (
+                PromptTypeSDWebUI.IMG2IMG.value,
+                PromptTypeSDWebUI.IMG2IMG_CONTROLNET.value,
+            ):
+                prompt.set_img2img_image(encoded)
+            if prompt.workflow_filename in (
+                PromptTypeSDWebUI.CONTROLNET.value,
+                PromptTypeSDWebUI.IMG2IMG_CONTROLNET.value,
+            ):
+                prompt.set_control_net_image(encoded)
+        except Exception as e:
+            logger.warning(f"Could not apply the recovered source image: {e}")
+
     def redo_with_different_parameter(self, source_file="", resolution=None, model=None, vae=None,
                                       lora=None, positive=None, negative=None, n_latents=None,
                                       control_net=None, ip_adapter=None, **kw):
         self.print_pre("Assembling redo prompt", model=model, resolution=resolution, vae=vae, n_latents=n_latents, positive="", negative="", lora=lora, control_net=control_net, ip_adapter=ip_adapter)
-        prompt = WorkflowPromptSDWebUI(source_file)
+        # A1111's own metadata never records the input image, so rebuilding an
+        # img2img or ControlNet workflow needs one from elsewhere: either the
+        # caller supplied it, or this app recorded it as the related image when
+        # the original was generated. Failing both, the prompt drops to txt2img.
+        has_source_image = bool(
+            (control_net is not None and getattr(control_net, "id", None))
+            or (ip_adapter is not None and getattr(ip_adapter, "id", None))
+        )
+        recovered_source = None
+        if not has_source_image:
+            recovered_source = self.recover_related_image_path(source_file)
+            if recovered_source is not None:
+                logger.info(f"Recovered source image for redo: {recovered_source}")
+            has_source_image = recovered_source is not None
+        prompt = WorkflowPromptSDWebUI(source_file, has_source_image=has_source_image)
+        if recovered_source is not None:
+            self._apply_recovered_source_image(prompt, recovered_source)
 
         # If this is not an API prompt, handle in an annoying way
         if not prompt.validate_api_prompt():
@@ -425,11 +463,20 @@ class SDWebuiGen(BaseImageGenerator):
 
         if not has_made_one_change:
             print("Did not make any changes to prompt for image: " + source_file)
-        
-        # if prompt.requires_img2img():
-        #     self.queue_prompt()
-        # else:
-        #     self.queue_prompt(prompt, img2img=False, workflow=)
+
+        # img2img and txt2img are different endpoints, so which one this goes to
+        # follows the template that was actually built -- which is txt2img unless
+        # a source image was available to rebuild the original workflow.
+        img2img = prompt.workflow_filename in (
+            PromptTypeSDWebUI.IMG2IMG.value,
+            PromptTypeSDWebUI.IMG2IMG_CONTROLNET.value,
+        )
+        self.queue_prompt(
+            prompt,
+            img2img=img2img,
+            related_image_path=source_file,
+            workflow=WorkflowType.REDO_PROMPT,
+        )
 
 
 

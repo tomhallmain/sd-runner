@@ -84,6 +84,52 @@ class ImageDataExtractor:
                 return False
         return True
 
+    def get_related_image_path(self, image_path):
+        """Return the source image recorded when this image was generated, or None.
+
+        Written by add_related_image_path for every control-net and IP-adapter
+        generation. This is what makes an SDWebUI redo of those workflows
+        possible at all: A1111's own metadata records that ControlNet ran and
+        with what settings, but never which image it ran on.
+
+        The path is from the generating machine and the file may since have
+        moved or been deleted, so callers must check it still exists.
+        """
+        try:
+            image = Image.open(image_path)
+        except Exception as e:
+            print(f"Could not open image for metadata: {image_path}: {e}")
+            return None
+        try:
+            info = image.info
+            if isinstance(info, dict):
+                related = info.get(ImageDataExtractor.RELATED_IMAGE_KEY)
+                if related and str(related).strip():
+                    return str(related)
+            return None
+        finally:
+            image.close()
+
+    def extract_a1111_parameters(self, image_path):
+        """Return the raw SDWebUI ``parameters`` metadata string, or None.
+
+        Kept separate from extract_prompt because the two formats are not
+        interchangeable: ComfyUI stores an API-ready workflow dict, SDWebUI a
+        human-readable summary that has to be parsed before it means anything.
+        """
+        try:
+            image = Image.open(image_path)
+        except Exception as e:
+            print(f"Could not open image for metadata: {image_path}: {e}")
+            return None
+        try:
+            info = image.info
+            if isinstance(info, dict) and 'parameters' in info:
+                return str(info['parameters'])
+            return None
+        finally:
+            image.close()
+
     def extract_prompt(self, image_path):
         image = Image.open(image_path)
         info = image.info
@@ -93,7 +139,8 @@ class ImageDataExtractor:
                 image.close()
                 return prompt
             elif 'parameters' in info:
-#                print("skipping unhandled Automatic1111 image info")
+                # SDWebUI's format. Not a workflow dict, so it cannot be returned
+                # here -- see extract_a1111_parameters.
                 pass
             else:
 #                print("Unhandled exif data: " + image_path)

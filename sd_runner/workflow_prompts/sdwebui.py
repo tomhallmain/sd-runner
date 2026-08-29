@@ -5,7 +5,11 @@ from utils.globals import PromptTypeSDWebUI
 from utils.globals import Sampler
 from utils.globals import Scheduler
 from sd_runner.model_adapters import LoraBundle
+from sd_runner.models import Model
+from utils.logging_setup import get_logger
 from .base import WorkflowPrompt
+
+logger = get_logger("workflow_prompt_sdwebui")
 
 
 class WorkflowPromptSDWebUI(WorkflowPrompt):
@@ -17,18 +21,100 @@ class WorkflowPromptSDWebUI(WorkflowPrompt):
     ALWAYSON_SCRIPTS_KEY = "alwayson_scripts"
     CONTROLNET_KEY = "ControlNet"
 
-    def __init__(self, workflow_filename):
+    def __init__(self, workflow_filename, has_source_image: bool = False):
+        self.a1111_parameters = None
         if workflow_filename.endswith(".png"):
-            raise Exception("Redo not yet supported for SDWebUI")
-            # self.full_path = workflow_filename
-            # self.json = Globals.get_image_data_extractor().extract_prompt(self.full_path)
+            # SDWebUI stores a text summary rather than a workflow, so a redo
+            # rebuilds a fresh template from the parsed values instead of
+            # resubmitting the original payload the way ComfyUI can.
+            self.source_image_path = workflow_filename
+            self.a1111_parameters = self._load_a1111_parameters(workflow_filename)
+            self.workflow_filename = self._select_template(
+                self.a1111_parameters, has_source_image
+            )
+            self.full_path = os.path.join(WorkflowPromptSDWebUI.PROMPTS_LOC, self.workflow_filename)
+            self.json = json.load(open(self.full_path, "r"))
+            self._apply_a1111_parameters(self.a1111_parameters)
         else:
+            self.source_image_path = None
             self.workflow_filename = PromptTypeSDWebUI.convert_to_sd_webui_filename(workflow_filename)
             self.full_path = os.path.join(WorkflowPromptSDWebUI.PROMPTS_LOC, self.workflow_filename)
             self.json = json.load(open(self.full_path, "r"))
         assert self.json is not None
         self.temp_redo_inputs = None
         self.is_xl = None
+
+    @staticmethod
+    def _select_template(params, has_source_image: bool) -> str:
+        """Pick the template, downgrading when the source image is unavailable.
+
+        A1111 records that img2img or ControlNet was used but never the path of
+        the image fed in, so those templates can only be rebuilt when the caller
+        supplies one. Without it the request would go out with no init image and
+        be rejected, so fall back to txt2img and say so -- the redo still honours
+        every other recovered setting.
+        """
+        from utils.globals import PromptTypeSDWebUI
+
+        template = params.template_filename()
+        if params.requires_source_image() and not has_source_image:
+            logger.warning(
+                "Image metadata indicates a workflow needing a source image, which "
+                "SDWebUI does not record. Redoing as txt2img; set a control net or "
+                "IP adapter file to redo the original workflow."
+            )
+            return PromptTypeSDWebUI.TXT2IMG.value
+        return template
+
+    @staticmethod
+    def _load_a1111_parameters(image_path):
+        """Read and parse the SDWebUI metadata, or raise if it is not there."""
+        from sd_runner.metadata.a1111 import parse_a1111_parameters
+
+        raw = Globals.get_image_data_extractor().extract_a1111_parameters(image_path)
+        if not raw:
+            raise Exception(
+                "No SDWebUI generation parameters found in image: " + str(image_path)
+            )
+        parsed = parse_a1111_parameters(raw)
+        if not parsed.has_usable_prompt():
+            raise Exception(
+                "Could not recover a prompt from image metadata: " + str(image_path)
+            )
+        return parsed
+
+    def _apply_a1111_parameters(self, params):
+        """Populate the freshly loaded template from the parsed metadata.
+
+        Only values the metadata actually carried are written, so a template
+        default is kept wherever the original image did not record something.
+        """
+        self.json["prompt"] = params.positive
+        self.json["negative_prompt"] = params.negative
+        if params.steps is not None:
+            self.json["steps"] = params.steps
+        if params.cfg_scale is not None:
+            self.json["cfg_scale"] = params.cfg_scale
+        if params.seed is not None:
+            self.json["seed"] = params.seed
+        if params.width is not None:
+            self.json["width"] = params.width
+        if params.height is not None:
+            self.json["height"] = params.height
+        if params.denoising_strength is not None:
+            self.json["denoising_strength"] = params.denoising_strength
+        if params.sampler is not None:
+            self.json["sampler_name"] = params.sampler.value
+        if params.scheduler is not None:
+            self.json["scheduler"] = params.scheduler.value
+        if params.model_name:
+            override = self.json.get("override_settings", {})
+            override["sd_model_checkpoint"] = params.model_name
+            self.json["override_settings"] = override
+        if params.clip_skip is not None:
+            override = self.json.get("override_settings", {})
+            override["CLIP_stop_at_last_layers"] = params.clip_skip
+            self.json["override_settings"] = override
 
     def set_from_workflow(self, workflow_filename):
         # TODO this will need to be changed if Redo is implemented for SDWebUI
