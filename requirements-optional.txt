@@ -23,8 +23,20 @@ huggingface_hub
 onnxruntime
 
 # Captioner preferred path (Transformers BLIP). Falls back to legacy captioner if missing.
-transformers
+# Also serves the image-to-prompt VLM backend (LLaVA), which needs >= 4.36 for
+# LlavaForConditionalGeneration; BLIP works on any version from here up, so the
+# floor costs the captioner nothing.
+transformers >= 4.36
 
-# Legacy/local BLIP captioner backend (blip/* modules).
+# Legacy/local BLIP captioner backend (blip/* modules), and the VLM backend.
 torch
 torchvision
+
+# VLM backend, both optional:
+#   accelerate    — loads the model without briefly holding the weights twice
+#                   in RAM. Skipped automatically when absent.
+#   bitsandbytes  — 4-bit quantisation, roughly a third of the VRAM at some
+#                   cost to quality. Only needed if config vlm_load_in_4bit is
+#                   true, which it is not by default.
+# accelerate
+# bitsandbytes

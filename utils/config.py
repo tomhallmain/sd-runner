@@ -65,6 +65,9 @@ class Config:
         "override_dictionary_append":       bool,
         # Similarity check — path to ONNX or Torch CLIP text encoder (nullable)
         "clip_model_path":                  None,
+        # Image to prompt — VLM backend
+        "vlm_repo_id":                      str,
+        "vlm_load_in_4bit":                 bool,
     }
 
     @staticmethod
@@ -129,6 +132,14 @@ class Config:
         self.override_dictionary_append = True
         self.clip_model_path = None
 
+        # Image-to-prompt VLM backend. The default is the original LLaVA-1.5
+        # weights in the Transformers layout; any repo Transformers can load as
+        # a vision-language model works. 4-bit cuts VRAM to roughly a third at
+        # some cost to quality, and needs bitsandbytes installed -- off by
+        # default so an install without it behaves normally.
+        self.vlm_repo_id = "llava-hf/llava-1.5-7b-hf"
+        self.vlm_load_in_4bit = False
+
         self.interrogator_interrogation_dir = None
         self.interrogator_initial_questions_file = None
         self.interrogator_questions_file = None
@@ -176,6 +187,7 @@ class Config:
                         "blacklist_prevent_execution",
                         "purge_blacklisted_prompt_history",
                         "delay_after_single_run",
+                        "vlm_load_in_4bit",
         )
         self.set_values(str,
                         "locale",
@@ -191,6 +203,7 @@ class Config:
                         "server_password",
                         "override_dictionary_path",
                         "clip_model_path",
+                        "vlm_repo_id",
         )
         self.set_values(list,
                         "gen_order",

@@ -9,32 +9,60 @@ from sd_runner.image_to_prompt.types import (
 
 
 class VLMProvider(ImageToPromptProvider):
-    """Vision-language-model provider placeholder (e.g. LLaVA/Qwen-VL)."""
+    """Vision-language-model provider (LLaVA family, via Transformers).
 
-    def __init__(self, vlm_impl=None):
+    The model itself lives behind a ``vlm_impl`` -- anything exposing
+    ``describe_image(image_path, prompt_hint="") -> str``. One is built on
+    first use when none is injected, so the backend works out of the box while
+    a caller that wants a different model runtime can still supply its own.
+    """
+
+    def __init__(
+        self,
+        vlm_impl=None,
+        repo_id: str | None = None,
+        load_in_4bit: bool = False,
+    ):
         self._vlm_impl = vlm_impl
+        self._repo_id = repo_id
+        self._load_in_4bit = load_in_4bit
 
     @property
     def name(self) -> str:
         return "VLM"
 
-    def generate(self, request: ImageToPromptRequest) -> ImageToPromptResult:
-        # TODO: Flesh out VLM integration once memory/runtime constraints are
-        # acceptable for concurrent use with image generation workloads.
+    def _ensure_impl(self):
+        """Build the default impl on first use.
+
+        Deferred rather than built in ``__init__`` because constructing the
+        provider must stay cheap: the window builds one per backend to populate
+        its dropdown, and importing torch alone costs seconds.
+        """
         if self._vlm_impl is None:
-            raise NotImplementedError(
-                "VLM backend is not configured yet. "
-                "Inject a vlm_impl with a `describe_image(image_path, prompt_hint='')` method."
+            from sd_runner.image_to_prompt.providers.llava_transformers import (
+                LlavaTransformersImpl,
             )
-        text = self._vlm_impl.describe_image(
+            self._vlm_impl = LlavaTransformersImpl(
+                repo_id=self._repo_id,
+                load_in_4bit=self._load_in_4bit,
+            )
+        return self._vlm_impl
+
+    def generate(self, request: ImageToPromptRequest) -> ImageToPromptResult:
+        impl = self._ensure_impl()
+        text = impl.describe_image(
             request.image_path,
             prompt_hint=request.prompt_hint or "",
         )
         positive = str(text).strip()
+        metadata = {"provider": self.name}
+        repo_id = getattr(impl, "_repo_id", None) or self._repo_id
+        if repo_id:
+            metadata["repo_id"] = repo_id
         return ImageToPromptResult(
             backend=ImageToPromptBackend.VLM,
             positive_prompt=positive,
             negative_prompt="",
             tags=[],
-            metadata={"provider": self.name},
+            metadata=metadata,
         )

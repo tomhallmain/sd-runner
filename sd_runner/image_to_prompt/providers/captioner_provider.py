@@ -11,6 +11,9 @@ from sd_runner.image_to_prompt.types import (
     ImageToPromptRequest,
     ImageToPromptResult,
 )
+from utils.translations import I18N
+
+_ = I18N._
 
 
 class CaptionerProvider(ImageToPromptProvider):
@@ -54,10 +57,12 @@ class CaptionerProvider(ImageToPromptProvider):
                 import torch
                 from transformers import BlipForConditionalGeneration, BlipProcessor, logging as transformers_logging
             except Exception as e:
-                raise RuntimeError(
+                # Surfaced to the user in the window's error dialog, so it is
+                # translated even though it names packages.
+                raise RuntimeError(_(
                     "Captioner backend requires torch + transformers. "
                     "Install optional deps (e.g. `pip install -r requirements-optional.txt`)."
-                ) from e
+                )) from e
 
             # Reduce HF/Transformers console noise for known cache/progress and model-load warnings.
             os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
@@ -122,10 +127,10 @@ class CaptionerProvider(ImageToPromptProvider):
             caption = self._generate_transformers(request.image_path)
             provider_name = f"{self.name} (Transformers)"
         except Exception as e:
-            raise RuntimeError(
+            raise RuntimeError(_(
                 "Failed to initialize BLIP captioner backend. "
                 "Ensure optional captioner dependencies are installed."
-            ) from e
+            )) from e
 
         if request.prompt_hint:
             positive = f"{request.prompt_hint.strip()}, {caption}" if caption else request.prompt_hint.strip()

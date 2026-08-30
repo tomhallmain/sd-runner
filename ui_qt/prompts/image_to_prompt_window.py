@@ -31,6 +31,7 @@ from lib.multi_display_qt import SmartDialog
 from sd_runner.image_to_prompt import ImageToPromptBackend, ImageToPromptService
 from ui_qt.app_style import AppStyle
 from utils.app_info_cache import app_info_cache
+from utils.config import config
 from utils.translations import I18N
 
 if TYPE_CHECKING:
@@ -61,9 +62,12 @@ class ImageToPromptWindow(SmartDialog):
         ImageToPromptWindow._instance = self
         self._app = parent
         self._app_actions = app_actions
-        self._service_cache: dict[ImageToPromptBackend, ImageToPromptService] = {}
+        # Keyed by backend *and* its options: changing the VLM model has to
+        # build a new service, or the previously loaded one keeps answering.
+        self._service_cache: dict[tuple, ImageToPromptService] = {}
         self._build_ui()
         self._restore_last_values()
+        self._sync_backend_options()
         self.show()
 
     # ------------------------------------------------------------------
@@ -102,11 +106,32 @@ class ImageToPromptWindow(SmartDialog):
         self._backend_combo.addItem(_("VLM"), ImageToPromptBackend.VLM.value)
         opts_row.addWidget(self._backend_combo)
 
+        self._backend_combo.currentIndexChanged.connect(self._sync_backend_options)
+
         self._include_negative_cb = QCheckBox(_("Include Negative Prompt"))
         self._include_negative_cb.setChecked(False)
         opts_row.addWidget(self._include_negative_cb)
         opts_row.addStretch()
         layout.addLayout(opts_row)
+
+        # VLM model — shown only for the VLM backend, which is the only one
+        # whose model is worth choosing per use. The others have a single
+        # sensible default and no reason to expose it here.
+        self._vlm_row = QWidget()
+        vlm_row = QHBoxLayout(self._vlm_row)
+        vlm_row.setContentsMargins(0, 0, 0, 0)
+        self._vlm_repo_label = QLabel(_("VLM Model"))
+        vlm_row.addWidget(self._vlm_repo_label)
+        self._vlm_repo_edit = QLineEdit()
+        self._vlm_repo_edit.setPlaceholderText(config.vlm_repo_id)
+        vlm_row.addWidget(self._vlm_repo_edit)
+        self._vlm_unload_btn = QPushButton(_("Unload Model"))
+        self._vlm_unload_btn.setToolTip(
+            _("Free the VLM's video memory for image generation. It reloads on next use.")
+        )
+        self._vlm_unload_btn.clicked.connect(self._unload_vlm)
+        vlm_row.addWidget(self._vlm_unload_btn)
+        layout.addWidget(self._vlm_row)
 
         # Prompt hint
         hint_row = QHBoxLayout()
@@ -180,11 +205,42 @@ class ImageToPromptWindow(SmartDialog):
         data = self._backend_combo.currentData()
         return ImageToPromptBackend(str(data))
 
+    def _selected_vlm_repo_id(self) -> str:
+        """The model to run, from the field or the configured default."""
+        return self._vlm_repo_edit.text().strip() or config.vlm_repo_id
+
+    def _sync_backend_options(self) -> None:
+        """Show the options that belong to the selected backend."""
+        self._vlm_row.setVisible(self._selected_backend() == ImageToPromptBackend.VLM)
+
+    def _unload_vlm(self) -> None:
+        """Release the VLM's memory back to the image-generation backend.
+
+        Also drops the cached services, so the next generate rebuilds rather
+        than handing back a provider holding a reference to the unloaded model.
+        """
+        from sd_runner.image_to_prompt.providers.llava_transformers import (
+            LlavaTransformersImpl,
+        )
+        LlavaTransformersImpl.unload_shared()
+        self._service_cache = {
+            key: service for key, service in self._service_cache.items()
+            if key[0] != ImageToPromptBackend.VLM
+        }
+        self._app_actions.toast(_("VLM model unloaded."))
+
     def _service_for_backend(self, backend: ImageToPromptBackend) -> ImageToPromptService:
-        service = self._service_cache.get(backend)
+        kwargs = {}
+        if backend == ImageToPromptBackend.VLM:
+            kwargs = {
+                "vlm_repo_id": self._selected_vlm_repo_id(),
+                "vlm_load_in_4bit": config.vlm_load_in_4bit,
+            }
+        key = (backend, tuple(sorted(kwargs.items())))
+        service = self._service_cache.get(key)
         if service is None:
-            service = ImageToPromptService.from_backend(backend)
-            self._service_cache[backend] = service
+            service = ImageToPromptService.from_backend(backend, **kwargs)
+            self._service_cache[key] = service
         return service
 
     @classmethod
@@ -196,6 +252,9 @@ class ImageToPromptWindow(SmartDialog):
             "prompt_value": str(data.get("prompt_value", "") or ""),
             "negative_prompt": str(data.get("negative_prompt", "") or ""),
             "method": str(data.get("method", "") or ""),
+            # Absent in payloads written before the VLM backend was usable;
+            # those restore blank, which falls back to the configured default.
+            "vlm_repo_id": str(data.get("vlm_repo_id", "") or ""),
         }
 
     @classmethod
@@ -211,12 +270,14 @@ class ImageToPromptWindow(SmartDialog):
         prompt_value: str,
         method: str,
         negative_prompt: str = "",
+        vlm_repo_id: str = "",
     ) -> dict:
         payload = {
             "image_path": str(image_path or ""),
             "prompt_value": str(prompt_value or ""),
             "negative_prompt": str(negative_prompt or ""),
             "method": str(method or ""),
+            "vlm_repo_id": str(vlm_repo_id or ""),
         }
         app_info_cache.set(cls.LAST_IMAGE_TO_PROMPT_CACHE_KEY, payload)
         app_info_cache.store()
@@ -241,6 +302,9 @@ class ImageToPromptWindow(SmartDialog):
             idx = self._backend_combo.findData(method)
             if idx >= 0:
                 self._backend_combo.setCurrentIndex(idx)
+        vlm_repo_id = str(data.get("vlm_repo_id", "") or "")
+        if vlm_repo_id:
+            self._vlm_repo_edit.setText(vlm_repo_id)
 
     def _generate(self) -> None:
         image_path = self._image_path.text().strip()
@@ -282,6 +346,7 @@ class ImageToPromptWindow(SmartDialog):
                 prompt_value=positive_text,
                 negative_prompt=negative_text,
                 method=backend.value,
+                vlm_repo_id=self._vlm_repo_edit.text().strip(),
             )
             if backend == ImageToPromptBackend.FAST_TAGGER and not positive_text.strip():
                 self._app_actions.toast(_("Fast tagger returned no tags; try a lower threshold."))

@@ -27,5 +27,9 @@ class ImageToPromptProviderRegistry:
                 repo_id=kwargs.get("fast_tagger_repo_id"),
             )
         if backend_enum == ImageToPromptBackend.VLM:
-            return VLMProvider(vlm_impl=kwargs.get("vlm_impl"))
+            return VLMProvider(
+                vlm_impl=kwargs.get("vlm_impl"),
+                repo_id=kwargs.get("vlm_repo_id"),
+                load_in_4bit=bool(kwargs.get("vlm_load_in_4bit", False)),
+            )
         raise ValueError(f"Unhandled image-to-prompt backend: {backend_enum}")
