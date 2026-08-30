@@ -14,12 +14,13 @@ start_thread runs synchronously so the effects are visible on return.
 import time as time_module
 import pytest
 
-from extensions.sd_runner_server import CommandType
+from extensions.sd_runner_server import CommandType, SDRunnerServer
 from sd_runner.run import Run
 from sd_runner.models import Model
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from sd_runner.timed_schedules_manager import timed_schedules_manager
+from tests.utils import FakeServerConn
 from ui_qt.app_window.run_controller import SERVER_ORIGIN
 from utils.globals import WorkflowType
 from utils.time_estimator import TimeEstimator
@@ -214,6 +215,83 @@ class TestRevertToSimpleGenOrigin:
         """Reachable through AppActions, where nobody asked remotely."""
         app_window.run_ctrl.revert_to_simple_gen()
         assert executed[0].args.run_origin == ""
+
+
+# ---------------------------------------------------------------------------
+# From the socket to the run — the seam the origin defect hid in
+# ---------------------------------------------------------------------------
+
+class TestOriginFromAnActualMessage:
+    """Both halves of client identity were covered; the join was not.
+
+    ``client_id()`` and ``origin_for_client()`` each looked correct in
+    isolation, and the run-path tests call ``server_run_callback`` directly with
+    whatever id they please. Nothing drove a message through the server into a
+    run, so nothing noticed that a real connection could never produce the
+    unidentified case those tests were asserting on -- the listener binds
+    loopback, so every peer host was 127.0.0.1 and no run was ever labelled
+    ``server``.
+    """
+
+    def serve(self, app_window, messages, peer=("127.0.0.1", 54321)):
+        server = SDRunnerServer(
+            run_callback=app_window.run_ctrl.server_run_callback,
+            cancel_callback=app_window.run_ctrl.cancel,
+            revert_callback=app_window.run_ctrl.server_revert_to_simple_gen,
+            batch_enqueue_callback=app_window.run_ctrl.server_batch_enqueue,
+            host="127.0.0.1",
+            port=0,
+        )
+        server._adopt_peer(peer)
+        server._conn = FakeServerConn(messages)
+        server._handle_connection()
+        return server
+
+    def run_message(self, **extra):
+        return {"command": "run", "type": "renoiser", "args": {"image": "a.png"}, **extra}
+
+    def test_a_named_client_reaches_the_run(self, app_window, run_stubs, executed):
+        self.serve(app_window, [self.run_message(client_id="weidr")])
+        assert executed[0].args.run_origin == "weidr"
+
+    def test_a_local_client_that_sends_no_id_is_labelled_server(
+        self, app_window, run_stubs, executed
+    ):
+        """Not 127.0.0.1: loopback is the address of everyone who can connect."""
+        self.serve(app_window, [self.run_message()])
+        assert executed[0].args.run_origin == SERVER_ORIGIN
+
+    def test_a_remote_client_that_sends_no_id_is_labelled_by_host(
+        self, app_window, run_stubs, executed
+    ):
+        """A host only says something once someone binds a wider address."""
+        self.serve(app_window, [self.run_message()], peer=("192.168.1.50", 54321))
+        assert executed[0].args.run_origin == "192.168.1.50"
+
+    def test_last_settings_is_labelled_the_same_way(self, app_window, run_stubs, executed):
+        """The widget-backed path names an unidentified client identically."""
+        self.serve(app_window, [{"command": "run", "type": "last_settings", "args": {}}])
+        assert executed[0].args.run_origin == SERVER_ORIGIN
+
+    def test_revert_to_simple_gen_is_labelled_the_same_way(
+        self, app_window, run_stubs, executed
+    ):
+        self.serve(
+            app_window,
+            [{"command": "run", "type": "revert_to_simple_gen", "args": {}}],
+        )
+        assert executed[0].args.run_origin == SERVER_ORIGIN
+
+    def test_a_batch_carries_its_client_into_the_promoted_run(
+        self, app_window, run_stubs, executed
+    ):
+        """A batch item is staged first, so its origin has to survive the queue."""
+        self.serve(app_window, [{
+            "command": "run_batch",
+            "client_id": "weidr",
+            "requests": [{"type": "renoiser", "args": {"image": "a.png"}}],
+        }])
+        assert executed[0].args.run_origin == "weidr"
 
 
 # ---------------------------------------------------------------------------

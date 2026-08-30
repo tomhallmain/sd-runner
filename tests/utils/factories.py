@@ -11,6 +11,8 @@ dependency a test does not want:
   ``GenConfig`` declares those as mutable default arguments and ``prepare()``
   appends a ``None`` sentinel to whichever list it is handed -- configs built
   without them would share one list and accumulate sentinels across tests.
+- ``FakeServerConn`` stands in for an accepted socket, so ``SDRunnerServer``'s
+  receive loop can be driven without binding a port.
 """
 
 from sd_runner.gen_config import GenConfig
@@ -34,6 +36,32 @@ def make_resolution(width=1024, height=1024, **kwargs) -> Resolution:
 def make_run_config(**kwargs) -> RunConfig:
     """A RunConfig from a plain dict of args (``None`` when no args given)."""
     return RunConfig(args=kwargs if kwargs else None)
+
+
+class FakeServerConn:
+    """An accepted connection that replays scripted messages, then hangs up.
+
+    Assign to ``SDRunnerServer._conn`` and call ``_handle_connection()`` to
+    exercise the receive loop -- message parsing, client-id adoption, dispatch
+    -- without a listener or a port. ``recv`` raises ``EOFError`` once the
+    script is exhausted, which is how a real client disconnecting looks, so the
+    loop exits on its own. Replies land in ``sent``.
+    """
+
+    def __init__(self, messages):
+        self._messages = list(messages)
+        self.sent = []
+
+    def recv(self):
+        if not self._messages:
+            raise EOFError
+        return self._messages.pop(0)
+
+    def send(self, msg):
+        self.sent.append(msg)
+
+    def close(self):
+        pass
 
 
 def make_prompter_config(

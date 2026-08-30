@@ -603,6 +603,13 @@ class RunController:
         def start_task(preset, count_runs: int, starting_total: int) -> None:
             sp.set_widgets_from_preset(preset, manual=False)
             sp.total_combo.setCurrentText(str(count_runs if count_runs > 0 else starting_total))
+            # No origin, deliberately, even when a server request fed this
+            # schedule through _divert_to_preset_schedule: a schedule is the
+            # user's own loop driving their own UI, and each task's settings
+            # come from the preset and the sidebar rather than from the
+            # request. The request contributed one file path, not the run. So
+            # these runs show a blank Origin column and no progress marker,
+            # the same as if the schedule had been started by hand.
             self.run()
 
         def schedule_check_is_set() -> bool:
@@ -965,6 +972,10 @@ class RunController:
         A schedule owns the adapter fields for its whole duration, so starting a
         competing run would fight it for them. The schedule is the user's own,
         which is why this stays on the UI-coupled path.
+
+        The requesting client is not carried across: only the image path is
+        handed over, and the runs the schedule then starts are the user's own
+        rather than the request's, so they carry no origin.
         """
         from sd_runner.virtual_run_config import (
             CONTROL_NET_IMAGE_WORKFLOWS, IP_ADAPTER_IMAGE_WORKFLOWS, escape_path,

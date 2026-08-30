@@ -15,6 +15,7 @@ from extensions.sd_runner_server import (
     LOOPBACK_HOSTS, MAX_CLIENT_ID_LEN, CommandKind, CommandType,
     SDRunnerServer, sanitize_client_id,
 )
+from tests.utils import FakeServerConn
 from utils.globals import WorkflowType
 
 
@@ -261,25 +262,6 @@ class TestClientIdResolution:
         assert len(server.client_id()) == MAX_CLIENT_ID_LEN
 
 
-class _FakeConn:
-    """Replays scripted messages, then reports the client hung up."""
-
-    def __init__(self, messages):
-        self._messages = list(messages)
-        self.sent = []
-
-    def recv(self):
-        if not self._messages:
-            raise EOFError
-        return self._messages.pop(0)
-
-    def send(self, msg):
-        self.sent.append(msg)
-
-    def close(self):
-        pass
-
-
 class TestClientIdOverTheWire:
     """The adoption itself, rather than the resolution it feeds.
 
@@ -303,7 +285,7 @@ class TestClientIdOverTheWire:
         return server
 
     def drive(self, server, messages):
-        server._conn = _FakeConn(messages)
+        server._conn = FakeServerConn(messages)
         server._handle_connection()
 
     def run_message(self, **extra):

@@ -13,6 +13,7 @@ package. Absolute imports keep them apart, so a test module can import from both
 
 from tests.utils.auth_bypass import install_password_bypass
 from tests.utils.factories import (
+    FakeServerConn,
     make_app_actions,
     make_gen_config,
     make_model,
@@ -24,6 +25,7 @@ from tests.utils.factories import (
 )
 
 __all__ = [
+    "FakeServerConn",
     "install_password_bypass",
     "make_app_actions",
     "make_gen_config",
