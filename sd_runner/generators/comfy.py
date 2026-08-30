@@ -22,6 +22,15 @@ from utils.utils import Utils
 
 logger = get_logger("comfy_gen")
 
+
+def _elapsed_since(started_at: Optional[float]) -> Optional[float]:
+    """Seconds since *started_at*, or None if it was never set.
+
+    None means the backend never reported starting work on this prompt, so
+    there is no duration to attribute to it.
+    """
+    return None if started_at is None else time.time() - started_at
+
 class ComfyGen(BaseImageGenerator):
     BASE_URL = config.comfyui_url.replace("http://", "").replace("https://", "")
     PROMPT_URL = BASE_URL + "/prompt"
@@ -155,7 +164,7 @@ class ComfyGen(BaseImageGenerator):
             ws = websocket.WebSocket()
             ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, connection_id))
             ComfyGen.add_connection(ws)
-            _images, output_paths = ComfyGen.get_images(
+            _images, output_paths, execution_seconds = ComfyGen.get_images(
                 ws,
                 json.loads(data.decode('utf-8')),
                 self.gen_config.get_prompter_config(),
@@ -164,6 +173,7 @@ class ComfyGen(BaseImageGenerator):
                 edit_suffix=self.gen_config.active_edit_suffix,
                 target_dir=self.gen_config.target_dir,
             )
+            self.record_generation_timing(execution_seconds)
             try:
                 ws.close()
             except Exception:
@@ -322,6 +332,10 @@ class ComfyGen(BaseImageGenerator):
         output_paths = []
         current_node = None
         websocket_error = None
+        # Set when the backend starts executing this prompt, so the duration
+        # reported back excludes time spent queued behind other prompts.
+        execution_started_at = None
+        execution_seconds = None
         
         try:
             while True:
@@ -339,9 +353,22 @@ class ComfyGen(BaseImageGenerator):
                             data = message['data']
                             if data['node'] is None and data['prompt_id'] == prompt_id:
                                 logger.debug("Execution completed")
+                                execution_seconds = _elapsed_since(execution_started_at)
                                 break #Execution is done
                             else:
                                 current_node = data['node']
+                                # First node of *our* prompt means the backend
+                                # stopped queueing and started working. Timing
+                                # from here rather than from the dispatch keeps
+                                # the wait behind other prompts out of the
+                                # measurement -- prompts run single file, so a
+                                # dispatch-relative duration would grow with
+                                # queue depth rather than describe this image.
+                                # The prompt_id guard matters: this branch also
+                                # sees other prompts' events.
+                                if (execution_started_at is None
+                                        and data.get('prompt_id') == prompt_id):
+                                    execution_started_at = time.time()
                                 logger.debug(f"Executing node: {current_node}")
                         elif message['type'] == 'execution_error':
                             data = message['data']
@@ -353,6 +380,9 @@ class ComfyGen(BaseImageGenerator):
                             data = message['data']
                             if data['prompt_id'] == prompt_id and data['value'] == data['max']:
                                 logger.debug("Progress reached 100%")
+                                # Taken before the settling sleep, which is this
+                                # side's bookkeeping rather than generation.
+                                execution_seconds = _elapsed_since(execution_started_at)
                                 # Wait a bit to ensure all messages are processed
                                 time.sleep(1)
                                 break
@@ -394,7 +424,7 @@ class ComfyGen(BaseImageGenerator):
                     output_paths.append(recovered)
                 # No byte payloads: those come from the history entry this
                 # generation never got. The path is what callers use.
-                return output_images, output_paths
+                return output_images, output_paths, execution_seconds
 
             # Process images and add EXIF data with original prompt decomposition
             for node_id in history['outputs']:
@@ -415,7 +445,7 @@ class ComfyGen(BaseImageGenerator):
                 output_images[node_id] = images_output
 
             ComfyGen.clear_history(prompt_id)
-            return output_images, output_paths
+            return output_images, output_paths, execution_seconds
         except Exception as e:
             logger.error(f"Error in get_images: {e}")
             raise

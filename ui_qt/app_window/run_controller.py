@@ -548,9 +548,16 @@ class RunController:
         )
         per_iteration_images = max(1, gen_config.maximum_gens_per_latent())
         requested_total = int(args.total) if args.total and args.total > 0 else 1
-        estimated_image_count = per_iteration_images * requested_total * adapter_iterations
-        estimated_seconds = TimeEstimator.estimate_queue_time(estimated_image_count, gen_config.n_latents)
+        # maximum_gens_per_latent() excludes the latent multiplier, so it has to
+        # be applied here. Leaving it to estimate_queue_time gave the right
+        # seconds but returned a count n_latents times too small -- which is the
+        # number a client refused by the size ceiling is told.
+        estimated_image_count = (
+            per_iteration_images * requested_total * adapter_iterations * gen_config.n_latents
+        )
+        estimated_seconds = TimeEstimator.estimate_run_seconds(gen_config, estimated_image_count)
         return estimated_seconds, estimated_image_count
+
     def _enqueue_run(self, args) -> None:
         """Queue *args* behind any running job, or start it now if idle."""
         app = self._app
@@ -787,8 +794,8 @@ class RunController:
 
         total_seconds = 0
         total_jobs = gen_config.maximum_gens_per_latent()
-        current_job_time = TimeEstimator.estimate_queue_time(
-            total_jobs * remaining_count, gen_config.n_latents
+        current_job_time = TimeEstimator.estimate_run_seconds(
+            gen_config, total_jobs * remaining_count * gen_config.n_latents
         )
         total_seconds += current_job_time
 
@@ -821,7 +828,9 @@ class RunController:
         """Calculate estimated seconds for the current run only."""
         from utils.time_estimator import TimeEstimator
         total_jobs = gen_config.maximum_gens_per_latent()
-        current_job_time = TimeEstimator.estimate_queue_time(total_jobs, gen_config.n_latents)
+        current_job_time = TimeEstimator.estimate_run_seconds(
+            gen_config, total_jobs * gen_config.n_latents
+        )
         logger.debug(f"Estimated time: {total_jobs} jobs, {current_job_time}s")
         return current_job_time
 

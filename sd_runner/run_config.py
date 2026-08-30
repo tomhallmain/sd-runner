@@ -198,7 +198,9 @@ class RunConfig:
         logger.debug(f"RunConfig.estimate_time - total_jobs: {total_jobs}, total: {self.total}, n_latents: {self.n_latents}")
         
         # Get time for all jobs
-        total_time = TimeEstimator.estimate_queue_time(total_jobs * self.total, self.n_latents)
+        images = total_jobs * self.total * self.n_latents
+        total_time = (TimeEstimator.estimate_run_seconds(gen_config, images) if gen_config
+                      else TimeEstimator.estimate_queue_time(images))
         logger.debug(f"RunConfig.estimate_time - total_time: {total_time}s")
         return total_time
 

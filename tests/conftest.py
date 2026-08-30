@@ -243,6 +243,14 @@ def _reset_class_state() -> None:
     except Exception:
         pass
 
+    # Also module-level: measured generation rates accumulate for the life of
+    # the process, so one test's timings would answer another's estimate.
+    try:
+        from utils.generation_timing import generation_timing
+        generation_timing.clear()
+    except Exception:
+        pass
+
     try:
         from sd_runner.blacklist import Blacklist
         from utils.globals import BlacklistMode, BlacklistPromptMode, ModelBlacklistMode

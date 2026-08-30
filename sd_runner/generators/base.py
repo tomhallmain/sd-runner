@@ -32,9 +32,17 @@ class BaseImageGenerator(ABC):
 
     _executor = ThreadPoolExecutor(max_workers=config.max_executor_threads)  # Central executor
     _executor_lock = threading.Lock()  # For thread-safe counter updates
-    
+
+    #: The model each backend most recently generated with, so a timing sample
+    #: can be told from one that also paid for a checkpoint load. Keyed by
+    #: backend rather than held per generator instance, because it is the
+    #: backend process that holds the loaded model -- and it outlives any one
+    #: run. Only ever read and written together, under _timing_lock.
+    _last_dispatched_model: dict = {}
+    _timing_lock = threading.Lock()
+
     pending_counter = 0
-    
+
     @classmethod
     def shutdown_executor(cls, wait: bool = False) -> None:
         """
@@ -69,10 +77,87 @@ class BaseImageGenerator(ABC):
         # a second derivative -- whose parent is the image its own task just
         # made -- cannot record its lineage there without corrupting the others.
         self._related_image_override = threading.local()
+        # Per-thread record of what the task on this thread is generating, so
+        # queue_prompt can attribute a duration without every workflow method
+        # having to pass the model and resolution down to it.
+        self._timing_context = threading.local()
 
     # Shared methods -----------------------------------------------------------
     def get_seed(self):
         return self.gen_config.get_seed()
+
+    # ------------------------------------------------------------------
+    # Generation timing
+    # ------------------------------------------------------------------
+    def _backend_name(self) -> str:
+        return str(getattr(self.gen_config, "software_type", "") or type(self).__name__)
+
+    def record_generation_timing(self, execution_seconds: Optional[float]) -> None:
+        """Record how long the backend took for the generation on this thread.
+
+        Called by the backend once it knows the duration of the work itself,
+        with the queue wait excluded. Never raises: a timing sample is not
+        worth failing a generation that already produced its image.
+        """
+        if not execution_seconds or execution_seconds <= 0:
+            return
+        context = getattr(self._timing_context, "descriptors", None)
+        if not context:
+            return
+        try:
+            from utils.generation_timing import generation_timing
+
+            backend = self._backend_name()
+            warm = self._classify_and_remember(backend, context["model"])
+            generation_timing.record(
+                backend=backend,
+                architecture=context["architecture"],
+                model=context["model"],
+                seconds=execution_seconds,
+                width=context["width"],
+                height=context["height"],
+                steps=context["steps"],
+                n_latents=context["n_latents"],
+                warm=warm,
+            )
+        except Exception as e:
+            logger.debug(f"Could not record generation timing: {e}")
+
+    @classmethod
+    def _classify_and_remember(cls, backend: str, model: str) -> bool:
+        """Whether this generation ran on an already-loaded model.
+
+        Decided at completion rather than at dispatch: prompts are dispatched
+        several at a time but the backend runs them single file, so completion
+        order is execution order and is what says which one paid for the load.
+
+        The check and the update are one section -- splitting them would let
+        two completions both see the previous model and both count as cold.
+        """
+        with cls._timing_lock:
+            warm = cls._last_dispatched_model.get(backend) == model
+            cls._last_dispatched_model[backend] = model
+            return warm
+
+    def _timing_descriptors(self, kwargs: dict) -> Optional[dict]:
+        """What a timing sample needs, from a scheduled task's arguments.
+
+        None when the task carries no model or resolution -- an upscale, say --
+        which is not something the rate model describes.
+        """
+        model = kwargs.get("model")
+        resolution = kwargs.get("resolution")
+        if model is None or resolution is None:
+            return None
+        architecture = getattr(model, "architecture_type", None)
+        return {
+            "model": str(getattr(model, "id", model)),
+            "architecture": getattr(architecture, "name", str(architecture)),
+            "width": getattr(resolution, "width", 0),
+            "height": getattr(resolution, "height", 0),
+            "steps": getattr(self.gen_config, "steps", -1) or -1,
+            "n_latents": kwargs.get("n_latents") or 1,
+        }
 
     def related_image_path(self) -> Optional[str]:
         """The image the generation running on this thread is derived from.
@@ -343,6 +428,13 @@ class BaseImageGenerator(ABC):
     def _wrap_task(self, task_fn: callable) -> callable:
         """Add common error handling and logging"""
         def wrapped(*args, **kwargs):
+            # What this thread is generating, for the backend to attribute its
+            # timing to. Set here rather than passed down because the workflow
+            # methods all reach queue_prompt without carrying their arguments
+            # that far. The duration itself is NOT this method's start_time
+            # below: that includes the wait behind other prompts in the
+            # backend's queue, which is not a cost of this image.
+            self._timing_context.descriptors = self._timing_descriptors(kwargs)
             try:
                 logger.debug(f"Starting {task_fn.__name__}")
                 start_time = time.time()
@@ -360,6 +452,10 @@ class BaseImageGenerator(ABC):
             except Exception as e:
                 self._handle_error(e, task_fn.__name__)
                 raise
+            finally:
+                # Pool threads are reused; a stale context would attribute the
+                # next task's duration to this task's model.
+                self._timing_context.descriptors = None
         return wrapped
 
     def _record_recent_adapters(self, control_net, ip_adapter, prompt_image_path: str = "") -> None:

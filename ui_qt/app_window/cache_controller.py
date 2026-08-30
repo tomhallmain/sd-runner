@@ -34,6 +34,7 @@ class CacheController:
 
     PENDING_SD_RUNS_KEY = "pending_sd_runs"
     PENDING_SERVER_REQUESTS_KEY = "pending_server_requests"
+    GENERATION_TIMING_KEY = "generation_timing"
 
     def __init__(self, app_window: AppWindow):
         self._app = app_window
@@ -81,12 +82,37 @@ class CacheController:
             )
             PromptConfigWindow.set_runner_app_config(runner_config)
             self._restore_pending_queues()
+            self._restore_generation_timing()
             return runner_config
         except Exception as e:
             logger.error(f"Failed to load info cache: {e}")
             import traceback
             logger.error(traceback.format_exc())
             return RunnerAppConfig()
+
+    def _restore_generation_timing(self) -> None:
+        """Reload measured generation rates from the previous session."""
+        from utils.generation_timing import generation_timing
+
+        try:
+            generation_timing.load_from_dict(
+                app_info_cache.get(self.GENERATION_TIMING_KEY) or {}
+            )
+        except Exception as e:
+            logger.warning(f"Failed to restore generation timing: {e}")
+
+    def _store_generation_timing(self) -> None:
+        """Persist measured generation rates.
+
+        Averages rather than raw samples, so this stays a few hundred bytes
+        however long the app runs.
+        """
+        from utils.generation_timing import generation_timing
+
+        try:
+            app_info_cache.set(self.GENERATION_TIMING_KEY, generation_timing.to_dict())
+        except Exception as e:
+            logger.warning(f"Failed to store generation timing: {e}")
 
     def _restore_pending_queues(self) -> None:
         """Restore pending SD runs and server staging requests saved at last shutdown."""
@@ -180,6 +206,8 @@ class CacheController:
             get_security_config().save_settings()
             logger.debug("Storing pending queues...")
             self.store_pending_queues()
+            logger.debug("Storing generation timing...")
+            self._store_generation_timing()
             logger.debug("Storing app info cache...")
             app_info_cache.store(only_if_changed=only_if_changed)
             logger.debug("Info cache stored successfully")

@@ -1,4 +1,3 @@
-from typing import Optional
 from utils.globals import Globals
 from utils.translations import I18N
 
@@ -6,62 +5,32 @@ _ = I18N._
 
 
 class TimeEstimator:
+    """Time estimates for image generation runs.
+
+    An estimate has three parts, kept separate because their confidence
+    differs::
+
+        delay_seconds(images)                  # exact
+        + rate x megapixels x images           # measured, per model
+        + model_switches x load_seconds        # measured, per model
+
+    The delay is not an estimate at all -- it is the app's own
+    ``Run._sleep_for_delay``, computed from the same constant. For a long time
+    it was the *whole* estimate, which expanded to exactly the sleep the run
+    would perform, so the backend's actual work contributed nothing. That is
+    why estimates used to be unreliable in both directions and why no amount of
+    tuning fixed them: the term for the thing being measured was missing rather
+    than wrong.
+
+    The other two come from ``utils.generation_timing``, which learns them from
+    completed generations. A model it has never timed yields no generation
+    term, so the estimate falls back to the delay alone -- callers must not
+    read a low estimate as permission, nor a missing one as a reason to refuse.
+
+    Callers: the long-run confirmation dialog, ``config.server_run_max_seconds``
+    (which *refuses* requests over its ceiling), and the sidebar label.
     """
-    Provides time estimation functionality for image generation jobs.
-    
-    Current implementation uses DELAY_SECONDS as a baseline for estimation.
-    
-    Future improvements could include:
-    1. Statistical Analysis:
-       - Track actual generation times for different workflows
-       - Store timing data in a persistent format (JSON/YAML)
-       - Build statistical models based on:
-         * Workflow type (txt2img, img2img, etc.)
-         * Model used
-         * Resolution
-         * Number of latents
-         * System load
-         * GPU availability
-    
-    2. Real-time Monitoring:
-       - Track actual job completion times
-       - Update estimates based on recent performance
-       - Account for system load and resource availability
-       - Consider queue position and concurrent jobs
-    
-    3. Machine Learning:
-       - Train models to predict generation times
-       - Consider historical patterns
-       - Adapt to system performance changes
-       - Account for model-specific characteristics
-    
-    4. User Feedback:
-       - Allow users to provide feedback on estimate accuracy
-       - Adjust estimates based on user feedback
-       - Provide confidence intervals for estimates
-    """
-    
-    @staticmethod
-    def estimate_seconds(workflow_type: str,
-                        n_latents: int = 1,
-                        resolution: Optional[tuple[int, int]] = None) -> int:
-        """
-        Estimate the time in seconds for a generation job.
-        
-        Args:
-            workflow_type: The type of workflow (e.g., 'txt2img', 'img2img')
-            n_latents: Number of latents to generate
-            resolution: Optional tuple of (width, height) for resolution
-            
-        Returns:
-            Estimated time in seconds
-        """
-        # Base time per image in seconds
-        base_time = Globals.GENERATION_DELAY_TIME_SECONDS
-        
-        # Adjust for number of latents
-        return int(base_time * n_latents)
-    
+
     @staticmethod
     def format_time(seconds: int) -> str:
         """
@@ -94,34 +63,72 @@ class TimeEstimator:
         return " ".join(parts)
     
     @staticmethod
-    def estimate_time(workflow_type: str,
-                     n_latents: int = 1,
-                     resolution: Optional[tuple[int, int]] = None) -> str:
+    def delay_seconds(image_count: float) -> int:
+        """The pacing sleep the app will perform for *image_count* images.
+
+        Exact, not estimated: it is the app's own ``_sleep_for_delay``, computed
+        from the same constant. Named separately from the estimate so the part
+        that is known stays distinguishable from the part that is guessed.
         """
-        Estimate the time for a generation job and return as a formatted string.
-        
-        Args:
-            workflow_type: The type of workflow (e.g., 'txt2img', 'img2img')
-            n_latents: Number of latents to generate
-            resolution: Optional tuple of (width, height) for resolution
-            
-        Returns:
-            A formatted string representing the estimated time
-        """
-        total_time = TimeEstimator.estimate_seconds(workflow_type, n_latents, resolution)
-        return TimeEstimator.format_time(total_time)
-    
+        return int(Globals.GENERATION_DELAY_TIME_SECONDS * image_count)
+
     @staticmethod
-    def estimate_queue_time(queue_size: int,
-                          avg_latents_per_job: float = 1.0) -> int:
+    def estimate_queue_time(image_count: float,
+                            avg_latents_per_job: float = 1.0) -> int:
+        """Estimate the seconds *image_count* images will take.
+
+        Despite the name this serves single runs as well as queues. Pass the
+        image count directly, or a per-latent count plus *avg_latents_per_job*
+        -- the two are multiplied.
+
+        The pacing delay only. Callers holding a ``GenConfig`` should use
+        ``estimate_run_seconds``, which can also account for the generation
+        itself.
         """
-        Estimate the total time in seconds for all jobs in the queue.
-        
-        Args:
-            queue_size: Number of jobs in the queue
-            avg_latents_per_job: Average number of latents per job
-            
-        Returns:
-            Estimated time in seconds
+        return TimeEstimator.delay_seconds(image_count * avg_latents_per_job)
+
+    @staticmethod
+    def estimate_run_seconds(gen_config, image_count: float) -> int:
+        """Estimate the seconds a run producing *image_count* images will take.
+
+        The pacing delay, plus measured generation and model-load time when
+        this model has been timed before. Falls back to the delay alone when it
+        has not, which is what every estimate used to be -- so an unmeasured
+        model is no worse off than before, and callers must not treat the
+        absence of timing data as a reason to refuse work.
         """
-        return int(Globals.GENERATION_DELAY_TIME_SECONDS * queue_size * avg_latents_per_job) 
+        delay = TimeEstimator.delay_seconds(image_count)
+        generation = TimeEstimator._generation_seconds(gen_config, image_count)
+        return int(delay + (generation or 0))
+
+    @staticmethod
+    def _generation_seconds(gen_config, image_count: float):
+        """Measured generation time for this config, or None if unmeasured."""
+        try:
+            from utils.generation_timing import generation_timing
+
+            models = getattr(gen_config, "models", None) or []
+            resolutions = getattr(gen_config, "resolutions", None) or []
+            if not models or not resolutions:
+                return None
+            model = models[0]
+            resolution = resolutions[0]
+            architecture = getattr(model, "architecture_type", None)
+            return generation_timing.estimate_seconds(
+                backend=str(getattr(gen_config, "software_type", "") or ""),
+                architecture=getattr(architecture, "name", str(architecture)),
+                model=str(getattr(model, "id", model)),
+                width=getattr(resolution, "width", 0),
+                height=getattr(resolution, "height", 0),
+                image_count=image_count,
+                steps=getattr(gen_config, "steps", -1) or -1,
+                # Switches within one pass over the models. Repeats across
+                # `total` iterations are not counted, so this errs low -- which
+                # is the safe direction for the size ceiling, since a ceiling
+                # is a guard rather than a precondition.
+                model_switches=max(0, len(models) - 1),
+            )
+        except Exception:
+            # An estimate is advisory; never let a missing or malformed timing
+            # store stop the run it was describing.
+            return None 

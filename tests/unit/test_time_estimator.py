@@ -3,23 +3,23 @@ from utils.globals import Globals
 from utils.time_estimator import TimeEstimator
 
 
-class TestEstimateSeconds:
-    def test_returns_positive_integer(self):
-        result = TimeEstimator.estimate_seconds("txt2img")
-        assert isinstance(result, int) and result > 0
+class TestDelaySeconds:
+    """The pacing sleep, which is exact rather than estimated."""
 
-    def test_scales_with_n_latents(self):
-        one = TimeEstimator.estimate_seconds("txt2img", n_latents=1)
-        three = TimeEstimator.estimate_seconds("txt2img", n_latents=3)
+    def test_matches_the_sleep_the_run_will_perform(self):
+        # Run._sleep_for_delay sleeps GENERATION_DELAY_TIME_SECONDS per image.
+        assert TimeEstimator.delay_seconds(7) == Globals.GENERATION_DELAY_TIME_SECONDS * 7
+
+    def test_scales_with_image_count(self):
+        one = TimeEstimator.delay_seconds(1)
+        three = TimeEstimator.delay_seconds(3)
         assert three == one * 3
 
-    def test_zero_latents_returns_zero(self):
-        assert TimeEstimator.estimate_seconds("txt2img", n_latents=0) == 0
+    def test_no_images_is_no_delay(self):
+        assert TimeEstimator.delay_seconds(0) == 0
 
-    def test_resolution_argument_accepted(self):
-        # Resolution is not currently used in the implementation but must not raise.
-        result = TimeEstimator.estimate_seconds("txt2img", n_latents=1, resolution=(512, 512))
-        assert isinstance(result, int)
+    def test_returns_a_whole_number_of_seconds(self):
+        assert isinstance(TimeEstimator.delay_seconds(2.5), int)
 
 
 class TestFormatTime:
@@ -55,26 +55,106 @@ class TestFormatTime:
         assert isinstance(TimeEstimator.format_time(100), str)
 
 
-class TestEstimateTime:
-    def test_returns_string(self):
-        result = TimeEstimator.estimate_time("txt2img", n_latents=2)
-        assert isinstance(result, str) and result
-
-
 class TestEstimateQueueTime:
     def test_returns_positive_for_nonempty_queue(self):
-        result = TimeEstimator.estimate_queue_time(queue_size=5)
+        result = TimeEstimator.estimate_queue_time(5)
         assert isinstance(result, int) and result > 0
 
     def test_zero_queue_returns_zero(self):
-        assert TimeEstimator.estimate_queue_time(queue_size=0) == 0
+        assert TimeEstimator.estimate_queue_time(0) == 0
 
-    def test_scales_with_queue_size(self):
-        one = TimeEstimator.estimate_queue_time(queue_size=1)
-        five = TimeEstimator.estimate_queue_time(queue_size=5)
+    def test_scales_with_image_count(self):
+        one = TimeEstimator.estimate_queue_time(1)
+        five = TimeEstimator.estimate_queue_time(5)
         assert five == one * 5
 
     def test_scales_with_avg_latents(self):
-        base = TimeEstimator.estimate_queue_time(queue_size=2, avg_latents_per_job=1.0)
-        double = TimeEstimator.estimate_queue_time(queue_size=2, avg_latents_per_job=2.0)
+        base = TimeEstimator.estimate_queue_time(2, avg_latents_per_job=1.0)
+        double = TimeEstimator.estimate_queue_time(2, avg_latents_per_job=2.0)
         assert double == base * 2
+
+    def test_a_count_and_a_latent_multiplier_are_interchangeable(self):
+        """Callers pass either shape; both must reach the same total."""
+        assert (TimeEstimator.estimate_queue_time(6)
+                == TimeEstimator.estimate_queue_time(3, avg_latents_per_job=2.0))
+
+    def test_it_is_the_pacing_delay_alone(self):
+        """This entry point deliberately excludes generation time.
+
+        It is what callers without a GenConfig get, and they have nothing to
+        look a rate up with. estimate_run_seconds is the one that adds the
+        measured terms.
+        """
+        assert TimeEstimator.estimate_queue_time(4) == TimeEstimator.delay_seconds(4)
+
+
+class TestEstimateRunSeconds:
+    """The entry point that adds measured generation time to the delay."""
+
+    def make_config(self):
+        from tests.utils import make_gen_config, make_model, make_resolution
+        return make_gen_config(
+            models=[make_model(id="a_model.safetensors")],
+            resolutions=[make_resolution(width=1000, height=1000)],
+        )
+
+    def descriptors(self, gen_config):
+        model = gen_config.models[0]
+        return {
+            "backend": str(gen_config.software_type or ""),
+            "architecture": getattr(model.architecture_type, "name",
+                                    str(model.architecture_type)),
+            "model": str(model.id),
+        }
+
+    def test_an_unmeasured_model_falls_back_to_the_delay(self):
+        """No worse off than before any of this existed."""
+        gen_config = self.make_config()
+        assert (TimeEstimator.estimate_run_seconds(gen_config, 4)
+                == TimeEstimator.delay_seconds(4))
+
+    def test_a_measured_model_adds_generation_time(self):
+        from utils.generation_timing import generation_timing
+
+        gen_config = self.make_config()
+        keys = self.descriptors(gen_config)
+        generation_timing.record(
+            seconds=10.0, width=1000, height=1000,
+            steps=gen_config.steps or -1, **keys
+        )
+        estimate = TimeEstimator.estimate_run_seconds(gen_config, 4)
+        assert estimate == pytest.approx(TimeEstimator.delay_seconds(4) + 40.0, abs=1)
+
+    def test_it_scales_with_image_count(self):
+        from utils.generation_timing import generation_timing
+
+        gen_config = self.make_config()
+        generation_timing.record(
+            seconds=10.0, width=1000, height=1000,
+            steps=gen_config.steps or -1, **self.descriptors(gen_config)
+        )
+        one = TimeEstimator.estimate_run_seconds(gen_config, 1)
+        ten = TimeEstimator.estimate_run_seconds(gen_config, 10)
+        assert ten - TimeEstimator.delay_seconds(10) == pytest.approx(
+            (one - TimeEstimator.delay_seconds(1)) * 10, abs=1
+        )
+
+    def test_a_config_without_models_falls_back_to_the_delay(self):
+        """Nothing to look a rate up with; must not raise."""
+        from tests.utils import make_gen_config
+        gen_config = make_gen_config(models=[])
+        assert (TimeEstimator.estimate_run_seconds(gen_config, 4)
+                == TimeEstimator.delay_seconds(4))
+
+    def test_a_broken_timing_store_does_not_break_the_estimate(self, monkeypatch):
+        """An estimate is advisory and must never fail the run it describes."""
+        from utils import generation_timing as timing_module
+
+        def explode(*args, **kwargs):
+            raise RuntimeError("timing store unavailable")
+
+        monkeypatch.setattr(
+            timing_module.generation_timing, "estimate_seconds", explode
+        )
+        assert (TimeEstimator.estimate_run_seconds(self.make_config(), 4)
+                == TimeEstimator.delay_seconds(4))

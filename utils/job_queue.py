@@ -129,7 +129,9 @@ class PresetSchedulesQueue(JobQueue):
                 logger.debug(f"PresetSchedulesQueue.estimate_time - total_jobs: {total_jobs}, n_latents: {run_config.n_latents}")
                 
                 # Get time estimate for all jobs
-                schedule_time = TimeEstimator.estimate_queue_time(total_jobs * total_generations, run_config.n_latents)
+                images = total_jobs * total_generations * run_config.n_latents
+                schedule_time = (TimeEstimator.estimate_run_seconds(gen_config, images)
+                                 if gen_config else TimeEstimator.estimate_queue_time(images))
                 total_time += schedule_time
                 print(f"PresetSchedulesQueue.estimate_time - schedule time: {schedule_time}s, total so far: {total_time}s")
                 

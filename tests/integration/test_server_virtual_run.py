@@ -58,7 +58,11 @@ def run_stubs(monkeypatch, executed):
         lambda tags, architecture_type=None, resolution_group=None: [object()],
     )
     monkeypatch.setattr(RunConfig, "validate", lambda self: True)
-    monkeypatch.setattr(TimeEstimator, "estimate_queue_time", lambda images, latents: 0)
+    # Both estimate entry points, or a run long enough to cross
+    # TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS would raise a modal.
+    # latents is optional on the real signature; callers pass either shape.
+    monkeypatch.setattr(TimeEstimator, "estimate_queue_time", lambda images, latents=1.0: 0)
+    monkeypatch.setattr(TimeEstimator, "estimate_run_seconds", lambda gen_config, images: 0)
     monkeypatch.setattr(time_module, "sleep", lambda s: None)
     monkeypatch.setattr(timed_schedules_manager, "check_for_shutdown_request", lambda dt: None)
 
@@ -437,6 +441,35 @@ class TestLastSettingsIgnoresWorkflowArgs:
 # ---------------------------------------------------------------------------
 # Ceiling
 # ---------------------------------------------------------------------------
+
+class TestEstimatedImageCount:
+    """The image count reported alongside a run-too-large refusal.
+
+    Separate from the seconds: the seconds have always been right, because
+    estimate_queue_time applied the latent multiplier internally. The count
+    was computed from maximum_gens_per_latent() and never had it applied.
+    """
+
+    def test_the_count_scales_with_n_latents(self, app_window, run_stubs):
+        args, _copy = app_window.get_args()
+        args.total = 1
+
+        args.n_latents = 1
+        _seconds, one = app_window.run_ctrl._estimate_run(args)
+        args.n_latents = 4
+        _seconds, four = app_window.run_ctrl._estimate_run(args)
+
+        # Before the fix these were equal: a run producing four times the images
+        # reported the same count, so a refused client was told a quarter of it.
+        assert four == one * 4
+
+    def test_the_count_is_at_least_one(self, app_window, run_stubs):
+        args, _copy = app_window.get_args()
+        args.total = 1
+        args.n_latents = 1
+        _seconds, count = app_window.run_ctrl._estimate_run(args)
+        assert count >= 1
+
 
 class TestServerRunCeiling:
     """A server request has no user to confirm a long run, so it is refused."""

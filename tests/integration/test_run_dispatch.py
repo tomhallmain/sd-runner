@@ -119,7 +119,11 @@ def run_stubs(monkeypatch, execute_calls):
         lambda tags, architecture_type=None, resolution_group=None: [_FAKE_RESOLUTION],
     )
     monkeypatch.setattr(RunConfig, "validate", lambda self: True)
-    monkeypatch.setattr(TimeEstimator, "estimate_queue_time", lambda images, latents: 0)
+    # Both estimate entry points, or a run long enough to cross
+    # TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS would raise a modal.
+    # latents is optional on the real signature; callers pass either shape.
+    monkeypatch.setattr(TimeEstimator, "estimate_queue_time", lambda images, latents=1.0: 0)
+    monkeypatch.setattr(TimeEstimator, "estimate_run_seconds", lambda gen_config, images: 0)
     monkeypatch.setattr(time_module, "sleep", lambda s: None)
     # Suppress the default 11 PM schedule that set_schedules() creates for an
     # empty cache — these tests cover dispatch logic, not shutdown behavior.
