@@ -82,6 +82,7 @@ class RunConfig:
         self.batch_limit = _arg(args, "batch_limit")
         self.continuous_seed_variation = _arg(args, "continuous_seed_variation")
         self.dimension_variation = _arg(args, "dimension_variation")
+        self.second_derivative = _arg(args, "second_derivative")
         self.target_dir = _arg(args, "target_dir")
 
         with RunConfig._model_switch_lock:

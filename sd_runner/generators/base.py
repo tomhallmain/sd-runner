@@ -1,7 +1,9 @@
 from concurrent.futures import ThreadPoolExecutor, Future
 from abc import ABC, abstractmethod
+from copy import copy
 from pathlib import Path
 from typing import Optional, Dict, Any, Type
+import functools
 import os
 import random
 import shutil
@@ -9,7 +11,7 @@ import time
 import threading
 import traceback
 
-from utils.globals import Globals, WorkflowType, SoftwareType
+from utils.globals import Globals, WorkflowType, SoftwareType, image_input_field
 
 from sd_runner.blacklist import Blacklist
 from sd_runner.gen_config import GenConfig
@@ -62,10 +64,28 @@ class BaseImageGenerator(ABC):
         self.captioner = None
         self.has_run_one_workflow = False
         self._lock = threading.Lock()  # Instance-specific lock
+        # Per-thread override for the image a generation is derived from. The
+        # run-wide source lives on gen_config and is shared by every worker, so
+        # a second derivative -- whose parent is the image its own task just
+        # made -- cannot record its lineage there without corrupting the others.
+        self._related_image_override = threading.local()
 
     # Shared methods -----------------------------------------------------------
     def get_seed(self):
         return self.gen_config.get_seed()
+
+    def related_image_path(self) -> Optional[str]:
+        """The image the generation running on this thread is derived from.
+
+        The run's own source image, except inside a second-derivative pass,
+        where it is the image that pass was made from. Drives the EXIF lineage
+        and the edit-suffix rename, both of which should name the direct parent
+        rather than the start of the chain.
+        """
+        override = getattr(self._related_image_override, "path", None)
+        if override:
+            return override
+        return self.gen_config.prompt_image_path or None
 
     def reset_counters(self) -> None:
         # NOTE needs to be called with the lock acquired
@@ -204,7 +224,7 @@ class BaseImageGenerator(ABC):
         kwargs['ip_adapter'] = converted_ip_adapter
 
         workflow_method = self.validate_workflow(workflow_id, **kwargs)
-        self.schedule_generation(workflow_method, **kwargs)
+        self.schedule_generation(self._with_second_derivative(workflow_id, workflow_method), **kwargs)
         with self._lock:
             self.pending_counter += 1
             self.counter += 1
@@ -223,6 +243,89 @@ class BaseImageGenerator(ABC):
             if kwargs.get("lora") is None:
                 raise Exception("Image gen with lora - lora not set!")
         return workflow_methods[workflow_id]
+
+    # ------------------------------------------------------------------
+    # Second derivative
+    # ------------------------------------------------------------------
+    def _with_second_derivative(self, workflow_id, workflow_method: callable) -> callable:
+        """Wrap *workflow_method* so each image it makes is fed back through it.
+
+        Returns the method untouched when the feature is off or the workflow
+        takes no image, so the scheduled callable is exactly what it has always
+        been in that case.
+
+        The derivative runs inside the task that produced its parent rather
+        than being scheduled as its own job. That is what makes it a derivative
+        and not just another queued run: it follows its own parent immediately
+        instead of landing behind unrelated work, and it needs no chaining
+        machinery because it is the same callable with one argument changed.
+        """
+        if not getattr(self.gen_config, "second_derivative", False):
+            return workflow_method
+        if image_input_field(workflow_id) is None:
+            return workflow_method
+
+        @functools.wraps(workflow_method)
+        def with_derivative(**kwargs):
+            output_paths = workflow_method(**kwargs)
+            self._run_second_derivative(workflow_id, workflow_method, output_paths, kwargs)
+            return output_paths
+
+        return with_derivative
+
+    def _run_second_derivative(self, workflow_id, workflow_method, output_paths, kwargs) -> None:
+        """Re-run *workflow_method* once per produced image, on that image."""
+        if not output_paths:
+            # A failed generation, or a backend that does not report its output
+            # paths. Nothing to derive from, but the parent image was still
+            # produced and the rest of the run is unaffected.
+            logger.error(
+                f"Second derivative skipped for {workflow_id}: the generation reported "
+                "no output image path"
+            )
+            return
+
+        field = image_input_field(workflow_id)
+        for parent_path in output_paths:
+            derived = dict(kwargs)
+            adapter = self._derived_adapter(kwargs.get(field), parent_path)
+            if adapter is None:
+                logger.error(
+                    f"Second derivative skipped for {workflow_id}: no {field} to "
+                    "carry the generated image"
+                )
+                return
+            derived[field] = adapter
+
+            # queue_prompt decrements this unconditionally, so a second pass
+            # without a matching increment would drive the pending count
+            # negative.
+            with self._lock:
+                self.pending_counter += 1
+                self.update_ui_pending()
+
+            self._related_image_override.path = parent_path
+            try:
+                workflow_method(**derived)
+            finally:
+                self._related_image_override.path = None
+
+    @staticmethod
+    def _derived_adapter(adapter, image_path: str):
+        """A copy of *adapter* pointing at *image_path*.
+
+        A copy, not a mutation: the same adapter instance is shared across
+        iterations of the run loop, so writing to it would silently redirect
+        later iterations at this iteration's output. Everything else --
+        strength above all -- is carried over untouched, which is what makes
+        the second pass the same generation rather than a different one.
+        """
+        if adapter is None:
+            return None
+        derived = copy(adapter)
+        derived.id = image_path
+        derived.generation_path = image_path
+        return derived
 
     def schedule_generation(self, task_fn: callable, *args, **kwargs) -> Future:
         """Submit a generation task to the shared executor"""

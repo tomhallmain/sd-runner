@@ -139,21 +139,27 @@ class ComfyGen(BaseImageGenerator):
             WorkflowType.UPSCALE_SIMPLE: self.upscale_simple,
         }
 
-    def queue_prompt(self, prompt: WorkflowPromptComfy):
+    def queue_prompt(self, prompt: WorkflowPromptComfy) -> list:
+        """Run one prompt and return the paths of the images it produced.
+
+        An empty list means nothing was written -- a failed generation, or a
+        connection that dropped. The byte payloads are discarded here; the
+        paths are what callers can act on.
+        """
         data = prompt.get_json()
         if config.debug:
             print(data.decode("utf-8"))
-        images = None
+        output_paths = []
         connection_id = str(uuid.uuid4())  # Unique per connection so ComfyUI routes events correctly
         try:
             ws = websocket.WebSocket()
             ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, connection_id))
             ComfyGen.add_connection(ws)
-            images = ComfyGen.get_images(
+            _images, output_paths = ComfyGen.get_images(
                 ws,
                 json.loads(data.decode('utf-8')),
                 self.gen_config.get_prompter_config(),
-                related_image_path=self.gen_config.prompt_image_path if self.gen_config.prompt_image_path else None,
+                related_image_path=self.related_image_path(),
                 client_id=connection_id,
                 edit_suffix=self.gen_config.active_edit_suffix,
                 target_dir=self.gen_config.target_dir,
@@ -169,7 +175,7 @@ class ComfyGen(BaseImageGenerator):
             with self._lock:
                 self.pending_counter -= 1
                 self.update_ui_pending()
-            return images
+            return output_paths
 
     @staticmethod
     def _queue_prompt(prompt, client_id: str):
@@ -231,6 +237,11 @@ class ComfyGen(BaseImageGenerator):
         prompt_id = ComfyGen._queue_prompt(prompt, client_id or ComfyGen.CLIENT_ID)['prompt_id']
         logger.debug(f"Got prompt ID: {prompt_id}")
         output_images = {}
+        # Where each image ended up, after any edit-suffix rename and target_dir
+        # move. Returned alongside the bytes because callers that want to do
+        # something with a generated file need its final name, and the byte
+        # payload cannot tell them what that is.
+        output_paths = []
         current_node = None
         websocket_error = None
         
@@ -311,10 +322,12 @@ class ComfyGen(BaseImageGenerator):
                         save_path = BaseImageGenerator.apply_output_postprocessing(
                             save_path, target_dir, edit_suffix, related_image_path
                         )
+                        if save_path:
+                            output_paths.append(save_path)
                 output_images[node_id] = images_output
 
             ComfyGen.clear_history(prompt_id)
-            return output_images
+            return output_images, output_paths
         except Exception as e:
             logger.error(f"Error in get_images: {e}")
             raise
@@ -387,7 +400,7 @@ class ComfyGen(BaseImageGenerator):
         else:
             prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def simple_image_gen_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -436,7 +449,7 @@ class ComfyGen(BaseImageGenerator):
         else:
             prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def simple_image_gen_tiled_upscale(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -457,7 +470,7 @@ class ComfyGen(BaseImageGenerator):
         width, height = resolution.upscale_rounded()
         prompt.set_for_class_type(ComfyNodeName.IMAGE_SCALE, "width", width)
         prompt.set_for_class_type(ComfyNodeName.IMAGE_SCALE, "height", height)
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def simple_image_gen_turbo(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -473,7 +486,7 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_other_sampler_inputs(self.gen_config)
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def ella(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -491,7 +504,7 @@ class ComfyGen(BaseImageGenerator):
             prompt.set_for_class_type(ComfyNodeName.ELLA_SAMPLER, "width", resolution.width)
             prompt.set_for_class_type(ComfyNodeName.ELLA_SAMPLER, "height", resolution.height)
         prompt.set_for_class_type(ComfyNodeName.ELLA_T5_EMBEDS, "batch_size", self.gen_config.redo_param("n_latents", n_latents))
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def renoiser(self, prompt="", model=None, vae=None, n_latents=None, positive=None, negative=None, control_net=None, **kw):
         prompt, model, vae = self.prompt_setup(WorkflowType.RENOISER, "Assembling Renoiser prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative)
@@ -527,7 +540,7 @@ class ComfyGen(BaseImageGenerator):
             prompt.set_by_id("19", "control_net_name", "control_v11f1p_sd15_depth.pth")
             prompt.set_by_id("29", "control_net_name", "control_v11p_sd15_lineart.pth")
         
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def inpaint_clipseg(self, prompt="", model=None, vae=None, n_latents=None, positive=None, negative=None, control_net=None, **kw):
         prompt, model, vae = self.prompt_setup(WorkflowType.INPAINT_CLIPSEG, "Assembling clipseg-assisted inpaint prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, inpaint_image=control_net)
@@ -541,7 +554,7 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
         prompt.set_image_duplicator(self.gen_config.redo_param("n_latents", n_latents))
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def upscale_simple(self, prompt="", model=None, control_net=None, **kw):
         prompt, model, vae = self.prompt_setup(WorkflowType.UPSCALE_SIMPLE, "Assembling simple upscale image prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=1, positive="", negative="", upscale_image=control_net)
@@ -550,7 +563,7 @@ class ComfyGen(BaseImageGenerator):
         control_net = self.gen_config.redo_param("control_net", control_net)
         if control_net:
             prompt.set_linked_input_node(control_net.id, starting_class_type="ImageUpscaleWithModel")
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def upscale_better(self, prompt="", model=None, positive=None, negative=None, control_net=None, **kw):
         """
@@ -574,7 +587,7 @@ class ComfyGen(BaseImageGenerator):
         control_net = self.gen_config.redo_param("control_net", control_net)
         if control_net:
             prompt.set_linked_input_node(control_net.id, starting_class_type="ImageUpscaleWithModel")
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def instant_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         prompt, model, vae = self.prompt_setup(WorkflowType.INSTANT_LORA, "Assembling Instant LoRA prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, control_net=control_net, ip_adapter=ip_adapter)
@@ -595,7 +608,7 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_ip_adapter_strength(ip_adapter.strength)
         prompt.set_ip_adapter_image(self.gen_config.redo_param("ip_adapter", ip_adapter.get_id(control_net=control_net)))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def control_net(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -632,7 +645,7 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_latent_dimensions(resolution)
 #        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def ip_adapter(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -655,7 +668,7 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_ip_adapter_image(self.gen_config.redo_param("ip_adapter", ip_adapter.generation_path))
         prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def img2img(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         resolution = resolution.convert_for_model_type(model.architecture_type)
@@ -682,7 +695,7 @@ class ComfyGen(BaseImageGenerator):
             prompt.set_by_id("12", "height", resolution.height)  # ImageScale node
         # prompt.set_image_duplicator(self.gen_config.redo_param("n_latents", n_latents))
         # TODO: Figure out how to handle the image duplicator
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def image_edit(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
         if not model.is_flux2_klein_base():
@@ -721,7 +734,7 @@ class ComfyGen(BaseImageGenerator):
         control_net = self.gen_config.redo_param("control_net", control_net)
         if control_net and control_net.id:
             prompt.set_load_image_by_id("81", control_net.generation_path)
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def animate_diff(self, prompt="", resolution=None, model=None, vae=None, lora=None, n_latents=None, positive=None, negative=None, control_net=None, ip_adapter=None, **kw):
         prompt, model, vae = self.prompt_setup(WorkflowType.ANIMATE_DIFF, "Assembling Animate Diff prompt", prompt=prompt, model=model, vae=vae, resolution=None, n_latents=n_latents, positive=positive, negative=negative, first_image=control_net, second_image=ip_adapter)
@@ -741,7 +754,7 @@ class ComfyGen(BaseImageGenerator):
         prompt.set_ip_adapter_model("ip-adapter-plus_sdxl_vit-h.safetensors" if self.gen_config.is_xl() else "ip-adapter-plus_sd15.safetensors")
         prompt.set_clip_vision_model("XL\\clip_vision_g.safetensors" if self.gen_config.is_xl() else"IPAdapter_image_encoder_sd15.safetensors")
 #        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
     def redo_with_different_parameter(self, source_file="", resolution=None, model=None, vae=None,
                                       lora=None, positive=None, negative=None, n_latents=None,
@@ -816,7 +829,7 @@ class ComfyGen(BaseImageGenerator):
         if not has_made_one_change and config.debug:
             print("Did not make any changes to prompt for image: " + source_file)
         
-        self.queue_prompt(prompt)
+        return self.queue_prompt(prompt)
 
 
 

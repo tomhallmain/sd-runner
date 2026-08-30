@@ -4,6 +4,9 @@ Import from here rather than redefining per-module factories:
 
     from tests.utils import make_prompter, make_model, make_run_config
 
+``captured_logs`` is the one that is not a factory: project loggers do not
+propagate, so ``caplog`` needs help to see them.
+
 Nothing in this package is collected by pytest -- ``pytest.ini`` sets
 ``python_files = test_*.py``, which no module here matches.
 
@@ -23,9 +26,11 @@ from tests.utils.factories import (
     make_run_config,
     make_schedule,
 )
+from tests.utils.logs import captured_logs
 
 __all__ = [
     "FakeServerConn",
+    "captured_logs",
     "install_password_bypass",
     "make_app_actions",
     "make_gen_config",

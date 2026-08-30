@@ -363,6 +363,37 @@ class WorkflowType(Enum):
         raise Exception(f"Not a valid workflow type: {name}")
 
 
+#: Workflows that take an input image, grouped by the field the image goes in.
+#: Between them they name every workflow with an image dependency, which is what
+#: makes them the eligibility test for anything that has an image and needs to
+#: know where it belongs -- a server request carrying one, or a second
+#: derivative feeding a generated image back in.
+CONTROL_NET_IMAGE_WORKFLOWS = (
+    WorkflowType.CONTROLNET,
+    WorkflowType.RENOISER,
+    WorkflowType.REDO_PROMPT,
+)
+
+IP_ADAPTER_IMAGE_WORKFLOWS = (
+    WorkflowType.IP_ADAPTER,
+    WorkflowType.IMG2IMG,
+    WorkflowType.IMAGE_EDIT,
+)
+
+
+def image_input_field(workflow_type) -> str | None:
+    """Which adapter field carries *workflow_type*'s input image, or None.
+
+    None means the workflow takes no image, which is the test for whether an
+    image-dependent feature applies to it at all.
+    """
+    if workflow_type in CONTROL_NET_IMAGE_WORKFLOWS:
+        return "control_net"
+    if workflow_type in IP_ADAPTER_IMAGE_WORKFLOWS:
+        return "ip_adapter"
+    return None
+
+
 class PromptTypeSDWebUI(Enum):
     TXT2IMG = "txt2img.json"
     TXT2IMG_LORA  = "txt2img.json"

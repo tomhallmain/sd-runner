@@ -496,6 +496,15 @@ class SidebarPanel(QWidget):
         self.dimension_variation_check.setChecked(bool(getattr(runner_cfg, "dimension_variation", False)))
         layout.addWidget(self.dimension_variation_check)
 
+        self.second_derivative_check = QCheckBox(_("Second Derivative"))
+        self.second_derivative_check.setToolTip(
+            _("Feed each generated image back through the same workflow with the same "
+              "settings, so every image is followed by one made from it. Only applies "
+              "to workflows that take an input image.")
+        )
+        self.second_derivative_check.setChecked(bool(getattr(runner_cfg, "second_derivative", False)))
+        layout.addWidget(self.second_derivative_check)
+
         # Prompt Massage Tags
         layout.addWidget(QLabel(_("Prompt Massage Tags")))
         self.prompt_massage_tags_box = QPlainTextEdit()

@@ -21,24 +21,13 @@ commands never reach a run at all.
 from copy import deepcopy
 
 from sd_runner.run_config import RunConfig
-from utils.globals import PromptMode, Sampler, Scheduler, WorkflowType
+from utils.globals import (
+    CONTROL_NET_IMAGE_WORKFLOWS, IP_ADAPTER_IMAGE_WORKFLOWS,
+    PromptMode, Sampler, Scheduler, WorkflowType,
+)
 from utils.logging_setup import get_logger
 
 logger = get_logger("virtual_run_config")
-
-#: Workflows whose request image is the control net input.
-CONTROL_NET_IMAGE_WORKFLOWS = (
-    WorkflowType.CONTROLNET,
-    WorkflowType.RENOISER,
-    WorkflowType.REDO_PROMPT,
-)
-
-#: Workflows whose request image is the IP adapter input.
-IP_ADAPTER_IMAGE_WORKFLOWS = (
-    WorkflowType.IP_ADAPTER,
-    WorkflowType.IMG2IMG,
-    WorkflowType.IMAGE_EDIT,
-)
 
 
 def escape_path(path: str) -> str:
@@ -97,6 +86,7 @@ def base_args_from_app_config(runner_app_config) -> dict:
         "inpainting": bool(cfg.inpainting),
         "continuous_seed_variation": bool(cfg.continuous_seed_variation),
         "dimension_variation": bool(cfg.dimension_variation),
+        "second_derivative": bool(getattr(cfg, "second_derivative", False)),
         "seed": _to_int(cfg.seed, -1),
         "steps": _to_int(cfg.steps, -1),
         "cfg": _to_float(cfg.cfg, -1.0),

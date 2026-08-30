@@ -38,6 +38,7 @@ class RunnerAppConfig:
         self.timestamp = datetime.datetime.now().isoformat()  # Add timestamp field
         self.continuous_seed_variation = False  # Whether to vary seed between every generation
         self.dimension_variation = False  # Slight randomized dimension variation at generation time
+        self.second_derivative = False  # Re-run each output back through the same image workflow
         self.edit_suffix = ""  # Appended to source filename when renaming edit workflow output
         self.target_dir = ""  # Optional directory to move generated images into after save
 
@@ -88,6 +89,7 @@ class RunnerAppConfig:
         self.inpainting = args.inpainting
         self.continuous_seed_variation = getattr(args, 'continuous_seed_variation', False)
         self.dimension_variation = getattr(args, "dimension_variation", False)
+        self.second_derivative = getattr(args, "second_derivative", False)
         self.target_dir = getattr(args, "target_dir", "") or ""
 
     @staticmethod
@@ -110,6 +112,8 @@ class RunnerAppConfig:
             app_config.continuous_seed_variation = False  # Default to False for backward compatibility
         if not hasattr(app_config, "dimension_variation"):
             app_config.dimension_variation = False
+        if not hasattr(app_config, "second_derivative"):
+            app_config.second_derivative = False
         if not hasattr(app_config, 'sparse_mixed_tags'):
             app_config.sparse_mixed_tags = False  # Default to False for backward compatibility
         if not hasattr(app_config, 'batch_limit'):

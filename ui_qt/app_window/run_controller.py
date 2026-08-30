@@ -989,9 +989,8 @@ class RunController:
         handed over, and the runs the schedule then starts are the user's own
         rather than the request's, so they carry no origin.
         """
-        from sd_runner.virtual_run_config import (
-            CONTROL_NET_IMAGE_WORKFLOWS, IP_ADAPTER_IMAGE_WORKFLOWS, escape_path,
-        )
+        from sd_runner.virtual_run_config import escape_path
+        from utils.globals import image_input_field
 
         app = self._app
         if "image" not in request:
@@ -1001,11 +1000,8 @@ class RunController:
         if app.job_queue_preset_schedules is None or not app.job_queue_preset_schedules.has_pending():
             return False
 
-        if workflow_type in CONTROL_NET_IMAGE_WORKFLOWS:
-            key = "control_net"
-        elif workflow_type in IP_ADAPTER_IMAGE_WORKFLOWS:
-            key = "ip_adapter"
-        else:
+        key = image_input_field(workflow_type)
+        if key is None:
             return False
 
         app.job_queue_preset_schedules.add({key: escape_path(request["image"])})

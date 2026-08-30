@@ -154,6 +154,23 @@ The table below covers ComfyUI (C) and SDWebUI (S) — the two backends with ful
 
 **Legend:** C = ComfyUI, S = SDWebUI (also Forge/SD.Next), C/S = Both
 
+### Second Derivative
+
+A checkbox on the sidebar. When it is on, every image a run generates is fed
+straight back through the same workflow with the same settings — same model,
+prompt, LoRA, sampler, adapter strengths, everything — with only the input
+image changed to the image that was just made. Ask for one image and you get
+two: the image, then the image made from it. Ask for two and you get that
+twice.
+
+It applies only to workflows that take an input image (IP Adapter, Image to
+Image, Image Edit, ControlNet, Renoiser) and is silently inactive for the
+others, so it is safe to leave on while switching workflows. Depth is two — a
+derivative is not itself derived from.
+
+ComfyUI only for now: it is the backend that reports where it wrote each image.
+On other backends the derivative is skipped and logged as an error.
+
 ## Image Resolutions
 
 Any of the following resolution options can be used: square, portrait1, portrait2, portrait3, landscape1, landscape2, landscape3. These resolution tags work with all supported model architectures and automatically scale dimensions to match each architecture's expected output size.

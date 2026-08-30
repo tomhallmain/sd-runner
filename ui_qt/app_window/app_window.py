@@ -444,6 +444,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         sp.override_negative_check.setChecked(cfg.override_negative)
         sp.continuous_seed_var_check.setChecked(cfg.continuous_seed_variation)
         sp.dimension_variation_check.setChecked(bool(getattr(cfg, "dimension_variation", False)))
+        sp.second_derivative_check.setChecked(bool(getattr(cfg, "second_derivative", False)))
 
         sp.prompt_massage_tags_box.setPlainText(cfg.prompt_massage_tags)
         sp.positive_tags_box.setPlainText(cfg.positive_tags)
@@ -490,8 +491,10 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         args.inpainting = sp.inpainting_check.isChecked()
         args.continuous_seed_variation = sp.continuous_seed_var_check.isChecked()
         args.dimension_variation = sp.dimension_variation_check.isChecked()
+        args.second_derivative = sp.second_derivative_check.isChecked()
         self.runner_app_config.continuous_seed_variation = args.continuous_seed_variation
         self.runner_app_config.dimension_variation = args.dimension_variation
+        self.runner_app_config.second_derivative = args.second_derivative
 
         # Sync prompt mode into runner_app_config before copying
         prompt_mode = PromptMode.get(sp.prompt_mode_combo.currentText())
