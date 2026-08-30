@@ -64,6 +64,7 @@ class BlacklistModifyWindow(SmartDialog):
             "use_space_as_optional_nonword": getattr(self._item, "use_space_as_optional_nonword", False),
             "exception_pattern": getattr(self._item, "exception_pattern", "") or "",
             "apply_to_whole_prompt": getattr(self._item, "apply_to_whole_prompt", False),
+            "apply_to_prompt_tags": getattr(self._item, "apply_to_prompt_tags", True),
         }
 
         root = QVBoxLayout(self)
@@ -102,6 +103,17 @@ class BlacklistModifyWindow(SmartDialog):
             self._whole_prompt_cb.setVisible(False)
         root.addWidget(self._whole_prompt_cb)
 
+        # --- Whether the user's own wording is checked (tag items only) ------
+        self._prompt_tags_cb = QCheckBox(_("Apply to prompt tags (check what you type, not just generated content)"))
+        self._prompt_tags_cb.setToolTip(
+            _("Uncheck to keep filtering this term out of generated content while "
+              "still allowing it in prompt tags you write yourself.")
+        )
+        self._prompt_tags_cb.setChecked(getattr(self._item, "apply_to_prompt_tags", True))
+        if is_model:
+            self._prompt_tags_cb.setVisible(False)
+        root.addWidget(self._prompt_tags_cb)
+
         # --- Buttons --------------------------------------------------------
         btn_row = QHBoxLayout()
         preview_btn = QPushButton(_("Preview"))
@@ -133,6 +145,7 @@ class BlacklistModifyWindow(SmartDialog):
             "use_space_as_optional_nonword": self._space_cb.isChecked(),
             "exception_pattern": self._exception_entry.text().strip(),
             "apply_to_whole_prompt": self._whole_prompt_cb.isChecked(),
+            "apply_to_prompt_tags": self._prompt_tags_cb.isChecked(),
         } != self._original_values
 
     def _validate_and_build(self) -> Optional[BlacklistItem]:
@@ -152,6 +165,7 @@ class BlacklistModifyWindow(SmartDialog):
             use_space_as_optional_nonword=self._space_cb.isChecked(),
             exception_pattern=exc,
             apply_to_whole_prompt=self._whole_prompt_cb.isChecked(),
+            apply_to_prompt_tags=self._prompt_tags_cb.isChecked(),
         )
 
     # ------------------------------------------------------------------

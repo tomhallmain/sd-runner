@@ -159,6 +159,7 @@ class BlacklistItem:
         "use_space_as_optional_nonword",
         "exception_pattern",
         "apply_to_whole_prompt",
+        "apply_to_prompt_tags",
     )
     #: CSV round-trips every value as text, so these need coercing back on import.
     CSV_BOOL_FIELDS = (
@@ -167,6 +168,7 @@ class BlacklistItem:
         "use_word_boundary",
         "use_space_as_optional_nonword",
         "apply_to_whole_prompt",
+        "apply_to_prompt_tags",
     )
 
     @classmethod
@@ -194,6 +196,7 @@ class BlacklistItem:
         use_space_as_optional_nonword: bool = True,
         exception_pattern: str = None,
         apply_to_whole_prompt: bool = False,
+        apply_to_prompt_tags: bool = True,
     ):
         self.enabled = enabled
         self.use_regex = use_regex
@@ -201,6 +204,16 @@ class BlacklistItem:
         self.exception_pattern = exception_pattern
         self.use_space_as_optional_nonword = use_space_as_optional_nonword
         self.apply_to_whole_prompt = apply_to_whole_prompt
+        # Whether this item is checked against the prompt tags the user typed.
+        # Off means it still filters generated content -- concepts, expansions,
+        # the random vocabulary -- but leaves the user's own wording alone, for
+        # a term they want excluded from what the app invents while remaining
+        # free to ask for it themselves. Defaults on, so every existing item
+        # keeps applying everywhere.
+        #
+        # Orthogonal to apply_to_whole_prompt, which is about *how* to match
+        # (the assembled text vs each tag) rather than *what* to match against.
+        self.apply_to_prompt_tags = apply_to_prompt_tags
         
         # Process the string based on the new property
         
@@ -262,6 +275,7 @@ class BlacklistItem:
             "use_space_as_optional_nonword": self.use_space_as_optional_nonword,
             "exception_pattern": self.exception_pattern,
             "apply_to_whole_prompt": self.apply_to_whole_prompt,
+            "apply_to_prompt_tags": self.apply_to_prompt_tags,
         }
 
     @classmethod
@@ -288,7 +302,13 @@ class BlacklistItem:
         apply_to_whole_prompt = data.get("apply_to_whole_prompt", False)
         if not isinstance(apply_to_whole_prompt, bool):
             apply_to_whole_prompt = False
-        return cls(data["string"], enabled, use_regex, use_word_boundary, use_space_as_optional_nonword, exception_pattern, apply_to_whole_prompt)
+        # Absent in every item stored before this property existed, and those
+        # were all applied to the user's prompt tags -- so missing means True.
+        apply_to_prompt_tags = data.get("apply_to_prompt_tags", True)
+        if not isinstance(apply_to_prompt_tags, bool):
+            apply_to_prompt_tags = True
+        return cls(data["string"], enabled, use_regex, use_word_boundary, use_space_as_optional_nonword,
+                   exception_pattern, apply_to_whole_prompt, apply_to_prompt_tags)
 
     def matches_tag(self, tag: str) -> bool:
         """Check if a tag matches this blacklist item.
@@ -861,6 +881,8 @@ class Blacklist:
         for blacklist_item in Blacklist.TAG_BLACKLIST:
             if not blacklist_item.enabled:
                 continue
+            if not blacklist_item.apply_to_prompt_tags:
+                continue
             if not blacklist_item.apply_to_whole_prompt:
                 continue
             if blacklist_item.matches_tag(text):
@@ -883,6 +905,8 @@ class Blacklist:
 
             for blacklist_item in Blacklist.TAG_BLACKLIST:
                 if not blacklist_item.enabled:
+                    continue
+                if not blacklist_item.apply_to_prompt_tags:
                     continue
                 if blacklist_item.apply_to_whole_prompt:
                     continue
@@ -951,6 +975,8 @@ class Blacklist:
                         # Check truncated word against blacklist
                         for blacklist_item in Blacklist.TAG_BLACKLIST:
                             if not blacklist_item.enabled:
+                                continue
+                            if not blacklist_item.apply_to_prompt_tags:
                                 continue
                             if blacklist_item.matches_tag(truncated):
                                 # Found a match - store it and break (one match per word is enough)

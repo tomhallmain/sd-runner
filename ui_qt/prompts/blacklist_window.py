@@ -56,6 +56,10 @@ def _item_display_text(item: BlacklistItem) -> str:
         parts.append(_("[exception: {0}]").format(item.exception_pattern))
     if getattr(item, "apply_to_whole_prompt", False):
         parts.append(_("[whole prompt]"))
+    # Flagged only when off: on is the default, and a marker on every row would
+    # say nothing.
+    if not getattr(item, "apply_to_prompt_tags", True):
+        parts.append(_("[generated only]"))
     return " ".join(parts)
 
 
