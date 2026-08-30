@@ -330,7 +330,7 @@ class TestResumePausedQueue:
         """resume_paused_queue does nothing when both queues are empty."""
         callbacks = []
         monkeypatch.setattr(
-            app_window.run_ctrl, "server_run_callback",
+            app_window.run_ctrl, "_promote_staged_request",
             lambda cmd, args: callbacks.append((cmd, args)),
         )
         app_window.run_ctrl.resume_paused_queue()
@@ -343,7 +343,7 @@ class TestResumePausedQueue:
 
         callbacks = []
         monkeypatch.setattr(
-            app_window.run_ctrl, "server_run_callback",
+            app_window.run_ctrl, "_promote_staged_request",
             lambda cmd, args: callbacks.append((cmd, args)),
         )
         app_window.job_queue.job_running = True
@@ -373,7 +373,7 @@ class TestResumePausedQueue:
 
         callbacks = []
         monkeypatch.setattr(
-            app_window.run_ctrl, "server_run_callback",
+            app_window.run_ctrl, "_promote_staged_request",
             lambda cmd, args: callbacks.append((cmd, args)),
         )
 
@@ -391,7 +391,7 @@ class TestResumePausedQueue:
 
         callbacks = []
         monkeypatch.setattr(
-            app_window.run_ctrl, "server_run_callback",
+            app_window.run_ctrl, "_promote_staged_request",
             lambda cmd, args: callbacks.append((cmd, args)),
         )
         args, _ = app_window.get_args()

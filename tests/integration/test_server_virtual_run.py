@@ -215,6 +215,108 @@ class TestPromptTagsTravelOnTheRun:
         assert seen == ["applied at start"]
 
 
+class TestPresetScheduleDiversion:
+    """A request handed to a running preset schedule is never built as a run.
+
+    The schedule owns the adapter fields for its duration, so the request's
+    image goes to it instead. Settling that before the build is what keeps a
+    diverted request from being estimated -- and possibly refused over the size
+    ceiling -- for a run that was never going to be queued.
+    """
+
+    def arm_schedule(self, app_window):
+        app_window.sidebar_panel.run_preset_schedule_check.setChecked(True)
+        app_window.job_queue_preset_schedules.add({"placeholder": True})
+
+    def test_image_goes_to_the_schedule_instead_of_a_run(self, app_window, run_stubs, executed):
+        self.arm_schedule(app_window)
+        resp = app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert resp == {}
+        assert executed == []
+        assert {"control_net": "remote.png"} in app_window.job_queue_preset_schedules.pending_jobs
+
+    def test_the_run_is_never_built_when_diverting(self, app_window, run_stubs, monkeypatch):
+        import sd_runner.virtual_run_config as vrc
+
+        def fail(*a, **kw):
+            raise AssertionError("a diverted request must not be built")
+
+        monkeypatch.setattr(vrc, "build_from_base_args", fail)
+        self.arm_schedule(app_window)
+        assert app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        ) == {}
+
+    def test_a_diverted_request_is_not_refused_by_the_ceiling(
+        self, app_window, run_stubs, executed, monkeypatch
+    ):
+        from utils.config import config
+        monkeypatch.setattr(config, "server_run_max_seconds", 10)
+        monkeypatch.setattr(
+            app_window.run_ctrl, "_estimate_run", lambda args: (9999, 500)
+        )
+        self.arm_schedule(app_window)
+        resp = app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert "error" not in resp
+        assert executed == []
+
+
+# ---------------------------------------------------------------------------
+# last_settings carries no workflow, so workflow-specific args cannot apply
+# ---------------------------------------------------------------------------
+
+class TestLastSettingsIgnoresWorkflowArgs:
+    def test_an_image_does_not_reach_the_adapter_fields(self, app_window, run_stubs, executed):
+        """An image names the input of a particular workflow; last_settings
+        selects none, so there is nowhere correct to put it."""
+        sp = app_window.sidebar_panel
+        sp.controlnet_file_entry.setText("user_value.png")
+        sp.ipadapter_file_entry.setText("user_ip.png")
+
+        app_window.run_ctrl.server_run_callback(
+            CommandType.LAST_SETTINGS, {"image": "remote.png"}
+        )
+
+        assert sp.controlnet_file_entry.text() == "user_value.png"
+        assert sp.ipadapter_file_entry.text() == "user_ip.png"
+        assert len(executed) == 1
+
+    def test_a_control_net_does_not_reach_the_field(self, app_window, run_stubs, executed):
+        sp = app_window.sidebar_panel
+        sp.controlnet_file_entry.setText("user_value.png")
+        app_window.run_ctrl.server_run_callback(
+            CommandType.LAST_SETTINGS, {"control_net": "remote.png"}
+        )
+        assert sp.controlnet_file_entry.text() == "user_value.png"
+        assert len(executed) == 1
+
+    def test_the_args_it_can_honour_still_apply(self, app_window, run_stubs, executed):
+        sp = app_window.sidebar_panel
+        app_window.run_ctrl.server_run_callback(
+            CommandType.LAST_SETTINGS,
+            {"source_prompt": "take_from.png", "target_dir": "/remote/out"},
+        )
+        assert sp.source_prompt_file_entry.text() == "take_from.png"
+        assert sp.target_dir_entry.text() == "/remote/out"
+        assert len(executed) == 1
+
+    def test_append_extends_the_source_prompt_field(self, app_window, run_stubs, executed):
+        sp = app_window.sidebar_panel
+        sp.source_prompt_file_entry.setText("first.png")
+        app_window.run_ctrl.server_run_callback(
+            CommandType.LAST_SETTINGS, {"source_prompt": "second.png", "append": True}
+        )
+        assert sp.source_prompt_file_entry.text() == "first.png,second.png"
+
+
+# ---------------------------------------------------------------------------
+# Ceiling
+# ---------------------------------------------------------------------------
+
 class TestServerRunCeiling:
     """A server request has no user to confirm a long run, so it is refused."""
 
@@ -335,7 +437,9 @@ class TestSnapshotIsTakenOnce:
 
     def test_snapshot_carries_the_stored_values(self, app_window):
         app_window.runner_app_config.model_tags = "snapshot_model"
-        base_args, preset = app_window.run_ctrl._snapshot_for_server_run({})
+        base_args, preset = app_window.run_ctrl._snapshot_for_server_run(
+            CommandType.RENOISER, {}
+        )
         assert base_args["model_tags"] == "snapshot_model"
         assert preset is None
 

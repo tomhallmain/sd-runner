@@ -1,11 +1,14 @@
+import json
+
 import pytest
+from sd_runner.prompter_configuration import PrompterConfiguration
 from sd_runner.run_config import RunConfig
-from tests.utils import make_run_config
-from utils.globals import WorkflowType
+from tests.utils import make_prompter_config, make_run_config
+from utils.globals import Sampler, Scheduler, WorkflowType
 
 
 # ---------------------------------------------------------------------------
-# get() — dict args, object args, None args
+# Construction from each accepted source — dict args, object args, None args
 # ---------------------------------------------------------------------------
 
 class TestRunConfigGet:
@@ -181,3 +184,109 @@ class TestValidateWorkflowRequirements:
     def test_no_workflow_tag_is_always_valid(self):
         rc = make_run_config()
         rc._validate_workflow_requirements()
+
+
+# ---------------------------------------------------------------------------
+# to_dict() / from_dict() — cross-session persistence of a queued run
+# ---------------------------------------------------------------------------
+
+class TestRunConfigSerialization:
+    def test_to_dict_is_json_encodable(self):
+        """The whole point: a queued run must survive json.dumps.
+
+        A Sampler member reaching the encoder is what broke the cache store.
+        """
+        rc = make_run_config(
+            workflow_tag="IP_ADAPTER",
+            sampler=Sampler.EULER,
+            scheduler=Scheduler.KARRAS,
+            prompter_config=make_prompter_config(),
+        )
+        json.dumps(rc.to_dict())
+
+    def test_enums_become_names(self):
+        rc = make_run_config(workflow_tag="IP_ADAPTER", sampler=Sampler.DDIM)
+        assert rc.to_dict()["sampler"] == "DDIM"
+
+    def test_prompter_config_becomes_a_dict(self):
+        rc = make_run_config(workflow_tag="IP_ADAPTER", prompter_config=make_prompter_config())
+        assert isinstance(rc.to_dict()["prompter_config"], dict)
+
+    def test_transient_fields_are_not_serialized(self):
+        rc = make_run_config(workflow_tag="IP_ADAPTER")
+        assert "start_time" not in rc.to_dict()
+
+    def test_constructor_input_is_not_retained(self):
+        """args is consumed by __init__; keeping it is what let the persistence
+        layer serialize a stale, path-dependent snapshot instead of the run."""
+        rc = make_run_config(workflow_tag="IP_ADAPTER")
+        assert not hasattr(rc, "args")
+
+    def test_round_trip_preserves_fields(self):
+        rc = make_run_config(
+            workflow_tag="IP_ADAPTER",
+            model_tags="some_model",
+            ip_adapters="image.png",
+            seed=1234,
+            total=3,
+            sampler=Sampler.EULER,
+            prompter_config=make_prompter_config(),
+        )
+        restored = RunConfig.from_dict(rc.to_dict())
+        assert restored.workflow_tag == "IP_ADAPTER"
+        assert restored.model_tags == "some_model"
+        assert restored.ip_adapters == "image.png"
+        assert restored.seed == 1234
+        assert restored.total == 3
+
+    def test_round_trip_restores_enum_types(self):
+        rc = make_run_config(workflow_tag="IP_ADAPTER", sampler=Sampler.EULER,
+                             scheduler=Scheduler.KARRAS)
+        restored = RunConfig.from_dict(rc.to_dict())
+        assert restored.sampler is Sampler.EULER
+        assert restored.scheduler is Scheduler.KARRAS
+
+    def test_round_trip_restores_prompter_config_type(self):
+        rc = make_run_config(workflow_tag="IP_ADAPTER", prompter_config=make_prompter_config())
+        restored = RunConfig.from_dict(rc.to_dict())
+        assert isinstance(restored.prompter_config, PrompterConfiguration)
+
+    def test_round_trip_keeps_attributes_set_after_construction(self):
+        """The tag fields and is_server_run are assigned by the run paths after
+        __init__, so a field list would miss them."""
+        rc = make_run_config(workflow_tag="IP_ADAPTER")
+        rc.positive_tags = "carried tags"
+        rc.edit_suffix = "_edit"
+        rc.is_server_run = True
+        restored = RunConfig.from_dict(rc.to_dict())
+        assert restored.positive_tags == "carried tags"
+        assert restored.edit_suffix == "_edit"
+        assert restored.is_server_run is True
+
+    def test_round_trip_survives_a_json_encode(self):
+        rc = make_run_config(workflow_tag="IP_ADAPTER", sampler=Sampler.EULER,
+                             prompter_config=make_prompter_config())
+        restored = RunConfig.from_dict(json.loads(json.dumps(rc.to_dict())))
+        assert restored.sampler is Sampler.EULER
+        assert isinstance(restored.prompter_config, PrompterConfiguration)
+
+    def test_a_run_built_from_the_sidebar_also_serializes(self):
+        """The sidebar path passes no args and assigns fields itself. Reading
+        constructor input meant these were silently never persisted."""
+        rc = RunConfig()
+        rc.workflow_tag = "SIMPLE_IMAGE_GEN"
+        rc.model_tags = "sidebar_model"
+        rc.sampler = Sampler.EULER
+        restored = RunConfig.from_dict(json.loads(json.dumps(rc.to_dict())))
+        assert restored.workflow_tag == "SIMPLE_IMAGE_GEN"
+        assert restored.model_tags == "sidebar_model"
+
+    def test_a_foreign_dict_shape_is_rejected(self):
+        """A RunnerAppConfig-shaped dict names workflow_type, not workflow_tag;
+        restoring it silently would produce a run with empty fields."""
+        with pytest.raises(ValueError):
+            RunConfig.from_dict({"workflow_type": "IP_ADAPTER", "resolutions": "landscape"})
+
+    def test_empty_dict_is_rejected(self):
+        with pytest.raises(ValueError):
+            RunConfig.from_dict({})

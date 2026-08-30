@@ -1,7 +1,10 @@
 import threading
 import time
 
-from utils.globals import Globals, PromptMode, WorkflowType # must import first
+from copy import deepcopy
+from enum import Enum
+
+from utils.globals import Globals, PromptMode, Sampler, Scheduler, WorkflowType # must import first
 
 from sd_runner.models import Model
 from utils.logging_setup import get_logger
@@ -11,6 +14,21 @@ from utils.translations import I18N
 _ = I18N._
 
 logger = get_logger("run_config")
+
+
+def _arg(source, name: str):
+    """Read *name* from a RunConfig constructor source.
+
+    The source is a dict, an object carrying the same attribute names, or None.
+    Reading through one accessor is what lets the three construction paths --
+    the sidebar, a server request, and a restored run -- share __init__.
+    """
+    if isinstance(source, dict):
+        return source.get(name)
+    if not source:
+        return None
+    return getattr(source, name, None)
+
 
 class RunConfig:
     # Class-level state tracking a one-shot advisory about a model switch.
@@ -23,52 +41,105 @@ class RunConfig:
     model_switch_detected = False
     has_warned_about_prompt_massage_text_mismatch = False
 
+    #: Rebuilt by __init__ rather than carried across sessions, so to_dict()
+    #: leaves it out and from_dict() never has to restore it.
+    TRANSIENT_FIELDS = ("start_time",)
+
     def __init__(self, args=None):
-        self.args = args
+        # args is constructor input, not state, and is deliberately not kept:
+        # every value it carries is copied onto the instance here. The sidebar
+        # path passes nothing and assigns the fields itself, a server request
+        # passes a dict, and a restored run passes its stored dict -- so a
+        # retained args would mean three different things and would not reflect
+        # later edits to a queued run. The instance is the run.
         self.start_time = time.localtime()
-        self.software_type = self.get("software_type")
-        self.workflow_tag = self.get("workflow_tag")
-        self.res_tags = self.get("res_tags")
-        self.model_tags = self.get("model_tags")
-        self.lora_tags = self.get("lora_tags")
-        self.inpainting = self.get("inpainting")
-        self.n_latents = self.get("n_latents")
-        self.seed = self.get("seed")
-        self.steps = self.get("steps")
-        self.cfg = self.get("cfg")
-        self.sampler = self.get("sampler")
-        self.scheduler = self.get("scheduler")
-        self.denoise = self.get("denoise")
-        self.prompter_override = self.get("prompter_override")
-        self.redo_files = self.get("redo_files")
-        self.prompter_config = self.get("prompter_config")
-        self.control_nets = self.get("control_nets")
-        self.ip_adapters = self.get("ip_adapters")
-        self.source_prompts = self.get("source_prompts")
-        self.source_prompts_add_user_prompt = self.get("source_prompts_add_user_prompt")
-        self.positive_prompt = self.get("positive_prompt")
-        self.negative_prompt = self.get("negative_prompt")
-        self.auto_run = self.get("auto_run")
-        self.resolution_group = self.get("resolution_group")
-        self.override_resolution = self.get("override_resolution")
-        self.total = self.get("total")
-        self.batch_limit = self.get("batch_limit")
-        self.continuous_seed_variation = self.get("continuous_seed_variation")
-        self.dimension_variation = self.get("dimension_variation")
-        self.target_dir = self.get("target_dir")
+        self.software_type = _arg(args, "software_type")
+        self.workflow_tag = _arg(args, "workflow_tag")
+        self.res_tags = _arg(args, "res_tags")
+        self.model_tags = _arg(args, "model_tags")
+        self.lora_tags = _arg(args, "lora_tags")
+        self.inpainting = _arg(args, "inpainting")
+        self.n_latents = _arg(args, "n_latents")
+        self.seed = _arg(args, "seed")
+        self.steps = _arg(args, "steps")
+        self.cfg = _arg(args, "cfg")
+        self.sampler = _arg(args, "sampler")
+        self.scheduler = _arg(args, "scheduler")
+        self.denoise = _arg(args, "denoise")
+        self.prompter_override = _arg(args, "prompter_override")
+        self.redo_files = _arg(args, "redo_files")
+        self.prompter_config = _arg(args, "prompter_config")
+        self.control_nets = _arg(args, "control_nets")
+        self.ip_adapters = _arg(args, "ip_adapters")
+        self.source_prompts = _arg(args, "source_prompts")
+        self.source_prompts_add_user_prompt = _arg(args, "source_prompts_add_user_prompt")
+        self.positive_prompt = _arg(args, "positive_prompt")
+        self.negative_prompt = _arg(args, "negative_prompt")
+        self.auto_run = _arg(args, "auto_run")
+        self.resolution_group = _arg(args, "resolution_group")
+        self.override_resolution = _arg(args, "override_resolution")
+        self.total = _arg(args, "total")
+        self.batch_limit = _arg(args, "batch_limit")
+        self.continuous_seed_variation = _arg(args, "continuous_seed_variation")
+        self.dimension_variation = _arg(args, "dimension_variation")
+        self.target_dir = _arg(args, "target_dir")
 
         with RunConfig._model_switch_lock:
             if RunConfig.previous_model_tags != self.model_tags:
                 RunConfig.model_switch_detected = True
             RunConfig.previous_model_tags = self.model_tags
 
-    def get(self, name: str):
-        if isinstance(self.args, dict):
-            return self.args.get(name)
-        elif not self.args:
-            return None
-        else:
-            return getattr(self.args, name, None)
+    def to_dict(self) -> dict:
+        """Serialize the run for cross-session persistence.
+
+        Walks the instance rather than a fixed field list: both run paths set
+        further attributes after construction (the tag and strength fields, and
+        is_server_run), from two different places, so a list here would drift
+        out of step with them. A field that cannot be converted is left as-is
+        and surfaces at the json encode naming its type, rather than being
+        silently dropped.
+        """
+        _dict = {}
+        for key, value in self.__dict__.items():
+            if key in RunConfig.TRANSIENT_FIELDS:
+                continue
+            if isinstance(value, Enum):
+                _dict[key] = value.name
+            elif hasattr(value, "to_dict"):
+                _dict[key] = value.to_dict()
+            else:
+                _dict[key] = value
+        return _dict
+
+    @classmethod
+    def from_dict(cls, _dict: dict) -> "RunConfig":
+        """Rebuild a run from to_dict() output, inverting its conversions.
+
+        Raises ValueError if the dict is not in RunConfig's own vocabulary, so
+        a stored entry in some other shape is reported rather than restored as
+        a run with silently empty fields.
+        """
+        from sd_runner.prompter_configuration import PrompterConfiguration
+
+        data = deepcopy(_dict) if _dict else {}
+        if "workflow_tag" not in data:
+            raise ValueError("not a RunConfig dict (no workflow_tag)")
+        if data.get("sampler") is not None:
+            data["sampler"] = Sampler.get(data["sampler"])
+        if data.get("scheduler") is not None:
+            data["scheduler"] = Scheduler.get(data["scheduler"])
+        if isinstance(data.get("prompter_config"), dict):
+            prompter_config = PrompterConfiguration()
+            prompter_config.set_from_dict(data["prompter_config"])
+            data["prompter_config"] = prompter_config
+
+        run_config = cls(args=data)
+        # Restore the attributes set after construction by whichever path built
+        # the original run; __init__ does not read them.
+        for key, value in data.items():
+            if not hasattr(run_config, key):
+                setattr(run_config, key, value)
+        return run_config
 
     def validate(self) -> bool:
         if self.prompter_config is None:

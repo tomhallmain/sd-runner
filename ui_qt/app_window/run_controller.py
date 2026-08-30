@@ -185,8 +185,7 @@ class RunController:
                     f"Promoting staged server request "
                     f"({staging.pending_count()} remaining in staging queue)"
                 )
-                # Already on the main thread — call directly rather than via bridge.
-                self.server_run_callback(command_type, staged_args)
+                self._promote_staged_request(command_type, staged_args)
                 promoted = True
 
         if next_job_args:
@@ -265,7 +264,7 @@ class RunController:
                     f"Promoting staged server request on queue resume "
                     f"({staging.pending_count()} remaining in staging queue)"
                 )
-                self.server_run_callback(command_type, staged_args)
+                self._promote_staged_request(command_type, staged_args)
 
     def toggle_pause_queue(self) -> None:
         """Toggle the queue pause state and update the sidebar button label."""
@@ -790,6 +789,46 @@ class RunController:
             return self._run_virtual(command_type, args)
         return self._on_main(self._run_from_widgets, command_type, args)
 
+    def _promote_staged_request(self, command_type, args: dict) -> None:
+        """Hand a staged request back to the run path, off the GUI thread.
+
+        Every promotion site runs on the GUI thread, where ``_on_main`` is a
+        direct call -- so calling ``server_run_callback`` from one would build
+        the whole run there, including ``validate()`` and the directory scans
+        ``_estimate_run`` performs when a size ceiling is configured. Starting a
+        worker restores the split the listener-thread path already has: the
+        widget sections bridge back, everything else stays off.
+
+        ``ServerStagingQueue``'s no-lock invariant still holds. ``take()`` has
+        already happened on the GUI thread at the call site, and the ``add()``
+        this may reach is inside the bridged commit, so both ends of the queue
+        remain main-thread only.
+        """
+        Utils.start_thread(
+            self._run_promoted_async, use_asyncio=False, args=[command_type, args]
+        )
+
+    def _run_promoted_async(self, command_type, args: dict) -> None:
+        """Worker body for _promote_staged_request."""
+        try:
+            result = self.server_run_callback(command_type, args)
+        except Exception as e:
+            logger.error(f"Promoted server request '{command_type}' failed: {e}")
+            result = {"error": "promotion failed", "data": str(e)}
+        if isinstance(result, dict) and result.get("error"):
+            # Nothing was enqueued. The promoting site left the progress and
+            # wake state in place expecting a run to follow, so release it if
+            # nothing else has started meanwhile.
+            self._on_main(self._clear_progress_if_idle)
+
+    def _clear_progress_if_idle(self) -> None:
+        """Release progress and wake state if no run followed. GUI thread only."""
+        app = self._app
+        if app.job_queue.job_running or app.job_queue.pending_jobs:
+            return
+        Utils.prevent_sleep(False)
+        self.clear_progress()
+
     def _stage_if_queue_full(self, command_type, args: dict):
         """Stage the request if the run queue is full. GUI thread only.
 
@@ -818,80 +857,54 @@ class RunController:
 
         GUI thread only, start to finish: it reads and writes the sidebar and
         calls run(), which reads it again and may raise dialogs.
-        """
-        from utils.globals import WorkflowType
-        from utils.config import config
 
-        app = self._app
+        Only CommandKind.CONTEXTUAL_GENERATE arrives here -- STATE commands are
+        answered inside SDRunnerServer and every PARAMETERIZED_GENERATE goes to
+        _run_virtual -- so the command selects no workflow, and the args this
+        can honour are the ones that do not depend on one. An image or control
+        net names the input of a particular workflow, which is what the
+        parameterized commands carry; asking to reuse the current settings and
+        also supplying one contradicts itself, so it is reported and ignored
+        rather than guessed at.
+        """
+        from sd_runner.virtual_run_config import escape_path
+
+        args = args or {}
 
         staged = self._stage_if_queue_full(command_type, args)
         if staged is not None:
             return staged
 
         sp = self._sp
-        workflow_type = command_type.workflow_type if command_type is not None else None
+        append = bool(args.get("append"))
 
-        if workflow_type is not None:
-            sp.workflow_combo.setCurrentText(workflow_type.get_translation())
-        elif config.debug:
-            logger.debug(f"Running server request '{command_type}' under the current workflow.")
+        unsupported = [key for key in ("image", "control_net") if key in args]
+        if unsupported:
+            logger.warning(
+                f"Server request '{command_type}' selects no workflow; "
+                f"ignoring {', '.join(unsupported)}"
+            )
 
-        if len(args) > 0:
-            if "edit_suffix" in args:
-                from ui_qt.presets.presets_window import PresetsWindow
-                edit_suffix = args["edit_suffix"]
-                preset = PresetsWindow.get_preset_by_suffix(edit_suffix)
-                if preset is not None:
-                    logger.info(f"Switching to preset '{preset.name}' for edit_suffix '{edit_suffix}'")
-                    sp.set_widgets_from_preset(preset, manual=False)
-                else:
-                    logger.warning(f"No preset found with edit_suffix matching '{edit_suffix}'")
-            if "target_dir" in args:
-                sp.target_dir_entry.setText(str(args["target_dir"] or ""))
-            if "source_prompt" in args:
-                source_path = args["source_prompt"].replace(",", "\\,")
-                if "append" in args and args["append"] and sp.source_prompt_file_entry.text().strip():
-                    sp.source_prompt_file_entry.setText(
-                        sp.source_prompt_file_entry.text() + "," + source_path
-                    )
-                else:
-                    sp.source_prompt_file_entry.setText(source_path)
-            if "control_net" in args and workflow_type == WorkflowType.IMAGE_EDIT:
-                cn_path = args["control_net"].replace(",", "\\,")
-                if "append" in args and args["append"] and sp.controlnet_file_entry.text().strip():
-                    sp.controlnet_file_entry.setText(sp.controlnet_file_entry.text() + "," + cn_path)
-                else:
-                    sp.controlnet_file_entry.setText(cn_path)
-            if "image" in args:
-                image_path = args["image"].replace(",", "\\,")
-                if workflow_type in [
-                    WorkflowType.CONTROLNET, WorkflowType.RENOISER, WorkflowType.REDO_PROMPT
-                ]:
-                    if (sp.run_preset_schedule_check.isChecked()
-                            and self._app.job_queue_preset_schedules is not None
-                            and self._app.job_queue_preset_schedules.has_pending()):
-                        self._app.job_queue_preset_schedules.add({"control_net": image_path})
-                        return {}
-                    elif "append" in args and args["append"] and sp.controlnet_file_entry.text().strip():
-                        sp.controlnet_file_entry.setText(
-                            sp.controlnet_file_entry.text() + "," + image_path
-                        )
-                    else:
-                        sp.controlnet_file_entry.setText(image_path)
-                elif workflow_type in [WorkflowType.IP_ADAPTER, WorkflowType.IMG2IMG, WorkflowType.IMAGE_EDIT]:
-                    if (sp.run_preset_schedule_check.isChecked()
-                            and self._app.job_queue_preset_schedules is not None
-                            and self._app.job_queue_preset_schedules.has_pending()):
-                        self._app.job_queue_preset_schedules.add({"ip_adapter": image_path})
-                        return {}
-                    if "append" in args and args["append"] and sp.ipadapter_file_entry.text().strip():
-                        sp.ipadapter_file_entry.setText(
-                            sp.ipadapter_file_entry.text() + "," + image_path
-                        )
-                    else:
-                        sp.ipadapter_file_entry.setText(image_path)
-                else:
-                    logger.warning(f"Unhandled workflow type for server connection: {workflow_type}")
+        if "edit_suffix" in args:
+            from ui_qt.presets.presets_window import PresetsWindow
+            edit_suffix = args["edit_suffix"]
+            preset = PresetsWindow.get_preset_by_suffix(edit_suffix)
+            if preset is not None:
+                logger.info(f"Switching to preset '{preset.name}' for edit_suffix '{edit_suffix}'")
+                sp.set_widgets_from_preset(preset, manual=False)
+            else:
+                logger.warning(f"No preset found with edit_suffix matching '{edit_suffix}'")
+
+        if "target_dir" in args:
+            sp.target_dir_entry.setText(str(args["target_dir"] or ""))
+
+        if "source_prompt" in args:
+            source_path = escape_path(args["source_prompt"])
+            existing = sp.source_prompt_file_entry.text().strip()
+            if append and existing:
+                sp.source_prompt_file_entry.setText(existing + "," + source_path)
+            else:
+                sp.source_prompt_file_entry.setText(source_path)
 
         self.run()
         return {}
@@ -941,8 +954,15 @@ class RunController:
         # Taken on the GUI thread: RunnerAppConfig and the preset list are
         # shared mutable state the UI writes as the user works, so reading them
         # from here could catch either mid-update. Everything after this works
-        # on the snapshot.
-        base_args, preset = self._on_main(self._snapshot_for_server_run, request)
+        # on the snapshot. The schedule diversion is decided here too: it reads
+        # the same UI state, and settling it before the build keeps a request
+        # that only ever hands its image to a schedule from being built,
+        # estimated, and possibly refused over a size ceiling for a run that
+        # was never going to be queued.
+        snapshot = self._on_main(self._snapshot_for_server_run, command_type, request)
+        if snapshot is None:
+            return {}
+        base_args, preset = snapshot
 
         try:
             run_config = build_from_base_args(
@@ -962,12 +982,18 @@ class RunController:
         run_config.is_server_run = True
         return self._on_main(self._commit_server_run, command_type, request, run_config)
 
-    def _snapshot_for_server_run(self, request: dict):
+    def _snapshot_for_server_run(self, command_type, request: dict):
         """Return ``(base_args, preset)`` for one request. GUI thread only.
 
-        One consistent read of the shared state a virtual run starts from.
+        One consistent read of the shared state a virtual run starts from, or
+        None when the request was handed to a running preset schedule instead
+        and there is no run to build.
         """
         from sd_runner.virtual_run_config import base_args_from_app_config
+
+        workflow_type = command_type.workflow_type if command_type is not None else None
+        if self._divert_to_preset_schedule(workflow_type, request):
+            return None
 
         base_args = base_args_from_app_config(self._app.runner_app_config)
 
@@ -986,14 +1012,11 @@ class RunController:
     def _commit_server_run(self, command_type, request: dict, run_config):
         """Decide what happens to a built server run. GUI thread only.
 
-        Diversion, the queue-full check and the enqueue live together here so
-        they cannot be separated by another request arriving in between -- the
-        check and the act have to be one section, and this is the only part of
-        a virtual run that touches a widget or the queues.
+        The queue-full check and the enqueue live together here so they cannot
+        be separated by another request arriving in between -- the check and
+        the act have to be one section, and this is the only part of a virtual
+        run that touches a widget or the queues.
         """
-        if self._divert_to_preset_schedule(command_type.workflow_type, request):
-            return {}
-
         staged = self._stage_if_queue_full(command_type, request)
         if staged is not None:
             return staged
@@ -1091,7 +1114,7 @@ class RunController:
             staged = staging.take()
             if staged is not None:
                 command_type, staged_args = staged
-                self.server_run_callback(command_type, staged_args)
+                self._promote_staged_request(command_type, staged_args)
 
         return {"count": enqueued}
 
