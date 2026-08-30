@@ -261,7 +261,13 @@ class RunController:
         except Exception as e:
             traceback.print_exc()
             app.current_run.cancel("Run failure")
-            app.notification_ctrl.alert(_("Run Error"), str(e), kind="error")
+            # Bridged: this method is the worker thread body, and the alert
+            # builds a QMessageBox. Every other UI touch here goes out through
+            # app_actions, which wraps its own; this one reaches the controller
+            # directly and so has to bridge for itself.
+            self._on_main(
+                app.notification_ctrl.alert, _("Run Error"), str(e), kind="error"
+            )
         app.app_actions.set_run_controls_visible(False)
         # All post-run state changes (job_running flag, queue take, staging
         # promotion, next-run dispatch) are marshalled to the main thread so
@@ -372,7 +378,7 @@ class RunController:
         try:
             args.validate()
         except BlacklistException as e:
-            app.notification_ctrl.handle_error(str(e), "Blacklist Validation Error")
+            app.notification_ctrl.handle_error(str(e), _("Blacklist Validation Error"))
             return
         except Exception as e:
             ok = app.notification_ctrl.alert(
@@ -644,7 +650,13 @@ class RunController:
                 try:
                     preset = PresetsWindow.get_preset_by_name(preset_task.name)
                 except Exception as e:
-                    app.notification_ctrl.handle_error(str(e), "Preset Schedule Error")
+                    # Bridged for the same reason as every other UI call in this
+                    # closure: it runs on a worker thread and this one raises a
+                    # dialog.
+                    self._on_main(
+                        app.notification_ctrl.handle_error,
+                        str(e), _("Preset Schedule Error"),
+                    )
                     raise e
                 self._on_main(start_task, preset, preset_task.count_runs, starting_total)
                 time.sleep(0.1)

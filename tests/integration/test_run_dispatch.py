@@ -46,8 +46,11 @@ from tests.utils import make_schedule
 from ui_qt.presets.schedule import Schedule
 from ui_qt.presets.schedules_window import SchedulesWindow
 from ui_qt.presets.presets_window import PresetsWindow
+from utils.translations import I18N
 from utils.utils import Utils
 from utils.time_estimator import TimeEstimator
+
+_ = I18N._
 
 
 # ---------------------------------------------------------------------------
@@ -196,6 +199,147 @@ def _install_schedule(app_window, schedule, monkeypatch):
         lambda preset, manual=True: applications.append(preset),
     )
     return fake_preset, applications
+
+
+# ---------------------------------------------------------------------------
+# Dialogs raised from worker threads
+# ---------------------------------------------------------------------------
+
+@pytest.fixture
+def bridged_calls(app_window, monkeypatch):
+    """Every callable routed through _MainThreadBridge, in order.
+
+    ``start_thread`` is synchronous here, so a test cannot tell a worker thread
+    from the main one by asking which thread it is on. What it can check is
+    whether the call went *through* the bridge -- which is the invariant, and
+    the one that was broken.
+    """
+    bridge = app_window._thread_bridge
+    seen = []
+    real_invoke = bridge.invoke
+
+    def spy(func, *args, **kwargs):
+        seen.append(func)
+        return real_invoke(func, *args, **kwargs)
+
+    monkeypatch.setattr(bridge, "invoke", spy)
+    return seen
+
+
+@pytest.fixture
+def alerts(app_window, monkeypatch):
+    """Records alerts instead of showing them.
+
+    Without this a failing run builds a real modal and blocks on exec(), so
+    these tests would hang rather than fail.
+    """
+    calls = []
+
+    def fake_alert(title, message, kind="info", severity="normal", master=None):
+        calls.append((title, message, kind))
+        return True
+
+    monkeypatch.setattr(app_window.notification_ctrl, "alert", fake_alert)
+    return calls
+
+
+class TestWorkerThreadDialogs:
+    """A dialog is widget construction, so it belongs on the GUI thread.
+
+    Both call sites below sit in a ``Utils.start_thread`` body and reached
+    ``NotificationController`` directly, bypassing the wrapped ``AppActions``
+    route. The bridge boundary is ``AppActions``, and an attribute access on
+    ``self._app.notification_ctrl`` does not look like it crosses it.
+    """
+
+    def test_a_failed_run_alerts_through_the_bridge(
+        self, app_window, run_stubs, alerts, bridged_calls, monkeypatch
+    ):
+        def explode(self):
+            raise RuntimeError("backend went away")
+
+        monkeypatch.setattr(Run, "execute", explode)
+        app_window.sidebar_panel.run_preset_schedule_check.setChecked(False)
+
+        app_window.run_ctrl.run()
+
+        assert len(alerts) == 1
+        assert app_window.notification_ctrl.alert in bridged_calls
+
+    def test_the_failure_alert_says_which_error(
+        self, app_window, run_stubs, alerts, monkeypatch
+    ):
+        def explode(self):
+            raise RuntimeError("backend went away")
+
+        monkeypatch.setattr(Run, "execute", explode)
+        app_window.sidebar_panel.run_preset_schedule_check.setChecked(False)
+
+        app_window.run_ctrl.run()
+
+        title, message, kind = alerts[0]
+        assert title == _("Run Error")
+        assert "backend went away" in message
+        assert kind == "error"
+
+    def test_a_failed_run_still_finishes_its_teardown(
+        self, app_window, run_stubs, alerts, monkeypatch
+    ):
+        """The alert is not allowed to leave the queue thinking a job is live."""
+        def explode(self):
+            raise RuntimeError("backend went away")
+
+        monkeypatch.setattr(Run, "execute", explode)
+        app_window.sidebar_panel.run_preset_schedule_check.setChecked(False)
+
+        app_window.run_ctrl.run()
+
+        assert app_window.job_queue.job_running is False
+
+    def test_a_preset_lookup_failure_reports_through_the_bridge(
+        self, app_window, run_stubs, alerts, bridged_calls, monkeypatch
+    ):
+        schedule = make_schedule(tasks=[("A", 1)])
+        _install_schedule(app_window, schedule, monkeypatch)
+
+        def missing(name):
+            raise Exception("no such preset")
+
+        monkeypatch.setattr(PresetsWindow, "get_preset_by_name", missing)
+
+        # run_preset_async re-raises after reporting, and start_thread is
+        # synchronous here, so the exception surfaces to the caller.
+        with pytest.raises(Exception, match="no such preset"):
+            app_window.run_ctrl.run()
+
+        assert app_window.notification_ctrl.handle_error in bridged_calls
+
+    def test_the_preset_failure_title_is_translated(
+        self, app_window, run_stubs, alerts, monkeypatch
+    ):
+        schedule = make_schedule(tasks=[("A", 1)])
+        _install_schedule(app_window, schedule, monkeypatch)
+
+        def missing(name):
+            raise Exception("no such preset")
+
+        monkeypatch.setattr(PresetsWindow, "get_preset_by_name", missing)
+
+        with pytest.raises(Exception, match="no such preset"):
+            app_window.run_ctrl.run()
+
+        # handle_error passes its title straight to alert.
+        assert alerts[0][0] == _("Preset Schedule Error")
+
+    def test_a_successful_run_raises_no_dialog(
+        self, app_window, run_stubs, alerts, monkeypatch
+    ):
+        """Guards against a bridging change turning the happy path noisy."""
+        app_window.sidebar_panel.run_preset_schedule_check.setChecked(False)
+
+        app_window.run_ctrl.run()
+
+        assert alerts == []
 
 
 # ---------------------------------------------------------------------------
