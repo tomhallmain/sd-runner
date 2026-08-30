@@ -45,11 +45,60 @@ os.environ["SD_RUNNER_CACHE_DIR"] = _bootstrap_cache_dir
 # Ephemeral port (OS-assigned) so any AppWindow built during tests never
 # contends for the real app's server port (see extensions/sd_runner_server.py).
 os.environ["SD_RUNNER_SERVER_PORT"] = "0"
+# The encryptor takes an off-drive backup after every key store write, and with
+# no destination set it picks the first writable external drive it finds -- the
+# developer's actual USB stick. Pinned inside the throwaway dir so a test that
+# generates keys cannot write key material outside the run.
+os.environ["SD_RUNNER_KEY_BACKUP_DIR"] = os.path.join(_bootstrap_tmp, "key_backup")
 
 # Imported for the side effect: both modules construct their singleton at import
 # time, and this forces that to happen now, with the env vars above in place.
 from utils.config import Config  # noqa: F401
 from utils.app_info_cache import AppInfoCache  # noqa: F401
+
+# ---------------------------------------------------------------------------
+# Keyring: never the developer's real OS credential store
+#
+# Anything that encrypts or decrypts reaches utils.encryptor, which talks to the
+# real Windows Credential Manager / macOS keychain / Secret Service. Tests write
+# their cache to a temp directory, but the *keys* for it were going to the live
+# store -- and since key material is now consolidated, the first test to touch
+# it would migrate the real keychain items into a per-test temp directory and
+# then DELETE THE ORIGINALS, destroying the developer's key material along with
+# access to their real app_info_cache.enc.
+#
+# Substituted at module level rather than through a fixture so there is no
+# window, however brief, in which a test can reach the real store.
+# ---------------------------------------------------------------------------
+
+
+class _FakeKeyring:
+    """In-memory stand-in for the OS credential store."""
+
+    def __init__(self):
+        self._store = {}
+
+    def get_password(self, service_name, key):
+        return self._store.get((service_name, key))
+
+    def set_password(self, service_name, key, value):
+        self._store[(service_name, key)] = value
+
+    def delete_password(self, service_name, key):
+        # The real backends raise when the entry is absent, and the encryptor's
+        # quiet-delete helpers rely on that.
+        if (service_name, key) not in self._store:
+            raise Exception(f"No such password: {service_name}:{key}")
+        del self._store[(service_name, key)]
+
+    def clear(self):
+        self._store.clear()
+
+
+import utils.encryptor as _encryptor_module  # noqa: E402
+
+_fake_keyring = _FakeKeyring()
+_encryptor_module.keyring = _fake_keyring
 
 import atexit
 atexit.register(shutil.rmtree, _bootstrap_tmp, True)
@@ -178,6 +227,19 @@ def _reset_class_state() -> None:
         RunConfig.previous_model_tags = None
         RunConfig.model_switch_detected = False
         RunConfig.has_warned_about_prompt_massage_text_mismatch = False
+    except Exception:
+        pass
+
+    # Module-level, not class-level, but the same hazard: the encryptor caches
+    # key material and passphrases per (service, app) for the life of the
+    # process, so material written by one test would answer another's read.
+    # The fake keyring is emptied for the same reason -- each test gets a fresh
+    # cache directory, so a passphrase left behind from an earlier test would
+    # look like "keys existed here once" and block key generation.
+    try:
+        from utils.encryptor import clear_key_store_cache
+        clear_key_store_cache()
+        _fake_keyring.clear()
     except Exception:
         pass
 

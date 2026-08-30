@@ -250,6 +250,10 @@ Protected actions include:
 - Edit Presets
 - Edit Concepts
 
+The keys encrypting the cache are backed up automatically to an external drive
+(set `SD_RUNNER_KEY_BACKUP_DIR` to choose where). Run `python scripts/key_material.py`
+to check that backup's state, or `backup` to take one by hand.
+
 ## Server
 
 Set configuration options for a server port to make use of the server while the UI is running. Calls to the server made with Python's multiprocessing client run alongside whatever you are doing in the UI. This can be helpful to use in conjunction with other applications that involve images. For an example, see [this class](https://github.com/tomhallmain/Weidr/blob/master/extensions/sd_runner_client.py).

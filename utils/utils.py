@@ -509,6 +509,72 @@ class Utils:
         return False
 
     @staticmethod
+    def user_data_dir():
+        """
+        Per-user directory for durable application data, by platform.
+
+        Windows:
+            %LOCALAPPDATA%
+        macOS:
+            ~/Library/Application Support
+        Other:
+            $XDG_DATA_HOME, else ~/.local/share
+
+        The *data* location, not the cache one: XDG defines the cache directory
+        as non-essential (regenerable) data, which is right for downloaded
+        models and wrong for anything that cannot be reproduced.
+
+        Returns the base directory only -- callers append their own namespace.
+        """
+        if sys.platform == "win32":
+            base = os.environ.get("LOCALAPPDATA")
+            if not base:
+                base = os.path.join(os.path.expanduser("~"), "AppData", "Local")
+            return base
+        if sys.platform == "darwin":
+            return os.path.join(os.path.expanduser("~"), "Library", "Application Support")
+        xdg = os.environ.get("XDG_DATA_HOME")
+        if xdg:
+            return xdg
+        return os.path.join(os.path.expanduser("~"), ".local", "share")
+
+    @staticmethod
+    def available_external_drives():
+        """
+        Writable mount points on a drive other than the system one.
+
+        The inverse of :meth:`_get_external_drive_root`, which answers whether a
+        given path is external; this answers which external paths exist. They
+        share the platform conventions below, so the two are kept together --
+        a drive letter or mount root recognised by one must be recognised by
+        the other.
+
+        Unwritable mounts are dropped: they are no use as a destination.
+        """
+        candidates = []
+        if sys.platform == "win32":
+            # Matches _get_external_drive_root's "E: and above" rule.
+            for letter in "EFGHIJKLMNOPQRSTUVWXYZ":
+                root = f"{letter}:\\"
+                if os.path.isdir(root):
+                    candidates.append(root)
+        else:
+            for root in ("/Volumes", "/media", "/run/media", "/mnt"):
+                user = os.environ.get("USER") or ""
+                bases = [os.path.join(root, user), root] if user else [root]
+                for base in bases:
+                    try:
+                        entries = sorted(os.listdir(base))
+                    except OSError:
+                        continue
+                    candidates.extend(
+                        os.path.join(base, entry) for entry in entries
+                        if os.path.isdir(os.path.join(base, entry))
+                    )
+                    break  # prefer the per-user directory when it exists
+        return [path for path in candidates if os.access(path, os.W_OK)]
+
+    @staticmethod
     def _get_external_drive_root(path):
         """
         Return an external/removable drive root for path, or None if not external.

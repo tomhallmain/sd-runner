@@ -1,6 +1,8 @@
+import json
 import os
 import struct
 import sys
+import threading
 from typing import Optional
 import zlib
 
@@ -23,6 +25,467 @@ except ImportError:
 
 ENCRYPTOR_TYPE_KEY = "encryptor_type"
 
+# =============================================================================
+# Key store
+#
+# macOS prompts per keychain *item* on first access, so the number of items is
+# the number of prompts a user sees on first run. The previous layout stored
+# salt, nonce, tag, encryptor type, and 500-hex-char chunks of the private and
+# public keys as separate items -- 22 of them for the default Kyber768.
+#
+# Only the passphrase needs the keychain. Everything else is either non-secret
+# (salt, nonce, tag, type, public key) or already ciphertext: the private key
+# is encrypted with a passphrase-derived key before it is ever stored. So the
+# keychain keeps one item and the rest moves to this sidecar file, which also
+# removes the chunking -- that existed only for Windows Credential Manager's
+# ~2.5KB blob limit, which does not apply to a file.
+# =============================================================================
+
+KEY_STORE_VERSION = 1
+_KEY_STORE_FILENAME = "key_store.json"
+
+# {(service_name, app_identifier): dict}. Key material is read once per
+# process: load_private_key runs on every encrypt and decrypt, and
+# AppInfoCache.store() is on a periodic timer, so without this the keychain and
+# disk are hit repeatedly for the whole session.
+_key_store_cache: dict = {}
+_passphrase_cache: dict = {}
+_key_store_lock = threading.Lock()
+
+
+def service_subdir(root: str, service_name: str) -> str:
+    """``<root>/<service_name>`` -- the folder apps sharing a service name share.
+
+    SERVICE_NAME is common to every app in this family, so keying the folder on
+    it (and the filenames on app_identifier) puts their key material together
+    in one place instead of one directory per app.
+    """
+    return os.path.join(root, service_name)
+
+
+def _host_util(method_name: str):
+    """Return ``Utils.<method_name>`` if the host application provides it.
+
+    Resolved per call rather than cached so a host can patch or install the
+    method later, and so tests can substitute one.
+    """
+    try:
+        from utils.utils import Utils
+        return getattr(Utils, method_name)
+    except (ImportError, AttributeError):
+        return None
+
+
+def _fallback_user_data_dir() -> str:
+    """Platform user-data directory, for hosts without Utils.user_data_dir().
+
+    The data location, not the cache one: XDG defines the cache directory as
+    regenerable data, which a private key is not.
+    """
+    if sys.platform == "win32":
+        return os.environ.get("LOCALAPPDATA") or os.path.join(
+            os.path.expanduser("~"), "AppData", "Local"
+        )
+    if sys.platform == "darwin":
+        return os.path.join(os.path.expanduser("~"), "Library", "Application Support")
+    return os.environ.get("XDG_DATA_HOME") or os.path.join(
+        os.path.expanduser("~"), ".local", "share"
+    )
+
+
+def _fallback_available_external_drives() -> list:
+    """Writable non-system mount points, for hosts without the Utils method."""
+    candidates = []
+    if sys.platform == "win32":
+        for letter in "EFGHIJKLMNOPQRSTUVWXYZ":
+            root = f"{letter}:\\"
+            if os.path.isdir(root):
+                candidates.append(root)
+    else:
+        user = os.environ.get("USER") or ""
+        for root in ("/Volumes", "/media", "/run/media", "/mnt"):
+            bases = [os.path.join(root, user), root] if user else [root]
+            for base in bases:
+                try:
+                    entries = sorted(os.listdir(base))
+                except OSError:
+                    continue
+                candidates.extend(
+                    os.path.join(base, entry) for entry in entries
+                    if os.path.isdir(os.path.join(base, entry))
+                )
+                break
+    return [path for path in candidates if os.access(path, os.W_OK)]
+
+
+# These two prefer the host's Utils and fall back to the implementations above,
+# so the module drops into an application that has no such helpers. The host
+# wins when present, which is what lets one app keep the platform conventions
+# in a single place, beside Utils._get_external_drive_root, whose platform
+# conventions these deliberately match. Port any change to one into the other
+# rather than leaving two copies to drift.
+
+def user_data_dir() -> str:
+    host = _host_util("user_data_dir")
+    return host() if host else _fallback_user_data_dir()
+
+
+def available_external_drives() -> list:
+    host = _host_util("available_external_drives")
+    return host() if host else _fallback_available_external_drives()
+
+
+def key_store_dir(service_name: str) -> str:
+    """Directory holding the key store: ``<user data dir>/<service_name>``.
+
+    This decides only the namespace; where the user data directory is per
+    platform is user_data_dir()'s business. SD_RUNNER_CACHE_DIR still wins, so a
+    test or a packaged install can redirect the whole thing.
+    """
+    override = os.environ.get("SD_RUNNER_CACHE_DIR")
+    return service_subdir(override or user_data_dir(), service_name)
+
+
+# No same-drive backup copies are kept. Extra copies beside the original guard
+# against corruption, which os.replace() already makes unlikely for a file
+# written this rarely -- they do nothing about the failure that actually loses
+# an irreplaceable key, which is the drive going. Off-drive backup is
+# export_key_material(..., output_path=<somewhere else>), which the caller
+# chooses because only they know where "somewhere else" is.
+
+
+def key_store_path(service_name: str, app_identifier: str) -> str:
+    """Key store path for one service/app pair.
+
+    The service names the shared folder; the app names the file, so several
+    apps -- and the legacy identifiers of one app -- sit side by side without
+    reading each other's material.
+    """
+    name = namespaced_key(app_identifier, _KEY_STORE_FILENAME)
+    return os.path.join(key_store_dir(service_name), name)
+
+
+def _load_key_store_file(path: str) -> Optional[dict]:
+    """Parse one key store file, or None when absent/unreadable/malformed."""
+    try:
+        with open(path, "r", encoding="utf-8") as store:
+            data = json.load(store)
+    except FileNotFoundError:
+        return None
+    except Exception as e:
+        print(f"Could not read key store at {path}: {e}")
+        return None
+    if not isinstance(data, dict) or not data.get(ENCRYPTOR_TYPE_KEY):
+        print(f"Key store at {path} is malformed")
+        return None
+    return data
+
+
+def read_key_store(service_name: str, app_identifier: str) -> Optional[dict]:
+    """Return the stored key material, or None when absent/unreadable."""
+    cache_key = (service_name, app_identifier)
+    with _key_store_lock:
+        if cache_key in _key_store_cache:
+            return _key_store_cache[cache_key]
+
+    data = _load_key_store_file(key_store_path(service_name, app_identifier))
+    if data is None:
+        return None
+
+    with _key_store_lock:
+        _key_store_cache[cache_key] = data
+    return data
+
+
+#: Off-drive backup after every key store write. A backup nobody remembers to
+#: take protects nothing, and the moment a write completes is exactly when the
+#: store becomes the only copy. Set False to write nothing automatically.
+AUTO_BACKUP_KEY_STORE = True
+
+#: "Nowhere to back up to" is reported once per process, not per write.
+_auto_backup_warned: set = set()
+
+
+def write_key_store(service_name: str, app_identifier: str, data: dict) -> None:
+    """Write the key store atomically and refresh the process cache.
+
+    Written through a temp file and os.replace(), so an interrupted write
+    leaves the previous store intact rather than a truncated one. An off-drive
+    backup follows, best-effort -- see AUTO_BACKUP_KEY_STORE.
+    """
+    path = key_store_path(service_name, app_identifier)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as store:
+        json.dump(data, store)
+    os.replace(tmp, path)
+    try:
+        # Owner-only: this carries the private key's ciphertext. No-op on
+        # Windows, where the user profile already restricts access.
+        os.chmod(path, 0o600)
+    except OSError:
+        pass
+    with _key_store_lock:
+        _key_store_cache[(service_name, app_identifier)] = data
+    _auto_backup(service_name, app_identifier)
+
+
+def _auto_backup(service_name: str, app_identifier: str) -> None:
+    """Copy the key store off-drive, never failing the write that triggered it.
+
+    Runs on every write rather than only after migration: a password stored
+    later lives in the store too, so a backup taken once at migration would be
+    missing it exactly when it mattered.
+    """
+    if not AUTO_BACKUP_KEY_STORE:
+        return
+    key = (service_name, app_identifier)
+    try:
+        path = default_key_backup_path(service_name, app_identifier)
+        if not path:
+            if key not in _auto_backup_warned:
+                _auto_backup_warned.add(key)
+                print(
+                    f"No external drive found for an automatic key backup. Set "
+                    f"{KEY_BACKUP_DIR_ENV_VAR} to a path on another drive; until then "
+                    f"the key store is the only copy of the private key."
+                )
+            return
+        directory = os.path.dirname(path)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
+        export_key_material(service_name, app_identifier, output_path=path)
+    except Exception as e:
+        # The store itself is written; a failed backup must not undo that.
+        print(f"Automatic key backup failed ({e}); the key store was still written.")
+
+
+def clear_key_store_cache(service_name: str = None, app_identifier: str = None) -> None:
+    """Drop cached key material so the next read goes back to disk/keychain."""
+    with _key_store_lock:
+        if service_name is None:
+            _key_store_cache.clear()
+            _passphrase_cache.clear()
+            return
+        _key_store_cache.pop((service_name, app_identifier), None)
+        _passphrase_cache.pop((service_name, app_identifier), None)
+
+
+def delete_key_store(service_name: str, app_identifier: str) -> None:
+    try:
+        os.remove(key_store_path(service_name, app_identifier))
+    except OSError:
+        pass
+    clear_key_store_cache(service_name, app_identifier)
+
+
+class KeyMaterialError(Exception):
+    """Prior key material exists but could not be loaded.
+
+    Raised rather than letting a new keypair be generated: new keys leave every
+    file encrypted under the old ones permanently undecryptable, and generating
+    them silently would destroy the evidence needed to recover.
+    """
+
+
+def peek_passphrase(service_name: str, app_identifier: str) -> Optional[str]:
+    """Read the passphrase without creating one.
+
+    PassphraseManager.get_passphrase() generates and stores a passphrase when
+    none is found, so it cannot be used to ask whether keys ever existed.
+    """
+    env_var = f"{service_name.upper()}_PASSPHRASE"
+    if env_var in os.environ:
+        return os.environ[env_var]
+    # Cache first: this is on the auto-backup path, and an uncached read here
+    # would put a keychain access -- a macOS prompt -- behind every key store
+    # write, undoing the one-item budget this module exists for.
+    with _key_store_lock:
+        cached = _passphrase_cache.get((service_name, app_identifier))
+    if cached:
+        return cached
+    try:
+        return keyring.get_password(
+            service_name, namespaced_key(app_identifier, "passphrase")
+        )
+    except Exception:
+        return None
+
+
+def has_prior_key_material(service_name: str, app_identifier: str) -> bool:
+    """Whether this service/app ever had keys generated for it.
+
+    Any of: a key store, a pre-consolidation salt item, or a passphrase. The
+    passphrase is the durable tell -- it is written once when keys are first
+    generated and is not touched by migration.
+    """
+    if read_key_store(service_name, app_identifier) is not None:
+        return True
+    try:
+        if keyring.get_password(service_name, namespaced_key(app_identifier, "salt")):
+            return True
+    except Exception:
+        pass
+    return bool(peek_passphrase(service_name, app_identifier))
+
+
+#: Explicit destination for key backups. Set this to a path on another drive
+#: and default_key_backup_path() will use it instead of guessing.
+KEY_BACKUP_DIR_ENV_VAR = "SD_RUNNER_KEY_BACKUP_DIR"
+
+
+def default_key_backup_path(service_name: str, app_identifier: str) -> Optional[str]:
+    """Where an off-drive key backup should go, or None if nowhere is available.
+
+    KEY_BACKUP_DIR_ENV_VAR wins; otherwise the first writable external drive.
+    Returns None rather than falling back to the system drive -- a "backup"
+    beside the original does not survive the failure it exists for.
+    """
+    explicit = os.environ.get(KEY_BACKUP_DIR_ENV_VAR)
+    root = explicit or next(iter(available_external_drives()), None)
+    if not root:
+        return None
+    # Same shape as the key store: a folder per service, a file per app, so one
+    # backup drive holds every app in the family together.
+    name = namespaced_key(app_identifier, "key_backup.json")
+    return os.path.join(service_subdir(root, service_name), name)
+
+
+def backup_key_material(service_name: str, app_identifier: str) -> Optional[str]:
+    """Write a key backup to the default off-drive location.
+
+    Returns the path written, or None when no external destination is
+    available -- callers should report that rather than treat it as done.
+    """
+    path = default_key_backup_path(service_name, app_identifier)
+    if not path:
+        print(
+            f"No external drive found for a key backup. Set {KEY_BACKUP_DIR_ENV_VAR} "
+            f"to a path on another drive, or call export_key_material() with one."
+        )
+        return None
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    export_key_material(service_name, app_identifier, output_path=path)
+    return path
+
+
+def print_recovery_material(
+    service_name: str, app_identifier: str, store: Optional[dict] = None
+) -> None:
+    """Dump key material to stdout when migration could not complete.
+
+    The point of printing here rather than only writing a file: the failures
+    this runs on are failures to write a file. Whatever is on screen (or in the
+    session log) is then the user's copy, and import_key_material() takes it
+    back. Includes the passphrase, so the dump is a complete secret.
+    """
+    material = {
+        "service_name": service_name,
+        "app_identifier": app_identifier,
+        "passphrase": peek_passphrase(service_name, app_identifier),
+        "key_store": store if store is not None else read_key_store(service_name, app_identifier),
+    }
+    print("=" * 72)
+    print("KEY MATERIAL RECOVERY DUMP -- migration did not complete.")
+    print("The legacy keychain entries have been left in place, so the next run")
+    print("will retry. Save the JSON below only if you need to restore manually:")
+    print("  import_key_material(json.loads(<the JSON below>))")
+    print("It contains the passphrase in the clear -- treat it as a private key.")
+    print("=" * 72)
+    print(json.dumps(material, indent=2))
+    print("=" * 72)
+
+
+def export_key_material(
+    service_name: str,
+    app_identifier: str,
+    output_path: Optional[str] = None,
+) -> dict:
+    """Collect everything needed to reconstruct this app's key material.
+
+    The escape hatch for a failed or half-finished migration: it reads whatever
+    exists (key store, or the pre-consolidation keychain items) plus the
+    passphrase, and returns it. With *output_path* it is also written there;
+    otherwise it is printed.
+
+    The result contains the passphrase in the clear -- it is a full backup of
+    the secret, so write it somewhere you would keep a private key.
+    """
+    from_store = read_key_store(service_name, app_identifier)
+    material = {
+        "service_name": service_name,
+        "app_identifier": app_identifier,
+        "passphrase": peek_passphrase(service_name, app_identifier),
+        "key_store": from_store,
+        "legacy_items": None,
+    }
+
+    if from_store is None:
+        # Fall back to reading the pre-consolidation layout directly, which is
+        # the state a partly-completed migration leaves behind.
+        legacy = {}
+        for key in ("salt", "nonce", "tag", ENCRYPTOR_TYPE_KEY):
+            legacy[key] = keyring.get_password(
+                service_name, namespaced_key(app_identifier, key)
+            )
+        for key in ("encrypted_priv", "public_key"):
+            data = BaseEncryptor._retrieve_large_data(service_name, app_identifier, key)
+            legacy[key] = data.hex() if data else None
+        if any(legacy.values()):
+            material["legacy_items"] = legacy
+
+    if output_path:
+        with open(output_path, "w", encoding="utf-8") as handle:
+            json.dump(material, handle, indent=2)
+        try:
+            os.chmod(output_path, 0o600)
+        except OSError:
+            pass
+        print(f"Key material written to {output_path} -- contains the passphrase in the clear")
+    else:
+        print(json.dumps(material, indent=2))
+    return material
+
+
+def import_key_material(material: dict, service_name: str = None, app_identifier: str = None) -> None:
+    """Restore key material produced by export_key_material().
+
+    Writes the key store and the passphrase, so a lost or corrupted store can
+    be rebuilt from a backup rather than regenerated (which would orphan every
+    file encrypted under the old keys).
+    """
+    service_name = service_name or material.get("service_name")
+    app_identifier = app_identifier or material.get("app_identifier")
+    if not service_name or not app_identifier:
+        raise ValueError("service_name and app_identifier are required to import")
+
+    store = material.get("key_store")
+    if store is None and material.get("legacy_items"):
+        legacy = material["legacy_items"]
+        missing = [k for k, v in legacy.items() if not v and k != ENCRYPTOR_TYPE_KEY]
+        if missing:
+            raise KeyMaterialError(f"Exported legacy material is incomplete: {missing}")
+        store = {
+            "version": KEY_STORE_VERSION,
+            ENCRYPTOR_TYPE_KEY: legacy.get(ENCRYPTOR_TYPE_KEY) or "standard",
+            "salt": legacy["salt"],
+            "nonce": legacy["nonce"],
+            "tag": legacy["tag"],
+            "encrypted_priv": legacy["encrypted_priv"],
+            "public_key": legacy["public_key"],
+        }
+    if store is None:
+        raise KeyMaterialError("Nothing to import: no key_store and no legacy_items")
+
+    passphrase = material.get("passphrase")
+    if passphrase:
+        keyring.set_password(
+            service_name, namespaced_key(app_identifier, "passphrase"), passphrase
+        )
+    write_key_store(service_name, app_identifier, store)
+    clear_key_store_cache(service_name, app_identifier)
+    print(f"Restored key material for {service_name}:{app_identifier}")
+
 
 def namespaced_key(*keyparts):
     return f"__".join(str(part) for part in keyparts if part)
@@ -42,20 +505,32 @@ class PassphraseManager:
     def get_passphrase(service_name="MyApp", app_identifier="main_app"):
         """
         Retrieve passphrase from secure storage with platform-specific methods
+
+        Cached for the process: this is now the only keychain read on the
+        encrypt/decrypt path, and it would otherwise repeat on every call.
         """
         # 1. Try environment variable first (for containerized environments)
         env_var = f"{service_name.upper()}_PASSPHRASE"
         if env_var in os.environ:
             return os.environ[env_var]
-        
+
+        cache_key = (service_name, app_identifier)
+        with _key_store_lock:
+            if cache_key in _passphrase_cache:
+                return _passphrase_cache[cache_key]
+
         # 2. Try platform-specific secure storage
         platform_handler = {
             'win32': PassphraseManager._windows_get_passphrase,
             'darwin': PassphraseManager._macos_get_passphrase,
             'linux': PassphraseManager._linux_get_passphrase
         }.get(sys.platform, PassphraseManager._fallback_get_passphrase)
-        
-        return platform_handler(service_name, app_identifier)
+
+        passphrase = platform_handler(service_name, app_identifier)
+        if passphrase:
+            with _key_store_lock:
+                _passphrase_cache[cache_key] = passphrase
+        return passphrase
 
     @staticmethod
     def _windows_get_passphrase(service_name, app_identifier):
@@ -206,6 +681,16 @@ class PassphraseManager:
 
 
 class PasswordManager:
+    """Stored passwords live in the key store, not the keychain.
+
+    They are ciphertext -- encrypt_password() KEM-encrypts them against the
+    public key -- so they need the keychain no more than the private key's
+    ciphertext does. Chunked into keychain items they cost about six more
+    macOS prompts, and is_security_configured() reads them at startup.
+    """
+
+    STORE_SECTION = "passwords"
+
     @staticmethod
     def store_password(
         service_name: str,
@@ -213,17 +698,17 @@ class PasswordManager:
         password_id: str,
         encrypted_password: bytes
     ):
-        """
-        Store encrypted password using platform-specific secure storage
-        with chunking for large data
-        """
-        # Use the same chunking mechanism as BaseEncryptor
-        BaseEncryptor._store_large_data(
-            service_name, 
-            app_identifier,
-            password_id, 
-            encrypted_password
-        )
+        """Store an encrypted password in the key store."""
+        store = read_key_store(service_name, app_identifier)
+        if store is None:
+            # No keys yet is a caller error: encrypt_password() needs the
+            # public key, so the store exists by the time this runs.
+            raise ValueError("Cannot store a password before keys are generated")
+        updated = dict(store)
+        passwords = dict(updated.get(PasswordManager.STORE_SECTION, {}))
+        passwords[password_id] = encrypted_password.hex()
+        updated[PasswordManager.STORE_SECTION] = passwords
+        write_key_store(service_name, app_identifier, updated)
 
     @staticmethod
     def retrieve_password(
@@ -231,14 +716,45 @@ class PasswordManager:
         app_identifier: str,
         password_id: str
     ) -> Optional[bytes]:
-        """
-        Retrieve encrypted password from platform-specific secure storage
-        """
-        return BaseEncryptor._retrieve_large_data(
-            service_name, 
-            app_identifier,
-            password_id
+        """Retrieve an encrypted password, migrating a legacy chunked one."""
+        store = read_key_store(service_name, app_identifier)
+        if store is not None:
+            stored = store.get(PasswordManager.STORE_SECTION, {}).get(password_id)
+            if stored:
+                return bytes.fromhex(stored)
+        legacy = BaseEncryptor._retrieve_large_data(
+            service_name, app_identifier, password_id
         )
+        if legacy is not None and store is not None:
+            # Fold it in, then drop the chunked items -- same verified-write
+            # ordering as the key migration.
+            PasswordManager.store_password(
+                service_name, app_identifier, password_id, legacy
+            )
+            if read_key_store(service_name, app_identifier).get(
+                    PasswordManager.STORE_SECTION, {}).get(password_id):
+                PasswordManager._delete_legacy_password(
+                    service_name, app_identifier, password_id
+                )
+        return legacy
+
+    @staticmethod
+    def _delete_legacy_password(
+        service_name: str, app_identifier: str, password_id: str
+    ) -> None:
+        """Remove a pre-consolidation chunked password."""
+        key_base = get_key_base(app_identifier, password_id)
+        count_key = namespaced_key(key_base, "count")
+        count_str = keyring.get_password(service_name, count_key)
+        if count_str:
+            try:
+                for i in range(int(count_str)):
+                    BaseEncryptor._delete_key_quietly(
+                        service_name, namespaced_key(key_base, i)
+                    )
+            except ValueError:
+                pass
+        BaseEncryptor._delete_key_quietly(service_name, count_key)
 
     @staticmethod
     def delete_password(
@@ -249,18 +765,18 @@ class PasswordManager:
         """
         Delete stored password from all storage locations
         """
-        # Delete all chunks and count entry
-        key_base = get_key_base(app_identifier, password_id)
-        count_key = namespaced_key(key_base, "count")
-        count_str = keyring.get_password(service_name, count_key)
-        if count_str:
-            try:
-                count = int(count_str)
-                for i in range(count):
-                    keyring.delete_password(service_name, namespaced_key(key_base, i))
-                keyring.delete_password(service_name, count_key)
-            except ValueError:
-                pass
+        store = read_key_store(service_name, app_identifier)
+        if store is not None and password_id in store.get(
+                PasswordManager.STORE_SECTION, {}):
+            updated = dict(store)
+            passwords = dict(updated[PasswordManager.STORE_SECTION])
+            passwords.pop(password_id, None)
+            updated[PasswordManager.STORE_SECTION] = passwords
+            write_key_store(service_name, app_identifier, updated)
+        # Also clear any pre-consolidation chunks still present.
+        PasswordManager._delete_legacy_password(
+            service_name, app_identifier, password_id
+        )
 
 
 # =============================================================================
@@ -352,16 +868,20 @@ class BaseEncryptor:
         force_new: bool = False,
     ) -> bytes:
         """Generate and store keys"""
-        # Check if keys already exist
-        if keyring.get_password(service_name, namespaced_key(app_identifier, cls.SALT_KEY)):
+        try:
+            store = cls._ensure_key_store(service_name, app_identifier)
+        except KeyMaterialError:
+            if not force_new:
+                raise
+            store = None  # force_new is the deliberate "discard what is there"
+        if store:
             if force_new:
                 print(f"{service_name}:{app_identifier} keys already exist. Generating new keys.")
                 cls.purge_keys(service_name, app_identifier)
                 return cls.generate_and_store_keys(service_name, app_identifier, force_new=False)
             # print("Keys already exist. Using existing configuration.")
-            pub_key = cls._retrieve_large_data(service_name, app_identifier, cls.PUBLIC_KEY)
-            return pub_key
-        
+            return bytes.fromhex(store[cls.PUBLIC_KEY])
+
         print(f"Generating new keys for {service_name}:{app_identifier}")
 
         # Generate new keys
@@ -370,22 +890,23 @@ class BaseEncryptor:
         passphrase = PassphraseManager.get_passphrase(service_name, app_identifier)
         storage_key = cls._derive_key(passphrase, salt, 32)
         nonce = os.urandom(12)
-        
+
         # Encrypt private key
         cipher = Cipher(algorithms.AES(storage_key), modes.GCM(nonce), default_backend())
         encryptor = cipher.encryptor()
         encrypted_priv = encryptor.update(priv_key) + encryptor.finalize()
-        
-        # Store components
-        keyring.set_password(service_name, namespaced_key(app_identifier, cls.SALT_KEY), salt.hex())
-        keyring.set_password(service_name, namespaced_key(app_identifier, cls.NONCE_KEY), nonce.hex())
-        keyring.set_password(service_name, namespaced_key(app_identifier, cls.TAG_KEY), encryptor.tag.hex())
-        keyring.set_password(service_name, namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY), cls._get_key_type())
 
-        # Store large data using chunking
-        cls._store_large_data(service_name, app_identifier, cls.ENCRYPTED_PRIV_KEY, encrypted_priv)
-        cls._store_large_data(service_name, app_identifier, cls.PUBLIC_KEY, pub_key)
-        
+        # One file rather than 22 keychain items. Only the passphrase, read
+        # above, still lives in the keychain.
+        write_key_store(service_name, app_identifier, {
+            "version": KEY_STORE_VERSION,
+            ENCRYPTOR_TYPE_KEY: cls._get_key_type(),
+            cls.SALT_KEY: salt.hex(),
+            cls.NONCE_KEY: nonce.hex(),
+            cls.TAG_KEY: encryptor.tag.hex(),
+            cls.ENCRYPTED_PRIV_KEY: encrypted_priv.hex(),
+            cls.PUBLIC_KEY: pub_key.hex(),
+        })
         return pub_key
 
     @classmethod
@@ -395,16 +916,16 @@ class BaseEncryptor:
         app_identifier: str
     ) -> bytes:
         """Load private key"""
-        cls._check_class_valid(service_name, app_identifier)
-        
-        salt = bytes.fromhex(keyring.get_password(service_name, namespaced_key(app_identifier, cls.SALT_KEY)))
-        nonce = bytes.fromhex(keyring.get_password(service_name, namespaced_key(app_identifier, cls.NONCE_KEY)))
-        tag = bytes.fromhex(keyring.get_password(service_name, namespaced_key(app_identifier, cls.TAG_KEY)))
-        encrypted_priv = cls._retrieve_large_data(service_name, app_identifier, cls.ENCRYPTED_PRIV_KEY)
-        
-        if None in (salt, nonce, tag, encrypted_priv):
-            raise ValueError("Failed to retrieve key components from keyring")
-        
+        store = cls._ensure_key_store(service_name, app_identifier)
+        if not store:
+            raise ValueError("Failed to retrieve key components from the key store")
+        cls._check_class_valid(service_name, app_identifier, store=store)
+
+        salt = bytes.fromhex(store[cls.SALT_KEY])
+        nonce = bytes.fromhex(store[cls.NONCE_KEY])
+        tag = bytes.fromhex(store[cls.TAG_KEY])
+        encrypted_priv = bytes.fromhex(store[cls.ENCRYPTED_PRIV_KEY])
+
         passphrase = PassphraseManager.get_passphrase(service_name, app_identifier)
         storage_key = cls._derive_key(passphrase, salt, 32)
         
@@ -417,18 +938,150 @@ class BaseEncryptor:
         return decryptor.update(encrypted_priv) + decryptor.finalize()
 
     @classmethod
-    def _check_class_valid(cls, service_name, app_identifier):
-        stored_type = keyring.get_password(service_name, namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY))
+    def _check_class_valid(cls, service_name, app_identifier, store: Optional[dict] = None):
+        # *store* is passed by callers that already hold it, so the type is read
+        # once per operation rather than once here and again in
+        # _determine_encryptor.
+        if store is None:
+            store = cls._ensure_key_store(service_name, app_identifier)
+        stored_type = store.get(ENCRYPTOR_TYPE_KEY) if store else None
         if not stored_type:
-            # First run - store current type
-            keyring.set_password(
-                service_name,
-                namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY),
-                cls._get_key_type()
-            )
+            # Nothing stored yet; generate_and_store_keys records the type.
             return
-        if stored_type and stored_type != cls._get_key_type():
+        if stored_type != cls._get_key_type():
             raise ValueError(f"Key type mismatch: Expected {cls._get_key_type()}, found {stored_type}")
+
+    # -------------------------------------------------------------------
+    # Key store access and one-time migration off the per-item layout
+    # -------------------------------------------------------------------
+
+    @classmethod
+    def _ensure_key_store(cls, service_name: str, app_identifier: str) -> Optional[dict]:
+        """Return the key store, migrating the old keychain layout if needed.
+
+        Returns None only for a genuinely new install. When material existed
+        but cannot be loaded this raises rather than reporting "no keys": every
+        caller treats None as permission to start fresh, which for a decrypt is
+        a confusing failure and for key generation is destructive.
+        """
+        store = read_key_store(service_name, app_identifier)
+        if store is not None:
+            return store
+        migrated = cls._migrate_from_keyring_items(service_name, app_identifier)
+        if migrated is not None:
+            return migrated
+        if has_prior_key_material(service_name, app_identifier):
+            raise KeyMaterialError(
+                f"Key material for {service_name}:{app_identifier} existed but the key "
+                f"store at {key_store_path(service_name, app_identifier)} could not be "
+                f"read.\nAnything already encrypted needs those keys, so no new ones "
+                f"were generated. Restore from a backup with:\n"
+                f"  import_key_material(json.load(open('<backup>.json')))\n"
+                f"or discard the old keys deliberately with force_new=True."
+            )
+        return None
+
+    @classmethod
+    def _migrate_from_keyring_items(
+        cls, service_name: str, app_identifier: str
+    ) -> Optional[dict]:
+        """Move an existing per-item keychain layout into the key store.
+
+        Reads the old items once (the last time the user sees a prompt per
+        item), writes the store, reads it back, and only then deletes the
+        originals. The old items are the only copy of the private key, so a
+        delete that ran before a verified read-back would make every encrypted
+        cache and stored password permanently unrecoverable.
+
+        Returns the migrated store, or None when there is nothing to migrate.
+        """
+        salt = keyring.get_password(service_name, namespaced_key(app_identifier, cls.SALT_KEY))
+        if not salt:
+            return None  # no legacy layout either; caller will generate keys
+
+        print(f"Consolidating {service_name}:{app_identifier} keychain items into a key store")
+        nonce = keyring.get_password(service_name, namespaced_key(app_identifier, cls.NONCE_KEY))
+        tag = keyring.get_password(service_name, namespaced_key(app_identifier, cls.TAG_KEY))
+        stored_type = keyring.get_password(
+            service_name, namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY)
+        )
+        encrypted_priv = cls._retrieve_large_data(
+            service_name, app_identifier, cls.ENCRYPTED_PRIV_KEY
+        )
+        pub_key = cls._retrieve_large_data(service_name, app_identifier, cls.PUBLIC_KEY)
+
+        if not all((nonce, tag, encrypted_priv, pub_key)):
+            missing = [
+                name for name, value in (
+                    (cls.NONCE_KEY, nonce), (cls.TAG_KEY, tag),
+                    (cls.ENCRYPTED_PRIV_KEY, encrypted_priv), (cls.PUBLIC_KEY, pub_key),
+                ) if not value
+            ]
+            # Returning None here would let generate_and_store_keys() mint a new
+            # keypair over the top of a recoverable install.
+            raise KeyMaterialError(
+                f"Pre-consolidation keychain entries for {service_name}:{app_identifier} "
+                f"are incomplete (missing: {', '.join(missing)}); they have been left in "
+                f"place. Run export_key_material({service_name!r}, {app_identifier!r}, "
+                f"'backup.json') to capture what remains before changing anything."
+            )
+
+        store = {
+            "version": KEY_STORE_VERSION,
+            ENCRYPTOR_TYPE_KEY: stored_type or cls._get_key_type(),
+            cls.SALT_KEY: salt,
+            cls.NONCE_KEY: nonce,
+            cls.TAG_KEY: tag,
+            cls.ENCRYPTED_PRIV_KEY: encrypted_priv.hex(),
+            cls.PUBLIC_KEY: pub_key.hex(),
+        }
+        try:
+            write_key_store(service_name, app_identifier, store)
+        except Exception as e:
+            print(f"Could not write key store, keeping legacy entries: {e}")
+            print_recovery_material(service_name, app_identifier, store)
+            return store  # usable in memory; migration retries next run
+
+        clear_key_store_cache(service_name, app_identifier)
+        verified = read_key_store(service_name, app_identifier)
+        if verified != store:
+            print("Key store did not read back intact; keeping legacy entries")
+            print_recovery_material(service_name, app_identifier, store)
+            return store
+
+        cls._delete_legacy_keyring_items(service_name, app_identifier)
+        print(f"Consolidated key material for {service_name}:{app_identifier}")
+        # write_key_store() has already taken the off-drive backup; report where
+        # it went so an unwanted copy is visible and can be removed.
+        backup = default_key_backup_path(service_name, app_identifier)
+        if backup and os.path.exists(backup):
+            print(f"  Off-drive backup written to {backup} "
+                  f"(contains the passphrase in the clear)")
+        return verified
+
+    @classmethod
+    def _delete_legacy_keyring_items(cls, service_name: str, app_identifier: str) -> None:
+        """Remove the per-item layout. Never call before a verified store read."""
+        for base in (cls.ENCRYPTED_PRIV_KEY, cls.PUBLIC_KEY):
+            key_base = get_key_base(app_identifier, base)
+            count_key = namespaced_key(key_base, "count")
+            count_str = keyring.get_password(service_name, count_key)
+            if count_str:
+                try:
+                    for i in range(int(count_str)):
+                        cls._delete_key_quietly(service_name, namespaced_key(key_base, i))
+                except ValueError:
+                    pass
+            cls._delete_key_quietly(service_name, count_key)
+        for key in (cls.SALT_KEY, cls.NONCE_KEY, cls.TAG_KEY, ENCRYPTOR_TYPE_KEY):
+            cls._delete_key_quietly(service_name, namespaced_key(app_identifier, key))
+
+    @staticmethod
+    def _delete_key_quietly(service_name: str, key: str) -> None:
+        try:
+            keyring.delete_password(service_name, key)
+        except Exception:
+            pass
 
     @classmethod
     def verify_keys(cls, public_key: bytes, private_key: bytes):
@@ -455,66 +1108,52 @@ class BaseEncryptor:
         
         NOTE: This does not handle migration from one encryptor type to another.
         """
-        # Retrieve source keys
+        # Retrieve source keys. _ensure_key_store migrates the source off the
+        # per-item layout first if it is still on it, so this reads one place.
         source_priv = cls.load_private_key(source_service, source_app)
-        source_pub = cls._retrieve_large_data(source_service, source_app, cls.PUBLIC_KEY)
-        source_salt = bytes.fromhex(keyring.get_password(source_service, namespaced_key(source_app, cls.SALT_KEY)))
-        source_nonce = bytes.fromhex(keyring.get_password(source_service, namespaced_key(source_app, cls.NONCE_KEY)))
-        source_tag = bytes.fromhex(keyring.get_password(source_service, namespaced_key(source_app, cls.TAG_KEY)))
-        
-        # Get source passphrase
-        source_passphrase = PassphraseManager.get_passphrase(source_service, source_app)
-        
+        source_store = cls._ensure_key_store(source_service, source_app)
+        if not source_store:
+            raise ValueError("No source key material to migrate")
+        source_pub = bytes.fromhex(source_store[cls.PUBLIC_KEY])
+
         # Get target passphrase (will create if doesn't exist)
         target_passphrase = PassphraseManager.get_passphrase(target_service, target_app)
-        
+
         # Re-encrypt private key with new passphrase
         new_salt = os.urandom(16)
         storage_key = cls._derive_key(target_passphrase, new_salt, 32)
         new_nonce = os.urandom(12)
-        
+
         cipher = Cipher(algorithms.AES(storage_key), modes.GCM(new_nonce), default_backend())
         encryptor = cipher.encryptor()
         reencrypted_priv = encryptor.update(source_priv) + encryptor.finalize()
-        
-        # Store components in target namespace
-        keyring.set_password(target_service, namespaced_key(target_app, cls.SALT_KEY), new_salt.hex())
-        keyring.set_password(target_service, namespaced_key(target_app, cls.NONCE_KEY), new_nonce.hex())
-        keyring.set_password(target_service, namespaced_key(target_app, cls.TAG_KEY), encryptor.tag.hex())
-        
-        cls._store_large_data(target_service, target_app, cls.ENCRYPTED_PRIV_KEY, reencrypted_priv)
-        cls._store_large_data(target_service, target_app, cls.PUBLIC_KEY, source_pub)
-        
-        # Optionally delete source keys
+
+        # Store components in target namespace. Passwords are carried across
+        # as-is: they are encrypted to the public key, which is unchanged.
+        write_key_store(target_service, target_app, {
+            "version": KEY_STORE_VERSION,
+            ENCRYPTOR_TYPE_KEY: source_store.get(ENCRYPTOR_TYPE_KEY, cls._get_key_type()),
+            cls.SALT_KEY: new_salt.hex(),
+            cls.NONCE_KEY: new_nonce.hex(),
+            cls.TAG_KEY: encryptor.tag.hex(),
+            cls.ENCRYPTED_PRIV_KEY: reencrypted_priv.hex(),
+            cls.PUBLIC_KEY: source_pub.hex(),
+            PasswordManager.STORE_SECTION: dict(
+                source_store.get(PasswordManager.STORE_SECTION, {})
+            ),
+        })
+
+        # Optionally delete source keys, only once the target reads back.
         if delete_source:
-            # Delete key components
-            keys_to_delete = [namespaced_key(source_app, cls.SALT_KEY),
-                              namespaced_key(source_app, cls.NONCE_KEY),
-                              namespaced_key(source_app, cls.TAG_KEY)]
-            for base in [cls.ENCRYPTED_PRIV_KEY, cls.PUBLIC_KEY]:
-                base_key = namespaced_key(source_app, base)
-                count_key = namespaced_key(base_key, "count")
-                count_str = keyring.get_password(source_service, count_key)
-                if count_str:
-                    try:
-                        count = int(count_str)
-                        for i in range(count):
-                            keyring.delete_password(source_service, namespaced_key(base_key, i))
-                    except ValueError:
-                        pass
-                keys_to_delete.append(count_key)
-            
-            for key in keys_to_delete:
-                try:
-                    keyring.delete_password(source_service, key)
-                except Exception:
-                    pass
-            
-            # Delete source passphrase
-            try:
-                keyring.delete_password(source_service, namespaced_key(source_app, cls.PASSPHRASE_KEY))
-            except Exception:
-                pass
+            if read_key_store(target_service, target_app) is None:
+                print("Target key store unreadable; keeping source key material")
+                return
+            delete_key_store(source_service, source_app)
+            cls._delete_legacy_keyring_items(source_service, source_app)
+            cls._delete_key_quietly(
+                source_service, namespaced_key(source_app, cls.PASSPHRASE_KEY)
+            )
+            clear_key_store_cache(source_service, source_app)
 
     @classmethod
     def encrypt_file(
@@ -594,32 +1233,18 @@ class BaseEncryptor:
         return kdf.derive(passphrase.encode())
     
     @classmethod
-    def _store_large_data(
-        cls,
-        service_name: str,
-        app_identifier: str,
-        key: str,
-        data: bytes
-    ):
-        """Store large data in chunks to work around credential size limits"""
-        key_base = get_key_base(app_identifier, key)
-        hex_data = data.hex()
-        chunk_size = 500
-        chunks = [hex_data[i:i+chunk_size] for i in range(0, len(hex_data), chunk_size)]
-        
-        # print(f"Storing {len(chunks)} chunks for {key_base}")
-        keyring.set_password(service_name, namespaced_key(key_base, "count"), str(len(chunks)))
-        for i, chunk in enumerate(chunks):
-            keyring.set_password(service_name, namespaced_key(key_base, i), chunk)
-    
-    @classmethod
     def _retrieve_large_data(
         cls,
         service_name: str,
         app_identifier: str,
         key: str
     ) -> Optional[bytes]:
-        """Retrieve chunked large data"""
+        """Retrieve chunked large data written by the pre-consolidation layout.
+
+        Read-only: nothing writes chunks any more. The chunking existed to fit
+        Windows Credential Manager's blob limit, and cost one macOS prompt per
+        chunk. Kept so an existing install can be migrated into the key store.
+        """
         key_base = get_key_base(app_identifier, key)
         count_str = keyring.get_password(service_name, namespaced_key(key_base, "count"))
         if not count_str:
@@ -735,36 +1360,11 @@ class BaseEncryptor:
         - app_identifier: Keyring app identifier
         - purge_files: Also delete public key file and any encrypted files
         """
-        # Delete all keyring entries
-        keys_to_delete = [namespaced_key(app_identifier, cls.SALT_KEY),
-                          namespaced_key(app_identifier, cls.NONCE_KEY),
-                          namespaced_key(app_identifier, cls.TAG_KEY),
-                          namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY)]
-        
-        # Add chunked entries
-        for base in [cls.ENCRYPTED_PRIV_KEY, cls.PUBLIC_KEY]:
-            # Get chunk count
-            key_base = get_key_base(app_identifier, base)
-            count_key = namespaced_key(key_base, "count")
-            count_str = keyring.get_password(service_name, count_key)
-            if count_str:
-                try:
-                    count = int(count_str)
-                    for i in range(count):
-                        keyring.delete_password(service_name, namespaced_key(key_base, i))
-                except Exception:
-                    pass
-            
-            # Delete the count entry
-            keys_to_delete.append(count_key)
-        
-        # Delete all standard keys
-        for key in keys_to_delete:
-            try:
-                keyring.delete_password(service_name, key)
-            except Exception:
-                pass
-        
+        # Delete the key store, plus any pre-consolidation keychain items that
+        # a partial migration may have left behind.
+        delete_key_store(service_name, app_identifier)
+        cls._delete_legacy_keyring_items(service_name, app_identifier)
+
         # Delete public key file if exists
         if purge_files:
             for purge_file in purge_files:
@@ -1080,11 +1680,18 @@ def _get_encryptor_key(service_name, app_identifier):
     return service_name + ":::" + app_identifier
 
 def _determine_encryptor(service_name, app_identifier, override_stored_type=False):
-    # Check stored key type, should not throw an exception on not found
-    stored_type = keyring.get_password(
-        service_name,
-        namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY)
-    )
+    # Stored key type, from the key store when present and otherwise from the
+    # pre-consolidation keychain item. Reading the item directly (rather than
+    # migrating here) keeps migration in one place: it needs a concrete
+    # encryptor class, which is what this function is being called to pick.
+    store = read_key_store(service_name, app_identifier)
+    if store is not None:
+        stored_type = store.get(ENCRYPTOR_TYPE_KEY)
+    else:
+        stored_type = keyring.get_password(
+            service_name,
+            namespaced_key(app_identifier, ENCRYPTOR_TYPE_KEY)
+        )
 
     # Resolve encryptor based on stored type and current capabilities
     if not override_stored_type and stored_type == "quantum":
