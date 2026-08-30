@@ -20,6 +20,26 @@ from utils.utils import Utils
 _ = I18N._
 logger = get_logger("ui_qt.run_controller")
 
+#: Origin recorded for a server run whose client did not name itself. The
+#: single sentinel for that case: the server reports "" rather than inventing
+#: one of its own, so the two cannot disagree. An identifier rather than prose
+#: -- it is stored on the run and persisted, so it must not shift with the
+#: display locale.
+SERVER_ORIGIN = "server"
+
+
+def origin_for_client(client_id: str) -> str:
+    """The origin to record on a run started by a request from *client_id*.
+
+    One rule in one place: every server entry point that sets ``run_origin``
+    goes through it, so an unidentified client cannot be named one way on the
+    virtual path and another on the widget-backed one. The client id itself is
+    kept unresolved everywhere else -- including on a staged request -- so that
+    a stored empty id still means "the client did not say", not "the client
+    called itself server".
+    """
+    return client_id or SERVER_ORIGIN
+
 
 class NoModelsFound(Exception):
     """Raised by _estimate_run when the run's model tags match nothing.
@@ -77,12 +97,20 @@ class RunController:
         """
         return self._app._thread_bridge.invoke(func, *args, **kwargs)
 
-    def current_run_is_server_run(self) -> bool:
-        """Whether the run currently executing came from a server request."""
+    def current_run_origin(self) -> str:
+        """Which client the run currently executing came from, or "" for the user's.
+
+        One field rather than a boolean plus an id: the two could otherwise
+        disagree about whether a run was server-initiated.
+        """
         current_run = getattr(self._app, "current_run", None)
         if current_run is None or getattr(current_run, "is_complete", False):
-            return False
-        return bool(getattr(getattr(current_run, "args", None), "is_server_run", False))
+            return ""
+        return str(getattr(getattr(current_run, "args", None), "run_origin", "") or "")
+
+    def current_run_is_server_run(self) -> bool:
+        """Whether the run currently executing came from a server request."""
+        return bool(self.current_run_origin())
 
     def has_runs_pending(self) -> bool:
         """Return True if any run or preset schedule is still queued."""
@@ -180,12 +208,12 @@ class RunController:
         if not skip_staging and staging is not None and staging.has_pending():
             staged = staging.take()
             if staged is not None:
-                command_type, staged_args = staged
+                command_type, staged_args, staged_client = staged
                 logger.info(
                     f"Promoting staged server request "
                     f"({staging.pending_count()} remaining in staging queue)"
                 )
-                self._promote_staged_request(command_type, staged_args)
+                self._promote_staged_request(command_type, staged_args, staged_client)
                 promoted = True
 
         if next_job_args:
@@ -259,12 +287,12 @@ class RunController:
         else:
             staged = staging.take()
             if staged is not None:
-                command_type, staged_args = staged
+                command_type, staged_args, staged_client = staged
                 logger.info(
                     f"Promoting staged server request on queue resume "
                     f"({staging.pending_count()} remaining in staging queue)"
                 )
-                self._promote_staged_request(command_type, staged_args)
+                self._promote_staged_request(command_type, staged_args, staged_client)
 
     def toggle_pause_queue(self) -> None:
         """Toggle the queue pause state and update the sidebar button label."""
@@ -276,12 +304,18 @@ class RunController:
     # ------------------------------------------------------------------
     # Run
     # ------------------------------------------------------------------
-    def run(self, event=None) -> None:
+    def run(self, event=None, origin: str = "") -> None:
         """Start an image generation run (or enqueue it).
 
         The heavy lifting runs on a background
         thread; UI updates are marshalled to the main thread via
         ``_MainThreadBridge``-wrapped ``AppActions``.
+
+        *origin* names the client a server request came from, and is empty for
+        a run the user started here. It records the run's origin, not its
+        configuration: the callers that pass it do read the sidebar -- that is
+        the point of the commands they serve -- but the user did not press Run,
+        so the progress label still has to say where the run came from.
         """
         from sd_runner.blacklist import BlacklistException
         from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
@@ -320,6 +354,11 @@ class RunController:
                 app.job_queue_preset_schedules.cancel()
 
         args, args_copy = app.get_args()
+
+        # Set after get_args() so it stays off args_copy, which is what is
+        # written back to runner_app_config -- where a run came from is not one
+        # of the user's saved settings.
+        args.run_origin = origin
 
         # get_args() already synced these from the sidebar into runner_app_config
         # (and re-syncing here would run blacklist validation a second time, so
@@ -527,12 +566,12 @@ class RunController:
             self._app.current_run.cancel(reason=reason)
         self.clear_progress()
 
-    def revert_to_simple_gen(self, event=None) -> None:
+    def revert_to_simple_gen(self, event=None, origin: str = "") -> None:
         """Cancel current run and restart with simple generation workflow."""
         from utils.globals import WorkflowType
         self.cancel(reason="Revert to simple generation")
         self._sp.workflow_combo.setCurrentText(WorkflowType.SIMPLE_IMAGE_GEN_LORA.get_translation())
-        self.run()
+        self.run(origin=origin)
 
     # ------------------------------------------------------------------
     # Preset schedule execution
@@ -644,8 +683,9 @@ class RunController:
         # A server run no longer writes its parameters into the sidebar, so
         # without this the progress label would advance for a run whose settings
         # appear nowhere on screen and look indistinguishable from the user's own.
-        if self.current_run_is_server_run():
-            marker = _("[Server] ")
+        origin = self.current_run_origin()
+        if origin:
+            marker = "[" + Utils.get_centrally_truncated_string(origin, 24) + "] "
             prepend_text = marker if prepend_text is None else marker + prepend_text
 
         if override_text is not None:
@@ -769,7 +809,7 @@ class RunController:
     # ------------------------------------------------------------------
     # Server callback
     # ------------------------------------------------------------------
-    def server_run_callback(self, command_type, args: dict):
+    def server_run_callback(self, command_type, args: dict, client_id: str = ""):
         """Called by ``SDRunnerServer`` when a remote run request arrives.
 
         Runs on the listener thread and bridges only the parts that must happen
@@ -786,10 +826,20 @@ class RunController:
         # of the command -- so it stays on the widget-backed path, which has to
         # run on the GUI thread in its entirety.
         if command_type is not None and command_type.kind is CommandKind.PARAMETERIZED_GENERATE:
-            return self._run_virtual(command_type, args)
-        return self._on_main(self._run_from_widgets, command_type, args)
+            return self._run_virtual(command_type, args, client_id)
+        return self._on_main(self._run_from_widgets, command_type, args, client_id)
 
-    def _promote_staged_request(self, command_type, args: dict) -> None:
+    def server_revert_to_simple_gen(self, client_id: str = "") -> None:
+        """Server entry point for ``revert_to_simple_gen``.
+
+        Separate from the method itself because that one is also exposed through
+        ``AppActions``, where a UI caller correctly supplies no origin, so the
+        naming of an unidentified client belongs at the server edge rather than
+        inside a method both callers share.
+        """
+        self.revert_to_simple_gen(origin=origin_for_client(client_id))
+
+    def _promote_staged_request(self, command_type, args: dict, client_id: str = "") -> None:
         """Hand a staged request back to the run path, off the GUI thread.
 
         Every promotion site runs on the GUI thread, where ``_on_main`` is a
@@ -805,13 +855,13 @@ class RunController:
         remain main-thread only.
         """
         Utils.start_thread(
-            self._run_promoted_async, use_asyncio=False, args=[command_type, args]
+            self._run_promoted_async, use_asyncio=False, args=[command_type, args, client_id]
         )
 
-    def _run_promoted_async(self, command_type, args: dict) -> None:
+    def _run_promoted_async(self, command_type, args: dict, client_id: str = "") -> None:
         """Worker body for _promote_staged_request."""
         try:
-            result = self.server_run_callback(command_type, args)
+            result = self.server_run_callback(command_type, args, client_id)
         except Exception as e:
             logger.error(f"Promoted server request '{command_type}' failed: {e}")
             result = {"error": "promotion failed", "data": str(e)}
@@ -829,7 +879,7 @@ class RunController:
         Utils.prevent_sleep(False)
         self.clear_progress()
 
-    def _stage_if_queue_full(self, command_type, args: dict):
+    def _stage_if_queue_full(self, command_type, args: dict, client_id: str = ""):
         """Stage the request if the run queue is full. GUI thread only.
 
         Returns a response dict when the request was staged (or could not be),
@@ -842,7 +892,7 @@ class RunController:
         if staging is None or len(app.job_queue.pending_jobs) < app.job_queue.max_size:
             return None
         try:
-            pos = staging.add(command_type, args)
+            pos = staging.add(command_type, args, client_id)
             logger.info(
                 f"Main run queue full ({app.job_queue.max_size}) — "
                 f"staged server request at position {pos}"
@@ -852,7 +902,7 @@ class RunController:
             logger.error(f"Server staging queue full: {e}")
             return {"error": "staging queue full", "data": str(e)}
 
-    def _run_from_widgets(self, command_type, args: dict):
+    def _run_from_widgets(self, command_type, args: dict, client_id: str = ""):
         """The widget-backed path, for commands that mean "use current settings".
 
         GUI thread only, start to finish: it reads and writes the sidebar and
@@ -871,7 +921,7 @@ class RunController:
 
         args = args or {}
 
-        staged = self._stage_if_queue_full(command_type, args)
+        staged = self._stage_if_queue_full(command_type, args, client_id)
         if staged is not None:
             return staged
 
@@ -906,7 +956,7 @@ class RunController:
             else:
                 sp.source_prompt_file_entry.setText(source_path)
 
-        self.run()
+        self.run(origin=origin_for_client(client_id))
         return {}
 
     def _divert_to_preset_schedule(self, workflow_type, request: dict) -> bool:
@@ -938,7 +988,7 @@ class RunController:
         app.job_queue_preset_schedules.add({key: escape_path(request["image"])})
         return True
 
-    def _run_virtual(self, command_type, request: dict):
+    def _run_virtual(self, command_type, request: dict, client_id: str = ""):
         """Build and enqueue a server run without reading or writing the sidebar.
 
         Runs on the calling (listener) thread and bridges exactly two sections:
@@ -979,8 +1029,10 @@ class RunController:
         if rejection is not None:
             return rejection
 
-        run_config.is_server_run = True
-        return self._on_main(self._commit_server_run, command_type, request, run_config)
+        run_config.run_origin = origin_for_client(client_id)
+        return self._on_main(
+            self._commit_server_run, command_type, request, run_config, client_id
+        )
 
     def _snapshot_for_server_run(self, command_type, request: dict):
         """Return ``(base_args, preset)`` for one request. GUI thread only.
@@ -1009,7 +1061,7 @@ class RunController:
 
         return base_args, preset
 
-    def _commit_server_run(self, command_type, request: dict, run_config):
+    def _commit_server_run(self, command_type, request: dict, run_config, client_id: str = ""):
         """Decide what happens to a built server run. GUI thread only.
 
         The queue-full check and the enqueue live together here so they cannot
@@ -1017,7 +1069,7 @@ class RunController:
         the act have to be one section, and this is the only part of a virtual
         run that touches a widget or the queues.
         """
-        staged = self._stage_if_queue_full(command_type, request)
+        staged = self._stage_if_queue_full(command_type, request, client_id)
         if staged is not None:
             return staged
 
@@ -1070,7 +1122,7 @@ class RunController:
             }
         return None
 
-    def server_batch_enqueue(self, requests: list) -> dict:
+    def server_batch_enqueue(self, requests: list, client_id: str = "") -> dict:
         """Add all batch items from a run_batch command directly to ServerStagingQueue.
 
         Called via the _MainThreadBridge as a single bridge call for the whole
@@ -1097,7 +1149,7 @@ class RunController:
                 logger.warning("server_batch_enqueue: skipping unbatchable type %r", type_str)
                 continue
             try:
-                staging.add(command_type, command_type.normalize_args(req.get('args')))
+                staging.add(command_type, command_type.normalize_args(req.get('args')), client_id)
                 enqueued += 1
             except Exception:
                 rejected += 1
@@ -1113,8 +1165,8 @@ class RunController:
         if enqueued > 0 and not app.job_queue.has_pending():
             staged = staging.take()
             if staged is not None:
-                command_type, staged_args = staged
-                self._promote_staged_request(command_type, staged_args)
+                command_type, staged_args, staged_client = staged
+                self._promote_staged_request(command_type, staged_args, staged_client)
 
         return {"count": enqueued}
 

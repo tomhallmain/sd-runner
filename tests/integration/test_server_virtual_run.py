@@ -20,6 +20,7 @@ from sd_runner.models import Model
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from sd_runner.timed_schedules_manager import timed_schedules_manager
+from ui_qt.app_window.run_controller import SERVER_ORIGIN
 from utils.globals import WorkflowType
 from utils.time_estimator import TimeEstimator
 from utils.utils import Utils
@@ -148,11 +149,19 @@ class TestRequestReachesTheRun:
         )
         assert executed[0].args.target_dir == "/remote/out"
 
-    def test_the_run_is_marked_as_server_originated(self, app_window, run_stubs, executed):
+    def test_the_run_is_marked_with_the_requesting_client(self, app_window, run_stubs, executed):
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}, "weidr"
+        )
+        assert executed[0].args.run_origin == "weidr"
+
+    def test_an_unidentified_client_falls_back_to_the_server_origin(
+        self, app_window, run_stubs, executed
+    ):
         app_window.run_ctrl.server_run_callback(
             CommandType.RENOISER, {"image": "remote.png"}
         )
-        assert executed[0].args.is_server_run is True
+        assert executed[0].args.run_origin == SERVER_ORIGIN
 
 
 # ---------------------------------------------------------------------------
@@ -167,10 +176,44 @@ class TestLastSettingsStillReadsTheUI:
         assert len(executed) == 1
         assert executed[0].args.model_tags == "user_model_choice"
 
-    def test_last_settings_is_not_marked_as_a_server_run(self, app_window, run_stubs, executed):
-        """It is indistinguishable from a user run because it *is* one."""
+    def test_last_settings_is_still_marked_with_its_origin(self, app_window, run_stubs, executed):
+        """The marker is about origin, not configuration.
+
+        This run's settings are the user's own -- that is the command -- but
+        they did not press Run, so the progress label still has to say which
+        client started it.
+        """
+        app_window.run_ctrl.server_run_callback(CommandType.LAST_SETTINGS, {}, "weidr")
+        assert executed[0].args.run_origin == "weidr"
+
+    def test_an_unidentified_client_still_marks_the_run(self, app_window, run_stubs, executed):
         app_window.run_ctrl.server_run_callback(CommandType.LAST_SETTINGS, {})
-        assert getattr(executed[0].args, "is_server_run", False) is False
+        assert executed[0].args.run_origin == SERVER_ORIGIN
+
+    def test_a_run_from_the_run_button_has_no_origin(self, app_window, run_stubs, executed):
+        app_window.run_ctrl.run()
+        assert executed[0].args.run_origin == ""
+
+
+# ---------------------------------------------------------------------------
+# revert_to_simple_gen — a STATE command that still ends in a run
+# ---------------------------------------------------------------------------
+
+class TestRevertToSimpleGenOrigin:
+    def test_the_server_entry_point_marks_the_run(self, app_window, run_stubs, executed):
+        app_window.run_ctrl.server_revert_to_simple_gen("weidr")
+        assert executed[0].args.run_origin == "weidr"
+
+    def test_an_unidentified_client_is_named_like_every_other_path(
+        self, app_window, run_stubs, executed
+    ):
+        app_window.run_ctrl.server_revert_to_simple_gen()
+        assert executed[0].args.run_origin == SERVER_ORIGIN
+
+    def test_the_ui_entry_point_leaves_the_run_unmarked(self, app_window, run_stubs, executed):
+        """Reachable through AppActions, where nobody asked remotely."""
+        app_window.run_ctrl.revert_to_simple_gen()
+        assert executed[0].args.run_origin == ""
 
 
 # ---------------------------------------------------------------------------
@@ -411,14 +454,17 @@ class TestStagingWhenTheQueueIsFull:
         assert app_window.server_staging_queue.pending_count() == 1
         assert executed == []
 
-    def test_the_staged_item_keeps_its_command_and_args(self, app_window, run_stubs):
+    def test_the_staged_item_keeps_its_command_args_and_client(self, app_window, run_stubs):
         self.fill_queue(app_window)
         app_window.run_ctrl.server_run_callback(
-            CommandType.RENOISER, {"image": "remote.png"}
+            CommandType.RENOISER, {"image": "remote.png"}, "weidr"
         )
-        command_type, args = app_window.server_staging_queue.take()
+        command_type, args, client_id = app_window.server_staging_queue.take()
         assert command_type is CommandType.RENOISER
         assert args["image"] == "remote.png"
+        # The client travels with the request: a promotion, possibly in a later
+        # session, still has to know who asked for it.
+        assert client_id == "weidr"
 
     def test_room_in_the_queue_means_no_staging(self, app_window, run_stubs, executed):
         app_window.run_ctrl.server_run_callback(

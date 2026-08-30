@@ -94,7 +94,7 @@ class RunConfig:
 
         Walks the instance rather than a fixed field list: both run paths set
         further attributes after construction (the tag and strength fields, and
-        is_server_run), from two different places, so a list here would drift
+        run_origin), from two different places, so a list here would drift
         out of step with them. A field that cannot be converted is left as-is
         and surfaces at the json encode naming its type, rather than being
         silently dropped.

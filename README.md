@@ -235,7 +235,9 @@ Protected actions include:
 
 Set configuration options for a server port to make use of the server while the UI is running. Calls to the server made with Python's multiprocessing client run alongside whatever you are doing in the UI. This can be helpful to use in conjunction with other applications that involve images. For an example, see [this class](https://github.com/tomhallmain/Weidr/blob/master/extensions/sd_runner_client.py).
 
-A request that carries its own parameters (`renoiser`, `control_net`, `ip_adapter`, `image_edit`, `img2img`, `redo_prompt`, `take_prompt`) runs without touching the sidebar: anything it does not specify comes from your saved settings rather than from what happens to be on screen, and the fields you are editing are left alone. Such runs are marked `[Server]` in the progress label and queue behind any run already in progress. The `last_settings` request is the exception — reusing what is currently set in the UI is the point of that command — and `cancel` and `revert_to_simple_gen` act on the UI directly.
+A request that carries its own parameters (`renoiser`, `control_net`, `ip_adapter`, `image_edit`, `img2img`, `redo_prompt`, `take_prompt`) runs without touching the sidebar: anything it does not specify comes from your saved settings rather than from what happens to be on screen, and the fields you are editing are left alone. Such runs are marked in the progress label with the name of the client that asked for them, and shown under an Origin column in the runs window; they queue behind any run already in progress. The `last_settings` request is the exception — reusing what is currently set in the UI is the point of that command — and `cancel` and `revert_to_simple_gen` act on the UI directly.
+
+A client names itself by putting a `client_id` on any message it sends; it is optional, sticky for the connection, and only needs sending once. A client that sends none is shown as `server`, since two clients on the same machine cannot be told apart from the connection alone.
 
 ## Image to Prompt
 

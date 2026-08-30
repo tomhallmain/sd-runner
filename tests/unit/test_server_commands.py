@@ -11,7 +11,10 @@ both the single-request and batch entry points share.
 
 import pytest
 
-from extensions.sd_runner_server import CommandKind, CommandType
+from extensions.sd_runner_server import (
+    LOOPBACK_HOSTS, MAX_CLIENT_ID_LEN, CommandKind, CommandType,
+    SDRunnerServer, sanitize_client_id,
+)
 from utils.globals import WorkflowType
 
 
@@ -166,3 +169,209 @@ class TestNormalizeArgs:
     @pytest.mark.parametrize("args", [None, {}])
     def test_missing_args_yield_an_empty_dict(self, args):
         assert CommandType.TAKE_PROMPT.normalize_args(args) == {}
+
+
+# ---------------------------------------------------------------------------
+# Client identity
+# ---------------------------------------------------------------------------
+
+class TestSanitizeClientId:
+    """The id arrives over the wire and reaches the runs window and the cache."""
+
+    def test_plain_name_kept(self):
+        assert sanitize_client_id("weidr") == "weidr"
+
+    def test_surrounding_whitespace_stripped(self):
+        assert sanitize_client_id("  weidr  ") == "weidr"
+
+    @pytest.mark.parametrize("value", [None, "", "   "])
+    def test_absent_or_blank_becomes_empty(self, value):
+        assert sanitize_client_id(value) == ""
+
+    def test_control_characters_removed(self):
+        assert sanitize_client_id("we\nid\tr\x00") == "weidr"
+
+    def test_length_is_bounded(self):
+        assert len(sanitize_client_id("x" * 500)) == MAX_CLIENT_ID_LEN
+
+    def test_non_string_coerced(self):
+        assert sanitize_client_id(1234) == "1234"
+
+
+class TestClientIdResolution:
+    def make_server(self):
+        return SDRunnerServer(
+            run_callback=lambda *a: {},
+            cancel_callback=lambda *a: None,
+            revert_callback=lambda *a: None,
+            batch_enqueue_callback=lambda *a: {},
+            host="127.0.0.1",
+            port=0,
+        )
+
+    def test_peer_host_is_used_when_the_client_does_not_name_itself(self):
+        """The host is stable across reconnects and restarts; the port is not."""
+        server = self.make_server()
+        server._adopt_peer(("192.168.1.50", 54321))
+        assert server.client_id() == "192.168.1.50"
+
+    def test_the_same_host_resolves_the_same_on_a_later_connection(self):
+        server = self.make_server()
+        server._adopt_peer(("192.168.1.50", 54321))
+        first = server.client_id()
+        server._adopt_peer(("192.168.1.50", 60999))  # new ephemeral port
+        assert server.client_id() == first
+
+    def test_a_named_client_wins_over_the_host(self):
+        server = self.make_server()
+        server._adopt_peer(("192.168.1.50", 54321))
+        server._client_id = "weidr"
+        assert server.client_id() == "weidr"
+
+    def test_a_new_connection_forgets_the_previous_name(self):
+        """The id is per-connection; the next client must not inherit it."""
+        server = self.make_server()
+        server._adopt_peer(("192.168.1.50", 54321))
+        server._client_id = "weidr"
+        server._adopt_peer(("10.0.0.9", 111))
+        assert server.client_id() == "10.0.0.9"
+
+    def test_no_identity_when_there_is_no_peer_at_all(self):
+        server = self.make_server()
+        server._adopt_peer(None)
+        assert server.client_id() == ""
+
+    @pytest.mark.parametrize("host", sorted(LOOPBACK_HOSTS))
+    def test_a_loopback_peer_is_no_identity(self, host):
+        """It is the default bind address, so it is the answer for everyone."""
+        server = self.make_server()
+        server._adopt_peer((host, 54321))
+        assert server.client_id() == ""
+
+    def test_a_named_client_on_loopback_is_still_identified(self):
+        """Which is the only way a local client can be told from its neighbours."""
+        server = self.make_server()
+        server._adopt_peer(("127.0.0.1", 54321))
+        server._client_id = "weidr"
+        assert server.client_id() == "weidr"
+
+    def test_a_remote_host_is_bounded_like_a_supplied_id(self):
+        server = self.make_server()
+        server._adopt_peer(("h" * 500, 54321))
+        assert len(server.client_id()) == MAX_CLIENT_ID_LEN
+
+
+class _FakeConn:
+    """Replays scripted messages, then reports the client hung up."""
+
+    def __init__(self, messages):
+        self._messages = list(messages)
+        self.sent = []
+
+    def recv(self):
+        if not self._messages:
+            raise EOFError
+        return self._messages.pop(0)
+
+    def send(self, msg):
+        self.sent.append(msg)
+
+    def close(self):
+        pass
+
+
+class TestClientIdOverTheWire:
+    """The adoption itself, rather than the resolution it feeds.
+
+    Every test above sets ``_client_id`` directly, so none of them covers the
+    one line that reads the field off an incoming message -- the entry point the
+    whole feature hangs on.
+    """
+
+    def make_server(self, **callbacks):
+        kwargs = {
+            "run_callback": lambda *a, **k: {},
+            "cancel_callback": lambda *a, **k: None,
+            "revert_callback": lambda *a, **k: None,
+            "batch_enqueue_callback": lambda *a, **k: {},
+            "host": "127.0.0.1",
+            "port": 0,
+        }
+        kwargs.update(callbacks)
+        server = SDRunnerServer(**kwargs)
+        server._adopt_peer(("127.0.0.1", 54321))
+        return server
+
+    def drive(self, server, messages):
+        server._conn = _FakeConn(messages)
+        server._handle_connection()
+
+    def run_message(self, **extra):
+        return {"command": "run", "type": "renoiser", "args": {}, **extra}
+
+    def test_a_client_id_on_a_run_reaches_the_run_callback(self):
+        seen = []
+        server = self.make_server(
+            run_callback=lambda ct, args, client_id="": (seen.append(client_id), {})[1]
+        )
+        self.drive(server, [self.run_message(client_id="weidr")])
+        assert seen == ["weidr"]
+
+    def test_a_client_that_never_names_itself_reaches_it_unidentified(self):
+        """Loopback says nothing, so the run path is the one that names it."""
+        seen = []
+        server = self.make_server(
+            run_callback=lambda ct, args, client_id="": (seen.append(client_id), {})[1]
+        )
+        self.drive(server, [self.run_message()])
+        assert seen == [""]
+
+    def test_the_id_is_sticky_for_the_rest_of_the_connection(self):
+        """Sent once, not attached to every request."""
+        seen = []
+        server = self.make_server(
+            run_callback=lambda ct, args, client_id="": (seen.append(client_id), {})[1]
+        )
+        self.drive(server, [self.run_message(client_id="weidr"), self.run_message()])
+        assert seen == ["weidr", "weidr"]
+
+    def test_an_unprintable_id_is_sanitized_before_it_is_adopted(self):
+        seen = []
+        server = self.make_server(
+            run_callback=lambda ct, args, client_id="": (seen.append(client_id), {})[1]
+        )
+        self.drive(server, [self.run_message(client_id="we\nid\tr")])
+        assert seen == ["weidr"]
+
+    def test_a_batch_carries_the_client_too(self):
+        seen = []
+        server = self.make_server(
+            batch_enqueue_callback=lambda reqs, client_id="": (seen.append(client_id), {})[1]
+        )
+        self.drive(server, [{
+            "command": "run_batch",
+            "client_id": "weidr",
+            "requests": [{"type": "renoiser", "args": {}}],
+        }])
+        assert seen == ["weidr"]
+
+    def test_cancel_passes_its_reason_not_a_widget_event(self):
+        """cancel()'s first parameter is the event, so this has to be a keyword."""
+        seen = {}
+        server = self.make_server(
+            cancel_callback=lambda event=None, reason=None: seen.update(
+                event=event, reason=reason
+            )
+        )
+        self.drive(server, [{"command": "run", "type": "cancel", "args": {}}])
+        assert seen["event"] is None
+        assert seen["reason"]
+
+    def test_revert_is_told_which_client_asked(self):
+        seen = []
+        server = self.make_server(revert_callback=lambda client_id="": seen.append(client_id))
+        self.drive(server, [{
+            "command": "run", "type": "revert_to_simple_gen",
+            "args": {}, "client_id": "weidr",
+        }])
+        assert seen == ["weidr"]

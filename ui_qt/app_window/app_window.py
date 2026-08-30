@@ -689,7 +689,12 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         server = SDRunnerServer(
             self.run_ctrl.server_run_callback,
             bridge(self.run_ctrl.cancel),
-            bridge(self.run_ctrl.revert_to_simple_gen),
+            # The server entry point, not revert_to_simple_gen itself: the run
+            # this starts came from a request rather than the Run button, so it
+            # carries the requesting client as its origin. The method it wraps
+            # is also reachable through AppActions, where a UI caller correctly
+            # supplies none.
+            bridge(self.run_ctrl.server_revert_to_simple_gen),
             bridge(self.run_ctrl.server_batch_enqueue),
         )
         try:

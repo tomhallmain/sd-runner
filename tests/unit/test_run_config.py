@@ -252,16 +252,16 @@ class TestRunConfigSerialization:
         assert isinstance(restored.prompter_config, PrompterConfiguration)
 
     def test_round_trip_keeps_attributes_set_after_construction(self):
-        """The tag fields and is_server_run are assigned by the run paths after
+        """The tag fields and run_origin are assigned by the run paths after
         __init__, so a field list would miss them."""
         rc = make_run_config(workflow_tag="IP_ADAPTER")
         rc.positive_tags = "carried tags"
         rc.edit_suffix = "_edit"
-        rc.is_server_run = True
+        rc.run_origin = "weidr"
         restored = RunConfig.from_dict(rc.to_dict())
         assert restored.positive_tags == "carried tags"
         assert restored.edit_suffix == "_edit"
-        assert restored.is_server_run is True
+        assert restored.run_origin == "weidr"
 
     def test_round_trip_survives_a_json_encode(self):
         rc = make_run_config(workflow_tag="IP_ADAPTER", sampler=Sampler.EULER,

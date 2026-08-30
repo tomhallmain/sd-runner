@@ -45,6 +45,17 @@ def _short(value: str, max_len: int = 40) -> str:
     return s if len(s) <= max_len else s[:max_len - 1] + "…"
 
 
+def _origin(run_config) -> str:
+    """Which client a run came from, for the Origin column.
+
+    Blank for the user's own runs, so the column only draws the eye to a run
+    nobody started from this window. ``run_origin`` is carried on the run
+    itself and survives a restore, so a queue rebuilt from the cache still
+    names the client. Runs built outside either run path may not set it.
+    """
+    return _short(str(getattr(run_config, "run_origin", "") or ""), 24)
+
+
 class RunsWindow(SmartDialog):
     """PySide6 queue + history browser for image generation runs."""
 
@@ -95,7 +106,7 @@ class RunsWindow(SmartDialog):
         layout.addWidget(self._queue_status_label)
 
         self._running_tree = self._make_tree(
-            [_("Workflow"), _("Model"), _("N"), _("Total"), _("Status")],
+            [_("Workflow"), _("Model"), _("N"), _("Total"), _("Origin"), _("Status")],
             page,
         )
         self._running_tree.setMaximumHeight(80)
@@ -104,7 +115,8 @@ class RunsWindow(SmartDialog):
 
         layout.addWidget(QLabel(_("Pending Jobs")))
         self._pending_tree = self._make_tree(
-            [_("#"), _("Workflow"), _("Model"), _("N"), _("Total"), _("Batch"), _("Positive Tags")],
+            [_("#"), _("Workflow"), _("Model"), _("N"), _("Total"), _("Batch"),
+             _("Origin"), _("Positive Tags")],
             page,
         )
         layout.addWidget(self._pending_tree)
@@ -114,8 +126,10 @@ class RunsWindow(SmartDialog):
         layout.addWidget(self._queue_preset_label)
 
         layout.addWidget(QLabel(_("Server Staging Queue")))
+        # "Command", not "Workflow": staging holds CommandType members, and
+        # several of them (take_prompt, last_settings) select no workflow.
         self._staging_tree = self._make_tree(
-            [_("#"), _("Workflow"), _("Args")],
+            [_("#"), _("Command"), _("Origin"), _("Args")],
             page,
         )
         self._staging_tree.setMaximumHeight(120)
@@ -170,8 +184,10 @@ class RunsWindow(SmartDialog):
             model = _short(str(getattr(args, "model_tags", "")), 30)
             n = str(getattr(args, "n_latents", ""))
             total = str(getattr(args, "total", ""))
-            item = QTreeWidgetItem(self._running_tree, [wf, model, n, total, status])
-            item.setForeground(4, self.palette().highlight().color())
+            item = QTreeWidgetItem(
+                self._running_tree, [wf, model, n, total, _origin(args), status]
+            )
+            item.setForeground(5, self.palette().highlight().color())
             self._queue_status_label.setText(_("Status: Running"))
         elif job_queue is not None and job_queue.paused and job_queue.pending_jobs:
             self._queue_status_label.setText(
@@ -192,7 +208,10 @@ class RunsWindow(SmartDialog):
                 total = str(getattr(run_config, "total", ""))
                 batch = str(getattr(run_config, "batch_limit", "") or "")
                 pos = _short(str(getattr(run_config, "positive_prompt", "") or ""), 40)
-                QTreeWidgetItem(self._pending_tree, [str(idx + 1), wf, model, n, total, batch, pos])
+                QTreeWidgetItem(
+                    self._pending_tree,
+                    [str(idx + 1), wf, model, n, total, batch, _origin(run_config), pos],
+                )
 
         # -- preset schedules --
         preset_queue = getattr(app, "job_queue_preset_schedules", None)
@@ -206,10 +225,14 @@ class RunsWindow(SmartDialog):
         self._staging_tree.clear()
         staging = getattr(app, "server_staging_queue", None)
         if staging is not None:
-            for idx, (wf_type, req_args) in enumerate(staging._requests):
-                wf = str(wf_type.name if hasattr(wf_type, "name") else wf_type or "")
+            for idx, (command_type, req_args, client_id) in enumerate(staging._requests):
+                name = str(
+                    command_type.name if hasattr(command_type, "name") else command_type or ""
+                )
                 args_str = _short(str(req_args), 60)
-                QTreeWidgetItem(self._staging_tree, [str(idx + 1), wf, args_str])
+                QTreeWidgetItem(
+                    self._staging_tree, [str(idx + 1), name, _short(client_id, 24), args_str]
+                )
 
     def _edit_pending_job(self) -> None:
         job_queue = getattr(self._app, "job_queue", None)

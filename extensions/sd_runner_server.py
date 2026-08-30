@@ -7,6 +7,24 @@ from utils.logging_setup import get_logger
 
 logger = get_logger("sd_runner_server")
 
+#: Longest client id kept. The value arrives over the wire and ends up in the
+#: runs window and the encrypted cache, so it is bounded and stripped of
+#: unprintable characters before reaching either.
+MAX_CLIENT_ID_LEN = 64
+
+#: Peer hosts that identify nothing. The listener binds config.server_host,
+#: which is loopback by default, so every client that reaches it shares this
+#: address -- it separates no one from anyone and must not be used as an id.
+LOOPBACK_HOSTS = frozenset({"127.0.0.1", "::1", "localhost"})
+
+
+def sanitize_client_id(value) -> str:
+    """Reduce a client-supplied id to something safe to display and persist."""
+    if value is None:
+        return ""
+    text = "".join(ch for ch in str(value).strip() if ch.isprintable())
+    return text[:MAX_CLIENT_ID_LEN]
+
 
 class CommandKind(Enum):
     """What a server command does, which decides how it may be handled.
@@ -108,6 +126,10 @@ class SDRunnerServer:
         self._port = port if port is not None else _config.server_port
         self.listener = None
         self._conn = None
+        # Per-connection identity. _client_id is whatever the client called
+        # itself; _peer_host is the fallback derived from the socket.
+        self._client_id = ""
+        self._peer_host = ""
         self.run_callback = run_callback
         self.cancel_callback = cancel_callback
         self.revert_callback = revert_callback
@@ -120,6 +142,7 @@ class SDRunnerServer:
             # Errors here are Listener-level (port in use, closed listener) — unrecoverable.
             try:
                 self._conn = self.listener.accept()
+                self._adopt_peer(self.listener.last_accepted)
                 logger.debug('connection accepted from: ' + str(self.listener.last_accepted))
             except OSError as e:
                 if not self._is_stopping:
@@ -140,6 +163,43 @@ class SDRunnerServer:
         self._running = False
         self._is_stopping = False
 
+    def _adopt_peer(self, address) -> None:
+        """Reset per-connection identity and record the peer host.
+
+        Called once per accepted connection. The client's own id, if it sends
+        one, replaces the host on the first message that carries it.
+
+        A loopback peer is recorded as no host at all. It is the default bind
+        address, so it would otherwise be the answer for every client and would
+        read as an identity while carrying none. The host is also put through
+        sanitize_client_id: it is displayed and persisted exactly like a
+        client-supplied id, so it gets the same bounding.
+        """
+        self._client_id = ""
+        host = ""
+        if isinstance(address, tuple) and address:
+            host = str(address[0] or "")
+        elif isinstance(address, str):
+            host = address
+        self._peer_host = "" if host in LOOPBACK_HOSTS else sanitize_client_id(host)
+
+    def client_id(self) -> str:
+        """Who is sending on the current connection, or "" when nothing says.
+
+        The client's own ``client_id`` when it sends one, otherwise the peer
+        host when that host distinguishes anyone. A non-loopback host is stable
+        across reconnects and across app restarts, unlike the ephemeral source
+        port, which changes every connection -- but it still cannot separate two
+        client processes on one machine, and on the default loopback bind it
+        cannot separate anything at all. A client that needs to be told apart
+        from its neighbours, or to be recognised by a name of its own, sends
+        ``client_id``; that is the only way, and it is why the field exists.
+
+        Naming what an unidentified request becomes is the caller's job, so
+        there is one sentinel for it rather than two that could disagree.
+        """
+        return self._client_id or self._peer_host
+
     def _handle_run_batch(self, msg: dict) -> None:
         """Send all batch requests to the staging queue via a single bridge call."""
         requests = [
@@ -150,7 +210,7 @@ class SDRunnerServer:
         if skipped:
             logger.warning("run_batch: skipping %d malformed request(s)", skipped)
         try:
-            result = self.batch_enqueue_callback(requests)
+            result = self.batch_enqueue_callback(requests, self.client_id())
             enqueued = result.get('count', len(requests)) if isinstance(result, dict) else len(requests)
         except Exception as e:
             logger.error("run_batch: batch_enqueue_callback failed: %s", e)
@@ -182,6 +242,13 @@ class SDRunnerServer:
                     if msg == 'validate':
                         self._conn.send('valid')
                     elif isinstance(msg, dict):
+                        # Optional and additive: a client that never sends it
+                        # keeps working and is identified by its host instead.
+                        # Sticky for the connection, so it need only be sent
+                        # once rather than on every request.
+                        named = sanitize_client_id(msg.get('client_id'))
+                        if named:
+                            self._client_id = named
                         command = msg.get('command')
                         if command == 'run_batch':
                             self._handle_run_batch(msg)
@@ -234,13 +301,18 @@ class SDRunnerServer:
             # request and goes out as the command itself, so the receiver can
             # tell "reuse current settings" from a request that brought its own.
             if command_type == CommandType.CANCEL:
-                self.cancel_callback("Server cancel callback")
+                # By keyword: cancel()'s first parameter is the widget event, so
+                # passing this positionally put the reason there and left the
+                # cancel message without it.
+                self.cancel_callback(reason="Server cancel callback")
                 resp = {}
             elif command_type == CommandType.REVERT_TO_SIMPLE_GEN:
-                self.revert_callback()
+                self.revert_callback(self.client_id())
                 resp = {}
             else:
-                resp = self.run_callback(command_type, command_type.normalize_args(args))
+                resp = self.run_callback(
+                    command_type, command_type.normalize_args(args), self.client_id()
+                )
             self._conn.send(resp)
         except Exception as e:
             logger.error(e)

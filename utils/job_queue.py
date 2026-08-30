@@ -144,7 +144,7 @@ class PresetSchedulesQueue(JobQueue):
 class ServerStagingQueue:
     """Overflow queue for incoming server requests when the main run queue is full.
 
-    Stores raw (command_type, args) pairs so they can be replayed through
+    Stores raw (command_type, args, client_id) triples so they can be replayed through
     server_run_callback when the main queue drains.  The command rather than a
     workflow, because several commands select no workflow and a staged request
     has to stay distinguishable for as long as it waits here.  The limit is
@@ -157,8 +157,11 @@ class ServerStagingQueue:
     def __init__(self):
         self._requests: list[tuple] = []
 
-    def add(self, command_type, args: dict) -> int:
+    def add(self, command_type, args: dict, client_id: str = "") -> int:
         """Stage a request. Returns the 1-based queue position.
+
+        *client_id* travels with the request so a promotion -- possibly in a
+        later session, after a restore -- still knows which client asked for it.
 
         NOTE: the MAX_SIZE guard and the append are not atomic. If two threads
         both pass the length check before either appends, the queue can briefly
@@ -173,11 +176,11 @@ class ServerStagingQueue:
             raise Exception(
                 f"Server staging queue full ({self.MAX_SIZE} pending requests) - request rejected"
             )
-        self._requests.append((command_type, args))
+        self._requests.append((command_type, args, client_id))
         return len(self._requests)
 
     def take(self):
-        """Pop and return the next (command_type, args) tuple, or None if empty.
+        """Pop and return the next (command_type, args, client_id) tuple, or None.
 
         NOTE: has_pending() + take() is not atomic. _post_run (main thread) and
         server_batch_enqueue (main thread via bridge) are serialised by the bridge

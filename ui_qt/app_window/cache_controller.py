@@ -120,7 +120,11 @@ class CacheController:
                     # fallback rather than discarding pre-existing staged requests.
                     name = req["command_type"] if "command_type" in req else req["workflow_type"]
                     command_type = CommandType[name]
-                    self._app.server_staging_queue._requests.append((command_type, req.get("args", {})))
+                    # Absent in entries written before requests carried their
+                    # client; those restore with an empty origin.
+                    self._app.server_staging_queue._requests.append(
+                        (command_type, req.get("args", {}), req.get("client_id", ""))
+                    )
                     restored += 1
                 except Exception as exc:
                     logger.warning(f"Failed to restore staging request: {exc}")
@@ -210,11 +214,17 @@ class CacheController:
             staging = getattr(self._app, "server_staging_queue", None)
             requests_data: list = []
             if staging is not None:
-                for command_type, args_dict in staging._requests:
+                for entry in staging._requests:
+                    # Unpacked inside the guard, not in the for-target: an entry
+                    # of an unexpected shape then costs that one entry, matching
+                    # the restore side, instead of aborting the whole store and
+                    # silently saving no staged requests at all.
                     try:
+                        command_type, args_dict, client_id = entry
                         requests_data.append({
                             "command_type": command_type.name if hasattr(command_type, "name") else str(command_type),
                             "args": args_dict,
+                            "client_id": client_id,
                         })
                     except Exception as exc:
                         logger.warning(f"Failed to serialize staging request: {exc}")

@@ -2,7 +2,17 @@
 import pytest
 from PySide6.QtWidgets import QApplication
 
-from ui_qt.runs.runs_window import RunsWindow, _fmt_timestamp, _short
+from ui_qt.runs.runs_window import RunsWindow, _fmt_timestamp, _origin, _short
+from utils.translations import I18N
+
+_ = I18N._
+
+
+class _Stub:
+    """Stands in for a RunConfig in the pure-helper tests."""
+
+    def __init__(self, **attrs):
+        self.__dict__.update(attrs)
 
 
 # ---------------------------------------------------------------------------
@@ -123,6 +133,81 @@ class TestRunsWindowQueue:
         win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
         try:
             assert win._pending_tree.topLevelItemCount() == 0
+        finally:
+            win.close()
+
+
+# ---------------------------------------------------------------------------
+# Origin column — which runs a request started
+# ---------------------------------------------------------------------------
+
+class TestOriginHelper:
+    def test_server_run_is_labelled(self):
+        assert _origin(_Stub(run_origin="weidr")) == "weidr"
+
+    def test_user_run_is_blank(self):
+        assert _origin(_Stub(run_origin="")) == ""
+
+    def test_missing_attribute_is_blank(self):
+        """A run built outside either run path may not set the flag at all."""
+        assert _origin(_Stub()) == ""
+
+
+class TestOriginColumn:
+    def pending_row(self, win, row: int) -> list[str]:
+        item = win._pending_tree.topLevelItem(row)
+        return [item.text(i) for i in range(win._pending_tree.columnCount())]
+
+    def test_header_is_present_on_both_run_trees(self, app_window):
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        try:
+            pending = [
+                win._pending_tree.headerItem().text(i)
+                for i in range(win._pending_tree.columnCount())
+            ]
+            running = [
+                win._running_tree.headerItem().text(i)
+                for i in range(win._running_tree.columnCount())
+            ]
+            assert _("Origin") in pending
+            assert _("Origin") in running
+        finally:
+            win.close()
+
+    def test_a_server_run_is_marked_in_the_pending_tree(self, app_window):
+        args, _copy = app_window.get_args()
+        args.run_origin = "weidr"
+        app_window.job_queue.pending_jobs.append(args)
+
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        try:
+            win._refresh_queue()
+            assert "weidr" in self.pending_row(win, 0)
+        finally:
+            win.close()
+
+    def test_a_user_run_leaves_the_cell_blank(self, app_window):
+        args, _copy = app_window.get_args()
+        app_window.job_queue.pending_jobs.append(args)
+
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        try:
+            win._refresh_queue()
+            assert self.pending_row(win, 0)[6] == ""
+        finally:
+            win.close()
+
+    def test_row_width_matches_the_header(self, app_window):
+        """A column added to one and not the other silently shifts every cell."""
+        args, _copy = app_window.get_args()
+        app_window.job_queue.pending_jobs.append(args)
+
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        try:
+            win._refresh_queue()
+            item = win._pending_tree.topLevelItem(0)
+            assert item.text(win._pending_tree.columnCount() - 1) is not None
+            assert win._pending_tree.columnCount() == 8
         finally:
             win.close()
 
