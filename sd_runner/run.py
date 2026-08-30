@@ -1,4 +1,3 @@
-import argparse
 import datetime
 from copy import deepcopy
 import time
@@ -46,8 +45,6 @@ class Run:
         self.delay_after_last_run = delay_after_last_run
         self.args = args
         self.prompter_config = args.prompter_config
-        self.editing = False
-        self.switching_params = False
         self.last_config = None
         self.ui_callbacks = ui_callbacks
         self.progress_tracker = None  # Will be set upon execution
@@ -69,53 +66,20 @@ class Run:
         gen_config = gen.gen_config
         gen_config.prompt_image_path = prompt_image_path or ""
         prompter = GlobalPrompter.prompter_instance
-        if not self.editing and not self.switching_params:
-            gen_config.positive, gen_config.negative = prompter.generate_prompt(
-                original_positive,
-                original_negative,
-                related_image_path=prompt_image_path,
-            )
+        gen_config.positive, gen_config.negative = prompter.generate_prompt(
+            original_positive,
+            original_negative,
+            related_image_path=prompt_image_path,
+        )
 
-        print(str(gen_config))
-        if gen_config.is_redo_prompt():
-            confirm_text = "\n\nRedo Prompt (y/n/[space to quit]): "
-        else:
-            confirm_text = f"\n\nPrompt: \"{gen_config.positive}\" (y/n/r/m/n/e/s/[space to quit]): "
-        confirm = "y" if Globals.SKIP_CONFIRMATIONS else input(confirm_text)
-        self.switching_params = False
+        self.print(str(gen_config))
 
-        if confirm.lower() == " ": # go to next workflow / redo file
-            return None
-        elif confirm.lower() == "r":
-            new_resolution = input("New resolution (p = portrait/l = landscape/s = square): ")
-            if new_resolution.lower() == "p":
-                config.resolutions[0].portrait(gen_config.architecture_type())
-            if new_resolution.lower() == "l":
-                config.resolutions[0].landscape(gen_config.architecture_type())
-            if new_resolution.lower() == "s":
-                config.resolutions[0].square(gen_config.architecture_type())
-            self.switching_params = True
-        elif confirm.lower() == "m":
-            new_input_mode = input("New input mode (FIXED/SFW/NSFW/NSFL): ")
-            prompter.set_prompt_mode(PromptMode[new_input_mode])
-            self.switching_params = True
-        elif confirm.lower() == "e":
-            new_prompt = input("Prompt: ")
-            self.editing = True
-            gen_config.positive = new_prompt
-        elif confirm.lower() == "s":
-            new_seed = int(input(f"Enter a new seed (current seed {config.seed}): "))
-            gen_config.seed = new_seed
-            self.switching_params = True
-        elif confirm.lower() != "y":
-            return
-
+        # An identical config would regenerate the same image. Nothing can vary
+        # it from here, so this is a caller error rather than something to retry.
         if self.last_config and gen_config == self.last_config:
-            print("\n\nConfig matches last config. Please modify it or quit.")
-            if Globals.SKIP_CONFIRMATIONS:
-                raise Exception("Invalid state - must select an auto-modifiable config option if using auto run.")
-            else:
-                return
+            raise Exception(
+                "Invalid state - config matches the last one, so the run cannot vary."
+            )
 
         if gen_config.prompts_match(self.last_config) or gen_config.validate():
             gen.run()
@@ -257,8 +221,6 @@ class Run:
         if self.is_cancelled:
             return
         gen = self.construct_gen(workflow, positive_prompt, negative_prompt, control_nets, ip_adapters)
-        self.editing = False
-        self.switching_params = False
         self.last_config = None
         count = 0
 
@@ -515,35 +477,3 @@ class Run:
         self.print(cancel_message)
         self.is_cancelled = True
         # TODO send cancel/delete call to ComfyUI for all previously started prompts
-
-def main(args: RunConfig) -> None:
-    run = Run(args)
-    run.execute()
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-w", "--workflow-tag", type=str, default=Globals.DEFAULT_WORKFLOW)
-    parser.add_argument("-r", "--res-tags", type=str, default=None)
-    parser.add_argument("-m", "--model_tags", type=str, default=Globals.DEFAULT_MODEL)
-    parser.add_argument("-l", "--lora_tags", type=str, default=None)
-    parser.add_argument("-i", "--inpainting", type=bool, default=False)
-    parser.add_argument("-n", "--n-latents", type=int, default=Globals.DEFAULT_N_LATENTS)
-    parser.add_argument("-s", "--seed", type=int, default=-1)
-    parser.add_argument("-u", "--steps", type=int, default=None)
-    parser.add_argument("-g", "--cfg", type=int, default=None)
-    parser.add_argument("-y", "--sampler-name", type=str, default=None)
-    parser.add_argument("-e", "--scheduler", type=str, default=None)
-    parser.add_argument("-d", "--denoise", type=float, default=None)
-    parser.add_argument("-o", "--prompter-override", action="store_true")
-    parser.add_argument("-f", "--redo-files", type=str, default=None)
-    parser.add_argument("-p", "--prompt-mode", type=PromptMode, choices=list(PromptMode), default=PromptMode.FIXED)
-    parser.add_argument("-c", "--control-nets", type=str, default=None)
-    parser.add_argument("-k", "--ip-adapters", type=str, default=None)
-    parser.add_argument("-x", "--source-prompts", type=str, default=None)
-    parser.add_argument("-0", "--positive-prompt", type=str, default=None)
-    parser.add_argument("-1", "--negative-prompt", type=str, default=None)
-    parser.add_argument("-a", "--auto-run", action="store_true")
-    parser.add_argument("-t", "--total", type=int, default=100)
-    args = parser.parse_args()
-    main(RunConfig(args))

@@ -8,18 +8,50 @@ from utils.logging_setup import get_logger
 logger = get_logger("sd_runner_server")
 
 
+class CommandKind(Enum):
+    """What a server command does, which decides how it may be handled.
+
+    STATE changes app state and never enqueues a run. CONTEXTUAL_GENERATE
+    deliberately reuses whatever the UI currently holds -- that is the point of
+    the command, so it cannot be built independently of the UI.
+    PARAMETERIZED_GENERATE carries the parameters that distinguish its run.
+    """
+    STATE = 'state'
+    CONTEXTUAL_GENERATE = 'contextual_generate'
+    PARAMETERIZED_GENERATE = 'parameterized_generate'
+
+
 class CommandType(Enum):
-    """Enum for server command types"""
-    REDO_PROMPT = 'redo_prompt'
-    RENOISER = 'renoiser'
-    CONTROL_NET = 'control_net'
-    IP_ADAPTER = 'ip_adapter'
-    IMAGE_EDIT = 'image_edit'
-    TAKE_PROMPT = 'take_prompt'
-    IMG2IMG = 'img2img'
-    LAST_SETTINGS = 'last_settings'
-    CANCEL = 'cancel'
-    REVERT_TO_SIMPLE_GEN = 'revert_to_simple_gen'
+    """A server command, with what it does and which workflow (if any) it selects.
+
+    Several commands select no workflow, so a null workflow cannot tell them
+    apart -- the kind is what distinguishes "reuse current settings" from a
+    request that brought its own. Keeping both on the member means the command
+    survives the hand-off to the app instead of being flattened to a workflow
+    that may be None for more than one reason.
+
+    The string values are the wire protocol and are fixed by external clients.
+    """
+
+    def __new__(cls, value, kind, workflow_type):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.kind = kind
+        obj.workflow_type = workflow_type
+        return obj
+
+    REDO_PROMPT = ('redo_prompt', CommandKind.PARAMETERIZED_GENERATE, WorkflowType.REDO_PROMPT)
+    RENOISER = ('renoiser', CommandKind.PARAMETERIZED_GENERATE, WorkflowType.RENOISER)
+    CONTROL_NET = ('control_net', CommandKind.PARAMETERIZED_GENERATE, WorkflowType.CONTROLNET)
+    IP_ADAPTER = ('ip_adapter', CommandKind.PARAMETERIZED_GENERATE, WorkflowType.IP_ADAPTER)
+    IMAGE_EDIT = ('image_edit', CommandKind.PARAMETERIZED_GENERATE, WorkflowType.IMAGE_EDIT)
+    IMG2IMG = ('img2img', CommandKind.PARAMETERIZED_GENERATE, WorkflowType.IMG2IMG)
+    # Carries its own source prompt but selects no workflow -- it runs under
+    # whichever one is currently set.
+    TAKE_PROMPT = ('take_prompt', CommandKind.PARAMETERIZED_GENERATE, None)
+    LAST_SETTINGS = ('last_settings', CommandKind.CONTEXTUAL_GENERATE, None)
+    CANCEL = ('cancel', CommandKind.STATE, None)
+    REVERT_TO_SIMPLE_GEN = ('revert_to_simple_gen', CommandKind.STATE, None)
 
     @classmethod
     def resolve(cls, command_type_str: str) -> 'CommandType':
@@ -29,6 +61,29 @@ class CommandType(Enum):
             return cls(command_type_str.lower().replace(" ", "_"))
         except ValueError:
             raise ValueError(f"Unknown command type: {command_type_str}")
+
+    def is_generate(self) -> bool:
+        return self.kind is not CommandKind.STATE
+
+    def is_batchable(self) -> bool:
+        """STATE commands act on the app now; queueing them would defer the act."""
+        return self.is_generate()
+
+    def normalize_args(self, args: dict) -> dict:
+        """Return a copy of *args* in the form the run callback expects.
+
+        Only TAKE_PROMPT needs this: clients send the image to take a prompt
+        from as "image", but the receiver reads it as a source prompt file, and
+        leaving "image" set would additionally route the path into a control net
+        or IP adapter field. Living on the member keeps the single-request and
+        batch entry points from drifting apart.
+        """
+        args = dict(args or {})
+        if self is CommandType.TAKE_PROMPT:
+            if "image" in args and "source_prompt" not in args:
+                args["source_prompt"] = args["image"]
+            args.pop("image", None)
+        return args
 
 
 class SDRunnerServer:
@@ -166,42 +221,27 @@ class SDRunnerServer:
         if command != 'run':
             self._conn.send({"error": "invalid command", 'data': command})
             return
+        # Resolved outside the run try-block: a ValueError raised while handling
+        # the command would otherwise be reported back as an invalid type.
         try:
-            # Resolve string to enum for type-safe comparison
             command_type = CommandType.resolve(_type)
-            
-            if command_type == CommandType.LAST_SETTINGS:
-                resp = self.run_callback(None, args)
-            elif command_type == CommandType.CANCEL:
+        except ValueError:
+            self._conn.send({"error": "invalid command type", 'data': _type})
+            return
+
+        try:
+            # State commands act on the app directly; everything else is a run
+            # request and goes out as the command itself, so the receiver can
+            # tell "reuse current settings" from a request that brought its own.
+            if command_type == CommandType.CANCEL:
                 self.cancel_callback("Server cancel callback")
                 resp = {}
             elif command_type == CommandType.REVERT_TO_SIMPLE_GEN:
                 self.revert_callback()
                 resp = {}
-            elif command_type == CommandType.RENOISER:
-                resp = self.run_callback(WorkflowType.RENOISER, args)
-            elif command_type == CommandType.CONTROL_NET:
-                resp = self.run_callback(WorkflowType.CONTROLNET, args)
-            elif command_type == CommandType.IP_ADAPTER:
-                resp = self.run_callback(WorkflowType.IP_ADAPTER, args)
-            elif command_type == CommandType.IMAGE_EDIT:
-                resp = self.run_callback(WorkflowType.IMAGE_EDIT, args)
-            elif command_type == CommandType.TAKE_PROMPT:
-                args_copy = dict(args or {})
-                if "image" in args_copy and "source_prompt" not in args_copy:
-                    args_copy["source_prompt"] = args_copy["image"]
-                args_copy.pop("image", None)
-                resp = self.run_callback(None, args_copy)
-            elif command_type == CommandType.IMG2IMG:
-                resp = self.run_callback(WorkflowType.IMG2IMG, args)
-            elif command_type == CommandType.REDO_PROMPT:
-                resp = self.run_callback(WorkflowType.REDO_PROMPT, args)
             else:
-                self._conn.send({"error": "unhandled command type", 'data': _type})
-                return
+                resp = self.run_callback(command_type, command_type.normalize_args(args))
             self._conn.send(resp)
-        except ValueError as e:
-            self._conn.send({"error": "invalid command type", 'data': _type})
         except Exception as e:
             logger.error(e)
             self._conn.send({'error': 'run error', 'data': str(e)})

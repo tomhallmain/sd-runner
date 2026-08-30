@@ -1,0 +1,383 @@
+"""Server requests build a run without disturbing the sidebar.
+
+A remote request used to be executed by writing its values into the sidebar
+widgets and reading them straight back out, so it changed the workflow dropdown
+and adapter fields the user might be mid-edit of, and persisted its own values
+as their saved settings. These assert the widgets and the stored config come out
+of a server run exactly as they went in, while the run still carries the
+request's parameters.
+
+The run machinery is stubbed the same way as test_run_dispatch: no backend, and
+start_thread runs synchronously so the effects are visible on return.
+"""
+
+import time as time_module
+import pytest
+
+from extensions.sd_runner_server import CommandType
+from sd_runner.run import Run
+from sd_runner.models import Model
+from sd_runner.resolution import Resolution
+from sd_runner.run_config import RunConfig
+from sd_runner.timed_schedules_manager import timed_schedules_manager
+from utils.globals import WorkflowType
+from utils.time_estimator import TimeEstimator
+from utils.utils import Utils
+
+
+class _FakeModel:
+    architecture_type = None
+
+    def __str__(self):
+        return "fake"
+
+
+@pytest.fixture
+def executed():
+    return []
+
+
+@pytest.fixture
+def run_stubs(monkeypatch, executed):
+    def fake_execute(self):
+        executed.append(self)
+        self.is_complete = True
+
+    monkeypatch.setattr(Run, "execute", fake_execute)
+    monkeypatch.setattr(
+        Utils, "start_thread", lambda fn, use_asyncio=False, args=[]: fn(*args)
+    )
+    monkeypatch.setattr(
+        Model, "get_models",
+        lambda tags, default_tag=None, inpainting=False, **kw: [_FakeModel()],
+    )
+    monkeypatch.setattr(
+        Resolution, "get_resolutions",
+        lambda tags, architecture_type=None, resolution_group=None: [object()],
+    )
+    monkeypatch.setattr(RunConfig, "validate", lambda self: True)
+    monkeypatch.setattr(TimeEstimator, "estimate_queue_time", lambda images, latents: 0)
+    monkeypatch.setattr(time_module, "sleep", lambda s: None)
+    monkeypatch.setattr(timed_schedules_manager, "check_for_shutdown_request", lambda dt: None)
+
+
+def sidebar_snapshot(sp) -> dict:
+    """The fields a server request used to overwrite."""
+    return {
+        "workflow": sp.workflow_combo.currentText(),
+        "control_net": sp.controlnet_file_entry.text(),
+        "ip_adapter": sp.ipadapter_file_entry.text(),
+        "source_prompt": sp.source_prompt_file_entry.text(),
+        "target_dir": sp.target_dir_entry.text(),
+        "edit_suffix": sp.edit_suffix_entry.text(),
+        "positive_tags": sp.positive_tags_box.toPlainText(),
+        "negative_tags": sp.negative_tags_box.toPlainText(),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Isolation
+# ---------------------------------------------------------------------------
+
+class TestSidebarIsUntouched:
+    def test_control_net_request_leaves_every_field_alone(self, app_window, run_stubs):
+        sp = app_window.sidebar_panel
+        sp.controlnet_file_entry.setText("user_was_editing.png")
+        before = sidebar_snapshot(sp)
+
+        app_window.run_ctrl.server_run_callback(
+            CommandType.CONTROL_NET, {"image": "remote.png"}
+        )
+
+        assert sidebar_snapshot(sp) == before
+
+    def test_workflow_dropdown_does_not_move(self, app_window, run_stubs):
+        sp = app_window.sidebar_panel
+        before = sp.workflow_combo.currentText()
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert sp.workflow_combo.currentText() == before
+
+    def test_target_dir_is_not_written_to_the_field(self, app_window, run_stubs):
+        sp = app_window.sidebar_panel
+        app_window.run_ctrl.server_run_callback(
+            CommandType.IP_ADAPTER, {"image": "a.png", "target_dir": "/remote/out"}
+        )
+        assert sp.target_dir_entry.text() != "/remote/out"
+
+    def test_stored_config_is_not_overwritten(self, app_window, run_stubs):
+        """run() persists its args as the user's settings; the virtual path must not."""
+        cfg = app_window.runner_app_config
+        cfg.control_net_file = "user_value.png"
+        app_window.run_ctrl.server_run_callback(
+            CommandType.CONTROL_NET, {"image": "remote.png"}
+        )
+        assert cfg.control_net_file == "user_value.png"
+
+    def test_stored_workflow_is_not_overwritten(self, app_window, run_stubs):
+        cfg = app_window.runner_app_config
+        before = cfg.workflow_type
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert cfg.workflow_type == before
+
+
+# ---------------------------------------------------------------------------
+# The run still carries the request
+# ---------------------------------------------------------------------------
+
+class TestRequestReachesTheRun:
+    def test_run_uses_the_commands_workflow(self, app_window, run_stubs, executed):
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert len(executed) == 1
+        assert executed[0].args.workflow_tag == WorkflowType.RENOISER.name
+
+    def test_run_uses_the_requests_image(self, app_window, run_stubs, executed):
+        app_window.run_ctrl.server_run_callback(
+            CommandType.CONTROL_NET, {"image": "remote.png"}
+        )
+        assert executed[0].args.control_nets == "remote.png"
+
+    def test_run_uses_the_requests_target_dir(self, app_window, run_stubs, executed):
+        app_window.run_ctrl.server_run_callback(
+            CommandType.IP_ADAPTER, {"image": "a.png", "target_dir": "/remote/out"}
+        )
+        assert executed[0].args.target_dir == "/remote/out"
+
+    def test_the_run_is_marked_as_server_originated(self, app_window, run_stubs, executed):
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert executed[0].args.is_server_run is True
+
+
+# ---------------------------------------------------------------------------
+# last_settings stays on the widget-backed path by design
+# ---------------------------------------------------------------------------
+
+class TestLastSettingsStillReadsTheUI:
+    def test_last_settings_runs_from_current_widget_state(self, app_window, run_stubs, executed):
+        sp = app_window.sidebar_panel
+        sp.model_tags_entry.setText("user_model_choice")
+        app_window.run_ctrl.server_run_callback(CommandType.LAST_SETTINGS, {})
+        assert len(executed) == 1
+        assert executed[0].args.model_tags == "user_model_choice"
+
+    def test_last_settings_is_not_marked_as_a_server_run(self, app_window, run_stubs, executed):
+        """It is indistinguishable from a user run because it *is* one."""
+        app_window.run_ctrl.server_run_callback(CommandType.LAST_SETTINGS, {})
+        assert getattr(executed[0].args, "is_server_run", False) is False
+
+
+# ---------------------------------------------------------------------------
+# Prompt text and run size
+# ---------------------------------------------------------------------------
+
+class TestPromptTagsTravelOnTheRun:
+    """Tags reach generation via process globals, so each run must carry its own.
+
+    Applying them at execution rather than at enqueue is what stops a queued run
+    generating with tags a later run pushed while it waited.
+    """
+
+    def test_a_user_run_carries_its_tags(self, app_window, run_stubs, executed):
+        sp = app_window.sidebar_panel
+        sp.positive_tags_box.setPlainText("user tags")
+        app_window.run_ctrl.run()
+        assert executed[0].args.positive_tags == "user tags"
+
+    def test_a_server_run_carries_the_stored_tags(self, app_window, run_stubs, executed):
+        app_window.runner_app_config.positive_tags = "stored tags"
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert executed[0].args.positive_tags == "stored tags"
+
+    def test_tags_reach_the_prompter_when_the_run_starts(self, app_window, run_stubs, monkeypatch):
+        """Not at enqueue: Prompter state must hold this run's tags as it begins."""
+        from sd_runner.prompter import Prompter
+
+        seen = []
+
+        def capture(self):
+            seen.append(Prompter.POSITIVE_TAGS)
+            self.is_complete = True
+
+        monkeypatch.setattr(Run, "execute", capture)
+        app_window.runner_app_config.positive_tags = "applied at start"
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert seen == ["applied at start"]
+
+
+class TestServerRunCeiling:
+    """A server request has no user to confirm a long run, so it is refused."""
+
+    def test_no_ceiling_by_default(self, app_window, run_stubs, executed):
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert len(executed) == 1
+
+    def test_run_over_the_ceiling_is_refused(self, app_window, run_stubs, executed, monkeypatch):
+        from utils.config import config
+        monkeypatch.setattr(config, "server_run_max_seconds", 10)
+        monkeypatch.setattr(
+            app_window.run_ctrl, "_estimate_run", lambda args: (9999, 500)
+        )
+        resp = app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert resp["error"] == "run too large"
+        assert resp["data"]["estimated_image_count"] == 500
+        assert executed == []
+
+    def test_run_under_the_ceiling_is_accepted(self, app_window, run_stubs, executed, monkeypatch):
+        from utils.config import config
+        monkeypatch.setattr(config, "server_run_max_seconds", 10000)
+        monkeypatch.setattr(
+            app_window.run_ctrl, "_estimate_run", lambda args: (9999, 500)
+        )
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert len(executed) == 1
+
+    def test_a_failed_estimate_does_not_block_the_run(self, app_window, run_stubs, executed, monkeypatch):
+        """The estimate is a guard, not a precondition."""
+        from utils.config import config
+
+        def boom(args):
+            raise RuntimeError("estimate blew up")
+
+        monkeypatch.setattr(config, "server_run_max_seconds", 10)
+        monkeypatch.setattr(app_window.run_ctrl, "_estimate_run", boom)
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert len(executed) == 1
+
+    def test_no_models_is_reported_as_an_error_response(self, app_window, run_stubs, executed, monkeypatch):
+        from ui_qt.app_window.run_controller import NoModelsFound
+        from utils.config import config
+
+        def no_models(args):
+            raise NoModelsFound("No models found")
+
+        monkeypatch.setattr(config, "server_run_max_seconds", 10)
+        monkeypatch.setattr(app_window.run_ctrl, "_estimate_run", no_models)
+        resp = app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert resp["error"] == "no models found"
+        assert executed == []
+
+
+# ---------------------------------------------------------------------------
+# Staging, which moved into the bridged section
+# ---------------------------------------------------------------------------
+
+class TestStagingWhenTheQueueIsFull:
+    """The queue-full check and the enqueue have to stay one atomic section.
+
+    They were split apart when the build moved off the GUI thread, so both now
+    live in _commit_server_run / _run_from_widgets rather than at the entry.
+    """
+
+    def fill_queue(self, app_window):
+        app_window.job_queue.job_running = True
+        app_window.job_queue.pending_jobs = ["x"] * (app_window.job_queue.max_size + 1)
+
+    def test_parameterized_command_is_staged(self, app_window, run_stubs, executed):
+        self.fill_queue(app_window)
+        resp = app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert resp["queued"] == "staged"
+        assert app_window.server_staging_queue.pending_count() == 1
+        assert executed == []
+
+    def test_contextual_command_is_staged(self, app_window, run_stubs, executed):
+        self.fill_queue(app_window)
+        resp = app_window.run_ctrl.server_run_callback(CommandType.LAST_SETTINGS, {})
+        assert resp["queued"] == "staged"
+        assert app_window.server_staging_queue.pending_count() == 1
+        assert executed == []
+
+    def test_the_staged_item_keeps_its_command_and_args(self, app_window, run_stubs):
+        self.fill_queue(app_window)
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        command_type, args = app_window.server_staging_queue.take()
+        assert command_type is CommandType.RENOISER
+        assert args["image"] == "remote.png"
+
+    def test_room_in_the_queue_means_no_staging(self, app_window, run_stubs, executed):
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert app_window.server_staging_queue.pending_count() == 0
+        assert len(executed) == 1
+
+
+class TestSnapshotIsTakenOnce:
+    """The build works from one consistent read of RunnerAppConfig.
+
+    Reading its two dozen fields while the sidebar writes them could otherwise
+    catch it mid-update now that the build runs off the GUI thread.
+    """
+
+    def test_snapshot_carries_the_stored_values(self, app_window):
+        app_window.runner_app_config.model_tags = "snapshot_model"
+        base_args, preset = app_window.run_ctrl._snapshot_for_server_run({})
+        assert base_args["model_tags"] == "snapshot_model"
+        assert preset is None
+
+    def test_later_edits_do_not_reach_a_built_run(self, app_window, run_stubs, executed):
+        """The run is built from the snapshot, not from live config reads."""
+        app_window.runner_app_config.model_tags = "at_request_time"
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        app_window.runner_app_config.model_tags = "changed_afterwards"
+        assert executed[0].args.model_tags == "at_request_time"
+
+
+# ---------------------------------------------------------------------------
+# Progress indicator
+# ---------------------------------------------------------------------------
+
+class TestServerRunIndicator:
+    def test_no_marker_when_nothing_is_running(self, app_window):
+        assert app_window.run_ctrl.current_run_is_server_run() is False
+
+    def test_marker_shows_while_a_server_run_is_current(self, app_window, run_stubs, monkeypatch):
+        """Without this the label advances for a run shown nowhere on screen."""
+        seen = []
+
+        def capture_execute(self):
+            seen.append(app_window.run_ctrl.current_run_is_server_run())
+            self.is_complete = True
+
+        monkeypatch.setattr(Run, "execute", capture_execute)
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert seen == [True]
+
+    def test_no_marker_for_a_user_run(self, app_window, run_stubs, monkeypatch):
+        seen = []
+
+        def capture_execute(self):
+            seen.append(app_window.run_ctrl.current_run_is_server_run())
+            self.is_complete = True
+
+        monkeypatch.setattr(Run, "execute", capture_execute)
+        app_window.run_ctrl.run()
+        assert seen == [False]

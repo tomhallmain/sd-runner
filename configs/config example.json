@@ -135,6 +135,7 @@
     "server_port": 6000,
     "server_host": "127.0.0.1",
     "server_password": "<PASSWORD>",
+    "server_run_max_seconds": 0,
 
     "cloud_backends": {
         "save_path": null,

@@ -1,3 +1,4 @@
+import threading
 import time
 
 from utils.globals import Globals, PromptMode, WorkflowType # must import first
@@ -12,6 +13,12 @@ _ = I18N._
 logger = get_logger("run_config")
 
 class RunConfig:
+    # Class-level state tracking a one-shot advisory about a model switch.
+    # Runs are built on more than one thread -- the GUI thread for the user's
+    # own, a worker thread for a server request -- so the compare-and-set in
+    # __init__ and the check-and-set in validate() are guarded, or the warning
+    # can be attributed to the wrong run or lost entirely.
+    _model_switch_lock = threading.Lock()
     previous_model_tags = None
     model_switch_detected = False
     has_warned_about_prompt_massage_text_mismatch = False
@@ -50,10 +57,10 @@ class RunConfig:
         self.dimension_variation = self.get("dimension_variation")
         self.target_dir = self.get("target_dir")
 
-        if RunConfig.previous_model_tags != self.model_tags:
-            RunConfig.model_switch_detected = True
-
-        RunConfig.previous_model_tags = self.model_tags
+        with RunConfig._model_switch_lock:
+            if RunConfig.previous_model_tags != self.model_tags:
+                RunConfig.model_switch_detected = True
+            RunConfig.previous_model_tags = self.model_tags
 
     def get(self, name: str):
         if isinstance(self.args, dict):
@@ -73,10 +80,15 @@ class RunConfig:
 
         # Validate prompt massage tags
         prompt_massage_tags, models = Model.get_first_model_prompt_massage_tags(self.model_tags, prompt_mode=self.prompter_config.prompt_mode, inpainting=self.inpainting)
-        if RunConfig.model_switch_detected and not RunConfig.has_warned_about_prompt_massage_text_mismatch:
-            if Globals.POSITIVE_PROMPT_MASSAGE_TAGS != prompt_massage_tags:
+        should_warn = False
+        with RunConfig._model_switch_lock:
+            if (RunConfig.model_switch_detected
+                    and not RunConfig.has_warned_about_prompt_massage_text_mismatch
+                    and Globals.POSITIVE_PROMPT_MASSAGE_TAGS != prompt_massage_tags):
                 RunConfig.has_warned_about_prompt_massage_text_mismatch = True
-                raise Exception(_("A model switch was detected and the model massage tags don't match. This warning will only be shown once."))
+                should_warn = True
+        if should_warn:
+            raise Exception(_("A model switch was detected and the model massage tags don't match. This warning will only be shown once."))
 
         # Validate models against blacklist
         Model.validate_model_blacklist(self.model_tags,

@@ -59,6 +59,7 @@ class Config:
         "server_host":                      str,
         "server_port":                      int,
         "server_password":                  str,
+        "server_run_max_seconds":           int,
         # Dictionary override
         "override_dictionary_path":         None,
         "override_dictionary_append":       bool,
@@ -143,6 +144,11 @@ class Config:
         self.server_port = int(_server_port_override) if _server_port_override else 6000
         self.server_password = "<PASSWORD>"
         self.server_host = "localhost"
+        # Ceiling on a server-triggered run's estimated duration. The
+        # interactive path asks the user to confirm a long run; a server
+        # request has nobody to ask, so an over-size one is refused. 0 = no
+        # ceiling, which is the default so existing setups are unaffected.
+        self.server_run_max_seconds = 0
 
         # Cloud backends — all keys live in one subdict loaded from config.json
         self.cloud_backends: dict = {}

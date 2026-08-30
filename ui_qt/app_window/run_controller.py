@@ -21,6 +21,14 @@ _ = I18N._
 logger = get_logger("ui_qt.run_controller")
 
 
+class NoModelsFound(Exception):
+    """Raised by _estimate_run when the run's model tags match nothing.
+
+    A separate type so each caller can report it its own way: the interactive
+    path shows a dialog, the server path answers the request with an error.
+    """
+
+
 def clear_quotes(s: str) -> str:
     """Strip leading/trailing single or double quotes from *s*."""
     if len(s) > 0:
@@ -60,6 +68,21 @@ class RunController:
     def _sp(self):
         """Shorthand for the sidebar panel."""
         return self._app.sidebar_panel
+
+    def _on_main(self, func, *args, **kwargs):
+        """Run *func* on the GUI thread, blocking this thread until it returns.
+
+        A no-op indirection when already on the GUI thread, so it is safe to use
+        unconditionally in code reachable from either.
+        """
+        return self._app._thread_bridge.invoke(func, *args, **kwargs)
+
+    def current_run_is_server_run(self) -> bool:
+        """Whether the run currently executing came from a server request."""
+        current_run = getattr(self._app, "current_run", None)
+        if current_run is None or getattr(current_run, "is_complete", False):
+            return False
+        return bool(getattr(getattr(current_run, "args", None), "is_server_run", False))
 
     def has_runs_pending(self) -> bool:
         """Return True if any run or preset schedule is still queued."""
@@ -157,13 +180,13 @@ class RunController:
         if not skip_staging and staging is not None and staging.has_pending():
             staged = staging.take()
             if staged is not None:
-                wf_type, staged_args = staged
+                command_type, staged_args = staged
                 logger.info(
                     f"Promoting staged server request "
                     f"({staging.pending_count()} remaining in staging queue)"
                 )
                 # Already on the main thread — call directly rather than via bridge.
-                self.server_run_callback(wf_type, staged_args)
+                self.server_run_callback(command_type, staged_args)
                 promoted = True
 
         if next_job_args:
@@ -179,12 +202,19 @@ class RunController:
             self.clear_progress()
 
     def _run_async(self, run_args) -> None:
-        from run import Run
+        from sd_runner.run import Run
         from sd_runner.timed_schedules_manager import ScheduledShutdownException
+        from sd_runner.virtual_run_config import apply_prompt_globals
 
         app = self._app
         Utils.prevent_sleep(True)
         app.job_queue.job_running = True
+        # Prompt text reaches generation through process-wide Prompter/Globals
+        # state, not through the run config. Both run paths carry their tags on
+        # the run and apply them here, at execution, so a queued run generates
+        # with its own tags rather than whatever a later run pushed while it
+        # waited. A no-op for a run that carries none.
+        apply_prompt_globals(run_args)
         # Route button visibility through the bridge — Qt widgets must only be
         # mutated on the main (GUI) thread; direct calls from here would violate
         # that rule and can produce non-deterministic crashes.
@@ -230,12 +260,12 @@ class RunController:
         else:
             staged = staging.take()
             if staged is not None:
-                wf_type, staged_args = staged
+                command_type, staged_args = staged
                 logger.info(
                     f"Promoting staged server request on queue resume "
                     f"({staging.pending_count()} remaining in staging queue)"
                 )
-                self.server_run_callback(wf_type, staged_args)
+                self.server_run_callback(command_type, staged_args)
 
     def toggle_pause_queue(self) -> None:
         """Toggle the queue pause state and update the sidebar button label."""
@@ -256,10 +286,7 @@ class RunController:
         """
         from sd_runner.blacklist import BlacklistException
         from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
-        from sd_runner.models import Model
-        from sd_runner.gen_config import GenConfig
-        from sd_runner.resolution import Resolution
-        from utils.globals import Globals, ResolutionGroup, WorkflowType
+        from utils.globals import Globals
         from utils.time_estimator import TimeEstimator
 
         app = self._app
@@ -295,10 +322,14 @@ class RunController:
 
         args, args_copy = app.get_args()
 
-        # Sync tags from sidebar
-        sp.set_prompt_massage_tags()
-        sp.set_positive_tags()
-        sp.set_negative_tags()
+        # get_args() already synced these from the sidebar into runner_app_config
+        # (and re-syncing here would run blacklist validation a second time, so
+        # a blocked tag would alert twice). Carrying them on the run instead lets
+        # _run_async apply them when this run actually starts.
+        args.positive_tags = app.runner_app_config.positive_tags
+        args.negative_tags = app.runner_app_config.negative_tags
+        args.prompt_massage_tags = app.runner_app_config.prompt_massage_tags
+        args.exclusion_tags = app.runner_app_config.exclusion_tags
 
         try:
             args.validate()
@@ -323,6 +354,46 @@ class RunController:
         self.update_progress(override_text=_("Setting up run..."))
 
         # Time estimation check
+        try:
+            estimated_seconds, estimated_image_count = self._estimate_run(args)
+        except NoModelsFound as e:
+            app.notification_ctrl.handle_error(str(e), _("No models found"))
+            return
+
+        if estimated_seconds > Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS:
+            formatted_time = TimeEstimator.format_time(estimated_seconds)
+            threshold_formatted = TimeEstimator.format_time(
+                Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS
+            )
+            play_sound("alert")
+            ok = app.notification_ctrl.alert(
+                _("Long Running Job Confirmation"),
+                _("The estimated time for this run is {0}, which exceeds the threshold of {1}.\n\n"
+                  "This run will generate {2} images.\n\n"
+                  "Are you sure you want to proceed?").format(
+                    formatted_time, threshold_formatted, estimated_image_count
+                ),
+                kind="askokcancel",
+            )
+            if not ok:
+                return
+
+        self._enqueue_run(args)
+
+    def _estimate_run(self, args):
+        """Return ``(estimated_seconds, estimated_image_count)`` for *args*.
+
+        Shared by the interactive path, which asks the user to confirm a long
+        run, and the server path, which has no user to ask and enforces a
+        ceiling instead. Raises ``NoModelsFound`` when the model tags match
+        nothing, leaving it to the caller to decide how to report that.
+        """
+        from sd_runner.gen_config import GenConfig
+        from sd_runner.models import Model
+        from sd_runner.resolution import Resolution
+        from utils.globals import ResolutionGroup
+        from utils.time_estimator import TimeEstimator
+
         workflow_type = args.workflow_tag
         models = Model.get_models(
             args.model_tags,
@@ -330,8 +401,7 @@ class RunController:
             inpainting=args.inpainting,
         )
         if len(models) == 0:
-            app.notification_ctrl.handle_error(_("No models found"), _("No models found"))
-            return
+            raise NoModelsFound(_("No models found"))
 
         resolution_group = ResolutionGroup.get(args.resolution_group)
         resolutions = Resolution.get_resolutions(
@@ -436,25 +506,10 @@ class RunController:
         requested_total = int(args.total) if args.total and args.total > 0 else 1
         estimated_image_count = per_iteration_images * requested_total * adapter_iterations
         estimated_seconds = TimeEstimator.estimate_queue_time(estimated_image_count, gen_config.n_latents)
-
-        if estimated_seconds > Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS:
-            formatted_time = TimeEstimator.format_time(estimated_seconds)
-            threshold_formatted = TimeEstimator.format_time(
-                Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS
-            )
-            play_sound("alert")
-            ok = app.notification_ctrl.alert(
-                _("Long Running Job Confirmation"),
-                _("The estimated time for this run is {0}, which exceeds the threshold of {1}.\n\n"
-                  "This run will generate {2} images.\n\n"
-                  "Are you sure you want to proceed?").format(
-                    formatted_time, threshold_formatted, estimated_image_count
-                ),
-                kind="askokcancel",
-            )
-            if not ok:
-                return
-
+        return estimated_seconds, estimated_image_count
+    def _enqueue_run(self, args) -> None:
+        """Queue *args* behind any running job, or start it now if idle."""
+        app = self._app
         if app.job_queue.job_running:
             app.job_queue.add(args)
         elif app.job_queue.pending_jobs:
@@ -494,6 +549,27 @@ class RunController:
         app = self._app
         sp = self._sp
 
+        # This loop runs on a worker thread, so every widget touch below is
+        # routed to the GUI thread. Qt widgets may only be read or written
+        # there; doing it from here produces intermittent crashes and corrupted
+        # widget state rather than a clean failure.
+        def apply_overrides_and_read_total() -> int:
+            if "control_net" in override_args:
+                sp.controlnet_file_entry.setText(override_args["control_net"])
+            if "ip_adapter" in override_args:
+                sp.ipadapter_file_entry.setText(override_args["ip_adapter"])
+            if "source_prompt" in override_args:
+                sp.source_prompt_file_entry.setText(override_args["source_prompt"])
+            return int(sp.total_combo.currentText())
+
+        def start_task(preset, count_runs: int, starting_total: int) -> None:
+            sp.set_widgets_from_preset(preset, manual=False)
+            sp.total_combo.setCurrentText(str(count_runs if count_runs > 0 else starting_total))
+            self.run()
+
+        def schedule_check_is_set() -> bool:
+            return sp.run_preset_schedule_check.isChecked()
+
         def run_preset_async():
             try:
                 timed_schedules_manager.check_for_shutdown_request(datetime.datetime.now())
@@ -503,14 +579,7 @@ class RunController:
 
             app.job_queue_preset_schedules.job_running = True
 
-            if "control_net" in override_args:
-                sp.controlnet_file_entry.setText(override_args["control_net"])
-            if "ip_adapter" in override_args:
-                sp.ipadapter_file_entry.setText(override_args["ip_adapter"])
-            if "source_prompt" in override_args:
-                sp.source_prompt_file_entry.setText(override_args["source_prompt"])
-
-            starting_total = int(sp.total_combo.currentText())
+            starting_total = self._on_main(apply_overrides_and_read_total)
 
             from ui_qt.presets.schedules_window import SchedulesWindow
             from ui_qt.presets.presets_window import PresetsWindow
@@ -521,7 +590,7 @@ class RunController:
             logger.info("Running preset schedule")
             for preset_task in schedule.get_tasks():
                 if (not app.job_queue_preset_schedules.has_pending()
-                        or not sp.run_preset_schedule_check.isChecked()
+                        or not self._on_main(schedule_check_is_set)
                         or (app.current_run is not None
                             and not app.current_run.is_infinite()
                             and app.current_run.is_cancelled)):
@@ -532,11 +601,7 @@ class RunController:
                 except Exception as e:
                     app.notification_ctrl.handle_error(str(e), "Preset Schedule Error")
                     raise e
-                sp.set_widgets_from_preset(preset, manual=False)
-                sp.total_combo.setCurrentText(
-                    str(preset_task.count_runs if preset_task.count_runs > 0 else starting_total)
-                )
-                self.run()
+                self._on_main(start_task, preset, preset_task.count_runs, starting_total)
                 time.sleep(0.1)
                 started_run_id = app.current_run.id
                 while (app.current_run is not None
@@ -544,12 +609,12 @@ class RunController:
                        and not app.current_run.is_cancelled
                        and not app.current_run.is_complete):
                     if (not app.job_queue_preset_schedules.has_pending()
-                            or not sp.run_preset_schedule_check.isChecked()):
+                            or not self._on_main(schedule_check_is_set)):
                         app.job_queue_preset_schedules.cancel()
                         return
                     time.sleep(1)
 
-            sp.total_combo.setCurrentText(str(starting_total))
+            self._on_main(sp.total_combo.setCurrentText, str(starting_total))
             app.job_queue_preset_schedules.job_running = False
             next_preset_schedule_args = app.job_queue_preset_schedules.take()
             if next_preset_schedule_args is None:
@@ -576,6 +641,13 @@ class RunController:
     ) -> None:
         """Update progress labels on the sidebar."""
         sp = self._sp
+
+        # A server run no longer writes its parameters into the sidebar, so
+        # without this the progress label would advance for a run whose settings
+        # appear nowhere on screen and look indistinguishable from the user's own.
+        if self.current_run_is_server_run():
+            marker = _("[Server] ")
+            prepend_text = marker if prepend_text is None else marker + prepend_text
 
         if override_text is not None:
             text = override_text
@@ -698,33 +770,71 @@ class RunController:
     # ------------------------------------------------------------------
     # Server callback
     # ------------------------------------------------------------------
-    def server_run_callback(self, workflow_type, args: dict):
-        """Called by ``SDRunnerServer`` when a remote run request arrives."""
+    def server_run_callback(self, command_type, args: dict):
+        """Called by ``SDRunnerServer`` when a remote run request arrives.
+
+        Runs on the listener thread and bridges only the parts that must happen
+        on the GUI thread, so the listener is not held for the whole request.
+        Takes the ``CommandType`` rather than a pre-resolved workflow: several
+        commands select no workflow, so a null one would not say which arrived.
+        """
+        from extensions.sd_runner_server import CommandKind
+
+        # A command that brought its own parameters is built from stored state
+        # instead of being round-tripped through the sidebar, so it neither
+        # disturbs what the user has open nor depends on it. last_settings is
+        # the exception by definition -- reusing current settings is the point
+        # of the command -- so it stays on the widget-backed path, which has to
+        # run on the GUI thread in its entirety.
+        if command_type is not None and command_type.kind is CommandKind.PARAMETERIZED_GENERATE:
+            return self._run_virtual(command_type, args)
+        return self._on_main(self._run_from_widgets, command_type, args)
+
+    def _stage_if_queue_full(self, command_type, args: dict):
+        """Stage the request if the run queue is full. GUI thread only.
+
+        Returns a response dict when the request was staged (or could not be),
+        or None when there is room and the caller should proceed. Kept together
+        with the enqueue in one bridged section so the check and the act cannot
+        be separated by another request.
+        """
+        app = self._app
+        staging = getattr(app, "server_staging_queue", None)
+        if staging is None or len(app.job_queue.pending_jobs) < app.job_queue.max_size:
+            return None
+        try:
+            pos = staging.add(command_type, args)
+            logger.info(
+                f"Main run queue full ({app.job_queue.max_size}) — "
+                f"staged server request at position {pos}"
+            )
+            return {"queued": "staged", "position": pos}
+        except Exception as e:
+            logger.error(f"Server staging queue full: {e}")
+            return {"error": "staging queue full", "data": str(e)}
+
+    def _run_from_widgets(self, command_type, args: dict):
+        """The widget-backed path, for commands that mean "use current settings".
+
+        GUI thread only, start to finish: it reads and writes the sidebar and
+        calls run(), which reads it again and may raise dialogs.
+        """
         from utils.globals import WorkflowType
         from utils.config import config
 
         app = self._app
 
-        # If the main run queue is at its limit, stage the request rather than reject it.
-        staging = getattr(app, "server_staging_queue", None)
-        if staging is not None and len(app.job_queue.pending_jobs) >= app.job_queue.max_size:
-            try:
-                pos = staging.add(workflow_type, args)
-                logger.info(
-                    f"Main run queue full ({app.job_queue.max_size}) — "
-                    f"staged server request at position {pos}"
-                )
-                return {"queued": "staged", "position": pos}
-            except Exception as e:
-                logger.error(f"Server staging queue full: {e}")
-                return {"error": "staging queue full", "data": str(e)}
+        staged = self._stage_if_queue_full(command_type, args)
+        if staged is not None:
+            return staged
 
         sp = self._sp
+        workflow_type = command_type.workflow_type if command_type is not None else None
 
         if workflow_type is not None:
             sp.workflow_combo.setCurrentText(workflow_type.get_translation())
         elif config.debug:
-            logger.debug("Rerunning from server request with last settings.")
+            logger.debug(f"Running server request '{command_type}' under the current workflow.")
 
         if len(args) > 0:
             if "edit_suffix" in args:
@@ -786,6 +896,157 @@ class RunController:
         self.run()
         return {}
 
+    def _divert_to_preset_schedule(self, workflow_type, request: dict) -> bool:
+        """Hand a request's image to a running preset schedule instead of running it.
+
+        A schedule owns the adapter fields for its whole duration, so starting a
+        competing run would fight it for them. The schedule is the user's own,
+        which is why this stays on the UI-coupled path.
+        """
+        from sd_runner.virtual_run_config import (
+            CONTROL_NET_IMAGE_WORKFLOWS, IP_ADAPTER_IMAGE_WORKFLOWS, escape_path,
+        )
+
+        app = self._app
+        if "image" not in request:
+            return False
+        if not self._sp.run_preset_schedule_check.isChecked():
+            return False
+        if app.job_queue_preset_schedules is None or not app.job_queue_preset_schedules.has_pending():
+            return False
+
+        if workflow_type in CONTROL_NET_IMAGE_WORKFLOWS:
+            key = "control_net"
+        elif workflow_type in IP_ADAPTER_IMAGE_WORKFLOWS:
+            key = "ip_adapter"
+        else:
+            return False
+
+        app.job_queue_preset_schedules.add({key: escape_path(request["image"])})
+        return True
+
+    def _run_virtual(self, command_type, request: dict):
+        """Build and enqueue a server run without reading or writing the sidebar.
+
+        Runs on the calling (listener) thread and bridges exactly two sections:
+        one read of the shared state it starts from, and one to decide what
+        happens to the finished run. The work between them -- the overlay, the
+        validation, and the size estimate's directory scans -- is widget-free
+        and stays off the GUI thread.
+        """
+        from sd_runner.virtual_run_config import build_from_base_args
+
+        request = request or {}
+
+        # Taken on the GUI thread: RunnerAppConfig and the preset list are
+        # shared mutable state the UI writes as the user works, so reading them
+        # from here could catch either mid-update. Everything after this works
+        # on the snapshot.
+        base_args, preset = self._on_main(self._snapshot_for_server_run, request)
+
+        try:
+            run_config = build_from_base_args(
+                base_args, command_type, request, preset=preset
+            )
+            run_config.validate()
+        except Exception as e:
+            # No dialog: there is no user at this end to answer one, and a modal
+            # here would block the listener thread waiting on this call.
+            logger.error(f"Rejected server request '{command_type}': {e}")
+            return {"error": "invalid run config", "data": str(e)}
+
+        rejection = self._server_run_exceeds_ceiling(command_type, run_config)
+        if rejection is not None:
+            return rejection
+
+        run_config.is_server_run = True
+        return self._on_main(self._commit_server_run, command_type, request, run_config)
+
+    def _snapshot_for_server_run(self, request: dict):
+        """Return ``(base_args, preset)`` for one request. GUI thread only.
+
+        One consistent read of the shared state a virtual run starts from.
+        """
+        from sd_runner.virtual_run_config import base_args_from_app_config
+
+        base_args = base_args_from_app_config(self._app.runner_app_config)
+
+        preset = None
+        if "edit_suffix" in request:
+            from ui_qt.presets.presets_window import PresetsWindow
+            edit_suffix = request["edit_suffix"]
+            preset = PresetsWindow.get_preset_by_suffix(edit_suffix)
+            if preset is None:
+                logger.warning(f"No preset found with edit_suffix matching '{edit_suffix}'")
+            else:
+                logger.info(f"Applying preset '{preset.name}' for edit_suffix '{edit_suffix}'")
+
+        return base_args, preset
+
+    def _commit_server_run(self, command_type, request: dict, run_config):
+        """Decide what happens to a built server run. GUI thread only.
+
+        Diversion, the queue-full check and the enqueue live together here so
+        they cannot be separated by another request arriving in between -- the
+        check and the act have to be one section, and this is the only part of
+        a virtual run that touches a widget or the queues.
+        """
+        if self._divert_to_preset_schedule(command_type.workflow_type, request):
+            return {}
+
+        staged = self._stage_if_queue_full(command_type, request)
+        if staged is not None:
+            return staged
+
+        self._enqueue_run(run_config)
+        return {}
+
+    def _server_run_exceeds_ceiling(self, command_type, run_config):
+        """Return an error response if the run is too large to accept unattended.
+
+        The interactive path asks the user to confirm a long run. A server
+        request has nobody to ask, and a modal would block the listener thread
+        waiting on this call, so an over-size request is refused with an answer
+        the client can act on instead. Unset (0 or less) means no ceiling.
+        """
+        from utils.config import config
+        from utils.time_estimator import TimeEstimator
+
+        try:
+            ceiling = float(getattr(config, "server_run_max_seconds", 0) or 0)
+        except (TypeError, ValueError):
+            return None
+        if ceiling <= 0:
+            return None
+
+        try:
+            estimated_seconds, estimated_image_count = self._estimate_run(run_config)
+        except NoModelsFound as e:
+            logger.error(f"Rejected server request '{command_type}': {e}")
+            return {"error": "no models found", "data": str(e)}
+        except Exception as e:
+            # An estimate is a guard, not a precondition -- a failure to compute
+            # one should not stop a run the user's own path would have accepted.
+            logger.warning(f"Could not estimate server request '{command_type}': {e}")
+            return None
+
+        if estimated_seconds > ceiling:
+            logger.warning(
+                f"Rejected server request '{command_type}': estimated "
+                f"{TimeEstimator.format_time(estimated_seconds)} for "
+                f"{estimated_image_count} image(s), over the "
+                f"{TimeEstimator.format_time(ceiling)} ceiling"
+            )
+            return {
+                "error": "run too large",
+                "data": {
+                    "estimated_seconds": estimated_seconds,
+                    "estimated_image_count": estimated_image_count,
+                    "ceiling_seconds": ceiling,
+                },
+            }
+        return None
+
     def server_batch_enqueue(self, requests: list) -> dict:
         """Add all batch items from a run_batch command directly to ServerStagingQueue.
 
@@ -793,22 +1054,7 @@ class RunController:
         batch, avoiding the per-item BlockingQueuedConnection calls that previously
         caused crashes under high request volume.
         """
-        from utils.globals import WorkflowType
-
-        # Maps command type strings to the WorkflowType (or None) that
-        # server_run_callback / the staging queue expect.  CANCEL and
-        # REVERT_TO_SIMPLE_GEN cannot be batched — they are skipped.
-        _TYPE_TO_WORKFLOW: dict[str, WorkflowType | None] = {
-            'last_settings': None,
-            'take_prompt':   None,
-            'renoiser':      WorkflowType.RENOISER,
-            'control_net':   WorkflowType.CONTROLNET,
-            'ip_adapter':    WorkflowType.IP_ADAPTER,
-            'image_edit':    WorkflowType.IMAGE_EDIT,
-            'img2img':       WorkflowType.IMG2IMG,
-            'redo_prompt':   WorkflowType.REDO_PROMPT,
-        }
-        _UNBATCHABLE = {'cancel', 'revert_to_simple_gen'}
+        from extensions.sd_runner_server import CommandType
 
         app = self._app
         staging = getattr(app, "server_staging_queue", None)
@@ -818,21 +1064,17 @@ class RunController:
         enqueued = 0
         rejected = 0
         for req in requests:
-            type_str = (req.get('type', '') or '').lower().replace(' ', '_')
-            args = dict(req.get('args', {}) or {})
-            if type_str in _UNBATCHABLE:
-                logger.warning("server_batch_enqueue: skipping unbatchable type %r", type_str)
-                continue
-            if type_str not in _TYPE_TO_WORKFLOW:
+            type_str = req.get('type', '')
+            try:
+                command_type = CommandType.resolve(type_str)
+            except ValueError:
                 logger.warning("server_batch_enqueue: unknown command type %r, skipping", type_str)
                 continue
-            # Normalise take_prompt args the same way run_command does.
-            if type_str == 'take_prompt':
-                if "image" in args and "source_prompt" not in args:
-                    args["source_prompt"] = args["image"]
-                args.pop("image", None)
+            if not command_type.is_batchable():
+                logger.warning("server_batch_enqueue: skipping unbatchable type %r", type_str)
+                continue
             try:
-                staging.add(_TYPE_TO_WORKFLOW[type_str], args)
+                staging.add(command_type, command_type.normalize_args(req.get('args')))
                 enqueued += 1
             except Exception:
                 rejected += 1
@@ -848,8 +1090,8 @@ class RunController:
         if enqueued > 0 and not app.job_queue.has_pending():
             staged = staging.take()
             if staged is not None:
-                wf_type, staged_args = staged
-                self.server_run_callback(wf_type, staged_args)
+                command_type, staged_args = staged
+                self.server_run_callback(command_type, staged_args)
 
         return {"count": enqueued}
 

@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (
 
 from lib.custom_title_bar import FramelessWindowMixin, WindowResizeHandler
 from lib.multi_display_qt import SmartMainWindow
-from run import Run
+from sd_runner.run import Run
 from sd_runner.generators.comfy import ComfyGen
 from sd_runner.models import Model
 from ui_qt.app_actions import AppActions
@@ -292,7 +292,6 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             "run": ts(self.run_ctrl.run),
             "cancel": ts(self.run_ctrl.cancel),
             "revert_to_simple_gen": ts(self.run_ctrl.revert_to_simple_gen),
-            "server_run_callback": ts(self.run_ctrl.server_run_callback),
             "has_runs_pending": self.run_ctrl.has_runs_pending,
             "validate_blacklist": self.run_ctrl.validate_blacklist,
             # Presets
@@ -677,12 +676,18 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         """Start the SD Runner server in a background thread."""
         from extensions.sd_runner_server import SDRunnerServer
 
-        # Server callbacks are invoked on the listener thread, but they
-        # touch Qt widgets.  Wrap them through _MainThreadBridge so every
-        # call is marshalled to the GUI thread (BlockingQueuedConnection).
+        # Server callbacks are invoked on the listener thread but touch Qt
+        # widgets, so they are marshalled to the GUI thread through
+        # _MainThreadBridge (BlockingQueuedConnection).
+        #
+        # server_run_callback is the exception: it bridges its own widget and
+        # queue sections internally, so wrapping it here as well would put the
+        # widget-free work -- building the run config, validating it, and the
+        # size estimate's directory scans -- back on the GUI thread and hold
+        # the listener for all of it.
         bridge = self._thread_bridge.wrap
         server = SDRunnerServer(
-            bridge(self.run_ctrl.server_run_callback),
+            self.run_ctrl.server_run_callback,
             bridge(self.run_ctrl.cancel),
             bridge(self.run_ctrl.revert_to_simple_gen),
             bridge(self.run_ctrl.server_batch_enqueue),

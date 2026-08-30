@@ -233,7 +233,9 @@ Protected actions include:
 
 ## Server
 
-Set configuration options for a server port to make use of the server while the UI is running. Calls to the server made with Python's multiprocessing client will update the UI as specified, but leave anything unspecified as already set in the UI. This can be helpful to use in conjunction with other applications that involve images. For an example, see [this class](https://github.com/tomhallmain/Weidr/blob/master/extensions/sd_runner_client.py).
+Set configuration options for a server port to make use of the server while the UI is running. Calls to the server made with Python's multiprocessing client run alongside whatever you are doing in the UI. This can be helpful to use in conjunction with other applications that involve images. For an example, see [this class](https://github.com/tomhallmain/Weidr/blob/master/extensions/sd_runner_client.py).
+
+A request that carries its own parameters (`renoiser`, `control_net`, `ip_adapter`, `image_edit`, `img2img`, `redo_prompt`, `take_prompt`) runs without touching the sidebar: anything it does not specify comes from your saved settings rather than from what happens to be on screen, and the fields you are editing are left alone. Such runs are marked `[Server]` in the progress label and queue behind any run already in progress. The `last_settings` request is the exception — reusing what is currently set in the UI is the point of that command — and `cancel` and `revert_to_simple_gen` act on the UI directly.
 
 ## Image to Prompt
 
