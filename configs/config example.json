@@ -105,6 +105,7 @@
     "ipadapter_dir": "F:\\img\\_ipadapter_bases",
     "comfyui_url": "http://127.0.0.1:8188",
     "comfyui_loc": "{HOME}\\repos\\ComfyUI",
+    "comfyui_output_dir": null,
     "sd_webui_url": "http://127.0.0.1:7860",
     "sd_webui_loc": "{HOME}\\repos\\stable-diffusion-webui",
     "sd_webui_save_path": ".",

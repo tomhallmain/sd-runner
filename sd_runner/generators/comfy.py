@@ -213,6 +213,81 @@ class ComfyGen(BaseImageGenerator):
         
         raise Exception(f"Failed to get history for prompt {prompt_id} after {max_retries} attempts")
 
+    #: Extensions ComfyUI writes images under. Anything else in the output
+    #: directory is not a candidate for recovery.
+    OUTPUT_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp", ".gif")
+
+    @staticmethod
+    def _finalize_output_image(
+        save_path: str,
+        prompter_config,
+        related_image_path,
+        target_dir,
+        edit_suffix: str,
+    ) -> str:
+        """Stamp an output image's metadata and move it into place.
+
+        Returns the final path, which is not the path passed in when an edit
+        suffix or a target directory applies.
+        """
+        if prompter_config is not None:
+            if related_image_path is not None:
+                Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
+            Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(
+                save_path,
+                prompter_config.original_positive_tags,
+                original_negative_tags=None,
+            )
+        return BaseImageGenerator.apply_output_postprocessing(
+            save_path, target_dir, edit_suffix, related_image_path
+        )
+
+    @staticmethod
+    def _recover_unnamed_output(queued_at: float):
+        """The image this generation wrote, when its filename could not be read.
+
+        Used only after ComfyUI reported the prompt as executed, so an image
+        exists; the question is which file it is. Answered by looking for what
+        appeared in the output directory since the prompt was queued.
+
+        Returns the path only when exactly one candidate is found. Several
+        generations run concurrently against one output directory, so two or
+        more new files cannot be attributed and are not guessed at -- the
+        caller then fails as it would have without this. Returns None on
+        anything ambiguous or unreadable.
+        """
+        output_dir = config.get_comfyui_save_path()
+        if not os.path.isdir(output_dir):
+            logger.error(
+                f"Cannot recover the output image: {output_dir} is not a directory. "
+                "Set comfyui_output_dir if ComfyUI writes somewhere else."
+            )
+            return None
+
+        try:
+            new_files = [
+                entry.path for entry in os.scandir(output_dir)
+                if entry.is_file()
+                and entry.name.lower().endswith(ComfyGen.OUTPUT_EXTENSIONS)
+                and entry.stat().st_mtime >= queued_at
+            ]
+        except OSError as e:
+            logger.error(f"Cannot recover the output image: failed to read {output_dir}: {e}")
+            return None
+
+        if len(new_files) != 1:
+            logger.error(
+                f"Cannot recover the output image: found {len(new_files)} new files in "
+                f"{output_dir}, and only an unambiguous single one can be attributed "
+                "to this generation."
+            )
+            return None
+
+        logger.warning(
+            f"Recovered output image by elimination rather than by name: {new_files[0]}"
+        )
+        return new_files[0]
+
     @staticmethod
     def clear_history(prompt_id):
         # TODO: Figure out how to clear a specific prompt from history
@@ -234,6 +309,9 @@ class ComfyGen(BaseImageGenerator):
         target_dir: str = "",
     ):
         logger.debug("Queueing prompt to ComfyUI...")
+        # Taken before the prompt is queued so nothing this generation writes can
+        # predate it. Only read if the filename lookup later fails.
+        queued_at = time.time()
         prompt_id = ComfyGen._queue_prompt(prompt, client_id or ComfyGen.CLIENT_ID)['prompt_id']
         logger.debug(f"Got prompt ID: {prompt_id}")
         output_images = {}
@@ -298,8 +376,26 @@ class ComfyGen(BaseImageGenerator):
                 raise websocket_error
 
             logger.debug("Getting history for prompt...")
-            history = ComfyGen.get_history(prompt_id)[prompt_id]
-            
+            try:
+                history = ComfyGen.get_history(prompt_id)[prompt_id]
+            except Exception as history_error:
+                # Execution finished cleanly -- the loop above only reaches here
+                # on a completion message -- so the image is on disk and only
+                # its name is unknown. Recover it from the output directory if
+                # it can be identified unambiguously.
+                logger.error(f"Could not read output filenames from history: {history_error}")
+                recovered = ComfyGen._recover_unnamed_output(queued_at)
+                if recovered is None:
+                    raise
+                recovered = ComfyGen._finalize_output_image(
+                    recovered, prompter_config, related_image_path, target_dir, edit_suffix
+                )
+                if recovered:
+                    output_paths.append(recovered)
+                # No byte payloads: those come from the history entry this
+                # generation never got. The path is what callers use.
+                return output_images, output_paths
+
             # Process images and add EXIF data with original prompt decomposition
             for node_id in history['outputs']:
                 node_output = history['outputs'][node_id]
@@ -310,17 +406,9 @@ class ComfyGen(BaseImageGenerator):
                         image_data = ComfyGen.get_image(image['filename'], image['subfolder'], image['type'])
                         images_output.append(image_data)
 
-                        save_path = os.path.join(config.get_comfyui_save_path(), image["filename"])
-                        if prompter_config is not None:
-                            if related_image_path is not None:
-                                Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
-                            Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(
-                                save_path,
-                                prompter_config.original_positive_tags,
-                                original_negative_tags=None,
-                            )
-                        save_path = BaseImageGenerator.apply_output_postprocessing(
-                            save_path, target_dir, edit_suffix, related_image_path
+                        save_path = ComfyGen._finalize_output_image(
+                            os.path.join(config.get_comfyui_save_path(), image["filename"]),
+                            prompter_config, related_image_path, target_dir, edit_suffix,
                         )
                         if save_path:
                             output_paths.append(save_path)

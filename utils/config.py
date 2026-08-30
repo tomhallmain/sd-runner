@@ -38,6 +38,7 @@ class Config:
         "img_temps_dir":                    None,
         "ipadapter_dir":                    None,
         "comfyui_loc":                      None,
+        "comfyui_output_dir":               None,
         "sd_webui_loc":                     None,
         "sd_prompt_reader_loc":             None,
         "image_searcher_dir2":              None,
@@ -112,6 +113,9 @@ class Config:
         self.img_temps_dir = None
         self.ipadapter_dir = None
         self.comfyui_loc = None
+        # Overrides the default <comfyui_loc>/output. Also what the unnamed-output
+        # recovery scans, so an install that writes elsewhere must set it.
+        self.comfyui_output_dir = None
         self.sd_webui_loc = None
         self.sd_prompt_reader_loc = None
         self.image_searcher_dir = None
@@ -220,6 +224,7 @@ class Config:
             "img_temps_dir",
             "ipadapter_dir",
             "comfyui_loc",
+            "comfyui_output_dir",
             "sd_webui_loc",
             "sd_webui_save_path",
             "forge_save_path",
@@ -356,7 +361,14 @@ class Config:
             return default
 
     def get_comfyui_save_path(self):
-        """Get the ComfyUI output directory path."""
+        """Get the ComfyUI output directory path.
+
+        ``comfyui_output_dir`` wins when set, for an install whose output is not
+        the default ``<comfyui_loc>/output`` -- a symlink elsewhere, or a
+        ``--output-directory`` on the ComfyUI command line.
+        """
+        if self.comfyui_output_dir:
+            return self.comfyui_output_dir
         if self.comfyui_loc:
             return os.path.join(self.comfyui_loc, "output")
         return "."

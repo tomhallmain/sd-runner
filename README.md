@@ -38,6 +38,8 @@ The application uses PySide6 with custom theming, optional frameless windows, an
 
 `purge_blacklisted_prompt_history` (default `true`): When enabled, the encrypted cache will automatically purge any saved run history entries whose prompts contain blacklisted items. **NOTE:** This setting does not prevent running blacklisted prompts, by default they are disallowed but to update that behavior please modify the settings in the blacklist window.
 
+`comfyui_output_dir` (default `null`): Where ComfyUI writes its images. Leave unset and it is taken to be `<comfyui_loc>/output`; set it for an install that writes somewhere else, such as one started with `--output-directory`. Besides naming saved images, this is the directory searched when ComfyUI finishes a generation but its history request fails — if exactly one new image has appeared there, it is taken as the output rather than losing the generation. Two or more and nothing is assumed, since generations run concurrently into the same folder.
+
 ## Prompt Syntax
 
 Preset variables can be defined in the config to expand into full prompt text. To access these in the prompt UI, prepend $ or surround them with curly braces, and upon running the prompt the expansion will occur in the UI, overwriting the original prompt.
