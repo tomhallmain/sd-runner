@@ -77,6 +77,7 @@ def _category_label(name: str) -> str:
         "animals": _("Animals"),
         "plants": _("Plants"),
         "colors": _("Colors"),
+        "lighting": _("Lighting"),
         "times": _("Times"),
         "units": _("Units"),
         "dress": _("Dress"),
@@ -398,7 +399,7 @@ class PromptConfigWindow(SmartDialog):
 
         categories = [
             "media_features", "objects",
-            "positions", "locations", "animals", "plants", "colors",
+            "positions", "locations", "animals", "plants", "colors", "lighting",
             "times", "units", "dress", "expressions", "actions", "descriptions",
             "characters", "random_words", "nonsense", "jargon", "witticisms",
             "prefixes", "suffixes",

@@ -120,3 +120,6 @@ soft natural lighting
 specular lighting
 strong side key lights
 warm golden hour lighting
+anidolic lighting
+gas lighting
+direct lighting

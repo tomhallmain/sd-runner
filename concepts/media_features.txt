@@ -136,8 +136,6 @@ anecdote
 angle of incidence
 angle shot
 angular momentum
-anidolic lighting
-anidolic lighting
 animated GIF
 anime
 annals
@@ -220,8 +218,6 @@ B movie
 B-roll
 back-formation
 backgammon board
-backlighting
-backlighting
 backward mapping
 ballad
 balustrade
@@ -969,7 +965,6 @@ gamut
 gap
 gaps
 garbled
-gas lighting
 gases
 gaussian noise
 gaussian splatting
@@ -1300,8 +1295,6 @@ life cycle
 lifestyle
 light scattering
 Lighthouse Beacon
-Lighting of a Cathedral
-Lighting of a Cathedral
 lightly
 Lightning Storm
 likeness
@@ -2638,7 +2631,6 @@ vocalese
 void
 void
 volta
-volumetric lighting
 vortex
 vortex
 vox humana
@@ -2731,12 +2723,10 @@ Zitternbewegung
 
 # --- sd-wildcards merge ---
 2d sprite
-ambient lighting
 ambient occlusion
 anti-aliasing
 augmented reality
 chromatic aberration
-direct lighting
 flat shading
 fxaa
 global illumination

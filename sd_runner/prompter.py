@@ -333,6 +333,7 @@ class Prompter:
         mix.extend(self.concepts.get_animals(self.prompter_config.get_category_config("animals"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_plants(self.prompter_config.get_category_config("plants"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_colors(self.prompter_config.get_category_config("colors"), multiplier=self.prompter_config.multiplier))
+        mix.extend(self.concepts.get_lighting(self.prompter_config.get_category_config("lighting"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_times(self.prompter_config.get_category_config("times"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_units(self.prompter_config.get_category_config("units"), multiplier=self.prompter_config.multiplier))
         mix.extend(self.concepts.get_dress(self.prompter_config.get_category_config("dress"), multiplier=self.prompter_config.multiplier))

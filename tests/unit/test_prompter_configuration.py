@@ -96,6 +96,47 @@ class TestSpecificChances:
         assert abs(cfg.get_specific_times_chance() - 0.6) < 1e-9
 
 
+class TestLightingCategory:
+    """Lighting became a sampled category; before that it was an inert file.
+
+    ``concepts/lighting.txt`` was registered on ``SFW`` and mirrored in
+    ``Konzepte/`` but had no getter, no entry in the defaults, and no line in
+    the prompt mix, so none of it ever reached a generated prompt.
+    """
+
+    def test_lighting_is_a_required_category(self):
+        assert "lighting" in PrompterConfiguration.REQUIRED_CATEGORIES
+
+    def test_its_default_is_conservative(self):
+        """Every stored configuration predates it and inherits this default.
+
+        A high default would change the output of every existing user on the
+        first launch after the upgrade.
+        """
+        cfg = make_config().get_category_config("lighting")
+        assert cfg.low == 0
+        assert cfg.high <= 1
+
+    def test_a_configuration_saved_before_lighting_existed_still_loads(self):
+        """The upgrade path: absent from the stored dict, not an error."""
+        stored = make_config().to_dict()
+        del stored["categories"]["lighting"]
+
+        restored = make_config()
+        restored.set_from_dict(stored)
+
+        assert "lighting" in restored.categories
+        assert restored.get_category_config("lighting").low == 0
+
+    def test_an_explicit_setting_survives_a_round_trip(self):
+        original = make_config()
+        original.set_category("lighting", low=1, high=2)
+        restored = make_config()
+        restored.set_from_dict(original.to_dict())
+        cfg = restored.get_category_config("lighting")
+        assert cfg.low == 1 and cfg.high == 2
+
+
 class TestPrompterConfigurationSerialization:
     def test_to_dict_contains_categories_key(self):
         cfg = make_config()

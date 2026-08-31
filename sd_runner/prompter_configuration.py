@@ -23,6 +23,7 @@ class LegacyPrompterConfiguration:
         locations: tuple = (0, 1, 0.3),
         animals: tuple = (0, 1, 0.1),
         colors: tuple = (0, 2),
+        lighting: tuple = (0, 1),
         times: tuple = (0, 1, 0.3),
         dress: tuple = (0, 2, 0.5),
         expressions: tuple = (1, 1),
@@ -46,6 +47,7 @@ class LegacyPrompterConfiguration:
         self.locations = locations
         self.animals = animals
         self.colors = colors
+        self.lighting = lighting
         self.times = times
         self.dress = dress
         self.expressions = expressions
@@ -91,6 +93,7 @@ class LegacyPrompterConfiguration:
             "locations": self.locations,
             "animals": self.animals,
             "colors": self.colors,
+            "lighting": self.lighting,
             "times": self.times,
             "dress": self.dress,
             "expressions": self.expressions,
@@ -171,7 +174,7 @@ class PrompterConfiguration:
     # Required category names
     REQUIRED_CATEGORIES = [
         "media_features", "objects",
-        "positions", "locations", "animals", "plants", "colors", "times", "units",
+        "positions", "locations", "animals", "plants", "colors", "lighting", "times", "units",
         "dress", "expressions", "actions", "descriptions", "characters",
         "random_words", "nonsense", "jargon", "witticisms"
     ]
@@ -187,6 +190,9 @@ class PrompterConfiguration:
             "animals": ConceptConfiguration(low=0, high=1, inclusion_chance=0.1),
             "plants": ConceptConfiguration(low=0, high=1),
             "colors": ConceptConfiguration(low=0, high=2),
+            # New category: every stored configuration predates it and falls
+            # back to this default, so it is deliberately low.
+            "lighting": ConceptConfiguration(low=0, high=1),
             "times": ConceptConfiguration(low=0, high=1, specific_chance=0.3),
             "units": ConceptConfiguration(low=0, high=0),
             "dress": ConceptConfiguration(low=0, high=2, inclusion_chance=0.5),

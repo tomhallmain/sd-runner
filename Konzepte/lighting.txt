@@ -116,3 +116,6 @@ weiches natürliches Licht
 Spiegelnde Beleuchtung
 starke seitliche Key Lights
 warme Golden-Hour-Beleuchtung
+anidolische Beleuchtung
+Gasbeleuchtung
+direkte Beleuchtung

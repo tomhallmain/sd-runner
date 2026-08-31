@@ -632,6 +632,10 @@ class Concepts:
         low, high = concept_config.get_adjusted_range(multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.plants), low, high, self.prompt_mode)
 
+    def get_lighting(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        low, high = concept_config.get_adjusted_range(multiplier)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.lighting), low, high, self.prompt_mode)
+
     def get_positions(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
         positions = Concepts.load(SFW.positions)

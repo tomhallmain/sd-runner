@@ -132,8 +132,6 @@ Anekdote
 Einfallswinkel
 Winkelaufnahme
 Drehimpuls
-anidolische Beleuchtung
-anidolische Beleuchtung
 animiertes GIF
 Anime
 Annalen
@@ -216,8 +214,6 @@ B-Film
 B-Roll
 Rückbildung
 Backgammon-Brett
-Gegenlicht
-Gegenlicht
 Rückwärts-Mapping
 Ballade
 Balustrade
@@ -965,7 +961,6 @@ Farbumfang
 Lücke
 Lücken
 verstümmelt
-Gasbeleuchtung
 Gase
 Gaußsches Rauschen
 Gaussian Splatting
@@ -1296,8 +1291,6 @@ Lebenszyklus
 Lifestyle
 Lichtstreuung
 Leuchtturmsignal
-Beleuchtung einer Kathedrale
-Beleuchtung einer Kathedrale
 leicht
 Gewitter
 Ähnlichkeit
@@ -2635,7 +2628,6 @@ Vocalese
 Leere
 Leere
 Volta
-volumetrische Beleuchtung
 Wirbel
 Wirbel
 Vox humana
@@ -2725,12 +2717,10 @@ Schwung
 Zickzack
 Zitternbewegung
 2D-Sprite
-Umgebungsbeleuchtung
 Ambient Occlusion
 Antialiasing
 Erweiterte Realität
 Chromatische Aberration
-direkte Beleuchtung
 Flat Shading
 FXAA
 Global Illumination
