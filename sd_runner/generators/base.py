@@ -504,19 +504,22 @@ class BaseImageGenerator(ABC):
         """
         Convert adapter images to standard formats if needed.
         
+        Each adapter is updated **in place**: ``generation_path`` is pointed at
+        the converted file while ``id`` keeps naming the user's original, which
+        is what EXIF lineage and the edit-suffix rename read. The same objects
+        are returned for convenience, not as copies.
+
         Args:
             control_net: ControlNet adapter object
             ip_adapter: IP Adapter object
-            
+
         Returns:
-            tuple: (converted_control_net, converted_ip_adapter) with converted file paths
-            
+            tuple: the same (control_net, ip_adapter) passed in, now carrying
+            converted ``generation_path`` values
+
         Raises:
             ConversionFailedError: If image conversion fails and is required
         """
-        converted_control_net = control_net
-        converted_ip_adapter = ip_adapter
-        
         # Convert control_net image if needed
         if control_net and hasattr(control_net, 'id') and control_net.id:
             converted_path = convert_image_if_needed(control_net.id)

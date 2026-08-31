@@ -151,15 +151,18 @@ class ComfyGen(BaseImageGenerator):
     def queue_prompt(self, prompt: WorkflowPromptComfy) -> list:
         """Run one prompt and return the paths of the images it produced.
 
-        An empty list means nothing was written -- a failed generation, or a
-        connection that dropped. The byte payloads are discarded here; the
-        paths are what callers can act on.
+        An empty list means nothing was written by a generation that otherwise
+        completed. A failure raises instead: a connection that dropped or a
+        backend error reaches the caller rather than being reported as "no
+        images". The byte payloads are discarded here; the paths are what
+        callers can act on.
         """
         data = prompt.get_json()
         if config.debug:
             print(data.decode("utf-8"))
         output_paths = []
         connection_id = str(uuid.uuid4())  # Unique per connection so ComfyUI routes events correctly
+        ws = None
         try:
             ws = websocket.WebSocket()
             ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, connection_id))
@@ -174,18 +177,22 @@ class ComfyGen(BaseImageGenerator):
                 target_dir=self.gen_config.target_dir,
             )
             self.record_generation_timing(execution_seconds)
-            try:
-                ws.close()
-            except Exception:
-                pass
-            ComfyGen.remove_connection(ws)
         except error.URLError:
             raise Exception("Failed to connect to ComfyUI. Is ComfyUI running?")
         finally:
+            # Cleanup only -- no return here. A `return` in a `finally` discards
+            # any exception on its way out, which silently swallowed every
+            # failure this method can raise, the connection error included.
+            if ws is not None:
+                try:
+                    ws.close()
+                except Exception:
+                    pass
+                ComfyGen.remove_connection(ws)
             with self._lock:
                 self.pending_counter -= 1
                 self.update_ui_pending()
-            return output_paths
+        return output_paths
 
     @staticmethod
     def _queue_prompt(prompt, client_id: str):

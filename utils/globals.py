@@ -373,24 +373,42 @@ class WorkflowType(Enum):
 #: makes them the eligibility test for anything that has an image and needs to
 #: know where it belongs -- a server request carrying one, or a second
 #: derivative feeding a generated image back in.
+#: Workflows whose primary input image arrives on the ``control_net`` adapter.
+#: Membership follows the field the workflow method actually reads, not the node
+#: type it ends up wired to: the upscales and clipseg inpaint all take their
+#: image as ``control_net`` and rename it (``upscale_image``, ``inpaint_image``)
+#: only when building the prompt.
 CONTROL_NET_IMAGE_WORKFLOWS = (
     WorkflowType.CONTROLNET,
     WorkflowType.RENOISER,
     WorkflowType.REDO_PROMPT,
+    WorkflowType.INPAINT_CLIPSEG,
+    WorkflowType.UPSCALE_SIMPLE,
+    WorkflowType.UPSCALE_BETTER,
 )
 
+#: Workflows whose primary input image arrives on the ``ip_adapter`` adapter.
+#: Instant LoRA reads both adapters and is listed here because the ip_adapter
+#: image is its content reference, while its control_net image is structural
+#: guidance a derived pass should leave alone.
 IP_ADAPTER_IMAGE_WORKFLOWS = (
     WorkflowType.IP_ADAPTER,
     WorkflowType.IMG2IMG,
     WorkflowType.IMAGE_EDIT,
+    WorkflowType.INSTANT_LORA,
 )
 
 
 def image_input_field(workflow_type) -> str | None:
-    """Which adapter field carries *workflow_type*'s input image, or None.
+    """Which adapter field carries *workflow_type*'s primary input image, or None.
 
-    None means the workflow takes no image, which is the test for whether an
-    image-dependent feature applies to it at all.
+    None means no single field owns an input image, which is the test for
+    whether an image-dependent feature applies to the workflow at all.
+
+    ANIMATE_DIFF deliberately answers None despite reading both adapters: they
+    are the two ends of an interpolation rather than one image to substitute,
+    and it emits a frame per generation, so a feature that re-runs the workflow
+    once per output image would multiply an animation by its own frame count.
     """
     if workflow_type in CONTROL_NET_IMAGE_WORKFLOWS:
         return "control_net"
