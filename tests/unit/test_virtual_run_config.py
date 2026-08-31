@@ -12,6 +12,7 @@ from extensions.sd_runner_server import CommandType
 from sd_runner.virtual_run_config import (
     ATTRIBUTE_ONLY_FIELDS,
     apply_preset,
+    apply_request_args,
     base_args_from_app_config,
     build_virtual_run_config,
     escape_path,
@@ -122,6 +123,41 @@ class TestImageRouting:
         """These fields join several paths with commas."""
         run_config = build(app_config, CommandType.CONTROL_NET, {"image": "a,b.png"})
         assert run_config.control_nets == "a\\,b.png"
+
+
+class TestImageRoutingForWorkflowsWithoutACommand:
+    """Routing is keyed on the workflow, not the command that selected it.
+
+    No `CommandType` selects these yet, so they are exercised through
+    `apply_request_args` directly. They were previously absent from both
+    workflow tuples, so an image sent for one of them hit the fallback branch
+    and was dropped with a warning rather than routed.
+    """
+
+    @pytest.mark.parametrize("workflow_type, field", [
+        (WorkflowType.INSTANT_LORA, "ip_adapters"),
+        (WorkflowType.INPAINT_CLIPSEG, "control_nets"),
+        (WorkflowType.UPSCALE_SIMPLE, "control_nets"),
+        (WorkflowType.UPSCALE_BETTER, "control_nets"),
+    ])
+    def test_the_image_reaches_the_field_the_workflow_reads(
+        self, workflow_type, field
+    ):
+        args = apply_request_args({}, workflow_type, {"image": "in.png"})
+        assert args[field] == "in.png"
+
+    def test_instant_lora_can_take_both_images(self):
+        """Its structural image is still nameable alongside the content one."""
+        args = apply_request_args(
+            {}, WorkflowType.INSTANT_LORA, {"image": "a.png", "control_net": "cn.png"}
+        )
+        assert args["ip_adapters"] == "a.png"
+        assert args["control_nets"] == "cn.png"
+
+    def test_a_workflow_that_takes_no_image_still_drops_it(self):
+        args = apply_request_args({}, WorkflowType.SIMPLE_IMAGE_GEN, {"image": "in.png"})
+        assert not args.get("control_nets")
+        assert not args.get("ip_adapters")
 
 
 class TestExplicitControlNet:

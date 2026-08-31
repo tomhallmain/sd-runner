@@ -105,6 +105,35 @@ class TestWhichWorkflowsQualify:
     def test_a_workflow_with_no_image_input_has_no_field(self, workflow_type):
         assert image_input_field(workflow_type) is None
 
+    @pytest.mark.parametrize("workflow_type, field", [
+        (WorkflowType.INSTANT_LORA, "ip_adapter"),
+        (WorkflowType.INPAINT_CLIPSEG, "control_net"),
+        (WorkflowType.UPSCALE_SIMPLE, "control_net"),
+        (WorkflowType.UPSCALE_BETTER, "control_net"),
+    ])
+    def test_workflows_that_rename_their_image_still_declare_it(
+        self, workflow_type, field
+    ):
+        """These read an image but hand it to a differently-named node input.
+
+        They were absent from both tuples, so image-dependent features saw
+        None and silently skipped them.
+        """
+        assert image_input_field(workflow_type) == field
+
+    def test_instant_lora_offers_its_content_image_not_its_structural_one(self):
+        """It reads both adapters; only the ip_adapter one is substitutable."""
+        assert image_input_field(WorkflowType.INSTANT_LORA) == "ip_adapter"
+
+    def test_animate_diff_declares_no_single_input_image(self):
+        """Deliberate, not an omission.
+
+        Its two adapters are the ends of an interpolation rather than one
+        image to swap, and it emits a frame per generation -- so re-running it
+        once per output image would multiply an animation by its frame count.
+        """
+        assert image_input_field(WorkflowType.ANIMATE_DIFF) is None
+
     def test_a_workflow_with_no_image_input_is_left_alone(self):
         """The checkbox is run-level; switching workflow must not break a run."""
         gen = make_generator(second_derivative=True)

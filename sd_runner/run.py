@@ -246,7 +246,7 @@ class Run:
                             self.ui_callbacks.update_time_estimation(workflow, gen.gen_config, remaining)
                         if self.delay_after_last_run:
                             # print(Utils.format_red("WILL SLEEP AFTER LAST RUN."))
-                            self._sleep_for_delay(maximum_gens=gen.gen_config.maximum_gens() / 2) # NOTE halving the delay here
+                            self._sleep_for_delay(maximum_gens=gen.gen_config.maximum_gens() / 2, gen=gen) # NOTE halving the delay here
                         return
                     else:
                         if self.args.total == -1:
@@ -259,19 +259,39 @@ class Run:
                             self.ui_callbacks.update_progress(count, self.args.total, batch_limit=self.args.batch_limit)
                             remaining = self.args.total - count + 1 if self.args.total > 0 else 0
                             self.ui_callbacks.update_time_estimation(workflow, gen.gen_config, remaining)
-                self._sleep_for_delay(maximum_gens=gen.gen_config.maximum_gens())
+                self._sleep_for_delay(maximum_gens=gen.gen_config.maximum_gens(), gen=gen)
         except KeyboardInterrupt:
             pass
 
-    def _sleep_for_delay(self, maximum_gens: int = 1) -> None:
-        if self.args.auto_run:
-            # TODO websocket would be better here to ensure all have finished before starting new gen
-            sleep_time = maximum_gens
-            sleep_time *= Globals.GENERATION_DELAY_TIME_SECONDS
-            self.print(f"Sleeping for {sleep_time} seconds.")
-            while sleep_time > 0 and not self.is_cancelled:
-                sleep_time -= 1
-                time.sleep(1)
+    def _sleep_for_delay(self, maximum_gens: int = 1, gen=None) -> None:
+        """Hold the loop between iterations until the backend is idle again.
+
+        The computed delay is a ceiling rather than a fixed cost. Given a live
+        count of in-flight generations the loop can continue as soon as the
+        work it dispatched has finished, instead of always waiting an interval
+        guessed from the image count -- which over-sleeps on fast models and
+        under-sleeps on slow ones.
+
+        The ceiling stays: a backend that dies without releasing its count
+        would otherwise stall the loop for good. Without *gen* there is nothing
+        to observe, so the full interval is waited as before.
+        """
+        if not self.args.auto_run:
+            return
+        ceiling = maximum_gens * Globals.GENERATION_DELAY_TIME_SECONDS
+        if gen is None:
+            self.print(f"Sleeping for {ceiling} seconds.")
+        else:
+            self.print(f"Waiting up to {ceiling} seconds for generations to finish.")
+        waited = 0
+        while waited < ceiling and not self.is_cancelled:
+            time.sleep(1)
+            waited += 1
+            if (gen is not None
+                    and waited >= Globals.MINIMUM_PACING_SECONDS
+                    and gen.pending_counter <= 0):
+                self.print(f"Generations finished after {waited}s; continuing.")
+                return
 
     def load_and_run(
         self,

@@ -134,7 +134,12 @@ class SDWebuiGen(BaseImageGenerator):
 
     def save_image_data(self, response: response, related_image_path: Optional[str]=None, workflow: Optional[WorkflowType]=None, prompter_config: Optional[PrompterConfiguration]=None):
         resp_json = json.loads(response.read().decode('utf-8'))
-        for index, image in enumerate(resp_json.get('images')):
+        # A response carrying no images is a generation that wrote nothing, not
+        # a crash: without these two guards an absent key raised TypeError from
+        # enumerate(None) and an empty list left save_path unbound at the
+        # return -- both of them before the pending count was released.
+        save_path = None
+        for index, image in enumerate(resp_json.get('images') or []):
             if workflow == PromptTypeSDWebUI.CONTROLNET and index % 2 == 1:
                 continue # Extra control net mask is not an image we want to save.
             cls = type(self)

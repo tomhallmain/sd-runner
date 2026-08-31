@@ -1,3 +1,5 @@
+import math
+
 from utils.globals import Globals
 from utils.translations import I18N
 
@@ -10,22 +12,31 @@ class TimeEstimator:
     An estimate has three parts, kept separate because their confidence
     differs::
 
-        delay_seconds(images)                  # exact
-        + rate x megapixels x images           # measured, per model
+        rate x megapixels x images             # measured, per model
         + model_switches x load_seconds        # measured, per model
+        + pacing                               # see below
 
-    The delay is not an estimate at all -- it is the app's own
-    ``Run._sleep_for_delay``, computed from the same constant. For a long time
-    it was the *whole* estimate, which expanded to exactly the sleep the run
-    would perform, so the backend's actual work contributed nothing. That is
-    why estimates used to be unreliable in both directions and why no amount of
+    The first two come from ``utils.generation_timing``, which learns them from
+    completed generations. For a long time neither existed and the pacing was
+    the *whole* estimate, which expanded to exactly the sleep the run would
+    perform, so the backend's actual work contributed nothing. That is why
+    estimates used to be unreliable in both directions and why no amount of
     tuning fixed them: the term for the thing being measured was missing rather
     than wrong.
 
-    The other two come from ``utils.generation_timing``, which learns them from
-    completed generations. A model it has never timed yields no generation
-    term, so the estimate falls back to the delay alone -- callers must not
-    read a low estimate as permission, nor a missing one as a reason to refuse.
+    Pacing is now whichever of two things applies, because ``_sleep_for_delay``
+    waits on the generations it dispatched rather than for a fixed interval:
+
+    - **Timed model.** The generation term already covers that wait, so all
+      that remains is the short floor the loop holds per iteration. Charging
+      the full interval here as well double-counted the same seconds, which
+      made estimates for timed models run high by the entire delay term.
+    - **Untimed model.** No generation term exists, so the old ceiling stands
+      as the only available signal.
+
+    A model that has never been timed therefore falls back to the ceiling
+    alone -- callers must not read a low estimate as permission, nor a missing
+    one as a reason to refuse.
 
     Callers: the long-run confirmation dialog, ``config.server_run_max_seconds``
     (which *refuses* requests over its ceiling), and the sidebar label.
@@ -64,11 +75,14 @@ class TimeEstimator:
     
     @staticmethod
     def delay_seconds(image_count: float) -> int:
-        """The pacing sleep the app will perform for *image_count* images.
+        """The most the app will pace for *image_count* images.
 
-        Exact, not estimated: it is the app's own ``_sleep_for_delay``, computed
-        from the same constant. Named separately from the estimate so the part
-        that is known stays distinguishable from the part that is guessed.
+        An upper bound rather than a fixed cost. ``Run._sleep_for_delay``
+        computes this same figure but treats it as a ceiling, continuing as
+        soon as the generations it dispatched have finished -- so a run that
+        keeps up with its backend pays much less than this, and the estimate
+        errs high. Still computed from the same constant, so the bound is
+        exact even though the cost is not.
         """
         return int(Globals.GENERATION_DELAY_TIME_SECONDS * image_count)
 
@@ -81,9 +95,10 @@ class TimeEstimator:
         image count directly, or a per-latent count plus *avg_latents_per_job*
         -- the two are multiplied.
 
-        The pacing delay only. Callers holding a ``GenConfig`` should use
-        ``estimate_run_seconds``, which can also account for the generation
-        itself.
+        The pacing ceiling only, since without a ``GenConfig`` there is nothing
+        to look a measured rate up with. Callers holding one should use
+        ``estimate_run_seconds``, which accounts for the generation itself and
+        charges only the pacing floor once it can.
         """
         return TimeEstimator.delay_seconds(image_count * avg_latents_per_job)
 
@@ -91,15 +106,59 @@ class TimeEstimator:
     def estimate_run_seconds(gen_config, image_count: float) -> int:
         """Estimate the seconds a run producing *image_count* images will take.
 
-        The pacing delay, plus measured generation and model-load time when
-        this model has been timed before. Falls back to the delay alone when it
-        has not, which is what every estimate used to be -- so an unmeasured
-        model is no worse off than before, and callers must not treat the
-        absence of timing data as a reason to refuse work.
+        Measured generation and model-load time when this model has been timed
+        before, plus whatever the run loop's pacing adds on top. Falls back to
+        the pacing ceiling alone when the model has not been timed, which is
+        what every estimate used to be -- so an unmeasured model is no worse
+        off than before, and callers must not treat the absence of timing data
+        as a reason to refuse work.
         """
-        delay = TimeEstimator.delay_seconds(image_count)
         generation = TimeEstimator._generation_seconds(gen_config, image_count)
-        return int(delay + (generation or 0))
+        pacing = TimeEstimator._pacing_seconds(
+            gen_config, image_count, measured=generation is not None
+        )
+        return int(pacing + (generation or 0))
+
+    @staticmethod
+    def _pacing_seconds(gen_config, image_count: float, measured: bool) -> int:
+        """What the run loop's own pacing adds, beyond the generation itself.
+
+        Unmeasured, this is the whole estimate, and it stays the old ceiling --
+        it is the only signal available, and the size ceiling that refuses work
+        is built on it.
+
+        Measured, the generation term already accounts for the wait. The loop
+        waits *for* the generations it dispatched rather than for a fixed
+        interval, so charging the ceiling as well would count the same seconds
+        twice -- which is what made estimates for timed models run high by the
+        whole delay term. What is genuinely left is the short floor the loop
+        holds each iteration even when the backend is already idle.
+        """
+        if not measured:
+            return TimeEstimator.delay_seconds(image_count)
+        return int(Globals.MINIMUM_PACING_SECONDS * TimeEstimator._iterations(
+            gen_config, image_count
+        ))
+
+    @staticmethod
+    def _iterations(gen_config, image_count: float) -> int:
+        """How many run-loop iterations *image_count* images will take.
+
+        The loop paces once per iteration, not once per image. Callers derive
+        image_count as images-per-iteration x iterations, so dividing recovers
+        the iteration count. Anything unusable falls back to one iteration,
+        which under-counts a floor measured in single seconds rather than
+        raising over an advisory number.
+        """
+        if image_count <= 0:
+            return 0
+        try:
+            per_iteration = gen_config.maximum_gens()
+        except Exception:
+            per_iteration = 0
+        if not per_iteration or per_iteration <= 0:
+            return 1
+        return math.ceil(image_count / per_iteration)
 
     @staticmethod
     def _generation_seconds(gen_config, image_count: float):

@@ -1,13 +1,16 @@
+import math
+
 import pytest
 from utils.globals import Globals
 from utils.time_estimator import TimeEstimator
 
 
 class TestDelaySeconds:
-    """The pacing sleep, which is exact rather than estimated."""
+    """The pacing bound, which is exact as a ceiling rather than as a cost."""
 
-    def test_matches_the_sleep_the_run_will_perform(self):
-        # Run._sleep_for_delay sleeps GENERATION_DELAY_TIME_SECONDS per image.
+    def test_matches_the_ceiling_the_run_will_wait_up_to(self):
+        # Run._sleep_for_delay computes the same figure and waits at most that
+        # long, continuing early once the dispatched generations finish.
         assert TimeEstimator.delay_seconds(7) == Globals.GENERATION_DELAY_TIME_SECONDS * 7
 
     def test_scales_with_image_count(self):
@@ -89,7 +92,12 @@ class TestEstimateQueueTime:
 
 
 class TestEstimateRunSeconds:
-    """The entry point that adds measured generation time to the delay."""
+    """The entry point that adds measured generation time to the pacing.
+
+    Which pacing depends on whether the model has been timed: an untimed one
+    still gets the full ceiling, a timed one only the per-iteration floor,
+    because the generation term already covers the wait.
+    """
 
     def make_config(self):
         from tests.utils import make_gen_config, make_model, make_resolution
@@ -113,31 +121,45 @@ class TestEstimateRunSeconds:
         assert (TimeEstimator.estimate_run_seconds(gen_config, 4)
                 == TimeEstimator.delay_seconds(4))
 
-    def test_a_measured_model_adds_generation_time(self):
-        from utils.generation_timing import generation_timing
-
-        gen_config = self.make_config()
-        keys = self.descriptors(gen_config)
-        generation_timing.record(
-            seconds=10.0, width=1000, height=1000,
-            steps=gen_config.steps or -1, **keys
-        )
-        estimate = TimeEstimator.estimate_run_seconds(gen_config, 4)
-        assert estimate == pytest.approx(TimeEstimator.delay_seconds(4) + 40.0, abs=1)
-
-    def test_it_scales_with_image_count(self):
+    def measured_config(self, seconds=10.0):
         from utils.generation_timing import generation_timing
 
         gen_config = self.make_config()
         generation_timing.record(
-            seconds=10.0, width=1000, height=1000,
+            seconds=seconds, width=1000, height=1000,
             steps=gen_config.steps or -1, **self.descriptors(gen_config)
         )
+        return gen_config
+
+    def pacing_for(self, gen_config, images):
+        """The floor the loop holds, once per iteration rather than per image."""
+        iterations = math.ceil(images / gen_config.maximum_gens())
+        return Globals.MINIMUM_PACING_SECONDS * iterations
+
+    def test_a_measured_model_is_generation_time_plus_the_pacing_floor(self):
+        gen_config = self.measured_config()
+        estimate = TimeEstimator.estimate_run_seconds(gen_config, 4)
+        assert estimate == pytest.approx(
+            40.0 + self.pacing_for(gen_config, 4), abs=1
+        )
+
+    def test_a_measured_model_is_not_charged_the_full_delay(self):
+        """The double-count that made timed estimates run high.
+
+        The loop waits *for* the generations, so the interval and the measured
+        generation time are the same seconds.
+        """
+        gen_config = self.measured_config()
+        estimate = TimeEstimator.estimate_run_seconds(gen_config, 4)
+        assert estimate < TimeEstimator.delay_seconds(4) + 40.0
+
+    def test_it_scales_with_image_count(self):
+        gen_config = self.measured_config()
         one = TimeEstimator.estimate_run_seconds(gen_config, 1)
         ten = TimeEstimator.estimate_run_seconds(gen_config, 10)
-        assert ten - TimeEstimator.delay_seconds(10) == pytest.approx(
-            (one - TimeEstimator.delay_seconds(1)) * 10, abs=1
-        )
+        generation_one = one - self.pacing_for(gen_config, 1)
+        generation_ten = ten - self.pacing_for(gen_config, 10)
+        assert generation_ten == pytest.approx(generation_one * 10, abs=1)
 
     def test_a_config_without_models_falls_back_to_the_delay(self):
         """Nothing to look a rate up with; must not raise."""

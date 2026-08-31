@@ -41,8 +41,6 @@ class BaseImageGenerator(ABC):
     _last_dispatched_model: dict = {}
     _timing_lock = threading.Lock()
 
-    pending_counter = 0
-
     @classmethod
     def shutdown_executor(cls, wait: bool = False) -> None:
         """
@@ -69,6 +67,12 @@ class BaseImageGenerator(ABC):
         self.ui_callbacks = ui_callbacks
         self.counter = 0
         self.latent_counter = 0
+        #: Generations dispatched by this generator and not yet accounted for.
+        #: Per instance, not shared: it was previously declared on the class,
+        #: which read as shared state but never behaved that way -- the first
+        #: ``+=`` bound an instance attribute and the class value stayed at
+        #: zero for the life of the process.
+        self.pending_counter = 0
         self.captioner = None
         self.has_run_one_workflow = False
         self._lock = threading.Lock()  # Instance-specific lock
@@ -178,7 +182,13 @@ class BaseImageGenerator(ABC):
         return self.gen_config.prompt_image_path or None
 
     def reset_counters(self) -> None:
-        # NOTE needs to be called with the lock acquired
+        """Zero the reporting tallies. NOTE needs the lock already acquired.
+
+        ``pending_counter`` is deliberately not among them: these are counts of
+        what has been started, zeroed once print_stats has reported them, while
+        pending_counter is live in-flight work. Zeroing it here would discard
+        generations that are still running.
+        """
         self.counter = 0
         self.latent_counter = 0
 
@@ -460,7 +470,16 @@ class BaseImageGenerator(ABC):
             self.update_ui_pending()
 
     def _arm_pending_release(self) -> None:
-        """Mark this thread's dispatch as still owing a decrement."""
+        """Mark this thread's dispatch as still owing a decrement.
+
+        A flag rather than a depth count, which is what couples the backend
+        releases to this: a derived pass re-arms a flag the parent pass has
+        already spent, so exactly one release must land between the two arms.
+        Dropping the per-backend ``release_pending`` calls in favour of the
+        wrapper's alone would leave the parent's increment unreleased -- the
+        derivative's release would clear the flag and the wrapper's would find
+        nothing owed. Convert this to a counter first if those calls ever go.
+        """
         self._pending_release.armed = True
 
     def release_pending(self) -> None:

@@ -278,6 +278,11 @@ class Globals:
     PROMPTER_GET_SPECIFIC_LOCATIONS = config.get("prompter_get_specific_locations", True)
     PROMPTER_GET_SPECIFIC_TIMES = config.get("prompter_get_specific_times", True)
     GENERATION_DELAY_TIME_SECONDS = 10
+    #: Held between run-loop iterations even when the backend is already idle,
+    #: so a backend that fails instantly cannot be retried at full loop speed.
+    #: Lives here rather than on Run so the time estimator can account for it
+    #: without utils importing sd_runner.
+    MINIMUM_PACING_SECONDS = 1
     TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS = 30 * 60  # 30 minutes default threshold
     image_data_extractor = None
 
