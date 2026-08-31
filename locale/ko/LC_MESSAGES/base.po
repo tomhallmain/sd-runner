@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2026-07-03 12:32-0400\n"
-"PO-Revision-Date: 2026-07-03 12:32-0400\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"POT-Creation-Date: 2026-08-31 17:44-0400\n"
+"PO-Revision-Date: 2026-08-31 17:44-0400\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
 "Language-Team: ko Team <<EMAIL>>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -12,16 +12,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app_qt.py:38 ui_qt/app_window/app_window.py:129
-#: ui_qt/app_window/app_window.py:154 ui_qt/app_window/app_window.py:360
+#: app_qt.py:40 ui_qt/app_window/app_window.py:129
+#: ui_qt/app_window/app_window.py:154 ui_qt/app_window/app_window.py:364
 msgid " SD Runner "
 msgstr " SD 러너 "
 
-#: app_qt.py:95
+#: app_qt.py:145
 msgid "Startup Error"
 msgstr "시작 오류"
 
-#: app_qt.py:96
+#: app_qt.py:146
 msgid "Failed to create main window:"
 msgstr "메인 윈도우를 만들 때 실패했습니다:"
 
@@ -44,7 +44,7 @@ msgstr "네"
 msgid "No"
 msgstr "아니요"
 
-#: sd_runner/blacklist.py:569
+#: sd_runner/blacklist.py:643
 msgid "Filtering concepts for blacklist: "
 msgstr "블랙리스트에 대한 필터링 개념: "
 
@@ -78,23 +78,23 @@ msgstr ""
 "\n"
 "다른 모델로 다시 시도해 주시기 바랍니다."
 
-#: sd_runner/run_config.py:68
+#: sd_runner/run_config.py:147
 msgid "No prompter config found!"
 msgstr "프롬프터 구성을 찾을 수 없습니다!"
 
-#: sd_runner/run_config.py:72
+#: sd_runner/run_config.py:151
 msgid ""
 "Ensure configuration is correct - do you really want to create more than 10 "
 "images using the same prompt?"
 msgstr "구성이 올바른지 확인 - 동일한 프롬프트를 사용하여 10개 이상의 이미지를 생성하고 싶으신가요?"
 
-#: sd_runner/run_config.py:79
+#: sd_runner/run_config.py:163
 msgid ""
 "A model switch was detected and the model massage tags don't match. This "
 "warning will only be shown once."
 msgstr "모델 전환이 감지되었으며 모델 조정용 태그가 일치하지 않습니다. 이 경고는 한 번만 표시됩니다."
 
-#: sd_runner/run_config.py:173
+#: sd_runner/run_config.py:259
 msgid ""
 "WARNING: Multiple resolutions in renoiser workflow will produce nearly "
 "identical results (duplicates)."
@@ -133,7 +133,7 @@ msgid "Shutdown scheduled: {}"
 msgstr "예정된 종료 시간: {}"
 
 #: tests/ui/test_prompt_generator_window.py:93
-#: ui_qt/prompts/image_to_prompt_window.py:310
+#: ui_qt/prompts/image_to_prompt_window.py:375
 #: ui_qt/prompts/prompt_generator_window.py:176
 msgid "Copied to clipboard"
 msgstr "클립보드에 복사되었습니다"
@@ -318,7 +318,7 @@ msgstr "사전 경로 재정의"
 msgid "Append to Default Dictionary"
 msgstr "기본 사전에 추가하기"
 
-#: ui_qt/config_window.py:196 ui_qt/prompts/blacklist_window.py:241
+#: ui_qt/config_window.py:196 ui_qt/prompts/blacklist_window.py:255
 msgid "Similarity Check"
 msgstr "유사도 확인"
 
@@ -368,31 +368,31 @@ msgstr ""
 "\n"
 "일부 변경 사항(디렉터리, URL, UI 확대/축소 비율, 지역 설정)은 완전히 적용되려면 애플리케이션을 다시 시작해야 합니다."
 
-#: ui_qt/app_window/app_window.py:353
+#: ui_qt/app_window/app_window.py:357
 msgid "Theme switched to {0}."
 msgstr "테마는 {0}에 전환."
 
-#: ui_qt/app_window/app_window.py:362
+#: ui_qt/app_window/app_window.py:366
 msgid "Debug mode toggled."
 msgstr "디버그 모드 토글됨."
 
-#: ui_qt/app_window/app_window.py:735 ui_qt/app_window/app_window.py:750
+#: ui_qt/app_window/app_window.py:798 ui_qt/app_window/app_window.py:813
 msgid "Updating history for blacklist changes — please wait…"
 msgstr "차단 목록 변경 내역 업데이트 중 — 잠시만 기다려 주세요…"
 
-#: ui_qt/app_window/app_window.py:737
+#: ui_qt/app_window/app_window.py:800
 msgid "Saving application data is taking longer than expected — please wait…"
 msgstr "앱 데이터 저장이 예상보다 오래 걸리고 있습니다 — 잠시만 기다려주세요…"
 
-#: ui_qt/app_window/app_window.py:739
+#: ui_qt/app_window/app_window.py:802
 msgid "Closing"
 msgstr "폐장"
 
-#: ui_qt/app_window/app_window.py:819
+#: ui_qt/app_window/app_window.py:890
 msgid "Confirm Quit"
 msgstr "종료 확인"
 
-#: ui_qt/app_window/app_window.py:820
+#: ui_qt/app_window/app_window.py:891
 msgid "Would you like to quit the application?"
 msgstr "앱을 종료하시겠습니까?"
 
@@ -402,76 +402,78 @@ msgstr "앱을 종료하시겠습니까?"
 #: ui_qt/auth/password_admin_window.py:536 ui_qt/auth/password_dialog.py:305
 #: ui_qt/models/models_window.py:563 ui_qt/models/models_window.py:703
 #: ui_qt/models/models_window.py:710 ui_qt/models/models_window.py:712
-#: ui_qt/prompts/blacklist_modify_window.py:142
+#: ui_qt/prompts/blacklist_modify_window.py:155
 #: ui_qt/prompts/blacklist_preview_window.py:209
-#: ui_qt/prompts/concept_editor_window.py:455
-#: ui_qt/prompts/concept_editor_window.py:569
-#: ui_qt/prompts/concept_editor_window.py:593
+#: ui_qt/prompts/concept_editor_window.py:456
+#: ui_qt/prompts/concept_editor_window.py:571
+#: ui_qt/prompts/concept_editor_window.py:595
 msgid "Error"
 msgstr "오류"
 
-#: ui_qt/app_window/run_controller.py:100
+#: ui_qt/app_window/run_controller.py:156
 msgid "Blacklisted items found in prompt: {0}"
 msgstr "프롬프트에서 블랙리스트 항목을 발견했습니다: {0}"
 
-#: ui_qt/app_window/run_controller.py:101
-#: ui_qt/app_window/run_controller.py:105
+#: ui_qt/app_window/run_controller.py:157
+#: ui_qt/app_window/run_controller.py:161
 msgid "Invalid Prompt Tags"
 msgstr "잘못된 프롬프트 태그"
 
-#: ui_qt/app_window/run_controller.py:105
+#: ui_qt/app_window/run_controller.py:161
 msgid "Blacklist validation failed!"
 msgstr "블랙리스트 유효성 검사에 실패했습니다!"
 
-#: ui_qt/app_window/run_controller.py:113
+#: ui_qt/app_window/run_controller.py:169
 msgid "Prompt too similar to blocked concept \"{0}\" ({1:.0%})"
 msgstr "이 프롬프트는 차단된 개념 \"{0}\"과 너무 유사합니다 ({1:.0%})"
 
-#: ui_qt/app_window/run_controller.py:117
+#: ui_qt/app_window/run_controller.py:173
 msgid "Similarity Check Failed"
 msgstr "유사성 검사 실패"
 
-#: ui_qt/app_window/run_controller.py:200
+#: tests/integration/test_run_dispatch.py:285
+#: ui_qt/app_window/run_controller.py:269
 msgid "Run Error"
 msgstr "실행 오류"
 
-#: ui_qt/app_window/run_controller.py:235 ui_qt/runs/runs_window.py:132
+#: ui_qt/app_window/run_controller.py:307 ui_qt/runs/runs_window.py:146
 msgid "Resume Queue"
 msgstr "대기열 다시 시작"
 
-#: ui_qt/app_window/run_controller.py:235
-#: ui_qt/app_window/sidebar_panel.py:130 ui_qt/runs/runs_window.py:128
+#: ui_qt/app_window/run_controller.py:307
+#: ui_qt/app_window/sidebar_panel.py:130 ui_qt/runs/runs_window.py:142
 msgid "Pause Queue"
 msgstr "대기열 일시 중지"
 
-#: ui_qt/app_window/run_controller.py:271
-#: ui_qt/app_window/run_controller.py:301
+#: ui_qt/app_window/run_controller.py:346
+#: ui_qt/app_window/run_controller.py:385
 msgid "Confirm Run"
 msgstr "실행 확인"
 
-#: ui_qt/app_window/run_controller.py:272
+#: ui_qt/app_window/run_controller.py:347
 msgid ""
 "Starting a new run will cancel the current preset schedule. Are you sure you"
 " want to proceed?"
 msgstr "새 실행을 시작하면 현재 미리 설정된 일정이 취소됩니다. 계속 진행하시겠습니까?"
 
-#: ui_qt/app_window/run_controller.py:302
+#: ui_qt/app_window/run_controller.py:386
 msgid "Are you sure you want to proceed?"
 msgstr "계속 진행하시겠습니까?"
 
-#: ui_qt/app_window/run_controller.py:314
+#: ui_qt/app_window/run_controller.py:398
 msgid "Setting up run..."
 msgstr "실행 설정 중..."
 
-#: ui_qt/app_window/run_controller.py:324
+#: ui_qt/app_window/run_controller.py:404
+#: ui_qt/app_window/run_controller.py:448
 msgid "No models found"
 msgstr "모델이 없습니다"
 
-#: ui_qt/app_window/run_controller.py:438
+#: ui_qt/app_window/run_controller.py:414
 msgid "Long Running Job Confirmation"
 msgstr "장시간 실행 작업 확인"
 
-#: ui_qt/app_window/run_controller.py:439
+#: ui_qt/app_window/run_controller.py:415
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -485,27 +487,27 @@ msgstr ""
 "\n"
 "계속하시겠습니까?"
 
-#: ui_qt/app_window/run_controller.py:577
+#: ui_qt/app_window/run_controller.py:723
 msgid " (unlimited)"
 msgstr " (무제한)"
 
-#: ui_qt/app_window/run_controller.py:591
+#: ui_qt/app_window/run_controller.py:737
 msgid "Batch: {0}/{1}"
 msgstr "배치: {0}/{1}"
 
-#: ui_qt/app_window/run_controller.py:598
+#: ui_qt/app_window/run_controller.py:744
 msgid "Adapter: {0}/{1}"
 msgstr "어댑터: {0}/{1}"
 
-#: ui_qt/app_window/run_controller.py:602
+#: ui_qt/app_window/run_controller.py:748
 msgid "Remaining: {0} adapters"
 msgstr "남은 어댑터: {0}"
 
-#: ui_qt/app_window/run_controller.py:611
+#: ui_qt/app_window/run_controller.py:757
 msgid "{0} remaining adapters"
 msgstr "{0} 남은 어댑터"
 
-#: ui_qt/app_window/run_controller.py:633
+#: ui_qt/app_window/run_controller.py:779
 msgid "{0} pending generations"
 msgstr "{0}개의 이미지 생성 대기 중"
 
@@ -517,7 +519,7 @@ msgstr "이미지 생성 워크플로 실행"
 msgid "Run Workflows"
 msgstr "워크플로 실행"
 
-#: ui_qt/app_window/sidebar_panel.py:119 ui_qt/runs/runs_window.py:54
+#: ui_qt/app_window/sidebar_panel.py:119 ui_qt/runs/runs_window.py:65
 msgid "Runs"
 msgstr "실행"
 
@@ -529,7 +531,7 @@ msgstr "대기열 및 실행 기록 보기"
 msgid "Cancel Run"
 msgstr "실행 취소"
 
-#: ui_qt/app_window/sidebar_panel.py:131 ui_qt/runs/runs_window.py:129
+#: ui_qt/app_window/sidebar_panel.py:131 ui_qt/runs/runs_window.py:143
 msgid "Pause after the current job completes"
 msgstr "현재 작업 완료 후 일시 중지"
 
@@ -537,9 +539,8 @@ msgstr "현재 작업 완료 후 일시 중지"
 msgid "Software"
 msgstr "소프트웨어"
 
-#: ui_qt/app_window/sidebar_panel.py:170 ui_qt/runs/runs_window.py:98
-#: ui_qt/runs/runs_window.py:107 ui_qt/runs/runs_window.py:118
-#: ui_qt/runs/runs_window.py:314
+#: ui_qt/app_window/sidebar_panel.py:170 ui_qt/runs/runs_window.py:109
+#: ui_qt/runs/runs_window.py:118 ui_qt/runs/runs_window.py:337
 msgid "Workflow"
 msgstr "워크플로"
 
@@ -640,7 +641,7 @@ msgid "Redo Parameters"
 msgstr "매개변수 다시 실행"
 
 #: ui_qt/app_window/sidebar_panel.py:365
-#: ui_qt/prompts/prompt_config_window.py:351
+#: ui_qt/prompts/prompt_config_window.py:384
 msgid "Prompts Configuration"
 msgstr "프롬프트 구성"
 
@@ -657,7 +658,7 @@ msgstr "예약 설정"
 msgid "Timed Schedules"
 msgstr "예약된 일정"
 
-#: ui_qt/app_window/sidebar_panel.py:392 ui_qt/prompts/blacklist_window.py:239
+#: ui_qt/app_window/sidebar_panel.py:392 ui_qt/prompts/blacklist_window.py:253
 msgid "Tag Blacklist"
 msgstr "태그 블랙리스트"
 
@@ -675,7 +676,7 @@ msgid "Prompt Generator"
 msgstr "프롬프트 제너레이터"
 
 #: ui_qt/app_window/sidebar_panel.py:424
-#: ui_qt/prompts/image_to_prompt_window.py:57
+#: ui_qt/prompts/image_to_prompt_window.py:58
 msgid "Image to Prompt"
 msgstr "이미지에서 프롬프트로"
 
@@ -683,7 +684,7 @@ msgstr "이미지에서 프롬프트로"
 msgid "Prompt Mode"
 msgstr "프롬프트 모드"
 
-#: ui_qt/app_window/sidebar_panel.py:456 utils/globals.py:681
+#: ui_qt/app_window/sidebar_panel.py:456 utils/globals.py:742
 msgid "Edit Concepts"
 msgstr "개념 편집"
 
@@ -700,7 +701,7 @@ msgid "Inpainting"
 msgstr "인페인팅"
 
 #: ui_qt/app_window/sidebar_panel.py:482
-#: ui_qt/prompts/prompt_config_window.py:265
+#: ui_qt/prompts/prompt_config_window.py:298
 msgid "Override Base Negative"
 msgstr "기본 음수 재정의"
 
@@ -709,47 +710,47 @@ msgid "Run Preset Schedule"
 msgstr "사전 설정 일정 실행"
 
 #: ui_qt/app_window/sidebar_panel.py:491
-#: ui_qt/prompts/prompt_config_window.py:280
+#: ui_qt/prompts/prompt_config_window.py:313
 msgid "Continuous Seed Variation"
 msgstr "연속적인 랜덤 시드 변동"
 
 #: ui_qt/app_window/sidebar_panel.py:495
-#: ui_qt/prompts/prompt_config_window.py:285
+#: ui_qt/prompts/prompt_config_window.py:318
 msgid "Slight Dimension Variation"
 msgstr "미세한 치수 편차"
 
-#: ui_qt/app_window/sidebar_panel.py:500
+#: ui_qt/app_window/sidebar_panel.py:509
 msgid "Prompt Massage Tags"
 msgstr "프롬프트 마사지 태그"
 
-#: ui_qt/app_window/sidebar_panel.py:507 ui_qt/runs/runs_window.py:107
-#: ui_qt/runs/runs_window.py:314
+#: ui_qt/app_window/sidebar_panel.py:516 ui_qt/runs/runs_window.py:119
+#: ui_qt/runs/runs_window.py:337
 msgid "Positive Tags"
 msgstr "프롬프트 조정 태그"
 
-#: ui_qt/app_window/sidebar_panel.py:513
+#: ui_qt/app_window/sidebar_panel.py:522
 msgid "Negative Tags"
 msgstr "네거티브 태그"
 
-#: ui_qt/app_window/sidebar_panel.py:520
+#: ui_qt/app_window/sidebar_panel.py:529
 msgid "Exclusion Tags (regex)"
 msgstr "제외 태그 (regex)"
 
-#: ui_qt/app_window/sidebar_panel.py:522
+#: ui_qt/app_window/sidebar_panel.py:531
 msgid "regex to exclude concepts, e.g. cat|dog"
 msgstr "개념을 제외하는 정규식, 예: cat|dog"
 
-#: ui_qt/app_window/sidebar_panel.py:524
+#: ui_qt/app_window/sidebar_panel.py:533
 msgid ""
 "Per-run regex filter: any generated concept matching this pattern is removed"
 " from the prompt"
 msgstr "실행별 정규식 필터: 이 패턴과 일치하는 생성된 모든 개념이 프롬프트에서 제거됩니다"
 
-#: ui_qt/app_window/sidebar_panel.py:686
+#: ui_qt/app_window/sidebar_panel.py:717
 msgid "Password Cancelled"
 msgstr "비밀번호 취소"
 
-#: ui_qt/app_window/sidebar_panel.py:687
+#: ui_qt/app_window/sidebar_panel.py:718
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr "비밀번호가 취소되었거나 잘못된 경우 이전 모드로 되돌리기"
 
@@ -888,7 +889,7 @@ msgstr "비밀번호 설정"
 
 #: ui_qt/auth/password_admin_window.py:338
 #: ui_qt/auth/password_admin_window.py:402
-#: ui_qt/models/recent_adapters_window.py:628
+#: ui_qt/models/recent_adapters_window.py:637
 msgid "Reset to Defaults"
 msgstr "기본값으로 재설정"
 
@@ -902,21 +903,21 @@ msgid "Export Cache as JSON"
 msgstr "캐시를 JSON으로 내보내기"
 
 #: ui_qt/auth/password_admin_window.py:350
-#: ui_qt/models/recent_adapters_window.py:625
+#: ui_qt/models/recent_adapters_window.py:634
 msgid "Save Settings"
 msgstr "설정 저장"
 
 #: ui_qt/auth/password_admin_window.py:354 ui_qt/models/models_window.py:171
 #: ui_qt/models/models_window.py:228 ui_qt/models/models_window.py:643
-#: ui_qt/models/recent_adapters_window.py:398
-#: ui_qt/models/recent_adapters_window.py:436
-#: ui_qt/models/recent_adapters_window.py:474
-#: ui_qt/models/recent_adapters_window.py:516
-#: ui_qt/models/recent_adapters_window.py:579
-#: ui_qt/models/recent_adapters_window.py:631
+#: ui_qt/models/recent_adapters_window.py:407
+#: ui_qt/models/recent_adapters_window.py:445
+#: ui_qt/models/recent_adapters_window.py:483
+#: ui_qt/models/recent_adapters_window.py:525
+#: ui_qt/models/recent_adapters_window.py:588
+#: ui_qt/models/recent_adapters_window.py:640
 #: ui_qt/prompts/blacklist_preview_window.py:84
-#: ui_qt/prompts/prompt_config_window.py:197 ui_qt/runs/runs_window.py:150
-#: ui_qt/runs/runs_window.py:327
+#: ui_qt/prompts/prompt_config_window.py:230 ui_qt/runs/runs_window.py:164
+#: ui_qt/runs/runs_window.py:350
 msgid "Close"
 msgstr "닫기"
 
@@ -1081,7 +1082,7 @@ msgid "Remove current tab"
 msgstr "현재 탭 제거"
 
 #: ui_qt/models/model_presets_window.py:159
-#: ui_qt/prompts/blacklist_modify_window.py:110
+#: ui_qt/prompts/blacklist_modify_window.py:122
 #: ui_qt/prompts/expansions_window.py:106
 msgid "Done"
 msgstr "완료"
@@ -1112,7 +1113,7 @@ msgid "Model presets (saved to config.json)"
 msgstr "모델 프리셋 (config.json에 저장됨)"
 
 #: ui_qt/models/model_presets_window.py:297
-#: ui_qt/presets/presets_window.py:138
+#: ui_qt/presets/presets_window.py:148
 msgid "Add preset"
 msgstr "사전 설정 추가"
 
@@ -1121,19 +1122,19 @@ msgid "Filter by model tags…"
 msgstr "모델 태그로 필터링…"
 
 #: ui_qt/models/model_presets_window.py:316
-#: ui_qt/presets/schedules_window.py:285
+#: ui_qt/presets/schedules_window.py:295
 #: ui_qt/presets/timed_schedules_window.py:242
-#: ui_qt/prompts/blacklist_window.py:471 ui_qt/prompts/blacklist_window.py:514
-#: ui_qt/prompts/expansions_window.py:289
+#: ui_qt/prompts/blacklist_window.py:485 ui_qt/prompts/blacklist_window.py:528
+#: ui_qt/prompts/expansions_window.py:299
 msgid "Modify"
 msgstr "수정"
 
 #: ui_qt/models/model_presets_window.py:317
-#: ui_qt/presets/presets_window.py:192 ui_qt/presets/schedules_window.py:126
-#: ui_qt/presets/schedules_window.py:290
+#: ui_qt/presets/presets_window.py:202 ui_qt/presets/schedules_window.py:126
+#: ui_qt/presets/schedules_window.py:300
 #: ui_qt/presets/timed_schedules_window.py:249
-#: ui_qt/prompts/concept_editor_window.py:237
-#: ui_qt/prompts/expansions_window.py:290
+#: ui_qt/prompts/concept_editor_window.py:238
+#: ui_qt/prompts/expansions_window.py:300
 msgid "Delete"
 msgstr "삭제"
 
@@ -1200,11 +1201,11 @@ msgid "HF Hub"
 msgstr "HF Hub"
 
 #: ui_qt/models/models_window.py:133 ui_qt/models/models_window.py:187
-#: ui_qt/models/recent_adapters_window.py:373
-#: ui_qt/models/recent_adapters_window.py:411
-#: ui_qt/models/recent_adapters_window.py:449
-#: ui_qt/models/recent_adapters_window.py:491
-#: ui_qt/models/recent_adapters_window.py:536 ui_qt/runs/runs_window.py:306
+#: ui_qt/models/recent_adapters_window.py:382
+#: ui_qt/models/recent_adapters_window.py:420
+#: ui_qt/models/recent_adapters_window.py:458
+#: ui_qt/models/recent_adapters_window.py:500
+#: ui_qt/models/recent_adapters_window.py:545 ui_qt/runs/runs_window.py:329
 msgid "Filter"
 msgstr "필터"
 
@@ -1213,33 +1214,33 @@ msgid "Model Name"
 msgstr "모델명"
 
 #: ui_qt/models/models_window.py:144 ui_qt/models/models_window.py:197
-#: ui_qt/models/recent_adapters_window.py:382
-#: ui_qt/models/recent_adapters_window.py:420
-#: ui_qt/models/recent_adapters_window.py:458
-#: ui_qt/models/recent_adapters_window.py:497
-#: ui_qt/models/recent_adapters_window.py:565
+#: ui_qt/models/recent_adapters_window.py:391
+#: ui_qt/models/recent_adapters_window.py:429
+#: ui_qt/models/recent_adapters_window.py:467
+#: ui_qt/models/recent_adapters_window.py:506
+#: ui_qt/models/recent_adapters_window.py:574
 msgid "Created"
 msgstr "생성됨"
 
 #: ui_qt/models/models_window.py:159 ui_qt/models/models_window.py:211
-#: ui_qt/models/recent_adapters_window.py:387
-#: ui_qt/models/recent_adapters_window.py:425
-#: ui_qt/models/recent_adapters_window.py:463
+#: ui_qt/models/recent_adapters_window.py:396
+#: ui_qt/models/recent_adapters_window.py:434
+#: ui_qt/models/recent_adapters_window.py:472
 msgid "Replace"
 msgstr "바꾸다"
 
 #: ui_qt/models/models_window.py:162 ui_qt/models/models_window.py:214
-#: ui_qt/models/recent_adapters_window.py:387
-#: ui_qt/models/recent_adapters_window.py:425
-#: ui_qt/models/recent_adapters_window.py:463
+#: ui_qt/models/recent_adapters_window.py:396
+#: ui_qt/models/recent_adapters_window.py:434
+#: ui_qt/models/recent_adapters_window.py:472
 msgid "Add"
 msgstr "추가"
 
 #: ui_qt/models/models_window.py:165 ui_qt/models/models_window.py:222
-#: ui_qt/models/recent_adapters_window.py:397
-#: ui_qt/models/recent_adapters_window.py:435
-#: ui_qt/models/recent_adapters_window.py:473 ui_qt/runs/runs_window.py:125
-#: ui_qt/runs/runs_window.py:324
+#: ui_qt/models/recent_adapters_window.py:406
+#: ui_qt/models/recent_adapters_window.py:444
+#: ui_qt/models/recent_adapters_window.py:482 ui_qt/runs/runs_window.py:139
+#: ui_qt/runs/runs_window.py:347
 msgid "Refresh"
 msgstr "새로 고침"
 
@@ -1353,7 +1354,7 @@ msgid "HF Hub Snapshot Error"
 msgstr "HF 허브 스냅샷 오류"
 
 #: ui_qt/models/models_window.py:489
-#: ui_qt/models/recent_adapters_window.py:766
+#: ui_qt/models/recent_adapters_window.py:775
 msgid "Cache"
 msgstr "캐시"
 
@@ -1421,7 +1422,7 @@ msgstr "트리거 정보 로딩 중..."
 msgid "Create .safetriggers File"
 msgstr ".safetriggers 파일 생성"
 
-#: ui_qt/models/models_window.py:664 utils/globals.py:604
+#: ui_qt/models/models_window.py:664 utils/globals.py:663
 msgid "Unknown"
 msgstr "알 수 없음"
 
@@ -1473,145 +1474,145 @@ msgstr ".safetriggers 파일 생성 실패"
 msgid "Failed to create .safetriggers file: {0}"
 msgstr ".safetriggers 파일 생성 실패: {0}"
 
-#: ui_qt/models/recent_adapters_window.py:330
+#: ui_qt/models/recent_adapters_window.py:339
 msgid "Recent Adapters"
 msgstr "최근 사용한 어댑터"
 
-#: ui_qt/models/recent_adapters_window.py:343
+#: ui_qt/models/recent_adapters_window.py:352
 msgid "Recent ControlNets"
 msgstr "최근 ControlNets"
 
-#: ui_qt/models/recent_adapters_window.py:344
+#: ui_qt/models/recent_adapters_window.py:353
 msgid "Recent IP Adapters"
 msgstr "최근 IP 어댑터"
 
-#: ui_qt/models/recent_adapters_window.py:345
+#: ui_qt/models/recent_adapters_window.py:354
 msgid "Recent Source Prompts"
 msgstr "최근 소스 프롬프트"
 
-#: ui_qt/models/recent_adapters_window.py:346
+#: ui_qt/models/recent_adapters_window.py:355
 msgid "All Recent Adapters"
 msgstr "최근 모든 어댑터"
 
-#: ui_qt/models/recent_adapters_window.py:347
+#: ui_qt/models/recent_adapters_window.py:356
 msgid "Favorites"
 msgstr "즐겨찾기"
 
-#: ui_qt/models/recent_adapters_window.py:348
+#: ui_qt/models/recent_adapters_window.py:357
 msgid "Configuration"
 msgstr "구성"
 
-#: ui_qt/models/recent_adapters_window.py:382
+#: ui_qt/models/recent_adapters_window.py:391
 msgid "ControlNet File"
 msgstr "ControlNet 파일"
-
-#: ui_qt/models/recent_adapters_window.py:382
-#: ui_qt/models/recent_adapters_window.py:420
-#: ui_qt/models/recent_adapters_window.py:458
-#: ui_qt/models/recent_adapters_window.py:497
-msgid "Type"
-msgstr "제품정보"
 
 #: ui_qt/models/recent_adapters_window.py:391
 #: ui_qt/models/recent_adapters_window.py:429
 #: ui_qt/models/recent_adapters_window.py:467
-#: ui_qt/models/recent_adapters_window.py:510
-#: ui_qt/models/recent_adapters_window.py:576
-#: ui_qt/prompts/expansions_window.py:291
+#: ui_qt/models/recent_adapters_window.py:506
+msgid "Type"
+msgstr "제품정보"
+
+#: ui_qt/models/recent_adapters_window.py:400
+#: ui_qt/models/recent_adapters_window.py:438
+#: ui_qt/models/recent_adapters_window.py:476
+#: ui_qt/models/recent_adapters_window.py:519
+#: ui_qt/models/recent_adapters_window.py:585
+#: ui_qt/prompts/expansions_window.py:301
 msgid "Copy"
 msgstr "복사"
 
-#: ui_qt/models/recent_adapters_window.py:394
-#: ui_qt/models/recent_adapters_window.py:432
-#: ui_qt/models/recent_adapters_window.py:470
-#: ui_qt/models/recent_adapters_window.py:513
+#: ui_qt/models/recent_adapters_window.py:403
+#: ui_qt/models/recent_adapters_window.py:441
+#: ui_qt/models/recent_adapters_window.py:479
+#: ui_qt/models/recent_adapters_window.py:522
 msgid "Add to Favorites"
 msgstr "즐겨찾기에 추가하기"
 
-#: ui_qt/models/recent_adapters_window.py:420
+#: ui_qt/models/recent_adapters_window.py:429
 msgid "IP Adapter File"
 msgstr "IP 어댑터 파일"
 
-#: ui_qt/models/recent_adapters_window.py:458
+#: ui_qt/models/recent_adapters_window.py:467
 msgid "Source Prompt File"
 msgstr "프롬프트 소스로 사용되는 파일"
 
-#: ui_qt/models/recent_adapters_window.py:486
+#: ui_qt/models/recent_adapters_window.py:495
 msgid "Individual files, including from directory-split runs (no directories)"
 msgstr "개별 파일들, 디렉터리 분할 실행 결과 포함 (디렉터리 없음)"
 
-#: ui_qt/models/recent_adapters_window.py:497
+#: ui_qt/models/recent_adapters_window.py:506
 msgid "Adapter File"
 msgstr "어댑터 파일"
 
-#: ui_qt/models/recent_adapters_window.py:502
+#: ui_qt/models/recent_adapters_window.py:511
 msgid "ControlNet (Replace)"
 msgstr "ControlNet (교체)"
 
-#: ui_qt/models/recent_adapters_window.py:503
+#: ui_qt/models/recent_adapters_window.py:512
 msgid "ControlNet (Add)"
 msgstr "ControlNet (추가)"
 
-#: ui_qt/models/recent_adapters_window.py:504
+#: ui_qt/models/recent_adapters_window.py:513
 msgid "IP Adapter (Replace)"
 msgstr "IP 어댑터 (대체)"
 
-#: ui_qt/models/recent_adapters_window.py:505
+#: ui_qt/models/recent_adapters_window.py:514
 msgid "IP Adapter (Add)"
 msgstr "IP 어댑터 (추가)"
 
-#: ui_qt/models/recent_adapters_window.py:528
+#: ui_qt/models/recent_adapters_window.py:537
 msgid ""
 "Preferred adapters regardless of type. Directories are auto-added when seen "
 "in recents."
 msgstr "유형에 관계없이 선호하는 어댑터입니다. 최근 사용 내역에 표시된 디렉터리는 자동으로 추가됩니다."
 
-#: ui_qt/models/recent_adapters_window.py:543
+#: ui_qt/models/recent_adapters_window.py:552
 msgid "Target Field"
 msgstr "입력 필드"
 
-#: ui_qt/models/recent_adapters_window.py:549 utils/globals.py:342
+#: ui_qt/models/recent_adapters_window.py:558 utils/globals.py:352
 msgid "ControlNet"
 msgstr "컨트롤넷"
 
-#: ui_qt/models/recent_adapters_window.py:550 utils/globals.py:339
+#: ui_qt/models/recent_adapters_window.py:559 utils/globals.py:349
 msgid "IP Adapter"
 msgstr "IP 어댑터"
 
-#: ui_qt/models/recent_adapters_window.py:551
+#: ui_qt/models/recent_adapters_window.py:560
 msgid "Source Prompt"
 msgstr "프롬프트 추출"
 
-#: ui_qt/models/recent_adapters_window.py:558
+#: ui_qt/models/recent_adapters_window.py:567
 msgid "Append (unchecked = Replace)"
 msgstr "추가 (선택 안 함 = 바꾸기)"
 
-#: ui_qt/models/recent_adapters_window.py:565
+#: ui_qt/models/recent_adapters_window.py:574
 msgid "Favorite Adapter"
 msgstr "좋아하는 어댑터"
 
-#: ui_qt/models/recent_adapters_window.py:570
+#: ui_qt/models/recent_adapters_window.py:579
 msgid "Use Favorite"
 msgstr "즐겨찾기 사용"
 
-#: ui_qt/models/recent_adapters_window.py:573
-#: ui_qt/prompts/blacklist_window.py:472 ui_qt/prompts/blacklist_window.py:515
+#: ui_qt/models/recent_adapters_window.py:582
+#: ui_qt/prompts/blacklist_window.py:486 ui_qt/prompts/blacklist_window.py:529
 msgid "Remove"
 msgstr "제거"
 
-#: ui_qt/models/recent_adapters_window.py:594
+#: ui_qt/models/recent_adapters_window.py:603
 msgid "Recent Adapters Configuration"
 msgstr "최근 어댑터 구성"
 
-#: ui_qt/models/recent_adapters_window.py:599
+#: ui_qt/models/recent_adapters_window.py:608
 msgid "Max Recent Items:"
 msgstr "최대 최근 항목:"
 
-#: ui_qt/models/recent_adapters_window.py:608
+#: ui_qt/models/recent_adapters_window.py:617
 msgid "Max Recent Split Items:"
 msgstr "최근 분할 항목 최대 개수:"
 
-#: ui_qt/models/recent_adapters_window.py:617
+#: ui_qt/models/recent_adapters_window.py:626
 msgid ""
 "These settings control how many recent adapters are kept in memory.\n"
 "Higher values use more memory but keep more history.\n"
@@ -1621,67 +1622,67 @@ msgstr ""
 "값이 높을수록 더 많은 메모리를 사용하지만 더 많은 기록을 보관합니다.\n"
 "변경 사항은 즉시 적용되며 자동으로 저장됩니다."
 
-#: ui_qt/models/recent_adapters_window.py:662
-#: ui_qt/models/recent_adapters_window.py:851
-#: ui_qt/models/recent_adapters_window.py:864
-#: ui_qt/models/recent_adapters_window.py:880
+#: ui_qt/models/recent_adapters_window.py:671
+#: ui_qt/models/recent_adapters_window.py:860
+#: ui_qt/models/recent_adapters_window.py:873
+#: ui_qt/models/recent_adapters_window.py:889
 msgid "Select a row first"
 msgstr "먼저 한 행을 선택하세요"
 
-#: ui_qt/models/recent_adapters_window.py:668
+#: ui_qt/models/recent_adapters_window.py:677
 msgid "Copied path to clipboard"
 msgstr "경로를 클립보드에 복사했습니다"
 
-#: ui_qt/models/recent_adapters_window.py:868
+#: ui_qt/models/recent_adapters_window.py:877
 msgid "Directories are auto-favorited and cannot be removed here"
 msgstr "디렉터리는 자동으로 즐겨찾기로 추가되었으며 여기서는 삭제할 수 없습니다"
 
-#: ui_qt/models/recent_adapters_window.py:873
+#: ui_qt/models/recent_adapters_window.py:882
 msgid "Removed from favorites"
 msgstr "즐겨찾기에서 제거됨"
 
-#: ui_qt/models/recent_adapters_window.py:875
+#: ui_qt/models/recent_adapters_window.py:884
 msgid "Item was not in favorites"
 msgstr "항목은 즐겨찾기 목록에 없었습니다"
 
-#: ui_qt/models/recent_adapters_window.py:886
+#: ui_qt/models/recent_adapters_window.py:895
 msgid "Added to favorites"
 msgstr "즐겨찾기에 추가됨"
 
-#: ui_qt/models/recent_adapters_window.py:888
+#: ui_qt/models/recent_adapters_window.py:897
 msgid "Already in favorites"
 msgstr "이미 즐겨찾기에 있습니다"
 
-#: ui_qt/presets/presets_window.py:91
+#: ui_qt/presets/presets_window.py:101
 msgid "New Preset (ERROR no presets found)"
 msgstr "새 프리셋(오류: 프리셋을 찾을 수 없음)"
 
-#: ui_qt/presets/presets_window.py:99
+#: ui_qt/presets/presets_window.py:109
 msgid "Not enough presets found."
 msgstr "사전 설정이 충분하지 않습니다."
 
-#: ui_qt/presets/presets_window.py:126
+#: ui_qt/presets/presets_window.py:136
 msgid "Presets Window"
 msgstr "사전 설정 창"
 
-#: ui_qt/presets/presets_window.py:134
+#: ui_qt/presets/presets_window.py:144
 msgid "Set a new preset"
 msgstr "새 프리셋 설정"
 
-#: ui_qt/presets/presets_window.py:135
+#: ui_qt/presets/presets_window.py:145
 msgid "New Preset"
 msgstr "새로운 프리셋"
 
-#: ui_qt/presets/presets_window.py:141
+#: ui_qt/presets/presets_window.py:151
 msgid "Clear presets"
 msgstr "사전 설정 지우기"
 
-#: ui_qt/presets/presets_window.py:187 ui_qt/presets/schedules_window.py:280
+#: ui_qt/presets/presets_window.py:197 ui_qt/presets/schedules_window.py:290
 #: ui_qt/prompts/frequent_prompt_tags_window.py:138
 msgid "Set"
 msgstr "설정"
 
-#: ui_qt/presets/presets_window.py:208
+#: ui_qt/presets/presets_window.py:218
 msgid "Invalid preset: {0}"
 msgstr "잘못된 사전 설정입니다: {0}"
 
@@ -1728,33 +1729,33 @@ msgstr "사전 설정 작업 추가"
 msgid "Move Down"
 msgstr "아래로 이동"
 
-#: ui_qt/presets/schedules_window.py:225
+#: ui_qt/presets/schedules_window.py:235
 msgid "Preset Schedules"
 msgstr "사전 설정 일정"
 
-#: ui_qt/presets/schedules_window.py:235
+#: ui_qt/presets/schedules_window.py:245
 #: ui_qt/presets/timed_schedules_window.py:200
 msgid "Add schedule"
 msgstr "일정 추가"
 
-#: ui_qt/presets/schedules_window.py:238
+#: ui_qt/presets/schedules_window.py:248
 #: ui_qt/presets/timed_schedules_window.py:203
 msgid "Clear schedules"
 msgstr "일정 지우기"
 
-#: ui_qt/presets/schedules_window.py:262
+#: ui_qt/presets/schedules_window.py:272
 msgid "Current schedule: {0}"
 msgstr "현재 일정입니다: {0}"
 
-#: ui_qt/presets/schedules_window.py:301
+#: ui_qt/presets/schedules_window.py:311
 msgid "Set schedule: {0}"
 msgstr "일정을 설정합니다: {0}"
 
-#: ui_qt/presets/schedules_window.py:331
+#: ui_qt/presets/schedules_window.py:343
 msgid "Deleted schedule: {0}"
 msgstr "일정을 삭제했습니다: {0}"
 
-#: ui_qt/presets/schedules_window.py:338
+#: ui_qt/presets/schedules_window.py:351
 msgid "Cleared schedules"
 msgstr "일정 지우기"
 
@@ -1793,8 +1794,8 @@ msgid "Create and modify timed schedules"
 msgstr "시간표 생성 및 수정"
 
 #: ui_qt/presets/timed_schedules_window.py:256
-#: ui_qt/prompts/blacklist_modify_window.py:77
-#: ui_qt/prompts/blacklist_window.py:453 ui_qt/prompts/blacklist_window.py:497
+#: ui_qt/prompts/blacklist_modify_window.py:78
+#: ui_qt/prompts/blacklist_window.py:467 ui_qt/prompts/blacklist_window.py:511
 msgid "Enabled"
 msgstr "활성화됨"
 
@@ -1802,50 +1803,50 @@ msgstr "활성화됨"
 msgid "Modify Blacklist Item: {0}"
 msgstr "블랙리스트 항목 수정: {0}"
 
-#: ui_qt/prompts/blacklist_modify_window.py:72
+#: ui_qt/prompts/blacklist_modify_window.py:73
 msgid "Blacklist String"
 msgstr "블랙리스트 문자열"
 
-#: ui_qt/prompts/blacklist_modify_window.py:81
+#: ui_qt/prompts/blacklist_modify_window.py:82
 msgid "Use glob-based regex"
 msgstr "글로브 기반 정규식 사용"
 
-#: ui_qt/prompts/blacklist_modify_window.py:85
+#: ui_qt/prompts/blacklist_modify_window.py:86
 msgid "Use word boundary matching"
 msgstr "단어 경계 일치 사용"
 
-#: ui_qt/prompts/blacklist_modify_window.py:89
+#: ui_qt/prompts/blacklist_modify_window.py:90
 msgid "Convert spaces to optional non-word characters"
 msgstr "공백을 선택적 비단어 문자로 변환"
 
-#: ui_qt/prompts/blacklist_modify_window.py:94
+#: ui_qt/prompts/blacklist_modify_window.py:95
 msgid "Exception Pattern (optional regex to unfilter tags)"
 msgstr "예외 패턴 (필터링을 해제하기 위한 선택적 정규 표현식)"
 
-#: ui_qt/prompts/blacklist_modify_window.py:99
+#: ui_qt/prompts/blacklist_modify_window.py:100
 msgid "Apply to whole prompt (match full text, not individual tags)"
 msgstr "전체 프롬프트에 적용 (개별 태그가 아닌 전체 텍스트와 일치)"
 
-#: ui_qt/prompts/blacklist_modify_window.py:107
-#: ui_qt/prompts/blacklist_window.py:474
+#: ui_qt/prompts/blacklist_modify_window.py:119
+#: ui_qt/prompts/blacklist_window.py:488
 msgid "Preview"
 msgstr "미리보기"
 
-#: ui_qt/prompts/blacklist_modify_window.py:142
+#: ui_qt/prompts/blacklist_modify_window.py:155
 msgid "Blacklist string cannot be empty."
 msgstr "블랙리스트 텍스트는 비워둘 수 없습니다."
 
-#: ui_qt/prompts/blacklist_modify_window.py:173
+#: ui_qt/prompts/blacklist_modify_window.py:187
 msgid "No changes were made"
 msgstr "변경된 사항 없음"
 
-#: ui_qt/prompts/blacklist_modify_window.py:185
-#: ui_qt/prompts/blacklist_modify_window.py:206
+#: ui_qt/prompts/blacklist_modify_window.py:199
+#: ui_qt/prompts/blacklist_modify_window.py:220
 msgid "Unsaved Changes"
 msgstr "저장되지 않은 변경 사항"
 
-#: ui_qt/prompts/blacklist_modify_window.py:186
-#: ui_qt/prompts/blacklist_modify_window.py:207
+#: ui_qt/prompts/blacklist_modify_window.py:200
+#: ui_qt/prompts/blacklist_modify_window.py:221
 msgid "Do you want to save changes before closing?"
 msgstr "닫기 전에 변경 사항을 저장하시겠습니까?"
 
@@ -1929,7 +1930,7 @@ msgstr "[예외: {0}]"
 msgid "[whole prompt]"
 msgstr "[전체 프롬프트]"
 
-#: ui_qt/prompts/blacklist_window.py:210
+#: ui_qt/prompts/blacklist_window.py:224
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
 "\n"
@@ -1939,84 +1940,84 @@ msgstr ""
 "\n"
 "아직 어리거나 확실하지 않거나 성인이더라도 지금 이 창에서 닫기 버튼을 클릭하고 대신 다른 재미있는 일을 하세요."
 
-#: ui_qt/prompts/blacklist_window.py:221
+#: ui_qt/prompts/blacklist_window.py:235
 msgid "Tags/Models Blacklist"
 msgstr "태그 및 모델 블랙리스트"
 
-#: ui_qt/prompts/blacklist_window.py:240
+#: ui_qt/prompts/blacklist_window.py:254
 msgid "Model Blacklist"
 msgstr "모델 블랙리스트"
 
-#: ui_qt/prompts/blacklist_window.py:262 ui_qt/prompts/blacklist_window.py:329
+#: ui_qt/prompts/blacklist_window.py:276 ui_qt/prompts/blacklist_window.py:343
 msgid "Global Settings:"
 msgstr "글로벌 설정"
 
-#: ui_qt/prompts/blacklist_window.py:263 ui_qt/prompts/blacklist_window.py:330
+#: ui_qt/prompts/blacklist_window.py:277 ui_qt/prompts/blacklist_window.py:344
 msgid "These settings affect how the blacklist is applied globally."
 msgstr "이러한 설정은 블랙리스트가 전 세계적으로 적용되는 방식에 영향을 줍니다."
 
-#: ui_qt/prompts/blacklist_window.py:270 ui_qt/prompts/blacklist_window.py:337
+#: ui_qt/prompts/blacklist_window.py:284 ui_qt/prompts/blacklist_window.py:351
 msgid "Choose how the blacklist is enforced: block, warn, or allow."
 msgstr "블랙리스트 적용 방법을 차단, 경고, 허용 중에서 선택합니다."
 
-#: ui_qt/prompts/blacklist_window.py:273 ui_qt/prompts/blacklist_window.py:340
+#: ui_qt/prompts/blacklist_window.py:287 ui_qt/prompts/blacklist_window.py:354
 msgid "Silent Removal"
 msgstr "자동 제거"
 
-#: ui_qt/prompts/blacklist_window.py:276 ui_qt/prompts/blacklist_window.py:343
+#: ui_qt/prompts/blacklist_window.py:290 ui_qt/prompts/blacklist_window.py:357
 msgid ""
 "If enabled, blacklisted words are removed silently without notification."
 msgstr "활성화하면 블랙리스트에 추가된 단어가 알림 없이 자동으로 삭제됩니다."
 
-#: ui_qt/prompts/blacklist_window.py:284 ui_qt/prompts/blacklist_window.py:351
-#: ui_qt/prompts/concept_editor_window.py:244
+#: ui_qt/prompts/blacklist_window.py:298 ui_qt/prompts/blacklist_window.py:365
+#: ui_qt/prompts/concept_editor_window.py:245
 msgid "Import"
 msgstr "가져오기"
 
-#: ui_qt/prompts/blacklist_window.py:285 ui_qt/prompts/blacklist_window.py:352
+#: ui_qt/prompts/blacklist_window.py:299 ui_qt/prompts/blacklist_window.py:366
 msgid "Export"
 msgstr "내보내기"
 
-#: ui_qt/prompts/blacklist_window.py:286 ui_qt/prompts/blacklist_window.py:353
+#: ui_qt/prompts/blacklist_window.py:300 ui_qt/prompts/blacklist_window.py:367
 msgid "Preview All"
 msgstr "모두 보기"
 
-#: ui_qt/prompts/blacklist_window.py:287
+#: ui_qt/prompts/blacklist_window.py:301
 msgid "Load Default"
 msgstr "로드 기본값"
 
-#: ui_qt/prompts/blacklist_window.py:301
+#: ui_qt/prompts/blacklist_window.py:315
 msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
 msgstr "블랙리스트 적용 방식 선택: NSFW에서 차단 또는 허용."
 
-#: ui_qt/prompts/blacklist_window.py:303
+#: ui_qt/prompts/blacklist_window.py:317
 msgid "Add to tag blacklist"
 msgstr "태그 블랙리스트에 추가"
 
-#: ui_qt/prompts/blacklist_window.py:306 ui_qt/prompts/blacklist_window.py:372
+#: ui_qt/prompts/blacklist_window.py:320 ui_qt/prompts/blacklist_window.py:386
 msgid "Clear items"
 msgstr "항목 지우기"
 
-#: ui_qt/prompts/blacklist_window.py:367
+#: ui_qt/prompts/blacklist_window.py:381
 msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
 msgstr "모델 블랙리스트 적용 방식을 선택하세요: NSFW에서 차단하거나 허용합니다."
 
-#: ui_qt/prompts/blacklist_window.py:369
+#: ui_qt/prompts/blacklist_window.py:383
 msgid "Add to model blacklist"
 msgstr "모델 블랙리스트에 추가"
 
-#: ui_qt/prompts/blacklist_window.py:407
+#: ui_qt/prompts/blacklist_window.py:421
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag "
 "blacklist' button above, or load the default blacklist."
 msgstr ""
 "블랙리스트 항목이 없습니다. 위의 '태그 블랙리스트에 추가' 버튼을 클릭하여 항목을 추가하거나 기본 블랙리스트를 불러올 수 있습니다."
 
-#: ui_qt/prompts/blacklist_window.py:410
+#: ui_qt/prompts/blacklist_window.py:424
 msgid "Click below to reveal blacklist concepts."
 msgstr "아래를 클릭하면 블랙리스트 개념을 확인할 수 있습니다."
 
-#: ui_qt/prompts/blacklist_window.py:413
+#: ui_qt/prompts/blacklist_window.py:427
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the "
 "existing concepts, clearing the blacklist and adding your own, or importing "
@@ -2025,85 +2026,85 @@ msgstr ""
 "기본 블랙리스트가 로드됩니다. 기존 개념을 편집하거나, 블랙리스트를 지우고 자신만의 블랙리스트를 추가하거나, 파일에서 개념을 가져와서 "
 "자신만의 블랙리스트를 로드할 수 있습니다."
 
-#: ui_qt/prompts/blacklist_window.py:421
+#: ui_qt/prompts/blacklist_window.py:435
 msgid "Reveal Concepts"
 msgstr "컨셉 공개"
 
-#: ui_qt/prompts/blacklist_window.py:430
+#: ui_qt/prompts/blacklist_window.py:444
 msgid "Filter: \"{0}\"  ({1} of {2} items)"
 msgstr "필터: \"{0}\"  ({1} / {2} 개 항목)"
 
-#: ui_qt/prompts/blacklist_window.py:434
+#: ui_qt/prompts/blacklist_window.py:448
 msgid "{0} items"
 msgstr "{0} 아템즈"
 
-#: ui_qt/prompts/blacklist_window.py:441
+#: ui_qt/prompts/blacklist_window.py:455
 msgid "No items match the current filter."
 msgstr "아래 조건에 맞는 아이템이 없습니다."
 
-#: ui_qt/prompts/blacklist_window.py:443
+#: ui_qt/prompts/blacklist_window.py:457
 msgid "The blacklist is empty."
 msgstr "블랙리스트가 비어 있습니다."
 
-#: ui_qt/prompts/blacklist_window.py:453 ui_qt/prompts/blacklist_window.py:497
+#: ui_qt/prompts/blacklist_window.py:467 ui_qt/prompts/blacklist_window.py:511
 msgid "Item"
 msgstr "아이템"
 
-#: ui_qt/prompts/blacklist_window.py:463 ui_qt/prompts/blacklist_window.py:507
-#: ui_qt/prompts/blacklist_window.py:844 ui_qt/prompts/blacklist_window.py:943
+#: ui_qt/prompts/blacklist_window.py:477 ui_qt/prompts/blacklist_window.py:521
+#: ui_qt/prompts/blacklist_window.py:872 ui_qt/prompts/blacklist_window.py:971
 msgid "Disabled"
 msgstr "사용 안 함"
 
-#: ui_qt/prompts/blacklist_window.py:473 ui_qt/prompts/blacklist_window.py:516
+#: ui_qt/prompts/blacklist_window.py:487 ui_qt/prompts/blacklist_window.py:530
 msgid "Toggle"
 msgstr "토글"
 
-#: ui_qt/prompts/blacklist_window.py:488
+#: ui_qt/prompts/blacklist_window.py:502
 msgid ""
 "No model blacklist items found. You can add items by clicking the 'Add to "
 "model blacklist' button above."
 msgstr "모델 블랙리스트 항목이 없습니다. 위의 '모델 블랙리스트에 추가' 버튼을 클릭하여 항목을 추가할 수 있습니다."
 
-#: ui_qt/prompts/blacklist_window.py:557 ui_qt/prompts/blacklist_window.py:564
 #: ui_qt/prompts/blacklist_window.py:571 ui_qt/prompts/blacklist_window.py:578
 #: ui_qt/prompts/blacklist_window.py:585 ui_qt/prompts/blacklist_window.py:592
-#: ui_qt/prompts/blacklist_window.py:599
+#: ui_qt/prompts/blacklist_window.py:599 ui_qt/prompts/blacklist_window.py:606
+#: ui_qt/prompts/blacklist_window.py:613
 msgid "Select an item first"
 msgstr "아이템을 먼저 선택하세요"
 
-#: ui_qt/prompts/blacklist_window.py:611
+#: ui_qt/prompts/blacklist_window.py:625
 msgid "Enable similarity check"
 msgstr "유사성 검사 활성화"
 
-#: ui_qt/prompts/blacklist_window.py:615
+#: ui_qt/prompts/blacklist_window.py:629
 msgid ""
 "When enabled, prompts are rejected if cosine similarity to any blocked "
 "phrase exceeds the threshold."
 msgstr "이 기능이 활성화되면, 차단된 문구 중 어느 하나와 코사인 유사도가 임계값을 초과할 경우 프롬프트가 거부됩니다."
 
-#: ui_qt/prompts/blacklist_window.py:621
+#: ui_qt/prompts/blacklist_window.py:635
 msgid "Threshold:"
 msgstr "임계값:"
 
-#: ui_qt/prompts/blacklist_window.py:629
+#: ui_qt/prompts/blacklist_window.py:643
 msgid ""
 "Cosine similarity score at which a prompt is blocked (0.50–1.00). Lower = "
 "more sensitive."
 msgstr "프롬프트가 차단되는 코사인 유사도 점수 (0.50–1.00). 수치가 낮을수록 민감도가 높다."
 
-#: ui_qt/prompts/blacklist_window.py:636
+#: ui_qt/prompts/blacklist_window.py:650
 msgid "Blocked concepts (check to enable):"
 msgstr "차단된 개념 (활성화하려면 선택):"
 
-#: ui_qt/prompts/blacklist_window.py:649
+#: ui_qt/prompts/blacklist_window.py:663
 msgid "Add phrase..."
 msgstr "문구 추가..."
 
-#: ui_qt/prompts/blacklist_window.py:652
+#: ui_qt/prompts/blacklist_window.py:666
 msgid "Remove selected"
 msgstr "선택 항목 제거"
 
-#: ui_qt/prompts/blacklist_window.py:660
+#: ui_qt/prompts/blacklist_window.py:674
 msgid ""
 "Backend: ONNX CLIP if an .onnx model path is set in Config → Torch CLIP if "
 "the clip package is available → n-gram cosine (always available, character-"
@@ -2112,51 +2113,51 @@ msgstr ""
 "백엔드: Config에 .onnx 모델 경로가 설정된 경우 ONNX CLIP → clip 패키지를 사용할 수 있는 경우 Torch "
 "CLIP → n-그램 코사인(항상 사용 가능, 문자 수준만 지원)."
 
-#: ui_qt/prompts/blacklist_window.py:669
+#: ui_qt/prompts/blacklist_window.py:683
 msgid "Apply && Save"
 msgstr "적용 && 저장"
 
-#: ui_qt/prompts/blacklist_window.py:671
+#: ui_qt/prompts/blacklist_window.py:685
 msgid "Apply settings and rebuild the similarity engine."
 msgstr "설정을 적용하고 유사도 엔진을 다시 구축하십시오."
 
-#: ui_qt/prompts/blacklist_window.py:678
+#: ui_qt/prompts/blacklist_window.py:692
 msgid "Add Phrase"
 msgstr "문구 추가"
 
-#: ui_qt/prompts/blacklist_window.py:678
+#: ui_qt/prompts/blacklist_window.py:692
 msgid "Enter blocked concept:"
 msgstr "차단된 개념 입력:"
 
-#: ui_qt/prompts/blacklist_window.py:704
+#: ui_qt/prompts/blacklist_window.py:718
 msgid "Similarity settings saved ({0} phrases, threshold {1:.0%})"
 msgstr "유사도 설정이 저장되었습니다 ({0}개 구문, 임계값 {1:.0%})"
 
-#: ui_qt/prompts/blacklist_window.py:831
+#: ui_qt/prompts/blacklist_window.py:859
 msgid "Removed item: {0}"
 msgstr "항목을 제거했습니다: {0}"
 
-#: ui_qt/prompts/blacklist_window.py:847
+#: ui_qt/prompts/blacklist_window.py:875
 msgid "Item \"{0}\" is now {1}"
 msgstr "항목 “{0}”은 이제 {1}입니다"
 
-#: ui_qt/prompts/blacklist_window.py:849 ui_qt/prompts/blacklist_window.py:947
+#: ui_qt/prompts/blacklist_window.py:877 ui_qt/prompts/blacklist_window.py:975
 msgid "enabled"
 msgstr "활성화"
 
-#: ui_qt/prompts/blacklist_window.py:849 ui_qt/prompts/blacklist_window.py:947
+#: ui_qt/prompts/blacklist_window.py:877 ui_qt/prompts/blacklist_window.py:975
 msgid "disabled"
 msgstr "비활성화"
 
-#: ui_qt/prompts/blacklist_window.py:862
+#: ui_qt/prompts/blacklist_window.py:890
 msgid "Concepts revealed"
 msgstr "콘셉트 공개"
 
-#: ui_qt/prompts/blacklist_window.py:877
+#: ui_qt/prompts/blacklist_window.py:905
 msgid "Confirm Clear Blacklist"
 msgstr "블랙리스트 지우기 확인"
 
-#: ui_qt/prompts/blacklist_window.py:878
+#: ui_qt/prompts/blacklist_window.py:906
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
@@ -2172,15 +2173,15 @@ msgstr ""
 "\n"
 "계속하시겠습니까?"
 
-#: ui_qt/prompts/blacklist_window.py:889
+#: ui_qt/prompts/blacklist_window.py:917
 msgid "Cleared item blacklist"
 msgstr "삭제된 항목 블랙리스트"
 
-#: ui_qt/prompts/blacklist_window.py:896
+#: ui_qt/prompts/blacklist_window.py:924
 msgid "Confirm Load Default Blacklist"
 msgstr "기본 블랙리스트 로드 확인"
 
-#: ui_qt/prompts/blacklist_window.py:897
+#: ui_qt/prompts/blacklist_window.py:925
 msgid ""
 "Are you sure you want to load the default blacklist?\n"
 "\n"
@@ -2194,254 +2195,254 @@ msgstr ""
 "\n"
 "계속하시겠습니까?"
 
-#: ui_qt/prompts/blacklist_window.py:905
+#: ui_qt/prompts/blacklist_window.py:933
 msgid "Loaded default blacklist"
 msgstr "로드된 기본 블랙리스트"
 
-#: ui_qt/prompts/blacklist_window.py:909
+#: ui_qt/prompts/blacklist_window.py:937
 msgid "Error loading default blacklist"
 msgstr "기본 블랙리스트 로드 중 오류 발생"
 
-#: ui_qt/prompts/blacklist_window.py:910
+#: ui_qt/prompts/blacklist_window.py:938
 msgid "Could not decrypt or load the default blacklist."
 msgstr "기본 차단 목록을 해독하거나 불러올 수 없습니다."
 
-#: ui_qt/prompts/blacklist_window.py:931
+#: ui_qt/prompts/blacklist_window.py:959
 msgid "Removed model blacklist item: {0}"
 msgstr "모델 블랙리스트 항목 제거: {0}"
 
-#: ui_qt/prompts/blacklist_window.py:945
+#: ui_qt/prompts/blacklist_window.py:973
 msgid "Model item '{0}' is now {1}"
 msgstr "모델 항목 '{0}'은 이제 {1}입니다"
 
-#: ui_qt/prompts/blacklist_window.py:957
+#: ui_qt/prompts/blacklist_window.py:985
 msgid "Cleared model blacklist items"
 msgstr "검토 완료된 모델 블랙리스트 항목"
 
-#: ui_qt/prompts/blacklist_window.py:963
+#: ui_qt/prompts/blacklist_window.py:991
 msgid "Not Implemented"
 msgstr "미구현"
 
-#: ui_qt/prompts/blacklist_window.py:964
+#: ui_qt/prompts/blacklist_window.py:992
 msgid "Preview all models not implemented yet."
 msgstr "모든 모델을 미리 보기는 아직 구현되지 않았습니다."
 
-#: ui_qt/prompts/blacklist_window.py:1005
+#: ui_qt/prompts/blacklist_window.py:1033
 msgid "Added item to blacklist: {0}"
 msgstr "블랙리스트에 항목을 추가했습니다: {0}"
 
-#: ui_qt/prompts/blacklist_window.py:1005
+#: ui_qt/prompts/blacklist_window.py:1033
 msgid "Modified blacklist item: {0}"
 msgstr "블랙리스트 항목을 수정했습니다: {0}"
 
-#: ui_qt/prompts/blacklist_window.py:1023
+#: ui_qt/prompts/blacklist_window.py:1051
 msgid "Model blacklist updated: {0}"
 msgstr "모델 블랙리스트 업데이트: {0}"
 
-#: ui_qt/prompts/blacklist_window.py:1041
+#: ui_qt/prompts/blacklist_window.py:1069
 msgid "Blacklist mode set to: {0}"
 msgstr "블랙리스트 모드가 다음과 같이 설정되었습니다: {0}"
 
-#: ui_qt/prompts/blacklist_window.py:1050
+#: ui_qt/prompts/blacklist_window.py:1078
 msgid "Blacklist prompt mode set to: {0}"
 msgstr "블랙리스트 프롬프트 모드 설정: {0}"
 
-#: ui_qt/prompts/blacklist_window.py:1059
+#: ui_qt/prompts/blacklist_window.py:1087
 msgid "Model blacklist mode set to: {0}"
 msgstr "모델 블랙리스트 모드 설정: {0}"
 
-#: ui_qt/prompts/blacklist_window.py:1070
+#: ui_qt/prompts/blacklist_window.py:1098
 msgid "Silent removal set to: {0}"
 msgstr "자동 제거로 설정되었습니다: {0}"
 
-#: ui_qt/prompts/blacklist_window.py:1078
+#: ui_qt/prompts/blacklist_window.py:1106
 msgid "Import Blacklist"
 msgstr "블랙리스트 가져오기"
 
-#: ui_qt/prompts/blacklist_window.py:1079
-#: ui_qt/prompts/blacklist_window.py:1119
+#: ui_qt/prompts/blacklist_window.py:1107
+#: ui_qt/prompts/blacklist_window.py:1147
 msgid ""
 "All supported (*.csv *.json *.txt);;CSV (*.csv);;JSON (*.json);;Text (*.txt)"
 msgstr ""
 "모든 지원되는 파일 형식 (*.csv *.json *.txt);;CSV (*.csv);;JSON (*.json);;텍스트 (*.txt)"
 
-#: ui_qt/prompts/blacklist_window.py:1091
+#: ui_qt/prompts/blacklist_window.py:1119
 msgid "Successfully imported blacklist"
 msgstr "성공적으로 가져온 블랙리스트"
 
-#: ui_qt/prompts/blacklist_window.py:1094
-#: ui_qt/prompts/blacklist_window.py:1134
+#: ui_qt/prompts/blacklist_window.py:1122
+#: ui_qt/prompts/blacklist_window.py:1162
 msgid "Import Error"
 msgstr "가져오기 오류"
 
-#: ui_qt/prompts/blacklist_window.py:1099
+#: ui_qt/prompts/blacklist_window.py:1127
 msgid "Export Blacklist"
 msgstr "블랙리스트 내보내기"
 
-#: ui_qt/prompts/blacklist_window.py:1100
+#: ui_qt/prompts/blacklist_window.py:1128
 msgid "CSV (*.csv);;JSON (*.json);;Text (*.txt)"
 msgstr "CSV (*.csv);;JSON (*.json);;텍스트 (*.txt)"
 
-#: ui_qt/prompts/blacklist_window.py:1111
+#: ui_qt/prompts/blacklist_window.py:1139
 msgid "Successfully exported blacklist"
 msgstr "성공적으로 내보낸 블랙리스트"
 
-#: ui_qt/prompts/blacklist_window.py:1113
-#: ui_qt/prompts/blacklist_window.py:1148
+#: ui_qt/prompts/blacklist_window.py:1141
+#: ui_qt/prompts/blacklist_window.py:1176
 msgid "Export Error"
 msgstr "내보내기 오류"
 
-#: ui_qt/prompts/blacklist_window.py:1118
+#: ui_qt/prompts/blacklist_window.py:1146
 msgid "Import Model Blacklist"
 msgstr "모델 수입블랙리스트"
 
-#: ui_qt/prompts/blacklist_window.py:1131
+#: ui_qt/prompts/blacklist_window.py:1159
 msgid "Successfully imported model blacklist"
 msgstr "모델 블랙리스트 성공적으로 가져옴"
 
-#: ui_qt/prompts/blacklist_window.py:1139
+#: ui_qt/prompts/blacklist_window.py:1167
 msgid "Export Model Blacklist"
 msgstr "모델 블랙리스트 내보내기"
 
-#: ui_qt/prompts/blacklist_window.py:1140
+#: ui_qt/prompts/blacklist_window.py:1168
 msgid "JSON (*.json)"
 msgstr "JSON (*.json)"
 
-#: ui_qt/prompts/blacklist_window.py:1146
+#: ui_qt/prompts/blacklist_window.py:1174
 msgid "Successfully exported model blacklist"
 msgstr "모델 블랙리스트를 성공적으로 수출했습니다"
 
-#: ui_qt/prompts/concept_editor_window.py:126
+#: ui_qt/prompts/concept_editor_window.py:127
 msgid "Concept Editor"
 msgstr "컨셉 에디터"
 
-#: ui_qt/prompts/concept_editor_window.py:160
+#: ui_qt/prompts/concept_editor_window.py:161
 msgid "Concepts dir:"
 msgstr "개념 목록:"
 
-#: ui_qt/prompts/concept_editor_window.py:174
+#: ui_qt/prompts/concept_editor_window.py:175
 msgid "Search/Add Concept:"
 msgstr "검색/개념 추가:"
 
-#: ui_qt/prompts/concept_editor_window.py:176
+#: ui_qt/prompts/concept_editor_window.py:177
 msgid "Type to search concepts..."
 msgstr "콘цеп트를 입력하여 검색하십시오..."
 
-#: ui_qt/prompts/concept_editor_window.py:214
+#: ui_qt/prompts/concept_editor_window.py:215
 msgid "File:"
 msgstr "파일:"
 
-#: ui_qt/prompts/concept_editor_window.py:223
+#: ui_qt/prompts/concept_editor_window.py:224
 msgid "(Target file for saving new concepts and importing)"
 msgstr "(새 개념 저장 및 가져오기를 위한 대상 파일)"
 
-#: ui_qt/prompts/concept_editor_window.py:230
+#: ui_qt/prompts/concept_editor_window.py:231
 msgid "Save"
 msgstr "저장"
 
-#: ui_qt/prompts/concept_editor_window.py:233
+#: ui_qt/prompts/concept_editor_window.py:234
 msgid "Add the search text as a new concept to the selected file"
 msgstr "검색 텍스트를 선택한 파일에 새로운 개념으로 추가합니다"
 
-#: ui_qt/prompts/concept_editor_window.py:240
+#: ui_qt/prompts/concept_editor_window.py:241
 msgid "Delete the selected concept from the file it belongs to"
 msgstr "삭제된개념을 그 파일에서 삭제하다"
 
-#: ui_qt/prompts/concept_editor_window.py:247
+#: ui_qt/prompts/concept_editor_window.py:248
 msgid "Import concepts from an external text file into the selected file"
 msgstr "외부 텍스트 파일에서 개념들을 선택한 파일로 가져오다"
 
-#: ui_qt/prompts/concept_editor_window.py:295
+#: ui_qt/prompts/concept_editor_window.py:296
 msgid "Selected concept: —"
 msgstr "선정개념: —"
 
-#: ui_qt/prompts/concept_editor_window.py:300
+#: ui_qt/prompts/concept_editor_window.py:301
 msgid "Selected concept: \"{0}\" — {1} ({2})"
 msgstr "선택된 개념: \"{0}\" — {1} ({2})"
 
-#: ui_qt/prompts/concept_editor_window.py:306
+#: ui_qt/prompts/concept_editor_window.py:307
 msgid "Selected concept: \"{0}\" — {1}"
 msgstr "선택한 개념: \"{0}\" ― {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:333
+#: ui_qt/prompts/concept_editor_window.py:334
 msgid "Invalid Directory"
 msgstr "잘못된 디렉터리"
 
-#: ui_qt/prompts/concept_editor_window.py:365
+#: ui_qt/prompts/concept_editor_window.py:366
 msgid "Enter search text to see concepts..."
 msgstr "개념을 보려면 검색 텍스트를 입력하세요..."
 
-#: ui_qt/prompts/concept_editor_window.py:404
+#: ui_qt/prompts/concept_editor_window.py:405
 msgid "{0} concepts found"
 msgstr "{0}개념이 발견되었습니다"
 
-#: ui_qt/prompts/concept_editor_window.py:449
+#: ui_qt/prompts/concept_editor_window.py:450
 msgid "Enter a concept name first"
 msgstr "개념 이름을 입력하세요"
 
-#: ui_qt/prompts/concept_editor_window.py:456
+#: ui_qt/prompts/concept_editor_window.py:457
 msgid "Please select a file to save to"
 msgstr "저장할 파일을 선택하세요."
 
-#: ui_qt/prompts/concept_editor_window.py:468
+#: ui_qt/prompts/concept_editor_window.py:469
 msgid "Concept \"{0}\" already exists in {1}"
 msgstr "개념 '{0}'은 이미 {1}에 존재하고 있습니다"
 
-#: ui_qt/prompts/concept_editor_window.py:491
+#: ui_qt/prompts/concept_editor_window.py:493
 msgid "Saved concept: {0} → {1}"
 msgstr "저장된개념: {0} → {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:511
+#: ui_qt/prompts/concept_editor_window.py:513
 msgid "Select a concept first"
 msgstr "컨셉을 먼저 선택하세요"
 
-#: ui_qt/prompts/concept_editor_window.py:518
+#: ui_qt/prompts/concept_editor_window.py:520
 msgid "Confirm"
 msgstr "확인"
 
-#: ui_qt/prompts/concept_editor_window.py:519
+#: ui_qt/prompts/concept_editor_window.py:521
 msgid "Delete concept \"{0}\" from {1}?"
 msgstr "개념 '{0}'을 {1}에서 삭제합니다?"
 
-#: ui_qt/prompts/concept_editor_window.py:531
+#: ui_qt/prompts/concept_editor_window.py:533
 msgid "Concept \"{0}\" was not found in {1} -- it may have already been removed."
 msgstr "{0}라는 개념은 {1}에서 발견되지 않았습니다 -- 이미 삭제되었을 수 있습니다."
 
-#: ui_qt/prompts/concept_editor_window.py:547
+#: ui_qt/prompts/concept_editor_window.py:549
 msgid "Deleted concept: {0} from {1}"
 msgstr "삭제된 개념: {0}에서 {1}"
 
-#: ui_qt/prompts/concept_editor_window.py:570
+#: ui_qt/prompts/concept_editor_window.py:572
 msgid "Please select a target file first"
 msgstr "먼저 대상 파일을 선택하세요."
 
-#: ui_qt/prompts/concept_editor_window.py:578
+#: ui_qt/prompts/concept_editor_window.py:580
 msgid "Select concepts file to import"
 msgstr "가져올 컨셉 파일 선택"
 
-#: ui_qt/prompts/concept_editor_window.py:580
+#: ui_qt/prompts/concept_editor_window.py:582
 msgid "Text files (*.txt);;All files (*.*)"
 msgstr "텍스트 파일 (*.txt);;모든 파일 (*.*)"
 
-#: ui_qt/prompts/concept_editor_window.py:605
+#: ui_qt/prompts/concept_editor_window.py:610
 msgid "Successfully imported {0} concepts into {1}"
 msgstr "성공적으로 {0}개념들을 {1}에 도입되었습니다"
 
-#: ui_qt/prompts/concept_editor_window.py:611
+#: ui_qt/prompts/concept_editor_window.py:616
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr "{0} 개념을 가져오지 못했습니다(자세한 내용은 {1}_failed_import.txt 참조)."
 
-#: ui_qt/prompts/concept_editor_window.py:617
+#: ui_qt/prompts/concept_editor_window.py:622
 msgid ""
 "Tip: You can prepend '!' to any concept line to force importation, or simply"
 " use the concept name as a search term to force import."
 msgstr "팁: 개념 줄 앞에 '!'를 붙일 수 있습니다. 또는 단순히 개념 이름을 검색어로 사용하여 강제 가져오기를 할 수 있습니다."
 
-#: ui_qt/prompts/concept_editor_window.py:622
+#: ui_qt/prompts/concept_editor_window.py:627
 msgid "Import Results"
 msgstr "가져오기 결과"
 
-#: ui_qt/prompts/concept_editor_window.py:631
+#: ui_qt/prompts/concept_editor_window.py:636
 msgid "No new concepts to import from {0}"
 msgstr "새로운 개념이 없어 {0}에서 가져올 없습니다"
 
@@ -2495,73 +2496,73 @@ msgstr ""
 "\n"
 "그래도 저장하시겠습니까?"
 
-#: ui_qt/prompts/expansions_window.py:198
+#: ui_qt/prompts/expansions_window.py:208
 msgid "New Expansion (ERROR no expansions found)"
 msgstr "새 확장팩(오류: 확장팩을 찾을 수 없음)"
 
-#: ui_qt/prompts/expansions_window.py:222
+#: ui_qt/prompts/expansions_window.py:232
 msgid "Not enough expansions found."
 msgstr "확장팩이 충분하지 않습니다."
 
-#: ui_qt/prompts/expansions_window.py:236
+#: ui_qt/prompts/expansions_window.py:246
 msgid "Expansions Window"
 msgstr "확장 프로그램 창"
 
-#: ui_qt/prompts/expansions_window.py:261
+#: ui_qt/prompts/expansions_window.py:271
 msgid "Add or update expansions"
 msgstr "확장 기능 추가 또는 업데이트"
 
-#: ui_qt/prompts/expansions_window.py:263
+#: ui_qt/prompts/expansions_window.py:273
 msgid "Add expansion"
 msgstr "확장 추가"
 
-#: ui_qt/prompts/expansions_window.py:266
+#: ui_qt/prompts/expansions_window.py:276
 msgid "Clear expansions"
 msgstr "확장팩 지우기"
 
-#: ui_qt/prompts/expansions_window.py:273
+#: ui_qt/prompts/expansions_window.py:283
 msgid "Filter by ID or text…"
 msgstr "ID 또는 텍스트로 필터…"
 
-#: ui_qt/prompts/expansions_window.py:323
+#: ui_qt/prompts/expansions_window.py:333
 msgid "Filter: \"{0}\"  ({1} of {2} expansions)"
 msgstr "필터: \"{0}\"  ({1} 개의 {2} 확장 중)"
 
-#: ui_qt/prompts/expansions_window.py:329
+#: ui_qt/prompts/expansions_window.py:339
 msgid "{0} expansions"
 msgstr "{0} 확장판"
 
-#: ui_qt/prompts/expansions_window.py:334
+#: ui_qt/prompts/expansions_window.py:344
 msgid "No expansions match the current filter."
 msgstr "현재 필터에 맞는 확장팩이 없습니다."
 
-#: ui_qt/prompts/expansions_window.py:336
+#: ui_qt/prompts/expansions_window.py:346
 msgid "No expansions defined. Click 'Add expansion' to create one."
 msgstr "확장이 없습니다. '확장 추가'를 클릭하여 하나를 만듭니다."
 
-#: ui_qt/prompts/expansions_window.py:345
+#: ui_qt/prompts/expansions_window.py:355
 msgid "ID"
 msgstr "아이디"
 
-#: ui_qt/prompts/expansions_window.py:345
+#: ui_qt/prompts/expansions_window.py:355
 msgid "Text"
 msgstr "텍스트"
 
-#: ui_qt/prompts/expansions_window.py:388
-#: ui_qt/prompts/expansions_window.py:420
-#: ui_qt/prompts/expansions_window.py:446
+#: ui_qt/prompts/expansions_window.py:398
+#: ui_qt/prompts/expansions_window.py:430
+#: ui_qt/prompts/expansions_window.py:456
 msgid "Select an expansion first"
 msgstr "확장팩을 먼저 선택하세요"
 
-#: ui_qt/prompts/expansions_window.py:430
+#: ui_qt/prompts/expansions_window.py:440
 msgid "Clear all expansions?"
 msgstr "모든 확장을 지우시겠습니까?"
 
-#: ui_qt/prompts/expansions_window.py:431
+#: ui_qt/prompts/expansions_window.py:441
 msgid "This will permanently delete all {0} expansions. Are you sure?"
 msgstr "모든 {0} 확장이 영구적으로 삭제됩니다. 확실합니까?"
 
-#: ui_qt/prompts/expansions_window.py:452
+#: ui_qt/prompts/expansions_window.py:462
 msgid "Copied expansion text to clipboard"
 msgstr "확장 텍스트를 클립보드에 복사"
 
@@ -2617,75 +2618,75 @@ msgstr "태그 추가"
 msgid "Enter tag text:"
 msgstr "태그 텍스트 입력:"
 
-#: ui_qt/prompts/image_to_prompt_window.py:79
+#: ui_qt/prompts/image_to_prompt_window.py:83
 msgid ""
 "Generate prompt text from an image using selectable backends. This does not "
 "start image generation."
 msgstr "선택 가능한 백엔드를 사용하여 이미지에서 프롬프트 텍스트를 생성합니다. 이 작업은 이미지 생성을 시작하지 않습니다."
 
-#: ui_qt/prompts/image_to_prompt_window.py:88
+#: ui_qt/prompts/image_to_prompt_window.py:92
 msgid "Image"
 msgstr "이미지"
 
-#: ui_qt/prompts/image_to_prompt_window.py:91
+#: ui_qt/prompts/image_to_prompt_window.py:95
 msgid "Browse"
 msgstr "참조하다"
 
-#: ui_qt/prompts/image_to_prompt_window.py:98
+#: ui_qt/prompts/image_to_prompt_window.py:102
 msgid "Backend"
 msgstr "백엔드"
 
-#: ui_qt/prompts/image_to_prompt_window.py:100
+#: ui_qt/prompts/image_to_prompt_window.py:104
 msgid "Captioner (BLIP)"
 msgstr "자막 제작자 (BLIP)"
 
-#: ui_qt/prompts/image_to_prompt_window.py:101
+#: ui_qt/prompts/image_to_prompt_window.py:105
 msgid "Fast Tagger"
 msgstr "고정 태그"
 
-#: ui_qt/prompts/image_to_prompt_window.py:102
+#: ui_qt/prompts/image_to_prompt_window.py:106
 msgid "VLM"
 msgstr "VLM"
 
-#: ui_qt/prompts/image_to_prompt_window.py:105
+#: ui_qt/prompts/image_to_prompt_window.py:111
 msgid "Include Negative Prompt"
 msgstr "부정적인 프롬프트 포함"
 
-#: ui_qt/prompts/image_to_prompt_window.py:113
+#: ui_qt/prompts/image_to_prompt_window.py:138
 msgid "Prompt Hint (optional)"
 msgstr "프롬프트 힌트 (선택 사항)"
 
-#: ui_qt/prompts/image_to_prompt_window.py:120
+#: ui_qt/prompts/image_to_prompt_window.py:145
 msgid "Generate Prompt from Image"
 msgstr "이미지에서 프롬프트 생성"
 
-#: ui_qt/prompts/image_to_prompt_window.py:124
+#: ui_qt/prompts/image_to_prompt_window.py:149
 #: ui_qt/prompts/prompt_generator_window.py:91
 msgid "Copy Positive"
 msgstr "긍정적인 복사"
 
-#: ui_qt/prompts/image_to_prompt_window.py:128
+#: ui_qt/prompts/image_to_prompt_window.py:153
 #: ui_qt/prompts/prompt_generator_window.py:95
 msgid "Copy Negative"
 msgstr "부모 필름"
 
-#: ui_qt/prompts/image_to_prompt_window.py:132
+#: ui_qt/prompts/image_to_prompt_window.py:157
 msgid "Apply Positive to Main UI"
 msgstr "메인 UI에 긍정적 적용"
 
-#: ui_qt/prompts/image_to_prompt_window.py:140
+#: ui_qt/prompts/image_to_prompt_window.py:165
 msgid "Positive Prompt"
 msgstr "긍정적인 프롬프트"
 
-#: ui_qt/prompts/image_to_prompt_window.py:145
+#: ui_qt/prompts/image_to_prompt_window.py:170
 msgid "Negative Prompt"
 msgstr "부정적인 프롬프트"
 
-#: ui_qt/prompts/image_to_prompt_window.py:150
+#: ui_qt/prompts/image_to_prompt_window.py:175
 msgid "No output yet."
 msgstr "아직 출력이 없습니다."
 
-#: ui_qt/prompts/image_to_prompt_window.py:172
+#: ui_qt/prompts/image_to_prompt_window.py:197
 msgid "Select Image"
 msgstr "이미지 선택"
 
@@ -2693,163 +2694,163 @@ msgstr "이미지 선택"
 msgid "Images (*.png *.jpg *.jpeg *.webp *.bmp);;All files (*.*)"
 msgstr "이미지 (*.png *.jpg *.jpeg *.webp *.bmp);;모든 파일 (*.*)"
 
-#: ui_qt/prompts/image_to_prompt_window.py:248
+#: ui_qt/prompts/image_to_prompt_window.py:312
 msgid "Select an image first."
 msgstr "먼저 이미지를 선택해 주세요."
 
-#: ui_qt/prompts/image_to_prompt_window.py:269
+#: ui_qt/prompts/image_to_prompt_window.py:333
 msgid "updated"
 msgstr "업데이트됨"
 
-#: ui_qt/prompts/image_to_prompt_window.py:269
+#: ui_qt/prompts/image_to_prompt_window.py:333
 msgid "unchanged"
 msgstr "변경되지 않다"
 
-#: ui_qt/prompts/image_to_prompt_window.py:273
+#: ui_qt/prompts/image_to_prompt_window.py:337
 msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
 msgstr "백엔드: {2} [{3}]을 사용하여 ({0}: {1}) 생성됨"
 
-#: ui_qt/prompts/image_to_prompt_window.py:287
+#: ui_qt/prompts/image_to_prompt_window.py:352
 msgid "Fast tagger returned no tags; try a lower threshold."
 msgstr "빠른 태그 지정 도구가 태그를 하나도 반환하지 않았습니다. 임계값을 낮춰 보세요."
 
-#: ui_qt/prompts/image_to_prompt_window.py:290
+#: ui_qt/prompts/image_to_prompt_window.py:355
 msgid "Backend Not Configured"
 msgstr "백엔드가 구성되지 않았습니다"
 
-#: ui_qt/prompts/image_to_prompt_window.py:297
+#: ui_qt/prompts/image_to_prompt_window.py:362
 msgid "Image to Prompt Error"
 msgstr "이미지를 프롬프트로 변환하는 과정에서 오류가 발생했습니다"
 
-#: ui_qt/prompts/image_to_prompt_window.py:305
+#: ui_qt/prompts/image_to_prompt_window.py:370
 msgid "Nothing to copy."
 msgstr "복사할 내용이 없습니다."
 
-#: ui_qt/prompts/image_to_prompt_window.py:315
+#: ui_qt/prompts/image_to_prompt_window.py:380
 msgid "No positive prompt to apply."
 msgstr "적용할 긍정적 프롬프트가 없습니다."
 
-#: ui_qt/prompts/image_to_prompt_window.py:318
+#: ui_qt/prompts/image_to_prompt_window.py:383
 msgid "Applied positive prompt to main UI"
 msgstr "긍정적인 안내문구를 주요 UI에 적용했습니다"
 
-#: ui_qt/prompts/prompt_config_window.py:127
+#: ui_qt/prompts/prompt_config_window.py:160
 msgid "Prompt Configuration"
 msgstr "프롬프트 구성"
 
-#: ui_qt/prompts/prompt_config_window.py:158
+#: ui_qt/prompts/prompt_config_window.py:191
 msgid "Detailed Prompt Configuration"
 msgstr "상세 프롬프트 구성"
 
-#: ui_qt/prompts/prompt_config_window.py:206
+#: ui_qt/prompts/prompt_config_window.py:239
 msgid "Basic Generation Settings"
 msgstr "기본 생성 설정"
 
-#: ui_qt/prompts/prompt_config_window.py:215
+#: ui_qt/prompts/prompt_config_window.py:248
 msgid "Sampler"
 msgstr "샘플러"
 
-#: ui_qt/prompts/prompt_config_window.py:226
+#: ui_qt/prompts/prompt_config_window.py:259
 msgid "Scheduler"
 msgstr "스케줄러"
 
-#: ui_qt/prompts/prompt_config_window.py:238
+#: ui_qt/prompts/prompt_config_window.py:271
 msgid "Seed"
 msgstr "시드"
 
-#: ui_qt/prompts/prompt_config_window.py:239
+#: ui_qt/prompts/prompt_config_window.py:272
 msgid "Steps"
 msgstr "단계"
 
-#: ui_qt/prompts/prompt_config_window.py:240
+#: ui_qt/prompts/prompt_config_window.py:273
 msgid "CFG"
 msgstr "CFG"
 
-#: ui_qt/prompts/prompt_config_window.py:241
+#: ui_qt/prompts/prompt_config_window.py:274
 msgid "Denoise"
 msgstr "노이즈 제거"
 
-#: ui_qt/prompts/prompt_config_window.py:242
+#: ui_qt/prompts/prompt_config_window.py:275
 msgid "Random Skip Chance"
 msgstr "무작위 건너뛰기 확률"
 
-#: ui_qt/prompts/prompt_config_window.py:253
+#: ui_qt/prompts/prompt_config_window.py:286
 msgid "Multiplier"
 msgstr "승수"
 
-#: ui_qt/prompts/prompt_config_window.py:264
+#: ui_qt/prompts/prompt_config_window.py:297
 msgid "Options"
 msgstr "옵션"
 
-#: ui_qt/prompts/prompt_config_window.py:270
+#: ui_qt/prompts/prompt_config_window.py:303
 msgid "Tags Applied to Prompt Start"
 msgstr "프롬프트 시작에 태그 적용"
 
-#: ui_qt/prompts/prompt_config_window.py:275
+#: ui_qt/prompts/prompt_config_window.py:308
 msgid "Sparse Mixed Tags"
 msgstr "희소 혼합 태그"
 
-#: ui_qt/prompts/prompt_config_window.py:296
+#: ui_qt/prompts/prompt_config_window.py:329
 msgid "Subcategory Weights"
 msgstr "서브카테고리 웨이츠"
 
-#: ui_qt/prompts/prompt_config_window.py:298
+#: ui_qt/prompts/prompt_config_window.py:331
 msgid "Sayings / Puns Ratio"
 msgstr "속담 / 말장난 비율"
 
-#: ui_qt/prompts/prompt_config_window.py:301
+#: ui_qt/prompts/prompt_config_window.py:334
 msgid "0 = mostly sayings, 50 = equal blend, 100 = mostly puns"
 msgstr "0은 주로 속담입니다, 50은 같은 양의 믹스입니다, 100은 주로 장난말들입니다"
 
-#: ui_qt/prompts/prompt_config_window.py:313
+#: ui_qt/prompts/prompt_config_window.py:346
 msgid "Chance Sliders"
 msgstr "기회 슬라이더"
 
-#: ui_qt/prompts/prompt_config_window.py:315
+#: ui_qt/prompts/prompt_config_window.py:348
 msgid "Specific Locations Chance"
 msgstr "위치 지정 확률"
 
-#: ui_qt/prompts/prompt_config_window.py:317
+#: ui_qt/prompts/prompt_config_window.py:350
 msgid "Specific Times Chance"
 msgstr "특정 시간 확률"
 
-#: ui_qt/prompts/prompt_config_window.py:319
+#: ui_qt/prompts/prompt_config_window.py:352
 msgid "Specify Humans Chance"
 msgstr "인간 지정 확률"
 
-#: ui_qt/prompts/prompt_config_window.py:321
+#: ui_qt/prompts/prompt_config_window.py:354
 msgid "Art Styles Chance"
 msgstr "아트 스타일 확률"
 
-#: ui_qt/prompts/prompt_config_window.py:323
+#: ui_qt/prompts/prompt_config_window.py:356
 msgid "Emphasis Chance"
 msgstr "강조 확률"
 
-#: ui_qt/prompts/prompt_config_window.py:325
+#: ui_qt/prompts/prompt_config_window.py:358
 msgid "Stop Insertion Chance"
 msgstr "정지 삽입 확률"
 
-#: ui_qt/prompts/prompt_config_window.py:327
+#: ui_qt/prompts/prompt_config_window.py:360
 msgid "Return Insertion Chance"
 msgstr "반환 삽입 확률"
 
-#: ui_qt/prompts/prompt_config_window.py:329
+#: ui_qt/prompts/prompt_config_window.py:362
 msgid "Animals Inclusion Chance"
 msgstr "동물 포함 확률"
 
-#: ui_qt/prompts/prompt_config_window.py:331
+#: ui_qt/prompts/prompt_config_window.py:364
 msgid "Dress Inclusion Chance"
 msgstr "의상 포함 확률"
 
-#: ui_qt/prompts/prompt_config_window.py:357
+#: ui_qt/prompts/prompt_config_window.py:390
 msgid "Category"
 msgstr "카테고리"
 
-#: ui_qt/prompts/prompt_config_window.py:358
+#: ui_qt/prompts/prompt_config_window.py:391
 msgid "Low"
 msgstr "낮음"
 
-#: ui_qt/prompts/prompt_config_window.py:359
+#: ui_qt/prompts/prompt_config_window.py:392
 msgid "High"
 msgstr "높음"
 
@@ -2906,146 +2907,146 @@ msgstr "저장할 것이 없습니다."
 msgid "Saved generated prompt to prompt history"
 msgstr "저장된 생성 프롬프트를 프롬프트 역사에 저장되었습니다"
 
-#: ui_qt/runs/runs_window.py:63
+#: ui_qt/runs/runs_window.py:74
 msgid "Queue"
 msgstr "대기열"
 
-#: ui_qt/runs/runs_window.py:64
+#: ui_qt/runs/runs_window.py:75
 msgid "History"
 msgstr "역사"
 
-#: ui_qt/runs/runs_window.py:65
+#: ui_qt/runs/runs_window.py:76
 msgid "Saved Runs"
 msgstr "저장된 실행"
 
-#: ui_qt/runs/runs_window.py:93 ui_qt/runs/runs_window.py:183
+#: ui_qt/runs/runs_window.py:104 ui_qt/runs/runs_window.py:199
 msgid "Status: Idle"
 msgstr "상태: 유휴"
 
-#: ui_qt/runs/runs_window.py:98 ui_qt/runs/runs_window.py:107
-#: ui_qt/runs/runs_window.py:314
+#: ui_qt/runs/runs_window.py:109 ui_qt/runs/runs_window.py:118
+#: ui_qt/runs/runs_window.py:337
 msgid "Model"
 msgstr "모델"
 
-#: ui_qt/runs/runs_window.py:98 ui_qt/runs/runs_window.py:107
-#: ui_qt/runs/runs_window.py:314
+#: ui_qt/runs/runs_window.py:109 ui_qt/runs/runs_window.py:118
+#: ui_qt/runs/runs_window.py:337
 msgid "N"
 msgstr "N"
 
-#: ui_qt/runs/runs_window.py:98 ui_qt/runs/runs_window.py:107
-#: ui_qt/runs/runs_window.py:314
+#: ui_qt/runs/runs_window.py:109 ui_qt/runs/runs_window.py:118
+#: ui_qt/runs/runs_window.py:337
 msgid "Total"
 msgstr "합계"
 
-#: ui_qt/runs/runs_window.py:98
+#: ui_qt/runs/runs_window.py:109
 msgid "Status"
 msgstr "상태"
 
-#: ui_qt/runs/runs_window.py:102
+#: ui_qt/runs/runs_window.py:113
 msgid "Currently Running"
 msgstr "현재 상영 중"
 
-#: ui_qt/runs/runs_window.py:105
+#: ui_qt/runs/runs_window.py:116
 msgid "Pending Jobs"
 msgstr "대기 중인 작업"
 
-#: ui_qt/runs/runs_window.py:107 ui_qt/runs/runs_window.py:118
+#: ui_qt/runs/runs_window.py:118 ui_qt/runs/runs_window.py:132
 msgid "#"
 msgstr "#"
 
-#: ui_qt/runs/runs_window.py:107
+#: ui_qt/runs/runs_window.py:118
 msgid "Batch"
 msgstr "배치"
 
-#: ui_qt/runs/runs_window.py:116
+#: ui_qt/runs/runs_window.py:128
 msgid "Server Staging Queue"
 msgstr "서버 스테이징 대기열"
 
-#: ui_qt/runs/runs_window.py:118
+#: ui_qt/runs/runs_window.py:132
 msgid "Args"
 msgstr "인수"
 
-#: ui_qt/runs/runs_window.py:133
+#: ui_qt/runs/runs_window.py:147
 msgid "Start processing pending jobs"
 msgstr "대기 중인 작업 처리 시작"
 
-#: ui_qt/runs/runs_window.py:136
+#: ui_qt/runs/runs_window.py:150
 msgid "Edit Pending"
 msgstr "보류 중인 작업 편집하기"
 
-#: ui_qt/runs/runs_window.py:137
+#: ui_qt/runs/runs_window.py:151
 msgid "Edit N and Total counts for the selected pending job"
 msgstr "선택한 보류 중인 작업에 대한 N 및 총 개수 수정"
 
-#: ui_qt/runs/runs_window.py:140
+#: ui_qt/runs/runs_window.py:154
 msgid "Cancel Current Run"
 msgstr "현재 실행 취소"
 
-#: ui_qt/runs/runs_window.py:143
+#: ui_qt/runs/runs_window.py:157
 msgid "Cancel All"
 msgstr "모두 취소"
 
-#: ui_qt/runs/runs_window.py:146
+#: ui_qt/runs/runs_window.py:160
 msgid "Cancel Staging"
 msgstr "스테이징 취소"
 
-#: ui_qt/runs/runs_window.py:147
+#: ui_qt/runs/runs_window.py:161
 msgid "Clear the server staging queue"
 msgstr "서버 스테이징 대기열 지우기"
 
-#: ui_qt/runs/runs_window.py:166
+#: ui_qt/runs/runs_window.py:180
 msgid "Running"
 msgstr "실행 중"
 
-#: ui_qt/runs/runs_window.py:168
+#: ui_qt/runs/runs_window.py:182
 msgid "Cancelled"
 msgstr "취소됨"
 
-#: ui_qt/runs/runs_window.py:175
+#: ui_qt/runs/runs_window.py:191
 msgid "Status: Running"
 msgstr "상태: 실행 중"
 
-#: ui_qt/runs/runs_window.py:178
+#: ui_qt/runs/runs_window.py:194
 msgid "Status: Paused — {0} restored job(s) from previous session"
 msgstr "상태: 일시 중지 — 이전 세션에서 {0}개의 작업을 복원함"
 
-#: ui_qt/runs/runs_window.py:221
+#: ui_qt/runs/runs_window.py:244
 msgid "Select a pending job first"
 msgstr "먼저 대기 중인 작업을 선택하세요"
 
-#: ui_qt/runs/runs_window.py:231
+#: ui_qt/runs/runs_window.py:254
 msgid "Edit Pending Job"
 msgstr "처리 대기 중인 작업 편집"
 
-#: ui_qt/runs/runs_window.py:239
+#: ui_qt/runs/runs_window.py:262
 msgid "N (images per run):"
 msgstr "N (실행당 이미지 수):"
 
-#: ui_qt/runs/runs_window.py:244
+#: ui_qt/runs/runs_window.py:267
 msgid "Total (runs):"
 msgstr "합계 (실행 횟수):"
 
-#: ui_qt/runs/runs_window.py:308
+#: ui_qt/runs/runs_window.py:331
 msgid "workflow, model, or tags…"
 msgstr "워크플로우, 모델 또는 태그…"
 
-#: ui_qt/runs/runs_window.py:314
+#: ui_qt/runs/runs_window.py:337
 msgid "Time"
 msgstr "시간"
 
-#: ui_qt/runs/runs_window.py:321
+#: ui_qt/runs/runs_window.py:344
 msgid "Restore to Sidebar"
 msgstr "사이드바로 복원"
 
-#: ui_qt/runs/runs_window.py:364
+#: ui_qt/runs/runs_window.py:387
 msgid "Select a history entry first"
 msgstr "먼저 기록 항목을 선택하세요"
 
-#: ui_qt/runs/runs_window.py:374
+#: ui_qt/runs/runs_window.py:397
 msgid "Config restored to sidebar"
 msgstr "사이드바로 설정이 복원되었습니다"
 
-#: ui_qt/runs/runs_window.py:377
+#: ui_qt/runs/runs_window.py:400
 msgid "Failed to restore config"
 msgstr "설정 복원 실패"
 
@@ -3073,7 +3074,7 @@ msgstr "가져가기"
 msgid "Random"
 msgstr "랜덤"
 
-#: utils/globals.py:37
+#: ui_qt/prompts/prompt_config_window.py:89 utils/globals.py:37
 msgid "Nonsense"
 msgstr "넌센스"
 
@@ -3133,7 +3134,7 @@ msgstr "모든 시각적 미디어"
 msgid "Text to Image"
 msgstr "텍스트 이미지"
 
-#: utils/globals.py:165 utils/globals.py:340
+#: utils/globals.py:165 utils/globals.py:350
 msgid "Image to Image"
 msgstr "이미지에서 이미지로"
 
@@ -3197,231 +3198,231 @@ msgstr "하강"
 msgid "Ascending"
 msgstr "상승"
 
-#: utils/globals.py:334
+#: utils/globals.py:344
 msgid "Simple Image Gen"
 msgstr "이미지 생성 방법"
 
-#: utils/globals.py:335
+#: utils/globals.py:345
 msgid "Simple Image Gen Lora"
 msgstr "LoRA를 활용한 이미지 생성 방법"
 
-#: utils/globals.py:336
+#: utils/globals.py:346
 msgid "Simple Image Gen Tiled Upscale"
 msgstr "타일링된 고해상도 이미지 생성"
 
-#: utils/globals.py:337
+#: utils/globals.py:347
 msgid "Ella"
 msgstr "ELLA"
 
-#: utils/globals.py:338
+#: utils/globals.py:348
 msgid "Instant Lora"
 msgstr "즉시 LoRA"
 
-#: utils/globals.py:341
+#: utils/globals.py:351
 msgid "Image Edit"
 msgstr "이미지 편집"
 
-#: utils/globals.py:343
+#: utils/globals.py:353
 msgid "Inpaint ClipSeg"
 msgstr "인페인팅 클립세그"
 
-#: utils/globals.py:344
+#: utils/globals.py:354
 msgid "Animate Diff"
 msgstr "애니메이트 디프"
 
-#: utils/globals.py:345
+#: utils/globals.py:355
 msgid "Renoiser"
 msgstr "레노이저"
 
-#: utils/globals.py:346 utils/globals.py:597
+#: utils/globals.py:356 utils/globals.py:656
 msgid "Turbo"
 msgstr "터보"
 
-#: utils/globals.py:347
+#: utils/globals.py:357
 msgid "Upscale Simple"
 msgstr "이미지 업스케일링 간단히"
 
-#: utils/globals.py:348
+#: utils/globals.py:358
 msgid "Upscale Better"
 msgstr "이미지 품질을 높이기 더 나은 버전"
 
-#: utils/globals.py:349
+#: utils/globals.py:359
 msgid "Redo Prompt"
 msgstr "프롬프트를 다시 입력하세요"
 
-#: utils/globals.py:413 utils/globals.py:474
+#: utils/globals.py:472 utils/globals.py:533
 msgid "Any"
 msgstr "어떤"
 
-#: utils/globals.py:414
+#: utils/globals.py:473
 msgid "Euler"
 msgstr "오일러"
 
-#: utils/globals.py:415
+#: utils/globals.py:474
 msgid "Euler Ancestral"
 msgstr "Euler Ancestral"
 
-#: utils/globals.py:416
+#: utils/globals.py:475
 msgid "DPM 2"
 msgstr "DPM 2"
 
-#: utils/globals.py:417
+#: utils/globals.py:476
 msgid "DPM 2 Ancestral"
 msgstr "DPM 2 Ancestral"
 
-#: utils/globals.py:418
+#: utils/globals.py:477
 msgid "DPM++ SDE"
 msgstr "DPM++ SDE"
 
-#: utils/globals.py:419
+#: utils/globals.py:478
 msgid "DPM++ SDE GPU"
 msgstr "DPM++ SDE GPU"
 
-#: utils/globals.py:420
+#: utils/globals.py:479
 msgid "DPM++ 2M"
 msgstr "DPM++ 2M"
 
-#: utils/globals.py:421
+#: utils/globals.py:480
 msgid "DPM++ 2M SDE"
 msgstr "DPM++ 2M SDE"
 
-#: utils/globals.py:422
+#: utils/globals.py:481
 msgid "DPM++ 2M SDE GPU"
 msgstr "DPM++ 2M SDE GPU"
 
-#: utils/globals.py:423
+#: utils/globals.py:482
 msgid "DPM++ 3M SDE"
 msgstr "DPM++ 3M SDE"
 
-#: utils/globals.py:424
+#: utils/globals.py:483
 msgid "DPM++ 3M SDE GPU"
 msgstr "DPM++ 3M SDE GPU"
 
-#: utils/globals.py:425
+#: utils/globals.py:484
 msgid "DDIM"
 msgstr "DDIM"
 
-#: utils/globals.py:426
+#: utils/globals.py:485
 msgid "DDPM"
 msgstr "DDPM"
 
-#: utils/globals.py:427
+#: utils/globals.py:486
 msgid "LCM"
 msgstr "LCM"
 
-#: utils/globals.py:475
+#: utils/globals.py:534
 msgid "Normal"
 msgstr "정상"
 
-#: utils/globals.py:476
+#: utils/globals.py:535
 msgid "Karras"
 msgstr "Karras"
 
-#: utils/globals.py:477
+#: utils/globals.py:536
 msgid "Simple"
 msgstr "단순한"
 
-#: utils/globals.py:478
+#: utils/globals.py:537
 msgid "Exponential"
 msgstr "지수적"
 
-#: utils/globals.py:479
+#: utils/globals.py:538
 msgid "SGM Uniform"
 msgstr "SGM 유니폼"
 
-#: utils/globals.py:480
+#: utils/globals.py:539
 msgid "DDIM Uniform"
 msgstr "DDIM 유니폼"
 
-#: utils/globals.py:594
+#: utils/globals.py:653
 msgid "SD 1.5"
 msgstr "SD 1.5"
 
-#: utils/globals.py:595
+#: utils/globals.py:654
 msgid "SDXL"
 msgstr "SDXL"
 
-#: utils/globals.py:596
+#: utils/globals.py:655
 msgid "Illustrious"
 msgstr "Illustrious"
 
-#: utils/globals.py:598
+#: utils/globals.py:657
 msgid "Flux"
 msgstr "Flux"
 
-#: utils/globals.py:599
+#: utils/globals.py:658
 msgid "Flux2 Klein 9B"
 msgstr "Flux2 Klein 9B"
 
-#: utils/globals.py:600
+#: utils/globals.py:659
 msgid "Flux2 Klein 4B"
 msgstr "Flux2 Klein 4B"
 
-#: utils/globals.py:601
+#: utils/globals.py:660
 msgid "Chroma"
 msgstr "Chroma"
 
-#: utils/globals.py:602
+#: utils/globals.py:661
 msgid "ZImageTurbo"
 msgstr "ZImageTurbo"
 
-#: utils/globals.py:603
+#: utils/globals.py:662
 msgid "Qwen"
 msgstr "Qwen"
 
-#: utils/globals.py:630
+#: utils/globals.py:689
 msgid "1536"
 msgstr "1536"
 
-#: utils/globals.py:631
+#: utils/globals.py:690
 msgid "1328"
 msgstr "1328"
 
-#: utils/globals.py:632
+#: utils/globals.py:691
 msgid "1024"
 msgstr "1024"
 
-#: utils/globals.py:633
+#: utils/globals.py:692
 msgid "768"
 msgstr "768"
 
-#: utils/globals.py:634
+#: utils/globals.py:693
 msgid "512"
 msgstr "512"
 
-#: utils/globals.py:673
+#: utils/globals.py:733
 msgid "Open Application"
 msgstr "소프트웨어 애플리케이션 열기"
 
-#: utils/globals.py:674
+#: utils/globals.py:734
 msgid "NSFW/NSFL Prompt Modes"
 msgstr "NSFW/NSFL 프롬프트 모드"
 
-#: utils/globals.py:675
+#: utils/globals.py:736
 msgid "Edit Blacklist"
 msgstr "블랙리스트 편집"
 
-#: utils/globals.py:676
+#: utils/globals.py:737
 msgid "Reveal Blacklist Concepts"
 msgstr "블랙리스트 개념 공개"
 
-#: utils/globals.py:677
+#: utils/globals.py:738
 msgid "Edit Schedules"
 msgstr "일정 편집"
 
-#: utils/globals.py:678
+#: utils/globals.py:739
 msgid "Edit Timed Schedules"
 msgstr "시간별 일정 편집"
 
-#: utils/globals.py:679
+#: utils/globals.py:740
 msgid "Edit Expansions"
 msgstr "확장 프로그램 편집"
 
-#: utils/globals.py:680
+#: utils/globals.py:741
 msgid "Edit Presets"
 msgstr "사전 설정 편집"
 
-#: utils/globals.py:682
+#: utils/globals.py:743
 msgid "Access Password Administration"
 msgstr "액세스 비밀번호 관리"
 
@@ -3433,23 +3434,23 @@ msgstr " (보류 중인 실행: {0})"
 msgid "Pending schedules: {0}"
 msgstr "보류 중인 일정: {0}"
 
-#: utils/job_queue.py:199
+#: utils/job_queue.py:209
 msgid "Server staging: {0} pending"
 msgstr "서버 스테이징: {0} 건 대기 중"
 
-#: utils/time_estimator.py:87
+#: utils/time_estimator.py:67
 msgid "~{0}d"
 msgstr "~{0}일"
 
-#: utils/time_estimator.py:89
+#: utils/time_estimator.py:69
 msgid "{0}h"
 msgstr "{0}시간"
 
-#: utils/time_estimator.py:91
+#: utils/time_estimator.py:71
 msgid "{0}m"
 msgstr "{0}분"
 
-#: utils/time_estimator.py:92
+#: utils/time_estimator.py:72
 msgid "{0}s"
 msgstr "{0}초"
 
@@ -3508,3 +3509,205 @@ msgstr "개월"
 #: utils/translations.py:68
 msgid "years"
 msgstr "년"
+
+#: ui_qt/prompts/prompt_config_window.py:73
+msgid "Media Features"
+msgstr "미디어 기능"
+
+#: ui_qt/prompts/prompt_config_window.py:74
+msgid "Objects"
+msgstr "객체"
+
+#: ui_qt/prompts/prompt_config_window.py:75
+msgid "Positions"
+msgstr "포지션"
+
+#: ui_qt/prompts/prompt_config_window.py:76
+msgid "Locations"
+msgstr "위치"
+
+#: ui_qt/prompts/prompt_config_window.py:77
+msgid "Animals"
+msgstr "동물"
+
+#: ui_qt/prompts/prompt_config_window.py:78
+msgid "Plants"
+msgstr "식물"
+
+#: ui_qt/prompts/prompt_config_window.py:79
+msgid "Colors"
+msgstr "색"
+
+#: ui_qt/prompts/prompt_config_window.py:81
+msgid "Times"
+msgstr "타임스"
+
+#: ui_qt/prompts/prompt_config_window.py:82
+msgid "Units"
+msgstr "단위"
+
+#: ui_qt/prompts/prompt_config_window.py:83
+msgid "Dress"
+msgstr "의류"
+
+#: ui_qt/prompts/prompt_config_window.py:84
+msgid "Expressions"
+msgstr "수식"
+
+#: ui_qt/prompts/prompt_config_window.py:85
+msgid "Actions"
+msgstr "동작"
+
+#: ui_qt/prompts/prompt_config_window.py:86
+msgid "Descriptions"
+msgstr "설명"
+
+#: ui_qt/prompts/prompt_config_window.py:87
+msgid "Characters"
+msgstr "등장인물"
+
+#: ui_qt/prompts/prompt_config_window.py:88
+msgid "Random Words"
+msgstr "무작위 단어"
+
+#: ui_qt/prompts/prompt_config_window.py:90
+msgid "Jargon"
+msgstr "전문용어"
+
+#: ui_qt/prompts/prompt_config_window.py:91
+msgid "Witticisms"
+msgstr "재치"
+
+#: sd_runner/prompter.py:501
+msgid "Blacklist validation failed on extracted image prompt"
+msgstr "추출된 이미지 프롬프트에 대한 블랙리스트 검증에 실패했습니다"
+
+#: sd_runner/prompter.py:512
+msgid "Blacklisted tags removed from extracted prompt: {0}"
+msgstr "추출된 프롬프트에서 블랙리스트 태그가 제거되었습니다: {0}"
+
+#: sd_runner/prompter.py:523
+msgid "Extracted prompt too similar to blocked concept \"{0}\" ({1:.0%})"
+msgstr "추출된 프롬프트가 차단된 개념 \"{0}\"와 너무 유사합니다 ({1:.0%})"
+
+#: sd_runner/image_to_prompt/providers/captioner_provider.py:63
+msgid ""
+"Captioner backend requires torch + transformers. Install optional deps (e.g."
+" `pip install -r requirements-optional.txt`)."
+msgstr ""
+"Captioner 백엔드에는 torch와 transformers가 필요합니다. 선택적 종속성을 설치하세요(예: `pip install "
+"-r requirements-optional.txt`)."
+
+#: sd_runner/image_to_prompt/providers/captioner_provider.py:131
+msgid ""
+"Failed to initialize BLIP captioner backend. Ensure optional captioner "
+"dependencies are installed."
+msgstr "BLIP 캡션러 백엔드 초기화에 실패했습니다. 선택적 캡션러 종속성이 설치되어 있는지 확인하십시오."
+
+#: sd_runner/image_to_prompt/providers/llava_transformers.py:137
+msgid ""
+"VLM backend requires torch + transformers. Install optional deps (e.g. `pip "
+"install -r requirements-optional.txt`). The VLM model class needs "
+"transformers 4.36 or newer."
+msgstr ""
+"VLM 백엔드에는 torch와 transformers가 필요합니다. 선택적 종속성을 설치하세요(예: `pip install -r "
+"requirements-optional.txt`). VLM 모델 클래스는 transformers 4.36 이상이 필요합니다."
+
+#: sd_runner/image_to_prompt/providers/llava_transformers.py:225
+msgid ""
+"vlm_load_in_4bit is set but bitsandbytes and accelerate are not both "
+"installed. Install them, or turn the setting off to load at full precision."
+msgstr ""
+"vlm_load_in_4bit가 설정되어 있지만 bitsandbytes와 accelerate가 모두 설치되지 않았습니다. 두 패키지를 "
+"설치하거나 설정을 끄고 전체 정밀도로 로드하세요."
+
+#: tests/integration/test_run_dispatch.py:336
+#: ui_qt/app_window/run_controller.py:665
+msgid "Preset Schedule Error"
+msgstr "프리셋 일정 오류"
+
+#: tests/ui/test_runs_window.py:172 tests/ui/test_runs_window.py:173
+#: ui_qt/runs/runs_window.py:109 ui_qt/runs/runs_window.py:119
+#: ui_qt/runs/runs_window.py:132
+msgid "Origin"
+msgstr "원본"
+
+#: ui_qt/app_window/app_window.py:750
+msgid "Could not start {0}"
+msgstr "{0}을(를) 시작할 수 없습니다"
+
+#: ui_qt/app_window/run_controller.py:381
+msgid "Blacklist Validation Error"
+msgstr "블랙리스트 검증 오류"
+
+#: ui_qt/app_window/sidebar_panel.py:499
+msgid "Second Derivative"
+msgstr "2차 도함수"
+
+#: ui_qt/app_window/sidebar_panel.py:501
+msgid ""
+"Feed each generated image back through the same workflow with the same "
+"settings, so every image is followed by one made from it. Only applies to "
+"workflows that take an input image."
+msgstr ""
+"생성된 각 이미지를 동일한 설정을 사용해 동일한 워크플로에 다시 넣어, 각 이미지 뒤에 해당 이미지에서 만든 이미지가 오도록 합니다. "
+"입력 이미지를 사용하는 워크플로에만 적용됩니다."
+
+#: ui_qt/prompts/blacklist_modify_window.py:107
+msgid "Apply to prompt tags (check what you type, not just generated content)"
+msgstr "프롬프트 태그에 적용 (입력한 내용을 확인, 생성된 콘텐츠만이 아니라)"
+
+#: ui_qt/prompts/blacklist_modify_window.py:109
+msgid ""
+"Uncheck to keep filtering this term out of generated content while still "
+"allowing it in prompt tags you write yourself."
+msgstr "체크를 해제하면 이 용어는 생성된 콘텐츠에서 계속 필터링되지만, 직접 작성하는 프롬프트 태그에서는 허용됩니다."
+
+#: ui_qt/prompts/blacklist_window.py:62
+msgid "[generated only]"
+msgstr "[생성만]"
+
+#: ui_qt/prompts/image_to_prompt_window.py:123
+msgid "VLM Model"
+msgstr "VLM 모델"
+
+#: ui_qt/prompts/image_to_prompt_window.py:128
+msgid "Unload Model"
+msgstr "모델 언로드"
+
+#: ui_qt/prompts/image_to_prompt_window.py:130
+msgid ""
+"Free the VLM's video memory for image generation. It reloads on next use."
+msgstr "이미지 생성을 위해 VLM의 비디오 메모리를 확보합니다. 다음 사용 시 다시 로드됩니다."
+
+#: ui_qt/prompts/image_to_prompt_window.py:199
+msgid ""
+"Images (*.png *.jpg *.jpeg *.webp *.bmp *.avif *.heic *.heif *.jxl);;All "
+"files (*.*)"
+msgstr ""
+"이미지 (*.png *.jpg *.jpeg *.webp *.bmp *.avif *.heic *.heif *.jxl);;모든 파일 "
+"(*.*)"
+
+#: ui_qt/prompts/image_to_prompt_window.py:230
+msgid "VLM model unloaded."
+msgstr "VLM 모델이 언로드되었습니다."
+
+#: ui_qt/prompts/prompt_config_window.py:80
+msgid "Lighting"
+msgstr "조명"
+
+#: ui_qt/prompts/prompt_config_window.py:92
+msgid "Prefixes"
+msgstr "접두사"
+
+#: ui_qt/prompts/prompt_config_window.py:93
+msgid "Suffixes"
+msgstr "접미사"
+
+#: ui_qt/runs/runs_window.py:132
+msgid "Command"
+msgstr "명령"
+
+#: utils/globals.py:735
+msgid "Take Prompt Mode (unfiltered image prompts)"
+msgstr "Take Prompt 모드 (필터링되지 않은 이미지 프롬프트)"
