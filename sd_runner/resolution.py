@@ -15,10 +15,35 @@ class Resolution:
     #: For square presets only: use independent width/height scale factors this often; otherwise
     #: one shared factor (output stays square aside from symmetric quantization).
     RANDOM_SQUARE_INDEPENDENT_AXIS_PROBABILITY = 0.5
-    TOTAL_PIXELS_TOLERANCE_RANGE = []
-    XL_TOTAL_PIXELS_TOLERANCE_RANGE = []
-    ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE = []
-    QWEN_TOTAL_PIXELS_TOLERANCE_RANGE = []
+    #: Tolerance ranges, built lazily and cached per resolution group.
+    TOTAL_PIXELS_TOLERANCE_RANGES: dict = {}
+
+    #: The square size each tier is named for. A tier is nothing more than this
+    #: number: every other dimension it offers is computed from it, so adding a
+    #: tier means adding one entry here.
+    TIER_BASE = {
+        ResolutionGroup.FIFTEEN_THIRTY_SIX: 1536,
+        ResolutionGroup.THIRTEEN_TWENTY_EIGHT: 1328,
+        ResolutionGroup.TEN_TWENTY_FOUR: 1024,
+        ResolutionGroup.SEVEN_SIXTY_EIGHT: 768,
+        ResolutionGroup.FIVE_ONE_TWO: 512,
+    }
+
+    #: Aspect ratio per non-square scale rung, taken from the published SDXL
+    #: buckets. Computing the 1024 tier from these reproduces those buckets
+    #: exactly, which is why they are the set rather than any of the three
+    #: hand-rolled approximations the per-architecture tables used to carry.
+    SCALE_ASPECT_RATIOS = {
+        1: 1152 / 896,
+        2: 1216 / 832,
+        3: 1344 / 768,
+        4: 1536 / 640,
+    }
+    MAX_SCALE = 4
+
+    #: SD 1.5 degrades badly above its training size, so it is held to its
+    #: standard tier however large a group is selected.
+    SD_15_MAX_BASE = 768
 
     def __init__(
         self,
@@ -105,102 +130,58 @@ class Resolution:
         return resolution
 
     @staticmethod
-    def get_long_scale(scale: int = 2) -> int:
-        if scale < 2:
-            return 512
-        if scale == 2:
-            return 768
-        if scale > 2:
-            return 960
+    def dimension_step(base: int) -> int:
+        """Grid the sides snap to.
 
-    @staticmethod
-    def get_short_scale(scale: int = 2) -> int:
-        if scale == 1:
-            return 704
-        if scale == 2:
-            return 640
-        if scale > 2:
-            return 512
-        return 768
-
-    @staticmethod
-    def get_xl_long_scale(scale: int = 2) -> int:
-        if scale == 1:
-            return 1152
-        if scale == 2:
-            return 1216
-        if scale == 3:
-            return 1344
-        if scale > 3:
-            return 1536
-        return 1024
-
-    @staticmethod
-    def get_xl_short_scale(scale: int = 2) -> int:
-        if scale == 1:
-            return 896
-        if scale == 2:
-            return 832
-        if scale == 3:
-            return 768
-        if scale > 3:
-            return 640
-        return 1024
-
-    @staticmethod
-    def get_qwen_long_scale(scale: int = 2) -> int:
+        64 at and above 1024, which is what reproduces the SDXL buckets. Below
+        that a 64 grid is too coarse to separate adjacent rungs -- at base 512
+        two different aspect ratios would floor to the same long side -- so the
+        smaller tiers use 32, which every architecture in play accepts.
         """
-        Qwen-specific long side scale.
-        Uses discrete steps similar to XL/Illustrious so that:
-          - All non-square scales are larger than the square size (1328),
-          - Values increase as scale increases,
-          - The final value (default case) converges to the square dimension (1328).
-        """
-        if scale <= 1:
-            return 1472   # 1472x1200 ≈ 1.77M pixels
-        if scale == 2:
-            return 1664   # 1664x1072 ≈ 1.78M pixels
-        if scale == 3:
-            return 1792   # 1792x992 ≈ 1.78M pixels
-        return 1328       # 1328x1328 = 1,763,584 pixels (square target)
+        return 64 if base >= 1024 else 32
 
     @staticmethod
-    def get_qwen_short_scale(scale: int = 2) -> int:
-        """
-        Qwen-specific short side scale.
-        Paired with get_qwen_long_scale() so that:
-          - All non-square scales are smaller than the square size (1328),
-          - Values decrease as scale increases,
-          - The final value (default case) converges to the square dimension (1328),
-          - long * short stays close to 1328x1328 and both sides are multiples of 16.
-        """
-        if scale <= 1:
-            return 1200   # 1472x1200
-        if scale == 2:
-            return 1072   # 1664x1072
-        if scale == 3:
-            return 992    # 1792x992
-        return 1328       # 1328x1328
+    def _floor_to_step(value: float, step: int) -> int:
+        return max(step, int(value // step) * step)
 
     @staticmethod
-    def get_illustrious_long_scale(scale: int = 2) -> int:
-        if scale == 1:
-            return 1664
-        elif scale == 2:
-            return 1792
-        elif scale == 3:
-            return 2048
-        return 1536
+    def tier_base(
+        resolution_group: ResolutionGroup,
+        architecture_type: ArchitectureType = None,
+    ) -> int:
+        """The square size for *resolution_group*, capped for SD 1.5."""
+        base = Resolution.TIER_BASE.get(
+            resolution_group, Resolution.TIER_BASE[ResolutionGroup.FIVE_ONE_TWO]
+        )
+        if architecture_type == ArchitectureType.SD_15:
+            return min(base, Resolution.SD_15_MAX_BASE)
+        return base
 
     @staticmethod
-    def get_illustrious_short_scale(scale: int = 2) -> int:
-        if scale == 1:
-            return 1344
-        if scale == 2:
-            return 1216
-        if scale == 3:
-            return 1152
-        return 1536
+    def scale_dimensions(base: int, scale: int) -> tuple[int, int]:
+        """(long, short) for one non-square rung of *base*.
+
+        Both sides are derived from the same ratio, so their product stays near
+        ``base * base`` -- the tier's pixel budget holds across every rung
+        rather than drifting the way the hand-written tables did.
+        """
+        scale = max(1, min(int(scale), Resolution.MAX_SCALE))
+        ratio = math.sqrt(Resolution.SCALE_ASPECT_RATIOS[scale])
+        step = Resolution.dimension_step(base)
+        return (Resolution._floor_to_step(base * ratio, step),
+                Resolution._floor_to_step(base / ratio, step))
+
+    @staticmethod
+    def square_dimension(base: int, scale: int) -> int:
+        """The square side for *base* at *scale*.
+
+        Scale is a size knob as well as an aspect one: the square climbs the
+        same ladder the long side does, two rungs behind, which is the
+        behaviour the previous ``long(scale - 2)`` call produced.
+        """
+        if scale <= 2:
+            return base
+        return Resolution.scale_dimensions(base, scale - 2)[0]
 
     @staticmethod
     def round_int(value: int, multiplier: int = 4) -> int:
@@ -250,6 +231,7 @@ class Resolution:
             return ArchitectureType.ILLUSTRIOUS
         if resolution_group == ResolutionGroup.THIRTEEN_TWENTY_EIGHT:
             return ArchitectureType.QWEN
+        # 512 and 768 are both SD 1.5 territory.
         return ArchitectureType.SD_15
 
     @staticmethod
@@ -390,36 +372,15 @@ class Resolution:
         return self.get_closest(self.width, self.height, architecture_type=architecture_type, resolution_group=self.resolution_group)
 
     def square(self, architecture_type: ArchitectureType) -> None:
-        if architecture_type == ArchitectureType.SD_15 or self.resolution_group == ResolutionGroup.FIVE_ONE_TWO:
-            self.height = Resolution.get_long_scale(self.scale-2)
-            self.width = self.height
-        elif self.resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
-            self.height = Resolution.get_illustrious_long_scale(self.scale-2)
-            self.width = self.height
-        elif self.resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
-            self.height = Resolution.get_xl_long_scale(self.scale-2)
-            self.width = self.height
-        elif self.resolution_group == ResolutionGroup.THIRTEEN_TWENTY_EIGHT:
-            self.height = Resolution.get_qwen_long_scale(self.scale-2)
-            self.width = self.height
-        else:
-            raise Exception(f"Unhandled architecture type: {architecture_type} and resolution group: {self.resolution_group}")
+        base = Resolution.tier_base(self.resolution_group, architecture_type)
+        self.height = Resolution.square_dimension(base, self.scale)
+        self.width = self.height
 
     def portrait(self, architecture_type: ArchitectureType) -> None:
-        if architecture_type == ArchitectureType.SD_15 or self.resolution_group == ResolutionGroup.FIVE_ONE_TWO:
-            self.height = Resolution.get_long_scale(self.scale)
-            self.width = Resolution.get_short_scale(self.scale)
-        elif self.resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
-            self.height = Resolution.get_illustrious_long_scale(self.scale)
-            self.width = Resolution.get_illustrious_short_scale(self.scale)
-        elif self.resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
-            self.height = Resolution.get_xl_long_scale(self.scale)
-            self.width = Resolution.get_xl_short_scale(self.scale)
-        elif self.resolution_group == ResolutionGroup.THIRTEEN_TWENTY_EIGHT:
-            self.height = Resolution.get_qwen_long_scale(self.scale)
-            self.width = Resolution.get_qwen_short_scale(self.scale)
-        else:
-            raise Exception(f"Unhandled architecture type: {architecture_type} and resolution group: {self.resolution_group}")
+        base = Resolution.tier_base(self.resolution_group, architecture_type)
+        long_side, short_side = Resolution.scale_dimensions(base, self.scale)
+        self.height = long_side
+        self.width = short_side
 
     def landscape(self, architecture_type: ArchitectureType) -> None:
         self.portrait(architecture_type)
@@ -460,25 +421,17 @@ class Resolution:
         architecture_type: ArchitectureType = ArchitectureType.SDXL,
         resolution_group: ResolutionGroup = ResolutionGroup.TEN_TWENTY_FOUR
     ) -> list[int]:
+        """Cached per group. Keyed by the group rather than by four named
+        attributes, so 512 and 768 no longer share one slot -- they are
+        separate tiers with different pixel counts and would otherwise serve
+        each other's cached range, whichever was built first.
+        """
         architecture_type = architecture_type if architecture_type is not None else ArchitectureType.SDXL
-        if resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
-            tolerance_range = Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE
-        elif resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
-            tolerance_range = Resolution.ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE
-        elif resolution_group == ResolutionGroup.THIRTEEN_TWENTY_EIGHT:
-            tolerance_range = Resolution.QWEN_TOTAL_PIXELS_TOLERANCE_RANGE
-        else:
-            tolerance_range = Resolution.TOTAL_PIXELS_TOLERANCE_RANGE
+        tolerance_range = Resolution.TOTAL_PIXELS_TOLERANCE_RANGES.get(resolution_group, [])
         if len(tolerance_range) == 0:
-            tolerance_range = Resolution.construct_tolerance_range(architecture_type=architecture_type, resolution_group=resolution_group)
-            if resolution_group == ResolutionGroup.TEN_TWENTY_FOUR:
-                Resolution.XL_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
-            elif resolution_group == ResolutionGroup.FIFTEEN_THIRTY_SIX:
-                Resolution.ILLUSTRIOUS_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
-            elif resolution_group == ResolutionGroup.THIRTEEN_TWENTY_EIGHT:
-                Resolution.QWEN_TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
-            else:
-                Resolution.TOTAL_PIXELS_TOLERANCE_RANGE = tolerance_range
+            tolerance_range = Resolution.construct_tolerance_range(
+                architecture_type=architecture_type, resolution_group=resolution_group)
+            Resolution.TOTAL_PIXELS_TOLERANCE_RANGES[resolution_group] = tolerance_range
         return tolerance_range
 
     @staticmethod

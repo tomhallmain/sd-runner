@@ -201,8 +201,8 @@ def _reset_if_imported(module_name: str, class_name: str, **attrs) -> None:
     would pull PySide6 into every unit test just to clear a list that only a UI
     test could have populated.
 
-    Note the Resolution.*_TOTAL_PIXELS_TOLERANCE_RANGE caches are left alone on
-    purpose -- they memoise a pure function of the architecture and resolution
+    Note the Resolution.TOTAL_PIXELS_TOLERANCE_RANGES cache is left alone on
+    purpose -- it memoises a pure function of the architecture and resolution
     group, so a leaked value is always the value the next test would compute.
     """
     module = sys.modules.get(module_name)

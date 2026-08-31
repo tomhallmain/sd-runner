@@ -6,71 +6,114 @@ from sd_runner.resolution import Resolution
 from utils.globals import ArchitectureType, ResolutionGroup
 
 
-class TestResolutionScaleHelpers(unittest.TestCase):
-    """Unit tests for the static scale-lookup methods."""
+class TestScaleDimensions(unittest.TestCase):
+    """The computed anchor points that replaced eight hand-written tables.
 
-    # ── SD 1.5 ────────────────────────────────────────────────────────────────
+    A tier is now just its base size; every other dimension is derived, so the
+    properties worth asserting are the ones that hold across all tiers rather
+    than a transcription of each value.
+    """
 
-    def test_get_long_scale_sd15(self):
-        self.assertEqual(Resolution.get_long_scale(1), 512)
-        self.assertEqual(Resolution.get_long_scale(2), 768)
-        self.assertEqual(Resolution.get_long_scale(3), 960)
-        self.assertEqual(Resolution.get_long_scale(0), 512)  # scale < 2
+    TIERS = [1536, 1328, 1024, 768, 512]
+    SCALES = [1, 2, 3, 4]
 
-    def test_get_short_scale_sd15(self):
-        self.assertEqual(Resolution.get_short_scale(1), 704)
-        self.assertEqual(Resolution.get_short_scale(2), 640)
-        self.assertEqual(Resolution.get_short_scale(3), 512)
+    def test_it_reproduces_the_sdxl_buckets(self):
+        """The 1024 tier's values are the published SDXL training buckets.
 
-    # ── SDXL ──────────────────────────────────────────────────────────────────
+        They are the reason these particular ratios were chosen, and the reason
+        the rounding floors rather than rounds to nearest -- scale 4 would give
+        1600x640 instead of 1536x640.
+        """
+        expected = {1: (1152, 896), 2: (1216, 832), 3: (1344, 768), 4: (1536, 640)}
+        for scale, pair in expected.items():
+            self.assertEqual(Resolution.scale_dimensions(1024, scale), pair,
+                             msg=f"SDXL bucket mismatch at scale {scale}")
 
-    def test_get_xl_long_scale(self):
-        self.assertEqual(Resolution.get_xl_long_scale(1), 1152)
-        self.assertEqual(Resolution.get_xl_long_scale(2), 1216)
-        self.assertEqual(Resolution.get_xl_long_scale(3), 1344)
-        self.assertEqual(Resolution.get_xl_long_scale(4), 1536)
+    def test_the_long_side_is_never_shorter_than_the_short_side(self):
+        """The 512 tier used to invert at scale 1, so portrait() returned a
+        landscape and landscape() returned a portrait."""
+        for base in self.TIERS:
+            for scale in self.SCALES:
+                long_side, short_side = Resolution.scale_dimensions(base, scale)
+                self.assertGreaterEqual(long_side, short_side,
+                                        msg=f"base={base} scale={scale} is inverted")
 
-    def test_get_xl_short_scale(self):
-        self.assertEqual(Resolution.get_xl_short_scale(1), 896)
-        self.assertEqual(Resolution.get_xl_short_scale(2), 832)
-        self.assertEqual(Resolution.get_xl_short_scale(3), 768)
-        self.assertEqual(Resolution.get_xl_short_scale(4), 640)
+    def test_each_rung_is_distinct_within_a_tier(self):
+        """Two scales producing the same size means a wasted rung."""
+        for base in self.TIERS:
+            seen = [Resolution.scale_dimensions(base, s) for s in self.SCALES]
+            self.assertEqual(len(seen), len(set(seen)),
+                             msg=f"base={base} repeats a size across scales: {seen}")
 
-    # ── Illustrious ───────────────────────────────────────────────────────────
+    def test_the_aspect_ratio_widens_with_scale(self):
+        for base in self.TIERS:
+            ratios = [l / s for l, s in
+                      (Resolution.scale_dimensions(base, sc) for sc in self.SCALES)]
+            self.assertEqual(ratios, sorted(ratios),
+                             msg=f"base={base} ratios not monotonic: {ratios}")
 
-    def test_get_illustrious_long_scale(self):
-        self.assertEqual(Resolution.get_illustrious_long_scale(1), 1664)
-        self.assertEqual(Resolution.get_illustrious_long_scale(2), 1792)
-        self.assertEqual(Resolution.get_illustrious_long_scale(3), 2048)
-        self.assertEqual(Resolution.get_illustrious_long_scale(0), 1536)  # default
+    def test_the_pixel_budget_holds_across_a_tier(self):
+        """Each rung stays near the tier's own square, which is the property
+        the per-architecture tables lost -- the 512 tier ran to 1.88x."""
+        for base in self.TIERS:
+            for scale in self.SCALES:
+                long_side, short_side = Resolution.scale_dimensions(base, scale)
+                ratio = (long_side * short_side) / (base * base)
+                self.assertGreater(ratio, 0.80, msg=f"base={base} scale={scale} undershoots")
+                self.assertLessEqual(ratio, 1.0, msg=f"base={base} scale={scale} exceeds its tier")
 
-    def test_get_illustrious_short_scale(self):
-        self.assertEqual(Resolution.get_illustrious_short_scale(1), 1344)
-        self.assertEqual(Resolution.get_illustrious_short_scale(2), 1216)
-        self.assertEqual(Resolution.get_illustrious_short_scale(3), 1152)
-        self.assertEqual(Resolution.get_illustrious_short_scale(0), 1536)  # default
+    def test_sides_land_on_the_tier_grid(self):
+        for base in self.TIERS:
+            step = Resolution.dimension_step(base)
+            for scale in self.SCALES:
+                for side in Resolution.scale_dimensions(base, scale):
+                    self.assertEqual(side % step, 0,
+                                     msg=f"base={base} scale={scale} side {side} off the {step} grid")
 
-    # ── Qwen ──────────────────────────────────────────────────────────────────
+    def test_out_of_range_scales_are_clamped(self):
+        for base in (1024, 512):
+            self.assertEqual(Resolution.scale_dimensions(base, 0),
+                             Resolution.scale_dimensions(base, 1))
+            self.assertEqual(Resolution.scale_dimensions(base, 99),
+                             Resolution.scale_dimensions(base, Resolution.MAX_SCALE))
 
-    def test_get_qwen_long_scale(self):
-        self.assertEqual(Resolution.get_qwen_long_scale(1), 1472)
-        self.assertEqual(Resolution.get_qwen_long_scale(2), 1664)
-        self.assertEqual(Resolution.get_qwen_long_scale(3), 1792)
-        self.assertEqual(Resolution.get_qwen_long_scale(4), 1328)  # default fallback
 
-    def test_get_qwen_short_scale(self):
-        self.assertEqual(Resolution.get_qwen_short_scale(1), 1200)
-        self.assertEqual(Resolution.get_qwen_short_scale(2), 1072)
-        self.assertEqual(Resolution.get_qwen_short_scale(3), 992)
-        self.assertEqual(Resolution.get_qwen_short_scale(4), 1328)  # default fallback
+class TestTierBase(unittest.TestCase):
+    def test_every_group_resolves(self):
+        """The 768 group used to have no branch at all and raised."""
+        for group in ResolutionGroup:
+            self.assertGreater(Resolution.tier_base(group), 0)
 
-    def test_qwen_pixel_counts_are_close(self):
-        """Long × short should be within ~1 % of the 1328×1328 square target."""
-        target = 1328 * 1328
-        for scale in (1, 2, 3):
-            pixels = Resolution.get_qwen_long_scale(scale) * Resolution.get_qwen_short_scale(scale)
-            self.assertAlmostEqual(pixels / target, 1.0, delta=0.02,
-                                   msg=f"Qwen scale={scale} pixel count deviates too far from square target")
+    def test_each_group_gives_the_size_it_is_named_for(self):
+        for group in ResolutionGroup:
+            self.assertEqual(Resolution.tier_base(group), int(group.value))
+
+    def test_sd15_is_capped_at_its_standard_tier(self):
+        """SD 1.5 degrades above its training size, so a large group is capped
+        rather than honoured."""
+        self.assertEqual(
+            Resolution.tier_base(ResolutionGroup.FIFTEEN_THIRTY_SIX, ArchitectureType.SD_15),
+            Resolution.SD_15_MAX_BASE)
+
+    def test_sd15_does_not_raise_a_smaller_group(self):
+        self.assertEqual(
+            Resolution.tier_base(ResolutionGroup.FIVE_ONE_TWO, ArchitectureType.SD_15), 512)
+
+
+class TestSquareDimension(unittest.TestCase):
+    def test_the_default_square_is_the_tier_size(self):
+        """Every tier now honours its own name at the default scale; the 1328
+        tier used to give 1472."""
+        for base in (1536, 1328, 1024, 768, 512):
+            self.assertEqual(Resolution.square_dimension(base, 2), base)
+
+    def test_the_square_grows_with_scale(self):
+        """Scale is a size knob as well as an aspect one, which is existing
+        behaviour: square() walked the long-side ladder two rungs behind."""
+        for base in (1536, 1024):
+            sizes = [Resolution.square_dimension(base, s) for s in (1, 2, 3, 4)]
+            self.assertEqual(sizes, sorted(sizes))
+            self.assertGreater(sizes[-1], sizes[0])
 
 
 class TestRoundInt(unittest.TestCase):
