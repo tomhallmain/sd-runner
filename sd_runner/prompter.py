@@ -30,6 +30,7 @@ class Prompter:
     DOUBLE_DOLLAR_VAR_PATTERN = re.compile(r'\$\$([A-Za-z_][A-Za-z0-9_]*)')
     EXPANSION_VAR_PATTERN_UI = r"(?<!\$)(\$)[A-Za-z_][A-Za-z0-9_]*|(\$)?\{[A-Za-z_][A-Za-z0-9_]*\}"
     EXPANSION_VAR_PATTERN = r"(\$)(\$)?[A-Za-z_][A-Za-z0-9_]*|(\$)?\{[A-Za-z_][A-Za-z0-9_]*\}"
+    AFFIX_HOST_PATTERN = re.compile(r'^[A-Za-z]+$')
     POSITIVE_TAGS_INLINE_VARS: dict = {}
     IMAGE_DATA_EXTRACTOR = None
     IMAGE_TO_PROMPT_CAPTIONER = None
@@ -353,11 +354,54 @@ class Prompter:
             if config.debug:
                 print("Adding art styles")
             mix.extend(self.concepts.get_art_styles(max_styles=2, multiplier=self.prompter_config.multiplier))
+        # Must run before emphasize() adds brackets and before add_presets()
+        # introduces strings the user wrote and would not want altered.
+        self._attach_affixes(mix)
         random.shuffle(mix)
         Prompter.emphasize(mix, emphasis_chance=self.prompter_config.emphasis_chance)
         # Extra concepts for NSFW
         self.add_presets(mix)
         return mix
+
+    @staticmethod
+    def _can_take_affix(entry: str) -> bool:
+        """A host has to be a bare single word.
+
+        Affixes join with a hyphen, so on a phrase they would attach at one end
+        and read as modifying only the word sitting there -- "ancient stone
+        bridge-clad". An entry that is already hyphenated, or carries emphasis
+        brackets or an unexpanded variable, is skipped for the same reason.
+        """
+        return bool(Prompter.AFFIX_HOST_PATTERN.match(entry))
+
+    def _attach_affixes(self, mix: list[str]) -> None:
+        """Attach sampled prefixes and suffixes onto concepts already in the mix.
+
+        Affixes are the one category that modifies the mix in place rather than
+        adding to it: "-punk" alone is not a concept. Each affix takes its own
+        host and no host takes both a prefix and a suffix, since stacking them
+        turns the concept into noise. The number applied is therefore capped by
+        the eligible hosts present, however many were sampled.
+        """
+        multiplier = self.prompter_config.multiplier
+        prefixes = self.concepts.get_prefixes(
+            self.prompter_config.get_category_config("prefixes"), multiplier=multiplier)
+        suffixes = self.concepts.get_suffixes(
+            self.prompter_config.get_category_config("suffixes"), multiplier=multiplier)
+        if len(prefixes) == 0 and len(suffixes) == 0:
+            return
+        hosts = [i for i, entry in enumerate(mix) if Prompter._can_take_affix(entry)]
+        random.shuffle(hosts)
+        # Drop from whichever list is longer, so a lopsided request does not
+        # consume every host before the smaller list gets one.
+        while len(prefixes) + len(suffixes) > len(hosts):
+            (prefixes if len(prefixes) >= len(suffixes) else suffixes).pop()
+        for prefix in prefixes:
+            index = hosts.pop()
+            mix[index] = prefix + mix[index]
+        for suffix in suffixes:
+            index = hosts.pop()
+            mix[index] = mix[index] + suffix
 
     def mix_concepts(self, emphasis_threshold: float = 0.9) -> str:
         return ', '.join(self._mix_concepts(humans_chance=self.prompter_config.specify_humans_chance))

@@ -382,6 +382,10 @@ class ConceptsFile:
 class Concepts:
     ALL_WORDS_LIST_FILENAME = "dictionary.txt"
     ALL_WORDS_LIST = []
+    #: Paths already reported as absent, so the warning is issued once rather
+    #: than on every prompt generation. Keyed by full path, so switching to a
+    #: concepts directory that is missing a different set reports that set too.
+    _missing_files_reported: set = set()
     TAG_BLACKLIST = []
     ALPHABET = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
                 "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
@@ -436,8 +440,19 @@ class Concepts:
         if low == 0 and high == 0:
             return []
         if len(concepts) == 0:
+            # A category with no source is inert, not fatal. Concept
+            # directories are not required to carry every file -- a translated
+            # set may simply not have one yet -- and raising here failed the
+            # whole generation over a category the user could not have known
+            # was missing. Compare the blacklist paths below, which already
+            # clamp the range to what is available rather than giving up; this
+            # is the same idea with nothing available. Concepts.load has
+            # already named the missing file in the log.
             if low > 0:
-                raise Exception("No concepts to sample")
+                logger.warning(
+                    f"No concepts available to satisfy range {low}-{high}; "
+                    "skipping this category"
+                )
             return []
         if Blacklist.is_empty():
             return sample(concepts, low, high)
@@ -716,6 +731,21 @@ class Concepts:
             self.extend(characters, NSFW.characters, 3, NSFL.characters, 2)
         return Concepts.sample_whitelisted(characters, low, high, self.prompt_mode)
 
+    def get_prefixes(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        """Fragments that attach to the front of a word.
+
+        The returned count is a request rather than a result: an affix on its
+        own is not a concept, so the caller attaches each one to a concept it
+        already has and drops any it has no host for.
+        """
+        low, high = concept_config.get_adjusted_range(multiplier)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.prefixes), low, high, self.prompt_mode)
+
+    def get_suffixes(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
+        """Fragments that attach to the end of a word. See get_prefixes."""
+        low, high = concept_config.get_adjusted_range(multiplier)
+        return Concepts.sample_whitelisted(Concepts.load(SFW.suffixes), low, high, self.prompt_mode)
+
     def get_jargon(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
         return Concepts.sample_whitelisted(Concepts.load(SFW.jargon), low, high, self.prompt_mode)
@@ -867,8 +897,14 @@ class Concepts:
                     if len(val) > 0:
                         l.append(val)
         except Exception:
-            if config.debug:
-                logger.warning("Failed to load concepts file: " + filepath)
+            # Once per file, and not gated on debug: a concept directory that
+            # does not carry this file makes its category silently produce
+            # nothing, which is very hard to work out from the outside. Once,
+            # because this runs on every prompt generation for every file.
+            if filepath not in Concepts._missing_files_reported:
+                Concepts._missing_files_reported.add(filepath)
+                logger.warning(f"No concepts file at {filepath}; "
+                               "that category will contribute nothing")
         return l
 
     @staticmethod
@@ -1199,8 +1235,10 @@ class SFW:
     plants = "plants.txt"
     positions = "positions.txt"
     positions_angles = "angles_and_views.txt"
+    prefixes = "prefixes.txt"
     puns = "puns.txt"
     sayings = "sayings.txt"
+    suffixes = "suffixes.txt"
     times = "times.txt"
     times_specific = "times_specific.txt"
     units = "units.txt"

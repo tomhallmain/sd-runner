@@ -197,6 +197,11 @@ class PrompterConfiguration:
             "random_words": ConceptConfiguration(low=0, high=5),
             "nonsense": ConceptConfiguration(low=0, high=0),
             "jargon": ConceptConfiguration(low=0, high=2),
+            # Off by default, and not part of the prompt mix: an affix on its
+            # own is not a concept, it needs a word to attach to. Configurable
+            # now so the counts exist for the logic that will attach them.
+            "prefixes": ConceptConfiguration(low=0, high=0),
+            "suffixes": ConceptConfiguration(low=0, high=0),
             "witticisms": ConceptConfiguration(
                 low=0, 
                 high=3, 

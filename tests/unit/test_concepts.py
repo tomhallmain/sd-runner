@@ -223,9 +223,25 @@ class TestSampleWhitelisted:
         result = Concepts.sample_whitelisted([], 0, 3, PromptMode.SFW)
         assert result == []
 
-    def test_empty_list_with_nonzero_low_raises(self):
+    def test_empty_list_with_nonzero_low_is_skipped_not_fatal(self):
+        """A category with no source is inert, not an error.
+
+        This used to raise. A concepts directory is not required to carry
+        every file -- a translated set may simply not have one yet -- and
+        raising failed the whole generation over a category the user could not
+        have known was missing.
+        """
+        assert Concepts.sample_whitelisted([], 1, 3, PromptMode.SFW) == []
+
+    def test_a_fully_blacklisted_list_still_raises(self):
+        """Different case, deliberately kept: the user did that to themselves.
+
+        Nothing available because it was all blocked is actionable; nothing
+        available because the file is absent is not.
+        """
+        Blacklist.add_item(BlacklistItem("blocked"))
         with pytest.raises(Exception):
-            Concepts.sample_whitelisted([], 1, 3, PromptMode.SFW)
+            Concepts.sample_whitelisted(["blocked"], 1, 1, PromptMode.SFW)
 
     def test_samples_from_list_when_no_blacklist(self):
         concepts = ["sun", "moon", "star", "cloud", "rain"]
@@ -415,3 +431,72 @@ class TestGetWithSubcategories:
         weights = {"sayings.txt": 1.0, "puns.txt": 1.0, "extra.txt": 1.0}
         config = self._config(total, total, weights=weights)
         assert len(self._concepts().get_with_subcategories(config)) <= total
+
+
+# ---------------------------------------------------------------------------
+# Affix categories, and a missing category file
+# ---------------------------------------------------------------------------
+
+class TestAffixCategories:
+    """Prefixes and suffixes attach to a word; they are not concepts alone."""
+
+    def _concepts(self):
+        return Concepts(PromptMode.SFW, get_specific_locations=False)
+
+    def test_prefixes_are_sampled_from_the_file(self):
+        result = self._concepts().get_prefixes(ConceptConfiguration(low=2, high=2))
+        assert len(result) == 2
+
+    def test_suffixes_are_sampled_from_the_file(self):
+        result = self._concepts().get_suffixes(ConceptConfiguration(low=2, high=2))
+        assert len(result) == 2
+
+    def test_entries_carry_their_own_joining_hyphen(self):
+        """Attaching is concatenation, so the file decides how to join."""
+        prefixes = self._concepts().get_prefixes(ConceptConfiguration(low=5, high=5))
+        suffixes = self._concepts().get_suffixes(ConceptConfiguration(low=5, high=5))
+        assert all(p.endswith("-") for p in prefixes)
+        assert all(s.startswith("-") for s in suffixes)
+
+    def test_they_are_off_by_default(self):
+        """They would be nonsense in a prompt until something attaches them."""
+        from sd_runner.prompter_configuration import PrompterConfiguration
+
+        config = PrompterConfiguration()
+        for name in ("prefixes", "suffixes"):
+            assert config.get_category_config(name).low == 0
+            assert config.get_category_config(name).high == 0
+
+    def test_the_sample_is_a_request_not_a_result(self):
+        """Sampling does not know how many hosts exist; the prompter caps it."""
+        result = self._concepts().get_prefixes(ConceptConfiguration(low=8, high=8))
+        assert len(result) == 8
+
+
+class TestMissingCategoryFile:
+    """A concepts directory need not carry every file.
+
+    The German set has no prefixes.txt or suffixes.txt, and a translated set
+    may lack any category. That has to be inert rather than fatal.
+    """
+
+    def _concepts(self):
+        return Concepts(PromptMode.SFW, get_specific_locations=False)
+
+    def test_a_missing_file_loads_as_empty(self):
+        assert Concepts.load("definitely_not_a_concepts_file.txt") == []
+
+    def test_a_missing_file_does_not_break_sampling(self):
+        concepts = Concepts.load("definitely_not_a_concepts_file.txt")
+        assert Concepts.sample_whitelisted(concepts, 2, 4, PromptMode.SFW) == []
+
+    def test_the_absence_is_reported_once(self, caplog):
+        """Every prompt generation loads every file; warning each time is noise."""
+        from sd_runner import concepts as concepts_module
+        from tests.utils import captured_logs
+
+        concepts_module.Concepts._missing_files_reported.clear()
+        with captured_logs(caplog, concepts_module.logger, level="WARNING"):
+            for _ in range(3):
+                Concepts.load("definitely_not_a_concepts_file.txt")
+        assert caplog.text.count("definitely_not_a_concepts_file") == 1

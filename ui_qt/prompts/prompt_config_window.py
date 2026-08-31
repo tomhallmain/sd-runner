@@ -88,6 +88,8 @@ def _category_label(name: str) -> str:
         "nonsense": _("Nonsense"),
         "jargon": _("Jargon"),
         "witticisms": _("Witticisms"),
+        "prefixes": _("Prefixes"),
+        "suffixes": _("Suffixes"),
     }
     if name in labels:
         return labels[name]
@@ -399,6 +401,7 @@ class PromptConfigWindow(SmartDialog):
             "positions", "locations", "animals", "plants", "colors",
             "times", "units", "dress", "expressions", "actions", "descriptions",
             "characters", "random_words", "nonsense", "jargon", "witticisms",
+            "prefixes", "suffixes",
         ]
         for i, name in enumerate(categories, start=1):
             cc = pc.get_category_config(name)
