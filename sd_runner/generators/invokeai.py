@@ -286,9 +286,7 @@ class InvokeAIGen(BaseImageGenerator):
         except urllib_error.URLError as exc:
             raise Exception(f"Failed to connect to InvokeAI. Is it running? ({exc})") from exc
         finally:
-            with self._lock:
-                self.pending_counter -= 1
-                self.update_ui_pending()
+            self.release_pending()
 
     # -------------------------------------------------------------------------
     # Shared helpers

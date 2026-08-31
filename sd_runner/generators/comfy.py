@@ -189,9 +189,7 @@ class ComfyGen(BaseImageGenerator):
                 except Exception:
                     pass
                 ComfyGen.remove_connection(ws)
-            with self._lock:
-                self.pending_counter -= 1
-                self.update_ui_pending()
+            self.release_pending()
         return output_paths
 
     @staticmethod

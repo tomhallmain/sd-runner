@@ -146,9 +146,7 @@ class SDWebuiGen(BaseImageGenerator):
             if prompter_config is not None:
                 Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(save_path, prompter_config.original_positive_tags, original_negative_tags=None)
             save_path = self.finalize_output_path(save_path, related_image_path=related_image_path)
-        with self._lock:
-            self.pending_counter -= 1
-            self.update_ui_pending()
+        self.release_pending()
         return save_path
 
     @staticmethod

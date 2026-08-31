@@ -72,6 +72,11 @@ class BaseImageGenerator(ABC):
         self.captioner = None
         self.has_run_one_workflow = False
         self._lock = threading.Lock()  # Instance-specific lock
+        # Whether the dispatch running on this thread still owes the pending
+        # count a decrement. Set when a task starts, cleared by whichever of
+        # the backend or the task wrapper gets there first, so a generation
+        # that dies before reaching a backend is still accounted for.
+        self._pending_release = threading.local()
         # Per-thread override for the image a generation is derived from. The
         # run-wide source lives on gen_config and is shared by every worker, so
         # a second derivative -- whose parent is the image its own task just
@@ -309,13 +314,13 @@ class BaseImageGenerator(ABC):
         kwargs['ip_adapter'] = converted_ip_adapter
 
         workflow_method = self.validate_workflow(workflow_id, **kwargs)
+        # schedule_generation raises the pending count itself, so that the
+        # increment and its release are owned by the same pair of methods.
         self.schedule_generation(self._with_second_derivative(workflow_id, workflow_method), **kwargs)
         with self._lock:
-            self.pending_counter += 1
             self.counter += 1
             self.latent_counter += kwargs.get('n_latents', 1)
             self.has_run_one_workflow = True
-            self.update_ui_pending()
         time.sleep(0.2)
         return True
 
@@ -382,17 +387,17 @@ class BaseImageGenerator(ABC):
                 return
             derived[field] = adapter
 
-            # queue_prompt decrements this unconditionally, so a second pass
-            # without a matching increment would drive the pending count
-            # negative.
-            with self._lock:
-                self.pending_counter += 1
-                self.update_ui_pending()
+            # A derived pass is a second generation and is counted as one. It
+            # re-arms the release the parent pass already spent, so the pass
+            # is accounted for whether it reaches a backend or fails first.
+            self.count_pending_dispatch()
+            self._arm_pending_release()
 
             self._related_image_override.path = parent_path
             try:
                 workflow_method(**derived)
             finally:
+                self.release_pending()
                 self._related_image_override.path = None
 
     @staticmethod
@@ -413,21 +418,76 @@ class BaseImageGenerator(ABC):
         return derived
 
     def schedule_generation(self, task_fn: callable, *args, **kwargs) -> Future:
-        """Submit a generation task to the shared executor"""
-        with BaseImageGenerator._executor_lock:
-            future = self._executor.submit(
-                self._wrap_task(task_fn),
-                *args, **kwargs
-            )
-            return future
+        """Submit a generation task to the shared executor.
+
+        The pending count is raised here rather than by the caller so that it
+        is paired with the release in ``_wrap_task``: everything submitted
+        lowers it exactly once, including a task that raises before it reaches
+        a backend.
+        """
+        self.count_pending_dispatch()
+        try:
+            with BaseImageGenerator._executor_lock:
+                return self._executor.submit(
+                    self._wrap_task(task_fn),
+                    *args, **kwargs
+                )
+        except BaseException:
+            # Nothing will run, so no worker will ever release what was just
+            # taken. Undo it directly -- release_pending answers to the worker
+            # thread's arming, not this one's.
+            with self._lock:
+                self.pending_counter -= 1
+                self.update_ui_pending()
+            raise
 
     def update_ui_pending(self):
         if self.ui_callbacks is not None:
             self.ui_callbacks.update_pending(self.pending_counter)
 
+    # ------------------------------------------------------------------
+    # Pending-count accounting
+    #
+    # One dispatch raises the count once and lowers it once. The two are
+    # deliberately not paired by a single `with`, because the raise happens on
+    # the dispatching thread and the lowering on a pool worker.
+    # ------------------------------------------------------------------
+
+    def count_pending_dispatch(self) -> None:
+        """Record one generation as in flight."""
+        with self._lock:
+            self.pending_counter += 1
+            self.update_ui_pending()
+
+    def _arm_pending_release(self) -> None:
+        """Mark this thread's dispatch as still owing a decrement."""
+        self._pending_release.armed = True
+
+    def release_pending(self) -> None:
+        """Account for one finished dispatch, at most once per armed dispatch.
+
+        Backends call this where they used to decrement directly, so the count
+        still drops the moment a generation finishes. ``_wrap_task`` calls it
+        again as the task unwinds, which is what catches a failure that never
+        reached a backend at all. Idempotent, so the two callers cannot both
+        spend the same increment.
+
+        Takes ``_lock`` itself, and ``_lock`` is not reentrant -- never call
+        this from inside a ``with self._lock`` block.
+        """
+        if not getattr(self._pending_release, "armed", False):
+            return
+        self._pending_release.armed = False
+        with self._lock:
+            self.pending_counter -= 1
+            self.update_ui_pending()
+
     def _wrap_task(self, task_fn: callable) -> callable:
         """Add common error handling and logging"""
         def wrapped(*args, **kwargs):
+            # First statement, so that anything below failing still leaves the
+            # dispatch accountable to the release in the finally.
+            self._arm_pending_release()
             # What this thread is generating, for the backend to attribute its
             # timing to. Set here rather than passed down because the workflow
             # methods all reach queue_prompt without carrying their arguments
@@ -453,6 +513,9 @@ class BaseImageGenerator(ABC):
                 self._handle_error(e, task_fn.__name__)
                 raise
             finally:
+                # Catches a dispatch the backend never got to account for.
+                # A no-op when the backend already released it.
+                self.release_pending()
                 # Pool threads are reused; a stale context would attribute the
                 # next task's duration to this task's model.
                 self._timing_context.descriptors = None

@@ -118,9 +118,7 @@ class SwarmUIGen(BaseImageGenerator):
         except urllib_error.URLError as exc:
             raise Exception(f"Failed to connect to SwarmUI. Is it running? ({exc})") from exc
         finally:
-            with self._lock:
-                self.pending_counter -= 1
-                self.update_ui_pending()
+            self.release_pending()
 
     def _base_payload(
         self,

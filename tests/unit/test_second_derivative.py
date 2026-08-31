@@ -235,12 +235,47 @@ class TestLineageAndCounters:
         run(gen, WorkflowType.IP_ADAPTER, ip_adapter=IPAdapter(id="/src/original.png"))
         assert gen.related_image_path() == "/src/original.png"
 
-    def test_the_derivative_increments_the_pending_counter(self):
-        """queue_prompt decrements once per pass, so each pass must add one."""
+    def test_the_derivative_counts_itself_while_it_runs(self):
+        """A derived pass is a generation in flight and is counted as one."""
+        gen = make_generator()
+        before = gen.pending_counter
+        seen = []
+        underlying = gen.workflow
+
+        def recording_workflow(**kwargs):
+            seen.append(gen.pending_counter)
+            return underlying(**kwargs)
+
+        gen.workflow = recording_workflow
+        run(gen, WorkflowType.IP_ADAPTER, ip_adapter=IPAdapter(id="/src/original.png"))
+
+        # The parent pass here is called directly rather than through
+        # _wrap_task, so only the derived pass is counted.
+        assert seen == [before, before + 1]
+
+    def test_the_derivative_releases_its_count_when_it_finishes(self):
+        """The pass owns the count it took, so nothing is left in flight."""
         gen = make_generator()
         before = gen.pending_counter
         run(gen, WorkflowType.IP_ADAPTER, ip_adapter=IPAdapter(id="/src/original.png"))
-        assert gen.pending_counter == before + 1
+        assert gen.pending_counter == before
+
+    def test_a_derivative_that_raises_still_releases_its_count(self):
+        """The leak this accounting exists to prevent."""
+        gen = make_generator()
+        before = gen.pending_counter
+        calls = []
+
+        def failing_on_the_derived_pass(**kwargs):
+            calls.append(kwargs)
+            if len(calls) == 1:
+                return ["/out/a.png"]
+            raise RuntimeError("backend never reached")
+
+        gen.workflow = failing_on_the_derived_pass
+        with pytest.raises(RuntimeError):
+            run(gen, WorkflowType.IP_ADAPTER, ip_adapter=IPAdapter(id="/src/original.png"))
+        assert gen.pending_counter == before
 
 
 # ---------------------------------------------------------------------------

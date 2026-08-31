@@ -140,9 +140,7 @@ class GoogleImagenGen(CloudGenBase):
                 path = self._save_image_bytes(image_data, index=i)
                 logger.info(f"Google Imagen: saved {path}")
         finally:
-            with self._lock:
-                self.pending_counter -= 1
-                self.update_ui_pending()
+            self.release_pending()
 
     # ------------------------------------------------------------------
     # Unsupported workflows

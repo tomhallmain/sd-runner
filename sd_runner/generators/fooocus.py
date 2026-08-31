@@ -134,9 +134,7 @@ class FooocusGen(BaseImageGenerator):
         except urllib_error.URLError as exc:
             raise Exception(f"Failed to connect to Fooocus. Is it running with --api? ({exc})") from exc
         finally:
-            with self._lock:
-                self.pending_counter -= 1
-                self.update_ui_pending()
+            self.release_pending()
 
     # -------------------------------------------------------------------------
     # BaseImageGenerator interface

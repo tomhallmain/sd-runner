@@ -146,9 +146,7 @@ class OpenAIGen(CloudGenBase):
                 items = self._request(model_name, positive, size, n=count, seed=seed, api_key=api_key)
                 self._save_items(items, index_offset=0)
         finally:
-            with self._lock:
-                self.pending_counter -= 1
-                self.update_ui_pending()
+            self.release_pending()
 
     def _request(
         self,

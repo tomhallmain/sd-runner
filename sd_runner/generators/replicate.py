@@ -146,9 +146,7 @@ class ReplicateGen(CloudGenBase):
                 path = self._save_image_from_url(url, index=i)
                 logger.info(f"Replicate: saved {path}")
         finally:
-            with self._lock:
-                self.pending_counter -= 1
-                self.update_ui_pending()
+            self.release_pending()
 
     def _run_prediction(
         self, model_ref: str, version_hash: Optional[str], inputs: dict, api_key: str

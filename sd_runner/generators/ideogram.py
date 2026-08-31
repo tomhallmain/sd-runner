@@ -153,9 +153,7 @@ class IdeogramGen(CloudGenBase):
                 path = self._save_image_from_url(url, index=i)
                 logger.info(f"Ideogram: saved {path}")
         finally:
-            with self._lock:
-                self.pending_counter -= 1
-                self.update_ui_pending()
+            self.release_pending()
 
     # ------------------------------------------------------------------
     # Unsupported workflows
