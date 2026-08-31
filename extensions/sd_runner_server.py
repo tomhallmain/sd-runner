@@ -111,6 +111,7 @@ class SDRunnerServer:
         cancel_callback: callable,
         revert_callback: callable,
         batch_enqueue_callback: callable,
+        health_check_callback: callable = None,
         host: str = None,
         port: int = None,
     ):
@@ -134,6 +135,7 @@ class SDRunnerServer:
         self.cancel_callback = cancel_callback
         self.revert_callback = revert_callback
         self.batch_enqueue_callback = batch_enqueue_callback
+        self.health_check_callback = health_check_callback
 
     def start(self) -> None:
         self.listener = Listener((self._host, self._port), authkey=str.encode(config.server_password))
@@ -200,6 +202,33 @@ class SDRunnerServer:
         """
         return self._client_id or self._peer_host
 
+    def _handle_health_check(self, msg: dict) -> None:
+        """Answer a client asking whether a backend is operational.
+
+        Runs on the listener thread. The callback bridges its own brief UI
+        reads and does its HTTP work here, so this blocks only this connection
+        -- not the GUI, and not another client's.
+        """
+        if self.health_check_callback is None:
+            self._conn.send({'status': 'error', 'error': 'health checks unavailable'})
+            return
+        try:
+            level = int(msg.get('level', 1))
+            timeout = int(msg.get('timeout', 60))
+        except (TypeError, ValueError):
+            self._conn.send({'status': 'error', 'error': 'invalid level or timeout'})
+            return
+        try:
+            result = self.health_check_callback(
+                level=level, timeout=timeout, software=str(msg.get('software', '') or '')
+            )
+        except Exception as e:
+            logger.error(f"health_check failed: {e}")
+            self._conn.send({'status': 'error', 'error': 'health check failed',
+                             'detail': str(e)})
+            return
+        self._conn.send(result)
+
     def _handle_run_batch(self, msg: dict) -> None:
         """Send all batch requests to the staging queue via a single bridge call."""
         requests = [
@@ -250,7 +279,9 @@ class SDRunnerServer:
                         if named:
                             self._client_id = named
                         command = msg.get('command')
-                        if command == 'run_batch':
+                        if command == 'health_check':
+                            self._handle_health_check(msg)
+                        elif command == 'run_batch':
                             self._handle_run_batch(msg)
                         elif command == 'run':
                             if "type" not in msg or "args" not in msg:

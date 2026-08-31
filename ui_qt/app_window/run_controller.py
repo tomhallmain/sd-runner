@@ -857,6 +857,98 @@ class RunController:
             return self._run_virtual(command_type, args, client_id)
         return self._on_main(self._run_from_widgets, command_type, args, client_id)
 
+    def server_health_check(self, level: int = 1, timeout: int = 60,
+                            software: str = "") -> dict:
+        """Answer a client asking whether a backend is operational.
+
+        Runs on the listener thread and bridges only the two quick UI reads it
+        needs. Deliberately *not* wrapped at the wiring like the other
+        callbacks: a level 2 check makes several HTTP requests and can take
+        tens of seconds against a backend that is loading a model, and running
+        that on the GUI thread would freeze the window for the duration.
+
+        *software* names a specific backend; without it the one currently
+        selected is checked. Answering about a backend other than the active
+        one costs nothing here and saves the client from having to switch the
+        selection to ask.
+
+        *timeout* bounds the whole answer rather than each request within it.
+        Four statuses come back, and the distinctions are the point: ``ok``,
+        ``starting`` for one SD Runner is itself bringing up, ``timeout`` for
+        one that is too slow to answer, and ``error`` for one that refuses.
+        Only the last needs someone to go and look.
+        """
+        import time as _time
+
+        from extensions.backend_health import check, check_functional
+        from utils.globals import SoftwareType
+
+        try:
+            software_type = (SoftwareType[software] if software
+                             else self._on_main(self._selected_software_type))
+        except KeyError:
+            return {"status": "error", "level": level,
+                    "error": "unknown software", "detail": str(software)}
+
+        if software_type.is_cloud():
+            # Nothing local to reach; the API's own availability is its
+            # business and is not something this app can speak to.
+            return {"status": "ok", "level": level, "backend": software_type.value,
+                    "note": "cloud_backend_no_local_check"}
+
+        started = _time.monotonic()
+        if level >= 2:
+            result = check_functional(software_type, timeout=timeout)
+        else:
+            result = check(software_type, timeout=timeout)
+        latency_ms = int((_time.monotonic() - started) * 1000)
+
+        response = {
+            "level": level,
+            "backend": software_type.value,
+            "latency_ms": latency_ms,
+        }
+        if not result.reachable:
+            if self._backend_is_starting(software_type):
+                # Autolaunch is what creates this window, so it is also what
+                # has to explain it: a backend SD Runner is still bringing up
+                # is not broken, and a client told "error" would give up on
+                # something that will answer shortly.
+                response.update(status="starting",
+                                note="backend is still starting")
+                return response
+            response.update(
+                status="timeout" if result.timed_out else "error",
+                error=result.detail or "unreachable",
+                detail=result.url,
+            )
+            return response
+
+        response["status"] = "ok"
+        if result.detail:
+            response["note"] = result.detail
+        # A run of our own in flight explains a non-idle backend, and is itself
+        # evidence it is working -- so it is reported rather than diagnosed.
+        if self._on_main(self._app.job_queue.has_pending):
+            response["note"] = "generation_in_progress"
+        return response
+
+    def _selected_software_type(self):
+        """The backend currently selected in the sidebar. GUI thread only."""
+        from utils.globals import SoftwareType
+        return SoftwareType[self._sp.software_combo.currentText()]
+
+    def _backend_is_starting(self, software_type) -> bool:
+        """Whether SD Runner is currently bringing this backend up itself."""
+        from extensions.backend_process import starting_backends
+
+        try:
+            return software_type in starting_backends(
+                getattr(self._app, "backend_processes", None)
+            )
+        except Exception:
+            return False
+
     def server_revert_to_simple_gen(self, client_id: str = "") -> None:
         """Server entry point for ``revert_to_simple_gen``.
 

@@ -251,6 +251,11 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self.server = self._setup_server()
 
         # ------------------------------------------------------------------
+        # Managed backends
+        # ------------------------------------------------------------------
+        self.backend_processes = self._launch_managed_backends()
+
+        # ------------------------------------------------------------------
         # Start periodic cache store
         # ------------------------------------------------------------------
         self.cache_ctrl.start_periodic_store()
@@ -699,6 +704,10 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             # supplies none.
             bridge(self.run_ctrl.server_revert_to_simple_gen),
             bridge(self.run_ctrl.server_batch_enqueue),
+            # Not bridged, for the same reason server_run_callback is not: a
+            # level 2 check makes several HTTP requests and can take tens of
+            # seconds. It bridges the two quick widget reads it needs itself.
+            self.run_ctrl.server_health_check,
         )
         try:
             Utils.start_thread(server.start)
@@ -706,6 +715,40 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         except Exception as e:
             logger.error(f"Failed to start server: {e}")
             return None
+
+    # ------------------------------------------------------------------
+    # Managed backends
+    # ------------------------------------------------------------------
+    def _launch_managed_backends(self) -> list:
+        """Start the backends the user has configured a launch command for.
+
+        Each starts on its own thread, so several warm up in parallel and none
+        of them blocks the window from opening -- a backend can take minutes.
+        A failure is reported and skipped: the app is still usable with the
+        backends that did come up, and a run against a missing one already
+        fails with a readable connection error.
+        """
+        from extensions.backend_process import configured_backends
+
+        try:
+            backends = configured_backends(config)
+        except Exception as e:
+            logger.error(f"Could not read backend launch config: {e}")
+            return []
+
+        for backend in backends:
+            Utils.start_thread(self._start_backend, use_asyncio=False, args=[backend])
+        return backends
+
+    def _start_backend(self, backend) -> None:
+        """Worker body for one backend launch."""
+        try:
+            backend.start()
+        except Exception as e:
+            logger.error(f"Failed to start {backend.name}: {e}")
+            self.app_actions.toast(
+                _("Could not start {0}").format(backend.name)
+            )
 
     # ------------------------------------------------------------------
     # Lifecycle
@@ -792,6 +835,14 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
                 self.server.stop()
             except Exception as e:
                 logger.error(f"Error stopping server: {e}")
+
+        # Stop managed backends. Only ones this app launched -- a backend that
+        # was already running when it started is left alone.
+        for backend in getattr(self, "backend_processes", []):
+            try:
+                backend.stop()
+            except Exception as e:
+                logger.error(f"Error stopping {backend.name}: {e}")
 
         # Cancel running jobs
         if self.current_run is not None:

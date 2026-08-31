@@ -285,8 +285,16 @@ class TestClientIdOverTheWire:
         return server
 
     def drive(self, server, messages):
-        server._conn = FakeServerConn(messages)
+        """Run the receive loop over *messages* and return the connection.
+
+        Returned because _handle_connection clears server._conn on the way
+        out, so a test wanting to see what was sent has to hold its own
+        reference.
+        """
+        conn = FakeServerConn(messages)
+        server._conn = conn
         server._handle_connection()
+        return conn
 
     def run_message(self, **extra):
         return {"command": "run", "type": "renoiser", "args": {}, **extra}
@@ -348,6 +356,49 @@ class TestClientIdOverTheWire:
         self.drive(server, [{"command": "run", "type": "cancel", "args": {}}])
         assert seen["event"] is None
         assert seen["reason"]
+
+    def test_a_health_check_reaches_its_callback(self):
+        seen = []
+        server = self.make_server(
+            health_check_callback=lambda **kw: (seen.append(kw), {"status": "ok"})[1]
+        )
+        self.drive(server, [{"command": "health_check", "level": 2, "timeout": 30}])
+        assert seen == [{"level": 2, "timeout": 30, "software": ""}]
+
+    def test_a_health_check_defaults_to_level_one(self):
+        seen = []
+        server = self.make_server(
+            health_check_callback=lambda **kw: (seen.append(kw), {"status": "ok"})[1]
+        )
+        self.drive(server, [{"command": "health_check"}])
+        assert seen[0]["level"] == 1
+
+    def test_the_health_result_is_sent_back(self):
+        server = self.make_server(
+            health_check_callback=lambda **kw: {"status": "ok", "backend": "ComfyUI"}
+        )
+        conn = self.drive(server, [{"command": "health_check"}])
+        assert conn.sent == [{"status": "ok", "backend": "ComfyUI"}]
+
+    def test_a_failing_health_check_answers_rather_than_dropping(self):
+        """The client is waiting on a reply; an exception would hang it."""
+        def explode(**kwargs):
+            raise RuntimeError("backend exploded")
+
+        server = self.make_server(health_check_callback=explode)
+        conn = self.drive(server, [{"command": "health_check"}])
+        assert conn.sent[0]["status"] == "error"
+
+    def test_a_nonsense_level_answers_rather_than_dropping(self):
+        server = self.make_server(health_check_callback=lambda **kw: {"status": "ok"})
+        conn = self.drive(server, [{"command": "health_check", "level": "two"}])
+        assert conn.sent[0]["status"] == "error"
+
+    def test_health_checks_can_be_unavailable(self):
+        """The callback is optional, so a server built without one must say so."""
+        server = self.make_server(health_check_callback=None)
+        conn = self.drive(server, [{"command": "health_check"}])
+        assert conn.sent[0]["status"] == "error"
 
     def test_revert_is_told_which_client_asked(self):
         seen = []

@@ -40,8 +40,15 @@ class Config:
         "comfyui_loc":                      None,
         "comfyui_output_dir":               None,
         "sd_webui_loc":                     None,
+        "forge_loc":                        None,
+        "sdnext_loc":                       None,
+        "fooocus_loc":                      None,
+        "invokeai_loc":                     None,
+        "swarmui_loc":                      None,
         "sd_prompt_reader_loc":             None,
         "image_searcher_dir2":              None,
+        # Backend autolaunch — see backend_launch_commands below
+        "backend_startup_timeout":          int,
         # UI
         "foreground_color":                 None,
         "background_color":                 None,
@@ -117,6 +124,14 @@ class Config:
         # recovery scans, so an install that writes elsewhere must set it.
         self.comfyui_output_dir = None
         self.sd_webui_loc = None
+        # Install directories for the remaining local backends. Only used as the
+        # working directory a launch command runs from -- nothing else reads
+        # them, so they stay null for anyone not using autolaunch.
+        self.forge_loc = None
+        self.sdnext_loc = None
+        self.fooocus_loc = None
+        self.invokeai_loc = None
+        self.swarmui_loc = None
         self.sd_prompt_reader_loc = None
         self.image_searcher_dir = None
         self.image_searcher_dir2 = None
@@ -152,6 +167,26 @@ class Config:
         self.ui_scale_factor = 1.0
         self.max_executor_threads = 4
 
+        # Backends SD Runner should start for you, as {SoftwareType name: command}.
+        # Each runs as its own OS process from the matching *_loc directory, so
+        # backends needing different Python or conda environments coexist. The
+        # command goes through a shell, so anything you would type at a prompt
+        # works -- including the launcher scripts these backends ship:
+        #   {"ComfyUI": "run_nvidia_gpu.bat",
+        #    "SDWebUI": "C:\\miniconda3\\envs\\webui\\python.exe launch.py"}
+        #
+        # There are no built-in defaults: install layouts vary too much for a
+        # guessed command to be reliable, and a wrong one fails after a long
+        # startup wait rather than immediately. A backend that is already
+        # running is left alone, and one absent from this dict is never touched.
+        self.backend_launch_commands: dict = {}
+        # How long to wait for a launched backend to answer. Generous, because
+        # these are slow to start for real reasons -- downloading models,
+        # compiling shaders, importing dozens of plugins -- and a first run is
+        # slower still. Running out does not kill the backend; it is left to
+        # carry on and reported as still starting.
+        self.backend_startup_timeout = 600
+
         # Overridable so test runs can bind an OS-assigned ephemeral port
         # (SD_RUNNER_SERVER_PORT=0) instead of colliding with a real running
         # app instance's server on the default port.
@@ -179,6 +214,7 @@ class Config:
         self.set_values(int,
                         "max_executor_threads",
                         "cache_store_interval_seconds",
+                        "backend_startup_timeout",
         )
         self.set_values(float,
                         "ui_scale_factor",
@@ -217,6 +253,7 @@ class Config:
         )
         self.set_values(dict, 
                         "wildcards",
+                        "backend_launch_commands",
         )
         self.set_directories(
             "models_dir",
@@ -226,6 +263,11 @@ class Config:
             "comfyui_loc",
             "comfyui_output_dir",
             "sd_webui_loc",
+            "forge_loc",
+            "sdnext_loc",
+            "fooocus_loc",
+            "invokeai_loc",
+            "swarmui_loc",
             "sd_webui_save_path",
             "forge_save_path",
             "sdnext_save_path",

@@ -262,6 +262,34 @@ A request that carries its own parameters (`renoiser`, `control_net`, `ip_adapte
 
 A client names itself by putting a `client_id` on any message it sends; it is optional, sticky for the connection, and only needs sending once. A client that sends none is shown as `server`, since two clients on the same machine cannot be told apart from the connection alone.
 
+A client can also ask whether a backend is working: `{"command": "health_check", "level": 1}`. Level 1 confirms the backend answers its API; level 2 additionally confirms it has a model loaded and is not stuck. Add `"software": "ComfyUI"` to ask about a specific backend rather than the selected one. A backend busy with your own run answers `ok` with a `generation_in_progress` note — activity is evidence of health.
+
+### Launching backends automatically
+
+Set `backend_launch_commands` to have SD Runner start a backend for you, mapping the backend name to the command you would type yourself:
+
+```json
+"backend_launch_commands": {
+    "ComfyUI": "C:\\miniconda3\\envs\\comfy\\python.exe main.py --port 8188",
+    "SDWebUI": "C:\\miniconda3\\envs\\webui\\python.exe launch.py"
+}
+```
+
+Each backend runs as its own OS process, so backends needing different Python or conda environments coexist. The command goes through a shell (`cmd.exe /s /c` on Windows, `/bin/sh -c` elsewhere), so anything you would type at a prompt works — including the launcher scripts these backends ship and recommend:
+
+```json
+"backend_launch_commands": {
+    "ComfyUI": "run_nvidia_gpu.bat",
+    "SwarmUI": "launch-windows.bat"
+}
+```
+
+Because the shell is what SD Runner holds, stopping a backend kills the whole process tree rather than just the script — otherwise the server the script started would be orphaned, still holding its port and the GPU.
+
+It runs from that backend's `*_loc` directory. There are no built-in commands — install layouts vary too much for a guess to be reliable, and a wrong one fails only after a long startup wait. A backend already running is adopted rather than started twice, and is left running on exit; only processes SD Runner started are stopped.
+
+`backend_startup_timeout` (default 600s) is how long SD Runner waits for a backend to answer. Running out does **not** kill it — these are slow to start for real reasons, and a backend that has not exited is still working, so it is left to carry on and reported as still starting. A health check arriving during that window answers `starting` rather than `error`. If a backend really is stuck, stop it yourself.
+
 ## Image to Prompt
 
 The PySide6 UI includes an **Image to Prompt** window that can generate prompt text from an image without starting image generation. Current backends include captioner and fast-tagger support (with automatic model download), with VLM left as a scaffolded backend for future work.
