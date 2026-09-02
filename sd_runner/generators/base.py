@@ -91,6 +91,11 @@ class BaseImageGenerator(ABC):
         # queue_prompt can attribute a duration without every workflow method
         # having to pass the model and resolution down to it.
         self._timing_context = threading.local()
+        # Set while this thread is producing a pre-pass intermediate rather
+        # than the run's own output. Per thread because gen_config is shared by
+        # every worker, so suppressing the treatments there would suppress them
+        # for concurrent runs too.
+        self._intermediate_context = threading.local()
 
     # Shared methods -----------------------------------------------------------
     def get_seed(self):
@@ -325,9 +330,14 @@ class BaseImageGenerator(ABC):
         kwargs['ip_adapter'] = converted_ip_adapter
 
         workflow_method = self.validate_workflow(workflow_id, **kwargs)
+        # Wrapped outermost so the pre-pass runs before the user's workflow and
+        # any derivative of it, which derives from the user's output.
+        task = self._with_intermediate_pass(
+            workflow_id, self._with_second_derivative(workflow_id, workflow_method)
+        )
         # schedule_generation raises the pending count itself, so that the
         # increment and its release are owned by the same pair of methods.
-        self.schedule_generation(self._with_second_derivative(workflow_id, workflow_method), **kwargs)
+        self.schedule_generation(task, **kwargs)
         with self._lock:
             self.counter += 1
             self.latent_counter += kwargs.get('n_latents', 1)
@@ -344,6 +354,106 @@ class BaseImageGenerator(ABC):
             if kwargs.get("lora") is None:
                 raise Exception("Image gen with lora - lora not set!")
         return workflow_methods[workflow_id]
+
+    # ------------------------------------------------------------------
+    # Intermediate pass
+    # ------------------------------------------------------------------
+    def _with_intermediate_pass(self, workflow_id, workflow_method: callable) -> callable:
+        """Wrap *workflow_method* so a pre-pass transforms its input image first.
+
+        Returns the method untouched when no pre-pass is configured or the
+        workflow takes no image, leaving the scheduled callable unchanged.
+
+        Unlike a second derivative this runs *before*, on the user's own source
+        image rather than on an output, and with its own workflow and prompt
+        rather than the user's. Everything else about the run -- model,
+        resolution, strength, prompt mode -- is inherited.
+
+        The pre-pass arrives as a plain dict so that it survives a run being
+        serialized and restored; nothing here knows the UI type that produced
+        it.
+        """
+        prompt = getattr(self.gen_config, "intermediate_prompt", None)
+        if not prompt:
+            return workflow_method
+        field = image_input_field(workflow_id)
+        if field is None:
+            return workflow_method
+
+        @functools.wraps(workflow_method)
+        def with_intermediate(**kwargs):
+            return workflow_method(**self._run_intermediate_pass(prompt, field, kwargs))
+
+        return with_intermediate
+
+    def _run_intermediate_pass(self, prompt: dict, field: str, kwargs: dict) -> dict:
+        """*kwargs* with its input image swapped for the pre-pass's output.
+
+        Returns *kwargs* unchanged when the pass cannot or should not run, so a
+        pre-pass that fails to produce an image degrades to the plain run
+        rather than failing it.
+        """
+        source = kwargs.get(field)
+        if source is None:
+            logger.warning("Intermediate pass skipped: no image on the run to transform")
+            return kwargs
+
+        prepass_id = self._intermediate_workflow_id(prompt)
+        if prepass_id is None:
+            return kwargs
+        prepass_field = image_input_field(prepass_id)
+        prepass_method = self._get_workflows().get(prepass_id)
+        if prepass_field is None or prepass_method is None:
+            logger.warning(f"Intermediate pass skipped: {prepass_id} cannot take an image")
+            return kwargs
+
+        prepass_kwargs = dict(kwargs)
+        prepass_kwargs["positive"] = prompt.get("positive_tags") or ""
+        if prompt.get("use_negative"):
+            prepass_kwargs["negative"] = prompt.get("negative_tags") or ""
+        # The pre-pass reads the image from its own workflow's field, which is
+        # not necessarily the one the user's workflow reads it from.
+        if prepass_field != field:
+            prepass_kwargs.pop(field, None)
+        prepass_kwargs[prepass_field] = self._adapter_for_field(prepass_field, source)
+
+        output_paths = self._run_intermediate_generation(prepass_method, prepass_kwargs)
+        if not output_paths:
+            logger.error("Intermediate pass produced no image; running on the original")
+            return kwargs
+
+        derived = dict(kwargs)
+        # generation_path moves to the intermediate; id stays on the user's real
+        # source, which is what EXIF lineage and the edit-suffix rename read.
+        derived[field] = self._derived_adapter(source, output_paths[0], keep_id=True)
+        return derived
+
+    def _intermediate_workflow_id(self, prompt: dict):
+        """The pre-pass's workflow, or None when it names one we cannot run."""
+        raw = prompt.get("workflow_type")
+        if raw is None:
+            return None
+        try:
+            return WorkflowType.get(raw) if isinstance(raw, str) else raw
+        except Exception:
+            logger.warning(f"Intermediate pass skipped: unknown workflow {raw!r}")
+            return None
+
+    def _run_intermediate_generation(self, prepass_method: callable, prepass_kwargs: dict) -> list:
+        """Run the pre-pass, counted as a generation and marked as intermediate.
+
+        The mark is what keeps the output from taking the deliverable's name or
+        destination; the count is what keeps the pending total honest, since
+        this is a real generation the run is waiting on.
+        """
+        self.count_pending_dispatch()
+        self._arm_pending_release()
+        self._intermediate_context.active = True
+        try:
+            return prepass_method(**prepass_kwargs) or []
+        finally:
+            self._intermediate_context.active = False
+            self.release_pending()
 
     # ------------------------------------------------------------------
     # Second derivative
@@ -412,7 +522,7 @@ class BaseImageGenerator(ABC):
                 self._related_image_override.path = None
 
     @staticmethod
-    def _derived_adapter(adapter, image_path: str):
+    def _derived_adapter(adapter, image_path: str, keep_id: bool = False):
         """A copy of *adapter* pointing at *image_path*.
 
         A copy, not a mutation: the same adapter instance is shared across
@@ -420,13 +530,35 @@ class BaseImageGenerator(ABC):
         later iterations at this iteration's output. Everything else --
         strength above all -- is carried over untouched, which is what makes
         the second pass the same generation rather than a different one.
+
+        *keep_id* moves only ``generation_path``, leaving ``id`` on whatever the
+        adapter already named. A second derivative wants the default, since its
+        parent really is the image it was made from; a pre-pass wants ``id``
+        left on the user's original, which is what EXIF lineage and the
+        edit-suffix rename read.
         """
         if adapter is None:
             return None
         derived = copy(adapter)
-        derived.id = image_path
+        if not keep_id:
+            derived.id = image_path
         derived.generation_path = image_path
         return derived
+
+    @staticmethod
+    def _adapter_for_field(field: str, source):
+        """An adapter of the type *field* expects, carrying *source*'s image.
+
+        A copy of *source* when it already belongs in that field; otherwise a
+        fresh adapter of the other type, since a pre-pass may read its image
+        from a different field than the run it precedes.
+        """
+        from sd_runner.model_adapters import ControlNet, IPAdapter
+
+        wanted = ControlNet if field == "control_net" else IPAdapter
+        if isinstance(source, wanted):
+            return copy(source)
+        return wanted(source.generation_path)
 
     def schedule_generation(self, task_fn: callable, *args, **kwargs) -> Future:
         """Submit a generation task to the shared executor.
@@ -728,6 +860,22 @@ class BaseImageGenerator(ABC):
             return None
         return related
 
+    def is_producing_intermediate(self) -> bool:
+        """Whether this thread's generation is a pre-pass rather than the run's."""
+        return bool(getattr(self._intermediate_context, "active", False))
+
+    def output_treatments(self) -> tuple:
+        """The (edit_suffix, target_dir) this thread's output should receive.
+
+        Both are dropped for a pre-pass intermediate. It is a real generated
+        image and is kept, but it is not the run's output, so it must not take
+        the deliverable's name or be moved into the target directory. Skipping
+        the rename also skips the edit-history record, which lives inside it.
+        """
+        if self.is_producing_intermediate():
+            return "", None
+        return self.gen_config.active_edit_suffix, getattr(self.gen_config, "target_dir", None)
+
     def _output_related_image_path(self, related_image_path: str | None = None) -> str | None:
         if related_image_path:
             return related_image_path
@@ -736,10 +884,11 @@ class BaseImageGenerator(ABC):
 
     def finalize_output_path(self, save_path: str, related_image_path: str | None = None) -> str:
         """Apply edit-suffix rename and ``target_dir`` relocation after save."""
+        edit_suffix, target_dir = self.output_treatments()
         return BaseImageGenerator.apply_output_postprocessing(
             save_path,
-            getattr(self.gen_config, "target_dir", None),
-            self.gen_config.active_edit_suffix,
+            target_dir,
+            edit_suffix,
             self._output_related_image_path(related_image_path),
         )
 

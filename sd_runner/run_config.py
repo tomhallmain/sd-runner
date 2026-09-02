@@ -83,6 +83,12 @@ class RunConfig:
         self.continuous_seed_variation = _arg(args, "continuous_seed_variation")
         self.dimension_variation = _arg(args, "dimension_variation")
         self.second_derivative = _arg(args, "second_derivative")
+        #: The pre-pass to run over the reference image, or None. A plain dict
+        #: rather than the UI object that describes it, so that it survives
+        #: to_dict/from_dict unchanged -- from_dict rebuilds only the types it
+        #: knows, and a restored run carrying a half-restored object would drop
+        #: its pre-pass silently.
+        self.intermediate_prompt = _arg(args, "intermediate_prompt")
         self.target_dir = _arg(args, "target_dir")
 
         with RunConfig._model_switch_lock:

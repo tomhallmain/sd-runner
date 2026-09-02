@@ -163,6 +163,7 @@ class ComfyGen(BaseImageGenerator):
         output_paths = []
         connection_id = str(uuid.uuid4())  # Unique per connection so ComfyUI routes events correctly
         ws = None
+        edit_suffix, target_dir = self.output_treatments()
         try:
             ws = websocket.WebSocket()
             ws.connect("ws://{}/ws?clientId={}".format(ComfyGen.BASE_URL, connection_id))
@@ -173,8 +174,8 @@ class ComfyGen(BaseImageGenerator):
                 self.gen_config.get_prompter_config(),
                 related_image_path=self.related_image_path(),
                 client_id=connection_id,
-                edit_suffix=self.gen_config.active_edit_suffix,
-                target_dir=self.gen_config.target_dir,
+                edit_suffix=edit_suffix,
+                target_dir=target_dir,
             )
             self.record_generation_timing(execution_seconds)
         except error.URLError:

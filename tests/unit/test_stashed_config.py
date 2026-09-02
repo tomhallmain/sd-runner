@@ -10,8 +10,6 @@ likely to fall into.
 for the rest of the unit suite.
 """
 
-import pytest
-
 from ui_qt.presets.stashed_config import StashedConfig
 from utils.runner_app_config import RunnerAppConfig
 
@@ -127,12 +125,16 @@ class TestRoundTrip:
 
     def test_an_entry_with_no_name_is_dropped_on_load(self, app_cache):
         w = _window()
+        w.stashed_configs.append(StashedConfig.from_runner_app_config("stale", _config()))
         app_cache.set(w.STASHED_CONFIGS_KEY, [{"name": "", "config": {"total": 1}}])
         w.set_stashed_configs()
+        # Empty rather than ["stale"]: proves the load ran and filtered, rather
+        # than passing because nothing was ever there.
         assert w.stashed_configs == []
 
     def test_an_entry_with_no_config_is_dropped_on_load(self, app_cache):
         w = _window()
+        w.stashed_configs.append(StashedConfig.from_runner_app_config("stale", _config()))
         app_cache.set(w.STASHED_CONFIGS_KEY, [{"name": "night", "config": {}}])
         w.set_stashed_configs()
         assert w.stashed_configs == []

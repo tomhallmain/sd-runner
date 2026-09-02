@@ -399,6 +399,27 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         except Exception:
             self.config_history_index = 0
 
+    def _active_intermediate_prompt(self):
+        """The pre-pass this run should apply as a plain dict, or None.
+
+        Flattened here rather than passed as the object, so the run stays
+        serializable: a restored run rebuilds only the types ``from_dict``
+        knows about, and would otherwise lose its pre-pass without saying so.
+
+        Its text goes to the backend like any prompt, so it faces the same
+        blacklist gate the prompt fields do. Failing that gate drops the
+        pre-pass rather than the run: the user asked for images, and the
+        pre-pass is a modifier on how they are made.
+        """
+        from ui_qt.presets.presets_window import PresetsWindow
+
+        prompt = PresetsWindow.get_active_intermediate_prompt()
+        if prompt is None:
+            return None
+        if not self.run_ctrl.validate_blacklist(prompt.positive_tags):
+            return None
+        return prompt.to_dict()
+
     def set_widgets_from_stash(self, stash) -> None:
         """Apply a stashed run config, leaving the preset-owned fields alone.
 
@@ -523,6 +544,10 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self.runner_app_config.continuous_seed_variation = args.continuous_seed_variation
         self.runner_app_config.dimension_variation = args.dimension_variation
         self.runner_app_config.second_derivative = args.second_derivative
+        # Carried on the run rather than on runner_app_config, which is what
+        # run history and stashed configs are built from -- neither should hold
+        # prompt text the user did not type into the prompt fields.
+        args.intermediate_prompt = self._active_intermediate_prompt()
 
         # Sync prompt mode into runner_app_config before copying
         prompt_mode = PromptMode.get(sp.prompt_mode_combo.currentText())
