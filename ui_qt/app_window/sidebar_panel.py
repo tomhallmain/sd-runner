@@ -571,6 +571,19 @@ class SidebarPanel(QWidget):
         self._app.cache_ctrl.store_info_cache()
         return Preset.from_runner_app_config(name, self._app.runner_app_config)
 
+    def construct_stashed_config(self, name: str):
+        """Build a ``StashedConfig`` from the current widget values.
+
+        The same capture as ``construct_preset`` -- which already builds a
+        complete ``RunnerAppConfig`` and then keeps only four fields of it --
+        but keeping the rest instead.
+        """
+        from ui_qt.presets.stashed_config import StashedConfig
+        args, _ = self._app.get_args()
+        self._app.runner_app_config.set_from_run_config(args)
+        self._app.cache_ctrl.store_info_cache()
+        return StashedConfig.from_runner_app_config(name, self._app.runner_app_config)
+
     def sync_globals_from_widgets(self) -> None:
         """Push all current widget values into ``Globals`` and config.
 

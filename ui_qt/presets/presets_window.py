@@ -1,8 +1,13 @@
 """
-PresetsWindow -- manage prompt presets.
+PresetsWindow -- manage prompt presets and stashed run configs.
 
-The ``Preset`` data class lives in
-``ui_qt.presets.preset``; static class-level preset list state lives on this
+Two tabs over two complementary stores. A ``Preset`` holds the four prompt
+fields; a ``StashedConfig`` holds everything else about a run. Both are named
+and recalled the same way, so they share a window and differ only in which half
+of the config they own.
+
+The data classes live in ``ui_qt.presets.preset`` and
+``ui_qt.presets.stashed_config``; static class-level list state lives on this
 class for persistence via ``CacheController``.
 """
 
@@ -13,7 +18,7 @@ from typing import TYPE_CHECKING
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
-    QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea,
+    QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, QTabWidget,
     QVBoxLayout, QWidget,
 )
 
@@ -21,6 +26,7 @@ from lib.multi_display_qt import SmartDialog
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
 from ui_qt.presets.preset import Preset
+from ui_qt.presets.stashed_config import StashedConfig
 from utils.globals import ProtectedActions
 from utils.translations import I18N
 
@@ -44,6 +50,10 @@ class PresetsWindow(SmartDialog):
     last_set_preset = None
     preset_history = []
     MAX_PRESETS = 50
+
+    STASHED_CONFIGS_KEY = "stashed_configs"
+    stashed_configs = []
+    MAX_STASHED_CONFIGS = 50
 
     @staticmethod
     def set_recent_presets():
@@ -69,6 +79,42 @@ class PresetsWindow(SmartDialog):
 
         if persist:
             app_info_cache.store(only_if_changed=True)
+
+    @staticmethod
+    def set_stashed_configs():
+        """Load stashed configs from cache, replacing whatever is held."""
+        from utils.app_info_cache import app_info_cache
+        PresetsWindow.stashed_configs.clear()
+        for stash_dict in list(app_info_cache.get(PresetsWindow.STASHED_CONFIGS_KEY, default_val=[])):
+            stash = StashedConfig.from_dict(stash_dict)
+            if stash.is_valid():
+                PresetsWindow.stashed_configs.append(stash)
+
+    @staticmethod
+    def store_stashed_configs(persist: bool = True):
+        """Store stashed configs to cache.
+
+        Writes through to disk unless *persist* is False, on the same terms as
+        ``store_recent_presets``.
+        """
+        from utils.app_info_cache import app_info_cache
+        app_info_cache.set(
+            PresetsWindow.STASHED_CONFIGS_KEY,
+            [stash.to_dict() for stash in PresetsWindow.stashed_configs],
+        )
+        if persist:
+            app_info_cache.store(only_if_changed=True)
+
+    @staticmethod
+    def get_stashed_config_by_name(name) -> 'StashedConfig | None':
+        for stash in PresetsWindow.stashed_configs:
+            if stash.name == name:
+                return stash
+        return None
+
+    @staticmethod
+    def get_stashed_config_names():
+        return sorted(stash.name for stash in PresetsWindow.stashed_configs)
 
     @staticmethod
     def get_preset_by_name(name):
@@ -133,11 +179,37 @@ class PresetsWindow(SmartDialog):
     def __init__(self, parent: QWidget, app_actions: AppActions):
         super().__init__(
             parent=parent,
-            title=_("Presets Window"),
+            title=_("Presets and Stashed Configs"),
             geometry="700x400",
         )
         PresetsWindow._instance = self
         self._app_actions = app_actions
+
+        self._tabs = QTabWidget()
+        presets_page = QWidget()
+        stash_page = QWidget()
+        self._tabs.addTab(presets_page, _("Presets"))
+        self._tabs.addTab(stash_page, _("Stashed Configs"))
+
+        root = QVBoxLayout(self)
+        root.addWidget(self._tabs)
+
+        self._build_presets_tab(presets_page)
+        self._build_stash_tab(stash_page)
+
+        # --- Shortcuts ------------------------------------------------------
+        QShortcut(QKeySequence("Escape"), self, self.close)
+        QShortcut(QKeySequence("Return"), self, self._do_action)
+
+        self._rebuild_rows()
+        self._rebuild_stash_rows()
+        self.show()
+
+    # ------------------------------------------------------------------
+    # Tab construction
+    # ------------------------------------------------------------------
+    def _build_presets_tab(self, page: QWidget) -> None:
+        layout = QVBoxLayout(page)
 
         # --- Top bar: new-preset name entry + Add / Clear buttons ----------
         top_bar = QHBoxLayout()
@@ -161,17 +233,40 @@ class PresetsWindow(SmartDialog):
         self._rows_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self._scroll.setWidget(self._scroll_content)
 
-        # --- Root layout ----------------------------------------------------
-        root = QVBoxLayout(self)
-        root.addLayout(top_bar)
-        root.addWidget(self._scroll)
+        layout.addLayout(top_bar)
+        layout.addWidget(self._scroll)
 
-        # --- Shortcuts ------------------------------------------------------
-        QShortcut(QKeySequence("Escape"), self, self.close)
-        QShortcut(QKeySequence("Return"), self, self._do_action)
+    def _build_stash_tab(self, page: QWidget) -> None:
+        layout = QVBoxLayout(page)
 
-        self._rebuild_rows()
-        self.show()
+        top_bar = QHBoxLayout()
+        top_bar.addWidget(QLabel(_("Stash the current run config")))
+        self._stash_name_entry = QLineEdit(_("New Stash"))
+        self._stash_name_entry.setMinimumWidth(250)
+        top_bar.addWidget(self._stash_name_entry)
+        add_btn = QPushButton(_("Stash config"))
+        add_btn.clicked.connect(self._add_stash)
+        top_bar.addWidget(add_btn)
+        clear_btn = QPushButton(_("Clear stashes"))
+        clear_btn.clicked.connect(self._clear_stashed_configs)
+        top_bar.addWidget(clear_btn)
+        top_bar.addStretch()
+
+        hint = QLabel(_("Prompt mode, prompt tags and edit suffix are left "
+                        "untouched when a stash is applied -- those belong to "
+                        "presets."))
+        hint.setWordWrap(True)
+
+        self._stash_scroll = QScrollArea()
+        self._stash_scroll.setWidgetResizable(True)
+        self._stash_scroll_content = QWidget()
+        self._stash_rows_layout = QVBoxLayout(self._stash_scroll_content)
+        self._stash_rows_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self._stash_scroll.setWidget(self._stash_scroll_content)
+
+        layout.addLayout(top_bar)
+        layout.addWidget(hint)
+        layout.addWidget(self._stash_scroll)
 
     # ------------------------------------------------------------------
     # Row building
@@ -205,6 +300,89 @@ class PresetsWindow(SmartDialog):
             h.addWidget(del_btn)
 
             self._rows_layout.addWidget(row)
+
+    def _rebuild_stash_rows(self) -> None:
+        """Clear and re-populate the stashed-config list from the backend."""
+        while self._stash_rows_layout.count():
+            item = self._stash_rows_layout.takeAt(0)
+            w = item.widget()
+            if w:
+                w.deleteLater()
+
+        for stash in PresetsWindow.stashed_configs:
+            row = QWidget()
+            h = QHBoxLayout(row)
+            h.setContentsMargins(2, 2, 2, 2)
+            label = QLabel(str(stash))
+            label.setWordWrap(True)
+            label.setMinimumWidth(400)
+            h.addWidget(label, stretch=1)
+
+            set_btn = QPushButton(_("Set"))
+            set_btn.setFixedWidth(60)
+            set_btn.clicked.connect(lambda _=False, s=stash: self._set_stashed_config(s))
+            h.addWidget(set_btn)
+
+            del_btn = QPushButton(_("Delete"))
+            del_btn.setFixedWidth(60)
+            del_btn.clicked.connect(lambda _=False, s=stash: self._delete_stashed_config(s))
+            h.addWidget(del_btn)
+
+            self._stash_rows_layout.addWidget(row)
+
+    # ------------------------------------------------------------------
+    # Stashed config actions
+    # ------------------------------------------------------------------
+    @require_password(ProtectedActions.EDIT_PRESETS)
+    def _add_stash(self) -> None:
+        name = self._stash_name_entry.text().strip()
+        if not name:
+            self._app_actions.toast(_("Enter a name for the stash"))
+            return
+        existing = PresetsWindow.get_stashed_config_by_name(name)
+        if existing is not None:
+            if not self._app_actions.alert(
+                _("Confirm Overwrite Stash"),
+                _("A stashed config named \"{0}\" already exists.\n\n"
+                  "Replace it with the current run config?").format(name),
+                kind="askyesno",
+                master=self,
+            ):
+                return
+            PresetsWindow.stashed_configs.remove(existing)
+        stash = self._app_actions.construct_stashed_config(name)
+        PresetsWindow.stashed_configs.insert(0, stash)
+        while len(PresetsWindow.stashed_configs) > PresetsWindow.MAX_STASHED_CONFIGS:
+            del PresetsWindow.stashed_configs[-1]
+        PresetsWindow.store_stashed_configs()
+        self._app_actions.toast(_("Stashed run config: {0}").format(name))
+        self._rebuild_stash_rows()
+
+    def _set_stashed_config(self, stash: StashedConfig) -> None:
+        self._app_actions.set_widgets_from_stash(stash)
+        self._app_actions.toast(_("Applied stashed config: {0}").format(stash.name))
+
+    @require_password(ProtectedActions.EDIT_PRESETS)
+    def _delete_stashed_config(self, stash: StashedConfig | None = None) -> None:
+        if stash is not None and stash in PresetsWindow.stashed_configs:
+            PresetsWindow.stashed_configs.remove(stash)
+            PresetsWindow.store_stashed_configs()
+        self._rebuild_stash_rows()
+
+    @require_password(ProtectedActions.EDIT_PRESETS)
+    def _clear_stashed_configs(self) -> None:
+        if PresetsWindow.stashed_configs and not self._app_actions.alert(
+            _("Confirm Clear Stashes"),
+            _("Delete all stashed run configs?\n\n"
+              "WARNING: This action cannot be undone!\n\n"
+              "Do you want to continue?"),
+            kind="askyesno",
+            master=self,
+        ):
+            return
+        PresetsWindow.stashed_configs.clear()
+        PresetsWindow.store_stashed_configs()
+        self._rebuild_stash_rows()
 
     # ------------------------------------------------------------------
     # Actions
@@ -256,7 +434,10 @@ class PresetsWindow(SmartDialog):
         self._rebuild_rows()
 
     def _do_action(self) -> None:
-        """Enter key handler: set the first preset, or add a new one."""
+        """Enter key handler, acting on whichever tab is showing."""
+        if self._tabs.currentIndex() == 1:
+            self._add_stash()
+            return
         if len(PresetsWindow.recent_presets) == 0:
             self._handle_preset()
         else:

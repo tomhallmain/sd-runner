@@ -6,6 +6,7 @@ class AppActions:
     REQUIRED_ACTIONS = {
         "update_progress", "update_pending", "update_time_estimation",
         "construct_preset", "set_widgets_from_preset", "open_password_admin_window",
+        "construct_stashed_config", "set_widgets_from_stash",
         "toast", "_alert", "title_notify",
         # Models window callbacks
         "set_model_from_models_window",

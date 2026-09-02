@@ -43,6 +43,7 @@ def store_calls(monkeypatch, clean_cache):
 SUBSYSTEMS = [
     ("ui_qt.prompts.blacklist_window", "BlacklistWindow", "store_blacklist"),
     ("ui_qt.presets.presets_window", "PresetsWindow", "store_recent_presets"),
+    ("ui_qt.presets.presets_window", "PresetsWindow", "store_stashed_configs"),
     ("ui_qt.presets.schedules_window", "SchedulesWindow", "store_schedules"),
     ("ui_qt.prompts.expansions_window", "ExpansionsWindow", "store_expansions"),
     ("ui_qt.models.recent_adapters_window", "RecentAdaptersWindow", "save_recent_adapters"),

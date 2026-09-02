@@ -352,17 +352,14 @@ class BaseImageGenerator(ABC):
         """Wrap *workflow_method* so each image it makes is fed back through it.
 
         Returns the method untouched when the feature is off or the workflow
-        takes no image, so the scheduled callable is exactly what it has always
-        been in that case.
+        takes no image, leaving the scheduled callable unchanged.
 
         The derivative runs inside the task that produced its parent rather
-        than being scheduled as its own job. That is what makes it a derivative
-        and not just another queued run: it follows its own parent immediately
-        instead of landing behind unrelated work, and it needs no chaining
-        machinery because it is the same callable with one argument changed.
-        It also means a derived pass that raises fails the parent's task, after
-        the parent's own image is already written. Catch per pass here if that
-        ever needs containing.
+        than as its own job: it follows its parent immediately instead of
+        landing behind unrelated work, and needs no chaining machinery, being
+        the same callable with one argument changed. It also means a derived
+        pass that raises fails the parent's task, after the parent's own image
+        is written -- catch per pass here if that ever needs containing.
         """
         if not getattr(self.gen_config, "second_derivative", False):
             return workflow_method

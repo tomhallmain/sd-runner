@@ -187,6 +187,10 @@ The presets window allows you to manage presets for specific prompt and prompt m
 
 If a presets schedule is defined in the config, the checkbox Run Preset Schedule will be enabled and presets will be run at the specified schedule if this boolean is set to True.
 
+### Stashed Configs
+
+The second tab of the presets window stores named run configurations. A stash holds everything a preset does not, so applying one leaves the prompt mode, prompt tags and edit suffix untouched and the two can be used together. Unlike stepping back through run history, a stash is named rather than positional and does not age out. Prompt text is not stored in a stash.
+
 ## Preset Schedules
 
 After having defined presets using the presets window, you can create and modify batch schedules to run presets using the preset schedules window. Giving the preset schedules a unique name is helpful for quickly switching between them.

@@ -303,6 +303,8 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             "construct_preset": self.sidebar_panel.construct_preset,
             "set_widgets_from_preset": ts(self.sidebar_panel.set_widgets_from_preset),
             "next_preset": ts(self.sidebar_panel.next_preset),
+            "construct_stashed_config": self.sidebar_panel.construct_stashed_config,
+            "set_widgets_from_stash": ts(self.set_widgets_from_stash),
             # Config
             "set_default_config": ts(self.set_default_config),
             "set_widgets_from_config": ts(self._set_widgets_from_config),
@@ -396,6 +398,27 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             self.sidebar_panel.close_autocomplete_popups()
         except Exception:
             self.config_history_index = 0
+
+    def set_widgets_from_stash(self, stash) -> None:
+        """Apply a stashed run config, leaving the preset-owned fields alone.
+
+        The stash carries a whole config, so the fields a ``Preset`` owns are
+        overwritten with what is on screen now before anything is applied:
+        prompt mode, the two tag fields and the edit suffix. Filtering here
+        rather than at save time is what keeps ``RunnerAppConfig.from_dict``
+        out of it -- it replaces the instance dict wholesale and backfills only
+        some of what it drops, so a partial dict would raise on read.
+        """
+        from utils.runner_app_config import RunnerAppConfig
+
+        current = self.runner_app_config
+        cfg = RunnerAppConfig.from_dict(stash.config)
+        cfg.positive_tags = current.positive_tags
+        cfg.negative_tags = current.negative_tags
+        cfg.edit_suffix = getattr(current, "edit_suffix", "")
+        cfg.prompter_config.prompt_mode = current.prompter_config.prompt_mode
+        self.runner_app_config = cfg
+        self._set_widgets_from_config()
 
     def _set_widgets_from_config(self) -> None:
         """Push ``runner_app_config`` values into all sidebar widgets."""

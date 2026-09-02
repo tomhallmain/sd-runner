@@ -326,7 +326,7 @@ def _reset_class_state() -> None:
                        current_schedule=None)
     _reset_if_imported("ui_qt.presets.presets_window", "PresetsWindow",
                        recent_presets=[], preset_history=[],
-                       last_set_preset=None)
+                       last_set_preset=None, stashed_configs=[])
     # Loaded from the cache on open and read back by save_recent_adapters, so a
     # test that saves would otherwise persist whatever the previous one loaded.
     _reset_if_imported("ui_qt.models.recent_adapters_window", "RecentAdaptersWindow",

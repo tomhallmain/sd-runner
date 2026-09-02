@@ -238,11 +238,11 @@ class BlacklistWindow(SmartDialog):
 
     @staticmethod
     def expire_stale_backups() -> None:
-        """Drop any backup past its window, whether or not this window opens.
+        """Drop any backup past its retention period, even if nobody looks.
 
-        ``get_clear_backup`` does the expiring; calling it here means a backup
-        does not sit on disk indefinitely just because the user never went
-        looking for it.
+        ``get_clear_backup`` does the expiring; calling it at startup means a
+        backup does not sit on disk indefinitely just because this window is
+        never opened.
         """
         BlacklistWindow.get_clear_backup(BlacklistWindow.BLACKLIST_BACKUP_KEY)
         BlacklistWindow.get_clear_backup(BlacklistWindow.MODEL_BLACKLIST_BACKUP_KEY)
@@ -251,10 +251,10 @@ class BlacklistWindow(SmartDialog):
     def store_clear_backup(cache_key: str, items: list) -> None:
         """Snapshot *items* under *cache_key* before they are cleared.
 
-        Clearing twice inside one window merges rather than replaces, so the
-        second clear cannot throw away what the first one saved. The window
-        then runs from the most recent clear, so a fresh clear is always
-        restorable for the full period.
+        Clearing twice inside one retention period merges rather than replaces,
+        so the second clear cannot throw away what the first one saved. The
+        period then runs from the most recent clear, so a fresh clear is always
+        restorable for its full length.
         """
         from utils.app_info_cache import app_info_cache
         snapshot = [item.to_dict() for item in items]
