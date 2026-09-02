@@ -397,7 +397,7 @@ class AppInfoCache:
             return None
         return PositionData.from_dict(position_data)
 
-    def set_history(self, runner_app_config):
+    def set_history(self, runner_app_config: RunnerAppConfig) -> bool:
         with self._lock:
             history = self._get_history()
             if len(history) > 0 and runner_app_config == RunnerAppConfig.from_dict(history[0]):

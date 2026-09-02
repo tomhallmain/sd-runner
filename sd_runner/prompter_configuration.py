@@ -403,6 +403,7 @@ class PrompterConfiguration:
             # Newly added required categories: backfill silently for older saved configs.
             defaults = self._get_default_categories()
             self.categories.setdefault("units", defaults["units"])
+            self.categories.setdefault("lighting", defaults["lighting"])
 
             # Ensure all required categories exist
             self._ensure_required_categories()

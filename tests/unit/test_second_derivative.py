@@ -306,6 +306,24 @@ class TestLineageAndCounters:
             run(gen, WorkflowType.IP_ADAPTER, ip_adapter=IPAdapter(id="/src/original.png"))
         assert gen.pending_counter == before
 
+    def test_a_pass_and_its_derivative_each_release_their_own_count(self):
+        """Both arms are outstanding at once, so neither may displace the other.
+
+        The stub reaches no backend, so nothing releases early: the parent's
+        arm is still owed when the derivative arms on the same thread, and only
+        the task wrapper is left to settle it.
+        """
+        gen = make_generator()
+        before = gen.pending_counter
+        task = gen._wrap_task(
+            gen._with_second_derivative(WorkflowType.IP_ADAPTER, gen.workflow)
+        )
+
+        gen.count_pending_dispatch()  # what schedule_generation would have taken
+        task(ip_adapter=IPAdapter(id="/src/original.png"))
+
+        assert gen.pending_counter == before
+
 
 # ---------------------------------------------------------------------------
 # Nothing to derive from

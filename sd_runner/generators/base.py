@@ -76,8 +76,8 @@ class BaseImageGenerator(ABC):
         self.captioner = None
         self.has_run_one_workflow = False
         self._lock = threading.Lock()  # Instance-specific lock
-        # Whether the dispatch running on this thread still owes the pending
-        # count a decrement. Set when a task starts, cleared by whichever of
+        # How many decrements the dispatch running on this thread still owes
+        # the pending count. Raised when a task starts, spent by whichever of
         # the backend or the task wrapper gets there first, so a generation
         # that dies before reaching a backend is still accounted for.
         self._pending_release = threading.local()
@@ -397,9 +397,9 @@ class BaseImageGenerator(ABC):
                 return
             derived[field] = adapter
 
-            # A derived pass is a second generation and is counted as one. It
-            # re-arms the release the parent pass already spent, so the pass
-            # is accounted for whether it reaches a backend or fails first.
+            # A derived pass is a second generation and is counted as one. Its
+            # arm owes its own release, so the pass is accounted for whether it
+            # reaches a backend or fails first.
             self.count_pending_dispatch()
             self._arm_pending_release()
 
@@ -470,33 +470,31 @@ class BaseImageGenerator(ABC):
             self.update_ui_pending()
 
     def _arm_pending_release(self) -> None:
-        """Mark this thread's dispatch as still owing a decrement.
+        """Record that this thread's dispatch owes one more decrement.
 
-        A flag rather than a depth count, which is what couples the backend
-        releases to this: a derived pass re-arms a flag the parent pass has
-        already spent, so exactly one release must land between the two arms.
-        Dropping the per-backend ``release_pending`` calls in favour of the
-        wrapper's alone would leave the parent's increment unreleased -- the
-        derivative's release would clear the flag and the wrapper's would find
-        nothing owed. Convert this to a counter first if those calls ever go.
+        A depth count rather than a flag, because the arms nest: a derived pass
+        arms while its parent's arm may still be outstanding. A flag would let
+        the second arm overwrite the first, and the parent's increment would
+        never be released.
         """
-        self._pending_release.armed = True
+        self._pending_release.owed = getattr(self._pending_release, "owed", 0) + 1
 
     def release_pending(self) -> None:
-        """Account for one finished dispatch, at most once per armed dispatch.
+        """Account for one finished dispatch, at most once per arm.
 
         Backends call this where they used to decrement directly, so the count
         still drops the moment a generation finishes. ``_wrap_task`` calls it
         again as the task unwinds, which is what catches a failure that never
-        reached a backend at all. Idempotent, so the two callers cannot both
-        spend the same increment.
+        reached a backend at all. A release with nothing owed is a no-op, so
+        the two callers cannot both spend the same increment.
 
         Takes ``_lock`` itself, and ``_lock`` is not reentrant -- never call
         this from inside a ``with self._lock`` block.
         """
-        if not getattr(self._pending_release, "armed", False):
+        owed = getattr(self._pending_release, "owed", 0)
+        if owed <= 0:
             return
-        self._pending_release.armed = False
+        self._pending_release.owed = owed - 1
         with self._lock:
             self.pending_counter -= 1
             self.update_ui_pending()
