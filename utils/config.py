@@ -60,6 +60,7 @@ class Config:
         "cache_store_interval_seconds":     int,
         "save_last_prompt":                 bool,
         "delay_after_single_run":           bool,
+        "blacklist_backup_retention_days":  int,
         "debug":                            bool,
         "print_settings":                   bool,
         "max_executor_threads":             int,
@@ -140,6 +141,7 @@ class Config:
         self.cache_store_interval_seconds = 300  # Periodic cache store interval; 0 or less disables the timer
         self.save_last_prompt = False
         self.delay_after_single_run = True  # Post-run delay when total == 1 (e.g. standalone server requests)
+        self.blacklist_backup_retention_days = 30  # How long a cleared blacklist stays restorable; 0 or less keeps it until discarded
 
         self.gen_order = ["control_nets", "ip_adapters", "resolutions", "models", "vaes", "loras"]
         self.redo_parameters = ["n_latents", "resolutions", "models", "loras"]
@@ -215,6 +217,7 @@ class Config:
                         "max_executor_threads",
                         "cache_store_interval_seconds",
                         "backend_startup_timeout",
+                        "blacklist_backup_retention_days",
         )
         self.set_values(float,
                         "ui_scale_factor",

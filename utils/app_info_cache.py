@@ -372,6 +372,21 @@ class AppInfoCache:
                 return default_val
             return self._cache[AppInfoCache.INFO_KEY][key]
 
+    def remove(self, key) -> bool:
+        """Drop *key* entirely. Returns whether it was there to drop.
+
+        Distinct from setting it to None: ``get``'s *default_val* only answers
+        for an absent key, so a stored None would read back as a present value
+        that every caller would have to special-case.
+        """
+        with self._lock:
+            info = self._cache.get(AppInfoCache.INFO_KEY)
+            if not info or key not in info:
+                return False
+            del info[key]
+            self._has_changes = True
+            return True
+
     def set_display_position(self, master):
         """Store the main window's display position and size (PySide6 QWidget)."""
         self.set("display_position", PositionData.from_master(master).to_dict())

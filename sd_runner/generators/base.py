@@ -68,10 +68,11 @@ class BaseImageGenerator(ABC):
         self.counter = 0
         self.latent_counter = 0
         #: Generations dispatched by this generator and not yet accounted for.
-        #: Per instance, not shared: it was previously declared on the class,
-        #: which read as shared state but never behaved that way -- the first
-        #: ``+=`` bound an instance attribute and the class value stayed at
-        #: zero for the life of the process.
+        #: Per instance, so the pending label reports one generator's work: a
+        #: run spanning several workflow tags -- a redo over several files --
+        #: builds one generator per tag, and can read low while an earlier
+        #: tag's work is still in flight. Sharing it would need a class-level
+        #: lock, and would change pacing too, which reads this counter.
         self.pending_counter = 0
         self.captioner = None
         self.has_run_one_workflow = False
@@ -359,6 +360,9 @@ class BaseImageGenerator(ABC):
         and not just another queued run: it follows its own parent immediately
         instead of landing behind unrelated work, and it needs no chaining
         machinery because it is the same callable with one argument changed.
+        It also means a derived pass that raises fails the parent's task, after
+        the parent's own image is already written. Catch per pass here if that
+        ever needs containing.
         """
         if not getattr(self.gen_config, "second_derivative", False):
             return workflow_method

@@ -12,6 +12,7 @@ filtering is handled via ``keyPressEvent``.
 
 from __future__ import annotations
 
+import datetime
 from typing import TYPE_CHECKING, Optional
 
 from PySide6.QtCore import Qt
@@ -28,6 +29,7 @@ from lib.tooltip_qt import create_tooltip
 from sd_runner.blacklist import Blacklist, BlacklistItem, SimilarityPhrase
 from ui_qt.auth.password_utils import require_password
 from ui_qt.window_focus import try_focus_existing_window
+from utils.config import config
 from utils.globals import (
     BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, ProtectedActions,
 )
@@ -80,6 +82,8 @@ class BlacklistWindow(SmartDialog):
     # Cache key constants
     BLACKLIST_CACHE_KEY = "tag_blacklist"
     MODEL_BLACKLIST_CACHE_KEY = "model_blacklist"
+    BLACKLIST_BACKUP_KEY = "tag_blacklist_backup"
+    MODEL_BLACKLIST_BACKUP_KEY = "model_blacklist_backup"
     DEFAULT_BLACKLIST_KEY = "blacklist_user_confirmed_non_default"
     BLACKLIST_MODE_KEY = "blacklist_mode"
     BLACKLIST_PROMPT_MODE_KEY = "blacklist_prompt_mode"
@@ -99,6 +103,7 @@ class BlacklistWindow(SmartDialog):
         from sd_runner.blacklist import Blacklist
         from utils.globals import BlacklistMode, BlacklistPromptMode, ModelBlacklistMode
 
+        BlacklistWindow.expire_stale_backups()
         user_confirmed_non_default = app_info_cache.get(BlacklistWindow.DEFAULT_BLACKLIST_KEY, default_val=False)
         mode_str = app_info_cache.get(BlacklistWindow.BLACKLIST_MODE_KEY, default_val=str(Blacklist.get_blacklist_mode()))
         prompt_mode_str = app_info_cache.get(BlacklistWindow.BLACKLIST_PROMPT_MODE_KEY, default_val=str(Blacklist.get_blacklist_prompt_mode()))
@@ -189,6 +194,97 @@ class BlacklistWindow(SmartDialog):
         from utils.app_info_cache import app_info_cache
         return not app_info_cache.get(BlacklistWindow.DEFAULT_BLACKLIST_KEY, default_val=False)
 
+    # ==================================================================
+    # Clear backups
+    #
+    # A clear empties the list and writes it straight to disk, so the items
+    # only survive if they are snapshotted before Blacklist.clear() runs.
+    # ==================================================================
+
+    @staticmethod
+    def _merge_backup_items(older: list, newer: list) -> list:
+        """Every item from both, *newer* winning where a string is in both."""
+        merged = {}
+        for item in list(older) + list(newer):
+            if isinstance(item, dict) and isinstance(item.get("string"), str):
+                merged[item["string"]] = item
+        return list(merged.values())
+
+    @staticmethod
+    def get_clear_backup(cache_key: str) -> Optional[dict]:
+        """The restorable backup under *cache_key*, or None if there is none.
+
+        Expiry is passive -- a backup past its retention window is dropped the
+        first time anything asks for it. No timer is involved, so nothing has
+        to outlive the window that took the backup. A backup whose timestamp is
+        missing or unreadable is kept rather than discarded: losing the items
+        is the worse failure.
+        """
+        from utils.app_info_cache import app_info_cache
+        backup = app_info_cache.get(cache_key)
+        if not isinstance(backup, dict) or not backup.get("items"):
+            return None
+        retention_days = config.blacklist_backup_retention_days
+        if not retention_days or retention_days <= 0:
+            return backup
+        try:
+            cleared_at = datetime.datetime.fromisoformat(backup.get("cleared_at"))
+        except (TypeError, ValueError):
+            return backup
+        if (datetime.datetime.now() - cleared_at).days >= retention_days:
+            app_info_cache.remove(cache_key)
+            return None
+        return backup
+
+    @staticmethod
+    def expire_stale_backups() -> None:
+        """Drop any backup past its window, whether or not this window opens.
+
+        ``get_clear_backup`` does the expiring; calling it here means a backup
+        does not sit on disk indefinitely just because the user never went
+        looking for it.
+        """
+        BlacklistWindow.get_clear_backup(BlacklistWindow.BLACKLIST_BACKUP_KEY)
+        BlacklistWindow.get_clear_backup(BlacklistWindow.MODEL_BLACKLIST_BACKUP_KEY)
+
+    @staticmethod
+    def store_clear_backup(cache_key: str, items: list) -> None:
+        """Snapshot *items* under *cache_key* before they are cleared.
+
+        Clearing twice inside one window merges rather than replaces, so the
+        second clear cannot throw away what the first one saved. The window
+        then runs from the most recent clear, so a fresh clear is always
+        restorable for the full period.
+        """
+        from utils.app_info_cache import app_info_cache
+        snapshot = [item.to_dict() for item in items]
+        existing = BlacklistWindow.get_clear_backup(cache_key)
+        if existing is not None:
+            snapshot = BlacklistWindow._merge_backup_items(existing.get("items", []), snapshot)
+        if not snapshot:
+            return
+        app_info_cache.set(cache_key, {
+            "items": snapshot,
+            "cleared_at": datetime.datetime.now().isoformat(),
+        })
+
+    @staticmethod
+    def take_clear_backup(cache_key: str, current: list) -> Optional[list]:
+        """A backup's items merged over *current*, and the backup dropped.
+
+        None when nothing is live to restore. Merged rather than substituted so
+        that anything added since the clear is not lost by restoring.
+        """
+        from utils.app_info_cache import app_info_cache
+        backup = BlacklistWindow.get_clear_backup(cache_key)
+        if backup is None:
+            return None
+        merged = BlacklistWindow._merge_backup_items(
+            backup.get("items", []), [item.to_dict() for item in current]
+        )
+        app_info_cache.remove(cache_key)
+        return merged
+
     @staticmethod
     def load_default_blacklist() -> bool:
         """Load the default encrypted blacklist without UI. Returns True on success."""
@@ -261,6 +357,7 @@ class BlacklistWindow(SmartDialog):
         self._build_tag_tab(tag_page)
         self._build_model_tab(model_page)
         self._build_similarity_tab(similarity_page)
+        self._refresh_backup_bars()
 
         QShortcut(QKeySequence("Escape"), self, self.close)
         self.show()
@@ -322,6 +419,10 @@ class BlacklistWindow(SmartDialog):
         btn_row2.addWidget(clear_btn)
         btn_row2.addStretch()
         layout.addLayout(btn_row2)
+
+        self._tag_backup_bar, self._tag_backup_label = self._build_backup_bar(
+            layout, self._restore_tag_backup, self._discard_tag_backup
+        )
 
         # --- Content area (reveal gate OR table) ---------------------------
         self._tag_content = QWidget()
@@ -388,6 +489,10 @@ class BlacklistWindow(SmartDialog):
         btn_row2.addWidget(clear_btn)
         btn_row2.addStretch()
         layout.addLayout(btn_row2)
+
+        self._model_backup_bar, self._model_backup_label = self._build_backup_bar(
+            layout, self._restore_model_backup, self._discard_model_backup
+        )
 
         # --- Content area ---------------------------------------------------
         self._model_content = QWidget()
@@ -839,6 +944,7 @@ class BlacklistWindow(SmartDialog):
             self._apply_filter()
         else:
             self._rebuild_model_content()
+        self._refresh_backup_bars()
 
     # ==================================================================
     # Tag item actions
@@ -903,14 +1009,15 @@ class BlacklistWindow(SmartDialog):
     def _clear_items(self) -> None:
         if not self._app_actions.alert(
             _("Confirm Clear Blacklist"),
-            _("Are you sure you want to clear all blacklist items?\n\n"
-              "WARNING: This action cannot be undone!\n"
-              "All blacklist items will be permanently deleted.\n\n"
-              "Do you want to continue?"),
+            _("Are you sure you want to clear all blacklist items?\n\n{0}\n\n"
+              "Do you want to continue?").format(self._restore_note()),
             kind="askyesno",
             master=self,
         ):
             return
+        BlacklistWindow.store_clear_backup(
+            BlacklistWindow.BLACKLIST_BACKUP_KEY, Blacklist.get_items()
+        )
         Blacklist.clear()
         BlacklistWindow.mark_user_confirmed_non_default()
         BlacklistWindow.store_blacklist()
@@ -979,11 +1086,120 @@ class BlacklistWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_BLACKLIST, ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
     def _clear_model_items(self) -> None:
+        if not self._app_actions.alert(
+            _("Confirm Clear Model Blacklist"),
+            _("Are you sure you want to clear all model blacklist items?\n\n{0}\n\n"
+              "Do you want to continue?").format(self._restore_note()),
+            kind="askyesno",
+            master=self,
+        ):
+            return
+        BlacklistWindow.store_clear_backup(
+            BlacklistWindow.MODEL_BLACKLIST_BACKUP_KEY, Blacklist.get_model_items()
+        )
         Blacklist.clear_model_blacklist()
         BlacklistWindow.mark_user_confirmed_non_default()
         BlacklistWindow.store_blacklist()
         self._app_actions.toast(_("Cleared model blacklist items"))
         self._refresh()
+
+    # ==================================================================
+    # Clear backup actions
+    # ==================================================================
+    @staticmethod
+    def _restore_note() -> str:
+        """What the clear dialog can promise about getting the items back."""
+        retention_days = config.blacklist_backup_retention_days
+        if retention_days and retention_days > 0:
+            return _("A backup is kept for {0} days and can be restored from "
+                     "this window.").format(retention_days)
+        return _("A backup is kept until you restore or discard it from this window.")
+
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    def _restore_tag_backup(self) -> None:
+        merged = BlacklistWindow.take_clear_backup(
+            BlacklistWindow.BLACKLIST_BACKUP_KEY, Blacklist.get_items()
+        )
+        if merged is None:
+            return
+        Blacklist.set_blacklist(merged)
+        Blacklist.sort()
+        BlacklistWindow.store_blacklist()
+        self._app_actions.toast(_("Restored {0} tag blacklist items").format(len(merged)))
+        self._refresh()
+
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    def _restore_model_backup(self) -> None:
+        merged = BlacklistWindow.take_clear_backup(
+            BlacklistWindow.MODEL_BLACKLIST_BACKUP_KEY, Blacklist.get_model_items()
+        )
+        if merged is None:
+            return
+        Blacklist.set_model_blacklist(merged)
+        Blacklist.sort_model_blacklist()
+        BlacklistWindow.store_blacklist()
+        self._app_actions.toast(_("Restored {0} model blacklist items").format(len(merged)))
+        self._refresh()
+
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    def _discard_tag_backup(self) -> None:
+        self._discard_backup(BlacklistWindow.BLACKLIST_BACKUP_KEY)
+
+    @require_password(ProtectedActions.EDIT_BLACKLIST)
+    def _discard_model_backup(self) -> None:
+        self._discard_backup(BlacklistWindow.MODEL_BLACKLIST_BACKUP_KEY)
+
+    def _discard_backup(self, cache_key: str) -> None:
+        """Drop a backup for good -- the only action here that loses items."""
+        from utils.app_info_cache import app_info_cache
+        if not self._app_actions.alert(
+            _("Confirm Discard Backup"),
+            _("Permanently delete the backup of the cleared items?\n\n"
+              "WARNING: This action cannot be undone!\n\n"
+              "Do you want to continue?"),
+            kind="askyesno",
+            master=self,
+        ):
+            return
+        app_info_cache.remove(cache_key)
+        self._app_actions.toast(_("Discarded blacklist backup"))
+        self._refresh()
+
+    def _build_backup_bar(self, layout: QVBoxLayout, on_restore, on_discard) -> tuple:
+        """Row offering to undo the last clear. Hidden while no backup is live."""
+        bar = QWidget()
+        row = QHBoxLayout(bar)
+        row.setContentsMargins(0, 0, 0, 0)
+        label = QLabel("")
+        row.addWidget(label)
+        restore_btn = QPushButton(_("Restore"))
+        restore_btn.clicked.connect(on_restore)
+        row.addWidget(restore_btn)
+        discard_btn = QPushButton(_("Discard backup"))
+        discard_btn.clicked.connect(on_discard)
+        row.addWidget(discard_btn)
+        row.addStretch()
+        bar.hide()
+        layout.addWidget(bar)
+        return bar, label
+
+    def _refresh_backup_bars(self) -> None:
+        """Show each tab's restore row only while its backup is still live."""
+        for cache_key, bar_attr, label_attr in (
+            (BlacklistWindow.BLACKLIST_BACKUP_KEY, "_tag_backup_bar", "_tag_backup_label"),
+            (BlacklistWindow.MODEL_BLACKLIST_BACKUP_KEY, "_model_backup_bar", "_model_backup_label"),
+        ):
+            bar = getattr(self, bar_attr, None)
+            if bar is None:
+                continue
+            backup = BlacklistWindow.get_clear_backup(cache_key)
+            if backup is None:
+                bar.hide()
+                continue
+            getattr(self, label_attr).setText(
+                _("{0} cleared items can be restored").format(len(backup.get("items", [])))
+            )
+            bar.show()
 
     @require_password(ProtectedActions.REVEAL_BLACKLIST_CONCEPTS)
     def _preview_all_models(self) -> None:

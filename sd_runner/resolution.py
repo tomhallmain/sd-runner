@@ -142,6 +142,8 @@ class Resolution:
 
     @staticmethod
     def _floor_to_step(value: float, step: int) -> int:
+        """Floor, not round: rounding to nearest puts scale 4 of the 1024 tier
+        at 1600x640 instead of the published SDXL bucket 1536x640."""
         return max(step, int(value // step) * step)
 
     @staticmethod
