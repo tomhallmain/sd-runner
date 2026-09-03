@@ -544,17 +544,24 @@ class PassphraseManager:
             passphrase = os.urandom(32).hex()
             keyring.set_password(service_name, key, passphrase)
             
-            # Lock down permissions (Windows specific)
+            # Lock down permissions (Windows specific). Best effort only, and
+            # it must never fail the call: the passphrase is already stored by
+            # this point, so an exception here loses one the keyring is holding
+            # and the caller cannot decrypt with. ImportError alone was not
+            # enough -- CredRead raises pywintypes.error (1168) when the target
+            # name is absent, and this one does not match what keyring writes
+            # under, so it always is; os.getlogin() raises OSError with no
+            # controlling terminal.
             try:
                 import win32security
                 import win32cred
-                cred = win32cred.CredRead(f"{service_name}/{app_identifier}", 
+                cred = win32cred.CredRead(f"{service_name}/{app_identifier}",
                                          win32cred.CRED_TYPE_GENERIC, 0)
                 sd = win32security.SECURITY_DESCRIPTOR()
                 sd.SetSecurityDescriptorOwner(win32security.LookupAccountName(None, os.getlogin())[0], True)
                 win32cred.CredWrite(cred, win32cred.CRED_PRESERVE_CREDENTIAL_BLOB)
-            except ImportError:
-                pass  # Fallback if pywin32 not available
+            except Exception:
+                pass  # pywin32 absent, or the credential could not be hardened
         
         return passphrase
 
@@ -577,10 +584,8 @@ class PassphraseManager:
                     accessible=kSecAttrAccessible.AccessibleWhenUnlockedThisDeviceOnly,
                     access_group=NSBundle.mainBundle().bundleIdentifier()
                 )
-            except ImportError:
-                pass  # PyObjC Foundation/Security not installed
-            except AttributeError:
-                pass  # keyring.set_keyring_properties not available
+            except Exception:
+                pass  # PyObjC absent, or the item ACL could not be set
         
         return passphrase
 
@@ -594,14 +599,17 @@ class PassphraseManager:
             passphrase = os.urandom(32).hex()
             keyring.set_password(service_name, key, passphrase)
             
-            # Lock down keyring permissions
+            # Lock down keyring permissions. Best effort, and non-fatal for the
+            # same reason as the Windows branch: the passphrase is already
+            # stored, and DBusException on an absent session bus or collection
+            # is not an ImportError.
             try:
                 import dbus
                 bus = dbus.SessionBus()
                 service = bus.get_object('org.freedesktop.secrets', '/org/freedesktop/secrets')
                 service.Lock([f"/org/freedesktop/secrets/collection/{service_name}"])
-            except ImportError:
-                pass  # Fallback if dbus not available
+            except Exception:
+                pass  # dbus absent, or the collection could not be locked
         
         return passphrase
 
