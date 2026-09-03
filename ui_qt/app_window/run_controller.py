@@ -1168,6 +1168,11 @@ class RunController:
             return None
 
         base_args = base_args_from_app_config(self._app.runner_app_config)
+        # Set here rather than in base_args_from_app_config: the pre-pass lives
+        # on PresetsWindow, deliberately not on RunnerAppConfig, and reading it
+        # there would put Qt inside the module that exists to build a run
+        # without it.
+        base_args["intermediate_prompt"] = self._app.active_intermediate_prompt()
 
         preset = None
         if "edit_suffix" in request:

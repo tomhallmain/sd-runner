@@ -274,6 +274,77 @@ class TestSurvivingSerialization:
         assert [c[0] for c in gen.calls] == ["edit", "main"]
 
 
+class TestCaching:
+    """The point of the feature: a repeated pre-pass is not repeated work."""
+
+    def _existing(self, tmp_path):
+        made = tmp_path / "intermediate.png"
+        made.write_bytes(b"pixels")
+        return str(made)
+
+    def test_a_second_run_reuses_the_first_intermediate(self, app_cache, tmp_path):
+        made = self._existing(tmp_path)
+        prompt = _prompt()
+
+        first = make_generator(prompt=prompt, prepass_outputs=(made,))
+        run(first, ip_adapter=_source())
+        second = make_generator(prompt=prompt, prepass_outputs=(made,))
+        run(second, ip_adapter=_source())
+
+        assert [c[0] for c in first.calls] == ["edit", "main"]
+        assert [c[0] for c in second.calls] == ["main"]
+
+    def test_the_reused_intermediate_still_reaches_the_workflow(self, app_cache, tmp_path):
+        made = self._existing(tmp_path)
+        prompt = _prompt()
+
+        run(make_generator(prompt=prompt, prepass_outputs=(made,)), ip_adapter=_source())
+        second = make_generator(prompt=prompt, prepass_outputs=(made,))
+        run(second, ip_adapter=_source())
+
+        assert second.calls[0][1]["ip_adapter"].generation_path == made
+        assert second.calls[0][1]["ip_adapter"].id == "/src/original.png"
+
+    def test_a_different_prompt_generates_its_own(self, app_cache, tmp_path):
+        made = self._existing(tmp_path)
+        run(make_generator(prompt=_prompt(), prepass_outputs=(made,)), ip_adapter=_source())
+
+        other = make_generator(
+            prompt=_prompt(positive_tags="a drawing"), prepass_outputs=(made,)
+        )
+        run(other, ip_adapter=_source())
+        assert [c[0] for c in other.calls] == ["edit", "main"]
+
+    def test_a_vanished_intermediate_is_regenerated(self, app_cache, tmp_path):
+        made = self._existing(tmp_path)
+        prompt = _prompt()
+        run(make_generator(prompt=prompt, prepass_outputs=(made,)), ip_adapter=_source())
+
+        import os
+        os.remove(made)
+        second = make_generator(prompt=prompt, prepass_outputs=(made,))
+        run(second, ip_adapter=_source())
+        assert [c[0] for c in second.calls] == ["edit", "main"]
+
+    def test_more_variants_means_more_generations_before_reuse(self, app_cache, tmp_path):
+        prompt = _prompt(max_variants=2)
+        first_path = tmp_path / "one.png"
+        second_path = tmp_path / "two.png"
+        for path in (first_path, second_path):
+            path.write_bytes(b"pixels")
+        first_path, second_path = str(first_path), str(second_path)
+
+        first = make_generator(prompt=prompt, prepass_outputs=(first_path,))
+        run(first, ip_adapter=_source())
+        second = make_generator(prompt=prompt, prepass_outputs=(second_path,))
+        run(second, ip_adapter=_source())
+        third = make_generator(prompt=prompt, prepass_outputs=(second_path,))
+        run(third, ip_adapter=_source())
+
+        assert [c[0] for c in second.calls] == ["edit", "main"]
+        assert [c[0] for c in third.calls] == ["main"]
+
+
 class TestPendingCount:
     def test_the_prepass_counts_while_it_runs(self):
         gen = make_generator(prompt=_prompt())

@@ -399,8 +399,12 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         except Exception:
             self.config_history_index = 0
 
-    def _active_intermediate_prompt(self):
+    def active_intermediate_prompt(self):
         """The pre-pass this run should apply as a plain dict, or None.
+
+        Read by both run paths -- the sidebar's ``get_args`` and the server
+        snapshot -- because a configured pre-pass applies to any run its
+        workflow allows, whatever started the run.
 
         Flattened here rather than passed as the object, so the run stays
         serializable: a restored run rebuilds only the types ``from_dict``
@@ -547,7 +551,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # Carried on the run rather than on runner_app_config, which is what
         # run history and stashed configs are built from -- neither should hold
         # prompt text the user did not type into the prompt fields.
-        args.intermediate_prompt = self._active_intermediate_prompt()
+        args.intermediate_prompt = self.active_intermediate_prompt()
 
         # Sync prompt mode into runner_app_config before copying
         prompt_mode = PromptMode.get(sp.prompt_mode_combo.currentText())

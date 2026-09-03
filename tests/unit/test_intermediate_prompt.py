@@ -58,6 +58,17 @@ class TestIntermediatePrompt:
         assert WorkflowType.IMG2IMG in eligible
         assert WorkflowType.SIMPLE_IMAGE_GEN not in eligible
 
+    def test_the_variant_cap_defaults_to_one(self):
+        """One means the transformation runs once and is reused thereafter."""
+        assert _prompt().max_variants == 1
+
+    def test_the_variant_cap_round_trips(self):
+        restored = IntermediatePrompt.from_dict(_prompt(max_variants=3).to_dict())
+        assert restored.max_variants == 3
+
+    def test_a_nonsense_variant_cap_falls_back_to_one(self):
+        assert _prompt(max_variants=0).max_variants == 1
+
     def test_an_old_entry_without_a_workflow_gets_the_default(self):
         restored = IntermediatePrompt.from_dict({"name": "bw", "positive_tags": "mono"})
         assert restored.workflow_type == WorkflowType.IMAGE_EDIT.name

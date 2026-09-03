@@ -23,6 +23,7 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
+from lib.tooltip_qt import create_tooltip
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
 from ui_qt.presets.intermediate_prompt import IntermediatePrompt
@@ -383,6 +384,21 @@ class PresetsWindow(SmartDialog):
         )
         self._intermediate_workflow_combo.currentTextChanged.connect(self._on_intermediate_changed)
         workflow_row.addWidget(self._intermediate_workflow_combo)
+
+        workflow_row.addWidget(QLabel(_("Generate at most")))
+        self._intermediate_variants_combo = QComboBox()
+        self._intermediate_variants_combo.addItems([str(i) for i in range(1, 11)])
+        self._intermediate_variants_combo.setCurrentText(
+            str(current.max_variants if current else IntermediatePrompt.DEFAULT_MAX_VARIANTS)
+        )
+        self._intermediate_variants_combo.currentTextChanged.connect(self._on_intermediate_changed)
+        create_tooltip(
+            self._intermediate_variants_combo,
+            _("How many intermediates to make for one source image and prompt "
+              "before reusing them. One means the transformation runs once and "
+              "every later run takes that image."),
+        )
+        workflow_row.addWidget(self._intermediate_variants_combo)
         workflow_row.addStretch()
         layout.addLayout(workflow_row)
 
@@ -548,6 +564,7 @@ class PresetsWindow(SmartDialog):
             workflow_type=WorkflowType.get(
                 self._intermediate_workflow_combo.currentText()
             ).name,
+            max_variants=int(self._intermediate_variants_combo.currentText()),
         )
         self._sync_intermediate_enabled_state()
         PresetsWindow.store_intermediate_prompts(persist=False)
@@ -585,6 +602,7 @@ class PresetsWindow(SmartDialog):
             workflow_type=WorkflowType.get(
                 self._intermediate_workflow_combo.currentText()
             ).name,
+            max_variants=int(self._intermediate_variants_combo.currentText()),
         ))
         while len(PresetsWindow.intermediate_prompts) > PresetsWindow.MAX_INTERMEDIATE_PROMPTS:
             del PresetsWindow.intermediate_prompts[-1]
@@ -603,6 +621,7 @@ class PresetsWindow(SmartDialog):
             self._intermediate_workflow_combo.setCurrentText(
                 WorkflowType.get(prompt.workflow_type).get_translation()
             )
+            self._intermediate_variants_combo.setCurrentText(str(prompt.max_variants))
         finally:
             self._updating_intermediate = False
         self._on_intermediate_changed()

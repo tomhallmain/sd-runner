@@ -206,6 +206,14 @@ class BaseImageGenerator(ABC):
         return self.captioner
 
     def maybe_caption_image(self, image_path: str, positive: Optional[str]) -> str:
+        """A caption of *image_path* when no positive prompt was given.
+
+        Callers pass the adapter's ``id``, not its ``generation_path``, so an
+        intermediate-pass run still describes the user's original. Captioning
+        the transformed image instead would put the transformation into the
+        prompt -- "a pencil drawing of a house" -- and push the next pass
+        further that way than the pre-pass asked for.
+        """
         if not positive:
             return self.get_captioner().caption(image_path)
         return positive
@@ -417,16 +425,42 @@ class BaseImageGenerator(ABC):
             prepass_kwargs.pop(field, None)
         prepass_kwargs[prepass_field] = self._adapter_for_field(prepass_field, source)
 
-        output_paths = self._run_intermediate_generation(prepass_method, prepass_kwargs)
-        if not output_paths:
+        intermediate_path = self._intermediate_image(
+            prompt, source, prepass_method, prepass_kwargs
+        )
+        if intermediate_path is None:
             logger.error("Intermediate pass produced no image; running on the original")
             return kwargs
 
         derived = dict(kwargs)
         # generation_path moves to the intermediate; id stays on the user's real
         # source, which is what EXIF lineage and the edit-suffix rename read.
-        derived[field] = self._derived_adapter(source, output_paths[0], keep_id=True)
+        derived[field] = self._derived_adapter(source, intermediate_path, keep_id=True)
         return derived
+
+    def _intermediate_image(self, prompt: dict, source, prepass_method, prepass_kwargs) -> "str | None":
+        """A transformed image for this pre-pass, generating it only if needed.
+
+        The lock is held across the generation, not just the lookup: a run
+        dispatches several workflows onto the shared executor at once, and
+        without it they would all miss the same empty entry and all generate.
+        """
+        from sd_runner.intermediate_cache import IntermediateCache
+
+        key = IntermediateCache.key_for(prompt, source.id)
+        max_variants = max(1, int(prompt.get("max_variants") or 1))
+        with IntermediateCache.lock(key):
+            if IntermediateCache.count(key) >= max_variants:
+                cached = IntermediateCache.get(key)
+                if cached is not None:
+                    logger.info(f"Reusing cached intermediate generation: {cached}")
+                    return cached
+
+            output_paths = self._run_intermediate_generation(prepass_method, prepass_kwargs)
+            if not output_paths:
+                return None
+            IntermediateCache.put(key, output_paths[0], max_variants)
+            return output_paths[0]
 
     def _intermediate_workflow_id(self, prompt: dict):
         """The pre-pass's workflow, or None when it names one we cannot run."""

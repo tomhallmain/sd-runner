@@ -26,6 +26,11 @@ class IntermediatePrompt:
 
     DEFAULT_WORKFLOW = WorkflowType.IMAGE_EDIT
 
+    #: How many distinct intermediates to make for one source image and prompt
+    #: before reusing them. One means the transformation happens once and every
+    #: later run takes that image.
+    DEFAULT_MAX_VARIANTS = 1
+
     def __init__(
         self,
         name: str,
@@ -33,11 +38,13 @@ class IntermediatePrompt:
         negative_tags: str = "",
         use_negative: bool = False,
         workflow_type=None,
+        max_variants: int = DEFAULT_MAX_VARIANTS,
     ) -> None:
         self.name = name
         self.positive_tags = positive_tags
         self.negative_tags = negative_tags
         self.use_negative = use_negative
+        self.max_variants = max(1, int(max_variants or 1))
         if workflow_type is None:
             workflow_type = IntermediatePrompt.DEFAULT_WORKFLOW
         self.workflow_type = (
@@ -68,6 +75,7 @@ class IntermediatePrompt:
             "negative_tags": self.negative_tags,
             "use_negative": self.use_negative,
             "workflow_type": self.workflow_type,
+            "max_variants": self.max_variants,
         }
 
     @classmethod
@@ -78,4 +86,5 @@ class IntermediatePrompt:
             negative_tags=dict_data.get("negative_tags", ""),
             use_negative=bool(dict_data.get("use_negative", False)),
             workflow_type=dict_data.get("workflow_type"),
+            max_variants=dict_data.get("max_variants", cls.DEFAULT_MAX_VARIANTS),
         )

@@ -318,6 +318,11 @@ def _reset_class_state() -> None:
     _reset_if_imported("ui_qt.auth.password_core", "PasswordManager",
                        _security_configured_cache=None)
 
+    # Per-key generation locks, held for the life of the process. The cached
+    # entries themselves live in app_info_cache and are isolated already, but
+    # the lock table would carry keys between tests.
+    _reset_if_imported("sd_runner.intermediate_cache", "IntermediateCache", _locks={})
+
     # Window-level history lists, all restored from app_info_cache on open. Only
     # reset if the module is already imported: touching them unconditionally
     # would drag PySide6 into every pure-logic unit test.
