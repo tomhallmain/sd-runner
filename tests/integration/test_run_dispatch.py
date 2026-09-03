@@ -181,6 +181,49 @@ class TestNormalRunDispatch:
 
 
 # ---------------------------------------------------------------------------
+# Backend lazy start
+# ---------------------------------------------------------------------------
+
+class TestBackendLazyStart:
+    """A managed backend is no longer launched at window open -- the run
+    path is what asks for it, the first time it is actually needed.
+    """
+
+    def test_run_asks_to_start_the_selected_backend(self, app_window, run_stubs, monkeypatch):
+        from utils.globals import SoftwareType
+
+        started = []
+        monkeypatch.setattr(
+            app_window, "ensure_backend_started", lambda st: started.append(st)
+        )
+        app_window.sidebar_panel.run_preset_schedule_check.setChecked(False)
+        expected = SoftwareType[app_window.sidebar_panel.software_combo.currentText()]
+
+        app_window.run_ctrl.run()
+
+        assert started == [expected]
+
+    def test_an_unrecognized_software_type_is_left_to_run_construction(
+        self, app_window, monkeypatch
+    ):
+        """A bogus software_type isn't this method's job to report -- Run
+        already raises a clear "Unhandled software type" for it.
+        """
+        from types import SimpleNamespace
+
+        started = []
+        monkeypatch.setattr(
+            app_window, "ensure_backend_started", lambda st: started.append(st)
+        )
+
+        app_window.run_ctrl._ensure_backend_started(
+            SimpleNamespace(software_type="NotARealBackend")
+        )
+
+        assert started == []
+
+
+# ---------------------------------------------------------------------------
 # Preset schedule dispatch helpers
 # ---------------------------------------------------------------------------
 

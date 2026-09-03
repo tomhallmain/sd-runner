@@ -252,9 +252,9 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self.mcp_server = self._setup_mcp_server()
 
         # ------------------------------------------------------------------
-        # Managed backends
+        # Managed backends -- configured here, started lazily on first use
         # ------------------------------------------------------------------
-        self.backend_processes = self._launch_managed_backends()
+        self.backend_processes = self._configure_managed_backends()
 
         # ------------------------------------------------------------------
         # Start periodic cache store
@@ -807,29 +807,46 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
     # ------------------------------------------------------------------
     # Managed backends
     # ------------------------------------------------------------------
-    def _launch_managed_backends(self) -> list:
-        """Start the backends the user has configured a launch command for.
+    def _configure_managed_backends(self) -> list:
+        """Read which backends the user has configured a launch command for.
 
-        Each starts on its own thread, so several warm up in parallel and none
-        of them blocks the window from opening -- a backend can take minutes.
-        A failure is reported and skipped: the app is still usable with the
-        backends that did come up, and a run against a missing one already
-        fails with a readable connection error.
+        Nothing is launched here. Starting a backend at window open served no
+        purpose when the session's first run might not even use it -- so each
+        one is launched lazily, from ``ensure_backend_started``, the first
+        time a run actually needs it. Reading the config eagerly still means
+        a typo is reported at open rather than silently at the first run.
         """
         from extensions.backend_process import configured_backends
 
         try:
-            backends = configured_backends(config)
+            return configured_backends(config)
         except Exception as e:
             logger.error(f"Could not read backend launch config: {e}")
             return []
 
-        for backend in backends:
-            Utils.start_thread(self._start_backend, use_asyncio=False, args=[backend])
-        return backends
+    def ensure_backend_started(self, software_type) -> None:
+        """Start the backend a run is about to use, unless it already is.
+
+        Called from the run path the first time a given backend is actually
+        needed, rather than for every configured backend at window open. Runs
+        after the first for the same backend cost nothing extra --
+        ``BackendProcess.start()`` is what recognizes it is already up or
+        already ours and returns immediately. A *software_type* with no
+        launch command configured has no matching entry and is left alone,
+        same as before.
+
+        Blocking here is fine: every caller already runs off the GUI thread,
+        the same way the old per-backend launch thread did.
+        """
+        backend = next(
+            (b for b in self.backend_processes if b.software_type == software_type),
+            None,
+        )
+        if backend is not None:
+            self._start_backend(backend)
 
     def _start_backend(self, backend) -> None:
-        """Worker body for one backend launch."""
+        """Start one backend, reporting rather than raising on failure."""
         try:
             backend.start()
         except Exception as e:

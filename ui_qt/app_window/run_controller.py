@@ -262,6 +262,19 @@ class RunController:
         app = self._app
         Utils.prevent_sleep(True)
         app.job_queue.job_running = True
+        # Every run path converges here before touching the backend, so this is
+        # the one place that needs to ask for it: a configured backend launches
+        # on the first run that actually needs it rather than at window open. A
+        # backend already running (ours or adopted) returns immediately.
+        #
+        # Ordering is load-bearing. Blocking is fine -- this method always runs
+        # on a worker thread -- but a cold backend blocks it for up to
+        # backend_startup_timeout, and job_running is what every enqueue path
+        # reads to decide whether to queue behind this run or launch a second
+        # _run_async of its own. Asking before that flag is set would widen a
+        # microsecond window into a ten-minute one, and a request arriving in it
+        # would start a concurrent run that overwrites current_run.
+        self._ensure_backend_started(run_args)
         # Prompt text reaches generation through process-wide Prompter/Globals
         # state, not through the run config. Both run paths carry their tags on
         # the run and apply them here, at execution, so a queued run generates
@@ -974,6 +987,23 @@ class RunController:
             )
         except Exception:
             return False
+
+    def _ensure_backend_started(self, run_args) -> None:
+        """Ask the app window to start *run_args*'s backend, if it needs it.
+
+        Called from ``_run_async``, the point every run path converges on
+        before it touches the backend. An unrecognized ``software_type`` (a
+        cloud backend, or a value that fails validation elsewhere) has no
+        managed process to start, so it is left for ``Run`` to construct the
+        generator and report whatever is actually wrong.
+        """
+        from utils.globals import SoftwareType
+
+        try:
+            software_type = SoftwareType[run_args.software_type]
+        except KeyError:
+            return
+        self._app.ensure_backend_started(software_type)
 
     def server_revert_to_simple_gen(self, client_id: str = "") -> None:
         """Server entry point for ``revert_to_simple_gen``.

@@ -270,7 +270,7 @@ A client can also ask whether a backend is working: `{"command": "health_check",
 
 ### Launching backends automatically
 
-Set `backend_launch_commands` to have SD Runner start a backend for you, mapping the backend name to the command you would type yourself:
+Set `backend_launch_commands` to have SD Runner start a backend for you, mapping the backend name to the command you would type yourself. A configured backend is not started when SD Runner opens — it starts the first time a run actually needs it, so an install with several configured backends does not pay to warm up ones that go unused this session. That first run waits for the backend to answer before it begins generating, which on a cold start can take minutes; later runs find it already up and start immediately.
 
 ```json
 "backend_launch_commands": {

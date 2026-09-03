@@ -133,6 +133,44 @@ class TestAdoption:
         assert killed == []
 
 
+class TestRepeatedStart:
+    """start() is now the entry point for every run that needs the backend,
+    not a single call at application open -- so calling it again must be
+    cheap and must never launch a second copy.
+    """
+
+    def test_a_second_start_does_not_spawn_again(self, monkeypatch):
+        monkeypatch.setattr(backend_process, "is_reachable", lambda *a, **k: False)
+        spawned = []
+
+        def fake_spawn(self):
+            spawned.append(self)
+            self._proc = _AliveProc()
+
+        monkeypatch.setattr(BackendProcess, "_spawn", fake_spawn)
+        monkeypatch.setattr(BackendProcess, "_pipe_output", lambda self: None)
+        monkeypatch.setattr(BackendProcess, "_await_ready", lambda self: True)
+
+        backend = BackendProcess(SoftwareType.ComfyUI, "python main.py")
+        assert backend.start() is True
+        assert backend.start() is True
+        assert len(spawned) == 1
+
+    def test_a_second_start_after_adoption_does_not_recheck_reachability(self, monkeypatch):
+        calls = []
+
+        def fake_is_reachable(*a, **k):
+            calls.append(1)
+            return True
+
+        monkeypatch.setattr(backend_process, "is_reachable", fake_is_reachable)
+
+        backend = BackendProcess(SoftwareType.ComfyUI, "python main.py")
+        assert backend.start() is True
+        assert backend.start() is True
+        assert calls == [1]
+
+
 class TestLaunchFailures:
     @pytest.fixture(autouse=True)
     def not_running(self, monkeypatch):
