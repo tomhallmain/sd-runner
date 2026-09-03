@@ -68,6 +68,9 @@ class Config:
         "server_host":                      str,
         "server_port":                      int,
         "server_password":                  str,
+        "mcp_server_host":                  str,
+        "mcp_server_port":                  int,
+        "mcp_server_token":                 str,
         "server_run_max_seconds":           int,
         # Dictionary override
         "override_dictionary_path":         None,
@@ -196,6 +199,12 @@ class Config:
         self.server_port = int(_server_port_override) if _server_port_override else 6000
         self.server_password = "<PASSWORD>"
         self.server_host = "localhost"
+        # Model Context Protocol front end. Off until a port is set. The token
+        # is required for any non-loopback bind: the other server's authkey is
+        # a property of its transport and does not carry to HTTP.
+        self.mcp_server_host = "localhost"
+        self.mcp_server_port = 0
+        self.mcp_server_token = ""
         # Ceiling on a server-triggered run's estimated duration. The
         # interactive path asks the user to confirm a long run; a server
         # request has nobody to ask, so an over-size one is refused. 0 = no
@@ -218,6 +227,7 @@ class Config:
                         "cache_store_interval_seconds",
                         "backend_startup_timeout",
                         "blacklist_backup_retention_days",
+                        "mcp_server_port",
         )
         self.set_values(float,
                         "ui_scale_factor",
@@ -244,6 +254,8 @@ class Config:
                         "invokeai_url",
                         "fooocus_url",
                         "server_password",
+                        "mcp_server_host",
+                        "mcp_server_token",
                         "override_dictionary_path",
                         "clip_model_path",
                         "vlm_repo_id",

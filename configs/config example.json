@@ -146,6 +146,9 @@
     "server_port": 6000,
     "server_host": "127.0.0.1",
     "server_password": "<PASSWORD>",
+    "mcp_server_host": "localhost",
+    "mcp_server_port": 0,
+    "mcp_server_token": "",
     "server_run_max_seconds": 0,
 
     "cloud_backends": {

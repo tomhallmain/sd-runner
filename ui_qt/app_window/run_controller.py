@@ -112,6 +112,32 @@ class RunController:
         """Whether the run currently executing came from a server request."""
         return bool(self.current_run_origin())
 
+    def run_status(self, origin: str = "") -> dict:
+        """How much work is outstanding, and whether any of it is *origin*'s.
+
+        For a client that was told its request was accepted and wants to know
+        when it is done. Answers by origin rather than by a per-run handle
+        because the origin already exists and a handle does not: the id a
+        ``Run`` carries is created when the queue *starts* it, so there is
+        nothing to hand back at the moment a request is accepted. Runs from one
+        origin are therefore not distinguished from each other.
+
+        GUI thread only -- reads the queues and the current run.
+        """
+        app = self._app
+        current_origin = self.current_run_origin()
+        pending = len(getattr(app.job_queue, "pending_jobs", []))
+        staging = getattr(app, "server_staging_queue", None)
+        status = {
+            "running": bool(current_origin) or bool(getattr(app.job_queue, "job_running", False)),
+            "current_origin": current_origin,
+            "queued": pending,
+            "staged": staging.pending_count() if staging is not None else 0,
+        }
+        if origin:
+            status["mine_running"] = current_origin == origin
+        return status
+
     def has_runs_pending(self) -> bool:
         """Return True if any run or preset schedule is still queued."""
         return (

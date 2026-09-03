@@ -40,3 +40,8 @@ torchvision
 #                   true, which it is not by default.
 # accelerate
 # bitsandbytes
+
+# Model Context Protocol front end (extensions/mcp_server.py). Only needed to
+# expose this app to an MCP client; the import is lazy, so without it the app
+# starts normally and the MCP server declines to run.
+mcp

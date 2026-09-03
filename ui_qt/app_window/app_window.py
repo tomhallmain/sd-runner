@@ -249,6 +249,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # Server
         # ------------------------------------------------------------------
         self.server = self._setup_server()
+        self.mcp_server = self._setup_mcp_server()
 
         # ------------------------------------------------------------------
         # Managed backends
@@ -768,6 +769,41 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             logger.error(f"Failed to start server: {e}")
             return None
 
+    def _setup_mcp_server(self):
+        """Start the MCP front end, when one is configured.
+
+        Given the *same already-wrapped* callables as ``SDRunnerServer``: three
+        bridged to the GUI thread and two deliberately not, because they bridge
+        their own widget sections and wrapping them would hold the caller for a
+        whole run build or a multi-second health check. Passing the wrapped
+        callables is what makes the second front end inherit those decisions
+        rather than re-derive them.
+
+        Returns None when no port is set, without logging: MCP is opt-in, and
+        the overwhelming majority of runs have not asked for it.
+        """
+        if not getattr(config, "mcp_server_port", 0):
+            return None
+
+        from extensions.mcp_server import MCPServerExtension
+
+        bridge = self._thread_bridge.wrap
+        server = MCPServerExtension(
+            self.run_ctrl.server_run_callback,
+            bridge(self.run_ctrl.cancel),
+            bridge(self.run_ctrl.server_revert_to_simple_gen),
+            bridge(self.run_ctrl.server_batch_enqueue),
+            self.run_ctrl.server_health_check,
+            # Bridged: reads the queues and the current run.
+            bridge(self.run_ctrl.run_status),
+        )
+        try:
+            Utils.start_thread(server.start)
+            return server
+        except Exception as e:
+            logger.error(f"Failed to start MCP server: {e}")
+            return None
+
     # ------------------------------------------------------------------
     # Managed backends
     # ------------------------------------------------------------------
@@ -887,6 +923,12 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
                 self.server.stop()
             except Exception as e:
                 logger.error(f"Error stopping server: {e}")
+
+        if getattr(self, "mcp_server", None) is not None:
+            try:
+                self.mcp_server.stop()
+            except Exception as e:
+                logger.error(f"Error stopping MCP server: {e}")
 
         # Stop managed backends. Only ones this app launched -- a backend that
         # was already running when it started is left alone.

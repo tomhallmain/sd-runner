@@ -294,6 +294,24 @@ It runs from that backend's `*_loc` directory. There are no built-in commands �
 
 `backend_startup_timeout` (default 600s) is how long SD Runner waits for a backend to answer. Running out does **not** kill it — these are slow to start for real reasons, and a backend that has not exited is still working, so it is left to carry on and reported as still starting. A health check arriving during that window answers `starting` rather than `error`. If a backend really is stuck, stop it yourself.
 
+### Model Context Protocol
+
+SD Runner can also present itself to an MCP client — Claude Desktop, an editor, an agent harness — as a set of tools. This is a second front end over the same actions the server above exposes; both can run at once, and neither knows about the other.
+
+It needs the optional `mcp` package (`pip install -r requirements-optional.txt`) and a port:
+
+```json
+"mcp_server_port": 8765
+```
+
+Without a port it does not start, and without the package it logs once and declines — the app runs normally either way.
+
+The tools are `generate` (naming one of the same commands the server takes, with that command's arguments), `generate_batch`, `cancel`, `revert_to_simple_gen`, `health_check`, and `run_status`.
+
+`generate` returns when the run is **queued**, not when it has finished — the images come later and are not part of the result. Poll `run_status` to find out when work is done. It answers by client rather than per run, so if you send several requests it tells you that work of yours is still in progress, not which one.
+
+**It binds to localhost only.** The other server authenticates with a key belonging to its transport, which does not carry over to HTTP, and the MCP SDK's own answer is a full OAuth resource server rather than a shared secret. Until that exists, remote binds are refused. `mcp_server_token` is reserved for it and currently does nothing — if you set one, the server refuses to start rather than run while leaving it unenforced.
+
 ## Image to Prompt
 
 The PySide6 UI includes an **Image to Prompt** window that can generate prompt text from an image without starting image generation. Current backends include captioner and fast-tagger support (with automatic model download), with VLM left as a scaffolded backend for future work.
