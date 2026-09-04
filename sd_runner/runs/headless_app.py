@@ -19,8 +19,8 @@ from __future__ import annotations
 
 from typing import Any, Callable, Optional
 
-from utils.logging_setup import get_logger
-from utils.translations import I18N
+from lib.logging_setup import get_logger
+from lib.translations import I18N
 
 _ = I18N._
 logger = get_logger("runs.headless_app")
@@ -94,8 +94,8 @@ class HeadlessApp:
     def __init__(self):
         from sd_runner.persistence.cache_controller import CacheController
         from sd_runner.runs.run_controller import RunController
-        from utils.job_queue import SDRunsQueue, ServerStagingQueue
-        from utils.ui_responsiveness import NullResponsiveness
+        from sd_runner.runs.job_queue import SDRunsQueue, ServerStagingQueue
+        from sd_runner.runs.ui_responsiveness import NullResponsiveness
 
         self.current_run = None
         self.config_history_index = 0
@@ -225,7 +225,7 @@ class HeadlessApp:
 
     def _configure_managed_backends(self) -> list:
         from extensions.backend_process import configured_backends
-        from utils.config import config
+        from sd_runner.config import config
 
         try:
             return configured_backends(config)
@@ -263,8 +263,8 @@ class HeadlessApp:
         anyway keeps the wiring identical to the window's, so which calls are
         marshalled stays a property of the bridge rather than of the caller.
         """
-        from utils.config import config
-        from utils.utils import Utils
+        from sd_runner.config import config
+        from lib.utils import Utils
 
         bridge = self._thread_bridge.wrap
         callbacks = (

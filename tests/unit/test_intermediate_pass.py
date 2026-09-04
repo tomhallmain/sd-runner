@@ -14,7 +14,7 @@ from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.models.model_adapters import ControlNet, IPAdapter
 from sd_runner.presets.intermediate_prompt import IntermediatePrompt
 from tests.utils import make_gen_config
-from utils.globals import WorkflowType
+from sd_runner.globals import WorkflowType
 
 
 class StubGenerator(BaseImageGenerator):

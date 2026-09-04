@@ -14,7 +14,7 @@ import pytest
 
 from sd_runner.prompts.blacklist import Blacklist, BlacklistException, BlacklistItem
 from sd_runner.prompts.prompter import Prompter
-from utils.globals import BlacklistMode, BlacklistPromptMode
+from sd_runner.globals import BlacklistMode, BlacklistPromptMode
 
 
 TAKEN_POSITIVE = "a calm lake, forbidden, golden hour"
@@ -338,7 +338,7 @@ class TestTakeModeGateDecision:
         deliberate, while taking a prompt from a file is content of unknown
         character -- so a user can gate one without the other.
         """
-        from utils.globals import ProtectedActions
+        from sd_runner.globals import ProtectedActions
 
         assert ProtectedActions.TAKE_PROMPT != ProtectedActions.NSFW_PROMPTS
         assert ProtectedActions.TAKE_PROMPT.get_description()
@@ -346,7 +346,7 @@ class TestTakeModeGateDecision:
     def test_new_actions_default_to_protected(self):
         """A newly added action must not silently start unprotected."""
         from sd_runner.ui.auth.password_core import get_security_config
-        from utils.globals import ProtectedActions
+        from sd_runner.globals import ProtectedActions
 
         config = get_security_config()
         assert config.is_action_protected(ProtectedActions.TAKE_PROMPT.value) is True

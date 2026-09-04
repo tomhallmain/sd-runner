@@ -13,8 +13,8 @@ from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_core import PasswordManager, get_security_config
 from sd_runner.ui.auth.password_session_manager import PasswordSessionManager
 from sd_runner.ui.auth.password_dialog import PasswordLineEdit
-from utils.globals import ProtectedActions
-from utils.translations import I18N
+from sd_runner.globals import ProtectedActions
+from lib.translations import I18N
 
 _ = I18N._
 
@@ -88,7 +88,7 @@ class StartupPasswordDialog(QDialog):
     def _position_dialog(self):
         """Center the dialog on the same display where the main window was last shown."""
         try:
-            from utils.app_info_cache import app_info_cache
+            from sd_runner.persistence.app_info_cache import app_info_cache
             from lib.position_data_qt import PositionData
 
             position_data = app_info_cache.get_display_position()

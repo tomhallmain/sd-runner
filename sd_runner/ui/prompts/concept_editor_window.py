@@ -38,11 +38,11 @@ from lib.multi_display_qt import SmartDialog
 from sd_runner.prompts.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
 from sd_runner.prompts.pending_translation import stage_for_translation
 from sd_runner.ui.app_style import AppStyle
-from utils.config import config
+from sd_runner.config import config
 from sd_runner.ui.auth.password_utils import require_password
-from utils.globals import ProtectedActions
-from utils.app_info_cache import app_info_cache
-from utils.translations import I18N
+from sd_runner.globals import ProtectedActions
+from sd_runner.persistence.app_info_cache import app_info_cache
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions

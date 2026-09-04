@@ -33,9 +33,9 @@ from sd_runner.prompts.expansion import Expansion
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.ui.window_focus import clear_class_ref_if_self, try_focus_existing_window
-from utils.globals import ProtectedActions
-from utils.translations import I18N
-from utils.utils import Utils
+from sd_runner.globals import ProtectedActions
+from lib.translations import I18N
+from lib.utils import Utils
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
@@ -117,7 +117,7 @@ class ExpansionModifyWindow(SmartDialog):
     # ------------------------------------------------------------------
     def _check_wildcard_clash(self) -> bool:
         """Return True if the expansion name clashes with a config wildcard."""
-        from utils.config import config
+        from sd_runner.config import config
         name = self._name_edit.text().strip()
         if name in config.wildcards:
             self._warning_label.setText(

@@ -28,8 +28,8 @@ import time
 from typing import Optional
 
 from extensions.backend_health import check, is_reachable
-from utils.globals import SoftwareType
-from utils.logging_setup import get_logger
+from sd_runner.globals import SoftwareType
+from lib.logging_setup import get_logger
 
 logger = get_logger("backend_process")
 

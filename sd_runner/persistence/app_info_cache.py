@@ -9,17 +9,20 @@ import datetime
 from lib.equivalence import are_equivalent
 from lib.position_data_qt import PositionData
 from sd_runner.prompts.blacklist import Blacklist
-from utils.config import config
-from utils.globals import Globals, PromptMode, BlacklistPromptMode
-from utils.encryptor import encrypt_data_to_file, decrypt_data_from_file
-from utils.logging_setup import get_logger
-from utils.runner_app_config import RunnerAppConfig
+from sd_runner.config import config
+from sd_runner.globals import Globals, PromptMode, BlacklistPromptMode
+from lib.encryptor import encrypt_data_to_file, decrypt_data_from_file
+from lib.logging_setup import get_logger
+from sd_runner.runs.runner_app_config import RunnerAppConfig
 
-logger = get_logger("app_info_cache")
+logger = get_logger("persistence.app_info_cache")
+
+#: Two packages below the repo root, so three levels up.
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 class AppInfoCache:
-    CACHE_LOC = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "app_info_cache.enc")
-    JSON_LOC = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "app_info_cache.json")
+    CACHE_LOC = os.path.join(_REPO_ROOT, "app_info_cache.enc")
+    JSON_LOC = os.path.join(_REPO_ROOT, "app_info_cache.json")
     INFO_KEY = "info"
     HISTORY_KEY = "run_history"
     PROMPT_HISTORY_KEY = "prompt_history"  # New key for prompt tag history

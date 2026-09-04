@@ -19,10 +19,10 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from utils.app_info_cache import app_info_cache
-from utils.logging_setup import get_logger
-from utils.runner_app_config import RunnerAppConfig
-from utils.translations import I18N
+from sd_runner.persistence.app_info_cache import app_info_cache
+from lib.logging_setup import get_logger
+from sd_runner.runs.runner_app_config import RunnerAppConfig
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions

@@ -1,6 +1,6 @@
 """Capturing log output from the project's own loggers.
 
-``utils.logging_setup.get_logger`` sets ``propagate = False`` on every logger it
+``lib.logging_setup.get_logger`` sets ``propagate = False`` on every logger it
 builds, so records go to the project's own handler and never reach the root
 handler ``caplog`` installs. A test that just uses ``caplog.at_level(...)`` sees
 an empty ``caplog.text`` while the message is plainly visible in captured

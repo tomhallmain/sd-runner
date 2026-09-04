@@ -29,11 +29,11 @@ from sd_runner.prompts.blacklist import Blacklist, BlacklistItem, SimilarityPhra
 from sd_runner.prompts import blacklist_state
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.ui.window_focus import try_focus_existing_window
-from utils.config import config
-from utils.globals import (
+from sd_runner.config import config
+from sd_runner.globals import (
     BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, ProtectedActions,
 )
-from utils.translations import I18N
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
@@ -639,7 +639,7 @@ class BlacklistWindow(SmartDialog):
         # # shutdown crashes (the failsafe os._exit can cause access
         # # violations that prevent the normal store_info_cache path).
         # try:
-        #     from utils.app_info_cache import app_info_cache
+        #     from sd_runner.persistence.app_info_cache import app_info_cache
         #     blacklist_state.store_blacklist()
         #     app_info_cache.store()
         # except Exception:
@@ -935,7 +935,7 @@ class BlacklistWindow(SmartDialog):
 
     def _discard_backup(self, cache_key: str) -> None:
         """Drop a backup for good -- the only action here that loses items."""
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         if not self._app_actions.alert(
             _("Confirm Discard Backup"),
             _("Permanently delete the backup of the cleared items?\n\n"

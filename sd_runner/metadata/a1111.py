@@ -28,8 +28,8 @@ import re
 from dataclasses import dataclass, field
 from typing import Optional
 
-from utils.globals import Sampler, Scheduler
-from utils.logging_setup import get_logger
+from sd_runner.globals import Sampler, Scheduler
+from lib.logging_setup import get_logger
 
 logger = get_logger("a1111_metadata")
 
@@ -128,7 +128,7 @@ class A1111Parameters:
         ControlNet is not recoverable -- A1111 never records it -- so the caller
         still has to supply one; see requires_source_image.
         """
-        from utils.globals import PromptTypeSDWebUI
+        from sd_runner.globals import PromptTypeSDWebUI
 
         if self.is_img2img() and self.has_control_net:
             return PromptTypeSDWebUI.IMG2IMG_CONTROLNET.value

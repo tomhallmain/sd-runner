@@ -1,6 +1,6 @@
 import pytest
 from sd_runner.presets.preset import Preset
-from utils.globals import PromptMode
+from sd_runner.globals import PromptMode
 
 
 def make_preset(**kwargs):
@@ -95,7 +95,7 @@ class TestPresetEquality:
 
 class TestPresetFromRunnerAppConfig:
     def test_from_runner_app_config_maps_fields(self):
-        from utils.runner_app_config import RunnerAppConfig
+        from sd_runner.runs.runner_app_config import RunnerAppConfig
         rac = RunnerAppConfig()
         rac.positive_tags = "ocean, waves"
         rac.negative_tags = "blur"

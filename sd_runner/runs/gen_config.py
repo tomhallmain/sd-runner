@@ -2,15 +2,15 @@ import re
 import random
 
 from sd_runner.prompts.concepts import HardConcepts
-from utils.config import config
-from utils.globals import Globals, WorkflowType, ArchitectureType, PromptMode
+from sd_runner.config import config
+from sd_runner.globals import Globals, WorkflowType, ArchitectureType, PromptMode
 from sd_runner.models.model_adapters import IPAdapter
 from sd_runner.models.model import Model
 from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.models.resolution import Resolution
 from sd_runner.runs.run_config import RunConfig
-from utils.logging_setup import get_logger
-from utils.utils import Utils
+from lib.logging_setup import get_logger
+from lib.utils import Utils
 
 
 logger = get_logger("runs.gen_config")

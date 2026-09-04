@@ -3,7 +3,7 @@ import unittest
 import random
 from sd_runner.prompts.concepts import Concepts
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
-from utils.globals import PromptMode
+from sd_runner.globals import PromptMode
 
 
 class TestGetRandomWords(unittest.TestCase):

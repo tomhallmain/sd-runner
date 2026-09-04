@@ -20,8 +20,8 @@ from sd_runner.runs.virtual_run_config import (
     build_virtual_run_config,
     escape_path,
 )
-from utils.globals import PromptMode, WorkflowType
-from utils.runner_app_config import RunnerAppConfig
+from sd_runner.globals import PromptMode, WorkflowType
+from sd_runner.runs.runner_app_config import RunnerAppConfig
 
 
 @pytest.fixture
@@ -50,7 +50,7 @@ class TestBaseSnapshot:
 
     def test_resolution_group_is_accepted_by_its_own_parser(self, app_config):
         """The widget path passes a display description; the stored name also resolves."""
-        from utils.globals import ResolutionGroup
+        from sd_runner.globals import ResolutionGroup
         args = base_args_from_app_config(app_config)
         assert ResolutionGroup.get(args["resolution_group"]) is not None
 

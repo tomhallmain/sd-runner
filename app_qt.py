@@ -15,11 +15,11 @@ import traceback
 from PySide6.QtWidgets import QApplication
 
 from sd_runner.ui.app_style import AppStyle
-from utils.app_icon import apply_app_icon
-from utils.config import config
-from utils.logging_setup import get_logger
-from utils.translations import I18N
-from utils.utils import Utils
+from sd_runner.ui.app_icon import apply_app_icon
+from sd_runner.config import config
+from lib.logging_setup import get_logger
+from lib.translations import I18N
+from lib.utils import Utils
 
 _ = I18N._
 logger = get_logger("app_qt")

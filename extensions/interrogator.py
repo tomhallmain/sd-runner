@@ -7,8 +7,8 @@ import time
 
 from blip.blip import WAS_BLIP_Model_Loader, WAS_BLIP_Analyze_Image
 
-from utils.config import config
-from utils.utils import Utils
+from sd_runner.config import config
+from lib.utils import Utils
 
 
 class AnswerType(Enum):

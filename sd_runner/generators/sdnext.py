@@ -3,7 +3,7 @@
 import threading
 
 from sd_runner.generators.sdwebui import SDWebuiGen
-from utils.config import config
+from sd_runner.config import config
 
 
 class SDNextGen(SDWebuiGen):

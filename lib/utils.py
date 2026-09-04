@@ -8,11 +8,9 @@ import os
 import sys
 import threading
 
-from utils.config import config
-
 from lib.sleep_prevention import WakeLevel, acquire_wake, release_wake
 
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
 RESET = "\033[m"
 GRAY = "\033[90m"

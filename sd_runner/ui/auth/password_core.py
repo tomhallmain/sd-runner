@@ -4,10 +4,10 @@ This module contains the foundational password management and configuration clas
 It has no dependencies on other password modules to avoid circular imports.
 """
 
-from utils.globals import Globals, ProtectedActions
-from utils.app_info_cache import app_info_cache
-from utils.encryptor import store_encrypted_password, retrieve_encrypted_password, delete_stored_password
-from utils.logging_setup import get_logger
+from sd_runner.globals import Globals, ProtectedActions
+from sd_runner.persistence.app_info_cache import app_info_cache
+from lib.encryptor import store_encrypted_password, retrieve_encrypted_password, delete_stored_password
+from lib.logging_setup import get_logger
 
 logger = get_logger("ui.auth.password_core")
 

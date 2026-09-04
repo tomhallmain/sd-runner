@@ -1,8 +1,8 @@
 import os
 from typing import Optional
 
-from utils.config import config
-from utils.globals import Globals
+from sd_runner.config import config
+from sd_runner.globals import Globals
 from sd_runner.prompts.prompter import GlobalPrompter
 
 

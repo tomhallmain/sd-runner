@@ -11,7 +11,7 @@ from sd_runner.image_to_prompt.types import (
     ImageToPromptRequest,
     ImageToPromptResult,
 )
-from utils.translations import I18N
+from lib.translations import I18N
 
 _ = I18N._
 
@@ -111,7 +111,7 @@ class CaptionerProvider(ImageToPromptProvider):
     def _generate_transformers(self, image_path: str) -> str:
         import torch
         from PIL import Image
-        from utils.pillow_plugins import ensure_pillow_plugins_registered
+        from lib.pillow_plugins import ensure_pillow_plugins_registered
 
         ensure_pillow_plugins_registered()
         image = Image.open(image_path).convert("RGB")

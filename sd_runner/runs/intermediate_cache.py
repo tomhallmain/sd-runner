@@ -19,7 +19,7 @@ import os
 import random
 import threading
 
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
 logger = get_logger("runs.intermediate_cache")
 
@@ -72,13 +72,13 @@ class IntermediateCache:
     # ------------------------------------------------------------------
     @staticmethod
     def _read() -> dict:
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         stored = app_info_cache.get(IntermediateCache.CACHE_KEY, default_val={})
         return stored if isinstance(stored, dict) else {}
 
     @staticmethod
     def _write(entries: dict) -> None:
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         app_info_cache.set(IntermediateCache.CACHE_KEY, entries)
 
     @staticmethod

@@ -11,18 +11,18 @@ import time
 import threading
 import traceback
 
-from utils.globals import Globals, WorkflowType, SoftwareType, image_input_field
+from sd_runner.globals import Globals, WorkflowType, SoftwareType, image_input_field
 
 from sd_runner.prompts.blacklist import Blacklist
 from sd_runner.runs.gen_config import GenConfig
-from sd_runner.image_converter import convert_image_if_needed, cleanup_converter, clear_converter_cache
+from lib.image_converter import convert_image_if_needed, cleanup_converter, clear_converter_cache
 from sd_runner.models.model import Model
 from sd_runner.models.resolution import Resolution
 from sd_runner.workflow_prompts.base import WorkflowPrompt
 from sd_runner.ui.app_actions import AppActions
-from utils.config import config
-from utils.logging_setup import get_logger
-from utils.utils import Utils
+from sd_runner.config import config
+from lib.logging_setup import get_logger
+from lib.utils import Utils
 
 logger = get_logger("base_image_generator")
 
@@ -120,7 +120,7 @@ class BaseImageGenerator(ABC):
         if not context:
             return
         try:
-            from utils.generation_timing import generation_timing
+            from sd_runner.runs.generation_timing import generation_timing
 
             backend = self._backend_name()
             warm = self._classify_and_remember(backend, context["model"])
@@ -717,7 +717,7 @@ class BaseImageGenerator(ABC):
             self.ui_callbacks.add_recent_source_prompt(prompt_image_path)
 
     def _handle_error(self, error: Exception, task_name: str) -> None:
-        from sd_runner.image_converter import ImageHandlingError
+        from lib.image_converter import ImageHandlingError
         
         if isinstance(error, ImageHandlingError):
             # For image handling errors, they should already be logged by the converter
@@ -793,7 +793,7 @@ class BaseImageGenerator(ABC):
 
         Returns the final on-disk path after renaming.
         """
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         stem = Path(related_image_path).stem
         ext = Path(save_path).suffix
         dest_dir = os.path.dirname(save_path)

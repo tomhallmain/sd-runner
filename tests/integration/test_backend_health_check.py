@@ -156,7 +156,7 @@ class TestStatusesAreDistinguished:
 
     def test_a_backend_we_are_launching_is_starting(self, app_window, monkeypatch):
         """Not broken -- it will answer shortly, and a client told error gives up."""
-        from utils.globals import SoftwareType
+        from sd_runner.globals import SoftwareType
 
         self.stub(monkeypatch, reachable=False, detail="connection refused")
         self.starting_backend(app_window, SoftwareType.ComfyUI)
@@ -164,7 +164,7 @@ class TestStatusesAreDistinguished:
         assert response["status"] == "starting"
 
     def test_starting_wins_over_timeout_too(self, app_window, monkeypatch):
-        from utils.globals import SoftwareType
+        from sd_runner.globals import SoftwareType
 
         self.stub(monkeypatch, reachable=False, detail="slow", timed_out=True)
         self.starting_backend(app_window, SoftwareType.ComfyUI)
@@ -174,7 +174,7 @@ class TestStatusesAreDistinguished:
     def test_a_different_backend_starting_does_not_excuse_this_one(
         self, app_window, monkeypatch
     ):
-        from utils.globals import SoftwareType
+        from sd_runner.globals import SoftwareType
 
         self.stub(monkeypatch, reachable=False, detail="connection refused")
         self.starting_backend(app_window, SoftwareType.SDWebUI)
@@ -182,7 +182,7 @@ class TestStatusesAreDistinguished:
             software="ComfyUI")["status"] == "error"
 
     def test_a_finished_launch_no_longer_excuses_a_failure(self, app_window, monkeypatch):
-        from utils.globals import SoftwareType
+        from sd_runner.globals import SoftwareType
 
         self.stub(monkeypatch, reachable=False, detail="connection refused")
         backend = self.starting_backend(app_window, SoftwareType.ComfyUI)
@@ -192,7 +192,7 @@ class TestStatusesAreDistinguished:
 
     def test_a_reachable_backend_is_ok_even_while_starting(self, app_window, monkeypatch):
         """It answered, which settles the question whatever else is going on."""
-        from utils.globals import SoftwareType
+        from sd_runner.globals import SoftwareType
 
         self.stub(monkeypatch, reachable=True)
         self.starting_backend(app_window, SoftwareType.ComfyUI)

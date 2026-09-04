@@ -47,9 +47,9 @@ from sd_runner.presets.schedule import Schedule
 from sd_runner.presets.schedules_state import SchedulesState
 from sd_runner.ui.presets.schedules_window import SchedulesWindow
 from sd_runner.presets.presets_state import PresetsState
-from utils.translations import I18N
-from utils.utils import Utils
-from utils.time_estimator import TimeEstimator
+from lib.translations import I18N
+from lib.utils import Utils
+from sd_runner.runs.time_estimator import TimeEstimator
 
 _ = I18N._
 
@@ -189,7 +189,7 @@ class TestBackendLazyStart:
     """The run path is what asks for a managed backend, when a run needs it."""
 
     def test_run_asks_to_start_the_selected_backend(self, app_window, run_stubs, monkeypatch):
-        from utils.globals import SoftwareType
+        from sd_runner.globals import SoftwareType
 
         started = []
         monkeypatch.setattr(

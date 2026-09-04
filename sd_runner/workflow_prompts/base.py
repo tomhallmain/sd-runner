@@ -1,7 +1,7 @@
 import os
 
-from utils.config import config
-from utils.globals import WorkflowType, ComfyNodeName
+from sd_runner.config import config
+from sd_runner.globals import WorkflowType, ComfyNodeName
 from sd_runner.models.control_nets import ControlNet
 from sd_runner.models.ip_adapters import IPAdapter
 

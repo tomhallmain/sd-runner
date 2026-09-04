@@ -13,8 +13,8 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from sd_runner.ui.app_style import AppStyle
-from utils.config import config
-from utils.translations import I18N
+from sd_runner.config import config
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions

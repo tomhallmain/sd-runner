@@ -3,7 +3,7 @@ import random
 import unittest
 
 from sd_runner.models.resolution import Resolution
-from utils.globals import ArchitectureType, ResolutionGroup
+from sd_runner.globals import ArchitectureType, ResolutionGroup
 
 
 class TestScaleDimensions(unittest.TestCase):

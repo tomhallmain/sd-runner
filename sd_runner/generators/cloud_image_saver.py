@@ -4,10 +4,10 @@ import os
 import time
 from urllib import request as urllib_request
 
-from utils.config import config
-from utils.logging_setup import get_logger
+from sd_runner.config import config
+from lib.logging_setup import get_logger
 
-logger = get_logger("cloud_image_saver")
+logger = get_logger("generators.cloud_image_saver")
 
 
 def _timestamp_str() -> str:

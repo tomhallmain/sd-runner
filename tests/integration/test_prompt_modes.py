@@ -16,7 +16,7 @@ import pytest
 
 from sd_runner.prompts.concepts import ConceptConfiguration, Concepts
 from tests.utils import make_prompter
-from utils.globals import PromptMode
+from sd_runner.globals import PromptMode
 
 
 GENERATIVE_MODES = [

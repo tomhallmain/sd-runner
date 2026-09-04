@@ -12,7 +12,7 @@ widget -- every method under test is a staticmethod over class-level state.
 
 import pytest
 
-from utils.app_info_cache import app_info_cache
+from sd_runner.persistence.app_info_cache import app_info_cache
 
 
 @pytest.fixture
@@ -108,7 +108,7 @@ class TestBlacklistEditPersists:
     def test_the_write_reaches_disk(self, clean_cache):
         from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
         from sd_runner.prompts import blacklist_state
-        from utils.app_info_cache import AppInfoCache
+        from sd_runner.persistence.app_info_cache import AppInfoCache
 
         Blacklist.add_item(BlacklistItem("wolf"))
         blacklist_state.store_blacklist()
@@ -130,7 +130,7 @@ class TestExpansionEditPersists:
     def test_expansion_reaches_disk(self, clean_cache):
         from sd_runner.prompts import expansions_state
         from sd_runner.prompts.expansion import Expansion
-        from utils.app_info_cache import AppInfoCache
+        from sd_runner.persistence.app_info_cache import AppInfoCache
 
         Expansion.expansions = [Expansion("greeting", "hello there")]
         expansions_state.store_expansions()
@@ -143,7 +143,7 @@ class TestExpansionEditPersists:
 class TestPresetEditPersists:
     def test_recent_presets_reach_disk(self, clean_cache):
         from sd_runner.presets.presets_state import PresetsState
-        from utils.app_info_cache import AppInfoCache
+        from sd_runner.persistence.app_info_cache import AppInfoCache
 
         PresetsState.store_recent_presets()
         reloaded = AppInfoCache()
@@ -154,7 +154,7 @@ class TestScheduleEditPersists:
     def test_recent_schedules_reach_disk(self, clean_cache):
         from tests.utils import make_schedule
         from sd_runner.presets.schedules_state import SchedulesState
-        from utils.app_info_cache import AppInfoCache
+        from sd_runner.persistence.app_info_cache import AppInfoCache
 
         SchedulesState.recent_schedules = [make_schedule("Evening")]
         SchedulesState.store_schedules()

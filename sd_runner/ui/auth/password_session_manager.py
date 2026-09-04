@@ -4,7 +4,7 @@ Password session manager for tracking successful password verifications.
 
 import time
 from typing import Dict, Optional
-from utils.globals import ProtectedActions
+from sd_runner.globals import ProtectedActions
 
 
 class PasswordSessionManager:

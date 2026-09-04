@@ -6,10 +6,10 @@ from typing import TypeVar
 
 from sd_runner.prompts.blacklist import Blacklist, BlacklistException
 from sd_runner.models.model_adapters import LoraBundle
-from utils.config import config
-from utils.globals import Globals, PromptMode, ModelBlacklistMode, WorkflowType, ArchitectureType, ResolutionGroup
-from utils.logging_setup import get_logger
-from utils.translations import I18N
+from sd_runner.config import config
+from sd_runner.globals import Globals, PromptMode, ModelBlacklistMode, WorkflowType, ArchitectureType, ResolutionGroup
+from lib.logging_setup import get_logger
+from lib.translations import I18N
 
 _ = I18N._
 

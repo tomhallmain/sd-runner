@@ -64,7 +64,7 @@ from contextlib import contextmanager
 from enum import IntFlag
 from typing import Any, Dict, Iterator, Optional, Tuple
 
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
 logger = get_logger("sleep_prevention")
 
@@ -123,8 +123,8 @@ _app_id_cache: Optional[str] = None
 def _app_identifier() -> str:
     """This application's key in the shared state file.
 
-    Imported lazily to avoid pulling ``utils.globals`` in at module load
-    (circular import with ``utils.utils``), and cached so the resolution and
+    Imported lazily to avoid pulling ``sd_runner.globals`` in at module load
+    (circular import with ``lib.utils``), and cached so the resolution and
     its failure log happen once. Resolution failure is logged rather than
     silently adopting another application's identity -- with the state file
     now shared, a wrong id files this process's rows under someone else.
@@ -132,7 +132,7 @@ def _app_identifier() -> str:
     global _app_id_cache
     if _app_id_cache is None:
         try:
-            from utils.globals import Globals
+            from sd_runner.globals import Globals
 
             _app_id_cache = Globals.APP_IDENTIFIER
         except Exception as e:

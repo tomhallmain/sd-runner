@@ -8,9 +8,9 @@ from PIL.PngImagePlugin import PngInfo
 
 import pprint
 
-from utils.config import config
-from utils.pillow_plugins import ensure_pillow_plugins_registered
-from utils.utils import Utils
+from sd_runner.config import config
+from lib.pillow_plugins import ensure_pillow_plugins_registered
+from lib.utils import Utils
 
 # AVIF/HEIF/JXL need plugin registration before Image.open.
 ensure_pillow_plugins_registered()

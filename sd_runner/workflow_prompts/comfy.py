@@ -1,9 +1,9 @@
 import os
 import json
-from utils.globals import Globals
-from utils.globals import ComfyNodeName
-from utils.globals import Sampler
-from utils.globals import Scheduler
+from sd_runner.globals import Globals
+from sd_runner.globals import ComfyNodeName
+from sd_runner.globals import Sampler
+from sd_runner.globals import Scheduler
 from sd_runner.models.model_adapters import LoraBundle
 from .base import WorkflowPrompt
 

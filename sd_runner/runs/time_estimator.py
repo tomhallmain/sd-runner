@@ -1,7 +1,7 @@
 import math
 
-from utils.globals import Globals
-from utils.translations import I18N
+from sd_runner.globals import Globals
+from lib.translations import I18N
 
 _ = I18N._
 
@@ -16,7 +16,7 @@ class TimeEstimator:
         + model_switches x load_seconds        # measured, per model
         + pacing                               # see below
 
-    The first two come from ``utils.generation_timing``, which learns them from
+    The first two come from ``sd_runner.runs.generation_timing``, which learns them from
     completed generations. For a long time neither existed and the pacing was
     the *whole* estimate, which expanded to exactly the sleep the run would
     perform, so the backend's actual work contributed nothing. That is why
@@ -164,7 +164,7 @@ class TimeEstimator:
     def _generation_seconds(gen_config, image_count: float):
         """Measured generation time for this config, or None if unmeasured."""
         try:
-            from utils.generation_timing import generation_timing
+            from sd_runner.runs.generation_timing import generation_timing
 
             models = getattr(gen_config, "models", None) or []
             resolutions = getattr(gen_config, "resolutions", None) or []

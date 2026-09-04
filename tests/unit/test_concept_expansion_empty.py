@@ -12,7 +12,7 @@ import pytest
 
 from sd_runner.prompts.concepts import Concepts, ConceptConfiguration
 from sd_runner.prompts.prompter import Prompter
-from utils.globals import PromptMode
+from sd_runner.globals import PromptMode
 
 
 @pytest.fixture

@@ -1,9 +1,9 @@
 from enum import Enum
 import os
 
-from utils.config import config
+from sd_runner.config import config
 from extensions.image_data_extractor import ImageDataExtractor
-from utils.translations import I18N
+from lib.translations import I18N
 
 _ = I18N._
 

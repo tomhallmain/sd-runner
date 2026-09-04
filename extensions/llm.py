@@ -8,8 +8,8 @@ import time
 from typing import Optional, List
 from urllib import request
 
-# from utils.logging_setup import get_logger
-from utils.utils import Utils
+# from lib.logging_setup import get_logger
+from lib.utils import Utils
 
 # logger = get_logger(__name__)
 

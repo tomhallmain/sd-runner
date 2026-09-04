@@ -70,7 +70,7 @@ def _host_util(method_name: str):
     method later, and so tests can substitute one.
     """
     try:
-        from utils.utils import Utils
+        from lib.utils import Utils
         return getattr(Utils, method_name)
     except (ImportError, AttributeError):
         return None

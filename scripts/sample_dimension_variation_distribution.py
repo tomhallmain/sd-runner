@@ -22,7 +22,7 @@ os.chdir(PROJECT_ROOT)
 sys.path.insert(0, PROJECT_ROOT)
 
 from sd_runner.models.resolution import Resolution  # noqa: E402
-from utils.globals import ArchitectureType, ResolutionGroup  # noqa: E402
+from sd_runner.globals import ArchitectureType, ResolutionGroup  # noqa: E402
 
 
 def _architecture(s: str) -> ArchitectureType:

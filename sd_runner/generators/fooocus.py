@@ -11,8 +11,8 @@ from sd_runner.runs.gen_config import GenConfig
 from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.models.model_adapters import LoraBundle
 from sd_runner.models.model import Model
-from utils.config import config
-from utils.globals import WorkflowType
+from sd_runner.config import config
+from sd_runner.globals import WorkflowType
 
 
 def _timestamp_str() -> str:

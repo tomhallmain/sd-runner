@@ -30,8 +30,8 @@ from sd_runner.presets.intermediate_prompt import IntermediatePrompt
 from sd_runner.presets.preset import Preset
 from sd_runner.presets.presets_state import PresetsState
 from sd_runner.presets.stashed_config import StashedConfig
-from utils.globals import ProtectedActions, WorkflowType
-from utils.translations import I18N
+from sd_runner.globals import ProtectedActions, WorkflowType
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions

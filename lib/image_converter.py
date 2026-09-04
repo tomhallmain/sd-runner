@@ -19,7 +19,7 @@ import random
 from typing import Optional, Union, Dict, Set
 from pathlib import Path
 
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
 logger = get_logger("image_converter")
 
@@ -87,7 +87,7 @@ class ImageConverter:
         try:
             import PIL
             from PIL import Image
-            from utils.pillow_plugins import ensure_pillow_plugins_registered
+            from lib.pillow_plugins import ensure_pillow_plugins_registered
             # AVIF/HEIF/JXL need runtime plugin registration before Image.open.
             ensure_pillow_plugins_registered()
             self._conversion_methods.add('pil')
@@ -187,7 +187,7 @@ class ImageConverter:
             # Try to get image dimensions without loading the full image
             if 'pil' in self._conversion_methods:
                 from PIL import Image, ImageSequence
-                from utils.pillow_plugins import ensure_pillow_plugins_registered
+                from lib.pillow_plugins import ensure_pillow_plugins_registered
                 ensure_pillow_plugins_registered()
                 try:
                     with Image.open(file_path) as img:
@@ -304,7 +304,7 @@ class ImageConverter:
     def _convert_with_pil(self, input_path: Path, output_path: Path) -> str:
         """Convert image using PIL/Pillow."""
         from PIL import Image, UnidentifiedImageError
-        from utils.pillow_plugins import ensure_pillow_plugins_registered
+        from lib.pillow_plugins import ensure_pillow_plugins_registered
 
         ensure_pillow_plugins_registered()
         try:

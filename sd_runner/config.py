@@ -1,7 +1,7 @@
 import json
 import os
 
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
 logger = get_logger("config")
 

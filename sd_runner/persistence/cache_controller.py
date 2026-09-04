@@ -18,9 +18,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional, Union
 
-from utils.app_info_cache import app_info_cache
-from utils.logging_setup import get_logger
-from utils.translations import I18N
+from sd_runner.persistence.app_info_cache import app_info_cache
+from lib.logging_setup import get_logger
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from PySide6.QtCore import QTimer
@@ -63,7 +63,7 @@ class CacheController:
         abandon the rest of the load -- losing the presets, the schedules and
         the pending queues without saying so.
         """
-        from utils.runner_app_config import RunnerAppConfig
+        from sd_runner.runs.runner_app_config import RunnerAppConfig
         from sd_runner.prompts import blacklist_state
         from sd_runner.presets.presets_state import PresetsState
         from sd_runner.presets.schedules_state import SchedulesState
@@ -103,7 +103,7 @@ class CacheController:
 
     def _restore_generation_timing(self) -> None:
         """Reload measured generation rates from the previous session."""
-        from utils.generation_timing import generation_timing
+        from sd_runner.runs.generation_timing import generation_timing
 
         try:
             generation_timing.load_from_dict(
@@ -118,7 +118,7 @@ class CacheController:
         Averages rather than raw samples, so this stays a few hundred bytes
         however long the app runs.
         """
-        from utils.generation_timing import generation_timing
+        from sd_runner.runs.generation_timing import generation_timing
 
         try:
             app_info_cache.set(self.GENERATION_TIMING_KEY, generation_timing.to_dict())
@@ -326,7 +326,7 @@ class CacheController:
         Replaces the async ``do_periodic_store_cache`` pattern.
         """
         if interval_ms is None:
-            from utils.config import config
+            from sd_runner.config import config
             try:
                 interval_ms = int(config.cache_store_interval_seconds) * 1000
             except (TypeError, ValueError):

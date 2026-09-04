@@ -9,7 +9,7 @@ window changes rather than removes.
 import pytest
 
 from sd_runner.runs.headless_app import HeadlessApp
-from utils.job_queue import SDRunsQueue, ServerStagingQueue
+from sd_runner.runs.job_queue import SDRunsQueue, ServerStagingQueue
 
 
 @pytest.fixture

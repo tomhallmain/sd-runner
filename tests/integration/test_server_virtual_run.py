@@ -22,9 +22,9 @@ from sd_runner.runs.run_config import RunConfig
 from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
 from tests.utils import FakeServerConn
 from sd_runner.runs.run_controller import SERVER_ORIGIN
-from utils.globals import WorkflowType
-from utils.time_estimator import TimeEstimator
-from utils.utils import Utils
+from sd_runner.globals import WorkflowType
+from sd_runner.runs.time_estimator import TimeEstimator
+from lib.utils import Utils
 
 
 class _FakeModel:
@@ -383,7 +383,7 @@ class TestPresetScheduleDiversion:
     def test_a_diverted_request_is_not_refused_by_the_ceiling(
         self, app_window, run_stubs, executed, monkeypatch
     ):
-        from utils.config import config
+        from sd_runner.config import config
         monkeypatch.setattr(config, "server_run_max_seconds", 10)
         monkeypatch.setattr(
             app_window.run_ctrl, "_estimate_run", lambda args: (9999, 500)
@@ -487,7 +487,7 @@ class TestServerRunCeiling:
         assert len(executed) == 1
 
     def test_run_over_the_ceiling_is_refused(self, app_window, run_stubs, executed, monkeypatch):
-        from utils.config import config
+        from sd_runner.config import config
         monkeypatch.setattr(config, "server_run_max_seconds", 10)
         monkeypatch.setattr(
             app_window.run_ctrl, "_estimate_run", lambda args: (9999, 500)
@@ -500,7 +500,7 @@ class TestServerRunCeiling:
         assert executed == []
 
     def test_run_under_the_ceiling_is_accepted(self, app_window, run_stubs, executed, monkeypatch):
-        from utils.config import config
+        from sd_runner.config import config
         monkeypatch.setattr(config, "server_run_max_seconds", 10000)
         monkeypatch.setattr(
             app_window.run_ctrl, "_estimate_run", lambda args: (9999, 500)
@@ -512,7 +512,7 @@ class TestServerRunCeiling:
 
     def test_a_failed_estimate_does_not_block_the_run(self, app_window, run_stubs, executed, monkeypatch):
         """The estimate is a guard, not a precondition."""
-        from utils.config import config
+        from sd_runner.config import config
 
         def boom(args):
             raise RuntimeError("estimate blew up")
@@ -526,7 +526,7 @@ class TestServerRunCeiling:
 
     def test_no_models_is_reported_as_an_error_response(self, app_window, run_stubs, executed, monkeypatch):
         from sd_runner.models.model import NoModelsFound
-        from utils.config import config
+        from sd_runner.config import config
 
         def no_models(args):
             raise NoModelsFound("No models found")
@@ -645,7 +645,7 @@ class TestSnapshotReflectsTheSidebar:
 
     def test_resolution_group_is_stored_as_a_name(self, app_window):
         """The combo shows a description; the cache carries this across sessions."""
-        from utils.globals import ResolutionGroup
+        from sd_runner.globals import ResolutionGroup
 
         app_window.sidebar_panel.resolution_group_combo.setCurrentText(
             ResolutionGroup.SEVEN_SIXTY_EIGHT.get_description()

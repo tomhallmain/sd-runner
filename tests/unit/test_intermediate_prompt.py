@@ -7,7 +7,7 @@ run reads, and the single seam the run path will call.
 
 from sd_runner.presets.intermediate_prompt import IntermediatePrompt
 from sd_runner.presets.presets_state import PresetsState
-from utils.globals import WorkflowType
+from sd_runner.globals import WorkflowType
 
 
 def _prompt(name="bw", positive="black and white", **kwargs):

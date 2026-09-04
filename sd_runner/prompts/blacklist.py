@@ -5,12 +5,12 @@ import os
 import re
 import string
 
-from utils.globals import Globals, BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, PromptMode
-from utils.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
-from utils.logging_setup import get_logger
-from utils.pickleable_cache import SizeAwarePicklableCache, fingerprint_string_sequence
-from utils.translations import I18N
-from utils.utils import Utils
+from sd_runner.globals import Globals, BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, PromptMode
+from lib.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
+from lib.logging_setup import get_logger
+from lib.pickleable_cache import SizeAwarePicklableCache, fingerprint_string_sequence
+from lib.translations import I18N
+from lib.utils import Utils
 
 _ = I18N._
 
@@ -736,7 +736,7 @@ class Blacklist:
         Callers use this to decide whether an unfiltered prompt source needs
         gating -- see the TAKE-mode branch of the prompt mode selector.
         """
-        from utils.config import config
+        from sd_runner.config import config
 
         if not config.blacklist_prevent_execution:
             return False
@@ -1176,7 +1176,7 @@ class Blacklist:
             Blacklist._similarity_engine = None
             return
         from sd_runner.prompts.clip_text_similarity import TextSimilarityEngine
-        from utils.config import config
+        from sd_runner.config import config
         try:
             engine = TextSimilarityEngine.build(getattr(config, "clip_model_path", None))
             engine.precompute(enabled_phrases)

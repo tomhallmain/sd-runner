@@ -18,7 +18,7 @@ Deliberately Qt-free so the i18n scripts can import it directly.
 import json
 import os
 
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
 logger = get_logger("prompts.pending_translation")
 

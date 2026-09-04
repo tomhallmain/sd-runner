@@ -4,12 +4,12 @@ import time
 from copy import deepcopy
 from enum import Enum
 
-from utils.globals import Globals, PromptMode, Sampler, Scheduler, WorkflowType # must import first
+from sd_runner.globals import Globals, PromptMode, Sampler, Scheduler, WorkflowType # must import first
 
 from sd_runner.models.model import Model, NoModelsFound
-from utils.logging_setup import get_logger
-from utils.time_estimator import TimeEstimator
-from utils.translations import I18N
+from lib.logging_setup import get_logger
+from sd_runner.runs.time_estimator import TimeEstimator
+from lib.translations import I18N
 
 _ = I18N._
 

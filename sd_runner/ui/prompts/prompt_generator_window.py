@@ -28,9 +28,9 @@ from sd_runner.prompts.prompter import Prompter
 from sd_runner.runs.run_config import RunConfig
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.prompts.prompt_config_window import PromptConfigWindow
-from utils.app_info_cache import app_info_cache
-from utils.globals import Globals, PromptMode
-from utils.translations import I18N
+from sd_runner.persistence.app_info_cache import app_info_cache
+from sd_runner.globals import Globals, PromptMode
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions

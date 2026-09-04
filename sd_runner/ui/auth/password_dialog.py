@@ -19,7 +19,7 @@ from lib.multi_display_qt import SmartDialog
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_core import PasswordManager
 from sd_runner.ui.auth.password_session_manager import PasswordSessionManager
-from utils.translations import I18N
+from lib.translations import I18N
 
 _ = I18N._
 

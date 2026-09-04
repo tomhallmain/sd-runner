@@ -30,19 +30,19 @@ from sd_runner.models.recent_adapters_state import RecentAdaptersState
 from sd_runner.runs.run_controller import RunController
 from sd_runner.ui.app_actions import AppActions
 from sd_runner.ui.app_style import AppStyle
-from utils.app_icon import get_app_icon_path
+from sd_runner.ui.app_icon import get_app_icon_path
 from sd_runner.ui.app_window.key_binding_manager import KeyBindingManager
 from sd_runner.ui.app_window.notification_controller import NotificationController
 from sd_runner.ui.app_window.sidebar_panel import SidebarPanel
 from sd_runner.ui.app_window.window_launcher import WindowLauncher
 from sd_runner.ui.qt_responsiveness import QtResponsiveness
-from utils.app_info_cache import app_info_cache
-from utils.config import config
-from utils.job_queue import SDRunsQueue, PresetSchedulesQueue, ServerStagingQueue
-from utils.logging_setup import get_logger, set_logger_level
-from utils.runner_app_config import RunnerAppConfig
-from utils.translations import I18N
-from utils.utils import Utils
+from sd_runner.persistence.app_info_cache import app_info_cache
+from sd_runner.config import config
+from sd_runner.runs.job_queue import SDRunsQueue, PresetSchedulesQueue, ServerStagingQueue
+from lib.logging_setup import get_logger, set_logger_level
+from sd_runner.runs.runner_app_config import RunnerAppConfig
+from lib.translations import I18N
+from lib.utils import Utils
 
 _ = I18N._
 logger = get_logger("ui.app_window")
@@ -459,7 +459,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         out of it -- it replaces the instance dict wholesale and backfills only
         some of what it drops, so a partial dict would raise on read.
         """
-        from utils.runner_app_config import RunnerAppConfig
+        from sd_runner.runs.runner_app_config import RunnerAppConfig
 
         current = self.runner_app_config
         cfg = RunnerAppConfig.from_dict(stash.config)
@@ -476,7 +476,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         if cfg is None:
             return
         sp = self.sidebar_panel
-        from utils.globals import WorkflowType, PromptMode
+        from sd_runner.globals import WorkflowType, PromptMode
 
         sp.software_combo.setCurrentText(cfg.software_type)
         sp.workflow_combo.setCurrentText(
@@ -487,7 +487,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         sp.batch_limit_combo.setCurrentText(str(cfg.batch_limit))
         sp.delay_combo.setCurrentText(str(cfg.delay_time_seconds))
         sp.resolutions_entry.setText(cfg.resolutions)
-        from utils.globals import ResolutionGroup
+        from sd_runner.globals import ResolutionGroup
         sp.resolution_group_combo.setCurrentText(ResolutionGroup.get(str(cfg.resolution_group)).get_description())
         sp.model_tags_entry.setText(cfg.model_tags)
         # Always restore LoRA tags, including empty strings, so history
@@ -546,7 +546,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         ``runner_app_config`` so that ``RunConfig.validate()`` succeeds.
         """
         from sd_runner.runs.run_config import RunConfig
-        from utils.globals import PromptMode, WorkflowType
+        from sd_runner.globals import PromptMode, WorkflowType
         from sd_runner.ui.prompts.prompt_config_window import PromptConfigWindow
 
         sp = self.sidebar_panel
@@ -611,7 +611,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         """
         from sd_runner.runs.run_controller import clear_quotes
         from sd_runner.ui.prompts.prompt_config_window import PromptConfigWindow
-        from utils.globals import PromptMode, ResolutionGroup, WorkflowType
+        from sd_runner.globals import PromptMode, ResolutionGroup, WorkflowType
 
         sp = self.sidebar_panel
         cfg = self.runner_app_config
@@ -657,7 +657,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         """
         from copy import deepcopy
         from sd_runner.runs.run_controller import clear_quotes
-        from utils.globals import WorkflowType
+        from sd_runner.globals import WorkflowType
 
         sp = self.sidebar_panel
 
@@ -711,7 +711,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self.runner_app_config.source_prompt_add_user_prompt = source_prompt_add
         args.source_prompts_add_user_prompt = source_prompt_add
         if source_prompt_file.strip():
-            from utils.globals import PromptMode
+            from sd_runner.globals import PromptMode
             # Forcing the mode here skips the permission gate, which lives on the
             # prompt mode combo's change handler. Reaching this state means moving
             # the combo off TAKE while leaving a source prompt file set, so the run

@@ -17,7 +17,7 @@ EXPANSIONS_CACHE_KEY = "expansions"
 
 
 def set_expansions():
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
 
     for expansion_dict in list(app_info_cache.get(EXPANSIONS_CACHE_KEY, default_val=[])):
         Expansion.expansions.append(Expansion.from_dict(expansion_dict))
@@ -31,7 +31,7 @@ def store_expansions(persist: bool = True):
     cheap even when the edit was a no-op. store_info_cache passes False
     because it writes once itself after collecting every subsystem.
     """
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
 
     expansion_dicts = [expansion.to_dict() for expansion in Expansion.expansions]
     app_info_cache.set(EXPANSIONS_CACHE_KEY, expansion_dicts)

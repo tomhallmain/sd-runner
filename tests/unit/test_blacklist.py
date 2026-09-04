@@ -2,8 +2,8 @@ import unittest
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
 from sd_runner.prompts.concepts import Concepts
 from sd_runner.prompts import blacklist_state
-from utils.app_info_cache import app_info_cache
-from utils.globals import BlacklistMode, BlacklistPromptMode, PromptMode
+from sd_runner.persistence.app_info_cache import app_info_cache
+from sd_runner.globals import BlacklistMode, BlacklistPromptMode, PromptMode
 
 class TestBlacklist(unittest.TestCase):
     def setUp(self):
@@ -495,7 +495,7 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
         # per-test isolated instance created by isolated_singletons.  We must do the
         # same here rather than rely on the module-level import (which is the bootstrap
         # instance and is never patched by isolated_singletons).
-        import utils.app_info_cache as _aic
+        import sd_runner.persistence.app_info_cache as _aic
         return _aic.app_info_cache
 
     def setUp(self):
@@ -627,7 +627,7 @@ class TestRestoringBlacklistModes(unittest.TestCase):
 
     @property
     def _cache(self):
-        import utils.app_info_cache as _aic
+        import sd_runner.persistence.app_info_cache as _aic
         return _aic.app_info_cache
 
     def test_an_unreadable_mode_keeps_the_current_one(self):

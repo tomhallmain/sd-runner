@@ -5,8 +5,8 @@ import re
 import threading
 
 from extensions.hf_hub_api import ensure_hf_snapshot
-from utils.logging_setup import get_logger
-from utils.translations import I18N
+from lib.logging_setup import get_logger
+from lib.translations import I18N
 
 _ = I18N._
 logger = get_logger("image_to_prompt.llava")
@@ -271,7 +271,7 @@ class LlavaTransformersImpl:
         """Return a generation-prompt description of the image at *image_path*."""
         import torch
         from PIL import Image
-        from utils.pillow_plugins import ensure_pillow_plugins_registered
+        from lib.pillow_plugins import ensure_pillow_plugins_registered
 
         self._ensure_model()
 

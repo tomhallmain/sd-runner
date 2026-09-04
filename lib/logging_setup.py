@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import List
 
-from utils.custom_formatter import CustomFormatter
+from lib.custom_formatter import CustomFormatter
 
 def _cleanup_old_logs(log_dir: Path, logger: logging.Logger) -> None:
     """

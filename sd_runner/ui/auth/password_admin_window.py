@@ -23,8 +23,8 @@ from lib.multi_display_qt import SmartWindow, display_manager
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_core import PasswordManager, get_security_config
 from sd_runner.ui.auth.password_utils import require_password
-from utils.globals import ProtectedActions
-from utils.translations import I18N
+from sd_runner.globals import ProtectedActions
+from lib.translations import I18N
 
 _ = I18N._
 
@@ -540,7 +540,7 @@ class PasswordAdminWindow(SmartWindow):
     @require_password(ProtectedActions.ACCESS_ADMIN)
     def export_cache_as_json(self):
         """Export the app_info_cache as a JSON file (not encoded)."""
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
 
         try:
             json_path = app_info_cache.export_as_json()

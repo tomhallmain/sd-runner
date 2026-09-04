@@ -1,5 +1,5 @@
 
-from utils.translations import I18N
+from lib.translations import I18N
 
 _ = I18N._
 

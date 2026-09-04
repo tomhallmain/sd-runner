@@ -19,7 +19,7 @@ from extensions.backend_process import (
     LOC_FIELDS,
     configured_backends,
 )
-from utils.globals import SoftwareType
+from sd_runner.globals import SoftwareType
 
 
 class _AliveProc:

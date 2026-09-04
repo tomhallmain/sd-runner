@@ -16,7 +16,7 @@ from extensions.sd_runner_server import (
     SDRunnerServer, sanitize_client_id,
 )
 from tests.utils import FakeServerConn
-from utils.globals import WorkflowType
+from sd_runner.globals import WorkflowType
 
 
 STATE_COMMANDS = {CommandType.CANCEL, CommandType.REVERT_TO_SIMPLE_GEN}

@@ -26,9 +26,9 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
-logger = get_logger("ui_responsiveness")
+logger = get_logger("runs.ui_responsiveness")
 
 
 class NullResponsiveness:

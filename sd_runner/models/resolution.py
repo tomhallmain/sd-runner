@@ -3,8 +3,8 @@ import math
 import random
 from typing import Optional, TypeVar
 
-from utils.globals import Globals, ArchitectureType, ResolutionGroup
-from utils.utils import Utils
+from sd_runner.globals import Globals, ArchitectureType, ResolutionGroup
+from lib.utils import Utils
 
 
 class Resolution:

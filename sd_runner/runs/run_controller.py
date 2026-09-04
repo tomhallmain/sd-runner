@@ -24,9 +24,9 @@ import time
 import traceback
 
 from sd_runner.models.model import NoModelsFound
-from utils.logging_setup import get_logger
-from utils.translations import I18N
-from utils.utils import Utils
+from lib.logging_setup import get_logger
+from lib.translations import I18N
+from lib.utils import Utils
 
 _ = I18N._
 logger = get_logger("runs.run_controller")
@@ -152,7 +152,7 @@ class RunController:
 
     def should_delay_after_last_run(self, run_args) -> bool:
         """Return whether the final iteration should use post-run delay."""
-        from utils.config import config
+        from sd_runner.config import config
         if run_args and run_args.total == 1:
             if config.delay_after_single_run:
                 return True
@@ -170,8 +170,8 @@ class RunController:
         showing it, so this is answerable with no widgets to read -- it gates
         every prompt that reaches a backend, including on the server path.
         """
-        from utils.config import config
-        from utils.globals import BlacklistMode, BlacklistPromptMode
+        from sd_runner.config import config
+        from sd_runner.globals import BlacklistMode, BlacklistPromptMode
         from sd_runner.prompts.blacklist import Blacklist, BlacklistException
 
         if not config.blacklist_prevent_execution:
@@ -371,8 +371,8 @@ class RunController:
         """
         from sd_runner.prompts.blacklist import BlacklistException
         from sd_runner.presets.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
-        from utils.globals import Globals
-        from utils.time_estimator import TimeEstimator
+        from sd_runner.globals import Globals
+        from sd_runner.runs.time_estimator import TimeEstimator
 
         app = self._app
         sp = self._sp
@@ -509,8 +509,8 @@ class RunController:
         from sd_runner.runs.gen_config import GenConfig
         from sd_runner.models.model import Model
         from sd_runner.models.resolution import Resolution
-        from utils.globals import ResolutionGroup
-        from utils.time_estimator import TimeEstimator
+        from sd_runner.globals import ResolutionGroup
+        from sd_runner.runs.time_estimator import TimeEstimator
 
         workflow_type = args.workflow_tag
         models = Model.get_models(
@@ -536,7 +536,7 @@ class RunController:
         try:
             from sd_runner.models.control_nets import get_control_nets
             from sd_runner.models.ip_adapters import get_ip_adapters
-            from utils.utils import Utils
+            from lib.utils import Utils
 
             control_files = (
                 Utils.split(args.control_nets, ",")
@@ -655,7 +655,7 @@ class RunController:
 
     def revert_to_simple_gen(self, event=None, origin: str = "") -> None:
         """Cancel current run and restart with simple generation workflow."""
-        from utils.globals import WorkflowType
+        from sd_runner.globals import WorkflowType
         self.cancel(reason="Revert to simple generation")
         self._sp.workflow_combo.setCurrentText(WorkflowType.SIMPLE_IMAGE_GEN_LORA.get_translation())
         self.run(origin=origin)
@@ -666,7 +666,7 @@ class RunController:
     def run_preset_schedule(self, override_args: dict | None = None) -> None:
         """Execute a preset schedule in a background thread."""
         from sd_runner.presets.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
-        from utils.config import config
+        from sd_runner.config import config
 
         if override_args is None:
             override_args = {}
@@ -862,7 +862,7 @@ class RunController:
         """Update the time-estimation label.
 
         """
-        from utils.time_estimator import TimeEstimator
+        from sd_runner.runs.time_estimator import TimeEstimator
 
         if gen_config is None:
             return
@@ -901,7 +901,7 @@ class RunController:
     # ------------------------------------------------------------------
     def calculate_current_run_estimated_time(self, workflow_type: str, gen_config) -> int:
         """Calculate estimated seconds for the current run only."""
-        from utils.time_estimator import TimeEstimator
+        from sd_runner.runs.time_estimator import TimeEstimator
         total_jobs = gen_config.maximum_gens_per_latent()
         current_job_time = TimeEstimator.estimate_run_seconds(
             gen_config, total_jobs * gen_config.n_latents
@@ -965,7 +965,7 @@ class RunController:
         import time as _time
 
         from extensions.backend_health import check, check_functional
-        from utils.globals import SoftwareType
+        from sd_runner.globals import SoftwareType
 
         try:
             software_type = (SoftwareType[software] if software
@@ -1019,7 +1019,7 @@ class RunController:
 
     def _selected_software_type(self):
         """The backend currently selected in the sidebar. GUI thread only."""
-        from utils.globals import SoftwareType
+        from sd_runner.globals import SoftwareType
         return SoftwareType[self._sp.software_combo.currentText()]
 
     def _backend_is_starting(self, software_type) -> bool:
@@ -1042,7 +1042,7 @@ class RunController:
         managed process to start, so it is left for ``Run`` to construct the
         generator and report whatever is actually wrong.
         """
-        from utils.globals import SoftwareType
+        from sd_runner.globals import SoftwareType
 
         try:
             software_type = SoftwareType[run_args.software_type]
@@ -1198,7 +1198,7 @@ class RunController:
         rather than the request's, so they carry no origin.
         """
         from sd_runner.runs.virtual_run_config import escape_path
-        from utils.globals import image_input_field
+        from sd_runner.globals import image_input_field
 
         app = self._app
         if "image" not in request:
@@ -1336,8 +1336,8 @@ class RunController:
         waiting on this call, so an over-size request is refused with an answer
         the client can act on instead. Unset (0 or less) means no ceiling.
         """
-        from utils.config import config
-        from utils.time_estimator import TimeEstimator
+        from sd_runner.config import config
+        from sd_runner.runs.time_estimator import TimeEstimator
 
         try:
             ceiling = float(getattr(config, "server_run_max_seconds", 0) or 0)

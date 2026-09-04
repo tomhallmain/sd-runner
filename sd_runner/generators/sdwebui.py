@@ -8,15 +8,15 @@ import threading
 from typing import Optional
 
 from sd_runner.runs.gen_config import GenConfig
-from utils.globals import Globals, WorkflowType, PromptTypeSDWebUI
+from sd_runner.globals import Globals, WorkflowType, PromptTypeSDWebUI
 
 from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.models.model import Model, LoraBundle
 from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.workflow_prompts.sdwebui import WorkflowPromptSDWebUI
-from utils.config import config
-from utils.logging_setup import get_logger
-from utils.utils import Utils
+from sd_runner.config import config
+from lib.logging_setup import get_logger
+from lib.utils import Utils
 
 logger = get_logger("sdwebui_gen")
 

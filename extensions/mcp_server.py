@@ -19,7 +19,7 @@ connections all belong to a running app the client did not start.
 import threading
 
 from extensions.sd_runner_server import CommandType, sanitize_client_id
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
 logger = get_logger("mcp_server")
 
@@ -119,7 +119,7 @@ class MCPServerExtension:
         # Resolved at call time rather than from the module-level binding, for
         # the reason SDRunnerServer documents: tests swap in a fresh Config per
         # test, and only a fresh attribute lookup sees the swap.
-        from utils.config import config as _config
+        from sd_runner.config import config as _config
 
         self.run_callback = run_callback
         self.cancel_callback = cancel_callback

@@ -10,7 +10,7 @@ import pytest
 from sd_runner.prompts.prompter import Prompter
 from sd_runner.prompts.concepts import Concepts
 from tests.utils import make_prompter
-from utils.globals import PromptMode
+from sd_runner.globals import PromptMode
 
 
 # ---------------------------------------------------------------------------

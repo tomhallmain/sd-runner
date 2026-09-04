@@ -7,7 +7,7 @@ process.
 """
 
 from extensions.backend_process import BackendProcess, BackendStartError
-from utils.globals import SoftwareType
+from sd_runner.globals import SoftwareType
 
 
 class TestEnsureBackendStarted:

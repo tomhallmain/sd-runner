@@ -1,12 +1,12 @@
 import os
 import json
-from utils.globals import Globals
-from utils.globals import PromptTypeSDWebUI
-from utils.globals import Sampler
-from utils.globals import Scheduler
+from sd_runner.globals import Globals
+from sd_runner.globals import PromptTypeSDWebUI
+from sd_runner.globals import Sampler
+from sd_runner.globals import Scheduler
 from sd_runner.models.model_adapters import LoraBundle
 from sd_runner.models.model import Model
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 from .base import WorkflowPrompt
 
 logger = get_logger("workflow_prompt_sdwebui")
@@ -54,7 +54,7 @@ class WorkflowPromptSDWebUI(WorkflowPrompt):
         be rejected, so fall back to txt2img and say so -- the redo still honours
         every other recovered setting.
         """
-        from utils.globals import PromptTypeSDWebUI
+        from sd_runner.globals import PromptTypeSDWebUI
 
         template = params.template_filename()
         if params.requires_source_image() and not has_source_image:

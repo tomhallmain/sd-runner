@@ -53,13 +53,13 @@ os.environ["SD_RUNNER_KEY_BACKUP_DIR"] = os.path.join(_bootstrap_tmp, "key_backu
 
 # Imported for the side effect: both modules construct their singleton at import
 # time, and this forces that to happen now, with the env vars above in place.
-from utils.config import Config  # noqa: F401
-from utils.app_info_cache import AppInfoCache  # noqa: F401
+from sd_runner.config import Config  # noqa: F401
+from sd_runner.persistence.app_info_cache import AppInfoCache  # noqa: F401
 
 # ---------------------------------------------------------------------------
 # Keyring: never the developer's real OS credential store
 #
-# Anything that encrypts or decrypts reaches utils.encryptor, which talks to the
+# Anything that encrypts or decrypts reaches lib.encryptor, which talks to the
 # real Windows Credential Manager / macOS keychain / Secret Service. Tests write
 # their cache to a temp directory, but the *keys* for it were going to the live
 # store -- and since key material is now consolidated, the first test to touch
@@ -95,7 +95,7 @@ class _FakeKeyring:
         self._store.clear()
 
 
-import utils.encryptor as _encryptor_module  # noqa: E402
+import lib.encryptor as _encryptor_module  # noqa: E402
 
 _fake_keyring = _FakeKeyring()
 _encryptor_module.keyring = _fake_keyring
@@ -110,7 +110,7 @@ atexit.register(shutil.rmtree, _bootstrap_tmp, True)
 # install_locale() replaces the class-level I18N.translate object, which
 # I18N._() always dereferences at call time, so this covers all future calls.
 # ---------------------------------------------------------------------------
-from utils.translations import I18N
+from lib.translations import I18N
 I18N.install_locale("en", verbose=False)
 
 
@@ -121,7 +121,7 @@ I18N.install_locale("en", verbose=False)
 def repoint_singleton_bindings(monkeypatch, attr_name, old_obj, new_obj) -> None:
     """Repoint every module-level binding of *old_obj* to *new_obj*.
 
-    A module doing ``from utils.config import config`` at import time holds its
+    A module doing ``from sd_runner.config import config`` at import time holds its
     own reference to the singleton, so patching the source module alone leaves
     that binding stale and the module keeps reading the un-isolated instance --
     which is never reset between tests, so its values leak into whatever runs
@@ -131,7 +131,7 @@ def repoint_singleton_bindings(monkeypatch, attr_name, old_obj, new_obj) -> None
     had already gone out of date: 20 of the 32 modules holding a module-level
     ``config`` binding were unpatched, including every backend generator (whose
     bindings carry the user's real backend URLs and save paths) and
-    ``utils.cloud_image_saver``. The identity check touches only bindings to the
+    ``sd_runner.generators.cloud_image_saver``. The identity check touches only bindings to the
     exact old object, and modules imported later reach the new object through
     the already-patched source module. Test modules are swept too, so a
     module-level import in a test file no longer writes to a different object
@@ -237,7 +237,7 @@ def _reset_class_state() -> None:
     # cache directory, so a passphrase left behind from an earlier test would
     # look like "keys existed here once" and block key generation.
     try:
-        from utils.encryptor import clear_key_store_cache
+        from lib.encryptor import clear_key_store_cache
         clear_key_store_cache()
         _fake_keyring.clear()
     except Exception:
@@ -246,14 +246,14 @@ def _reset_class_state() -> None:
     # Also module-level: measured generation rates accumulate for the life of
     # the process, so one test's timings would answer another's estimate.
     try:
-        from utils.generation_timing import generation_timing
+        from sd_runner.runs.generation_timing import generation_timing
         generation_timing.clear()
     except Exception:
         pass
 
     try:
         from sd_runner.prompts.blacklist import Blacklist
-        from utils.globals import BlacklistMode, BlacklistPromptMode, ModelBlacklistMode
+        from sd_runner.globals import BlacklistMode, BlacklistPromptMode, ModelBlacklistMode
         Blacklist.TAG_BLACKLIST = []
         Blacklist.MODEL_BLACKLIST = []
         Blacklist.blacklist_mode = BlacklistMode.REMOVE_ENTIRE_TAG
@@ -372,7 +372,7 @@ def _reset_class_state() -> None:
 
     try:
         from sd_runner.runs.gen_config import GenConfig
-        from utils.config import config as _config
+        from sd_runner.config import config as _config
         GenConfig.REDO_PARAMETERS = list(getattr(_config, "redo_parameters", []) or [])
     except Exception:
         pass
@@ -408,8 +408,8 @@ def isolated_singletons(tmp_path, monkeypatch):
     monkeypatch.setenv("SD_RUNNER_CACHE_DIR", str(cache_dir))
     monkeypatch.setenv("SD_RUNNER_SERVER_PORT", "0")
 
-    import utils.config as cfg_mod
-    import utils.app_info_cache as aic_mod
+    import sd_runner.config as cfg_mod
+    import sd_runner.persistence.app_info_cache as aic_mod
 
     old_config = cfg_mod.config
     repoint_singleton_bindings(monkeypatch, "config", old_config, cfg_mod.Config())
@@ -437,12 +437,12 @@ def reset_class_state(isolated_singletons):
 @pytest.fixture
 def app_config(isolated_singletons):
     """Return the isolated Config instance for the current test."""
-    from utils.config import config
+    from sd_runner.config import config
     return config
 
 
 @pytest.fixture
 def app_cache(isolated_singletons):
     """Return the isolated AppInfoCache instance for the current test."""
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
     return app_info_cache

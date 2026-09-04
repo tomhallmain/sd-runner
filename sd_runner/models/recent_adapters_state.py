@@ -15,8 +15,8 @@ singleton at import time, and importing this module should not force that.
 
 import os
 
-from utils.logging_setup import get_logger
-from utils.utils import Utils
+from lib.logging_setup import get_logger
+from lib.utils import Utils
 
 logger = get_logger("models.recent_adapters_state")
 
@@ -75,7 +75,7 @@ class RecentAdaptersState:
 
     @staticmethod
     def _get_max_recent_items() -> int:
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         return app_info_cache.get(
             RecentAdaptersState.MAX_RECENT_ITEMS_KEY,
             default_val=RecentAdaptersState.DEFAULT_MAX_RECENT_ITEMS
@@ -83,7 +83,7 @@ class RecentAdaptersState:
 
     @staticmethod
     def _get_max_recent_split_items() -> int:
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         return app_info_cache.get(
             RecentAdaptersState.MAX_RECENT_SPLIT_ITEMS_KEY,
             default_val=RecentAdaptersState.DEFAULT_MAX_RECENT_SPLIT_ITEMS
@@ -91,7 +91,7 @@ class RecentAdaptersState:
 
     @staticmethod
     def load_recent_adapters() -> None:
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         try:
             max_recent_items = RecentAdaptersState._get_max_recent_items()
             max_recent_split_items = RecentAdaptersState._get_max_recent_split_items()
@@ -142,7 +142,7 @@ class RecentAdaptersState:
         cheap even when the edit was a no-op. store_info_cache passes False
         because it writes once itself after collecting every subsystem.
         """
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         try:
             # Re-check existence before saving so stale favorites are not persisted.
             RecentAdaptersState._favorite_adapters = RecentAdaptersState._sanitize_favorites(

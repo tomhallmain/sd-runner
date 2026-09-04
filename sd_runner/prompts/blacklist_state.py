@@ -17,9 +17,9 @@ import datetime
 from typing import Optional
 
 from sd_runner.prompts.blacklist import Blacklist, SimilarityPhrase
-from utils.config import config
-from utils.globals import BlacklistMode, BlacklistPromptMode, ModelBlacklistMode
-from utils.logging_setup import get_logger
+from sd_runner.config import config
+from sd_runner.globals import BlacklistMode, BlacklistPromptMode, ModelBlacklistMode
+from lib.logging_setup import get_logger
 
 logger = get_logger("prompts.blacklist_state")
 
@@ -55,7 +55,7 @@ def _restore_mode(enum_type, stored, current):
 
 def set_blacklist():
     """Load blacklist from cache, validate items, and load global blacklist settings."""
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
 
     expire_stale_backups()
     user_confirmed_non_default = app_info_cache.get(DEFAULT_BLACKLIST_KEY, default_val=False)
@@ -105,7 +105,7 @@ def store_blacklist(persist: bool = True):
     cheap even when the edit was a no-op. store_info_cache passes False
     because it writes once itself after collecting every subsystem.
     """
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
 
     Blacklist.save_cache()
     blacklist_dicts = [item.to_dict() for item in Blacklist.get_items()]
@@ -135,13 +135,13 @@ def store_blacklist(persist: bool = True):
 
 def mark_user_confirmed_non_default():
     """Mark that the user has explicitly confirmed they want a non-default blacklist state."""
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
     app_info_cache.set(DEFAULT_BLACKLIST_KEY, True)
 
 
 def is_in_default_state():
     """Check if the blacklist is in default state."""
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
     return not app_info_cache.get(DEFAULT_BLACKLIST_KEY, default_val=False)
 
 
@@ -170,7 +170,7 @@ def get_clear_backup(cache_key: str) -> Optional[dict]:
     missing or unreadable is kept rather than discarded: losing the items
     is the worse failure.
     """
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
     backup = app_info_cache.get(cache_key)
     if not isinstance(backup, dict) or not backup.get("items"):
         return None
@@ -206,7 +206,7 @@ def store_clear_backup(cache_key: str, items: list) -> None:
     period then runs from the most recent clear, so a fresh clear is always
     restorable for its full length.
     """
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
     snapshot = [item.to_dict() for item in items]
     existing = get_clear_backup(cache_key)
     if existing is not None:
@@ -225,7 +225,7 @@ def take_clear_backup(cache_key: str, current: list) -> Optional[list]:
     None when nothing is live to restore. Merged rather than substituted so
     that anything added since the clear is not lost by restoring.
     """
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
     backup = get_clear_backup(cache_key)
     if backup is None:
         return None
@@ -238,7 +238,7 @@ def take_clear_backup(cache_key: str, current: list) -> Optional[list]:
 
 def load_default_blacklist() -> bool:
     """Load the default encrypted blacklist without UI. Returns True on success."""
-    from utils.app_info_cache import app_info_cache
+    from sd_runner.persistence.app_info_cache import app_info_cache
 
     try:
         Blacklist.decrypt_blacklist()

@@ -27,11 +27,11 @@ commands never reach a run at all.
 from copy import deepcopy
 
 from sd_runner.runs.run_config import RunConfig
-from utils.globals import (
+from sd_runner.globals import (
     CONTROL_NET_IMAGE_WORKFLOWS, IP_ADAPTER_IMAGE_WORKFLOWS,
     PromptMode, Sampler, Scheduler, WorkflowType,
 )
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
 logger = get_logger("runs.virtual_run_config")
 
@@ -165,7 +165,7 @@ def apply_prompt_globals(run_config) -> None:
     existing state alone rather than blanking it.
     """
     from sd_runner.prompts.prompter import Prompter
-    from utils.globals import Globals
+    from sd_runner.globals import Globals
 
     if carries_prompt_text(run_config):
         Globals.set_prompt_massage_tags(getattr(run_config, "prompt_massage_tags", "") or "")

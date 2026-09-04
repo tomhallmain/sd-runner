@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
 )
 
 from sd_runner.ui.app_style import AppStyle
-from utils.translations import I18N
+from lib.translations import I18N
 
 _ = I18N._
 

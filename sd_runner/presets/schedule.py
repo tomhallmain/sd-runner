@@ -1,5 +1,5 @@
 from sd_runner.presets.presets_state import PresetsState
-from utils.translations import I18N
+from lib.translations import I18N
 
 _ = I18N._
 

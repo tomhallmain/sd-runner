@@ -7,7 +7,7 @@ from typing import Any
 import numpy as np
 from PIL import Image
 
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
 logger = get_logger("image_to_prompt.fast_tagger_onnx")
 
@@ -82,7 +82,7 @@ class FastTaggerOnnx:
         return tags
 
     def _preprocess(self, image_path: str) -> np.ndarray:
-        from utils.pillow_plugins import ensure_pillow_plugins_registered
+        from lib.pillow_plugins import ensure_pillow_plugins_registered
 
         ensure_pillow_plugins_registered()
         image = Image.open(image_path).convert("RGBA")

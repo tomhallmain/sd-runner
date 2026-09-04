@@ -20,7 +20,7 @@ class SchedulesState:
 
     @staticmethod
     def set_schedules():
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         for schedule_dict in list(app_info_cache.get("recent_schedules", default_val=[])):
             SchedulesState.recent_schedules.append(Schedule.from_dict(schedule_dict))
         current_schedule_dict = app_info_cache.get("current_schedule", default_val=None)
@@ -38,7 +38,7 @@ class SchedulesState:
         cheap even when the edit was a no-op. store_info_cache passes False
         because it writes once itself after collecting every subsystem.
         """
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         schedule_dicts = []
         for schedule in SchedulesState.recent_schedules:
             schedule_dicts.append(schedule.to_dict())

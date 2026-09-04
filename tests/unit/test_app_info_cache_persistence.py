@@ -13,7 +13,7 @@ import os
 import pytest
 
 from lib.equivalence import are_equivalent
-from utils.app_info_cache import AppInfoCache
+from sd_runner.persistence.app_info_cache import AppInfoCache
 
 
 # ---------------------------------------------------------------------------
@@ -174,7 +174,7 @@ class TestAtomicWrite:
         with open(cache._cache_loc, "rb") as f:
             original_bytes = f.read()
 
-        import utils.app_info_cache as module
+        import sd_runner.persistence.app_info_cache as module
 
         def boom(*args, **kwargs):
             raise RuntimeError("encryption exploded mid-write")
@@ -187,7 +187,7 @@ class TestAtomicWrite:
             assert f.read() == original_bytes
 
     def test_a_failed_write_cleans_up_its_temp_file(self, cache, monkeypatch):
-        import utils.app_info_cache as module
+        import sd_runner.persistence.app_info_cache as module
 
         def boom(*args, **kwargs):
             raise RuntimeError("encryption exploded mid-write")

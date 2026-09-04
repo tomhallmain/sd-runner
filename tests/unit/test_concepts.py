@@ -9,7 +9,7 @@ from sd_runner.prompts.concepts import (
     weighted_sample_without_replacement,
     sample,
 )
-from utils.globals import PromptMode
+from sd_runner.globals import PromptMode
 
 
 # ---------------------------------------------------------------------------

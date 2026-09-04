@@ -14,7 +14,7 @@ The negative prompt is opt-in: unchecked, the pass inherits the main
 configuration's negative prompt.
 """
 
-from utils.globals import WorkflowType, image_input_field
+from sd_runner.globals import WorkflowType, image_input_field
 
 
 class IntermediatePrompt:

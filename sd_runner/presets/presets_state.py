@@ -12,7 +12,7 @@ singleton at import time, and importing this module should not force that.
 from sd_runner.presets.intermediate_prompt import IntermediatePrompt
 from sd_runner.presets.preset import Preset
 from sd_runner.presets.stashed_config import StashedConfig
-from utils.translations import I18N
+from lib.translations import I18N
 
 _ = I18N._
 
@@ -39,7 +39,7 @@ class PresetsState:
 
     @staticmethod
     def set_recent_presets():
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         for preset_dict in list(app_info_cache.get("recent_presets", default_val=[])):
             PresetsState.recent_presets.append(Preset.from_dict(preset_dict))
 
@@ -52,7 +52,7 @@ class PresetsState:
         cheap even when the edit was a no-op. store_info_cache passes False
         because it writes once itself after collecting every subsystem.
         """
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         preset_dicts = []
         for preset in PresetsState.recent_presets:
             preset_dicts.append(preset.to_dict())
@@ -64,7 +64,7 @@ class PresetsState:
     @staticmethod
     def set_stashed_configs():
         """Load stashed configs from cache, replacing whatever is held."""
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         PresetsState.stashed_configs.clear()
         for stash_dict in list(app_info_cache.get(PresetsState.STASHED_CONFIGS_KEY, default_val=[])):
             stash = StashedConfig.from_dict(stash_dict)
@@ -78,7 +78,7 @@ class PresetsState:
         Writes through to disk unless *persist* is False, on the same terms as
         ``store_recent_presets``.
         """
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         app_info_cache.set(
             PresetsState.STASHED_CONFIGS_KEY,
             [stash.to_dict() for stash in PresetsState.stashed_configs],
@@ -100,7 +100,7 @@ class PresetsState:
     @staticmethod
     def set_intermediate_prompts():
         """Load the saved list and the live pre-pass state from cache."""
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         PresetsState.intermediate_prompts.clear()
         for prompt_dict in list(app_info_cache.get(PresetsState.INTERMEDIATE_PROMPTS_KEY, default_val=[])):
             prompt = IntermediatePrompt.from_dict(prompt_dict)
@@ -121,7 +121,7 @@ class PresetsState:
         Writes through to disk unless *persist* is False, on the same terms as
         ``store_recent_presets``.
         """
-        from utils.app_info_cache import app_info_cache
+        from sd_runner.persistence.app_info_cache import app_info_cache
         app_info_cache.set(
             PresetsState.INTERMEDIATE_PROMPTS_KEY,
             [prompt.to_dict() for prompt in PresetsState.intermediate_prompts],

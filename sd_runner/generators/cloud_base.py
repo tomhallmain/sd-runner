@@ -21,8 +21,8 @@ from typing import Any, Callable, Optional, Tuple
 from urllib import error as urllib_error, request as urllib_request
 
 from sd_runner.generators.base import BaseImageGenerator
-from utils.config import config
-from utils.logging_setup import get_logger
+from sd_runner.config import config
+from lib.logging_setup import get_logger
 
 logger = get_logger("cloud_gen_base")
 
@@ -63,7 +63,7 @@ class CloudGenBase(BaseImageGenerator, ABC):
         save_dir: Optional[str] = None,
     ) -> str:
         """Save raw image bytes and return the local path."""
-        from utils.cloud_image_saver import save_image_bytes
+        from sd_runner.generators.cloud_image_saver import save_image_bytes
         path = save_image_bytes(
             data,
             save_dir=save_dir,
@@ -80,7 +80,7 @@ class CloudGenBase(BaseImageGenerator, ABC):
         headers: Optional[dict] = None,
     ) -> str:
         """Download an image URL and save it locally, returning the local path."""
-        from utils.cloud_image_saver import save_image_from_url
+        from sd_runner.generators.cloud_image_saver import save_image_from_url
         path = save_image_from_url(
             url,
             save_dir=save_dir,

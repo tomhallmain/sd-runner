@@ -23,12 +23,12 @@ from lib.autocomplete_entry_qt import AutocompleteEntry, default_matches
 from lib.plain_text_edit_qt import EscapeAwarePlainTextEdit
 from lib.aware_entry_qt import AwareEntry
 from sd_runner.ui.app_style import AppStyle
-from utils.globals import (
+from sd_runner.globals import (
     PromptMode, WorkflowType, SoftwareType, ResolutionGroup,
     Sampler, Scheduler,
 )
-from utils.logging_setup import get_logger
-from utils.translations import I18N
+from lib.logging_setup import get_logger
+from lib.translations import I18N
 
 _ = I18N._
 logger = get_logger("ui.sidebar_panel")
@@ -463,7 +463,7 @@ class SidebarPanel(QWidget):
         # Concepts Dir
         concepts_row = QHBoxLayout()
         concepts_row.addWidget(QLabel(_("Concepts Dir")))
-        from utils.config import config as app_config
+        from sd_runner.config import config as app_config
         self.concepts_dir_combo = QComboBox()
         self.concepts_dir_combo.addItems(list(app_config.concepts_dirs.keys()))
         concepts_row.addWidget(self.concepts_dir_combo)
@@ -596,7 +596,7 @@ class SidebarPanel(QWidget):
         The widget values that belong on ``runner_app_config`` rather than in
         process state go through ``AppWindow.sync_config_from_widgets``.
         """
-        from utils.globals import Globals
+        from sd_runner.globals import Globals
         from sd_runner.models.model_adapters import IPAdapter
         from sd_runner.runs.gen_config import GenConfig
         from sd_runner.prompts.prompter import Prompter
@@ -654,7 +654,7 @@ class SidebarPanel(QWidget):
             pass
 
     def _on_delay_changed(self, text: str) -> None:
-        from utils.globals import Globals
+        from sd_runner.globals import Globals
         try:
             self._app.runner_app_config.delay_time_seconds = text
             Globals.set_delay(int(text))
@@ -666,7 +666,7 @@ class SidebarPanel(QWidget):
         self._set_model_dependent_fields()
 
     def _on_lora_strength_changed(self, value: int) -> None:
-        from utils.globals import Globals
+        from sd_runner.globals import Globals
         strength = value / 100.0
         self._app.runner_app_config.lora_strength = str(strength)
         Globals.set_lora_strength(strength)
@@ -678,13 +678,13 @@ class SidebarPanel(QWidget):
         IPAdapter.set_bw_coloration(val)
 
     def _on_controlnet_strength_changed(self, value: int) -> None:
-        from utils.globals import Globals
+        from sd_runner.globals import Globals
         strength = value / 100.0
         self._app.runner_app_config.control_net_strength = str(strength)
         Globals.set_controlnet_strength(strength)
 
     def _on_ipadapter_strength_changed(self, value: int) -> None:
-        from utils.globals import Globals
+        from sd_runner.globals import Globals
         strength = value / 100.0
         self._app.runner_app_config.ip_adapter_strength = str(strength)
         Globals.set_ipadapter_strength(strength)
@@ -712,7 +712,7 @@ class SidebarPanel(QWidget):
         one gated and not the other.
         """
         try:
-            from utils.globals import ProtectedActions
+            from sd_runner.globals import ProtectedActions
 
             mode = PromptMode.get(text)
             required_action = None
@@ -743,14 +743,14 @@ class SidebarPanel(QWidget):
             logger.exception(f"Error checking prompt mode password: {e}")
 
     def _on_concepts_dir_changed(self, text: str) -> None:
-        from utils.config import config as app_config
+        from sd_runner.config import config as app_config
         try:
             self._app.runner_app_config.prompter_config.concepts_dir = app_config.concepts_dirs[text]
         except KeyError:
             pass
 
     def _on_override_negative_changed(self, state: int) -> None:
-        from utils.globals import Globals
+        from sd_runner.globals import Globals
         val = state == Qt.CheckState.Checked.value
         self._app.runner_app_config.override_negative = val
         Globals.set_override_base_negative(val)
@@ -792,7 +792,7 @@ class SidebarPanel(QWidget):
 
     def set_prompt_massage_tags(self) -> None:
         """Sync prompt massage tags from the widget to config and globals."""
-        from utils.globals import Globals
+        from sd_runner.globals import Globals
         text = self.prompt_massage_tags_box.toPlainText()
         self._app.runner_app_config.prompt_massage_tags = text
         Globals.set_prompt_massage_tags(text)

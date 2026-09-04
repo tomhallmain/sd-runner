@@ -1,8 +1,8 @@
 import math
 
 import pytest
-from utils.globals import Globals
-from utils.time_estimator import TimeEstimator
+from sd_runner.globals import Globals
+from sd_runner.runs.time_estimator import TimeEstimator
 
 
 class TestDelaySeconds:
@@ -122,7 +122,7 @@ class TestEstimateRunSeconds:
                 == TimeEstimator.delay_seconds(4))
 
     def measured_config(self, seconds=10.0):
-        from utils.generation_timing import generation_timing
+        from sd_runner.runs.generation_timing import generation_timing
 
         gen_config = self.make_config()
         generation_timing.record(
@@ -170,7 +170,7 @@ class TestEstimateRunSeconds:
 
     def test_a_broken_timing_store_does_not_break_the_estimate(self, monkeypatch):
         """An estimate is advisory and must never fail the run it describes."""
-        from utils import generation_timing as timing_module
+        from sd_runner.runs import generation_timing as timing_module
 
         def explode(*args, **kwargs):
             raise RuntimeError("timing store unavailable")

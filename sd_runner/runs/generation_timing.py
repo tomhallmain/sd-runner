@@ -34,9 +34,9 @@ own once it has samples.
 import threading
 from typing import Optional
 
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
-logger = get_logger("generation_timing")
+logger = get_logger("runs.generation_timing")
 
 #: Samples kept per key. A rolling window rather than a lifetime average, so a
 #: GPU change, a driver update or a different backend is absorbed without

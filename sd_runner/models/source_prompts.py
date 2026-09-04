@@ -4,8 +4,8 @@ import os
 from dataclasses import dataclass
 
 from sd_runner.models.adapter_sorting import _sort_adapters_by_recency
-from utils.logging_setup import get_logger
-from utils.utils import Utils
+from lib.logging_setup import get_logger
+from lib.utils import Utils
 
 logger = get_logger("models.source_prompts")
 

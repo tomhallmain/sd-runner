@@ -39,9 +39,9 @@ from lib.tooltip_qt import create_tooltip
 from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.runs.run_config import RunConfig
 from sd_runner.ui.app_style import AppStyle
-from utils.globals import Sampler, Scheduler
-from utils.runner_app_config import RunnerAppConfig
-from utils.translations import I18N
+from sd_runner.globals import Sampler, Scheduler
+from sd_runner.runs.runner_app_config import RunnerAppConfig
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions

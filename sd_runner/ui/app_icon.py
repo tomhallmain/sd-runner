@@ -5,8 +5,11 @@ import os
 APP_ICON_FILENAME = "icon.png"
 
 
+#: Two packages below the repo root, so three levels up.
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 def _assets_dir() -> str:
-    return os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "assets")
+    return os.path.join(_REPO_ROOT, "assets")
 
 
 def get_app_icon_path() -> str | None:

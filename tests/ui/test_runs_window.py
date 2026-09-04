@@ -3,7 +3,7 @@ import pytest
 from PySide6.QtWidgets import QApplication
 
 from sd_runner.ui.runs.runs_window import RunsWindow, _fmt_timestamp, _origin, _short
-from utils.translations import I18N
+from lib.translations import I18N
 
 _ = I18N._
 

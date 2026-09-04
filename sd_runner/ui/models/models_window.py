@@ -25,14 +25,14 @@ from lib.multi_display_qt import SmartDialog
 from sd_runner.models.model import Model
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_utils import require_password
-from utils.globals import (
+from sd_runner.globals import (
     ArchitectureType,
     HfHubSortDirection,
     HfHubSortOption,
     HfHubVisualMediaTask,
     ProtectedActions,
 )
-from utils.translations import I18N
+from lib.translations import I18N
 
 try:
     from lib.lora_trigger_extractor import (

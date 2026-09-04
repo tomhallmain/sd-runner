@@ -15,8 +15,8 @@ from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 
 from lib.qt_alert import qt_alert
 from sd_runner.ui.app_style import AppStyle
-from utils.logging_setup import get_logger
-from utils.translations import I18N
+from lib.logging_setup import get_logger
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_window.app_window import AppWindow

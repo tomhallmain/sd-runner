@@ -15,7 +15,7 @@ import pytest
 from sd_runner.runs import run as run_module
 from sd_runner.runs.run import Run
 from tests.utils import make_run_config
-from utils.globals import Globals
+from sd_runner.globals import Globals
 
 
 @pytest.fixture

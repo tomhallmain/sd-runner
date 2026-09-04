@@ -10,9 +10,9 @@ from typing import TYPE_CHECKING
 
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.ui.window_focus import try_focus_existing_window
-from utils.globals import ProtectedActions
-from utils.logging_setup import get_logger
-from utils.translations import I18N
+from sd_runner.globals import ProtectedActions
+from lib.logging_setup import get_logger
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_window.app_window import AppWindow

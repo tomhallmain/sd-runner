@@ -1,7 +1,7 @@
 import pytest
 from sd_runner.models.model import Model
 from tests.utils import make_model
-from utils.globals import ArchitectureType, ResolutionGroup
+from sd_runner.globals import ArchitectureType, ResolutionGroup
 
 
 # ---------------------------------------------------------------------------

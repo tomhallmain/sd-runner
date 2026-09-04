@@ -31,8 +31,8 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 sys.path.insert(0, str(REPO_ROOT))
 
-from utils.globals import Globals  # noqa: E402
-from utils.encryptor import (  # noqa: E402
+from sd_runner.globals import Globals  # noqa: E402
+from lib.encryptor import (  # noqa: E402
     AUTO_BACKUP_KEY_STORE,
     ENCRYPTOR_TYPE_KEY,
     KEY_BACKUP_DIR_ENV_VAR,
@@ -225,7 +225,7 @@ def cmd_backup(args: argparse.Namespace) -> int:
             print(f"  {path}")
         print(
             "\nEach contains the keychain passphrase in the clear. Restore with:\n"
-            "  from utils.encryptor import import_key_material\n"
+            "  from lib.encryptor import import_key_material\n"
             "  import_key_material(json.load(open(<path>)))"
         )
     return 0

@@ -22,7 +22,7 @@ from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.models.resolution import Resolution
 from sd_runner.runs.run_config import RunConfig
 from sd_runner.presets.schedule import PresetTask, Schedule
-from utils.globals import PromptMode
+from sd_runner.globals import PromptMode
 
 
 def make_model(id="model.safetensors", path="some/path", **kwargs) -> Model:

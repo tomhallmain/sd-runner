@@ -15,7 +15,7 @@ import pytest
 
 from sd_runner.metadata.a1111 import parse_a1111_parameters
 from sd_runner.workflow_prompts.sdwebui import WorkflowPromptSDWebUI
-from utils.globals import PromptTypeSDWebUI
+from sd_runner.globals import PromptTypeSDWebUI
 
 
 TXT2IMG = "a cat\nSteps: 20, Sampler: Euler, Seed: 1, Size: 512x512, Model: x"

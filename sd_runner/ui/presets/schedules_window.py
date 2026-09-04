@@ -23,8 +23,8 @@ from sd_runner.presets.schedules_state import SchedulesState
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.ui.window_focus import clear_class_ref_if_self, try_focus_existing_window
-from utils.globals import ProtectedActions
-from utils.translations import I18N
+from sd_runner.globals import ProtectedActions
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions

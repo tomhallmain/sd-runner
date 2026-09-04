@@ -1,7 +1,7 @@
 """
 PasswordManager logic, with the credential store replaced by an in-memory dict.
 
-The real implementation calls through utils.encryptor into the OS keyring, so
+The real implementation calls through lib.encryptor into the OS keyring, so
 these tests must never run unstubbed -- they would write to the developer's
 actual credential store. The stub is autouse for that reason.
 

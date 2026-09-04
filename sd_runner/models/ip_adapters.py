@@ -2,7 +2,7 @@ import os
 
 from sd_runner.models.adapter_sorting import _sort_adapters_by_recency
 from sd_runner.models.model_adapters import IPAdapter
-from utils.utils import Utils
+from lib.utils import Utils
 
 redo_files = [
     

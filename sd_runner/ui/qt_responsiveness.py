@@ -1,6 +1,6 @@
 """Qt implementation of the UI-responsiveness port.
 
-Counterpart to utils.ui_responsiveness.NullResponsiveness. Lives under the ui
+Counterpart to sd_runner.runs.ui_responsiveness.NullResponsiveness. Lives under the ui
 package so the packages that use the port stay free of PySide6.
 """
 
@@ -11,7 +11,7 @@ from typing import Any, Callable
 from PySide6.QtCore import QEventLoop, QThread
 from PySide6.QtWidgets import QApplication
 
-from utils.logging_setup import get_logger
+from lib.logging_setup import get_logger
 
 logger = get_logger("qt_responsiveness")
 

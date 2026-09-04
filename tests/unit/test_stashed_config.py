@@ -9,7 +9,7 @@ likely to fall into.
 
 from sd_runner.presets.presets_state import PresetsState
 from sd_runner.presets.stashed_config import StashedConfig
-from utils.runner_app_config import RunnerAppConfig
+from sd_runner.runs.runner_app_config import RunnerAppConfig
 
 
 def _config(**kwargs) -> RunnerAppConfig:

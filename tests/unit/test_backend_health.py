@@ -15,7 +15,7 @@ from extensions import backend_health
 from extensions.backend_health import (
     ENDPOINTS, check, check_functional, health_url, is_reachable, local_backends,
 )
-from utils.globals import SoftwareType
+from sd_runner.globals import SoftwareType
 
 
 class FakeResponse:

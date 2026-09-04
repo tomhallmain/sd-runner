@@ -4,7 +4,7 @@ import time
 import traceback
 from typing import Optional
 
-from utils.globals import Globals, PromptMode, ResolutionGroup, WorkflowType, ArchitectureType, SoftwareType # must import first
+from sd_runner.globals import Globals, PromptMode, ResolutionGroup, WorkflowType, ArchitectureType, SoftwareType # must import first
 from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.generators.comfy import ComfyGen
 from sd_runner.models.control_nets import get_control_nets, redo_files, ControlNet
@@ -19,10 +19,10 @@ from sd_runner.runs.run_config import RunConfig
 from sd_runner.generators.sdwebui import SDWebuiGen
 from sd_runner.presets.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
 from sd_runner.workflow_prompts.base import WorkflowPrompt
-from utils.config import config
-from utils.logging_setup import get_logger
-from utils.translations import I18N
-from utils.utils import Utils
+from sd_runner.config import config
+from lib.logging_setup import get_logger
+from lib.translations import I18N
+from lib.utils import Utils
 
 _ = I18N._
 
@@ -348,7 +348,7 @@ class Run:
                         prompt_image_path=prompt_image_path,
                     )
                 except Exception as e:
-                    from sd_runner.image_converter import ImageHandlingError
+                    from lib.image_converter import ImageHandlingError
                     if not isinstance(e, ImageHandlingError):
                         print(e)
                         traceback.print_exc()

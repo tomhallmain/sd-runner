@@ -1,7 +1,7 @@
 import unittest
 
 
-from utils.pickleable_cache import SizeAwarePicklableCache
+from lib.pickleable_cache import SizeAwarePicklableCache
 
 
 class TestCache(unittest.TestCase):

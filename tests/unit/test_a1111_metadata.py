@@ -19,7 +19,7 @@ from sd_runner.metadata.a1111 import (
     resolve_sampler,
     split_settings,
 )
-from utils.globals import Sampler, Scheduler
+from sd_runner.globals import Sampler, Scheduler
 
 
 TYPICAL = """beautiful woman, red dress, outdoor setting

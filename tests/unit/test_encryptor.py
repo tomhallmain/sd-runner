@@ -11,8 +11,8 @@ import sys
 
 import pytest
 
-import utils.encryptor as enc
-from utils.utils import Utils
+import lib.encryptor as enc
+from lib.utils import Utils
 
 
 SERVICE = "TestService"
@@ -745,15 +745,15 @@ class TestPortabilityFallbacks:
         assert enc._host_util("no_such_method_on_utils") is None
 
     def test_host_util_returns_none_when_utils_is_absent(self, monkeypatch):
-        monkeypatch.setitem(sys.modules, "utils.utils", None)
+        monkeypatch.setitem(sys.modules, "lib.utils", None)
         assert enc._host_util("user_data_dir") is None
 
     def test_user_data_dir_falls_back_without_utils(self, monkeypatch):
-        monkeypatch.setitem(sys.modules, "utils.utils", None)
+        monkeypatch.setitem(sys.modules, "lib.utils", None)
         assert enc.user_data_dir() == enc._fallback_user_data_dir()
 
     def test_drives_fall_back_without_utils(self, monkeypatch, tmp_path):
-        monkeypatch.setitem(sys.modules, "utils.utils", None)
+        monkeypatch.setitem(sys.modules, "lib.utils", None)
         monkeypatch.setattr(
             enc, "_fallback_available_external_drives", lambda: [str(tmp_path)]
         )
@@ -775,7 +775,7 @@ class TestPortabilityFallbacks:
         )
 
     def test_key_store_path_still_resolves_without_utils(self, monkeypatch):
-        monkeypatch.setitem(sys.modules, "utils.utils", None)
+        monkeypatch.setitem(sys.modules, "lib.utils", None)
         monkeypatch.delenv("SD_RUNNER_CACHE_DIR", raising=False)
         path = enc.key_store_path(SERVICE, APP)
         assert os.path.dirname(path) == os.path.join(

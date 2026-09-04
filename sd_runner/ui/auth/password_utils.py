@@ -7,7 +7,7 @@ It imports from password_core.py and password_dialog.py to avoid circular depend
 from sd_runner.ui.auth.password_core import get_security_config, PasswordManager
 from sd_runner.ui.auth.password_dialog import PasswordDialog
 from sd_runner.ui.auth.password_session_manager import PasswordSessionManager
-from utils.globals import ProtectedActions
+from sd_runner.globals import ProtectedActions
 
 
 

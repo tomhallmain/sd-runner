@@ -1,11 +1,11 @@
-from utils.config import config
-from utils.logging_setup import get_logger
-from utils.time_estimator import TimeEstimator
-from utils.translations import I18N
+from sd_runner.config import config
+from lib.logging_setup import get_logger
+from sd_runner.runs.time_estimator import TimeEstimator
+from lib.translations import I18N
 
 _ = I18N._
 
-logger = get_logger("job_queue")
+logger = get_logger("runs.job_queue")
 
 class JobQueue:
     JOB_QUEUE_SD_RUNS_KEY = "Stable Diffusion Runs"

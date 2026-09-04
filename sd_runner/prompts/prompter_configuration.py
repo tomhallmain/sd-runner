@@ -3,9 +3,9 @@ from copy import deepcopy
 import json
 
 from sd_runner.prompts.concepts import ConceptConfiguration
-from utils.config import config
-from utils.globals import PromptMode
-from utils.logging_setup import get_logger
+from sd_runner.config import config
+from sd_runner.globals import PromptMode
+from lib.logging_setup import get_logger
 
 logger = get_logger("prompts.prompter_configuration")
 

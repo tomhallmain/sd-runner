@@ -1,6 +1,6 @@
 import pytest
 from sd_runner.models.model_adapters import ControlNet, IPAdapter
-from utils.globals import Globals
+from sd_runner.globals import Globals
 
 
 def abs_path(tmp_path, name):

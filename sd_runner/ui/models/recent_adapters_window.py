@@ -23,9 +23,9 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from sd_runner.models.recent_adapters_state import RecentAdaptersState
-from utils.app_info_cache import app_info_cache
-from utils.logging_setup import get_logger
-from utils.translations import I18N
+from sd_runner.persistence.app_info_cache import app_info_cache
+from lib.logging_setup import get_logger
+from lib.translations import I18N
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions

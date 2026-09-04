@@ -20,10 +20,10 @@ import threading
 import time
 import traceback
 
-from utils.config import config
-from utils.logging_setup import get_logger
-from utils.translations import I18N
-from utils.utils import Utils
+from sd_runner.config import config
+from lib.logging_setup import get_logger
+from lib.translations import I18N
+from lib.utils import Utils
 
 _ = I18N._
 logger = get_logger("app_headless")

@@ -8,8 +8,8 @@ from sd_runner.runs.gen_config import GenConfig
 from sd_runner.generators.cloud_base import CloudGenBase
 from sd_runner.models.model import Model
 from sd_runner.models.resolution import Resolution
-from utils.globals import WorkflowType
-from utils.logging_setup import get_logger
+from sd_runner.globals import WorkflowType
+from lib.logging_setup import get_logger
 
 logger = get_logger("openai_gen")
 

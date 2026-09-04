@@ -6,9 +6,9 @@ import re
 from typing import Dict, Set
 
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
-from utils.config import config
-from utils.globals import PromptMode, BlacklistPromptMode
-from utils.logging_setup import get_logger
+from sd_runner.config import config
+from sd_runner.globals import PromptMode, BlacklistPromptMode
+from lib.logging_setup import get_logger
 
 #: sd_runner/prompts/ -> sd_runner/ -> repo root. Named once so a move
 #: corrects one line rather than a count buried in a dirname chain.

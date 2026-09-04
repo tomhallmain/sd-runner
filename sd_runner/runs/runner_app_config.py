@@ -2,7 +2,7 @@ from copy import deepcopy
 import json
 import datetime
 
-from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup
+from sd_runner.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup
 
 from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.prompts.prompter_configuration import PrompterConfiguration

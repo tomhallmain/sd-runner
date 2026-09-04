@@ -8,7 +8,7 @@ import os
 from PIL import Image
 import torch
 
-from utils.config import config
+from sd_runner.config import config
 
 
 MODELS_DIR = os.path.join(config.comfyui_loc, "models")
@@ -260,7 +260,7 @@ class WAS_BLIP_Analyze_Image:
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
         conf = getSuiteConfig()
-        from utils.pillow_plugins import ensure_pillow_plugins_registered
+        from lib.pillow_plugins import ensure_pillow_plugins_registered
         ensure_pillow_plugins_registered()
         image = Image.open(image_path)
         size = 384
