@@ -251,6 +251,13 @@ def _reset_class_state() -> None:
     except Exception:
         pass
 
+    # Module-level too, and installed by constructing a HeadlessApp: left set,
+    # it would answer the password gate for every test after the one that built
+    # one. Imported only if already loaded, so this stays out of unit tests.
+    _module = sys.modules.get("sd_runner.ui.auth.password_core")
+    if _module is not None:
+        _module.set_unprompted_gate_handler(None)
+
     try:
         from sd_runner.prompts.blacklist import Blacklist
         from sd_runner.globals import BlacklistMode, BlacklistPromptMode, ModelBlacklistMode

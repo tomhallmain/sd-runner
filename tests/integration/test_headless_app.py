@@ -1,15 +1,32 @@
-"""Building the whole headless application.
+"""Building the whole headless application, and serving a request through it.
 
 Constructing it is most of the assertion: it wires ``AppActions``, which refuses
 to build with a required action missing, and it loads the cache, which is where
 a window import would be reached. What follows checks the pieces that a missing
-window changes rather than removes.
+window changes rather than removes, and then drives one request end to end.
+
+The generator is stubbed, as it is everywhere else: what is worth covering here
+is that the run path reaches ``Run.execute`` at all with no window behind it --
+the progress sink, the thread bridge and ``post_run`` are the parts that differ
+-- not that a backend produces an image.
 """
+
+import time as time_module
 
 import pytest
 
+from extensions.sd_runner_server import CommandType
+from lib.utils import Utils
+from sd_runner.models.model import Model
+from sd_runner.models.resolution import Resolution
 from sd_runner.runs.headless_app import HeadlessApp
 from sd_runner.runs.job_queue import SDRunsQueue, ServerStagingQueue
+from sd_runner.runs.run import Run
+from sd_runner.runs.run_config import RunConfig
+from sd_runner.runs.run_controller import SERVER_ORIGIN
+from sd_runner.runs.time_estimator import TimeEstimator
+from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
+from sd_runner.globals import WorkflowType
 
 
 @pytest.fixture
@@ -17,6 +34,51 @@ def headless_app():
     app = HeadlessApp()
     yield app
     app.on_closing()
+
+
+class _FakeModel:
+    architecture_type = None
+
+    def __str__(self):
+        return "fake"
+
+
+@pytest.fixture
+def executed():
+    return []
+
+
+@pytest.fixture
+def run_stubs(monkeypatch, executed):
+    """The same stubs the windowed server tests use, so the two are comparable.
+
+    ``start_thread`` runs inline, which matters more here than there: the
+    headless bridge is already a direct call, so with the thread collapsed too
+    a request is fully served by the time the callback returns.
+    """
+    def fake_execute(self):
+        executed.append(self)
+        self.is_complete = True
+
+    monkeypatch.setattr(Run, "execute", fake_execute)
+    monkeypatch.setattr(
+        Utils, "start_thread", lambda fn, use_asyncio=False, args=[]: fn(*args)
+    )
+    monkeypatch.setattr(
+        Model, "get_models",
+        lambda tags, default_tag=None, inpainting=False, **kw: [_FakeModel()],
+    )
+    monkeypatch.setattr(
+        Resolution, "get_resolutions",
+        lambda tags, architecture_type=None, resolution_group=None: [object()],
+    )
+    monkeypatch.setattr(RunConfig, "validate", lambda self: True)
+    monkeypatch.setattr(TimeEstimator, "estimate_queue_time", lambda images, latents=1.0: 0)
+    monkeypatch.setattr(TimeEstimator, "estimate_run_seconds", lambda gen_config, images: 0)
+    monkeypatch.setattr(time_module, "sleep", lambda s: None)
+    monkeypatch.setattr(
+        timed_schedules_manager, "check_for_shutdown_request", lambda dt: None
+    )
 
 
 class TestHeadlessApp:
@@ -69,3 +131,108 @@ class TestCacheLoadIsWindowFree:
     def test_the_staging_queue_is_restored(self, headless_app):
         """_restore_pending_queues runs after the point the window calls were at."""
         assert headless_app.server_staging_queue is not None
+
+
+class TestAServedRequestRunsWithNoWindow:
+    """One request, end to end, with nothing but the headless application.
+
+    Everything the run path reports through differs here -- the progress sink
+    logs instead of writing labels, ``DirectBridge`` calls instead of
+    marshalling, ``job_queue_preset_schedules`` is None where the window has a
+    queue -- so reaching ``Run.execute`` is the assertion.
+    """
+
+    def test_a_parameterized_request_reaches_a_run(self, headless_app, run_stubs, executed):
+        headless_app.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert len(executed) == 1
+        assert executed[0].args.workflow_tag == WorkflowType.RENOISER.name
+
+    def test_the_run_carries_the_requests_image(self, headless_app, run_stubs, executed):
+        headless_app.run_ctrl.server_run_callback(
+            CommandType.CONTROL_NET, {"image": "remote.png"}
+        )
+        assert executed[0].args.control_nets == "remote.png"
+
+    def test_the_run_is_marked_with_the_requesting_client(self, headless_app, run_stubs, executed):
+        headless_app.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}, "weidr"
+        )
+        assert executed[0].args.run_origin == "weidr"
+
+    def test_an_unidentified_client_falls_back_to_the_server_origin(
+        self, headless_app, run_stubs, executed
+    ):
+        headless_app.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert executed[0].args.run_origin == SERVER_ORIGIN
+
+    def test_the_settings_come_from_the_stored_config(self, headless_app, run_stubs, executed):
+        """No sidebar to read, so the stored config is the whole source."""
+        headless_app.runner_app_config.model_tags = "stored_model"
+        headless_app.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert executed[0].args.model_tags == "stored_model"
+
+    def test_the_queue_is_empty_afterwards(self, headless_app, run_stubs, executed):
+        """post_run has to complete without a window: it is bridged through
+        AppActions, and the window's version of every action it calls writes a
+        widget."""
+        headless_app.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+        assert headless_app.job_queue.has_pending() is False
+        assert headless_app.job_queue.job_running is False
+
+    def test_a_contextual_request_is_refused_rather_than_run(
+        self, headless_app, run_stubs, executed
+    ):
+        resp = headless_app.run_ctrl.server_run_callback(CommandType.LAST_SETTINGS, {})
+        assert resp["error"] == "no user interface"
+        assert executed == []
+
+    def test_run_status_reports_the_finished_run(self, headless_app, run_stubs, executed):
+        headless_app.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}, "weidr"
+        )
+        status = headless_app.run_ctrl.run_status(origin="weidr")
+        assert status["queued"] == 0
+        assert status["staged"] == 0
+
+
+class TestPasswordGateWithNothingToPromptFrom:
+    """A protected action reached with no window refuses rather than proceeds.
+
+    The gate used to run the function when it could not resolve a parent window
+    for the dialog, which would let the absence of a display stand in for a
+    correct password.
+    """
+
+    def test_the_handler_is_installed_by_construction(self, headless_app):
+        """Its own handler, not merely the default -- both refuse, so asserting
+        the answer would pass with nothing installed at all."""
+        from sd_runner.ui.auth import password_core
+        from sd_runner.globals import ProtectedActions
+
+        assert password_core._unprompted_gate_handler is not None
+        assert password_core.answer_unprompted_gate(
+            ProtectedActions.EDIT_BLACKLIST
+        ) is False
+
+    def test_a_gate_with_no_window_does_not_call_through(self, headless_app):
+        from sd_runner.globals import ProtectedActions
+        from sd_runner.ui.auth.password_utils import require_password
+
+        called = []
+
+        class NoWindow:
+            @require_password(ProtectedActions.EDIT_BLACKLIST)
+            def protected(self):
+                called.append(True)
+                return "ran"
+
+        assert NoWindow().protected() is None
+        assert called == []

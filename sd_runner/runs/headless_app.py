@@ -121,6 +121,7 @@ class HeadlessApp:
         self.server = None
         self.mcp_server = None
         self._closing = False
+        self._install_password_gate_handler()
 
     # ------------------------------------------------------------------
     # Wiring
@@ -179,6 +180,25 @@ class HeadlessApp:
                      "set_adapter_from_adapters_window"):
             actions[name] = unavailable(name)
         return AppActions(actions=actions, master=None)
+
+    def _install_password_gate_handler(self) -> None:
+        """Answer password gates that have no window to prompt from.
+
+        The refusal is what the default already does; this names the action in
+        this application's own log so a refused request is diagnosable from the
+        one place a headless operator is looking, rather than only from the
+        auth module's logger.
+        """
+        from sd_runner.ui.auth.password_core import set_unprompted_gate_handler
+
+        def refuse(action) -> bool:
+            logger.warning(
+                f"Refused protected action '{getattr(action, 'value', action)}': "
+                "it needs a password and there is no window to ask from"
+            )
+            return False
+
+        set_unprompted_gate_handler(refuse)
 
     # ------------------------------------------------------------------
     # Progress, as log lines
@@ -262,6 +282,12 @@ class HeadlessApp:
         ``DirectBridge.wrap`` is the identity. Passing them through the bridge
         anyway keeps the wiring identical to the window's, so which calls are
         marshalled stays a property of the bridge rather than of the caller.
+
+        The two listen in one process with different exposure: the existing
+        server authenticates with a ``multiprocessing`` authkey and binds where
+        it is told, while ``MCPServerExtension`` refuses any non-loopback bind.
+        Securing one therefore says nothing about the other, which is worth
+        knowing on a machine with no display to imply a trusted desktop.
         """
         from sd_runner.config import config
         from lib.utils import Utils

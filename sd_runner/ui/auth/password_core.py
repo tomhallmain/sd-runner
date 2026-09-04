@@ -12,6 +12,40 @@ from lib.logging_setup import get_logger
 logger = get_logger("ui.auth.password_core")
 
 
+#: Answers a password gate when there is no way to ask -- no window to parent a
+#: dialog to, which is the situation a process serving requests with no display
+#: is always in. Set by such a process to decide and to report; None means the
+#: default below.
+_unprompted_gate_handler = None
+
+
+def set_unprompted_gate_handler(handler) -> None:
+    """Install what answers a password gate that cannot be prompted.
+
+    *handler* takes the ``ProtectedActions`` member being gated and returns
+    whether to allow it. Passing None restores the default refusal.
+    """
+    global _unprompted_gate_handler
+    _unprompted_gate_handler = handler
+
+
+def answer_unprompted_gate(action) -> bool:
+    """Whether to allow *action* when no password can be asked for.
+
+    Refuses by default, and that default is the point: an action reaches here
+    only because it is protected and nothing can present the prompt, so
+    allowing it would let the absence of a display do what a correct password
+    does. A caller that wants a different answer says so explicitly.
+    """
+    if _unprompted_gate_handler is not None:
+        return bool(_unprompted_gate_handler(action))
+    logger.warning(
+        f"Refused protected action '{getattr(action, 'value', action)}': "
+        "a password is required and there is no way to ask for one"
+    )
+    return False
+
+
 class SecurityConfig:
     """Central configuration manager for password protection settings."""
     

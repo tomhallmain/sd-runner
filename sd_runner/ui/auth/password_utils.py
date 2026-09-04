@@ -4,7 +4,9 @@ This module provides the authentication flow logic and decorators.
 It imports from password_core.py and password_dialog.py to avoid circular dependencies.
 """
 
-from sd_runner.ui.auth.password_core import get_security_config, PasswordManager
+from sd_runner.ui.auth.password_core import (
+    answer_unprompted_gate, get_security_config, PasswordManager,
+)
 from sd_runner.ui.auth.password_dialog import PasswordDialog
 from sd_runner.ui.auth.password_session_manager import PasswordSessionManager
 from sd_runner.globals import ProtectedActions
@@ -189,10 +191,14 @@ def require_password(
                     master = self
 
             if not master:
-                print("No master window found - failed to require password")
-                # If we can't find a master window, proceed without password check
+                # No window to parent a dialog to, so the gate cannot be shown.
+                # Refused rather than run: proceeding here would let the absence
+                # of a display stand in for a correct password.
+                if not answer_unprompted_gate(action_names[0]):
+                    return None
                 return func(self, *args, **kwargs)
-            
+
+
             # Get app_actions from the instance
             app_actions = getattr(self, 'app_actions', None)
             
