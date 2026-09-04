@@ -5,10 +5,14 @@ import pyjson5
 import os
 import time
 
-from blip.blip import WAS_BLIP_Model_Loader, WAS_BLIP_Analyze_Image
-
+from extensions.hf_hub_api import ensure_hf_snapshot
 from sd_runner.config import config
 from lib.utils import Utils
+
+#: BLIP's visual question answering weights. The captioning half of BLIP is
+#: reached through sd_runner.image_to_prompt instead; this is the only caller
+#: that asks questions rather than describing, so it loads its own model.
+VQA_REPO_ID = "Salesforce/blip-vqa-base"
 
 
 class AnswerType(Enum):
@@ -65,12 +69,43 @@ class Interrogator:
 
     def __init__(self, directory="."):
         self.directory = directory
-        self.mode = "interrogate"
-        self.blip_model = WAS_BLIP_Model_Loader().blip_model(self.mode)[0]
-        self.analyze_image = WAS_BLIP_Analyze_Image()
         self.questions = {}
         self.image_data = defaultdict(list)
         self.overridden_answer_types = {}
+        self._processor = None
+        self._model = None
+
+    def _ensure_model(self):
+        """Load BLIP VQA on first question, not at construction.
+
+        Gathering images and reporting on them needs no model, and the load
+        downloads weights the first time.
+        """
+        if self._model is not None:
+            return
+        import torch
+        from transformers import BlipForQuestionAnswering, BlipProcessor
+
+        # Populates the HF cache; from_pretrained then resolves against it.
+        ensure_hf_snapshot(VQA_REPO_ID)
+        self._processor = BlipProcessor.from_pretrained(VQA_REPO_ID, use_fast=False)
+        self._model = BlipForQuestionAnswering.from_pretrained(VQA_REPO_ID)
+        self._device = "cuda" if torch.cuda.is_available() else "cpu"
+        self._model.to(self._device)
+        self._model.eval()
+
+    def ask(self, image_path, question):
+        """The model's answer to *question* about the image at *image_path*."""
+        import torch
+        from PIL import Image
+
+        self._ensure_model()
+        image = Image.open(image_path).convert("RGB")
+        inputs = self._processor(images=image, text=question, return_tensors="pt")
+        inputs = {k: v.to(self._device) for k, v in inputs.items()}
+        with torch.no_grad():
+            out = self._model.generate(**inputs, max_new_tokens=32)
+        return self._processor.decode(out[0], skip_special_tokens=True).strip()
 
     def gather_images(self, state=State.UNSEEN):
         for ext in Interrogator.allowed_extensions:
@@ -83,11 +118,11 @@ class Interrogator:
 
     def interrogate(self, image_data):
         for category, question in self.questions.items():
-            answer = self.analyze_image.blip_caption_image(image_data.path, self.mode, question, blip_model=self.blip_model)
-            print(f"Question: \"{question}\" - Answer \"{answer[0]}\"")
+            answer = self.ask(image_data.path, question)
+            print(f"Question: \"{question}\" - Answer \"{answer}\"")
             answer_type = self.overridden_answer_types[category] if category in self.overridden_answer_types else Interrogator.DEFAULT_ANSWER_TYPE
             routing_func = ImageData.get_lambda_for_category(category, answer_type=answer_type)
-            routing_func(image_data, answer[0])
+            routing_func(image_data, answer)
 
     def update_state(self, old_state=State.REVIEW_BASED_ON_INITIAL_QUESTIONS, new_state=State.SEEN_AFTER_INITIAL_QUESTIONS):
         old_state_list = self.image_data[old_state]

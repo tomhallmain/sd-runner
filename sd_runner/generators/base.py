@@ -199,10 +199,21 @@ class BaseImageGenerator(ABC):
         self.latent_counter = 0
 
     def get_captioner(self):
+        """The image-to-prompt service this generator captions through.
+
+        Built once per generator and kept, because the provider loads a model
+        on first use and holds it.
+        """
         if self.captioner is None:
-            # Lazy import avoids requiring BLIP/torch stack for flows that never caption.
-            from sd_runner.captioner import Captioner
-            self.captioner = Captioner()
+            # Lazy import: the captioner backend pulls in torch and
+            # transformers, which a run that never captions should not need.
+            from sd_runner.image_to_prompt import (
+                ImageToPromptBackend, ImageToPromptService,
+            )
+
+            self.captioner = ImageToPromptService.from_backend(
+                ImageToPromptBackend.CAPTIONER
+            )
         return self.captioner
 
     def maybe_caption_image(self, image_path: str, positive: Optional[str]) -> str:
@@ -213,10 +224,13 @@ class BaseImageGenerator(ABC):
         the transformed image instead would put the transformation into the
         prompt -- "a pencil drawing of a house" -- and push the next pass
         further that way than the pre-pass asked for.
+
+        Captioning runs through the same service the Image to Prompt window
+        uses, so there is one BLIP integration rather than one per caller.
         """
-        if not positive:
-            return self.get_captioner().caption(image_path)
-        return positive
+        if positive:
+            return positive
+        return self.get_captioner().generate(image_path).positive_prompt
 
     def random_skip(self) -> bool:
         skip_chance = getattr(self, 'RANDOM_SKIP_CHANCE', 0.0)

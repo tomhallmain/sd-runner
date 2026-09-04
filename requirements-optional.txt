@@ -3,16 +3,16 @@
 # Pip will only install lines whose environment markers match your system
 # (e.g. on Windows, only lines without a marker or with sys_platform == 'win32' are considered).
 
-# OQS (post-quantum) key encapsulation for utils/encryptor.py PersonalQuantumEncryptor.
+# OQS (post-quantum) key encapsulation for lib/encryptor.py PersonalQuantumEncryptor.
 # Install from GitHub; liboqs C library must be installed first (or is auto-installed at runtime).
 # Full instructions: https://github.com/open-quantum-safe/liboqs-python/blob/main/README.md
 git+https://github.com/open-quantum-safe/liboqs-python.git
 
 # macOS (OS X): Foundation/Cocoa for optional keychain and native integration.
-# Not required for basic keyring usage (utils/encryptor.py works without it).
+# Not required for basic keyring usage (lib/encryptor.py works without it).
 pyobjc-framework-Cocoa; sys_platform == 'darwin'
 
-# Linux: D-Bus for optional Secret Service keyring lock (utils/encryptor.py).
+# Linux: D-Bus for optional Secret Service keyring lock (lib/encryptor.py).
 # Not required for basic keyring get/set.
 dbus-python; sys_platform == 'linux'
 
@@ -22,13 +22,14 @@ huggingface_hub
 # Fast tagger (WD-style ONNX inference).
 onnxruntime
 
-# Captioner preferred path (Transformers BLIP). Falls back to legacy captioner if missing.
-# Also serves the image-to-prompt VLM backend (LLaVA), which needs >= 4.36 for
-# LlavaForConditionalGeneration; BLIP works on any version from here up, so the
-# floor costs the captioner nothing.
+# BLIP, for both the captioner backend and the in-run captioning the Upscale
+# Better workflow does; and BLIP VQA for extensions/interrogator.py. Also
+# serves the image-to-prompt VLM backend (LLaVA), which needs >= 4.36 for
+# LlavaForConditionalGeneration; BLIP works on any version from here up, so
+# the floor costs the captioner nothing.
 transformers >= 4.36
 
-# Legacy/local BLIP captioner backend (blip/* modules), and the VLM backend.
+# Runtime for every transformers model above, and for the similarity check.
 torch
 torchvision
 
