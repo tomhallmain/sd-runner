@@ -6,12 +6,15 @@ These build the same config from stored state instead. That this module needs
 no AppWindow -- no Qt at all -- is itself part of what the change bought.
 """
 
+from types import SimpleNamespace
+
 import pytest
 
 from extensions.sd_runner_server import CommandType
 from sd_runner.virtual_run_config import (
     ATTRIBUTE_ONLY_FIELDS,
     apply_preset,
+    apply_prompt_globals,
     apply_request_args,
     base_args_from_app_config,
     build_virtual_run_config,
@@ -333,3 +336,68 @@ class TestEscapePath:
 
     def test_none_becomes_empty(self):
         assert escape_path(None) == ""
+
+
+# ---------------------------------------------------------------------------
+# Settings the run carries because generation reads them off somewhere else
+# ---------------------------------------------------------------------------
+
+class TestCarriedProcessWideSettings:
+    """The skip chance and the tags-at-start flag are held on
+    BaseImageGenerator and Prompter, not read off the run config, so the run
+    has to carry them and apply_prompt_globals has to set them at its start.
+    """
+
+    def test_the_snapshot_carries_the_skip_chance(self, app_config):
+        app_config.random_skip_chance = "0.25"
+        assert base_args_from_app_config(app_config)["random_skip_chance"] == "0.25"
+
+    def test_the_snapshot_carries_the_tags_flag(self, app_config):
+        app_config.tags_apply_to_start = False
+        assert base_args_from_app_config(app_config)["tags_apply_to_start"] is False
+
+    def test_sparse_mixed_tags_reaches_the_carried_prompter_config(self, app_config):
+        """It is stored on RunnerAppConfig and read off the prompter config."""
+        app_config.sparse_mixed_tags = True
+        args = base_args_from_app_config(app_config)
+        assert args["prompter_config"].sparse_mixed_tags is True
+
+    def test_the_stored_prompter_config_keeps_its_own_value(self, app_config):
+        app_config.sparse_mixed_tags = True
+        base_args_from_app_config(app_config)
+        assert app_config.prompter_config.sparse_mixed_tags is False
+
+
+class TestApplyPromptGlobals:
+    """Applied at the run's start, so a queued run uses its own values."""
+
+    def test_it_sets_the_skip_chance_the_run_carries(self, monkeypatch):
+        from sd_runner.generators.base import BaseImageGenerator
+        monkeypatch.setattr(BaseImageGenerator, "RANDOM_SKIP_CHANCE", 0.0)
+        apply_prompt_globals(SimpleNamespace(random_skip_chance="0.75"))
+        assert BaseImageGenerator.RANDOM_SKIP_CHANCE == 0.75
+
+    def test_it_sets_the_tags_flag_the_run_carries(self):
+        from sd_runner.prompter import Prompter
+        Prompter.set_tags_apply_to_start(True)
+        apply_prompt_globals(SimpleNamespace(tags_apply_to_start=False))
+        assert Prompter.TAGS_APPLY_TO_START is False
+
+    def test_a_run_carrying_neither_leaves_them_alone(self, monkeypatch):
+        """A config assembled outside both run paths carries nothing."""
+        from sd_runner.generators.base import BaseImageGenerator
+        from sd_runner.prompter import Prompter
+        monkeypatch.setattr(BaseImageGenerator, "RANDOM_SKIP_CHANCE", 0.4)
+        Prompter.set_tags_apply_to_start(False)
+
+        apply_prompt_globals(SimpleNamespace())
+
+        assert BaseImageGenerator.RANDOM_SKIP_CHANCE == 0.4
+        assert Prompter.TAGS_APPLY_TO_START is False
+
+    def test_an_unreadable_skip_chance_leaves_it_alone(self, monkeypatch):
+        """Losing the run to a bad stored value would be the worse failure."""
+        from sd_runner.generators.base import BaseImageGenerator
+        monkeypatch.setattr(BaseImageGenerator, "RANDOM_SKIP_CHANCE", 0.4)
+        apply_prompt_globals(SimpleNamespace(random_skip_chance="not a number"))
+        assert BaseImageGenerator.RANDOM_SKIP_CHANCE == 0.4

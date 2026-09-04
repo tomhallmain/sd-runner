@@ -546,9 +546,9 @@ class SidebarPanel(QWidget):
 
     def next_preset(self) -> None:
         """Advance to the next preset and apply it."""
-        from ui_qt.presets.presets_window import PresetsWindow
+        from sd_runner.presets_state import PresetsState
         try:
-            preset = PresetsWindow.next_preset(self._app.notification_ctrl.alert)
+            preset = PresetsState.next_preset(self._app.notification_ctrl.alert)
             if preset is not None:
                 self.set_widgets_from_preset(preset)
         except Exception as e:
@@ -565,7 +565,7 @@ class SidebarPanel(QWidget):
 
     def construct_preset(self, name: str):
         """Build a ``Preset`` from the current widget values."""
-        from ui_qt.presets.preset import Preset
+        from sd_runner.preset import Preset
         args, _ = self._app.get_args()
         self._app.runner_app_config.set_from_run_config(args)
         self._app.cache_ctrl.store_info_cache()
@@ -578,27 +578,28 @@ class SidebarPanel(QWidget):
         complete ``RunnerAppConfig`` and then keeps only four fields of it --
         but keeping the rest instead.
         """
-        from ui_qt.presets.stashed_config import StashedConfig
+        from sd_runner.stashed_config import StashedConfig
         args, _ = self._app.get_args()
         self._app.runner_app_config.set_from_run_config(args)
         self._app.cache_ctrl.store_info_cache()
         return StashedConfig.from_runner_app_config(name, self._app.runner_app_config)
 
     def sync_globals_from_widgets(self) -> None:
-        """Push all current widget values into ``Globals`` and config.
+        """Push all current widget values into the process-wide ``Globals``.
 
         Must be called once after the sidebar is fully constructed, because
         signal handlers are connected *after* initial widget values are set
         and therefore do not fire during init.  Also safe to call at any
         time to force a full re-sync (e.g. after loading a config from
         history).
+
+        The widget values that belong on ``runner_app_config`` rather than in
+        process state go through ``AppWindow.sync_config_from_widgets``.
         """
         from utils.globals import Globals
         from sd_runner.model_adapters import IPAdapter
         from sd_runner.gen_config import GenConfig
         from sd_runner.prompter import Prompter
-
-        cfg = self._app.runner_app_config
 
         # Delay
         try:

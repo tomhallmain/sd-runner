@@ -7,6 +7,7 @@ never stopped on exit.
 """
 
 import sys
+import threading
 from types import SimpleNamespace
 
 import pytest
@@ -69,6 +70,17 @@ class TestConfiguredBackends:
             make_config({"ComfyUI": "python main.py"}, backend_startup_timeout=42)
         )
         assert backends[0].startup_timeout == 42
+
+    def test_backend_output_is_not_logged_by_default(self):
+        """A serving backend prints continuously; at info it buries the app's own log."""
+        backends = configured_backends(make_config({"ComfyUI": "python main.py"}))
+        assert backends[0].log_output is False
+
+    def test_backend_output_logging_comes_from_config(self):
+        backends = configured_backends(
+            make_config({"ComfyUI": "python main.py"}, log_backend_output=True)
+        )
+        assert backends[0].log_output is True
 
     @pytest.mark.parametrize("command", ["", "   ", None])
     def test_a_blank_command_is_not_a_launch(self, command):
@@ -169,6 +181,55 @@ class TestRepeatedStart:
         assert backend.start() is True
         assert backend.start() is True
         assert calls == [1]
+
+
+class TestOutputLogging:
+    """The backend's output is always drained; only the level it lands at moves.
+
+    Draining is not optional -- a full pipe buffer blocks the backend -- so the
+    setting must not be able to turn the reading off, only the logging.
+    """
+
+    def _pump(self, monkeypatch, stdout, log_output):
+        seen = {"info": [], "debug": []}
+        monkeypatch.setattr(backend_process, "logger", SimpleNamespace(
+            info=lambda msg: seen["info"].append(msg),
+            debug=lambda msg: seen["debug"].append(msg),
+        ))
+        # Run the pump inline so the assertions do not depend on a thread. Only
+        # this module's reference is replaced, so the real threading module is
+        # left alone; Lock is carried across because __init__ takes one.
+        class _InlineThread:
+            def __init__(self, target=None, daemon=None, name=None):
+                self._target = target
+
+            def start(self):
+                self._target()
+
+        monkeypatch.setattr(backend_process, "threading", SimpleNamespace(
+            Thread=_InlineThread, Lock=threading.Lock,
+        ))
+
+        backend = BackendProcess(
+            SoftwareType.ComfyUI, "python main.py", log_output=log_output
+        )
+        backend._proc = SimpleNamespace(stdout=stdout)
+        backend._pipe_output()
+        return seen
+
+    def test_output_is_logged_at_info_when_enabled(self, monkeypatch):
+        seen = self._pump(monkeypatch, ["loading model\n"], True)
+        assert seen["info"] == ["[ComfyUI] loading model"]
+
+    def test_output_stays_out_of_the_app_log_by_default(self, monkeypatch):
+        seen = self._pump(monkeypatch, ["loading model\n"], False)
+        assert seen["info"] == []
+        assert seen["debug"] == ["[ComfyUI] loading model"]
+
+    def test_the_pipe_is_drained_even_when_not_logged(self, monkeypatch):
+        stdout = iter(["one\n", "two\n"])
+        self._pump(monkeypatch, stdout, False)
+        assert list(stdout) == []
 
 
 class TestLaunchFailures:

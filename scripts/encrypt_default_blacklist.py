@@ -3,7 +3,7 @@ import os
 import sys
 
 from sd_runner.blacklist import Blacklist
-from ui_qt.prompts.blacklist_window import BlacklistWindow
+from sd_runner import blacklist_state
 
 # Ensure we are running from the project root for imports and relative paths
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +25,7 @@ def _load_encrypted_items():
 
 def _load_current_items():
     """Load the current user blacklist from cache and return item strings."""
-    BlacklistWindow.set_blacklist()
+    blacklist_state.set_blacklist()
     print("Blacklist loaded from current cache")
     return {item.string for item in Blacklist.get_items()}
 

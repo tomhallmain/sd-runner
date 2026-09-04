@@ -41,20 +41,23 @@ def store_calls(monkeypatch, clean_cache):
 # ---------------------------------------------------------------------------
 
 SUBSYSTEMS = [
-    ("ui_qt.prompts.blacklist_window", "BlacklistWindow", "store_blacklist"),
-    ("ui_qt.presets.presets_window", "PresetsWindow", "store_recent_presets"),
-    ("ui_qt.presets.presets_window", "PresetsWindow", "store_stashed_configs"),
-    ("ui_qt.presets.presets_window", "PresetsWindow", "store_intermediate_prompts"),
-    ("ui_qt.presets.schedules_window", "SchedulesWindow", "store_schedules"),
-    ("ui_qt.prompts.expansions_window", "ExpansionsWindow", "store_expansions"),
-    ("ui_qt.models.recent_adapters_window", "RecentAdaptersWindow", "save_recent_adapters"),
+    ("sd_runner.blacklist_state", None, "store_blacklist"),
+    ("sd_runner.presets_state", "PresetsState", "store_recent_presets"),
+    ("sd_runner.presets_state", "PresetsState", "store_stashed_configs"),
+    ("sd_runner.presets_state", "PresetsState", "store_intermediate_prompts"),
+    ("sd_runner.schedules_state", "SchedulesState", "store_schedules"),
+    ("sd_runner.expansions_state", None, "store_expansions"),
+    ("sd_runner.recent_adapters_state", "RecentAdaptersState", "save_recent_adapters"),
 ]
 
 
 def _store_method(module_name, class_name, method_name):
     import importlib
     module = importlib.import_module(module_name)
-    return getattr(getattr(module, class_name), method_name)
+    # class_name is None for a subsystem whose store is a module-level
+    # function rather than a static method on its window class.
+    owner = getattr(module, class_name) if class_name else module
+    return getattr(owner, method_name)
 
 
 @pytest.mark.parametrize(
@@ -94,43 +97,43 @@ class TestWriteThrough:
 class TestBlacklistEditPersists:
     def test_added_item_is_written_to_the_cache(self, clean_cache):
         from sd_runner.blacklist import Blacklist, BlacklistItem
-        from ui_qt.prompts.blacklist_window import BlacklistWindow
+        from sd_runner import blacklist_state
 
         Blacklist.add_item(BlacklistItem("wolf"))
-        BlacklistWindow.store_blacklist()
+        blacklist_state.store_blacklist()
 
-        stored = app_info_cache.get(BlacklistWindow.BLACKLIST_CACHE_KEY) or []
+        stored = app_info_cache.get(blacklist_state.BLACKLIST_CACHE_KEY) or []
         assert any(entry.get("string") == "wolf" for entry in stored)
 
     def test_the_write_reaches_disk(self, clean_cache):
         from sd_runner.blacklist import Blacklist, BlacklistItem
-        from ui_qt.prompts.blacklist_window import BlacklistWindow
+        from sd_runner import blacklist_state
         from utils.app_info_cache import AppInfoCache
 
         Blacklist.add_item(BlacklistItem("wolf"))
-        BlacklistWindow.store_blacklist()
+        blacklist_state.store_blacklist()
 
         reloaded = AppInfoCache()
-        stored = reloaded.get(BlacklistWindow.BLACKLIST_CACHE_KEY) or []
+        stored = reloaded.get(blacklist_state.BLACKLIST_CACHE_KEY) or []
         assert any(entry.get("string") == "wolf" for entry in stored)
 
     def test_cache_is_clean_after_the_edit(self, clean_cache):
         from sd_runner.blacklist import Blacklist, BlacklistItem
-        from ui_qt.prompts.blacklist_window import BlacklistWindow
+        from sd_runner import blacklist_state
 
         Blacklist.add_item(BlacklistItem("wolf"))
-        BlacklistWindow.store_blacklist()
+        blacklist_state.store_blacklist()
         assert clean_cache.has_changes is False
 
 
 class TestExpansionEditPersists:
     def test_expansion_reaches_disk(self, clean_cache):
+        from sd_runner import expansions_state
         from sd_runner.expansion import Expansion
-        from ui_qt.prompts.expansions_window import ExpansionsWindow
         from utils.app_info_cache import AppInfoCache
 
         Expansion.expansions = [Expansion("greeting", "hello there")]
-        ExpansionsWindow.store_expansions()
+        expansions_state.store_expansions()
 
         reloaded = AppInfoCache()
         stored = reloaded.get("expansions") or []
@@ -139,10 +142,10 @@ class TestExpansionEditPersists:
 
 class TestPresetEditPersists:
     def test_recent_presets_reach_disk(self, clean_cache):
-        from ui_qt.presets.presets_window import PresetsWindow
+        from sd_runner.presets_state import PresetsState
         from utils.app_info_cache import AppInfoCache
 
-        PresetsWindow.store_recent_presets()
+        PresetsState.store_recent_presets()
         reloaded = AppInfoCache()
         assert reloaded.get("recent_presets") is not None
 
@@ -150,11 +153,11 @@ class TestPresetEditPersists:
 class TestScheduleEditPersists:
     def test_recent_schedules_reach_disk(self, clean_cache):
         from tests.utils import make_schedule
-        from ui_qt.presets.schedules_window import SchedulesWindow
+        from sd_runner.schedules_state import SchedulesState
         from utils.app_info_cache import AppInfoCache
 
-        SchedulesWindow.recent_schedules = [make_schedule("Evening")]
-        SchedulesWindow.store_schedules()
+        SchedulesState.recent_schedules = [make_schedule("Evening")]
+        SchedulesState.store_schedules()
 
         reloaded = AppInfoCache()
         stored = reloaded.get("recent_schedules") or []

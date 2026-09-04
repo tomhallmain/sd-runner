@@ -21,6 +21,7 @@ from sd_runner.prompter import Prompter
 from sd_runner.prompter_configuration import PrompterConfiguration
 from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
+from sd_runner.schedule import PresetTask, Schedule
 from utils.globals import PromptMode
 
 
@@ -109,16 +110,11 @@ def make_prompter(
 def make_schedule(name="Test Schedule", tasks=()):
     """A preset Schedule, optionally populated from (preset_name, count_runs) pairs.
 
-    Imported lazily: ui_qt.presets.schedule pulls in PresetsWindow and therefore
-    Qt, which the pure-logic unit tests importing this module do not want.
-
     This covers preset schedules only. TimedSchedule has its own factories in
     test_timed_schedule.py and test_timed_schedules_manager.py; they are kept
     separate because they disagree on the default weekday_options (Mon-Fri
     versus all seven), and that default is load-bearing for those tests.
     """
-    from ui_qt.presets.schedule import PresetTask, Schedule
-
     schedule = Schedule()
     schedule.name = name
     for task_name, count_runs in (tasks or ()):

@@ -36,7 +36,7 @@ class Preset:
             'negative_tags': self.negative_tags,
             'edit_suffix': self.edit_suffix,
             }
-    
+
     @classmethod
     def from_dict(cls, dict_data: dict) -> 'Preset':
         return cls(**dict_data)

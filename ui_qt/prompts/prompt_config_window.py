@@ -36,9 +36,7 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from lib.tooltip_qt import create_tooltip
-from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.prompter_configuration import PrompterConfiguration
-from sd_runner.prompter import Prompter
 from sd_runner.run_config import RunConfig
 from ui_qt.app_style import AppStyle
 from utils.globals import Sampler, Scheduler
@@ -127,10 +125,26 @@ class PromptConfigWindow(SmartDialog):
         return cls._prompt_config_window_instance
 
     @classmethod
-    def set_args_from_prompter_config(cls, args: RunConfig) -> None:
-        """Push current widget / config values into *args* before a run."""
+    def sync_config_from_widgets(cls) -> None:
+        """Write this window's widget values into the runner app config.
+
+        A no-op when the window is closed, which is when it has already written
+        them: anything reading the config for a run calls this so an open
+        window's unapplied edits are included.
+        """
         if cls._prompt_config_window_instance is not None:
             cls._prompt_config_window_instance._sync_config_from_widgets()
+
+    @classmethod
+    def set_args_from_prompter_config(cls, args: RunConfig) -> None:
+        """Push current widget / config values into *args* before a run.
+
+        The random skip chance and the tags-at-start flag are carried on the
+        run rather than applied here: they are process-wide, and
+        ``apply_prompt_globals`` sets them when the run starts, so a queued run
+        uses its own values. The parameterized path carries them the same way.
+        """
+        cls.sync_config_from_widgets()
 
         cfg = cls._runner_app_config
         args.seed = int(cfg.seed)
@@ -139,8 +153,8 @@ class PromptConfigWindow(SmartDialog):
         args.sampler = Sampler.get(cfg.sampler)
         args.scheduler = Scheduler.get(cfg.scheduler)
         args.denoise = float(cfg.denoise)
-        BaseImageGenerator.RANDOM_SKIP_CHANCE = float(cfg.random_skip_chance)
-        Prompter.set_tags_apply_to_start(cfg.tags_apply_to_start)
+        args.random_skip_chance = cfg.random_skip_chance
+        args.tags_apply_to_start = cfg.tags_apply_to_start
         args.continuous_seed_variation = cfg.continuous_seed_variation
         args.dimension_variation = cfg.dimension_variation
         cfg.prompter_config.sparse_mixed_tags = cfg.sparse_mixed_tags

@@ -26,7 +26,7 @@ from sd_runner.run import Run
 from sd_runner.generators.comfy import ComfyGen
 from sd_runner.models import Model
 from ui_qt.app_actions import AppActions
-from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
+from sd_runner.recent_adapters_state import RecentAdaptersState
 from ui_qt.app_style import AppStyle
 from utils.app_icon import get_app_icon_path
 from ui_qt.app_window.cache_controller import CacheController
@@ -35,6 +35,7 @@ from ui_qt.app_window.notification_controller import NotificationController
 from ui_qt.app_window.run_controller import RunController
 from ui_qt.app_window.sidebar_panel import SidebarPanel
 from ui_qt.app_window.window_launcher import WindowLauncher
+from ui_qt.qt_responsiveness import QtResponsiveness
 from utils.app_info_cache import app_info_cache
 from utils.config import config
 from utils.job_queue import SDRunsQueue, PresetSchedulesQueue, ServerStagingQueue
@@ -197,6 +198,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # ------------------------------------------------------------------
         self.cache_ctrl = CacheController(app_window=self)
         self.runner_app_config = self.cache_ctrl.load_info_cache()
+        self._restore_window_state_from_cache()
 
         # Load models so autocomplete lists are populated
         Model.load_all()
@@ -219,11 +221,17 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self.run_ctrl = RunController(app_window=self)
         self.window_launcher = WindowLauncher(app_window=self)
 
+        #: How work that would otherwise block the drawing thread keeps the
+        #: window alive. Held here so a caller reaches it through the
+        #: application object and an application with no event loop can supply
+        #: NullResponsiveness instead.
+        self.responsiveness = QtResponsiveness()
+
         # Job queue for preset schedules (needs run_ctrl references)
-        from ui_qt.presets.schedules_window import SchedulesWindow
+        from sd_runner.schedules_state import SchedulesState
         self.job_queue_preset_schedules = PresetSchedulesQueue(
             get_run_config_callback=self.get_basic_run_config,
-            get_current_schedule_callback=lambda: SchedulesWindow.current_schedule,
+            get_current_schedule_callback=lambda: SchedulesState.current_schedule,
         )
 
         # ------------------------------------------------------------------
@@ -276,6 +284,22 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
     # ------------------------------------------------------------------
     # AppActions assembly
     # ------------------------------------------------------------------
+    def _restore_window_state_from_cache(self) -> None:
+        """Restore what the cache holds for the windows rather than for a run.
+
+        Kept with the window because that is who has these: the last image and
+        prompt ``ImageToPromptWindow`` offered, read only by itself, and the
+        config ``PromptConfigWindow`` edits.
+        """
+        from ui_qt.prompts.image_to_prompt_window import ImageToPromptWindow
+        from ui_qt.prompts.prompt_config_window import PromptConfigWindow
+
+        try:
+            ImageToPromptWindow.load_last_from_cache()
+        except Exception as e:
+            logger.error(f"Failed to restore the image-to-prompt window: {e}")
+        PromptConfigWindow.set_runner_app_config(self.runner_app_config)
+
     def _build_app_actions(self) -> AppActions:
         """Wire the AppActions dict, mapping action names to controller methods.
 
@@ -319,9 +343,9 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             "set_adapter_from_adapters_window": ts(
                 self._set_adapter_from_adapters_window
             ),
-            "add_recent_adapter_file": RecentAdaptersWindow.add_recent_adapter_file,
-            "add_recent_source_prompt": RecentAdaptersWindow.add_recent_source_prompt,
-            "contains_recent_adapter_file": RecentAdaptersWindow.contains_recent_adapter_file,
+            "add_recent_adapter_file": RecentAdaptersState.add_recent_adapter_file,
+            "add_recent_source_prompt": RecentAdaptersState.add_recent_source_prompt,
+            "contains_recent_adapter_file": RecentAdaptersState.contains_recent_adapter_file,
             # Notifications (warn/success are AppActions convenience methods)
             "toast": ts(self.notification_ctrl.toast),
             "_alert": ts(self.notification_ctrl.alert),
@@ -416,9 +440,9 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         pre-pass rather than the run: the user asked for images, and the
         pre-pass is a modifier on how they are made.
         """
-        from ui_qt.presets.presets_window import PresetsWindow
+        from sd_runner.presets_state import PresetsState
 
-        prompt = PresetsWindow.get_active_intermediate_prompt()
+        prompt = PresetsState.get_active_intermediate_prompt()
         if prompt is None:
             return None
         if not self.run_ctrl.validate_blacklist(prompt.positive_tags):
@@ -570,6 +594,58 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
 
         return args
 
+    def sync_config_from_widgets(self):
+        """Write the widget-owned run settings back into ``runner_app_config``.
+
+        ``runner_app_config`` is the source a run is built from, and the sidebar
+        is an editor over it -- but most of these fields have no change handler,
+        so editing one leaves the config holding the previous value until
+        something writes through. ``get_args()`` is that write-through for the
+        user's own runs, via ``set_from_run_config``; anything that builds a run
+        from the config without going through it needs this first, or it builds
+        from the settings as of the last run the user started.
+
+        Covers the sidebar fields that have no handler of their own. The tag
+        boxes, the strengths and the rest already write through as they are
+        edited, so they are not repeated here.
+        """
+        from ui_qt.app_window.run_controller import clear_quotes
+        from ui_qt.prompts.prompt_config_window import PromptConfigWindow
+        from utils.globals import PromptMode, ResolutionGroup, WorkflowType
+
+        sp = self.sidebar_panel
+        cfg = self.runner_app_config
+
+        cfg.workflow_type = WorkflowType.get(sp.workflow_combo.currentText()).name
+        # On the prompter config rather than the config itself, and load-bearing
+        # beyond the run: validate_blacklist reads it to decide whether the
+        # blacklist defers to the NSFW allowance.
+        cfg.prompter_config.prompt_mode = PromptMode.get(
+            sp.prompt_mode_combo.currentText())
+        cfg.resolutions = sp.resolutions_entry.text()
+        # Stored as the enum name: ResolutionGroup.get takes either, but the
+        # combo shows the description and the cache holds these across sessions.
+        cfg.resolution_group = ResolutionGroup.get(
+            sp.resolution_group_combo.currentText()).name
+        cfg.model_tags = sp.model_tags_entry.text()
+        cfg.lora_tags = sp.lora_tags_entry.text()
+        cfg.n_latents = int(sp.n_latents_combo.currentText())
+        cfg.total = int(sp.total_combo.currentText())
+        cfg.batch_limit = int(sp.batch_limit_combo.currentText())
+        cfg.override_resolution = sp.override_resolution_check.isChecked()
+        cfg.inpainting = sp.inpainting_check.isChecked()
+        cfg.continuous_seed_variation = sp.continuous_seed_var_check.isChecked()
+        cfg.dimension_variation = sp.dimension_variation_check.isChecked()
+        cfg.second_derivative = sp.second_derivative_check.isChecked()
+        cfg.control_net_file = clear_quotes(sp.controlnet_file_entry.text())
+        cfg.ip_adapter_file = clear_quotes(sp.ipadapter_file_entry.text())
+        cfg.edit_suffix = sp.edit_suffix_entry.text().strip()
+        cfg.target_dir = sp.target_dir_entry.text().strip()
+
+        # Seed, steps, cfg, denoise and the samplers live in that window, and a
+        # run reads them off the config the same way.
+        PromptConfigWindow.sync_config_from_widgets()
+
     def get_args(self):
         """Build a full run config with workflow-specific options.
 
@@ -600,7 +676,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # ControlNet / Redo file
         controlnet_file = clear_quotes(sp.controlnet_file_entry.text())
         self.runner_app_config.control_net_file = str(controlnet_file)
-        RecentAdaptersWindow.add_recent_controlnet(controlnet_file)
+        RecentAdaptersState.add_recent_controlnet(controlnet_file)
 
         if args.workflow_tag == WorkflowType.REDO_PROMPT.name:
             args.workflow_tag = controlnet_file
@@ -616,7 +692,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         ipadapter_file = clear_quotes(sp.ipadapter_file_entry.text())
         self.runner_app_config.ip_adapter_file = str(ipadapter_file)
         args.ip_adapters = ipadapter_file
-        RecentAdaptersWindow.add_recent_ipadapter(ipadapter_file)
+        RecentAdaptersState.add_recent_ipadapter(ipadapter_file)
 
         # Edit suffix
         edit_suffix = sp.edit_suffix_entry.text().strip()
@@ -630,7 +706,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         source_prompt_file = clear_quotes(sp.source_prompt_file_entry.text())
         self.runner_app_config.source_prompt_file = str(source_prompt_file)
         args.source_prompts = source_prompt_file
-        RecentAdaptersWindow.add_recent_adapter_file(source_prompt_file)
+        RecentAdaptersState.add_recent_adapter_file(source_prompt_file)
         source_prompt_add = sp.source_prompt_add_user_prompt_check.isChecked()
         self.runner_app_config.source_prompt_add_user_prompt = source_prompt_add
         args.source_prompts_add_user_prompt = source_prompt_add
@@ -810,11 +886,9 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
     def _configure_managed_backends(self) -> list:
         """Read which backends the user has configured a launch command for.
 
-        Nothing is launched here. Starting a backend at window open served no
-        purpose when the session's first run might not even use it -- so each
-        one is launched lazily, from ``ensure_backend_started``, the first
-        time a run actually needs it. Reading the config eagerly still means
-        a typo is reported at open rather than silently at the first run.
+        Reading it at open is what gets a typo in it reported at open.
+        ``ensure_backend_started`` does the launching, when a run needs a
+        given backend.
         """
         from extensions.backend_process import configured_backends
 
@@ -827,16 +901,13 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
     def ensure_backend_started(self, software_type) -> None:
         """Start the backend a run is about to use, unless it already is.
 
-        Called from the run path the first time a given backend is actually
-        needed, rather than for every configured backend at window open. Runs
-        after the first for the same backend cost nothing extra --
-        ``BackendProcess.start()`` is what recognizes it is already up or
-        already ours and returns immediately. A *software_type* with no
-        launch command configured has no matching entry and is left alone,
-        same as before.
+        Called from the run path when a run needs this backend. Repeat calls
+        for the same one cost nothing -- ``BackendProcess.start()`` recognizes
+        one already up or already ours and returns immediately. A
+        *software_type* with no launch command configured has no matching
+        entry, so nothing happens.
 
-        Blocking here is fine: every caller already runs off the GUI thread,
-        the same way the old per-backend launch thread did.
+        Blocking here is fine: every caller runs off the GUI thread.
         """
         backend = next(
             (b for b in self.backend_processes if b.software_type == software_type),

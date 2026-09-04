@@ -4,6 +4,10 @@ CacheController -- persistence layer for SD Runner.
 Owns loading and storing:
 - ``RunnerAppConfig`` history via ``app_info_cache``
 - Blacklist, presets, schedules, expansions, timed schedules, recent adapters
+
+Qt is imported inside ``start_periodic_store``, the one method that needs it, so
+this module can be imported by a process that has no display. Such a process
+writes the cache on every run and at shutdown and leaves the timer unstarted.
 - Security config
 - Display position and virtual-screen info
 """
@@ -12,13 +16,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
 
-from PySide6.QtCore import QTimer
-
 from utils.app_info_cache import app_info_cache
 from utils.logging_setup import get_logger
 from utils.translations import I18N
 
 if TYPE_CHECKING:
+    from PySide6.QtCore import QTimer
     from ui_qt.app_window.app_window import AppWindow
 
 _ = I18N._
@@ -49,15 +52,20 @@ class CacheController:
 
         Calls the static loaders on every module that persists data through
         the app_info_cache.
+
+        Run state only. The two windows that also restore something from the
+        cache are left to the caller that has them: importing either from here
+        would put Qt in a process that has no display, and on a machine with no
+        PySide6 at all the ImportError would land in the catch below and
+        abandon the rest of the load -- losing the presets, the schedules and
+        the pending queues without saying so.
         """
         from utils.runner_app_config import RunnerAppConfig
-        from ui_qt.prompts.blacklist_window import BlacklistWindow
-        from ui_qt.presets.presets_window import PresetsWindow
-        from ui_qt.presets.schedules_window import SchedulesWindow
-        from ui_qt.prompts.expansions_window import set_expansions as _set_expansions
-        from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
-        from ui_qt.prompts.prompt_config_window import PromptConfigWindow
-        from ui_qt.prompts.image_to_prompt_window import ImageToPromptWindow
+        from sd_runner import blacklist_state
+        from sd_runner.presets_state import PresetsState
+        from sd_runner.schedules_state import SchedulesState
+        from sd_runner.expansions_state import set_expansions as _set_expansions
+        from sd_runner.recent_adapters_state import RecentAdaptersState
         from sd_runner.timed_schedules_manager import timed_schedules_manager
         from ui_qt.auth.password_core import get_security_config
 
@@ -65,24 +73,22 @@ class CacheController:
             self._app.config_history_index = app_info_cache.get(
                 "config_history_index", default_val=0
             )
-            BlacklistWindow.set_blacklist()
+            blacklist_state.set_blacklist()
             # Run cache post-init once, now that blacklist settings have been restored.
             app_info_cache.post_init()
             self._app.config_history_index = app_info_cache.clamp_config_history_index(self._app.config_history_index)
-            PresetsWindow.set_recent_presets()
-            PresetsWindow.set_stashed_configs()
-            PresetsWindow.set_intermediate_prompts()
-            SchedulesWindow.set_schedules()
+            PresetsState.set_recent_presets()
+            PresetsState.set_stashed_configs()
+            PresetsState.set_intermediate_prompts()
+            SchedulesState.set_schedules()
             _set_expansions()
             timed_schedules_manager.set_schedules()
-            RecentAdaptersWindow.load_recent_adapters()
-            ImageToPromptWindow.load_last_from_cache()
+            RecentAdaptersState.load_recent_adapters()
             # Security config is loaded automatically when first accessed
             get_security_config()
             runner_config = RunnerAppConfig.from_dict(
                 app_info_cache.get_history(0)
             )
-            PromptConfigWindow.set_runner_app_config(runner_config)
             self._restore_pending_queues()
             self._restore_generation_timing()
             return runner_config
@@ -173,11 +179,11 @@ class CacheController:
         leaves it False, so a save tied to a prompt execution always writes and
         therefore always runs the blacklist history purge.
         """
-        from ui_qt.prompts.blacklist_window import BlacklistWindow
-        from ui_qt.presets.presets_window import PresetsWindow
-        from ui_qt.presets.schedules_window import SchedulesWindow
-        from ui_qt.prompts.expansions_window import store_expansions as _store_expansions
-        from ui_qt.models.recent_adapters_window import RecentAdaptersWindow
+        from sd_runner import blacklist_state
+        from sd_runner.presets_state import PresetsState
+        from sd_runner.schedules_state import SchedulesState
+        from sd_runner.expansions_state import store_expansions as _store_expansions
+        from sd_runner.recent_adapters_state import RecentAdaptersState
         from sd_runner.timed_schedules_manager import timed_schedules_manager
         from ui_qt.auth.password_core import get_security_config
 
@@ -193,19 +199,19 @@ class CacheController:
             # own edit handlers, but here they are only collecting, and the
             # single write below covers all of them at once.
             logger.debug("Storing blacklist...")
-            BlacklistWindow.store_blacklist(persist=False)
+            blacklist_state.store_blacklist(persist=False)
             logger.debug("Storing presets...")
-            PresetsWindow.store_recent_presets(persist=False)
-            PresetsWindow.store_stashed_configs(persist=False)
-            PresetsWindow.store_intermediate_prompts(persist=False)
+            PresetsState.store_recent_presets(persist=False)
+            PresetsState.store_stashed_configs(persist=False)
+            PresetsState.store_intermediate_prompts(persist=False)
             logger.debug("Storing schedules...")
-            SchedulesWindow.store_schedules(persist=False)
+            SchedulesState.store_schedules(persist=False)
             logger.debug("Storing expansions...")
             _store_expansions(persist=False)
             logger.debug("Storing timed schedules...")
             timed_schedules_manager.store_schedules()
             logger.debug("Storing recent adapters...")
-            RecentAdaptersWindow.save_recent_adapters(persist=False)
+            RecentAdaptersState.save_recent_adapters(persist=False)
             logger.debug("Storing security config...")
             get_security_config().save_settings()
             logger.debug("Storing pending queues...")
@@ -328,6 +334,7 @@ class CacheController:
         if interval_ms <= 0:
             logger.info("Periodic cache store disabled by configuration")
             return
+        from PySide6.QtCore import QTimer
         self._store_cache_timer = QTimer()
         self._store_cache_timer.timeout.connect(self._on_periodic_store)
         self._store_cache_timer.start(interval_ms)

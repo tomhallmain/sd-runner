@@ -19,12 +19,13 @@ This code is primarily a prompt engineering application that triggers ComfyUI wo
 ## Running the Application
 
 - **Entry point:** `python app_qt.py` or `start.bat`
+- **Without a window:** `python app_headless.py` — serves the request front ends only; see [Running without the UI](#running-without-the-ui)
 
 The application uses PySide6 with custom theming, optional frameless windows, and configurable UI scaling (`ui_scale_factor` in `config.json`).
 
 ## Configuration Options
 
-`total`: By default this is 1 to run a workflow only once, however with prompt randomization the same workflow can produce a different result each time. Set to -1 to run infinitely.
+**Set Total** (sidebar, default 2): how many times to run the workflow — with prompt randomization the same workflow produces a different result each time. Set to -1 to run infinitely.
 
 `gen_order`: A single run can include multiple resolutions, models, vaes, loras, IP adapters, and control nets. Modify the gen_order list to set the order in which these combinations are run.
 
@@ -262,7 +263,9 @@ to check that backup's state, or `backup` to take one by hand.
 
 Set configuration options for a server port to make use of the server while the UI is running. Calls to the server made with Python's multiprocessing client run alongside whatever you are doing in the UI. This can be helpful to use in conjunction with other applications that involve images. For an example, see [this class](https://github.com/tomhallmain/Weidr/blob/master/extensions/sd_runner_client.py).
 
-A request that carries its own parameters (`renoiser`, `control_net`, `ip_adapter`, `image_edit`, `img2img`, `redo_prompt`, `take_prompt`) runs without touching the sidebar: anything it does not specify comes from your saved settings rather than from what happens to be on screen, and the fields you are editing are left alone. Such runs are marked in the progress label with the name of the client that asked for them, and shown under an Origin column in the runs window; they queue behind any run already in progress. The `last_settings` request is the exception — reusing what is currently set in the UI is the point of that command — and `cancel` and `revert_to_simple_gen` act on the UI directly.
+A request that carries its own parameters (`renoiser`, `control_net`, `ip_adapter`, `image_edit`, `img2img`, `redo_prompt`, `take_prompt`) runs without disturbing the sidebar: anything it does not specify — the model, resolutions, counts and the rest — comes from your current settings, and the request's own values are not saved over them. Such runs are marked in the progress label with the name of the client that asked for them, and shown under an Origin column in the runs window; they queue behind any run already in progress, and once that queue is full they are staged instead — saved with the rest of the cache, so a restart resumes them rather than dropping them. The `last_settings` request is the exception — reusing what is currently set in the UI is the point of that command — and `cancel` and `revert_to_simple_gen` act on the UI directly.
+
+A request is refused, rather than run, when it would produce nothing useful: `no models found` when your model tags match no installed model, and `run too large` when the estimate exceeds `server_run_max_seconds` (unset means no ceiling). Both name the reason in the reply, since there is no user at that end to ask.
 
 A client names itself by putting a `client_id` on any message it sends; it is optional, sticky for the connection, and only needs sending once. A client that sends none is shown as `server`, since two clients on the same machine cannot be told apart from the connection alone.
 
@@ -292,6 +295,8 @@ Because the shell is what SD Runner holds, stopping a backend kills the whole pr
 
 It runs from that backend's `*_loc` directory. There are no built-in commands — install layouts vary too much for a guess to be reliable, and a wrong one fails only after a long startup wait. A backend already running is adopted rather than started twice, and is left running on exit; only processes SD Runner started are stopped.
 
+`log_backend_output` (default `false`) repeats the backend's own output in the SD Runner log. Off, it is logged at debug level instead, so a failed launch is still diagnosable without a serving backend's chatter interleaved with everything else.
+
 `backend_startup_timeout` (default 600s) is how long SD Runner waits for a backend to answer. Running out does **not** kill it — these are slow to start for real reasons, and a backend that has not exited is still working, so it is left to carry on and reported as still starting. A health check arriving during that window answers `starting` rather than `error`. If a backend really is stuck, stop it yourself.
 
 ### Model Context Protocol
@@ -311,6 +316,12 @@ The tools are `generate` (naming one of the same commands the server takes, with
 `generate` returns when the run is **queued**, not when it has finished — the images come later and are not part of the result. Poll `run_status` to find out when work is done. It answers by client rather than per run, so if you send several requests it tells you that work of yours is still in progress, not which one.
 
 **It binds to localhost only.** The other server authenticates with a key belonging to its transport, which does not carry over to HTTP, and the MCP SDK's own answer is a full OAuth resource server rather than a shared secret. Until that exists, remote binds are refused. `mcp_server_token` is reserved for it and currently does nothing — if you set one, the server refuses to start rather than run while leaving it unenforced.
+
+### Running without the UI
+
+`python app_headless.py` serves both front ends with no window — on a machine with no display and no PySide6 installed. Same `config.json`, same saved settings, same backend management, and the MCP server starts when a port is configured. It takes the same single-instance lock as the windowed app, so the two do not run at once over one cache.
+
+Requests carrying their own parameters are served as usual, from whatever the last windowed session saved. The two that mean the screen are refused with `no user interface`: `last_settings` and `revert_to_simple_gen`. Anything the UI would ask about is declined rather than assumed, including the confirmation before a long run — so set `server_run_max_seconds` if you want large requests refused with a reason instead.
 
 ## Image to Prompt
 

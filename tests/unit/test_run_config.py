@@ -1,9 +1,10 @@
 import json
 
 import pytest
+from sd_runner.models import Model, NoModelsFound
 from sd_runner.prompter_configuration import PrompterConfiguration
 from sd_runner.run_config import RunConfig
-from tests.utils import make_prompter_config, make_run_config
+from tests.utils import make_model, make_prompter_config, make_run_config
 from utils.globals import Sampler, Scheduler, WorkflowType
 
 
@@ -184,6 +185,61 @@ class TestValidateWorkflowRequirements:
     def test_no_workflow_tag_is_always_valid(self):
         rc = make_run_config()
         rc._validate_workflow_requirements()
+
+
+# ---------------------------------------------------------------------------
+# validate() — model_tags resolution
+#
+# Model.get_models() skips any tag it cannot resolve (a moved/renamed model
+# file, a stale tag restored from a prior session, ...) rather than raising,
+# so it can return an empty list even for a non-empty model_tags string.
+# validate() indexes models[0] a few lines later for the default lora and the
+# architecture, so the empty list has to be refused before that.
+#
+# NoModelsFound rather than a plain Exception because the interactive caller
+# offers a plain one to the user as "proceed anyway?", and proceeding here
+# reaches the same unguarded index further in.
+# ---------------------------------------------------------------------------
+
+class TestValidateModelResolution:
+    def test_no_matching_model_raises_no_models_found(self):
+        rc = make_run_config(
+            model_tags="does_not_exist_anywhere",
+            total=1,
+            prompter_config=make_prompter_config(),
+        )
+        with pytest.raises(NoModelsFound, match="No models found"):
+            rc.validate()
+
+    def test_no_matching_model_does_not_raise_index_error(self):
+        rc = make_run_config(
+            model_tags="does_not_exist_anywhere",
+            total=1,
+            prompter_config=make_prompter_config(),
+        )
+        with pytest.raises(Exception) as exc_info:
+            rc.validate()
+        assert not isinstance(exc_info.value, IndexError)
+
+    def test_the_unresolved_tag_is_named(self):
+        """The tag is what the user has to correct, so the message carries it."""
+        rc = make_run_config(
+            model_tags="some_moved_model",
+            total=1,
+            prompter_config=make_prompter_config(),
+        )
+        with pytest.raises(NoModelsFound, match="some_moved_model"):
+            rc.validate()
+
+    def test_matching_model_still_validates(self):
+        Model.CHECKPOINTS = {"known_model.safetensors": make_model(id="known_model.safetensors")}
+        RunConfig.previous_model_tags = "known_model"  # avoid an unrelated model-switch warning
+        rc = make_run_config(
+            model_tags="known_model",
+            total=1,
+            prompter_config=make_prompter_config(),
+        )
+        assert rc.validate() is True
 
 
 # ---------------------------------------------------------------------------

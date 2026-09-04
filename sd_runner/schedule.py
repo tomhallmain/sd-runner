@@ -1,4 +1,4 @@
-from ui_qt.presets.presets_window import PresetsWindow
+from sd_runner.presets_state import PresetsState
 from utils.translations import I18N
 
 _ = I18N._
@@ -80,14 +80,14 @@ class Schedule:
     def total_generations(self, starting_total: int) -> int:
         """
         Estimate the total generations for this schedule.
-        
+
         Returns:
             Estimated total generations
         """
         total_generations = 0
         for preset_task in self.schedule:
             try:
-                preset = PresetsWindow.get_preset_by_name(preset_task.name)
+                preset = PresetsState.get_preset_by_name(preset_task.name)
                 # Add count of runs for this task if it is set
                 if preset_task.count_runs > 0:
                     total_generations += preset_task.count_runs
@@ -97,4 +97,3 @@ class Schedule:
                 # If we can't get the preset, skip it
                 continue
         return total_generations
-

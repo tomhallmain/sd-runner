@@ -16,6 +16,17 @@ _ = I18N._
 logger = get_logger("models")
 
 
+class NoModelsFound(Exception):
+    """Raised when a run's model tags match no installed model.
+
+    A separate type because it is a hard precondition rather than something a
+    caller can be asked to confirm: with no model there is nothing to generate
+    with, and the architecture every later choice keys off is unknown. Each
+    caller reports it its own way -- the interactive path shows a dialog, the
+    server path answers the request with an error.
+    """
+
+
 class Model:
     T = TypeVar('T', bound='Model')
     DEFAULT_SD15_MODEL = "analogMadness"

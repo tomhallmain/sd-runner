@@ -12,7 +12,7 @@ and report paths.
 
 from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.model_adapters import ControlNet, IPAdapter
-from ui_qt.presets.intermediate_prompt import IntermediatePrompt
+from sd_runner.intermediate_prompt import IntermediatePrompt
 from tests.utils import make_gen_config
 from utils.globals import WorkflowType
 

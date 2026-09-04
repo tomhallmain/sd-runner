@@ -1,8 +1,9 @@
 """
 ExpansionsWindow / ExpansionModifyWindow -- manage prompt expansions.
 
-Static data helpers (``set_expansions``, ``store_expansions``, etc.) live on
-:class:`ExpansionsWindow` for persistence via ``CacheController``.
+Loading and storing expansions lives in ``sd_runner.expansions_state``; this
+class is the editor for them, and keeps the in-session history of the ones the
+user has set.
 """
 
 from __future__ import annotations
@@ -27,6 +28,7 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
+from sd_runner import expansions_state
 from sd_runner.expansion import Expansion
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
@@ -169,43 +171,8 @@ class ExpansionsWindow(SmartDialog):
 
     _instance = None
     _modify_window: Optional[ExpansionModifyWindow] = None
-    last_set_expansion = None
     expansion_history = []
     MAX_EXPANSIONS = 50
-
-    @staticmethod
-    def set_expansions():
-        from utils.app_info_cache import app_info_cache
-
-        for expansion_dict in list(app_info_cache.get("expansions", default_val=[])):
-            Expansion.expansions.append(Expansion.from_dict(expansion_dict))
-
-    @staticmethod
-    def store_expansions(persist: bool = True):
-        """Store expansions to cache.
-
-        Writes through to disk unless *persist* is False. The write is skipped
-        when nothing actually changed, so calling this from an edit handler is
-        cheap even when the edit was a no-op. store_info_cache passes False
-        because it writes once itself after collecting every subsystem.
-        """
-        from utils.app_info_cache import app_info_cache
-
-        expansion_dicts = [expansion.to_dict() for expansion in Expansion.expansions]
-        app_info_cache.set("expansions", expansion_dicts)
-
-        if persist:
-            app_info_cache.store(only_if_changed=True)
-
-    @staticmethod
-    def get_expansion_names():
-        return sorted(exp.id for exp in Expansion.expansions)
-
-    @staticmethod
-    def get_most_recent_expansion_name():
-        if len(Expansion.expansions) > 0:
-            return Expansion.expansions[0]
-        return _("New Expansion (ERROR no expansions found)")
 
     @staticmethod
     def get_history_expansion(start_index=0):
@@ -225,15 +192,6 @@ class ExpansionsWindow(SmartDialog):
         ExpansionsWindow.expansion_history.insert(0, expansion)
         if len(ExpansionsWindow.expansion_history) > ExpansionsWindow.MAX_EXPANSIONS:
             del ExpansionsWindow.expansion_history[-1]
-
-    @staticmethod
-    def next_expansion(alert_callback):
-        if len(Expansion.expansions) == 0:
-            alert_callback(_("Not enough expansions found."))
-        next_expansion = Expansion.expansions[-1]
-        Expansion.expansions.remove(next_expansion)
-        Expansion.expansions.insert(0, next_expansion)
-        return next_expansion
 
     def __init__(
         self,
@@ -417,7 +375,7 @@ class ExpansionsWindow(SmartDialog):
         if expansion in Expansion.expansions:
             Expansion.expansions.remove(expansion)
         Expansion.expansions.insert(0, expansion)
-        ExpansionsWindow.store_expansions()
+        expansions_state.store_expansions()
         self._apply_filter()
 
     def _add_empty_expansion(self) -> None:
@@ -431,7 +389,7 @@ class ExpansionsWindow(SmartDialog):
             return
         if exp in Expansion.expansions:
             Expansion.expansions.remove(exp)
-        ExpansionsWindow.store_expansions()
+        expansions_state.store_expansions()
         self._apply_filter()
 
     @require_password(ProtectedActions.EDIT_EXPANSIONS)
@@ -446,7 +404,7 @@ class ExpansionsWindow(SmartDialog):
         ):
             return
         Expansion.expansions.clear()
-        ExpansionsWindow.store_expansions()
+        expansions_state.store_expansions()
         self._search_edit.clear()
         self._apply_filter()
 
@@ -485,13 +443,3 @@ class ExpansionsWindow(SmartDialog):
     def closeEvent(self, event) -> None:  # noqa: N802
         ExpansionsWindow._instance = None
         super().closeEvent(event)
-
-
-# Module-level aliases for CacheController and other call sites
-set_expansions = ExpansionsWindow.set_expansions
-store_expansions = ExpansionsWindow.store_expansions
-get_expansion_names = ExpansionsWindow.get_expansion_names
-get_most_recent_expansion_name = ExpansionsWindow.get_most_recent_expansion_name
-get_history_expansion = ExpansionsWindow.get_history_expansion
-update_history = ExpansionsWindow.update_history
-next_expansion = ExpansionsWindow.next_expansion

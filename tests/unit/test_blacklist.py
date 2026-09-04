@@ -1,9 +1,9 @@
 import unittest
 from sd_runner.blacklist import Blacklist, BlacklistItem
 from sd_runner.concepts import Concepts
-from ui_qt.prompts.blacklist_window import BlacklistWindow
+from sd_runner import blacklist_state
 from utils.app_info_cache import app_info_cache
-from utils.globals import PromptMode
+from utils.globals import BlacklistMode, BlacklistPromptMode, PromptMode
 
 class TestBlacklist(unittest.TestCase):
     def setUp(self):
@@ -491,7 +491,7 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
 
     @property
     def _cache(self):
-        # BlacklistWindow methods do an inline import each call, so they pick up the
+        # blacklist_state functions do an inline import each call, so they pick up the
         # per-test isolated instance created by isolated_singletons.  We must do the
         # same here rather than rely on the module-level import (which is the bootstrap
         # instance and is never patched by isolated_singletons).
@@ -514,7 +514,7 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
         """Test that first-time users get the default encrypted blacklist."""
         self.assertFalse(self._cache.get("blacklist_user_confirmed_non_default", default_val=False))
 
-        BlacklistWindow.set_blacklist()
+        blacklist_state.set_blacklist()
 
         try:
             items = Blacklist.get_items()
@@ -533,7 +533,7 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
         blacklist_dicts = [item.to_dict() for item in test_items]
         self._cache.set("tag_blacklist", blacklist_dicts)
 
-        BlacklistWindow.set_blacklist()
+        blacklist_state.set_blacklist()
 
         items = Blacklist.get_items()
         self.assertEqual(len(items), 2)
@@ -546,7 +546,7 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
         """Test that user confirmation is properly marked when they modify the blacklist."""
         self.assertFalse(self._cache.get("blacklist_user_confirmed_non_default", default_val=False))
 
-        BlacklistWindow.mark_user_confirmed_non_default()
+        blacklist_state.mark_user_confirmed_non_default()
 
         self.assertTrue(self._cache.get("blacklist_user_confirmed_non_default", default_val=False))
 
@@ -555,7 +555,7 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
         self._cache.set("blacklist_user_confirmed_non_default", True)
         self._cache.set("tag_blacklist", [])
 
-        BlacklistWindow.set_blacklist()
+        blacklist_state.set_blacklist()
 
         items = Blacklist.get_items()
         self.assertEqual(len(items), 0)
@@ -567,7 +567,7 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
 
         self._cache.set("blacklist_user_confirmed_non_default", True)
 
-        result = BlacklistWindow.load_default_blacklist()
+        result = blacklist_state.load_default_blacklist()
         self.assertTrue(result)
 
         items = Blacklist.get_items()
@@ -578,10 +578,10 @@ class TestFirstTimeUserBlacklist(unittest.TestCase):
     def test_reveal_concepts_functionality(self):
         """Test that the reveal concepts functionality works correctly."""
         self._cache.set("blacklist_user_confirmed_non_default", False)
-        self.assertTrue(BlacklistWindow.is_in_default_state())
+        self.assertTrue(blacklist_state.is_in_default_state())
 
         self._cache.set("blacklist_user_confirmed_non_default", True)
-        self.assertFalse(BlacklistWindow.is_in_default_state())
+        self.assertFalse(blacklist_state.is_in_default_state())
 
         self._cache.set("blacklist_user_confirmed_non_default", False)
 
@@ -615,6 +615,45 @@ class TestAccentNormalization(unittest.TestCase):
             for test_word in should_not_match:
                 with self.subTest(input=input_string, word=test_word, expect_match=False):
                     self.assertFalse(item.matches_tag(test_word))
+
+
+class TestRestoringBlacklistModes(unittest.TestCase):
+    """A stored mode string that names no member of its enum.
+
+    Reachable from a cache written by a newer version, or an edited one. The
+    blacklist has to load anyway: refusing to restore it would leave the filter
+    off, which is the failure that matters here.
+    """
+
+    @property
+    def _cache(self):
+        import utils.app_info_cache as _aic
+        return _aic.app_info_cache
+
+    def test_an_unreadable_mode_keeps_the_current_one(self):
+        Blacklist.set_blacklist_mode(BlacklistMode.FAIL_PROMPT)
+        self._cache.set("blacklist_mode", "NOT_A_MODE")
+
+        blacklist_state.set_blacklist()
+
+        self.assertEqual(Blacklist.get_blacklist_mode(), BlacklistMode.FAIL_PROMPT)
+
+    def test_an_unreadable_mode_leaves_the_other_two(self):
+        """One bad value costs one setting."""
+        self._cache.set("blacklist_mode", "NOT_A_MODE")
+        self._cache.set("blacklist_prompt_mode", str(BlacklistPromptMode.ALLOW_IN_NSFW))
+
+        blacklist_state.set_blacklist()
+
+        self.assertEqual(
+            Blacklist.get_blacklist_prompt_mode(), BlacklistPromptMode.ALLOW_IN_NSFW)
+
+    def test_a_stored_mode_is_restored(self):
+        self._cache.set("blacklist_mode", str(BlacklistMode.LOG_ONLY))
+
+        blacklist_state.set_blacklist()
+
+        self.assertEqual(Blacklist.get_blacklist_mode(), BlacklistMode.LOG_ONLY)
 
 
 if __name__ == '__main__':

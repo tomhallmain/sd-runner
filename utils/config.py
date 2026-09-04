@@ -49,6 +49,7 @@ class Config:
         "image_searcher_dir2":              None,
         # Backend autolaunch — see backend_launch_commands below
         "backend_startup_timeout":          int,
+        "log_backend_output":               bool,
         # UI
         "foreground_color":                 None,
         "background_color":                 None,
@@ -191,6 +192,12 @@ class Config:
         # slower still. Running out does not kill the backend; it is left to
         # carry on and reported as still starting.
         self.backend_startup_timeout = 600
+        # Whether a launched backend's own output is repeated in this app's log.
+        # Off by default: a backend prints continuously once it is serving, and
+        # interleaving that with the app's own lines makes both harder to read.
+        # The output is still drained either way, and is logged at debug level
+        # when this is off, so a failed startup stays diagnosable.
+        self.log_backend_output = False
 
         # Overridable so test runs can bind an OS-assigned ephemeral port
         # (SD_RUNNER_SERVER_PORT=0) instead of colliding with a real running
@@ -241,6 +248,7 @@ class Config:
                         "purge_blacklisted_prompt_history",
                         "delay_after_single_run",
                         "vlm_load_in_4bit",
+                        "log_backend_output",
         )
         self.set_values(str,
                         "locale",

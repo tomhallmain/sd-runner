@@ -17,8 +17,9 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from ui_qt.presets.schedule import PresetTask, Schedule
-from ui_qt.presets.presets_window import PresetsWindow
+from sd_runner.presets_state import PresetsState
+from sd_runner.schedule import PresetTask, Schedule
+from sd_runner.schedules_state import SchedulesState
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
 from ui_qt.window_focus import clear_class_ref_if_self, try_focus_existing_window
@@ -89,7 +90,7 @@ class ScheduleModifyWindow(SmartDialog):
             if w:
                 w.deleteLater()
 
-        preset_names = PresetsWindow.get_preset_names()
+        preset_names = PresetsState.get_preset_names()
 
         for idx, task in enumerate(self._schedule.schedule):
             row = QWidget()
@@ -145,7 +146,7 @@ class ScheduleModifyWindow(SmartDialog):
     @require_password(ProtectedActions.EDIT_SCHEDULES)
     def _add_preset_task(self) -> None:
         self._schedule.add_preset_task(
-            PresetTask(PresetsWindow.get_most_recent_preset_name(), 1)
+            PresetTask(PresetsState.get_most_recent_preset_name(), 1)
         )
         self._rebuild_rows()
 
@@ -182,42 +183,9 @@ class SchedulesWindow(SmartDialog):
     """
 
     _instance = None
-    current_schedule = None  # Will be set from Schedule() during set_schedules
-    recent_schedules = []
+    #: The order schedules were set in: what history navigation acts on.
     schedule_history = []
     MAX_SCHEDULES = 50
-
-    @staticmethod
-    def set_schedules():
-        from utils.app_info_cache import app_info_cache
-        from ui_qt.presets.schedule import Schedule
-        for schedule_dict in list(app_info_cache.get("recent_schedules", default_val=[])):
-            SchedulesWindow.recent_schedules.append(Schedule.from_dict(schedule_dict))
-        current_schedule_dict = app_info_cache.get("current_schedule", default_val=None)
-        if current_schedule_dict is not None:
-            SchedulesWindow.current_schedule = Schedule.from_dict(current_schedule_dict)
-        else:
-            SchedulesWindow.current_schedule = Schedule()
-
-    @staticmethod
-    def store_schedules(persist: bool = True):
-        """Store schedules to cache.
-
-        Writes through to disk unless *persist* is False. The write is skipped
-        when nothing actually changed, so calling this from an edit handler is
-        cheap even when the edit was a no-op. store_info_cache passes False
-        because it writes once itself after collecting every subsystem.
-        """
-        from utils.app_info_cache import app_info_cache
-        schedule_dicts = []
-        for schedule in SchedulesWindow.recent_schedules:
-            schedule_dicts.append(schedule.to_dict())
-        app_info_cache.set("recent_schedules", schedule_dicts)
-        if SchedulesWindow.current_schedule is not None:
-            app_info_cache.set("current_schedule", SchedulesWindow.current_schedule.to_dict())
-
-        if persist:
-            app_info_cache.store(only_if_changed=True)
 
     @staticmethod
     def update_history(schedule):
@@ -269,7 +237,7 @@ class SchedulesWindow(SmartDialog):
     # ------------------------------------------------------------------
     @staticmethod
     def _current_schedule_text() -> str:
-        return _("Current schedule: {0}").format(SchedulesWindow.current_schedule)
+        return _("Current schedule: {0}").format(SchedulesState.current_schedule)
 
     def _rebuild_rows(self) -> None:
         while self._rows_layout.count():
@@ -278,7 +246,7 @@ class SchedulesWindow(SmartDialog):
             if w:
                 w.deleteLater()
 
-        for schedule in SchedulesWindow.recent_schedules:
+        for schedule in SchedulesState.recent_schedules:
             row = QWidget()
             h = QHBoxLayout(row)
             h.setContentsMargins(2, 2, 2, 2)
@@ -306,7 +274,7 @@ class SchedulesWindow(SmartDialog):
 
     # ------------------------------------------------------------------
     def _set_schedule(self, schedule: Schedule) -> None:
-        SchedulesWindow.current_schedule = schedule
+        SchedulesState.current_schedule = schedule
         self._info_label.setText(self._current_schedule_text())
         self._app_actions.toast(_("Set schedule: {0}").format(schedule))
         self._rebuild_rows()
@@ -329,24 +297,24 @@ class SchedulesWindow(SmartDialog):
     def _on_schedule_modified(self, schedule: Schedule) -> None:
         """Callback from ScheduleModifyWindow after save."""
         SchedulesWindow.update_history(schedule)
-        if schedule in SchedulesWindow.recent_schedules:
-            SchedulesWindow.recent_schedules.remove(schedule)
-        SchedulesWindow.recent_schedules.insert(0, schedule)
-        SchedulesWindow.store_schedules()
+        if schedule in SchedulesState.recent_schedules:
+            SchedulesState.recent_schedules.remove(schedule)
+        SchedulesState.recent_schedules.insert(0, schedule)
+        SchedulesState.store_schedules()
         self._set_schedule(schedule)
 
     @require_password(ProtectedActions.EDIT_SCHEDULES)
     def _delete_schedule(self, schedule: Schedule | None = None) -> None:
-        if schedule is not None and schedule in SchedulesWindow.recent_schedules:
-            SchedulesWindow.recent_schedules.remove(schedule)
-            SchedulesWindow.store_schedules()
+        if schedule is not None and schedule in SchedulesState.recent_schedules:
+            SchedulesState.recent_schedules.remove(schedule)
+            SchedulesState.store_schedules()
             self._app_actions.toast(_("Deleted schedule: {0}").format(schedule))
         self._rebuild_rows()
 
     @require_password(ProtectedActions.EDIT_SCHEDULES)
     def _clear_recent_schedules(self) -> None:
-        SchedulesWindow.recent_schedules.clear()
-        SchedulesWindow.store_schedules()
+        SchedulesState.recent_schedules.clear()
+        SchedulesState.store_schedules()
         self._rebuild_rows()
         self._app_actions.toast(_("Cleared schedules"))
 

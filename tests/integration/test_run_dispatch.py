@@ -24,7 +24,7 @@ run_ctrl.run()
   → run_preset_schedule()
       → Utils.start_thread(run_preset_async)  ← synchronous in tests
           → for each preset_task:
-              PresetsWindow.get_preset_by_name(task.name)
+              PresetsState.get_preset_by_name(task.name)
               sp.set_widgets_from_preset(preset)
               sp.total_combo.setCurrentText(str(task.count_runs))
               run_ctrl.run()               ← recursive; hits normal path
@@ -43,9 +43,10 @@ from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
 from tests.utils import make_schedule
-from ui_qt.presets.schedule import Schedule
+from sd_runner.schedule import Schedule
+from sd_runner.schedules_state import SchedulesState
 from ui_qt.presets.schedules_window import SchedulesWindow
-from ui_qt.presets.presets_window import PresetsWindow
+from sd_runner.presets_state import PresetsState
 from utils.translations import I18N
 from utils.utils import Utils
 from utils.time_estimator import TimeEstimator
@@ -60,19 +61,19 @@ _ = I18N._
 
 
 # ---------------------------------------------------------------------------
-# Autouse fixture: reset SchedulesWindow class state between tests
+# Autouse fixture: reset schedule class state between tests
 # ---------------------------------------------------------------------------
 
 @pytest.fixture(autouse=True)
 def reset_schedules_state():
-    SchedulesWindow.recent_schedules = []
+    SchedulesState.recent_schedules = []
+    SchedulesState.current_schedule = Schedule()
     SchedulesWindow.schedule_history = []
-    SchedulesWindow.current_schedule = Schedule()
     SchedulesWindow._modify_window = None
     yield
-    SchedulesWindow.recent_schedules = []
+    SchedulesState.recent_schedules = []
+    SchedulesState.current_schedule = Schedule()
     SchedulesWindow.schedule_history = []
-    SchedulesWindow.current_schedule = Schedule()
 
 
 # ---------------------------------------------------------------------------
@@ -185,9 +186,7 @@ class TestNormalRunDispatch:
 # ---------------------------------------------------------------------------
 
 class TestBackendLazyStart:
-    """A managed backend is no longer launched at window open -- the run
-    path is what asks for it, the first time it is actually needed.
-    """
+    """The run path is what asks for a managed backend, when a run needs it."""
 
     def test_run_asks_to_start_the_selected_backend(self, app_window, run_stubs, monkeypatch):
         from utils.globals import SoftwareType
@@ -232,13 +231,13 @@ def _install_schedule(app_window, schedule, monkeypatch):
     Set schedule as current, check the checkbox, stub preset lookup and
     widget application. Returns (fake_preset, applications_list).
     """
-    SchedulesWindow.current_schedule = schedule
+    SchedulesState.current_schedule = schedule
     app_window.sidebar_panel.run_preset_schedule_check.setChecked(True)
     # Ensure no schedule already pending
     app_window.job_queue_preset_schedules.cancel()
 
     fake_preset = MagicMock()
-    monkeypatch.setattr(PresetsWindow, "get_preset_by_name", lambda name: fake_preset)
+    monkeypatch.setattr(PresetsState, "get_preset_by_name", lambda name: fake_preset)
 
     applications = []
     monkeypatch.setattr(
@@ -352,7 +351,7 @@ class TestWorkerThreadDialogs:
         def missing(name):
             raise Exception("no such preset")
 
-        monkeypatch.setattr(PresetsWindow, "get_preset_by_name", missing)
+        monkeypatch.setattr(PresetsState, "get_preset_by_name", missing)
 
         # run_preset_async re-raises after reporting, and start_thread is
         # synchronous here, so the exception surfaces to the caller.
@@ -370,7 +369,7 @@ class TestWorkerThreadDialogs:
         def missing(name):
             raise Exception("no such preset")
 
-        monkeypatch.setattr(PresetsWindow, "get_preset_by_name", missing)
+        monkeypatch.setattr(PresetsState, "get_preset_by_name", missing)
 
         with pytest.raises(Exception, match="no such preset"):
             app_window.run_ctrl.run()

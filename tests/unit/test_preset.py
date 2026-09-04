@@ -1,5 +1,5 @@
 import pytest
-from ui_qt.presets.preset import Preset
+from sd_runner.preset import Preset
 from utils.globals import PromptMode
 
 

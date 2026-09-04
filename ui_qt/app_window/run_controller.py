@@ -3,6 +3,12 @@ RunController -- image generation execution, queuing, and progress.
 
 Owns the run lifecycle: validation, execution (via ``Run``), job queue
 management, progress updates, cancellation, and time estimation.
+
+Qt is imported inside the three places that need it -- the alert sound and the
+scheduled-shutdown dialog -- rather than at module level, so this module can be
+imported by a process that has no display. Those three sit on paths a headless
+caller does not take: the long-run confirmation, the sidebar progress labels,
+and a countdown dialog.
 """
 
 import datetime
@@ -10,9 +16,7 @@ import os
 import time
 import traceback
 
-from PySide6.QtWidgets import QApplication
-
-from ui_qt.sound_player import play_sound
+from sd_runner.models import NoModelsFound
 from utils.logging_setup import get_logger
 from utils.translations import I18N
 from utils.utils import Utils
@@ -39,14 +43,6 @@ def origin_for_client(client_id: str) -> str:
     called itself server".
     """
     return client_id or SERVER_ORIGIN
-
-
-class NoModelsFound(Exception):
-    """Raised by _estimate_run when the run's model tags match nothing.
-
-    A separate type so each caller can report it its own way: the interactive
-    path shows a dialog, the server path answers the request with an error.
-    """
 
 
 def clear_quotes(s: str) -> str:
@@ -161,15 +157,19 @@ class RunController:
         """Validate *text* against the blacklist.
 
         Returns True if validation passes, False if blacklisted items found.
+
+        The prompt mode comes from the stored config rather than the combo
+        showing it, so this is answerable with no widgets to read -- it gates
+        every prompt that reaches a backend, including on the server path.
         """
         from utils.config import config
-        from utils.globals import PromptMode, BlacklistMode, BlacklistPromptMode
+        from utils.globals import BlacklistMode, BlacklistPromptMode
         from sd_runner.blacklist import Blacklist, BlacklistException
 
         if not config.blacklist_prevent_execution:
             return True
 
-        prompt_mode = PromptMode.get(self._sp.prompt_mode_combo.currentText())
+        prompt_mode = self._app.runner_app_config.prompter_config.prompt_mode
         if prompt_mode.is_nsfw() and Blacklist.get_blacklist_prompt_mode() == BlacklistPromptMode.ALLOW_IN_NSFW:
             return True
 
@@ -246,13 +246,13 @@ class RunController:
             if app.job_queue.paused:
                 app.job_queue.pending_jobs.insert(0, next_job_args)
                 Utils.prevent_sleep(False)
-                self.clear_progress()
+                app.app_actions.clear_progress()
             else:
                 app.current_run.delay_after_last_run = True
                 Utils.start_thread(self._run_async, use_asyncio=False, args=[next_job_args])
         elif not promoted:
             Utils.prevent_sleep(False)
-            self.clear_progress()
+            app.app_actions.clear_progress()
 
     def _run_async(self, run_args) -> None:
         from sd_runner.run import Run
@@ -263,17 +263,16 @@ class RunController:
         Utils.prevent_sleep(True)
         app.job_queue.job_running = True
         # Every run path converges here before touching the backend, so this is
-        # the one place that needs to ask for it: a configured backend launches
-        # on the first run that actually needs it rather than at window open. A
-        # backend already running (ours or adopted) returns immediately.
+        # the one place that asks for it. A backend already running (ours or
+        # adopted) returns immediately.
         #
         # Ordering is load-bearing. Blocking is fine -- this method always runs
         # on a worker thread -- but a cold backend blocks it for up to
         # backend_startup_timeout, and job_running is what every enqueue path
         # reads to decide whether to queue behind this run or launch a second
-        # _run_async of its own. Asking before that flag is set would widen a
-        # microsecond window into a ten-minute one, and a request arriving in it
-        # would start a concurrent run that overwrites current_run.
+        # _run_async of its own. Asking before that flag is set leaves a
+        # ten-minute window in which an arriving request starts a concurrent
+        # run and overwrites current_run.
         self._ensure_backend_started(run_args)
         # Prompt text reaches generation through process-wide Prompter/Globals
         # state, not through the run config. Both run paths carry their tags on
@@ -419,6 +418,12 @@ class RunController:
         except BlacklistException as e:
             app.notification_ctrl.handle_error(str(e), _("Blacklist Validation Error"))
             return
+        except NoModelsFound as e:
+            # Not offered as a confirmation: with no model there is nothing to
+            # generate with, so proceeding would fail further in with a less
+            # answerable message.
+            app.notification_ctrl.handle_error(str(e), _("No models found"))
+            return
         except Exception as e:
             ok = app.notification_ctrl.alert(
                 _("Confirm Run"),
@@ -434,20 +439,30 @@ class RunController:
 
         # Store config after validation
         app.cache_ctrl.store_info_cache()
-        self.update_progress(override_text=_("Setting up run..."))
+        app.app_actions.update_progress(override_text=_("Setting up run..."))
 
-        # Time estimation check
-        try:
-            estimated_seconds, estimated_image_count = self._estimate_run(args)
-        except NoModelsFound as e:
-            app.notification_ctrl.handle_error(str(e), _("No models found"))
+        # Time estimation check. The scans this makes over adapter and source
+        # prompt directories take as long as those directories are large, and
+        # it touches no widget -- _run_virtual relies on that too, keeping it
+        # off the GUI thread. Running it off thread here keeps the window
+        # painting while the Run button works.
+        estimate = app.responsiveness.run_off_thread(
+            lambda: self._estimate_run_outcome(args))
+        if isinstance(estimate, NoModelsFound):
+            app.notification_ctrl.handle_error(str(estimate), _("No models found"))
             return
+        if estimate is None:
+            app.notification_ctrl.handle_error(
+                _("Could not estimate the run."), _("Run Error"))
+            return
+        estimated_seconds, estimated_image_count = estimate
 
         if estimated_seconds > Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS:
             formatted_time = TimeEstimator.format_time(estimated_seconds)
             threshold_formatted = TimeEstimator.format_time(
                 Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS
             )
+            from ui_qt.sound_player import play_sound
             play_sound("alert")
             ok = app.notification_ctrl.alert(
                 _("Long Running Job Confirmation"),
@@ -462,6 +477,18 @@ class RunController:
                 return
 
         self._enqueue_run(args)
+
+    def _estimate_run_outcome(self, args):
+        """``_estimate_run``'s result, or the ``NoModelsFound`` it raised.
+
+        ``run_off_thread`` answers a failure with None and carries no exception
+        back, so the one failure the interactive caller tells apart is returned
+        as a value. Any other failure stays a None the caller reports as such.
+        """
+        try:
+            return self._estimate_run(args)
+        except NoModelsFound as e:
+            return NoModelsFound(str(e))
 
     def _estimate_run(self, args):
         """Return ``(estimated_seconds, estimated_image_count)`` for *args*.
@@ -616,7 +643,7 @@ class RunController:
         """Cancel the current run."""
         if hasattr(self._app, "current_run") and self._app.current_run is not None:
             self._app.current_run.cancel(reason=reason)
-        self.clear_progress()
+        self._app.app_actions.clear_progress()
 
     def revert_to_simple_gen(self, event=None, origin: str = "") -> None:
         """Cancel current run and restart with simple generation workflow."""
@@ -678,9 +705,9 @@ class RunController:
 
             starting_total = self._on_main(apply_overrides_and_read_total)
 
-            from ui_qt.presets.schedules_window import SchedulesWindow
-            from ui_qt.presets.presets_window import PresetsWindow
-            schedule = SchedulesWindow.current_schedule
+            from sd_runner.presets_state import PresetsState
+            from sd_runner.schedules_state import SchedulesState
+            schedule = SchedulesState.current_schedule
             if schedule is None:
                 raise Exception("No Schedule Selected")
 
@@ -694,7 +721,7 @@ class RunController:
                     app.job_queue_preset_schedules.cancel()
                     return
                 try:
-                    preset = PresetsWindow.get_preset_by_name(preset_task.name)
+                    preset = PresetsState.get_preset_by_name(preset_task.name)
                 except Exception as e:
                     # Bridged for the same reason as every other UI call in this
                     # closure: it runs on a worker thread and this one raises a
@@ -812,6 +839,7 @@ class RunController:
                     and not self._app.job_queue_preset_schedules.has_pending()
                     and self._app.current_run is not None
                     and self._app.current_run.is_complete):
+                from ui_qt.sound_player import play_sound
                 play_sound()
                 sp.label_pending_adapters.setText("")
         else:
@@ -894,6 +922,15 @@ class RunController:
         # run on the GUI thread in its entirety.
         if command_type is not None and command_type.kind is CommandKind.PARAMETERIZED_GENERATE:
             return self._run_virtual(command_type, args, client_id)
+        if getattr(self._app, "sidebar_panel", None) is None:
+            # "Reuse what is currently set" has no answer where nothing is set:
+            # an application with no widgets has no current settings to reuse,
+            # and inventing some would serve a different request than the one
+            # the client made.
+            logger.warning(
+                f"Refused server request '{command_type}': no user interface to read"
+            )
+            return {"error": "no user interface", "data": str(command_type)}
         return self._on_main(self._run_from_widgets, command_type, args, client_id)
 
     def server_health_check(self, level: int = 1, timeout: int = 60,
@@ -1005,7 +1042,7 @@ class RunController:
             return
         self._app.ensure_backend_started(software_type)
 
-    def server_revert_to_simple_gen(self, client_id: str = "") -> None:
+    def server_revert_to_simple_gen(self, client_id: str = ""):
         """Server entry point for ``revert_to_simple_gen``.
 
         Separate from the method itself because that one is also exposed through
@@ -1013,7 +1050,13 @@ class RunController:
         naming of an unidentified client belongs at the server edge rather than
         inside a method both callers share.
         """
+        if getattr(self._app, "sidebar_panel", None) is None:
+            # The command means "put the workflow selector back to simple gen",
+            # which is a state only a window holds.
+            logger.warning("Refused revert_to_simple_gen: no user interface to set")
+            return {"error": "no user interface", "data": "revert_to_simple_gen"}
         self.revert_to_simple_gen(origin=origin_for_client(client_id))
+        return None
 
     def _promote_staged_request(self, command_type, args: dict, client_id: str = "") -> None:
         """Hand a staged request back to the run path, off the GUI thread.
@@ -1053,7 +1096,7 @@ class RunController:
         if app.job_queue.job_running or app.job_queue.pending_jobs:
             return
         Utils.prevent_sleep(False)
-        self.clear_progress()
+        app.app_actions.clear_progress()
 
     def _stage_if_queue_full(self, command_type, args: dict, client_id: str = ""):
         """Stage the request if the run queue is full. GUI thread only.
@@ -1112,9 +1155,9 @@ class RunController:
             )
 
         if "edit_suffix" in args:
-            from ui_qt.presets.presets_window import PresetsWindow
+            from sd_runner.presets_state import PresetsState
             edit_suffix = args["edit_suffix"]
-            preset = PresetsWindow.get_preset_by_suffix(edit_suffix)
+            preset = PresetsState.get_preset_by_suffix(edit_suffix)
             if preset is not None:
                 logger.info(f"Switching to preset '{preset.name}' for edit_suffix '{edit_suffix}'")
                 sp.set_widgets_from_preset(preset, manual=False)
@@ -1151,6 +1194,11 @@ class RunController:
 
         app = self._app
         if "image" not in request:
+            return False
+        # Before the widget read, not after: a schedule is the user's own and
+        # is started from the window, so an application without one can never
+        # be running a schedule to divert to.
+        if getattr(app, "sidebar_panel", None) is None:
             return False
         if not self._sp.run_preset_schedule_check.isChecked():
             return False
@@ -1195,6 +1243,12 @@ class RunController:
                 base_args, command_type, request, preset=preset
             )
             run_config.validate()
+        except NoModelsFound as e:
+            # Named separately from the generic rejection below so a client can
+            # tell "this request was malformed" from "this runner currently has
+            # no model to serve it with", which is not about the request at all.
+            logger.error(f"Rejected server request '{command_type}': {e}")
+            return {"error": "no models found", "data": str(e)}
         except Exception as e:
             # No dialog: there is no user at this end to answer one, and a modal
             # here would block the listener thread waiting on this call.
@@ -1223,18 +1277,27 @@ class RunController:
         if self._divert_to_preset_schedule(workflow_type, request):
             return None
 
+        # A request brings only its own parameters -- the model, resolutions,
+        # counts and the rest come from the stored config -- and most of those
+        # fields reach it only when the user starts a run of their own. Without
+        # this the request would be served with the settings as of that run
+        # rather than the ones the sidebar is showing. Absent on a headless
+        # application object, which has no widgets to be ahead of the config.
+        sync = getattr(self._app, "sync_config_from_widgets", None)
+        if sync is not None:
+            sync()
+
         base_args = base_args_from_app_config(self._app.runner_app_config)
-        # Set here rather than in base_args_from_app_config: the pre-pass lives
-        # on PresetsWindow, deliberately not on RunnerAppConfig, and reading it
-        # there would put Qt inside the module that exists to build a run
-        # without it.
+        # Set here because the pre-pass is held on PresetsState, deliberately
+        # not on RunnerAppConfig, so base_args_from_app_config cannot reach it
+        # from the config it is given.
         base_args["intermediate_prompt"] = self._app.active_intermediate_prompt()
 
         preset = None
         if "edit_suffix" in request:
-            from ui_qt.presets.presets_window import PresetsWindow
+            from sd_runner.presets_state import PresetsState
             edit_suffix = request["edit_suffix"]
-            preset = PresetsWindow.get_preset_by_suffix(edit_suffix)
+            preset = PresetsState.get_preset_by_suffix(edit_suffix)
             if preset is None:
                 logger.warning(f"No preset found with edit_suffix matching '{edit_suffix}'")
             else:
@@ -1366,6 +1429,9 @@ class RunController:
         """Show the shutdown countdown dialog. Must be called on the main thread."""
         logger.info(f"Scheduled shutdown requested: {e}")
         schedule_name = e.schedule.name if e.schedule else "Unknown Schedule"
+        # Outside the try: the ImportError branch below quits through it too, so
+        # it has to be bound before anything can raise.
+        from PySide6.QtWidgets import QApplication
         try:
             from ui_qt.presets.scheduled_shutdown_dialog import ScheduledShutdownDialog
             shutdown_dialog = ScheduledShutdownDialog(

@@ -389,11 +389,11 @@ def is_nsfw_wildcard_file(name: str) -> bool:
 
 
 def _try_load_blacklist() -> bool:
-    """Attempt to load the blacklist via BlacklistWindow.set_blacklist(). Returns True if loaded."""
+    """Attempt to load the blacklist via blacklist_state.set_blacklist(). Returns True if loaded."""
     try:
-        from ui_qt.prompts.blacklist_window import BlacklistWindow
+        from sd_runner import blacklist_state
         from sd_runner.blacklist import Blacklist
-        BlacklistWindow.set_blacklist()
+        blacklist_state.set_blacklist()
         return not Blacklist.is_empty()
     except Exception:
         return False

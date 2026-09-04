@@ -6,7 +6,7 @@ from enum import Enum
 
 from utils.globals import Globals, PromptMode, Sampler, Scheduler, WorkflowType # must import first
 
-from sd_runner.models import Model
+from sd_runner.models import Model, NoModelsFound
 from utils.logging_setup import get_logger
 from utils.time_estimator import TimeEstimator
 from utils.translations import I18N
@@ -66,6 +66,12 @@ class RunConfig:
         self.sampler = _arg(args, "sampler")
         self.scheduler = _arg(args, "scheduler")
         self.denoise = _arg(args, "denoise")
+        # Carried rather than applied where the run is built: generation reads
+        # these off BaseImageGenerator and Prompter, so apply_prompt_globals
+        # sets them when the run starts. A queued run then generates with its
+        # own values instead of whatever a later run pushed while it waited.
+        self.random_skip_chance = _arg(args, "random_skip_chance")
+        self.tags_apply_to_start = _arg(args, "tags_apply_to_start")
         self.prompter_override = _arg(args, "prompter_override")
         self.redo_files = _arg(args, "redo_files")
         self.prompter_config = _arg(args, "prompter_config")
@@ -158,6 +164,11 @@ class RunConfig:
 
         # Validate prompt massage tags
         prompt_massage_tags, models = Model.get_first_model_prompt_massage_tags(self.model_tags, prompt_mode=self.prompter_config.prompt_mode, inpainting=self.inpainting)
+        # get_models() skips a tag it cannot resolve rather than raising, so an
+        # unresolvable tag arrives here as an empty list. Everything below reads
+        # models[0] for the default lora and the architecture.
+        if not models:
+            raise NoModelsFound(_("No models found matching '{0}'").format(self.model_tags))
         should_warn = False
         with RunConfig._model_switch_lock:
             if (RunConfig.model_switch_detected

@@ -114,6 +114,7 @@
     "swarmui_loc": null,
     "backend_launch_commands": {},
     "backend_startup_timeout": 600,
+    "log_backend_output": false,
     "sd_webui_url": "http://127.0.0.1:7860",
     "sd_webui_loc": "{HOME}\\repos\\stable-diffusion-webui",
     "sd_webui_save_path": ".",

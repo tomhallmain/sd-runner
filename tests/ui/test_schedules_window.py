@@ -17,9 +17,10 @@ import pytest
 from PySide6.QtWidgets import QApplication, QComboBox, QLabel
 
 from tests.utils import make_app_actions, make_schedule
-from ui_qt.presets.schedule import PresetTask, Schedule
+from sd_runner.schedule import PresetTask, Schedule
+from sd_runner.schedules_state import SchedulesState
 from ui_qt.presets.schedules_window import SchedulesWindow, ScheduleModifyWindow
-from ui_qt.presets.presets_window import PresetsWindow
+from sd_runner.presets_state import PresetsState
 
 
 # ---------------------------------------------------------------------------
@@ -28,10 +29,10 @@ from ui_qt.presets.presets_window import PresetsWindow
 
 @pytest.fixture(autouse=True)
 def reset_schedules_window_state():
-    """Reset SchedulesWindow class-level state before and after every test."""
-    SchedulesWindow.recent_schedules = []
+    """Reset schedule class-level state before and after every test."""
+    SchedulesState.recent_schedules = []
+    SchedulesState.current_schedule = Schedule()
     SchedulesWindow.schedule_history = []
-    SchedulesWindow.current_schedule = Schedule()
     SchedulesWindow._modify_window = None
     yield
     if SchedulesWindow._modify_window is not None:
@@ -40,17 +41,17 @@ def reset_schedules_window_state():
         except Exception:
             pass
         SchedulesWindow._modify_window = None
-    SchedulesWindow.recent_schedules = []
+    SchedulesState.recent_schedules = []
+    SchedulesState.current_schedule = Schedule()
     SchedulesWindow.schedule_history = []
-    SchedulesWindow.current_schedule = Schedule()
 
 
 @pytest.fixture(autouse=True)
 def patch_presets_window(monkeypatch):
-    """Prevent PresetsWindow from touching real data during schedule window tests."""
-    monkeypatch.setattr(PresetsWindow, "get_preset_names",
+    """Prevent PresetsState from touching real data during schedule window tests."""
+    monkeypatch.setattr(PresetsState, "get_preset_names",
                         staticmethod(lambda: ["Preset A", "Preset B"]))
-    monkeypatch.setattr(PresetsWindow, "get_most_recent_preset_name",
+    monkeypatch.setattr(PresetsState, "get_most_recent_preset_name",
                         staticmethod(lambda: "Preset A"))
 
 
@@ -60,7 +61,7 @@ def patch_presets_window(monkeypatch):
 
 class TestSchedulesWindowDisplay:
     def test_info_label_shows_current_schedule_name(self, qapp):
-        SchedulesWindow.current_schedule = make_schedule("Evening")
+        SchedulesState.current_schedule = make_schedule("Evening")
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             assert "Evening" in win._info_label.text()
@@ -75,7 +76,7 @@ class TestSchedulesWindowDisplay:
             win.close()
 
     def test_row_count_matches_recent_schedules(self, qapp):
-        SchedulesWindow.recent_schedules = [make_schedule("A"), make_schedule("B"), make_schedule("C")]
+        SchedulesState.recent_schedules = [make_schedule("A"), make_schedule("B"), make_schedule("C")]
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             assert win._rows_layout.count() == 3
@@ -83,7 +84,7 @@ class TestSchedulesWindowDisplay:
             win.close()
 
     def test_schedule_labels_contain_schedule_names(self, qapp):
-        SchedulesWindow.recent_schedules = [make_schedule("Morning"), make_schedule("Night")]
+        SchedulesState.recent_schedules = [make_schedule("Morning"), make_schedule("Night")]
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             all_label_text = ""
@@ -104,17 +105,17 @@ class TestSchedulesWindowDisplay:
 class TestSchedulesWindowSetSchedule:
     def test_set_schedule_updates_current_schedule(self, qapp):
         s = make_schedule("Afternoon")
-        SchedulesWindow.recent_schedules = [s]
+        SchedulesState.recent_schedules = [s]
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             win._set_schedule(s)
-            assert SchedulesWindow.current_schedule == s
+            assert SchedulesState.current_schedule == s
         finally:
             win.close()
 
     def test_set_schedule_updates_info_label(self, qapp):
         s = make_schedule("Night")
-        SchedulesWindow.recent_schedules = [s]
+        SchedulesState.recent_schedules = [s]
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             win._set_schedule(s)
@@ -128,7 +129,7 @@ class TestSchedulesWindowSetSchedule:
         actions = make_app_actions()
         actions._actions["toast"] = lambda msg, **kw: toasts.append(msg)
         s = make_schedule("Work")
-        SchedulesWindow.recent_schedules = [s]
+        SchedulesState.recent_schedules = [s]
         win = SchedulesWindow(parent=None, app_actions=actions)
         try:
             win._set_schedule(s)
@@ -140,7 +141,7 @@ class TestSchedulesWindowSetSchedule:
     def test_switching_schedule_changes_label(self, qapp):
         s1 = make_schedule("First")
         s2 = make_schedule("Second")
-        SchedulesWindow.recent_schedules = [s1, s2]
+        SchedulesState.recent_schedules = [s1, s2]
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             win._set_schedule(s1)
@@ -162,31 +163,31 @@ class TestSchedulesWindowModify:
         try:
             s = make_schedule("New")
             win._on_schedule_modified(s)
-            assert s in SchedulesWindow.recent_schedules
+            assert s in SchedulesState.recent_schedules
         finally:
             win.close()
 
     def test_on_schedule_modified_moves_new_schedule_to_front(self, qapp):
         existing = make_schedule("Old")
-        SchedulesWindow.recent_schedules = [existing]
+        SchedulesState.recent_schedules = [existing]
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             new_s = make_schedule("New")
             win._on_schedule_modified(new_s)
-            assert SchedulesWindow.recent_schedules[0] == new_s
+            assert SchedulesState.recent_schedules[0] == new_s
         finally:
             win.close()
 
     def test_on_schedule_modified_replaces_by_name(self, qapp):
         s1 = make_schedule("Alpha")
         s1.add_preset_task(PresetTask("old_preset", 1))
-        SchedulesWindow.recent_schedules = [s1]
+        SchedulesState.recent_schedules = [s1]
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             s2 = make_schedule("Alpha")
             s2.add_preset_task(PresetTask("new_preset", 5))
             win._on_schedule_modified(s2)
-            alpha_list = [s for s in SchedulesWindow.recent_schedules if s.name == "Alpha"]
+            alpha_list = [s for s in SchedulesState.recent_schedules if s.name == "Alpha"]
             assert len(alpha_list) == 1
         finally:
             win.close()
@@ -196,7 +197,7 @@ class TestSchedulesWindowModify:
         try:
             s = make_schedule("Active")
             win._on_schedule_modified(s)
-            assert SchedulesWindow.current_schedule == s
+            assert SchedulesState.current_schedule == s
         finally:
             win.close()
 
@@ -212,18 +213,18 @@ class TestSchedulesWindowModify:
 
     def test_delete_schedule_removes_from_recent(self, qapp):
         s = make_schedule("ToDelete")
-        SchedulesWindow.recent_schedules = [s]
+        SchedulesState.recent_schedules = [s]
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             win._delete_schedule(s)
-            assert s not in SchedulesWindow.recent_schedules
+            assert s not in SchedulesState.recent_schedules
         finally:
             win.close()
 
     def test_delete_schedule_removes_its_row(self, qapp):
         s1 = make_schedule("Keep")
         s2 = make_schedule("Remove")
-        SchedulesWindow.recent_schedules = [s1, s2]
+        SchedulesState.recent_schedules = [s1, s2]
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             assert win._rows_layout.count() == 2
@@ -234,12 +235,12 @@ class TestSchedulesWindowModify:
             win.close()
 
     def test_clear_removes_all_schedules_and_rows(self, qapp):
-        SchedulesWindow.recent_schedules = [make_schedule("A"), make_schedule("B")]
+        SchedulesState.recent_schedules = [make_schedule("A"), make_schedule("B")]
         win = SchedulesWindow(parent=None, app_actions=make_app_actions())
         try:
             win._clear_recent_schedules()
             QApplication.processEvents()
-            assert SchedulesWindow.recent_schedules == []
+            assert SchedulesState.recent_schedules == []
             assert win._rows_layout.count() == 0
         finally:
             win.close()

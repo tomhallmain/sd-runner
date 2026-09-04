@@ -43,7 +43,12 @@ def qapp():
 def app_window(qapp):
     from PySide6.QtWidgets import QApplication
     from ui_qt.app_window.app_window import AppWindow
+    from utils.ui_responsiveness import NullResponsiveness
     win = AppWindow()
+    # Run the work inline. There is no one watching this window, so keeping it
+    # painting buys nothing, and a worker thread under a nested event loop
+    # would make an otherwise synchronous assertion depend on scheduling.
+    win.responsiveness = NullResponsiveness()
     QApplication.processEvents()
     yield win
     try:

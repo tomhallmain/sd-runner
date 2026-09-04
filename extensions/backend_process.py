@@ -3,10 +3,9 @@
 SD Runner starts the backend, pipes its output into the app log, waits for it
 to answer, and shuts it down on exit. Opt-in per backend: a backend with no
 launch command configured is never touched, and one that is already running is
-adopted rather than started a second time. Starting happens lazily -- the
-first time a run actually needs a given backend, not when SD Runner opens --
-so an install with several configured backends does not pay to warm up ones
-that go unused this session.
+adopted rather than started a second time. A backend starts the first time a
+run needs it, so an install with several configured backends warms up only the
+ones that session actually uses.
 
 **Launch commands are the user's, not ours.** There are no built-in defaults.
 Install layouts differ too much for a guessed command to be right -- venv or
@@ -79,18 +78,19 @@ class BackendProcess:
         launch_cmd: str,
         cwd: Optional[str] = None,
         startup_timeout: int = 300,
+        log_output: bool = False,
     ):
         self.software_type = software_type
         self.launch_cmd = launch_cmd
         self.cwd = cwd
         self.startup_timeout = startup_timeout
+        self.log_output = log_output
         self._proc: Optional[subprocess.Popen] = None
         self._adopted = False
         self._ready = False
-        # Guards start(): callers no longer launch every configured backend
-        # up front, they call this the first time a run actually needs it --
-        # so two runs arriving close together must not race into spawning the
-        # backend twice.
+        # Guards start(): the run path calls it whenever it needs the backend,
+        # so two runs arriving close together must not race into spawning it
+        # twice.
         self._start_lock = threading.Lock()
 
     @property
@@ -103,11 +103,10 @@ class BackendProcess:
     def start(self) -> bool:
         """Launch the backend and wait until it answers.
 
-        Safe to call more than once, and expected to be: a backend with a
-        launch command configured is no longer started at application open,
-        it is started here, the first time a run needs it. A call after that
-        first one is nearly free -- already adopted or already spawned by us,
-        it returns without touching the network or launching a second copy.
+        Safe to call more than once, and expected to be: the run path calls it
+        whenever it needs the backend. The first call starts it; later ones are
+        nearly free -- already adopted or already spawned by us, they return
+        without touching the network or launching a second copy.
 
         Returns True when the backend is usable, which includes the case where
         it was already running and nothing was launched. Raises
@@ -205,7 +204,13 @@ class BackendProcess:
         A daemon thread, and one that never raises: it exists to make a failed
         startup diagnosable, so it must not itself become the failure. Reading
         also matters mechanically -- a full pipe buffer would block the backend.
+
+        ``log_output`` selects the level, never whether to read: a backend
+        serving requests prints continuously, and at info that buries the app's
+        own lines. Off, the lines are still there at debug.
         """
+        log = logger.info if self.log_output else logger.debug
+
         def pump():
             try:
                 for line in self._proc.stdout:
@@ -221,7 +226,7 @@ class BackendProcess:
                     try:
                         line = _ANSI.sub("", line).rstrip()
                         if line:
-                            logger.info(f"[{self.name}] {line}")
+                            log(f"[{self.name}] {line}")
                     except Exception:
                         pass
             except Exception as e:
@@ -401,5 +406,6 @@ def configured_backends(config) -> list:
             str(command).strip(),
             cwd=getattr(config, LOC_FIELDS[software_type], None),
             startup_timeout=getattr(config, "backend_startup_timeout", 300),
+            log_output=bool(getattr(config, "log_backend_output", False)),
         ))
     return backends

@@ -5,18 +5,11 @@ the stash owns everything else. Most of what is worth asserting is what a stash
 deliberately does *not* carry, and that the whole-dict storage decision holds up
 against ``RunnerAppConfig.from_dict``, which is the trap this feature was most
 likely to fall into.
-
-``PresetsWindow`` is imported inside each test to keep PySide6 out of collection
-for the rest of the unit suite.
 """
 
-from ui_qt.presets.stashed_config import StashedConfig
+from sd_runner.presets_state import PresetsState
+from sd_runner.stashed_config import StashedConfig
 from utils.runner_app_config import RunnerAppConfig
-
-
-def _window():
-    from ui_qt.presets.presets_window import PresetsWindow
-    return PresetsWindow
 
 
 def _config(**kwargs) -> RunnerAppConfig:
@@ -102,42 +95,38 @@ class TestRoundTrip:
         assert restored.saved_at == stash.saved_at
 
     def test_stashes_reach_the_cache_and_come_back(self, app_cache):
-        w = _window()
-        w.stashed_configs.append(
+        PresetsState.stashed_configs.append(
             StashedConfig.from_runner_app_config("night", _config(total=3))
         )
-        w.store_stashed_configs(persist=False)
-        w.stashed_configs.clear()
-        w.set_stashed_configs()
-        assert [s.name for s in w.stashed_configs] == ["night"]
-        assert w.stashed_configs[0].config["total"] == 3
+        PresetsState.store_stashed_configs(persist=False)
+        PresetsState.stashed_configs.clear()
+        PresetsState.set_stashed_configs()
+        assert [s.name for s in PresetsState.stashed_configs] == ["night"]
+        assert PresetsState.stashed_configs[0].config["total"] == 3
 
     def test_loading_replaces_rather_than_appends(self, app_cache):
         """Loading twice must not double the list."""
-        w = _window()
-        w.stashed_configs.append(
+        PresetsState.stashed_configs.append(
             StashedConfig.from_runner_app_config("night", _config())
         )
-        w.store_stashed_configs(persist=False)
-        w.set_stashed_configs()
-        w.set_stashed_configs()
-        assert len(w.stashed_configs) == 1
+        PresetsState.store_stashed_configs(persist=False)
+        PresetsState.set_stashed_configs()
+        PresetsState.set_stashed_configs()
+        assert len(PresetsState.stashed_configs) == 1
 
     def test_an_entry_with_no_name_is_dropped_on_load(self, app_cache):
-        w = _window()
-        w.stashed_configs.append(StashedConfig.from_runner_app_config("stale", _config()))
-        app_cache.set(w.STASHED_CONFIGS_KEY, [{"name": "", "config": {"total": 1}}])
-        w.set_stashed_configs()
+        PresetsState.stashed_configs.append(StashedConfig.from_runner_app_config("stale", _config()))
+        app_cache.set(PresetsState.STASHED_CONFIGS_KEY, [{"name": "", "config": {"total": 1}}])
+        PresetsState.set_stashed_configs()
         # Empty rather than ["stale"]: proves the load ran and filtered, rather
         # than passing because nothing was ever there.
-        assert w.stashed_configs == []
+        assert PresetsState.stashed_configs == []
 
     def test_an_entry_with_no_config_is_dropped_on_load(self, app_cache):
-        w = _window()
-        w.stashed_configs.append(StashedConfig.from_runner_app_config("stale", _config()))
-        app_cache.set(w.STASHED_CONFIGS_KEY, [{"name": "night", "config": {}}])
-        w.set_stashed_configs()
-        assert w.stashed_configs == []
+        PresetsState.stashed_configs.append(StashedConfig.from_runner_app_config("stale", _config()))
+        app_cache.set(PresetsState.STASHED_CONFIGS_KEY, [{"name": "night", "config": {}}])
+        PresetsState.set_stashed_configs()
+        assert PresetsState.stashed_configs == []
 
 
 # ---------------------------------------------------------------------------
@@ -146,21 +135,19 @@ class TestRoundTrip:
 
 class TestLookup:
     def test_it_finds_a_stash_by_name(self, app_cache):
-        w = _window()
         stash = StashedConfig.from_runner_app_config("night", _config())
-        w.stashed_configs.append(stash)
-        assert w.get_stashed_config_by_name("night") is stash
+        PresetsState.stashed_configs.append(stash)
+        assert PresetsState.get_stashed_config_by_name("night") is stash
 
     def test_an_unknown_name_returns_none(self, app_cache):
-        assert _window().get_stashed_config_by_name("nope") is None
+        assert PresetsState.get_stashed_config_by_name("nope") is None
 
     def test_names_come_back_sorted(self, app_cache):
-        w = _window()
         for name in ("zebra", "apple", "moon"):
-            w.stashed_configs.append(
+            PresetsState.stashed_configs.append(
                 StashedConfig.from_runner_app_config(name, _config())
             )
-        assert w.get_stashed_config_names() == ["apple", "moon", "zebra"]
+        assert PresetsState.get_stashed_config_names() == ["apple", "moon", "zebra"]
 
 
 # ---------------------------------------------------------------------------

@@ -4,7 +4,11 @@ from typing import Dict, Callable, Any, Optional
 class AppActions:
 
     REQUIRED_ACTIONS = {
+        # Progress reporting. Required because RunController reports its own
+        # progress through here rather than by calling itself, which is what
+        # lets an application with no widgets substitute a different sink.
         "update_progress", "update_pending", "update_time_estimation",
+        "clear_progress", "set_run_controls_visible",
         "construct_preset", "set_widgets_from_preset", "open_password_admin_window",
         "construct_stashed_config", "set_widgets_from_stash",
         "validate_blacklist",

@@ -7,10 +7,16 @@ saved settings, and forced the whole read/write cycle to happen on the main
 thread while the listener blocked.
 
 This module builds the same ``RunConfig`` from stored state instead: the base
-comes from ``RunnerAppConfig`` -- which the sidebar is itself populated from and
-synced back to, so it holds the same values -- and the request's own args are
-overlaid on top. Nothing here imports Qt, so the result can be constructed and
-asserted without an ``AppWindow``.
+comes from ``RunnerAppConfig``, and the request's own args are overlaid on top.
+Nothing here imports Qt, so the result can be constructed and asserted without
+an ``AppWindow``.
+
+``RunnerAppConfig`` is the source, so it has to be current when the base is
+taken. In a process that has a sidebar it is not current on its own -- most of
+the run fields have no change handler and are written back only when the user
+starts a run -- so the caller writes the widgets through first. That is why the
+base is taken through ``RunController._snapshot_for_server_run`` rather than
+here.
 
 Only commands that carry their own parameters go through here.
 ``CommandKind.CONTEXTUAL_GENERATE`` (``last_settings``) means "reuse whatever is
@@ -71,6 +77,11 @@ def base_args_from_app_config(runner_app_config) -> dict:
     values skips the round trip rather than reproducing it.
     """
     cfg = runner_app_config
+    # sparse_mixed_tags is stored on RunnerAppConfig and read off the prompter
+    # config, so the copy the run carries has to be told about it.
+    prompter_config = cfg.get_prompter_config_copy()
+    if prompter_config is not None:
+        prompter_config.sparse_mixed_tags = cfg.sparse_mixed_tags
     return {
         "software_type": cfg.software_type,
         "auto_run": True,
@@ -103,7 +114,7 @@ def base_args_from_app_config(runner_app_config) -> dict:
         "redo_params": cfg.redo_params,
         "edit_suffix": cfg.edit_suffix,
         "target_dir": cfg.target_dir or None,
-        "prompter_config": cfg.get_prompter_config_copy(),
+        "prompter_config": prompter_config,
         # Prompt text reaches a run through process-wide Prompter/Globals state
         # rather than through RunConfig, so it has to be carried here explicitly
         # or the run would generate from whatever the sidebar last pushed.
@@ -112,6 +123,10 @@ def base_args_from_app_config(runner_app_config) -> dict:
         "negative_tags": cfg.negative_tags,
         "prompt_massage_tags": cfg.prompt_massage_tags,
         "exclusion_tags": cfg.exclusion_tags,
+        # Carried for the same reason: BaseImageGenerator and Prompter hold
+        # these process-wide, and apply_prompt_globals sets them at run start.
+        "random_skip_chance": cfg.random_skip_chance,
+        "tags_apply_to_start": cfg.tags_apply_to_start,
     }
 
 
@@ -137,26 +152,38 @@ def carries_prompt_text(run_config) -> bool:
 
 
 def apply_prompt_globals(run_config) -> None:
-    """Push a run's prompt text into the process-wide Prompter/Globals state.
+    """Push a run's prompt settings into the process-wide Prompter/Globals state.
 
-    Prompt tags are not read off the run config at generation time -- they are
-    read off ``Prompter`` and ``Globals``. Applying them when the run starts
+    Prompt tags, the random skip chance and the tags-at-start flag are not read
+    off the run config at generation time -- they are read off ``Prompter``,
+    ``Globals`` and ``BaseImageGenerator``. Applying them when the run starts
     rather than when it is queued is what keeps a queued run from generating
-    with tags some later run pushed while it waited.
+    with values some later run pushed while it waited.
 
-    A run config assembled without going through either run path carries no
-    tags; leave the existing state alone rather than blanking it.
+    Every field is applied only when the run carries it. A run config assembled
+    without going through either run path carries none of them; leave the
+    existing state alone rather than blanking it.
     """
-    if not carries_prompt_text(run_config):
-        return
-
     from sd_runner.prompter import Prompter
     from utils.globals import Globals
 
-    Globals.set_prompt_massage_tags(getattr(run_config, "prompt_massage_tags", "") or "")
-    Prompter.set_positive_tags(getattr(run_config, "positive_tags", "") or "")
-    Prompter.set_negative_tags(getattr(run_config, "negative_tags", "") or "")
-    Prompter.set_exclusion_tags(getattr(run_config, "exclusion_tags", "") or "")
+    if carries_prompt_text(run_config):
+        Globals.set_prompt_massage_tags(getattr(run_config, "prompt_massage_tags", "") or "")
+        Prompter.set_positive_tags(getattr(run_config, "positive_tags", "") or "")
+        Prompter.set_negative_tags(getattr(run_config, "negative_tags", "") or "")
+        Prompter.set_exclusion_tags(getattr(run_config, "exclusion_tags", "") or "")
+
+    skip_chance = getattr(run_config, "random_skip_chance", None)
+    if skip_chance is not None:
+        from sd_runner.generators.base import BaseImageGenerator
+        try:
+            BaseImageGenerator.RANDOM_SKIP_CHANCE = float(skip_chance)
+        except (TypeError, ValueError):
+            logger.warning(f"Ignoring unreadable random_skip_chance: {skip_chance!r}")
+
+    tags_apply_to_start = getattr(run_config, "tags_apply_to_start", None)
+    if tags_apply_to_start is not None:
+        Prompter.set_tags_apply_to_start(tags_apply_to_start)
 
 
 def apply_preset(args: dict, preset) -> dict:

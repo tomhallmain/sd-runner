@@ -6,8 +6,8 @@ fields; a ``StashedConfig`` holds everything else about a run. Both are named
 and recalled the same way, so they share a window and differ only in which half
 of the config they own.
 
-The data classes live in ``ui_qt.presets.preset`` and
-``ui_qt.presets.stashed_config``; static class-level list state lives on this
+The data classes live in ``sd_runner.preset``, ``sd_runner.stashed_config`` and
+``sd_runner.intermediate_prompt``; static class-level list state lives on this
 class for persistence via ``CacheController``.
 """
 
@@ -26,9 +26,10 @@ from lib.multi_display_qt import SmartDialog
 from lib.tooltip_qt import create_tooltip
 from ui_qt.app_style import AppStyle
 from ui_qt.auth.password_utils import require_password
-from ui_qt.presets.intermediate_prompt import IntermediatePrompt
-from ui_qt.presets.preset import Preset
-from ui_qt.presets.stashed_config import StashedConfig
+from sd_runner.intermediate_prompt import IntermediatePrompt
+from sd_runner.preset import Preset
+from sd_runner.presets_state import PresetsState
+from sd_runner.stashed_config import StashedConfig
 from utils.globals import ProtectedActions, WorkflowType
 from utils.translations import I18N
 
@@ -48,187 +49,11 @@ class PresetsWindow(SmartDialog):
     """
 
     _instance = None
-    recent_presets = []
+    #: The preset applied most recently in this window, and the order they were
+    #: applied in: what the Enter key and history navigation act on.
     last_set_preset = None
     preset_history = []
     MAX_PRESETS = 50
-
-    STASHED_CONFIGS_KEY = "stashed_configs"
-    stashed_configs = []
-    MAX_STASHED_CONFIGS = 50
-
-    INTERMEDIATE_PROMPTS_KEY = "intermediate_prompts"
-    INTERMEDIATE_PASS_KEY = "intermediate_pass"
-    intermediate_prompts = []
-    MAX_INTERMEDIATE_PROMPTS = 50
-    #: Live state of the pre-pass, as opposed to the saved list: whether it runs
-    #: at all, and the prompt it runs with. Held here rather than on
-    #: RunnerAppConfig so that prompt text stays out of run history and out of
-    #: stashed configs, which deliberately drop it.
-    intermediate_enabled = False
-    intermediate_current = None
-
-    @staticmethod
-    def set_recent_presets():
-        from utils.app_info_cache import app_info_cache
-        from ui_qt.presets.preset import Preset
-        for preset_dict in list(app_info_cache.get("recent_presets", default_val=[])):
-            PresetsWindow.recent_presets.append(Preset.from_dict(preset_dict))
-
-    @staticmethod
-    def store_recent_presets(persist: bool = True):
-        """Store recent presets to cache.
-
-        Writes through to disk unless *persist* is False. The write is skipped
-        when nothing actually changed, so calling this from an edit handler is
-        cheap even when the edit was a no-op. store_info_cache passes False
-        because it writes once itself after collecting every subsystem.
-        """
-        from utils.app_info_cache import app_info_cache
-        preset_dicts = []
-        for preset in PresetsWindow.recent_presets:
-            preset_dicts.append(preset.to_dict())
-        app_info_cache.set("recent_presets", preset_dicts)
-
-        if persist:
-            app_info_cache.store(only_if_changed=True)
-
-    @staticmethod
-    def set_stashed_configs():
-        """Load stashed configs from cache, replacing whatever is held."""
-        from utils.app_info_cache import app_info_cache
-        PresetsWindow.stashed_configs.clear()
-        for stash_dict in list(app_info_cache.get(PresetsWindow.STASHED_CONFIGS_KEY, default_val=[])):
-            stash = StashedConfig.from_dict(stash_dict)
-            if stash.is_valid():
-                PresetsWindow.stashed_configs.append(stash)
-
-    @staticmethod
-    def store_stashed_configs(persist: bool = True):
-        """Store stashed configs to cache.
-
-        Writes through to disk unless *persist* is False, on the same terms as
-        ``store_recent_presets``.
-        """
-        from utils.app_info_cache import app_info_cache
-        app_info_cache.set(
-            PresetsWindow.STASHED_CONFIGS_KEY,
-            [stash.to_dict() for stash in PresetsWindow.stashed_configs],
-        )
-        if persist:
-            app_info_cache.store(only_if_changed=True)
-
-    @staticmethod
-    def get_stashed_config_by_name(name) -> 'StashedConfig | None':
-        for stash in PresetsWindow.stashed_configs:
-            if stash.name == name:
-                return stash
-        return None
-
-    @staticmethod
-    def get_stashed_config_names():
-        return sorted(stash.name for stash in PresetsWindow.stashed_configs)
-
-    @staticmethod
-    def set_intermediate_prompts():
-        """Load the saved list and the live pre-pass state from cache."""
-        from utils.app_info_cache import app_info_cache
-        PresetsWindow.intermediate_prompts.clear()
-        for prompt_dict in list(app_info_cache.get(PresetsWindow.INTERMEDIATE_PROMPTS_KEY, default_val=[])):
-            prompt = IntermediatePrompt.from_dict(prompt_dict)
-            if prompt.is_valid():
-                PresetsWindow.intermediate_prompts.append(prompt)
-
-        state = app_info_cache.get(PresetsWindow.INTERMEDIATE_PASS_KEY, default_val={}) or {}
-        PresetsWindow.intermediate_enabled = bool(state.get("enabled", False))
-        current = state.get("current")
-        PresetsWindow.intermediate_current = (
-            IntermediatePrompt.from_dict(current) if isinstance(current, dict) else None
-        )
-
-    @staticmethod
-    def store_intermediate_prompts(persist: bool = True):
-        """Store the saved list and the live pre-pass state to cache.
-
-        Writes through to disk unless *persist* is False, on the same terms as
-        ``store_recent_presets``.
-        """
-        from utils.app_info_cache import app_info_cache
-        app_info_cache.set(
-            PresetsWindow.INTERMEDIATE_PROMPTS_KEY,
-            [prompt.to_dict() for prompt in PresetsWindow.intermediate_prompts],
-        )
-        current = PresetsWindow.intermediate_current
-        app_info_cache.set(PresetsWindow.INTERMEDIATE_PASS_KEY, {
-            "enabled": PresetsWindow.intermediate_enabled,
-            "current": current.to_dict() if current is not None else None,
-        })
-
-        if persist:
-            app_info_cache.store(only_if_changed=True)
-
-    @staticmethod
-    def get_active_intermediate_prompt() -> 'IntermediatePrompt | None':
-        """The prompt a run should pre-pass with, or None when it should not.
-
-        The single seam the run path reads: None means no pre-pass, for any
-        reason -- switched off, never configured, or configured with no text.
-        """
-        if not PresetsWindow.intermediate_enabled:
-            return None
-        current = PresetsWindow.intermediate_current
-        if current is None or not current.positive_tags.strip():
-            return None
-        return current
-
-    @staticmethod
-    def get_intermediate_prompt_by_name(name) -> 'IntermediatePrompt | None':
-        for prompt in PresetsWindow.intermediate_prompts:
-            if prompt.name == name:
-                return prompt
-        return None
-
-    @staticmethod
-    def get_preset_by_name(name):
-        for preset in PresetsWindow.recent_presets:
-            if name == preset.name:
-                return preset
-        raise Exception(f"No preset found with name: {name}. Set it on the Presets Window.")
-
-    @staticmethod
-    def get_preset_by_suffix(suffix: str) -> 'Preset | None':
-        """Return the first preset whose edit_suffix matches *suffix*, or None.
-
-        A preset matches if its edit_suffix equals the incoming suffix or is a
-        prefix of it (e.g. preset "_cher" matches incoming "_cherry").
-        """
-        for preset in PresetsWindow.recent_presets:
-            if preset.edit_suffix and suffix.startswith(preset.edit_suffix):
-                return preset
-        return None
-
-    @staticmethod
-    def get_preset_names():
-        return sorted(list(map(lambda x: x.name, PresetsWindow.recent_presets)))
-
-    @staticmethod
-    def get_most_recent_preset_name():
-        return (
-            PresetsWindow.recent_presets[0].name
-            if len(PresetsWindow.recent_presets) > 0
-            else _("New Preset (ERROR no presets found)")
-        )
-
-    @staticmethod
-    def next_preset(alert_callback):
-        from utils.translations import I18N
-        _ = I18N._
-        if len(PresetsWindow.recent_presets) == 0:
-            alert_callback(_("Not enough presets found."))
-        next_preset = PresetsWindow.recent_presets[-1]
-        PresetsWindow.recent_presets.remove(next_preset)
-        PresetsWindow.recent_presets.insert(0, next_preset)
-        return next_preset
 
     @staticmethod
     def update_history(preset):
@@ -355,7 +180,7 @@ class PresetsWindow(SmartDialog):
         self._intermediate_enabled_check = QCheckBox(
             _("Run an intermediate generation on the reference image")
         )
-        self._intermediate_enabled_check.setChecked(PresetsWindow.intermediate_enabled)
+        self._intermediate_enabled_check.setChecked(PresetsState.intermediate_enabled)
         self._intermediate_enabled_check.stateChanged.connect(self._on_intermediate_changed)
         layout.addWidget(self._intermediate_enabled_check)
 
@@ -367,7 +192,7 @@ class PresetsWindow(SmartDialog):
         hint.setWordWrap(True)
         layout.addWidget(hint)
 
-        current = PresetsWindow.intermediate_current
+        current = PresetsState.intermediate_current
 
         workflow_row = QHBoxLayout()
         workflow_row.addWidget(QLabel(_("Intermediate workflow")))
@@ -458,7 +283,7 @@ class PresetsWindow(SmartDialog):
             if w:
                 w.deleteLater()
 
-        for preset in PresetsWindow.recent_presets:
+        for preset in PresetsState.recent_presets:
             row = QWidget()
             h = QHBoxLayout(row)
             h.setContentsMargins(2, 2, 2, 2)
@@ -487,7 +312,7 @@ class PresetsWindow(SmartDialog):
             if w:
                 w.deleteLater()
 
-        for stash in PresetsWindow.stashed_configs:
+        for stash in PresetsState.stashed_configs:
             row = QWidget()
             h = QHBoxLayout(row)
             h.setContentsMargins(2, 2, 2, 2)
@@ -516,7 +341,7 @@ class PresetsWindow(SmartDialog):
             if w:
                 w.deleteLater()
 
-        for prompt in PresetsWindow.intermediate_prompts:
+        for prompt in PresetsState.intermediate_prompts:
             row = QWidget()
             h = QHBoxLayout(row)
             h.setContentsMargins(2, 2, 2, 2)
@@ -555,8 +380,8 @@ class PresetsWindow(SmartDialog):
         """
         if self._updating_intermediate:
             return
-        PresetsWindow.intermediate_enabled = self._intermediate_enabled_check.isChecked()
-        PresetsWindow.intermediate_current = IntermediatePrompt(
+        PresetsState.intermediate_enabled = self._intermediate_enabled_check.isChecked()
+        PresetsState.intermediate_current = IntermediatePrompt(
             name=self._intermediate_name_entry.text().strip(),
             positive_tags=self._intermediate_positive_box.toPlainText(),
             negative_tags=self._intermediate_negative_box.toPlainText(),
@@ -567,7 +392,7 @@ class PresetsWindow(SmartDialog):
             max_variants=int(self._intermediate_variants_combo.currentText()),
         )
         self._sync_intermediate_enabled_state()
-        PresetsWindow.store_intermediate_prompts(persist=False)
+        PresetsState.store_intermediate_prompts(persist=False)
 
     @require_password(ProtectedActions.EDIT_PRESETS)
     def _save_intermediate_prompt(self) -> None:
@@ -583,7 +408,7 @@ class PresetsWindow(SmartDialog):
         # text reaches the backend too, so it cannot skip the blacklist.
         if not self._app_actions.validate_blacklist(positive):
             return
-        existing = PresetsWindow.get_intermediate_prompt_by_name(name)
+        existing = PresetsState.get_intermediate_prompt_by_name(name)
         if existing is not None:
             if not self._app_actions.alert(
                 _("Confirm Overwrite Prompt"),
@@ -593,8 +418,8 @@ class PresetsWindow(SmartDialog):
                 master=self,
             ):
                 return
-            PresetsWindow.intermediate_prompts.remove(existing)
-        PresetsWindow.intermediate_prompts.insert(0, IntermediatePrompt(
+            PresetsState.intermediate_prompts.remove(existing)
+        PresetsState.intermediate_prompts.insert(0, IntermediatePrompt(
             name=name,
             positive_tags=self._intermediate_positive_box.toPlainText(),
             negative_tags=self._intermediate_negative_box.toPlainText(),
@@ -604,9 +429,9 @@ class PresetsWindow(SmartDialog):
             ).name,
             max_variants=int(self._intermediate_variants_combo.currentText()),
         ))
-        while len(PresetsWindow.intermediate_prompts) > PresetsWindow.MAX_INTERMEDIATE_PROMPTS:
-            del PresetsWindow.intermediate_prompts[-1]
-        PresetsWindow.store_intermediate_prompts()
+        while len(PresetsState.intermediate_prompts) > PresetsState.MAX_INTERMEDIATE_PROMPTS:
+            del PresetsState.intermediate_prompts[-1]
+        PresetsState.store_intermediate_prompts()
         self._app_actions.toast(_("Saved intermediate prompt: {0}").format(name))
         self._rebuild_intermediate_rows()
 
@@ -629,14 +454,14 @@ class PresetsWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_PRESETS)
     def _delete_intermediate_prompt(self, prompt: IntermediatePrompt | None = None) -> None:
-        if prompt is not None and prompt in PresetsWindow.intermediate_prompts:
-            PresetsWindow.intermediate_prompts.remove(prompt)
-            PresetsWindow.store_intermediate_prompts()
+        if prompt is not None and prompt in PresetsState.intermediate_prompts:
+            PresetsState.intermediate_prompts.remove(prompt)
+            PresetsState.store_intermediate_prompts()
         self._rebuild_intermediate_rows()
 
     @require_password(ProtectedActions.EDIT_PRESETS)
     def _clear_intermediate_prompts(self) -> None:
-        if PresetsWindow.intermediate_prompts and not self._app_actions.alert(
+        if PresetsState.intermediate_prompts and not self._app_actions.alert(
             _("Confirm Clear Intermediate Prompts"),
             _("Delete all saved intermediate prompts?\n\n"
               "WARNING: This action cannot be undone!\n\n"
@@ -645,8 +470,8 @@ class PresetsWindow(SmartDialog):
             master=self,
         ):
             return
-        PresetsWindow.intermediate_prompts.clear()
-        PresetsWindow.store_intermediate_prompts()
+        PresetsState.intermediate_prompts.clear()
+        PresetsState.store_intermediate_prompts()
         self._rebuild_intermediate_rows()
 
     # ------------------------------------------------------------------
@@ -658,7 +483,7 @@ class PresetsWindow(SmartDialog):
         if not name:
             self._app_actions.toast(_("Enter a name for the stash"))
             return
-        existing = PresetsWindow.get_stashed_config_by_name(name)
+        existing = PresetsState.get_stashed_config_by_name(name)
         if existing is not None:
             if not self._app_actions.alert(
                 _("Confirm Overwrite Stash"),
@@ -668,12 +493,12 @@ class PresetsWindow(SmartDialog):
                 master=self,
             ):
                 return
-            PresetsWindow.stashed_configs.remove(existing)
+            PresetsState.stashed_configs.remove(existing)
         stash = self._app_actions.construct_stashed_config(name)
-        PresetsWindow.stashed_configs.insert(0, stash)
-        while len(PresetsWindow.stashed_configs) > PresetsWindow.MAX_STASHED_CONFIGS:
-            del PresetsWindow.stashed_configs[-1]
-        PresetsWindow.store_stashed_configs()
+        PresetsState.stashed_configs.insert(0, stash)
+        while len(PresetsState.stashed_configs) > PresetsState.MAX_STASHED_CONFIGS:
+            del PresetsState.stashed_configs[-1]
+        PresetsState.store_stashed_configs()
         self._app_actions.toast(_("Stashed run config: {0}").format(name))
         self._rebuild_stash_rows()
 
@@ -683,14 +508,14 @@ class PresetsWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_PRESETS)
     def _delete_stashed_config(self, stash: StashedConfig | None = None) -> None:
-        if stash is not None and stash in PresetsWindow.stashed_configs:
-            PresetsWindow.stashed_configs.remove(stash)
-            PresetsWindow.store_stashed_configs()
+        if stash is not None and stash in PresetsState.stashed_configs:
+            PresetsState.stashed_configs.remove(stash)
+            PresetsState.store_stashed_configs()
         self._rebuild_stash_rows()
 
     @require_password(ProtectedActions.EDIT_PRESETS)
     def _clear_stashed_configs(self) -> None:
-        if PresetsWindow.stashed_configs and not self._app_actions.alert(
+        if PresetsState.stashed_configs and not self._app_actions.alert(
             _("Confirm Clear Stashes"),
             _("Delete all stashed run configs?\n\n"
               "WARNING: This action cannot be undone!\n\n"
@@ -699,8 +524,8 @@ class PresetsWindow(SmartDialog):
             master=self,
         ):
             return
-        PresetsWindow.stashed_configs.clear()
-        PresetsWindow.store_stashed_configs()
+        PresetsState.stashed_configs.clear()
+        PresetsState.store_stashed_configs()
         self._rebuild_stash_rows()
 
     # ------------------------------------------------------------------
@@ -710,8 +535,8 @@ class PresetsWindow(SmartDialog):
         """Return ``(preset, was_existing)``."""
         if preset and preset.is_valid():
             return preset, True
-        if preset and preset in PresetsWindow.recent_presets:
-            PresetsWindow.recent_presets.remove(preset)
+        if preset and preset in PresetsState.recent_presets:
+            PresetsState.recent_presets.remove(preset)
             self._app_actions.toast(_("Invalid preset: {0}").format(preset))
         return self._app_actions.construct_preset(self._name_entry.text()), False
 
@@ -719,15 +544,15 @@ class PresetsWindow(SmartDialog):
     def _handle_preset(self, preset: Preset | None = None):
         preset, was_valid = self._get_preset(preset)
         if was_valid and preset is not None:
-            if preset in PresetsWindow.recent_presets:
-                PresetsWindow.recent_presets.remove(preset)
-            PresetsWindow.recent_presets.insert(0, preset)
-            PresetsWindow.store_recent_presets()
+            if preset in PresetsState.recent_presets:
+                PresetsState.recent_presets.remove(preset)
+            PresetsState.recent_presets.insert(0, preset)
+            PresetsState.store_recent_presets()
             return preset
-        if preset in PresetsWindow.recent_presets:
-            PresetsWindow.recent_presets.remove(preset)
-        PresetsWindow.recent_presets.insert(0, preset)
-        PresetsWindow.store_recent_presets()
+        if preset in PresetsState.recent_presets:
+            PresetsState.recent_presets.remove(preset)
+        PresetsState.recent_presets.insert(0, preset)
+        PresetsState.store_recent_presets()
         self._set_preset(preset)
         return preset
 
@@ -741,15 +566,15 @@ class PresetsWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_PRESETS)
     def _delete_preset(self, preset: Preset | None = None) -> None:
-        if preset is not None and preset in PresetsWindow.recent_presets:
-            PresetsWindow.recent_presets.remove(preset)
-            PresetsWindow.store_recent_presets()
+        if preset is not None and preset in PresetsState.recent_presets:
+            PresetsState.recent_presets.remove(preset)
+            PresetsState.store_recent_presets()
         self._rebuild_rows()
 
     @require_password(ProtectedActions.EDIT_PRESETS)
     def _clear_recent_presets(self) -> None:
-        PresetsWindow.recent_presets.clear()
-        PresetsWindow.store_recent_presets()
+        PresetsState.recent_presets.clear()
+        PresetsState.store_recent_presets()
         self._rebuild_rows()
 
     def _do_action(self) -> None:
@@ -760,13 +585,13 @@ class PresetsWindow(SmartDialog):
         if self._tabs.currentIndex() == 2:
             self._save_intermediate_prompt()
             return
-        if len(PresetsWindow.recent_presets) == 0:
+        if len(PresetsState.recent_presets) == 0:
             self._handle_preset()
         else:
             preset = (
                 PresetsWindow.last_set_preset
                 if PresetsWindow.last_set_preset
-                else PresetsWindow.recent_presets[0]
+                else PresetsState.recent_presets[0]
             )
             self._set_preset(preset)
 
@@ -777,7 +602,7 @@ class PresetsWindow(SmartDialog):
         goes through reject() without firing closeEvent, and both can run for a
         single dismissal.
         """
-        PresetsWindow.store_intermediate_prompts()
+        PresetsState.store_intermediate_prompts()
         PresetsWindow._instance = None
 
     def reject(self) -> None:  # noqa: N802

@@ -113,9 +113,15 @@ class TestSidebarIsUntouched:
         assert sp.target_dir_entry.text() != "/remote/out"
 
     def test_stored_config_is_not_overwritten(self, app_window, run_stubs):
-        """run() persists its args as the user's settings; the virtual path must not."""
+        """run() persists its args as the user's settings; the virtual path must not.
+
+        The user's own value is set through the widget, which is where it lives
+        while they work: the build writes the widgets through to the config
+        before reading it, so establishing it on the config alone would prove
+        nothing about what the request did.
+        """
         cfg = app_window.runner_app_config
-        cfg.control_net_file = "user_value.png"
+        app_window.sidebar_panel.controlnet_file_entry.setText("user_value.png")
         app_window.run_ctrl.server_run_callback(
             CommandType.CONTROL_NET, {"image": "remote.png"}
         )
@@ -519,7 +525,7 @@ class TestServerRunCeiling:
         assert len(executed) == 1
 
     def test_no_models_is_reported_as_an_error_response(self, app_window, run_stubs, executed, monkeypatch):
-        from ui_qt.app_window.run_controller import NoModelsFound
+        from sd_runner.models import NoModelsFound
         from utils.config import config
 
         def no_models(args):
@@ -592,8 +598,8 @@ class TestSnapshotIsTakenOnce:
     catch it mid-update now that the build runs off the GUI thread.
     """
 
-    def test_snapshot_carries_the_stored_values(self, app_window):
-        app_window.runner_app_config.model_tags = "snapshot_model"
+    def test_snapshot_carries_the_current_values(self, app_window):
+        app_window.sidebar_panel.model_tags_entry.setText("snapshot_model")
         base_args, preset = app_window.run_ctrl._snapshot_for_server_run(
             CommandType.RENOISER, {}
         )
@@ -602,12 +608,52 @@ class TestSnapshotIsTakenOnce:
 
     def test_later_edits_do_not_reach_a_built_run(self, app_window, run_stubs, executed):
         """The run is built from the snapshot, not from live config reads."""
-        app_window.runner_app_config.model_tags = "at_request_time"
+        app_window.sidebar_panel.model_tags_entry.setText("at_request_time")
         app_window.run_ctrl.server_run_callback(
             CommandType.RENOISER, {"image": "remote.png"}
         )
-        app_window.runner_app_config.model_tags = "changed_afterwards"
+        app_window.sidebar_panel.model_tags_entry.setText("changed_afterwards")
         assert executed[0].args.model_tags == "at_request_time"
+
+
+class TestSnapshotReflectsTheSidebar:
+    """A request brings only its own parameters.
+
+    The model, loras, resolutions and counts all come from the stored config,
+    and most of those fields are written back to it only when the user starts a
+    run of their own -- so a request served straight from the stored values
+    would use the settings as of that run rather than the ones on screen.
+    """
+
+    def test_a_sidebar_edit_reaches_a_server_run(self, app_window, run_stubs, executed):
+        app_window.runner_app_config.model_tags = "stale_from_the_last_run"
+        app_window.sidebar_panel.model_tags_entry.setText("what_the_user_picked")
+
+        app_window.run_ctrl.server_run_callback(
+            CommandType.RENOISER, {"image": "remote.png"}
+        )
+
+        assert executed[0].args.model_tags == "what_the_user_picked"
+
+    def test_the_edit_is_written_through_to_the_stored_config(self, app_window):
+        app_window.runner_app_config.model_tags = "stale_from_the_last_run"
+        app_window.sidebar_panel.model_tags_entry.setText("what_the_user_picked")
+
+        app_window.run_ctrl._snapshot_for_server_run(CommandType.RENOISER, {})
+
+        assert app_window.runner_app_config.model_tags == "what_the_user_picked"
+
+    def test_resolution_group_is_stored_as_a_name(self, app_window):
+        """The combo shows a description; the cache carries this across sessions."""
+        from utils.globals import ResolutionGroup
+
+        app_window.sidebar_panel.resolution_group_combo.setCurrentText(
+            ResolutionGroup.SEVEN_SIXTY_EIGHT.get_description()
+        )
+        app_window.run_ctrl._snapshot_for_server_run(CommandType.RENOISER, {})
+
+        assert (app_window.runner_app_config.resolution_group
+                == ResolutionGroup.SEVEN_SIXTY_EIGHT.name)
 
 
 # ---------------------------------------------------------------------------

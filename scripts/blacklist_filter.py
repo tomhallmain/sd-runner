@@ -8,7 +8,7 @@ os.chdir(PROJECT_ROOT)
 sys.path.insert(0, PROJECT_ROOT)
 
 from sd_runner.blacklist import Blacklist
-from ui_qt.prompts.blacklist_window import BlacklistWindow
+from sd_runner import blacklist_state
 
 
 def main() -> None:
@@ -30,7 +30,7 @@ def main() -> None:
         print(f"Input file not found: {args.input_file}", file=sys.stderr)
         sys.exit(1)
 
-    BlacklistWindow.set_blacklist()
+    blacklist_state.set_blacklist()
 
     with open(args.input_file, "r", encoding="utf-8") as f:
         lines = [line.rstrip("\n\r") for line in f]

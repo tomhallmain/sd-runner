@@ -326,22 +326,26 @@ def _reset_class_state() -> None:
     # Window-level history lists, all restored from app_info_cache on open. Only
     # reset if the module is already imported: touching them unconditionally
     # would drag PySide6 into every pure-logic unit test.
+    _reset_if_imported("sd_runner.schedules_state", "SchedulesState",
+                       recent_schedules=[], current_schedule=None)
     _reset_if_imported("ui_qt.presets.schedules_window", "SchedulesWindow",
-                       recent_schedules=[], schedule_history=[],
-                       current_schedule=None)
-    _reset_if_imported("ui_qt.presets.presets_window", "PresetsWindow",
-                       recent_presets=[], preset_history=[],
-                       last_set_preset=None, stashed_configs=[],
+                       schedule_history=[])
+    _reset_if_imported("sd_runner.presets_state", "PresetsState",
+                       recent_presets=[], stashed_configs=[],
                        intermediate_prompts=[], intermediate_enabled=False,
                        intermediate_current=None)
+    _reset_if_imported("ui_qt.presets.presets_window", "PresetsWindow",
+                       preset_history=[], last_set_preset=None)
     # Loaded from the cache on open and read back by save_recent_adapters, so a
     # test that saves would otherwise persist whatever the previous one loaded.
-    _reset_if_imported("ui_qt.models.recent_adapters_window", "RecentAdaptersWindow",
+    _reset_if_imported("sd_runner.recent_adapters_state", "RecentAdaptersState",
                        _recent_controlnets=[], _recent_ipadapters=[],
                        _recent_source_prompts=[], _recent_adapter_files_split=[],
-                       _favorite_adapters=[], _controlnet_cache=None,
-                       _ipadapter_cache=None, _source_prompt_cache=None,
-                       _favorites_cache=None, _cache_timestamp=None)
+                       _favorite_adapters=[])
+    _reset_if_imported("ui_qt.models.recent_adapters_window", "RecentAdaptersWindow",
+                       _controlnet_cache=None, _ipadapter_cache=None,
+                       _source_prompt_cache=None, _favorites_cache=None,
+                       _cache_timestamp=None)
     _reset_if_imported("ui_qt.prompts.blacklist_window", "BlacklistWindow",
                        item_history=[])
     _reset_if_imported("ui_qt.prompts.concept_editor_window", "ConceptEditorWindow",

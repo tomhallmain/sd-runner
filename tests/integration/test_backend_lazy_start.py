@@ -1,9 +1,9 @@
-"""Managed backends are started on demand, not when SD Runner opens.
+"""Managed backends are started on demand.
 
-``AppWindow`` only reads which backends the user has configured a launch
-command for at construction time -- launching one is deferred to
-``ensure_backend_started``, which the run path calls the first time it
-actually needs that backend. Nothing here spawns a real process.
+``AppWindow`` reads which backends the user has configured a launch command
+for at construction time; ``ensure_backend_started`` launches one, and the
+run path calls it when it needs that backend. Nothing here spawns a real
+process.
 """
 
 from extensions.backend_process import BackendProcess, BackendStartError
@@ -54,9 +54,8 @@ class TestEnsureBackendStarted:
         assert started == []
 
     def test_a_launch_failure_is_reported_not_raised(self, app_window, monkeypatch):
-        """Mirrors the old startup-thread behaviour: log and toast, don't
-        crash the caller -- ensure_backend_started now runs on the run
-        thread, which must survive a failed launch the same way.
+        """Log and toast, don't crash the caller: ensure_backend_started runs
+        on the run thread, which has to survive a failed launch.
         """
         toasted = []
         monkeypatch.setitem(

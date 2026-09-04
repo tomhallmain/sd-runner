@@ -532,6 +532,16 @@ class PassphraseManager:
                 _passphrase_cache[cache_key] = passphrase
         return passphrase
 
+    # The three keychain handlers below are one function in triplicate: read
+    # this app's passphrase, generate and store one if absent. They differ only
+    # in a block meant to tighten permissions on the stored item, and none of
+    # the three does -- Windows builds a security descriptor and drops it
+    # unused, against a target name keyring does not write under; macOS calls a
+    # keyring function that does not exist; Linux locks a Secret Service path
+    # unrelated to the item. The keychains already scope items to the user
+    # account. Intended: collapse the three into one and drop the blocks,
+    # leaving the encrypted-file fallback as the only real second case. Pending
+    # a check on macOS.
     @staticmethod
     def _windows_get_passphrase(service_name, app_identifier):
         """Use Windows Credential Manager with ACL protection"""
