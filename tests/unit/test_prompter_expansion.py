@@ -5,6 +5,8 @@ extract_inline_vars / apply_expansions are covered in test_inline_vars.py.
 Expansion class (registry, to_dict/from_dict) is covered in test_expansion.py.
 """
 
+import random
+
 import pytest
 from sd_runner.prompts.prompter import Prompter
 
@@ -106,11 +108,38 @@ class TestEmphasizeEdgeCases:
         Prompter.emphasize(mix, emphasis_chance=1.0)
         assert id(mix) == original_id
 
-    def test_single_item_list(self):
+    def test_single_item_list(self, monkeypatch):
+        """A chosen item is wrapped.
+
+        The draw is pinned rather than seeded. ``emphasize`` takes a variable
+        number of values -- two on the common path, up to four on the other --
+        so a seed would fix the outcome only until that count changed, and the
+        assertion below is exactly the kind that then fails once in a hundred
+        runs depending on what drew before it.
+        """
+        monkeypatch.setattr(random, "random", lambda: 0.0)
         mix = ["lone"]
         Prompter.emphasize(mix, emphasis_chance=1.0)
-        assert "lone" in mix[0]
-        assert mix[0].startswith("(")
+        assert mix[0] == "(lone)"
+
+    def test_a_deemphasis_below_the_threshold_leaves_the_item_alone(self, monkeypatch):
+        """Being chosen is not the same as being changed.
+
+        A factor under 0.1 would all but erase the concept, so it is discarded
+        rather than applied -- and the item is then returned untouched even
+        though the emphasis roll succeeded. Asserting a chosen item always
+        looks different is what made the test above flaky.
+        """
+        draws = iter([
+            0.0,   # under emphasis_chance, so this item is chosen
+            0.95,  # over 0.9, so the de-emphasis branch rather than "(x)"
+            0.05,  # the factor itself: under the 0.1 floor
+            0.5,   # under 0.9, so no multiplier is applied
+        ])
+        monkeypatch.setattr(random, "random", lambda: next(draws))
+        mix = ["lone"]
+        Prompter.emphasize(mix, emphasis_chance=1.0)
+        assert mix[0] == "lone"
 
     def test_default_chance_is_low(self):
         # Default emphasis_chance=0.1 should leave most items unchanged in a small list

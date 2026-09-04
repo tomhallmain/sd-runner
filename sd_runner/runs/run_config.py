@@ -1,5 +1,6 @@
 import threading
 import time
+import uuid
 
 from copy import deepcopy
 from enum import Enum
@@ -53,6 +54,13 @@ class RunConfig:
         # retained args would mean three different things and would not reflect
         # later edits to a queued run. The instance is the run.
         self.start_time = time.localtime()
+        # The handle a client is given when its request is accepted, and the
+        # run's identity from then on. Minted here rather than when the queue
+        # starts the run, because a request has to be answered with it long
+        # before that -- and taken from args when there is one, so a run
+        # restored from the cache, or promoted out of staging, keeps the id its
+        # client was already told.
+        self.run_id = _arg(args, "run_id") or uuid.uuid4().hex
         self.software_type = _arg(args, "software_type")
         self.workflow_tag = _arg(args, "workflow_tag")
         self.res_tags = _arg(args, "res_tags")

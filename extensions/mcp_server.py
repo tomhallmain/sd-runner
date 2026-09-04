@@ -14,6 +14,15 @@ HTTP rather than stdio, which is MCP's usual default: under stdio the *client*
 launches the server as a subprocess, and a subprocess has none of the state
 every callback here depends on -- the queues, the sidebar, the backend
 connections all belong to a running app the client did not start.
+
+**Loopback only**, and ``refuses_to_start`` explains why. When remote access is
+actually wanted there are three ways out, smallest first: a reverse proxy that
+terminates authentication, which needs nothing here and is the usual answer for
+an HTTP service that speaks one protocol; implementing ``TokenVerifier`` plus
+the minimum ``AuthSettings`` the SDK insists on; or leaving remote access out of
+scope. The proxy is the recommendation. This becomes pressing the moment a
+headless process listens on anything but localhost, since a machine with no
+display implies no trusted desktop around it.
 """
 
 import threading
@@ -80,7 +89,10 @@ def tool_descriptors() -> list:
             "description": (
                 "How much generation work is outstanding, and whether any of "
                 "it came from this client. Poll this after 'generate' to find "
-                "out when a run has finished."
+                "out when a run has finished. Pass the 'run_id' that "
+                "'generate' returned to ask about one run in particular: "
+                "run_state comes back as running, queued, staged, or unknown "
+                "once it is no longer outstanding."
             ),
         },
         {
@@ -202,7 +214,9 @@ class MCPServerExtension:
         if tool_name == "run_status":
             if self.run_status_callback is None:
                 raise MCPToolError("run status is not available")
-            return self.run_status_callback(MCP_CLIENT_ID)
+            return self.run_status_callback(
+                MCP_CLIENT_ID, str(arguments.get("run_id", "") or "")
+            )
         if tool_name == "health_check":
             if self.health_check_callback is None:
                 raise MCPToolError("health checks are not available")
@@ -357,8 +371,8 @@ class MCPServerExtension:
             return self.dispatch("revert_to_simple_gen")
 
         @server.tool(name="run_status", description=described["run_status"])
-        def run_status() -> dict:
-            return self.dispatch("run_status")
+        def run_status(run_id: str = "") -> dict:
+            return self.dispatch("run_status", {"run_id": run_id})
 
         @server.tool(name="health_check", description=described["health_check"])
         def health_check(level: int = 1, timeout: int = 60, software: str = "") -> dict:

@@ -39,6 +39,69 @@ def qapp():
     yield app
 
 
+class _FakeModel:
+    architecture_type = None
+
+    def __str__(self):
+        return "fake"
+
+
+@pytest.fixture
+def executed():
+    """Runs that reached execution, in order. Paired with ``run_stubs``."""
+    return []
+
+
+@pytest.fixture
+def run_stubs(monkeypatch, executed):
+    """The run machinery, with no backend and nothing on another thread.
+
+    Shared rather than repeated per file: three suites drive a request through
+    to ``Run.execute`` and they have to stub the same things to do it, so a
+    divergence between copies would mean two of them were testing subtly
+    different run paths.
+
+    ``start_thread`` runs inline, which is what makes a request fully served by
+    the time the call returns.
+    """
+    import time as time_module
+
+    from lib.utils import Utils
+    from sd_runner.models.model import Model
+    from sd_runner.models.resolution import Resolution
+    from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
+    from sd_runner.runs.run import Run
+    from sd_runner.runs.run_config import RunConfig
+    from sd_runner.runs.time_estimator import TimeEstimator
+
+    def fake_execute(self):
+        executed.append(self)
+        self.is_complete = True
+
+    monkeypatch.setattr(Run, "execute", fake_execute)
+    monkeypatch.setattr(
+        Utils, "start_thread", lambda fn, use_asyncio=False, args=[]: fn(*args)
+    )
+    monkeypatch.setattr(
+        Model, "get_models",
+        lambda tags, default_tag=None, inpainting=False, **kw: [_FakeModel()],
+    )
+    monkeypatch.setattr(
+        Resolution, "get_resolutions",
+        lambda tags, architecture_type=None, resolution_group=None: [object()],
+    )
+    monkeypatch.setattr(RunConfig, "validate", lambda self: True)
+    # Both estimate entry points, or a run long enough to cross
+    # TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS would raise a modal.
+    # latents is optional on the real signature; callers pass either shape.
+    monkeypatch.setattr(TimeEstimator, "estimate_queue_time", lambda images, latents=1.0: 0)
+    monkeypatch.setattr(TimeEstimator, "estimate_run_seconds", lambda gen_config, images: 0)
+    monkeypatch.setattr(time_module, "sleep", lambda s: None)
+    monkeypatch.setattr(
+        timed_schedules_manager, "check_for_shutdown_request", lambda dt: None
+    )
+
+
 @pytest.fixture
 def app_window(qapp):
     from PySide6.QtWidgets import QApplication

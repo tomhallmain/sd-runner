@@ -52,6 +52,10 @@ def _origin(run_config) -> str:
     nobody started from this window. ``run_origin`` is carried on the run
     itself and survives a restore, so a queue rebuilt from the cache still
     names the client. Runs built outside either run path may not set it.
+
+    Deliberately not ``run_id``: every run has one of those, including the
+    user's own, so a column showing it would be full of opaque hex for rows
+    whose whole point is that they came from somewhere else.
     """
     return _short(str(getattr(run_config, "run_origin", "") or ""), 24)
 
@@ -225,7 +229,10 @@ class RunsWindow(SmartDialog):
         self._staging_tree.clear()
         staging = getattr(app, "server_staging_queue", None)
         if staging is not None:
-            for idx, (command_type, req_args, client_id) in enumerate(staging._requests):
+            for idx, entry in enumerate(staging._requests):
+                # The run id rides along in the fourth slot; the Origin column
+                # wants the client that asked, which is the third.
+                command_type, req_args, client_id = entry[0], entry[1], entry[2]
                 name = str(
                     command_type.name if hasattr(command_type, "name") else command_type or ""
                 )

@@ -11,22 +11,13 @@ the progress sink, the thread bridge and ``post_run`` are the parts that differ
 -- not that a backend produces an image.
 """
 
-import time as time_module
-
 import pytest
 
 from extensions.sd_runner_server import CommandType
-from lib.utils import Utils
-from sd_runner.models.model import Model
-from sd_runner.models.resolution import Resolution
+from sd_runner.globals import WorkflowType
 from sd_runner.runs.headless_app import HeadlessApp
 from sd_runner.runs.job_queue import SDRunsQueue, ServerStagingQueue
-from sd_runner.runs.run import Run
-from sd_runner.runs.run_config import RunConfig
 from sd_runner.runs.run_controller import SERVER_ORIGIN
-from sd_runner.runs.time_estimator import TimeEstimator
-from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
-from sd_runner.globals import WorkflowType
 
 
 @pytest.fixture
@@ -34,51 +25,6 @@ def headless_app():
     app = HeadlessApp()
     yield app
     app.on_closing()
-
-
-class _FakeModel:
-    architecture_type = None
-
-    def __str__(self):
-        return "fake"
-
-
-@pytest.fixture
-def executed():
-    return []
-
-
-@pytest.fixture
-def run_stubs(monkeypatch, executed):
-    """The same stubs the windowed server tests use, so the two are comparable.
-
-    ``start_thread`` runs inline, which matters more here than there: the
-    headless bridge is already a direct call, so with the thread collapsed too
-    a request is fully served by the time the callback returns.
-    """
-    def fake_execute(self):
-        executed.append(self)
-        self.is_complete = True
-
-    monkeypatch.setattr(Run, "execute", fake_execute)
-    monkeypatch.setattr(
-        Utils, "start_thread", lambda fn, use_asyncio=False, args=[]: fn(*args)
-    )
-    monkeypatch.setattr(
-        Model, "get_models",
-        lambda tags, default_tag=None, inpainting=False, **kw: [_FakeModel()],
-    )
-    monkeypatch.setattr(
-        Resolution, "get_resolutions",
-        lambda tags, architecture_type=None, resolution_group=None: [object()],
-    )
-    monkeypatch.setattr(RunConfig, "validate", lambda self: True)
-    monkeypatch.setattr(TimeEstimator, "estimate_queue_time", lambda images, latents=1.0: 0)
-    monkeypatch.setattr(TimeEstimator, "estimate_run_seconds", lambda gen_config, images: 0)
-    monkeypatch.setattr(time_module, "sleep", lambda s: None)
-    monkeypatch.setattr(
-        timed_schedules_manager, "check_for_shutdown_request", lambda dt: None
-    )
 
 
 class TestHeadlessApp:

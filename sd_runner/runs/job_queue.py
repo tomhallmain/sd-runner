@@ -1,3 +1,5 @@
+import uuid
+
 from sd_runner.config import config
 from lib.logging_setup import get_logger
 from sd_runner.runs.time_estimator import TimeEstimator
@@ -146,12 +148,18 @@ class PresetSchedulesQueue(JobQueue):
 class ServerStagingQueue:
     """Overflow queue for incoming server requests when the main run queue is full.
 
-    Stores raw (command_type, args, client_id) triples so they can be replayed through
-    server_run_callback when the main queue drains.  The command rather than a
-    workflow, because several commands select no workflow and a staged request
-    has to stay distinguishable for as long as it waits here.  The limit is
-    intentionally high — the objects stored here are lightweight dicts, not
-    full Run objects.
+    Stores raw (command_type, args, client_id, run_id) tuples so they can be
+    replayed through server_run_callback when the main queue drains.  The
+    command rather than a workflow, because several commands select no workflow
+    and a staged request has to stay distinguishable for as long as it waits
+    here.  The limit is intentionally high — the objects stored here are
+    lightweight dicts, not full Run objects.
+
+    The run id is stored rather than minted at promotion because the client was
+    given it when the request was accepted, which for a staged request is long
+    before any ``RunConfig`` exists to carry it. A batch never builds one at all
+    until its items are promoted, so for those this is the only place the id
+    lives in the meantime.
     """
 
     MAX_SIZE = 50000
@@ -159,11 +167,16 @@ class ServerStagingQueue:
     def __init__(self):
         self._requests: list[tuple] = []
 
-    def add(self, command_type, args: dict, client_id: str = "") -> int:
+    def add(self, command_type, args: dict, client_id: str = "",
+            run_id: str = "") -> int:
         """Stage a request. Returns the 1-based queue position.
 
         *client_id* travels with the request so a promotion -- possibly in a
         later session, after a restore -- still knows which client asked for it.
+        *run_id* travels for the same reason and one more: it was already
+        handed to the client, so the run this eventually becomes has to answer
+        to it. One is minted when the caller has none, so nothing staged is
+        without a handle.
 
         NOTE: the MAX_SIZE guard and the append are not atomic. If two threads
         both pass the length check before either appends, the queue can briefly
@@ -178,11 +191,13 @@ class ServerStagingQueue:
             raise Exception(
                 f"Server staging queue full ({self.MAX_SIZE} pending requests) - request rejected"
             )
-        self._requests.append((command_type, args, client_id))
+        self._requests.append(
+            (command_type, args, client_id, run_id or uuid.uuid4().hex)
+        )
         return len(self._requests)
 
     def take(self):
-        """Pop and return the next (command_type, args, client_id) tuple, or None.
+        """Pop and return the next (command_type, args, client_id, run_id) tuple, or None.
 
         NOTE: has_pending() + take() is not atomic. _post_run (main thread) and
         server_batch_enqueue (main thread via bridge) are serialised by the bridge

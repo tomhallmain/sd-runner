@@ -275,6 +275,13 @@ def check_functional(software_type: SoftwareType,
     Falls back to plain connectivity for a backend with no usable idle-state
     API -- a weaker answer reported honestly, rather than a stricter one
     invented.
+
+    Inference from idle state, not proof. Confirming the GPU pipeline would
+    mean actually generating, and that is a heavier thing than it sounds: the
+    probe writes an output file, needs a model chosen for it, queues behind
+    real work, and has to be identifiable so cancelling it does not cancel the
+    user's job. Worth building only if idle-state inference is found to miss a
+    failure that matters.
     """
     budget = _Budget(timeout)
     connectivity = check(software_type, timeout=budget.remaining())

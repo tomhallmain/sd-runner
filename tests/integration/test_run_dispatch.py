@@ -521,7 +521,7 @@ class TestResumePausedQueue:
         callbacks = []
         monkeypatch.setattr(
             app_window.run_ctrl, "_promote_staged_request",
-            lambda cmd, args, client_id="": callbacks.append((cmd, args)),
+            lambda cmd, args, client_id="", run_id="": callbacks.append((cmd, args)),
         )
         app_window.run_ctrl.resume_paused_queue()
         assert len(run_stubs) == 0
@@ -534,7 +534,7 @@ class TestResumePausedQueue:
         callbacks = []
         monkeypatch.setattr(
             app_window.run_ctrl, "_promote_staged_request",
-            lambda cmd, args, client_id="": callbacks.append((cmd, args)),
+            lambda cmd, args, client_id="", run_id="": callbacks.append((cmd, args)),
         )
         app_window.job_queue.job_running = True
         app_window.server_staging_queue.add(CommandType.RENOISER, {"image": "test.png"})
@@ -564,7 +564,7 @@ class TestResumePausedQueue:
         callbacks = []
         monkeypatch.setattr(
             app_window.run_ctrl, "_promote_staged_request",
-            lambda cmd, args, client_id="": callbacks.append((cmd, args)),
+            lambda cmd, args, client_id="", run_id="": callbacks.append((cmd, args)),
         )
 
         app_window.run_ctrl.resume_paused_queue()
@@ -582,7 +582,7 @@ class TestResumePausedQueue:
         callbacks = []
         monkeypatch.setattr(
             app_window.run_ctrl, "_promote_staged_request",
-            lambda cmd, args, client_id="": callbacks.append((cmd, args)),
+            lambda cmd, args, client_id="", run_id="": callbacks.append((cmd, args)),
         )
         args, _ = app_window.get_args()
         app_window.job_queue.pending_jobs.append(args)

@@ -56,9 +56,16 @@ class TestStoringStagedRequests:
         )
         ctrl.store_pending_queues()
 
-        assert stored_requests(cache) == [
-            {"command_type": "IP_ADAPTER", "args": {"image": "a.png"}, "client_id": "weidr"}
-        ]
+        stored = stored_requests(cache)
+        assert len(stored) == 1
+        entry = stored[0]
+        assert entry["command_type"] == "IP_ADAPTER"
+        assert entry["args"] == {"image": "a.png"}
+        assert entry["client_id"] == "weidr"
+        # Stored, not asserted by value: the id is minted per request, and it
+        # has to survive the round trip or a client's handle stops naming
+        # anything after a restart.
+        assert entry["run_id"]
 
     def test_the_stored_form_is_json_encodable(self, app_window, ctrl, cache):
         """The cache is encrypted json; an unencodable value breaks every save."""
@@ -79,15 +86,21 @@ class TestStoringStagedRequests:
 
         Unguarded it aborted the whole method, and the queue was silently saved
         as nothing -- the failure mode the run half of this pair already had.
+
+        The bad entry is short by the run id. That is what a malformed entry
+        looks like now the tuple carries four things, and it is the shape a
+        cache written before handles existed would have had if it reached here
+        unconverted -- the restore path converts those, this one does not.
         """
         staging = app_window.server_staging_queue
-        staging._requests.append(("not", "a triple", "at", "all"))
+        staging._requests.append(("not", "a full entry"))
         staging.add(CommandType.RENOISER, {"image": "good.png"}, "weidr")
         ctrl.store_pending_queues()
 
-        assert stored_requests(cache) == [
-            {"command_type": "RENOISER", "args": {"image": "good.png"}, "client_id": "weidr"}
-        ]
+        stored = stored_requests(cache)
+        assert len(stored) == 1
+        assert stored[0]["command_type"] == "RENOISER"
+        assert stored[0]["args"] == {"image": "good.png"}
 
 
 # ---------------------------------------------------------------------------
@@ -106,9 +119,11 @@ class TestRestoringStagedRequests:
 
         ctrl._restore_pending_queues()
 
-        assert app_window.server_staging_queue.take() == (
+        command_type, args, client_id, run_id = app_window.server_staging_queue.take()
+        assert (command_type, args, client_id) == (
             CommandType.IMAGE_EDIT, {"image": "a.png"}, "weidr"
         )
+        assert run_id
 
     def test_the_command_survives_as_a_command_not_a_workflow(self, app_window, ctrl, cache):
         """Five command names collide with WorkflowType names; this is one.
@@ -122,7 +137,7 @@ class TestRestoringStagedRequests:
 
         ctrl._restore_pending_queues()
 
-        command_type, _args, _client = app_window.server_staging_queue.take()
+        command_type = app_window.server_staging_queue.take()[0]
         assert command_type is CommandType.IP_ADAPTER
 
     def test_an_entry_written_before_requests_carried_a_client(
@@ -133,9 +148,11 @@ class TestRestoringStagedRequests:
 
         ctrl._restore_pending_queues()
 
-        assert app_window.server_staging_queue.take() == (
+        command_type, args, client_id, run_id = app_window.server_staging_queue.take()
+        assert (command_type, args, client_id) == (
             CommandType.RENOISER, {"image": "a.png"}, ""
         )
+        assert run_id
 
     def test_an_entry_written_under_the_stale_workflow_type_key(
         self, app_window, ctrl, cache
@@ -145,7 +162,7 @@ class TestRestoringStagedRequests:
 
         ctrl._restore_pending_queues()
 
-        command_type, _args, _client = app_window.server_staging_queue.take()
+        command_type = app_window.server_staging_queue.take()[0]
         assert command_type is CommandType.REDO_PROMPT
 
     def test_an_unrecognized_entry_is_dropped_without_taking_its_neighbours(

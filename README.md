@@ -267,6 +267,8 @@ A request that carries its own parameters (`renoiser`, `control_net`, `ip_adapte
 
 A request is refused, rather than run, when it would produce nothing useful: `no models found` when your model tags match no installed model, and `run too large` when the estimate exceeds `server_run_max_seconds` (unset means no ceiling). Both name the reason in the reply, since there is no user at that end to ask.
 
+Every accepted request replies with a `run_id` — `run_batch` replies with a `run_ids` list, one per accepted item in order — which identifies that run from acceptance onward, including across a restart while it sits staged. It is a handle, not a subscription: nothing is pushed when the run finishes, and nothing retains the id afterwards.
+
 A client names itself by putting a `client_id` on any message it sends; it is optional, sticky for the connection, and only needs sending once. A client that sends none is shown as `server`, since two clients on the same machine cannot be told apart from the connection alone.
 
 A client can also ask whether a backend is working: `{"command": "health_check", "level": 1}`. Level 1 confirms the backend answers its API; level 2 additionally confirms it has a model loaded and is not stuck. Add `"software": "ComfyUI"` to ask about a specific backend rather than the selected one. A backend busy with your own run answers `ok` with a `generation_in_progress` note — activity is evidence of health.
@@ -315,7 +317,7 @@ Without a port it does not start, and without the package it logs once and decli
 
 The tools are `generate` (naming one of the same commands the server takes, with that command's arguments), `generate_batch`, `cancel`, `revert_to_simple_gen`, `health_check`, and `run_status`.
 
-`generate` returns when the run is **queued**, not when it has finished — the images come later and are not part of the result. Poll `run_status` to find out when work is done. It answers by client rather than per run, so if you send several requests it tells you that work of yours is still in progress, not which one.
+`generate` returns when the run is **queued**, not when it has finished — the images come later and are not part of the result. It replies with a `run_id`, and `generate_batch` replies with `run_ids`, one per accepted item in order. Poll `run_status` to find out when work is done: with no arguments it answers for the client as a whole, and given a `run_id` it reports that run as `running`, `queued`, `staged`, or `unknown` once it is no longer outstanding. Nothing keeps a record of a finished run, so `unknown` covers both "done" and "never issued".
 
 **It binds to localhost only.** The other server authenticates with a key belonging to its transport, which does not carry over to HTTP, and the MCP SDK's own answer is a full OAuth resource server rather than a shared secret. Until that exists, remote binds are refused. `mcp_server_token` is reserved for it and currently does nothing — if you set one, the server refuses to start rather than run while leaving it unenforced.
 

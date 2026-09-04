@@ -124,11 +124,11 @@ class TestServerStagingQueue:
         pos2 = q.add("wf_type", {"key": "val2"})
         assert pos2 == 2
 
-    def test_take_returns_fifo_triple(self):
+    def test_take_returns_fifo_tuple(self):
         q = ServerStagingQueue()
         q.add("type_a", {"x": 1}, "weidr")
         q.add("type_b", {"x": 2}, "other")
-        command_type, args, client_id = q.take()
+        command_type, args, client_id, _run_id = q.take()
         assert command_type == "type_a"
         assert args == {"x": 1}
         assert client_id == "weidr"
@@ -137,7 +137,8 @@ class TestServerStagingQueue:
         """A request may arrive before any client names itself."""
         q = ServerStagingQueue()
         q.add("type_a", {})
-        assert q.take() == ("type_a", {}, "")
+        command_type, args, client_id, _run_id = q.take()
+        assert (command_type, args, client_id) == ("type_a", {}, "")
 
     def test_take_on_empty_returns_none(self):
         q = ServerStagingQueue()

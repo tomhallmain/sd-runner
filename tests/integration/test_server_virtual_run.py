@@ -11,60 +11,12 @@ The run machinery is stubbed the same way as test_run_dispatch: no backend, and
 start_thread runs synchronously so the effects are visible on return.
 """
 
-import time as time_module
-import pytest
-
 from extensions.sd_runner_server import CommandType, SDRunnerServer
-from sd_runner.runs.run import Run
-from sd_runner.models.model import Model
-from sd_runner.models.resolution import Resolution
-from sd_runner.runs.run_config import RunConfig
-from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
-from tests.utils import FakeServerConn
-from sd_runner.runs.run_controller import SERVER_ORIGIN
 from sd_runner.globals import WorkflowType
-from sd_runner.runs.time_estimator import TimeEstimator
-from lib.utils import Utils
-
-
-class _FakeModel:
-    architecture_type = None
-
-    def __str__(self):
-        return "fake"
-
-
-@pytest.fixture
-def executed():
-    return []
-
-
-@pytest.fixture
-def run_stubs(monkeypatch, executed):
-    def fake_execute(self):
-        executed.append(self)
-        self.is_complete = True
-
-    monkeypatch.setattr(Run, "execute", fake_execute)
-    monkeypatch.setattr(
-        Utils, "start_thread", lambda fn, use_asyncio=False, args=[]: fn(*args)
-    )
-    monkeypatch.setattr(
-        Model, "get_models",
-        lambda tags, default_tag=None, inpainting=False, **kw: [_FakeModel()],
-    )
-    monkeypatch.setattr(
-        Resolution, "get_resolutions",
-        lambda tags, architecture_type=None, resolution_group=None: [object()],
-    )
-    monkeypatch.setattr(RunConfig, "validate", lambda self: True)
-    # Both estimate entry points, or a run long enough to cross
-    # TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS would raise a modal.
-    # latents is optional on the real signature; callers pass either shape.
-    monkeypatch.setattr(TimeEstimator, "estimate_queue_time", lambda images, latents=1.0: 0)
-    monkeypatch.setattr(TimeEstimator, "estimate_run_seconds", lambda gen_config, images: 0)
-    monkeypatch.setattr(time_module, "sleep", lambda s: None)
-    monkeypatch.setattr(timed_schedules_manager, "check_for_shutdown_request", lambda dt: None)
+from sd_runner.models.model import Model
+from sd_runner.runs.run import Run
+from sd_runner.runs.run_controller import SERVER_ORIGIN
+from tests.utils import FakeServerConn
 
 
 def sidebar_snapshot(sp) -> dict:
@@ -576,7 +528,7 @@ class TestStagingWhenTheQueueIsFull:
         app_window.run_ctrl.server_run_callback(
             CommandType.RENOISER, {"image": "remote.png"}, "weidr"
         )
-        command_type, args, client_id = app_window.server_staging_queue.take()
+        command_type, args, client_id, _run_id = app_window.server_staging_queue.take()
         assert command_type is CommandType.RENOISER
         assert args["image"] == "remote.png"
         # The client travels with the request: a promotion, possibly in a later

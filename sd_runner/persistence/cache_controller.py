@@ -157,10 +157,18 @@ class CacheController:
                     # fallback rather than discarding pre-existing staged requests.
                     name = req["command_type"] if "command_type" in req else req["workflow_type"]
                     command_type = CommandType[name]
-                    # Absent in entries written before requests carried their
-                    # client; those restore with an empty origin.
-                    self._app.server_staging_queue._requests.append(
-                        (command_type, req.get("args", {}), req.get("client_id", ""))
+                    # client_id is absent in entries written before requests
+                    # carried their client; those restore with an empty origin.
+                    # run_id is absent in entries written before handles
+                    # existed, and add() mints one for those -- a handle nobody
+                    # was ever given, which is the honest outcome: the client
+                    # that made the request cannot have kept an id that was not
+                    # issued.
+                    self._app.server_staging_queue.add(
+                        command_type,
+                        req.get("args", {}),
+                        req.get("client_id", ""),
+                        req.get("run_id", ""),
                     )
                     restored += 1
                 except Exception as exc:
@@ -261,11 +269,12 @@ class CacheController:
                     # the restore side, instead of aborting the whole store and
                     # silently saving no staged requests at all.
                     try:
-                        command_type, args_dict, client_id = entry
+                        command_type, args_dict, client_id, run_id = entry
                         requests_data.append({
                             "command_type": command_type.name if hasattr(command_type, "name") else str(command_type),
                             "args": args_dict,
                             "client_id": client_id,
+                            "run_id": run_id,
                         })
                     except Exception as exc:
                         logger.warning(f"Failed to serialize staging request: {exc}")

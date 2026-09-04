@@ -39,7 +39,9 @@ class Run:
         ui_callbacks = None,
         delay_after_last_run: bool = True,
     ):
-        self.id = str(time.time())
+        # The run config's id, so the handle a client was given at accept time
+        # and the id this run answers to are one thing rather than two.
+        self.id = getattr(args, "run_id", None) or str(time.time())
         self.is_complete = False
         self.is_cancelled = False
         self.delay_after_last_run = delay_after_last_run

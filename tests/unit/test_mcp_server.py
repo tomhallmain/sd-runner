@@ -42,8 +42,8 @@ class Recorder:
         self.calls.append(("health", level, timeout, software))
         return {"status": "ok"}
 
-    def run_status(self, origin=""):
-        self.calls.append(("run_status", origin))
+    def run_status(self, origin="", run_id=""):
+        self.calls.append(("run_status", origin, run_id))
         return {"running": False, "queued": 0, "staged": 0, "mine_running": False}
 
 
@@ -212,8 +212,35 @@ class TestStateTools:
         about its own work rather than the app's in general."""
         server, rec = make_server()
         result = server.dispatch("run_status")
-        assert rec.calls[0] == ("run_status", MCP_CLIENT_ID)
+        assert rec.calls[0] == ("run_status", MCP_CLIENT_ID, "")
         assert "mine_running" in result
+
+    def test_run_status_forwards_a_run_id(self, app_config):
+        """The handle a client was given at accept time is how it asks about
+        one run rather than about all of its work."""
+        server, rec = make_server()
+        server.dispatch("run_status", {"run_id": "abc123"})
+        assert rec.calls[0] == ("run_status", MCP_CLIENT_ID, "abc123")
+
+    def test_the_run_status_tool_accepts_a_run_id(self, app_config):
+        """The SDK reads a tool's parameters off its handler's annotations, so
+        a run_id the description advertises but the handler does not take
+        would be undeliverable -- the description would promise a parameter no
+        client could pass."""
+        import inspect
+
+        server, _rec = make_server()
+        registered = {}
+
+        class FakeSDKServer:
+            def tool(self, name=None, description=None):
+                def decorator(fn):
+                    registered[name] = fn
+                    return fn
+                return decorator
+
+        server._register_tools(FakeSDKServer())
+        assert "run_id" in inspect.signature(registered["run_status"]).parameters
 
     def test_an_unknown_tool_is_refused(self, app_config):
         server, _rec = make_server()
