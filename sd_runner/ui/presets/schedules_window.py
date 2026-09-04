@@ -17,9 +17,9 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from sd_runner.presets_state import PresetsState
-from sd_runner.schedule import PresetTask, Schedule
-from sd_runner.schedules_state import SchedulesState
+from sd_runner.presets.presets_state import PresetsState
+from sd_runner.presets.schedule import PresetTask, Schedule
+from sd_runner.presets.schedules_state import SchedulesState
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.ui.window_focus import clear_class_ref_if_self, try_focus_existing_window

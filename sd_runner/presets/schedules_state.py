@@ -8,7 +8,7 @@ The ``app_info_cache`` import stays inside each function: it builds its
 singleton at import time, and importing this module should not force that.
 """
 
-from sd_runner.schedule import Schedule
+from sd_runner.presets.schedule import Schedule
 
 
 class SchedulesState:

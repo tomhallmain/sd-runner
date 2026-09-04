@@ -18,7 +18,7 @@ import os
 from utils.logging_setup import get_logger
 from utils.utils import Utils
 
-logger = get_logger("recent_adapters_state")
+logger = get_logger("models.recent_adapters_state")
 
 
 class RecentAdaptersState:

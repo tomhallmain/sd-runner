@@ -22,12 +22,12 @@ from PySide6.QtWidgets import (
 
 from lib.custom_title_bar import FramelessWindowMixin, WindowResizeHandler
 from lib.multi_display_qt import SmartMainWindow
-from sd_runner.cache_controller import CacheController
-from sd_runner.run import Run
+from sd_runner.persistence.cache_controller import CacheController
+from sd_runner.runs.run import Run
 from sd_runner.generators.comfy import ComfyGen
-from sd_runner.models import Model
-from sd_runner.recent_adapters_state import RecentAdaptersState
-from sd_runner.run_controller import RunController
+from sd_runner.models.model import Model
+from sd_runner.models.recent_adapters_state import RecentAdaptersState
+from sd_runner.runs.run_controller import RunController
 from sd_runner.ui.app_actions import AppActions
 from sd_runner.ui.app_style import AppStyle
 from utils.app_icon import get_app_icon_path
@@ -145,7 +145,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # ------------------------------------------------------------------
         self.config_history_index: int = 0
         self.runner_app_config: RunnerAppConfig | None = None
-        from sd_runner.run_config import RunConfig
+        from sd_runner.runs.run_config import RunConfig
         self.current_run: Run = Run(RunConfig())
         self.job_queue = SDRunsQueue()
         self.job_queue_preset_schedules: PresetSchedulesQueue | None = None
@@ -228,7 +228,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self.responsiveness = QtResponsiveness()
 
         # Job queue for preset schedules (needs run_ctrl references)
-        from sd_runner.schedules_state import SchedulesState
+        from sd_runner.presets.schedules_state import SchedulesState
         self.job_queue_preset_schedules = PresetSchedulesQueue(
             get_run_config_callback=self.get_basic_run_config,
             get_current_schedule_callback=lambda: SchedulesState.current_schedule,
@@ -440,7 +440,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         pre-pass rather than the run: the user asked for images, and the
         pre-pass is a modifier on how they are made.
         """
-        from sd_runner.presets_state import PresetsState
+        from sd_runner.presets.presets_state import PresetsState
 
         prompt = PresetsState.get_active_intermediate_prompt()
         if prompt is None:
@@ -545,7 +545,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         and -- critically -- copies the ``prompter_config`` from
         ``runner_app_config`` so that ``RunConfig.validate()`` succeeds.
         """
-        from sd_runner.run_config import RunConfig
+        from sd_runner.runs.run_config import RunConfig
         from utils.globals import PromptMode, WorkflowType
         from sd_runner.ui.prompts.prompt_config_window import PromptConfigWindow
 
@@ -609,7 +609,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         boxes, the strengths and the rest already write through as they are
         edited, so they are not repeated here.
         """
-        from sd_runner.run_controller import clear_quotes
+        from sd_runner.runs.run_controller import clear_quotes
         from sd_runner.ui.prompts.prompt_config_window import PromptConfigWindow
         from utils.globals import PromptMode, ResolutionGroup, WorkflowType
 
@@ -656,7 +656,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         into ``runner_app_config`` and builds the ``RunConfig``.
         """
         from copy import deepcopy
-        from sd_runner.run_controller import clear_quotes
+        from sd_runner.runs.run_controller import clear_quotes
         from utils.globals import WorkflowType
 
         sp = self.sidebar_panel

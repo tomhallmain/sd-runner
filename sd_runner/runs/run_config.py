@@ -6,14 +6,14 @@ from enum import Enum
 
 from utils.globals import Globals, PromptMode, Sampler, Scheduler, WorkflowType # must import first
 
-from sd_runner.models import Model, NoModelsFound
+from sd_runner.models.model import Model, NoModelsFound
 from utils.logging_setup import get_logger
 from utils.time_estimator import TimeEstimator
 from utils.translations import I18N
 
 _ = I18N._
 
-logger = get_logger("run_config")
+logger = get_logger("runs.run_config")
 
 
 def _arg(source, name: str):

@@ -1,7 +1,7 @@
 """
 RecentAdaptersWindow -- recent ControlNet and IP Adapter browser.
 
-The recent lists and favourites live in ``sd_runner.recent_adapters_state``;
+The recent lists and favourites live in ``sd_runner.models.recent_adapters_state``;
 this class browses them and holds the display rows it builds from them.
 """
 
@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from sd_runner.recent_adapters_state import RecentAdaptersState
+from sd_runner.models.recent_adapters_state import RecentAdaptersState
 from utils.app_info_cache import app_info_cache
 from utils.logging_setup import get_logger
 from utils.translations import I18N

@@ -3,11 +3,11 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 
-from sd_runner.adapter_sorting import _sort_adapters_by_recency
+from sd_runner.models.adapter_sorting import _sort_adapters_by_recency
 from utils.logging_setup import get_logger
 from utils.utils import Utils
 
-logger = get_logger("source_prompts")
+logger = get_logger("models.source_prompts")
 
 preset_source_prompts: list[str] = []
 

@@ -12,8 +12,8 @@ these assert on seconds *waited*, not seconds elapsed.
 
 import pytest
 
-from sd_runner import run as run_module
-from sd_runner.run import Run
+from sd_runner.runs import run as run_module
+from sd_runner.runs.run import Run
 from tests.utils import make_run_config
 from utils.globals import Globals
 

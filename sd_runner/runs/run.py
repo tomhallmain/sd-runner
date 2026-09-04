@@ -7,17 +7,17 @@ from typing import Optional
 from utils.globals import Globals, PromptMode, ResolutionGroup, WorkflowType, ArchitectureType, SoftwareType # must import first
 from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.generators.comfy import ComfyGen
-from sd_runner.control_nets import get_control_nets, redo_files, ControlNet
-from sd_runner.gen_config import GenConfig, MultiGenProgressTracker
-from sd_runner.ip_adapters import get_ip_adapters, IPAdapter
+from sd_runner.models.control_nets import get_control_nets, redo_files, ControlNet
+from sd_runner.runs.gen_config import GenConfig, MultiGenProgressTracker
+from sd_runner.models.ip_adapters import get_ip_adapters, IPAdapter
 from sd_runner.prompter_configuration import PrompterConfiguration
 from sd_runner.prompter import GlobalPrompter, Prompter
-from sd_runner.source_prompts import SourcePrompt, get_source_prompts
-from sd_runner.models import Model
-from sd_runner.resolution import Resolution
-from sd_runner.run_config import RunConfig
+from sd_runner.models.source_prompts import SourcePrompt, get_source_prompts
+from sd_runner.models.model import Model
+from sd_runner.models.resolution import Resolution
+from sd_runner.runs.run_config import RunConfig
 from sd_runner.generators.sdwebui import SDWebuiGen
-from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
+from sd_runner.presets.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
 from sd_runner.workflow_prompts.base import WorkflowPrompt
 from utils.config import config
 from utils.logging_setup import get_logger
@@ -26,7 +26,7 @@ from utils.utils import Utils
 
 _ = I18N._
 
-logger = get_logger("run")
+logger = get_logger("runs.run")
 
 prompt_list = [
 ]

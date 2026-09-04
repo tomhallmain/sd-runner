@@ -26,14 +26,14 @@ commands never reach a run at all.
 
 from copy import deepcopy
 
-from sd_runner.run_config import RunConfig
+from sd_runner.runs.run_config import RunConfig
 from utils.globals import (
     CONTROL_NET_IMAGE_WORKFLOWS, IP_ADAPTER_IMAGE_WORKFLOWS,
     PromptMode, Sampler, Scheduler, WorkflowType,
 )
 from utils.logging_setup import get_logger
 
-logger = get_logger("virtual_run_config")
+logger = get_logger("runs.virtual_run_config")
 
 
 def escape_path(path: str) -> str:

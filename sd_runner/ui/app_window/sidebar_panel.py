@@ -97,7 +97,7 @@ class SidebarPanel(QWidget):
     # LEFT COLUMN -- Run Configuration
     # ==================================================================
     def _build_left_column(self) -> QWidget:
-        from sd_runner.models import Model
+        from sd_runner.models.model import Model
 
         widget = QWidget()
         layout = QVBoxLayout(widget)
@@ -546,7 +546,7 @@ class SidebarPanel(QWidget):
 
     def next_preset(self) -> None:
         """Advance to the next preset and apply it."""
-        from sd_runner.presets_state import PresetsState
+        from sd_runner.presets.presets_state import PresetsState
         try:
             preset = PresetsState.next_preset(self._app.notification_ctrl.alert)
             if preset is not None:
@@ -565,7 +565,7 @@ class SidebarPanel(QWidget):
 
     def construct_preset(self, name: str):
         """Build a ``Preset`` from the current widget values."""
-        from sd_runner.preset import Preset
+        from sd_runner.presets.preset import Preset
         args, _ = self._app.get_args()
         self._app.runner_app_config.set_from_run_config(args)
         self._app.cache_ctrl.store_info_cache()
@@ -578,7 +578,7 @@ class SidebarPanel(QWidget):
         complete ``RunnerAppConfig`` and then keeps only four fields of it --
         but keeping the rest instead.
         """
-        from sd_runner.stashed_config import StashedConfig
+        from sd_runner.presets.stashed_config import StashedConfig
         args, _ = self._app.get_args()
         self._app.runner_app_config.set_from_run_config(args)
         self._app.cache_ctrl.store_info_cache()
@@ -597,8 +597,8 @@ class SidebarPanel(QWidget):
         process state go through ``AppWindow.sync_config_from_widgets``.
         """
         from utils.globals import Globals
-        from sd_runner.model_adapters import IPAdapter
-        from sd_runner.gen_config import GenConfig
+        from sd_runner.models.model_adapters import IPAdapter
+        from sd_runner.runs.gen_config import GenConfig
         from sd_runner.prompter import Prompter
 
         # Delay
@@ -672,7 +672,7 @@ class SidebarPanel(QWidget):
         Globals.set_lora_strength(strength)
 
     def _on_bw_colorization_return(self) -> None:
-        from sd_runner.model_adapters import IPAdapter
+        from sd_runner.models.model_adapters import IPAdapter
         val = self.bw_colorization_entry.text()
         self._app.runner_app_config.b_w_colorization = val
         IPAdapter.set_bw_coloration(val)
@@ -690,7 +690,7 @@ class SidebarPanel(QWidget):
         Globals.set_ipadapter_strength(strength)
 
     def _on_redo_params_return(self) -> None:
-        from sd_runner.gen_config import GenConfig
+        from sd_runner.runs.gen_config import GenConfig
         val = self.redo_params_entry.text()
         self._app.runner_app_config.redo_params = val
         GenConfig.set_redo_params(val)
@@ -773,7 +773,7 @@ class SidebarPanel(QWidget):
 
     def _set_model_dependent_fields(self, model_tags: str | None = None) -> None:
         """Auto-fill prompt massage tags from model presets."""
-        from sd_runner.models import Model
+        from sd_runner.models.model import Model
         if model_tags is None:
             model_tags = self.model_tags_entry.text()
         inpainting = self.inpainting_check.isChecked()

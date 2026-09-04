@@ -4,8 +4,8 @@ from utils.globals import Globals
 from utils.globals import PromptTypeSDWebUI
 from utils.globals import Sampler
 from utils.globals import Scheduler
-from sd_runner.model_adapters import LoraBundle
-from sd_runner.models import Model
+from sd_runner.models.model_adapters import LoraBundle
+from sd_runner.models.model import Model
 from utils.logging_setup import get_logger
 from .base import WorkflowPrompt
 

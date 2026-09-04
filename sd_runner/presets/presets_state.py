@@ -9,9 +9,9 @@ The ``app_info_cache`` import stays inside each function: it builds its
 singleton at import time, and importing this module should not force that.
 """
 
-from sd_runner.intermediate_prompt import IntermediatePrompt
-from sd_runner.preset import Preset
-from sd_runner.stashed_config import StashedConfig
+from sd_runner.presets.intermediate_prompt import IntermediatePrompt
+from sd_runner.presets.preset import Preset
+from sd_runner.presets.stashed_config import StashedConfig
 from utils.translations import I18N
 
 _ = I18N._

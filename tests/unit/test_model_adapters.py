@@ -1,5 +1,5 @@
 import pytest
-from sd_runner.model_adapters import ControlNet, IPAdapter
+from sd_runner.models.model_adapters import ControlNet, IPAdapter
 from utils.globals import Globals
 
 

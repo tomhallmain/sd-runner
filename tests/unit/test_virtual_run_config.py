@@ -11,7 +11,7 @@ from types import SimpleNamespace
 import pytest
 
 from extensions.sd_runner_server import CommandType
-from sd_runner.virtual_run_config import (
+from sd_runner.runs.virtual_run_config import (
     ATTRIBUTE_ONLY_FIELDS,
     apply_preset,
     apply_prompt_globals,

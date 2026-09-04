@@ -8,7 +8,7 @@ window changes rather than removes.
 
 import pytest
 
-from sd_runner.headless_app import HeadlessApp
+from sd_runner.runs.headless_app import HeadlessApp
 from utils.job_queue import SDRunsQueue, ServerStagingQueue
 
 

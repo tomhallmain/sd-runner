@@ -2,7 +2,7 @@ import math
 import random
 import unittest
 
-from sd_runner.resolution import Resolution
+from sd_runner.models.resolution import Resolution
 from utils.globals import ArchitectureType, ResolutionGroup
 
 

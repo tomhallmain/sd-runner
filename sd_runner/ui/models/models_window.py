@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (
 
 from extensions.hf_hub_api import HfHubApiBackend
 from lib.multi_display_qt import SmartDialog
-from sd_runner.models import Model
+from sd_runner.models.model import Model
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_utils import require_password
 from utils.globals import (

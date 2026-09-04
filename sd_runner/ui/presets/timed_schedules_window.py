@@ -16,8 +16,8 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from sd_runner.timed_schedule import TimedSchedule
-from sd_runner.timed_schedules_manager import timed_schedules_manager
+from sd_runner.presets.timed_schedule import TimedSchedule
+from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.ui.window_focus import clear_class_ref_if_self, try_focus_existing_window
 from utils.globals import ProtectedActions

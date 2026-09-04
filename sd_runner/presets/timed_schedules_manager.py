@@ -1,7 +1,7 @@
 
 import datetime
 
-from sd_runner.timed_schedule import TimedSchedule
+from sd_runner.presets.timed_schedule import TimedSchedule
 from utils.app_info_cache import app_info_cache
 from utils.logging_setup import get_logger
 from utils.translations import I18N

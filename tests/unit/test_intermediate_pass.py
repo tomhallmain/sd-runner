@@ -11,8 +11,8 @@ and report paths.
 """
 
 from sd_runner.generators.base import BaseImageGenerator
-from sd_runner.model_adapters import ControlNet, IPAdapter
-from sd_runner.intermediate_prompt import IntermediatePrompt
+from sd_runner.models.model_adapters import ControlNet, IPAdapter
+from sd_runner.presets.intermediate_prompt import IntermediatePrompt
 from tests.utils import make_gen_config
 from utils.globals import WorkflowType
 
@@ -253,7 +253,7 @@ class TestSurvivingSerialization:
     def test_a_restored_run_keeps_its_prepass(self):
         """RunConfig.from_dict rebuilds only the types it knows, so carrying
         the UI object here would lose the pre-pass on a restored run."""
-        from sd_runner.run_config import RunConfig
+        from sd_runner.runs.run_config import RunConfig
 
         original = RunConfig()
         original.workflow_tag = WorkflowType.IP_ADAPTER.name
@@ -263,7 +263,7 @@ class TestSurvivingSerialization:
         assert restored.intermediate_prompt == original.intermediate_prompt
 
     def test_the_restored_prepass_still_drives_a_pass(self):
-        from sd_runner.run_config import RunConfig
+        from sd_runner.runs.run_config import RunConfig
 
         original = RunConfig()
         original.workflow_tag = WorkflowType.IP_ADAPTER.name

@@ -42,12 +42,12 @@ def store_calls(monkeypatch, clean_cache):
 
 SUBSYSTEMS = [
     ("sd_runner.blacklist_state", None, "store_blacklist"),
-    ("sd_runner.presets_state", "PresetsState", "store_recent_presets"),
-    ("sd_runner.presets_state", "PresetsState", "store_stashed_configs"),
-    ("sd_runner.presets_state", "PresetsState", "store_intermediate_prompts"),
-    ("sd_runner.schedules_state", "SchedulesState", "store_schedules"),
+    ("sd_runner.presets.presets_state", "PresetsState", "store_recent_presets"),
+    ("sd_runner.presets.presets_state", "PresetsState", "store_stashed_configs"),
+    ("sd_runner.presets.presets_state", "PresetsState", "store_intermediate_prompts"),
+    ("sd_runner.presets.schedules_state", "SchedulesState", "store_schedules"),
     ("sd_runner.expansions_state", None, "store_expansions"),
-    ("sd_runner.recent_adapters_state", "RecentAdaptersState", "save_recent_adapters"),
+    ("sd_runner.models.recent_adapters_state", "RecentAdaptersState", "save_recent_adapters"),
 ]
 
 
@@ -142,7 +142,7 @@ class TestExpansionEditPersists:
 
 class TestPresetEditPersists:
     def test_recent_presets_reach_disk(self, clean_cache):
-        from sd_runner.presets_state import PresetsState
+        from sd_runner.presets.presets_state import PresetsState
         from utils.app_info_cache import AppInfoCache
 
         PresetsState.store_recent_presets()
@@ -153,7 +153,7 @@ class TestPresetEditPersists:
 class TestScheduleEditPersists:
     def test_recent_schedules_reach_disk(self, clean_cache):
         from tests.utils import make_schedule
-        from sd_runner.schedules_state import SchedulesState
+        from sd_runner.presets.schedules_state import SchedulesState
         from utils.app_info_cache import AppInfoCache
 
         SchedulesState.recent_schedules = [make_schedule("Evening")]

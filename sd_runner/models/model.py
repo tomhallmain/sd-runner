@@ -5,7 +5,7 @@ import re
 from typing import TypeVar
 
 from sd_runner.blacklist import Blacklist, BlacklistException
-from sd_runner.model_adapters import LoraBundle
+from sd_runner.models.model_adapters import LoraBundle
 from utils.config import config
 from utils.globals import Globals, PromptMode, ModelBlacklistMode, WorkflowType, ArchitectureType, ResolutionGroup
 from utils.logging_setup import get_logger
@@ -13,7 +13,7 @@ from utils.translations import I18N
 
 _ = I18N._
 
-logger = get_logger("models")
+logger = get_logger("models.model")
 
 
 class NoModelsFound(Exception):

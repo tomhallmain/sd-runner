@@ -37,7 +37,7 @@ from PySide6.QtWidgets import (
 from lib.multi_display_qt import SmartDialog
 from lib.tooltip_qt import create_tooltip
 from sd_runner.prompter_configuration import PrompterConfiguration
-from sd_runner.run_config import RunConfig
+from sd_runner.runs.run_config import RunConfig
 from sd_runner.ui.app_style import AppStyle
 from utils.globals import Sampler, Scheduler
 from utils.runner_app_config import RunnerAppConfig

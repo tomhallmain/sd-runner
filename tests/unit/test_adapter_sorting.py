@@ -1,7 +1,7 @@
 import os
 import pytest
-from sd_runner.control_nets import get_control_nets
-from sd_runner.ip_adapters import get_ip_adapters
+from sd_runner.models.control_nets import get_control_nets
+from sd_runner.models.ip_adapters import get_ip_adapters
 
 
 @pytest.fixture
@@ -71,7 +71,7 @@ class TestAdapterSorting:
 
 class TestLazyAdapterList:
     def _lazy(self, count=5):
-        from sd_runner.adapter_sorting import LazyAdapterList
+        from sd_runner.models.adapter_sorting import LazyAdapterList
         built = []
 
         def factory(path):
@@ -116,7 +116,7 @@ class TestLazyAdapterList:
         assert len(built) == 5
 
     def test_empty_list_is_falsy(self):
-        from sd_runner.adapter_sorting import LazyAdapterList
+        from sd_runner.models.adapter_sorting import LazyAdapterList
         assert not LazyAdapterList([], lambda p: p)
 
 
@@ -124,27 +124,27 @@ class TestLazyAdapterListMutation:
     """GenConfig.prepare() pads and clears these lists; both must work."""
 
     def test_append_to_empty_list(self):
-        from sd_runner.adapter_sorting import LazyAdapterList
+        from sd_runner.models.adapter_sorting import LazyAdapterList
         lazy = LazyAdapterList([], lambda p: p)
         lazy.append(None)
         assert len(lazy) == 1
         assert lazy[0] is None
 
     def test_appended_item_is_returned_as_given(self):
-        from sd_runner.adapter_sorting import LazyAdapterList
+        from sd_runner.models.adapter_sorting import LazyAdapterList
         lazy = LazyAdapterList(["p0"], lambda p: f"adapter:{p}")
         lazy.append(None)
         assert lazy[1] is None
         assert lazy[0] == "adapter:p0"
 
     def test_clear_empties_the_list(self):
-        from sd_runner.adapter_sorting import LazyAdapterList
+        from sd_runner.models.adapter_sorting import LazyAdapterList
         lazy = LazyAdapterList(["p0", "p1"], lambda p: p)
         lazy.clear()
         assert len(lazy) == 0
 
     def test_clear_then_append_matches_the_redo_branch(self):
-        from sd_runner.adapter_sorting import LazyAdapterList
+        from sd_runner.models.adapter_sorting import LazyAdapterList
         lazy = LazyAdapterList(["p0", "p1"], lambda p: p)
         lazy.clear()
         lazy.append(None)
@@ -153,7 +153,7 @@ class TestLazyAdapterListMutation:
 
     def test_gen_config_prepare_accepts_a_lazy_list(self):
         """Regression: prepare() raised AttributeError on a lazy adapter list."""
-        from sd_runner.adapter_sorting import LazyAdapterList
+        from sd_runner.models.adapter_sorting import LazyAdapterList
         from tests.utils import make_gen_config
 
         config = make_gen_config(

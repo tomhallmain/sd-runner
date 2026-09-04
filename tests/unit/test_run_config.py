@@ -1,9 +1,9 @@
 import json
 
 import pytest
-from sd_runner.models import Model, NoModelsFound
+from sd_runner.models.model import Model, NoModelsFound
 from sd_runner.prompter_configuration import PrompterConfiguration
-from sd_runner.run_config import RunConfig
+from sd_runner.runs.run_config import RunConfig
 from tests.utils import make_model, make_prompter_config, make_run_config
 from utils.globals import Sampler, Scheduler, WorkflowType
 

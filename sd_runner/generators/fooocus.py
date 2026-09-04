@@ -7,10 +7,10 @@ import time
 from typing import Optional
 from urllib import request as urllib_request, error as urllib_error
 
-from sd_runner.gen_config import GenConfig
+from sd_runner.runs.gen_config import GenConfig
 from sd_runner.generators.base import BaseImageGenerator
-from sd_runner.model_adapters import LoraBundle
-from sd_runner.models import Model
+from sd_runner.models.model_adapters import LoraBundle
+from sd_runner.models.model import Model
 from utils.config import config
 from utils.globals import WorkflowType
 

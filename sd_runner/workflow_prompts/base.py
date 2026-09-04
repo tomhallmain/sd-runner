@@ -2,8 +2,8 @@ import os
 
 from utils.config import config
 from utils.globals import WorkflowType, ComfyNodeName
-from sd_runner.control_nets import ControlNet
-from sd_runner.ip_adapters import IPAdapter
+from sd_runner.models.control_nets import ControlNet
+from sd_runner.models.ip_adapters import IPAdapter
 
 
 def _is_api_node_id(key: str) -> bool:

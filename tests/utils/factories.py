@@ -15,13 +15,13 @@ dependency a test does not want:
   receive loop can be driven without binding a port.
 """
 
-from sd_runner.gen_config import GenConfig
-from sd_runner.models import Model
+from sd_runner.runs.gen_config import GenConfig
+from sd_runner.models.model import Model
 from sd_runner.prompter import Prompter
 from sd_runner.prompter_configuration import PrompterConfiguration
-from sd_runner.resolution import Resolution
-from sd_runner.run_config import RunConfig
-from sd_runner.schedule import PresetTask, Schedule
+from sd_runner.models.resolution import Resolution
+from sd_runner.runs.run_config import RunConfig
+from sd_runner.presets.schedule import PresetTask, Schedule
 from utils.globals import PromptMode
 
 

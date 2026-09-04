@@ -7,11 +7,11 @@ import traceback
 import threading
 from typing import Optional
 
-from sd_runner.gen_config import GenConfig
+from sd_runner.runs.gen_config import GenConfig
 from utils.globals import Globals, WorkflowType, PromptTypeSDWebUI
 
 from sd_runner.generators.base import BaseImageGenerator
-from sd_runner.models import Model, LoraBundle
+from sd_runner.models.model import Model, LoraBundle
 from sd_runner.prompter_configuration import PrompterConfiguration
 from sd_runner.workflow_prompts.sdwebui import WorkflowPromptSDWebUI
 from utils.config import config

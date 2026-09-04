@@ -5,8 +5,8 @@ from the main configuration. These cover the saved list, the live state that a
 run reads, and the single seam the run path will call.
 """
 
-from sd_runner.intermediate_prompt import IntermediatePrompt
-from sd_runner.presets_state import PresetsState
+from sd_runner.presets.intermediate_prompt import IntermediatePrompt
+from sd_runner.presets.presets_state import PresetsState
 from utils.globals import WorkflowType
 
 

@@ -35,7 +35,7 @@ def main():
     I18N.install_locale(config.locale, verbose=config.print_settings)
 
     from sd_runner.generators.base import BaseImageGenerator
-    from sd_runner.headless_app import HeadlessApp
+    from sd_runner.runs.headless_app import HeadlessApp
 
     BaseImageGenerator.cleanup_image_converter()
 

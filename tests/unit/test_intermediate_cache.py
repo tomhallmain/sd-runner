@@ -6,7 +6,7 @@ and about a hit being trustworthy: the files live in a directory this app does
 not manage, so a stored path is a claim to verify, not a fact.
 """
 
-from sd_runner.intermediate_cache import IntermediateCache
+from sd_runner.runs.intermediate_cache import IntermediateCache
 
 
 def _prompt(**kwargs):

@@ -21,7 +21,7 @@ import threading
 
 from utils.logging_setup import get_logger
 
-logger = get_logger("intermediate_cache")
+logger = get_logger("runs.intermediate_cache")
 
 
 class IntermediateCache:

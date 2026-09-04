@@ -24,11 +24,11 @@ from utils.translations import I18N
 
 if TYPE_CHECKING:
     from PySide6.QtCore import QTimer
-    from sd_runner.headless_app import HeadlessApp
+    from sd_runner.runs.headless_app import HeadlessApp
     from sd_runner.ui.app_window.app_window import AppWindow
 
 _ = I18N._
-logger = get_logger("cache_controller")
+logger = get_logger("persistence.cache_controller")
 
 
 class CacheController:
@@ -65,11 +65,11 @@ class CacheController:
         """
         from utils.runner_app_config import RunnerAppConfig
         from sd_runner import blacklist_state
-        from sd_runner.presets_state import PresetsState
-        from sd_runner.schedules_state import SchedulesState
+        from sd_runner.presets.presets_state import PresetsState
+        from sd_runner.presets.schedules_state import SchedulesState
         from sd_runner.expansions_state import set_expansions as _set_expansions
-        from sd_runner.recent_adapters_state import RecentAdaptersState
-        from sd_runner.timed_schedules_manager import timed_schedules_manager
+        from sd_runner.models.recent_adapters_state import RecentAdaptersState
+        from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
         from sd_runner.ui.auth.password_core import get_security_config
 
         try:
@@ -127,7 +127,7 @@ class CacheController:
 
     def _restore_pending_queues(self) -> None:
         """Restore pending SD runs and server staging requests saved at last shutdown."""
-        from sd_runner.run_config import RunConfig
+        from sd_runner.runs.run_config import RunConfig
 
         runs_data = app_info_cache.get(self.PENDING_SD_RUNS_KEY) or []
         if runs_data:
@@ -183,11 +183,11 @@ class CacheController:
         therefore always runs the blacklist history purge.
         """
         from sd_runner import blacklist_state
-        from sd_runner.presets_state import PresetsState
-        from sd_runner.schedules_state import SchedulesState
+        from sd_runner.presets.presets_state import PresetsState
+        from sd_runner.presets.schedules_state import SchedulesState
         from sd_runner.expansions_state import store_expansions as _store_expansions
-        from sd_runner.recent_adapters_state import RecentAdaptersState
-        from sd_runner.timed_schedules_manager import timed_schedules_manager
+        from sd_runner.models.recent_adapters_state import RecentAdaptersState
+        from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
         from sd_runner.ui.auth.password_core import get_security_config
 
         try:

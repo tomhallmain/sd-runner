@@ -25,7 +25,7 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from sd_runner.prompter import Prompter
-from sd_runner.run_config import RunConfig
+from sd_runner.runs.run_config import RunConfig
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.prompts.prompt_config_window import PromptConfigWindow
 from utils.app_info_cache import app_info_cache

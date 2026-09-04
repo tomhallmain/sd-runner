@@ -14,10 +14,10 @@ import traceback
 from utils.globals import Globals, WorkflowType, SoftwareType, image_input_field
 
 from sd_runner.blacklist import Blacklist
-from sd_runner.gen_config import GenConfig
+from sd_runner.runs.gen_config import GenConfig
 from sd_runner.image_converter import convert_image_if_needed, cleanup_converter, clear_converter_cache
-from sd_runner.models import Model
-from sd_runner.resolution import Resolution
+from sd_runner.models.model import Model
+from sd_runner.models.resolution import Resolution
 from sd_runner.workflow_prompts.base import WorkflowPrompt
 from sd_runner.ui.app_actions import AppActions
 from utils.config import config
@@ -445,7 +445,7 @@ class BaseImageGenerator(ABC):
         dispatches several workflows onto the shared executor at once, and
         without it they would all miss the same empty entry and all generate.
         """
-        from sd_runner.intermediate_cache import IntermediateCache
+        from sd_runner.runs.intermediate_cache import IntermediateCache
 
         key = IntermediateCache.key_for(prompt, source.id)
         max_variants = max(1, int(prompt.get("max_variants") or 1))
@@ -587,7 +587,7 @@ class BaseImageGenerator(ABC):
         fresh adapter of the other type, since a pre-pass may read its image
         from a different field than the run it precedes.
         """
-        from sd_runner.model_adapters import ControlNet, IPAdapter
+        from sd_runner.models.model_adapters import ControlNet, IPAdapter
 
         wanted = ControlNet if field == "control_net" else IPAdapter
         if isinstance(source, wanted):

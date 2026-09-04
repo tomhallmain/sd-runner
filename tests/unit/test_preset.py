@@ -1,5 +1,5 @@
 import pytest
-from sd_runner.preset import Preset
+from sd_runner.presets.preset import Preset
 from utils.globals import PromptMode
 
 

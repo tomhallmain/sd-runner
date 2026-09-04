@@ -37,16 +37,16 @@ import time as time_module
 import pytest
 from unittest.mock import MagicMock
 
-from sd_runner.run import Run
-from sd_runner.models import Model
-from sd_runner.resolution import Resolution
-from sd_runner.run_config import RunConfig
-from sd_runner.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
+from sd_runner.runs.run import Run
+from sd_runner.models.model import Model
+from sd_runner.models.resolution import Resolution
+from sd_runner.runs.run_config import RunConfig
+from sd_runner.presets.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
 from tests.utils import make_schedule
-from sd_runner.schedule import Schedule
-from sd_runner.schedules_state import SchedulesState
+from sd_runner.presets.schedule import Schedule
+from sd_runner.presets.schedules_state import SchedulesState
 from sd_runner.ui.presets.schedules_window import SchedulesWindow
-from sd_runner.presets_state import PresetsState
+from sd_runner.presets.presets_state import PresetsState
 from utils.translations import I18N
 from utils.utils import Utils
 from utils.time_estimator import TimeEstimator

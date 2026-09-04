@@ -223,7 +223,7 @@ def _reset_if_imported(module_name: str, class_name: str, **attrs) -> None:
 
 def _reset_class_state() -> None:
     try:
-        from sd_runner.run_config import RunConfig
+        from sd_runner.runs.run_config import RunConfig
         RunConfig.previous_model_tags = None
         RunConfig.model_switch_detected = False
         RunConfig.has_warned_about_prompt_massage_text_mismatch = False
@@ -298,7 +298,7 @@ def _reset_class_state() -> None:
         pass
 
     try:
-        from sd_runner.models import Model
+        from sd_runner.models.model import Model
         # Populated by scanning config.models_dir, which points at a real
         # directory on the developer's machine. A scan triggered by one test
         # would otherwise be visible to every test after it.
@@ -308,7 +308,7 @@ def _reset_class_state() -> None:
         pass
 
     try:
-        from sd_runner.timed_schedules_manager import TimedSchedulesManager
+        from sd_runner.presets.timed_schedules_manager import TimedSchedulesManager
         TimedSchedulesManager.schedule_history = []
     except Exception:
         pass
@@ -321,16 +321,16 @@ def _reset_class_state() -> None:
     # Per-key generation locks, held for the life of the process. The cached
     # entries themselves live in app_info_cache and are isolated already, but
     # the lock table would carry keys between tests.
-    _reset_if_imported("sd_runner.intermediate_cache", "IntermediateCache", _locks={})
+    _reset_if_imported("sd_runner.runs.intermediate_cache", "IntermediateCache", _locks={})
 
     # Window-level history lists, all restored from app_info_cache on open. Only
     # reset if the module is already imported: touching them unconditionally
     # would drag PySide6 into every pure-logic unit test.
-    _reset_if_imported("sd_runner.schedules_state", "SchedulesState",
+    _reset_if_imported("sd_runner.presets.schedules_state", "SchedulesState",
                        recent_schedules=[], current_schedule=None)
     _reset_if_imported("sd_runner.ui.presets.schedules_window", "SchedulesWindow",
                        schedule_history=[])
-    _reset_if_imported("sd_runner.presets_state", "PresetsState",
+    _reset_if_imported("sd_runner.presets.presets_state", "PresetsState",
                        recent_presets=[], stashed_configs=[],
                        intermediate_prompts=[], intermediate_enabled=False,
                        intermediate_current=None)
@@ -338,7 +338,7 @@ def _reset_class_state() -> None:
                        preset_history=[], last_set_preset=None)
     # Loaded from the cache on open and read back by save_recent_adapters, so a
     # test that saves would otherwise persist whatever the previous one loaded.
-    _reset_if_imported("sd_runner.recent_adapters_state", "RecentAdaptersState",
+    _reset_if_imported("sd_runner.models.recent_adapters_state", "RecentAdaptersState",
                        _recent_controlnets=[], _recent_ipadapters=[],
                        _recent_source_prompts=[], _recent_adapter_files_split=[],
                        _favorite_adapters=[])
@@ -371,14 +371,14 @@ def _reset_class_state() -> None:
         pass
 
     try:
-        from sd_runner.gen_config import GenConfig
+        from sd_runner.runs.gen_config import GenConfig
         from utils.config import config as _config
         GenConfig.REDO_PARAMETERS = list(getattr(_config, "redo_parameters", []) or [])
     except Exception:
         pass
 
     try:
-        from sd_runner.timed_schedules_manager import TimedSchedulesManager
+        from sd_runner.presets.timed_schedules_manager import TimedSchedulesManager
         TimedSchedulesManager.recent_timed_schedules = []
     except Exception:
         pass

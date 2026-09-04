@@ -10,7 +10,7 @@ silently wrong-size image on every cloud backend.
 
 import pytest
 
-from sd_runner.resolution import Resolution
+from sd_runner.models.resolution import Resolution
 from utils.globals import ArchitectureType, Globals, ResolutionGroup
 
 

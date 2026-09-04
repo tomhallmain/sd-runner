@@ -1,6 +1,6 @@
 """xAI Grok image generation backend (Aurora model, OpenAI-compatible API)."""
 
-from sd_runner.gen_config import GenConfig
+from sd_runner.runs.gen_config import GenConfig
 from sd_runner.generators.openai_gen import OpenAIGen
 
 _BASE_URL = "https://api.x.ai/v1/images/generations"

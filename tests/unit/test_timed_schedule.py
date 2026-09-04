@@ -1,6 +1,6 @@
 import datetime
 import pytest
-from sd_runner.timed_schedule import TimedSchedule
+from sd_runner.presets.timed_schedule import TimedSchedule
 
 
 def make_schedule(**kwargs):

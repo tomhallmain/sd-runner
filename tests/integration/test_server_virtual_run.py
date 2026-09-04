@@ -15,13 +15,13 @@ import time as time_module
 import pytest
 
 from extensions.sd_runner_server import CommandType, SDRunnerServer
-from sd_runner.run import Run
-from sd_runner.models import Model
-from sd_runner.resolution import Resolution
-from sd_runner.run_config import RunConfig
-from sd_runner.timed_schedules_manager import timed_schedules_manager
+from sd_runner.runs.run import Run
+from sd_runner.models.model import Model
+from sd_runner.models.resolution import Resolution
+from sd_runner.runs.run_config import RunConfig
+from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
 from tests.utils import FakeServerConn
-from sd_runner.run_controller import SERVER_ORIGIN
+from sd_runner.runs.run_controller import SERVER_ORIGIN
 from utils.globals import WorkflowType
 from utils.time_estimator import TimeEstimator
 from utils.utils import Utils
@@ -369,7 +369,7 @@ class TestPresetScheduleDiversion:
         assert {"control_net": "remote.png"} in app_window.job_queue_preset_schedules.pending_jobs
 
     def test_the_run_is_never_built_when_diverting(self, app_window, run_stubs, monkeypatch):
-        import sd_runner.virtual_run_config as vrc
+        import sd_runner.runs.virtual_run_config as vrc
 
         def fail(*a, **kw):
             raise AssertionError("a diverted request must not be built")
@@ -525,7 +525,7 @@ class TestServerRunCeiling:
         assert len(executed) == 1
 
     def test_no_models_is_reported_as_an_error_response(self, app_window, run_stubs, executed, monkeypatch):
-        from sd_runner.models import NoModelsFound
+        from sd_runner.models.model import NoModelsFound
         from utils.config import config
 
         def no_models(args):

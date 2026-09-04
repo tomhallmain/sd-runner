@@ -23,7 +23,7 @@ from utils.logging_setup import get_logger
 from utils.translations import I18N
 
 _ = I18N._
-logger = get_logger("headless_app")
+logger = get_logger("runs.headless_app")
 
 
 class DirectBridge:
@@ -92,8 +92,8 @@ class HeadlessApp:
     """
 
     def __init__(self):
-        from sd_runner.cache_controller import CacheController
-        from sd_runner.run_controller import RunController
+        from sd_runner.persistence.cache_controller import CacheController
+        from sd_runner.runs.run_controller import RunController
         from utils.job_queue import SDRunsQueue, ServerStagingQueue
         from utils.ui_responsiveness import NullResponsiveness
 
@@ -140,7 +140,7 @@ class HeadlessApp:
         one being called here is a wiring mistake worth seeing rather than a
         case to handle.
         """
-        from sd_runner.recent_adapters_state import RecentAdaptersState
+        from sd_runner.models.recent_adapters_state import RecentAdaptersState
         from sd_runner.ui.app_actions import AppActions
 
         def unavailable(name):
@@ -214,7 +214,7 @@ class HeadlessApp:
         The window's copy of this reads the same stored state; the pre-pass is
         run configuration rather than anything the window owns.
         """
-        from sd_runner.presets_state import PresetsState
+        from sd_runner.presets.presets_state import PresetsState
 
         prompt = PresetsState.get_active_intermediate_prompt()
         if prompt is None:

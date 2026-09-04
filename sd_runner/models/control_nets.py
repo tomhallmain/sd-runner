@@ -1,8 +1,8 @@
 import os
 
 from utils.globals import Globals
-from sd_runner.adapter_sorting import _sort_adapters_by_recency
-from sd_runner.model_adapters import ControlNet
+from sd_runner.models.adapter_sorting import _sort_adapters_by_recency
+from sd_runner.models.model_adapters import ControlNet
 from utils.utils import Utils
 
 redo_files = [

@@ -14,8 +14,8 @@ from types import SimpleNamespace
 import pytest
 
 from extensions.sd_runner_server import CommandType
-from sd_runner.headless_app import DirectBridge, LoggingNotifications
-from sd_runner.run_controller import RunController
+from sd_runner.runs.headless_app import DirectBridge, LoggingNotifications
+from sd_runner.runs.run_controller import RunController
 
 
 def make_headless_controller(**app_fields) -> RunController:
@@ -159,7 +159,7 @@ class TestImportsNoQt:
             "        return self.find_module(name, path)\n"
             "sys.meta_path.insert(0, Blocker())\n"
             "import app_headless\n"
-            "from sd_runner.headless_app import HeadlessApp\n"
+            "from sd_runner.runs.headless_app import HeadlessApp\n"
             # Constructed, not just imported: the controllers, the cache load
             # and the action wiring are where a Qt import would actually be
             # reached, and AppActions refuses to build with an action missing.

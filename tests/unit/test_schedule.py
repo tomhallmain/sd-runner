@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import patch
 
 from tests.utils import make_schedule
-from sd_runner.schedule import PresetTask, Schedule
+from sd_runner.presets.schedule import PresetTask, Schedule
 
 
 
@@ -156,7 +156,7 @@ class TestScheduleTotalGenerations:
         s.add_preset_task(PresetTask("p2", 2))
 
         # Patch PresetsState.get_preset_by_name to return a truthy object for any name
-        with patch("sd_runner.schedule.PresetsState.get_preset_by_name", return_value=object()):
+        with patch("sd_runner.presets.schedule.PresetsState.get_preset_by_name", return_value=object()):
             total = s.total_generations(starting_total=10)
         assert total == 5  # 3 + 2
 
@@ -164,7 +164,7 @@ class TestScheduleTotalGenerations:
         s = make_schedule()
         s.add_preset_task(PresetTask("p1", 0))
 
-        with patch("sd_runner.schedule.PresetsState.get_preset_by_name", return_value=object()):
+        with patch("sd_runner.presets.schedule.PresetsState.get_preset_by_name", return_value=object()):
             total = s.total_generations(starting_total=7)
         assert total == 7
 
@@ -172,6 +172,6 @@ class TestScheduleTotalGenerations:
         s = make_schedule()
         s.add_preset_task(PresetTask("missing", 5))
 
-        with patch("sd_runner.schedule.PresetsState.get_preset_by_name", side_effect=Exception("not found")):
+        with patch("sd_runner.presets.schedule.PresetsState.get_preset_by_name", side_effect=Exception("not found")):
             total = s.total_generations(starting_total=10)
         assert total == 0

@@ -17,10 +17,10 @@ import pytest
 from PySide6.QtWidgets import QApplication, QComboBox, QLabel
 
 from tests.utils import make_app_actions, make_schedule
-from sd_runner.schedule import PresetTask, Schedule
-from sd_runner.schedules_state import SchedulesState
+from sd_runner.presets.schedule import PresetTask, Schedule
+from sd_runner.presets.schedules_state import SchedulesState
 from sd_runner.ui.presets.schedules_window import SchedulesWindow, ScheduleModifyWindow
-from sd_runner.presets_state import PresetsState
+from sd_runner.presets.presets_state import PresetsState
 
 
 # ---------------------------------------------------------------------------

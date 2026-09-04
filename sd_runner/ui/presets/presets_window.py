@@ -6,8 +6,8 @@ fields; a ``StashedConfig`` holds everything else about a run. Both are named
 and recalled the same way, so they share a window and differ only in which half
 of the config they own.
 
-The data classes live in ``sd_runner.preset``, ``sd_runner.stashed_config`` and
-``sd_runner.intermediate_prompt``; static class-level list state lives on this
+The data classes live in ``sd_runner.presets.preset``, ``sd_runner.presets.stashed_config`` and
+``sd_runner.presets.intermediate_prompt``; static class-level list state lives on this
 class for persistence via ``CacheController``.
 """
 
@@ -26,10 +26,10 @@ from lib.multi_display_qt import SmartDialog
 from lib.tooltip_qt import create_tooltip
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_utils import require_password
-from sd_runner.intermediate_prompt import IntermediatePrompt
-from sd_runner.preset import Preset
-from sd_runner.presets_state import PresetsState
-from sd_runner.stashed_config import StashedConfig
+from sd_runner.presets.intermediate_prompt import IntermediatePrompt
+from sd_runner.presets.preset import Preset
+from sd_runner.presets.presets_state import PresetsState
+from sd_runner.presets.stashed_config import StashedConfig
 from utils.globals import ProtectedActions, WorkflowType
 from utils.translations import I18N
 

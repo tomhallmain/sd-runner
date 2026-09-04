@@ -1,6 +1,6 @@
 import pytest
 from sd_runner.concepts import HardConcepts
-from sd_runner.gen_config import GenConfig
+from sd_runner.runs.gen_config import GenConfig
 from sd_runner.prompter_configuration import PrompterConfiguration
 from tests.utils import make_gen_config, make_model, make_resolution, make_run_config
 from utils.globals import ArchitectureType, Globals, PromptMode, WorkflowType
