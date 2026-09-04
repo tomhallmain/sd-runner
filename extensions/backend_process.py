@@ -100,7 +100,7 @@ class BackendProcess:
     # ------------------------------------------------------------------
     # Lifecycle
     # ------------------------------------------------------------------
-    def start(self) -> bool:
+    def start(self, on_state=None) -> bool:
         """Launch the backend and wait until it answers.
 
         Safe to call more than once, and expected to be: the run path calls it
@@ -111,6 +111,13 @@ class BackendProcess:
         Returns True when the backend is usable, which includes the case where
         it was already running and nothing was launched. Raises
         ``BackendStartError`` if it could not be started or never came up.
+
+        *on_state* is called with ``"starting"``, then one of ``"ready"``,
+        ``"timeout"`` or ``"failed"``, and **only when this call actually
+        spawns something**. The paths that return without waiting -- adopted,
+        already ours -- report nothing, so a caller showing progress does not
+        flash it up for a wait that never happens. It runs on the calling
+        thread, which is a worker; anything it touches must say so.
         """
         with self._start_lock:
             if self._adopted:
@@ -125,8 +132,27 @@ class BackendProcess:
 
             self._spawn()
             self._pipe_output()
-            self._ready = self._await_ready()
+            self._report_state(on_state, "starting")
+            try:
+                self._ready = self._await_ready()
+            except Exception:
+                self._report_state(on_state, "failed")
+                raise
+            self._report_state(on_state, "ready" if self._ready else "timeout")
             return self._ready
+
+    def _report_state(self, on_state, state: str) -> None:
+        """Tell the caller where the launch got to, never raising for it.
+
+        A display that fails must not take the launch down with it: the backend
+        is the point, the progress report is not.
+        """
+        if on_state is None:
+            return
+        try:
+            on_state(state)
+        except Exception as e:
+            logger.warning(f"Backend state callback failed for {self.name}: {e}")
 
     def _spawn(self) -> None:
         if self.cwd and not os.path.isdir(self.cwd):

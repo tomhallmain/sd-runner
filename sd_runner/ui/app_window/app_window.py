@@ -916,10 +916,40 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         if backend is not None:
             self._start_backend(backend)
 
+    #: How long the launch toast stays up after the backend answers, so the
+    #: outcome is readable rather than replaced by nothing.
+    BACKEND_TOAST_LINGER_MS = 7000
+
     def _start_backend(self, backend) -> None:
-        """Start one backend, reporting rather than raising on failure."""
+        """Start one backend, reporting rather than raising on failure.
+
+        Runs on the worker thread the run is on, and a cold backend holds it
+        for minutes, so the toast is the only sign anything is happening. It
+        appears only when this call actually spawns something -- ``start()``
+        stays silent for a backend already up -- and closes itself once the
+        first successful health check has been reported.
+        """
+        status = {}
+
+        def on_state(state: str) -> None:
+            if state == "starting":
+                status["toast"] = self.notification_ctrl.status_toast(
+                    _("Starting {0}...").format(backend.name)
+                )
+                return
+            toast = status.pop("toast", None)
+            if toast is None:
+                return
+            if state == "ready":
+                message = _("{0} is ready").format(backend.name)
+            elif state == "timeout":
+                message = _("{0} is still starting").format(backend.name)
+            else:
+                message = _("Could not start {0}").format(backend.name)
+            toast.finish(message, AppWindow.BACKEND_TOAST_LINGER_MS)
+
         try:
-            backend.start()
+            backend.start(on_state=on_state)
         except Exception as e:
             logger.error(f"Failed to start {backend.name}: {e}")
             self.app_actions.toast(

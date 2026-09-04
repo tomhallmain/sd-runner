@@ -282,6 +282,8 @@ Set `backend_launch_commands` to have SD Runner start a backend for you, mapping
 }
 ```
 
+While a launch is in progress a small notice appears in the corner of the window — it changes the moment the backend answers its first health check, and closes itself a few seconds later. It only appears for a launch that actually waits: a backend already running is adopted without one.
+
 Each backend runs as its own OS process, so backends needing different Python or conda environments coexist. The command goes through a shell (`cmd.exe /s /c` on Windows, `/bin/sh -c` elsewhere), so anything you would type at a prompt works — including the launcher scripts these backends ship and recommend:
 
 ```json

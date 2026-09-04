@@ -401,3 +401,73 @@ class TestStopIsSafe:
 
     def test_a_backend_that_never_started_is_not_running(self):
         assert BackendProcess(SoftwareType.ComfyUI, "python main.py").is_running() is False
+
+
+class TestStateReporting:
+    """``start(on_state=...)`` drives whatever shows a launch on screen.
+
+    The rule that matters is *when it stays silent*: a backend already up
+    returns without waiting, so reporting there would flash a progress message
+    for a wait that never happens.
+    """
+
+    def _spawning_backend(self, monkeypatch, ready=True):
+        monkeypatch.setattr(backend_process, "is_reachable", lambda *a, **k: False)
+
+        def fake_spawn(self):
+            self._proc = _AliveProc()
+
+        monkeypatch.setattr(BackendProcess, "_spawn", fake_spawn)
+        monkeypatch.setattr(BackendProcess, "_pipe_output", lambda self: None)
+        monkeypatch.setattr(BackendProcess, "_await_ready", lambda self: ready)
+        return BackendProcess(SoftwareType.ComfyUI, "python main.py")
+
+    def test_a_spawn_reports_starting_then_ready(self, monkeypatch):
+        seen = []
+        backend = self._spawning_backend(monkeypatch, ready=True)
+        backend.start(on_state=seen.append)
+        assert seen == ["starting", "ready"]
+
+    def test_running_out_of_patience_reports_timeout(self, monkeypatch):
+        """The backend is left running, so this is not 'failed'."""
+        seen = []
+        backend = self._spawning_backend(monkeypatch, ready=False)
+        backend.start(on_state=seen.append)
+        assert seen == ["starting", "timeout"]
+
+    def test_a_backend_that_exits_reports_failed(self, monkeypatch):
+        seen = []
+        backend = self._spawning_backend(monkeypatch)
+
+        def boom(self):
+            raise BackendStartError("exited during startup")
+
+        monkeypatch.setattr(BackendProcess, "_await_ready", boom)
+        with pytest.raises(BackendStartError):
+            backend.start(on_state=seen.append)
+        assert seen == ["starting", "failed"]
+
+    def test_an_adopted_backend_reports_nothing(self, monkeypatch):
+        """Nothing was launched and nothing was waited for."""
+        monkeypatch.setattr(backend_process, "is_reachable", lambda *a, **k: True)
+        seen = []
+        backend = BackendProcess(SoftwareType.ComfyUI, "python main.py")
+        backend.start(on_state=seen.append)
+        assert seen == []
+
+    def test_a_second_start_reports_nothing(self, monkeypatch):
+        seen = []
+        backend = self._spawning_backend(monkeypatch, ready=True)
+        backend.start(on_state=seen.append)
+        seen.clear()
+        backend.start(on_state=seen.append)
+        assert seen == []
+
+    def test_a_failing_callback_does_not_stop_the_launch(self, monkeypatch):
+        """The backend is the point; the progress report is not."""
+        backend = self._spawning_backend(monkeypatch, ready=True)
+
+        def boom(state):
+            raise RuntimeError("display is gone")
+
+        assert backend.start(on_state=boom) is True
