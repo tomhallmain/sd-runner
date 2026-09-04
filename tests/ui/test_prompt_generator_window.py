@@ -2,7 +2,7 @@
 import pytest
 from PySide6.QtWidgets import QApplication
 
-from ui_qt.prompts.prompt_generator_window import PromptGeneratorWindow
+from sd_runner.ui.prompts.prompt_generator_window import PromptGeneratorWindow
 from utils.translations import I18N
 _ = I18N._
 

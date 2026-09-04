@@ -45,7 +45,7 @@ from sd_runner.timed_schedules_manager import timed_schedules_manager, Scheduled
 from tests.utils import make_schedule
 from sd_runner.schedule import Schedule
 from sd_runner.schedules_state import SchedulesState
-from ui_qt.presets.schedules_window import SchedulesWindow
+from sd_runner.ui.presets.schedules_window import SchedulesWindow
 from sd_runner.presets_state import PresetsState
 from utils.translations import I18N
 from utils.utils import Utils

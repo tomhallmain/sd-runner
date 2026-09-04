@@ -124,7 +124,7 @@ def make_schedule(name="Test Schedule", tasks=()):
 
 def make_app_actions():
     """An AppActions with a no-op callback bound to every required action."""
-    from ui_qt.app_actions import AppActions
+    from sd_runner.ui.app_actions import AppActions
 
     def noop(*args, **kwargs):
         return None

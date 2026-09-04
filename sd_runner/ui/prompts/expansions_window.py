@@ -1,0 +1,445 @@
+"""
+ExpansionsWindow / ExpansionModifyWindow -- manage prompt expansions.
+
+Loading and storing expansions lives in ``sd_runner.expansions_state``; this
+class is the editor for them, and keeps the in-session history of the ones the
+user has set.
+"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Callable, Optional
+
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QKeySequence, QShortcut
+from PySide6.QtWidgets import (
+    QAbstractItemView,
+    QCheckBox,
+    QHBoxLayout,
+    QHeaderView,
+    QLabel,
+    QLineEdit,
+    QPlainTextEdit,
+    QPushButton,
+    QTableWidget,
+    QTableWidgetItem,
+    QVBoxLayout,
+    QWidget,
+)
+
+from lib.multi_display_qt import SmartDialog
+from sd_runner import expansions_state
+from sd_runner.expansion import Expansion
+from sd_runner.ui.app_style import AppStyle
+from sd_runner.ui.auth.password_utils import require_password
+from sd_runner.ui.window_focus import clear_class_ref_if_self, try_focus_existing_window
+from utils.globals import ProtectedActions
+from utils.translations import I18N
+from utils.utils import Utils
+
+if TYPE_CHECKING:
+    from sd_runner.ui.app_actions import AppActions
+
+_ = I18N._
+
+
+# ======================================================================
+# ExpansionModifyWindow
+# ======================================================================
+class ExpansionModifyWindow(SmartDialog):
+    """Create or edit a single :class:`Expansion`."""
+
+    def __init__(
+        self,
+        parent: QWidget,
+        refresh_callback: Callable,
+        expansion: Optional[Expansion],
+        app_actions: AppActions,
+        geometry: str = "600x350",
+    ):
+        self._is_new = expansion is None
+        self._expansion = expansion if expansion is not None else Expansion("", "")
+        self._refresh_callback = refresh_callback
+        self._app_actions = app_actions
+
+        title = _("New Expansion") if self._is_new else _("Modify Expansion: {0}").format(self._expansion.id)
+        super().__init__(
+            parent=parent,
+            title=title,
+            geometry=geometry,
+        )
+        self.setStyleSheet(AppStyle.get_stylesheet())
+        self._build_ui()
+        self._check_wildcard_clash()
+        self.show()
+
+    # ------------------------------------------------------------------
+    def _build_ui(self) -> None:
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setSpacing(8)
+
+        # Expansion ID
+        layout.addWidget(QLabel(_("Expansion ID")))
+        self._name_edit = QLineEdit(
+            "NewExp" if self._is_new else self._expansion.id
+        )
+        self._name_edit.textChanged.connect(self._check_wildcard_clash)
+        layout.addWidget(self._name_edit)
+
+        # Expansion Text
+        layout.addWidget(QLabel(_("Expansion Text")))
+        self._text_edit = QPlainTextEdit(
+            _("New Expansion Text") if self._is_new else self._expansion.text
+        )
+        self._text_edit.setFixedHeight(80)
+        layout.addWidget(self._text_edit)
+
+        # Warning label for wildcard clashes
+        self._warning_label = QLabel("")
+        self._warning_label.setWordWrap(True)
+        self._warning_label.setStyleSheet("color: red;")
+        layout.addWidget(self._warning_label)
+
+        layout.addStretch()
+
+        # Done button
+        btn_row = QHBoxLayout()
+        done_btn = QPushButton(_("Done"))
+        done_btn.clicked.connect(self._finalize_expansion)
+        btn_row.addWidget(done_btn)
+        btn_row.addStretch()
+        layout.addLayout(btn_row)
+
+        # Escape to close
+        QShortcut(QKeySequence(Qt.Key.Key_Escape), self).activated.connect(self.close)
+
+    # ------------------------------------------------------------------
+    def _check_wildcard_clash(self) -> bool:
+        """Return True if the expansion name clashes with a config wildcard."""
+        from utils.config import config
+        name = self._name_edit.text().strip()
+        if name in config.wildcards:
+            self._warning_label.setText(
+                _("Warning: This expansion ID matches a wildcard in config.json. "
+                  "Changes will not take effect until the wildcard is removed or renamed.")
+            )
+            return True
+        self._warning_label.setText("")
+        return False
+
+    @require_password(ProtectedActions.EDIT_EXPANSIONS)
+    def _finalize_expansion(self) -> None:
+        new_id = self._name_edit.text().strip()
+        new_text = self._text_edit.toPlainText().strip()
+
+        if not new_id or not new_text:
+            self._app_actions.alert(
+                _("Invalid Expansion"),
+                _("Both the expansion ID and text must be non-empty."),
+                kind="showwarning",
+                master=self,
+            )
+            return
+
+        if self._check_wildcard_clash():
+            if not self._app_actions.alert(
+                _("Warning"),
+                _("This expansion ID matches a wildcard in config.json. "
+                  "Changes will not take effect until the wildcard is removed "
+                  "or renamed.\n\nDo you want to save anyway?"),
+                kind="askyesno",
+                master=self,
+            ):
+                return
+
+        self._expansion.id = new_id
+        self._expansion.text = new_text
+        self.close()
+        self._refresh_callback(self._expansion)
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        clear_class_ref_if_self(ExpansionsWindow, "_modify_window", self)
+        super().closeEvent(event)
+
+
+# ======================================================================
+# ExpansionsWindow
+# ======================================================================
+class ExpansionsWindow(SmartDialog):
+    """Manage the list of prompt expansions."""
+
+    _instance = None
+    _modify_window: Optional[ExpansionModifyWindow] = None
+    expansion_history = []
+    MAX_EXPANSIONS = 50
+
+    @staticmethod
+    def get_history_expansion(start_index=0):
+        for i in range(len(ExpansionsWindow.expansion_history)):
+            if i < start_index:
+                continue
+            return ExpansionsWindow.expansion_history[i]
+        return None
+
+    @staticmethod
+    def update_history(expansion):
+        if (
+            len(ExpansionsWindow.expansion_history) > 0
+            and expansion == ExpansionsWindow.expansion_history[0]
+        ):
+            return
+        ExpansionsWindow.expansion_history.insert(0, expansion)
+        if len(ExpansionsWindow.expansion_history) > ExpansionsWindow.MAX_EXPANSIONS:
+            del ExpansionsWindow.expansion_history[-1]
+
+    def __init__(
+        self,
+        parent: QWidget,
+        app_actions: AppActions,
+        geometry: str = "700x400",
+    ):
+        super().__init__(
+            parent=parent,
+            title=_("Expansions Window"),
+            geometry=geometry,
+        )
+        self.setStyleSheet(AppStyle.get_stylesheet())
+        ExpansionsWindow._instance = self
+        self._app_actions = app_actions
+        self._filtered_expansions: list[Expansion] = Expansion.expansions[:]
+        self._table: Optional[QTableWidget] = None
+
+        self._build_ui()
+        self._rebuild_table()
+
+        QShortcut(QKeySequence(Qt.Key.Key_Escape), self).activated.connect(self.close)
+        self.show()
+
+    # ------------------------------------------------------------------
+    # UI construction
+    # ------------------------------------------------------------------
+    def _build_ui(self) -> None:
+        root = QVBoxLayout(self)
+        root.setContentsMargins(10, 10, 10, 10)
+        root.setSpacing(8)
+
+        # Header row
+        header = QHBoxLayout()
+        header.addWidget(QLabel(_("Add or update expansions")))
+        header.addStretch()
+        add_btn = QPushButton(_("Add expansion"))
+        add_btn.clicked.connect(self._add_empty_expansion)
+        header.addWidget(add_btn)
+        clear_btn = QPushButton(_("Clear expansions"))
+        clear_btn.clicked.connect(self._clear_expansions)
+        header.addWidget(clear_btn)
+        root.addLayout(header)
+
+        # Search / filter bar
+        self._search_edit = QLineEdit()
+        self._search_edit.setPlaceholderText(_("Filter by ID or text…"))
+        self._search_edit.textChanged.connect(self._apply_filter)
+        root.addWidget(self._search_edit)
+
+        # Status / filter label
+        self._status_label = QLabel("")
+        self._status_label.setStyleSheet("font-style: italic; font-size: 9pt;")
+        root.addWidget(self._status_label)
+
+        # Table placeholder
+        self._table_container = QVBoxLayout()
+        root.addLayout(self._table_container, stretch=1)
+
+        # Action buttons
+        actions = QHBoxLayout()
+        for text, handler in [
+            (_("Modify"), self._modify_selected),
+            (_("Delete"), self._delete_selected),
+            (_("Copy"), self._copy_selected),
+        ]:
+            b = QPushButton(text)
+            b.clicked.connect(handler)
+            actions.addWidget(b)
+        actions.addStretch()
+        root.addLayout(actions)
+
+    # ------------------------------------------------------------------
+    # Table rebuild
+    # ------------------------------------------------------------------
+    def _rebuild_table(self) -> None:
+        # Clear old table
+        if self._table is not None:
+            self._table_container.removeWidget(self._table)
+            self._table.deleteLater()
+            self._table = None
+
+        # Remove any "no items" label
+        while self._table_container.count():
+            child = self._table_container.takeAt(0)
+            w = child.widget()
+            if w:
+                w.deleteLater()
+
+        total = len(Expansion.expansions)
+        showing = len(self._filtered_expansions)
+
+        # Status line
+        search_text = self._search_edit.text()
+        if search_text.strip():
+            self._status_label.setText(
+                _("Filter: \"{0}\"  ({1} of {2} expansions)").format(
+                    search_text, showing, total,
+                )
+            )
+        else:
+            self._status_label.setText(
+                _("{0} expansions").format(total)
+            )
+
+        if showing == 0:
+            msg = (
+                _("No expansions match the current filter.")
+                if search_text.strip()
+                else _("No expansions defined. Click 'Add expansion' to create one.")
+            )
+            lbl = QLabel(msg)
+            lbl.setWordWrap(True)
+            self._table_container.addWidget(lbl)
+            return
+
+        table = QTableWidget()
+        table.setColumnCount(2)
+        table.setHorizontalHeaderLabels([_("ID"), _("Text")])
+        table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Interactive)
+        table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        table.horizontalHeader().resizeSection(0, 180)
+        table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        table.cellDoubleClicked.connect(self._on_dblclick)
+
+        for i, exp in enumerate(self._filtered_expansions):
+            table.insertRow(i)
+            table.setItem(i, 0, QTableWidgetItem(exp.id))
+            table.setItem(
+                i, 1,
+                QTableWidgetItem(Utils.get_centrally_truncated_string(exp.text, 80)),
+            )
+
+        self._table = table
+        self._table_container.addWidget(table)
+
+    # ------------------------------------------------------------------
+    # Selection helpers
+    # ------------------------------------------------------------------
+    def _selected_expansion(self) -> Optional[Expansion]:
+        if self._table is None:
+            return None
+        row = self._table.currentRow()
+        if 0 <= row < len(self._filtered_expansions):
+            return self._filtered_expansions[row]
+        return None
+
+    def _on_dblclick(self, row: int, _col: int) -> None:
+        if 0 <= row < len(self._filtered_expansions):
+            self._open_modify_window(self._filtered_expansions[row])
+
+    # ------------------------------------------------------------------
+    # Actions
+    # ------------------------------------------------------------------
+    def _modify_selected(self) -> None:
+        exp = self._selected_expansion()
+        if exp:
+            self._open_modify_window(exp)
+        else:
+            self._app_actions.toast(_("Select an expansion first"))
+
+    @require_password(ProtectedActions.EDIT_EXPANSIONS)
+    def _open_modify_window(self, expansion: Optional[Expansion] = None) -> None:
+        existing = ExpansionsWindow._modify_window
+        if existing is not None:
+            if try_focus_existing_window(existing):
+                return
+            try:
+                existing.close()
+            except RuntimeError:
+                pass
+            ExpansionsWindow._modify_window = None
+        ExpansionsWindow._modify_window = ExpansionModifyWindow(
+            self, self._refresh_after_modify, expansion, self._app_actions,
+        )
+
+    def _refresh_after_modify(self, expansion: Expansion) -> None:
+        ExpansionsWindow.update_history(expansion)
+        if expansion in Expansion.expansions:
+            Expansion.expansions.remove(expansion)
+        Expansion.expansions.insert(0, expansion)
+        expansions_state.store_expansions()
+        self._apply_filter()
+
+    def _add_empty_expansion(self) -> None:
+        self._open_modify_window(expansion=None)
+
+    @require_password(ProtectedActions.EDIT_EXPANSIONS)
+    def _delete_selected(self) -> None:
+        exp = self._selected_expansion()
+        if exp is None:
+            self._app_actions.toast(_("Select an expansion first"))
+            return
+        if exp in Expansion.expansions:
+            Expansion.expansions.remove(exp)
+        expansions_state.store_expansions()
+        self._apply_filter()
+
+    @require_password(ProtectedActions.EDIT_EXPANSIONS)
+    def _clear_expansions(self) -> None:
+        if not self._app_actions.alert(
+            _("Clear all expansions?"),
+            _("This will permanently delete all {0} expansions. Are you sure?").format(
+                len(Expansion.expansions)
+            ),
+            kind="askyesno",
+            master=self,
+        ):
+            return
+        Expansion.expansions.clear()
+        expansions_state.store_expansions()
+        self._search_edit.clear()
+        self._apply_filter()
+
+    def _copy_selected(self) -> None:
+        exp = self._selected_expansion()
+        if exp is None:
+            self._app_actions.toast(_("Select an expansion first"))
+            return
+        from PySide6.QtWidgets import QApplication
+        clipboard = QApplication.clipboard()
+        if clipboard and exp.text:
+            clipboard.setText(exp.text)
+            self._app_actions.toast(_("Copied expansion text to clipboard"))
+
+    # ------------------------------------------------------------------
+    # Keyboard filter
+    # ------------------------------------------------------------------
+    def _apply_filter(self) -> None:
+        ft = self._search_edit.text().lower()
+        if not ft.strip():
+            self._filtered_expansions = Expansion.expansions[:]
+        else:
+            tier1, tier2, tier3 = [], [], []
+            for exp in Expansion.expansions:
+                combined = f"{exp.id} {exp.text}".lower()
+                if combined.startswith(ft) or exp.id.lower().startswith(ft):
+                    tier1.append(exp)
+                elif f" {ft}" in combined or f"_{ft}" in combined:
+                    tier2.append(exp)
+                elif ft in combined:
+                    tier3.append(exp)
+            self._filtered_expansions = tier1 + tier2 + tier3
+        self._rebuild_table()
+
+
+    def closeEvent(self, event) -> None:  # noqa: N802
+        ExpansionsWindow._instance = None
+        super().closeEvent(event)

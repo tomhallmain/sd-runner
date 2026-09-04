@@ -26,7 +26,7 @@ def install_password_bypass(monkeypatch, granted: bool = True) -> list:
         ``(action_names, granted)`` -- assert against it to prove a protected
         action really is gated rather than silently unprotected.
     """
-    import ui_qt.auth.password_utils as password_utils
+    import sd_runner.ui.auth.password_utils as password_utils
 
     crossings = []
 
@@ -50,7 +50,7 @@ def install_password_bypass(monkeypatch, granted: bool = True) -> list:
     # Some call sites consult the manager directly rather than going through the
     # decorator; keep those off the credential store too.
     try:
-        import ui_qt.auth.password_core as password_core
+        import sd_runner.ui.auth.password_core as password_core
 
         monkeypatch.setattr(
             password_core.PasswordManager, "_security_configured_cache", False

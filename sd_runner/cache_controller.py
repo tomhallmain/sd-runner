@@ -25,7 +25,7 @@ from utils.translations import I18N
 if TYPE_CHECKING:
     from PySide6.QtCore import QTimer
     from sd_runner.headless_app import HeadlessApp
-    from ui_qt.app_window.app_window import AppWindow
+    from sd_runner.ui.app_window.app_window import AppWindow
 
 _ = I18N._
 logger = get_logger("cache_controller")
@@ -70,7 +70,7 @@ class CacheController:
         from sd_runner.expansions_state import set_expansions as _set_expansions
         from sd_runner.recent_adapters_state import RecentAdaptersState
         from sd_runner.timed_schedules_manager import timed_schedules_manager
-        from ui_qt.auth.password_core import get_security_config
+        from sd_runner.ui.auth.password_core import get_security_config
 
         try:
             self._app.config_history_index = app_info_cache.get(
@@ -188,7 +188,7 @@ class CacheController:
         from sd_runner.expansions_state import store_expansions as _store_expansions
         from sd_runner.recent_adapters_state import RecentAdaptersState
         from sd_runner.timed_schedules_manager import timed_schedules_manager
-        from ui_qt.auth.password_core import get_security_config
+        from sd_runner.ui.auth.password_core import get_security_config
 
         try:
             logger.debug("Storing info cache...")

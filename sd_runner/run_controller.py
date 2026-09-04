@@ -470,7 +470,7 @@ class RunController:
             threshold_formatted = TimeEstimator.format_time(
                 Globals.TIME_ESTIMATION_CONFIRMATION_THRESHOLD_SECONDS
             )
-            from ui_qt.sound_player import play_sound
+            from sd_runner.ui.sound_player import play_sound
             play_sound("alert")
             ok = app.notification_ctrl.alert(
                 _("Long Running Job Confirmation"),
@@ -847,7 +847,7 @@ class RunController:
                     and not self._app.job_queue_preset_schedules.has_pending()
                     and self._app.current_run is not None
                     and self._app.current_run.is_complete):
-                from ui_qt.sound_player import play_sound
+                from sd_runner.ui.sound_player import play_sound
                 play_sound()
                 sp.label_pending_adapters.setText("")
         else:
@@ -1441,7 +1441,7 @@ class RunController:
         # it has to be bound before anything can raise.
         from PySide6.QtWidgets import QApplication
         try:
-            from ui_qt.presets.scheduled_shutdown_dialog import ScheduledShutdownDialog
+            from sd_runner.ui.presets.scheduled_shutdown_dialog import ScheduledShutdownDialog
             shutdown_dialog = ScheduledShutdownDialog(
                 self._app, schedule_name, countdown_seconds=6
             )

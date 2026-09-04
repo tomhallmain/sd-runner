@@ -6,7 +6,7 @@ until the next periodic save. Each subsystem's ``store_*`` now writes through by
 default, and ``CacheController.store_info_cache`` passes ``persist=False`` so it
 still writes once for all of them rather than once each.
 
-These import the ui_qt windows, so they need Qt importable but never build a
+These import the window modules, so they need Qt importable but never build a
 widget -- every method under test is a staticmethod over class-level state.
 """
 

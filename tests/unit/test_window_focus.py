@@ -1,9 +1,9 @@
-"""Unit tests for ui_qt/window_focus.py helpers."""
+"""Unit tests for sd_runner/ui/window_focus.py helpers."""
 
 import pytest
 from unittest.mock import MagicMock
 
-from ui_qt.window_focus import try_focus_existing_window, clear_class_ref_if_self
+from sd_runner.ui.window_focus import try_focus_existing_window, clear_class_ref_if_self
 
 
 # ---------------------------------------------------------------------------

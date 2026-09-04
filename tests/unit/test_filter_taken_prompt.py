@@ -345,7 +345,7 @@ class TestTakeModeGateDecision:
 
     def test_new_actions_default_to_protected(self):
         """A newly added action must not silently start unprotected."""
-        from ui_qt.auth.password_core import get_security_config
+        from sd_runner.ui.auth.password_core import get_security_config
         from utils.globals import ProtectedActions
 
         config = get_security_config()

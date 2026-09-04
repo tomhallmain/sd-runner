@@ -12,8 +12,8 @@ _security_configured_cache that short-circuits the storage read.
 
 import pytest
 
-import ui_qt.auth.password_core as password_core
-from ui_qt.auth.password_core import PasswordManager
+import sd_runner.ui.auth.password_core as password_core
+from sd_runner.ui.auth.password_core import PasswordManager
 
 
 @pytest.fixture(autouse=True)

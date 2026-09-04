@@ -83,7 +83,7 @@ def _stored_password_id() -> str:
     where the auth module is unavailable or mid-edit.
     """
     try:
-        from ui_qt.auth.password_core import PasswordManager as AuthPasswordManager
+        from sd_runner.ui.auth.password_core import PasswordManager as AuthPasswordManager
         return AuthPasswordManager.PASSWORD_ID
     except Exception:
         return "base"

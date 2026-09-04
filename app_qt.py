@@ -14,7 +14,7 @@ import traceback
 
 from PySide6.QtWidgets import QApplication
 
-from ui_qt.app_style import AppStyle
+from sd_runner.ui.app_style import AppStyle
 from utils.app_icon import apply_app_icon
 from utils.config import config
 from utils.logging_setup import get_logger
@@ -125,7 +125,7 @@ def main():
             sys.exit(0)
 
         # Password verified or not required -- create the main window
-        from ui_qt.app_window.app_window import AppWindow
+        from sd_runner.ui.app_window.app_window import AppWindow
 
         # Clean up any old image converter temporary files on startup
         from sd_runner.generators.base import BaseImageGenerator
@@ -151,7 +151,7 @@ def main():
     # ------------------------------------------------------------------
     # Check if startup password is required
     # ------------------------------------------------------------------
-    from ui_qt.auth.app_startup_auth_qt import check_startup_password_required
+    from sd_runner.ui.auth.app_startup_auth_qt import check_startup_password_required
     check_startup_password_required(callback=startup_callback)
 
     # ------------------------------------------------------------------

@@ -141,7 +141,7 @@ class HeadlessApp:
         case to handle.
         """
         from sd_runner.recent_adapters_state import RecentAdaptersState
-        from ui_qt.app_actions import AppActions
+        from sd_runner.ui.app_actions import AppActions
 
         def unavailable(name):
             def refuse(*args, **kwargs):

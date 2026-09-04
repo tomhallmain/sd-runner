@@ -197,7 +197,7 @@ def _default_prompter_tags() -> dict:
 def _reset_if_imported(module_name: str, class_name: str, **attrs) -> None:
     """Reset class attributes, but only on an already-imported module.
 
-    Importing is deliberately not forced: several of these live in ui_qt and
+    Importing is deliberately not forced: several of these live in sd_runner.ui and
     would pull PySide6 into every unit test just to clear a list that only a UI
     test could have populated.
 
@@ -315,7 +315,7 @@ def _reset_class_state() -> None:
 
     # Caches whether a password exists, so one test setting a password would
     # otherwise leave every later test believing security is configured.
-    _reset_if_imported("ui_qt.auth.password_core", "PasswordManager",
+    _reset_if_imported("sd_runner.ui.auth.password_core", "PasswordManager",
                        _security_configured_cache=None)
 
     # Per-key generation locks, held for the life of the process. The cached
@@ -328,13 +328,13 @@ def _reset_class_state() -> None:
     # would drag PySide6 into every pure-logic unit test.
     _reset_if_imported("sd_runner.schedules_state", "SchedulesState",
                        recent_schedules=[], current_schedule=None)
-    _reset_if_imported("ui_qt.presets.schedules_window", "SchedulesWindow",
+    _reset_if_imported("sd_runner.ui.presets.schedules_window", "SchedulesWindow",
                        schedule_history=[])
     _reset_if_imported("sd_runner.presets_state", "PresetsState",
                        recent_presets=[], stashed_configs=[],
                        intermediate_prompts=[], intermediate_enabled=False,
                        intermediate_current=None)
-    _reset_if_imported("ui_qt.presets.presets_window", "PresetsWindow",
+    _reset_if_imported("sd_runner.ui.presets.presets_window", "PresetsWindow",
                        preset_history=[], last_set_preset=None)
     # Loaded from the cache on open and read back by save_recent_adapters, so a
     # test that saves would otherwise persist whatever the previous one loaded.
@@ -342,17 +342,17 @@ def _reset_class_state() -> None:
                        _recent_controlnets=[], _recent_ipadapters=[],
                        _recent_source_prompts=[], _recent_adapter_files_split=[],
                        _favorite_adapters=[])
-    _reset_if_imported("ui_qt.models.recent_adapters_window", "RecentAdaptersWindow",
+    _reset_if_imported("sd_runner.ui.models.recent_adapters_window", "RecentAdaptersWindow",
                        _controlnet_cache=None, _ipadapter_cache=None,
                        _source_prompt_cache=None, _favorites_cache=None,
                        _cache_timestamp=None)
-    _reset_if_imported("ui_qt.prompts.blacklist_window", "BlacklistWindow",
+    _reset_if_imported("sd_runner.ui.prompts.blacklist_window", "BlacklistWindow",
                        item_history=[])
-    _reset_if_imported("ui_qt.prompts.concept_editor_window", "ConceptEditorWindow",
+    _reset_if_imported("sd_runner.ui.prompts.concept_editor_window", "ConceptEditorWindow",
                        concept_change_history=[])
-    _reset_if_imported("ui_qt.prompts.expansions_window", "ExpansionsWindow",
+    _reset_if_imported("sd_runner.ui.prompts.expansions_window", "ExpansionsWindow",
                        expansion_history=[])
-    _reset_if_imported("ui_qt.prompts.frequent_prompt_tags_window", "FrequentPromptTagsWindow",
+    _reset_if_imported("sd_runner.ui.prompts.frequent_prompt_tags_window", "FrequentPromptTagsWindow",
                        tag_history=[])
 
     # Websockets, so close them rather than dropping the list on the floor.
