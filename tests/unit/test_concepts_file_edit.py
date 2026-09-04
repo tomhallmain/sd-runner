@@ -10,7 +10,7 @@ and concepts/ is mirrored line-for-line by Konzepte/ for translation.
 
 import pytest
 
-from sd_runner.concepts import Concepts, ConceptsFile
+from sd_runner.prompts.concepts import Concepts, ConceptsFile
 
 
 # ---------------------------------------------------------------------------

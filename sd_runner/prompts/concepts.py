@@ -5,14 +5,17 @@ import random
 import re
 from typing import Dict, Set
 
-from sd_runner.blacklist import Blacklist, BlacklistItem
+from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
 from utils.config import config
 from utils.globals import PromptMode, BlacklistPromptMode
 from utils.logging_setup import get_logger
 
-BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+#: sd_runner/prompts/ -> sd_runner/ -> repo root. Named once so a move
+#: corrects one line rather than a count buried in a dirname chain.
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = _REPO_ROOT
 
-logger = get_logger("concepts")
+logger = get_logger("prompts.concepts")
 
 
 

@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from sd_runner.blacklist import BlacklistItem
+from sd_runner.prompts.blacklist import BlacklistItem
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.ui.window_focus import clear_class_ref_if_self
 from utils.globals import ProtectedActions

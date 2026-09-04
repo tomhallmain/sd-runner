@@ -330,7 +330,7 @@ class TestPromptTagsTravelOnTheRun:
 
     def test_tags_reach_the_prompter_when_the_run_starts(self, app_window, run_stubs, monkeypatch):
         """Not at enqueue: Prompter state must hold this run's tags as it begins."""
-        from sd_runner.prompter import Prompter
+        from sd_runner.prompts.prompter import Prompter
 
         seen = []
 

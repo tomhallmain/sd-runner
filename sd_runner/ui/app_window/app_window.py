@@ -245,7 +245,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self.app_actions = self._build_app_actions()
 
         # Set UI callbacks for Blacklist filtering notifications
-        from sd_runner.blacklist import Blacklist
+        from sd_runner.prompts.blacklist import Blacklist
         Blacklist.set_ui_callbacks(self.app_actions)
 
         # ------------------------------------------------------------------

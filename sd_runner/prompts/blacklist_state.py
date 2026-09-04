@@ -16,12 +16,12 @@ singleton at import time, and importing this module should not force that.
 import datetime
 from typing import Optional
 
-from sd_runner.blacklist import Blacklist, SimilarityPhrase
+from sd_runner.prompts.blacklist import Blacklist, SimilarityPhrase
 from utils.config import config
 from utils.globals import BlacklistMode, BlacklistPromptMode, ModelBlacklistMode
 from utils.logging_setup import get_logger
 
-logger = get_logger("blacklist_state")
+logger = get_logger("prompts.blacklist_state")
 
 # Cache key constants
 BLACKLIST_CACHE_KEY = "tag_blacklist"

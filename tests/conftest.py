@@ -169,7 +169,7 @@ def _default_concepts_dir() -> str:
     """
     global _original_concepts_dir
     if _original_concepts_dir is None:
-        from sd_runner.concepts import Concepts
+        from sd_runner.prompts.concepts import Concepts
         _original_concepts_dir = Concepts.CONCEPTS_DIR
     return _original_concepts_dir
 
@@ -183,7 +183,7 @@ def _default_prompter_tags() -> dict:
     """
     global _original_prompter_tags
     if _original_prompter_tags is None:
-        from sd_runner.prompter import Prompter
+        from sd_runner.prompts.prompter import Prompter
         _original_prompter_tags = {
             "POSITIVE_TAGS": Prompter.POSITIVE_TAGS,
             "NEGATIVE_TAGS": Prompter.NEGATIVE_TAGS,
@@ -252,7 +252,7 @@ def _reset_class_state() -> None:
         pass
 
     try:
-        from sd_runner.blacklist import Blacklist
+        from sd_runner.prompts.blacklist import Blacklist
         from utils.globals import BlacklistMode, BlacklistPromptMode, ModelBlacklistMode
         Blacklist.TAG_BLACKLIST = []
         Blacklist.MODEL_BLACKLIST = []
@@ -281,7 +281,7 @@ def _reset_class_state() -> None:
         pass
 
     try:
-        from sd_runner.concepts import Concepts
+        from sd_runner.prompts.concepts import Concepts
         Concepts.ALL_WORDS_LIST = []
         # Lazily filled from a ~34MB corpus on the first NSFW random-words draw.
         Concepts.URBAN_DICTIONARY_CORPUS = []
@@ -292,7 +292,7 @@ def _reset_class_state() -> None:
         pass
 
     try:
-        from sd_runner.expansion import Expansion
+        from sd_runner.prompts.expansion import Expansion
         Expansion.expansions = []
     except Exception:
         pass
@@ -364,7 +364,7 @@ def _reset_class_state() -> None:
             pass
 
     try:
-        from sd_runner.prompter import Prompter
+        from sd_runner.prompts.prompter import Prompter
         for name, value in _default_prompter_tags().items():
             setattr(Prompter, name, dict(value) if isinstance(value, dict) else value)
     except Exception:

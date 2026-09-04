@@ -7,8 +7,8 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(PROJECT_ROOT)
 sys.path.insert(0, PROJECT_ROOT)
 
-from sd_runner.blacklist import Blacklist
-from sd_runner import blacklist_state
+from sd_runner.prompts.blacklist import Blacklist
+from sd_runner.prompts import blacklist_state
 
 
 def main() -> None:

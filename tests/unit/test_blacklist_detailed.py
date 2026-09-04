@@ -2,7 +2,7 @@ import json
 import csv
 import pytest
 
-from sd_runner.blacklist import Blacklist, BlacklistItem
+from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
 
 
 # ---------------------------------------------------------------------------
@@ -18,7 +18,7 @@ def _patch_dictionary(monkeypatch, words: set = None) -> None:
     """Make Concepts.get_dictionary_set() return a controlled set of words."""
     word_set = words if words is not None else set()
     monkeypatch.setattr(
-        "sd_runner.concepts.Concepts.get_dictionary_set",
+        "sd_runner.prompts.concepts.Concepts.get_dictionary_set",
         lambda: word_set,
     )
 

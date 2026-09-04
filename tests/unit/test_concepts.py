@@ -1,8 +1,8 @@
 import random
 import pytest
 
-from sd_runner.blacklist import Blacklist, BlacklistItem
-from sd_runner.concepts import (
+from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+from sd_runner.prompts.concepts import (
     ConceptConfiguration,
     ConceptsFile,
     Concepts,
@@ -460,7 +460,7 @@ class TestAffixCategories:
 
     def test_they_are_off_by_default(self):
         """They would be nonsense in a prompt until something attaches them."""
-        from sd_runner.prompter_configuration import PrompterConfiguration
+        from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 
         config = PrompterConfiguration()
         for name in ("prefixes", "suffixes"):
@@ -492,7 +492,7 @@ class TestMissingCategoryFile:
 
     def test_the_absence_is_reported_once(self, caplog):
         """Every prompt generation loads every file; warning each time is noise."""
-        from sd_runner import concepts as concepts_module
+        from sd_runner.prompts import concepts as concepts_module
         from tests.utils import captured_logs
 
         concepts_module.Concepts._missing_files_reported.clear()

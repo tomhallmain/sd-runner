@@ -13,8 +13,8 @@ concepts/nsfw*
 concepts/wildcards.txt
 configs/*
 !configs/config_example.json
-prompts/stableDiffusion3*
-prompts/test.json
+sd_runner/data/workflows/stableDiffusion3*
+sd_runner/data/workflows/test.json
 sdg_script.py
 scripts/i18n_fixes.json
 puns_books*.py

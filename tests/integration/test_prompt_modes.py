@@ -14,7 +14,7 @@ Modes excluded and why:
 
 import pytest
 
-from sd_runner.concepts import ConceptConfiguration, Concepts
+from sd_runner.prompts.concepts import ConceptConfiguration, Concepts
 from tests.utils import make_prompter
 from utils.globals import PromptMode
 

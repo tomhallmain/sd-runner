@@ -35,8 +35,8 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from sd_runner.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
-from sd_runner.pending_translation import stage_for_translation
+from sd_runner.prompts.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
+from sd_runner.prompts.pending_translation import stage_for_translation
 from sd_runner.ui.app_style import AppStyle
 from utils.config import config
 from sd_runner.ui.auth.password_utils import require_password

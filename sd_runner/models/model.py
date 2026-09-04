@@ -4,7 +4,7 @@ import random
 import re
 from typing import TypeVar
 
-from sd_runner.blacklist import Blacklist, BlacklistException
+from sd_runner.prompts.blacklist import Blacklist, BlacklistException
 from sd_runner.models.model_adapters import LoraBundle
 from utils.config import config
 from utils.globals import Globals, PromptMode, ModelBlacklistMode, WorkflowType, ArchitectureType, ResolutionGroup

@@ -164,7 +164,7 @@ def apply_prompt_globals(run_config) -> None:
     without going through either run path carries none of them; leave the
     existing state alone rather than blanking it.
     """
-    from sd_runner.prompter import Prompter
+    from sd_runner.prompts.prompter import Prompter
     from utils.globals import Globals
 
     if carries_prompt_text(run_config):

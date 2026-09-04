@@ -378,7 +378,7 @@ class TestApplyPromptGlobals:
         assert BaseImageGenerator.RANDOM_SKIP_CHANCE == 0.75
 
     def test_it_sets_the_tags_flag_the_run_carries(self):
-        from sd_runner.prompter import Prompter
+        from sd_runner.prompts.prompter import Prompter
         Prompter.set_tags_apply_to_start(True)
         apply_prompt_globals(SimpleNamespace(tags_apply_to_start=False))
         assert Prompter.TAGS_APPLY_TO_START is False
@@ -386,7 +386,7 @@ class TestApplyPromptGlobals:
     def test_a_run_carrying_neither_leaves_them_alone(self, monkeypatch):
         """A config assembled outside both run paths carries nothing."""
         from sd_runner.generators.base import BaseImageGenerator
-        from sd_runner.prompter import Prompter
+        from sd_runner.prompts.prompter import Prompter
         monkeypatch.setattr(BaseImageGenerator, "RANDOM_SKIP_CHANCE", 0.4)
         Prompter.set_tags_apply_to_start(False)
 

@@ -23,8 +23,8 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from sd_runner.blacklist import Blacklist, BlacklistItem
-from sd_runner.concepts import Concepts
+from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+from sd_runner.prompts.concepts import Concepts
 from sd_runner.ui.auth.password_utils import require_password
 from utils.globals import ProtectedActions
 from utils.translations import I18N

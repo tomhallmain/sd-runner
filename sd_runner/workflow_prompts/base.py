@@ -58,7 +58,10 @@ class KSamplerInputs:
 
 
 class WorkflowPrompt:
-    PROMPTS_LOC = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), "prompts")
+    #: sd_runner/workflow_prompts/ -> sd_runner/, then the shipped workflow
+    #: graphs under data/. Named for the move rather than a dirname count.
+    _SD_RUNNER_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    PROMPTS_LOC = os.path.join(_SD_RUNNER_DIR, "data", "workflows")
     LAST_PROMPT_FILENAME = "test.json"
     LAST_PROMPT_FILE = os.path.join(PROMPTS_LOC, LAST_PROMPT_FILENAME)
     save_prompt = config.save_last_prompt

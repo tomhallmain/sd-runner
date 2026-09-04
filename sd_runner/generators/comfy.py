@@ -13,7 +13,7 @@ from utils.globals import Globals, WorkflowType, ComfyNodeName
 
 from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.models.model import Model, LoraBundle
-from sd_runner.prompter_configuration import PrompterConfiguration
+from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.workflow_prompts.base import WorkflowPrompt
 from sd_runner.workflow_prompts.comfy import WorkflowPromptComfy
 from utils.config import config

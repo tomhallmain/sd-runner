@@ -1,5 +1,5 @@
 import pytest
-from sd_runner.expansion import Expansion
+from sd_runner.prompts.expansion import Expansion
 
 
 @pytest.fixture(autouse=True)

@@ -3,15 +3,15 @@
 A clear empties the list and writes it straight to disk, so these cover the
 snapshot taken just before that, the grace period it survives for, and the
 restore that puts it back. The helpers are plain functions on
-``sd_runner.blacklist_state``, so none of this needs a window.
+``sd_runner.prompts.blacklist_state``, so none of this needs a window.
 """
 
 import datetime
 
 import pytest
 
-from sd_runner import blacklist_state
-from sd_runner.blacklist import BlacklistItem
+from sd_runner.prompts import blacklist_state
+from sd_runner.prompts.blacklist import BlacklistItem
 
 
 def _items(*strings):

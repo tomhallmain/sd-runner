@@ -14,11 +14,16 @@ from utils.utils import Utils
 
 _ = I18N._
 
-logger = get_logger("blacklist")
+logger = get_logger("prompts.blacklist")
 
 # Define cache file path — respects SD_RUNNER_CACHE_DIR so tests can redirect it
 # without touching the real configs/ directory (mirrors AppInfoCache's pattern).
-_DEFAULT_CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "configs")
+#: sd_runner/prompts/ -> sd_runner/ -> repo root. Named once so a move
+#: corrects one line rather than a count buried in a dirname chain.
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+#: sd_runner/prompts/ -> sd_runner/, which is where data/ lives.
+_SD_RUNNER_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_DEFAULT_CACHE_DIR = os.path.join(_REPO_ROOT, "configs")
 
 
 def _resolve_blacklist_cache_file() -> str:
@@ -480,7 +485,7 @@ class Blacklist:
     CACHE_MAX_LARGE_ITEMS = 12
     CACHE_PROTECTED_LARGE_ITEMS = 2
     CACHE_AUTOSAVE_CONCEPT_THRESHOLD = 20000
-    DEFAULT_BLACKLIST_FILE_LOC = os.path.join(os.path.dirname(__file__), "data", "blacklist_default.enc")
+    DEFAULT_BLACKLIST_FILE_LOC = os.path.join(_SD_RUNNER_DIR, "data", "blacklist_default.enc")
     _ui_callbacks = None  # Static variable to store UI callbacks
     _filter_cache = SizeAwarePicklableCache.load_or_create(
         BLACKLIST_CACHE_FILE, maxsize=CACHE_MAXSIZE,
@@ -931,7 +936,7 @@ class Blacklist:
                  Empty if no blacklisted items are found.
         """
         # Import here to avoid circular import (concepts.py imports Blacklist)
-        from sd_runner.concepts import Concepts
+        from sd_runner.prompts.concepts import Concepts
         
         filtered = {}
         
@@ -1170,7 +1175,7 @@ class Blacklist:
         if not enabled_phrases:
             Blacklist._similarity_engine = None
             return
-        from sd_runner.clip_text_similarity import TextSimilarityEngine
+        from sd_runner.prompts.clip_text_similarity import TextSimilarityEngine
         from utils.config import config
         try:
             engine = TextSimilarityEngine.build(getattr(config, "clip_model_path", None))

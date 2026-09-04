@@ -1,7 +1,7 @@
 import unittest
-from sd_runner.blacklist import Blacklist, BlacklistItem
-from sd_runner.concepts import Concepts
-from sd_runner import blacklist_state
+from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+from sd_runner.prompts.concepts import Concepts
+from sd_runner.prompts import blacklist_state
 from utils.app_info_cache import app_info_cache
 from utils.globals import BlacklistMode, BlacklistPromptMode, PromptMode
 

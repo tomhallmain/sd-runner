@@ -55,7 +55,7 @@ from typing import List, Tuple, Dict, Any, Optional
 
 import nltk
 from nltk.tokenize import sent_tokenize
-from sd_runner.concepts import Concepts
+from sd_runner.prompts.concepts import Concepts
 
 @dataclass
 class Config:

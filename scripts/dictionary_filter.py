@@ -6,9 +6,9 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(PROJECT_ROOT)
 sys.path.insert(0, PROJECT_ROOT)
 
-from sd_runner.concepts import Concepts
-from sd_runner.blacklist import Blacklist
-from sd_runner import blacklist_state
+from sd_runner.prompts.concepts import Concepts
+from sd_runner.prompts.blacklist import Blacklist
+from sd_runner.prompts import blacklist_state
 
 # Set the input file path here for your use case
 INPUT_PATH = Concepts.URBAN_DICTIONARY_CORPUS_PATH

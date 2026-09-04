@@ -14,7 +14,7 @@ gate on the editing actions.
 
 import pytest
 
-from sd_runner.concepts import Concepts
+from sd_runner.prompts.concepts import Concepts
 from tests.utils import install_password_bypass
 from sd_runner.ui.prompts.concept_editor_window import ConceptEditorWindow
 

@@ -9,8 +9,8 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import pytest
 
-from sd_runner.clip_text_similarity import NGramBackend, TextSimilarityEngine
-from sd_runner.blacklist import Blacklist, SimilarityPhrase
+from sd_runner.prompts.clip_text_similarity import NGramBackend, TextSimilarityEngine
+from sd_runner.prompts.blacklist import Blacklist, SimilarityPhrase
 
 
 # ---------------------------------------------------------------------------
@@ -361,7 +361,7 @@ class TestOnnxClipBackendIntegration:
     """Requires onnxruntime, a tokenizer, and SD_RUNNER_TEST_CLIP_ONNX_MODEL."""
 
     def _backend(self):
-        from sd_runner.clip_text_similarity import OnnxClipBackend
+        from sd_runner.prompts.clip_text_similarity import OnnxClipBackend
         return OnnxClipBackend(_onnx_model_path())
 
     def test_backend_name(self):
@@ -422,7 +422,7 @@ class TestTorchClipBackendIntegration:
     """Requires clip, torch, and SD_RUNNER_TEST_CLIP_TORCH_MODEL."""
 
     def _backend(self):
-        from sd_runner.clip_text_similarity import TorchClipBackend
+        from sd_runner.prompts.clip_text_similarity import TorchClipBackend
         return TorchClipBackend(_torch_model_name())
 
     def test_backend_name(self):

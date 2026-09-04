@@ -12,7 +12,7 @@ from utils.globals import Globals, WorkflowType, PromptTypeSDWebUI
 
 from sd_runner.generators.base import BaseImageGenerator
 from sd_runner.models.model import Model, LoraBundle
-from sd_runner.prompter_configuration import PrompterConfiguration
+from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.workflow_prompts.sdwebui import WorkflowPromptSDWebUI
 from utils.config import config
 from utils.logging_setup import get_logger

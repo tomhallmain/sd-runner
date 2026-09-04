@@ -12,8 +12,8 @@ be exact. tests/integration/test_prompt_modes.py covers the real concepts/ tree.
 
 import pytest
 
-from sd_runner.blacklist import Blacklist, BlacklistItem
-from sd_runner.concepts import Concepts, ConceptConfiguration
+from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+from sd_runner.prompts.concepts import Concepts, ConceptConfiguration
 from tests.utils import make_prompter
 from utils.globals import PromptMode
 

@@ -172,7 +172,7 @@ class RunController:
         """
         from utils.config import config
         from utils.globals import BlacklistMode, BlacklistPromptMode
-        from sd_runner.blacklist import Blacklist, BlacklistException
+        from sd_runner.prompts.blacklist import Blacklist, BlacklistException
 
         if not config.blacklist_prevent_execution:
             return True
@@ -369,7 +369,7 @@ class RunController:
         the point of the commands they serve -- but the user did not press Run,
         so the progress label still has to say where the run came from.
         """
-        from sd_runner.blacklist import BlacklistException
+        from sd_runner.prompts.blacklist import BlacklistException
         from sd_runner.presets.timed_schedules_manager import timed_schedules_manager, ScheduledShutdownException
         from utils.globals import Globals
         from utils.time_estimator import TimeEstimator

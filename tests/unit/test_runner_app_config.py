@@ -1,7 +1,7 @@
 import pytest
 from utils.runner_app_config import RunnerAppConfig
 from utils.globals import SoftwareType, WorkflowType, Sampler, Scheduler
-from sd_runner.prompter_configuration import PrompterConfiguration
+from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 
 
 class TestRunnerAppConfigDefaults:

@@ -6,7 +6,7 @@ Expansion class (registry, to_dict/from_dict) is covered in test_expansion.py.
 """
 
 import pytest
-from sd_runner.prompter import Prompter
+from sd_runner.prompts.prompter import Prompter
 
 
 # ---------------------------------------------------------------------------

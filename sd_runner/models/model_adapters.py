@@ -3,7 +3,7 @@ from typing import Optional
 
 from utils.config import config
 from utils.globals import Globals
-from sd_runner.prompter import GlobalPrompter
+from sd_runner.prompts.prompter import GlobalPrompter
 
 
 class LoraBundle:

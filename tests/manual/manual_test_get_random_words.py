@@ -1,8 +1,8 @@
 import unittest
 # from unittest.mock import patch, MagicMock
 import random
-from sd_runner.concepts import Concepts
-from sd_runner.blacklist import Blacklist, BlacklistItem
+from sd_runner.prompts.concepts import Concepts
+from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
 from utils.globals import PromptMode
 
 

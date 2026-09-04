@@ -2,12 +2,12 @@ from copy import deepcopy
 
 import json
 
-from sd_runner.concepts import ConceptConfiguration
+from sd_runner.prompts.concepts import ConceptConfiguration
 from utils.config import config
 from utils.globals import PromptMode
 from utils.logging_setup import get_logger
 
-logger = get_logger("prompter_configuration")
+logger = get_logger("prompts.prompter_configuration")
 
 
 class LegacyPrompterConfiguration:

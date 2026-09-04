@@ -13,7 +13,7 @@ import traceback
 
 from utils.globals import Globals, WorkflowType, SoftwareType, image_input_field
 
-from sd_runner.blacklist import Blacklist
+from sd_runner.prompts.blacklist import Blacklist
 from sd_runner.runs.gen_config import GenConfig
 from sd_runner.image_converter import convert_image_if_needed, cleanup_converter, clear_converter_cache
 from sd_runner.models.model import Model

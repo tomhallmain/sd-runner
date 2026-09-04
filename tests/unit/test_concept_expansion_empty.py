@@ -10,8 +10,8 @@ color and then drop it if it happened to be "rainbow".
 
 import pytest
 
-from sd_runner.concepts import Concepts, ConceptConfiguration
-from sd_runner.prompter import Prompter
+from sd_runner.prompts.concepts import Concepts, ConceptConfiguration
+from sd_runner.prompts.prompter import Prompter
 from utils.globals import PromptMode
 
 

@@ -40,7 +40,7 @@ DEFAULT_EXCLUDE_FILES = frozenset({
 
 
 def load_concepts_file(filepath: str) -> list[str]:
-    """Load concept lines from a file. Same logic as sd_runner.concepts.Concepts.load:
+    """Load concept lines from a file. Same logic as sd_runner.prompts.concepts.Concepts.load:
     strip content after #, skip empty lines."""
     result = []
     try:

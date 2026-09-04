@@ -123,7 +123,7 @@ class TestBlacklistIsEnforceableWithoutWidgets:
         assert ctrl.validate_blacklist("a calm lake at sunrise") is True
 
     def test_a_blacklisted_prompt_is_refused(self, monkeypatch):
-        from sd_runner.blacklist import Blacklist
+        from sd_runner.prompts.blacklist import Blacklist
         from utils.config import config
         from utils.globals import BlacklistMode, PromptMode
 

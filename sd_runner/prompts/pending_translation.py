@@ -20,9 +20,12 @@ import os
 
 from utils.logging_setup import get_logger
 
-logger = get_logger("pending_translation")
+logger = get_logger("prompts.pending_translation")
 
-_DEFAULT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "configs")
+#: sd_runner/prompts/ -> sd_runner/ -> repo root. Named once so a move
+#: corrects one line rather than a count buried in a dirname chain.
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_DEFAULT_DIR = os.path.join(_REPO_ROOT, "configs")
 
 #: dictionary.txt is excluded from the gettext export and maintained on its own
 #: schedule, so additions to it are never staged.

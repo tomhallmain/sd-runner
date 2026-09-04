@@ -41,12 +41,12 @@ def store_calls(monkeypatch, clean_cache):
 # ---------------------------------------------------------------------------
 
 SUBSYSTEMS = [
-    ("sd_runner.blacklist_state", None, "store_blacklist"),
+    ("sd_runner.prompts.blacklist_state", None, "store_blacklist"),
     ("sd_runner.presets.presets_state", "PresetsState", "store_recent_presets"),
     ("sd_runner.presets.presets_state", "PresetsState", "store_stashed_configs"),
     ("sd_runner.presets.presets_state", "PresetsState", "store_intermediate_prompts"),
     ("sd_runner.presets.schedules_state", "SchedulesState", "store_schedules"),
-    ("sd_runner.expansions_state", None, "store_expansions"),
+    ("sd_runner.prompts.expansions_state", None, "store_expansions"),
     ("sd_runner.models.recent_adapters_state", "RecentAdaptersState", "save_recent_adapters"),
 ]
 
@@ -96,8 +96,8 @@ class TestWriteThrough:
 
 class TestBlacklistEditPersists:
     def test_added_item_is_written_to_the_cache(self, clean_cache):
-        from sd_runner.blacklist import Blacklist, BlacklistItem
-        from sd_runner import blacklist_state
+        from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+        from sd_runner.prompts import blacklist_state
 
         Blacklist.add_item(BlacklistItem("wolf"))
         blacklist_state.store_blacklist()
@@ -106,8 +106,8 @@ class TestBlacklistEditPersists:
         assert any(entry.get("string") == "wolf" for entry in stored)
 
     def test_the_write_reaches_disk(self, clean_cache):
-        from sd_runner.blacklist import Blacklist, BlacklistItem
-        from sd_runner import blacklist_state
+        from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+        from sd_runner.prompts import blacklist_state
         from utils.app_info_cache import AppInfoCache
 
         Blacklist.add_item(BlacklistItem("wolf"))
@@ -118,8 +118,8 @@ class TestBlacklistEditPersists:
         assert any(entry.get("string") == "wolf" for entry in stored)
 
     def test_cache_is_clean_after_the_edit(self, clean_cache):
-        from sd_runner.blacklist import Blacklist, BlacklistItem
-        from sd_runner import blacklist_state
+        from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+        from sd_runner.prompts import blacklist_state
 
         Blacklist.add_item(BlacklistItem("wolf"))
         blacklist_state.store_blacklist()
@@ -128,8 +128,8 @@ class TestBlacklistEditPersists:
 
 class TestExpansionEditPersists:
     def test_expansion_reaches_disk(self, clean_cache):
-        from sd_runner import expansions_state
-        from sd_runner.expansion import Expansion
+        from sd_runner.prompts import expansions_state
+        from sd_runner.prompts.expansion import Expansion
         from utils.app_info_cache import AppInfoCache
 
         Expansion.expansions = [Expansion("greeting", "hello there")]

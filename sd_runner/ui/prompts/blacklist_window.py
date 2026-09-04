@@ -1,7 +1,7 @@
 """
 BlacklistWindow -- Tag / Model blacklist management.
 
-Loading and storing the blacklist itself lives in ``sd_runner.blacklist_state``;
+Loading and storing the blacklist itself lives in ``sd_runner.prompts.blacklist_state``;
 this class is the editor for it.
 
 Each tab uses a ``QTableWidget`` for the item list (much more
@@ -25,8 +25,8 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from lib.tooltip_qt import create_tooltip
-from sd_runner.blacklist import Blacklist, BlacklistItem, SimilarityPhrase
-from sd_runner import blacklist_state
+from sd_runner.prompts.blacklist import Blacklist, BlacklistItem, SimilarityPhrase
+from sd_runner.prompts import blacklist_state
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.ui.window_focus import try_focus_existing_window
 from utils.config import config

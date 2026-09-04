@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch
 
-from sd_runner.prompter import Prompter
+from sd_runner.prompts.prompter import Prompter
 
 
 # ---------------------------------------------------------------------------
@@ -231,7 +231,7 @@ class TestApplyChoicesNested:
 class TestApplyFileChoices:
     def test_file_token_replaced_with_line(self, monkeypatch):
         monkeypatch.setattr(
-            "sd_runner.concepts.Concepts.load",
+            "sd_runner.prompts.concepts.Concepts.load",
             lambda path: ["line_a", "line_b", "line_c"],
         )
         for _ in range(50):
@@ -240,7 +240,7 @@ class TestApplyFileChoices:
 
     def test_all_lines_reachable(self, monkeypatch):
         monkeypatch.setattr(
-            "sd_runner.concepts.Concepts.load",
+            "sd_runner.prompts.concepts.Concepts.load",
             lambda path: ["alpha", "beta", "gamma"],
         )
         seen = set()
@@ -250,7 +250,7 @@ class TestApplyFileChoices:
 
     def test_text_outside_token_preserved(self, monkeypatch):
         monkeypatch.setattr(
-            "sd_runner.concepts.Concepts.load",
+            "sd_runner.prompts.concepts.Concepts.load",
             lambda path: ["chosen"],
         )
         result = Prompter.apply_file_choices("before @@file.txt after")
@@ -264,7 +264,7 @@ class TestApplyFileChoices:
 
     def test_file_not_found_raises(self, monkeypatch):
         monkeypatch.setattr(
-            "sd_runner.concepts.Concepts.load",
+            "sd_runner.prompts.concepts.Concepts.load",
             lambda path: [],
         )
         with pytest.raises(ValueError, match="could not be resolved"):

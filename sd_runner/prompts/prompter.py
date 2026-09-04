@@ -4,10 +4,10 @@ import random
 import re
 import subprocess
 
-from sd_runner.blacklist import Blacklist, BlacklistException
-from sd_runner.concepts import ConceptConfiguration, Concepts
-from sd_runner.prompter_configuration import PrompterConfiguration
-from sd_runner.expansion import Expansion
+from sd_runner.prompts.blacklist import Blacklist, BlacklistException
+from sd_runner.prompts.concepts import ConceptConfiguration, Concepts
+from sd_runner.prompts.prompter_configuration import PrompterConfiguration
+from sd_runner.prompts.expansion import Expansion
 from utils.config import config
 from utils.globals import BlacklistMode, PromptMode
 from utils.logging_setup import get_logger
@@ -15,7 +15,7 @@ from utils.translations import I18N
 from extensions.image_data_extractor import ImageDataExtractor
 
 _ = I18N._
-logger = get_logger("prompter")
+logger = get_logger("prompts.prompter")
 
 
 

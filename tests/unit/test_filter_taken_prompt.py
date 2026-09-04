@@ -12,8 +12,8 @@ safety terms that exist to suppress the very content the blacklist targets.
 
 import pytest
 
-from sd_runner.blacklist import Blacklist, BlacklistException, BlacklistItem
-from sd_runner.prompter import Prompter
+from sd_runner.prompts.blacklist import Blacklist, BlacklistException, BlacklistItem
+from sd_runner.prompts.prompter import Prompter
 from utils.globals import BlacklistMode, BlacklistPromptMode
 
 

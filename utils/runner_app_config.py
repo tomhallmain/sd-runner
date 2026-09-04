@@ -5,7 +5,7 @@ import datetime
 from utils.globals import Globals, WorkflowType, Sampler, Scheduler, SoftwareType, ResolutionGroup
 
 from sd_runner.generators.base import BaseImageGenerator
-from sd_runner.prompter_configuration import PrompterConfiguration
+from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 
 
 class RunnerAppConfig:

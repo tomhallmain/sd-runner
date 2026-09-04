@@ -599,7 +599,7 @@ class SidebarPanel(QWidget):
         from utils.globals import Globals
         from sd_runner.models.model_adapters import IPAdapter
         from sd_runner.runs.gen_config import GenConfig
-        from sd_runner.prompter import Prompter
+        from sd_runner.prompts.prompter import Prompter
 
         # Delay
         try:
@@ -719,7 +719,7 @@ class SidebarPanel(QWidget):
             if mode.is_nsfw():
                 required_action = ProtectedActions.NSFW_PROMPTS
             elif mode == PromptMode.TAKE:
-                from sd_runner.blacklist import Blacklist
+                from sd_runner.prompts.blacklist import Blacklist
                 if not Blacklist.is_active():
                     required_action = ProtectedActions.TAKE_PROMPT
             if required_action is not None:
@@ -799,7 +799,7 @@ class SidebarPanel(QWidget):
 
     def set_positive_tags(self) -> None:
         """Sync positive tags from widget to config; validates blacklist and applies expansions."""
-        from sd_runner.prompter import Prompter
+        from sd_runner.prompts.prompter import Prompter
         text = self.positive_tags_box.toPlainText()
         if not self._app.run_ctrl.validate_blacklist(text):
             return
@@ -809,7 +809,7 @@ class SidebarPanel(QWidget):
 
     def set_negative_tags(self) -> None:
         """Sync negative tags from widget to config."""
-        from sd_runner.prompter import Prompter
+        from sd_runner.prompts.prompter import Prompter
         text = self.negative_tags_box.toPlainText()
         text = self._apply_expansions(text, positive=False)
         self._app.runner_app_config.negative_tags = text
@@ -817,14 +817,14 @@ class SidebarPanel(QWidget):
 
     def set_exclusion_tags(self) -> None:
         """Sync exclusion tags (regex) from widget to config and prompter."""
-        from sd_runner.prompter import Prompter
+        from sd_runner.prompts.prompter import Prompter
         text = self.exclusion_tags_entry.text()
         self._app.runner_app_config.exclusion_tags = text
         Prompter.set_exclusion_tags(text)
 
     def _apply_expansions(self, text: str, positive: bool = False) -> str:
         """Substitute expansion variables in *text* if present."""
-        from sd_runner.prompter import Prompter
+        from sd_runner.prompts.prompter import Prompter
         if Prompter.contains_expansion_var(text, from_ui=True):
             text = Prompter.apply_expansions(text, from_ui=True)
             if positive:

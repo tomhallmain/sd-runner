@@ -1,6 +1,6 @@
 import pytest
-from sd_runner.concepts import ConceptConfiguration
-from sd_runner.prompter_configuration import LegacyPrompterConfiguration, PrompterConfiguration
+from sd_runner.prompts.concepts import ConceptConfiguration
+from sd_runner.prompts.prompter_configuration import LegacyPrompterConfiguration, PrompterConfiguration
 from utils.globals import PromptMode
 
 

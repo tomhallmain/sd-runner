@@ -1,7 +1,7 @@
 """
 ExpansionsWindow / ExpansionModifyWindow -- manage prompt expansions.
 
-Loading and storing expansions lives in ``sd_runner.expansions_state``; this
+Loading and storing expansions lives in ``sd_runner.prompts.expansions_state``; this
 class is the editor for them, and keeps the in-session history of the ones the
 user has set.
 """
@@ -28,8 +28,8 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from sd_runner import expansions_state
-from sd_runner.expansion import Expansion
+from sd_runner.prompts import expansions_state
+from sd_runner.prompts.expansion import Expansion
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.ui.window_focus import clear_class_ref_if_self, try_focus_existing_window

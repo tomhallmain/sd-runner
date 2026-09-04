@@ -132,7 +132,7 @@ class RunConfig:
         a stored entry in some other shape is reported rather than restored as
         a run with silently empty fields.
         """
-        from sd_runner.prompter_configuration import PrompterConfiguration
+        from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 
         data = deepcopy(_dict) if _dict else {}
         if "workflow_tag" not in data:

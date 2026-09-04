@@ -60,7 +60,7 @@ class TestIPAdapterBWColorationModifier:
     def test_bw_desc_no_coloration_set_calls_mix_colors(self, tmp_path, monkeypatch):
         monkeypatch.setattr(IPAdapter, "B_W_COLORATION", "")
         # Mock GlobalPrompter.prompter_instance.mix_colors to avoid None dereference
-        from sd_runner.prompter import GlobalPrompter
+        from sd_runner.prompts.prompter import GlobalPrompter
 
         class FakePrompter:
             def mix_colors(self):

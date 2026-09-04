@@ -8,7 +8,7 @@ import datetime
 
 from lib.equivalence import are_equivalent
 from lib.position_data_qt import PositionData
-from sd_runner.blacklist import Blacklist
+from sd_runner.prompts.blacklist import Blacklist
 from utils.config import config
 from utils.globals import Globals, PromptMode, BlacklistPromptMode
 from utils.encryptor import encrypt_data_to_file, decrypt_data_from_file

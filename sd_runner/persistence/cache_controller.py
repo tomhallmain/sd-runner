@@ -64,10 +64,10 @@ class CacheController:
         the pending queues without saying so.
         """
         from utils.runner_app_config import RunnerAppConfig
-        from sd_runner import blacklist_state
+        from sd_runner.prompts import blacklist_state
         from sd_runner.presets.presets_state import PresetsState
         from sd_runner.presets.schedules_state import SchedulesState
-        from sd_runner.expansions_state import set_expansions as _set_expansions
+        from sd_runner.prompts.expansions_state import set_expansions as _set_expansions
         from sd_runner.models.recent_adapters_state import RecentAdaptersState
         from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
         from sd_runner.ui.auth.password_core import get_security_config
@@ -182,10 +182,10 @@ class CacheController:
         leaves it False, so a save tied to a prompt execution always writes and
         therefore always runs the blacklist history purge.
         """
-        from sd_runner import blacklist_state
+        from sd_runner.prompts import blacklist_state
         from sd_runner.presets.presets_state import PresetsState
         from sd_runner.presets.schedules_state import SchedulesState
-        from sd_runner.expansions_state import store_expansions as _store_expansions
+        from sd_runner.prompts.expansions_state import store_expansions as _store_expansions
         from sd_runner.models.recent_adapters_state import RecentAdaptersState
         from sd_runner.presets.timed_schedules_manager import timed_schedules_manager
         from sd_runner.ui.auth.password_core import get_security_config

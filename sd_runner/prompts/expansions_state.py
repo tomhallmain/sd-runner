@@ -11,7 +11,7 @@ The ``app_info_cache`` import stays inside each function: it builds its
 singleton at import time, and importing this module should not force that.
 """
 
-from sd_runner.expansion import Expansion
+from sd_runner.prompts.expansion import Expansion
 
 EXPANSIONS_CACHE_KEY = "expansions"
 
