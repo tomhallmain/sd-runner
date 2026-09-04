@@ -8,7 +8,7 @@ has on screen" are refused, because here there is no screen.
 
 Deliberately imports no Qt, and neither does anything it constructs -- so this
 runs on a machine with no display and no PySide6 installed. It is a separate
-script rather than a flag on ``app_qt`` for that reason: a flag would still
+script rather than a flag on ``app_gui`` for that reason: a flag would still
 have imported the toolkit before reading it.
 """
 

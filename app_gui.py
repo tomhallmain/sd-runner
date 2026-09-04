@@ -22,7 +22,7 @@ from lib.translations import I18N
 from lib.utils import Utils
 
 _ = I18N._
-logger = get_logger("app_qt")
+logger = get_logger("app_gui")
 
 
 def main():
@@ -151,7 +151,7 @@ def main():
     # ------------------------------------------------------------------
     # Check if startup password is required
     # ------------------------------------------------------------------
-    from sd_runner.ui.auth.app_startup_auth_qt import check_startup_password_required
+    from sd_runner.ui.auth.app_startup_auth import check_startup_password_required
     check_startup_password_required(callback=startup_callback)
 
     # ------------------------------------------------------------------

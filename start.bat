@@ -1,6 +1,6 @@
 @echo off
-TITLE SD Runner (Qt)
-python "%~dp0app_qt.py"
+TITLE SD Runner
+python "%~dp0app_gui.py"
 if %ERRORLEVEL% neq 0 (
     echo.
     echo Application exited with error code %ERRORLEVEL%

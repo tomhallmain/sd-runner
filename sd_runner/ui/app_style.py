@@ -1,6 +1,6 @@
 """
 Qt (PySide6) application style for SD Runner.
-Dark teal theme. Used by app_qt and ui widgets.
+Dark teal theme. Used by the entry point and ui widgets.
 Includes title bar styling for frameless windows.
 """
 

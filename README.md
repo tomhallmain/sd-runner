@@ -18,7 +18,7 @@ This code is primarily a prompt engineering application that triggers ComfyUI wo
 
 ## Running the Application
 
-- **Entry point:** `python app_qt.py` or `start.bat`
+- **Entry point:** `python app_gui.py` or `start.bat`
 - **Without a window:** `python app_headless.py` — serves the request front ends only; see [Running without the UI](#running-without-the-ui)
 
 The application uses PySide6 with custom theming, optional frameless windows, and configurable UI scaling (`ui_scale_factor` in `config.json`).
