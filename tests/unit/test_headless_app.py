@@ -15,7 +15,7 @@ import pytest
 
 from extensions.sd_runner_server import CommandType
 from sd_runner.headless_app import DirectBridge, LoggingNotifications
-from ui_qt.app_window.run_controller import RunController
+from sd_runner.run_controller import RunController
 
 
 def make_headless_controller(**app_fields) -> RunController:

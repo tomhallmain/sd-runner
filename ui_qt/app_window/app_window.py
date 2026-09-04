@@ -22,17 +22,17 @@ from PySide6.QtWidgets import (
 
 from lib.custom_title_bar import FramelessWindowMixin, WindowResizeHandler
 from lib.multi_display_qt import SmartMainWindow
+from sd_runner.cache_controller import CacheController
 from sd_runner.run import Run
 from sd_runner.generators.comfy import ComfyGen
 from sd_runner.models import Model
-from ui_qt.app_actions import AppActions
 from sd_runner.recent_adapters_state import RecentAdaptersState
+from sd_runner.run_controller import RunController
+from ui_qt.app_actions import AppActions
 from ui_qt.app_style import AppStyle
 from utils.app_icon import get_app_icon_path
-from ui_qt.app_window.cache_controller import CacheController
 from ui_qt.app_window.key_binding_manager import KeyBindingManager
 from ui_qt.app_window.notification_controller import NotificationController
-from ui_qt.app_window.run_controller import RunController
 from ui_qt.app_window.sidebar_panel import SidebarPanel
 from ui_qt.app_window.window_launcher import WindowLauncher
 from ui_qt.qt_responsiveness import QtResponsiveness
@@ -609,7 +609,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         boxes, the strengths and the rest already write through as they are
         edited, so they are not repeated here.
         """
-        from ui_qt.app_window.run_controller import clear_quotes
+        from sd_runner.run_controller import clear_quotes
         from ui_qt.prompts.prompt_config_window import PromptConfigWindow
         from utils.globals import PromptMode, ResolutionGroup, WorkflowType
 
@@ -656,7 +656,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         into ``runner_app_config`` and builds the ``RunConfig``.
         """
         from copy import deepcopy
-        from ui_qt.app_window.run_controller import clear_quotes
+        from sd_runner.run_controller import clear_quotes
         from utils.globals import WorkflowType
 
         sp = self.sidebar_panel

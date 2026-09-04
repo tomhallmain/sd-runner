@@ -21,7 +21,7 @@ from sd_runner.resolution import Resolution
 from sd_runner.run_config import RunConfig
 from sd_runner.timed_schedules_manager import timed_schedules_manager
 from tests.utils import FakeServerConn
-from ui_qt.app_window.run_controller import SERVER_ORIGIN
+from sd_runner.run_controller import SERVER_ORIGIN
 from utils.globals import WorkflowType
 from utils.time_estimator import TimeEstimator
 from utils.utils import Utils

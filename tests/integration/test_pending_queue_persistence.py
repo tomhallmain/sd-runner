@@ -14,7 +14,7 @@ import pytest
 
 from extensions.sd_runner_server import CommandType
 from tests.utils import make_run_config
-from ui_qt.app_window import cache_controller as cache_controller_module
+from sd_runner import cache_controller as cache_controller_module
 
 
 @pytest.fixture

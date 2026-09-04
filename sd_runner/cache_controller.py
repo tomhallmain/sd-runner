@@ -4,17 +4,19 @@ CacheController -- persistence layer for SD Runner.
 Owns loading and storing:
 - ``RunnerAppConfig`` history via ``app_info_cache``
 - Blacklist, presets, schedules, expansions, timed schedules, recent adapters
+- Security config
+- Display position and virtual-screen info
 
 Qt is imported inside ``start_periodic_store``, the one method that needs it, so
 this module can be imported by a process that has no display. Such a process
-writes the cache on every run and at shutdown and leaves the timer unstarted.
-- Security config
-- Display position and virtual-screen info
+writes the cache on every run and at shutdown, leaves the timer unstarted, and
+never asks about display position -- those methods hand the window to
+``app_info_cache``, which does its own Qt inside.
 """
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Union
 
 from utils.app_info_cache import app_info_cache
 from utils.logging_setup import get_logger
@@ -22,10 +24,11 @@ from utils.translations import I18N
 
 if TYPE_CHECKING:
     from PySide6.QtCore import QTimer
+    from sd_runner.headless_app import HeadlessApp
     from ui_qt.app_window.app_window import AppWindow
 
 _ = I18N._
-logger = get_logger("ui_qt.cache_controller")
+logger = get_logger("cache_controller")
 
 
 class CacheController:
@@ -39,7 +42,7 @@ class CacheController:
     PENDING_SERVER_REQUESTS_KEY = "pending_server_requests"
     GENERATION_TIMING_KEY = "generation_timing"
 
-    def __init__(self, app_window: AppWindow):
+    def __init__(self, app_window: Union[AppWindow, HeadlessApp]):
         self._app = app_window
         self._store_cache_timer: Optional[QTimer] = None
 

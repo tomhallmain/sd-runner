@@ -4,6 +4,13 @@ RunController -- image generation execution, queuing, and progress.
 Owns the run lifecycle: validation, execution (via ``Run``), job queue
 management, progress updates, cancellation, and time estimation.
 
+Driven by either application object: ``AppWindow``, or ``HeadlessApp`` when
+there is no display. What the two differ on is reached through the application
+it was given -- the thread bridge, the notification sink, the progress actions
+-- so this holds one implementation rather than a branch per caller. The
+exception is the sidebar: the commands that mean "read the UI" are refused by
+finding none, which is why those checks test for it rather than for a mode.
+
 Qt is imported inside the three places that need it -- the alert sound and the
 scheduled-shutdown dialog -- rather than at module level, so this module can be
 imported by a process that has no display. Those three sit on paths a headless
@@ -22,7 +29,7 @@ from utils.translations import I18N
 from utils.utils import Utils
 
 _ = I18N._
-logger = get_logger("ui_qt.run_controller")
+logger = get_logger("run_controller")
 
 #: Origin recorded for a server run whose client did not name itself. The
 #: single sentinel for that case: the server reports "" rather than inventing
@@ -64,9 +71,10 @@ class RunController:
 
     Parameters
     ----------
-    app_window : AppWindow
-        The parent window providing access to sidebar widgets and
-        notification controller.
+    app_window : AppWindow | HeadlessApp
+        The application object, supplying the queues, the stored config, the
+        thread bridge and the notification sink. A ``sidebar_panel`` on it is
+        what makes the UI-shaped commands answerable.
     """
 
     def __init__(self, app_window):

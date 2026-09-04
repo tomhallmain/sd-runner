@@ -92,8 +92,8 @@ class HeadlessApp:
     """
 
     def __init__(self):
-        from ui_qt.app_window.cache_controller import CacheController
-        from ui_qt.app_window.run_controller import RunController
+        from sd_runner.cache_controller import CacheController
+        from sd_runner.run_controller import RunController
         from utils.job_queue import SDRunsQueue, ServerStagingQueue
         from utils.ui_responsiveness import NullResponsiveness
 
