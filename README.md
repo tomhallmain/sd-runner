@@ -319,6 +319,16 @@ The tools are `generate` (naming one of the same commands the server takes, with
 
 `generate` returns when the run is **queued**, not when it has finished — the images come later and are not part of the result. It replies with a `run_id`, and `generate_batch` replies with `run_ids`, one per accepted item in order. Poll `run_status` to find out when work is done: with no arguments it answers for the client as a whole, and given a `run_id` it reports that run as `running`, `queued`, `staged`, or `unknown` once it is no longer outstanding. Nothing keeps a record of a finished run, so `unknown` covers both "done" and "never issued".
 
+Alongside the tools it exposes three read-only **resources**, so a client can find out what it is driving before asking for anything:
+
+| Resource | URI | Holds |
+|---|---|---|
+| `current_workflow` | `sdrunner://workflow/current` | the workflow, model tags, resolutions and counts a run would use right now |
+| `preset_names` | `sdrunner://presets/names` | the saved preset names, which a `generate` request can then ask for by `edit_suffix` |
+| `run_history` | `sdrunner://runs/history` | the most recent runs, newest first — capped, since the entries are near-duplicates |
+
+These read stored settings rather than the window, so they answer the same way with no UI running.
+
 **It binds to localhost only.** The other server authenticates with a key belonging to its transport, which does not carry over to HTTP, and the MCP SDK's own answer is a full OAuth resource server rather than a shared secret. Until that exists, remote binds are refused. `mcp_server_token` is reserved for it and currently does nothing — if you set one, the server refuses to start rather than run while leaving it unenforced.
 
 ### Running without the UI

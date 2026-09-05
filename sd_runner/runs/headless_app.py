@@ -314,7 +314,9 @@ class HeadlessApp:
         from extensions.mcp_server import MCPServerExtension
         try:
             self.mcp_server = MCPServerExtension(
-                *callbacks, bridge(self.run_ctrl.run_status)
+                *callbacks,
+                bridge(self.run_ctrl.run_status),
+                bridge(self.run_ctrl.server_resource),
             )
             Utils.start_thread(self.mcp_server.start)
         except Exception as e:

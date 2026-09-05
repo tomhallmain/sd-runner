@@ -105,15 +105,58 @@ def tool_descriptors() -> list:
     ]
 
 
+def resource_descriptors() -> list:
+    """The read-only surface, as plain data.
+
+    Resources answer rather than act, which is the whole distinction from
+    tools: a client reads these to find out what it is driving before it asks
+    for anything. Expressed the same way as ``tool_descriptors`` so both can be
+    asserted without the SDK installed.
+
+    The URIs are the client's address for each one and are protocol payload,
+    so they are fixed and untranslated for the same reason the tool names are.
+    """
+    return [
+        {
+            "name": "current_workflow",
+            "uri": "sdrunner://workflow/current",
+            "description": (
+                "What the app is currently set to generate: the workflow, "
+                "model tags, resolutions and counts a run would use if one "
+                "were started now."
+            ),
+        },
+        {
+            "name": "preset_names",
+            "uri": "sdrunner://presets/names",
+            "description": (
+                "The saved preset names. A preset is addressable by name in a "
+                "generate request's edit_suffix, so this is how a client "
+                "learns which ones exist."
+            ),
+        },
+        {
+            "name": "run_history",
+            "uri": "sdrunner://runs/history",
+            "description": (
+                "The most recent runs, newest first: what was generated, with "
+                "what model and prompt. Capped, because the entries are "
+                "near-duplicates and a client reading them has a context "
+                "window."
+            ),
+        },
+    ]
+
+
 class MCPServerExtension:
     """Serves the MCP tool surface over HTTP, on its own thread.
 
     Takes the same callables ``SDRunnerServer`` is given, *already wrapped* at
-    the construction site: three are bridged to the GUI thread and two are
-    deliberately not, because they bridge their own widget sections and
-    wrapping them would hold the caller for a whole run build or a multi-second
-    health check. Receiving them pre-wrapped is what makes this front end
-    inherit those decisions rather than re-derive them.
+    the construction site: most are bridged to the GUI thread, while the run
+    and health-check callbacks deliberately are not, because they bridge their
+    own widget sections and wrapping them would hold the caller for a whole run
+    build or a multi-second health check. Receiving them pre-wrapped is what
+    makes this front end inherit those decisions rather than re-derive them.
     """
 
     def __init__(
@@ -124,6 +167,7 @@ class MCPServerExtension:
         batch_enqueue_callback: callable,
         health_check_callback: callable = None,
         run_status_callback: callable = None,
+        resource_callback: callable = None,
         host: str = None,
         port: int = None,
         token: str = None,
@@ -139,6 +183,7 @@ class MCPServerExtension:
         self.batch_enqueue_callback = batch_enqueue_callback
         self.health_check_callback = health_check_callback
         self.run_status_callback = run_status_callback
+        self.resource_callback = resource_callback
 
         self._host = host if host is not None else getattr(_config, "mcp_server_host", "localhost")
         self._port = port if port is not None else getattr(_config, "mcp_server_port", 0)
@@ -226,6 +271,20 @@ class MCPServerExtension:
                 software=str(arguments.get("software", "") or ""),
             )
         raise MCPToolError(f"unknown tool: {tool_name}")
+
+    def read_resource(self, name: str) -> dict:
+        """Read one resource by name. The counterpart to ``dispatch``.
+
+        Kept separate from the tool dispatch rather than folded into it: a
+        resource takes no arguments and changes nothing, and a client that can
+        only read should not have to go through the surface that acts.
+        """
+        if self.resource_callback is None:
+            raise MCPToolError("resources are not available")
+        try:
+            return self.resource_callback(name)
+        except KeyError:
+            raise MCPToolError(f"unknown resource: {name}")
 
     def _generate(self, arguments: dict) -> dict:
         raw_command = arguments.get("command")
@@ -338,6 +397,7 @@ class MCPServerExtension:
         server = MCPServer("SD Runner")
         self._server = server
         self._register_tools(server)
+        self._register_resources(server)
         server.run(transport="streamable-http", host=self._host, port=self._port)
 
     def _register_tools(self, server) -> None:
@@ -379,3 +439,29 @@ class MCPServerExtension:
             return self.dispatch("health_check", {
                 "level": level, "timeout": timeout, "software": software,
             })
+
+    def _register_resources(self, server) -> None:
+        """Bind each resource to a reader, by URI.
+
+        A loop rather than one decorated function per resource: unlike a tool,
+        a resource has no parameters, so there is no signature that would
+        differ between them.
+
+        The name is captured by a factory rather than by a default argument.
+        The SDK reads a handler's signature as its schema -- the same thing
+        that gives tools their parameters -- so a captured default would
+        advertise the internal name as something a client passes in, on a
+        surface that is supposed to take nothing.
+        """
+        for descriptor in resource_descriptors():
+            server.resource(
+                descriptor["uri"],
+                name=descriptor["name"],
+                description=descriptor["description"],
+            )(self._resource_reader(descriptor["name"]))
+
+    def _resource_reader(self, name: str):
+        """A zero-argument reader bound to one resource name."""
+        def read() -> dict:
+            return self.read_resource(name)
+        return read

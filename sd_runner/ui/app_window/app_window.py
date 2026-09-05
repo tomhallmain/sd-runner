@@ -872,6 +872,9 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
             self.run_ctrl.server_health_check,
             # Bridged: reads the queues and the current run.
             bridge(self.run_ctrl.run_status),
+            # Bridged for the same reason: the stored config, the presets and
+            # the history are all shared state the window writes as it runs.
+            bridge(self.run_ctrl.server_resource),
         )
         try:
             Utils.start_thread(server.start)

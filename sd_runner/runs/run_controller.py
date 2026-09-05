@@ -173,6 +173,70 @@ class RunController:
                     return "staged"
         return "unknown"
 
+    #: How many history entries a resource read returns. The cache keeps more,
+    #: but this is read by a model with a context window, and the entries are
+    #: near-duplicates of each other -- the twentieth adds little the first
+    #: twenty did not say.
+    RESOURCE_HISTORY_LIMIT = 20
+
+    def server_resource(self, name: str):
+        """Read-only context for a client, by resource name. GUI thread only.
+
+        The counterpart to the command callbacks: those act, these only look.
+        Every one reads state the application already holds, so a client can
+        find out what it is driving without a round of questions -- what the
+        app is set to generate, what presets exist to ask for by name, and what
+        it has generated lately.
+
+        Reads the same stored state whether or not there is a window, so a
+        headless process answers these too. Raises KeyError for a name that is
+        not a resource, which the caller turns into its own error shape.
+        """
+        if name == "current_workflow":
+            cfg = self._app.runner_app_config
+            return {
+                "workflow_type": getattr(cfg, "workflow_type", ""),
+                "model_tags": getattr(cfg, "model_tags", ""),
+                "resolutions": getattr(cfg, "resolutions", ""),
+                "n_latents": getattr(cfg, "n_latents", None),
+                "total": getattr(cfg, "total", None),
+            }
+        if name == "preset_names":
+            from sd_runner.presets.presets_state import PresetsState
+            return {"presets": list(PresetsState.get_preset_names())}
+        if name == "run_history":
+            return {"runs": self._recent_history()}
+        raise KeyError(name)
+
+    def _recent_history(self) -> list:
+        """The last few runs, oldest details dropped. GUI thread only.
+
+        ``get_history`` raises rather than returning None past the end, which
+        is what ends the walk -- there is no length to ask for. Only the fields
+        that say what was generated: the stored entry is a whole
+        ``RunnerAppConfig`` and most of it is settings the client did not ask
+        about.
+        """
+        from sd_runner.persistence.app_info_cache import app_info_cache
+
+        runs = []
+        for idx in range(self.RESOURCE_HISTORY_LIMIT):
+            try:
+                entry = app_info_cache.get_history(idx)
+            except Exception:
+                break
+            if not isinstance(entry, dict):
+                break
+            runs.append({
+                "timestamp": entry.get("timestamp", ""),
+                "workflow_type": entry.get("workflow_type", ""),
+                "model_tags": entry.get("model_tags", ""),
+                "positive_tags": entry.get("positive_tags", ""),
+                "n_latents": entry.get("n_latents"),
+                "total": entry.get("total"),
+            })
+        return runs
+
     def has_runs_pending(self) -> bool:
         """Return True if any run or preset schedule is still queued."""
         return (

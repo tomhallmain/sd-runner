@@ -18,7 +18,7 @@ from extensions.sd_runner_server import CommandType
 
 
 class Recorder:
-    """Stands in for the five callbacks, recording how each was called."""
+    """Stands in for the callbacks, recording how each was called."""
 
     def __init__(self):
         self.calls = []
@@ -46,6 +46,12 @@ class Recorder:
         self.calls.append(("run_status", origin, run_id))
         return {"running": False, "queued": 0, "staged": 0, "mine_running": False}
 
+    def resource(self, name):
+        self.calls.append(("resource", name))
+        if name == "nope":
+            raise KeyError(name)
+        return {"read": name}
+
 
 def make_server(recorder=None, **kwargs):
     recorder = recorder or Recorder()
@@ -54,7 +60,8 @@ def make_server(recorder=None, **kwargs):
     kwargs.setdefault("token", "")
     server = MCPServerExtension(
         recorder.run, recorder.cancel, recorder.revert,
-        recorder.batch, recorder.health, recorder.run_status, **kwargs
+        recorder.batch, recorder.health, recorder.run_status, recorder.resource,
+        **kwargs
     )
     return server, recorder
 
@@ -65,7 +72,7 @@ def make_server(recorder=None, **kwargs):
 
 class TestToolSurface:
     def test_every_callback_is_reachable(self):
-        """Five callables in, five things a client can ask for."""
+        """One tool per command callback, and nothing a callback cannot serve."""
         names = {tool["name"] for tool in tool_descriptors()}
         assert names == {
             "generate", "generate_batch", "cancel",
@@ -308,3 +315,105 @@ class TestLifecycle:
         server, _rec = make_server()
         server.stop()
         assert server.is_running() is False
+
+
+class TestResources:
+    """Read-only context, alongside the tools that act.
+
+    A client reads these to find out what it is driving -- what the app is set
+    to generate, which presets it can name, what it generated lately -- without
+    a round of questions and without changing anything.
+    """
+
+    def test_the_catalogue_names_all_three(self, app_config):
+        from extensions.mcp_server import resource_descriptors
+
+        assert {d["name"] for d in resource_descriptors()} == {
+            "current_workflow", "preset_names", "run_history",
+        }
+
+    def test_every_resource_has_a_uri_and_a_description(self, app_config):
+        from extensions.mcp_server import resource_descriptors
+
+        for d in resource_descriptors():
+            assert d["uri"].startswith("sdrunner://")
+            assert d["description"]
+
+    def test_the_uris_are_distinct(self, app_config):
+        """The URI is the client's address for a resource, so two sharing one
+        would make the second unreachable."""
+        from extensions.mcp_server import resource_descriptors
+
+        uris = [d["uri"] for d in resource_descriptors()]
+        assert len(set(uris)) == len(uris)
+
+    def test_reading_forwards_the_name(self, app_config):
+        server, rec = make_server()
+        assert server.read_resource("preset_names") == {"read": "preset_names"}
+        assert rec.calls[0] == ("resource", "preset_names")
+
+    def test_an_unknown_resource_is_refused(self, app_config):
+        """The read path raises KeyError for a name it does not know; that
+        becomes the client-facing error rather than escaping as a KeyError."""
+        server, _rec = make_server()
+        with pytest.raises(MCPToolError):
+            server.read_resource("nope")
+
+    def test_resources_are_optional(self, app_config):
+        """The callback is not required, so a front end wired without one
+        refuses the read rather than failing on a None call."""
+        server, _rec = make_server()
+        server.resource_callback = None
+        with pytest.raises(MCPToolError):
+            server.read_resource("preset_names")
+
+    def test_every_catalogued_resource_is_registered(self, app_config):
+        """The catalogue and the registration are two places; this is what
+        keeps them from disagreeing."""
+        from extensions.mcp_server import resource_descriptors
+
+        server, _rec = make_server()
+        registered = {}
+
+        class FakeSDKServer:
+            def resource(self, uri, name=None, description=None):
+                def decorator(fn):
+                    registered[uri] = (name, fn)
+                    return fn
+                return decorator
+
+        server._register_resources(FakeSDKServer())
+        assert set(registered) == {d["uri"] for d in resource_descriptors()}
+
+    def test_each_registered_reader_asks_for_its_own_resource(self, app_config):
+        """One closure per resource, so a loop variable captured by reference
+        would make every reader return the last one."""
+        server, rec = make_server()
+        registered = self._register(server)
+
+        for name, reader in registered.items():
+            assert reader() == {"read": name}
+
+    def test_a_reader_takes_no_arguments(self, app_config):
+        """The SDK reads a handler's signature as its schema, so a name
+        captured by a default argument would advertise itself as something the
+        client passes -- on a surface that takes nothing."""
+        import inspect
+
+        server, _rec = make_server()
+        for reader in self._register(server).values():
+            assert inspect.signature(reader).parameters == {}
+
+    @staticmethod
+    def _register(server) -> dict:
+        registered = {}
+
+        class FakeSDKServer:
+            def resource(self, uri, name=None, description=None):
+                def decorator(fn):
+                    registered[name] = fn
+                    return fn
+                return decorator
+
+        server._register_resources(FakeSDKServer())
+        return registered
