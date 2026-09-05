@@ -142,9 +142,9 @@ class ImageToPromptWindow(SmartDialog):
 
         # Action buttons
         btn_row = QHBoxLayout()
-        gen_btn = QPushButton(_("Generate Prompt from Image"))
-        gen_btn.clicked.connect(self._generate)
-        btn_row.addWidget(gen_btn)
+        self._generate_btn = QPushButton(_("Generate Prompt from Image"))
+        self._generate_btn.clicked.connect(self._generate)
+        btn_row.addWidget(self._generate_btn)
 
         copy_pos_btn = QPushButton(_("Copy Positive"))
         copy_pos_btn.clicked.connect(lambda: self._copy_text(self._positive_box.toPlainText()))
@@ -320,10 +320,8 @@ class ImageToPromptWindow(SmartDialog):
 
         try:
             service = self._service_for_backend(backend)
-            result = service.generate(
-                image_path=image_path,
-                prompt_hint=prompt_hint,
-                include_negative=include_negative,
+            result = self._generate_off_thread(
+                service, backend, image_path, prompt_hint, include_negative,
             )
             self._positive_box.setPlainText(result.positive_prompt or "")
             self._negative_box.setPlainText(result.negative_prompt or "")
@@ -351,6 +349,7 @@ class ImageToPromptWindow(SmartDialog):
             if backend == ImageToPromptBackend.FAST_TAGGER and not positive_text.strip():
                 self._app_actions.toast(_("Fast tagger returned no tags; try a lower threshold."))
         except NotImplementedError as e:
+            self._set_failed_status(backend)
             self._app_actions.alert(
                 _("Backend Not Configured"),
                 str(e),
@@ -358,12 +357,69 @@ class ImageToPromptWindow(SmartDialog):
                 master=self,
             )
         except Exception as e:
+            self._set_failed_status(backend)
             self._app_actions.alert(
                 _("Image to Prompt Error"),
                 str(e),
                 kind="error",
                 master=self,
             )
+
+    def _set_failed_status(self, backend) -> None:
+        """Replace the in-progress text, which is otherwise the last thing said.
+
+        The alert is modal and gets dismissed; the label is what remains on
+        screen, and leaving it reading "Generating" describes a call that has
+        already stopped.
+        """
+        self._status.setText(
+            _("Failed using backend: {0} [{1}]").format(
+                backend.value, datetime.datetime.now().strftime("%H:%M:%S"),
+            )
+        )
+
+    def _generate_off_thread(
+        self, service, backend, image_path, prompt_hint, include_negative,
+    ):
+        """Run one generate with the window kept alive, and re-raise its error.
+
+        A VLM generate blocks for tens of seconds, against well under one for
+        the tagger, so run it on a worker thread under a nested event loop --
+        nothing it touches is a widget. The button is disabled for the duration
+        because a second generate would load a second model.
+
+        The exception is carried back rather than raised on the worker, where
+        it would unwind that thread and leave the caller with ``None`` instead
+        of the alert naming what went wrong.
+        """
+        self._generate_btn.setEnabled(False)
+        self._status.setText(_("Generating with backend: {0}…").format(backend.value))
+
+        def work():
+            try:
+                return service.generate(
+                    image_path=image_path,
+                    prompt_hint=prompt_hint,
+                    include_negative=include_negative,
+                ), None
+            except Exception as e:
+                return None, e
+
+        try:
+            responsiveness = getattr(self._app, "responsiveness", None)
+            if responsiveness is None:
+                outcome = work()
+            else:
+                outcome = responsiveness.run_off_thread(work)
+        finally:
+            self._generate_btn.setEnabled(True)
+
+        if outcome is None:
+            raise RuntimeError(_("Image to prompt generation did not complete."))
+        result, error = outcome
+        if error is not None:
+            raise error
+        return result
 
     def _copy_text(self, text: str) -> None:
         if not text.strip():

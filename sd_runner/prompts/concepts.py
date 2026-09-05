@@ -791,13 +791,14 @@ class Concepts:
         random_word_strings = []
         blacklisted_combination_counts = {}
         def is_blacklisted(combination, combination_counts, current_count):
-            if current_count > 1:
+            # Only combinations need to be tested: a single word came out of
+            # sample_whitelisted and has already passed the blacklist, while
+            # two whitelisted words can join into a phrase that has not.
+            if current_count < 2:
                 return False
             if self.prompt_mode.is_nsfw() and Blacklist.get_blacklist_prompt_mode() == BlacklistPromptMode.ALLOW_IN_NSFW:
                 return False
             if Blacklist.get_violation_item(combination) is None:
-                # Only combinations need to be tested, because the sample 
-                # is already composed of whitelisted words
                 return False
             combination_counts[combination] = current_count
             return True
@@ -825,6 +826,10 @@ class Concepts:
             logger.debug(f"Hit {len(blacklisted_combination_counts)} blacklist violations on attempt {attempts} to combine words")
             attempts += 1
             number_required = sum(blacklisted_combination_counts.values())
+            # Cleared so the dict holds only this attempt's violations; left
+            # to accumulate, the loop could not see that a retry had succeeded
+            # and would run all ten, appending words every time.
+            blacklisted_combination_counts.clear()
             # There may be duplication in this resampling but very unlikely for lists of tens of thousands of words
             random_words = Concepts.sample_whitelisted(all_words, number_required, number_required, self.prompt_mode)
             new_chance_to_combine = 0.75 # we know these failures came from combinations, try to combine their replacements

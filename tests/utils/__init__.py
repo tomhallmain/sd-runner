@@ -27,10 +27,12 @@ from tests.utils.factories import (
     make_schedule,
 )
 from tests.utils.logs import captured_logs
+from tests.utils.qt_windows import close_window
 
 __all__ = [
     "FakeServerConn",
     "captured_logs",
+    "close_window",
     "install_password_bypass",
     "make_app_actions",
     "make_gen_config",

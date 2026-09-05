@@ -353,12 +353,27 @@ def _reset_class_state() -> None:
                        _controlnet_cache=None, _ipadapter_cache=None,
                        _source_prompt_cache=None, _favorites_cache=None,
                        _cache_timestamp=None)
+    # The model scan, cached on the class so reopening the window does not
+    # rescan. It holds the names a previous test put in Model.CHECKPOINTS, and
+    # is filtered by the blacklist as of when it was built.
+    _reset_if_imported("sd_runner.ui.models.models_window", "ModelsWindow",
+                       _checkpoints_cache=None, _adapters_cache=None,
+                       _cache_timestamp=None)
+    # The open window a run syncs its unapplied edits through. It is cleared on
+    # close, so this only matters for a test that leaves one open -- which would
+    # otherwise have the next test's sync writing into a dead window's config.
+    _reset_if_imported("sd_runner.ui.prompts.prompt_config_window", "PromptConfigWindow",
+                       _prompt_config_window_instance=None)
     _reset_if_imported("sd_runner.ui.prompts.blacklist_window", "BlacklistWindow",
-                       item_history=[])
+                       item_history=[], _modify_window=None)
     _reset_if_imported("sd_runner.ui.prompts.concept_editor_window", "ConceptEditorWindow",
                        concept_change_history=[])
     _reset_if_imported("sd_runner.ui.prompts.expansions_window", "ExpansionsWindow",
                        expansion_history=[])
+    # Preferred over the cache when the window reopens, so a generate in one
+    # test would otherwise pre-fill the next test's window with its result.
+    _reset_if_imported("sd_runner.ui.prompts.image_to_prompt_window", "ImageToPromptWindow",
+                       _last_cached_payload={})
     _reset_if_imported("sd_runner.ui.prompts.frequent_prompt_tags_window", "FrequentPromptTagsWindow",
                        tag_history=[])
 
