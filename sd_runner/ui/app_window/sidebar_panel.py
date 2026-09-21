@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
     QLabel, QLineEdit, QComboBox, QCheckBox, QPushButton,
     QPlainTextEdit, QSlider, QProgressBar, QScrollArea, QFrame,
-    QSplitter, QSizePolicy,
+    QSplitter, QSizePolicy, QToolButton,
 )
 from PySide6.QtCore import Qt
 
@@ -23,6 +23,7 @@ from lib.autocomplete_entry_qt import AutocompleteEntry, default_matches
 from lib.plain_text_edit_qt import EscapeAwarePlainTextEdit
 from lib.aware_entry_qt import AwareEntry
 from sd_runner.ui.app_style import AppStyle
+from sd_runner.persistence.app_info_cache import app_info_cache
 from sd_runner.globals import (
     PromptMode, WorkflowType, SoftwareType, ResolutionGroup,
     Sampler, Scheduler,
@@ -66,6 +67,9 @@ class SidebarPanel(QWidget):
     app_window : AppWindow
         Back-reference for reading/writing application state.
     """
+
+    # UI preference, kept out of RunnerAppConfig so it is not part of run history.
+    NEGATIVE_TAGS_COLLAPSED_KEY = "negative_tags_collapsed"
 
     def __init__(self, parent: QWidget, app_window):
         super().__init__(parent)
@@ -518,12 +522,22 @@ class SidebarPanel(QWidget):
         self.positive_tags_box.setPlainText(runner_cfg.positive_tags)
         layout.addWidget(self.positive_tags_box)
 
-        # Negative Tags
-        layout.addWidget(QLabel(_("Negative Tags")))
+        # Negative Tags (collapsible)
+        self.negative_tags_toggle = QToolButton()
+        self.negative_tags_toggle.setText(_("Negative Tags"))
+        self.negative_tags_toggle.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
+        self.negative_tags_toggle.setCheckable(True)
+        self.negative_tags_toggle.setAutoRaise(True)
+        layout.addWidget(self.negative_tags_toggle)
         self.negative_tags_box = EscapeAwarePlainTextEdit()
         self.negative_tags_box.setMaximumHeight(80)
         self.negative_tags_box.setPlainText(runner_cfg.negative_tags)
         layout.addWidget(self.negative_tags_box)
+        self.negative_tags_toggle.toggled.connect(self._on_negative_tags_toggled)
+        self.negative_tags_toggle.setChecked(
+            not app_info_cache.get(self.NEGATIVE_TAGS_COLLAPSED_KEY, default_val=False)
+        )
+        self._on_negative_tags_toggled(self.negative_tags_toggle.isChecked())
 
         # Exclusion Tags (regex)
         layout.addWidget(QLabel(_("Exclusion Tags (regex)")))
@@ -748,6 +762,13 @@ class SidebarPanel(QWidget):
             self._app.runner_app_config.prompter_config.concepts_dir = app_config.concepts_dirs[text]
         except KeyError:
             pass
+
+    def _on_negative_tags_toggled(self, expanded: bool) -> None:
+        self.negative_tags_box.setVisible(expanded)
+        self.negative_tags_toggle.setArrowType(
+            Qt.ArrowType.DownArrow if expanded else Qt.ArrowType.RightArrow
+        )
+        app_info_cache.set(self.NEGATIVE_TAGS_COLLAPSED_KEY, not expanded)
 
     def _on_override_negative_changed(self, state: int) -> None:
         from sd_runner.globals import Globals
