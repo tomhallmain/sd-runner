@@ -156,6 +156,7 @@ baking a cake
 baking cookies
 balancing
 baling hay
+ball-hooting
 banter
 barging
 barging into a room
@@ -264,7 +265,6 @@ building a $$random_word
 building dollhouses
 building wooden toys
 bullet journaling
-bungee jumping
 Bunning
 burdening
 burning
@@ -361,7 +361,6 @@ clay crafts
 cleaning
 cleansing
 clearing the air
-cliff diving
 clinched
 clinching
 clinging
@@ -469,7 +468,6 @@ curtail
 curtsying
 custom pins
 cutting
-cycling
 dabbling
 damping
 dancing
@@ -555,7 +553,6 @@ do we have a deal?
 Do-Si-Do
 doffs
 dog show
-dog sledding
 doing
 doing $$random_word
 doing [[the,his,her,our]] rounds
@@ -790,7 +787,6 @@ Forming
 fought
 found [[you,it]] !
 freaking out
-free soloing
 freezing
 fretting
 frisbee
@@ -897,7 +893,6 @@ hand lettering
 handing it over
 handing out $$random_word
 handoff
-hanggliding
 hanging
 hanging back
 hanging out
@@ -943,7 +938,6 @@ here they come!
 hiding
 hiding from $$random_word
 high school
-hiking
 hindering
 hinting
 hinting at
@@ -1089,7 +1083,6 @@ jabs and hooks
 jazzercise/aerobics
 jeering
 jesting
-jet skiing
 jewelry design
 jewelry making
 Jitterbugging
@@ -1113,7 +1106,6 @@ just for the [[thrill,heck]] of it
 karaoke
 karate
 kawaii or Japanese items or collectibles
-kayaking
 keeping at it
 keeping it
 ker-flop
@@ -1302,8 +1294,6 @@ Moonwalking
 morphing
 Moseying
 mosh pit
-motocross
-mountain biking
 mounting
 moving
 mowing the lawn
@@ -1756,7 +1746,6 @@ rivalry
 roaring
 roasting
 robbing a bank
-rock climbing
 rock tumbling
 rocket-propelled grenade
 roller skating
@@ -1821,7 +1810,6 @@ scrapbooking
 scolding
 scraping
 scratching
-scuba diving
 sculpture
 Scurrying
 sea shells
@@ -1912,18 +1900,14 @@ sitting in on
 sitting on a $$random_word
 sitting on a throne
 situation
-skateboarding
 Skedaddling
 sketching
-skiing
 skit
 skittering
 skulking
-sky diving
 slacking
 slaking
 slalom
-sledding
 sleeping
 sleeping in
 slide
@@ -1960,7 +1944,6 @@ sniping
 snipping
 snoring
 snow globes
-snowboarding
 snuggling
 so there!
 soap making and soap packaging
@@ -2075,7 +2058,6 @@ suggesting
 summiting
 suplexing
 surfacing
-surfing
 surging
 surprise ending
 surprising
@@ -2189,6 +2171,7 @@ toppling
 Topsy-turvying
 torrent
 tossing
+toting
 touchdown!
 tour
 touting
@@ -2318,7 +2301,6 @@ wafting
 wagering
 waiting
 waiting on
-walking
 walking a tightrope
 wallop
 waltzing
@@ -2332,7 +2314,6 @@ washing the car
 watching
 watching the game
 watching TV
-water skiing
 watercolor painting
 watercolors
 wavering
@@ -2374,7 +2355,6 @@ wicking
 wield
 wiggling
 wilting
-wind surfing
 winding down
 winding up
 wine, beer or spirits tasting

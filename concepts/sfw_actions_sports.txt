@@ -1,0 +1,107 @@
+abseiling
+adventure racing
+alpinism
+ATV riding
+BASE jumping
+BMX riding
+bobsleigh
+bodyboarding
+bodysurfing
+bouldering
+bungee jumping
+canoeing
+canyon swinging
+canyoning
+caving
+cliff diving
+climbing
+coasteering
+cycling
+deep water soloing
+dog sledding
+electric biking
+electric mountain biking
+fell running
+free climbing
+free soloing
+freediving
+freeriding
+freerunning
+hang gliding
+heliskiing
+highlining
+hiking
+horse riding
+hydrofoiling
+ice climbing
+ice diving
+jet boating
+jet skiing
+kayaking
+kite buggying
+kite landboarding
+kitesurfing
+longboarding
+luge
+modern pentathlon
+monoskiing
+motocross
+mountain biking
+mountain karting
+mountainboarding
+mountaineering
+noboarding
+orienteering
+overlanding
+paragliding
+paramotoring
+parascending
+parkour
+potholing
+race car driving
+rally driving
+rappelling
+river bugging
+rock climbing
+sailing
+sandboarding
+scrambling
+scuba diving
+skateboarding
+skeleton sledding
+ski jumping
+ski touring
+skiing
+skijoring
+sky surfing
+skydiving
+slacklining
+sledding
+snorkelling
+snowbiking
+snowboarding
+snowcross
+snowkiting
+snowmobiling
+splitboarding
+stand up paddleboarding
+static line parachuting
+surfing
+surfskiing
+telemark skiing
+tobogganing
+trail running
+trekking
+triathlon
+ultra-distance running
+via ferrata
+wakeboarding
+wakesurfing
+walking
+water skiing
+white-water rafting
+wild swimming
+windsurfing
+wing foiling
+wingsuit flying
+zorbing

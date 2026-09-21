@@ -630,18 +630,25 @@ Asen
 Amiibo
 Animal Crossing: New Horizons
 Ant Farm
+Akatosh
+Aldmeri-Bund
+Alduin
 Apex Legends
 Apu-Meme
 Aragorn
+Arngeir
 Assassin's Creed IV: Black Flag
+Azura (Elder Scrolls)
 Aπόλλων (Apollōn)
 Aφροδίτη (Aphroditē)
 Baby Alive
 Bacchus
 Baldur
+Balgruuf der Große
 Bällebad
 Bandalore
 Barbie
+Bardenkolleg (Elder Scrolls)
 Batman: Arkham City
 Battlefield 2
 Schiffe versenken
@@ -655,6 +662,7 @@ Beyblade
 Big Wheel-Dreirad
 Bilbo Beutlin
 BioShock
+Orden der Klingen
 Bloodborne
 Borderlands 2
 Borderlands
@@ -683,8 +691,11 @@ Chaos
 Chemiebaukasten
 Chinesisches Yo-yo (Diabolo)
 Chrono Trigger
+Volkihar-Clan
 Cleversticks
+Akademie von Winterfeste
 Colorforms
+Gefährten, Kriegergilde
 Control
 Corgi
 Counter-Strike 1.6
@@ -693,10 +704,14 @@ Crayola-Buntstifte
 Creepy Crawlers
 Amor
 Cyberpunk 2077
+Dagoth Ur
 Dagur
 Dam Dolls
+Dunkle Bruderschaft (Elder Scrolls)
 Dark Souls
+Dämmerwacht
 Delling
+Delphine (Elder Scrolls)
 Detektiv
 Diablo II
 Diablo III
@@ -716,6 +731,7 @@ Dota 2
 Drache
 Trinkvogel
 Duck Hunt
+Große Häuser der Dunmer
 Zwerg
 EarthBound
 Easy-Bake-Ofen
@@ -753,6 +769,7 @@ Zip-a-Dee-Doo-Dah
 Erebus
 Erector Set
 Ernie
+Esbern
 Euler's Disk
 Fable 2
 Fallout 2
@@ -795,6 +812,7 @@ Goofy
 Grand Theft Auto IV
 Grand Theft Auto V
 Grand Theft Auto: San Andreas
+Graubärte (Elder Scrolls)
 Gundam
 Gyroskop
 Hacky Sack
@@ -820,10 +838,14 @@ Hogwarts Legacy
 Hollow Knight
 Hot Wheels
 Hot Wheels
+Haus Hlaalu
+Haus Redoran
+Haus Telvanni
 Hula-Hoop (1950er)
 Mensch
 Human: Fall Flat
 Iðunn
+Indoril Nerevar
 Aufblasbar
 Wackelarmfigur
 Inside
@@ -832,12 +854,14 @@ iPod Touch
 Ithaca Kitty
 Jakobsleiter-Spielzeug
 Janus
+Jauffre
 Puzzle
 Jörð
 Journey
 Klettergerüst
 Juno
 Jupiter
+Jurgen Windrufer
 K'Nex
 Kaleidoskop
 Kazoo
@@ -864,6 +888,7 @@ Lofn
 Loki
 Looney Tunes
 Herr der Ringe
+Lorkhan
 Magic 8-Ball
 Magic 8-Ball
 Magic Slate
@@ -873,6 +898,7 @@ Magnetic Poetry
 Magni
 Majorette
 Máni
+Mankar Camoran
 Gottesanbeterin, Scyther-Klauen, Sklera, Chitin
 Mario Kart
 Mario Kart 8 / Deluxe
@@ -888,6 +914,7 @@ Meccano
 Mega Bloks
 Mega Man 3
 Mega Man
+Mehrunes Dagon
 Merkur
 Merlin
 Metal Gear Solid
@@ -899,6 +926,7 @@ Minecraft
 Minerva
 Mini Brands
 Minnie Mouse
+Miraak
 Mobile Suit Gundam
 Gangster
 Monkey Island 2: LeChuck's Revenge
@@ -912,12 +940,14 @@ Miss Piggy
 Muppets
 My Little Pony
 Myndólfur
+Mythische Morgenröte
 N64-Spielkonsole
 Nanna
 Animal Jam
 Nazgûl
 Nefðr
 Neptun
+Nerevarine
 Nerf-Ball
 Nerthus
 NES-Spielkonsole
@@ -932,11 +962,13 @@ Njörð
 Krachmacher
 Nótt
 Nyx
+Odahviing
 Operation
 Ork
 Krümelmonster
 Uranos
 Overwatch
+Paarthurnax
 Pac-Man
 Pepe the Frog
 Perplexus
@@ -1007,12 +1039,14 @@ Schleich
 Sea-Monkeys
 See 'n Say
 Shadow of the Colossus
+Sheogorath
 Shrinky Dinks
 Sid Meier's Civilization IV
 Sif
 Silent Hill 2
 Silly Putty
 SimCity 2000
+Sechstes Haus (Elder Scrolls)
 Sjöfn
 Skaði
 Autorennbahn
@@ -1033,6 +1067,7 @@ Kreisel
 Spirograph
 Splinter Cell: Chaos Theory
 Quietschspielzeug
+Heilige Alessia
 Star Wars
 Star Wars: Knights of the Old Republic
 StarCraft
@@ -1041,6 +1076,7 @@ Steckenpferd
 Sticker
 Stickle Bricks
 STIKFAS
+Sturmmäntel
 Strawberry Shortcake
 Street Fighter II
 Stuart Little
@@ -1060,6 +1096,7 @@ Svalbard
 Schwarzelfen
 Schwert
 System Shock 2
+Talos, der Neunte Göttliche
 Tamagotchi
 Tangram
 Tartarus
@@ -1070,6 +1107,7 @@ Terra
 Terraria
 Tetris
 Tetris - Game Boy / NES
+Thalmor
 Anemoi
 The Elder Scrolls I: Arena
 The Elder Scrolls II: Daggerfall
@@ -1090,6 +1128,7 @@ The Witness
 Theia
 Thief II: The Metal Age
 Thor
+Tiber Septim
 Tickle Me Elmo
 Tinkertoy
 Titanfall 2
@@ -1100,14 +1139,17 @@ Tony Hawk's Pro Skater 2
 Kreisel
 Spielzeugklavier
 Rassel
+Tribunalstempel
 Troll
 Trolls-Spielzeug
 Twister
 Týr
 Tyranide
+Ulfric Sturmmantel
 Ullr
 Uncharted 2: Among Thieves
 Undertale
+Uriel Septim VII.
 USB-Spielzeug
 Váli
 Vár
@@ -1117,6 +1159,7 @@ Vesta
 Victoria
 Víðarr
 View-Master
+Vivec
 Vör
 Vulkan
 Warframe

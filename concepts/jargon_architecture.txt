@@ -1,0 +1,278 @@
+Abacus - column capital slab
+Accolade - arch embellishment
+Aisle
+Anta
+Ante-choir
+Apron - panel below window
+Apse
+Araeostyle
+Araeosystyle
+Arcade
+Arch
+Architectural articulation
+Architectural bracket
+Architectural pier support
+Architectural return edge
+Architrave
+Arris
+Arris rail
+Arrowslit
+Ashlar
+Astragal
+Atlas - support figure
+Atrium
+Attic
+Balconet
+Ball flower
+Baluster
+Bar-stayed girder
+Bargeboard
+Barrel vault
+Bartizan
+Basement
+Basilica
+Batement lights
+Batter - sloping wall face
+Battlement
+Bay window
+Belfry
+Belvedere
+Bench table - stone church seat
+Boss - vault ornament
+Bossage
+Boutant
+Bressummer
+Brickwork bond
+Brise soleil
+Broken pediment
+Building bays
+Building circulation
+Building footprint
+Building wing
+Bullseye window
+Bulwark
+Buttress
+Cancellus
+Cant - angled corner surface
+Cantilever
+Caryatid
+Casement window
+Cauliculus
+Cavetto
+Cella
+Chalcidicum
+Chamfer
+Chancel
+Chandrashala
+Chigi
+Chimera
+Chimney
+Chresmographion
+Cincture - column ring
+Cinquecento
+Cippus
+Classical architectural order
+Cleithral
+Clerestory
+Clock gable
+Coffered ceiling panel
+Colarin
+Column
+Column capital
+Compass - curved carpentry form
+Compluvium
+Corbel
+Corbiesteps
+Corinthian order
+Cornice
+Cross springer
+Cross-wing
+Crypt
+Cryptoporticus
+Cuneus
+Cupola
+Cyma
+Cyrto-style
+Denticulated moulding
+Dentil
+Diastyle
+Diaulos
+Diazoma
+Dikka
+Dipteral
+Distyle in antis
+Dodecastyle
+Doric order
+Dormer
+Dosseret
+Double-depth plan
+Dromos
+Dutch gable
+Eave return
+Egg-and-dart
+Enfilade
+Engaged column
+Engawa
+Entablature
+Entasis
+Ephebeum
+Epinaos
+Estipite
+Estrade
+Eustyle
+Facade
+Fan vault
+Fanlight
+Fascia - board at eaves
+Feretory
+Fillet - moulding band
+Finial
+Flushwork
+Flying buttress
+Flying rib
+Foil - leaf-shaped tracery
+Foot-stall
+Formeret
+Fractable
+Fusuma
+Gable
+Gablets
+Gadrooning
+Galletting
+Gambrel
+Gargoyle
+Garret
+Gauged brickwork
+Gazebo
+Geison
+Geodesic dome
+Gorgerin
+Grotto
+Gutta
+Hip roof
+Hood mould
+Hyphen - connecting building section
+Imperial roof decoration
+Intercolumniation
+Interlaced arches
+Ionic order
+Jagati
+Jettying
+Kamoi
+Katsuogi
+Keystone
+Lacunar
+Latticework
+Lesene
+Lightning rod
+Lintel
+Loculus
+Loggia
+Lunette
+Mandapa
+Mansard roof
+Maqsurah
+Marriage stone
+Mascaron
+Masonry course
+Meander - border ornament
+Metope
+Mihrab
+Minaret
+Modillion
+Monotriglyph
+Moulding
+Mullion
+Muntin
+Muqarnas
+Mutule
+Narthex
+Nave
+Newel
+Niche
+Oculus
+Oillets
+Onion dome
+Orthostates
+Orthostyle
+Ovolo
+Panelling
+Parapet
+Parclose screen
+Parterre
+Pavilion
+Pedestal
+Pediment
+Pelmet
+Pendentive
+Peripteral
+Peristasis
+Peristyle
+Phiale
+Piano nobile
+Pilaster
+Planceer
+Plate girder
+Plinth
+Poppyheads
+Portcullis
+Porte-cochere
+Portico
+Prick post
+Prostyle
+Pseudodipteral
+Pteroma
+Pycnostyle
+Quadriporticus
+Quirk - moulding groove
+Quoin
+Rake - gable edge
+Rear vault
+Ressaut
+Revolving door
+Rib vault
+Ridge board
+Roof comb
+Roof cresting
+Rotunda
+Screens passage
+Scroll ornament
+Shiki-i
+Shoji
+Site-specific architecture
+Skeiling
+Soffit
+Sommer
+Spandrel
+Spere
+Spire
+Splayed wall opening
+Springer - arch voussoir
+Squinch
+Squint - church wall opening
+Stoop - entrance steps
+Sunburst ornament
+Syrian arch
+Systyle
+Taenia
+Throating
+Timber framing
+Trabeated arch
+Tracery
+Transom
+Triglyph
+Truss
+Turret
+Tympanum
+Undercroft
+Ventilation shaft
+Vierendeel truss
+Volute
+Voussoir
+Wall coping
+Widow's walk
+Window light opening
+Window sash
+Zaguan
+Ziggurat
+Zome

@@ -1,0 +1,118 @@
+BGA - Blutgasanalyse
+ACE - Angiotensin-konvertierendes Enzym
+ACTH - adrenocorticotropes Hormon
+ADH - antidiuretisches Hormon
+AED - automatisierter externer Defibrillator
+AFVSS - fieberfrei, Vitalzeichen stabil
+AIDS - erworbenes Immunschwächesyndrom
+AP - alkalische Phosphatase
+ALT - Alanin-Aminotransferase
+ASS - Acetylsalicylsäure; Aspirin
+AST - Aspartat-Aminotransferase
+ATP - Adenosintriphosphat
+BCG - Bacillus Calmette-Guérin
+BIBA - vom Rettungsdienst eingeliefert
+BIBP, BIBPD - von der Polizei eingeliefert
+BLS - Basismaßnahmen der Wiederbelebung
+BMR - Grundumsatz
+RR - Blutdruck
+BPAD - bipolare affektive Störung
+BPS - Borderline-Persönlichkeitsstörung
+BR - Visite am Krankenbett
+KOF - Körperoberfläche
+BUN - Blut-Harnstoff-Stickstoff
+Ca - Calcium
+cAMP - zyklisches Adenosinmonophosphat
+BB - großes Blutbild
+CDC - US-Gesundheitsbehörde für Seuchenkontrolle und Prävention
+CK - Kreatinkinase
+Cl - Chlorid; Chlor
+ZNS - Zentralnervensystem
+CO2 - Kohlendioxid
+COPD - chronisch obstruktive Lungenerkrankung
+CPK - Kreatinphosphokinase
+CK-MB - Kreatinkinase-Isoenzym MB
+HLW - Herz-Lungen-Wiederbelebung
+CSF - Liquor cerebrospinalis
+CT - Computertomographie
+D/W - Glukose in Wasser
+DNA (DNS) - Desoxyribonukleinsäure
+DTP - Diphtherie-Tetanus-Pertussis-Impfstoff
+EZF - Extrazellulärflüssigkeit
+EKG - Elektrokardiogramm
+EEG - Elektroenzephalogramm
+ÖGD - Ösophagogastroduodenoskopie
+HNO - Hals-Nasen-Ohren
+ERCP - endoskopische retrograde Cholangiopankreatikographie
+BSG - Blutsenkungsgeschwindigkeit
+FDA - US-Lebensmittel- und Arzneimittelbehörde
+FUO - Fieber unklarer Ursache
+G6PD - Glukose-6-phosphat-Dehydrogenase
+GFR - glomeruläre Filtrationsrate
+GI - gastrointestinal
+GvHD - Graft-versus-Host-Krankheit
+Hb - Hämoglobin
+HCl - Salzsäure; Hydrochlorid
+HCO3 - Bicarbonat
+Hkt - Hämatokrit
+Hg - Quecksilber
+HIPAA - US-Gesetz zum Schutz von Gesundheitsdaten
+HIV - humanes Immundefizienz-Virus
+HLA - humanes Leukozytenantigen
+HMG-CoA - Hydroxymethylglutaryl-Coenzym A
+IZF - Intrazellulärflüssigkeit
+ITS - Intensivstation
+IgA - Immunglobulin A
+IL - Interleukin
+i.m. - intramuskulär
+INR - International Normalized Ratio
+IPPB - intermittierende Überdruckbeatmung
+i.v. - intravenös
+IVU - Ausscheidungsurographie
+LDH - Laktatdehydrogenase
+LDL-C - LDL-Cholesterin
+MCH - mittleres korpuskuläres Hämoglobin
+MCHC - mittlere korpuskuläre Hämoglobinkonzentration
+MCV - mittleres korpuskuläres Volumen
+Mg - Magnesium
+MI - Myokardinfarkt
+MHK - minimale Hemmkonzentration
+MRT - Magnetresonanztomographie
+Na - Natrium
+NaCl - Natriumchlorid
+NAEON - keine Vorkommnisse über Nacht
+NPO - nüchtern, nichts per os
+NSAR - nichtsteroidales Antirheumatikum
+O2 - Sauerstoff
+OTC - rezeptfrei
+PACO2 - alveolärer Kohlendioxidpartialdruck
+PaCO2 - arterieller Kohlendioxidpartialdruck
+PAO2 - alveolärer Sauerstoffpartialdruck
+PaO2 - arterieller Sauerstoffpartialdruck
+PAS - Periodsäure-Schiff-Reaktion
+pCO2 - Kohlendioxidpartialdruck
+PCR - Polymerase-Kettenreaktion
+PET - Positronen-Emissions-Tomographie
+pH - Wasserstoffionenkonzentration
+PMN - polymorphkerniger Leukozyt
+pO2 - Sauerstoffpartialdruck
+PPD - gereinigtes Tuberkulin
+PT - Prothrombinzeit (Quick-Wert)
+PTT - partielle Thromboplastinzeit
+RA - rheumatoide Arthritis
+Ery - rotes Blutkörperchen (Erythrozyt)
+RNA (RNS) - Ribonukleinsäure
+SaO2 - arterielle Sauerstoffsättigung
+SBE - subakute bakterielle Endokarditis
+s.c. - subkutan
+SLE - systemischer Lupus erythematodes
+SSRI - selektiver Serotonin-Wiederaufnahmehemmer
+Tbc - Tuberkulose
+TEBK - totale Eisenbindungskapazität
+TPE - totale parenterale Ernährung
+URI - Infekt der oberen Atemwege
+URTI - Infektion des oberen Respirationstrakts
+HWI - Harnwegsinfekt
+Leuko - weißes Blutkörperchen (Leukozyt)
+WHO - Weltgesundheitsorganisation
+WR - Stationsvisite

@@ -17,6 +17,7 @@ Kronleuchter
 Klemme
 Behälter
 Rinde
+Tagesdecke
 Coupé
 Querstrebe
 Kruke
@@ -34,6 +35,7 @@ Hochdruckgebiet
 Anrichte
 Kinnlappen
 Jute
+Eisschrank
 Kilim
 Bausatz
 Laterne
@@ -127,6 +129,7 @@ Schraubenschlüssel
 Munitionskiste
 Tasche
 Becken
+Brieftasche
 Bursa
 Käfigbecher
 Kandelaber
@@ -145,6 +148,7 @@ Beutel
 Pyxis
 Stasis-Tank
 Thermoskanne
+Jutesack
 Vase
 Waffel
 Schild
@@ -190,7 +194,9 @@ Maser
 Sackleinen
 Leinwand
 Gusseisen
+Priem
 Ton
+Petroleum
 Treibholz
 Ei
 Stoff
@@ -198,6 +204,7 @@ Filz
 Wabe
 Elfenbein
 Jaspis
+Lampenöl
 Leder
 Schnittholz
 Glimmer
@@ -262,10 +269,12 @@ Klettergerüst
 Mechanismus
 Gitter
 Metallformen
+Zaunlatten
 Portal
 Druckpresse
 Spule
 Stempel
+Grabstein
 Boje
 Treibholz
 Hufeisen
@@ -305,6 +314,7 @@ Makramee
 Musselin
 Polyester
 Quilt
+Radar
 Seide
 Haarnetz
 Nierenfett
@@ -565,7 +575,6 @@ Königin
 Queen-Anne-Stil
 Queen-Anne-Türme
 Quilt
-Radar
 Reflexion im [[Seitenspiegel,Frontscheibe,Fenster,Brille]] von $$random_word
 Nieten
 Bergkristall (klarer Quarz)

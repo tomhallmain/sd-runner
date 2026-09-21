@@ -102,6 +102,7 @@ azure # deep, sky-blue color
 celeste # sky blue
 #    cornflower # medium-to-light blue, named after the flower
 glaucous # hazy, grayish-blue, like the foggy sheen on plums and grapes
+haint blue # pale blue-green porch-ceiling paint, from the Appalachian and Gullah belief that it wards off haints
 indigo # deep purplish-blue, named after the plant used to make dye
 mazarine # deep blue color used in textiles and ceramics
 phthalo # blue-green, from the family of synthetic pigments made from copper phthalocyanine

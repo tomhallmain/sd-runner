@@ -1,0 +1,118 @@
+ABG - arterial blood gas
+ACE - angiotensin-converting enzyme
+ACTH - adrenocorticotropic hormone
+ADH - antidiuretic hormone
+AED - automated external defibrillator
+AFVSS - Afebrile, vital signs stable
+AIDS - acquired immunodeficiency syndrome
+ALP - alkaline phosphatase
+ALT - alanine aminotransferase
+ASA - acetylsalicylic acid; aspirin
+AST - aspartate aminotransferase
+ATP - adenosine triphosphate
+BCG - bacille Calmette-Guérin
+BIBA - brought in by ambulance
+BIBP, BIBPD - brought in by police
+BLS - basic life support
+BMR - basal metabolic rate
+BP - blood pressure
+BPAD - bipolar affective disorder
+BPD - borderline personality disorder
+BR - bedside rounds
+BSA - body surface area
+BUN - blood urea nitrogen
+Ca - calcium
+CAMP, cAMP - cyclic adenosine monophosphate
+CBC - complete blood count
+CDC - Centers for Disease Control and Prevention
+CK - creatine kinase
+Cl - chloride; chlorine
+CNS - central nervous system
+CO2 - carbon dioxide
+COPD - chronic obstructive pulmonary disease
+CPK - creatine phosphokinase
+CPK-MB - creatine phosphokinase muscle band isoenzyme
+CPR - cardiopulmonary resuscitation
+CSF - cerebrospinal fluid
+CT - computed tomography
+D/W - dextrose in water
+DNA - deoxyribonucleic acid
+DTP - diphtheria-tetanus-pertussis toxoids/vaccine
+ECF - extracellular fluid
+ECG - electrocardiogram
+EEG - electroencephalogram
+EGD - esophagogastroduodenoscopy
+ENT - ear nose and throat
+ERCP - endoscopic retrograde cholangiopancreatography
+ESR - erythrocyte sedimentation rate
+FDA - U.S. Food and Drug Administration
+FUO - fever of unknown origin
+G6PD - glucose-6-phosphate dehydrogenase
+GFR - glomerular filtration rate
+GI - gastrointestinal
+GVHD - graft-versus-host disease
+Hb - hemoglobin
+HCl - hydrochloric acid; hydrochloride
+HCO3 - bicarbonate
+Hct - hematocrit
+Hg - mercury
+HIPAA - Health Insurance Portability and Accountability Act
+HIV - human immunodeficiency virus
+HLA - human leukocyte antigen
+HMG-CoA - hydroxymethyl glutaryl coenzyme A
+ICF - intracellular fluid
+ICU - intensive care unit
+IgA - immunoglobulin A
+IL - interleukin
+IM - intramuscular(ly)
+INR - international normalized ratio
+IPPB - intermittent positive pressure breathing
+IV - intravenous(ly)
+IVU - intravenous urography
+LDH - lactic dehydrogenase
+LDLc - low-density lipoprotein cholesterol
+MCH - mean corpuscular hemoglobin
+MCHC - mean corpuscular hemoglobin concentration
+MCV - mean corpuscular volume
+Mg - magnesium
+MI - myocardial infarction
+MIC - minimum inhibitory concentration
+MRI - magnetic resonance imaging
+Na - sodium
+NaCl - sodium chloride
+NAEON - no adverse events overnight
+Npo - nothing by mouth/nil by mouth
+NSAID - nonsteroidal anti-inflammatory drug
+O2 - oxygen
+OTC - over-the-counter
+PAco2 - alveolar carbon dioxide partial pressure
+Paco2 - arterial carbon dioxide partial pressure
+PAo2 - alveolar oxygen partial pressure
+Pao2 - arterial oxygen partial pressure
+PAS - periodic acid-Schiff
+Pco2 - carbon dioxide partial pressure
+PCR - polymerase chain reaction
+PET - positron emission tomography
+pH - hydrogen ion concentration
+PMN - polymorphonuclear leukocyte
+Po2 - oxygen partial pressure
+PPD - purified protein derivative
+PT - prothrombin time
+PTT - partial thromboplastin time
+RA - rheumatoid arthritis
+RBC - red blood cell
+RNA - ribonucleic acid
+Sao2 - arterial oxygen saturation
+SBE - subacute bacterial endocarditis
+sc - subcutaneous(ly)
+SLE - systemic lupus erythematosus
+SSRI - selective serotonin reuptake inhibitor
+TB - tuberculosis
+TIBC - total iron-binding capacity
+TPN - total parenteral nutrition
+URI - upper respiratory infection
+URTI - upper respiratory tract infection
+UTI - urinary tract infection
+WBC - white blood cell
+WHO - World Health Organization
+WR - ward round

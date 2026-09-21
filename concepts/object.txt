@@ -21,6 +21,7 @@ chandelier
 clamp
 container
 cortex
+counterpane
 coupe
 crosspiece
 cruet
@@ -38,6 +39,7 @@ high pressure area
 hutch
 jowl
 jute
+kelvinator
 kilim
 kit
 lantern
@@ -135,6 +137,7 @@ wrench
 ammo box
 bag
 basin
+billfold
 burse
 cage cup
 candelabrum
@@ -153,6 +156,7 @@ pouch
 pyx
 stasis tank
 thermos
+tow sack
 vase
 wafer
 
@@ -206,7 +210,9 @@ burl
 burlap
 canvas
 cast iron
+chaw of tobacco
 clay
+coal oil
 driftwood
 egg
 fabric
@@ -214,6 +220,7 @@ felt
 honeycomb
 ivory
 jasper
+lamp oil
 leather
 lumber
 mica
@@ -286,10 +293,12 @@ jungle gym
 mechanism
 mesh
 metal molds
+palings
 portal
 printing press
 spool
 stamp
+tombrock
 
 # Natural objects
 buoy
@@ -335,6 +344,7 @@ macramé
 muslin
 polyester
 quilt
+radar
 silk
 snoods
 suet
@@ -608,7 +618,6 @@ Queen
 Queen Anne style
 Queen Anne towers
 quilt
-radar
 reflection in the [[side,windshield,window,glasses]] of $$random_word
 rivets
 rock crystal (clear quartz)

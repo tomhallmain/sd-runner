@@ -25,6 +25,7 @@ adrift
 affable
 affirmative
 age-old
+airish
 akin
 akin to $$random_word
 aligned with $$random_word
@@ -105,6 +106,7 @@ brand new
 brash
 brassy
 brazen
+brickle
 brilliant
 broadbrimmed
 bucolic
@@ -116,6 +118,7 @@ callous
 cantankerous
 capricious
 certain
+chancy
 charade
 charred
 chatlyant
@@ -287,6 +290,7 @@ gallant
 galore
 garish
 gaudy
+gaumed up
 gaunt
 generative
 generic
@@ -553,6 +557,7 @@ protozoic
 pursuant to $$random_word
 quadratic
 quaint
+quare
 querulous
 rare
 raspy
@@ -660,6 +665,7 @@ short-tempered
 shrill
 sight for sore eyes
 sight unseen
+sigogglin
 sincere
 single file
 skinny

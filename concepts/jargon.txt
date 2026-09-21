@@ -770,7 +770,6 @@ CC - Compiler-Compiler
 CC - Cooperative coevolution
 CC - Creative Commons license
 CCA - Canonical Correlational Analysis
-CCD - Charge-Coupled Device
 CCG - Constaint composite graph
 CCI - Co-Channel Interference
 CCITT (obs.) - Standards organization that has been replaced by ITU-T
@@ -1042,7 +1041,6 @@ CSS - Content-Scramble System
 CSS - Cross-Site Scripting
 CSU/DSU - Channel service unit / data service unit
 CSV - Comma-Separated Values
-CT - Computerized Tomography
 CTAN - Comprehensive TeX Archive Network
 CTC - Connectionist Temporal Classification
 CTCP - Client-To-Client Protocol
@@ -1376,7 +1374,6 @@ EDP - Energy–delay product
 EDS - Electronic Document System
 EDSAC - Electronic Delay Storage Automatic Calculator
 EDVAC - Electronic Discrete Variable Automatic Computer
-EEG - Electroencephalography
 EEL - Extensible Embeddable Language
 EEPROM - Electronically Erasable Programmable Read-Only Memory
 EFA - Exploratory Factor Analysis
@@ -2138,7 +2135,6 @@ ITU-R - International Telecommunication Union Radiocommunication Standardization
 ITU-T - International Telecommunication Union Telecommunication Standardization Sector
 ITU - International Telecommunication Union
 IV - Initialization Vector
-IV - Intravenous therapy
 IVCR - Interactive Virtual Classroom
 IVRS - Interactive Voice Response System
 IWD algorithm - Intelligent water drops algorithm
@@ -2357,7 +2353,6 @@ LIB - Library
 LIBLINEAR - Library for Large Linear Classification
 LICQ - Linear independence constraint qualification
 LIDA - Learning Intelligent Distribution Agent
-LIDAR - Light detection and ranging, Light Radar
 LIF - Low Insertion Force
 LIFO - Last In First Out
 lift - Lift
@@ -2588,7 +2583,6 @@ MED - Management of External Data
 MEG - Magnetoencephalography
 MEL - Maya Embedded Language
 MELL - Multiplicative-Exponential Linear Logic
-MEMS - Microelectromechanical systems
 MER - Modulation error ratio
 Mercury - Mercury
 Mersenne Twister
@@ -2700,7 +2694,6 @@ MOP - Meta-Object Protocol
 Mortran - Mortran
 MOS - Mean opinion score
 MOS - Metal-Oxide Semiconductor
-MOSFET - Metal-Oxide Semiconductor Field Effect Transistor
 MOTD - Message Of The Day
 Mouse - Mouse programming language
 MOV - Apple QuickTime Multimedia File
@@ -2723,7 +2716,6 @@ MQTT - Message Queuing Telemetry Transport
 MRAM - Magnetoresistive random-access memory
 MRAR - Multi-Relation Association Rules
 MRC - Maximal-ratio combining
-MRI - Magnetic Resonance Imaging
 MRS, NMR - Nuclear Magnetic Resonance Spectroscopy
 MS-DOS - Microsoft Disk Operating System
 MS - Memory Stick
@@ -3146,7 +3138,6 @@ Perl 5 - Perl 5
 perm - Permanent
 Permutation
 PESQ - Perceptual Evaluation of Speech Quality
-PET - Positron Emission Tomography
 Petri net
 PFA - Please Find Attachment
 PG - Peripheral Gateway
@@ -3829,7 +3820,6 @@ Solidity - Solidity
 Soln - Solution
 SoM - System on module
 SOM, SOFM - Self-Organizing (Feature) Map
-Sonar - Sound navigation ranging
 SONET - Synchronous optical networking
 SOPA - Stop Online Piracy Act
 SOPHAEROS - Knowledge of Aerosols
@@ -4356,7 +4346,6 @@ WSCI - Web Services Choreography Interface
 WSDL - Web Services Description Language
 WSFL - Web Services Flow Language
 WSJF - Weighted shortest job first
-WSN - Wireless Sensor Network
 WTA - Weapon target assignment problem
 WUSB - Wireless Universal Serial Bus
 WWAN - Wireless Wide Area Network

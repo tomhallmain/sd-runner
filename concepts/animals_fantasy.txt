@@ -30,39 +30,79 @@ phylakes
 unicorns
 witches
 wizards
+Abarimon
+Abchanchu
 abominable snowman
+Aedra
+Al-mi'raj
+alebrije
+alerion
 alien
+allocamelus
+Altmer
 ammit
+amphiptere
 anansi
 angel
+anguiped
 anubis
+Anzu
 arachne
+Argonian
+Arimaspian
+Ashlander
+Astomi
 aswang
+Aufhocker
+Ayleid
+Bahkauv
 basilisk
 bennu
 bigfoot
+Bigorne
+bird-headed man
+Blemmyes
 bogeyman
 boggart
+bonnacon
+Bosmer
 bronze dragon
 brownie
+bunyip
 calydonian boar
+catoblepas
 centaur
 cerberus
 changeling
 charybdis
 cherub
+Chicheface
 chimera
+Chèvre d'Or
+cinnamolgus
 clown
 cobra
 cockatrice
 crocotta
 cyclops
+cynocephalus
+Daedra
+daeva
 daimon
 deity
+demon
+devil
+Dilldappen
+dinosauroid
 direwolf
 divine being
 drakon
+drollery
 drow
+Dunmer
+Dwemer
+Dzunukwa
+each uisge
 eclipse dragon
 efreet
 elder thing
@@ -73,67 +113,146 @@ erinyes
 fairy
 fallen angel
 fates
+faun
 fenrir
 fire dragon
 flicker
+four living creatures
+Fulehung
 gargoyle
+genie
 ghoul
 giant
 goblin
 goddess
 godzilla
+golem
 gorgon
+Graoully
+gremlin
 griffin
+gryllos
 hag
+haint
 harpy
 hatchling
+head with legs
 hecatoncheires
+Hejkal
+hippogriff
 hobgoblin
 homunculus
 horla
+Huldra
 hydra
+hydrus
 ice dragon
 imp
 incubus
+jabberwocky
 jackalope
 jinn
+kami
 kelpie
+Khajiit
+khyah
+kobold
+Kokopelli
 kraken
 kudzu
+Kui
+Kumbhanda
+Kusarikku
 lamashtu
 lamia
+Lange Wapper
+leogryph
 leprechaun
 leviathan
 lich
+liver bird
 loch ness monster
 manticore
+Manussiha
+marid
 medusa
 mermaid
+milk hare
 mimic
 monster
 mothman
 mummy
+Munaciello
+myrmecoleon
 naga
+Nahřbetskoč
+nix
 nymph
 ogre
 oni
 ork
+Orsimer
+Pakhangba
+Panotti
+parandrus
+pari
+peryton
+Pettenedda
+Pombero
 pooka
+Pyinsarupa
+qareen
+qilin
 quasit
+questing beast
 rakshasa
 rat king
 reaper
+Redguard
+Riekling
 roc
+Rübezahl
+Salige
 sasquatch
 satyr
+sea hog
+sea monster
 selkie
+seps
 shaman
+shapeshifter
+shedu
+Sheikh of the Sea
 skeleton
+slime monster
+snow lion
+Sottai
 specter
+taniwha
+tatzelwurm
 tentacle monster
+tetramorph
+tooth worm
+Trauco
 treant
+undead
+Valraven
+Vegetable Lamb of Tartary
+vodník
+vodyanoy
+Vogel Gryff
+wampus cat
+wendigo
+wild haggis
+wild man
+will-o'-the-wisp
 witch
+Wolpertinger
 wraith
 wyrm
+Xiezhi
+Yagim
+yale
 yowie
 yuki-onna
+Zouyu

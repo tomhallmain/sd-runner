@@ -1,0 +1,107 @@
+Abseilen
+Adventure Racing
+Alpinismus
+Quadfahren
+BASE-Jumping
+BMX-Fahren
+Bobfahren
+Bodyboarding
+Bodysurfen
+Bouldern
+Bungee-Jumping
+Kanufahren
+Canyon-Swing
+Canyoning
+Höhlenerkundung
+Klippenspringen
+Klettern
+Coasteering
+Radfahren
+Deep-Water-Soloing
+Hundeschlittenfahren
+E-Bike-Fahren
+E-Mountainbiken
+Bergrennen
+Freiklettern
+Free Solo Klettern
+Apnoetauchen
+Freeriden
+Freerunning
+Drachenfliegen
+Heliskiing
+Highlining
+Wandern
+Reiten
+Hydrofoilen
+Eisklettern
+Eistauchen
+Jetbootfahren
+Jetski fahren
+Kajakfahren
+Kitebuggy fahren
+Kite-Landboarding
+Kitesurfen
+Longboarden
+Rennrodeln
+moderner Fünfkampf
+Monoskifahren
+Motocross
+Mountainbiken
+Bergkartfahren
+Mountainboarden
+Bergsteigen
+Noboarding
+Orientierungslauf
+Overlanding
+Gleitschirmfliegen
+Motorschirmfliegen
+Parasailing
+Parkour
+Höhlenklettern
+Autorennen fahren
+Rallyefahren
+Abseilen am Seil
+River Bugging
+Felsklettern
+Segeln
+Sandboarding
+Kraxeln
+Gerätetauchen
+Skateboarden
+Skeletonfahren
+Skispringen
+Skitourengehen
+Skifahren
+Skijöring
+Skysurfen
+Fallschirmspringen
+Slacklinen
+Schlittenfahren
+Schnorcheln
+Snowbiken
+Snowboarden
+Snowcross
+Snowkiten
+Schneemobilfahren
+Splitboarden
+Stand-up-Paddling
+Fallschirmspringen mit automatischer Auslösung
+Surfen
+Surfskifahren
+Telemarken
+Rodeln
+Trailrunning
+Trekking
+Triathlon
+Ultralauf
+Klettersteiggehen
+Wakeboarden
+Wakesurfen
+Spazierengehen
+Wasserskifahren
+Wildwasserrafting
+Wildschwimmen
+Windsurfen
+Wingfoilen
+Wingsuit-Fliegen
+Zorbing

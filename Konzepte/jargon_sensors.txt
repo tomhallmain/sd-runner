@@ -1,0 +1,354 @@
+ABS-Sensor
+Beschleunigungsmesser
+akustisches Radiometer
+Aktinometer
+Aktivpixelsensor
+Luftmengenmesser
+Luftschadstoffsensor
+Luft-Kraftstoff-Verhältnismesser
+Airbag-Sensor
+Fahrtmesser
+Alarmsensor
+Höhenmesser
+Anemometer
+winkelempfindliches Pixel
+Drehratensensor
+Rasterkraftmikroskop
+atomarer Gravitationswellen-Interferometersensor
+künstlicher Horizont
+Tonabnehmer
+Getriebedrehzahlsensor
+Auxanometer
+rückseitig belichteter Sensor
+Barograph
+Barometer
+Bettnässer-Alarm
+Bhangmeter
+Bimetallstreifen
+Biochip
+BioFET biologischer Feldeffekttransistor
+Biosensor
+Totwinkel-Assistent
+Bolometer
+Ladedruckanzeige
+Rohrfedermanometer
+Bremsdrucksensor
+Alkoholtester
+Blasenkammer
+Kalorimeter
+Nockenwellensensor
+Kapazitätssonde
+kapazitiver Wegsensor
+Kohlendioxidsensor
+Kohlenmonoxidmelder
+Kohlepasteelektrode
+katadioptrischer Sensor
+Wärmetönungssensor
+Wolkenhöhenmesser
+CCD-Sensor
+chemischer Feldeffekttransistor
+Chemiresistor
+Chemorezeptor
+Nebelkammer
+CMOS-Sensor
+Kolorimeter
+Kontaktbildsensor
+Kurbelwellensensor
+kryogener Teilchendetektor
+Bordsteinfühler
+Stromsensor
+Zylinderkopftemperaturanzeige
+Daly-Detektor
+Heißläuferortungsanlage
+Tiefenmesser
+Taualarm
+digitaler Sensor
+Auslenkungsempfänger
+Wegsensor
+Doppler-Radar
+Erdsensor
+elektrooptischer Sensor
+elektrochemischer Ermüdungsrisssensor
+elektrochemischer Gassensor
+Elektrolyt-Isolator-Halbleiter-Sensor
+elektromechanische Folie
+Elektronenvervielfacher
+elektronische Nase
+elektronische Zunge
+Elektroskop
+Kühlmitteltemperatursensor
+Kurbelgehäusedrucksensor
+Abgastemperatursensor
+Fabry-Pérot-Interferometer
+Faraday-Becher
+Faser-Bragg-Gitter
+faseroptischer Sensor
+Feinsteuerungssensor
+Fischzähler
+Flammenmelder
+Flachbilddetektor
+Biegesensor
+Durchflusssensor
+Fluoreszenz-Chloridsensor
+Fluxgate-Kompass
+Kraftmesser
+Kraftsensor
+Freifallsensor
+Frequenzbereichssensor
+Tankfüllstandsgeber
+Kraftstoffdrucksensor
+Galvanometer
+Gardon-Wärmestrommesser
+Gasdetektor
+Gaszähler
+Gasionisationsdetektor
+Geigerzähler
+Geiger-Müller-Zählrohr
+Geophon
+Glasbruchmelder
+Golay-Zelle
+Gravimeter
+Bodengeschwindigkeitsradar
+Bodenradar
+Gyroskop
+Kreiselsensor
+Hall-Sensor
+Hall-Sonde
+Herzschlagsensor
+Wärmestromsensor
+holografischer Sensor
+Hakenpegel-Verdunstungsmesser
+Horizontsensor
+Glühkathoden-Ionisationsvakuummeter
+Feuchtesensor
+Kohlenwasserstoff-Taupunktanalysator
+Wasserstoffsensor
+Schwefelwasserstoffsensor
+Aräometer
+Hydrophon
+Hygrometer
+Hyperspektralsensor
+Bildsensor
+Aufprallsensor
+Neigungsmesser
+Inkrementalgeber
+induktiver Sensor
+Trägheitsnavigationssystem
+Inertialreferenzeinheit
+Infrarot-Punktsensor
+Infrarotsensor
+Infrarotthermometer
+piezoelektrischer Sensor mit integrierter Schaltung
+intelligenter Sensor
+ionenselektive Elektrode
+Ionisationskammer
+Ionisationsvakuummeter
+IRIS interferometrischer Reflexions-Bildsensor
+ISFET ionensensitiver Feldeffekttransistor
+Detektor mit kinetischer Induktivität
+Klopfsensor
+Labor auf dem Chip
+Laserstrahlprofiler
+Laserentfernungsmesser
+Laser-Oberflächengeschwindigkeitsmesser
+Blattsensor
+Füllstandssensor
+LIDAR-Lichtortung
+Lichtsensor
+lichtadressierbarer potentiometrischer Sensor
+Linearmaßstab
+linearer Differentialtransformator
+kapazitiver Flüssigkeitsneigungsmesser
+Wägezelle
+LORROS Langstrecken-Aufklärungs- und Beobachtungssystem
+Lysimeter
+Machmeter
+Magnetanomaliedetektor
+Magnetkompass
+magnetische Füllstandsanzeige
+Magnetsensor
+Magnetometer
+MAP-Saugrohrdrucksensor
+Luftmassenmesser
+McLeod-Vakuummeter
+MEMS-Magnetfeldsensor
+Metalldetektor
+MHD magnetohydrodynamischer Sensor
+Mikrobolometer
+mikroelektromechanische Systeme
+Mikrofon
+Mikrowellen-Chemiesensor
+Mikrowellenradiometer
+Millimeterwellenscanner
+molekularer Sensor
+Mondsensor
+MOSFET Metall-Oxid-Halbleiter-Feldeffekttransistor
+Bewegungsmelder
+MRT-Scanner
+Nano-Tetherball-Sensor
+Nanosensor
+Strahlungsbilanzmesser
+Nichols-Radiometer
+Stickoxidsensor
+nichtdispersiver Infrarotsensor
+nukleares Dichtemessgerät
+Präsenzmelder
+Kilometerzähler
+Ölstandssensor
+Öldrucksensor
+Olfaktometer
+omnidirektionale Kamera
+optischer Positionssensor
+Optode
+organoleptischer Sensor
+Biegeschwinger
+Lambdasonde
+Ozonmessgerät
+Einparksensor
+Teilchendetektor
+Passiv-Infrarot-Sensor
+Pellistor
+permanenter Bohrlochmesser
+PET-Scanner
+pH-Glaselektrode
+Phosphor-Thermometrie
+Photodetektor
+Photodiode
+Lichtschranke
+Photoionisationsdetektor
+Photomultiplier
+Photomultiplierröhre
+Photowiderstand
+Lichtschalter
+Phototransistor
+Photozelle
+Piezosensor
+piezokapazitiver Drucksensor
+piezoelektrischer Beschleunigungsmesser
+piezoelektrischer Sensor
+Piezometer
+Pirani-Vakuummeter
+Staudrucklog
+Pitotrohr
+planarer Hall-Sensor
+Lügendetektor
+positionsempfindlicher Detektor
+Positionssensor
+potentiometrischer Sensor
+Manometer
+Drucksensor
+Proportionalzählrohr
+Näherungssensor
+Psychrometer
+Push-Broom-Scanner
+Pyranometer
+Pyrgeometer
+Pyrometer
+Quantensensor
+Quarzthermometer
+Radar
+Radarpistole
+Radarsensor
+Radarverfolger
+Funkpeiler
+Regenmesser
+Regensensor
+Redoxelektrode
+Reedschalter
+Widerstandsthermometer
+Ringlaserkreisel
+Drehgeber
+Drehdifferentialtransformator
+Satellitensensor
+Raster-SQUID-Mikroskop
+Szintillationszähler
+Szintillator
+Szintillometer
+Seismometer
+Drehmelder
+Halbleiterdetektor
+Sensorarray
+Sensorgitter
+Sensorknoten
+Sextant
+Shack-Hartmann-Wellenfrontsensor
+Stoßdatenschreiber
+Stoßdetektor
+Silizium-Bandlücken-Temperatursensor
+Einzelphotonen-Lawinendiode
+Smartdust
+Rauchmelder
+SNOTEL-Schneedecken-Telemetrie
+Schneepegel
+Softsensor
+Bodenfeuchtesensor
+Sonar
+Schallortungsgerät
+Geschwindigkeitssensor
+Tachometer
+SQUID supraleitende Quanteninterferenzeinheit
+SSIES Special Sensors Ions Electrons Scintillation
+SSM/I Special Sensor Microwave Imager
+SSMIS Special Sensor Microwave Imager Sounder
+Focal-Plane-Array
+Dehnungsmessstreifen
+Flusspegel
+Dehnungssensor
+Streifenlicht-3D-Scanner
+Ortungsgerät
+Sudden Motion Sensor
+Sonnensensor
+supraleitender Nanodraht-Einzelphotonendetektor
+Radar mit synthetischer Apertur
+Drehzahlmesser
+taktiler Sensor
+Mikrowaage mit schwingendem konischem Element
+Temperaturanzeige
+Prüflampe
+Thermistor
+Thermoelement
+Thermolumineszenzdosimeter
+Thermometer
+Thermosäulen-Lasersensor
+Dünnschichtdickenmessgerät
+Drosselklappensensor
+Einweg-Kantensensor
+Gezeitenpegel
+Neigungssensor
+Zeitdruckmesser
+Time-of-Flight-Kamera
+Reifendrucksensor
+Drehmomentsensor
+Berührungsschalter
+Messwandler
+Übergangskantensensor
+Getriebeöltemperatursensor
+Triangulationssensor
+TriDAR Triangulations- und Rendezvous-Docking-Radar
+Turbinendrehzahlsensor
+Wendekoordinator
+Ultrabreitbandradar
+Ultraschallsensor
+Ultraschall-Dickenmessgerät
+unbemannter Bodensensor
+Reluktanzsensor
+Variometer
+Fahrzeuggeschwindigkeitssensor
+Schnelleempfänger
+Vibrationskreisel
+Videosensor
+Viskosimeter
+Photonenzähler für sichtbares Licht
+visuelles Sensornetzwerk
+Spannungsprüfer
+Wasserzähler
+Wasser-im-Kraftstoff-Sensor
+Wellenfrontsensor
+Wetterradar
+Wheatstonesche Messbrücke
+Raddrehzahlsensor
+Drahtkammer
+Datenhandschuh
+drahtloses Sensornetzwerk
+Gierratensensor
+Zinkoxid-Nanostäbchensensor

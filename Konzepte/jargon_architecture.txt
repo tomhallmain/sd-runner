@@ -1,0 +1,278 @@
+Abakus - Deckplatte des Kapitells
+Akkolade - Bogenverzierung
+Seitenschiff
+Ante
+Vorchor
+Brüstung - Paneel unter dem Fenster
+Apsis
+Aräostylos
+Aräosystylos
+Arkade
+Bogen
+Architektonische Gliederung
+Architektonische Konsole
+Pfeilerstütze
+Rücksprungkante
+Architrav
+Grat
+Kantholzriegel
+Schießscharte
+Quadermauerwerk
+Astragal
+Atlant - Stützfigur
+Atrium
+Attika
+Französischer Balkon
+Kugelblume
+Baluster
+Stabverspannter Träger
+Ortbrett
+Tonnengewölbe
+Scharwachtturm
+Untergeschoss
+Basilika
+Maßwerkfenster
+Anzug - geneigte Wandfläche
+Zinnenkranz
+Erkerfenster
+Glockenstube
+Belvedere
+Steinbank - steinerne Kirchenbank
+Schlussstein - Gewölbeschmuck
+Bossenwerk
+Strebebogen
+Sturzbalken
+Mauerverband
+Sonnenschutzblende
+Gesprengter Giebel
+Gebäudejoche
+Erschließung
+Grundfläche
+Gebäudeflügel
+Ochsenauge
+Bollwerk
+Strebepfeiler
+Cancellus
+Fase - abgeschrägte Eckfläche
+Auskragung
+Karyatide
+Flügelfenster
+Cauliculus
+Hohlkehle
+Cella
+Chalcidicum
+Abfasung
+Altarraum
+Chandrashala
+Chigi
+Chimäre
+Schornstein
+Chresmographion
+Säulenring - Schaftring
+Cinquecento
+Cippus
+Klassische Säulenordnung
+Kleithral
+Obergaden
+Uhrgiebel
+Kassettendecke
+Säulenhals
+Säule
+Säulenkapitell
+Bogenholz - gekrümmte Zimmermannsform
+Compluvium
+Kragstein
+Treppengiebel
+Korinthische Ordnung
+Kranzgesims
+Kreuzrippenanfänger
+Querflügel
+Krypta
+Kryptoportikus
+Cuneus
+Kuppel
+Kyma
+Kyrtostylos
+Zahnschnittgesims
+Zahnschnitt
+Diastylos
+Diaulos
+Diazoma
+Dikka
+Dipteros
+Distylos in antis
+Dodekastylos
+Dorische Ordnung
+Dachgaube
+Kämpferaufsatz
+Zweibündiger Grundriss
+Dromos
+Holländischer Giebel
+Traufenrücksprung
+Eierstab
+Enfilade
+Dreiviertelsäule
+Engawa
+Gebälk
+Entasis
+Ephebeion
+Epinaos
+Estípite
+Estrade
+Eustylos
+Fassade
+Fächergewölbe
+Oberlicht
+Traufbrett - Brett an der Traufe
+Reliquienkapelle
+Plättchen - Leistenband
+Kreuzblume
+Flushwork
+Strebebogen mit Strebepfeiler
+Freirippe
+Pass - blattförmiges Maßwerk
+Säulenfuß
+Schildrippe
+Giebelabdeckung
+Fusuma
+Giebel
+Giebelchen
+Godronierung
+Galletting
+Mansarddach mit Knick
+Wasserspeier
+Dachkammer
+Maßgenaues Ziegelmauerwerk
+Gartenpavillon
+Geison
+Geodätische Kuppel
+Gorgerin
+Grotte
+Gutta
+Walmdach
+Überschlaggesims
+Zwischenbau - verbindender Gebäudeteil
+Kaiserliche Dachzier
+Interkolumnium
+Verschränkte Bögen
+Ionische Ordnung
+Jagati
+Vorkragung
+Kamoi
+Katsuogi
+Scheitelstein
+Lacunar
+Gitterwerk
+Lisene
+Blitzableiter
+Türsturz
+Loculus
+Loggia
+Lünette
+Mandapa
+Mansarddach
+Maqsura
+Hochzeitsstein
+Maskaron
+Mauerschicht
+Mäander - Bordürenornament
+Metope
+Mihrab
+Minarett
+Konsolgesims
+Monotriglyph
+Profilleiste
+Fensterpfosten
+Sprosse
+Muqarnas
+Mutulus
+Narthex
+Mittelschiff
+Treppenpfosten
+Nische
+Okulus
+Schießscharten-Rundloch
+Zwiebelkuppel
+Orthostaten
+Orthostylos
+Viertelstab
+Täfelung
+Brüstungsmauer
+Chorschranke
+Parterre
+Pavillon
+Postament
+Giebeldreieck
+Blende
+Pendentif
+Peripteros
+Peristasis
+Peristyl
+Phiale
+Piano nobile
+Pilaster
+Kranzleistenunterseite
+Blechträger
+Plinthe
+Wangenaufsatz
+Fallgatter
+Wagendurchfahrt
+Portikus
+Stuhlsäule
+Prostylos
+Pseudodipteros
+Pteroma
+Pyknostylos
+Quadriportikus
+Rille - Profilkerbe
+Eckquader
+Ortgang - Giebelkante
+Hintergewölbe
+Risalit
+Drehtür
+Rippengewölbe
+Firstbrett
+Dachkamm
+Firstkamm
+Rotunde
+Gang hinter der Schranke
+Rankenornament
+Shiki-i
+Shoji
+Ortsspezifische Architektur
+Skeiling
+Laibung
+Unterzug
+Zwickel
+Spere
+Turmhelm
+Geschrägte Maueröffnung
+Kämpferstein - Bogenstein
+Trompe
+Hagioskop - Maueröffnung in der Kirche
+Vortreppe - Eingangsstufen
+Strahlenornament
+Syrischer Bogen
+Systylos
+Taenia
+Tropfkante
+Fachwerk
+Trabeatus-Bogen
+Maßwerk
+Kämpfer
+Triglyphe
+Fachwerkträger
+Türmchen
+Tympanon
+Unterkirche
+Lüftungsschacht
+Vierendeelträger
+Volute
+Keilstein
+Mauerabdeckung
+Dachplattform
+Fensteröffnung
+Fensterflügel
+Zaguán
+Zikkurat
+Zome

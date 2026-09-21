@@ -14,6 +14,7 @@ desk
 dining table
 dresser
 end table
+fireboard
 futon
 headboard
 ottoman

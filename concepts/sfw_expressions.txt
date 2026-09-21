@@ -2,6 +2,7 @@
 ...or not
 [[I am,you are,he is,she is,we are,they are]] not amused
 acrimony
+afeared
 Agitated
 ahem
 alas

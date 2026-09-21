@@ -157,6 +157,7 @@ Kuchen backen
 Kekse backen
 Balancieren
 Heu ballen
+den Hang hinunterrasen
 Geplänkel
 Hereinplatzen
 In einen Raum platzen
@@ -265,7 +266,6 @@ Ein $$random_word bauen
 Puppenhäuser bauen
 Holzspielzeug bauen
 Bullet Journaling
-Bungee-Jumping
 Hoppeln
 Belasten
 Brennen
@@ -362,7 +362,6 @@ Töpferarbeit
 Putzen
 Reinigen
 Luft klären
-Klippenspringen
 Festgezogen
 Festziehen
 Klammern
@@ -470,7 +469,6 @@ Kürzen
 Knicksen
 Individuelle Anstecknadeln
 Schneiden
-Radfahren
 Herumexperimentieren
 Dämpfen
 Tanzen
@@ -556,7 +554,6 @@ Haben wir einen Deal?
 Do-Si-Do
 Abnehmen
 Hundeausstellung
-Hundeschlittenfahren
 Machen
 $$random_word machen
 [[Die,Seine,Ihre,Unsere]] Runden drehen
@@ -791,7 +788,6 @@ Formen
 Gekämpft
 [[Dich,Es]] gefunden!
 Ausflippen
-Free Solo
 Einfrieren
 Grämen
 Frisbee
@@ -898,7 +894,6 @@ Handlettering
 Übergeben
 $$random_word austeilen
 Übergabe
-Hängegleiten
 Hängen
 Zurückhalten
 Abhängen
@@ -944,7 +939,6 @@ Da kommen sie!
 Verstecken
 Vor $$random_word verstecken
 Highschool
-Wandern
 Behindern
 Andeuten
 Anspielen auf
@@ -1090,7 +1084,6 @@ Haken und Direkte
 Jazzercise/Aerobic
 Spötteln
 Scherzen
-Jetski fahren
 Schmuckdesign
 Schmuck machen
 Jitterbug
@@ -1114,7 +1107,6 @@ Nur so [[zum Nervenkitzel,aus Jux]]
 Karaoke
 Karate
 Kawaii- oder japanische Artikel oder Sammlerstücke
-Kajakfahren
 Weitermachen
 Behalten
 Klatsch
@@ -1304,8 +1296,6 @@ Moonwalk
 Morphing
 Schlendern
 Moshpit
-Motocross
-Mountainbiking
 Montieren
 Bewegen
 Rasen mähen
@@ -1758,7 +1748,6 @@ Rivalität
 brüllen
 rösten
 eine Bank ausrauben
-Klettern
 Steine schleifen
 Raketenwerfer-Granate
 Rollschuh fahren
@@ -1823,7 +1812,6 @@ Scrapbooking
 schelten
 kratzen
 kratzen
-Tauchen
 Skulptur
 huschen
 Muscheln
@@ -1914,18 +1902,14 @@ teilnehmen
 auf einem $$random_word sitzen
 auf einem Thron sitzen
 Situation
-Skateboarden
 abdüsen
 skizzieren
-Skifahren
 Sketche
 huschen
 schleichen
-Fallschirmspringen
 faulenzen
 stillen
 Slalom
-Rodeln
 schlafen
 ausschlafen
 Rutsche
@@ -1962,7 +1946,6 @@ snipen
 schneiden
 schnarchen
 Schneekugeln
-Snowboarden
 kuscheln
 so was!
 Seife herstellen und verpacken
@@ -2077,7 +2060,6 @@ vorschlagen
 Gipfel erklimmen
 suplexen
 auftauchen
-surfen
 ansteigen
 Überraschungsending
 überraschen
@@ -2191,6 +2173,7 @@ umkippen
 auf den Kopf stellen
 Sturzflut
 werfen
+Schleppen
 Touchdown!
 Tour
 anpreisen
@@ -2320,7 +2303,6 @@ wehen
 wetten
 warten
 bedienen
-gehen
 auf dem Drahtseil gehen
 Schlag
 walzen
@@ -2334,7 +2316,6 @@ Auto waschen
 zuschauen
 dem Spiel zuschauen
 fernsehen
-Wasserski fahren
 Aquarellmalerei
 Aquarellfarben
 schwanken
@@ -2376,7 +2357,6 @@ kapillar ziehen
 führen
 wackeln
 welken
-Windsurfen
 herunterfahren
 aufziehen
 Wein-, Bier- oder Spirituosenverkostung

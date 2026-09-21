@@ -10,6 +10,8 @@ Adamantium
 Ägis des Meeres
 Ägis des Sturms
 Agareth
+Akulakhan
+Amulett der Könige
 Uralter Zweig
 Uralter Ent
 Uraltes Ruinenfragment
@@ -174,6 +176,7 @@ Herzogzeichen
 Eana, die heilige Kanone
 Eana, die wahre heilige Kanone
 Erdplatten
+Schriftrolle der Alten, Artefakt
 Emblem des Opfers
 Umarmung der Natur
 Endloser Schnee
@@ -258,6 +261,8 @@ Gewand des Lebens
 Gral der Ewigkeit
 Grandine, die Platten des Gespensts
 Großmeister
+Großer Siegelstein
+Großer Welkyndstein
 Grünes Kristallgolem-Zeichen
 Grüner Magiestein
 Düsteres Herz
@@ -276,6 +281,7 @@ Harmonie von Himmel und Erde
 Herz des Feuers
 Herz des Ifrit
 Herz des Lebens
+Herz von Lorkhan
 Herz des Vulkans
 Herzreißer
 Herzsucher
@@ -321,6 +327,7 @@ Jack-Kürbis-Zeichen
 Wurfspeere
 Juwelen
 Katar
+Keening, Dwemer-Klinge
 Schlüssel der Flamme
 Schlüssel des Meeres
 Schlüssel des Sturms
@@ -356,6 +363,7 @@ Mithrilrüstung
 Mithril-Spitzhacke
 Monster-Blaster
 Monsterjäger
+Mond-und-Stern (Elder Scrolls)
 Nebelrose
 Nereide
 Niflheim
@@ -523,6 +531,7 @@ Sturm-Kopfbedeckung
 Sturmreißer
 Sturm
 Robuster Beutel
+Sunder, Dwemer-Hammer
 Schwert der Verderbnis
 Schwert der purpurnen Flamme
 Schwert der Dunkelheit
@@ -658,6 +667,7 @@ Winterrobe
 Winterrose
 Herz des Winters
 Träne des Winters
+Wraithguard
 Gelbes Kristallgolem-Zeichen
 Zombiefürst
 Zombiezeichen

@@ -100,6 +100,7 @@ viridian
 azurblau
 celeste
 glaucusblau
+Haint-Blau
 indigo
 mazarinblau
 phthaloblau

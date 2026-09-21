@@ -1,0 +1,354 @@
+ABS anti-lock braking system sensor
+accelerometer
+acoustic radiometer
+actinometer
+active pixel sensor
+air flow meter
+air pollution sensor
+air-fuel ratio meter
+airbag sensor
+airspeed indicator
+alarm sensor
+altimeter
+anemometer
+angle-sensitive pixel
+angular rate sensor
+atomic force microscope
+Atomic Gravitational Wave Interferometric Sensor
+attitude indicator
+audio pickup
+automatic transmission speed sensor
+auxanometer
+back-illuminated sensor
+barograph
+barometer
+bedwetting alarm
+bhangmeter
+bimetallic strip
+biochip
+BioFET biological field-effect transistor
+biosensor
+blind spot monitor
+bolometer
+boost gauge
+Bourdon gauge
+brake fluid pressure sensor
+breathalyzer
+bubble chamber
+calorimeter
+camshaft position sensor
+capacitance probe
+capacitive displacement sensor
+carbon dioxide sensor
+carbon monoxide detector
+carbon paste electrode
+catadioptric sensor
+catalytic bead sensor
+ceilometer
+charge-coupled device
+chemical field-effect transistor
+chemiresistor
+chemoreceptor
+cloud chamber
+CMOS complementary metal-oxide-semiconductor sensor
+colorimeter
+contact image sensor
+crankshaft position sensor
+cryogenic particle detector
+curb feeler
+current sensor
+cylinder head temperature gauge
+Daly detector
+defect detector
+depth gauge
+dew warning
+digital sensor
+displacement receiver
+displacement sensor
+Doppler radar
+Earth sensor
+electro-optical sensor
+electrochemical fatigue crack sensor
+electrochemical gas sensor
+electrolyte-insulator-semiconductor sensor
+electromechanical film
+electron multiplier
+electronic nose
+electronic tongue
+electroscope
+engine coolant temperature sensor
+engine crankcase pressure sensor
+exhaust gas temperature sensor
+Fabry-Pérot interferometer
+Faraday cup
+fiber Bragg grating
+fiber optic sensor
+Fine Guidance Sensor
+fish counter
+flame detector
+flat panel detector
+flex sensor
+flow sensor
+fluorescent chloride sensor
+fluxgate compass
+force gauge
+force sensor
+free fall sensor
+frequency domain sensor
+fuel level sensor
+fuel pressure sensor
+galvanometer
+Gardon gauge
+gas detector
+gas meter
+gaseous ionization detector
+Geiger counter
+Geiger-Müller tube
+geophone
+glass break detector
+Golay cell
+gravimeter
+ground speed radar
+ground-penetrating radar
+gyroscope
+gyroscopic sensor
+Hall effect sensor
+Hall probe
+heartbeat sensor
+heat flux sensor
+holographic sensor
+hook gauge evaporimeter
+horizon sensor
+hot filament ionization gauge
+humistor
+hydrocarbon dew point analyzer
+hydrogen sensor
+hydrogen sulfide sensor
+hydrometer
+hydrophone
+hygrometer
+hyperspectral sensor
+image sensor
+impact sensor
+inclinometer
+incremental encoder
+inductive sensor
+inertial navigation system
+inertial reference unit
+infrared point sensor
+infrared sensor
+infrared thermometer
+integrated circuit piezoelectric sensor
+intelligent sensor
+ion-selective electrode
+ionization chamber
+ionization gauge
+IRIS Interferometric Reflectance Imaging Sensor
+ISFET ion-sensitive field-effect transistor
+kinetic inductance detector
+knock sensor
+lab-on-a-chip
+laser beam profiler
+laser rangefinder
+laser surface velocimeter
+leaf sensor
+level sensor
+LIDAR light detection and ranging
+light sensor
+light-addressable potentiometric sensor
+linear encoder
+linear variable differential transformer
+liquid capacitive inclinometer
+load cell
+LORROS long range reconnaissance and observation system
+lysimeter
+Machmeter
+magnetic anomaly detector
+magnetic compass
+magnetic level gauge
+magnetic sensor
+magnetometer
+MAP manifold absolute pressure sensor
+mass airflow sensor
+McLeod gauge
+MEMS microelectromechanical systems magnetic field sensor
+metal detector
+MHD magnetohydrodynamic sensor
+microbolometer
+microelectromechanical systems
+microphone
+microwave chemistry sensor
+microwave radiometer
+millimeter wave scanner
+molecular sensor
+Moon sensor
+MOSFET metal-oxide-semiconductor field-effect transistor
+motion detector
+MRI scanner
+nano-tetherball sensor
+nanosensor
+net radiometer
+Nichols radiometer
+nitrogen oxide sensor
+nondispersive infrared sensor
+nuclear density gauge
+occupancy sensor
+odometer
+oil level sensor
+oil pressure sensor
+olfactometer
+omnidirectional camera
+optical position sensor
+optode
+organoleptic sensor
+oscillating U-tube
+oxygen sensor
+ozone monitor
+parking sensor
+particle detector
+passive infrared sensor
+pellistor
+permanent downhole gauge
+PET scanner
+pH glass electrode
+phosphor thermometry
+photodetector
+photodiode
+photoelectric sensor
+photoionization detector
+photomultiplier
+photomultiplier tube
+photoresistor
+photoswitch
+phototransistor
+phototube
+piezo sensor
+piezocapacitive pressure sensor
+piezoelectric accelerometer
+piezoelectric sensor
+piezometer
+Pirani gauge
+pitometer log
+pitot tube
+planar Hall sensor
+polygraph
+position sensitive device
+position sensor
+potentiometric sensor
+pressure gauge
+pressure sensor
+proportional counter
+proximity sensor
+psychrometer
+push broom scanner
+pyranometer
+pyrgeometer
+pyrometer
+quantum sensor
+quartz thermometer
+radar
+radar gun
+radar sensor
+radar tracker
+radio direction finder
+rain gauge
+rain sensor
+redox electrode
+reed switch
+resistance thermometer
+ring laser gyroscope
+rotary encoder
+rotary variable differential transformer
+satellite sensor
+scanning SQUID superconducting quantum interference device microscope
+scintillation counter
+scintillator
+scintillometer
+seismometer
+selsyn
+semiconductor detector
+sensor array
+sensor grid
+sensor node
+sextant
+Shack-Hartmann wavefront sensor
+shock data logger
+shock detector
+silicon bandgap temperature sensor
+single-photon avalanche diode
+smartdust
+smoke detector
+SNOTEL snowpack telemetry
+snow gauge
+soft sensor
+soil moisture sensor
+sonar
+sound locator
+speed sensor
+speedometer
+SQUID superconducting quantum interference device
+SSIES Special Sensors Ions Electrons Scintillation
+SSM/I Special Sensor Microwave Imager
+SSMIS Special Sensor Microwave Imager Sounder
+staring array
+strain gauge
+stream gauge
+stretch sensor
+structured-light 3D scanner
+stud finder
+Sudden Motion Sensor
+Sun sensor
+superconducting nanowire single-photon detector
+synthetic aperture radar
+tachometer
+tactile sensor
+tapered element oscillating microbalance
+temperature gauge
+test light
+thermistor
+thermocouple
+thermoluminescent dosimeter
+thermometer
+thermopile laser sensor
+thin-film thickness monitor
+throttle position sensor
+through-beam edge sensor
+tide gauge
+tilt sensor
+time pressure gauge
+time-of-flight camera
+tire pressure sensor
+torque sensor
+touch switch
+transducer
+transition-edge sensor
+transmission fluid temperature sensor
+triangulation sensor
+TriDAR triangulation and rendezvous and docking radar
+turbine speed sensor
+turn coordinator
+ultra-wideband radar
+ultrasonic sensor
+ultrasonic thickness gauge
+unattended ground sensor
+variable reluctance sensor
+variometer
+vehicle speed sensor
+velocity receiver
+vibrating structure gyroscope
+video sensor
+viscometer
+Visible Light Photon Counter
+visual sensor network
+voltage detector
+water meter
+water-in-fuel sensor
+wavefront sensor
+weather radar
+Wheatstone bridge
+wheel speed sensor
+wire chamber
+wired glove
+wireless sensor network
+yaw-rate sensor
+zinc oxide nanorod sensor

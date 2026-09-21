@@ -25,6 +25,7 @@ treibend
 liebenswürdig
 bejahend
 uralt
+frisch
 verwandt
 verwandt mit $$random_word
 ausgerichtet auf $$random_word
@@ -105,6 +106,7 @@ brandneu
 dreist
 messingartig
 frech
+brüchig
 brillant
 breitkrempig
 bukolisch
@@ -116,6 +118,7 @@ gefühlslos
 quengelig
 kapriziös
 gewiss
+riskant
 Scharade
 verkohlt
 schillernd
@@ -287,6 +290,7 @@ galant
 in Hülle und Fülle
 grell
 protzig
+verschmiert
 knochig
 generativ
 generisch
@@ -553,6 +557,7 @@ protozoisch
 gemäß $$random_word
 quadratisch
 urig
+sonderbar
 nörgelnd
 selten
 heiser
@@ -660,6 +665,7 @@ jähzornig
 schrill
 ein Augenschmaus
 ungesehen
+schief und krumm
 aufrichtig
 einspurig
 dünn

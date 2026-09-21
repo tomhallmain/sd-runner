@@ -669,7 +669,9 @@ class Concepts:
         if self.get_specific_locations:
             nonspecific_locations_chance = 1 - specific_inclusion_chance
             locations = {l: nonspecific_locations_chance for l in locations}
-            for l in Concepts.load(SFW.locations_specific):
+            specific_locations = Concepts.load(SFW.locations_specific)
+            specific_locations.extend(Concepts.load(SFW.locations_specific_fantasy))
+            for l in specific_locations:
                 locations[l] = specific_inclusion_chance
         return Concepts.sample_whitelisted(locations, low, high, self.prompt_mode)
 
@@ -702,6 +704,8 @@ class Concepts:
         if random.random() > concept_config.get_inclusion_chance():
             return []
         dress = Concepts.load(SFW.dress)
+        dress.extend(Concepts.load(SFW.dress_ancient))
+        dress.extend(Concepts.load(SFW.dress_footwear))
         if self.prompt_mode.is_nsfw():
             self.extend(dress, NSFW.dress, 3, NSFL.dress, 1)
         return Concepts.sample_whitelisted(dress, low, high, self.prompt_mode)
@@ -716,6 +720,7 @@ class Concepts:
     def get_actions(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
         actions = Concepts.load(SFW.actions)
+        actions.extend(Concepts.load(SFW.actions_sports))
         if self.prompt_mode.is_nsfw():
             self.extend(actions, NSFW.actions, 8, NSFL.actions, 3)
         return Concepts.sample_whitelisted(actions, low, high, self.prompt_mode)
@@ -755,7 +760,12 @@ class Concepts:
 
     def get_jargon(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
-        return Concepts.sample_whitelisted(Concepts.load(SFW.jargon), low, high, self.prompt_mode)
+        jargon = Concepts.load(SFW.jargon)
+        jargon.extend(Concepts.load(SFW.jargon_architecture))
+        jargon.extend(Concepts.load(SFW.jargon_equestrian))
+        jargon.extend(Concepts.load(SFW.jargon_medical))
+        jargon.extend(Concepts.load(SFW.jargon_sensors))
+        return Concepts.sample_whitelisted(jargon, low, high, self.prompt_mode)
 
     def get_puns(self, concept_config: ConceptConfiguration, multiplier: float = 1.0) -> list[str]:
         low, high = concept_config.get_adjusted_range(multiplier)
@@ -1220,6 +1230,7 @@ class HardConcepts:
 #       naming convention, and get_* methods can discover children automatically.
 class SFW:
     actions = "sfw_actions.txt"
+    actions_sports = "sfw_actions_sports.txt"
     animals = "animals.txt"
     animals_dinosaurs = "animals_dinosaur.txt"
     animals_fantasy = "animals_fantasy.txt"
@@ -1231,12 +1242,19 @@ class SFW:
     descriptions_eyes = "sfw_descriptions_eyes.txt"
     descriptions_nationality = "sfw_descriptions_nationality.txt"
     dress = "sfw_dress.txt"
+    dress_ancient = "sfw_dress_ancient.txt"
+    dress_footwear = "sfw_dress_footwear.txt"
     expressions = "sfw_expressions.txt"
     humans = "humans.txt"
     jargon = "jargon.txt"
+    jargon_architecture = "jargon_architecture.txt"
+    jargon_equestrian = "jargon_equestrian.txt"
+    jargon_medical = "jargon_medical.txt"
+    jargon_sensors = "jargon_sensors.txt"
     lighting = "lighting.txt"
     locations = "locations.txt"
     locations_specific = "locations_specific.txt"
+    locations_specific_fantasy = "locations_specific_fantasy.txt"
     media_features = "media_features.txt"
     objects = "object.txt"
     objects_cosmic = "objects_cosmic.txt"

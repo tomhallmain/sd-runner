@@ -1371,6 +1371,7 @@ Japanische Rattenschlange
 Japan-Spitz
 Japanisches Eichhörnchen
 Japanischer Terrier
+Singzikade
 Javaleopard
 Javanisches Nashorn
 Javanese
@@ -2686,6 +2687,7 @@ Regenbrachvogel
 Braunkehlchen
 Whippet
 Peitschenschwanz-Echse
+Waldmurmeltier
 Weißbarsch
 Weißer Schmetterling
 Weißer Katzenwels

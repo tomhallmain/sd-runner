@@ -118,6 +118,7 @@ Cashewnüsse
 Maniok
 Auflauf
 bewirten
+großes Buttermilchbrötchen
 Blumenkohl
 Kaviar
 Cayennepfeffer
@@ -151,6 +152,7 @@ Zitrus
 Muschel
 Muscheln
 Gewürznelken
+Coca-Cola
 Cobbler
 Kokosnuss
 Kokosöl
@@ -162,6 +164,7 @@ Keks
 Mais
 Maisöl
 Cornflakes
+Maisfladen
 Hüttenkäse
 Cracker
 Cranberries
@@ -222,6 +225,7 @@ Feige
 Filet
 Feuer
 Flan
+dicker Pfannkuchen
 Lein
 Leinsamen
 Leinöl
@@ -468,6 +472,7 @@ Teller
 Pflaume
 Pflaumen
 pochiert
+Kermesbeeren-Gemüse
 Granatapfel
 Granatapfelsaft
 Granatäpfel

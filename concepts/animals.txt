@@ -1371,6 +1371,7 @@ Japanese rat snake
 Japanese Spitz
 Japanese Squirrel
 Japanese Terrier
+Jarfly
 Javan Leopard
 Javan Rhinoceros
 Javanese
@@ -2686,6 +2687,7 @@ Whimbrel
 Whinchat
 Whippet
 Whiptail Lizard
+Whistle Pig
 White Bass
 White Butterfly
 White Catfish

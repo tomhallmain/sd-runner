@@ -13,6 +13,8 @@ Aegis of Flame
 Aegis of Sea
 Aegis of Storm
 Agareth
+Akulakhan
+Amulet of Kings
 Ancient Branch
 Ancient Ent
 Ancient Fragment of Ruins
@@ -177,6 +179,7 @@ Duke Token
 Eana, the Holy Cannon
 Eana, the True Holy Cannon
 Earthen Plates
+Elder Scroll artifact
 Emblem of Sacrifice
 Embrace of Nature
 Endless Snow
@@ -261,6 +264,8 @@ Gown of Life
 Grail of Eternity
 Grandine, the Plates of Wraith
 Grandmaster
+Great Sigil Stone
+Great Welkynd Stone
 Green Crystal Golem Token
 Green Magic Stone
 Grim Heart
@@ -279,6 +284,7 @@ Harmony of Sky and Earth
 Heart of Fire
 Heart of Ifrit
 Heart of Life
+Heart of Lorkhan
 Heart of Volcano
 Heartrender
 Heartseeker
@@ -324,6 +330,7 @@ Jack Pumpkin Token
 Javelins
 Jewels
 Katars
+Keening dwemer blade
 Key of Flame
 Key of Sea
 Key of Storm
@@ -359,6 +366,7 @@ Mithril Armor
 Mithril Pickaxe
 Monster Blaster
 Monster Hunter
+Moon-and-Star (Elder Scrolls)
 Nebula Rose
 Nereid
 Niflheim
@@ -526,6 +534,7 @@ Storm Headdress
 Storm Reaver
 Storm
 Sturdy Bag
+Sunder dwemer hammer
 Sword of Corruption
 Sword of Crimson Flame
 Sword of Darkness
@@ -661,6 +670,7 @@ Winter Robe
 Winter Rose
 Winter's Heart
 Winter's Tear
+Wraithguard
 Yellow Crystal Golem Token
 Zombie Lord
 Zombie Token

@@ -33,6 +33,7 @@ Stängel
 Stängel
 Stängel
 Spaltöffnung
+Zuckerahorn
 Thallus
 Formschnitt
 Baumrinde
@@ -126,8 +127,10 @@ Schmucklilie
 Ageratum
 Ageratum houstonianum
 Lauch
+Mandelbaum
 Alpina
 Inkalilie
+Amarant-Pflanze
 Amarant
 Amaryllis
 Große Knorpelmöhre
@@ -136,33 +139,48 @@ Känguruhpfote
 Einjähriger Rittersporn
 Anthurie
 Löwenmäulchen
+Aprikosenbaum
 Artischockendistel
+Rucolapflanze
 Spargel
 Aster
 Prachtspiere
 Schleierkraut
 Kornblume
 Banksie
+Basilikumpflanze
+Bohnenpflanze
+Bärentraubenstrauch
 Glockenblume
 Großer Flachs
 Großköpfige Flockenblume
 Billy Buttons
+Paradiesvogelblume
+Spätblühende Traubenkirsche
+Schwarzer Himbeerstrauch
+Brombeerstrauch
 Prachtscharte
 Blaue Spitzblume
+Heidelbeerstrauch
 Boronia
 Bouvardie
+Buchsbaum
 Afrikanischer Buchsbaum
 Diosma
+Laubbaum
 Buntblättriger Kreuzdorn
 Schmetterlingsflieder
+Günsel
 Bupleurum
 Schmetterlingsflieder
 Schmetterlingsorchidee
+Kohlpflanze
 Calla
 Glockenblume
 Steinkraut
 Canterbury-Glocken
 Nelke
+Möhrenpflanze
 Färberdistel
 Casa Blanca
 Strandflieder
@@ -174,8 +192,11 @@ Wachsblume
 Schornsteinglocken
 Chrysantheme
 Garten-Chrysantheme
+Zimtbaum
 Clarkie
+Gewürznelkenbaum
 Kamm-Hahnenkamm
+Kokospalme
 Kaffeebohnenbeere
 Gemeine Myrte
 Gemeine Schafgarbe
@@ -184,38 +205,51 @@ Garten-Rittersporn
 Maiglöckchen
 Keulenlilie
 Kosmee
+Kornelkirsche
 Kornblume
 Craspedia
+Kresse
 Korkenzieherweide
 Cymbidium
 Cymbidium-Orchidee
 Narzisse
 Dahlie
+Gänseblümchen
 Gänseblümchen-Chrysanthemen
+Löwenzahn
 Rittersporn Belladonna
 Rittersporn Pacific Giant
 Dendrobium
 Dendrobium-Orchidee
+Kratzbeere
 Bartnelke
 Edelnelke
 Zwerg-Edelnelke
+Durianbaum
+Holunderstrauch
+Elefantenapfelbaum
 Heidekraut
 Eukalyptus mit Samen
 Silber-Dollar-Eukalyptus
+Eukalyptusbaum
 Prärieenzian
 Falsche Paradiesvogelblume
 Falsche Spiere
 Abschied vom Frühling
+Fenchelpflanze
 Farnblättrige Schafgarbe
 Mutterkraut
+Feigenbaum
 Flamingoblume
 Neuseeländischer Flachs
+Flachspflanze
 Ageratum
 Fuchsschwanzfarn
 Freesie
 Freesie-Hybride
 Fuji-Chrysanthemen
 Gardenie
+Knoblauchpflanze
 Prachtscharte
 Ginster
 Gerbera
@@ -226,26 +260,36 @@ Zwerg-Gladiole
 Geißbart
 Godetie
 Goldrute
+Grapefruitbaum
+Weinrebe
 Guernsey-Lilie
 Gipskraut
 Schleierkraut
 Hängende Helikonie
+Harlekinblume
 Heide
 Heidekraut
 Sonnenblume
 Helikonie
 Hippeastrum
+Meerrettichpflanze
+Huckleberry-Strauch
 Hortensie
 Bitterer Schleifkraut
 Inkalilie
+Efeuranke
 Japhette-Orchidee
+Jasminblüte
 Jonquille
 Flockenblume
+Kudzu-Ranke
 Spitzenfarn
 Rittersporn
 Duftende Platterbse
 Lavendel
 Lavendel
+Porree
+Salatpflanze
 Prachtscharte
 Flieder
 Lilie
@@ -256,10 +300,15 @@ Schmucklilie
 Lilie Stargazer
 Strandnelke
 Lisianthus
+Lupine
+Maispflanze
+Mangobaum
 Margeriten-Gänseblümchen
 Levkoje
 Myrtenheide
+Seidenpflanze
 Mimose
+Minzpflanze
 Nebelblaues Limonium
 Muskatblume
 Eisenhut
@@ -270,14 +319,23 @@ Bananenstaude
 Myrsine
 Myrte
 Myrte
+Niembaum
 Schwertfarn
 Nerine
 Nerine-Lilie
 Jungfer im Grünen
+Olivenbaum
+Zwiebelpflanze
 Milchstern
 Pfingstrose
 Papyrus
 Papyrus Löwenkopf
+Petersilienpflanze
+Pastinakenpflanze
+Papau-Baum
+Erbsenpflanze
+Pfirsichbaum
+Erdnusspflanze
 Pfingstrose
 Inkalilie
 Schmetterlingsorchidee
@@ -285,17 +343,29 @@ Philodendron
 Flammenblume
 Skabiose
 Rosa Nerz
+Pistazie
 Kreuzblatt
 Kreuzblatt
 Pixie-Nelke
+Platanenbaum
+Kochbananenstaude
+Giftsumach
+Kermesbeere
 Tuberose
 Pompon-Chrysantheme
+Mohn
 Anemone
 Porium
+Kartoffelpflanze
 Wilde Möhre
+Beifuß-Ambrosie
 Ranunkel
+Himbeerstrauch
+Roter Maulbeerbaum
 Rote Bänder
+Rhabarberpflanze
 Reisblume
+Reispflanze
 Rose
 Rose Bridal Pink
 Rose Bridal White
@@ -307,6 +377,8 @@ Rose Lady Liberty
 Rose Lavanda
 Rose Osiana
 Rose Royalty
+Rosmarinstrauch
+Roggenpflanze
 Safari Sunset
 Färberdistel
 Mehrjähriger Salbei
@@ -314,19 +386,23 @@ Weide
 Salmon Reagan
 Bogenhanf
 Seifenkraut
+Erlenblättrige Felsenbirne
 Satinblumen
 Saxicola
 Skabiose
 Schinus
 Strandflieder
+Felsenbirnenbaum
 Muschelblumen
 Bogenhanf
 Löwenmäulchen
 Goldrute
 Solidaster
+Sauerampferpflanze
 Ehrenpreis
 Spinnenlilie
 Spinnen-Chrysanthemen
+Nardenpflanze
 Sprühnelke
 Sprenger-Farn
 Milchstern
@@ -334,11 +410,14 @@ Strandnelke
 Stenomeria
 Madagaskar-Jasmin
 Erdbeer-Banksie
+Erdbeerpflanze
 Strohblume
+Zuckerrohr
 Sommer-Stechpalme
 Sommers Liebling
 Sonnenblume
 Süße Erbse
+Süßkartoffelranke
 Bartnelke
 Schwertfarn
 Schwanzblumen
@@ -354,6 +433,8 @@ Tulpe
 Ehrenpreis
 Akazie
 Wachsblume
+Weißer Maulbeerbaum
+Wildgras
 Wilder Wegerich
 Korkenzieherweide
 Anemone

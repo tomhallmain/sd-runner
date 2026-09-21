@@ -36,6 +36,7 @@ stalks
 stem
 stems
 stoma
+sugar tree
 thallus
 topiary
 tree bark
@@ -132,8 +133,10 @@ Agapanthus
 Ageratum
 Ageratum houstonianum
 Allium
+almond tree
 Alpina
 Alstroemeria
+amaranth plant
 Amaranthus hypochondriacus
 Amaryllis
 Ammi majus
@@ -142,33 +145,48 @@ Anigozanthus
 Annual Delphinium
 Anthurium
 Antirrhinum majus
+apricot tree
 Artichoke thistle
+arugula plant
 Asparagus
 Aster
 Astilbe
 Baby's Breath
 Bachelor's Button
 Banksia
+basil plant
+bean plant
+bearberry shrub
 Bellflower
 Big Flax
 Bighead Knapweed
 Billy Buttons
+bird of paradise flower
+black cherry tree
+black raspberry bush
+blackberry bush
 Blazing Star
 Blue Lace Flower
+blueberry bush
 Boronia
 Bouvardia
+boxwood
 Boxwood African
 Diosma
+broadleaf tree
 Buckthorn Variegated
 Buddleia
+bugleweed
 Bupleurum
 Butterfly Bush
 Butterfly Orchid
+cabbage plant
 Calla Lily
 Campanula
 Candytuft
 Canterbury Bells
 Carnation
+carrot plant
 Carthamus
 Casa Blanca
 Caspia
@@ -180,8 +198,11 @@ Chamelaucium
 Chimney Bells
 Chrysanthemum
 Chrysanthemum x morifolium
+cinnamon tree
 Clarkia
+clove tree
 Cockscomb Crested
+coconut palm
 Coffee Bean Berry
 Common Myrtle
 Common Yarrow
@@ -190,38 +211,51 @@ Consolida ambigua
 Convallaria
 Cordyline
 Cosmos
+cornelian cherry tree
 Cornflower
 Craspedia
+cress
 Curly Willow
 Cymbidium
 Cymbidium Orchid
 Daffodil
 Dahlia
+daisy
 Daisy Mums
+dandelion
 Delphinium Belladonna
 Delphinium Pacific Giant
 Dendrobium
 Dendrobium Orchid
+dewberry bramble
 Dianthus barbatus
 Dianthus caryophyllus
 Dianthus caryophyllus nana
+durian tree
+elderberry bush
+elephant apple tree
 Erica spp
 Eucalyptus seeded
 Eucalyptus silver dollar
+eucalyptus tree
 Eustoma grandiflorum
 False Bird of Paradise
 False Spirea
 Farewell-To-Spring
+fennel plant
 Fernleaf Yarrow
 Feverfew
+fig tree
 Flamingo Flower
 Flax New Zealand
+flax plant
 Floss Flower
 Foxtail Fern
 Freesia
 Freesia x hybrida
 Fuji Mums
 Gardenia
+garlic plant
 Gay Feather
 Genista
 Gerbera
@@ -232,26 +266,36 @@ Gladiolus hybrid nanus
 Goat's Beard
 Godetia
 Golden Rod
+grapefruit tree
+grapevine
 Guernsey Lily
 Gyp
 Gypsophila paniculata
 Hanging Heliconia
+harlequin flower
 Heath
 Heather
 Helianthus annuus
 Heliconia spp.
 Hippeastrum
+horseradish plant
+huckleberry bush
 Hydrangea
 Iberis amara
 Inca Lily
+ivy vine
 Japhette Orchid
+jasmine flower
 Jonquil
 Knapweed
+kudzu vine
 Lace fern
 Larkspur
 Lathyrus odoratus
 Lavandula
 Lavender
+leek
+lettuce plant
 Liatris
 Lilac
 Lily
@@ -262,10 +306,15 @@ Lily of the Nile
 Lily Stargazer
 Limonium
 Lisianthus
+lupin
+maize plant
+mango tree
 Marguerite daisy
 Matthiola incana
 Melaleuca
+milkweed
 Mimosa
+mint plant
 Misty Blue Limonium
 Moluccella laevis
 Monkshood
@@ -276,14 +325,23 @@ Musa
 Myrsine
 Myrtle
 Myrtus
+neem tree
 Nephrolepis
 Nerine
 Nerine Lily
 Nigella
+olive tree
+onion plant
 Ornithogalum
 Paeonia
 Paper Reed
 Papyrus lion's head
+parsley plant
+parsnip plant
+pawpaw tree
+pea plant
+peach tree
+peanut plant
 Peony
 Peruvian Lily
 Phalaenopsis
@@ -291,17 +349,29 @@ Philodendron
 Phlox
 Pincushion Flower
 Pink Mink
+pistachio
 Pitt
 Pittosporum
 Pixie Carnation
+plane tree
+plantain tree
+poison ivy plant
+pokeweed
 Polianthes tuberosa
 Pompon Chrysanthemum
+poppy
 Poppy Anemone
 Porium
+potato plant
 Queen Anne's Lace
+ragweed
 Ranunculus
+raspberry bush
+red mulberry tree
 Red Ribbons
+rhubarb plant
 Rice flower
+rice plant
 Rose
 Rose Bridal Pink
 Rose Bridal White
@@ -313,6 +383,8 @@ Rose Lady Liberty
 Rose Lavanda
 Rose Osiana
 Rose Royalty
+rosemary bush
+rye plant
 Safari Sunset
 Safflower
 Sage Perennial
@@ -320,19 +392,23 @@ Salix
 Salmon Reagan
 Sansevieria
 Saponaria
+saskatoon bush
 Satin Flowers
 Saxicola
 Scabiosa
 Schinus
 Sea lavender
+serviceberry tree
 Shell Flowers
 Snake Plant
 Snapdragon
 Solidago
 Solidaster
+sorrel plant
 Speedwell
 Spider Lily
 Spider Mums
+spikenard plant
 Spray Carnation
 Sprengeri Fern
 Star of Bethlehem
@@ -340,11 +416,14 @@ Statice
 Stenomeria
 Stephanotis
 Strawberry banksia
+strawberry plant
 Strawflower
+sugarcane
 Summer poinsettia
 Summer's Darling
 Sunflower
 Sweet Pea
+sweet potato vine
 Sweet William
 Sword Fern
 Tailflowers
@@ -360,6 +439,8 @@ Tulipa
 Veronica
 Wattle
 Waxflower
+white mulberry tree
+wild grass
 Wild Plantain
 Willow curly
 Windflower
