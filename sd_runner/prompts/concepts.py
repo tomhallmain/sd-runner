@@ -7,8 +7,10 @@ from typing import Dict, Set
 
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
 from sd_runner.config import config
-from sd_runner.globals import PromptMode, BlacklistPromptMode
+from sd_runner.globals import Globals, PromptMode, BlacklistPromptMode
+from lib.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from lib.logging_setup import get_logger
+from lib.utils import Utils
 
 #: sd_runner/prompts/ -> sd_runner/ -> repo root. Named once so a move
 #: corrects one line rather than a count buried in a dirname chain.
@@ -393,7 +395,9 @@ class Concepts:
     ALPHABET = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
                 "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     CONCEPTS_DIR = os.path.join(BASE_DIR, "concepts") if config.default_concepts_dir == "concepts" else config.concepts_dir
-    URBAN_DICTIONARY_CORPUS_PATH = os.path.join(BASE_DIR, "concepts", "temp", "urban_dictionary_additions.txt")
+    #: Obfuscated like the default blacklist; written by
+    #: scripts/encrypt_urban_dictionary.py from the trimmed corpus.
+    URBAN_DICTIONARY_CORPUS_PATH = os.path.join(BASE_DIR, "sd_runner", "data", "urban_dictionary.enc")
     URBAN_DICTIONARY_CORPUS = []
 
     @staticmethod
@@ -786,12 +790,15 @@ class Concepts:
         low, high = concept_config.get_adjusted_range(multiplier)
         # Get initial whitelisted words and load extra words as needed
         all_words = Concepts.ALL_WORDS_LIST.copy()
-        if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0 and self.prompt_mode.is_nsfw():
+        # Checked at use, not only at load: the corpus stays cached after an
+        # NSFW draw and must not reach a later SFW draw or a disabled setting.
+        use_urban_dictionary = config.nsfw_urban_dictionary and self.prompt_mode.is_nsfw()
+        if use_urban_dictionary and len(Concepts.URBAN_DICTIONARY_CORPUS) == 0:
             try:
-                Concepts.URBAN_DICTIONARY_CORPUS = Concepts.load(Concepts.URBAN_DICTIONARY_CORPUS_PATH)
+                Concepts.URBAN_DICTIONARY_CORPUS = Concepts.load_urban_dictionary_corpus()
             except Exception as e:
                 pass
-        if len(Concepts.URBAN_DICTIONARY_CORPUS) > 0:
+        if use_urban_dictionary and len(Concepts.URBAN_DICTIONARY_CORPUS) > 0:
             all_words.extend(Concepts.URBAN_DICTIONARY_CORPUS)
             # random_urban_dictionary_words = Concepts.sample_whitelisted(Concepts.URBAN_DICTIONARY_CORPUS, low, high, self.prompt_mode)
             # random_words.extend(random_urban_dictionary_words)
@@ -893,6 +900,41 @@ class Concepts:
             word = ''.join([random.choice(Concepts.ALPHABET) for i in range(length)])
             counter += 1
         return word
+
+    @staticmethod
+    def _urban_dictionary_passphrase() -> bytes:
+        return (Globals.APP_IDENTIFIER + "_urban_dictionary").encode("utf-8")
+
+    @staticmethod
+    def encrypt_urban_dictionary_corpus(terms: list[str], path: str = None) -> None:
+        """Write the corpus in the default blacklist's obfuscated format."""
+        encoded = Utils.preprocess_data_for_encryption("\n".join(terms))
+        symmetric_encrypt_data_to_file(encoded, path or Concepts.URBAN_DICTIONARY_CORPUS_PATH,
+                                       Concepts._urban_dictionary_passphrase())
+
+    @staticmethod
+    def load_urban_dictionary_corpus(path: str = None) -> list[str]:
+        """Decrypt the corpus; an absent or unreadable file contributes nothing.
+
+        There is no fallback to a plain-text corpus: the only plain copies in
+        the tree are untrimmed.
+        """
+        path = path or Concepts.URBAN_DICTIONARY_CORPUS_PATH
+        try:
+            data = Utils.postprocess_data_from_decryption(
+                symmetric_decrypt_data_from_file(path, Concepts._urban_dictionary_passphrase()))
+        except Exception as e:
+            if path not in Concepts._missing_files_reported:
+                Concepts._missing_files_reported.add(path)
+                logger.warning(f"Urban Dictionary corpus unavailable at {path}: {e}")
+            return []
+        terms = []
+        for line in data.split("\n"):
+            # Same rule as Concepts.load: "#" starts a comment.
+            value = line.split("#", 1)[0].strip()
+            if value:
+                terms.append(value)
+        return terms
 
     @staticmethod
     def load(filename: str) -> list[str]:
@@ -1192,12 +1234,12 @@ class Concepts:
         is_nsfw = category_states.get("NSFW", False) or category_states.get("NSFL", False)
 
         # Handle extended dictionary concepts when Dictionary is selected and NSFW/NSFL are enabled
-        if category_states.get("Dictionary", False) and is_nsfw:
+        if category_states.get("Dictionary", False) and is_nsfw and config.nsfw_urban_dictionary:
             
             # Load urban dictionary corpus if not already loaded
             if len(Concepts.URBAN_DICTIONARY_CORPUS) == 0:
                 try:
-                    Concepts.URBAN_DICTIONARY_CORPUS = Concepts.load(Concepts.URBAN_DICTIONARY_CORPUS_PATH)
+                    Concepts.URBAN_DICTIONARY_CORPUS = Concepts.load_urban_dictionary_corpus()
                 except Exception as e:
                     pass
             

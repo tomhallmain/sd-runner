@@ -15,6 +15,7 @@ configs/*
 !configs/config_example.json
 sd_runner/data/workflows/stableDiffusion3*
 sd_runner/data/workflows/test.json
+sd_runner/data/urban_dictionary.txt
 sdg_script.py
 scripts/i18n_fixes.json
 puns_books*.py

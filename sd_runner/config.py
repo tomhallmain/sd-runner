@@ -76,6 +76,7 @@ class Config:
         # Dictionary override
         "override_dictionary_path":         None,
         "override_dictionary_append":       bool,
+        "nsfw_urban_dictionary":            bool,
         # Similarity check — path to ONNX or Torch CLIP text encoder (nullable)
         "clip_model_path":                  None,
         # Image to prompt — VLM backend
@@ -155,6 +156,8 @@ class Config:
 
         self.override_dictionary_path = None
         self.override_dictionary_append = True
+        # Draw random words from the encrypted Urban Dictionary corpus in NSFW/NSFL modes
+        self.nsfw_urban_dictionary = True
         self.clip_model_path = None
 
         # Image-to-prompt VLM backend. The default is the original LLaVA-1.5
@@ -244,6 +247,7 @@ class Config:
                         "print_settings",
                         "save_last_prompt",
                         "override_dictionary_append",
+                        "nsfw_urban_dictionary",
                         "blacklist_prevent_execution",
                         "purge_blacklisted_prompt_history",
                         "delay_after_single_run",

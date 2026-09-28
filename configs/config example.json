@@ -97,6 +97,7 @@
     "default_concepts_dir": null,
     "override_dictionary_path": null,
     "override_dictionary_append": false,
+    "nsfw_urban_dictionary": true,
     "clip_model_path": null,
     "vlm_repo_id": "llava-hf/llava-1.5-7b-hf",
     "vlm_load_in_4bit": false,

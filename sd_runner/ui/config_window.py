@@ -191,6 +191,9 @@ class ConfigWindow(SmartDialog):
         self._cb_override_dict_append = self._add_checkbox(
             _("Append to Default Dictionary"), config.override_dictionary_append,
         )
+        self._cb_nsfw_urban_dictionary = self._add_checkbox(
+            _("Use Urban Dictionary Corpus in NSFW Modes"), config.nsfw_urban_dictionary,
+        )
 
         # ── Similarity Check ──────────────────────────────────────────
         self._add_section(_("Similarity Check"))
@@ -245,6 +248,7 @@ class ConfigWindow(SmartDialog):
             ("_cb_debug",                 "debug"),
             ("_cb_print_settings",        "print_settings"),
             ("_cb_override_dict_append",  "override_dictionary_append"),
+            ("_cb_nsfw_urban_dictionary", "nsfw_urban_dictionary"),
         ]
         entry_fields: list[tuple[str, str]] = [
             ("_le_comfyui_url",           "comfyui_url"),

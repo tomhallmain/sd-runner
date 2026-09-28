@@ -326,6 +326,10 @@ msgstr "Override Dictionary Path"
 msgid "Append to Default Dictionary"
 msgstr "Append to Default Dictionary"
 
+#: sd_runner/ui/config_window.py
+msgid "Use Urban Dictionary Corpus in NSFW Modes"
+msgstr "Use Urban Dictionary Corpus in NSFW Modes"
+
 #: ui_qt/config_window.py:196 ui_qt/prompts/blacklist_window.py:255
 msgid "Similarity Check"
 msgstr "Similarity Check"

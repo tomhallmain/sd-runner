@@ -290,7 +290,7 @@ def _reset_class_state() -> None:
     try:
         from sd_runner.prompts.concepts import Concepts
         Concepts.ALL_WORDS_LIST = []
-        # Lazily filled from a ~34MB corpus on the first NSFW random-words draw.
+        # Lazily decrypted from the ~2M-entry corpus on the first NSFW draw.
         Concepts.URBAN_DICTIONARY_CORPUS = []
         # Mutated in place by Concepts.__init__ -> set_concepts_dir, so a test
         # that redirects it can leave the next one pointing at a temp dir.

@@ -36,6 +36,7 @@ def vocabulary(monkeypatch):
     monkeypatch.setattr(Concepts, "load", staticmethod(lambda filename: list(VOCABULARY)))
     monkeypatch.setattr(Concepts, "ALL_WORDS_LIST", list(VOCABULARY))
     monkeypatch.setattr(Concepts, "URBAN_DICTIONARY_CORPUS", [])
+    monkeypatch.setattr(Concepts, "load_urban_dictionary_corpus", staticmethod(lambda path=None: []))
 
 
 @pytest.fixture

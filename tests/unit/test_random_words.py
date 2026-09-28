@@ -39,6 +39,7 @@ def vocabulary(monkeypatch):
     monkeypatch.setattr(Concepts, "load", staticmethod(lambda filename: list(VOCABULARY)))
     monkeypatch.setattr(Concepts, "ALL_WORDS_LIST", list(VOCABULARY))
     monkeypatch.setattr(Concepts, "URBAN_DICTIONARY_CORPUS", [])
+    monkeypatch.setattr(Concepts, "load_urban_dictionary_corpus", staticmethod(lambda path=None: []))
 
 
 @pytest.fixture
@@ -162,3 +163,42 @@ class TestResampling:
 
         assert words(2) == []
         assert len(draws) == 11
+
+
+class TestUrbanDictionaryCorpus:
+    """The slang corpus joins the word pool only in NSFW/NSFL modes, and only
+    while ``nsfw_urban_dictionary`` is on. It stays cached after the first NSFW
+    draw, so both conditions are checked where it is used."""
+
+    CORPUS = ["slangword"]
+
+    @pytest.fixture
+    def pool(self, vocabulary, always_splits, monkeypatch):
+        """Record the word pool handed to ``sample_whitelisted``."""
+        seen = []
+
+        def fake_sample(concepts, low, high, prompt_mode):
+            seen.append(list(concepts))
+            return ["amber"]
+
+        monkeypatch.setattr(Concepts, "sample_whitelisted", staticmethod(fake_sample))
+        monkeypatch.setattr(Concepts, "URBAN_DICTIONARY_CORPUS", list(self.CORPUS))
+        return seen
+
+    def test_a_cached_corpus_stays_out_of_an_sfw_draw(self, pool):
+        words(1, PromptMode.SFW)
+
+        assert "slangword" not in pool[0]
+
+    def test_an_nsfw_draw_includes_it(self, pool):
+        words(1, PromptMode.NSFW)
+
+        assert "slangword" in pool[0]
+
+    def test_the_setting_turns_it_off_in_nsfw(self, pool, monkeypatch):
+        import sd_runner.prompts.concepts as concepts_module
+        monkeypatch.setattr(concepts_module.config, "nsfw_urban_dictionary", False)
+
+        words(1, PromptMode.NSFW)
+
+        assert "slangword" not in pool[0]

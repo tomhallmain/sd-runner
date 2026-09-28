@@ -351,6 +351,10 @@ msgstr ""
 msgid "Append to Default Dictionary"
 msgstr ""
 
+#: sd_runner/ui/config_window.py
+msgid "Use Urban Dictionary Corpus in NSFW Modes"
+msgstr ""
+
 #: ui_qt/config_window.py:196 ui_qt/prompts/blacklist_window.py:255
 msgid "Similarity Check"
 msgstr ""
