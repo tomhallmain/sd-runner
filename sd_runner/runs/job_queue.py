@@ -35,7 +35,7 @@ class JobQueue:
             raise Exception(f"Reached limit of pending runs: {self.max_size} - wait until current run has completed.")
         self.pending_jobs.append(job_args)
         if config.debug:
-            print(f"JobQueue {self.name} - Added pending job: {job_args}")
+            logger.debug(f"JobQueue {self.name} - Added pending job: {job_args}")
 
     def cancel(self):
         self.pending_jobs = []
@@ -135,11 +135,10 @@ class PresetSchedulesQueue(JobQueue):
                 schedule_time = (TimeEstimator.estimate_run_seconds(gen_config, images)
                                  if gen_config else TimeEstimator.estimate_queue_time(images))
                 total_time += schedule_time
-                print(f"PresetSchedulesQueue.estimate_time - schedule time: {schedule_time}s, total so far: {total_time}s")
+                logger.debug(f"PresetSchedulesQueue.estimate_time - schedule time: {schedule_time}s, total so far: {total_time}s")
                 
             except Exception as e:
-                print(f"Error estimating time for schedule: {schedule_args}")
-                print(f"Error details: {str(e)}")
+                logger.error(f"Error estimating time for schedule: {schedule_args}: {e}")
                 continue
 
         return total_time

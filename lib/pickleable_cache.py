@@ -1,6 +1,5 @@
 from collections import OrderedDict
 import hashlib
-import logging
 import os
 import pickle
 import sys
@@ -8,7 +7,9 @@ import tempfile
 import threading
 from pickle import UnpicklingError
 
-logger = logging.getLogger("size_aware_cache")
+from lib.logging_setup import get_logger
+
+logger = get_logger("pickleable_cache")
 
 
 def fingerprint_string_sequence(values, digest_size: int = 16) -> str:
@@ -161,7 +162,10 @@ class PicklableCache:
                 # Cache is outdated, create a new one
                 cache = cls(maxsize, filename)
             return cache
-        except (FileNotFoundError, UnpicklingError, EOFError, ValueError, AttributeError):
+        except FileNotFoundError:
+            return cls(maxsize, filename)
+        except (UnpicklingError, EOFError, ValueError, AttributeError) as e:
+            logger.warning(f"Could not read cache file {filename}, starting an empty cache: {e}")
             return cls(maxsize, filename)
 
 

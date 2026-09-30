@@ -6,6 +6,9 @@ from sd_runner.globals import Sampler
 from sd_runner.globals import Scheduler
 from sd_runner.models.model_adapters import LoraBundle
 from .base import WorkflowPrompt
+from lib.logging_setup import get_logger
+
+logger = get_logger("workflow_prompt_comfy")
 
 
 class WorkflowPromptComfy(WorkflowPrompt):
@@ -50,7 +53,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
         count = 0
         for node in self.json.items():
             if test:
-                print(node[1][WorkflowPromptComfy.CLASS_TYPE])
+                logger.debug(node[1][WorkflowPromptComfy.CLASS_TYPE])
             if WorkflowPromptComfy.CLASS_TYPE in node[1] and node[1][WorkflowPromptComfy.CLASS_TYPE] == class_type:
                 if i == count:
                     return node[1]
@@ -206,7 +209,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
             if negative_id:
                 self.json[negative_id][WorkflowPromptComfy.INPUTS]["text"] = negative
             else:
-                print("No negative prompt text added!!!")
+                logger.warning("No negative prompt text added")
 
     def set_clip_last_layer(self, clip_last_layer):
         if not clip_last_layer:
@@ -390,7 +393,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
 
     def set_ip_adapter_strength(self, strength):
         if not strength:
-            print("NO STRENGTH FOUND")
+            logger.warning("No IP adapter strength found")
             return
         self.set_for_class_type(ComfyNodeName.IP_ADAPTER_ADVANCED, "weight", strength)
 
@@ -475,14 +478,14 @@ class WorkflowPromptComfy(WorkflowPrompt):
 
     def try_set_workflow_non_api_prompt(self):
         if not self.json or not "nodes" in self.json:
-            print("JSON not found or nodes not found in JSON")
+            logger.warning("JSON not found or nodes not found in JSON")
             return False
         try:
             model = Model.get_model(self.get_non_api_value(ComfyNodeName.LOAD_CHECKPOINT))
         except Exception:
             model = Model.get_model(self.get_non_api_value(ComfyNodeName.LOAD_CHECKPOINT), inpainting=True)
         if not model or model == "":
-            print("Model not found")
+            logger.warning("Model not found")
             return False
         clip_last_layer = self.get_non_api_value("ClipSetLastLayer")
         positive, negative = self.get_non_api_clip_text()
@@ -556,7 +559,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
             if node[WorkflowPromptComfy.CLASS_TYPE] == ComfyNodeName.LOAD_IMAGE:
                 image_location = node[WorkflowPromptComfy.INPUTS]["image"]
                 if image_location.startswith("C:\\") and not os.path.exists(image_location):
-                    print("Attempting to fix invalid file location: " + image_location)
+                    logger.info("Attempting to fix invalid file location: " + image_location)
                     if image_location.startswith(config.sd_webui_loc) or image_location.startswith(config.img_dir):
                         image_location = image_location.replace(Globals.HOME, "F:\\")
                         if not os.path.exists(image_location) and (
@@ -566,6 +569,6 @@ class WorkflowPromptComfy(WorkflowPrompt):
                     if not os.path.exists(image_location):
                         raise Exception("Could not find expected external path for image: " + image_location)
                     else:
-                        print("Will try with external image location " + image_location)
+                        logger.info("Will try with external image location " + image_location)
                         node[WorkflowPromptComfy.INPUTS]["image"] = image_location
 

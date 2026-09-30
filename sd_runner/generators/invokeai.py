@@ -13,6 +13,9 @@ from sd_runner.models.model_adapters import LoraBundle
 from sd_runner.models.model import Model
 from sd_runner.config import config
 from sd_runner.globals import WorkflowType
+from lib.logging_setup import get_logger
+
+logger = get_logger("invokeai_gen")
 
 
 def _timestamp_str() -> str:
@@ -72,7 +75,7 @@ class InvokeAIGen(BaseImageGenerator):
                 if m.get("key")
             }
         except Exception as exc:
-            print(f"[InvokeAI] Could not fetch model list: {exc}")
+            logger.warning(f"Could not fetch model list: {exc}")
             return {}
 
     def _get_model_key(self, model_id: str, model_type: Optional[str] = None) -> str:

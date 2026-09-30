@@ -82,6 +82,9 @@ _shared_file_handler: logging.Handler | bool | None = None
 #: before config.json is read, so this starts on and the app turns it off
 #: through set_log_file_encryption once the setting is known.
 _encrypt_log_file: bool = True
+#: The level set_logger_level last applied, given to loggers created after it:
+#: modules imported lazily fetch their logger long after startup.
+_log_level: int = logging.INFO
 
 
 def _log_file_path(encrypted: bool) -> Path:
@@ -235,7 +238,7 @@ def get_logger(module_name: str) -> logging.Logger:
     """
     # Create logger with module name
     logger: logging.Logger = logging.getLogger(f"sd_runner.{module_name}")
-    logger.setLevel(logging.INFO)
+    logger.setLevel(_log_level)
     logger.propagate = False
 
     # If handlers are already set up, return the logger
@@ -244,7 +247,7 @@ def get_logger(module_name: str) -> logging.Logger:
 
     # create console handler with a higher log level
     ch: logging.StreamHandler = logging.StreamHandler()
-    ch.setLevel(logging.INFO)
+    ch.setLevel(_log_level)
     ch.setFormatter(CustomFormatter())
     logger.addHandler(ch)
 
@@ -264,8 +267,10 @@ def set_logger_level(debug: bool) -> None:
     Set the logger level to DEBUG if debug is True, otherwise set it to INFO.
     This updates all existing loggers in the sd_runner hierarchy and their handlers.
     """
+    global _log_level
     level = logging.DEBUG if debug else logging.INFO
-    
+    _log_level = level
+
     # Update all existing loggers in the sd_runner hierarchy
     for logger_name in logging.Logger.manager.loggerDict:
         if logger_name.startswith('sd_runner'):

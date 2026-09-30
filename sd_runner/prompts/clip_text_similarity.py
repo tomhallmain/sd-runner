@@ -21,11 +21,12 @@ engine.  ``None`` or a missing/broken path always falls back to n-gram.
 
 from __future__ import annotations
 
-import logging
 
 import numpy as np
 
-logger = logging.getLogger(__name__)
+from lib.logging_setup import get_logger
+
+logger = get_logger("prompts.clip_text_similarity")
 
 
 # ---------------------------------------------------------------------------

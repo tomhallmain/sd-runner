@@ -31,6 +31,7 @@ from lib.logging_setup import (
     EncryptedFileHandler,
     get_logger,
     set_log_file_encryption,
+    set_logger_level,
 )
 
 
@@ -184,6 +185,28 @@ class TestProjectLoggers:
         logging_setup._get_file_handler(tmp_path / "a.log.enc")
         logging_setup._get_file_handler(tmp_path / "b.log.enc")
         assert len(calls) == 1
+
+
+# ---------------------------------------------------------------------------
+# Debug level
+# ---------------------------------------------------------------------------
+
+class TestDebugLevel:
+    @pytest.fixture(autouse=True)
+    def _restore_level(self):
+        yield
+        set_logger_level(False)
+
+    def test_a_logger_created_after_debug_is_on_logs_debug(self):
+        set_logger_level(True)
+        logger = get_logger("test_encrypted_logging_level_a")
+        assert logger.isEnabledFor(logging.DEBUG)
+        assert all(h.level == logging.DEBUG for h in logger.handlers)
+
+    def test_fetching_a_logger_again_keeps_debug(self):
+        logger = get_logger("test_encrypted_logging_level_b")
+        set_logger_level(True)
+        assert get_logger("test_encrypted_logging_level_b").isEnabledFor(logging.DEBUG)
 
 
 # ---------------------------------------------------------------------------

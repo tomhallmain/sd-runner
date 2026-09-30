@@ -705,9 +705,9 @@ class Blacklist:
         # if mode == BlacklistMode.FAIL_PROMPT and filtered:
         #     whitelist = []
         if mode == BlacklistMode.LOG_ONLY:
-            print(f"Concepts would have been filtered:")
+            logger.info("Concepts would have been filtered:")
             for filtered_concept, blacklist_item in filtered.items():
-                print(f"  {filtered_concept} -> {blacklist_item}")
+                logger.info(f"  {filtered_concept} -> {blacklist_item}")
             
         # Call progress update at the end
         do_update_progress(concepts_count)

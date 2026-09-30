@@ -28,6 +28,7 @@ logger = get_logger("app_gui")
 def main():
     # Single instance check -- prevent multiple instances from running
     lock_file, cleanup_lock = Utils.check_single_instance("SDRunner")
+    logger.info("SD Runner starting")
 
     I18N.install_locale(config.locale, verbose=config.print_settings)
 
@@ -138,6 +139,7 @@ def main():
             # Bring window to front and give it focus
             app_window.raise_()
             app_window.activateWindow()
+            logger.info("Main window opened")
         except Exception as e:
             logger.critical(f"Failed to create main window: {e}", exc_info=True)
             from PySide6.QtWidgets import QMessageBox
@@ -163,6 +165,7 @@ def main():
         exit_code = 0
     finally:
         cleanup_lock()
+    logger.info(f"SD Runner exiting with code {exit_code}")
 
     # Hard exit -- sys.exit() can hang if non-daemon threads are still
     # alive (e.g. server listener blocking on accept(), websocket loops).

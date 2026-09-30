@@ -749,8 +749,7 @@ class Utils:
                 mutex = win32event.CreateMutex(None, False, mutex_name)
                 if win32api.GetLastError() == winerror.ERROR_ALREADY_EXISTS:
                     # Another instance is already running
-                    print(f"Another instance of {app_name} is already running.")
-                    print("Please close the existing instance or use that one.")
+                    logger.warning(f"Another instance of {app_name} is already running. Please close the existing instance or use that one.")
                     input("Press Enter to exit...")
                     os._exit(1)
                 
@@ -790,8 +789,7 @@ class Utils:
             if not lock_acquired:
                 # Could not acquire lock, another instance is running
                 os.close(lock_fd)
-                print(f"Another instance of {app_name} is already running.")
-                print("Please close the existing instance or use that one.")
+                logger.warning(f"Another instance of {app_name} is already running. Please close the existing instance or use that one.")
                 input("Press Enter to exit...")
                 os._exit(1)
             
@@ -827,8 +825,8 @@ class Utils:
             
             return lock_file, cleanup_lock
             
-        except (OSError, PermissionError, ImportError):
-            pass  # Fall through to socket-based method
+        except (OSError, PermissionError, ImportError) as e:
+            logger.warning(f"Single instance lock file unavailable ({e}); falling back to a socket check")
         
         # Final fallback: try socket-based method
         try:
@@ -855,15 +853,13 @@ class Utils:
             except OSError:
                 # Port is in use, another instance is running
                 sock.close()
-                print(f"Another instance of {app_name} is already running.")
-                print("Please close the existing instance or use that one.")
+                logger.warning(f"Another instance of {app_name} is already running. Please close the existing instance or use that one.")
                 input("Press Enter to exit...")
                 os._exit(1)
                 
         except ImportError:
             # Socket module not available, this is very unlikely
-            print(f"Warning: Could not implement single instance check for {app_name}.")
-            print("Multiple instances may run simultaneously.")
+            logger.warning(f"Could not implement single instance check for {app_name}. Multiple instances may run simultaneously.")
             return None, lambda: None
 
 

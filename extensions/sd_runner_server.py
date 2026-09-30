@@ -262,7 +262,7 @@ class SDRunnerServer:
                     if msg is None:
                         continue
                     if config.debug:
-                        print(msg)
+                        logger.debug(msg)
                     if msg == 'close server' or msg == 'close connection':
                         self._conn.close()
                         if msg == 'close server':

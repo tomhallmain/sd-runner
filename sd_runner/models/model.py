@@ -498,10 +498,10 @@ class Model:
                             models.append(LoraBundle(bundle))
                         else:
                             if config.debug:
-                                print(f"No models found for bundle tag: {tag}")
+                                logger.debug(f"No models found for bundle tag: {tag}")
                     except Exception as e:
                         if config.debug:
-                            print(f"Failed to resolve bundle tag '{tag}': {e}")
+                            logger.debug(f"Failed to resolve bundle tag '{tag}': {e}")
                 else:
                     try:
                         models.append(Model.get_model(tag, is_lora, inpainting=inpainting, architecture_type=architecture_type))
@@ -510,7 +510,7 @@ class Model:
                         models.append(Model.get_model(alt_tag, is_lora, inpainting=inpainting, architecture_type=architecture_type))
             except Exception as e:
                 if config.debug:
-                    print(f"Failed to find model for tag '{tag}' - skipping")
+                    logger.debug(f"Failed to find model for tag '{tag}' - skipping")
         return models
 
     @staticmethod
@@ -519,7 +519,7 @@ class Model:
         lora_or_sd = "Lora" if is_lora else "Stable-diffusion"
         root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
         if config.debug:
-            print(f"Loading models from {root_dir}")
+            logger.debug(f"Loading models from {root_dir}")
         for file in glob.glob(pathname="**/*", root_dir=root_dir, recursive=True):
             if not file.endswith("ckpt") and not file.endswith("safetensors") and not file.endswith("pth") and not file.endswith("pt"):
                 continue
@@ -593,7 +593,7 @@ class Model:
                     try:
                         model.architecture_type = ArchitectureType[architecture_type_str]
                     except Exception as e:
-                        print(f"Failed to set architecture_type {architecture_type_str} for model {model}: {e}")
+                        logger.warning(f"Failed to set architecture_type {architecture_type_str} for model {model}: {e}")
                 if "clip_req" in preset_config:
                     model.clip_req = preset_config.get("clip_req", None)
                 if "prompt_tags" in preset_config:
@@ -625,7 +625,7 @@ class Model:
         try:
             models = Model.get_models(model_tags_str, default_tag=default_tag, inpainting=inpainting)
         except Exception as e:
-            print(e)
+            logger.error(f"Failed to get models for tags {model_tags_str!r}: {e}")
         prompt_massage_tags = ""
         if len(models) == 1:
             # print(models[0])

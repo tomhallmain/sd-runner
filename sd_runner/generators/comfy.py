@@ -1,6 +1,5 @@
 import json
 import os
-import traceback
 from pathlib import Path
 from typing import Optional
 from urllib import request, response, parse, error
@@ -159,7 +158,7 @@ class ComfyGen(BaseImageGenerator):
         """
         data = prompt.get_json()
         if config.debug:
-            print(data.decode("utf-8"))
+            logger.debug(data.decode("utf-8"))
         output_paths = []
         connection_id = str(uuid.uuid4())  # Unique per connection so ComfyUI routes events correctly
         ws = None
@@ -889,7 +888,7 @@ class ComfyGen(BaseImageGenerator):
         # If this is not an API prompt, handle in an annoying way
         if not prompt.validate_api_prompt():
             if config.debug:
-                print("Not an API prompt image: " + source_file)
+                logger.debug("Not an API prompt image: " + source_file)
             try:
                 if prompt.try_set_workflow_non_api_prompt():
                     resolution = prompt.temp_redo_inputs.resolution
@@ -903,10 +902,10 @@ class ComfyGen(BaseImageGenerator):
                     self.run_workflow(prompt.workflow_filename, prompt=prompt, resolution=resolution, model=model, vae=vae, n_latents=n_latents, positive=positive,
                                       negative=negative, lora=lora, control_net=control_net, ip_adapter=ip_adapter)
                 else:
-                    print(Utils.format_red("Invalid prompt for file: " + source_file))
+                    logger.error("Invalid prompt for file: " + source_file)
                     return
             except Exception:
-                traceback.print_exc()
+                logger.exception(f"Failed to redo non-API prompt image: {source_file}")
                 return
 
         prompt.change_preview_images_to_save_images()
@@ -945,13 +944,13 @@ class ComfyGen(BaseImageGenerator):
                 else:
                     raise Exception("Unhandled redo parameter: " + attr)
                 if config.debug:
-                    print("Redoing parameter with different value: " + attr)
+                    logger.debug("Redoing parameter with different value: " + attr)
                 has_made_one_change = True
             except Exception as e:
                 logger.error(e)
 
         if not has_made_one_change and config.debug:
-            print("Did not make any changes to prompt for image: " + source_file)
+            logger.debug("Did not make any changes to prompt for image: " + source_file)
         
         return self.queue_prompt(prompt)
 

@@ -29,6 +29,10 @@ import time
 from typing import Optional, Dict, List, Tuple
 from dataclasses import dataclass
 
+from lib.logging_setup import get_logger
+
+logger = get_logger("lora_trigger_extractor")
+
 # Module-level availability flag
 SAFETRIGGERS_AVAILABLE = False
 
@@ -43,12 +47,10 @@ try:
     SAFETRIGGERS_AVAILABLE = True
 except ImportError as e:
     # Log the import error for debugging
-    print(f"Warning: Failed to import safetriggers functionality: {e}")
-    print("LoRA trigger extraction will not be available.")
+    logger.warning(f"Failed to import safetriggers functionality: {e}. LoRA trigger extraction will not be available.")
 except Exception as e:
     # Handle any other import-related errors
-    print(f"Warning: Unexpected error importing safetriggers functionality: {e}")
-    print("LoRA trigger extraction will not be available.")
+    logger.warning(f"Unexpected error importing safetriggers functionality: {e}. LoRA trigger extraction will not be available.")
 
 
 @dataclass

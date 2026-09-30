@@ -1,7 +1,6 @@
 import datetime
 from copy import deepcopy
 import time
-import traceback
 from typing import Optional
 
 from sd_runner.globals import Globals, PromptMode, ResolutionGroup, WorkflowType, ArchitectureType, SoftwareType # must import first
@@ -53,7 +52,7 @@ class Run:
 
     def print(self, *args):
         if config.debug:
-            print(*args)
+            logger.debug(" ".join(str(a) for a in args))
 
     def is_infinite(self):
         return self.args.total == -1
@@ -352,8 +351,7 @@ class Run:
                 except Exception as e:
                     from lib.image_converter import ImageHandlingError
                     if not isinstance(e, ImageHandlingError):
-                        print(e)
-                        traceback.print_exc()
+                        logger.exception(f"Workflow {workflow_tag} failed: {e}")
         finally:
             if restore_user_tags:
                 Prompter.set_positive_tags(prior_positive_tags)

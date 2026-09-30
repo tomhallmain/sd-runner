@@ -9,7 +9,6 @@ import random
 import shutil
 import time
 import threading
-import traceback
 
 from sd_runner.globals import Globals, WorkflowType, SoftwareType, image_input_field
 
@@ -253,7 +252,7 @@ class BaseImageGenerator(ABC):
             if item[0] != "negative" or Globals.PRINT_NEGATIVES:
                 out += f"\n{Utils.format_white(item[0])}: {item[1]}"
         if config.debug:
-           print(out)
+            logger.debug(out)
 
     def run(self):
         self.has_run_one_workflow = False
@@ -704,8 +703,8 @@ class BaseImageGenerator(ABC):
                     ip_adapter = kwargs.get("ip_adapter")
                     prompt_image_path = getattr(self.gen_config, "prompt_image_path", "")
                     self._record_recent_adapters(control_net, ip_adapter, prompt_image_path)
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Failed to record recent adapters: {e}")
                 return result
             except Exception as e:
                 self._handle_error(e, task_fn.__name__)
@@ -737,10 +736,9 @@ class BaseImageGenerator(ABC):
             # For image handling errors, they should already be logged by the converter
             pass
         else:
-            # For other errors, log and show traceback in debug mode
             logger.warning(f"Error in {task_name}: {str(error)}")
             if config.debug:
-                traceback.print_exc()
+                logger.debug(f"Traceback for the error in {task_name}", exc_info=error)
 
     def validate_prompt_against_blacklist(self, prompt: str) -> str:
         """Validate a prompt against the blacklist and return the filtered version.
@@ -756,7 +754,7 @@ class BaseImageGenerator(ABC):
         
         if len(filtered) > 0:
             if config.debug:
-                print(f"Filtered concepts from blacklisted tags: {filtered}")        
+                logger.debug(f"Filtered concepts from blacklisted tags: {filtered}")
             return ', '.join(whitelist)
         else:
             return prompt

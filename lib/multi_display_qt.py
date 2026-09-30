@@ -11,10 +11,11 @@ This module provides functionality to:
 from PySide6.QtWidgets import QWidget, QApplication, QMainWindow, QDialog
 from PySide6.QtCore import Qt, QRect
 import platform
-import logging
 import os
 
-logger = logging.getLogger(__name__)
+from lib.logging_setup import get_logger
+
+logger = get_logger("multi_display")
 
 # Module-level constants
 BUFFER_DISTANCE_FROM_SCREEN_BOTTOM = 20  # Buffer from bottom of screen

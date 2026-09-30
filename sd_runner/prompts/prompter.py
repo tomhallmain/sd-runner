@@ -166,7 +166,7 @@ class Prompter:
         if len(positive_filtered) > 0:
             positive = ', '.join(positive_whitelist)
             if config.debug:
-                print(f"Filtered concepts from blacklist tags: {positive_filtered}")
+                logger.debug(f"Filtered concepts from blacklist tags: {positive_filtered}")
 
         if Prompter.EXCLUSION_TAGS:
             try:
@@ -177,7 +177,7 @@ class Prompter:
                     positive = ', '.join(kept)
                     if config.debug:
                         dropped = [c for c in excl_concepts if excl_pattern.search(c)]
-                        print(f"Filtered concepts from exclusion tags: {dropped}")
+                        logger.debug(f"Filtered concepts from exclusion tags: {dropped}")
             except re.error:
                 logger.warning(f"Invalid exclusion tags regex: {Prompter.EXCLUSION_TAGS!r}")
 
@@ -267,7 +267,7 @@ class Prompter:
         return json.loads(result.stdout)
 
     def transform_result(self, data: dict) -> str:
-        print(self.last_prompt)
+        logger.info(self.last_prompt)
         # Transform the result into a new prompt based on the original
         # This is a placeholder as the transformation will depend on the specific requirements
         return "New prompt based on original image: " + str(data)
@@ -353,7 +353,7 @@ class Prompter:
         # Small chance to add artist style
         if not self.concepts.is_art_style_prompt_mode() and random.random() < self.prompter_config.art_styles_chance:
             if config.debug:
-                print("Adding art styles")
+                logger.debug("Adding art styles")
             mix.extend(self.concepts.get_art_styles(max_styles=2, multiplier=self.prompter_config.multiplier))
         # Must run before emphasize() adds brackets and before add_presets()
         # introduces strings the user wrote and would not want altered.
@@ -1313,7 +1313,7 @@ class Prompter:
             elif name == "random" and len(config.wildcards) > 0:
                 name = random.choice(list(config.wildcards))
                 replacement = config.wildcards[name]
-                print(f"Using random prompt replacement ID: {name}")
+                logger.info(f"Using random prompt replacement ID: {name}")
             elif concepts is not None:
                 replacement = Prompter._get_concept_expansion(name, concepts, specific_locations_chance)
             if replacement is None:

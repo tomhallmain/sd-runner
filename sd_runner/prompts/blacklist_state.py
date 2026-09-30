@@ -245,5 +245,6 @@ def load_default_blacklist() -> bool:
         app_info_cache.set(DEFAULT_BLACKLIST_KEY, False)
         store_blacklist()
         return True
-    except Exception:
+    except Exception as e:
+        logger.error(f"Failed to load the default blacklist: {e}")
         return False

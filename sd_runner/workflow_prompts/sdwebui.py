@@ -319,7 +319,7 @@ class WorkflowPromptSDWebUI(WorkflowPrompt):
 
     def set_ip_adapter_strength(self, strength):
         if not strength:
-            print("NO STRENGTH FOUND")
+            logger.warning("No IP adapter strength found")
             return
         pass
 

@@ -9,8 +9,11 @@ from PIL.PngImagePlugin import PngInfo
 import pprint
 
 from sd_runner.config import config
+from lib.logging_setup import get_logger
 from lib.pillow_plugins import ensure_pillow_plugins_registered
 from lib.utils import Utils
+
+logger = get_logger("image_data_extractor")
 
 # AVIF/HEIF/JXL need plugin registration before Image.open.
 ensure_pillow_plugins_registered()
@@ -21,8 +24,7 @@ try:
     from sd_prompt_reader.image_data_reader import ImageDataReader
     has_imported_sd_prompt_reader = True
 except Exception as e:
-    print(e)
-    print("Failed to import SD Prompt Reader!")
+    logger.warning(f"Failed to import SD Prompt Reader: {e}")
 
 
 class ImageDataExtractor:
@@ -98,7 +100,7 @@ class ImageDataExtractor:
         try:
             image = Image.open(image_path)
         except Exception as e:
-            print(f"Could not open image for metadata: {image_path}: {e}")
+            logger.warning(f"Could not open image for metadata: {image_path}: {e}")
             return None
         try:
             info = image.info
@@ -120,7 +122,7 @@ class ImageDataExtractor:
         try:
             image = Image.open(image_path)
         except Exception as e:
-            print(f"Could not open image for metadata: {image_path}: {e}")
+            logger.warning(f"Could not open image for metadata: {image_path}: {e}")
             return None
         try:
             info = image.info
@@ -147,7 +149,7 @@ class ImageDataExtractor:
                 pass
 #                print(info)
         else:
-            print("Exif data not found: " + image_path)
+            logger.warning("Exif data not found: " + image_path)
         image.close()
         return None
 
@@ -221,7 +223,7 @@ class ImageDataExtractor:
                         loaded_image = v[ImageDataExtractor.INPUTS]["image"]
                         for control_net_image_path in control_net_image_paths:
                             if loaded_image == control_net_image_path:
-                                print(f"Found control net image - Image ({image_path}) Control Net ({control_net_image_path})")
+                                logger.info(f"Found control net image - Image ({image_path}) Control Net ({control_net_image_path})")
                                 return control_net_image_path
         return None
 
@@ -237,7 +239,7 @@ class ImageDataExtractor:
         if target_dir is None:
             basename += "_"
         new_image_path = os.path.join(dirpath, basename + extension)
-        print("Copied image without exif data to: " + new_image_path)
+        logger.info("Copied image without exif data to: " + new_image_path)
         image_without_exif.save(new_image_path)
         # as a good practice, close the file handler after saving the image.
         image_without_exif.close()
@@ -330,12 +332,12 @@ class ImageDataExtractor:
                 self.copy_without_exif(image_path, target_dir=target_dir)
                 count += 1
             except Exception as e:
-                print(e)
+                logger.error(f"Failed to copy {image_path} without exif: {e}")
             if count > max_count:
-                print(f"Reached max image copy count: {max_count}")
+                logger.info(f"Reached max image copy count: {max_count}")
                 return
 
-        print(f"Copied {count} images without exif.")
+        logger.info(f"Copied {count} images without exif.")
 
     def add_related_image_path(self, image_path, related_image_path=""):
         image = Image.open(image_path)
@@ -346,7 +348,7 @@ class ImageDataExtractor:
         image.save(image_path, pnginfo=png_info)
         image.close()
         if config.debug:
-            print("Added related image path: " + related_image_path)
+            logger.debug("Added related image path: " + related_image_path)
 
     def add_prompt_decomposition_to_exif(self, image_path: str, original_positive_tags: str = None, original_negative_tags: str = None):
         """Add original prompt decomposition to EXIF data of the generated image."""
@@ -369,9 +371,9 @@ class ImageDataExtractor:
             image.close()
             
             if config.debug:
-                print(f"Added original prompt decomposition to EXIF: {image_path}")
+                logger.debug(f"Added original prompt decomposition to EXIF: {image_path}")
         except Exception as e:
-            print(f"Failed to add prompt decomposition to EXIF for {image_path}: {e}")
+            logger.error(f"Failed to add prompt decomposition to EXIF for {image_path}: {e}")
 
 
 def main():

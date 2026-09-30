@@ -3,7 +3,6 @@ import json
 import os
 from urllib import request, response, parse, error
 import time
-import traceback
 import threading
 from typing import Optional
 
@@ -42,7 +41,7 @@ def encode_file_to_base64(path):
             encoded = base64.b64encode(data).decode('utf-8')
             return encoded
     except Exception as e:
-        print(f"[CLIENT ERROR] Failed to encode file {path}: {type(e).__name__}: {e}")
+        logger.error(f"Failed to encode file {path}: {type(e).__name__}: {e}")
         raise
 
 
@@ -123,12 +122,12 @@ class SDWebuiGen(BaseImageGenerator):
                 self.gen_config.get_prompter_config(),
             )
         except error.URLError as e:
-            print(f"[CLIENT ERROR] URLError: {e}")
+            logger.error(f"URLError: {e}")
             if related_image_path:
-                print(f"[CLIENT ERROR] Related image path: {related_image_path}")
+                logger.error(f"Related image path: {related_image_path}")
             raise Exception("Failed to connect to SD Web UI. Is SD Web UI running?")
         except Exception as e:
-            print(f"[CLIENT ERROR] Unexpected error: {type(e).__name__}: {e}")
+            logger.error(f"Unexpected error: {type(e).__name__}: {e}")
             raise
         return result
 
@@ -176,7 +175,7 @@ class SDWebuiGen(BaseImageGenerator):
         cls = type(self)
         with cls._txt2img_lock:
             if not cls._has_run_txt2img:
-                print("Running initial txt2img to fix SD WebUI img2img bug...")
+                logger.info("Running initial txt2img to fix SD WebUI img2img bug...")
                 prompt = WorkflowPromptSDWebUI(WorkflowType.SIMPLE_IMAGE_GEN.value)
                 prompt.set_model(model)
                 prompt.set_vae(vae)
@@ -194,7 +193,7 @@ class SDWebuiGen(BaseImageGenerator):
                     if fake_image_path and os.path.exists(fake_image_path):
                         os.unlink(fake_image_path)
                 except Exception as e:
-                    print(f"Warning: Failed to clean up fake txt2img image: {e}")
+                    logger.warning(f"Failed to clean up fake txt2img image: {e}")
                 cls._has_run_txt2img = True
 
     def simple_image_gen(self, prompt="", resolution=None, model=None, vae=None, n_latents=None, positive=None, negative=None, **kw):
@@ -404,7 +403,7 @@ class SDWebuiGen(BaseImageGenerator):
 
         # If this is not an API prompt, handle in an annoying way
         if not prompt.validate_api_prompt():
-            print("Not an API prompt image: " + source_file)
+            logger.info("Not an API prompt image: " + source_file)
             try:
                 if prompt.try_set_workflow_non_api_prompt():
                     resolution = prompt.temp_redo_inputs.resolution
@@ -418,16 +417,16 @@ class SDWebuiGen(BaseImageGenerator):
                     self.run_workflow(prompt.workflow_filename, prompt=prompt, resolution=resolution, model=model, vae=vae, n_latents=n_latents, positive=positive,
                                       negative=negative, lora=lora, control_net=control_net, ip_adapter=ip_adapter)
                 else:
-                    print(Utils.format_red("Invalid prompt for file: " + source_file))
+                    logger.error("Invalid prompt for file: " + source_file)
                     return
             except Exception:
-                traceback.print_exc()
+                logger.exception(f"Failed to redo non-API prompt image: {source_file}")
                 return
 
         try:
             prompt.set_empty_latents(n_latents)
         except Exception:
-            print("Failed to set number of empty latents")
+            logger.error("Failed to set number of empty latents")
 
         has_made_one_change = False
         if "model" not in GenConfig.REDO_PARAMETERS and "models" not in GenConfig.REDO_PARAMETERS:
@@ -459,13 +458,13 @@ class SDWebuiGen(BaseImageGenerator):
                     prompt.set_seed(self.get_seed())
                 else:
                     raise Exception("Unhandled redo parameter: " + attr)
-                print("Redoing parameter with different value: " + attr)
+                logger.info("Redoing parameter with different value: " + attr)
                 has_made_one_change = True
             except Exception as e:
-                print(e)
+                logger.error(e)
 
         if not has_made_one_change:
-            print("Did not make any changes to prompt for image: " + source_file)
+            logger.warning("Did not make any changes to prompt for image: " + source_file)
 
         # img2img and txt2img are different endpoints, so which one this goes to
         # follows the template that was actually built -- which is txt2img unless

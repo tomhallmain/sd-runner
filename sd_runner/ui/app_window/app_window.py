@@ -1063,18 +1063,18 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         if self.current_run is not None:
             try:
                 self.current_run.cancel("Application shutdown")
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning(f"Failed to cancel the current run at shutdown: {e}")
         if self.job_queue is not None:
             try:
                 self.job_queue.cancel()
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning(f"Failed to cancel the job queue at shutdown: {e}")
         if self.job_queue_preset_schedules is not None:
             try:
                 self.job_queue_preset_schedules.cancel()
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning(f"Failed to cancel the preset schedules queue at shutdown: {e}")
 
         # Stop periodic cache store
         self.cache_ctrl.stop_periodic_store()

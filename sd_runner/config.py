@@ -2,7 +2,7 @@ import json
 import os
 import shutil
 
-from lib.logging_setup import adopt_legacy_file, app_data_dir, get_logger, set_log_file_encryption
+from lib.logging_setup import adopt_legacy_file, app_data_dir, get_logger, set_log_file_encryption, set_logger_level
 
 logger = get_logger("config")
 
@@ -339,7 +339,7 @@ class Config:
 
         if self.override_dictionary_path is not None:
             self.set_filepaths("override_dictionary_path")
-            print(f"Set override_dictionary_path to: {self.override_dictionary_path}")
+            logger.info(f"Set override_dictionary_path to: {self.override_dictionary_path}")
 
         if isinstance(self.dict.get("cloud_backends"), dict):
             self.cloud_backends = self.dict["cloud_backends"]
@@ -348,7 +348,12 @@ class Config:
         self.default_concepts_dir = "concepts"
         self.set_concepts_dirs()
 
+        self._apply_logging_settings()
+
+    def _apply_logging_settings(self) -> None:
+        # Loggers exist before config.json is read, so these reach them afterwards.
         set_log_file_encryption(self.encrypt_log_file)
+        set_logger_level(self.debug)
 
     def set_concepts_dirs(self):
         concepts = "concepts"
@@ -406,7 +411,7 @@ class Config:
             try:
                 setattr(self, directory, self.validate_and_set_directory(directory))
             except Exception as e:
-                pass
+                logger.warning(e)
             #    setattr(self, directory, None)
             #    logger.warning(f"Failed to set {directory} from config.json: {e}")
 
@@ -415,7 +420,7 @@ class Config:
             try:
                 setattr(self, filepath, self.validate_and_set_filepath(filepath))
             except Exception as e:
-                pass
+                logger.warning(e)
 #                logger.error(e)
 #                logger.warning(f"Failed to set {filepath} from config.json file. Ensure the key is set.")
 
@@ -511,7 +516,7 @@ class Config:
             self.dict[key] = val
             setattr(self, key, val)
         self.persist()
-        set_log_file_encryption(self.encrypt_log_file)
+        self._apply_logging_settings()
         return []
 
     def persist(self) -> None:

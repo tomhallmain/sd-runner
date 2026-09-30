@@ -10,6 +10,9 @@ from sd_runner.ui.auth.password_core import (
 from sd_runner.ui.auth.password_dialog import PasswordDialog
 from sd_runner.ui.auth.password_session_manager import PasswordSessionManager
 from sd_runner.globals import ProtectedActions
+from lib.logging_setup import get_logger
+
+logger = get_logger("ui.auth.password_utils")
 
 
 
@@ -59,6 +62,7 @@ def check_session_expired(*action_names: ProtectedActions) -> bool:
         
     except Exception as e:
         # If we can't determine session status, assume it's expired for security
+        logger.warning(f"Could not check password session status, treating it as expired: {e}")
         return True
 
 
