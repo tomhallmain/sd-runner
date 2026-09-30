@@ -810,7 +810,8 @@ class BlacklistWindow(SmartDialog):
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def _load_default(self) -> None:
-        if not blacklist_state.is_in_default_state() and len(Blacklist.get_items()) > 0:
+        has_items = len(Blacklist.get_items()) > 0 or len(Blacklist.get_model_items()) > 0
+        if not blacklist_state.is_in_default_state() and has_items:
             if not self._app_actions.alert(
                 _("Confirm Load Default Blacklist"),
                 _("Are you sure you want to load the default blacklist?\n\n"

@@ -1246,10 +1246,12 @@ class Blacklist:
 
     @staticmethod
     def encrypt_blacklist() -> None:
-        """Encrypt the default blacklist items."""
+        """Encrypt the tag and model blacklists together into the default blacklist file."""
         try:
-            blacklist_dicts = [item.to_dict() for item in Blacklist.get_items()]
-            blacklist_json = json.dumps(blacklist_dicts)
+            blacklist_json = json.dumps({
+                "tags": [item.to_dict() for item in Blacklist.get_items()],
+                "models": [item.to_dict() for item in Blacklist.get_model_items()],
+            })
             encoded_data = Utils.preprocess_data_for_encryption(blacklist_json)
             symmetric_encrypt_data_to_file(encoded_data, Blacklist.DEFAULT_BLACKLIST_FILE_LOC, (Globals.APP_IDENTIFIER + "_blacklist").encode("utf-8"))
         except Exception as e:
@@ -1257,12 +1259,22 @@ class Blacklist:
 
     @staticmethod
     def decrypt_blacklist() -> None:
-        """Decrypt the default blacklist items."""
+        """Load the tag and model blacklists from the default blacklist file.
+
+        A file written before model items were included holds a bare list of
+        tag items; reading one leaves the model blacklist as it is.
+        """
         try:
             encoded_data = symmetric_decrypt_data_from_file(Blacklist.DEFAULT_BLACKLIST_FILE_LOC, (Globals.APP_IDENTIFIER + "_blacklist").encode("utf-8"))
             blacklist_json = Utils.postprocess_data_from_decryption(encoded_data)
-            blacklist_dicts = json.loads(blacklist_json)
-            Blacklist.set_blacklist([BlacklistItem.from_dict(item) for item in blacklist_dicts])
+            data = json.loads(blacklist_json)
+            if isinstance(data, list):
+                tag_dicts, model_dicts = data, None
+            else:
+                tag_dicts, model_dicts = data.get("tags", []), data.get("models", [])
+            Blacklist.set_blacklist([BlacklistItem.from_dict(item) for item in tag_dicts])
+            if model_dicts is not None:
+                Blacklist.set_model_blacklist(model_dicts)
         except Exception as e:
             raise Exception(f"Error decrypting blacklist: {e}", e)
 
