@@ -258,7 +258,8 @@ Protected actions include:
 
 The keys encrypting the cache are backed up automatically to an external drive
 (set `SD_RUNNER_KEY_BACKUP_DIR` to choose where). Run `python scripts/key_material.py`
-to check that backup's state, or `backup` to take one by hand.
+to check that backup's state, `backup` to take one by hand, or `restore` to put
+the keys back from a backup if the cache can no longer be opened.
 
 ## Server
 

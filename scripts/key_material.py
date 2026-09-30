@@ -11,12 +11,18 @@ backup cannot cover: seeding a new machine, or capturing state before a
 change. Routine backups happen on their own now, whenever the key store is
 written (see AUTO_BACKUP_KEY_STORE in utils/encryptor.py).
 
+``restore`` puts a backup's key store back at the live location after the
+store is lost or corrupted. It first checks that the backup decrypts the real
+cache, and writes nothing if it does not.
+
 Usage:
   python scripts/key_material.py                       # status
   python scripts/key_material.py status --include-legacy
   python scripts/key_material.py backup                # to the detected drive
   python scripts/key_material.py backup -o E:/keys.json
   python scripts/key_material.py backup --stdout       # print, write nothing
+  python scripts/key_material.py restore               # from the detected drive
+  python scripts/key_material.py restore E:/keys.json --dry-run
 """
 from __future__ import annotations
 
@@ -38,16 +44,25 @@ from lib.encryptor import (  # noqa: E402
     KEY_BACKUP_DIR_ENV_VAR,
     PasswordManager,
     available_external_drives,
+    clear_key_store_cache,
+    decrypt_data_from_file,
     default_key_backup_path,
     export_key_material,
     get_key_base,
     has_prior_key_material,
+    import_key_material,
     key_store_path,
     namespaced_key,
     peek_passphrase,
     read_key_store,
 )
+import lib.encryptor as enc  # noqa: E402
 import keyring  # noqa: E402
+
+#: The cache the keys must open. AppInfoCache.CACHE_LOC, resolved without
+#: importing it: constructing that singleton decrypts the cache, which is what
+#: fails when a restore is needed.
+CACHE_LOC = os.path.join(REPO_ROOT, "app_info_cache.enc")
 
 
 def _identifiers(include_legacy: bool) -> list:
@@ -225,9 +240,100 @@ def cmd_backup(args: argparse.Namespace) -> int:
             print(f"  {path}")
         print(
             "\nEach contains the keychain passphrase in the clear. Restore with:\n"
-            "  from lib.encryptor import import_key_material\n"
-            "  import_key_material(json.load(open(<path>)))"
+            "  python scripts/key_material.py restore <path>"
         )
+    return 0
+
+
+def _opens_cache(store: dict) -> bool:
+    """Whether *store* decrypts the real cache. Reads only; writes nothing.
+
+    The store is seeded into the encryptor's in-process cache so the normal
+    decrypt path runs against it, without writing it to the live location and
+    without reimplementing the key handling here.
+    """
+    service, app = Globals.SERVICE_NAME, Globals.APP_IDENTIFIER
+    clear_key_store_cache(service, app)
+    with enc._key_store_lock:
+        enc._key_store_cache[(service, app)] = store
+    try:
+        data = decrypt_data_from_file(CACHE_LOC, service, app)
+        json.loads(data.decode("utf-8"))
+    except Exception as e:
+        print(f"  decrypt    : FAILED -- {e}")
+        return False
+    finally:
+        clear_key_store_cache(service, app)
+        # get_encryptor memoises the class per service/app; drop it so a later
+        # call re-reads the type from whatever is actually stored.
+        enc.ENCRYPTOR_CLASSES.clear()
+    print(f"  decrypt    : OK -- opened {os.path.basename(CACHE_LOC)}")
+    return True
+
+
+def cmd_restore(args: argparse.Namespace) -> int:
+    service, app = Globals.SERVICE_NAME, Globals.APP_IDENTIFIER
+    if os.environ.get("SD_RUNNER_CACHE_DIR"):
+        # The key store would be written under the override while the check
+        # below reads the real cache, so the two would not match.
+        print("SD_RUNNER_CACHE_DIR is set; unset it and run again.")
+        return 1
+
+    path = args.path or default_key_backup_path(service, app)
+    if not path:
+        print("No external drive detected; pass the backup file's path.")
+        return 1
+    print(f"Backup: {path}")
+    print(f"Cache : {CACHE_LOC}\n")
+
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            material = json.load(handle)
+        store = material["key_store"]
+    except Exception as e:
+        print(f"  unreadable: {e}")
+        return 1
+    if store is None:
+        print("  This backup predates migration and holds legacy keychain items,")
+        print("  not a key store. Restore it with lib.encryptor.import_key_material().")
+        return 1
+
+    passwords = sorted(store.get(PasswordManager.STORE_SECTION, {}))
+    print(f"  encryptor  : {store.get(ENCRYPTOR_TYPE_KEY, 'unknown')}")
+    print(f"  passwords  : {', '.join(passwords) if passwords else '(none stored)'}")
+
+    if not os.path.isfile(CACHE_LOC):
+        print("  cache      : not found -- cannot verify; nothing written.")
+        return 1
+    if not peek_passphrase(service, app):
+        print("  passphrase : ABSENT from the keychain; the key store alone cannot")
+        print("               decrypt anything. Restore the whole backup, passphrase")
+        print("               included, with lib.encryptor.import_key_material().")
+        return 1
+    if not _opens_cache(store):
+        print("\nThis backup does NOT open your cache; nothing was written.")
+        return 1
+
+    if args.dry_run:
+        print("\nDry run -- nothing written.")
+        return 0
+
+    destination = key_store_path(service, app)
+    print(f"\nWill write: {destination}")
+    if read_key_store(service, app) is not None:
+        print("  A key store already exists there and will be replaced.")
+    if not args.yes and input("Proceed? (y/N): ").strip().lower() != "y":
+        print("Cancelled.")
+        return 1
+
+    # Passphrase left out: the one in the keychain is what the cache was just
+    # shown to decrypt against, and the backup's copy may be older.
+    import_key_material({"service_name": service, "app_identifier": app, "key_store": store})
+    clear_key_store_cache(service, app)
+    if read_key_store(service, app) != store:
+        print(f"\nThe restored store did not read back intact. Keep {path}.")
+        return 1
+    print("\nRestored and verified.")
     return 0
 
 
@@ -249,6 +355,12 @@ def main() -> int:
     backup.add_argument("--stdout", action="store_true", help="Print instead of writing.")
     backup.add_argument("--include-legacy", action="store_true", help=legacy_help)
     backup.set_defaults(func=cmd_backup)
+
+    restore = sub.add_parser("restore", help="Put a backup's key store back, after checking it opens the cache.")
+    restore.add_argument("path", nargs="?", help="Backup file. Omit for the detected drive.")
+    restore.add_argument("--dry-run", action="store_true", help="Verify only; write nothing.")
+    restore.add_argument("--yes", action="store_true", help="Skip the confirmation prompt.")
+    restore.set_defaults(func=cmd_restore)
 
     args = parser.parse_args()
     if not getattr(args, "func", None):
