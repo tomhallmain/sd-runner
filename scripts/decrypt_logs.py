@@ -5,7 +5,7 @@
     python scripts/decrypt_logs.py --all -o DIR        every log, as DIR/<name>.log
 
 Must run as the user who wrote the logs: the key is derived from a passphrase in
-that user's keyring (or SD_RUNNER_LOGS_PASSPHRASE, if set).
+that user's keyring (or MYPERSONALAPPLICATIONSSERVICELOGS_PASSPHRASE, if set).
 """
 
 import argparse

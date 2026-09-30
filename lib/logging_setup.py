@@ -11,12 +11,12 @@ from lib.custom_formatter import CustomFormatter
 from lib.encryptor import encrypt_log_record, get_log_cipher_key
 
 #: The keyring identity the log key is derived under; a reader of the log
-#: files must use the same two strings. A service of its own rather than the
-#: app's: PassphraseManager's env-var override is keyed on the service name
-#: alone, so the test suite can pin this passphrase (SD_RUNNER_LOGS_PASSPHRASE)
+#: files must use the same two strings. The app's service name with a suffix:
+#: PassphraseManager's env-var override is keyed on the service name alone, so
+#: the test suite can pin this passphrase (MYPERSONALAPPLICATIONSSERVICELOGS_PASSPHRASE)
 #: without also answering every passphrase lookup for the app's encrypted cache.
-LOG_ENCRYPTION_SERVICE = "sd_runner_logs"
-LOG_ENCRYPTION_APP_ID = "logs"
+LOG_ENCRYPTION_SERVICE = "MyPersonalApplicationsServiceLogs"
+LOG_ENCRYPTION_APP_ID = "sd_runner"
 LOG_FILE_SUFFIX = ".log.enc"
 #: The log file's suffix when the user has turned encryption off.
 PLAINTEXT_LOG_FILE_SUFFIX = ".log"

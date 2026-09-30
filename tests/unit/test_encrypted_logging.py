@@ -82,7 +82,7 @@ class TestStreamingLogCipher:
     def test_the_key_follows_the_pinned_passphrase(self, monkeypatch):
         """The suite pins it so the handler built at import never reaches a keyring."""
         pinned = log_key()
-        monkeypatch.setenv("SD_RUNNER_LOGS_PASSPHRASE", "something else")
+        monkeypatch.setenv(f"{LOG_ENCRYPTION_SERVICE.upper()}_PASSPHRASE", "something else")
         assert log_key() != pinned
 
 
