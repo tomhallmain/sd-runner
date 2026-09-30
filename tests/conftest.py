@@ -35,7 +35,7 @@ _bootstrap_cache_dir = os.path.join(_bootstrap_tmp, "cache")
 os.makedirs(_bootstrap_configs_dir, exist_ok=True)
 os.makedirs(_bootstrap_cache_dir, exist_ok=True)
 
-_config_example_src = os.path.join(_project_root, "configs", "config example.json")
+_config_example_src = os.path.join(_project_root, "sd_runner", "data", "config_example.json")
 if os.path.isfile(_config_example_src):
     shutil.copy(_config_example_src, os.path.join(_bootstrap_configs_dir, "config.json"))
 

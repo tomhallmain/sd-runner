@@ -33,16 +33,20 @@ def fake_app_data(tmp_path, monkeypatch):
 
 @pytest.fixture
 def fake_repo(tmp_path, monkeypatch):
-    """A repo root whose configs/ folder holds a legacy config and cache."""
+    """A repo root whose legacy configs/ folder holds a config and cache, with
+    the example config in sd_runner/data/. Returns the configs/ folder."""
     repo = tmp_path / "repo"
     configs = repo / "configs"
+    data = repo / "sd_runner" / "data"
     configs.mkdir(parents=True)
+    data.mkdir(parents=True)
     (configs / "config.json").write_text('{"legacy": true}', encoding="utf-8")
-    (configs / "config example.json").write_text('{"example": true}', encoding="utf-8")
     (configs / CACHE_NAME).write_bytes(b"legacy cache")
+    example = data / "config_example.json"
+    example.write_text('{"example": true}', encoding="utf-8")
     monkeypatch.setattr(blacklist_mod, "_REPO_ROOT", str(repo))
-    monkeypatch.setattr(Config, "CONFIGS_DIR_LOC", str(configs))
-    monkeypatch.setattr(Config, "EXAMPLE_CONFIG_LOC", str(configs / "config example.json"))
+    monkeypatch.setattr(Config, "LEGACY_CONFIGS_DIR", str(configs))
+    monkeypatch.setattr(Config, "EXAMPLE_CONFIG_LOC", str(example))
     return configs
 
 
@@ -126,7 +130,7 @@ class TestConfigLocation:
         (fake_repo / "config.json").unlink()
         path = Config.resolve_config_path()
         assert open(path, encoding="utf-8").read() == '{"example": true}'
-        assert (fake_repo / "config example.json").exists()
+        assert os.path.exists(Config.EXAMPLE_CONFIG_LOC)
 
 
 class TestAdoptLegacyFile:
@@ -138,3 +142,23 @@ class TestAdoptLegacyFile:
         adopt_legacy_file(str(legacy), str(target))
         assert target.read_text(encoding="utf-8") == "current"
         assert legacy.exists()
+
+
+class TestMovedCacheFile:
+    def test_a_moved_cache_saves_where_it_was_loaded_from(self, tmp_path):
+        """The pickle records the path it was saved to; after the file is moved,
+        a save must follow the file rather than recreate the old path."""
+        from lib.pickleable_cache import SizeAwarePicklableCache
+
+        old_path = tmp_path / "old" / CACHE_NAME
+        new_path = tmp_path / "new" / CACHE_NAME
+        old_path.parent.mkdir()
+        new_path.parent.mkdir()
+        cache = SizeAwarePicklableCache(maxsize=4, filename=str(old_path))
+        cache.save()
+        adopt_legacy_file(str(old_path), str(new_path))
+
+        loaded = SizeAwarePicklableCache.load_or_create(str(new_path), maxsize=4)
+        loaded.save()
+        assert loaded.filename == str(new_path)
+        assert not old_path.exists()

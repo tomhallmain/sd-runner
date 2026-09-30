@@ -137,7 +137,11 @@ class PicklableCache:
         if not os.path.exists(filename):
             raise FileNotFoundError(f"Cache file not found: {filename}")
         with open(filename, 'rb') as f:
-            return pickle.load(f)
+            cache = pickle.load(f)
+        # The pickle carries the path it was saved to. Bind the cache to the
+        # file it was read from, so a moved cache file saves where it now is.
+        cache.filename = filename
+        return cache
     
     @classmethod
     def load_or_create(cls, filename, maxsize=128):
@@ -366,7 +370,11 @@ class SizeAwarePicklableCache:
         if not os.path.exists(filename):
             raise FileNotFoundError(f"Cache file not found: {filename}")
         with open(filename, 'rb') as f:
-            return pickle.load(f)
+            cache = pickle.load(f)
+        # The pickle carries the path it was saved to. Bind the cache to the
+        # file it was read from, so a moved cache file saves where it now is.
+        cache.filename = filename
+        return cache
     
     @classmethod
     def load_or_create(cls, filename, maxsize=128, large_threshold=1024, max_large_items=1, protected_large_items=0):

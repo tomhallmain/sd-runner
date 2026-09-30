@@ -18,14 +18,15 @@ Deliberately Qt-free so the i18n scripts can import it directly.
 import json
 import os
 
-from lib.logging_setup import get_logger
+from lib.logging_setup import adopt_legacy_file, get_logger
 
 logger = get_logger("prompts.pending_translation")
 
 #: sd_runner/prompts/ -> sd_runner/ -> repo root. Named once so a move
 #: corrects one line rather than a count buried in a dirname chain.
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_DEFAULT_DIR = os.path.join(_REPO_ROOT, "configs")
+_DEFAULT_DIR = os.path.join(_REPO_ROOT, "sd_runner", "data")
+_FILENAME = "pending_translation.json"
 
 #: dictionary.txt is excluded from the gettext export and maintained on its own
 #: schedule, so additions to it are never staged.
@@ -36,12 +37,18 @@ def resolve_pending_translation_file() -> str:
     """Path to the backlog file.
 
     Honours ``SD_RUNNER_CACHE_DIR`` so tests redirect it automatically, and
-    otherwise lands in ``configs/``, which is gitignored -- mirroring how the
-    blacklist filter cache resolves its own path.
+    otherwise lands in ``sd_runner/data/``, where .gitignore keeps it out of
+    commits. Only computes the path; the move out of the legacy ``configs/``
+    location happens once, at import.
     """
     override = os.environ.get("SD_RUNNER_CACHE_DIR")
     base = override if override else _DEFAULT_DIR
-    return os.path.join(base, "pending_translation.json")
+    return os.path.join(base, _FILENAME)
+
+
+if not os.environ.get("SD_RUNNER_CACHE_DIR"):
+    adopt_legacy_file(os.path.join(_REPO_ROOT, "configs", _FILENAME),
+                      os.path.join(_DEFAULT_DIR, _FILENAME))
 
 
 def get_pending_translations() -> list:

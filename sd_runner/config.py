@@ -8,10 +8,11 @@ logger = get_logger("config")
 
 
 class Config:
-    #: The repo's configs/ folder: holds the shipped example, and is the legacy
-    #: location a config.json is migrated from.
-    CONFIGS_DIR_LOC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "configs")
-    EXAMPLE_CONFIG_LOC = os.path.join(CONFIGS_DIR_LOC, "config example.json")
+    #: The repo's configs/ folder, the legacy location a config.json is
+    #: migrated from.
+    LEGACY_CONFIGS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "configs")
+    #: Shipped with the package; seeds a user's config.json on first run.
+    EXAMPLE_CONFIG_LOC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "config_example.json")
 
     # Registry of config keys the Config dialog exposes as editable.
     # Maps key → expected Python type for coercion:
@@ -100,7 +101,7 @@ class Config:
         if override:
             return override
         configs_dir = str(app_data_dir("configs"))
-        adopt_legacy_file(os.path.join(Config.CONFIGS_DIR_LOC, "config.json"),
+        adopt_legacy_file(os.path.join(Config.LEGACY_CONFIGS_DIR, "config.json"),
                           os.path.join(configs_dir, "config.json"))
         return configs_dir
 

@@ -22,7 +22,7 @@ if not os.environ.get("SD_RUNNER_CONFIGS_DIR") or not os.environ.get("SD_RUNNER_
         os.makedirs(_fb_configs, exist_ok=True)
         _example = os.path.join(
             os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-            "configs", "config example.json",
+            "sd_runner", "data", "config_example.json",
         )
         if os.path.isfile(_example):
             import shutil as _sh

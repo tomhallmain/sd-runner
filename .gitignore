@@ -12,10 +12,15 @@ concepts/nsfl*
 concepts/nsfw*
 concepts/wildcards.txt
 configs/*
-!configs/config_example.json
+# sd_runner/data/ holds both shipped files and files the app writes at runtime,
+# so nothing there is tracked unless it is listed here.
+sd_runner/data/*
+!sd_runner/data/blacklist_default.enc
+!sd_runner/data/config_example.json
+!sd_runner/data/urban_dictionary.enc
+!sd_runner/data/workflows/
 sd_runner/data/workflows/stableDiffusion3*
 sd_runner/data/workflows/test.json
-sd_runner/data/urban_dictionary.txt
 sdg_script.py
 scripts/i18n_fixes.json
 puns_books*.py

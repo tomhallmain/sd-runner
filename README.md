@@ -207,7 +207,7 @@ The run queue can be paused at any time using the **Pause Queue** button (sideba
 
 The prompts are generated using text concepts files. Each line in each file represents a concept that can be added randomly to the prompt, based on the prompter configuration.
 
-Additional concepts folders can be defined by adding paths to the `concepts_dirs` array in config (see `configs/config example.json`). Restart the UI and select the desired folder from the concepts dropdown in the sidebar. The repo includes English `concepts/` and German `Konzepte/`; both are listed in the example config.
+Additional concepts folders can be defined by adding paths to the `concepts_dirs` array in config (see `sd_runner/data/config_example.json`). Restart the UI and select the desired folder from the concepts dropdown in the sidebar. The repo includes English `concepts/` and German `Konzepte/`; both are listed in the example config.
 
 ## Concept Editor Window
 
