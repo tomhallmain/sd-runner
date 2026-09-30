@@ -189,6 +189,7 @@ Fabelon
 falscher Schnurrbart
 Family Feud
 Familienfreund
+Papperlapapp
 Fido
 Pfui
 Final Destination
@@ -211,6 +212,7 @@ Guten Tag, Kumpel
 Tölpel
 Spieler
 Pförtner
+Hottehü
 Dschinn
 Hau ab!
 Das glaub ich nicht!
@@ -615,6 +617,7 @@ mit Rizz
 Warner Bros
 Weiter so!
 Was ist ein Name
+Grünschnabel
 Whippoorwill
 juchhe!
 Wilhelm der Eroberer

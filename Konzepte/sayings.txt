@@ -4,7 +4,10 @@ Nichts wie weg!
 [[[Er hat,Sie hat ,]]zwei linke Füße
 [[[Ich habe,du hast,wir haben,sie haben,],[er,sie,es] hat,]] noch eine Rechnung offen
 
+Ein ungeschliffener Diamant
+[[Pfusch,$$random_word verpfuschen]]
 [[Ein,Der]] Leopard [[kann,kann nicht,]] [[seine,seine]] Flecken nicht ändern
+[[Ich bin,Er ist,Sie ist,Sie sind]] doch nicht von gestern
 [[Alle g,G]]uten Dinge kommen zu [[dem,denen]], die warten
 [[Mach keinen,Mach]] aus einer Mücke einen Elefanten
 [[Tu,tut,tuend,tat]] es aus Impuls
@@ -17,6 +20,7 @@ Nichts wie weg!
 [[Beurteile,Niemals,Kannst du nicht]] ein Buch nach seinem Einband
 [[Schaue,Schaue nie]] einem geschenkten Gaul ins Maul
 [[Alles kommt,Alle guten Dinge kommen]] zu denen, die warten
+Entschuldigen Sie meine Ausdrucksweise
 [[Hatte,Habe]] es schwer
 [[Hatte,Habe]] es geschafft
 [[Habe,Hat,Hatte]] nicht die leiseste Ahnung
@@ -25,7 +29,12 @@ Nichts wie weg!
 [[Ich werde,Er wird,Sie wird,Wir werden,Sie werden]] es [[versuchen,wagen,an sich reißen]]
 
 [[Ich bin,Wir sind]] hier raus!
+[[Ich bin,Du bist,Er ist,Sie ist,Sie sind]] auch kein Engel
+[[Ich bin,Du bist,Er ist,Sie ist,Sie sind]] nicht mehr taufrisch
+Um nichts in der Welt mit $$random_word
 [[Ich,du,er,sie,es,wir,sie]] kann genauso gut
+[[Ich kann,Du kannst,Er kann,Sie kann,Wir können,Sie können]] damit nichts anfangen
+[[Ich kann,Du kannst,Er kann,Sie kann,Wir können,Sie können]] nicht klar denken
 [[Es ist b,Es ist b,B]]esser geliebt zu haben und verloren[[, als nie geliebt zu haben]]
 
 
@@ -39,11 +48,13 @@ Nichts wie weg!
 
 
 [[Mein,Dein,Sein,Ihr,Ihr,Unser,Ihr]] Stolz und Freude
+[[Meine,Deine,Seine,Ihre,Unsere]] Stunde hat geschlagen
 [[Nur die ,]]Zeit wird es zeigen
 [[Macht korrumpiert; ,]]Absolute Macht korrumpiert absolut
 [[Begleiche,Begleicht,Begleichend]] alte Rechnungen
 [[Sprich,Geh]] leise [[und,aber]] mit großem Stock
 [[Reden ist Silber, aber ,]]Schweigen ist Gold
+[[Wie aus dem Gesicht geschnitten,$$random_word wie aus dem Gesicht geschnitten]]
 [[Wo Rauch ist, ist auch Feuer,Wo Rauch ist, ist auch Feuer]]
 [[Um es ,]]kurz zu machen
 [[Schließe,Schloss]] den Bund fürs Leben
@@ -52,33 +63,52 @@ Nichts wie weg!
 [[Du bist n,N]]iemals zu alt zum Lernen
 [[Man k,K]]ann keine Omelette machen, ohne Eier zu zerschlagen
 [[Du stehst :1,:5]]auf dünnem Eis
+[[Du veräppelst,Er veräppelt,Sie veräppelt,Sie veräppeln]] [[mich,uns]]
 [[Du bist,Er ist,Sie ist,Was für ein]] seltener Vogel
+[[Ein Mann,Eine Frau]] ganz nach [[meinem,deinem,seinem,ihrem,unserem]] Geschmack
+So ein Pech
 Eine schlechte Ausrede ist besser als keine
 Ein schlechter Groschen kehrt immer wieder
 Ein schlechter Handwerker schimpft auf sein Werkzeug
+Das ist viel verlangt
 Ein Sperling in der Hand ist besser als eine Taube auf dem Dach
+Einen Happen essen
 Ein Segen in Verkleidung
+A bull and cow
 Auch eine Katze darf einen König ansehen
 Eine Kette ist nur so stark wie ihr schwächstes Glied
+Einen Groll mit sich herumtragen
 Eine Klasse besser
 Einen Tag zu spät und einen Dollar zu wenig
 Wie aus dem Gesicht geschnitten
 Ein Diamant ist unvergänglich
 Wie Sand am Meer
 Der Hund ist des Menschen bester Freund
+Ein ungläubiger Thomas
 Ein Ertrinkender klammert sich an jeden Strohhalm
 Ein fairer Anteil
+Ein Ruhmesblatt
+Ein Wermutstropfen
 Bei Narren und ihrem Geld ist es bald aus
+Ein Narrenparadies
 Einen Fuß in der Tür
 Ein Freund in der Not (ist ein wahrer Freund)
 Ein Freund in der Not ist ein wahrer Freund
 Wer aller Freund ist, ist niemandes Freund
+Geld öffnet alle Türen
 Einen guten Mann findet man nicht leicht
+Ein heißes Eisen
+Ein Haus, das mit sich selbst uneins ist, kann nicht bestehen
 Ein Haus ist noch kein Zuhause
 Eine Reise von tausend Meilen beginnt mit einem einzigen Schritt
+Ein Ritter in strahlender Rüstung
 Eine Sprache ist ein Dialekt mit Armee und Flotte
+Das hat mir ein Vögelchen gezwitschert
 Ein wenig Wissen ist eine gefährliche Sache
+Alles Quatsch
+Alles Humbug
 Eine verlorene Sache
+Viel um die Ohren
 Ein Mensch kann tun, was er will, aber nicht wollen, was er will
 La-Ola-Welle
 Eine Mühle kann nicht mit vergangenem Wasser mahlen
@@ -88,47 +118,70 @@ Da muss man nicht lange überlegen
 Gespart ist verdient
 Ein Bild [[ist tausend Worte wert,malt]] tausend Worte
 Ein Stück vom Kuchen
+Ein rotes Tuch
 Eine steigende Flut hebt alle Boote
 Ein rollender Stein sammelt kein Moos
 Eine Rose ist eine Rose ist eine Rose
+In sicheren Händen
+Ein tiefgreifender Wandel
 Ein Schiff im Hafen ist sicher, aber dafür ist ein Schiff nicht da
 Eine Frischzellenkur
+Eine Augenweide
+Ein Skelett im Schrank
+Ein Klaps auf die Finger
 Mit Kanonen auf Spatzen schießen
+Ein Bild des Jammers
 Eine ordentliche Mahlzeit
 Eine rechtzeitige Naht erspart neun
 Eine rechtzeitige Naht[[, erspart neun]]
+Ein Katzensprung
 Ein Schwarm im Mai ist einen Heuhaufen wert; im Juni einen Silberlöffel; im Juli nicht einmal eine Fliege
 
 
+[[Mir,Dir,Ihm,Ihr,Uns,Ihnen]] ein Dorn im Auge
+Eine Glückssache
 [[Ein beobachteter Topf,Ein beobachteter Kessel]] kocht nie
 Ein beobachteter Mann spielt nie
 Ein Wolf im Schafspelz
 Eine Frau braucht einen Mann wie ein Fisch ein Fahrrad
+Kehrtwende
 Das entscheiden die da oben
 Abwesenheit macht das Herz zärtlicher
 Abwesenheit böser Absicht
 Zerstreuter Professor
+Aber sowas von!
 Unfälle passieren (selbst in den bestreguliertesten Familien)
 Ass im Ärmel
 Ass im [[meinen,deinem,seinem,ihrem]] Ärmel
+Achillesferse
 Feuerprobe
+Auf ganzer Linie
 Über den großen Teich
+Benimm dich deinem Alter entsprechend
 Actionheld
 Taten sagen mehr als Worte
+Gänsewein
+Öl ins Feuer gießen
 Not macht seltsame Bettgenossen
 Luftkuss
 Gänsefüßchen in der Luft
+Am Schreibtisch essen
+Im Freien
+Wie der Ochs vorm Berg
 Viel Bellen und kein Beißen
 Ganz [[allein,allein,für sich,unter sich]]
 Alle für einen und einer für alle
 Alles Gute hat ein Ende
 Alle Mann an Deck/an der Pumpe
 Große Klappe, nichts dahinter
+Das gehört zum Tagesgeschäft
 Alles ist zum Besten in der besten aller möglichen Welten
 Alles, was zur Mühle kommt, ist Mahlgut
 Alles, was zur Mühle kommt, ist Mahlgut
+Spaß beiseite
 Alles oder nichts
 Alle Wege führen nach Rom
+Alles startklar
 Mit allem Drum und Dran
 Alle Systeme bereit
 Nicht alles, was [[glänzt,schimmert]], ist Gold
@@ -145,8 +198,12 @@ Noch ist nicht alles verloren
 [[Alles ist erlaubt,Alles ist erlaubt]] in Liebe und Krieg
 [[Alles ist,Alles ist]] gut, was gut endet
 Straßenkatze
+Alpha-Mama
+Abkürzungsdschungel
 Schau immer auf die helle Seite[[, des Lebens]]
+Aufgedreht
 Ein Unglück mit Ansage
+Höhere Gewalt
 Ein Apfel am Tag hält den Doktor fern
 Eine Armee marschiert mit dem Magen
 Das Heim des Engländers ist sein Schloss/Das Heim eines Mannes ist sein Schloss
@@ -155,6 +212,7 @@ Auge um Auge
 Auge um Auge macht die ganze Welt blind
 Auge um Auge, Zahn um Zahn
 Ein ehrlicher Mensch muss sich nicht viel merken
+Ein klarer Fall
 Eine Unze Vorbeugung ist ein Pfund Heilung wert
 Und sie laufen!
 Ein neuer Tag, ein neuer Dollar
@@ -162,6 +220,7 @@ Noch eine glückliche Landung
 In der Not frisst der Teufel Fliegen
 Jede Publicity ist gute Publicity
 Alles, was sich lohnt, ist schwer
+Apples and pears
 Aprilschauer bringen Maiblumen hervor
 Bist du soweit bei mir?
 Selbstverständlich
@@ -173,6 +232,7 @@ Ein Kinderspiel
 Wie immer
 Soweit ich sagen kann
 Sich freuen wie ein Schneekönig
+Außer Rand und Band
 Wenn ich mich recht erinnere
 So seltsam wie ein Drei-Dollar-Schein
 Wie das Röhrchen gebogen wird, so neigt sich der Baum
@@ -193,12 +253,18 @@ Heute ist nicht mein Tag
 Schlechtes Geld verdrängt gutes Geld
 Schlechte Nachrichten verbreiten sich schnell
 Zack, fertig!
+Stadtstreicherin
+Bäckerdutzend
 Pi mal Daumen
 Bellende Hunde beißen selten
 An der falschen Stelle suchen
+Barnet fair
 Nervliches Wrack
+Vom Pavillon-Ende schlagen
 Einen Vogel haben
+Sei kein Spielverderber
 Haben Sie Angst, sehr große Angst
+Froh sein, $$random_word los zu sein
 Sei du selbst
 Strandgammler
 Erbsenzähler
@@ -216,6 +282,7 @@ Siehe!
 Ob du es glaubst oder nicht
 Schnickschnack
 [[Mein,Sein,Ihr,Ihr,Sein]] Ohr leihen
+Sich ein Bein ausreißen
 Beste Wette
 Darauf kannst du Gift nehmen
 Besser spät als nie
@@ -229,7 +296,9 @@ Lieber schweigen und für dumm gehalten werden als sprechen und jeden Zweifel be
 
 Lieber abnutzen als einrosten
 Zwischen Hammer und Amboss
+Zwischen den Kriegen
 Hüte dich vor Griechen, die Geschenke bringen
+Unbezahlbar
 Die großen Fische fressen die kleinen
 Großer Fisch im kleinen Teich
 Serienmarathon
@@ -248,24 +317,31 @@ Blondes Gift
 Blut ist dicker als Wasser
 Dich umhauen
 Tagesgericht
+Boat race
 Boogie-Woogie
 Reservieren
 Wiedergeboren
 Mit dem silbernen Löffel im Mund geboren
 Die Radieschen von unten ansehen
 Jungen bleiben Jungen
+Brahms and Liszt
 Hals- und Beinbruch
 Die Bank sprengen
 Das Eis brechen
 Kürze ist die Würze des Geistes
+Ziegel und Mörtel
+Sein Bestes geben
 Ein verächtliches Prusten
+Brown bread
 Pluspunkte
+Brumm brumm
 Löffelliste
 Schön für dich
 Brücken abbrennen
 Bis tief in die Nacht arbeiten
 Das Kriegsbeil begraben
 Geschäft vor Vergnügen
+Ein Montagsauto kaufen
 Nach allen Berichten
 Mit allen Mitteln
 Nach und nach
@@ -274,14 +350,20 @@ Dem entsprechend
 Mit knapper Not
 Caesar Salad
 Cäsars Frau muss über jedem Verdacht erhaben sein
+Kalenderjahr
 Schluss für heute
 Schluss machen
 Ruhige See macht keinen guten Seemann
+Nicht das Zeug dazu haben
 Ein genaues Abbild
 Falschspieler
 Plaudereien kosten Leben
+Carpe diem
+Einen Saumagen haben
+Hat es [[dir,ihm,ihr,euch]] die Sprache verschlagen?
 Verstehst du, was ich meine?
 Catch-22
+Zwischen zwei Stühlen sitzen
 Chaiselongue
 [[Meine,Deine,Seine,Seine,Ihre,Unsere,Ihre]] Wege ändern
 Die Wohltätigkeit beginnt zu Hause
@@ -289,11 +371,15 @@ Wadenkrampf
 Charmeoffensive
 Einen Kurs stecken
 Betrüger gehen leer aus
+Dicht an dicht
 Käse, Wein und Freunde müssen alt sein, um gut zu sein
 Tschechows Pistole
+Cherry ripe
+[[Mich,Dich,Ihn,Sie]] zusammenstauchen
 Frauenfilm
 Ein Taschengeld
 Kinder soll man sehen und nicht hören
+China plate
 Kräftig reinhauen
 Weihnachten kommt nur einmal im Jahr
 Höflichkeit kostet nichts und bringt alles
@@ -303,41 +389,55 @@ Klickköder
 Cliffhanger
 Knapp daneben
 Kleidung [[macht nicht ,]]macht den Mann
+Wolkenkuckucksheim
 Clubsandwich
+Lügenmärchen
 Kaffee und Liebe schmecken heiß am besten
 Wie man so schön sagt
 Kalte Hände, warmes Herz
 kalter Entzug
+Komme, was da wolle
 Kommen Sie nach vorne!
 Bei Regen oder Sonnenschein
+Firmentreuer Mitarbeiter
 Vergleiche hinken
 Mitleidsmüdigkeit
 Verdammt noch mal!
+Knüppeldamm
 Ein Vermögen kosten
 Heimindustrie
 Zähle deine Segnungen
 Mut ist das Maß des Mannes, Schönheit das Maß der Frau
 Feiglinge können viele Male sterben, bevor sie sterben
+[[Mich,Dich,Ihn,Sie]] zum Lachen bringen
+Cream crackered
 Die Sahne steigt nach oben
 Verbrechen lohnt sich nicht
 Kreuz und quer, Apfelmus
+Die Daumen drücken
 Den Bach dort überqueren, wo er am flachsten ist
+Die heiße Phase
 Wolf rufen
 Neugier ist der Katze Tod
 [[Meine,Seine,Ihre,Ihre,Seine]] Lippe verziehend
+Currant bun
 Verdammt! Wieder vereitelt!
 Ecken abschneiden
 Der Schlange den Kopf abschlagen
 Den bürokratischen Papierkram durchschneiden
 Zur Sache kommen
 Den Mantel nach dem Stoff schneiden
+Daisy roots
 Mit halbherzigem Lob verdammen
+Ambulante Operation
 Tote Männer plaudern nicht
 Deal oder kein Deal
 Leugnung ist kein Nil-Fluss
+Fahrer vom Dienst
 Dreitagebart
 Der Teufel hole die Langsamsten
 Advokatus Diaboli
+[[Einen Gang zurückschalten,$$random_word herunterfahren]]
 Anders befähigt
 Mistkerl
 Klugheit ist die bessere Hälfte des Mutes
@@ -359,6 +459,8 @@ Um eines Groschens willen das Schiff verderben
 Nicht mit Mitleid antworten, wer kein Mitgefühl hat
 Behandle andere so, wie du behandelt werden möchtest
 Stört es dich?
+Dog and bone
+Hundstage
 Da fress ich einen Besen
 Beiß nicht die Hand, die dich füttert
 Wir melden uns bei Ihnen
@@ -366,6 +468,7 @@ Zähle die Küken nicht, bevor sie schlüpfen
 Weine nicht über verschüttete Milch
 Wer austeilt, muss einstecken können
 Nicht ärgern, heimzahlen
+Bleib lieber bei deinem Hauptberuf
 Setze nicht alles auf eine Karte
 Schaukel nicht das Boot
 Streue kein Salz in die Wunde
@@ -374,7 +477,9 @@ Pass auf Betrügereien auf
 Wirf das Kind nicht mit dem Bad aus
 Kriech erst, bevor du läufst
 Schmeiß den Apfelwagen nicht um
+Seit Ewigkeiten
 Weltuntergangsstimmung
+Doppelveranstaltung
 Ein doppelter Schlag
 Zweifel ist der Anfang der Weisheit, nicht das Ende
 Für die Katz
@@ -386,10 +491,14 @@ Eine Linie im Sand ziehen
 Eine Grenze ziehen
 Eine Leerstelle haben
 Sich in Schale werfen
+[[Mich,Dich,Ihn,Sie]] auf die Palme bringen
 Ein Tropfen auf den heißen Stein
 Umwerfend schön
+Wie die Fliegen umfallen
 Trommelwirbel, bitte
+Trockenübung
 reines Glück
+Blaumachen
 Ohrenschmaus
 Frühe Heirat, frühere Schwangerschaft
 Wer früh schlafen geht und früh aufsteht, bleibt gesund, reich und weise
@@ -407,6 +516,8 @@ Frühstück wie ein Kaiser, Mittagessen wie ein Prinz, Abendessen wie ein Bettle
 
 Esst und trinkt und seid fröhlich, (denn morgen sind wir tot)
 Von der Karte streichen
+Muskelschmalz
+Elephant's trunk
 Elvis hat das Gebäude verlassen
 Leere Fässer klappern am lautesten
 Genug ist so gut wie ein Festmahl
@@ -424,6 +535,8 @@ Jeder Stock hat zwei Enden
 Jede Flut hat ihre Ebbe
 [[Jeder,Jeder Mann]] hat [[seinen, ihren]] Preis
 Jeder will in den Himmel, aber niemand will sterben
+Mit Sack und Pack
+Böser Zwilling
 Auge in der Luft
 Sich der Musik stellen
 Schnell verblassend
@@ -431,6 +544,7 @@ Wer nicht plant, plant zu scheitern
 Wer nicht wagt, der nicht gewinnt
 Fair und ehrlich
 Ein fairer Tausch ist kein Raub
+Ein Ende wie im Märchen
 Glaube versetzt Berge
 So tun, als ob, bis es klappt
 Sündenbock
@@ -439,10 +553,13 @@ Siebenmal fallen, achtmal aufstehen
 Falsche Freunde sind schlimmer als offene Feinde
 Vertrautheit erzeugt Verachtung
 Schnösel
+Meilenweit entfernt von $$random_word
 Modeopfer
 Erkältung füttern, Fieber hungern lassen
 Gieriges Gerangel
 Ein bisschen eingerostet
+Vom Laster gefallen
+Ein gefundenes Fressen
 Fünfzehn Minuten Ruhm
 Fünfte Kolonne
 Feuer mit Feuer bekämpfen
@@ -454,21 +571,30 @@ Für mich in Ordnung
 Schöne Federn machen schöne Vögel
 Schöne Worte buttern keine Pastinaken
 Zum Fingerlecken gut
+Die Fantasie beflügeln
+Erster unter Gleichen
 Der erste Eindruck zählt
 Erste Tagesordnung
 Erst das Wichtigste
+Erste Welt
+Luxusproblem
 Der Fisch fängt am Kopf an zu stinken
 Fisch und Gäste stinken nach drei Tagen
 Butter bei die Fische
 Fit wie ein Turnschuh
 Abendlicher Bartschatten
+Festgefahren
 Bin grad drauf und dran
 Kurzes Strohfeuer
 Schmeichelei bringt dich nicht weiter
 Der letzte Schrei
+Flohkino
+Treibgut
 Aus dem Bauch heraus handeln
 An die Decke gehen
 Fliege an der Wand
+Schaum vor dem Mund haben
+Katzengold
 Narren stürmen sich (wo Engel sich scheuen)
 Hier essen oder zum Mitnehmen?
 Zu vermieten
@@ -480,22 +606,31 @@ Für was es wert ist
 Gewarnt ist gewappnet
 Das Glück [[begünstigt,lächelt]] den [[Kühnen,Tapferen]]
 Gratis ist für mich
+Sich herausputzen
+Frog and toad
 Von Küste zu Küste
 Von Anfang an
 Vom Erhabenen zum Lächerlichen (ist nur ein Schritt)
 Dein Wort in Gottes Ohr
 Vorderseite zum Feind
 Spießer
+Nur heiße Luft
 Müll rein, Müll raus
 Generation X
 Genie ist unendliche Fähigkeit, sich Mühe zu geben
 Genie ist ein Prozent Inspiration und neunundneunzig Prozent Transpiration
+George Raft
+Sich einen Reim auf $$random_word machen
+Ein Fleißsternchen bekommen
 Fass dich
 Seine eigene Medizin zu kosten bekommen
 Kalte Füße bekommen
 Nägel mit Köpfen machen
 Von Anfang an dabei sein
+Einen Fehlstart hinlegen
+Mit ins Boot kommen
 Außer Kontrolle geraten
+Mit dem linken Fuß aufstehen
 Den Ball ins Rollen bringen
 Den Punkt verstehen
 Bring dich in Form
@@ -504,6 +639,7 @@ Jemandem gegen den Strich gehen
 [[Meine,Deine,Seine,Ihre,Seine,Ihre]] Sachen in Ordnung bringen
 Die Lilie vergolden
 [[Gib mir,Gib uns]] eine Pause
+[[Mir,Dir,Ihm,Ihr,Ihnen]] entwischen
 Gib einem Mann einen Fisch und du ernährst ihn einen Tag. Bring ihm das Fischen bei und du ernährst ihn ein Leben lang.
 
 
@@ -521,7 +657,9 @@ Das Glas ist halb voll
 Gegen den Strich gehen
 Mein Tag ist gemacht
 Zurück zum Reißbrett
+Pleitegehen
 In Flammen untergehen
+Alles auf eine Karte setzen
 Verrückt spielen
 Ein Rohrkrepierer sein
 Geh dahin, wo der Pfeffer wächst
@@ -535,19 +673,25 @@ Den Bach runtergehen
 Vor die Hunde gehen
 Gute Zäune machen gute Nachbarn
 Auf Nimmerwiedersehen
+Barmherziger Samariter
 Gutes Gespräch rettet das Essen
 Startklar
 Fein, fein!
 Ach du grüne Neune!
 Voll in meinem Element
+Nachtschicht
 Heiliger Strohsack!
 Gleiche Geister denken gleich
 Grün vor Neid
+Gregory Peck
 Totaler Stillstand
 Übereifrig
+Einen guten Krieg gehabt
 Ha! Das glaubt doch keiner!
+Konterbier
 Halbes Brot ist besser als keins
 Halbes Brot ist besser als keins
+Half inch
 Schön ist, wer schön handelt
 An einem Faden hängen
 [[Meinen,Deinen,Seinen,Ihren,Seinen]] Hut aufhängen
@@ -556,7 +700,10 @@ Harte Fälle machen schlechtes Recht
 Fleiß schadet niemandem
 Hasta la vista
 Eile mit Weile
+Hattrick
+Einen Riesenspaß haben
 Ein Hühnchen mit jemandem zu rupfen haben
+Have a Captain Cook
 Hab ein Herz
 Ein Hühnchen zu rupfen haben
 Den Kopf in den Wolken haben
@@ -582,15 +729,24 @@ Heavy Metal
 Das kalte Grausen
 Die Hölle, die eine verschmähte Frau entfesselt,
 Am Ende der Welt
+Versessen auf $$random_word
+Bedien dich
+Vor aller Augen versteckt
+Hoch zu Ross
 Abklatschen
 Wie Gott in Frankreich leben
+Hochsaison
 Mit stolzgeschwellter Brust
 Hinterher ist man immer klüger
 Ein Trotzanfall
 Die Geschichte wiederholt sich
+Büffeln
+Sich aufs Ohr hauen
 Den Nagel auf den Kopf treffen
 Ab auf die Straße
 Ins Bett fallen
+Keine echte Wahl
+Hokuspokus
 Nur langsam
 Zuhause ist, wo das Herz ist
 Ehrlichkeit währt am längsten
@@ -634,6 +790,7 @@ Wenn Wenn und Aber Bonbons und Nüsse wären, hätten wir alle ein frohes Weihna
 Wenn es nicht kaputt ist, reparier es nicht
 Wäre es eine Schlange, hätte sie dich schon gebissen
 Ohne Hoffnung bräche das Herz
+Ein Unglück kommt selten allein
 Wenn die Mütze passt, setz sie auf
 Wenn der Berg nicht zum Propheten kommt, muss der Prophet zum Berg
 
@@ -669,14 +826,17 @@ Nachahmung ist die aufrichtigste Form der Schmeichelei
 Kurz gesagt
 Auf gar keinen Fall
 In anderen Umständen
+Mit $$random_word unter einer Decke stecken
 Wer A sagt, muss auch B sagen
 In der Klemme
 Leichtes Spiel haben
+In der Schwebe
 Über [[[meinen,deinen,seinen,ihren] Kopf,[unseren,ihren] Köpfen]] hinaus
 In Hülle und Fülle
 In trockenen Tüchern
 Am längeren Hebel sitzen
 Untergetaucht
+In der Hitze des Gefechts
 Auf dem Land der Blinden sind die Einäugigen Könige
 Mitten im Leben sind wir vom Tod umgeben
 Gerade noch rechtzeitig
@@ -729,6 +889,7 @@ Das ist ein Job
 Es ist ein Geheimnis
 Die Welt ist klein
 Es explodiert gleich!
+It's all gone Pete Tong
 Vor dem Morgengrauen ist es am dunkelsten
 Böhmische Dörfer für mich
 Keine Raketenwissenschaft
@@ -740,18 +901,23 @@ Es ist der Gedanke, der zählt
 Klitzeklein
 Eliteuniversität
 Hansdampf in allen Gassen, Meister [[von nichts,von allem,von manchem]]
+Jam jar
 Ach du Schreck!
 Vetternwirtschaft
 Wie Pech und Schwefel
 Richtet nicht, auf dass ihr nicht gerichtet werdet
 Auf den Zug aufspringen
 Zu früh loslegen
+Den Zenit überschritten haben
 Über den Hai springen
 Genau wie ich dachte
 Einfach drauflos machen
 Nur warte ab
 Scheingericht
 Jetzt wird's ernst
+$$random_word in Schach halten
+Ein Auge auf $$random_word haben
+Sich über Wasser halten
 Unter der Hut behalten
 Die Klappe halten
 Kopf hoch
@@ -780,6 +946,7 @@ Wissen ist Macht, hütet es wohl
 Wolkenkuckucksheim
 Lahme Ente
 Land in Sicht!
+Zu guter Letzt
 Spätes Mittagessen lässt den Tag schneller vergehen
 Lachend bis zur Bank
 Lache, und die Welt lacht mit dir – weine, und du weinst allein
@@ -790,6 +957,7 @@ Schlank und effizient
 Eine Sprache lernen und du wirst einen Krieg vermeiden
 Je weniger gesagt, desto schneller vergeben
 Keinen Stein auf dem anderen lassen
+[[Leih mir,Leih uns]] dein Ohr
 Weniger ist mehr
 Das kleinere Übel
 Lest $$action ?
@@ -808,6 +976,7 @@ Die Strafe muss der Tat entsprechen
 Was gut ist, lass gut sein
 Die Seele baumeln lassen
 Lass uns das klarstellen
+Spulen wir zurück
 Chancengleichheit
 Zurücklehnen und an England denken
 Mit vierzig fängt das Leben an
@@ -817,6 +986,10 @@ Das Leben ist, was du daraus machst
 Der Blitz schlägt nicht zweimal [[, am selben Ort]] ein
 Wie der Vater, so der Sohn
 Wie zwei Erbsen in einer Schote
+Linkfarm
+Linkfäule
+Kleiner Teufel
+Kleiner Fisch im großen Teich
 Kleine Kannen haben große Ohren
 Kleine Hiebe fällen große Eichen
 Kleine Dinge erfreuen kleine Gemüter
@@ -828,10 +1001,14 @@ Lebe lang und in Frieden
 Um weiterkämpfen zu können
 Groß leben
 Das Leben eines Müßiggängers führen
+Loaf of bread
+In die Jahre gekommen
 Erst denken, dann handeln
 Sieht auf dem Papier gut aus
 Ein unsicherer Kantonist
 Plappern bringt Schiffe zum Sinken
+Lord Fred
+Aus der Übung kommen
 Nicht mehr alle Tassen im Schrank haben
 Liebe macht blind
 Liebe liegt in der Luft
@@ -841,12 +1018,14 @@ Geldgier ist die Wurzel allen Übels
 Liebe findet einen Weg
 Glück der Iren
 Geradewegs zusteuern auf
+Eine Szene machen
 Über die Runden kommen
 Schaffe, solange die Sonne scheint
 Ich mache ihm ein Angebot, das er nicht ablehnen kann
 Macht es so
 Macht Liebe, nicht Krieg
 Erfolg oder Untergang
+Da läuft es [[mir,dir,ihm,ihr,uns,ihnen]] kalt den Rücken herunter
 Männerhöhle
 Der Mensch lebt nicht vom Brot allein
 Der Mensch denkt, Gott lenkt
@@ -860,7 +1039,9 @@ Viel Glück und alles Gute
 Der März kommt wie ein Löwe und geht wie ein Lamm
 Ehen werden im Himmel geschlossen
 Eile mit Weile heiraten, in Ruhe bereuen
+Freundschaftspreis
 Möge die Macht mit dir sein
+Mea culpa
 Brotdose
 Erinnerung ist der Schatz des Geistes
 In Erinnerungen schwelgen
@@ -872,6 +1053,7 @@ Weder Fisch noch Fleisch
 Macht [[ist,macht]] Recht
 Aus kleinen Eicheln wachsen mächtige Eichen
 Den Stier melken
+Mince pies
 Kümmere dich um deine Angelegenheiten
 Unglück teilt sich gern
 Den Anschluss verpassen
@@ -893,9 +1075,15 @@ Eile mit Weile
 Mehr oder weniger
 Mehr, als man auf den ersten Blick sieht
 Mutterland
+Putzfrau
 Schmutz klebt
+Kein Sterbenswörtchen
+Kauderwelsch
 Musik kann wilde Bestien besänftigen
+Mutt and Jeff
 Mein Fehler
+My old china
+My old Dutch
 Friss oder stirb
 Kein einziger
 Die Natur hasst ein Vakuum
@@ -904,17 +1092,20 @@ Ne plus ultra
 Not macht erfinderisch
 Nadel im Heuhaufen
 Wenn der Teufel treibt, muss man
+Notgroschen
 Trage Sommerkleidung erst, wenn der Mai vorbei ist
 Gib einem Trottel keine faire Chance
 Rat nur geben, wenn man danach fragt
 Lass die Sonne nicht untergehen über deinem Zorn
 Lass die Wahrheit eine gute Geschichte nicht verderben
+Nimmerland
 Was du heute kannst besorgen, das verschiebe nicht auf morgen
 Niemals eines Mannes Lohn und das Alter einer Frau verraten
 Gib nicht auf
 Sag nie nie
 Rede nicht schlecht über die Toten
 Plaudere nicht aus der Schule
+Neuankömmling
 Der Neue in der Runde
 Neu für mich
 Fast nichts
@@ -934,14 +1125,20 @@ Keine Nachricht ist gute Nachricht
 Niemand kann dich ohne deine Zustimmung minderwertig fühlen lassen
 Kein Schmerz, kein Gewinn
 Keine Ruhe für die Bösen
+Kaum Platz zum Umdrehen
+Keine Eile
 Ohne Bedingungen
 Es hat keinen Zweck zu versuchen
 Auf keinen Fall
 Kommt nicht in die Tüte
 Gerade noch rechtzeitig
+North and south
+Herumschnüffeln
 Keine Chance
+Nicht ganz dicht
 Nicht all diejenigen, die wandern, sind verloren
 Nicht mein Fall
+Nicht alle Tassen im Schrank haben
 Nicht so schnell!
 Nicht so sicher
 Keinen Pfifferling wert
@@ -952,6 +1149,7 @@ Jetzt mehr denn je
 Der Außenseiter
 die Chancen stehen
 Natürlich mein Pferd (markenrechtlich von Guadalupe Schmidt-Mumm)
+Übergeschnappt
 Abseits der ausgetretenen Pfade
 Aus dem Schneider
 Unter uns gesagt
@@ -964,13 +1162,19 @@ Ein alter Hut
 Alte Sünden werfen lange Schatten
 Alte Soldaten sterben nie (sie verschwinden einfach)
 Altmodisch
+On [[my,your,his,her,their]] Tod
+Auf verlorenem Posten
 Einen Lauf haben
+Mit Hoffen und Bangen
 Auf Wolke sieben
 Auf Nadeln sitzen
 Auf festem Boden
 In der Defensive
 Am Ball
 Auf der Kippe
+Hin- und hergerissen
+Offiziell
+Auf derselben Wellenlänge
 Bestechlich
 Trocken sein
 Auf dem Kriegspfad
@@ -998,6 +1202,7 @@ Ein Jahr Samen, sieben Jahre Jäten
 Eintagsfliege
 Nur Narren und Pferde arbeiten
 Offene Beichte tut der Seele gut
+Offener Krieg
 Die Gelegenheit klopft nicht, bis du eine Tür baust
 Die Gelegenheit klopft nie zweimal an dieselbe Tür
 Andere Zeiten, andere Sitten
@@ -1007,31 +1212,44 @@ Aus heiterem Himmel
 Aus der Pfanne [[und ,]]ins Feuer
 Aus dem Munde von Kindern
 Auf dem Ast sitzen
+Um die Häuser ziehen
 Überglücklich
+Völlig übertrieben
 Aber dalli!
 Seines eigenen Glückes Schmied sein
 Die Stadt rot anmalen
 Petersiliensamen geht neunmal zum Teufel
+Sich zusammentun
 Den Schwarzen Peter weitergeben
 Geduld ist eine Tugend
 Den Piper bezahlen
+Alles in Butter
 Perlen der Weisheit
+Vollgas geben
 Das Zeitliche segnen
+Pen and ink
 Ein warmer Regen
 Was denkst du gerade?
 Pfennig um Pfennig wird viel
 Am falschen Ende sparen
+Absolutes Gehör
 Quengelmacht der Kinder
 Tierbesitzer sehen oft aus wie ihre Haustiere
 Im Sande verlaufen
+Dienst nach Vorschrift
+Fotobombe
 Arzt, heile dich selbst
 Wie aus dem Bilderbuch
 Luftschlösser
 Die Katze im Sack kaufen
+Sich den Bauch vollschlagen
+Jetzt aber Ruhe
 Hirngespinst
 Spiel's noch einmal, Sam
 Nach Gehör spielen
+Auf Nummer sicher gehen
 Dumme Spiele spielen, dumme Preise gewinnen
+Sich nicht festlegen
 Deine Karten richtig spielen
 Hässlich wie die Nacht
 Punkt ohne Wiederkehr
@@ -1039,8 +1257,10 @@ Politisch korrekt
 Niedere Lebensform
 Blechen müssen
 Hock dich hin
+Porky pies
 Besitz ist neun Zehntel des Rechts
 Der Topf nennt den Kessel schwarz
+Potatoes in the mould
 Powerdressing
 Übung macht den Meister
 Tu, was du predigst
@@ -1050,14 +1270,18 @@ Vorbeugen ist besser als heilen
 Hochmut [[kommt,geht]] vor dem Fall
 Beste Sendezeit
 Aufschub ist der Dieb der Zeit
+Kleinere Brötchen backen
 Jemanden auf den Arm nehmen
 Fäden ziehen
+[[Den Stecker ziehen,Bei $$random_word den Stecker ziehen]]
 Dir Sand in die Augen streuen
 Die Zelte abbrechen
 Fass dich zusammen
+[[Mich,Dich]] auf den Arm nehmen
 Über sich hinauswachsen
 Grenzen ausloten
 Deckel drauf
+Halt die Klappe
 Alle Karten auf den Tisch legen
 In die Kiste springen
 Zeig deine beste Seite
@@ -1065,6 +1289,7 @@ In den Fettnapf treten
 Setze dein Geld dort ein, wo dein Mund ist
 Wertvolle gemeinsame Zeit
 Blitzschnell
+Rabbit and pork
 Regen fällt nicht nur auf ein Dach
 Rara avis
 Viel Tamtam
@@ -1076,6 +1301,7 @@ Falscher Hinweis
 Abendrot, gutes Wetter; Morgenrot, Regen droht
 Ein denkwürdiger Tag
 Respekt wird nicht geschenkt, man verdient ihn
+Sich ausruhen
 Rache ist ein Gericht, das am besten kalt serviert wird
 Rache ist süß
 Auf dem Beifahrersitz
@@ -1083,6 +1309,7 @@ Gleichfalls!
 Gleich von Anfang an
 Recht oder unrecht, mein Land
 Kommt dir bekannt vor?
+Zweckbindung
 Popelig
 Aufstehen und strahlen
 Riskier es für einen Keks
@@ -1093,19 +1320,27 @@ Würfel werfen
 Tief drin stecken
 Rom [[wurde nicht,wurde nicht]] an [[einem,einem]] Tag erbaut
 Laut und krawallig
+Rosie Lee
+Ruby Murray
 Faustregel
 Regeln wurden gemacht, um gebrochen zu werden
 Reißaus nehmen
 Kreise um jemanden ziehen
 Nullachtfünfzehn
+Die Puste ausgehen
 Auf der Stelle laufen
 Heilige Kuh
+Jugendjahre
 Merkt euch den Termin
 Gerettet durch die Glocke
 Und damit gute Nacht
 Sag es, sprüh es nicht
+Scarper flow
+Ungeschoren davonkommen
+$$random_word zusammenkratzen
 Das letzte Aufgebot
 An der Oberfläche kratzen
+Sich zurechtmachen
 Kuscheldecke
 Siehst du eine Nadel und hebst sie auf, hast du den ganzen Tag Glück; siehst du eine Nadel und lässt sie liegen, hast du den ganzen Tag Pech
 
@@ -1116,13 +1351,18 @@ Das Licht sehen
 Sehen heißt glauben
 Suche, und du wirst finden
 Weggehen wie warme Semmeln
+Sexton Blake
 Über den Tisch gezogen
 Eine Geschichte ohne Pointe
 Eine Träne vergießen
 In der Ferne glänzen die Hügel
+In der Luft zerreißen
+Klartext reden
 Ein Schwätzchen halten
+Baureif
 Leichentücher haben keine Taschen
 Allheilmittel
+Silberfäden im Gold
 [[Meine,Seine,Ihre,Ihre,Seine]] Zähne in etwas vergraben
 Ertrinken oder schwimmen
 Krumm sitzen und gerade reden
@@ -1136,10 +1376,12 @@ Langsam und stetig gewinnt das Rennen
 Langsam aber sicher
 Sportlich-elegant
 Einen Fisch wittern
+Den Braten riechen
 Augenwischerei
 Glatter Zug
 Ruhige Fahrt
 Schlange im Gras
+Plausibilitätsprüfung
 So weit, so gut
 Auf Wiedersehen und Lebewohl
 Auf Wiedersehen, $$random_word
@@ -1152,10 +1394,12 @@ Irgendwie
 Manchmal sind wir der Schüler. Manchmal sind wir der Meister. Und manchmal sind wir nur die Lektion.
 
 
+Teufelskerl
 Griffiger Satz
 Quelle?
 Der Weltraum, unendliche Weiten
 Wer die Rute schont, verderbt das Kind
+Beim ersten Hahnenschrei
 Sag, wie du es findest
 Wenn man vom Teufel spricht
 Wenn man vom Teufel spricht, kommt er
@@ -1166,6 +1410,7 @@ Im Frühling vor, im Herbst zurück
 Ein Ehrenmann
 Von vorne anfangen
 Jemandem den Donner stehlen
+Sich der Verantwortung stellen
 In die Bresche springen
 Bei deinen Waffen bleiben
 Stöcke und Steine können meine Knochen brechen, aber Worte werden mir nie wehtun
@@ -1175,6 +1420,7 @@ Spitzel
 Sturm im Wasserglas
 Aus erster Hand
 Geh nicht mit Fremden mit
+Es sind schon seltsamere Dinge passiert
 Schmiede das Eisen, solange es heiß ist
 Dumm ist, wer dummes tut
 Erfolg hat viele Väter, Misserfolg ist eine Waise
@@ -1182,6 +1428,9 @@ Verklag mich
 Superspitze
 Surf and Turf
 Surfen
+Vorbeischauen
+Syrup of figs
+Take a butcher's
 Auf ein anderes Mal verschieben
 Pfennig um Pfennig, und die Pfunde kommen von selbst
 Gelassen hinnehmen
@@ -1195,12 +1444,14 @@ Vom Engel reden und das Flattern seiner Flügel hören
 Vom Teufel reden, und er ist zur Stelle
 Blech reden
 Red mit der Hand (das Gesicht hört eh nicht zu)
+Tea leaf
 Winzig klein
 Wem sagst du das!
 Sag mir, wer deine Freunde sind, und ich sage dir, wer du bist
 Sag die Wahrheit und beschäme den Teufel
 Festes Land
 Diese [[Theorie,Argument,Erzählung]] [[hält kein,hält]] Wasser
+Freitagsgefühl
 Das heißt
 Damit ist das geklärt
 Das war's, Leute!
@@ -1210,22 +1461,27 @@ Das ist ein kleiner Schritt für einen Menschen, aber ein riesiger Sprung für d
 Das Zeitalter der Wunder ist vorbei
 Die Ameisen sind meine Freunde, sie wehen im Wind
 Der Apfel [[fällt nicht,fällt niemals]] weit vom Stamm
+[[Mein,Dein,Sein,Ihr,Unser]] Augapfel
+[[Meines,Deines,Seines,Ihres,Unseres]] eigenen Unglücks Schmied
 Der Ball [[ist,ist]] in deinem Feld
 Das Nonplusultra
 Die besten Gewürze sind authentische Aromen
 Die beste Verteidigung ist ein guter Angriff
 Das Beste aus beiden Welten
+Das Beste seit der Erfindung des Rades
 Die besten Dinge im Leben sind gratis
 Die bestgelegten Pläne von Mäusen und Menschen gehen oft schief
 Der Big Apple
 Das hohe Tier
 Big Easy
+Der große Teich
 Je größer sie sind, desto härter fallen sie
 Bienchen und Blümchen
 Die weite See
 Der Junge ist der Vater des Mannes
 Das Brot fällt immer auf die Butterseite
 Die Verantwortung trage ich
+Der Stier mit der Melone
 Die Kamera lügt nicht
 Das Kind ist der Vater des Mannes
 Der Schuster trägt die schlechtesten Schuhe
@@ -1239,14 +1495,17 @@ Der Teufel kümmert sich um die Seinen
 Die Würfel sind gefallen
 Der frühe Vogel [[fängt,erwischt]] den Wurm
 Der Elefant im Raum
+Der leere Stuhl
 Der Feind meines Feindes ist mein Freund
 Die Ausnahme bestätigt die Regel
 Das Weibchen ist tödlicher als das Männchen
+Der glorreiche Zwölfte
 Die Guten sterben jung
 Das Gras ist immer grüner[[, auf der anderen Seite[,des Zauns]]]
 Ein scheeler Blick
 Wer die Wiege schaukelt, regiert die Welt
 Der Ehemann erfährt es immer zuletzt
+Das i-Tüpfelchen
 Unschuldige finden selten ein unbequemes Kissen
 Das letzte Wort ist noch nicht gesprochen
 Der Arbeiter ist seines Lohnes wert
@@ -1276,6 +1535,7 @@ Die Straße zur Hölle ist mit guten Vorsätzen gepflastert
 Das verflixte siebte Jahr
 Des Schusters Sohn läuft barfuß
 The show must go on
+Das Geräusch von Leder auf Weide
 Das quietschende Rad bekommt [[das Fett,das Öl]]
 Die Straßen sind mit Gold gepflastert
 Der dumme Affe weiß, dass man die Bananenschale nicht isst
@@ -1286,6 +1546,7 @@ Die Wahrheit kommt ans Licht
 Die Wahrheit wird euch freimachen
 Die üblichen Verdächtigen
 Der Weg zum Herzen eines Mannes führt durch den Magen
+Alles ist aus dem Ruder gelaufen
 Mit Sack und Pack
 Das volle Programm
 Der ganze Zirkus
@@ -1336,6 +1597,7 @@ Durch dick und dünn
 Vorsicht in den Wind schlagen
 Das Handtuch werfen
 Tic-Tac-Toe
+Bis zum Sankt-Nimmerleins-Tag
 Zeit und Gezeiten warten auf niemanden
 Die Zeit vergeht wie im Flug, wenn man Spaß hat
 Zeit vergeht langsam, wenn man intensiv lebt
@@ -1369,6 +1631,7 @@ Zu viel Regen macht eine Flut
 Erste Sahne
 Gefühlsduselig
 Süßes oder Saures?
+Trouble and strife
 Vertraue, aber prüfe
 Wahrheit ist wertvoller, wenn man Jahre braucht, sie zu finden
 Wahrheit ist oft seltsamer als Fiktion
@@ -1379,6 +1642,7 @@ Ein neues Blatt aufschlagen
 Wendest du dein Gesicht der Sonne zu, fallen die Schatten hinter dich
 Rund um die Uhr
 [[Meinen,Seinen,Ihren,Ihren,Seinen]] Arm verdrehen
+Two and eight
 Zwei können dieses Spiel spielen
 Seinen Senf dazugeben
 Zwei Köpfe sind besser als einer
@@ -1389,9 +1653,11 @@ Unruhig liegt das Haupt, das die Krone trägt
 Vereint verhandeln wir, geteilt betteln wir
 Vereint stehen wir, geteilt fallen wir
 Einigkeit macht stark
+Pech in der Liebe
 Solange die Löwen keine Historiker haben, verherrlichen die Jagdgeschichten immer den Jäger
 
 
+In einer Sackgasse
 Ohne Paddel in der Klemme
 In der Patsche sitzen
 Auf dem Baum sitzen
@@ -1399,11 +1665,15 @@ Aufstrebend
 In Aufruhr
 Auf dem neuesten Stand
 Nach neuestem Stand
+Hoppla
 Urbane Legende
+Wir gegen die
+Use [[my,your,his,her,their]] loaf
 Benutze es oder verliere es
 Denk nach
 In Luft aufgelöst
 Abwechslung ist die Würze des Lebens
+Abhängen
 Weitschweifigkeit führt zu unklaren, unartikulierten Dingen
 Tugend ist ihr eigener Lohn
 Mit den Füßen abstimmen
@@ -1466,6 +1736,8 @@ Wo viel Dreck ist, ist viel Geld
 Kein Rauch ohne Feuer
 Ob du denkst, du kannst, oder du kannst nicht – du hast recht
 Solange Leben ist, ist Hoffnung
+Whistle and flute
+Weißer Elefant
 Wer hat das getan – [[du,er,sie,sie]]?
 Wer traut sich, der Katze die Glocke umzuhängen?
 Wer hätte das gedacht
@@ -1474,6 +1746,7 @@ Warum bin ich nicht überrascht?
 Wild und ungezähmt
 Eine fruchtlose Suche
 Den Sieg für ihn holen
+[[Mich,Dich,Ihn,Sie]] aufziehen
 Windbeutel
 Mit allem gebührenden Respekt
 Mit großer Macht kommt große Verantwortung
@@ -1481,10 +1754,15 @@ Ohne Ausnahme
 Wehe den Besiegten
 Die Frau ist die Wurzel von Gut und Böse
 Die Wunder hören nie auf
+Wort für Wort
 Mundpropaganda
 Arbeit dehnt sich aus, um die verfügbare Zeit zu füllen
 Sorgen haben noch niemandem geholfen
+Mitgenommen
+Would you Adam and Eve it
+X markiert die Stelle
 Blabla
+Angsthase
 [[Man kann nie,Man kann nie]] wissen
 [[Du kannst,Du kannst]] genauso gut für ein Schaf [[gehenkt werden,gehängt werden]] wie für ein Lamm
 
@@ -1494,6 +1772,7 @@ Auch von Gutem kann man zu viel bekommen
 Du kannst ein Pferd zum Wasser führen, aber nicht zum Trinken zwingen
 Du kannst nicht beides haben
 Du kannst den Kuchen nicht essen und behalten
+Das letzte Hemd hat keine Taschen
 Alten Hunden lernt man nichts Neues
 Man kann nicht [[alles,alles]] gewinnen
 Man bekommt nicht immer, was man will
@@ -1528,3 +1807,4 @@ Du bist unten durch
 Jugend ist auf junge Menschen verschwendet
 Eifer ohne Erkenntnis ist Feuer ohne Licht
 Null Toleranz
+Halt den Mund

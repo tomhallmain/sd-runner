@@ -190,6 +190,7 @@ fabulist
 false mustache
 Family Feud
 family friend
+Fiddlesticks
 Fido
 Fie
 Final Destination
@@ -212,6 +213,7 @@ G'Day M8t
 galoot
 gamester
 gateman
+Gee-gee
 genie
 Get outta here!
 Get outta town!
@@ -621,6 +623,7 @@ w rizz
 Warner Bros
 way to go!
 what's in a name
+Whippersnapper
 whippoorwill
 whoop-dee-doo
 William the Conqueror
