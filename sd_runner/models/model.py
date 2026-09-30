@@ -665,7 +665,7 @@ class Model:
                                              whitelist=whitelist,
                                              filtered=violations)
                 else:
-                    raise BlacklistException(_("The following loras are blacklisted: {0}\n\nPlease try again with a different lora.").format(list(violations.keys())),
+                    raise BlacklistException(_("The following loras are blacklisted: {0}\n\nPlease try again with a different lora.").format(violations),
                                              whitelist=whitelist,
                                              filtered=violations)
             else:
