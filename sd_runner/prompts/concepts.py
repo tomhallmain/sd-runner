@@ -1,16 +1,20 @@
 from dataclasses import dataclass, field
+import functools
 import os
 from pathlib import Path
 import random
 import re
-from typing import Dict, Set
+from typing import Callable, Dict, Optional, Set
 
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
 from sd_runner.config import config
 from sd_runner.globals import Globals, PromptMode, BlacklistPromptMode
 from lib.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from lib.logging_setup import get_logger
+from lib.translations import I18N
 from lib.utils import Utils
+
+_ = I18N._
 
 #: sd_runner/prompts/ -> sd_runner/ -> repo root. Named once so a move
 #: corrects one line rather than a count buried in a dirname chain.
@@ -18,6 +22,60 @@ _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__f
 BASE_DIR = _REPO_ROOT
 
 logger = get_logger("prompts.concepts")
+
+_EXPANSION_VAR = re.compile(r"\$\$\w+")
+#: Above this many choice-set expansions a line is matched on its markup-free
+#: form only, so one pathological template cannot stall a search keystroke.
+_MAX_TEMPLATE_EXPANSIONS = 512
+
+
+def _strip_expansion_vars(text: str) -> str:
+    return " ".join(_EXPANSION_VAR.sub(" ", text).split())
+
+
+def _estimate_expansions(concept: str, prompter) -> int:
+    """Product of the option counts of *concept*'s top-level choice sets.
+
+    Nested sets are not counted, so this can undershoot; it exists to skip
+    expanding a line whose top level alone is already too large.
+    """
+    count = 1
+    i = 0
+    while i < len(concept):
+        if concept[i] == "[":
+            close = prompter._find_matching_bracket(concept, i, "[", "]")
+            if close == -1:
+                break
+            options = prompter._split_choice_options(concept[i + 1:close].strip("[]"))
+            count *= max(len(options), 1)
+            i = close + 1
+        else:
+            i += 1
+    return count
+
+
+@functools.lru_cache(maxsize=16384)
+def _template_texts(concept: str) -> tuple[str, ...]:
+    """Every literal string *concept* can stand for, the raw line first.
+
+    ``[[a,b]]`` choice sets are expanded to each option and ``$$name`` variables
+    are dropped, since what they insert is chosen at generation time. A line
+    whose expansions exceed ``_MAX_TEMPLATE_EXPANSIONS`` contributes only its
+    raw form and its form with the markup removed.
+    """
+    # Deferred: prompter imports this module.
+    from sd_runner.prompts.prompter import Prompter
+
+    texts = [concept]
+    if Prompter.contains_choice_set(concept):
+        if _estimate_expansions(concept, Prompter) <= _MAX_TEMPLATE_EXPANSIONS:
+            expansions = Prompter._expand_nested_choices(concept)
+            texts.extend(_strip_expansion_vars(text) for text, _weight in expansions)
+        else:
+            texts.append(_strip_expansion_vars(re.sub(r"[\[\],|]", " ", concept)))
+    elif "$$" in concept:
+        texts.append(_strip_expansion_vars(concept))
+    return tuple(dict.fromkeys(t for t in texts if t))
 
 
 
@@ -1059,6 +1117,41 @@ class Concepts:
         return existing_concepts
 
     @staticmethod
+    def template_texts(concept: str) -> tuple[str, ...]:
+        """The literal strings *concept* can stand for, the raw line first.
+
+        A plain line yields only itself. See ``_template_texts`` for how
+        ``[[...]]`` and ``$$name`` lines are expanded.
+        """
+        if "[" not in concept and "$$" not in concept:
+            return (concept,)
+        return _template_texts(concept)
+
+    @staticmethod
+    def find_blacklist_violation(concept: str, target_category: str = None) -> Optional[BlacklistItem]:
+        """The blacklist item that would filter *concept* at generation time, if any.
+
+        Applies the same rule as the generation-time concept filter: enabled
+        items only, whole-prompt items excluded. A template line is checked in
+        every form it can expand to. Nothing is reported for an NSFW or NSFL
+        file while the blacklist is set to allow those modes, since the concept
+        would never be filtered there.
+        """
+        nsfw_files = {
+            value for cls in (NSFW, NSFL) for name, value in vars(cls).items()
+            if not name.startswith("_")
+        }
+        if target_category in nsfw_files and Blacklist.is_allowed_prompt_mode(PromptMode.NSFW):
+            return None
+        for text in Concepts.template_texts(concept):
+            for item in Blacklist.get_items():
+                if not item.enabled or item.apply_to_whole_prompt:
+                    continue
+                if item.matches_tag(text):
+                    return item
+        return None
+
+    @staticmethod
     def add_concept_to_category(concept: str, target_category: str) -> bool:
         """Add a concept to a category if it doesn't already exist.
         
@@ -1090,15 +1183,20 @@ class Concepts:
             1 = concept appears at word boundary (but not at start)
             2 = concept appears as a generic partial substring
 
+        Both sides are compared in every form they can expand to (see
+        ``template_texts``), and a pair ranks by its best-matching forms, so
+        ``blue car`` matches an existing ``[[red,blue]] car``.
+
         Note:
             Phrase-heavy categories (jargon, puns, sayings) are excluded from
             duplicate checks unless the import target is that same file, so
             common words do not false-block imports into normal concept lists.
         """
         ranked_matches = []
-        concept_lower = concept.lower()
-
-        word_boundary_pattern = re.compile(rf"\b{re.escape(concept_lower)}")
+        needles = [
+            (text.lower(), re.compile(rf"\b{re.escape(text.lower())}"))
+            for text in Concepts.template_texts(concept)
+        ]
         # Skip cross-category matches from long-form phrase corpora unless
         # the user is importing directly into that file.
         _phrase_heavy_sources = frozenset((SFW.jargon, SFW.puns, SFW.sayings))
@@ -1107,14 +1205,21 @@ class Concepts:
             if category in _phrase_heavy_sources and target_category != category:
                 continue
             for existing in concepts:
-                existing_lower = existing.lower()
-                if existing_lower.startswith(concept_lower):
-                    rank = 0
-                elif word_boundary_pattern.search(existing_lower):
-                    rank = 1
-                elif concept_lower in existing_lower:
-                    rank = 2
-                else:
+                rank = None
+                for existing_text in Concepts.template_texts(existing):
+                    existing_lower = existing_text.lower()
+                    for needle, word_boundary_pattern in needles:
+                        if existing_lower.startswith(needle):
+                            rank = 0
+                        elif word_boundary_pattern.search(existing_lower):
+                            rank = 1 if rank is None else min(rank, 1)
+                        elif needle in existing_lower:
+                            rank = 2 if rank is None else min(rank, 2)
+                        if rank == 0:
+                            break
+                    if rank == 0:
+                        break
+                if rank is None:
                     continue
                 ranked_matches.append((rank, existing.lower(), category.lower(), existing, category))
 
@@ -1125,18 +1230,24 @@ class Concepts:
     def import_concepts(
         import_file: str,
         target_category: str,
-        category_states: dict[str, bool] = None
+        category_states: dict[str, bool] = None,
+        confirm_blacklisted: Callable[[list[str]], bool] = None,
     ) -> tuple[list[str], list[str]]:
         """
         Import concepts from a file into a target category.
         Returns (imported_concepts, failed_concepts)
         
-        Concepts can be force-imported by prefixing them with '!'
-        
+        Concepts can be force-imported by prefixing them with '!'. That skips the
+        duplicate check only: a line the blacklist would filter is withheld,
+        forced or not, unless *confirm_blacklisted* approves it.
+
         Args:
             import_file: Path to file containing concepts to import
             target_category: Category to import concepts into
             category_states: Dict mapping category names to their enabled state
+            confirm_blacklisted: Called once with every blacklisted concept,
+                sorted; returning True imports them. Without it, blacklisted
+                lines are never imported.
         """
         # Reset found concepts for this import
         found_concepts: dict[str, list[tuple[str, str]]] = {}
@@ -1154,21 +1265,34 @@ class Concepts:
                     concepts.add((force_import, line))
             
         # Get all existing concepts
-        existing_concepts = Concepts.get_concepts_map(category_states)
+        existing_concepts = Concepts.get_concepts_map(category_states or {})
 
         if not target_category in existing_concepts:
             raise Exception(f"Target category \"{target_category}\" not found in existing concepts")
         
         imported = []
         failed = []
-        
+
+        blacklisted = sorted({
+            concept for _force, concept in concepts
+            if concept not in existing_concepts[target_category]
+            and Concepts.find_blacklist_violation(concept, target_category) is not None
+        })
+        withheld: set[str] = set()
+        if blacklisted and not (confirm_blacklisted and confirm_blacklisted(blacklisted)):
+            withheld = set(blacklisted)
+
         # Process each concept
         for force_import, concept in concepts:
             # First check if concept exists in target category
             if concept in existing_concepts[target_category]:
                 # Concept already exists in target, consider it "imported" but don't add to list
                 continue
-                
+
+            if concept in withheld:
+                failed.append(concept)
+                continue
+
             # Skip existence check for force-imported concepts
             if force_import:
                 if Concepts.add_concept_to_category(concept, target_category):
@@ -1194,6 +1318,11 @@ class Concepts:
             failed_file = str(Path(import_file).with_suffix('')) + '_failed_import.txt'
             with open(failed_file, 'w', encoding='utf-8') as f:
                 for concept in failed:
+                    if concept in withheld:
+                        # The matching item is not named: revealing blacklist
+                        # contents is its own password-protected action.
+                        f.write(_("{0} -> blacklisted").format(concept) + "\n")
+                        continue
                     matches = found_concepts[concept]
                     match_str = " | ".join(f"{match} ({category})" for match, category in matches)
                     f.write(f"{concept} -> {match_str}\n")

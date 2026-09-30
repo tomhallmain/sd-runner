@@ -7,6 +7,8 @@ Key safety properties:
       (displayed in the combo after selection).
     - **Import** only writes to the combo-selected target file; duplicate
       checks are performed across all enabled categories before writing.
+    - **Save** and **Import** ask before writing a concept the blacklist
+      would filter out of generated prompts.
     - Every mutating action invalidates the in-memory cache for the
       affected file so subsequent operations always read from disk.
     - All mutating actions are password-protected via
@@ -376,18 +378,13 @@ class ConceptEditorWindow(SmartDialog):
         tier2: list[tuple[str, str]] = []  # word-boundary
         tier3: list[tuple[str, str]] = []  # partial
 
+        tiers = (tier1, tier2, tier3)
         for filename in self._concept_files:
             concepts = self._get_concepts_from_file(filename)
             for concept in concepts:
-                cl = concept.lower()
-                if self._search_text in cl:
-                    entry = (concept, filename)
-                    if cl.startswith(self._search_text):
-                        tier1.append(entry)
-                    elif any(self._search_text in word for word in cl.split()):
-                        tier2.append(entry)
-                    else:
-                        tier3.append(entry)
+                tier = self._match_tier(concept)
+                if tier is not None:
+                    tiers[tier].append((concept, filename))
 
         all_matches = tier1 + tier2 + tier3
         for concept, filename in all_matches:
@@ -412,6 +409,24 @@ class ConceptEditorWindow(SmartDialog):
             self._current_concept = None
             self._current_file = None
             self._update_selected_concept_label()
+
+    def _match_tier(self, concept: str) -> Optional[int]:
+        """Rank *concept* against the search text: 0 starts-with, 1 inside a
+        word, 2 partial, None no match.
+
+        A template line ranks by its best-matching expansion, so ``blue car``
+        finds ``[[red,blue]] car``.
+        """
+        best = None
+        for text in Concepts.template_texts(concept):
+            cl = text.lower()
+            if self._search_text not in cl:
+                continue
+            if cl.startswith(self._search_text):
+                return 0
+            tier = 1 if any(self._search_text in word for word in cl.split()) else 2
+            best = tier if best is None else min(best, tier)
+        return best
 
     def _on_concept_select(self, row: int) -> None:
         if row < 0 or row >= len(self._filtered_concepts):
@@ -443,6 +458,8 @@ class ConceptEditorWindow(SmartDialog):
             - Only the file shown in the combo is written to.
             - ``Concepts.save`` uses ``ConceptsFile`` which does a
               diff-based write, preserving comments and line structure.
+            - A concept the blacklist would filter is written only after
+              the user confirms.
             - Cache is invalidated for the target file after write.
         """
         new_concept = self._search_edit.text().strip()
@@ -476,6 +493,18 @@ class ConceptEditorWindow(SmartDialog):
             self._refresh()
             self._select_concept_in_list(new_concept)
             return
+
+        # The matching item is not named: revealing blacklist contents is its
+        # own password-protected action.
+        if Concepts.find_blacklist_violation(new_concept, selected_file) is not None:
+            if not self._app_actions.alert(
+                _("Blacklisted Concept"),
+                _("\"{0}\" matches the blacklist and would be filtered out of "
+                  "generated prompts. Save it anyway?").format(new_concept),
+                kind="askyesno",
+                master=self,
+            ):
+                return
 
         # Mutate the cached list *and* persist to disk
         concepts.append(new_concept)
@@ -563,6 +592,8 @@ class ConceptEditorWindow(SmartDialog):
               *all* enabled categories before writing.
             - Force-import (``!`` prefix in the import file) bypasses the
               duplicate check but still only writes to the target file.
+            - Blacklisted lines, forced or not, are imported only if the
+              user confirms them in a single prompt.
             - Cache is invalidated for the target file after import.
         """
         target_file = self._file_combo.currentText()
@@ -586,9 +617,24 @@ class ConceptEditorWindow(SmartDialog):
 
         category_states = self._get_category_states()
 
+        def confirm_blacklisted(concepts: list[str]) -> bool:
+            listed = "\n".join(concepts[:20])
+            if len(concepts) > 20:
+                listed += "\n" + _("...and {0} more").format(len(concepts) - 20)
+            return bool(self._app_actions.alert(
+                _("Blacklisted Concepts"),
+                _("{0} concepts match the blacklist and would be filtered out "
+                  "of generated prompts:\n\n{1}\n\nImport them anyway?").format(
+                    len(concepts), listed
+                ),
+                kind="askyesno",
+                master=self,
+            ))
+
         try:
             imported, failed = Concepts.import_concepts(
-                import_path, target_file, category_states
+                import_path, target_file, category_states,
+                confirm_blacklisted=confirm_blacklisted,
             )
         except Exception as e:
             self._app_actions.alert(

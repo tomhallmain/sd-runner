@@ -3763,3 +3763,27 @@ msgstr "Command"
 #: utils/globals.py:735
 msgid "Take Prompt Mode (unfiltered image prompts)"
 msgstr "Take Prompt Mode (unfiltered image prompts)"
+
+#: sd_runner/prompts/concepts.py:1324
+msgid "{0} -> blacklisted"
+msgstr "{0} -> blacklisted"
+
+#: sd_runner/ui/prompts/concept_editor_window.py:501
+msgid "Blacklisted Concept"
+msgstr "Blacklisted Concept"
+
+#: sd_runner/ui/prompts/concept_editor_window.py:502
+msgid "\"{0}\" matches the blacklist and would be filtered out of generated prompts. Save it anyway?"
+msgstr "\"{0}\" matches the blacklist and would be filtered out of generated prompts. Save it anyway?"
+
+#: sd_runner/ui/prompts/concept_editor_window.py:623
+msgid "...and {0} more"
+msgstr "...and {0} more"
+
+#: sd_runner/ui/prompts/concept_editor_window.py:625
+msgid "Blacklisted Concepts"
+msgstr "Blacklisted Concepts"
+
+#: sd_runner/ui/prompts/concept_editor_window.py:626
+msgid "{0} concepts match the blacklist and would be filtered out of generated prompts:\n\n{1}\n\nImport them anyway?"
+msgstr "{0} concepts match the blacklist and would be filtered out of generated prompts:\n\n{1}\n\nImport them anyway?"

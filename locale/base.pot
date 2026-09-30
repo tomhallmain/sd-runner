@@ -3513,3 +3513,26 @@ msgstr ""
 msgid "years"
 msgstr ""
 
+#: sd_runner/prompts/concepts.py:1324
+msgid "{0} -> blacklisted"
+msgstr ""
+
+#: sd_runner/ui/prompts/concept_editor_window.py:501
+msgid "Blacklisted Concept"
+msgstr ""
+
+#: sd_runner/ui/prompts/concept_editor_window.py:502
+msgid "\"{0}\" matches the blacklist and would be filtered out of generated prompts. Save it anyway?"
+msgstr ""
+
+#: sd_runner/ui/prompts/concept_editor_window.py:623
+msgid "...and {0} more"
+msgstr ""
+
+#: sd_runner/ui/prompts/concept_editor_window.py:625
+msgid "Blacklisted Concepts"
+msgstr ""
+
+#: sd_runner/ui/prompts/concept_editor_window.py:626
+msgid "{0} concepts match the blacklist and would be filtered out of generated prompts:\n\n{1}\n\nImport them anyway?"
+msgstr ""

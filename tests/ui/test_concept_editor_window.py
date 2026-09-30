@@ -226,3 +226,73 @@ class TestSaveThenDelete:
         editor._current_file = COLORS_FILE
         editor._delete_concept()
         assert "emerald" in read_concepts(concepts_dir / COLORS_FILE)
+
+
+# ---------------------------------------------------------------------------
+# Save — blacklist confirmation
+# ---------------------------------------------------------------------------
+
+class TestSaveBlacklistedConcept:
+    @pytest.fixture(autouse=True)
+    def _blacklist(self):
+        from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+        Blacklist.add_item(BlacklistItem("blocked"))
+
+    def _confirmations(self, editor):
+        return [a for a in editor._test_actions.alerts if a[2] == "askyesno"]
+
+    def test_declined_confirmation_writes_nothing(self, editor, concepts_dir):
+        editor._test_actions._confirm = False
+        editor._search_edit.setText("blocked red")
+        editor._save_concept()
+        assert read_concepts(concepts_dir / COLORS_FILE) == INITIAL_COLORS
+
+    def test_accepted_confirmation_writes_the_concept(self, editor, concepts_dir):
+        editor._search_edit.setText("blocked red")
+        editor._save_concept()
+        assert "blocked red" in read_concepts(concepts_dir / COLORS_FILE)
+
+    def test_a_clean_concept_is_not_questioned(self, editor):
+        editor._search_edit.setText("crimson")
+        editor._save_concept()
+        assert self._confirmations(editor) == []
+
+    def test_the_confirmation_does_not_name_the_blacklist_item(self, editor):
+        """Revealing blacklist contents is its own password-protected action."""
+        from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+        Blacklist.TAG_BLACKLIST.clear()
+        Blacklist.add_item(BlacklistItem(r"secret\w*", use_regex=True))
+        editor._search_edit.setText("secretive red")
+        editor._save_concept()
+        (_title, message, _kind), = self._confirmations(editor)
+        assert r"secret\w*" not in message
+
+
+# ---------------------------------------------------------------------------
+# Search — template lines match what they expand to
+# ---------------------------------------------------------------------------
+
+class TestSearchMatchesTemplates:
+    @pytest.fixture(autouse=True)
+    def _template_file(self, editor, concepts_dir):
+        (concepts_dir / COLORS_FILE).write_text(
+            "amber\n[[red,blue]] car\nOnce a $$random_word always\n", encoding="utf-8"
+        )
+        editor._invalidate_cache(COLORS_FILE)
+
+    def test_an_expansion_finds_its_template(self, editor):
+        editor._search_edit.setText("blue car")
+        assert "[[red,blue]] car" in editor._filtered_concepts
+
+    def test_text_spanning_a_variable_finds_its_template(self, editor):
+        """The raw line has ``$$random_word`` between these words."""
+        editor._search_edit.setText("once a always")
+        assert "Once a $$random_word always" in editor._filtered_concepts
+
+    def test_a_non_expansion_does_not_match(self, editor):
+        editor._search_edit.setText("green car")
+        assert "[[red,blue]] car" not in editor._filtered_concepts
+
+    def test_the_raw_markup_still_matches(self, editor):
+        editor._search_edit.setText("[[red")
+        assert "[[red,blue]] car" in editor._filtered_concepts
