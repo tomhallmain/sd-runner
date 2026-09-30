@@ -1550,6 +1550,92 @@ class PersonalStandardEncryptor(BaseEncryptor):
 
 
 # =============================================================================
+# Streaming / append-friendly encryption (e.g. for continuously written logs)
+# =============================================================================
+
+class StreamingLogCipher:
+    """
+    Record-oriented AES-256-GCM cipher for data appended to over time (e.g. a log
+    file that stays open and grows for the life of a process). Unlike
+    BaseEncryptor/SymmetricEncryptor, which encrypt an entire buffer as one
+    nonce/tag pair, this derives one persistent key per (service_name,
+    app_identifier) via PassphraseManager and encrypts each record with its own
+    nonce, so records can be appended and decrypted one at a time without
+    touching the rest of the file.
+
+    Wire format per record: 4-byte big-endian length, then nonce(12) || tag(16) || ciphertext.
+    """
+    NONCE_SIZE = 12
+    TAG_SIZE = 16
+    HKDF_INFO = b'StreamingLogCipher'
+
+    @classmethod
+    def derive_key(cls, service_name: str, app_identifier: str) -> bytes:
+        """Derive the persistent per-app AES-256 key from the keyring-backed passphrase."""
+        passphrase = PassphraseManager.get_passphrase(service_name, app_identifier)
+        hkdf = HKDF(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=None,
+            info=cls.HKDF_INFO,
+            backend=default_backend()
+        )
+        return hkdf.derive(passphrase.encode())
+
+    @classmethod
+    def encrypt_record(cls, key: bytes, data: bytes) -> bytes:
+        """Encrypt one record (e.g. one log line) ready to append to a file."""
+        nonce = os.urandom(cls.NONCE_SIZE)
+        cipher = Cipher(algorithms.AES(key), modes.GCM(nonce), default_backend())
+        encryptor = cipher.encryptor()
+        ciphertext = encryptor.update(data) + encryptor.finalize()
+        payload = nonce + encryptor.tag + ciphertext
+        return struct.pack('>I', len(payload)) + payload
+
+    @classmethod
+    def decrypt_record(cls, key: bytes, payload: bytes) -> bytes:
+        """Decrypt the nonce||tag||ciphertext payload of a single record (length prefix already stripped)."""
+        nonce = payload[:cls.NONCE_SIZE]
+        tag = payload[cls.NONCE_SIZE:cls.NONCE_SIZE + cls.TAG_SIZE]
+        ciphertext = payload[cls.NONCE_SIZE + cls.TAG_SIZE:]
+        cipher = Cipher(algorithms.AES(key), modes.GCM(nonce, tag), default_backend())
+        decryptor = cipher.decryptor()
+        return decryptor.update(ciphertext) + decryptor.finalize()
+
+    @classmethod
+    def iter_decrypt(cls, key: bytes, stream):
+        """
+        Yield decrypted records from a binary stream written with encrypt_record.
+        Stops quietly on a truncated trailing record instead of raising, so a
+        reader can safely tail a log file that is still being written to.
+        """
+        while True:
+            length_prefix = stream.read(4)
+            if len(length_prefix) < 4:
+                return
+            length = struct.unpack('>I', length_prefix)[0]
+            payload = stream.read(length)
+            if len(payload) < length:
+                return
+            yield cls.decrypt_record(key, payload)
+
+
+def get_log_cipher_key(service_name: str, app_identifier: str) -> bytes:
+    """Derive the persistent StreamingLogCipher key for an app (same key on writer and reader)."""
+    return StreamingLogCipher.derive_key(service_name, app_identifier)
+
+def encrypt_log_record(key: bytes, data: bytes) -> bytes:
+    """Encrypt one record for appending to an encrypted log file."""
+    return StreamingLogCipher.encrypt_record(key, data)
+
+def iter_decrypt_log_file(path: str, service_name: str, app_identifier: str):
+    """Yield decrypted records (e.g. log lines) from a file written by encrypt_log_record."""
+    key = get_log_cipher_key(service_name, app_identifier)
+    with open(path, 'rb') as f:
+        yield from StreamingLogCipher.iter_decrypt(key, f)
+
+
+# =============================================================================
 # Encryptor classes - Symmetric
 # =============================================================================
 

@@ -2,7 +2,7 @@ import json
 import os
 import shutil
 
-from lib.logging_setup import adopt_legacy_file, app_data_dir, get_logger
+from lib.logging_setup import adopt_legacy_file, app_data_dir, get_logger, set_log_file_encryption
 
 logger = get_logger("config")
 
@@ -68,6 +68,7 @@ class Config:
         "delay_after_single_run":           bool,
         "blacklist_backup_retention_days":  int,
         "debug":                            bool,
+        "encrypt_log_file":                 bool,
         "print_settings":                   bool,
         "max_executor_threads":             int,
         # Server
@@ -125,6 +126,8 @@ class Config:
     def __init__(self):
         self.dict = {}
         self.debug = False
+        # Off writes the log file in plaintext (.log) instead of .log.enc.
+        self.encrypt_log_file = True
         self.locale = "en"
         self.print_settings = True
         self.foreground_color = None
@@ -266,6 +269,7 @@ class Config:
         )
         self.set_values(bool,
                         "debug",
+                        "encrypt_log_file",
                         "print_settings",
                         "save_last_prompt",
                         "override_dictionary_append",
@@ -343,6 +347,8 @@ class Config:
         self.concepts_dirs = {}
         self.default_concepts_dir = "concepts"
         self.set_concepts_dirs()
+
+        set_log_file_encryption(self.encrypt_log_file)
 
     def set_concepts_dirs(self):
         concepts = "concepts"
@@ -505,6 +511,7 @@ class Config:
             self.dict[key] = val
             setattr(self, key, val)
         self.persist()
+        set_log_file_encryption(self.encrypt_log_file)
         return []
 
     def persist(self) -> None:

@@ -164,6 +164,9 @@ class ConfigWindow(SmartDialog):
         self._cb_debug = self._add_checkbox(
             _("Debug Mode"), config.debug,
         )
+        self._cb_encrypt_log_file = self._add_checkbox(
+            _("Encrypt Log File"), config.encrypt_log_file,
+        )
         self._cb_print_settings = self._add_checkbox(
             _("Print Settings on Start"), config.print_settings,
         )
@@ -246,6 +249,7 @@ class ConfigWindow(SmartDialog):
             ("_cb_save_last_prompt",      "save_last_prompt"),
             ("_cb_delay_after_single",    "delay_after_single_run"),
             ("_cb_debug",                 "debug"),
+            ("_cb_encrypt_log_file",      "encrypt_log_file"),
             ("_cb_print_settings",        "print_settings"),
             ("_cb_override_dict_append",  "override_dictionary_append"),
             ("_cb_nsfw_urban_dictionary", "nsfw_urban_dictionary"),

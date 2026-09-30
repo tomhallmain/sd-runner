@@ -55,6 +55,11 @@ os.environ["SD_RUNNER_KEY_BACKUP_DIR"] = os.path.join(_bootstrap_tmp, "key_backu
 # stay inside the run. Session-wide rather than per test: a file handler keeps
 # the path it was created with.
 os.environ["SD_RUNNER_APP_DATA_DIR"] = os.path.join(_bootstrap_tmp, "app_data")
+# The log file handler derives its key at import, before the fake keyring
+# below is installed. PassphraseManager checks this variable first, so the key
+# comes from it and the real keyring is never reached. The log encryption has
+# a service name of its own, so this answers nothing for the app's cache.
+os.environ["SD_RUNNER_LOGS_PASSPHRASE"] = "sd-runner-test-log-passphrase"
 
 # Imported for the side effect: both modules construct their singleton at import
 # time, and this forces that to happen now, with the env vars above in place.

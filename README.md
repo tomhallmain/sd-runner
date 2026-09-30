@@ -42,6 +42,8 @@ The application uses PySide6 with custom theming, optional frameless windows, an
 
 `comfyui_output_dir` (default `null`): Where ComfyUI writes its images. Leave unset and it is taken to be `<comfyui_loc>/output`; set it for an install that writes somewhere else, such as one started with `--output-directory`. Besides naming saved images, this is the directory searched when ComfyUI finishes a generation but its history request fails — if exactly one new image has appeared there, it is taken as the output rather than losing the generation. Two or more and nothing is assumed, since generations run concurrently into the same folder.
 
+`encrypt_log_file` (default `true`): Whether the log file is encrypted. Set to `false` (or uncheck it in the Config window) to write a plaintext `.log` file instead; encrypted logs can be read with `scripts/decrypt_logs.py`.
+
 ## Prompt Syntax
 
 Preset variables can be defined in the config to expand into full prompt text. To access these in the prompt UI, prepend $ or surround them with curly braces, and upon running the prompt the expansion will occur in the UI, overwriting the original prompt.
@@ -349,7 +351,7 @@ For stable-diffusion-webui, the img2img workflow is set up as the IP Adapter wor
 
 The following locales are supported in the UI: en (English), de (Deutsch), es (Español), fr (Français), ja (日本語), ko (한국어), pt (Português), ru (Русский), zh (中文). Prompt text language follows the selected concepts directory (English in `concepts/`, German in `Konzepte/`); see **Concepts Folder** above. Other written languages with Unicode support can use the same pattern by adding another concepts path to `concepts_dirs`.
 
-Excepting the concepts files, application data is encrypted for security. Logs are not currently being stored and will not be until they can be encrypted.
+Excepting the concepts files, application data is encrypted for security, including the log file unless `encrypt_log_file` is turned off.
 
 Optional (platform-specific): `pip install -r requirements-optional.txt` installs extras for your OS only (e.g. on macOS, Foundation/Cocoa for keychain integration; on Linux, D-Bus for Secret Service lock).
 

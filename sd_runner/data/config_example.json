@@ -1,5 +1,6 @@
 {
     "debug": false,
+    "encrypt_log_file": true,
     "locale": "en",
     "print_settings": true,
     "foreground_color": "white",

@@ -13,6 +13,7 @@ import shutil
 import tempfile
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+os.environ.setdefault("SD_RUNNER_LOGS_PASSPHRASE", "sd-runner-test-log-passphrase")
 
 if not os.environ.get("SD_RUNNER_CONFIGS_DIR") or not os.environ.get("SD_RUNNER_CACHE_DIR"):
     _fb_tmp = tempfile.mkdtemp(prefix="sd_runner_unit_fb_")

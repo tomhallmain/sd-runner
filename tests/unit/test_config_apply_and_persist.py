@@ -248,3 +248,25 @@ class TestPersistAtomicSwap:
         c.dict["debug"] = False
         c.persist()
         assert c.dict["debug"] is False
+
+
+# ---------------------------------------------------------------------------
+# encrypt_log_file
+# ---------------------------------------------------------------------------
+
+class TestEncryptLogFile:
+    def test_saving_applies_the_setting_to_the_log_file(self):
+        c = _config()
+        with patch.object(_cfg_module, "set_log_file_encryption") as switch:
+            assert c.apply_and_persist({"encrypt_log_file": False}) == []
+        switch.assert_called_once_with(False)
+        assert c.dict["encrypt_log_file"] is False
+
+    def test_loading_applies_the_setting_to_the_log_file(self, tmp_path):
+        config_path = tmp_path / "configs" / "config.json"
+        data = json.loads(config_path.read_text(encoding="utf-8"))
+        data["encrypt_log_file"] = False
+        config_path.write_text(json.dumps(data), encoding="utf-8")
+        with patch.object(_cfg_module, "set_log_file_encryption") as switch:
+            assert Config().encrypt_log_file is False
+        switch.assert_called_once_with(False)

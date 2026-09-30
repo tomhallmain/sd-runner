@@ -16,7 +16,7 @@ import os
 import pytest
 
 import sd_runner.prompts.blacklist as blacklist_mod
-from lib.logging_setup import adopt_legacy_file, app_data_dir
+from lib.logging_setup import EncryptedFileHandler, adopt_legacy_file, app_data_dir
 from sd_runner.config import Config
 
 CACHE_NAME = "blacklist_filter_cache.pkl"
@@ -60,7 +60,7 @@ def test_log_files_are_written_inside_the_test_run():
         for name, logger in logging.Logger.manager.loggerDict.items()
         if name.startswith("sd_runner") and isinstance(logger, logging.Logger)
         for handler in logger.handlers
-        if isinstance(handler, logging.FileHandler)
+        if isinstance(handler, (logging.FileHandler, EncryptedFileHandler))
     ]
     assert handlers
     for handler in handlers:
