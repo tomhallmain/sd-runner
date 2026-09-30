@@ -7,7 +7,7 @@ import string
 
 from sd_runner.globals import Globals, BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, PromptMode
 from lib.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
-from lib.logging_setup import get_logger
+from lib.logging_setup import adopt_legacy_file, app_data_dir, get_logger
 from lib.pickleable_cache import SizeAwarePicklableCache, fingerprint_string_sequence
 from lib.translations import I18N
 from lib.utils import Utils
@@ -16,23 +16,37 @@ _ = I18N._
 
 logger = get_logger("prompts.blacklist")
 
-# Define cache file path — respects SD_RUNNER_CACHE_DIR so tests can redirect it
-# without touching the real configs/ directory (mirrors AppInfoCache's pattern).
 #: sd_runner/prompts/ -> sd_runner/ -> repo root. Named once so a move
 #: corrects one line rather than a count buried in a dirname chain.
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 #: sd_runner/prompts/ -> sd_runner/, which is where data/ lives.
 _SD_RUNNER_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_DEFAULT_CACHE_DIR = os.path.join(_REPO_ROOT, "configs")
+_CACHE_FILENAME = "blacklist_filter_cache.pkl"
 
 
 def _resolve_blacklist_cache_file() -> str:
+    """SD_RUNNER_CACHE_DIR if set (tests redirect it there), else the cache
+    folder in the app data dir.
+
+    Only computes the path. The test suite calls this with the override
+    briefly unset, so it must not create directories or move files.
+    """
     override = os.environ.get("SD_RUNNER_CACHE_DIR")
-    base = override if override else _DEFAULT_CACHE_DIR
-    return os.path.join(base, "blacklist_filter_cache.pkl")
+    base = override if override else str(app_data_dir("cache", create=False))
+    return os.path.join(base, _CACHE_FILENAME)
+
+
+def _prepare_default_cache_dir(cache_file: str) -> None:
+    """Create the app data cache folder and move in a cache file left in the
+    repo's configs/ folder. Does nothing when SD_RUNNER_CACHE_DIR is set."""
+    if os.environ.get("SD_RUNNER_CACHE_DIR"):
+        return
+    os.makedirs(os.path.dirname(cache_file), exist_ok=True)
+    adopt_legacy_file(os.path.join(_REPO_ROOT, "configs", _CACHE_FILENAME), cache_file)
 
 
 BLACKLIST_CACHE_FILE = _resolve_blacklist_cache_file()
+_prepare_default_cache_dir(BLACKLIST_CACHE_FILE)
 
 
 def normalize_accents_for_regex(text: str, is_regex: bool = False) -> str:
@@ -1216,11 +1230,11 @@ class Blacklist:
     @staticmethod
     def reset_filter_cache() -> None:
         """Replace _filter_cache with a fresh empty instance at the current
-        SD_RUNNER_CACHE_DIR location (or the default configs/ dir if unset).
+        SD_RUNNER_CACHE_DIR location (or the app data cache dir if unset).
 
         Called by the test suite between tests to guarantee isolation — cached
         filter results and version_cache never bleed across test boundaries, and
-        save() writes to the temp dir rather than the real configs/ directory.
+        save() writes to the temp dir rather than the real app data directory.
         """
         Blacklist._filter_cache = SizeAwarePicklableCache(
             filename=_resolve_blacklist_cache_file(),

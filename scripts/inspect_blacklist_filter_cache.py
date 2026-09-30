@@ -12,7 +12,9 @@ os.chdir(PROJECT_ROOT)
 sys.path.insert(0, PROJECT_ROOT)
 
 
-DEFAULT_CACHE_PATH = os.path.join("configs", "blacklist_filter_cache.pkl")
+from lib.logging_setup import app_data_dir
+
+DEFAULT_CACHE_PATH = os.path.join(app_data_dir("cache"), "blacklist_filter_cache.pkl")
 
 
 def _human_bytes(num_bytes: int) -> str:

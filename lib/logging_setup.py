@@ -1,5 +1,6 @@
 import logging
 import os
+import shutil
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -38,6 +39,43 @@ def _cleanup_old_logs(log_dir: Path, logger: logging.Logger) -> None:
     except Exception as e:
         logger.error(f"Error cleaning up old log files: {e}")
 
+def app_data_dir(*parts: str, create: bool = True) -> Path:
+    """Return ``<app data>/sd_runner/<parts...>``, creating it unless ``create``
+    is False.
+
+    The app data base is %APPDATA% on Windows and ~/.local/share elsewhere.
+    Logs, the user config and the blacklist filter cache all live under it.
+    SD_RUNNER_APP_DATA_DIR, if set, replaces ``<app data>/sd_runner`` as a
+    whole; the test suite sets it before this module is first imported.
+    """
+    override: str | None = os.getenv('SD_RUNNER_APP_DATA_DIR')
+    if override:
+        root: Path = Path(override)
+    else:
+        appdata_dir: str = os.getenv('APPDATA') if sys.platform == 'win32' else os.path.expanduser('~/.local/share')
+        root = Path(appdata_dir, 'sd_runner')
+    path: Path = root.joinpath(*parts)
+    if create:
+        path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def adopt_legacy_file(legacy_path: str, target_path: str) -> None:
+    """Move ``legacy_path`` to ``target_path`` if only the legacy file exists.
+
+    Carries a file over from a previous storage location on first run. Never
+    overwrites an existing target; on failure the legacy file is left in place.
+    """
+    if os.path.exists(target_path) or not os.path.isfile(legacy_path):
+        return
+    logger = get_logger("root")
+    try:
+        shutil.move(legacy_path, target_path)
+        logger.info(f"Moved {legacy_path} to {target_path}")
+    except OSError as e:
+        logger.error(f"Failed to move {legacy_path} to {target_path}: {e}")
+
+
 def get_logger(module_name: str) -> logging.Logger:
     """
     Get a logger instance for a specific module.
@@ -63,10 +101,7 @@ def get_logger(module_name: str) -> logging.Logger:
     ch.setFormatter(CustomFormatter())
     logger.addHandler(ch)
 
-    # Create log file in ApplicationData
-    appdata_dir: str = os.getenv('APPDATA') if sys.platform == 'win32' else os.path.expanduser('~/.local/share')
-    log_dir: Path = Path(appdata_dir) / 'sd_runner' / 'logs'
-    log_dir.mkdir(parents=True, exist_ok=True)
+    log_dir: Path = app_data_dir('logs')
 
     # Clean up old logs before creating new one
     _cleanup_old_logs(log_dir, logger)

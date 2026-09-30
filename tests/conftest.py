@@ -50,6 +50,11 @@ os.environ["SD_RUNNER_SERVER_PORT"] = "0"
 # developer's actual USB stick. Pinned inside the throwaway dir so a test that
 # generates keys cannot write key material outside the run.
 os.environ["SD_RUNNER_KEY_BACKUP_DIR"] = os.path.join(_bootstrap_tmp, "key_backup")
+# Replaces <app data>/sd_runner, so the log files lib.logging_setup opens at
+# import, and any config or cache path resolved without the overrides above,
+# stay inside the run. Session-wide rather than per test: a file handler keeps
+# the path it was created with.
+os.environ["SD_RUNNER_APP_DATA_DIR"] = os.path.join(_bootstrap_tmp, "app_data")
 
 # Imported for the side effect: both modules construct their singleton at import
 # time, and this forces that to happen now, with the env vars above in place.
@@ -101,7 +106,21 @@ _fake_keyring = _FakeKeyring()
 _encryptor_module.keyring = _fake_keyring
 
 import atexit
-atexit.register(shutil.rmtree, _bootstrap_tmp, True)
+
+
+def _remove_bootstrap_tmp() -> None:
+    # The project's log file handlers are still open at exit, and Windows will
+    # not delete an open file, so close them before removing the directory.
+    import logging
+    for name, logger in list(logging.Logger.manager.loggerDict.items()):
+        if name.startswith("sd_runner") and isinstance(logger, logging.Logger):
+            for handler in list(logger.handlers):
+                if isinstance(handler, logging.FileHandler):
+                    handler.close()
+    shutil.rmtree(_bootstrap_tmp, True)
+
+
+atexit.register(_remove_bootstrap_tmp)
 
 # ---------------------------------------------------------------------------
 # Locale: force English for the entire test run so that any assertion that

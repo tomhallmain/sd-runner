@@ -1,13 +1,17 @@
 import json
 import os
+import shutil
 
-from lib.logging_setup import get_logger
+from lib.logging_setup import adopt_legacy_file, app_data_dir, get_logger
 
 logger = get_logger("config")
 
 
 class Config:
+    #: The repo's configs/ folder: holds the shipped example, and is the legacy
+    #: location a config.json is migrated from.
     CONFIGS_DIR_LOC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "configs")
+    EXAMPLE_CONFIG_LOC = os.path.join(CONFIGS_DIR_LOC, "config example.json")
 
     # Registry of config keys the Config dialog exposes as editable.
     # Maps key → expected Python type for coercion:
@@ -85,19 +89,36 @@ class Config:
     }
 
     @staticmethod
+    def user_configs_dir() -> str:
+        """Directory holding the user's config.json: SD_RUNNER_CONFIGS_DIR if
+        set, else the configs folder in the app data dir beside the logs.
+
+        A config.json found in the repo's configs/ folder is moved here on first
+        use.
+        """
+        override = os.environ.get("SD_RUNNER_CONFIGS_DIR")
+        if override:
+            return override
+        configs_dir = str(app_data_dir("configs"))
+        adopt_legacy_file(os.path.join(Config.CONFIGS_DIR_LOC, "config.json"),
+                          os.path.join(configs_dir, "config.json"))
+        return configs_dir
+
+    @staticmethod
     def resolve_config_path():
-        """Resolve the active config file path, preferring config.json."""
-        configs_dir = os.environ.get("SD_RUNNER_CONFIGS_DIR") or Config.CONFIGS_DIR_LOC
-        configs = [f.path for f in os.scandir(configs_dir) if f.is_file() and f.path.endswith(".json")]
-        config_path = None
-        for c in configs:
-            if os.path.basename(c) == "config.json":
-                config_path = c
-                break
-            elif os.path.basename(c) != "config_example.json":
-                config_path = c
-        if config_path is None:
-            config_path = os.path.join(configs_dir, "config example.json")
+        """Return the path of the user's config.json, seeding it from the
+        shipped example if it does not exist yet.
+
+        Falls back to the example itself only if the seed copy fails.
+        """
+        config_path = os.path.join(Config.user_configs_dir(), "config.json")
+        if not os.path.exists(config_path):
+            try:
+                shutil.copyfile(Config.EXAMPLE_CONFIG_LOC, config_path)
+                logger.info(f"Created {config_path} from the example config.")
+            except OSError as e:
+                logger.error(f"Failed to create {config_path}: {e}")
+                return Config.EXAMPLE_CONFIG_LOC
         return config_path
 
     def __init__(self):
