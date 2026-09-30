@@ -2270,3 +2270,42 @@ Lake Tanganyika
 Mackenzie River
 Yangtze River
 Lena River
+bird-cage
+bread-shovel
+bugle-horn
+charcoal burner
+clock-case
+crystal ball
+darning-needle
+fishing-net
+glass coffin
+golden ball
+golden key
+hedge-shears
+iron stove
+kreuzer
+louis d'or
+lucifer match
+money-bag
+money-chest
+night-lamp
+oil-lamp
+oven-fork
+paternoster
+ploughshare
+scrubbing-brush
+sealing-wax
+sentry-box
+sleeping-draught
+spinning wheel
+thaler
+turning-lathe
+walking-stick
+water-pitcher
+wine-cask
+wishing-cap
+wishing-cloak
+wishing-cloth
+wishing-ring
+wishing-table
+yard-measure

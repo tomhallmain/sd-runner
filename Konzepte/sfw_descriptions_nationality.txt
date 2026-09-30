@@ -236,3 +236,4 @@ punjabi
 sindhi
 tamil
 telugu
+schwäbisch

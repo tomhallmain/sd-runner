@@ -240,3 +240,4 @@ punjabi
 sindhi
 tamil
 telugu
+swabian

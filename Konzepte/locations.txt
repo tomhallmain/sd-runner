@@ -1268,3 +1268,30 @@ Fels
 Sandbank
 Buschland
 Meer
+Aschenhaufen
+Bierstube
+Krautgarten
+Schlosshof
+Kaminecke
+Kuhstall
+Kuhstall
+Speisesaal
+Brachfeld
+Fischteich
+Glasberg
+Gänsestall
+Hütte im Wald
+Rumpelkammer
+Schlossgarten
+Taubenschlag
+Lustgarten
+Geflügelhof
+Stoppelfeld
+Turm ohne Tür und Treppe
+Schatzkammer
+Rübenacker
+unter einer alten Linde an einem Brunnen
+Dorfkirche
+Weizenfeld
+Wendeltreppe
+Lebkuchenhaus der Hexe

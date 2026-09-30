@@ -1257,3 +1257,30 @@ rock
 sandbar
 scrubland
 sea
+ash-heap
+beer-house
+cabbage-garden
+castle-yard
+chimney-corner
+cow-byre
+cow-house
+dining-hall
+fallow field
+fishpond
+glass mountain
+goose-house
+hut in the forest
+lumber-room
+palace-garden
+pigeon-house
+pleasure-garden
+poultry-yard
+stubble-field
+tower without doors or stairs
+treasure-chamber
+turnip-field
+under an old lime-tree beside a well
+village church
+wheatfield
+winding staircase
+witch's gingerbread house

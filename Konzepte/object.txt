@@ -2224,3 +2224,42 @@ Tanganjikasee
 Mackenzie
 Jangtse
 Lena
+Vogelkäfig
+Brotschieber
+Hifthorn
+Kohlenmeiler
+Uhrkasten
+Kristallkugel
+Stopfnadel
+Fischernetz
+gläserner Sarg
+goldene Kugel
+goldener Schlüssel
+Heckenschere
+eiserner Ofen
+Kreuzer
+Louisdor
+Streichholz
+Geldbeutel
+Geldtruhe
+Nachtlampe
+Öllampe
+Ofengabel
+Paternoster
+Pflugschar
+Scheuerbürste
+Siegellack
+Schilderhaus
+Schlaftrunk
+Spinnrad
+Taler
+Drehbank
+Spazierstock
+Wasserkrug
+Weinfass
+Wünschhütlein
+Wunschmantel
+Wunschtuch
+Wunschring
+Tischlein deck dich
+Elle

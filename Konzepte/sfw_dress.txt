@@ -1168,3 +1168,26 @@ Anzug mit Krawatte
 Anzug mit Krawattenklammer
 Anzug mit Weste
 tailored-fit Anzug
+Bärenfellmantel
+Stiefel aus Büffelleder
+Kleid so glänzend wie die Sterne
+Kleid so golden wie die Sonne
+Kleid so silbern wie der Mond
+Pelzmantel
+gläserne Pantoffeln
+goldene Pantoffeln
+Haarband
+Jagdrock
+eiserne Schuhe
+Lederschürze
+Mantel aus allerlei Pelz
+Halstuch
+Taschentuch
+rote Strümpfe
+Schäferrock
+Jägerrock
+Kittel
+Sternenkleid
+Schnürbänder
+Wickeltücher
+Hochzeitsmantel

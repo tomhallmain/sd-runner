@@ -1171,3 +1171,26 @@ suit with tie
 suit with tie clip
 suit with vest
 tailored-fit suit
+bearskin coat
+boots of buffalo-leather
+dress as bright as the stars
+dress as golden as the sun
+dress as silver as the moon
+fur-mantle
+glass slippers
+golden slippers
+hair-ribbon
+hunting-coat
+iron shoes
+leather apron
+mantle of all kinds of fur
+neck-kerchief
+pocket-handkerchief
+red stockings
+shepherd's coat
+shooting-coat
+smock-frock
+star-dress
+stay-laces
+swaddling-clothes
+wedding-mantle

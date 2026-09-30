@@ -185,3 +185,5 @@ Flügelmann
 Arbeiter
 Schriftsteller
 Gefreiter
+Pflegevater
+Pflegemutter

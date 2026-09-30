@@ -5211,6 +5211,202 @@ The Tale of the Woodcutter and his Daughters
 Yasmin and the Serpent Prince
 The Story of the Youth Who Went Forth to Learn What Fear Was
 
+A Riddling Tale
+The Aged Mother
+All-Kinds-of-Fur
+Allerleirauh
+Aschenputtel
+The Bittern and the Hoopoe
+The Blue Light (fairy tale)
+The Bremen Town Musicians
+Briar Rose
+Brides on Their Trial
+The Bright Sun Brings It to Light
+Brother Lustig
+Cat and Mouse in Partnership
+Clever Elsie
+Clever Grethel
+The Crumbs on the Table
+The Cunning Little Tailor
+Dame Gothel
+The Death of the Little Hen
+Death's Messengers
+The Devil and His Grandmother
+The Devil with the Three Golden Hairs
+The Devil's Sooty Brother
+The Ditmarsch Tale of Wonders
+Doctor Knowall
+The Dog and the Sparrow
+Domestic Servants (fairy tale)
+Donkey Cabbages
+Dummling
+The Duration of Life
+The Ear of Corn
+The Elves and the Shoemaker
+the enchanted flounder
+Eve's Various Children
+Fair Katrinelje
+Faithful John
+Falada
+Ferdinand the Faithful
+The Fisherman and His Wife
+Fitcher's Bird
+The Flail from Heaven
+The Four Skilful Brothers
+The Fox and the Cat
+The Fox and the Geese
+The Fox and the Horse
+Frau Holle
+Frau Trude
+Frederick and Catherine
+The Frog King
+Fundevogel
+Gambling Hansel
+The Giant and the Tailor
+God's Food
+Godfather Death
+Going A-Travelling
+The Gold-Children
+The Golden Bird
+The Golden Goose
+The Goose-Girl
+The Goose-Girl at the Well
+The Grave-Mound
+Hans in Luck
+Hans Married
+Hans the Hedgehog
+The Hare and the Hedgehog
+The Hare's Bride
+The Hazel Branch (fairy tale)
+The Heavenly Wedding
+Herr Korbes
+How Six Men Got On in the World
+Iron Hans
+Iron Henry
+Iron John
+Jorinda and Joringel
+The King of the Golden Mountain
+The King's Son Who Feared Nothing
+The Knapsack, the Hat, and the Horn
+Knoist and His Three Sons
+The Lambkin and the Little Fish
+Lazy Harry
+The Lazy Spinner
+Lean Lisa
+Little Brother and Little Sister
+The Little Folks' Presents
+The Little Peasant
+Little Red Cap
+The Lord's Animals and the Devil's
+The Louse and the Flea
+Maid Maleen
+The Maid of Brakel
+Master Pfriem
+The Master Thief
+Mother Holle
+The Mouse, the Bird, and the Sausage
+Mrs. Fox
+The Nix of the Mill-Pond
+The Old Beggar Woman
+Old Hildebrand
+The Old Man Made Young Again
+Old Rinkrank
+Old Sultan
+The Old Woman in the Wood
+One-Eye, Two-Eyes, and Three-Eyes
+Our Lady's Child
+Our Lady's Little Glass
+The Pack of Ragamuffins
+The Peasant and the Devil
+The Peasant in Heaven
+The Peasant's Wise Daughter
+Pif-Paf-Poltrie
+The Poor Man and the Rich Man
+The Poor Miller's Boy and the Cat
+Poverty and Humility Lead to Heaven
+The Queen Bee (fairy tale)
+The Seven Ravens
+The Seven Swabians
+Sharing Joy and Sorrow
+The Shepherd Boy (fairy tale)
+The Shoes That Were Danced to Pieces
+The Singing Bone
+The Singing, Springing Lark
+The Six Servants
+The Skilful Huntsman
+Snow-White and Rose-Red
+The Sparrow and His Four Children
+The Spindle, the Shuttle, and the Needle
+The Spirit in the Bottle
+St. Joseph in the Forest
+The Star Money
+The Stolen Farthings
+Stories about Snakes
+The Story of Schlauraffen Land
+The Straw, the Coal, and the Bean
+Strong Hans
+Sweetheart Roland
+The Tailor in Heaven
+The Thief and His Master
+The Three Army-Surgeons
+The Three Brothers (fairy tale)
+The Three Feathers
+The Three Green Twigs
+The Three Languages
+The Three Little Birds
+The Three Little Men in the Wood
+The Three Sluggards
+The Three Snake-Leaves
+The Three Sons of Fortune
+The Three Spinners
+Thumbling
+The True Sweethearts
+The Twelve Apostles (fairy tale)
+The Twelve Dancing Princesses
+The Twelve Huntsmen
+The Two Brothers (fairy tale)
+The Two Kings' Children
+The Ungrateful Son
+The Valiant Little Tailor
+The Water Nix
+The Water of Life (fairy tale)
+The Wedding of Mrs. Fox
+The White Snake
+The Wilful Child
+The Willow-Wren and the Bear
+Wise Folks
+The Wise Servant
+The Wolf and the Fox
+The Wolf and the Seven Little Kids
+The Wonderful Musician
+The Young Giant
+beggar-woman
+broom-maker
+cattle-dealer
+court tailor
+cowherd
+egg-merchant
+errand-boy
+fencing-master
+goose-boy
+hare-herd
+herdswoman
+kitchen-boy
+kitchen-maid
+lordling
+luck-child
+lute-player
+money-changer
+peddler-woman
+rope-maker
+scissors-grinder
+scullery maid
+stable-boy
+stall-keeper
+Sunday child
+tomfool
+waiting-maid
+
 A Clockwork Orange
 A Passage to India
 A Portrait of the Artist as a Young Man

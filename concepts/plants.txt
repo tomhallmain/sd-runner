@@ -594,3 +594,19 @@ tupelo
 walnut
 willow
 yew
+apple-blossom
+bindweed
+four-leaved clover
+hazel-bush
+hazel-tree
+juniper tree
+lime tree
+milfoil
+moss-rose
+rampion
+rose-tree
+scorzonera
+sloe-bush
+snake-leaves
+starwort
+stinging-nettle
