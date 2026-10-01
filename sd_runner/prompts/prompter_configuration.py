@@ -79,6 +79,12 @@ class LegacyPrompterConfiguration:
         if not hasattr(self, 'original_negative_tags'):
             self.original_negative_tags = ""
     
+    def _legacy_witticisms_weights(self) -> dict[str, float]:
+        weights = PrompterConfiguration.default_witticisms_weights()
+        weights["sayings"] = self.sayings_weight
+        weights["puns"] = self.puns_weight
+        return weights
+
     def to_prompter_configuration(self) -> "PrompterConfiguration":
         """Convert legacy configuration to new PrompterConfiguration."""
         categories = {}
@@ -133,14 +139,14 @@ class LegacyPrompterConfiguration:
             categories["witticisms"] = ConceptConfiguration(
                 low=self.witticisms[0],
                 high=self.witticisms[1],
-                subcategory_weights={"sayings": self.sayings_weight, "puns": self.puns_weight}
+                subcategory_weights=self._legacy_witticisms_weights()
             )
         else:
             # Calculate from sayings+puns (for old configs that don't have witticisms yet)
             categories["witticisms"] = ConceptConfiguration(
                 low=max(self.sayings[0], self.puns[0]),
                 high=self.sayings[1] + self.puns[1],
-                subcategory_weights={"sayings": self.sayings_weight, "puns": self.puns_weight}
+                subcategory_weights=self._legacy_witticisms_weights()
             )
         
         # Create new configuration
@@ -171,6 +177,10 @@ class PrompterConfiguration:
         "concepts": "media_features",
     }
 
+    # Witticisms draws from one file per entry, named by its key, in the
+    # proportion of that entry's weight to the sum of all of them.
+    WITTICISMS_DEFAULT_WEIGHTS = {"sayings": 1.0, "puns": 0.5, "quotations": 0.5}
+
     # Required category names
     REQUIRED_CATEGORIES = [
         "media_features", "objects",
@@ -178,6 +188,10 @@ class PrompterConfiguration:
         "dress", "expressions", "actions", "descriptions", "characters",
         "random_words", "nonsense", "jargon", "witticisms"
     ]
+
+    @classmethod
+    def default_witticisms_weights(cls) -> dict[str, float]:
+        return dict(cls.WITTICISMS_DEFAULT_WEIGHTS)
 
     @staticmethod
     def _get_default_categories() -> dict[str, ConceptConfiguration]:
@@ -211,7 +225,7 @@ class PrompterConfiguration:
             "witticisms": ConceptConfiguration(
                 low=0, 
                 high=3, 
-                subcategory_weights={"sayings": 1.0, "puns": 0.5}
+                subcategory_weights=PrompterConfiguration.default_witticisms_weights()
             ),
         }
     
@@ -258,6 +272,20 @@ class PrompterConfiguration:
             if category_name not in self.categories:
                 logger.warning(f"Category {category_name} not found in categories, using default")
                 self.categories[category_name] = defaults[category_name]
+
+    def _backfill_witticisms_weights(self) -> None:
+        """Give a saved witticisms config any source added since it was saved.
+
+        A missing key would leave that source unreachable with no control
+        showing why, so it takes the default weight.
+        """
+        witt = self.categories.get("witticisms")
+        if witt is None:
+            return
+        if not witt.subcategory_weights:
+            witt.subcategory_weights = {}
+        for name, weight in self.WITTICISMS_DEFAULT_WEIGHTS.items():
+            witt.subcategory_weights.setdefault(name, weight)
 
     @classmethod
     def _canonical_category_name(cls, name: str) -> str:
@@ -309,41 +337,31 @@ class PrompterConfiguration:
         name = self._canonical_category_name(name)
         self.categories[name] = config
     
-    def get_witticisms_weights(self) -> tuple[float, float]:
-        """Get witticisms subcategory weights as (sayings_weight, puns_weight)."""
+    def get_witticisms_weights(self) -> dict[str, float]:
+        """Get witticisms subcategory weights, one per source in WITTICISMS_DEFAULT_WEIGHTS."""
         if 'witticisms' not in self.categories:
             raise ValueError("'witticisms' category not found in categories")
         witt = self.categories['witticisms']
         if not witt.subcategory_weights:
             raise ValueError("'witticisms' category has no subcategory_weights set")
-        sayings_weight = witt.subcategory_weights.get("sayings")
-        puns_weight = witt.subcategory_weights.get("puns")
-        if sayings_weight is None:
-            raise ValueError("'witticisms' subcategory_weights missing 'sayings' key")
-        if puns_weight is None:
-            raise ValueError("'witticisms' subcategory_weights missing 'puns' key")
-        return (sayings_weight, puns_weight)
-    
-    def set_witticisms_weights(self, sayings_weight: float, puns_weight: float):
-        """Set witticisms subcategory weights."""
+        weights = {}
+        for name in self.WITTICISMS_DEFAULT_WEIGHTS:
+            if name not in witt.subcategory_weights:
+                raise ValueError(f"'witticisms' subcategory_weights missing '{name}' key")
+            weights[name] = witt.subcategory_weights[name]
+        return weights
+
+    def set_witticisms_weights(self, weights: dict[str, float]) -> None:
+        """Set witticisms subcategory weights; sources not named keep their weight."""
+        unknown = set(weights) - set(self.WITTICISMS_DEFAULT_WEIGHTS)
+        if unknown:
+            raise ValueError(f"Unknown witticisms subcategories: {sorted(unknown)}")
         witt = self.categories.get("witticisms")
         if witt:
             if not witt.subcategory_weights:
                 witt.subcategory_weights = {}
-            witt.subcategory_weights["sayings"] = sayings_weight
-            witt.subcategory_weights["puns"] = puns_weight
-    
-    def get_witticisms_ratio(self) -> float:
-        """Get witticisms ratio (0.0 = all sayings, 0.5 = equal, 1.0 = all puns).
-        
-        Returns the ratio of puns_weight to total weight.
-        """
-        sayings_weight, puns_weight = self.get_witticisms_weights()
-        total_weight = sayings_weight + puns_weight
-        if total_weight > 0:
-            return puns_weight / total_weight
-        return 0.5  # Default to equal if both are 0
-    
+            witt.subcategory_weights.update(weights)
+
     def set_specific_locations_chance(self, chance: float):
         """Set specific locations chance (updates category config only)."""
         if 'locations' in self.categories:
@@ -404,6 +422,7 @@ class PrompterConfiguration:
             defaults = self._get_default_categories()
             self.categories.setdefault("units", defaults["units"])
             self.categories.setdefault("lighting", defaults["lighting"])
+            self._backfill_witticisms_weights()
 
             # Ensure all required categories exist
             self._ensure_required_categories()

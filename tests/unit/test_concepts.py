@@ -317,7 +317,7 @@ class TestConceptsFileLoad:
 # Concepts.get_with_subcategories — proportional sampling across weighted files
 #
 # Backs get_witticisms(), whose category config carries
-# {"sayings": 1.0, "puns": 0.5}. A subcategory whose file fails to load is
+# {"sayings": 1.0, "puns": 0.5, "quotations": 0.5}. A subcategory whose file fails to load is
 # skipped with a warning, which can leave the result short or empty -- the case
 # that used to reach random.choice() in Prompter._select_concept.
 # ---------------------------------------------------------------------------

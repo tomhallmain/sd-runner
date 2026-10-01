@@ -62,6 +62,18 @@ _base.insert(1, "0.1")
 _MULTIPLIER_ITEMS = _base
 
 
+def _witticisms_source_label(name: str) -> str:
+    """Return the translated display label for a witticisms source key."""
+    labels = {
+        "sayings": _("Sayings"),
+        "puns": _("Puns"),
+        "quotations": _("Quotations"),
+    }
+    if name in labels:
+        return labels[name]
+    return _(name.replace("_", " ").title())
+
+
 def _category_label(name: str) -> str:
     """Return the translated display label for a prompt category key.
 
@@ -187,6 +199,8 @@ class PromptConfigWindow(SmartDialog):
         self._cat_combos: dict[str, tuple[QComboBox, QComboBox]] = {}
         # Slider refs: name -> QSlider
         self._sliders: dict[str, QSlider] = {}
+        # Witticisms source -> (weight slider, share label)
+        self._witticisms_rows: dict[str, tuple[QSlider, QLabel]] = {}
 
         self._build_ui()
 
@@ -339,23 +353,30 @@ class PromptConfigWindow(SmartDialog):
         col.addStretch()
 
     def _build_slider_sections(self, col: QVBoxLayout, pc: PrompterConfiguration) -> None:
-        """Witticisms ratio and all chance sliders (left column)."""
-        col.addWidget(self._section_label(_("Subcategory Weights")))
-        witt_row = QHBoxLayout()
-        lbl = QLabel(_("Sayings / Puns Ratio"))
-        create_tooltip(
-            lbl,
-            _("0 = mostly sayings, 50 = equal blend, 100 = mostly puns"),
-        )
-        witt_row.addWidget(lbl)
-        self._witticisms_slider = QSlider(Qt.Orientation.Horizontal)
-        self._witticisms_slider.setRange(0, 100)
-        ratio = pc.get_witticisms_ratio()
-        self._witticisms_slider.setValue(int(max(0, min(100, ratio * 100))))
-        self._witticisms_slider.valueChanged.connect(self._on_widget_changed)
-        self._sliders["witticisms_ratio"] = self._witticisms_slider
-        witt_row.addWidget(self._witticisms_slider, stretch=1)
-        col.addLayout(witt_row)
+        """Witticisms weights and all chance sliders (left column)."""
+        col.addWidget(self._section_label(_("Witticisms Weights")))
+        # Weights are relative, so they are shown scaled to put the largest at
+        # 100; the label beside each shows its share of the sampled witticisms.
+        weights = pc.get_witticisms_weights()
+        top = max(weights.values(), default=0.0)
+        tooltip = _("Relative weight of this source. The percentage is its share "
+                    "of witticisms; all at 0 turns witticisms off.")
+        for name, weight in weights.items():
+            row = QHBoxLayout()
+            lbl = QLabel(_witticisms_source_label(name))
+            create_tooltip(lbl, tooltip)
+            row.addWidget(lbl)
+            sl = QSlider(Qt.Orientation.Horizontal)
+            sl.setRange(0, 100)
+            sl.setValue(int(round(weight / top * 100)) if top > 0 else 0)
+            sl.valueChanged.connect(self._on_witticisms_weight_changed)
+            row.addWidget(sl, stretch=1)
+            share = QLabel()
+            share.setMinimumWidth(share.fontMetrics().horizontalAdvance("100 %"))
+            row.addWidget(share)
+            self._witticisms_rows[name] = (sl, share)
+            col.addLayout(row)
+        self._update_witticisms_shares()
 
         col.addWidget(self._section_label(_("Chance Sliders")))
         slider_defs = [
@@ -452,9 +473,19 @@ class PromptConfigWindow(SmartDialog):
         lbl.setStyleSheet("font-size: 12pt; font-weight: bold; margin-top: 8px;")
         return lbl
 
+    def _update_witticisms_shares(self) -> None:
+        total = sum(sl.value() for sl, _share in self._witticisms_rows.values())
+        for sl, share in self._witticisms_rows.values():
+            percent = round(sl.value() * 100 / total) if total > 0 else 0
+            share.setText(_("{percent}%").format(percent=percent))
+
     # ==================================================================
     # Widget → Config sync
     # ==================================================================
+    def _on_witticisms_weight_changed(self, *_args) -> None:
+        self._update_witticisms_shares()
+        self._on_widget_changed()
+
     def _on_widget_changed(self, *_args) -> None:
         """Debounced handler -- push all widget values into the config."""
         if self._updating:
@@ -507,13 +538,11 @@ class PromptConfigWindow(SmartDialog):
                     extra["inclusion_chance"] = self._sliders["dress_inclusion"].value() / 100.0
                 pc.set_category(name, lo, hi, **extra)
 
-            # --- Witticisms ratio slider ----------------------------------
-            ratio = self._witticisms_slider.value() / 100.0
-            total_weight = 2.0
-            pc.set_witticisms_weights(
-                sayings_weight=(1.0 - ratio) * total_weight,
-                puns_weight=ratio * total_weight,
-            )
+            # --- Witticisms weights ---------------------------------------
+            pc.set_witticisms_weights({
+                name: sl.value() / 100.0
+                for name, (sl, _share) in self._witticisms_rows.items()
+            })
 
             # --- Remaining chance sliders ---------------------------------
             pc.set_specific_locations_chance(self._sliders["specific_locations"].value() / 100.0)

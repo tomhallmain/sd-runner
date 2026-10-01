@@ -1256,11 +1256,14 @@ class Prompter:
         elif name.startswith("posit"):
             concept = Prompter._choose(concepts.get_positions(ConceptConfiguration(1, 1)))
         elif name.startswith("witt"):
-            concept = Prompter._choose(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["sayings", "puns"])))
+            concept = Prompter._choose(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(
+                1, 1, list(PrompterConfiguration.WITTICISMS_DEFAULT_WEIGHTS))))
         elif name.startswith("saying"):
             concept = Prompter._choose(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["sayings"])))
         elif name.startswith("pun"):
             concept = Prompter._choose(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["puns"])))
+        elif name.startswith("quot"):
+            concept = Prompter._choose(concepts.get_witticisms(ConceptConfiguration.from_subcategory_list(1, 1, ["quotations"])))
         elif name.startswith("jarg"):
             concept = Prompter._choose(concepts.get_jargon(ConceptConfiguration(1, 1)))
         elif name.startswith("number"):

@@ -1188,7 +1188,7 @@ class Concepts:
         ``blue car`` matches an existing ``[[red,blue]] car``.
 
         Note:
-            Phrase-heavy categories (jargon, puns, sayings) are excluded from
+            Phrase-heavy categories (jargon, puns, quotations, sayings) are excluded from
             duplicate checks unless the import target is that same file, so
             common words do not false-block imports into normal concept lists.
         """
@@ -1199,7 +1199,7 @@ class Concepts:
         ]
         # Skip cross-category matches from long-form phrase corpora unless
         # the user is importing directly into that file.
-        _phrase_heavy_sources = frozenset((SFW.jargon, SFW.puns, SFW.sayings))
+        _phrase_heavy_sources = frozenset((SFW.jargon, SFW.puns, SFW.quotations, SFW.sayings))
 
         for category, concepts in existing_concepts.items():
             if category in _phrase_heavy_sources and target_category != category:
@@ -1438,6 +1438,7 @@ class SFW:
     positions_angles = "angles_and_views.txt"
     prefixes = "prefixes.txt"
     puns = "puns.txt"
+    quotations = "quotations.txt"
     sayings = "sayings.txt"
     suffixes = "suffixes.txt"
     times = "times.txt"

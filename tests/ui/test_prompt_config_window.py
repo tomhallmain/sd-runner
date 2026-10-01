@@ -14,10 +14,14 @@ close.
 
 import pytest
 
+from lib.translations import I18N
 from sd_runner.globals import Sampler, Scheduler
+from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.runs.runner_app_config import RunnerAppConfig
 from sd_runner.ui.prompts.prompt_config_window import PromptConfigWindow
 from tests.utils import close_window, make_app_actions, make_run_config
+
+_ = I18N._
 
 
 @pytest.fixture
@@ -144,15 +148,49 @@ class TestChanceSliders:
         window._sliders["emphasis"].setValue(0)
         assert config.prompter_config.emphasis_chance == 0.0
 
-    def test_the_witticisms_slider_splits_the_weights(self, window, config):
-        window._witticisms_slider.setValue(75)
-        sayings, puns = config.prompter_config.get_witticisms_weights()
-        assert puns == pytest.approx(1.5)
-        assert sayings == pytest.approx(0.5)
+    def test_a_witticisms_slider_writes_only_its_own_weight(self, window, config):
+        before = config.prompter_config.get_witticisms_weights()
+        slider, _share = window._witticisms_rows["puns"]
+        slider.setValue(30)
+        after = config.prompter_config.get_witticisms_weights()
+        assert after["puns"] == pytest.approx(0.30)
+        for name in ("sayings", "quotations"):
+            assert after[name] == pytest.approx(before[name])
 
     def test_an_inclusion_slider_reaches_its_category(self, window, config):
         window._sliders["dress_inclusion"].setValue(20)
         assert category(config, "dress").inclusion_chance == pytest.approx(0.20)
+
+
+# ---------------------------------------------------------------------------
+# Witticisms weights -- one relative weight per source
+# ---------------------------------------------------------------------------
+
+class TestWitticismsWeights:
+    def test_every_source_has_a_slider(self, window):
+        assert set(window._witticisms_rows) == set(PrompterConfiguration.WITTICISMS_DEFAULT_WEIGHTS)
+
+    def test_the_largest_weight_is_shown_at_full_scale(self, qapp, config):
+        config.prompter_config.set_witticisms_weights({"sayings": 2.0, "puns": 1.0, "quotations": 0.0})
+        win = PromptConfigWindow(None, make_app_actions(), config)
+        try:
+            values = {name: sl.value() for name, (sl, _share) in win._witticisms_rows.items()}
+        finally:
+            close_window(win)
+        assert values == {"sayings": 100, "puns": 50, "quotations": 0}
+
+    def test_each_share_label_shows_its_fraction_of_the_total(self, window):
+        rows = window._witticisms_rows
+        rows["sayings"][0].setValue(100)
+        rows["puns"][0].setValue(100)
+        rows["quotations"][0].setValue(50)
+        assert rows["sayings"][1].text() == _("{percent}%").format(percent=40)
+        assert rows["quotations"][1].text() == _("{percent}%").format(percent=20)
+
+    def test_all_at_zero_writes_zero_weights(self, window, config):
+        for slider, _share in window._witticisms_rows.values():
+            slider.setValue(0)
+        assert all(w == 0 for w in config.prompter_config.get_witticisms_weights().values())
 
 
 # ---------------------------------------------------------------------------

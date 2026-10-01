@@ -56,32 +56,56 @@ class TestSetAndGetCategory:
 
 
 class TestWitticisms:
-    def test_get_witticisms_weights_returns_tuple(self):
+    def test_get_witticisms_weights_has_every_source(self):
         cfg = make_config()
-        sayings, puns = cfg.get_witticisms_weights()
-        assert isinstance(sayings, float) and isinstance(puns, float)
+        weights = cfg.get_witticisms_weights()
+        assert set(weights) == set(PrompterConfiguration.WITTICISMS_DEFAULT_WEIGHTS)
+        assert all(isinstance(w, float) for w in weights.values())
 
     def test_set_witticisms_weights_persisted(self):
         cfg = make_config()
-        cfg.set_witticisms_weights(2.0, 0.5)
-        sayings, puns = cfg.get_witticisms_weights()
-        assert sayings == 2.0
-        assert puns == 0.5
+        cfg.set_witticisms_weights({"sayings": 2.0, "puns": 0.5, "quotations": 0.25})
+        assert cfg.get_witticisms_weights() == {"sayings": 2.0, "puns": 0.5, "quotations": 0.25}
 
-    def test_get_witticisms_ratio_equal_weights(self):
+    def test_set_witticisms_weights_leaves_unnamed_sources_alone(self):
         cfg = make_config()
-        cfg.set_witticisms_weights(1.0, 1.0)
-        assert abs(cfg.get_witticisms_ratio() - 0.5) < 1e-9
+        before = cfg.get_witticisms_weights()
+        cfg.set_witticisms_weights({"quotations": 3.0})
+        after = cfg.get_witticisms_weights()
+        assert after["quotations"] == 3.0
+        assert after["sayings"] == before["sayings"]
+        assert after["puns"] == before["puns"]
 
-    def test_get_witticisms_ratio_all_puns(self):
+    def test_set_witticisms_weights_rejects_an_unknown_source(self):
         cfg = make_config()
-        cfg.set_witticisms_weights(0.0, 1.0)
-        assert cfg.get_witticisms_ratio() == 1.0
+        with pytest.raises(ValueError):
+            cfg.set_witticisms_weights({"limericks": 1.0})
 
-    def test_get_witticisms_ratio_all_sayings(self):
+    def test_the_weights_reach_the_category_the_sampler_reads(self):
         cfg = make_config()
-        cfg.set_witticisms_weights(1.0, 0.0)
-        assert cfg.get_witticisms_ratio() == 0.0
+        cfg.set_witticisms_weights({"sayings": 0.0, "puns": 0.0, "quotations": 1.0})
+        assert cfg.get_category_config("witticisms").subcategory_weights == {
+            "sayings": 0.0, "puns": 0.0, "quotations": 1.0,
+        }
+
+    def test_a_saved_config_without_quotations_gets_the_default_weight(self):
+        """Configs saved before quotations existed carry only sayings and puns."""
+        d = make_config().to_dict()
+        d["categories"]["witticisms"]["subcategory_weights"] = {"sayings": 1.5, "puns": 0.5}
+        cfg = make_config()
+        cfg.set_from_dict(d)
+        assert cfg.get_witticisms_weights() == {
+            "sayings": 1.5,
+            "puns": 0.5,
+            "quotations": PrompterConfiguration.WITTICISMS_DEFAULT_WEIGHTS["quotations"],
+        }
+
+    def test_a_legacy_config_gets_every_source(self):
+        legacy = LegacyPrompterConfiguration(sayings_weight=0.8, puns_weight=0.2)
+        weights = legacy.to_prompter_configuration().get_witticisms_weights()
+        assert weights["sayings"] == 0.8
+        assert weights["puns"] == 0.2
+        assert weights["quotations"] == PrompterConfiguration.WITTICISMS_DEFAULT_WEIGHTS["quotations"]
 
 
 class TestSpecificChances:
@@ -155,7 +179,7 @@ class TestPrompterConfigurationSerialization:
             art_styles_chance=0.4,
         )
         original.set_category("colors", low=1, high=3)
-        original.set_witticisms_weights(0.8, 0.3)
+        original.set_witticisms_weights({"sayings": 0.8, "puns": 0.3, "quotations": 0.1})
 
         d = original.to_dict()
         restored = make_config()
@@ -167,6 +191,7 @@ class TestPrompterConfigurationSerialization:
 
         colors = restored.get_category_config("colors")
         assert colors.low == 1 and colors.high == 3
+        assert restored.get_witticisms_weights() == {"sayings": 0.8, "puns": 0.3, "quotations": 0.1}
 
     def test_set_from_dict_legacy_format_loads(self):
         # Legacy format has no 'categories' key; uses old field names
