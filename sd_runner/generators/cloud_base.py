@@ -2,7 +2,9 @@
 
 Concrete cloud generators (Stability AI, BFL Flux, Replicate, Fal.ai, …) should
 subclass ``CloudGenBase`` instead of ``BaseImageGenerator`` directly.  This class
-adds three shared capabilities on top of the local-generator base:
+implements the whole ``BaseImageGenerator`` workflow interface -- simple image
+generation routed to the subclass's ``queue_prompt``, every other workflow
+raising ``NotImplementedError`` -- and adds three shared capabilities:
 
 1. **API-key retrieval** — ``_api_key()`` reads the key for this backend from
    ``config.cloud_backends`` and raises with a clear message when it is absent.
@@ -16,11 +18,13 @@ adds three shared capabilities on top of the local-generator base:
 """
 
 import time
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Any, Callable, Optional, Tuple
 from urllib import error as urllib_error, request as urllib_request
 
 from sd_runner.generators.base import BaseImageGenerator
+from sd_runner.globals import WorkflowType
+from sd_runner.runs.gen_config import GenConfig
 from sd_runner.config import config
 from lib.logging_setup import get_logger
 
@@ -35,10 +39,110 @@ class CloudGenBase(BaseImageGenerator, ABC):
 
     Subclasses **must** set ``BACKEND_NAME`` to the short identifier used in
     ``config.json``'s ``cloud_backends`` subdict (e.g. ``"bfl"`` to resolve
-    ``bfl_api_key``).
+    ``bfl_api_key``), set ``DISPLAY_NAME`` for messages, and implement
+    ``queue_prompt``.
     """
 
     BACKEND_NAME: str = ""
+    DISPLAY_NAME: str = ""
+
+    def __init__(self, config: GenConfig = None, ui_callbacks=None):
+        super().__init__(config or GenConfig(), ui_callbacks)
+
+    @abstractmethod
+    def queue_prompt(self, model=None, resolution=None, n_latents: int = 1,
+                     positive: str = "", negative: str = "", **kw):
+        """Generate and save *n_latents* images for one prompt."""
+
+    # ------------------------------------------------------------------
+    # BaseImageGenerator interface
+    # ------------------------------------------------------------------
+
+    def _get_workflows(self) -> dict:
+        # LoRA runs go to the plain method: no cloud queue_prompt is sent a LoRA.
+        return {
+            WorkflowType.SIMPLE_IMAGE_GEN: self.simple_image_gen,
+            WorkflowType.SIMPLE_IMAGE_GEN_LORA: self.simple_image_gen,
+        }
+
+    def prompt_setup(self, workflow_type, action, prompt, model, vae=None, resolution=None, **kw):
+        self.print_pre(action=action, model=model, resolution=resolution, **kw)
+        return None, model, vae
+
+    def simple_image_gen(
+        self,
+        prompt=None,
+        resolution=None,
+        model=None,
+        vae=None,
+        n_latents=1,
+        positive=None,
+        negative=None,
+        **kw,
+    ):
+        self.queue_prompt(
+            model=model,
+            resolution=resolution,
+            n_latents=n_latents,
+            positive=positive or "",
+            negative=negative or "",
+        )
+
+    def simple_image_gen_lora(
+        self,
+        prompt=None,
+        resolution=None,
+        model=None,
+        vae=None,
+        n_latents=1,
+        positive=None,
+        negative=None,
+        lora=None,
+        **kw,
+    ):
+        self.simple_image_gen(
+            resolution=resolution,
+            model=model,
+            n_latents=n_latents,
+            positive=positive,
+            negative=negative,
+        )
+
+    # ------------------------------------------------------------------
+    # Unsupported workflows
+    # ------------------------------------------------------------------
+    # Not reachable through a run: validate_workflow rejects any workflow
+    # missing from _get_workflows before dispatch. They exist to satisfy
+    # BaseImageGenerator's abstract methods.
+
+    def _unsupported(self, workflow: str):
+        return NotImplementedError(
+            f"{workflow} is not supported for {self.DISPLAY_NAME or type(self).__name__}"
+        )
+
+    def upscale_simple(self, prompt="", model=None, control_net=None, **kw):
+        raise self._unsupported("upscale_simple")
+
+    def control_net(self, prompt="", resolution=None, model=None, vae=None, n_latents=None,
+                    positive=None, negative=None, lora=None, control_net=None, **kw):
+        raise self._unsupported("control_net")
+
+    def ip_adapter(self, prompt="", resolution=None, model=None, vae=None, n_latents=None,
+                   positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
+        raise self._unsupported("ip_adapter")
+
+    def img2img(self, prompt="", resolution=None, model=None, vae=None, n_latents=None,
+                positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
+        raise self._unsupported("img2img")
+
+    def instant_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None,
+                     positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
+        raise self._unsupported("instant_lora")
+
+    def redo_with_different_parameter(self, source_file="", resolution=None, model=None, vae=None,
+                                      lora=None, positive=None, negative=None, n_latents=None,
+                                      control_net=None, ip_adapter=None, **kw):
+        raise self._unsupported("redo_with_different_parameter")
 
     # ------------------------------------------------------------------
     # API key

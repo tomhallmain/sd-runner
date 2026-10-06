@@ -1,6 +1,5 @@
 """xAI Grok image generation backend (Aurora model, OpenAI-compatible API)."""
 
-from sd_runner.runs.gen_config import GenConfig
 from sd_runner.generators.openai_gen import OpenAIGen
 
 _BASE_URL = "https://api.x.ai/v1/images/generations"
@@ -23,7 +22,5 @@ class GrokGen(OpenAIGen):
     """
 
     BACKEND_NAME = "grok"
+    DISPLAY_NAME = "Grok"
     BASE_URL = _BASE_URL
-
-    def __init__(self, config: GenConfig = None, ui_callbacks=None):
-        super().__init__(config, ui_callbacks)

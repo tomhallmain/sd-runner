@@ -22,6 +22,7 @@ from PySide6.QtWidgets import (
 
 from extensions.hf_hub_api import HfHubApiBackend
 from lib.multi_display_qt import SmartDialog
+from lib.tree_sort_qt import toggle_sort
 from sd_runner.models.model import Model
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_utils import require_password
@@ -47,30 +48,6 @@ if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
 
 _ = I18N._
-
-
-# ======================================================================
-# Helpers
-# ======================================================================
-
-def _parse_date(date_str: str):
-    """Parse a date string into a sortable tuple."""
-    if not date_str or date_str == "Unknown":
-        return (0, 0, 0, 0, 0)
-    try:
-        dt = datetime.strptime(date_str, "%Y-%m-%d %H:%M")
-        return (dt.year, dt.month, dt.day, dt.hour, dt.minute)
-    except Exception:
-        return (0, 0, 0, 0, 0)
-
-
-def _sort_tree(tree: QTreeWidget, col: int) -> None:
-    """Sort *tree* by *col*, toggling direction each call."""
-    current = getattr(tree, "_sort_reverse", False)
-    new_reverse = not current
-    tree._sort_reverse = new_reverse
-    order = Qt.SortOrder.DescendingOrder if new_reverse else Qt.SortOrder.AscendingOrder
-    tree.sortItems(col, order)
 
 
 # ======================================================================
@@ -150,7 +127,7 @@ class ModelsWindow(SmartDialog):
         hdr.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
         hdr.resizeSection(1, 120)
         hdr.resizeSection(2, 150)
-        hdr.sectionClicked.connect(lambda col: _sort_tree(self._cp_tree, col))
+        hdr.sectionClicked.connect(lambda col: toggle_sort(self._cp_tree, col))
         self._cp_tree.itemDoubleClicked.connect(lambda: self._select_checkpoint())
         layout.addWidget(self._cp_tree)
 
@@ -203,7 +180,7 @@ class ModelsWindow(SmartDialog):
         hdr.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
         hdr.resizeSection(1, 120)
         hdr.resizeSection(2, 150)
-        hdr.sectionClicked.connect(lambda col: _sort_tree(self._ad_tree, col))
+        hdr.sectionClicked.connect(lambda col: toggle_sort(self._ad_tree, col))
         self._ad_tree.itemDoubleClicked.connect(lambda: self._select_adapter())
         layout.addWidget(self._ad_tree)
 
@@ -291,7 +268,7 @@ class ModelsWindow(SmartDialog):
         hdr.resizeSection(3, 70)
         hdr.resizeSection(4, 110)
         hdr.resizeSection(5, 70)
-        hdr.sectionClicked.connect(lambda col: _sort_tree(self._hf_tree, col))
+        hdr.sectionClicked.connect(lambda col: toggle_sort(self._hf_tree, col))
         layout.addWidget(self._hf_tree)
 
         # Download controls

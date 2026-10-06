@@ -9,8 +9,9 @@ from __future__ import annotations
 
 import os
 import time
+from dataclasses import dataclass
 from datetime import datetime
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeySequence, QShortcut
@@ -22,6 +23,7 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
+from lib.tree_sort_qt import toggle_sort
 from sd_runner.models.recent_adapters_state import RecentAdaptersState
 from sd_runner.persistence.app_info_cache import app_info_cache
 from lib.logging_setup import get_logger
@@ -37,14 +39,6 @@ logger = get_logger("ui.recent_adapters_window")
 # ======================================================================
 # Helpers
 # ======================================================================
-
-def _sort_tree(tree: QTreeWidget, col: int) -> None:
-    current = getattr(tree, "_sort_reverse", False)
-    new_reverse = not current
-    tree._sort_reverse = new_reverse
-    order = Qt.SortOrder.DescendingOrder if new_reverse else Qt.SortOrder.AscendingOrder
-    tree.sortItems(col, order)
-
 
 def _get_file_creation_date(file_path: str) -> str:
     try:
@@ -69,6 +63,54 @@ def _get_adapter_type(file_path: str, is_controlnet: bool) -> str:
             if kw in fn:
                 return label
         return "IP Adapter"
+
+
+@dataclass(frozen=True)
+class _AdapterKind:
+    """One of the per-kind recent tabs: what it lists and where a pick goes."""
+
+    #: ``adapter_type`` for ``set_adapter_from_adapters_window``.
+    key: str
+    tab_title: str
+    file_header: str
+    #: Name of the ``RecentAdaptersWindow`` class attribute caching its rows.
+    cache_attr: str
+    recent_files: Callable[[], list[str]]
+    type_label: Callable[[str], str]
+    record_recent: Callable[[str], None]
+
+
+def _adapter_kinds() -> tuple[_AdapterKind, ...]:
+    """The per-kind tabs, in tab order. Built per call so labels follow the locale."""
+    return (
+        _AdapterKind(
+            key="controlnet",
+            tab_title=_("Recent ControlNets"),
+            file_header=_("ControlNet File"),
+            cache_attr="_controlnet_cache",
+            recent_files=lambda: RecentAdaptersState._recent_controlnets,
+            type_label=lambda fp: _get_adapter_type(fp, True),
+            record_recent=RecentAdaptersState.add_recent_controlnet,
+        ),
+        _AdapterKind(
+            key="ipadapter",
+            tab_title=_("Recent IP Adapters"),
+            file_header=_("IP Adapter File"),
+            cache_attr="_ipadapter_cache",
+            recent_files=lambda: RecentAdaptersState._recent_ipadapters,
+            type_label=lambda fp: _get_adapter_type(fp, False),
+            record_recent=RecentAdaptersState.add_recent_ipadapter,
+        ),
+        _AdapterKind(
+            key="source_prompt",
+            tab_title=_("Recent Source Prompts"),
+            file_header=_("Source Prompt File"),
+            cache_attr="_source_prompt_cache",
+            recent_files=lambda: RecentAdaptersState._recent_source_prompts,
+            type_label=lambda fp: _("Source Prompt"),
+            record_recent=RecentAdaptersState.add_recent_source_prompt,
+        ),
+    )
 
 
 # ======================================================================
@@ -96,15 +138,19 @@ class RecentAdaptersWindow(SmartDialog):
         self._max_split = RecentAdaptersState._get_max_recent_split_items()
 
         self._tabs = QTabWidget()
-        cn_page = QWidget()
-        ip_page = QWidget()
-        src_page = QWidget()
+        self._kinds = _adapter_kinds()
+        #: Per-kind widgets, keyed by ``_AdapterKind.key``.
+        self._filters: dict[str, QLineEdit] = {}
+        self._trees: dict[str, QTreeWidget] = {}
+        self._cache_labels: dict[str, QLabel] = {}
+        kind_pages = []
+        for kind in self._kinds:
+            page = QWidget()
+            self._tabs.addTab(page, kind.tab_title)
+            kind_pages.append(page)
         all_page = QWidget()
         fav_page = QWidget()
         cfg_page = QWidget()
-        self._tabs.addTab(cn_page, _("Recent ControlNets"))
-        self._tabs.addTab(ip_page, _("Recent IP Adapters"))
-        self._tabs.addTab(src_page, _("Recent Source Prompts"))
         self._tabs.addTab(all_page, _("All Recent Adapters"))
         self._tabs.addTab(fav_page, _("Favorites"))
         self._tabs.addTab(cfg_page, _("Configuration"))
@@ -113,9 +159,8 @@ class RecentAdaptersWindow(SmartDialog):
         root.setContentsMargins(15, 15, 15, 15)
         root.addWidget(self._tabs)
 
-        self._build_controlnet_tab(cn_page)
-        self._build_ipadapter_tab(ip_page)
-        self._build_source_prompt_tab(src_page)
+        for kind, page in zip(self._kinds, kind_pages):
+            self._build_kind_tab(page, kind)
         self._build_all_tab(all_page)
         self._build_favorites_tab(fav_page)
         self._build_config_tab(cfg_page)
@@ -127,117 +172,44 @@ class RecentAdaptersWindow(SmartDialog):
         self._tabs.setCurrentIndex(index)
 
     # ==================================================================
-    # ControlNet tab
+    # Per-kind tabs (ControlNet, IP Adapter, Source Prompt)
     # ==================================================================
-    def _build_controlnet_tab(self, page: QWidget) -> None:
+    def _build_kind_tab(self, page: QWidget, kind: _AdapterKind) -> None:
         layout = QVBoxLayout(page)
         frow = QHBoxLayout()
         frow.addWidget(QLabel(_("Filter")))
-        self._cn_filter = QLineEdit()
-        self._cn_filter.textChanged.connect(self._refresh_cn)
-        frow.addWidget(self._cn_filter)
+        filter_edit = QLineEdit()
+        filter_edit.textChanged.connect(lambda _text, k=kind: self._refresh_kind(k))
+        frow.addWidget(filter_edit)
         layout.addLayout(frow)
+        self._filters[kind.key] = filter_edit
 
-        self._cn_cache_label = QLabel("")
-        layout.addWidget(self._cn_cache_label)
+        cache_label = QLabel("")
+        layout.addWidget(cache_label)
+        self._cache_labels[kind.key] = cache_label
 
-        self._cn_tree = self._make_tree([_("ControlNet File"), _("Type"), _("Created")])
-        self._cn_tree.itemDoubleClicked.connect(lambda: self._select_cn())
-        layout.addWidget(self._cn_tree)
+        tree = self._make_tree([kind.file_header, _("Type"), _("Created")])
+        tree.itemDoubleClicked.connect(lambda *_args, k=kind: self._select_kind(k))
+        layout.addWidget(tree)
+        self._trees[kind.key] = tree
 
         btn = QHBoxLayout()
         for text, replace in [(_("Replace"), True), (_("Add"), False)]:
             b = QPushButton(text)
-            b.clicked.connect(lambda _=False, r=replace: self._select_cn(replace=r))
+            b.clicked.connect(lambda _=False, k=kind, r=replace: self._select_kind(k, replace=r))
             btn.addWidget(b)
         copy_btn = QPushButton(_("Copy"))
-        copy_btn.clicked.connect(lambda: self._copy_selected_path(self._cn_tree))
+        copy_btn.clicked.connect(lambda: self._copy_selected_path(tree))
         btn.addWidget(copy_btn)
         fav_btn = QPushButton(_("Add to Favorites"))
-        fav_btn.clicked.connect(lambda: self._add_selected_to_favorites(self._cn_tree))
+        fav_btn.clicked.connect(lambda: self._add_selected_to_favorites(tree))
         btn.addWidget(fav_btn)
         refresh = QPushButton(_("Refresh")); refresh.clicked.connect(self._refresh_cache); btn.addWidget(refresh)
         close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
         btn.addStretch()
         layout.addLayout(btn)
 
-        self._refresh_cn()
-        self._update_cache_status()
-
-    # ==================================================================
-    # IP Adapter tab
-    # ==================================================================
-    def _build_ipadapter_tab(self, page: QWidget) -> None:
-        layout = QVBoxLayout(page)
-        frow = QHBoxLayout()
-        frow.addWidget(QLabel(_("Filter")))
-        self._ip_filter = QLineEdit()
-        self._ip_filter.textChanged.connect(self._refresh_ip)
-        frow.addWidget(self._ip_filter)
-        layout.addLayout(frow)
-
-        self._ip_cache_label = QLabel("")
-        layout.addWidget(self._ip_cache_label)
-
-        self._ip_tree = self._make_tree([_("IP Adapter File"), _("Type"), _("Created")])
-        self._ip_tree.itemDoubleClicked.connect(lambda: self._select_ip())
-        layout.addWidget(self._ip_tree)
-
-        btn = QHBoxLayout()
-        for text, replace in [(_("Replace"), True), (_("Add"), False)]:
-            b = QPushButton(text)
-            b.clicked.connect(lambda _=False, r=replace: self._select_ip(replace=r))
-            btn.addWidget(b)
-        copy_btn = QPushButton(_("Copy"))
-        copy_btn.clicked.connect(lambda: self._copy_selected_path(self._ip_tree))
-        btn.addWidget(copy_btn)
-        fav_btn = QPushButton(_("Add to Favorites"))
-        fav_btn.clicked.connect(lambda: self._add_selected_to_favorites(self._ip_tree))
-        btn.addWidget(fav_btn)
-        refresh = QPushButton(_("Refresh")); refresh.clicked.connect(self._refresh_cache); btn.addWidget(refresh)
-        close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
-        btn.addStretch()
-        layout.addLayout(btn)
-
-        self._refresh_ip()
-        self._update_cache_status()
-
-    # ==================================================================
-    # Source prompt tab
-    # ==================================================================
-    def _build_source_prompt_tab(self, page: QWidget) -> None:
-        layout = QVBoxLayout(page)
-        frow = QHBoxLayout()
-        frow.addWidget(QLabel(_("Filter")))
-        self._src_filter = QLineEdit()
-        self._src_filter.textChanged.connect(self._refresh_src)
-        frow.addWidget(self._src_filter)
-        layout.addLayout(frow)
-
-        self._src_cache_label = QLabel("")
-        layout.addWidget(self._src_cache_label)
-
-        self._src_tree = self._make_tree([_("Source Prompt File"), _("Type"), _("Created")])
-        self._src_tree.itemDoubleClicked.connect(lambda: self._select_src())
-        layout.addWidget(self._src_tree)
-
-        btn = QHBoxLayout()
-        for text, replace in [(_("Replace"), True), (_("Add"), False)]:
-            b = QPushButton(text)
-            b.clicked.connect(lambda _=False, r=replace: self._select_src(replace=r))
-            btn.addWidget(b)
-        copy_btn = QPushButton(_("Copy"))
-        copy_btn.clicked.connect(lambda: self._copy_selected_path(self._src_tree))
-        btn.addWidget(copy_btn)
-        fav_btn = QPushButton(_("Add to Favorites"))
-        fav_btn.clicked.connect(lambda: self._add_selected_to_favorites(self._src_tree))
-        btn.addWidget(fav_btn)
-        refresh = QPushButton(_("Refresh")); refresh.clicked.connect(self._refresh_cache); btn.addWidget(refresh)
-        close = QPushButton(_("Close")); close.clicked.connect(self.close); btn.addWidget(close)
-        btn.addStretch()
-        layout.addLayout(btn)
-
-        self._refresh_src()
+        self._refresh_kind(kind)
         self._update_cache_status()
 
     # ==================================================================
@@ -412,7 +384,7 @@ class RecentAdaptersWindow(SmartDialog):
             hdr.resizeSection(1, 150)
         if len(headers) > 2:
             hdr.resizeSection(2, 150)
-        hdr.sectionClicked.connect(lambda col, t=tree: _sort_tree(t, col))
+        hdr.sectionClicked.connect(lambda col, t=tree: toggle_sort(t, col))
         return tree
 
     # ==================================================================
@@ -429,35 +401,16 @@ class RecentAdaptersWindow(SmartDialog):
             clipboard.setText(path)
             self._app_actions.toast(_("Copied path to clipboard"))
 
-    def _refresh_cn(self) -> None:
-        ft = (self._cn_filter.text() or "").lower()
-        data = self._cached_cn()
+    def _refresh_kind(self, kind: _AdapterKind) -> None:
+        ft = (self._filters[kind.key].text() or "").lower()
+        data = self._cached_kind(kind)
         if ft:
             data = [(n, t, c) for n, t, c in data if ft in n.lower()]
-        self._cn_tree.clear()
+        tree = self._trees[kind.key]
+        tree.clear()
         for n, t, c in data:
-            QTreeWidgetItem(self._cn_tree, [n, t, c])
-        self._cn_tree.sortItems(1, Qt.SortOrder.AscendingOrder)
-
-    def _refresh_ip(self) -> None:
-        ft = (self._ip_filter.text() or "").lower()
-        data = self._cached_ip()
-        if ft:
-            data = [(n, t, c) for n, t, c in data if ft in n.lower()]
-        self._ip_tree.clear()
-        for n, t, c in data:
-            QTreeWidgetItem(self._ip_tree, [n, t, c])
-        self._ip_tree.sortItems(1, Qt.SortOrder.AscendingOrder)
-
-    def _refresh_src(self) -> None:
-        ft = (self._src_filter.text() or "").lower()
-        data = self._cached_src()
-        if ft:
-            data = [(n, t, c) for n, t, c in data if ft in n.lower()]
-        self._src_tree.clear()
-        for n, t, c in data:
-            QTreeWidgetItem(self._src_tree, [n, t, c])
-        self._src_tree.sortItems(1, Qt.SortOrder.AscendingOrder)
+            QTreeWidgetItem(tree, [n, t, c])
+        tree.sortItems(1, Qt.SortOrder.AscendingOrder)
 
     def _refresh_all(self) -> None:
         ft = (self._all_filter.text() or "").lower()
@@ -478,41 +431,24 @@ class RecentAdaptersWindow(SmartDialog):
         RecentAdaptersWindow._source_prompt_cache = None
         RecentAdaptersWindow._favorites_cache = None
         RecentAdaptersWindow._cache_timestamp = None
-        self._refresh_cn()
-        self._refresh_ip()
-        self._refresh_src()
+        for kind in self._kinds:
+            self._refresh_kind(kind)
         self._refresh_favorites()
         self._update_cache_status()
 
     # ------------------------------------------------------------------
     # Cache builders
     # ------------------------------------------------------------------
-    def _cached_cn(self) -> list[tuple[str, str, str]]:
-        if RecentAdaptersWindow._controlnet_cache is None:
-            RecentAdaptersWindow._controlnet_cache = [
-                (fp, _get_adapter_type(fp, True), _get_file_creation_date(fp))
-                for fp in RecentAdaptersState._recent_controlnets
+    def _cached_kind(self, kind: _AdapterKind) -> list[tuple[str, str, str]]:
+        rows = getattr(RecentAdaptersWindow, kind.cache_attr)
+        if rows is None:
+            rows = [
+                (fp, kind.type_label(fp), _get_file_creation_date(fp))
+                for fp in kind.recent_files()
             ]
+            setattr(RecentAdaptersWindow, kind.cache_attr, rows)
             RecentAdaptersWindow._cache_timestamp = time.time()
-        return RecentAdaptersWindow._controlnet_cache
-
-    def _cached_ip(self) -> list[tuple[str, str, str]]:
-        if RecentAdaptersWindow._ipadapter_cache is None:
-            RecentAdaptersWindow._ipadapter_cache = [
-                (fp, _get_adapter_type(fp, False), _get_file_creation_date(fp))
-                for fp in RecentAdaptersState._recent_ipadapters
-            ]
-            RecentAdaptersWindow._cache_timestamp = time.time()
-        return RecentAdaptersWindow._ipadapter_cache
-
-    def _cached_src(self) -> list[tuple[str, str, str]]:
-        if RecentAdaptersWindow._source_prompt_cache is None:
-            RecentAdaptersWindow._source_prompt_cache = [
-                (fp, "Source Prompt", _get_file_creation_date(fp))
-                for fp in RecentAdaptersState._recent_source_prompts
-            ]
-            RecentAdaptersWindow._cache_timestamp = time.time()
-        return RecentAdaptersWindow._source_prompt_cache
+        return rows
 
     def _cached_favorites(self) -> list[tuple[str, str, str]]:
         if RecentAdaptersWindow._favorites_cache is None:
@@ -533,13 +469,8 @@ class RecentAdaptersWindow(SmartDialog):
                 "%Y-%m-%d %H:%M:%S"
             )
             text = f"{prefix}: {ts}"
-        for lbl in [
-            getattr(self, "_cn_cache_label", None),
-            getattr(self, "_ip_cache_label", None),
-            getattr(self, "_src_cache_label", None),
-        ]:
-            if lbl:
-                lbl.setText(text)
+        for lbl in self._cache_labels.values():
+            lbl.setText(text)
 
     def _refresh_favorites(self) -> None:
         if not hasattr(self, "_fav_tree"):
@@ -564,35 +495,13 @@ class RecentAdaptersWindow(SmartDialog):
     # ==================================================================
     # Selection callbacks
     # ==================================================================
-    def _select_cn(self, replace: bool = True) -> None:
-        items = self._cn_tree.selectedItems()
+    def _select_kind(self, kind: _AdapterKind, replace: bool = True) -> None:
+        items = self._trees[kind.key].selectedItems()
         if not items:
             return
         fp = items[0].text(0)
-        RecentAdaptersState.add_recent_controlnet(fp)
-        self._app_actions.set_adapter_from_adapters_window(fp, is_controlnet=True, replace=replace)
-        self.close()
-
-    def _select_ip(self, replace: bool = True) -> None:
-        items = self._ip_tree.selectedItems()
-        if not items:
-            return
-        fp = items[0].text(0)
-        RecentAdaptersState.add_recent_ipadapter(fp)
-        self._app_actions.set_adapter_from_adapters_window(fp, is_controlnet=False, replace=replace)
-        self.close()
-
-    def _select_src(self, replace: bool = True) -> None:
-        items = self._src_tree.selectedItems()
-        if not items:
-            return
-        fp = items[0].text(0)
-        RecentAdaptersState.add_recent_source_prompt(fp)
-        self._app_actions.set_adapter_from_adapters_window(
-            fp,
-            adapter_type="source_prompt",
-            replace=replace,
-        )
+        kind.record_recent(fp)
+        self._app_actions.set_adapter_from_adapters_window(fp, adapter_type=kind.key, replace=replace)
         self.close()
 
     def _select_all(self, is_controlnet: bool, replace: bool) -> None:

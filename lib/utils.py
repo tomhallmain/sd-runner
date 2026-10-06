@@ -406,27 +406,8 @@ class Utils:
         Returns:
             bool: True if the path is a valid directory, False otherwise
         """
-        import time
-        external_drive_root = Utils._get_external_drive_root(path)
-        drive_root = external_drive_root if wake_drive else None
-        retries = max_retries if external_drive_root else 0
-
-        for attempt in range(retries + 1):
-            # On first attempt, probe external drive root to help wake sleeping drives.
-            if wake_drive and drive_root and attempt == 0:
-                try:
-                    os.path.exists(drive_root)
-                except OSError:
-                    pass  # Drive may not be accessible yet
-            
-            if os.path.isdir(path):
-                return True
-            
-            if attempt < retries:
-                logger.debug(f"Directory check failed for '{path}', retrying in {retry_delay}s (attempt {attempt + 1}/{retries})")
-                time.sleep(retry_delay)
-        
-        return False
+        return Utils._path_check_with_retry(
+            path, os.path.isdir, "Directory check", max_retries, retry_delay, wake_drive)
 
     @staticmethod
     def isfile_with_retry(path, max_retries=3, retry_delay=1.0, wake_drive=True):
@@ -446,26 +427,8 @@ class Utils:
         Returns:
             bool: True if the path is a valid file, False otherwise
         """
-        import time
-        external_drive_root = Utils._get_external_drive_root(path)
-        drive_root = external_drive_root if wake_drive else None
-        retries = max_retries if external_drive_root else 0
-
-        for attempt in range(retries + 1):
-            if wake_drive and drive_root and attempt == 0:
-                try:
-                    os.path.exists(drive_root)
-                except OSError:
-                    pass
-            
-            if os.path.isfile(path):
-                return True
-            
-            if attempt < retries:
-                logger.debug(f"File check failed for '{path}', retrying in {retry_delay}s (attempt {attempt + 1}/{retries})")
-                time.sleep(retry_delay)
-        
-        return False
+        return Utils._path_check_with_retry(
+            path, os.path.isfile, "File check", max_retries, retry_delay, wake_drive)
 
     @staticmethod
     def exists_with_retry(path, max_retries=3, retry_delay=1.0, wake_drive=True):
@@ -485,23 +448,34 @@ class Utils:
         Returns:
             bool: True if the path exists, False otherwise
         """
+        return Utils._path_check_with_retry(
+            path, os.path.exists, "Path existence check", max_retries, retry_delay, wake_drive)
+
+    @staticmethod
+    def _path_check_with_retry(path, predicate, check_name, max_retries, retry_delay, wake_drive):
+        """Run *predicate* on *path*, retrying when it lives on an external drive.
+
+        Shared body of the ``*_with_retry`` checks. Paths on internal drives get
+        a single attempt; *check_name* labels the retry log line.
+        """
         import time
         external_drive_root = Utils._get_external_drive_root(path)
         drive_root = external_drive_root if wake_drive else None
         retries = max_retries if external_drive_root else 0
 
         for attempt in range(retries + 1):
-            if wake_drive and drive_root and attempt == 0:
+            # On first attempt, probe external drive root to help wake sleeping drives.
+            if drive_root and attempt == 0:
                 try:
                     os.path.exists(drive_root)
                 except OSError:
-                    pass
+                    pass  # Drive may not be accessible yet
 
-            if os.path.exists(path):
+            if predicate(path):
                 return True
 
             if attempt < retries:
-                logger.debug(f"Path existence check failed for '{path}', retrying in {retry_delay}s (attempt {attempt + 1}/{retries})")
+                logger.debug(f"{check_name} failed for '{path}', retrying in {retry_delay}s (attempt {attempt + 1}/{retries})")
                 time.sleep(retry_delay)
 
         return False

@@ -4,11 +4,9 @@ import json
 from typing import Optional
 from urllib import request as urllib_request
 
-from sd_runner.runs.gen_config import GenConfig
 from sd_runner.generators.cloud_base import CloudGenBase
 from sd_runner.models.model import Model
 from sd_runner.models.resolution import Resolution
-from sd_runner.globals import WorkflowType
 from lib.logging_setup import get_logger
 
 logger = get_logger("bfl_gen")
@@ -25,62 +23,7 @@ class BFLGen(CloudGenBase):
     """
 
     BACKEND_NAME = "bfl"
-
-    def __init__(self, config: GenConfig = None, ui_callbacks=None):
-        super().__init__(config or GenConfig(), ui_callbacks)
-
-    # ------------------------------------------------------------------
-    # BaseImageGenerator interface
-    # ------------------------------------------------------------------
-
-    def _get_workflows(self) -> dict:
-        return {
-            WorkflowType.SIMPLE_IMAGE_GEN: self.simple_image_gen,
-            WorkflowType.SIMPLE_IMAGE_GEN_LORA: self.simple_image_gen,
-        }
-
-    def prompt_setup(self, workflow_type, action, prompt, model, vae=None, resolution=None, **kw):
-        self.print_pre(action=action, model=model, resolution=resolution, **kw)
-        return None, model, vae
-
-    def simple_image_gen(
-        self,
-        prompt=None,
-        resolution=None,
-        model=None,
-        vae=None,
-        n_latents=1,
-        positive=None,
-        negative=None,
-        **kw,
-    ):
-        self.queue_prompt(
-            model=model,
-            resolution=resolution,
-            n_latents=n_latents,
-            positive=positive or "",
-            negative=negative or "",
-        )
-
-    def simple_image_gen_lora(
-        self,
-        prompt=None,
-        resolution=None,
-        model=None,
-        vae=None,
-        n_latents=1,
-        positive=None,
-        negative=None,
-        lora=None,
-        **kw,
-    ):
-        self.queue_prompt(
-            model=model,
-            resolution=resolution,
-            n_latents=n_latents,
-            positive=positive or "",
-            negative=negative or "",
-        )
+    DISPLAY_NAME = "BFL Flux"
 
     # ------------------------------------------------------------------
     # API calls
@@ -165,31 +108,3 @@ class BFLGen(CloudGenBase):
         if status in ("Error", "Failed"):
             raise RuntimeError(f"BFL generation failed: {data}")
         return False, None
-
-    # ------------------------------------------------------------------
-    # Unsupported workflows
-    # ------------------------------------------------------------------
-
-    def upscale_simple(self, prompt="", model=None, control_net=None, **kw):
-        raise NotImplementedError("upscale_simple is not supported for BFL Flux")
-
-    def control_net(self, prompt="", resolution=None, model=None, vae=None, n_latents=None,
-                    positive=None, negative=None, lora=None, control_net=None, **kw):
-        raise NotImplementedError("control_net is not supported for BFL Flux")
-
-    def ip_adapter(self, prompt="", resolution=None, model=None, vae=None, n_latents=None,
-                   positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
-        raise NotImplementedError("ip_adapter is not supported for BFL Flux")
-
-    def img2img(self, prompt="", resolution=None, model=None, vae=None, n_latents=None,
-                positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
-        raise NotImplementedError("img2img is not supported for BFL Flux")
-
-    def instant_lora(self, prompt="", resolution=None, model=None, vae=None, n_latents=None,
-                     positive=None, negative=None, lora=None, control_net=None, ip_adapter=None, **kw):
-        raise NotImplementedError("instant_lora is not supported for BFL Flux")
-
-    def redo_with_different_parameter(self, source_file="", resolution=None, model=None, vae=None,
-                                      lora=None, positive=None, negative=None, n_latents=None,
-                                      control_net=None, ip_adapter=None, **kw):
-        raise NotImplementedError("redo_with_different_parameter is not supported for BFL Flux")
