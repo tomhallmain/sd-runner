@@ -44,7 +44,7 @@ class WorkflowPromptComfy(WorkflowPrompt):
     def get_json(self):
         self.handle_old_prompt_image_location() # Tries to find the original image location if it's not found
         if self.save_prompt:
-            with open(WorkflowPrompt.LAST_PROMPT_FILE, "w") as store:
+            with open(WorkflowPrompt.last_prompt_file(), "w") as store:
                 json.dump(self.json, store, indent=2)
         p = {"prompt": self.json}
         return json.dumps(p).encode('utf-8')

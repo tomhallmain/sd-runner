@@ -4,6 +4,8 @@ This module provides the authentication flow logic and decorators.
 It imports from password_core.py and password_dialog.py to avoid circular dependencies.
 """
 
+import functools
+
 from sd_runner.ui.auth.password_core import (
     answer_unprompted_gate, get_security_config, PasswordManager,
 )
@@ -11,8 +13,25 @@ from sd_runner.ui.auth.password_dialog import PasswordDialog
 from sd_runner.ui.auth.password_session_manager import PasswordSessionManager
 from sd_runner.globals import ProtectedActions
 from lib.logging_setup import get_logger
+from lib.qt_alert import qt_alert
+from lib.translations import I18N
+
+_ = I18N._
 
 logger = get_logger("ui.auth.password_utils")
+
+
+def alert_password_unreadable(master) -> None:
+    """Tell the user a protected action is refused because the stored
+    password cannot be decrypted in this process."""
+    qt_alert(
+        master,
+        _("Password Unavailable"),
+        _("The password is stored with quantum-safe (OQS) encryption, which this build "
+          "does not include, so protected actions are unavailable. Use a build made "
+          "with OQS support."),
+        kind="error",
+    )
 
 
 
@@ -89,7 +108,17 @@ def check_password_required(
         bool: True if password was verified or not required, False if cancelled
     """
     config = get_security_config()
-    
+
+    # The password cannot be verified, so a protected action is refused rather
+    # than allowed without one.
+    if PasswordManager.is_password_unreadable() and (
+        _check_all_actions_protection(action_names, config) or not allow_unauthenticated
+    ):
+        alert_password_unreadable(master)
+        if callback:
+            callback(False)
+        return False
+
     # Check if any of the actions require password protection
     if not _check_all_actions_protection(action_names, config):
         # No actions are protected, but check if we need to enforce authentication anyway
@@ -176,6 +205,9 @@ def require_password(
             pass
     """
     def decorator(func):
+        # Without wraps every decorated method is named "wrapper"; in a
+        # compiled build PySide6 then connected all of them to the last one.
+        @functools.wraps(func)
         def wrapper(self, *args, **kwargs):
             # Resolve the parent window for the password dialog.
             # Different classes store it under different names:

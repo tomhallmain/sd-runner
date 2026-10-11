@@ -6,17 +6,27 @@ single-instance locking, and launches the main AppWindow.
 """
 
 import atexit
+import logging
 import os
 import signal
 import sys
 import threading
 import traceback
 
+from sd_runner.runtime.oqs_path import point_oqs_at_bundled_library
+
+point_oqs_at_bundled_library()
+
+from PySide6.QtCore import QtMsgType, qInstallMessageHandler
 from PySide6.QtWidgets import QApplication
 
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.app_icon import apply_app_icon
+from sd_runner.app_paths import resource_path
 from sd_runner.config import config
+from sd_runner.runtime.crash_log import enable_fault_log
+from sd_runner.runtime.unpack_cleanup import remove_stale_unpack_dirs
+from sd_runner.runtime.version import describe as describe_version, source_drift
 from lib.logging_setup import get_logger
 from lib.translations import I18N
 from lib.utils import Utils
@@ -25,10 +35,95 @@ _ = I18N._
 logger = get_logger("app_gui")
 
 
+_QT_MSG_LOG_LEVELS = {
+    QtMsgType.QtDebugMsg: logging.DEBUG,
+    QtMsgType.QtInfoMsg: logging.INFO,
+    QtMsgType.QtWarningMsg: logging.WARNING,
+    QtMsgType.QtCriticalMsg: logging.ERROR,
+    QtMsgType.QtFatalMsg: logging.CRITICAL,
+}
+
+
+def _log_qt_message(msg_type, context, message):
+    logger.log(_QT_MSG_LOG_LEVELS.get(msg_type, logging.WARNING), "Qt: %s", message)
+
+
+def _route_qt_messages_to_logger():
+    """Send Qt's own warnings and errors through the app logger.
+
+    Qt's default handler writes byte strings to the C-level stderr. A Nuitka
+    build with --windows-console-mode=attach puts that stream in wide-character
+    (_O_U8TEXT) mode, and the C runtime aborts the process (0xc0000409 in
+    ucrtbase.dll) on a byte write to it, so any Qt warning would kill the app.
+    """
+    qInstallMessageHandler(_log_qt_message)
+
+
+def _report_source_drift(app_window):
+    """In a build, log whether the source checkout it was built from has
+    changed since, and tell the user with a toast when it has."""
+    try:
+        result = source_drift()
+    except Exception as e:
+        logger.error(f"Could not compare this build with its source checkout: {e}")
+        return
+    if result:
+        drifted, message = result
+        if drifted:
+            logger.warning(message)
+            # Through AppActions, which marshals onto the GUI thread.
+            app_window.app_actions.toast(_("This build no longer matches its source code. See the log for details."))
+        else:
+            logger.info(message)
+
+
+def _smoke_test(expect_oqs: bool = False) -> int:
+    """Check that a build can start, without opening a window. Returns an exit code."""
+    import importlib
+
+    from sd_runner.runtime.smoke_test import SmokeTest
+
+    smoke = SmokeTest()
+    smoke.run_common(expect_oqs=expect_oqs)
+
+    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+    _route_qt_messages_to_logger()
+    from PySide6.QtGui import QImageReader
+    from PySide6.QtMultimedia import QSoundEffect
+
+    qt_app = QApplication([])
+    reader = QImageReader(resource_path("assets", "icon.png"))
+    can_read = reader.canRead()
+    smoke.check("app icon (PNG image plugin)", can_read, "" if can_read else reader.errorString())
+    smoke.check_call("sound effect (Qt Multimedia)", lambda: QSoundEffect() and None)
+    smoke.check_call(
+        "main window modules",
+        lambda: importlib.import_module("sd_runner.ui.app_window.app_window") and None,
+    )
+    qt_app.quit()
+    return smoke.result()
+
+
 def main():
+    if "--smoke-test" in sys.argv[1:]:
+        # Before the single-instance check: a running app must not block it,
+        # and it must not take the lock.
+        try:
+            exit_code = _smoke_test(expect_oqs="--expect-oqs" in sys.argv[1:])
+        except BaseException:
+            # An error outside a check must fail the smoke test, not end it with status 0.
+            logger.error(f"smoke test: unexpected error:\n{traceback.format_exc()}")
+            exit_code = 1
+        sys.exit(exit_code)
+
     # Single instance check -- prevent multiple instances from running
     lock_file, cleanup_lock = Utils.check_single_instance("SDRunner")
     logger.info("SD Runner starting")
+    logger.info(describe_version())
+    try:
+        enable_fault_log()
+    except Exception as e:
+        logger.error(f"Could not open the fault log: {e}")
 
     I18N.install_locale(config.locale, verbose=config.print_settings)
 
@@ -37,6 +132,7 @@ def main():
         os.environ["QT_SCALE_FACTOR"] = str(config.ui_scale_factor)
 
     # Create QApplication (must exist before any widgets)
+    _route_qt_messages_to_logger()
     qt_app = QApplication(sys.argv)
     qt_app.setApplicationName(_(" SD Runner "))
     qt_app.setStyleSheet(AppStyle.get_stylesheet())
@@ -140,6 +236,11 @@ def main():
             app_window.raise_()
             app_window.activateWindow()
             logger.info("Main window opened")
+            threading.Thread(target=remove_stale_unpack_dirs, name="unpack-cleanup", daemon=True).start()
+            # Runs git, which can take a moment.
+            threading.Thread(
+                target=_report_source_drift, args=(app_window,), name="source-drift", daemon=True,
+            ).start()
         except Exception as e:
             logger.critical(f"Failed to create main window: {e}", exc_info=True)
             from PySide6.QtWidgets import QMessageBox

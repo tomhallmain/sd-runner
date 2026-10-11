@@ -134,14 +134,18 @@ class TestConfigLocation:
 
 
 class TestAdoptLegacyFile:
-    def test_an_existing_target_is_never_overwritten(self, tmp_path):
+    def test_a_target_newer_than_the_legacy_file_is_replaced(self, tmp_path):
+        """What a build started before the checkout leaves there is a default;
+        the rest of the rule is covered in test_build_paths.py."""
         legacy = tmp_path / "legacy.json"
         target = tmp_path / "target.json"
         legacy.write_text("old", encoding="utf-8")
         target.write_text("current", encoding="utf-8")
+        os.utime(legacy, (1000, 1000))
+        os.utime(target, (2000, 2000))
         adopt_legacy_file(str(legacy), str(target))
-        assert target.read_text(encoding="utf-8") == "current"
-        assert legacy.exists()
+        assert target.read_text(encoding="utf-8") == "old"
+        assert not legacy.exists()
 
 
 class TestMovedCacheFile:
@@ -162,3 +166,18 @@ class TestMovedCacheFile:
         loaded.save()
         assert loaded.filename == str(new_path)
         assert not old_path.exists()
+
+
+class TestAppInfoCacheIsolation:
+    def test_the_cache_is_neither_in_the_repo_nor_the_real_app_data_dir(self):
+        import sys
+
+        from sd_runner.app_paths import REPO_ROOT
+        from sd_runner.persistence.app_info_cache import app_info_cache
+
+        location = os.path.realpath(app_info_cache._cache_loc)
+        assert location.startswith(os.path.realpath(os.environ["SD_RUNNER_CACHE_DIR"]) + os.sep)
+        assert not location.startswith(os.path.realpath(REPO_ROOT) + os.sep)
+        base = os.getenv("APPDATA") if sys.platform == "win32" else os.path.expanduser("~/.local/share")
+        if base:
+            assert not location.startswith(os.path.realpath(os.path.join(base, "sd_runner")) + os.sep)

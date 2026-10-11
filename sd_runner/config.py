@@ -3,6 +3,7 @@ import os
 import shutil
 
 from lib.logging_setup import adopt_legacy_file, app_data_dir, get_logger, set_log_file_encryption, set_logger_level
+from sd_runner.app_paths import IS_BUILD, REPO_ROOT, concepts_dir, resolve_user_path, resource_path
 
 logger = get_logger("config")
 
@@ -10,9 +11,9 @@ logger = get_logger("config")
 class Config:
     #: The repo's configs/ folder, the legacy location a config.json is
     #: migrated from.
-    LEGACY_CONFIGS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "configs")
+    LEGACY_CONFIGS_DIR = os.path.join(REPO_ROOT, "configs")
     #: Shipped with the package; seeds a user's config.json on first run.
-    EXAMPLE_CONFIG_LOC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "config_example.json")
+    EXAMPLE_CONFIG_LOC = resource_path("sd_runner", "data", "config_example.json")
 
     # Registry of config keys the Config dialog exposes as editable.
     # Maps key → expected Python type for coercion:
@@ -102,6 +103,9 @@ class Config:
         if override:
             return override
         configs_dir = str(app_data_dir("configs"))
+        if IS_BUILD:
+            # The build's resource root holds no user files.
+            return configs_dir
         adopt_legacy_file(os.path.join(Config.LEGACY_CONFIGS_DIR, "config.json"),
                           os.path.join(configs_dir, "config.json"))
         return configs_dir
@@ -134,17 +138,17 @@ class Config:
         self.background_color = None
         self.comfyui_url = None
         self.sd_webui_url = None
-        self.sd_webui_save_path = "."
+        self.sd_webui_save_path = resolve_user_path(".")
         self.forge_url = None
-        self.forge_save_path = "."
+        self.forge_save_path = resolve_user_path(".")
         self.sdnext_url = None
-        self.sdnext_save_path = "."
+        self.sdnext_save_path = resolve_user_path(".")
         self.swarmui_url = None
-        self.swarmui_save_path = "."
+        self.swarmui_save_path = resolve_user_path(".")
         self.invokeai_url = None
-        self.invokeai_save_path = "."
+        self.invokeai_save_path = resolve_user_path(".")
         self.fooocus_url = None
-        self.fooocus_save_path = "."
+        self.fooocus_save_path = resolve_user_path(".")
         self.concepts_dir = "concepts"
         self.models_dir = ""
         self.img_dir = None
@@ -366,18 +370,27 @@ class Config:
             d = concept_dirs_list[i].strip()
             if d == "" or d == concepts:
                 continue
-            d = self.validate_and_set_directory(d, override=True)
+            d = self._resolve_concepts_dir(d)
             if d is None:
                 raise Exception("Invalid concept directory provided in config!")
             self.concepts_dirs[os.path.basename(d)] = d
         if "default_concepts_dir" in self.dict and self.dict["default_concepts_dir"] not in [None, "", concepts]:
-            default_dir = self.validate_and_set_directory("default_concepts_dir")
+            default_dir = self._resolve_concepts_dir(self.dict["default_concepts_dir"])
             assert default_dir is not None and default_dir!= ""
             self.default_concepts_dir = os.path.basename(default_dir)
             if not self.default_concepts_dir in self.concepts_dirs:
                 raise Exception("Invalid default concept directory provided in config, not found in concept dirs list.")
         else:
             self.default_concepts_dir = concepts
+
+    def _resolve_concepts_dir(self, value: str):
+        """A concepts directory from the configuration. A relative name of a
+        bundled concept set (``Konzepte``) is that set, as ``concepts_dir``
+        provides it; anything else resolves like any other directory."""
+        name = self._expand_config_path(value)
+        if not os.path.isabs(name) and os.path.isdir(resource_path(name)):
+            return concepts_dir(name)
+        return self.validate_and_set_directory(value, override=True)
 
     def validate_and_set_directory(self, key, override=False):
         loc = key if override else self.dict[key]
@@ -397,7 +410,7 @@ class Config:
             return filepath
         return None
 
-    def _normalize_config_path(self, path_value: str) -> str:
+    def _expand_config_path(self, path_value: str) -> str:
         """Normalize configured paths across platforms and user input styles."""
         normalized = path_value.strip()
         if "{HOME}" in normalized:
@@ -406,12 +419,21 @@ class Config:
         normalized = normalized.replace("\\", os.sep)
         return os.path.normpath(normalized)
 
+    def _normalize_config_path(self, path_value: str) -> str:
+        """A configured path, normalized, with a relative one resolved against
+        the app data dir rather than the working directory."""
+        return resolve_user_path(self._expand_config_path(path_value))
+
     def set_directories(self, *directories):
         for directory in directories:
             try:
                 setattr(self, directory, self.validate_and_set_directory(directory))
             except Exception as e:
                 logger.warning(e)
+                continue
+            raw = self.dict.get(directory)
+            if isinstance(raw, str) and raw.strip() and not os.path.isabs(self._expand_config_path(raw)):
+                logger.info(f"{directory} {raw!r} is relative; using {getattr(self, directory)}")
             #    setattr(self, directory, None)
             #    logger.warning(f"Failed to set {directory} from config.json: {e}")
 
@@ -473,7 +495,7 @@ class Config:
             return self.comfyui_output_dir
         if self.comfyui_loc:
             return os.path.join(self.comfyui_loc, "output")
-        return "."
+        return resolve_user_path(".")
 
     def _build_persisted_config_dict(self) -> dict:
         """Build config dict for serialization, preserving all existing keys."""
@@ -544,13 +566,13 @@ class Config:
     def get_cloud_save_path(self) -> str:
         """Return the output directory for cloud-generated images.
 
-        Falls back to ``img_dir`` and then ``"."`` if ``cloud_backends.save_path``
+        Falls back to ``img_dir`` and then the app data dir if ``cloud_backends.save_path``
         is not configured.
         """
         path = self.cloud_backends.get("save_path")
         if path:
             return self._normalize_config_path(path)
-        return self.img_dir or "."
+        return self.img_dir or resolve_user_path(".")
 
     def require_api_key(self, backend_name: str) -> str:
         """Return the API key for *backend_name*, raising clearly if it is missing.

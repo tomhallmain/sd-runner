@@ -1,5 +1,6 @@
 import os
 
+from sd_runner.app_paths import adopt_legacy_repo_file, cache_dir, resource_path
 from sd_runner.config import config
 from sd_runner.globals import WorkflowType, ComfyNodeName
 from sd_runner.models.control_nets import ControlNet
@@ -58,13 +59,18 @@ class KSamplerInputs:
 
 
 class WorkflowPrompt:
-    #: sd_runner/workflow_prompts/ -> sd_runner/, then the shipped workflow
-    #: graphs under data/. Named for the move rather than a dirname count.
-    _SD_RUNNER_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    PROMPTS_LOC = os.path.join(_SD_RUNNER_DIR, "data", "workflows")
-    LAST_PROMPT_FILENAME = "test.json"
-    LAST_PROMPT_FILE = os.path.join(PROMPTS_LOC, LAST_PROMPT_FILENAME)
+    PROMPTS_LOC = resource_path("sd_runner", "data", "workflows")
+    LAST_PROMPT_FILENAME = "last_prompt.json"
+    #: Where earlier versions wrote the last prompt, beside the shipped graphs.
+    LEGACY_LAST_PROMPT_FILE = os.path.join("sd_runner", "data", "workflows", "test.json")
     save_prompt = config.save_last_prompt
+
+    @staticmethod
+    def last_prompt_file() -> str:
+        """Where the last prompt is written when ``save_last_prompt`` is on."""
+        path = os.path.join(cache_dir(), WorkflowPrompt.LAST_PROMPT_FILENAME)
+        adopt_legacy_repo_file(WorkflowPrompt.LEGACY_LAST_PROMPT_FILE, path)
+        return path
 
     def __init__(self, workflow_filename):
         pass

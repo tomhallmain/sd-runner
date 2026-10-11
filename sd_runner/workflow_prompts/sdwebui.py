@@ -126,7 +126,7 @@ class WorkflowPromptSDWebUI(WorkflowPrompt):
 
     def get_json(self):
         if self.save_prompt:
-            with open(WorkflowPrompt.LAST_PROMPT_FILE, "w") as store:
+            with open(WorkflowPrompt.last_prompt_file(), "w") as store:
                 json.dump(self.json, store, indent=2)
         return json.dumps(self.json).encode('utf-8')
 

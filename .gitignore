@@ -28,3 +28,8 @@ temp*.md
 temp*.py
 temp*.txt
 test_multiselect.py
+
+# Nuitka build (build_exe.py)
+.venv-build/
+build/
+dist/

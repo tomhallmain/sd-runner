@@ -82,7 +82,7 @@ class Run:
                 "Invalid state - config matches the last one, so the run cannot vary."
             )
 
-        if gen_config.prompts_match(self.last_config) or gen_config.validate():
+        if gen_config.prompts_match(self.last_config) or gen_config.validate(self.ui_callbacks):
             gen.run()
 
         if gen_config.maximum_gens() > 10:

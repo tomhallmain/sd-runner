@@ -30,6 +30,7 @@ from typing import Optional
 from extensions.backend_health import check, is_reachable
 from sd_runner.globals import SoftwareType
 from lib.logging_setup import get_logger
+from lib.utils import NO_CONSOLE_WINDOW
 
 logger = get_logger("backend_process")
 
@@ -187,8 +188,7 @@ class BackendProcess:
                 start_new_session=(sys.platform != "win32"),
                 # No console window on Windows; the output is piped into the
                 # app log instead, where it can actually be found later.
-                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)
-                if sys.platform == "win32" else 0,
+                creationflags=NO_CONSOLE_WINDOW,
             )
         except OSError as e:
             raise BackendStartError(f"Could not start {self.name}: {e}")
@@ -359,6 +359,7 @@ class BackendProcess:
                 capture_output=True,
                 check=False,
                 timeout=STOP_GRACE,
+                creationflags=NO_CONSOLE_WINDOW,
             )
         except subprocess.TimeoutExpired:
             # taskkill itself hanging is unusual, but waiting on it counts

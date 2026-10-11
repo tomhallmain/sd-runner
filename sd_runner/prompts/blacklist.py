@@ -8,6 +8,7 @@ import string
 from sd_runner.globals import Globals, BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, PromptMode
 from lib.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from lib.logging_setup import adopt_legacy_file, app_data_dir, get_logger
+from sd_runner.app_paths import REPO_ROOT, legacy_migration_allowed, resource_path
 from lib.pickleable_cache import SizeAwarePicklableCache, fingerprint_string_sequence
 from lib.translations import I18N
 from lib.utils import Utils
@@ -16,11 +17,8 @@ _ = I18N._
 
 logger = get_logger("prompts.blacklist")
 
-#: sd_runner/prompts/ -> sd_runner/ -> repo root. Named once so a move
-#: corrects one line rather than a count buried in a dirname chain.
-_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-#: sd_runner/prompts/ -> sd_runner/, which is where data/ lives.
-_SD_RUNNER_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#: Where a cache left by earlier versions is moved in from.
+_REPO_ROOT = REPO_ROOT
 _CACHE_FILENAME = "blacklist_filter_cache.pkl"
 
 
@@ -42,6 +40,9 @@ def _prepare_default_cache_dir(cache_file: str) -> None:
     if os.environ.get("SD_RUNNER_CACHE_DIR"):
         return
     os.makedirs(os.path.dirname(cache_file), exist_ok=True)
+    if not legacy_migration_allowed():
+        # In a build the repo location holds no user files.
+        return
     adopt_legacy_file(os.path.join(_REPO_ROOT, "configs", _CACHE_FILENAME), cache_file)
 
 
@@ -499,7 +500,7 @@ class Blacklist:
     CACHE_MAX_LARGE_ITEMS = 12
     CACHE_PROTECTED_LARGE_ITEMS = 2
     CACHE_AUTOSAVE_CONCEPT_THRESHOLD = 20000
-    DEFAULT_BLACKLIST_FILE_LOC = os.path.join(_SD_RUNNER_DIR, "data", "blacklist_default.enc")
+    DEFAULT_BLACKLIST_FILE_LOC = resource_path("sd_runner", "data", "blacklist_default.enc")
     _ui_callbacks = None  # Static variable to store UI callbacks
     _filter_cache = SizeAwarePicklableCache.load_or_create(
         BLACKLIST_CACHE_FILE, maxsize=CACHE_MAXSIZE,

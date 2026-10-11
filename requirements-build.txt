@@ -1,0 +1,30 @@
+# Build environment for build_exe.py (Nuitka): every runtime package from
+# requirements.txt and requirements-optional.txt, without the test packages.
+# liboqs-python is installed by build_exe.py --with-oqs.
+Nuitka
+# Compresses the onefile payload.
+zstandard
+# Lets the app tell which old unpack folders a running build still uses.
+psutil
+
+cryptography
+keyring
+piexif
+Pillow>=9.0.0
+numpy
+PySide6>=6.6.0
+# sd_runner/generators/comfy.py imports websocket at module load.
+websocket-client
+# Registered by lib/pillow_plugins.py, which imports them by name.
+pillow-avif-plugin>=1.4.0
+pillow-heif>=0.16.0
+pillow-jxl-plugin>=1.3.0
+
+pyobjc-framework-Cocoa; sys_platform == 'darwin'
+dbus-python; sys_platform == 'linux'
+huggingface_hub
+onnxruntime
+transformers >= 4.36
+torch
+torchvision
+mcp

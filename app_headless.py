@@ -20,7 +20,14 @@ import threading
 import time
 import traceback
 
+from sd_runner.runtime.oqs_path import point_oqs_at_bundled_library
+
+point_oqs_at_bundled_library()
+
 from sd_runner.config import config
+from sd_runner.runtime.crash_log import enable_fault_log
+from sd_runner.runtime.unpack_cleanup import remove_stale_unpack_dirs
+from sd_runner.runtime.version import describe as describe_version, source_drift
 from lib.logging_setup import get_logger
 from lib.translations import I18N
 from lib.utils import Utils
@@ -29,8 +36,64 @@ _ = I18N._
 logger = get_logger("app_headless")
 
 
+def _report_source_drift():
+    """In a build, log whether the source checkout it was built from has changed since."""
+    try:
+        result = source_drift()
+    except Exception as e:
+        logger.error(f"Could not compare this build with its source checkout: {e}")
+        return
+    if result:
+        drifted, message = result
+        (logger.warning if drifted else logger.info)(message)
+
+
+def _smoke_test(expect_oqs: bool = False) -> int:
+    """Check that a build can serve, without binding a port. Returns an exit code."""
+    from sd_runner.runtime.smoke_test import SmokeTest
+
+    smoke = SmokeTest()
+    smoke.run_common(expect_oqs=expect_oqs)
+
+    def servers():
+        from extensions.mcp_server import MCPServerExtension
+        from extensions.sd_runner_server import SDRunnerServer
+        from sd_runner.runs.headless_app import HeadlessApp
+
+        app = HeadlessApp()
+        run_ctrl = app.run_ctrl
+        callbacks = (
+            run_ctrl.server_run_callback,
+            run_ctrl.cancel,
+            run_ctrl.server_revert_to_simple_gen,
+            run_ctrl.server_batch_enqueue,
+            run_ctrl.server_health_check,
+        )
+        # Constructed only; start() is what binds.
+        SDRunnerServer(*callbacks)
+        MCPServerExtension(*callbacks, run_ctrl.run_status, run_ctrl.server_resource)
+
+    smoke.check_call("headless application and servers", servers)
+    return smoke.result()
+
+
 def main():
+    if "--smoke-test" in sys.argv[1:]:
+        # Before the single-instance check: a running app must not block it,
+        # and it must not take the lock.
+        try:
+            return _smoke_test(expect_oqs="--expect-oqs" in sys.argv[1:])
+        except BaseException:
+            # An error outside a check must fail the smoke test, not end it with status 0.
+            logger.error(f"smoke test: unexpected error:\n{traceback.format_exc()}")
+            return 1
+
     lock_file, cleanup_lock = Utils.check_single_instance("SDRunner")
+    logger.info(describe_version())
+    try:
+        enable_fault_log()
+    except Exception as e:
+        logger.error(f"Could not open the fault log: {e}")
 
     I18N.install_locale(config.locale, verbose=config.print_settings)
 
@@ -89,6 +152,8 @@ def main():
         return 1
 
     logger.info("SD Runner is serving headless")
+    threading.Thread(target=remove_stale_unpack_dirs, name="unpack-cleanup", daemon=True).start()
+    threading.Thread(target=_report_source_drift, name="source-drift", daemon=True).start()
     try:
         # The servers run on their own threads, so this one only has to stay
         # alive and interruptible. Sleeping in short spans rather than one long

@@ -11,7 +11,8 @@ _locale = Utils.get_default_user_language()
 class I18N:
     localedir = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), 'locale')
     locale = _locale
-    translate = gettext.translation('base', localedir, languages=[_locale])
+    # fallback: a system language without a catalog must not stop the import.
+    translate = gettext.translation('base', localedir, languages=[_locale], fallback=True)
 
     @staticmethod
     def install_locale(locale, verbose=True):

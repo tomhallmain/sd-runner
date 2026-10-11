@@ -13,6 +13,7 @@ from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_core import PasswordManager, get_security_config
 from sd_runner.ui.auth.password_session_manager import PasswordSessionManager
 from sd_runner.ui.auth.password_dialog import PasswordLineEdit
+from sd_runner.ui.auth.password_utils import alert_password_unreadable
 from sd_runner.globals import ProtectedActions
 from lib.translations import I18N
 
@@ -160,6 +161,13 @@ def check_startup_password_required(callback=None):
         if callback:
             callback(True)
         return True
+
+    # The password cannot be verified in this process: refused, not skipped.
+    if PasswordManager.is_password_unreadable():
+        alert_password_unreadable(None)
+        if callback:
+            callback(False)
+        return False
 
     # Protected but no password configured — invalid state, allow through
     if not PasswordManager.is_security_configured():

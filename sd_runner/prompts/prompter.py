@@ -12,6 +12,7 @@ from sd_runner.config import config
 from sd_runner.globals import BlacklistMode, PromptMode
 from lib.logging_setup import get_logger
 from lib.translations import I18N
+from lib.utils import NO_CONSOLE_WINDOW
 from extensions.image_data_extractor import ImageDataExtractor
 
 _ = I18N._
@@ -263,7 +264,8 @@ class Prompter:
     def gather_data(self) -> dict:
         # Use subprocess to call local LLaVA installation and gather data about the image
         # Assuming LLaVA outputs JSON data about the image
-        result = subprocess.run([self.llava_path, self.reference_image_path], capture_output=True)
+        result = subprocess.run([self.llava_path, self.reference_image_path], capture_output=True,
+                                creationflags=NO_CONSOLE_WINDOW)
         return json.loads(result.stdout)
 
     def transform_result(self, data: dict) -> str:

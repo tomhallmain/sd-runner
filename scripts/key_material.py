@@ -59,10 +59,25 @@ from lib.encryptor import (  # noqa: E402
 import lib.encryptor as enc  # noqa: E402
 import keyring  # noqa: E402
 
-#: The cache the keys must open. AppInfoCache.CACHE_LOC, resolved without
-#: importing it: constructing that singleton decrypts the cache, which is what
-#: fails when a restore is needed.
-CACHE_LOC = os.path.join(REPO_ROOT, "app_info_cache.enc")
+
+
+def _cache_loc() -> str:
+    """The cache the keys must open, resolved as AppInfoCache resolves it but
+    without importing it: constructing that singleton decrypts the cache, which
+    is what fails when a restore is needed. A cache still in the repo root,
+    where earlier versions kept it and the app has not yet moved it from, wins.
+    """
+    from lib.logging_setup import app_data_dir
+
+    legacy = os.path.join(REPO_ROOT, "app_info_cache.enc")
+    if os.path.isfile(legacy):
+        return legacy
+    override = os.environ.get("SD_RUNNER_CACHE_DIR")
+    return os.path.join(override or str(app_data_dir()), "app_info_cache.enc")
+
+
+#: The cache the keys must open.
+CACHE_LOC = _cache_loc()
 
 
 def _identifiers(include_legacy: bool) -> list:

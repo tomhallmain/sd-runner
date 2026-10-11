@@ -11,18 +11,38 @@ from lib.position_data_qt import PositionData
 from sd_runner.prompts.blacklist import Blacklist
 from sd_runner.config import config
 from sd_runner.globals import Globals, PromptMode, BlacklistPromptMode
-from lib.encryptor import encrypt_data_to_file, decrypt_data_from_file
+from lib.encryptor import encrypt_data_to_file, decrypt_data_from_file, stored_keys_need_unavailable_oqs
 from lib.logging_setup import get_logger
+from sd_runner.app_paths import adopt_legacy_repo_file, user_data_path
 from sd_runner.runs.runner_app_config import RunnerAppConfig
 
 logger = get_logger("persistence.app_info_cache")
 
-#: Two packages below the repo root, so three levels up.
-_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+CACHE_FILENAME = "app_info_cache.enc"
+JSON_FILENAME = "app_info_cache.json"
+#: Plaintext saves while the encrypted cache cannot be read (quantum keys
+#: without OQS). load() never migrates this file into the encrypted cache: it
+#: holds only what was saved since then, and would replace the encrypted
+#: cache's contents. Kept for manual recovery.
+NO_OQS_JSON_FILENAME = "app_info_cache.no_oqs.json"
+
+
+def _cache_dir() -> str:
+    """SD_RUNNER_CACHE_DIR if set, else the app data dir, after moving in a
+    cache left in the repo root by earlier versions."""
+    override = os.environ.get("SD_RUNNER_CACHE_DIR")
+    if override:
+        return override
+    target = user_data_path()
+    for i in range(AppInfoCache.NUM_BACKUPS, 0, -1):
+        name = f"{CACHE_FILENAME}.bak" + ("" if i == 1 else str(i))
+        adopt_legacy_repo_file(name, os.path.join(target, name))
+    for name in (CACHE_FILENAME, JSON_FILENAME, NO_OQS_JSON_FILENAME):
+        adopt_legacy_repo_file(name, os.path.join(target, name))
+    return target
+
 
 class AppInfoCache:
-    CACHE_LOC = os.path.join(_REPO_ROOT, "app_info_cache.enc")
-    JSON_LOC = os.path.join(_REPO_ROOT, "app_info_cache.json")
     INFO_KEY = "info"
     HISTORY_KEY = "run_history"
     PROMPT_HISTORY_KEY = "prompt_history"  # New key for prompt tag history
@@ -54,9 +74,13 @@ class AppInfoCache:
         # memory after its final write, so any store attempted afterwards would
         # overwrite good data with nothing.
         self._wiped = False
-        _override = os.environ.get("SD_RUNNER_CACHE_DIR")
-        self._cache_loc = os.path.join(_override, "app_info_cache.enc") if _override else AppInfoCache.CACHE_LOC
-        self._json_loc = os.path.join(_override, "app_info_cache.json") if _override else AppInfoCache.JSON_LOC
+        cache_dir = _cache_dir()
+        self._cache_loc = os.path.join(cache_dir, CACHE_FILENAME)
+        self._json_loc = os.path.join(cache_dir, JSON_FILENAME)
+        self._no_oqs_json_loc = os.path.join(cache_dir, NO_OQS_JSON_FILENAME)
+        # Set when the stored keys are quantum keys and this process has no
+        # OQS: the encrypted cache is then neither read nor written.
+        self._encrypted_cache_unreadable = False
         self.load()
         self.validate()
 
@@ -141,17 +165,23 @@ class AppInfoCache:
             except Exception as e:
                 raise Exception(f"Error compiling application cache", e)
 
-            logger.debug("Encrypting cache...")
-            try:
-                self._encrypt_to_path_atomically(cache_data, self._cache_loc)
-                self._has_changes = False
-                return True  # Encryption successful
-            except Exception as e:
-                logger.error(f"Error encrypting cache: {e}")
+            if self._encrypted_cache_unreadable:
+                # Encrypting fails the same way reading would; go straight to
+                # the file that is never merged back automatically.
+                json_loc = self._no_oqs_json_loc
+            else:
+                json_loc = self._json_loc
+                logger.debug("Encrypting cache...")
+                try:
+                    self._encrypt_to_path_atomically(cache_data, self._cache_loc)
+                    self._has_changes = False
+                    return True  # Encryption successful
+                except Exception as e:
+                    logger.error(f"Error encrypting cache: {e}")
 
             logger.debug("Falling back to JSON store...")
             try:
-                with open(self._json_loc, "w", encoding="utf-8") as f:
+                with open(json_loc, "w", encoding="utf-8") as f:
                     json.dump(self._cache, f)
                 self._has_changes = False
                 return False  # Encryption failed, but JSON fallback succeeded
@@ -170,6 +200,10 @@ class AppInfoCache:
     def load(self):
         with self._lock:
             try:
+                if self._needs_unavailable_oqs():
+                    self._start_without_encrypted_cache()
+                    return
+
                 if os.path.exists(self._json_loc):
                     logger.info(f"Detected JSON-format application cache, will attempt migration to encrypted store")
                     with open(self._json_loc, "r", encoding="utf-8") as f:
@@ -210,6 +244,36 @@ class AppInfoCache:
             except Exception as e:
                 logger.error(f"Error loading cache: {e}")
                 pass
+
+    def _needs_unavailable_oqs(self) -> bool:
+        """Whether an existing encrypted cache was written with quantum keys
+        this process cannot use. Only asked when a cache exists: without one
+        the lookup would fall through to the OS keychain for nothing."""
+        if not any(os.path.exists(p) for p in [self._cache_loc] + self._get_backup_paths()):
+            return False
+        return stored_keys_need_unavailable_oqs(Globals.SERVICE_NAME, Globals.APP_IDENTIFIER)
+
+    def _start_without_encrypted_cache(self):
+        """Continue from the last no-OQS session's saves, or from an empty cache,
+        leaving the encrypted cache and its backups untouched for a process
+        with OQS."""
+        self._encrypted_cache_unreadable = True
+        logger.warning(
+            f"{self._cache_loc} is encrypted with quantum (OQS) keys and this process has no OQS "
+            f"(a build needs --with-oqs to read it). Starting without it; it is left untouched, "
+            f"and this session's changes are saved to {self._no_oqs_json_loc} only."
+        )
+        if os.path.exists(self._no_oqs_json_loc):
+            try:
+                with open(self._no_oqs_json_loc, "r", encoding="utf-8") as f:
+                    self._cache = json.load(f)
+                logger.info(f"Loaded cache from {self._no_oqs_json_loc}")
+            except (OSError, ValueError) as e:
+                logger.error(f"Could not read {self._no_oqs_json_loc}, starting empty: {e}")
+
+    @property
+    def encrypted_cache_unreadable(self) -> bool:
+        return self._encrypted_cache_unreadable
 
     def validate(self):
         with self._lock:

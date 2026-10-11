@@ -1,4 +1,7 @@
+import io
+
 import pytest
+import sd_runner.runs.gen_config as gen_config_module
 from sd_runner.prompts.concepts import HardConcepts
 from sd_runner.runs.gen_config import GenConfig
 from sd_runner.prompts.prompter_configuration import PrompterConfiguration
@@ -371,6 +374,20 @@ def no_flagged_concepts(monkeypatch):
     monkeypatch.setattr(HardConcepts, "boring_concepts", [])
 
 
+class _Tty(io.StringIO):
+    def isatty(self):
+        return True
+
+
+@pytest.fixture
+def tty_answer(monkeypatch):
+    """An interactive stdin whose input() returns the given answer."""
+    def install(answer):
+        monkeypatch.setattr(gen_config_module.sys, "stdin", _Tty())
+        monkeypatch.setattr("builtins.input", lambda _prompt="": answer)
+    return install
+
+
 class TestValidate:
     def test_clean_prompt_passes(self, no_flagged_concepts):
         assert make_gen_config(positive="a calm lake").validate() is True
@@ -389,24 +406,62 @@ class TestValidate:
         cfg = make_gen_config(workflow_id="prior.png", positive="a calm lake")
         assert cfg.validate() is True
 
-    def test_hard_concept_prompts_for_confirmation(self, no_flagged_concepts, monkeypatch):
+    def test_hard_concept_prompts_for_confirmation(self, no_flagged_concepts, tty_answer, monkeypatch):
         monkeypatch.setattr(HardConcepts, "hard_concepts", ["lake"])
-        monkeypatch.setattr("builtins.input", lambda _prompt="": "y")
+        tty_answer("y")
         assert make_gen_config(positive="a calm lake").validate() is True
 
-    def test_declined_confirmation_fails_validation(self, no_flagged_concepts, monkeypatch):
+    def test_declined_confirmation_fails_validation(self, no_flagged_concepts, tty_answer, monkeypatch):
         monkeypatch.setattr(HardConcepts, "hard_concepts", ["lake"])
-        monkeypatch.setattr("builtins.input", lambda _prompt="": "n")
+        tty_answer("n")
         assert make_gen_config(positive="a calm lake").validate() is False
 
-    def test_exclusionary_concept_prompts_for_confirmation(self, no_flagged_concepts, monkeypatch):
+    def test_exclusionary_concept_prompts_for_confirmation(self, no_flagged_concepts, tty_answer, monkeypatch):
         monkeypatch.setattr(HardConcepts, "exclusionary_concepts", ["lake"])
-        monkeypatch.setattr("builtins.input", lambda _prompt="": "n")
+        tty_answer("n")
         assert make_gen_config(positive="a calm lake").validate() is False
 
-    def test_boring_concept_prompts_for_confirmation(self, no_flagged_concepts, monkeypatch):
+    def test_boring_concept_prompts_for_confirmation(self, no_flagged_concepts, tty_answer, monkeypatch):
         monkeypatch.setattr(HardConcepts, "boring_concepts", ["lake"])
-        monkeypatch.setattr("builtins.input", lambda _prompt="": "n")
+        tty_answer("n")
+        assert make_gen_config(positive="a calm lake").validate() is False
+
+
+class TestValidateWithoutConsole:
+    """The confirmation goes to the UI when there is one, and is declined when
+    there is nobody to ask -- never input() on a missing console."""
+
+    @pytest.fixture(autouse=True)
+    def hard_lake(self, no_flagged_concepts, monkeypatch):
+        monkeypatch.setattr(HardConcepts, "hard_concepts", ["lake"])
+        monkeypatch.setattr("builtins.input", lambda *_: pytest.fail("input() called"))
+
+    @pytest.mark.parametrize("answer", [True, False])
+    def test_the_ui_answer_is_returned(self, answer):
+        asked = []
+
+        class Actions:
+            def alert(self, title, message, kind="info"):
+                asked.append((title, message, kind))
+                return answer
+
+        assert make_gen_config(positive="a calm lake").validate(Actions()) is answer
+        assert asked and asked[0][2] == "askokcancel"
+        assert "lake" in asked[0][1]
+
+    def test_headless_notifications_decline(self):
+        from sd_runner.runs.headless_app import LoggingNotifications
+
+        notifications = LoggingNotifications()
+
+        class Actions:
+            def alert(self, title, message, kind="info"):
+                return notifications.alert(title, message, kind=kind)
+
+        assert make_gen_config(positive="a calm lake").validate(Actions()) is False
+
+    def test_without_a_tty_it_is_declined(self, monkeypatch):
+        monkeypatch.setattr(gen_config_module.sys, "stdin", None)
         assert make_gen_config(positive="a calm lake").validate() is False
 
 

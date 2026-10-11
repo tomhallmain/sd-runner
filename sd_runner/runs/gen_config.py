@@ -1,5 +1,6 @@
 import re
 import random
+import sys
 
 from sd_runner.prompts.concepts import HardConcepts
 from sd_runner.config import config
@@ -10,10 +11,19 @@ from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.models.resolution import Resolution
 from sd_runner.runs.run_config import RunConfig
 from lib.logging_setup import get_logger
+from lib.translations import I18N
 from lib.utils import Utils
 
+_ = I18N._
 
 logger = get_logger("runs.gen_config")
+
+
+def _stdin_is_interactive() -> bool:
+    try:
+        return sys.stdin is not None and sys.stdin.isatty()
+    except (ValueError, OSError):  # closed or detached stream
+        return False
 
 class GenConfig:
     REDO_PARAMETERS = config.redo_parameters
@@ -130,33 +140,40 @@ class GenConfig:
             return prior_config.positive == self.positive and prior_config.negative == self.negative
         return False
 
-    def validate(self) -> bool:
+    def validate(self, app_actions=None) -> bool:
+        """Whether to run this config. Warnings about the prompt are put to the
+        user as a confirmation: through *app_actions* when given (a dialog in
+        the window; declined, with a log line, where there is nobody to ask),
+        otherwise on the console if it is interactive, and otherwise declined.
+        """
         if Globals.SKIP_CONFIRMATIONS or self.is_redo_prompt():
             return True
         confirm_messages = []
         if self.positive and self.positive != "":
             for concept in HardConcepts.hard_concepts:
                 if concept in self.positive:
-                    confirm_messages.append(f"You are using HARD concept {concept} in prompt - this is hard for image generation models.")
+                    confirm_messages.append(_("You are using HARD concept {0} in prompt - this is hard for image generation models.").format(concept))
             for concept in HardConcepts.exclusionary_concepts:
                 if concept in self.positive:
-                    confirm_messages.append(f"You are using EXCLUSIONARY concept {concept} in prompt.")
+                    confirm_messages.append(_("You are using EXCLUSIONARY concept {0} in prompt.").format(concept))
             for concept in HardConcepts.boring_concepts:
                 if concept in self.positive:
-                    confirm_messages.append(f"You are using BORING concept {concept} in prompt.")
+                    confirm_messages.append(_("You are using BORING concept {0} in prompt.").format(concept))
         if self.workflow_id == "renoiser.json" or self.workflow_id == "renoiser_xl.json":
             if "dark" not in self.positive and "night" not in self.positive and "shadows" not in self.positive:
-                confirm_messages.append("The renoiser workflow creates images that are fairly bright, but no dark keywords detected.")
+                confirm_messages.append(_("The renoiser workflow creates images that are fairly bright, but no dark keywords detected."))
             # Warn about multiple resolutions causing duplicate outputs
             if len(self.resolutions) > 1:
-                confirm_messages.append(f"WARNING: The renoiser workflow is configured with {len(self.resolutions)} resolutions. Since seed variation has minimal effect on renoiser output, this will result in effectively duplicate entries for the same control net image. Each resolution will produce nearly identical results.")
+                confirm_messages.append(_("WARNING: The renoiser workflow is configured with {0} resolutions. Since seed variation has minimal effect on renoiser output, this will result in effectively duplicate entries for the same control net image. Each resolution will produce nearly identical results.").format(len(self.resolutions)))
         if len(confirm_messages) == 0:
             return True
-        confirm_str = ""
-        for message in confirm_messages:
-            confirm_str += message + "\n"
-        confirm_str += "Confirm (y/n): "
-        return input(confirm_str).lower().startswith("y")
+        message = "\n".join(confirm_messages)
+        if app_actions is not None:
+            return bool(app_actions.alert(_("Confirm Run"), message, kind="askokcancel"))
+        if not _stdin_is_interactive():
+            logger.warning(f"Declined run confirmation, nobody to ask: {message}")
+            return False
+        return input(message + "\n" + _("Confirm (y/n): ")).lower().startswith("y")
 
     def is_redo_prompt(self) -> bool:
         return isinstance(self.workflow_id, str) and self.workflow_id.endswith(".png")

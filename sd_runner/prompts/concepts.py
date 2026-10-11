@@ -6,6 +6,7 @@ import random
 import re
 from typing import Callable, Dict, Optional, Set
 
+from sd_runner.app_paths import concepts_dir, resource_path
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
 from sd_runner.config import config
 from sd_runner.globals import Globals, PromptMode, BlacklistPromptMode
@@ -15,11 +16,6 @@ from lib.translations import I18N
 from lib.utils import Utils
 
 _ = I18N._
-
-#: sd_runner/prompts/ -> sd_runner/ -> repo root. Named once so a move
-#: corrects one line rather than a count buried in a dirname chain.
-_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-BASE_DIR = _REPO_ROOT
 
 logger = get_logger("prompts.concepts")
 
@@ -452,17 +448,17 @@ class Concepts:
     TAG_BLACKLIST = []
     ALPHABET = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
                 "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-    CONCEPTS_DIR = os.path.join(BASE_DIR, "concepts") if config.default_concepts_dir == "concepts" else config.concepts_dir
+    CONCEPTS_DIR = concepts_dir("concepts") if config.default_concepts_dir == "concepts" else config.concepts_dir
     #: Obfuscated like the default blacklist; written by
     #: scripts/encrypt_urban_dictionary.py from the trimmed corpus.
-    URBAN_DICTIONARY_CORPUS_PATH = os.path.join(BASE_DIR, "sd_runner", "data", "urban_dictionary.enc")
+    URBAN_DICTIONARY_CORPUS_PATH = resource_path("sd_runner", "data", "urban_dictionary.enc")
     URBAN_DICTIONARY_CORPUS = []
 
     @staticmethod
     def set_concepts_dir(path: str = "concepts") -> bool:
         old_path = Concepts.CONCEPTS_DIR
         if path == "concepts":
-            Concepts.CONCEPTS_DIR = os.path.join(BASE_DIR, "concepts")
+            Concepts.CONCEPTS_DIR = concepts_dir("concepts")
         elif not os.path.isdir(path):
             raise Exception(f"{path} is not a valid concepts directory")
         else:

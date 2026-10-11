@@ -71,6 +71,7 @@ __version__ = '-'.join(__version_info__)
 
 import os
 import os.path
+import sys
 import argparse
 import mmap
 import re
@@ -735,19 +736,19 @@ def main():
     if   not args.lorapath:
         print(f"{FAIL}LoRa Path UNDEFINED!{ENDC} \
                 {BOLD}--lorapath{ENDC} MUST be a valid path!")
-        exit(1)
+        sys.exit(1)
 
     elif not os.path.exists(args.lorapath):
         print(f"{FAIL}LoRa Path NOT FOUND!{ENDC}; \
                 {BOLD}--lorapath{ENDC} MUST be a valid path!")
-        exit(1)
+        sys.exit(1)
 
     elif not args.allloras and (len(args.lora) == 0) and (len(args.safetriggers) == 0):
         print(f"{FAIL}File Name UNDEFINED!{ENDC}; \
                 either using {BOLD}--lora{ENDC} a valid LoRA (.safetensors) file MUST be provided OR \
                         using {BOLD}--safetriggers{ENDC} a valid LoRA Triggers (.safetriggers) file MUST be provided OR \
                         using {BOLD}--allloras{ENDC} read ALL LoRA (.safetriggers) files on {BOLD}--lorapath{ENDC}!")
-        exit(1)
+        sys.exit(1)
 
     status_int = 0
     status = True
@@ -789,7 +790,7 @@ def main():
         if not os.path.isfile(lora_name):
             print(f"{FAIL}LoRA file not found!{ENDC}; \
                     {BOLD}--lora{ENDC} MUST be a valid LoRA file!")
-            exit(1)
+            sys.exit(1)
 
         print(f"Analysing {BOLD}{lora_name}{ENDC} ...\n")
 
@@ -808,7 +809,7 @@ def main():
         if not os.path.isfile(safetriggers_name):
             print(f"{FAIL}LoRA TRIGGERS file not found!{ENDC}; \
                     {BOLD}--safetriggers{ENDC} MUST be a valid LoRA TRIGGERS file!")
-            exit(1)
+            sys.exit(1)
 
         print(f"Analysing {BOLD}{safetriggers_name}{ENDC} ...\n")
 
@@ -822,7 +823,7 @@ def main():
                 You didn't ask {BOLD}safetriggers{ENDC} to do anything.")
         status_int = 1
 
-    exit(status_int)
+    sys.exit(status_int)
 
 
 

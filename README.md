@@ -24,6 +24,23 @@ This code is primarily a prompt engineering application that triggers ComfyUI wo
 
 The application uses PySide6 with custom theming, optional frameless windows, and configurable UI scaling (`ui_scale_factor` in `config.json`).
 
+### Where your data lives
+
+Everything the application writes is kept in its data folder, `%APPDATA%\sd_runner` on Windows and `~/.local/share/sd_runner` elsewhere: `configs/config.json`, the encrypted `app_info_cache.enc` with its backups, the logs, and caches. Files that earlier versions kept in the repo (`app_info_cache.enc*`, `configs/config.json`, `sd_runner/data/pending_translation.json`) are moved there the first time the app is started from the repo. A file in the data folder is replaced by the one from the repo unless the repo's is newer; then both are kept and the log says so. Relative paths in `config.json` (the default `"."` save paths included) are taken relative to the data folder.
+
+## Building an executable
+
+`python build_exe.py --with-oqs` builds two single-file executables with [Nuitka](https://nuitka.net): `dist/SDRunner.exe`, the application, and `dist/SDRunnerHeadless.exe`, which serves the request front ends without a window (no `.exe` suffix on macOS/Linux). Run it on the OS you are building for; Nuitka does not cross-compile.
+
+- **Requirements:** the Python used for development (3.11), and a C compiler: Visual Studio Build Tools on Windows (or let Nuitka download MinGW), the Xcode Command Line Tools on macOS. The build includes torch and transformers and takes a long time and several GB of disk space.
+- **Build environment:** packages are installed into `.venv-build` from `requirements-build.txt`. `--current-env` builds with the running interpreter instead; for CUDA torch, install it into `.venv-build` from the PyTorch index first. Each build records the environment in `build/nuitka/build-requirements.lock.txt`; `--lock=<file>` installs from such a file to repeat a build (delete `.venv-build` first for an exact copy).
+- **OQS:** `--with-oqs` bundles the liboqs library for quantum-safe key encapsulation. Without it the executables cannot read a cache encrypted with OQS keys: they start without it, leave it untouched, and refuse password-protected actions.
+- **Smoke test:** after building, the script runs each executable with `--smoke-test` against a scratch data folder; the build fails if it does.
+- **First start:** an executable unpacks itself to `unpacked/` in the data folder on its first start, so later starts are fast; folders of older builds are removed at startup.
+- **Same data:** an executable uses the same data folder as the app started from the repo. Start the app from the repo once before the first executable start, so that a cache still in the repo is moved there.
+- **Concepts:** concept sets named relatively in `config.json` (`concepts`, `Konzepte`) are copied from the executable into the data folder on first use, and the Concept Editor edits that copy. To keep editing the repo's lists, name their folders with absolute paths in `concepts_dirs`.
+- **External:** generation backends (ComfyUI and the others), model weights (Hugging Face cache, `models_dir`) and `sd_prompt_reader_loc` are not part of the build.
+
 ## Configuration Options
 
 **Set Total** (sidebar, default 2): how many times to run the workflow — with prompt randomization the same workflow produces a different result each time. Set to -1 to run infinitely.

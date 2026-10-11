@@ -1,4 +1,5 @@
 import asyncio
+import functools
 import glob
 import subprocess
 import math
@@ -21,6 +22,10 @@ CYAN = "\033[34m"
 
 # create logger
 logger = get_logger("sd_runner")
+
+#: creationflags for a console program started from a windowed process: on
+#: Windows each one would otherwise flash a console window. 0 elsewhere.
+NO_CONSOLE_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0) if sys.platform == "win32" else 0
 
 
 class Utils:
@@ -102,6 +107,7 @@ class Utils:
     @staticmethod
     def periodic(run_obj, sleep_attr="", run_attr=None):
         def scheduler(fcn):
+            @functools.wraps(fcn)
             async def wrapper(*args, **kwargs):
                 while True:
                     asyncio.create_task(fcn(*args, **kwargs))

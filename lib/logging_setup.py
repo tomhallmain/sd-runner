@@ -211,16 +211,32 @@ def app_data_dir(*parts: str, create: bool = True) -> Path:
 
 
 def adopt_legacy_file(legacy_path: str, target_path: str) -> None:
-    """Move ``legacy_path`` to ``target_path`` if only the legacy file exists.
+    """Move ``legacy_path`` to ``target_path``, carrying a file over from a
+    previous storage location.
 
-    Carries a file over from a previous storage location on first run. Never
-    overwrites an existing target; on failure the legacy file is left in place.
+    An existing target is replaced: a compiled build started before the
+    checkout writes a default config and an empty cache there, which must not
+    keep the user's data from moving in. The exception is a legacy file newer
+    than the target, which means something still writes the old location; both
+    are then left in place with a warning. On failure the legacy file stays.
     """
-    if os.path.exists(target_path) or not os.path.isfile(legacy_path):
+    if not os.path.isfile(legacy_path):
         return
     logger = get_logger("root")
+    if os.path.isdir(target_path):
+        logger.warning(f"Not moving {legacy_path}: {target_path} is a folder")
+        return
+    if os.path.exists(target_path) and os.path.getmtime(legacy_path) > os.path.getmtime(target_path):
+        logger.warning(f"Not moving {legacy_path}: it is newer than {target_path}; keeping both")
+        return
     try:
-        shutil.move(legacy_path, target_path)
+        os.makedirs(os.path.dirname(target_path) or ".", exist_ok=True)
+        try:
+            os.replace(legacy_path, target_path)
+        except OSError:
+            # os.replace cannot cross drives (a repo on D:, %APPDATA% on C:).
+            shutil.copy2(legacy_path, target_path)
+            os.remove(legacy_path)
         logger.info(f"Moved {legacy_path} to {target_path}")
     except OSError as e:
         logger.error(f"Failed to move {legacy_path} to {target_path}: {e}")

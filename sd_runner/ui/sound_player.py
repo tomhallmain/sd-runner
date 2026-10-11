@@ -13,9 +13,9 @@ from typing import Dict
 from PySide6.QtCore import QUrl
 from PySide6.QtMultimedia import QSoundEffect
 
-#: Counted from this file up to the repo root: sd_runner/ui/ -> sd_runner/ -> root.
-_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_SOUNDS_DIR = os.path.join(_REPO_ROOT, "lib", "sounds")
+from sd_runner.app_paths import resource_path
+
+_SOUNDS_DIR = resource_path("lib", "sounds")
 _effects: Dict[str, QSoundEffect] = {}
 
 
