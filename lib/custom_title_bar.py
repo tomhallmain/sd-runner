@@ -465,9 +465,29 @@ class WindowResizeHandler(QObject):
         self._resize_start_geometry = QRect()
         self._is_resizing = False
         self._current_cursor_edge = ResizeGrip.EDGE_NONE  # Track which edge cursor is set for
+        self._released = False
         
         # Install event filter on the application to catch all mouse events
         QApplication.instance().installEventFilter(self)
+
+    def release(self) -> None:
+        """Remove the application-wide event filter; safe to call more than once.
+
+        Qt drops a filter only when its object is destroyed, and a closed but
+        undeleted window keeps this one alive, so every later event in the
+        application would still pass through it -- one more filter for each
+        window built and closed in the same process.
+        """
+        if self._released:
+            return
+        self._released = True
+        app = QApplication.instance()
+        if app is not None:
+            app.removeEventFilter(self)
+        if self._current_cursor_edge != ResizeGrip.EDGE_NONE:
+            QApplication.restoreOverrideCursor()
+            self._current_cursor_edge = ResizeGrip.EDGE_NONE
+        self._is_resizing = False
         
     def _get_edge_from_global_pos(self, global_pos: QPoint) -> int:
         """Determine which edge the global position is on."""

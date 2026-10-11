@@ -1,7 +1,7 @@
 """
 The pending-translation backlog.
 
-Plain JSON in a gitignored location rather than the encrypted app cache, because
+Plain JSON in the app data dir rather than the encrypted app cache, because
 the consumer is the concepts/i18n tooling, which has to read it without
 decrypting anything. Path resolution honours SD_RUNNER_CACHE_DIR, so these tests
 land in the per-test temp directory like every other cache artefact.

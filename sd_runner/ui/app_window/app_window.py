@@ -1091,6 +1091,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         failsafe.cancel()
 
     def closeEvent(self, event) -> None:  # noqa: N802
+        self._resize_handler.release()
         if self._closing:
             event.accept()
             return

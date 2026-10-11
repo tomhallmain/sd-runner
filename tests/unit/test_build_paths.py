@@ -1,8 +1,11 @@
 """Where bundled and user files resolve, in a checkout and in a compiled build.
 
 Build-only branches are reached by patching ``sd_runner.app_paths.IS_BUILD``
-and ``RESOURCE_ROOT``; ``REPO_ROOT`` is patched to a fake repo whenever a test
-lets a legacy migration run, so nothing in the real checkout is moved.
+and ``RESOURCE_ROOT``. Every test that unsets ``SD_RUNNER_CACHE_DIR`` also
+patches ``REPO_ROOT`` to a fake repo and points the app data dir into
+``tmp_path``, so a migration it triggers cannot move the developer's files.
+Modules that migrate at import are imported here, at collection time, while
+the suite's overrides are still set.
 """
 
 import os
@@ -12,6 +15,9 @@ import pytest
 import sd_runner.app_paths as app_paths
 from lib.logging_setup import adopt_legacy_file
 from sd_runner.config import Config
+from sd_runner.persistence import app_info_cache as app_info_cache_module
+from sd_runner.prompts.pending_translation import resolve_pending_translation_file
+from sd_runner.workflow_prompts.base import WorkflowPrompt
 
 
 @pytest.fixture
@@ -123,13 +129,13 @@ class TestAdoptLegacyFile:
 
 class TestAppInfoCacheLocation:
     def test_the_override_wins(self, tmp_path, monkeypatch):
-        from sd_runner.persistence import app_info_cache as module
+        module = app_info_cache_module
 
         monkeypatch.setenv("SD_RUNNER_CACHE_DIR", str(tmp_path / "override"))
         assert module._cache_dir() == str(tmp_path / "override")
 
     def test_legacy_files_move_into_the_app_data_dir(self, monkeypatch, app_data, fake_repo):
-        from sd_runner.persistence import app_info_cache as module
+        module = app_info_cache_module
 
         monkeypatch.delenv("SD_RUNNER_CACHE_DIR", raising=False)
         for name in ("app_info_cache.enc", "app_info_cache.enc.bak", "app_info_cache.enc.bak2"):
@@ -141,7 +147,7 @@ class TestAppInfoCacheLocation:
             assert not (fake_repo / name).exists()
 
     def test_nothing_moves_in_a_build(self, monkeypatch, app_data, fake_repo):
-        from sd_runner.persistence import app_info_cache as module
+        module = app_info_cache_module
 
         monkeypatch.delenv("SD_RUNNER_CACHE_DIR", raising=False)
         monkeypatch.setattr(app_paths, "IS_BUILD", True)
@@ -152,20 +158,14 @@ class TestAppInfoCacheLocation:
 
 class TestOtherUserFiles:
     def test_pending_translations_go_to_the_override(self, tmp_path, monkeypatch):
-        from sd_runner.prompts.pending_translation import resolve_pending_translation_file
-
         monkeypatch.setenv("SD_RUNNER_CACHE_DIR", str(tmp_path))
         assert resolve_pending_translation_file() == str(tmp_path / "pending_translation.json")
 
-    def test_pending_translations_default_to_the_app_data_dir(self, monkeypatch, app_data):
-        from sd_runner.prompts.pending_translation import resolve_pending_translation_file
-
+    def test_pending_translations_default_to_the_app_data_dir(self, monkeypatch, app_data, fake_repo):
         monkeypatch.delenv("SD_RUNNER_CACHE_DIR", raising=False)
         assert resolve_pending_translation_file() == os.path.join(str(app_data), "pending_translation.json")
 
     def test_the_last_prompt_moves_out_of_the_workflows_folder(self, monkeypatch, app_data, fake_repo):
-        from sd_runner.workflow_prompts.base import WorkflowPrompt
-
         monkeypatch.delenv("SD_RUNNER_CACHE_DIR", raising=False)
         legacy = fake_repo / WorkflowPrompt.LEGACY_LAST_PROMPT_FILE
         legacy.parent.mkdir(parents=True)
@@ -178,8 +178,6 @@ class TestOtherUserFiles:
     def test_shipped_files_resolve_through_the_resource_root(self):
         from sd_runner.prompts.blacklist import Blacklist
         from sd_runner.prompts.concepts import Concepts
-        from sd_runner.workflow_prompts.base import WorkflowPrompt
-
         root = app_paths.RESOURCE_ROOT
         assert Blacklist.DEFAULT_BLACKLIST_FILE_LOC.startswith(root)
         assert Concepts.URBAN_DICTIONARY_CORPUS_PATH.startswith(root)

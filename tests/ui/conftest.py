@@ -57,6 +57,7 @@ def qapp():
 @pytest.fixture
 def app_window(qapp):
     """Function-scoped real AppWindow.  Tears down without the os._exit failsafe."""
+    from PySide6.QtCore import QEvent
     from PySide6.QtWidgets import QApplication
     from sd_runner.ui.app_window.app_window import AppWindow
     from sd_runner.runs.ui_responsiveness import NullResponsiveness
@@ -78,4 +79,9 @@ def app_window(qapp):
         except Exception:
             pass
     win.close()
+    # Closing does not delete the window. Undeleted, every window built in the
+    # run would stay alive with whatever it registered application-wide.
+    win.deleteLater()
+    # Outside a running event loop processEvents does not handle deferred deletes.
+    QApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
     QApplication.processEvents()
