@@ -13,8 +13,10 @@ import sys
 import threading
 import traceback
 
+from sd_runner.runtime.console_streams import make_console_streams_byte_safe
 from sd_runner.runtime.oqs_path import point_oqs_at_bundled_library
 
+_byte_safe_fds = make_console_streams_byte_safe()
 point_oqs_at_bundled_library()
 
 from PySide6.QtCore import QtMsgType, qInstallMessageHandler
@@ -120,6 +122,8 @@ def main():
     lock_file, cleanup_lock = Utils.check_single_instance("SDRunner")
     logger.info("SD Runner starting")
     logger.info(describe_version())
+    if _byte_safe_fds:
+        logger.info(f"Console streams {_byte_safe_fds} switched from wide-character to binary mode")
     try:
         enable_fault_log()
     except Exception as e:
@@ -184,14 +188,22 @@ def main():
     def _handle_uncaught(exc_type, exc_value, exc_traceback):
         # KeyboardInterrupt reaches here when it lands outside the signal
         # handler; it is an orderly exit, not a crash worth a rescue write.
-        if not issubclass(exc_type, KeyboardInterrupt):
-            _emergency_store(f"unhandled {exc_type.__name__}")
-        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+        if issubclass(exc_type, KeyboardInterrupt):
+            sys.__excepthook__(exc_type, exc_value, exc_traceback)
+            return
+        # Through the logger, so the traceback also reaches the log file.
+        logger.critical("Unhandled exception", exc_info=(exc_type, exc_value, exc_traceback))
+        _emergency_store(f"unhandled {exc_type.__name__}")
 
     def _handle_uncaught_in_thread(args):
-        if not issubclass(args.exc_type, SystemExit):
-            _emergency_store(f"unhandled {args.exc_type.__name__} in thread")
-        threading.__excepthook__(args)
+        if issubclass(args.exc_type, SystemExit):
+            return
+        thread_name = args.thread.name if args.thread else "unknown"
+        logger.critical(
+            f"Unhandled exception in thread {thread_name}",
+            exc_info=(args.exc_type, args.exc_value, args.exc_traceback),
+        )
+        _emergency_store(f"unhandled {args.exc_type.__name__} in thread")
 
     sys.excepthook = _handle_uncaught
     threading.excepthook = _handle_uncaught_in_thread
@@ -201,6 +213,10 @@ def main():
     # a normal shutdown because AppInfoCache.store refuses once the instance has
     # been wiped, so this cannot write an emptied cache over the saved one.
     atexit.register(lambda: _emergency_store("interpreter exit"))
+    # Registered after the line above, so it runs first. An exit that reaches
+    # neither this line nor "SD Runner exiting" ended in native code: see
+    # faults.log, or for a fast-fail abort the system's application event log.
+    atexit.register(lambda: logger.info("Python interpreter exiting"))
 
     # Periodically yield to the Python interpreter so that signal handlers
     # (SIGINT, SIGTERM) can fire.  Without this, Qt's C++ event loop never
@@ -222,13 +238,14 @@ def main():
             sys.exit(0)
 
         # Password verified or not required -- create the main window
-        from sd_runner.ui.app_window.app_window import AppWindow
-
-        # Clean up any old image converter temporary files on startup
-        from sd_runner.generators.base import BaseImageGenerator
-        BaseImageGenerator.cleanup_image_converter()
-
+        logger.info("Creating the main window")
         try:
+            from sd_runner.ui.app_window.app_window import AppWindow
+
+            # Clean up any old image converter temporary files on startup
+            from sd_runner.generators.base import BaseImageGenerator
+            BaseImageGenerator.cleanup_image_converter()
+
             app_window = AppWindow()
             app_window.show()
 
@@ -255,6 +272,7 @@ def main():
     # Check if startup password is required
     # ------------------------------------------------------------------
     from sd_runner.ui.auth.app_startup_auth import check_startup_password_required
+    logger.info("Checking whether the start needs a password")
     check_startup_password_required(callback=startup_callback)
 
     # ------------------------------------------------------------------

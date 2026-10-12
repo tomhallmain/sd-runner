@@ -121,18 +121,28 @@ def main():
             logger.error(f"Emergency cache store failed: {store_error}")
 
     def _handle_uncaught(exc_type, exc_value, exc_traceback):
-        if not issubclass(exc_type, KeyboardInterrupt):
-            _emergency_store(f"unhandled {exc_type.__name__}")
-        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+        if issubclass(exc_type, KeyboardInterrupt):
+            sys.__excepthook__(exc_type, exc_value, exc_traceback)
+            return
+        # Through the logger, so the traceback also reaches the log file.
+        logger.critical("Unhandled exception", exc_info=(exc_type, exc_value, exc_traceback))
+        _emergency_store(f"unhandled {exc_type.__name__}")
 
     def _handle_uncaught_in_thread(args):
-        if not issubclass(args.exc_type, SystemExit):
-            _emergency_store(f"unhandled {args.exc_type.__name__} in thread")
-        threading.__excepthook__(args)
+        if issubclass(args.exc_type, SystemExit):
+            return
+        thread_name = args.thread.name if args.thread else "unknown"
+        logger.critical(
+            f"Unhandled exception in thread {thread_name}",
+            exc_info=(args.exc_type, args.exc_value, args.exc_traceback),
+        )
+        _emergency_store(f"unhandled {args.exc_type.__name__} in thread")
 
     sys.excepthook = _handle_uncaught
     threading.excepthook = _handle_uncaught_in_thread
     atexit.register(lambda: _emergency_store("interpreter exit"))
+    # Runs first (registered last); an exit without this line ended in native code.
+    atexit.register(lambda: logger.info("Python interpreter exiting"))
 
     def graceful_shutdown(signum, frame):
         logger.info("Caught signal, shutting down gracefully...")

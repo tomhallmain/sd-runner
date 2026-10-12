@@ -62,6 +62,10 @@ class TestTargets:
         for _name, entry, _prefix, _args in build_exe["TARGETS"]:
             assert os.path.isfile(os.path.join(REPO_ROOT, entry))
 
+    def test_the_headless_build_is_only_made_on_request(self, build_exe):
+        assert [t[0] for t in build_exe["_targets"](False)] == ["SDRunner"]
+        assert [t[0] for t in build_exe["_targets"](True)] == ["SDRunner", "SDRunnerHeadless"]
+
     def test_the_headless_build_leaves_qt_out(self, build_exe):
         assert "--nofollow-import-to=PySide6" in build_exe["_headless_args"]()
 

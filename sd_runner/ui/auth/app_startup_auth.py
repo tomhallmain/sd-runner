@@ -15,9 +15,11 @@ from sd_runner.ui.auth.password_session_manager import PasswordSessionManager
 from sd_runner.ui.auth.password_dialog import PasswordLineEdit
 from sd_runner.ui.auth.password_utils import alert_password_unreadable
 from sd_runner.globals import ProtectedActions
+from lib.logging_setup import get_logger
 from lib.translations import I18N
 
 _ = I18N._
+logger = get_logger("app_startup_auth")
 
 
 class StartupPasswordDialog(QDialog):
@@ -186,8 +188,10 @@ def check_startup_password_required(callback=None):
             return True
 
     # Show the password dialog
+    logger.info("Showing the startup password dialog")
     dialog = StartupPasswordDialog()
     dialog.exec()
+    logger.info(f"Startup password dialog closed: {'accepted' if dialog.result else 'cancelled'}")
 
     if dialog.result:
         # Record session on success

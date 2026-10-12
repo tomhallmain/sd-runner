@@ -15,10 +15,10 @@ build; for CUDA torch, install it into .venv-build from the PyTorch index
 first, or use ``--current-env``, which builds with the running interpreter
 instead (it must already have requirements-build.txt installed).
 
-Builds two single-file executables in dist/ (``.exe`` on Windows):
-SDRunner from app_gui.py, and SDRunnerHeadless from app_headless.py, which
-serves the request front ends with no window and contains no Qt. At its first
-start each unpacks its runtime to ``unpacked/<prefix>-<build id>`` in the SD
+Builds a single-file executable in dist/ (``.exe`` on Windows), SDRunner from
+app_gui.py. ``--with-headless`` also builds SDRunnerHeadless from
+app_headless.py, which serves the request front ends with no window and
+contains no Qt; it takes about as long again. At its first start each unpacks its runtime to ``unpacked/<prefix>-<build id>`` in the SD
 Runner app data directory; later starts of the same build reuse that folder,
 and the app removes older builds' folders (sd_runner/runtime/unpack_cleanup.py).
 Each is smoke-tested with ``--smoke-test``. Other args are forwarded to Nuitka,
@@ -394,6 +394,11 @@ TARGETS = (
     ("SDRunner", "app_gui.py", "sdrunner", _gui_args),
     ("SDRunnerHeadless", "app_headless.py", "sdrunner-headless", _headless_args),
 )
+HEADLESS_TARGET = "SDRunnerHeadless"
+
+
+def _targets(with_headless: bool) -> tuple:
+    return tuple(t for t in TARGETS if with_headless or t[0] != HEADLESS_TARGET)
 
 
 if __name__ == "__main__":
@@ -401,6 +406,9 @@ if __name__ == "__main__":
     with_oqs = "--with-oqs" in args
     if with_oqs:
         args.remove("--with-oqs")
+    with_headless = "--with-headless" in args
+    if with_headless:
+        args.remove("--with-headless")
     lock = _pop_option(args, "--lock")
     build_id = time.strftime("%Y%m%d-%H%M%S")
 
@@ -427,7 +435,7 @@ if __name__ == "__main__":
     oqs_args = _oqs_args(python, with_oqs)
 
     os.makedirs(DIST_DIR, exist_ok=True)
-    for base_name, entry, unpack_prefix, target_args in TARGETS:
+    for base_name, entry, unpack_prefix, target_args in _targets(with_headless):
         exe_name = _exe_name(base_name)
         nuitka_args = [
             *_common_args(exe_name, unpack_prefix, version, build_id), *target_args(), *oqs_args,

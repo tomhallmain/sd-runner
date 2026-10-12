@@ -43,3 +43,4 @@ def enable_fault_log() -> str:
         _fault_log.flush()
         faulthandler.enable(file=_fault_log, all_threads=True)
     return _fault_log.name
+

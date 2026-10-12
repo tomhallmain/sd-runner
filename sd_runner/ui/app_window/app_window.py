@@ -126,6 +126,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         super().__init__(restore_geometry=True)
 
         # Set up frameless window with custom title bar
+        logger.info("Main window: frame and title bar")
         self.setup_frameless_window(
             title=_(" SD Runner "), corner_radius=10,
         )
@@ -191,6 +192,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # ------------------------------------------------------------------
         # Controllers -- notification first (others may toast during init)
         # ------------------------------------------------------------------
+        logger.info("Main window: loading state from the cache")
         self.notification_ctrl = NotificationController(app_window=self)
 
         # ------------------------------------------------------------------
@@ -201,11 +203,13 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         self._restore_window_state_from_cache()
 
         # Load models so autocomplete lists are populated
+        logger.info("Main window: loading models")
         Model.load_all()
 
         # ------------------------------------------------------------------
         # Sidebar panel (the main content of the window)
         # ------------------------------------------------------------------
+        logger.info("Main window: building the sidebar")
         self.sidebar_panel = SidebarPanel(parent=content_widget, app_window=self)
         content_layout.addWidget(self.sidebar_panel)
 
@@ -218,6 +222,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # ------------------------------------------------------------------
         # Remaining controllers
         # ------------------------------------------------------------------
+        logger.info("Main window: controllers and key bindings")
         self.run_ctrl = RunController(app_window=self)
         self.window_launcher = WindowLauncher(app_window=self)
 
@@ -256,6 +261,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # ------------------------------------------------------------------
         # Server
         # ------------------------------------------------------------------
+        logger.info("Main window: starting the servers")
         self.server = self._setup_server()
         self.mcp_server = self._setup_mcp_server()
 
@@ -267,6 +273,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # ------------------------------------------------------------------
         # Start periodic cache store
         # ------------------------------------------------------------------
+        logger.info("Main window: restoring geometry and widget state")
         self.cache_ctrl.start_periodic_store()
 
         # Restore window geometry (SmartMainWindow feature)

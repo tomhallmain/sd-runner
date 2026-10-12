@@ -30,7 +30,7 @@ Everything the application writes is kept in its data folder, `%APPDATA%\sd_runn
 
 ## Building an executable
 
-`python build_exe.py --with-oqs` builds two single-file executables with [Nuitka](https://nuitka.net): `dist/SDRunner.exe`, the application, and `dist/SDRunnerHeadless.exe`, which serves the request front ends without a window (no `.exe` suffix on macOS/Linux). Run it on the OS you are building for; Nuitka does not cross-compile.
+`python build_exe.py --with-oqs` builds a single-file executable with [Nuitka](https://nuitka.net), `dist/SDRunner.exe` (no `.exe` suffix on macOS/Linux). `--with-headless` also builds `dist/SDRunnerHeadless.exe`, which serves the request front ends without a window; it about doubles the build time. Run it on the OS you are building for; Nuitka does not cross-compile.
 
 - **Requirements:** the Python used for development (3.11), and a C compiler: Visual Studio Build Tools on Windows (or let Nuitka download MinGW), the Xcode Command Line Tools on macOS. The build includes torch and transformers and takes a long time and several GB of disk space.
 - **Build environment:** packages are installed into `.venv-build` from `requirements-build.txt`. `--current-env` builds with the running interpreter instead; for CUDA torch, install it into `.venv-build` from the PyTorch index first. Each build records the environment in `build/nuitka/build-requirements.lock.txt`; `--lock=<file>` installs from such a file to repeat a build (delete `.venv-build` first for an exact copy).
