@@ -1,7 +1,10 @@
 # Build environment for build_exe.py (Nuitka): every runtime package from
 # requirements.txt and requirements-optional.txt, without the test packages.
 # liboqs-python is installed by build_exe.py --with-oqs.
-Nuitka
+# Nuitka and PySide6 are pinned to the versions Muse, RefacDir and Weidr
+# build with. A build with Nuitka 4.3 and PySide6 6.12.0 ended after the
+# startup password dialog with a native crash.
+Nuitka==4.2.2
 # Compresses the onefile payload.
 zstandard
 # Lets the app tell which old unpack folders a running build still uses.
@@ -12,7 +15,7 @@ keyring
 piexif
 Pillow>=9.0.0
 numpy
-PySide6>=6.6.0
+PySide6==6.11.2
 # sd_runner/generators/comfy.py imports websocket at module load.
 websocket-client
 # Registered by lib/pillow_plugins.py, which imports them by name.

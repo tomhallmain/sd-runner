@@ -18,9 +18,12 @@
         - 'torchvision.image_stable'
 
 # Libraries image_stable links against, beside it in torchvision's folder.
-- module-name: 'torchvision'
+# Attached to torchvision.io because Nuitka 4.2 merges only implicit-imports
+# into a module its own configuration already lists, and it lists torchvision.
+- module-name: 'torchvision.io'
   dlls:
     - from_filenames:
+        relative_to: 'torchvision'
         prefixes:
           - 'jpeg'
           - 'libwebp'
