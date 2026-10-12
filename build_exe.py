@@ -68,6 +68,8 @@ BUILD_INFO_PATH = os.path.join(BUILD_DIR, "build_info.json")
 RECORDED_DISTRIBUTIONS = (
     "Nuitka", "PySide6", "torch", "torchvision", "transformers", "onnxruntime", "mcp",
 )
+# Additions to Nuitka's own configuration for packages this build follows.
+PACKAGE_CONFIG = os.path.join(REPO_ROOT, "nuitka-package.config.yml")
 ICON_PNG = os.path.join("assets", "icon.png")
 ICON_ICO = os.path.join(BUILD_DIR, "sd_runner_icon.ico")
 
@@ -97,7 +99,7 @@ PILLOW_PLUGINS = ("pillow_avif", "pillow_heif", "pillow_jxl")
 # Those of its probed packages that are in requirements-build.txt.
 TRANSFORMERS_PROBED_DISTRIBUTIONS = ("huggingface_hub", "numpy", "torch", "torchvision")
 # The transformers release the list above was taken from.
-TRANSFORMERS_PROBED_VERSION = "5.18"
+TRANSFORMERS_PROBED_VERSION = "5.19"
 
 # Same source as requirements-optional.txt; not on PyPI.
 LIBOQS_PYTHON = "git+https://github.com/open-quantum-safe/liboqs-python.git"
@@ -300,6 +302,10 @@ def _common_args(exe_name: str, unpack_prefix: str, version: str, build_id: str)
         "--include-distribution-metadata=mcp",
         "--include-package=uvicorn",
         *[f"--include-package={p}" for p in PILLOW_PLUGINS],
+        # SD Prompt Reader is loaded from its own checkout (sd_prompt_reader_loc)
+        # at runtime, so its dependencies must be in the build.
+        "--include-package=piexif",
+        f"--user-package-configuration-file={PACKAGE_CONFIG}",
         "--nofollow-import-to=pytest",
         "--nofollow-import-to=_pytest",
         "--nofollow-import-to=pytestqt",
@@ -368,6 +374,7 @@ def _smoke_test(exe_path: str, with_oqs: bool) -> None:
     # with all app data (logs included), config, caches and the key store in a
     # scratch directory so the user's are untouched. The exe still unpacks to
     # the real unpacked/ folder, which a later start of this build reuses.
+    command = [exe_path, "--smoke-test", *(["--expect-oqs"] if with_oqs else [])]
     with tempfile.TemporaryDirectory(prefix="sd-runner-smoke-") as scratch:
         env = dict(os.environ)
         env["QT_QPA_PLATFORM"] = "offscreen"
@@ -377,12 +384,9 @@ def _smoke_test(exe_path: str, with_oqs: bool) -> None:
         env["SD_RUNNER_SERVER_PORT"] = "0"
         for name in ("SD_RUNNER_CONFIGS_DIR", "SD_RUNNER_CACHE_DIR"):
             os.makedirs(env[name], exist_ok=True)
-        result = subprocess.run(
-            [exe_path, "--smoke-test", *(["--expect-oqs"] if with_oqs else [])],
-            cwd=os.path.expanduser("~"), env=env,
-        )
+        result = subprocess.run(command, cwd=os.path.expanduser("~"), env=env)
     if result.returncode != 0:
-        sys.exit(f"Smoke test failed: `{exe_path} --smoke-test` exited {result.returncode}.")
+        sys.exit(f"Smoke test failed: `{' '.join(command)}` exited {result.returncode}.")
 
 
 # exe base name, entry script, unpack folder prefix, target-specific args

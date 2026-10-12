@@ -1,0 +1,34 @@
+# yamllint disable rule:line-length
+# yamllint disable rule:indentation
+# yamllint disable rule:comments-indentation
+# Additions to Nuitka's own package configuration, passed by build_exe.py.
+---
+# torchvision 0.29 names its extensions _C_stable and image_stable and finds
+# them with importlib.machinery.FileFinder; Nuitka's entries name _C and image.
+# Without _C_stable, importing torchvision (which transformers' image
+# processing does) fails with "operator torchvision::nms does not exist".
+- module-name: 'torchvision.extension'
+  implicit-imports:
+    - depends:
+        - '._C_stable'
+
+- module-name: 'torchvision.io.image'
+  implicit-imports:
+    - depends:
+        - 'torchvision.image_stable'
+
+# Libraries image_stable links against, beside it in torchvision's folder.
+- module-name: 'torchvision'
+  dlls:
+    - from_filenames:
+        prefixes:
+          - 'jpeg'
+          - 'libwebp'
+          - 'libsharpyuv'
+
+# huggingface_hub.utils resolves its submodules in __getattr__ through
+# importlib.import_module; Nuitka ships only those imported directly.
+- module-name: 'huggingface_hub.utils'
+  implicit-imports:
+    - depends:
+        - 'huggingface_hub.utils.*'

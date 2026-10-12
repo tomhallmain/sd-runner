@@ -69,6 +69,12 @@ class TestTargets:
         spec = build_exe["APP_DATA_SPEC"]
         assert spec.startswith("{HOME}/") and spec.endswith("/sd_runner")
 
+    def test_the_package_configuration_is_passed_and_exists(self, build_exe):
+        path = build_exe["PACKAGE_CONFIG"]
+        assert os.path.isfile(path)
+        args = build_exe["_common_args"]("SDRunner.exe", "sdrunner", "1.0.0", "20260101-000000")
+        assert f"--user-package-configuration-file={path}" in args
+
 
 class TestHelpers:
     def test_app_version_is_valid_file_version(self, build_exe):
