@@ -170,6 +170,10 @@ class BackendProcess:
             self._proc = subprocess.Popen(
                 args,
                 cwd=self.cwd or None,
+                # Explicit: a windowed Windows exe can have no valid console
+                # stdin, and inheriting it fails with WinError 6 before the
+                # child starts.
+                stdin=subprocess.DEVNULL,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
@@ -356,6 +360,7 @@ class BackendProcess:
         try:
             subprocess.run(
                 ["taskkill", "/F", "/T", "/PID", str(self._proc.pid)],
+                stdin=subprocess.DEVNULL,
                 capture_output=True,
                 check=False,
                 timeout=STOP_GRACE,

@@ -264,8 +264,8 @@ class Prompter:
     def gather_data(self) -> dict:
         # Use subprocess to call local LLaVA installation and gather data about the image
         # Assuming LLaVA outputs JSON data about the image
-        result = subprocess.run([self.llava_path, self.reference_image_path], capture_output=True,
-                                creationflags=NO_CONSOLE_WINDOW)
+        result = subprocess.run([self.llava_path, self.reference_image_path], stdin=subprocess.DEVNULL,
+                                capture_output=True, creationflags=NO_CONSOLE_WINDOW)
         return json.loads(result.stdout)
 
     def transform_result(self, data: dict) -> str:

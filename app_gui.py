@@ -272,7 +272,7 @@ def main():
     # Check if startup password is required
     # ------------------------------------------------------------------
     from sd_runner.ui.auth.app_startup_auth import check_startup_password_required
-    logger.info("Checking whether the start needs a password")
+    logger.debug("Checking whether the start needs a password")
     check_startup_password_required(callback=startup_callback)
 
     # ------------------------------------------------------------------

@@ -82,7 +82,7 @@ def run_git(repo: str, *args: str):
     flags = getattr(subprocess, "CREATE_NO_WINDOW", 0) if sys.platform == "win32" else 0
     try:
         result = subprocess.run(
-            ["git", "-C", repo, *args], capture_output=True, encoding="utf-8", errors="replace",
+            ["git", "-C", repo, *args], stdin=subprocess.DEVNULL, capture_output=True, encoding="utf-8", errors="replace",
             timeout=15, creationflags=flags,
         )
     except (OSError, subprocess.SubprocessError):

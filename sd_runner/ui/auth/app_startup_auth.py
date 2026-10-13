@@ -188,10 +188,10 @@ def check_startup_password_required(callback=None):
             return True
 
     # Show the password dialog
-    logger.info("Showing the startup password dialog")
+    logger.debug("Showing the startup password dialog")
     dialog = StartupPasswordDialog()
     dialog.exec()
-    logger.info(f"Startup password dialog closed: {'accepted' if dialog.result else 'cancelled'}")
+    logger.debug(f"Startup password dialog closed: {'accepted' if dialog.result else 'cancelled'}")
 
     if dialog.result:
         # Record session on success
