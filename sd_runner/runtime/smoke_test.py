@@ -25,14 +25,15 @@ logger = get_logger("runtime.smoke_test")
 def _check_build_info() -> str:
     """build_info.json is bundled and names this version; returns the startup log line."""
     from sd_runner.app_paths import IS_BUILD
-    from sd_runner.runtime.version import APP_VERSION, BUILD_INFO_FILE, build_info, describe
+    from sd_runner.runtime.version import BUILD_INFO_FILE, app_version, build_info, describe
 
     info = build_info()
     if IS_BUILD:
         if not info:
             raise FileNotFoundError(f"{BUILD_INFO_FILE} is not bundled")
-        if info.get("version") != APP_VERSION:
-            raise ValueError(f"{BUILD_INFO_FILE} names version {info.get('version')}, the app is {APP_VERSION}")
+        version = app_version()
+        if info.get("version") != version:
+            raise ValueError(f"{BUILD_INFO_FILE} names version {info.get('version')}, the app is {version}")
     return describe()
 
 
@@ -73,6 +74,7 @@ class SmokeTest:
         from lib.translations import I18N
         from sd_runner.config import config
         from sd_runner.runtime.crash_log import enable_fault_log
+        from sd_runner.runtime.version import VERSION_FILE
         from sd_runner.workflow_prompts.base import WorkflowPrompt
 
         self.check("config", os.path.isfile(config.config_path), config.config_path)
@@ -81,6 +83,7 @@ class SmokeTest:
             folder = os.path.join(WorkflowPrompt.PROMPTS_LOC, subdir)
             count = len([n for n in os.listdir(folder) if n.endswith(".json")]) if os.path.isdir(folder) else 0
             self.check(f"{subdir} workflows", count > 0, f"{count} in {folder}")
+        self.check("version", os.path.isfile(resource_path(VERSION_FILE)))
         self.check("app icon", os.path.isfile(resource_path("assets", "icon.png")))
         self.check("sounds", os.path.isfile(resource_path("lib", "sounds", "success.wav")))
         for name in ("blacklist_default.enc", "urban_dictionary.enc", "config_example.json"):

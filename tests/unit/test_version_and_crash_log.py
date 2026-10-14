@@ -10,21 +10,37 @@ from sd_runner.runtime import crash_log, version
 from sd_runner.runtime.smoke_test import SmokeTest
 
 
+@pytest.fixture
+def resources(tmp_path, monkeypatch):
+    """A resource root in *tmp_path* holding VERSION_FILE, as a build's would."""
+    monkeypatch.setattr(app_paths, "RESOURCE_ROOT", str(tmp_path))
+    (tmp_path / version.VERSION_FILE).write_text("1.2.3\n", encoding="utf-8")
+    return tmp_path
+
+
 class TestVersion:
     def test_a_checkout_has_no_build_info(self):
         assert version.build_info() == {}
-        assert version.describe() == f"SD Runner {version.APP_VERSION} (source checkout)"
+        assert version.describe() == f"SD Runner {version.app_version()} (source checkout)"
         assert version.source_drift() is None
 
-    def test_a_build_describes_itself_from_its_build_info(self, tmp_path, monkeypatch):
-        (tmp_path / version.BUILD_INFO_FILE).write_text(json.dumps({
-            "version": version.APP_VERSION,
+    def test_the_version_is_read_from_the_version_file(self, resources):
+        assert version.app_version() == "1.2.3"
+        assert version.describe() == "SD Runner 1.2.3 (source checkout)"
+
+    def test_a_missing_version_file_is_described_not_raised(self, resources):
+        (resources / version.VERSION_FILE).unlink()
+        assert "version unreadable" in version.describe()
+
+    def test_a_build_describes_itself_from_its_build_info(self, resources):
+        (resources / version.BUILD_INFO_FILE).write_text(json.dumps({
+            "version": "1.2.3",
             "build_id": "20260101-000000",
             "packages": {"PySide6": "6.10.1"},
-            "source": {"repo": str(tmp_path), "commit": "0123456789abcdef", "changes": ""},
+            "source": {"repo": str(resources), "commit": "0123456789abcdef", "changes": ""},
         }), encoding="utf-8")
-        monkeypatch.setattr(app_paths, "RESOURCE_ROOT", str(tmp_path))
         line = version.describe()
+        assert line.startswith("SD Runner 1.2.3, ")
         assert "build 20260101-000000" in line
         assert "0123456789" in line
         assert "PySide6 6.10.1" in line
@@ -42,6 +58,39 @@ class TestVersion:
         (git / "HEAD").write_text("ref: refs/heads/master\n", encoding="utf-8")
         (git / "packed-refs").write_text("def456 refs/heads/master\n", encoding="utf-8")
         assert version.read_git_commit(str(tmp_path)) == "def456"
+
+
+def _build_from_rewritten_commit(resources, tmp_path, monkeypatch, current_tree):
+    """A build from commit d..., whose checkout is now at e... with tree *current_tree*,
+    and in which git finds no commit d... (history rewritten, then gc)."""
+    checkout = tmp_path / "checkout"
+    (checkout / ".git").mkdir(parents=True)
+    (resources / version.BUILD_INFO_FILE).write_text(json.dumps({
+        "source": {"repo": str(checkout), "commit": "d" * 40, "tree": "t" * 40, "changes": ""},
+    }), encoding="utf-8")
+    monkeypatch.setattr(version, "source_state",
+                        lambda repo: {"commit": "e" * 40, "tree": current_tree, "changes": ""})
+    monkeypatch.setattr(version, "run_git", lambda repo, *args: None)
+
+
+class TestSourceDrift:
+    def test_a_rewritten_commit_with_the_same_files_matches(self, resources, tmp_path, monkeypatch):
+        _build_from_rewritten_commit(resources, tmp_path, monkeypatch, current_tree="t" * 40)
+        drifted, message = version.source_drift()
+        assert drifted is False
+        assert "same files" in message
+
+    def test_a_commit_missing_from_the_history_is_named(self, resources, tmp_path, monkeypatch):
+        _build_from_rewritten_commit(resources, tmp_path, monkeypatch, current_tree="u" * 40)
+        drifted, message = version.source_drift()
+        assert drifted is True
+        assert "not in its history" in message
+
+    def test_source_state_records_the_tree(self, monkeypatch):
+        answers = {("rev-parse", "HEAD"): "c" * 40 + "\n", ("rev-parse", "HEAD^{tree}"): "t" * 40 + "\n",
+                   ("diff", "HEAD", "--binary"): ""}
+        monkeypatch.setattr(version, "run_git", lambda repo, *args: answers.get(args))
+        assert version.source_state("repo") == {"commit": "c" * 40, "tree": "t" * 40, "changes": ""}
 
 
 class TestFaultLog:

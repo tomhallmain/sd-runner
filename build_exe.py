@@ -24,6 +24,13 @@ and the app removes older builds' folders (sd_runner/runtime/unpack_cleanup.py).
 Each is smoke-tested with ``--smoke-test``. Other args are forwarded to Nuitka,
 e.g. ``--show-scons`` or ``--jobs=4``.
 
+Before compressing the onefile payload, the last step of each compile, the
+build waits for enough free memory (scripts/nuitka_memory_wait.py), since a
+failed allocation there loses the whole compile. ``--min-free-memory=<GiB>``
+sets the amount instead of the estimate; 0 turns the wait off. Each step is
+timed, and the log goes to ``build/logs/build_exe-<build id>.log`` as well
+(Nuitka's own output only to the console).
+
 ``--with-oqs`` adds quantum-safe (OQS) key encapsulation: it installs
 liboqs-python, finds the liboqs shared library the build interpreter loads, and
 bundles it. liboqs-python builds liboqs on first import if none is installed,
@@ -32,18 +39,22 @@ existing install. Without the option the build has no OQS: it cannot read
 data encrypted with OQS keys, and refuses password-protected actions when the
 stored keys are OQS keys.
 
-The executables' version information comes from ``APP_VERSION`` in
-sd_runner/runtime/version.py, with the build id (build time) in its
+The executables' version information comes from the VERSION file at the repo
+root, which is also bundled, with the build id (build time) in its
 description. Each build writes ``build/nuitka/build_info.json`` (version, build
-id, Python and key package versions, and this checkout's path, commit and a
-fingerprint of its uncommitted changes), bundled so the app logs it at startup
-and compares itself with this checkout, and
-``build/nuitka/build-requirements.lock.txt``, the build venv's ``pip freeze``. ``--lock=<file>`` installs the build venv from such a
-file instead of requirements-build.txt, to repeat a known good build; packages
-already in the venv but absent from the file stay installed, so delete
-.venv-build first for an exact copy.
+id, whether it has OQS, Python and key package versions, and this checkout's
+path, commit, the commit's tree and a fingerprint of its uncommitted changes),
+bundled so the app logs it at startup and compares itself with this checkout,
+and ``build/nuitka/build-requirements.lock.txt``, the build venv's ``pip
+freeze``. ``--lock=<file>`` installs the build venv from such a file instead of
+requirements-build.txt, to repeat a known good build; packages already in the
+venv but absent from the file stay installed, so delete .venv-build first for
+an exact copy. scripts/package_release.py publishes the executables in dist/
+as a GitHub release.
 """
+import contextlib
 import json
+import logging
 import os
 import re
 import runpy
@@ -62,8 +73,13 @@ DIST_DIR = os.path.join(REPO_ROOT, "dist")
 # for %APPDATA%.
 APP_DATA_SPEC = "{HOME}/AppData/Roaming/sd_runner" if sys.platform == "win32" else "{HOME}/.local/share/sd_runner"
 LOCK_PATH = os.path.join(BUILD_DIR, "build-requirements.lock.txt")
-VERSION_FILE = os.path.join("sd_runner", "runtime", "version.py")
+VERSION_FILE = "VERSION"
+VERSION_MODULE = os.path.join("sd_runner", "runtime", "version.py")
 BUILD_INFO_PATH = os.path.join(BUILD_DIR, "build_info.json")
+LOG_DIR = os.path.join(REPO_ROOT, "build", "logs")
+MEMORY_WAIT_PLUGIN = os.path.join(REPO_ROOT, "scripts", "nuitka_memory_wait.py")
+# Read by MEMORY_WAIT_PLUGIN.
+MIN_FREE_MEMORY_ENV = "BUILD_MIN_FREE_MEMORY_GB"
 # Versions the build output and build_info.json record.
 RECORDED_DISTRIBUTIONS = (
     "Nuitka", "PySide6", "torch", "torchvision", "transformers", "onnxruntime", "mcp",
@@ -77,6 +93,7 @@ ICON_ICO = os.path.join(BUILD_DIR, "sd_runner_icon.ico")
 # from their own location.
 DATA_DIRS = (os.path.join("lib", "sounds"),)
 DATA_FILES = (
+    VERSION_FILE,
     ICON_PNG,
     os.path.join("sd_runner", "data", "blacklist_default.enc"),
     os.path.join("sd_runner", "data", "urban_dictionary.enc"),
@@ -122,6 +139,53 @@ _VERSIONS_PROBE = (
     "                  'packages': {n: get(n) for n in sys.argv[1:]}}))\n"
 )
 
+logger = logging.getLogger("build_exe")
+
+
+class _LevelPrefix(logging.Filter):
+    def filter(self, record):
+        record.level_prefix = "" if record.levelno == logging.INFO else f"{record.levelname}: "
+        return True
+
+
+def _setup_logging(build_id: str) -> str:
+    """Log to the console and to a file for this build; returns the file's path."""
+    os.makedirs(LOG_DIR, exist_ok=True)
+    path = os.path.join(LOG_DIR, f"build_exe-{build_id}.log")
+    console = logging.StreamHandler(sys.stdout)
+    console.setFormatter(logging.Formatter("[%(asctime)s] %(level_prefix)s%(message)s", "%H:%M:%S"))
+    log_file = logging.FileHandler(path, encoding="utf-8")
+    log_file.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+    for handler in (console, log_file):
+        handler.addFilter(_LevelPrefix())
+        logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
+    return path
+
+
+def _duration(seconds: float) -> str:
+    seconds = int(round(seconds))
+    hours, rest = divmod(seconds, 3600)
+    minutes, seconds = divmod(rest, 60)
+    if hours:
+        return f"{hours}h {minutes:02d}m {seconds:02d}s"
+    if minutes:
+        return f"{minutes}m {seconds:02d}s"
+    return f"{seconds}s"
+
+
+@contextlib.contextmanager
+def _timed(step: str):
+    """Log how long *step* took, or after how long it failed."""
+    started = time.monotonic()
+    logger.info(f"{step}...")
+    try:
+        yield
+    except BaseException:
+        logger.error(f"{step} failed after {_duration(time.monotonic() - started)}")
+        raise
+    logger.info(f"{step} done in {_duration(time.monotonic() - started)}")
+
 
 def _exe_name(base_name: str) -> str:
     return f"{base_name}.exe" if sys.platform == "win32" else base_name
@@ -138,7 +202,7 @@ def _ensure_build_venv(extra_packages=(), requirements=None) -> str:
     (requirements-build.txt by default, or a lock file) and *extra_packages*."""
     python = _venv_python(VENV_DIR)
     if not os.path.exists(python):
-        print(f"Creating build venv at {VENV_DIR}")
+        logger.info(f"Creating build venv at {VENV_DIR}")
         venv.create(VENV_DIR, with_pip=True)
     requirements = requirements or os.path.join(REPO_ROOT, "requirements-build.txt")
     subprocess.run(
@@ -167,18 +231,19 @@ def _write_lock_file(python: str) -> None:
     os.makedirs(BUILD_DIR, exist_ok=True)
     with open(LOCK_PATH, "w", encoding="utf-8") as f:
         f.write(freeze.stdout)
-    print(f"Build environment recorded in {LOCK_PATH}")
+    logger.info(f"Build environment recorded in {LOCK_PATH}")
 
 
 def _version_module() -> dict:
     """sd_runner/runtime/version.py's globals, loaded without importing the app."""
-    return runpy.run_path(os.path.join(REPO_ROOT, VERSION_FILE))
+    return runpy.run_path(os.path.join(REPO_ROOT, VERSION_MODULE))
 
 
 def _app_version() -> str:
-    version = _version_module()["APP_VERSION"]
+    with open(os.path.join(REPO_ROOT, VERSION_FILE), "r", encoding="utf-8") as f:
+        version = f.read().strip()
     if not re.fullmatch(r"\d+(\.\d+){0,3}", version):
-        sys.exit(f"APP_VERSION {version!r} in {VERSION_FILE} must be up to four dot-separated numbers.")
+        sys.exit(f"{VERSION_FILE} holds {version!r}; it must be up to four dot-separated numbers.")
     return version
 
 
@@ -192,19 +257,21 @@ def _environment_versions(python: str) -> dict:
 def _check_transformers_version(packages: dict) -> None:
     installed = packages.get("transformers")
     if installed and installed.split(".")[:2] != TRANSFORMERS_PROBED_VERSION.split("."):
-        print(
-            f"WARNING: transformers {installed} is installed, but TRANSFORMERS_PROBED_DISTRIBUTIONS "
+        logger.warning(
+            f"transformers {installed} is installed, but TRANSFORMERS_PROBED_DISTRIBUTIONS "
             f"was taken from transformers {TRANSFORMERS_PROBED_VERSION}. If the app exits at a "
             "package metadata lookup, update the list from transformers' "
             "_is_package_available(..., return_version=True) calls."
         )
 
 
-def _write_build_info(version: str, build_id: str, environment: dict) -> None:
+def _write_build_info(version: str, build_id: str, environment: dict, with_oqs: bool) -> None:
     """build_info.json, bundled at the resource root (sd_runner/runtime/version.py reads it)."""
     info = {
         "version": version,
         "build_id": build_id,
+        # scripts/package_release.py rebuilds with --with-oqs when this is true.
+        "with_oqs": with_oqs,
         "python": environment["python"],
         "packages": {name: v for name, v in environment["packages"].items() if v},
         # Lets the build compare itself with this checkout at startup.
@@ -213,7 +280,7 @@ def _write_build_info(version: str, build_id: str, environment: dict) -> None:
     os.makedirs(BUILD_DIR, exist_ok=True)
     with open(BUILD_INFO_PATH, "w", encoding="utf-8") as f:
         json.dump(info, f, indent=2)
-    print("Building " + ", ".join(
+    logger.info("Building " + ", ".join(
         [f"SD Runner {version}", f"build {build_id}",
          f"from {info['source']['commit'][:10] or 'unknown commit'}"
          + (" with uncommitted changes" if info["source"]["changes"] else ""),
@@ -306,6 +373,7 @@ def _common_args(exe_name: str, unpack_prefix: str, version: str, build_id: str)
         # at runtime, so its dependencies must be in the build.
         "--include-package=piexif",
         f"--user-package-configuration-file={PACKAGE_CONFIG}",
+        f"--user-plugin={MEMORY_WAIT_PLUGIN}",
         "--nofollow-import-to=pytest",
         "--nofollow-import-to=_pytest",
         "--nofollow-import-to=pytestqt",
@@ -352,12 +420,42 @@ def _oqs_args(python: str, with_oqs: bool) -> list:
         )
     # The layout liboqs-python searches under OQS_INSTALL_PATH.
     lib_dir = "bin" if sys.platform == "win32" else "lib"
-    print(f"Bundling liboqs: {library}")
+    logger.info(f"Bundling liboqs: {library}")
     return [
         "--include-package=oqs",
         "--include-distribution-metadata=liboqs-python",
         f"--include-data-files={library}=liboqs/{lib_dir}/{os.path.basename(library)}",
     ]
+
+
+def _nuitka_env(min_free_memory=None) -> dict:
+    env = dict(os.environ)
+    if min_free_memory is not None:
+        env[MIN_FREE_MEMORY_ENV] = min_free_memory
+    return env
+
+
+def _min_free_memory(value):
+    """``--min-free-memory``'s value, checked, or None when not given."""
+    if value is None:
+        return None
+    try:
+        if float(value) >= 0:
+            return value
+    except ValueError:
+        pass
+    sys.exit(f"--min-free-memory={value}: give a number of GiB, or 0 to not wait for memory.")
+
+
+def _copy_to_dist(exe_name: str) -> str:
+    exe_path = os.path.join(DIST_DIR, exe_name)
+    if os.path.isdir(exe_path):
+        # Left by a folder build; on macOS/Linux it has the executable's name.
+        logger.info(f"Removing the folder build at {exe_path}")
+        shutil.rmtree(exe_path)
+    os.makedirs(DIST_DIR, exist_ok=True)
+    shutil.copy2(os.path.join(BUILD_DIR, exe_name), exe_path)
+    return exe_path
 
 
 def _pop_option(args: list, name: str):
@@ -401,7 +499,7 @@ def _targets(with_headless: bool) -> tuple:
     return tuple(t for t in TARGETS if with_headless or t[0] != HEADLESS_TARGET)
 
 
-if __name__ == "__main__":
+def main() -> None:
     args = sys.argv[1:]
     with_oqs = "--with-oqs" in args
     if with_oqs:
@@ -410,7 +508,10 @@ if __name__ == "__main__":
     if with_headless:
         args.remove("--with-headless")
     lock = _pop_option(args, "--lock")
+    min_free_memory = _min_free_memory(_pop_option(args, "--min-free-memory"))
+    version = _app_version()
     build_id = time.strftime("%Y%m%d-%H%M%S")
+    logger.info(f"Log: {_setup_logging(build_id)}")
 
     if "--current-env" in args:
         args.remove("--current-env")
@@ -424,25 +525,49 @@ if __name__ == "__main__":
                 sys.exit(f"--lock: {lock} not found.")
         # A lock file from an OQS build already pins liboqs-python.
         needs_liboqs = with_oqs and not (lock and _lock_has(lock, "liboqs-python"))
-        python = _ensure_build_venv((LIBOQS_PYTHON,) if needs_liboqs else (), requirements=lock)
-    version = _app_version()
+        with _timed("Installing the build venv"):
+            python = _ensure_build_venv((LIBOQS_PYTHON,) if needs_liboqs else (), requirements=lock)
+
     _write_lock_file(python)
     environment = _environment_versions(python)
     _check_transformers_version(environment["packages"])
-    _write_build_info(version, build_id, environment)
+    _write_build_info(version, build_id, environment, with_oqs)
     if sys.platform == "win32":
         _write_windows_icon(python)
     oqs_args = _oqs_args(python, with_oqs)
 
-    os.makedirs(DIST_DIR, exist_ok=True)
     for base_name, entry, unpack_prefix, target_args in _targets(with_headless):
         exe_name = _exe_name(base_name)
         nuitka_args = [
             *_common_args(exe_name, unpack_prefix, version, build_id), *target_args(), *oqs_args,
             *args, os.path.join(REPO_ROOT, entry),
         ]
-        subprocess.run([python, "-m", "nuitka", *nuitka_args], cwd=REPO_ROOT, check=True)
-        exe_path = os.path.join(DIST_DIR, exe_name)
-        shutil.copy2(os.path.join(BUILD_DIR, exe_name), exe_path)
-        _smoke_test(exe_path, with_oqs)
-        print(f"Built {exe_path}")
+        with _timed(f"Compiling {base_name} with Nuitka"):
+            result = subprocess.run([python, "-m", "nuitka", *nuitka_args], cwd=REPO_ROOT,
+                                    env=_nuitka_env(min_free_memory))
+            if result.returncode != 0:
+                sys.exit(f"Nuitka exited {result.returncode} compiling {base_name}; its output is above.")
+        exe_path = _copy_to_dist(exe_name)
+        with _timed(f"Smoke-testing {exe_name}"):
+            _smoke_test(exe_path, with_oqs)
+        logger.info(f"Built {exe_path}")
+
+
+if __name__ == "__main__":
+    started = time.monotonic()
+    try:
+        main()
+    except SystemExit as e:
+        if e.code not in (None, 0):
+            if isinstance(e.code, str):
+                logger.error(e.code)
+            logger.error(f"Build failed after {_duration(time.monotonic() - started)}")
+            sys.exit(1)
+        raise
+    except KeyboardInterrupt:
+        logger.error(f"Build stopped after {_duration(time.monotonic() - started)}")
+        sys.exit(1)
+    except BaseException:
+        logger.exception(f"Build failed after {_duration(time.monotonic() - started)}")
+        sys.exit(1)
+    logger.info(f"Build finished in {_duration(time.monotonic() - started)}")

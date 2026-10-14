@@ -5,12 +5,21 @@ installed, so it imports nothing at load time (functions import what they
 need).
 """
 
-#: Up to four dot-separated numbers: Windows file version information
-#: allows nothing else.
-APP_VERSION = "1.0.0"
+#: One line holding the version: up to four dot-separated numbers, which is
+#: all Windows file version information allows. At the repo root in a
+#: checkout; build_exe.py bundles it at the resource root.
+VERSION_FILE = "VERSION"
 
 #: Written by build_exe.py and bundled at the resource root.
 BUILD_INFO_FILE = "build_info.json"
+
+
+def app_version() -> str:
+    """SD Runner's version, read from VERSION_FILE."""
+    from sd_runner.app_paths import resource_path
+
+    with open(resource_path(VERSION_FILE), "r", encoding="utf-8") as f:
+        return f.read().strip()
 
 
 def build_info() -> dict:
@@ -32,18 +41,22 @@ def describe() -> str:
     """One line naming the version and, in a build, the build id, the source
     commit and the versions it was built with."""
     try:
+        version = app_version()
+    except OSError as e:
+        version = f"(version unreadable: {e})"
+    try:
         info = build_info()
     except (OSError, ValueError) as e:
-        return f"SD Runner {APP_VERSION} (build info unreadable: {e})"
+        return f"SD Runner {version} (build info unreadable: {e})"
     if not info:
-        return f"SD Runner {APP_VERSION} (source checkout)"
+        return f"SD Runner {version} (source checkout)"
     source = info.get("source", {})
     commit = source.get("commit")
     commit = commit[:10] if commit else "unknown commit"
     if source.get("changes"):
         commit += " with uncommitted changes"
-    packages = ", ".join(f"{name} {version}" for name, version in sorted(info.get("packages", {}).items()))
-    return f"SD Runner {APP_VERSION}, build {info.get('build_id', '?')} from {commit} ({packages})"
+    packages = ", ".join(f"{name} {v}" for name, v in sorted(info.get("packages", {}).items()))
+    return f"SD Runner {version}, build {info.get('build_id', '?')} from {commit} ({packages})"
 
 
 def read_git_commit(checkout: str) -> str:
@@ -91,17 +104,19 @@ def run_git(repo: str, *args: str):
 
 
 def source_state(repo: str) -> dict:
-    """The checkout's commit, and a fingerprint of its uncommitted changes to
-    tracked files ("" when there are none, None when git cannot tell)."""
+    """The checkout's commit, the tree (files) of that commit ("" when git
+    cannot tell), and a fingerprint of its uncommitted changes to tracked
+    files ("" when there are none, None when git cannot tell)."""
     import hashlib
 
     commit = (run_git(repo, "rev-parse", "HEAD") or "").strip() or read_git_commit(repo)
+    tree = (run_git(repo, "rev-parse", "HEAD^{tree}") or "").strip()
     diff = run_git(repo, "diff", "HEAD", "--binary")
     if diff is None:
         changes = None
     else:
         changes = hashlib.sha1(diff.encode("utf-8")).hexdigest() if diff else ""
-    return {"commit": commit, "changes": changes}
+    return {"commit": commit, "tree": tree, "changes": changes}
 
 
 def source_drift():
@@ -127,10 +142,22 @@ def source_drift():
             return False, f"This build matches the source checkout {repo} ({built[:10]})."
         return True, (f"The source checkout {repo} is at this build's commit {built[:10]}, "
                       f"but its uncommitted changes differ from the build's.")
+    # A different commit with the same files and the same uncommitted changes
+    # (a squash, amend or rebase that changed no file, or an empty commit).
+    tree = source.get("tree")
+    if (tree and tree == current.get("tree") and current["changes"] is not None
+            and current["changes"] == source.get("changes")):
+        return False, (f"This build matches the source checkout {repo}: its commit {current['commit'][:10]} "
+                       f"has the same files as this build's commit {built[:10]}.")
     newer = run_git(repo, "rev-list", "--count", f"{built}..{current['commit']}")
     missing = run_git(repo, "rev-list", "--count", f"{current['commit']}..{built}")
     if newer is None or missing is None:
-        detail = "a different commit"
+        # An empty tree means git did not run, which says nothing about the commit.
+        if current.get("tree") and run_git(repo, "cat-file", "-e", f"{built}^{{commit}}") is None:
+            # Rewritten history after gc, or a fresh clone.
+            detail = "this build's commit is not in its history, so the two cannot be compared"
+        else:
+            detail = "a different commit"
     else:
         detail = f"{int(newer)} commit(s) not in this build"
         if int(missing):

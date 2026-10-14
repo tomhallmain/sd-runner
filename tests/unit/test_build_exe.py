@@ -48,6 +48,7 @@ class TestDataFiles:
             os.path.join("sd_runner", "data", "blacklist_default.enc"),
             os.path.join("sd_runner", "data", "urban_dictionary.enc"),
             os.path.join("sd_runner", "data", "config_example.json"),
+            build_exe["VERSION_FILE"],
         ):
             assert path in files
         assert os.path.join("lib", "sounds") in build_exe["DATA_DIRS"]
@@ -86,6 +87,14 @@ class TestHelpers:
         assert 1 <= len(version.split(".")) <= 4
         assert all(part.isdigit() for part in version.split("."))
 
+    def test_app_version_matches_what_the_app_reads(self, build_exe):
+        from sd_runner.runtime.version import app_version
+
+        assert build_exe["_app_version"]() == app_version()
+
+    def test_version_module_still_provides_source_state(self, build_exe):
+        assert callable(build_exe["_version_module"]()["source_state"])
+
     def test_lock_has(self, build_exe, tmp_path):
         lock = tmp_path / "lock.txt"
         lock.write_text(
@@ -101,3 +110,52 @@ class TestHelpers:
         assert build_exe["_pop_option"](args, "--lock") == "x.txt"
         assert args == ["--jobs=4"]
         assert build_exe["_pop_option"](args, "--lock") is None
+
+
+class TestMemoryWait:
+    def test_the_plugin_is_loaded(self, build_exe):
+        args = build_exe["_common_args"]("SDRunner.exe", "sdrunner", "1.0.0", "20260101-000000")
+        plugin = build_exe["_pop_option"](args, "--user-plugin")
+        assert plugin == build_exe["MEMORY_WAIT_PLUGIN"]
+        assert os.path.isfile(plugin)
+
+    def test_min_free_memory_reaches_nuitka(self, build_exe, monkeypatch):
+        name = build_exe["MIN_FREE_MEMORY_ENV"]
+        monkeypatch.delenv(name, raising=False)
+        assert build_exe["_nuitka_env"]("12")[name] == "12"
+        assert name not in build_exe["_nuitka_env"](None)
+
+    @pytest.mark.parametrize("value", ["0", "12", "2.5"])
+    def test_min_free_memory_accepts_gib(self, build_exe, value):
+        assert build_exe["_min_free_memory"](value) == value
+
+    @pytest.mark.parametrize("value", ["-1", "lots", ""])
+    def test_min_free_memory_refuses_other_values(self, build_exe, value):
+        with pytest.raises(SystemExit):
+            build_exe["_min_free_memory"](value)
+
+    def test_the_variable_matches_the_plugin(self, build_exe):
+        with open(build_exe["MEMORY_WAIT_PLUGIN"], "r", encoding="utf-8") as f:
+            assert f'MIN_FREE_ENV = "{build_exe["MIN_FREE_MEMORY_ENV"]}"' in f.read()
+
+
+class TestTiming:
+    @pytest.mark.parametrize("seconds, text", [
+        (0, "0s"), (59.6, "1m 00s"), (125, "2m 05s"), (2 * 3600 + 5, "2h 00m 05s"),
+    ])
+    def test_duration(self, build_exe, seconds, text):
+        assert build_exe["_duration"](seconds) == text
+
+    def test_timed_logs_the_duration_of_a_step(self, build_exe, caplog):
+        with caplog.at_level("INFO", logger="build_exe"):
+            with build_exe["_timed"]("Compiling"):
+                pass
+        assert caplog.messages[0] == "Compiling..."
+        assert caplog.messages[-1].startswith("Compiling done in ")
+
+    def test_timed_logs_a_failed_step(self, build_exe, caplog):
+        with caplog.at_level("INFO", logger="build_exe"):
+            with pytest.raises(SystemExit):
+                with build_exe["_timed"]("Compiling"):
+                    raise SystemExit("broken")
+        assert caplog.messages[-1].startswith("Compiling failed after ")
