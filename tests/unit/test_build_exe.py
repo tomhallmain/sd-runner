@@ -113,11 +113,63 @@ class TestHelpers:
 
 
 class TestMemoryWait:
-    def test_the_plugin_is_loaded(self, build_exe):
-        args = build_exe["_common_args"]("SDRunner.exe", "sdrunner", "1.0.0", "20260101-000000")
-        plugin = build_exe["_pop_option"](args, "--user-plugin")
-        assert plugin == build_exe["MEMORY_WAIT_PLUGIN"]
-        assert os.path.isfile(plugin)
+    def test_the_plugin_is_loaded(self, build_exe, tmp_path):
+        plugin = str(tmp_path / "nuitka_memory_wait.py")
+        args = build_exe["_common_args"]("SDRunner.exe", "sdrunner", "1.0.0", "20260101-000000", plugin)
+        assert build_exe["_pop_option"](args, "--user-plugin") == plugin
+
+    def test_no_plugin_leaves_the_argument_out(self, build_exe):
+        args = build_exe["_common_args"]("SDRunner.exe", "sdrunner", "1.0.0", "20260101-000000", None)
+        assert build_exe["_pop_option"](args, "--user-plugin") is None
+
+    @staticmethod
+    def _no_tool(build_exe, monkeypatch, tools=None, repo_copy=None):
+        """No variable, *tools* ({command: path}) as what shutil.which finds,
+        *repo_copy* as the repo's plugin."""
+        monkeypatch.delenv(build_exe["MEMORY_WAIT_PLUGIN_ENV"], raising=False)
+        monkeypatch.setattr(build_exe["shutil"], "which", lambda name: (tools or {}).get(name))
+        # _memory_wait_plugin reads the module-level name from its own globals.
+        monkeypatch.setitem(build_exe["_memory_wait_plugin"].__globals__, "REPO_MEMORY_WAIT_PLUGIN",
+                            repo_copy or os.path.join("no", "such", "plugin.py"))
+
+    def test_the_variable_names_the_plugin(self, build_exe, monkeypatch, tmp_path):
+        plugin = tmp_path / "nuitka_memory_wait.py"
+        plugin.write_text("", encoding="utf-8")
+        self._no_tool(build_exe, monkeypatch)
+        monkeypatch.setenv(build_exe["MEMORY_WAIT_PLUGIN_ENV"], str(plugin))
+        assert build_exe["_memory_wait_plugin"]() == str(plugin)
+
+    @pytest.mark.parametrize("installed, asked", [
+        ({"app-release": "/bin/app-release", "nuitka-release": "/bin/nuitka-release"}, "/bin/app-release"),
+        ({"nuitka-release": "/bin/nuitka-release"}, "/bin/nuitka-release"),
+    ])
+    def test_an_installed_tool_names_the_plugin(self, build_exe, monkeypatch, tmp_path, installed, asked):
+        import subprocess
+
+        plugin = tmp_path / "nuitka_memory_wait.py"
+        plugin.write_text("", encoding="utf-8")
+        self._no_tool(build_exe, monkeypatch, tools=installed)
+        calls = []
+
+        def fake_run(args, **kwargs):
+            calls.append(args)
+            return subprocess.CompletedProcess(args, 0, stdout=f"{plugin}\n", stderr="")
+
+        monkeypatch.setattr(build_exe["subprocess"], "run", fake_run)
+        assert build_exe["_memory_wait_plugin"]() == str(plugin)
+        assert calls == [[asked, "--memory-wait-plugin"]]
+
+    def test_the_repo_copy_is_the_fallback(self, build_exe, monkeypatch, tmp_path):
+        plugin = tmp_path / "nuitka_memory_wait.py"
+        plugin.write_text("", encoding="utf-8")
+        self._no_tool(build_exe, monkeypatch, repo_copy=str(plugin))
+        assert build_exe["_memory_wait_plugin"]() == str(plugin)
+
+    def test_no_plugin_anywhere_builds_without_it(self, build_exe, monkeypatch, caplog):
+        self._no_tool(build_exe, monkeypatch)
+        with caplog.at_level("WARNING", logger="build_exe"):
+            assert build_exe["_memory_wait_plugin"]() is None
+        assert any("app-release" in message for message in caplog.messages)
 
     def test_min_free_memory_reaches_nuitka(self, build_exe, monkeypatch):
         name = build_exe["MIN_FREE_MEMORY_ENV"]
@@ -134,9 +186,9 @@ class TestMemoryWait:
         with pytest.raises(SystemExit):
             build_exe["_min_free_memory"](value)
 
-    def test_the_variable_matches_the_plugin(self, build_exe):
-        with open(build_exe["MEMORY_WAIT_PLUGIN"], "r", encoding="utf-8") as f:
-            assert f'MIN_FREE_ENV = "{build_exe["MIN_FREE_MEMORY_ENV"]}"' in f.read()
+    def test_the_variable_is_the_one_the_plugin_reads(self, build_exe):
+        # app-release's tests pin the plugin's side of this name.
+        assert build_exe["MIN_FREE_MEMORY_ENV"] == "BUILD_MIN_FREE_MEMORY_GB"
 
 
 class TestTiming:
