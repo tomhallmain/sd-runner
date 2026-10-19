@@ -123,14 +123,10 @@ class TestMemoryWait:
         assert build_exe["_pop_option"](args, "--user-plugin") is None
 
     @staticmethod
-    def _no_tool(build_exe, monkeypatch, tools=None, repo_copy=None):
-        """No variable, *tools* ({command: path}) as what shutil.which finds,
-        *repo_copy* as the repo's plugin."""
+    def _no_tool(build_exe, monkeypatch, tools=None):
+        """No variable, *tools* ({command: path}) as what shutil.which finds."""
         monkeypatch.delenv(build_exe["MEMORY_WAIT_PLUGIN_ENV"], raising=False)
         monkeypatch.setattr(build_exe["shutil"], "which", lambda name: (tools or {}).get(name))
-        # _memory_wait_plugin reads the module-level name from its own globals.
-        monkeypatch.setitem(build_exe["_memory_wait_plugin"].__globals__, "REPO_MEMORY_WAIT_PLUGIN",
-                            repo_copy or os.path.join("no", "such", "plugin.py"))
 
     def test_the_variable_names_the_plugin(self, build_exe, monkeypatch, tmp_path):
         plugin = tmp_path / "nuitka_memory_wait.py"
@@ -139,16 +135,12 @@ class TestMemoryWait:
         monkeypatch.setenv(build_exe["MEMORY_WAIT_PLUGIN_ENV"], str(plugin))
         assert build_exe["_memory_wait_plugin"]() == str(plugin)
 
-    @pytest.mark.parametrize("installed, asked", [
-        ({"app-release": "/bin/app-release", "nuitka-release": "/bin/nuitka-release"}, "/bin/app-release"),
-        ({"nuitka-release": "/bin/nuitka-release"}, "/bin/nuitka-release"),
-    ])
-    def test_an_installed_tool_names_the_plugin(self, build_exe, monkeypatch, tmp_path, installed, asked):
+    def test_an_installed_tool_names_the_plugin(self, build_exe, monkeypatch, tmp_path):
         import subprocess
 
         plugin = tmp_path / "nuitka_memory_wait.py"
         plugin.write_text("", encoding="utf-8")
-        self._no_tool(build_exe, monkeypatch, tools=installed)
+        self._no_tool(build_exe, monkeypatch, tools={"app-release": "/bin/app-release"})
         calls = []
 
         def fake_run(args, **kwargs):
@@ -157,13 +149,7 @@ class TestMemoryWait:
 
         monkeypatch.setattr(build_exe["subprocess"], "run", fake_run)
         assert build_exe["_memory_wait_plugin"]() == str(plugin)
-        assert calls == [[asked, "--memory-wait-plugin"]]
-
-    def test_the_repo_copy_is_the_fallback(self, build_exe, monkeypatch, tmp_path):
-        plugin = tmp_path / "nuitka_memory_wait.py"
-        plugin.write_text("", encoding="utf-8")
-        self._no_tool(build_exe, monkeypatch, repo_copy=str(plugin))
-        assert build_exe["_memory_wait_plugin"]() == str(plugin)
+        assert calls == [["/bin/app-release", "--memory-wait-plugin"]]
 
     def test_no_plugin_anywhere_builds_without_it(self, build_exe, monkeypatch, caplog):
         self._no_tool(build_exe, monkeypatch)

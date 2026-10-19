@@ -50,8 +50,8 @@ and ``build/nuitka/build-requirements.lock.txt``, the build venv's ``pip
 freeze``. ``--lock=<file>`` installs the build venv from such a file instead of
 requirements-build.txt, to repeat a known good build; packages already in the
 venv but absent from the file stay installed, so delete .venv-build first for
-an exact copy. app-release, or scripts/package_release.py, publishes the
-executables in dist/ as a GitHub release.
+an exact copy. app-release publishes the executables in dist/ as a GitHub
+release.
 """
 import contextlib
 import json
@@ -80,8 +80,6 @@ BUILD_INFO_PATH = os.path.join(BUILD_DIR, "build_info.json")
 LOG_DIR = os.path.join(REPO_ROOT, "build", "logs")
 # Set by app-release, which ships the memory-wait plugin, when it runs this script.
 MEMORY_WAIT_PLUGIN_ENV = "NUITKA_MEMORY_WAIT_PLUGIN"
-# The repo's own copy of the plugin, used when app-release is not installed.
-REPO_MEMORY_WAIT_PLUGIN = os.path.join(REPO_ROOT, "scripts", "nuitka_memory_wait.py")
 # Read by the memory-wait plugin.
 MIN_FREE_MEMORY_ENV = "BUILD_MIN_FREE_MEMORY_GB"
 # Versions the build output and build_info.json record.
@@ -343,10 +341,9 @@ def _data_files() -> list:
 
 def _memory_wait_plugin():
     """The memory-wait plugin's path: from app-release's variable, else from an
-    installed app-release, else the repo's copy, else None (the build does not wait)."""
+    installed app-release, else None (the build does not wait)."""
     path = os.environ.get(MEMORY_WAIT_PLUGIN_ENV)
-    # An install of the tool from before 0.2 has only the nuitka-release command.
-    tool = None if path else shutil.which("app-release") or shutil.which("nuitka-release")
+    tool = None if path else shutil.which("app-release")
     if tool:
         try:
             result = subprocess.run([tool, "--memory-wait-plugin"], capture_output=True, text=True,
@@ -356,8 +353,6 @@ def _memory_wait_plugin():
         else:
             if result.returncode == 0:
                 path = result.stdout.strip()
-    if not path and os.path.isfile(REPO_MEMORY_WAIT_PLUGIN):
-        path = REPO_MEMORY_WAIT_PLUGIN
     if path and os.path.isfile(path):
         logger.info(f"Memory-wait plugin: {path}")
         return path
