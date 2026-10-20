@@ -1111,16 +1111,28 @@ class BlacklistWindow(SmartDialog):
             return
         try:
             if path.endswith(".csv"):
-                Blacklist.import_blacklist_csv(path)
+                suspicious = Blacklist.import_blacklist_csv(path)
             elif path.endswith(".json"):
-                Blacklist.import_blacklist_json(path)
+                suspicious = Blacklist.import_blacklist_json(path)
             else:
-                Blacklist.import_blacklist_txt(path)
+                suspicious = Blacklist.import_blacklist_txt(path)
             blacklist_state.mark_user_confirmed_non_default()
             self._app_actions.toast(_("Successfully imported blacklist"))
             self._refresh()
         except Exception as e:
             self._app_actions.alert(_("Import Error"), str(e), kind="error", master=self)
+            return
+        if suspicious:
+            shown = "\n".join(item.string for item in suspicious[:20])
+            if len(suspicious) > 20:
+                shown += "\n" + _("...and {0} more").format(len(suspicious) - 20)
+            self._app_actions.alert(
+                _("Possible Regex Items"),
+                _("These imported items are not marked as regex, but their text looks "
+                  "like a regex. Each one only matches its text literally:\n\n{0}").format(shown),
+                kind="warning",
+                master=self,
+            )
 
     @require_password(ProtectedActions.EDIT_BLACKLIST)
     def _export_blacklist(self) -> None:

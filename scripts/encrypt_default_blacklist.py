@@ -17,32 +17,38 @@ LISTS = {
 }
 
 
-def _item_strings() -> dict[str, set[str]]:
-    return {label: {item.string for item in getter()} for label, getter in LISTS.items()}
+def _item_dicts() -> dict[str, dict[str, dict]]:
+    """Each list's items as string -> to_dict(), so a change to any field shows."""
+    return {label: {item.string: item.to_dict() for item in getter()} for label, getter in LISTS.items()}
 
 
-def _load_encrypted_items() -> dict[str, set[str]]:
-    """The item strings currently in the encrypted default blacklist, per list."""
+def _load_encrypted_items() -> dict[str, dict[str, dict]]:
+    """The items currently in the encrypted default blacklist, per list."""
     # Emptied first: a file written before model items were included leaves
     # the model list untouched, and that must not read as its contents.
     Blacklist.TAG_BLACKLIST = []
     Blacklist.MODEL_BLACKLIST = []
     try:
         Blacklist.decrypt_blacklist()
-        strings = _item_strings()
-        for label, items in strings.items():
-            print(f"Number of {label} items in existing encrypted blacklist: {len(items)}")
-        return strings
+        items = _item_dicts()
+        for label, entries in items.items():
+            print(f"Number of {label} items in existing encrypted blacklist: {len(entries)}")
+        return items
     except Exception as e:
         print(f"No existing encrypted blacklist found or error reading it: {e}")
-        return {label: set() for label in LISTS}
+        return {label: {} for label in LISTS}
 
 
-def _load_current_items() -> dict[str, set[str]]:
-    """The item strings in the current user blacklist cache, per list."""
+def _load_current_items() -> dict[str, dict[str, dict]]:
+    """The items in the current user blacklist cache, per list."""
     blacklist_state.set_blacklist()
     print("Blacklist loaded from current cache")
-    return _item_strings()
+    return _item_dicts()
+
+
+def _changed_fields(old: dict, new: dict) -> str:
+    return ", ".join(f"{key}: {old.get(key)!r} -> {new.get(key)!r}"
+                     for key in sorted(old.keys() | new.keys()) if old.get(key) != new.get(key))
 
 
 def dry_run():
@@ -52,15 +58,22 @@ def dry_run():
 
     changed = False
     for label in LISTS:
-        added = current[label] - encrypted[label]
-        removed = encrypted[label] - current[label]
-        unchanged = current[label] & encrypted[label]
+        old, new = encrypted[label], current[label]
+        added = new.keys() - old.keys()
+        removed = old.keys() - new.keys()
+        modified = {s for s in new.keys() & old.keys() if new[s] != old[s]}
+        unchanged = len(new.keys() & old.keys()) - len(modified)
 
         print(f"\n--- Dry Run Summary: {label} blacklist ---")
-        print(f"Unchanged : {len(unchanged)}")
+        print(f"Unchanged : {unchanged}")
+        print(f"Modified  : {len(modified)}")
         print(f"To add    : {len(added)}")
         print(f"To remove : {len(removed)}")
 
+        if modified:
+            print(f"\n{label.capitalize()} items that would be MODIFIED ({len(modified)}):")
+            for s in sorted(modified):
+                print(f"  ~ {s}  ({_changed_fields(old[s], new[s])})")
         if added:
             print(f"\n{label.capitalize()} items that would be ADDED ({len(added)}):")
             for s in sorted(added):
@@ -69,7 +82,7 @@ def dry_run():
             print(f"\n{label.capitalize()} items that would be REMOVED ({len(removed)}):")
             for s in sorted(removed):
                 print(f"  - {s}")
-        changed = changed or bool(added or removed)
+        changed = changed or bool(added or removed or modified)
 
     if not changed:
         print("\nNo changes -- encrypted blacklist is already up to date.")
@@ -119,7 +132,7 @@ def main():
     parser.add_argument(
         "--dry-run", "-n",
         action="store_true",
-        help="Show what would be added/removed without writing the encrypted file.",
+        help="Show what would be added, removed or modified without writing the encrypted file.",
     )
     args = parser.parse_args()
 

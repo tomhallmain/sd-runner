@@ -278,6 +278,19 @@ class BlacklistItem:
 
         # print(f"BlacklistItem: {self.string} -> {self.regex_pattern.pattern}")
 
+    def has_unflagged_regex_syntax(self) -> bool:
+        """Whether a plain (non-regex) item's string looks written as a regex.
+
+        A plain item matches its string literally, so ``chok(e|i)`` without
+        use_regex only ever matches the text "chok(e|i)". A run of asterisks
+        alone is excluded: ``**`` is a deliberate literal for masked words.
+        """
+        if self.use_regex:
+            return False
+        if any(c in "()[]|\\" for c in self.string):
+            return True
+        return "*" in self.string and self.string.strip("*") != ""
+
     def find_match_text(self, text: str) -> str | None:
         """Return the matched substring from *text*, or ``None`` if no match."""
         text_to_check = text if self.use_regex else text.lower()
@@ -1025,24 +1038,55 @@ class Blacklist:
         return None
 
     @staticmethod
-    def import_blacklist_csv(filename: str) -> None:
+    def _import_items(items: list[BlacklistItem]) -> list[BlacklistItem]:
+        """Merge imported items into the tag blacklist.
+
+        An imported item replaces an existing one with the same string, and a
+        later duplicate in the file replaces an earlier one, so re-importing an
+        edited export updates items in place instead of doubling them.
+
+        Returns the imported plain items whose string looks written as a regex,
+        for the caller to warn about.
+        """
+        index = {item.string: n for n, item in enumerate(Blacklist.TAG_BLACKLIST)}
+        for item in items:
+            if item.string in index:
+                Blacklist.TAG_BLACKLIST[index[item.string]] = item
+            else:
+                index[item.string] = len(Blacklist.TAG_BLACKLIST)
+                Blacklist.TAG_BLACKLIST.append(item)
+        Blacklist.sort()
+        Blacklist.invalidate_version_cache()
+        try:
+            Blacklist._filter_cache.clear()
+            Blacklist._filter_cache.save()
+        except Exception as e:
+            raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
+        suspicious = {item.string: item for item in items if item.has_unflagged_regex_syntax()}
+        return list(suspicious.values())
+
+    @staticmethod
+    def import_blacklist_csv(filename: str) -> list[BlacklistItem]:
         """Import blacklist from a CSV file.
-        
+
         Expected format:
         string
         tag1
         tag2
-        
+
         Or with optional enabled state:
         string,enabled
         tag1,true
         tag2,false
+
+        Returns the items _import_items flags as unflagged regex syntax.
         """
+        items = []
         with open(filename, 'r', encoding='utf-8') as f:
             # Read first line to determine format
             first_line = f.readline().strip()
             f.seek(0)  # Reset file pointer to start
-            
+
             if ',' in first_line:
                 # Multi-column format with headers. Only the columns present are
                 # read, so both the old two-column files and the full export
@@ -1051,56 +1095,68 @@ class Blacklist:
                 for row in reader:
                     item = BlacklistItem.from_csv_row(row)
                     if item is not None:
-                        Blacklist.add_to_blacklist(item)
+                        items.append(item)
             else:
                 # Single-column format
                 reader = csv.reader(f)
                 for row in reader:
                     if row and row[0].strip():
-                        Blacklist.add_to_blacklist(BlacklistItem(row[0].strip()))
+                        items.append(BlacklistItem(row[0].strip()))
+        return Blacklist._import_items(items)
 
     @staticmethod
-    def import_blacklist_json(filename: str) -> None:
+    def import_blacklist_json(filename: str) -> list[BlacklistItem]:
         """Import blacklist from a JSON file.
         
         Expected format:
         ["tag1", "tag2", "tag3"]
         
-        Or with optional enabled state:
+        Or objects, as written by export_blacklist_json; fields left out take
+        their defaults:
         [
-            {"string": "tag1", "enabled": true},
+            {"string": "tag1", "enabled": true, "use_regex": false, ...},
             {"string": "tag2", "enabled": false}
         ]
+
+        Returns the items _import_items flags as unflagged regex syntax.
         """
+        items = []
         with open(filename, 'r', encoding='utf-8') as f:
             data = json.load(f)
             if isinstance(data, list):
-                for item in data:
-                    if isinstance(item, str):
-                        Blacklist.add_to_blacklist(BlacklistItem(item))
-                    elif isinstance(item, dict) and 'string' in item:
-                        enabled = item.get('enabled', True)
-                        Blacklist.add_to_blacklist(BlacklistItem(item['string'], enabled))
+                for entry in data:
+                    item = None
+                    if isinstance(entry, str):
+                        item = BlacklistItem(entry)
+                    elif isinstance(entry, dict):
+                        item = BlacklistItem.from_dict(entry)
+                    if item is None:
+                        logger.error(f"Invalid item in JSON blacklist import: {type(entry)}")
                     else:
-                        logger.error(f"Invalid item type in JSON blacklist import: {type(item)}")
+                        items.append(item)
             else:
                 raise ValueError("Invalid JSON format for blacklist import")
+        return Blacklist._import_items(items)
 
     @staticmethod
-    def import_blacklist_txt(filename: str) -> None:
+    def import_blacklist_txt(filename: str) -> list[BlacklistItem]:
         """Import blacklist from a text file.
-        
+
         Expected format:
         tag1
         tag2
         # Comment line
         tag3
+
+        Returns the items _import_items flags as unflagged regex syntax.
         """
+        items = []
         with open(filename, 'r', encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith('#'):
-                    Blacklist.add_to_blacklist(BlacklistItem(line))
+                    items.append(BlacklistItem(line))
+        return Blacklist._import_items(items)
 
     @staticmethod
     def export_blacklist_csv(filename: str) -> None:

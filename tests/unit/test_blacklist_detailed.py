@@ -216,6 +216,81 @@ class TestCSVRoundTrip:
         assert item.use_word_boundary is True
 
 
+def _write_items_csv(path: str, items: list[BlacklistItem]) -> None:
+    """Write a full-column CSV, the current export_blacklist_csv format."""
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=list(BlacklistItem.CSV_FIELDNAMES))
+        writer.writeheader()
+        for item in items:
+            writer.writerow(item.to_dict())
+
+
+class TestImportMerge:
+    """An import replaces items with the same string rather than adding a copy."""
+
+    def test_import_over_existing_item_replaces_it(self, tmp_path):
+        Blacklist.TAG_BLACKLIST = [BlacklistItem("chok(e|i)")]
+        path = str(tmp_path / "bl.csv")
+        _write_items_csv(path, [BlacklistItem("chok(e|i)", use_regex=True)])
+        Blacklist.import_blacklist_csv(path)
+        assert len(Blacklist.TAG_BLACKLIST) == 1
+        assert Blacklist.TAG_BLACKLIST[0].use_regex is True
+
+    def test_existing_items_not_in_file_are_kept(self, tmp_path):
+        Blacklist.TAG_BLACKLIST = [BlacklistItem("wolf")]
+        path = str(tmp_path / "bl.csv")
+        _write_csv(path, [{"string": "bear", "enabled": "True"}])
+        Blacklist.import_blacklist_csv(path)
+        assert {i.string for i in Blacklist.TAG_BLACKLIST} == {"wolf", "bear"}
+
+    def test_duplicate_rows_in_file_keep_the_last(self, tmp_path):
+        path = str(tmp_path / "bl.csv")
+        _write_csv(path, [{"string": "wolf", "enabled": "True"},
+                          {"string": "wolf", "enabled": "False"}])
+        Blacklist.import_blacklist_csv(path)
+        assert len(Blacklist.TAG_BLACKLIST) == 1
+        assert Blacklist.TAG_BLACKLIST[0].enabled is False
+
+    def test_reimporting_an_export_does_not_grow_the_list(self, tmp_path):
+        _add("fox", "deer")
+        path = str(tmp_path / "bl.csv")
+        Blacklist.export_blacklist_csv(path)
+        Blacklist.import_blacklist_csv(path)
+        assert len(Blacklist.TAG_BLACKLIST) == 2
+
+    def test_txt_import_merges(self, tmp_path):
+        _add("wolf")
+        path = str(tmp_path / "bl.txt")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("wolf\nbear\n")
+        Blacklist.import_blacklist_txt(path)
+        assert len(Blacklist.TAG_BLACKLIST) == 2
+
+
+class TestUnflaggedRegexSyntax:
+    @pytest.mark.parametrize("string", ["chok(e|i)", "(my|his) wife", "erect(\\w|$|ion)",
+                                        "clothes* off", "feeling * up"])
+    def test_plain_item_with_regex_syntax_is_flagged(self, string):
+        assert BlacklistItem(string).has_unflagged_regex_syntax() is True
+
+    @pytest.mark.parametrize("string", ["wolf", "**", "c-section", "18+"])
+    def test_ordinary_plain_item_is_not_flagged(self, string):
+        assert BlacklistItem(string).has_unflagged_regex_syntax() is False
+
+    def test_regex_item_is_not_flagged(self):
+        assert BlacklistItem("chok(e|i)", use_regex=True).has_unflagged_regex_syntax() is False
+
+    def test_import_returns_flagged_items(self, tmp_path):
+        path = str(tmp_path / "bl.csv")
+        _write_items_csv(path, [BlacklistItem("chok(e|i)"),
+                                BlacklistItem("brut(e|al)", use_regex=True),
+                                BlacklistItem("wolf")])
+        flagged = Blacklist.import_blacklist_csv(path)
+        assert [i.string for i in flagged] == ["chok(e|i)"]
+        # Flagged items are still imported as written.
+        assert len(Blacklist.TAG_BLACKLIST) == 3
+
+
 # ---------------------------------------------------------------------------
 # import / export — JSON round-trip
 # ---------------------------------------------------------------------------
@@ -251,6 +326,18 @@ class TestJSONRoundTrip:
         items = {item.string: item for item in Blacklist.TAG_BLACKLIST}
         assert "disabled_tag" in items
         assert items["disabled_tag"].enabled is False
+
+    def test_settings_beyond_enabled_preserved(self, tmp_path):
+        """Regression: the JSON import read only string and enabled."""
+        Blacklist.TAG_BLACKLIST = [BlacklistItem("chok(e|i)", use_regex=True, exception_pattern="artichoke")]
+        json_path = str(tmp_path / "blacklist.json")
+        Blacklist.export_blacklist_json(json_path)
+        Blacklist.TAG_BLACKLIST = []
+
+        Blacklist.import_blacklist_json(json_path)
+        item = Blacklist.TAG_BLACKLIST[0]
+        assert item.use_regex is True
+        assert item.exception_pattern == "artichoke"
 
     def test_exported_file_is_valid_json(self, tmp_path):
         _add("lynx", "puma")
