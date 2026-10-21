@@ -8,7 +8,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
     QCheckBox, QFrame, QGridLayout, QHBoxLayout, QLabel, QLineEdit,
-    QMessageBox, QPushButton, QScrollArea, QVBoxLayout, QWidget,
+    QMessageBox, QPushButton, QScrollArea, QSizePolicy, QVBoxLayout, QWidget,
 )
 
 from lib.multi_display_qt import SmartDialog
@@ -32,7 +32,7 @@ class ConfigWindow(SmartDialog):
             parent=parent,
             position_parent=parent,
             title=_("Config"),
-            geometry="700x620",
+            geometry="1200x700",
         )
         ConfigWindow._instance = self
 
@@ -51,8 +51,8 @@ class ConfigWindow(SmartDialog):
         viewport.setStyleSheet(f"background: {AppStyle.BG_COLOR};")
         self._grid = QGridLayout(viewport)
         self._grid.setAlignment(Qt.AlignmentFlag.AlignTop)
-        self._grid.setColumnStretch(0, 2)
-        self._grid.setColumnStretch(1, 3)
+        self._grid.setColumnStretch(0, 0)
+        self._grid.setColumnStretch(1, 1)
         self._grid.setContentsMargins(8, 8, 8, 8)
         self._grid.setVerticalSpacing(4)
         self._row = 0
@@ -233,6 +233,10 @@ class ConfigWindow(SmartDialog):
 
         shortcut = QShortcut(QKeySequence(Qt.Key.Key_Escape), self)
         shortcut.activated.connect(self.close)
+        # The launcher constructs the window and does not show it. Every other
+        # secondary window shows itself; without this the dialog stays hidden
+        # and the click logs nothing.
+        self.show()
 
     def closeEvent(self, event) -> None:
         ConfigWindow._instance = None
@@ -341,6 +345,9 @@ class ConfigWindow(SmartDialog):
             f"color: {AppStyle.FG_COLOR}; background: {AppStyle.BG_COLOR};"
         )
         entry = QLineEdit(initial)
+        # Wide enough to edit a full install path.
+        entry.setMinimumWidth(720)
+        entry.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         entry.setStyleSheet(
             f"QLineEdit {{ color: {AppStyle.FG_COLOR}; "
             f"background: {AppStyle.BG_INPUT}; "
@@ -351,10 +358,7 @@ class ConfigWindow(SmartDialog):
             lbl, self._row, 0,
             Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop,
         )
-        self._grid.addWidget(
-            entry, self._row, 1,
-            Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop,
-        )
+        self._grid.addWidget(entry, self._row, 1)
         self._row += 1
         return entry
 

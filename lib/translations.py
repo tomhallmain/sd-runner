@@ -6,16 +6,60 @@ from lib.utils import Utils
 
 logger = get_logger("translations")
 
-_locale = Utils.get_default_user_language()
+_LOCALEDIR = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), "locale")
+
+
+def _language_code(locale) -> str:
+    """The language portion of a locale, such as ``de`` from ``de_DE.UTF-8``."""
+    if locale is None:
+        return ""
+    text = str(locale).strip().lower()
+    for separator in ("_", "-", "."):
+        if separator in text:
+            text = text.split(separator, 1)[0]
+            break
+    return text
+
+
+def supported_locales() -> set[str]:
+    """Language codes that have a catalog directory."""
+    found = set()
+    try:
+        names = os.listdir(_LOCALEDIR)
+    except OSError:
+        return {"en"}
+    for name in names:
+        if os.path.isdir(os.path.join(_LOCALEDIR, name, "LC_MESSAGES")):
+            found.add(name)
+    found.add("en")
+    return found
+
+
+def resolve_locale(locale) -> str:
+    """The catalog to load.
+
+    An empty preference uses the system language. A language with no catalog
+    uses English.
+    """
+    code = _language_code(locale)
+    if not code:
+        code = _language_code(Utils.get_default_user_language())
+    if code in supported_locales():
+        return code
+    return "en"
+
+
+_locale = resolve_locale(None)
 
 class I18N:
-    localedir = os.path.join(os.path.dirname(os.path.abspath(os.path.dirname(__file__))), 'locale')
+    localedir = _LOCALEDIR
     locale = _locale
     # fallback: a system language without a catalog must not stop the import.
     translate = gettext.translation('base', localedir, languages=[_locale], fallback=True)
 
     @staticmethod
     def install_locale(locale, verbose=True):
+        locale = resolve_locale(locale)
         I18N.locale = locale
         I18N.translate = gettext.translation('base', I18N.localedir, languages=[locale], fallback=True)
         I18N.translate.install()

@@ -132,7 +132,8 @@ class Config:
         self.debug = False
         # Off writes the log file in plaintext (.log) instead of .log.enc.
         self.encrypt_log_file = True
-        self.locale = "en"
+        # Empty until a preference is stored. Translations then use the system language.
+        self.locale = None
         self.print_settings = True
         self.foreground_color = None
         self.background_color = None
