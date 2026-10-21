@@ -599,6 +599,7 @@ class ComfyNodeName:
     FLUX2_SCHEDULER = "Flux2Scheduler"
     SAMPLER_CUSTOM_ADVANCED = "SamplerCustomAdvanced"
     EMPTY_FLUX2_LATENT = "EmptyFlux2LatentImage"
+    MINIMAX_H3_IMAGE_TO_VIDEO = "MiniMaxH3ImageToVideo"
 
 
 class SoftwareType(Enum):
@@ -637,12 +638,12 @@ class ArchitectureType(Enum):
     ILLUSTRIOUS = "ILLUSTRIOUS"
     TURBO = "TURBO"
     FLUX = "FLUX"
-    # Flux.2 Klein (ComfyUI image_model "flux2", Klein text encoder). The enum
-    # name stays FLUX2_KLEIN so saved presets keep resolving.
+    # Enum name stays FLUX2_KLEIN so saved presets keep resolving.
     FLUX2_KLEIN = "FLUX2_KLEIN"
     FLUX2_KLEIN_4B = "FLUX2_KLEIN_4B"
-    # ComfyUI image_model "flux3": different weights from Flux.2 Klein.
     FLUX3 = "FLUX3"
+    KREA2 = "KREA2"
+    MINIMAX_H3 = "MINIMAX_H3"
     CHROMA = "CHROMA"
     Z_IMAGE_TURBO = "Z_IMAGE_TURBO"
     QWEN = "QWEN"
@@ -662,6 +663,8 @@ class ArchitectureType(Enum):
             ArchitectureType.FLUX2_KLEIN: _("Flux.2 Klein 9B"),
             ArchitectureType.FLUX2_KLEIN_4B: _("Flux.2 Klein 4B"),
             ArchitectureType.FLUX3: _("Flux.3"),
+            ArchitectureType.KREA2: _("Krea 2"),
+            ArchitectureType.MINIMAX_H3: _("MiniMax H3"),
             ArchitectureType.CHROMA: _("Chroma"),
             ArchitectureType.Z_IMAGE_TURBO: _("ZImageTurbo"),
             ArchitectureType.QWEN: _("Qwen"),

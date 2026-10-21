@@ -1,10 +1,4 @@
-"""Identify a checkpoint's architecture without trusting one folder layout.
-
-Name tokens are checked first, then safetensors metadata and tensor names
-(the same signals ComfyUI uses), then any folder the file happens to sit in,
-then explicit flags passed by the caller. Presets can still override the
-result after load.
-"""
+"""Identify a checkpoint's architecture from its name, then its file, then its folder."""
 
 import json
 import os
@@ -19,6 +13,8 @@ from sd_runner.globals import ArchitectureType
 _MAX_HEADER_BYTES = 8 * 1024 * 1024
 
 _4B_RE = re.compile(r"(?<!\d)4b")
+_KREA2_RE = re.compile(r"krea[\W_]*2(?!\d)")
+_MINIMAX_H3_RE = re.compile(r"minimax[\W_]*h[\W_]*3(?!\d)")
 _FLUX3_RE = re.compile(r"flux[\W_]*3(?!\d)")
 _FLUX2_RE = re.compile(r"flux[\W_]*2(?!\d)")
 # "flux1-dev" counts. "flux2" / "flux3" are handled by the patterns above.
@@ -72,6 +68,11 @@ def classify_text(text: str) -> ArchitectureType | None:
         return ArchitectureType.CHROMA
     if "zimage" in lowered or "z_image" in lowered or "z-image" in lowered:
         return ArchitectureType.Z_IMAGE_TURBO
+    # "krea2" before a bare "flux" token, so flux1_krea_dev stays Flux.1.
+    if _KREA2_RE.search(lowered):
+        return ArchitectureType.KREA2
+    if _MINIMAX_H3_RE.search(lowered):
+        return ArchitectureType.MINIMAX_H3
     if "qwen" in lowered:
         return ArchitectureType.QWEN
     # Flux.3 before Flux.2 before Flux.1. "flux-2-klein" must not become Flux.1,
@@ -123,6 +124,10 @@ def classify_tensor_keys(keys) -> ArchitectureType | None:
     if not keys:
         return None
     keyset = frozenset(keys)
+    if _has_stem(keyset, "txtfusion.projector"):
+        return ArchitectureType.KREA2
+    if _has_stem(keyset, "video_patch_proj") and _has_stem(keyset, "audio_patch_proj"):
+        return ArchitectureType.MINIMAX_H3
     # FLUX.3 — content-mode blocks, not the Flux.2 double-stream modulation.
     if _has_stem(keyset, "content_mode_blocks.image.0.attn_out") and _has_stem(keyset, "single_stream_modulations.txt.lin"):
         return ArchitectureType.FLUX3

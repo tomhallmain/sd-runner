@@ -112,6 +112,13 @@ class TestRecoverUnnamedOutput:
         expected = write_image(output_dir, "new.png", queued_at + 1)
         assert ComfyGen._recover_unnamed_output(queued_at) == expected
 
+    def test_a_new_video_in_a_subdirectory_is_recovered(self, output_dir):
+        queued_at = time.time()
+        video_dir = output_dir / "video"
+        video_dir.mkdir()
+        expected = write_image(video_dir, "CUI_00001_.mp4", queued_at + 1)
+        assert ComfyGen._recover_unnamed_output(queued_at) == expected
+
     def test_a_missing_output_directory_recovers_nothing(self, tmp_path, monkeypatch):
         monkeypatch.setattr(
             comfy_module.config, "comfyui_output_dir", str(tmp_path / "does_not_exist")

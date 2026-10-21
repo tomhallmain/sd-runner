@@ -66,10 +66,6 @@ class ComfyGen(BaseImageGenerator):
         logger.info("All websocket connections closed")
 
     def prompt_setup(self, workflow_type: WorkflowType, action: str, prompt: Optional[WorkflowPrompt], model: Model, vae=None, resolution=None, **kw):
-        if model.is_flux3():
-            raise Exception(
-                "Flux.3 is a different architecture from Flux.2 Klein, and SD Runner does not have a Flux.3 workflow yet."
-            )
         if prompt:
             # NOTE this is only needed for redo_with_different_parameter case `if not prompt.validate_api_prompt()`
             prompt.set_from_workflow(workflow_type.value)
@@ -84,12 +80,25 @@ class ComfyGen(BaseImageGenerator):
                 prompt = WorkflowPromptComfy("instant_lora_xl.json")
             if workflow_type == WorkflowType.RENOISER and model.is_xl():
                 prompt = WorkflowPromptComfy("renoiser_xl.json")
+            if model.is_krea2():
+                if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
+                    prompt = WorkflowPromptComfy("image_krea2_turbo_t2i.json")
+                else:
+                    raise Exception("Krea 2 workflows other than simple image gen are not supported in SDRunner's ComfyUI implementation at this time")
+            if model.is_minimax_h3():
+                if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
+                    prompt = WorkflowPromptComfy("video_minimax_h3_t2v.json")
+                else:
+                    raise Exception("MiniMax H3 workflows other than simple image gen are not supported in SDRunner's ComfyUI implementation at this time")
+            if model.is_flux3():
+                if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
+                    prompt = WorkflowPromptComfy("image_flux3_klein_t2i.json")
+                else:
+                    raise Exception("Flux.3 workflows other than simple image gen are not supported in SDRunner's ComfyUI implementation at this time")
             if model.is_flux2_klein():
                 if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
-                    if model.is_flux2_klein_4b():
-                        prompt = WorkflowPromptComfy("image_flux2_text_to_image_4b.json")
-                    else:
-                        prompt = WorkflowPromptComfy("image_flux2_text_to_image_9b.json")
+                    # The Flux.3 Klein template runs with Flux.2 Klein weights.
+                    prompt = WorkflowPromptComfy("image_flux3_klein_t2i.json")
                 elif workflow_type == WorkflowType.SIMPLE_IMAGE_GEN_LORA:
                     if model.is_flux2_klein_4b():
                         prompt = WorkflowPromptComfy("image_flux2_text_to_image_4b.json")
@@ -232,9 +241,9 @@ class ComfyGen(BaseImageGenerator):
         
         raise Exception(f"Failed to get history for prompt {prompt_id} after {max_retries} attempts")
 
-    #: Extensions ComfyUI writes images under. Anything else in the output
-    #: directory is not a candidate for recovery.
-    OUTPUT_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp", ".gif")
+    IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp", ".gif")
+    VIDEO_EXTENSIONS = (".mp4", ".webm", ".mkv", ".mov")
+    OUTPUT_EXTENSIONS = IMAGE_EXTENSIONS + VIDEO_EXTENSIONS
 
     @staticmethod
     def _finalize_output_image(
@@ -249,7 +258,7 @@ class ComfyGen(BaseImageGenerator):
         Returns the final path, which is not the path passed in when an edit
         suffix or a target directory applies.
         """
-        if prompter_config is not None:
+        if prompter_config is not None and save_path.lower().endswith(ComfyGen.IMAGE_EXTENSIONS):
             if related_image_path is not None:
                 Globals.get_image_data_extractor().add_related_image_path(save_path, related_image_path)
             Globals.get_image_data_extractor().add_prompt_decomposition_to_exif(
@@ -283,13 +292,22 @@ class ComfyGen(BaseImageGenerator):
             )
             return None
 
-        try:
-            new_files = [
-                entry.path for entry in os.scandir(output_dir)
-                if entry.is_file()
+        def _is_new_output(entry):
+            return (
+                entry.is_file()
                 and entry.name.lower().endswith(ComfyGen.OUTPUT_EXTENSIONS)
                 and entry.stat().st_mtime >= queued_at
-            ]
+            )
+
+        try:
+            new_files = []
+            for entry in os.scandir(output_dir):
+                if _is_new_output(entry):
+                    new_files.append(entry.path)
+                elif entry.is_dir():
+                    for child in os.scandir(entry.path):
+                        if _is_new_output(child):
+                            new_files.append(child.path)
         except OSError as e:
             logger.error(f"Cannot recover the output image: failed to read {output_dir}: {e}")
             return None
@@ -439,18 +457,29 @@ class ComfyGen(BaseImageGenerator):
             for node_id in history['outputs']:
                 node_output = history['outputs'][node_id]
                 images_output = []
-                if 'images' in node_output:
-                    for image in node_output['images']:
-                        logger.debug(f"Getting image: {image['filename']}")
-                        image_data = ComfyGen.get_image(image['filename'], image['subfolder'], image['type'])
-                        images_output.append(image_data)
-
-                        save_path = ComfyGen._finalize_output_image(
-                            os.path.join(config.get_comfyui_save_path(), image["filename"]),
-                            prompter_config, related_image_path, target_dir, edit_suffix,
-                        )
-                        if save_path:
-                            output_paths.append(save_path)
+                seen = set()
+                media = []
+                for key in ("images", "gifs", "videos"):
+                    for item in node_output.get(key) or []:
+                        ident = (item.get("subfolder") or "", item.get("filename"))
+                        if not item.get("filename") or ident in seen:
+                            continue
+                        seen.add(ident)
+                        media.append(item)
+                for image in media:
+                    logger.debug(f"Getting output: {image['filename']}")
+                    image_data = ComfyGen.get_image(image['filename'], image.get('subfolder', ''), image['type'])
+                    images_output.append(image_data)
+                    parts = [config.get_comfyui_save_path()]
+                    if image.get("subfolder"):
+                        parts.append(image["subfolder"])
+                    parts.append(image["filename"])
+                    save_path = ComfyGen._finalize_output_image(
+                        os.path.join(*parts),
+                        prompter_config, related_image_path, target_dir, edit_suffix,
+                    )
+                    if save_path:
+                        output_paths.append(save_path)
                 output_images[node_id] = images_output
 
             ComfyGen.clear_history(prompt_id)
@@ -479,11 +508,19 @@ class ComfyGen(BaseImageGenerator):
         prompt, model, vae = self.prompt_setup(WorkflowType.SIMPLE_IMAGE_GEN, "Assembling Simple Image Gen prompt", prompt=prompt, model=model, vae=vae, resolution=resolution, n_latents=n_latents, positive=positive, negative=negative, **kw)
         model = self.gen_config.redo_param("model", model)
         prompt.set_model(model)
-        if model.is_flux2_klein():
-            # Flux2 Klein has no negative prompt; prompt nodes are in a subgraph
-            prompt.set_clip_text_by_id(
-                self.gen_config.redo_param("positive", positive),
-                None, positive_id="75:74", model=model)
+        positive = self.gen_config.redo_param("positive", positive)
+        negative = self.gen_config.redo_param("negative", negative)
+        if model.is_krea2():
+            positive, _negative = model.get_model_text(positive, negative or "")
+            prompt.set_by_id("30:19", "value", positive)
+        elif model.is_minimax_h3():
+            positive, _negative = model.get_model_text(positive, negative or "")
+            prompt.set_by_id("140:131", "prompt", positive)
+        elif model.is_flux3() or model.is_flux2_klein():
+            positive, negative = model.get_model_text(positive, negative or "")
+            prompt.set_by_id("18:17", "value", positive)
+            if negative:
+                prompt.set_by_id("18:5", "text", negative)
         elif model.is_flux():
             # NOTE Flux models don't have a negative prompt
             prompt.set_clip_text_by_id(
@@ -518,14 +555,7 @@ class ComfyGen(BaseImageGenerator):
                 positive_id="3", negative_id="4", model=model)
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
-        if model.is_flux2_klein():
-            # Resolution is sourced from PrimitiveInt nodes shared by EmptyFlux2LatentImage and Flux2Scheduler
-            resolution_val = self.gen_config.redo_param("resolution", resolution)
-            if resolution_val:
-                prompt.set_by_id("75:68", "value", resolution_val.width)
-                prompt.set_by_id("75:69", "value", resolution_val.height)
-        else:
-            prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
+        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         return self.queue_prompt(prompt)
 

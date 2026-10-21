@@ -101,6 +101,22 @@ class TestDetermineArchitectureType:
     def test_flux3_is_not_flux2_klein_or_flux1(self):
         assert self._det("flux-3-dev.safetensors") == ArchitectureType.FLUX3
         assert self._det("flux3.safetensors") == ArchitectureType.FLUX3
+        assert self._det("flux-2-klein-4b.safetensors") == ArchitectureType.FLUX2_KLEIN_4B
+
+    def test_krea2_and_minimax_h3_are_their_own_families(self):
+        assert self._det("krea2_turbo_fp8_scaled.safetensors") == ArchitectureType.KREA2
+        assert self._det("krea-2-turbo.safetensors") == ArchitectureType.KREA2
+        assert self._det("flux1_krea_dev.safetensors") == ArchitectureType.FLUX
+        assert self._det("minimax_h3_fl2va_pruned.safetensors") == ArchitectureType.MINIMAX_H3
+        assert self._det("minimax-h3.safetensors") == ArchitectureType.MINIMAX_H3
+        assert self._det("minimax_music3.safetensors") == ArchitectureType.UNKNOWN
+        assert make_model("krea2_turbo.safetensors").get_standard_resolution_group() == ResolutionGroup.THIRTEEN_TWENTY_EIGHT
+        assert make_model("minimax_h3.safetensors").get_standard_resolution_group() == ResolutionGroup.SEVEN_SIXTY_EIGHT
+
+    def test_krea2_and_minimax_h3_tensor_keys(self):
+        assert self._det("renamed.safetensors", tensor_keys={"txtfusion.projector.weight"}) == ArchitectureType.KREA2
+        keys = {"video_patch_proj.weight", "audio_patch_proj.weight"}
+        assert self._det("renamed.safetensors", tensor_keys=keys) == ArchitectureType.MINIMAX_H3
 
     def test_comfy_diffusion_models_path_is_not_a_folder_prefix(self):
         assert self._det(path="diffusion_models/flux/flux1-dev.safetensors") == ArchitectureType.FLUX
@@ -403,3 +419,77 @@ class TestModelPaths:
         assert realistic.source_subdir == "Stable-diffusion"
         assert "detail.safetensors" in Model.LORAS
         assert Model.LORAS["detail.safetensors"].source_subdir == "loras"
+
+
+class TestSimpleGenWorkflowSelection:
+    def _setup(self, model_id, workflow_type):
+        from sd_runner.generators.comfy import ComfyGen
+        from sd_runner.globals import WorkflowType
+
+        gen = ComfyGen()
+        model = make_model(model_id)
+        kwargs = {"lora": None} if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN_LORA else {}
+        prompt, returned, _vae = gen.prompt_setup(workflow_type, "test", None, model, **kwargs)
+        return prompt, returned
+
+    def test_simple_gen_uses_the_template_for_each_family(self):
+        from sd_runner.globals import WorkflowType
+
+        cases = {
+            "krea2_turbo.safetensors": ("30:19", "value"),
+            "minimax_h3.safetensors": ("140:131", "prompt"),
+            "flux-3-dev.safetensors": ("18:17", "value"),
+            "flux-2-klein-9b.safetensors": ("18:17", "value"),
+        }
+        for model_id, (node_id, key) in cases.items():
+            prompt, model = self._setup(model_id, WorkflowType.SIMPLE_IMAGE_GEN)
+            assert prompt.json[node_id]["inputs"][key] == ""
+            assert model.architecture_type != ArchitectureType.UNKNOWN
+            unets = [
+                node["inputs"]["unet_name"]
+                for node in prompt.json.values()
+                if node["class_type"] == "UNETLoader"
+            ]
+            assert unets and all("\\" in name for name in unets)
+
+    def test_flux2_klein_lora_keeps_its_existing_workflow(self):
+        from sd_runner.globals import WorkflowType
+
+        prompt, model = self._setup("flux-2-klein-4b.safetensors", WorkflowType.SIMPLE_IMAGE_GEN_LORA)
+        assert model.is_flux2_klein_4b()
+        assert prompt.workflow_filename == "image_flux2_text_to_image_4b.json"
+
+    def test_flux3_image_edit_is_not_offered(self):
+        from sd_runner.globals import WorkflowType
+
+        with pytest.raises(Exception):
+            self._setup("flux-3-dev.safetensors", WorkflowType.IMAGE_EDIT)
+
+    def test_a_source_image_keeps_its_output_size(self):
+        from sd_runner.models.resolution import Resolution
+        from sd_runner.workflow_prompts.comfy import WorkflowPromptComfy
+
+        prompt = WorkflowPromptComfy.__new__(WorkflowPromptComfy)
+        prompt.json = {
+            "1": {"class_type": "LoadImage", "inputs": {"image": "in.png"}},
+            "2": {"class_type": "GetImageSize", "inputs": {"image": ["1", 0]}},
+            "3": {
+                "class_type": "EmptyLatentImage",
+                "inputs": {"width": ["2", 0], "height": ["2", 1], "batch_size": 1},
+            },
+        }
+        prompt.set_latent_dimensions(Resolution(width=1328, height=1328))
+        assert prompt.json["3"]["inputs"]["width"] == ["2", 0]
+        assert prompt.json["3"]["inputs"]["height"] == ["2", 1]
+
+    def test_a_resolution_selector_can_be_overwritten(self):
+        from sd_runner.models.resolution import Resolution
+        from sd_runner.workflow_prompts.comfy import WorkflowPromptComfy
+
+        prompt = WorkflowPromptComfy("image_krea2_turbo_t2i.json")
+        prompt.set_latent_dimensions(Resolution(width=1328, height=1328))
+        latent = next(
+            node for node in prompt.json.values() if node["class_type"] == "EmptyLatentImage"
+        )
+        assert latent["inputs"]["width"] == 1328
+        assert latent["inputs"]["height"] == 1328

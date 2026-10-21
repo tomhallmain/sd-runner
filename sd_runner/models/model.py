@@ -193,8 +193,13 @@ class Model:
         return not self.is_lora and self.architecture_type == ArchitectureType.FLUX2_KLEIN_4B
 
     def is_flux3(self):
-        # ComfyUI's Flux3 (content-mode blocks, Qwen3-VL). Not Flux.2 Klein.
         return not self.is_lora and self.architecture_type == ArchitectureType.FLUX3
+
+    def is_krea2(self):
+        return not self.is_lora and self.architecture_type == ArchitectureType.KREA2
+
+    def is_minimax_h3(self):
+        return not self.is_lora and self.architecture_type == ArchitectureType.MINIMAX_H3
 
     def is_flux2_klein_base(self):
         return self.is_flux2_klein() and "base" in self.path.lower()
@@ -231,6 +236,11 @@ class Model:
             return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_flux3():
             return ResolutionGroup.TEN_TWENTY_FOUR
+        elif self.is_krea2():
+            # Documented range is 1K–2K. 2.0 MP square is 1448; 1328 is the tier inside that range.
+            return ResolutionGroup.THIRTEEN_TWENTY_EIGHT
+        elif self.is_minimax_h3():
+            return ResolutionGroup.SEVEN_SIXTY_EIGHT
         elif self.is_chroma():
             return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_z_image_turbo():
@@ -248,15 +258,7 @@ class Model:
         return Model.LORA_SUBDIRS if self.is_lora else Model.CHECKPOINT_SUBDIRS
 
     def get_full_path(self) -> str:
-        """Absolute path to this model file.
-
-        ``path`` stored on the model is relative to the category directory it
-        was scanned from (for example ``FluxKlein\\weights.safetensors`` under
-        ``diffusion_models``). An absolute path that already points at a file
-        is returned as-is. Otherwise the known ComfyUI and WebUI category
-        directories are searched, preferring the directory this model was
-        loaded from.
-        """
+        """Absolute path to this model file, searching the ComfyUI and WebUI category directories."""
         explicit = self.path if self.path and os.path.isabs(self.path) else None
         if explicit and os.path.isfile(explicit):
             return explicit
@@ -341,14 +343,13 @@ class Model:
     def get_default_vae(self):
         if self.is_chroma() or self.is_z_image_turbo():
             return Model.DEFAULT_CHROMA_VAE
-        if self.is_qwen():
-            # Qwen uses its own VAE in ComfyUI; we don't enforce a specific SD VAE
+        if self.is_qwen() or self.is_flux3() or self.is_krea2() or self.is_minimax_h3():
             return None
         return Model.DEFAULT_SD15_VAE if self.is_sd_15() else Model.DEFAULT_SDXL_VAE
 
     def validate_vae(self, vae):
-        if self.is_flux() or self.is_flux2_klein() or self.is_flux3():
-            return # Flux, Flux.2 Klein, and Flux.3 models use their own VAE
+        if self.is_flux() or self.is_flux2_klein() or self.is_flux3() or self.is_krea2() or self.is_minimax_h3():
+            return
         if self.is_chroma():
             if vae != Model.DEFAULT_CHROMA_VAE:
                 raise Exception(f"Invalid VAE {vae} for Chroma model {self.id}. Expected {Model.DEFAULT_CHROMA_VAE}")

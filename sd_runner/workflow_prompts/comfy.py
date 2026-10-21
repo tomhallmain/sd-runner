@@ -140,17 +140,26 @@ class WorkflowPromptComfy(WorkflowPrompt):
     def get_vae(self):
         return self.get_for_class_type(ComfyNodeName.LOAD_VAE, "vae_name")
 
-    def _get_empty_latent_node(self):
-        for node_type in (ComfyNodeName.EMPTY_LATENT, ComfyNodeName.EMPTY_LATENT_SD3, ComfyNodeName.EMPTY_FLUX2_LATENT):
+    def _get_empty_latent_node(self, raise_exc=True):
+        for node_type in (
+            ComfyNodeName.EMPTY_LATENT,
+            ComfyNodeName.EMPTY_LATENT_SD3,
+            ComfyNodeName.EMPTY_FLUX2_LATENT,
+            ComfyNodeName.MINIMAX_H3_IMAGE_TO_VIDEO,
+        ):
             node = self.find_node_of_class_type(node_type, raise_exc=False)
             if node is not None:
                 return node
-        raise Exception("No empty latent node found in workflow.")
+        if raise_exc:
+            raise Exception("No empty latent node found in workflow.")
+        return None
 
     def set_empty_latents(self, n_latents):
         if not n_latents:
             return
-        node = self._get_empty_latent_node()
+        node = self._get_empty_latent_node(raise_exc=False)
+        if node is None or "batch_size" not in node[WorkflowPromptComfy.INPUTS]:
+            return
         node[WorkflowPromptComfy.INPUTS]["batch_size"] = n_latents
     
     def set_image_duplicator(self, n_latents):
@@ -160,12 +169,46 @@ class WorkflowPromptComfy(WorkflowPrompt):
         node[WorkflowPromptComfy.INPUTS]["dup_times"] = n_latents
         node[WorkflowPromptComfy.INPUTS]["images"][0] = n_latents
 
+    # Size readers and loaders. A link that reaches one of these is the source
+    # image's own size. Template graphs that require a source image leave that
+    # link in place; they do not pick a new canvas.
+    _SOURCE_SIZE_NODES = (
+        "LoadImage",
+        "LoadImageMask",
+        "GetImageSize",
+        "GetImageSizeAndCount",
+        "GetImageSize+",
+    )
+
+    def _size_follows_source_image(self, value, seen=None):
+        if not isinstance(value, list) or len(value) != 2 or not isinstance(value[0], str):
+            return False
+        node_id = value[0]
+        if seen is None:
+            seen = set()
+        if node_id in seen or node_id not in self.json:
+            return False
+        seen.add(node_id)
+        node = self.json[node_id]
+        class_type = node.get(WorkflowPromptComfy.CLASS_TYPE, "")
+        if class_type in self._SOURCE_SIZE_NODES or class_type.startswith("GetImageSize"):
+            return True
+        if class_type in {"ResolutionSelector", "PrimitiveInt", "PrimitiveFloat"}:
+            return False
+        for item in node.get(WorkflowPromptComfy.INPUTS, {}).values():
+            if self._size_follows_source_image(item, seen):
+                return True
+        return False
+
     def set_latent_dimensions(self, resolution):
         if not resolution:
             return
         node = self._get_empty_latent_node()
-        node[WorkflowPromptComfy.INPUTS]["width"] = resolution.width
-        node[WorkflowPromptComfy.INPUTS]["height"] = resolution.height
+        inputs = node[WorkflowPromptComfy.INPUTS]
+        if self._size_follows_source_image(inputs.get("width")) or self._size_follows_source_image(inputs.get("height")):
+            return
+        inputs["width"] = resolution.width
+        inputs["height"] = resolution.height
 
     def set_clip_text(self, text, model, positive=True):
         if not text:
@@ -246,10 +289,14 @@ class WorkflowPromptComfy(WorkflowPrompt):
             random_noise_node[WorkflowPromptComfy.INPUTS]["noise_seed"] = seed_val
         # Set seed on sampler node (standard behavior)
         node = self.get_sampler_node()
-        if node[WorkflowPromptComfy.CLASS_TYPE] == ComfyNodeName.SAMPLER_CUSTOM:
+        if node.get(WorkflowPromptComfy.CLASS_TYPE) == ComfyNodeName.SAMPLER_CUSTOM:
             node[WorkflowPromptComfy.INPUTS]["noise_seed"] = seed_val
-        else:
-            node[WorkflowPromptComfy.INPUTS]["seed"] = seed_val
+            return
+        inputs = node[WorkflowPromptComfy.INPUTS]
+        if "seed" in inputs:
+            inputs["seed"] = seed_val
+        elif "noise_seed" in inputs and random_noise_node is None:
+            inputs["noise_seed"] = seed_val
 
     def set_other_sampler_inputs(self, gen_config):
         if gen_config.steps and gen_config.steps > 0:
@@ -263,30 +310,32 @@ class WorkflowPromptComfy(WorkflowPrompt):
         if gen_config.denoise and gen_config.denoise > 0:
             self.set_denoise(gen_config.denoise)
 
-    def set_sampler_steps(self, steps):
-        if not steps:
+    def _set_sampler_input(self, key, value):
+        if not value:
             return
-        self.get_ksampler_node_inputs()["steps"] = steps
+        inputs = self.get_ksampler_node_inputs()
+        if key not in inputs:
+            return
+        inputs[key] = value
+
+    def set_sampler_steps(self, steps):
+        self._set_sampler_input("steps", steps)
 
     def set_sampler_cfg(self, cfg):
-        if not cfg:
-            return
-        self.get_ksampler_node_inputs()["cfg"] = cfg
+        self._set_sampler_input("cfg", cfg)
 
     def set_sampler(self, sampler):
         if not sampler:
             return
-        self.get_ksampler_node_inputs()["sampler_name"] = sampler.value
+        self._set_sampler_input("sampler_name", sampler.value)
 
     def set_scheduler(self, scheduler):
         if not scheduler:
             return
-        self.get_ksampler_node_inputs()["scheduler"] = scheduler.value
+        self._set_sampler_input("scheduler", scheduler.value)
 
     def set_denoise(self, denoise):
-        if not denoise:
-            return
-        self.get_ksampler_node_inputs()["denoise"] = denoise
+        self._set_sampler_input("denoise", denoise)
 
     def set_lora(self, lora):
         if not lora:

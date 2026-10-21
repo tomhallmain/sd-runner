@@ -150,14 +150,20 @@ The following model architectures are supported. Resolution tags automatically s
 - SDXL
 - Illustrious
 - Flux
+- Flux.2 Klein (4B and 9B)
+- Flux.3
+- Krea 2
+- MiniMax H3
 - Chroma
 - ZImageTurbo
 - Qwen
 
-Model files may be organized in scoped subfolders under your backend model roots (for example `Stable-diffusion/SD1.5`, `Stable-diffusion/XL`, `Lora/SD1.5`, `Lora/Flux`, etc.). SD 1.5 models and LoRAs can now be referenced from scoped paths the same way as newer architectures.
+Architecture is taken from the filename first, then safetensors metadata and tensor keys, then the folder the file lives in. Checkpoints are resolved under both WebUI (`Stable-diffusion`) and ComfyUI (`diffusion_models`, `unet`, `checkpoints`) roots; LoRAs are resolved under `Lora`, `LoRA`, and `loras`. Model files may be organized in scoped subfolders under those roots (for example `Stable-diffusion/SD1.5`, `diffusion_models/FluxKlein`, `Lora/SD1.5`).
 
 ### Workflows
-The table below covers ComfyUI (C) and SDWebUI (S) — the two backends with full architecture-specific tracking. Flux, Chroma, ZImageTurbo, and Qwen have not been implemented/tested in SDWebUI, so those columns are ComfyUI-only:
+The table below covers ComfyUI (C) and SDWebUI (S) — the two backends with full architecture-specific tracking. Flux, Chroma, ZImageTurbo, and Qwen have not been implemented/tested in SDWebUI, so those columns are ComfyUI-only.
+
+Flux.2 Klein, Flux.3, Krea 2, and MiniMax H3 are ComfyUI-only as well, and are omitted from the table because each one only has simple image gen. Flux.2 Klein and Flux.3 simple generation both use the Flux.3 Klein graph, and that graph accepts Flux.2 Klein weights. Flux.2 Klein also has simple image gen with LoRA and image edit. MiniMax H3 simple image gen writes video. Resolution tags land on 1024 for Flux.2 Klein and Flux.3, 1328 for Krea 2 (inside its 1K–2K range), and 768 for MiniMax H3.
 
 **Additional local backends:** Forge and SD.Next share SDWebUI's full coverage (treat as S). SwarmUI, InvokeAI, and Fooocus support txt2img, LoRA, ControlNet, img2img, and IP-Adapter for SD 1.5/SDXL architectures; Fooocus is SDXL-only.
 
