@@ -5,6 +5,7 @@ import re
 from typing import TypeVar
 
 from sd_runner.prompts.blacklist import Blacklist, BlacklistException
+from sd_runner.models.architecture import classify_architecture, classify_text, header_matches_file, read_safetensors_header
 from sd_runner.models.model_adapters import LoraBundle
 from sd_runner.config import config
 from sd_runner.globals import Globals, PromptMode, ModelBlacklistMode, WorkflowType, ArchitectureType, ResolutionGroup
@@ -39,6 +40,14 @@ class Model:
     MODELS_DIR = config.models_dir
     CHECKPOINTS = {}
     LORAS = {}
+    # Checkpoint and LoRA roots used by the local generators this app talks to.
+    # ComfyUI keeps most diffusion weights in diffusion_models (checkpoints and
+    # unet are the older locations). A1111, Forge, and SD.Next use
+    # Stable-diffusion / Lora. Fooocus uses checkpoints / loras. SwarmUI uses
+    # Stable-Diffusion / LoRA and, on newer builds, diffusion_models.
+    CHECKPOINT_SUBDIRS = ("diffusion_models", "unet", "checkpoints", "Stable-diffusion", "Stable-Diffusion")
+    LORA_SUBDIRS = ("loras", "Lora", "LoRA", "lora")
+    MODEL_FILE_SUFFIXES = (".safetensors", ".ckpt", ".pt", ".pth")
 
     @staticmethod
     def _normalize_model_ref(value: str) -> str:
@@ -90,40 +99,34 @@ class Model:
         )
 
     @staticmethod
-    def determine_architecture_type(model_id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo, is_qwen, is_flux2_klein=False):
-        # NOTE this can be overridden by the presets
-        path_normalized = path.replace("/", "\\") if path is not None else None
-        path_l = path_normalized.lower() if path_normalized is not None else None
-        # If models are scoped (e.g. "SD1.5\\...", "XL\\...", "Hi Dream\\..."), use
-        # the first path segment to avoid misclassifying unknown families as SD1.5.
-        path_scope = path_l.split("\\")[0] if path_l and "\\" in path_l else ""
-
-        if "Illustrious" in model_id:
-            # print(f"Assuming model is based on IllustriousXL architecture: {model_id}")
-            architecture_type = ArchitectureType.ILLUSTRIOUS
-        elif path_l is not None and (path_l.startswith("chroma") or "chroma" in path_l) or is_chroma:
-            architecture_type = ArchitectureType.CHROMA
-        elif path_l is not None and (path_l.startswith("zimage") or "z_image" in path_l or "zimage" in path_l) or is_z_image_turbo:
-            architecture_type = ArchitectureType.Z_IMAGE_TURBO
-        elif path_l is not None and ("qwen" in path_l) or is_qwen:
-            architecture_type = ArchitectureType.QWEN
-        elif path_normalized is not None and path_normalized.startswith("XL") or is_xl:
-            architecture_type = ArchitectureType.SDXL
-        elif path_normalized is not None and path_normalized.startswith("Turbo") or is_turbo:
-            architecture_type = ArchitectureType.TURBO
-        elif path_l is not None and path_l.startswith("fluxklein") or is_flux2_klein:
-            # Match "4b" only when not preceded by a digit, to avoid false positives
-            # from version strings like "v14base" where "4b" is part of "14".
-            _4b_pattern = re.compile(r'(?<!\d)4b')
-            is_4b = bool(_4b_pattern.search(path_l or "")) or bool(_4b_pattern.search(model_id.lower()))
-            architecture_type = ArchitectureType.FLUX2_KLEIN_4B if is_4b else ArchitectureType.FLUX2_KLEIN
-        elif path_l is not None and (path_l.startswith("flux")) or is_flux:
-            architecture_type = ArchitectureType.FLUX
-        elif path_scope in ("sd1.5", "sd15", "sd_15"):
-            architecture_type = ArchitectureType.SD_15
-        else:
-            architecture_type = ArchitectureType.UNKNOWN
-        return architecture_type
+    def determine_architecture_type(
+        model_id,
+        path,
+        is_xl,
+        is_turbo,
+        is_flux,
+        is_chroma,
+        is_z_image_turbo,
+        is_qwen,
+        is_flux2_klein=False,
+        *,
+        metadata=None,
+        tensor_keys=None,
+    ):
+        # Presets applied after load can still override this.
+        return classify_architecture(
+            model_id,
+            path,
+            is_xl=is_xl,
+            is_turbo=is_turbo,
+            is_flux=is_flux,
+            is_chroma=is_chroma,
+            is_z_image_turbo=is_z_image_turbo,
+            is_qwen=is_qwen,
+            is_flux2_klein=is_flux2_klein,
+            metadata=metadata,
+            tensor_keys=tensor_keys,
+        )
 
     def __init__(
         self,
@@ -138,14 +141,26 @@ class Model:
         is_z_image_turbo: bool = False,
         is_qwen: bool = False,
         clip_req: float = None,
-        lora_strength: float = Globals.DEFAULT_LORA_STRENGTH
+        lora_strength: float = Globals.DEFAULT_LORA_STRENGTH,
+        source_subdir: str = None,
     ):
         self.id = id
         self.path = path if path else os.path.join(Model.MODELS_DIR, id)
-        self.architecture_type = Model.determine_architecture_type(
-            id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo, is_qwen, is_flux2_klein
-        )
         self.is_lora = is_lora
+        # Which models-dir child this file was found in (diffusion_models, Lora, ...).
+        self.source_subdir = source_subdir
+        metadata = None
+        tensor_keys = None
+        # The filename is enough for well-named files. Anything else is worth a
+        # header read so a FluxKlein folder cannot override what the weights are.
+        if classify_text(id) is None:
+            resolved = self.get_full_path()
+            if header_matches_file(resolved):
+                metadata, tensor_keys = read_safetensors_header(resolved)
+        self.architecture_type = Model.determine_architecture_type(
+            id, path, is_xl, is_turbo, is_flux, is_chroma, is_z_image_turbo, is_qwen, is_flux2_klein,
+            metadata=metadata, tensor_keys=tensor_keys,
+        )
         self.positive_tags = None
         self.negative_tags = None
         self.clip_req = clip_req
@@ -176,6 +191,10 @@ class Model:
 
     def is_flux2_klein_4b(self):
         return not self.is_lora and self.architecture_type == ArchitectureType.FLUX2_KLEIN_4B
+
+    def is_flux3(self):
+        # ComfyUI's Flux3 (content-mode blocks, Qwen3-VL). Not Flux.2 Klein.
+        return not self.is_lora and self.architecture_type == ArchitectureType.FLUX3
 
     def is_flux2_klein_base(self):
         return self.is_flux2_klein() and "base" in self.path.lower()
@@ -210,6 +229,8 @@ class Model:
             return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_flux2_klein():  # covers both 4b and 9b
             return ResolutionGroup.TEN_TWENTY_FOUR
+        elif self.is_flux3():
+            return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_chroma():
             return ResolutionGroup.TEN_TWENTY_FOUR
         elif self.is_z_image_turbo():
@@ -223,35 +244,69 @@ class Model:
         """Get the architecture type as a string."""
         return self.architecture_type
 
+    def model_subdirs(self) -> tuple:
+        return Model.LORA_SUBDIRS if self.is_lora else Model.CHECKPOINT_SUBDIRS
+
+    def get_full_path(self) -> str:
+        """Absolute path to this model file.
+
+        ``path`` stored on the model is relative to the category directory it
+        was scanned from (for example ``FluxKlein\\weights.safetensors`` under
+        ``diffusion_models``). An absolute path that already points at a file
+        is returned as-is. Otherwise the known ComfyUI and WebUI category
+        directories are searched, preferring the directory this model was
+        loaded from.
+        """
+        explicit = self.path if self.path and os.path.isabs(self.path) else None
+        if explicit and os.path.isfile(explicit):
+            return explicit
+
+        models_dir = Model.MODELS_DIR or ""
+        relative = self.path if self.path and not os.path.isabs(self.path) else None
+        if models_dir and relative:
+            direct = os.path.join(models_dir, relative)
+            if os.path.isfile(direct):
+                return os.path.abspath(direct)
+
+        subdirs = []
+        if self.source_subdir:
+            subdirs.append(self.source_subdir)
+        for subdir in self.model_subdirs():
+            if subdir not in subdirs:
+                subdirs.append(subdir)
+
+        relative_candidates = []
+        if relative:
+            relative_candidates.append(relative)
+        if self.id and self.id not in relative_candidates:
+            relative_candidates.append(self.id)
+
+        first_guess = None
+        for subdir in subdirs:
+            for candidate_rel in relative_candidates:
+                candidate = os.path.join(models_dir, subdir, candidate_rel)
+                if first_guess is None:
+                    first_guess = candidate
+                if os.path.isfile(candidate):
+                    return os.path.abspath(candidate)
+
+        if explicit:
+            return explicit
+        if first_guess:
+            return first_guess
+        return os.path.join(models_dir, relative or self.id or "")
+
     def get_file_creation_date(self) -> str:
         """Get the creation date of a model file."""
         try:
             from datetime import datetime
-            
-            # Construct full file path
-            if self.path:
-                if os.path.isabs(self.path):
-                    file_path = self.path
-                else:
-                    # Relative path from models directory
-                    lora_or_sd = "Lora" if self.is_lora else "Stable-diffusion"
-                    root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
-                    file_path = os.path.join(root_dir, self.path)
-            else:
-                # Fallback to model name
-                lora_or_sd = "Lora" if self.is_lora else "Stable-diffusion"
-                root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
-                file_path = os.path.join(root_dir, self.id)
-            
-            if os.path.exists(file_path):
-                # Get file creation time
-                stat = os.stat(file_path)
-                # Use st_ctime (creation time on Windows, change time on Unix)
-                creation_time = stat.st_ctime
-                dt = datetime.fromtimestamp(creation_time)
-                return dt.strftime("%Y-%m-%d %H:%M")
-            else:
-                return "Unknown"
+
+            file_path = self.get_full_path()
+            if file_path and os.path.isfile(file_path):
+                # st_ctime is creation time on Windows and change time on Unix.
+                created = datetime.fromtimestamp(os.stat(file_path).st_ctime)
+                return created.strftime("%Y-%m-%d %H:%M")
+            return "Unknown"
         except Exception:
             return "Unknown"
 
@@ -292,8 +347,8 @@ class Model:
         return Model.DEFAULT_SD15_VAE if self.is_sd_15() else Model.DEFAULT_SDXL_VAE
 
     def validate_vae(self, vae):
-        if self.is_flux() or self.is_flux2_klein():
-            return # Flux/Flux2 Klein models use their own VAE
+        if self.is_flux() or self.is_flux2_klein() or self.is_flux3():
+            return # Flux, Flux.2 Klein, and Flux.3 models use their own VAE
         if self.is_chroma():
             if vae != Model.DEFAULT_CHROMA_VAE:
                 raise Exception(f"Invalid VAE {vae} for Chroma model {self.id}. Expected {Model.DEFAULT_CHROMA_VAE}")
@@ -514,38 +569,38 @@ class Model:
         return models
 
     @staticmethod
+    def _model_subdirs(is_lora: bool) -> tuple:
+        return Model.LORA_SUBDIRS if is_lora else Model.CHECKPOINT_SUBDIRS
+
+    @staticmethod
     def load_models(is_lora):
         models = {}
-        lora_or_sd = "Lora" if is_lora else "Stable-diffusion"
-        root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
-        if config.debug:
-            logger.debug(f"Loading models from {root_dir}")
-        for file in glob.glob(pathname="**/*", root_dir=root_dir, recursive=True):
-            if not file.endswith("ckpt") and not file.endswith("safetensors") and not file.endswith("pth") and not file.endswith("pt"):
+        seen_dirs = set()
+        for subdir in Model._model_subdirs(is_lora):
+            root_dir = os.path.join(Model.MODELS_DIR, subdir)
+            if not os.path.isdir(root_dir):
                 continue
-            model_name = re.sub("^.+\\\\", "", file)
-            file_l = file.lower()
-            is_xl = file_l.startswith("xl\\")
-            is_turbo = file_l.startswith("turbo\\")
-            is_flux2_klein = file_l.startswith("fluxklein\\")
-            is_flux = file_l.startswith("flux\\") and not is_flux2_klein
-            is_chroma = file.lower().startswith("chroma") or "chroma" in file.lower()
-            is_z_image_turbo = file.lower().startswith("zimage") or "z_image" in file.lower() or "zimage" in file.lower()
-            is_qwen = "qwen" in file.lower()
-            model = Model(
-                model_name,
-                file,
-                is_xl=is_xl,
-                is_lora=is_lora,
-                is_turbo=is_turbo,
-                is_flux=is_flux,
-                is_flux2_klein=is_flux2_klein,
-                is_chroma=is_chroma,
-                is_z_image_turbo=is_z_image_turbo,
-                is_qwen=is_qwen,
-            )
-            models[model_name] = model
-            # print(model)
+            # Lora and lora are the same directory on Windows.
+            real_dir = os.path.normcase(os.path.realpath(root_dir))
+            if real_dir in seen_dirs:
+                continue
+            seen_dirs.add(real_dir)
+            if config.debug:
+                logger.debug(f"Loading models from {root_dir}")
+            for file in glob.glob(pathname="**/*", root_dir=root_dir, recursive=True):
+                if not file.lower().endswith(Model.MODEL_FILE_SUFFIXES):
+                    continue
+                model_name = re.sub(r"^.*[\\/]", "", file)
+                if model_name in models:
+                    if config.debug:
+                        logger.debug(f"Skipping duplicate model name {model_name} from {subdir}")
+                    continue
+                models[model_name] = Model(
+                    model_name,
+                    file,
+                    is_lora=is_lora,
+                    source_subdir=subdir,
+                )
         if is_lora:
             Model.LORAS = models
         else:

@@ -630,13 +630,7 @@ class LoRAInfoWindow(SmartDialog):
     # ------------------------------------------------------------------
     def _get_model_file_path(self) -> str:
         try:
-            lora_or_sd = "Lora" if self._model.is_lora else "Stable-diffusion"
-            root_dir = os.path.join(Model.MODELS_DIR, lora_or_sd)
-            if self._model.path:
-                if os.path.isabs(self._model.path):
-                    return self._model.path
-                return os.path.join(root_dir, self._model.path)
-            return os.path.join(root_dir, self._model.id)
+            return self._model.get_full_path()
         except Exception:
             return _("Unknown")
 

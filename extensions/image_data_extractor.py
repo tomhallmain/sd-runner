@@ -20,7 +20,10 @@ ensure_pillow_plugins_registered()
 
 has_imported_sd_prompt_reader = False
 try:
-    sys.path.insert(0, config.sd_prompt_reader_loc)
+    # A missing install leaves this None. Inserting that poisons sys.path and
+    # breaks later imports, including pytest's own metadata lookup.
+    if config.sd_prompt_reader_loc:
+        sys.path.insert(0, config.sd_prompt_reader_loc)
     from sd_prompt_reader.image_data_reader import ImageDataReader
     has_imported_sd_prompt_reader = True
 except Exception as e:

@@ -66,6 +66,10 @@ class ComfyGen(BaseImageGenerator):
         logger.info("All websocket connections closed")
 
     def prompt_setup(self, workflow_type: WorkflowType, action: str, prompt: Optional[WorkflowPrompt], model: Model, vae=None, resolution=None, **kw):
+        if model.is_flux3():
+            raise Exception(
+                "Flux.3 is a different architecture from Flux.2 Klein, and SD Runner does not have a Flux.3 workflow yet."
+            )
         if prompt:
             # NOTE this is only needed for redo_with_different_parameter case `if not prompt.validate_api_prompt()`
             prompt.set_from_workflow(workflow_type.value)

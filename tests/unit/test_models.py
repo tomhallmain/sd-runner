@@ -1,3 +1,7 @@
+import json
+import os
+import struct
+
 import pytest
 from sd_runner.models.model import Model
 from tests.utils import make_model
@@ -20,6 +24,8 @@ class TestDetermineArchitectureType:
             is_z_image_turbo=flags.get("is_z_image_turbo", False),
             is_qwen=flags.get("is_qwen", False),
             is_flux2_klein=flags.get("is_flux2_klein", False),
+            metadata=flags.get("metadata"),
+            tensor_keys=flags.get("tensor_keys"),
         )
 
     def test_illustrious_by_model_id(self):
@@ -79,6 +85,67 @@ class TestDetermineArchitectureType:
         # model_id check runs first, so Illustrious wins even with is_xl=True
         result = self._det("IllustriousXL_v1.safetensors", is_xl=True)
         assert result == ArchitectureType.ILLUSTRIOUS
+
+    def test_illustrious_is_case_insensitive(self):
+        assert self._det("illustriousXL_v1.safetensors") == ArchitectureType.ILLUSTRIOUS
+
+    def test_filename_detects_families_without_a_folder(self):
+        assert self._det("juggernautXL_v9.safetensors") == ArchitectureType.SDXL
+        assert self._det("realvisxlV20.safetensors") == ArchitectureType.SDXL
+        assert self._det("flux1-dev-fp8.safetensors") == ArchitectureType.FLUX
+        assert self._det("flux-2-klein-4b.safetensors") == ArchitectureType.FLUX2_KLEIN_4B
+        assert self._det("flux-2-klein-9b.safetensors") == ArchitectureType.FLUX2_KLEIN
+        assert self._det("z_image_turbo.safetensors") == ArchitectureType.Z_IMAGE_TURBO
+        assert self._det("chroma-v1.safetensors") == ArchitectureType.CHROMA
+
+    def test_flux3_is_not_flux2_klein_or_flux1(self):
+        assert self._det("flux-3-dev.safetensors") == ArchitectureType.FLUX3
+        assert self._det("flux3.safetensors") == ArchitectureType.FLUX3
+
+    def test_comfy_diffusion_models_path_is_not_a_folder_prefix(self):
+        assert self._det(path="diffusion_models/flux/flux1-dev.safetensors") == ArchitectureType.FLUX
+        assert self._det(path="diffusion_models/FluxKlein/flux-2-klein-4b.safetensors") == ArchitectureType.FLUX2_KLEIN_4B
+
+    def test_unknown_family_is_not_assumed_sd15(self):
+        assert self._det(path="Hi Dream\\model.safetensors") == ArchitectureType.UNKNOWN
+
+    def test_sdxl_tensor_keys(self):
+        keys = {"model.diffusion_model.middle_block.1.transformer_blocks.9.attn2.to_k.weight"}
+        assert self._det("renamed.safetensors", tensor_keys=keys) == ArchitectureType.SDXL
+
+    def test_sd15_tensor_keys(self):
+        keys = {"middle_block.1.transformer_blocks.0.attn1.to_q.weight"}
+        assert self._det("renamed.safetensors", tensor_keys=keys) == ArchitectureType.SD_15
+
+    def test_flux2_tensor_keys_are_klein_family(self):
+        keys = {
+            "double_stream_modulation_img.lin.weight",
+            "double_blocks.0.img_attn.norm.key_norm.weight",
+        }
+        assert self._det("renamed.safetensors", tensor_keys=keys) == ArchitectureType.FLUX2_KLEIN
+
+    def test_flux2_tensor_keys_honor_4b_in_the_filename(self):
+        keys = {
+            "double_stream_modulation_img.lin.weight",
+            "double_blocks.0.img_attn.norm.key_norm.weight",
+        }
+        assert self._det("custom-4b.safetensors", tensor_keys=keys) == ArchitectureType.FLUX2_KLEIN_4B
+
+    def test_flux3_tensor_keys_beat_a_fluxklein_folder(self):
+        keys = {
+            "content_mode_blocks.image.0.attn_out.weight",
+            "single_stream_modulations.txt.lin.weight",
+        }
+        result = self._det("renamed.safetensors", path="FluxKlein\\renamed.safetensors", tensor_keys=keys)
+        assert result == ArchitectureType.FLUX3
+
+    def test_flux1_tensor_keys(self):
+        keys = {"double_blocks.0.img_attn.norm.key_norm.weight", "img_in.weight"}
+        assert self._det("renamed.safetensors", tensor_keys=keys) == ArchitectureType.FLUX
+
+    def test_metadata_modelspec_sd15(self):
+        metadata = {"modelspec.architecture": "stable-diffusion-v1"}
+        assert self._det("renamed.safetensors", metadata=metadata) == ArchitectureType.SD_15
 
 
 # ---------------------------------------------------------------------------
@@ -242,3 +309,97 @@ class TestModelStr:
         s = str(m)
         assert "LoRA" in s or "lora" in s.lower()
         assert "0.75" in s
+
+
+def _write_safetensors(path, metadata=None, keys=()):
+    header = {}
+    if metadata:
+        header["__metadata__"] = metadata
+    for key in keys:
+        header[key] = {"dtype": "F32", "shape": [1], "data_offsets": [0, 4]}
+    raw = json.dumps(header).encode("utf-8")
+    with open(path, "wb") as handle:
+        handle.write(struct.pack("<Q", len(raw)))
+        handle.write(raw)
+        handle.write(b"\0\0\0\0")
+
+
+class TestModelPaths:
+    def test_full_path_finds_comfy_diffusion_model(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(Model, "MODELS_DIR", str(tmp_path))
+        dest = tmp_path / "diffusion_models" / "flux"
+        dest.mkdir(parents=True)
+        weight = dest / "flux1-dev.safetensors"
+        weight.write_bytes(b"not a real header")
+        model = Model(
+            "flux1-dev.safetensors",
+            path=os.path.join("flux", "flux1-dev.safetensors"),
+            source_subdir="diffusion_models",
+        )
+        assert os.path.normcase(model.get_full_path()) == os.path.normcase(str(weight))
+
+    def test_full_path_finds_comfy_lora_and_a1111_checkpoint(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(Model, "MODELS_DIR", str(tmp_path))
+        lora = tmp_path / "loras" / "detail.safetensors"
+        lora.parent.mkdir()
+        lora.write_bytes(b"x")
+        checkpoint = tmp_path / "Stable-diffusion" / "XL" / "sdxl.safetensors"
+        checkpoint.parent.mkdir(parents=True)
+        checkpoint.write_bytes(b"x")
+
+        lora_model = Model("detail.safetensors", path="detail.safetensors", is_lora=True)
+        checkpoint_model = Model("sdxl.safetensors", path=os.path.join("XL", "sdxl.safetensors"))
+        assert os.path.normcase(lora_model.get_full_path()) == os.path.normcase(str(lora))
+        assert os.path.normcase(checkpoint_model.get_full_path()) == os.path.normcase(str(checkpoint))
+
+    def test_creation_date_uses_resolved_path(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(Model, "MODELS_DIR", str(tmp_path))
+        dest = tmp_path / "checkpoints"
+        dest.mkdir()
+        weight = dest / "model.safetensors"
+        weight.write_bytes(b"x")
+        model = Model("model.safetensors", path="model.safetensors")
+        assert model.get_file_creation_date() != "Unknown"
+
+    def test_header_overrides_fluxklein_folder(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(Model, "MODELS_DIR", str(tmp_path))
+        dest = tmp_path / "diffusion_models" / "FluxKlein"
+        dest.mkdir(parents=True)
+        weight = dest / "renamed.safetensors"
+        _write_safetensors(weight, keys=(
+            "content_mode_blocks.image.0.attn_out.weight",
+            "single_stream_modulations.txt.lin.weight",
+        ))
+        model = Model(
+            "renamed.safetensors",
+            path=os.path.join("FluxKlein", "renamed.safetensors"),
+            source_subdir="diffusion_models",
+        )
+        assert model.is_flux3() is True
+        assert model.is_flux2_klein() is False
+
+    def test_load_models_scans_comfy_and_webui_layouts(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(Model, "MODELS_DIR", str(tmp_path))
+        monkeypatch.setattr(Model, "CHECKPOINTS", {})
+        monkeypatch.setattr(Model, "LORAS", {})
+        diffusion = tmp_path / "diffusion_models"
+        diffusion.mkdir()
+        (diffusion / "flux-2-klein-4b.safetensors").write_bytes(b"x")
+        loras = tmp_path / "loras"
+        loras.mkdir()
+        (loras / "detail.safetensors").write_bytes(b"x")
+        webui = tmp_path / "Stable-diffusion" / "SD1.5"
+        webui.mkdir(parents=True)
+        (webui / "realistic.safetensors").write_bytes(b"x")
+
+        Model.load_models(is_lora=False)
+        Model.load_models(is_lora=True)
+
+        klein = Model.CHECKPOINTS["flux-2-klein-4b.safetensors"]
+        assert klein.is_flux2_klein_4b() is True
+        assert klein.source_subdir == "diffusion_models"
+        realistic = Model.CHECKPOINTS["realistic.safetensors"]
+        assert realistic.is_sd_15() is True
+        assert realistic.source_subdir == "Stable-diffusion"
+        assert "detail.safetensors" in Model.LORAS
+        assert Model.LORAS["detail.safetensors"].source_subdir == "loras"
