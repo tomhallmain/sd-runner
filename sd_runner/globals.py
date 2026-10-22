@@ -621,16 +621,20 @@ class SoftwareType(Enum):
     Fooocus = "Fooocus"
 
     def is_cloud(self) -> bool:
-        _LOCAL = (
-            SoftwareType.ComfyUI,
-            SoftwareType.SDWebUI,
-            SoftwareType.Forge,
-            SoftwareType.SDNext,
-            SoftwareType.SwarmUI,
-            SoftwareType.InvokeAI,
-            SoftwareType.Fooocus,
+        return self not in SoftwareType.local_types()
+
+    @classmethod
+    def local_types(cls) -> tuple["SoftwareType", ...]:
+        """Backends that run on this machine and can be started from a command."""
+        return (
+            cls.ComfyUI,
+            cls.SDWebUI,
+            cls.Forge,
+            cls.SDNext,
+            cls.SwarmUI,
+            cls.InvokeAI,
+            cls.Fooocus,
         )
-        return self not in _LOCAL
 
 class ArchitectureType(Enum):
     SD_15 = "SD_15"

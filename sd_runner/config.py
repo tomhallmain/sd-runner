@@ -53,7 +53,8 @@ class Config:
         "swarmui_loc":                      None,
         "sd_prompt_reader_loc":             None,
         "image_searcher_dir2":              None,
-        # Backend autolaunch — see backend_launch_commands below
+        # Backend autolaunch. Blank or null means that software is not started.
+        "backend_launch_commands":          dict,
         "backend_startup_timeout":          int,
         "log_backend_output":               bool,
         # UI
@@ -507,6 +508,7 @@ class Config:
 
         *raw* maps config-key → value, where:
           - bool fields supply a Python ``bool`` directly (e.g. from a checkbox)
+          - dict fields supply a ``dict``; a blank start command is stored as null
           - all other fields supply a ``str`` that will be coerced to the
             registered type (see ``DIALOG_FIELDS``)
 
@@ -522,6 +524,15 @@ class Config:
             expected = self.DIALOG_FIELDS[key]
             if expected is bool:
                 typed[key] = bool(value)
+            elif expected is dict:
+                if not isinstance(value, dict):
+                    errors.append(f"{key}: expected dict, got {type(value).__name__}")
+                    continue
+                typed[key] = (
+                    self._normalize_launch_commands(value)
+                    if key == "backend_launch_commands"
+                    else value
+                )
             elif expected is None:
                 s = str(value).strip()
                 typed[key] = s if s else None
@@ -541,6 +552,18 @@ class Config:
         self.persist()
         self._apply_logging_settings()
         return []
+
+    @staticmethod
+    def _normalize_launch_commands(commands: dict) -> dict:
+        """Store a blank start command as null so it is not launched."""
+        cleaned: dict = {}
+        for name, command in commands.items():
+            if command is None:
+                cleaned[str(name)] = None
+                continue
+            text = str(command).strip()
+            cleaned[str(name)] = text or None
+        return cleaned
 
     def persist(self) -> None:
         """Write current config.dict back to the active config file atomically.

@@ -35,9 +35,9 @@ _bootstrap_cache_dir = os.path.join(_bootstrap_tmp, "cache")
 os.makedirs(_bootstrap_configs_dir, exist_ok=True)
 os.makedirs(_bootstrap_cache_dir, exist_ok=True)
 
-_config_example_src = os.path.join(_project_root, "sd_runner", "data", "config_example.json")
-if os.path.isfile(_config_example_src):
-    shutil.copy(_config_example_src, os.path.join(_bootstrap_configs_dir, "config.json"))
+from tests.valid_config import write_valid_config
+
+write_valid_config(_bootstrap_configs_dir, os.path.join(_bootstrap_tmp, "locations"))
 
 # Must be set before Config() and AppInfoCache() are first instantiated.
 os.environ["SD_RUNNER_CONFIGS_DIR"] = _bootstrap_configs_dir
@@ -339,6 +339,13 @@ def _reset_class_state() -> None:
     except Exception:
         pass
 
+    # Read from config once, when the class is defined, so it would otherwise
+    # keep the bootstrap config's folder rather than this test's.
+    _adapters = sys.modules.get("sd_runner.models.model_adapters")
+    if _adapters is not None:
+        from sd_runner.config import config as _config
+        _adapters.IPAdapter.BASE_DIR = _config.ipadapter_dir
+
     try:
         from sd_runner.presets.timed_schedules_manager import TimedSchedulesManager
         TimedSchedulesManager.schedule_history = []
@@ -448,8 +455,7 @@ def isolated_singletons(tmp_path, monkeypatch):
     cache_dir = tmp_path / "cache"
     configs_dir.mkdir()
     cache_dir.mkdir()
-    if os.path.isfile(_config_example_src):
-        shutil.copy(_config_example_src, configs_dir / "config.json")
+    write_valid_config(configs_dir, tmp_path / "locations")
 
     monkeypatch.setenv("SD_RUNNER_CONFIGS_DIR", str(configs_dir))
     monkeypatch.setenv("SD_RUNNER_CACHE_DIR", str(cache_dir))

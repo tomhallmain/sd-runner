@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
 from lib.multi_display_qt import SmartDialog
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.config import config
+from sd_runner.globals import SoftwareType
 from lib.translations import I18N
 
 if TYPE_CHECKING:
@@ -131,6 +132,34 @@ class ConfigWindow(SmartDialog):
         self._le_image_searcher_dir2 = self._add_entry(
             _("Image Searcher Directory 2"), str(config.image_searcher_dir2 or ""),
         )
+
+        # ── Start commands ────────────────────────────────────────────
+        self._add_section(_("Start Commands"))
+        self._add_note(_(
+            "Blank leaves that software unstarted. "
+            "The command runs in its location folder."
+        ))
+        stored_commands = (
+            config.backend_launch_commands
+            if isinstance(config.backend_launch_commands, dict)
+            else {}
+        )
+        labels = {
+            SoftwareType.ComfyUI: _("ComfyUI Start Command"),
+            SoftwareType.SDWebUI: _("SD WebUI Start Command"),
+            SoftwareType.Forge: _("Forge Start Command"),
+            SoftwareType.SDNext: _("SDNext Start Command"),
+            SoftwareType.SwarmUI: _("SwarmUI Start Command"),
+            SoftwareType.InvokeAI: _("InvokeAI Start Command"),
+            SoftwareType.Fooocus: _("Fooocus Start Command"),
+        }
+        self._launch_entries: dict[str, QLineEdit] = {}
+        for software in SoftwareType.local_types():
+            current = stored_commands.get(software.name)
+            self._launch_entries[software.name] = self._add_entry(
+                labels[software],
+                "" if current is None else str(current),
+            )
 
         # ── UI ────────────────────────────────────────────────────────
         self._add_section(_("UI"))
@@ -298,6 +327,16 @@ class ConfigWindow(SmartDialog):
         for widget_attr, config_key in entry_fields:
             raw[config_key] = getattr(self, widget_attr).text()
 
+        commands = {}
+        for name, entry in self._launch_entries.items():
+            text = entry.text().strip()
+            commands[name] = text or None
+        if isinstance(config.backend_launch_commands, dict):
+            for name, command in config.backend_launch_commands.items():
+                if name not in commands:
+                    commands[name] = command
+        raw["backend_launch_commands"] = commands
+
         try:
             errors = config.apply_and_persist(raw)
         except Exception as exc:
@@ -335,6 +374,15 @@ class ConfigWindow(SmartDialog):
             f"font-weight: bold; padding-top: 10px; padding-bottom: 2px;"
         )
         self._grid.addWidget(title, self._row, 0, 1, 2)
+        self._row += 1
+
+    def _add_note(self, text: str) -> None:
+        note = QLabel(text)
+        note.setWordWrap(True)
+        note.setStyleSheet(
+            f"color: {AppStyle.FG_COLOR}; background: {AppStyle.BG_COLOR};"
+        )
+        self._grid.addWidget(note, self._row, 0, 1, 2)
         self._row += 1
 
     def _add_entry(self, label_text: str, initial: str) -> QLineEdit:

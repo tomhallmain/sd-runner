@@ -33,8 +33,8 @@ class TestDialogFieldsRegistry:
             assert hasattr(c, key), f"DIALOG_FIELDS key {key!r} has no matching attribute"
 
     def test_all_dialog_fields_have_valid_type_sentinel(self):
-        """Every value in DIALOG_FIELDS must be bool, int, float, str, or None."""
-        allowed = {bool, int, float, str, None}
+        """Every value in DIALOG_FIELDS must be bool, int, float, str, dict, or None."""
+        allowed = {bool, int, float, str, dict, None}
         for key, expected in Config.DIALOG_FIELDS.items():
             assert expected in allowed, (
                 f"DIALOG_FIELDS[{key!r}] = {expected!r} is not an allowed type sentinel"
@@ -116,6 +116,32 @@ class TestApplyAndPersistFieldTypes:
         assert errors == []
         assert c.comfyui_url == "http://localhost:8188"
         assert c.dict["comfyui_url"] == "http://localhost:8188"
+
+    def test_blank_start_commands_are_stored_as_null(self):
+        c = _config()
+        errors = c.apply_and_persist({
+            "backend_launch_commands": {
+                "ComfyUI": "  python main.py  ",
+                "SDWebUI": "",
+                "Forge": None,
+                "SDNext": "   ",
+            }
+        })
+        assert errors == []
+        assert c.backend_launch_commands == {
+            "ComfyUI": "python main.py",
+            "SDWebUI": None,
+            "Forge": None,
+            "SDNext": None,
+        }
+        on_disk = json.loads(Path(c.config_path).read_text(encoding="utf-8"))
+        assert on_disk["backend_launch_commands"]["ComfyUI"] == "python main.py"
+        assert on_disk["backend_launch_commands"]["SDWebUI"] is None
+
+    def test_start_commands_reject_a_non_dict(self):
+        errors = _config().apply_and_persist({"backend_launch_commands": "python main.py"})
+        assert errors
+        assert "dict" in errors[0]
 
 
 # ---------------------------------------------------------------------------

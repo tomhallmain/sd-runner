@@ -61,6 +61,8 @@ def test_log_files_are_written_inside_the_test_run():
         if name.startswith("sd_runner") and isinstance(logger, logging.Logger)
         for handler in logger.handlers
         if isinstance(handler, (logging.FileHandler, EncryptedFileHandler))
+        # Pytest attaches its own capture handlers, including one on the null device.
+        and not type(handler).__module__.startswith("_pytest")
     ]
     assert handlers
     for handler in handlers:

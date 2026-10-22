@@ -19,15 +19,8 @@ if not os.environ.get("SD_RUNNER_CONFIGS_DIR") or not os.environ.get("SD_RUNNER_
     _fb_tmp = tempfile.mkdtemp(prefix="sd_runner_unit_fb_")
     if not os.environ.get("SD_RUNNER_CONFIGS_DIR"):
         _fb_configs = os.path.join(_fb_tmp, "configs")
-        os.makedirs(_fb_configs, exist_ok=True)
-        # Copy example config if available
-        _example = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-            "sd_runner", "data", "config_example.json",
-        )
-        if os.path.isfile(_example):
-            import shutil as _sh
-            _sh.copy(_example, os.path.join(_fb_configs, "config.json"))
+        from tests.valid_config import write_valid_config
+        write_valid_config(_fb_configs, os.path.join(_fb_tmp, "locations"))
         os.environ["SD_RUNNER_CONFIGS_DIR"] = _fb_configs
     if not os.environ.get("SD_RUNNER_CACHE_DIR"):
         _fb_cache = os.path.join(_fb_tmp, "cache")

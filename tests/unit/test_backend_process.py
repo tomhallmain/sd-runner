@@ -6,8 +6,10 @@ already up is adopted rather than started twice, and one that was adopted is
 never stopped on exit.
 """
 
+import json
 import sys
 import threading
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -19,6 +21,7 @@ from extensions.backend_process import (
     LOC_FIELDS,
     configured_backends,
 )
+from sd_runner.config import Config
 from sd_runner.globals import SoftwareType
 
 
@@ -111,8 +114,14 @@ class TestConfiguredBackends:
 
     def test_every_local_backend_can_be_launched(self):
         """A local backend missing from LOC_FIELDS would be silently unlaunchable."""
-        missing = [s for s in SoftwareType if not s.is_cloud() and s not in LOC_FIELDS]
+        missing = [s for s in SoftwareType.local_types() if s not in LOC_FIELDS]
         assert missing == []
+
+    def test_example_config_presets_a_blank_command_for_every_local_backend(self):
+        example = json.loads(Path(Config.EXAMPLE_CONFIG_LOC).read_text(encoding="utf-8"))
+        commands = example["backend_launch_commands"]
+        assert list(commands) == [software.name for software in SoftwareType.local_types()]
+        assert all(command is None for command in commands.values())
 
 
 # ---------------------------------------------------------------------------
