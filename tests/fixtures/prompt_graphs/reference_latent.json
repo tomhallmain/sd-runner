@@ -1,0 +1,57 @@
+{
+  "1": {
+    "class_type": "CFGGuider",
+    "inputs": {
+      "positive": [
+        "2",
+        0
+      ],
+      "negative": [
+        "3",
+        0
+      ]
+    }
+  },
+  "2": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": [
+        "4",
+        0
+      ],
+      "latent": [
+        "6",
+        0
+      ]
+    }
+  },
+  "3": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": [
+        "5",
+        0
+      ],
+      "latent": [
+        "6",
+        0
+      ]
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "positive prompt via reference latent"
+    }
+  },
+  "5": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "negative prompt via reference latent"
+    }
+  },
+  "6": {
+    "class_type": "VAEEncode",
+    "inputs": {}
+  }
+}

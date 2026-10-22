@@ -1,0 +1,134 @@
+{
+  "3": {
+    "class_type": "KSampler",
+    "inputs": {
+      "positive": [
+        "6",
+        0
+      ],
+      "negative": [
+        "13",
+        0
+      ]
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": [
+        "28",
+        0
+      ]
+    }
+  },
+  "13": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": [
+        "6",
+        0
+      ]
+    }
+  },
+  "16": {
+    "class_type": "TextGenerate",
+    "inputs": {
+      "prompt": [
+        "17",
+        0
+      ]
+    }
+  },
+  "17": {
+    "class_type": "StringConcatenate",
+    "inputs": {
+      "string_a": [
+        "18",
+        0
+      ],
+      "string_b": [
+        "19",
+        0
+      ],
+      "delimiter": ""
+    }
+  },
+  "18": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {
+      "value": "You are an expert prompt engineer.\n\nUser's Input:\n"
+    }
+  },
+  "19": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {
+      "value": "A high-resolution, surreal digital illustration showing a human hand holding a martini glass."
+    }
+  },
+  "20": {
+    "class_type": "PreviewAny",
+    "inputs": {
+      "source": [
+        "21",
+        0
+      ]
+    }
+  },
+  "21": {
+    "class_type": "ComfySwitchNode",
+    "inputs": {
+      "switch": [
+        "24",
+        0
+      ],
+      "on_false": [
+        "19",
+        0
+      ],
+      "on_true": [
+        "16",
+        0
+      ]
+    }
+  },
+  "23": {
+    "class_type": "PrimitiveBoolean",
+    "inputs": {
+      "value": false
+    }
+  },
+  "24": {
+    "class_type": "PrimitiveBoolean",
+    "inputs": {
+      "value": true
+    }
+  },
+  "27": {
+    "class_type": "StringConcatenate",
+    "inputs": {
+      "string_a": [
+        "20",
+        0
+      ],
+      "string_b": "muted minimalist sketch style",
+      "delimiter": ", "
+    }
+  },
+  "28": {
+    "class_type": "ComfySwitchNode",
+    "inputs": {
+      "switch": [
+        "23",
+        0
+      ],
+      "on_false": [
+        "20",
+        0
+      ],
+      "on_true": [
+        "27",
+        0
+      ]
+    }
+  }
+}

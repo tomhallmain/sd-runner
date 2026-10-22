@@ -161,19 +161,173 @@ class ImageDataExtractor:
         with open(prompt_file_path, "w") as store:
             json.dump(prompt, store, indent=2)
 
-    def _resolve_clip_text(self, prompt, node_key, prompt_dicts, visited=None):
-        """Walk conditioning references through intermediate nodes to reach a CLIPTextEncode."""
+    def _node_link_id(self, value):
+        """Return the source node id when ``value`` is a link ``[node_id, slot]``."""
+        if (
+            isinstance(value, (list, tuple))
+            and len(value) == 2
+            and isinstance(value[0], (str, int))
+            and not isinstance(value[0], bool)
+            and isinstance(value[1], int)
+            and not isinstance(value[1], bool)
+        ):
+            return str(value[0])
+        return None
+
+    def _link_target(self, value):
+        """Return ``(node_id, output_slot)`` for a link, or None."""
+        node_id = self._node_link_id(value)
+        if node_id is None:
+            return None
+        return node_id, value[1]
+
+    def _resolve_bool_input(self, prompt, value, visited):
+        """Resolve a boolean widget or a link to a PrimitiveBoolean (or similar ``value`` node)."""
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, (int, float)):
+            return bool(value)
+        if isinstance(value, str):
+            return value.strip().lower() in ("true", "1", "yes", "on")
+        node_id = self._node_link_id(value)
+        if node_id is None or node_id in visited:
+            return False
+        inputs = prompt.get(node_id, {}).get(ImageDataExtractor.INPUTS, {})
+        if "value" not in inputs:
+            return False
+        return self._resolve_bool_input(prompt, inputs.get("value"), visited | {node_id})
+
+    def _resolve_text_input(self, prompt, value, visited=None):
+        """Resolve a string widget or a link to a string-producing node.
+
+        Follows the nodes this extractor has seen between a CLIP text input and the
+        literal prompt: primitive strings, ``StringConcatenate``, ``ComfySwitchNode``
+        (the branch selected by ``switch``), and pass-through nodes such as ``PreviewAny``.
+        """
+        if isinstance(value, str):
+            return value
+        if isinstance(value, bytes):
+            try:
+                return value.decode("utf-8", errors="replace")
+            except Exception:
+                return ""
+        node_id = self._node_link_id(value)
+        if node_id is None:
+            return ""
         if visited is None:
             visited = set()
-        if node_key is None or node_key in visited:
+        if node_id in visited:
             return ""
-        visited.add(node_key)
+        path = visited | {node_id}
+        node = prompt.get(node_id, {})
+        inputs = node.get(ImageDataExtractor.INPUTS, {})
+        class_type = node.get(ImageDataExtractor.CLASS_TYPE, "")
+
+        if class_type in ("ComfySwitchNode", "ComfySoftSwitchNode"):
+            switch_on = self._resolve_bool_input(prompt, inputs.get("switch"), path)
+            selected_key = "on_true" if switch_on else "on_false"
+            selected = inputs.get(selected_key, "")
+            resolved = self._resolve_text_input(prompt, selected, path)
+            # TextGenerate (prompt enhancement) does not save its output in the prompt
+            # graph. The official Krea template keeps the typed prompt on the other
+            # branch of the same switch, so use that when the selected branch is empty.
+            if not str(resolved).strip() and self._text_output_not_stored(prompt, selected, path):
+                other_key = "on_false" if switch_on else "on_true"
+                other = self._resolve_text_input(prompt, inputs.get(other_key, ""), path)
+                if str(other).strip():
+                    return other
+            return resolved
+
+        if class_type == "StringConcatenate":
+            parts = [
+                self._resolve_text_input(prompt, inputs.get("string_a", ""), path),
+                self._resolve_text_input(prompt, inputs.get("string_b", ""), path),
+            ]
+            delimiter = inputs.get("delimiter", "")
+            if not isinstance(delimiter, str):
+                delimiter = self._resolve_text_input(prompt, delimiter, path)
+            return delimiter.join(parts)
+
+        # PrimitiveString / PrimitiveStringMultiline store the prompt in ``value``.
+        raw_value = inputs.get("value", None)
+        if isinstance(raw_value, str) or self._node_link_id(raw_value) is not None:
+            return self._resolve_text_input(prompt, raw_value, path)
+
+        # PreviewAny and similar nodes forward their input on ``source``.
+        if "source" in inputs:
+            return self._resolve_text_input(prompt, inputs.get("source", ""), path)
+
+        return ""
+
+    def _text_output_not_stored(self, prompt, value, visited):
+        """True when ``value`` links to a node whose text is produced at runtime.
+
+        ``TextGenerate`` writes ``generated_text`` only into the execution result.
+        The saved prompt keeps the node's inputs, not that output. ``PreviewAny``
+        in front of such a node does not store the text either.
+        """
+        node_id = self._node_link_id(value)
+        if node_id is None or node_id in visited:
+            return False
+        node = prompt.get(node_id, {})
+        class_type = node.get(ImageDataExtractor.CLASS_TYPE, "")
+        if class_type in ("TextGenerate", "TextGenerateLTX2Prompt"):
+            return True
+        if class_type == "PreviewAny":
+            source = node.get(ImageDataExtractor.INPUTS, {}).get("source")
+            return self._text_output_not_stored(prompt, source, visited | {node_id})
+        return False
+
+    def _resolve_linked_conditioning(self, prompt, link, prompt_dicts, visited):
+        """Follow a conditioning link ``[node_id, output_slot]``. Returns None when it is not a link."""
+        node_id = self._node_link_id(link)
+        if node_id is None:
+            return None
+        return self._resolve_clip_text(prompt, node_id, prompt_dicts, visited, output_slot=link[1])
+
+    def _resolve_clip_text(self, prompt, node_key, prompt_dicts, visited=None, output_slot=0):
+        """Walk conditioning references through intermediate nodes to reach a CLIPTextEncode.
+
+        ``output_slot`` selects which output of a multi-output node to follow.
+        ``ReferenceMultiLatent`` output 0 is its positive input and output 1 is its
+        negative input (or the positive input again when negative is not connected).
+        """
+        if visited is None:
+            visited = set()
+        if node_key is None:
+            return ""
+        node_key = str(node_key)
+        visit_key = (node_key, output_slot)
+        if visit_key in visited:
+            return ""
+        visited.add(visit_key)
         if node_key in prompt_dicts:
-            return prompt_dicts[node_key]
-        node = prompt.get(str(node_key), {})
-        conditioning = node.get(ImageDataExtractor.INPUTS, {}).get("conditioning")
-        if isinstance(conditioning, list) and len(conditioning) >= 1:
-            return self._resolve_clip_text(prompt, str(conditioning[0]), prompt_dicts, visited)
+            return prompt_dicts[node_key] if output_slot == 0 else ""
+        node = prompt.get(node_key, {})
+        # ConditioningZeroOut nulls the conditioning. Its input link still points at
+        # the positive CLIP encode, but that text is not the negative prompt.
+        if node.get(ImageDataExtractor.CLASS_TYPE) == "ConditioningZeroOut":
+            return ""
+        inputs = node.get(ImageDataExtractor.INPUTS, {})
+        conditioning = inputs.get("conditioning")
+        if self._node_link_id(conditioning) is not None:
+            resolved = self._resolve_linked_conditioning(prompt, conditioning, prompt_dicts, visited)
+            return "" if resolved is None else resolved
+        # ReferenceMultiLatent (and the same shape): the sampler links to one node
+        # twice, and the output slot chooses the positive or negative conditioning.
+        positive_link = inputs.get("positive")
+        negative_link = inputs.get("negative")
+        if self._node_link_id(positive_link) is not None or self._node_link_id(negative_link) is not None:
+            if output_slot == 0:
+                resolved = self._resolve_linked_conditioning(prompt, positive_link, prompt_dicts, visited)
+                return "" if resolved is None else resolved
+            if output_slot == 1:
+                if self._node_link_id(negative_link) is None:
+                    resolved = self._resolve_linked_conditioning(prompt, positive_link, prompt_dicts, visited)
+                else:
+                    resolved = self._resolve_linked_conditioning(prompt, negative_link, prompt_dicts, visited)
+                return "" if resolved is None else resolved
+            return ""
         return ""
 
     def extract(self, image_path):
@@ -189,11 +343,10 @@ class ImageDataExtractor:
                 if ImageDataExtractor.CLASS_TYPE in v and ImageDataExtractor.INPUTS in v:
                     if v[ImageDataExtractor.CLASS_TYPE] == "CLIPTextEncode":
                         text = v[ImageDataExtractor.INPUTS].get("text", "")
-                        if isinstance(text, list) and len(text) == 2:
-                            # text is a node reference [node_id, output_idx] — follow it
-                            ref_node = prompt.get(str(text[0]), {})
-                            text = ref_node.get(ImageDataExtractor.INPUTS, {}).get("value", "")
-                        prompt_dicts[k] = text
+                        # text may be a link [node_id, slot] into a primitive, switch, or concatenate.
+                        if self._node_link_id(text) is not None:
+                            text = self._resolve_text_input(prompt, text)
+                        prompt_dicts[k] = text if isinstance(text, str) else ""
                     elif v[ImageDataExtractor.CLASS_TYPE] == "ImpactWildcardProcessor":
                         positive = v[ImageDataExtractor.INPUTS]["populated_text"]
                     elif (ImageDataExtractor.POSITIVE in v[ImageDataExtractor.INPUTS] and
@@ -201,16 +354,23 @@ class ImageDataExtractor:
                         if has_found_discriminator and v[ImageDataExtractor.CLASS_TYPE].startswith("KSampler"):
                             continue
                         has_found_discriminator = True
-                        node_inputs[ImageDataExtractor.POSITIVE] = v[ImageDataExtractor.INPUTS][ImageDataExtractor.POSITIVE][0]
-                        node_inputs[ImageDataExtractor.NEGATIVE] = v[ImageDataExtractor.INPUTS][ImageDataExtractor.NEGATIVE][0]
+                        # Keep the output slot. ReferenceMultiLatent uses one node for both
+                        # conditioning streams: output 0 is positive and output 1 is negative.
+                        node_inputs[ImageDataExtractor.POSITIVE] = self._link_target(
+                            v[ImageDataExtractor.INPUTS][ImageDataExtractor.POSITIVE]
+                        )
+                        node_inputs[ImageDataExtractor.NEGATIVE] = self._link_target(
+                            v[ImageDataExtractor.INPUTS][ImageDataExtractor.NEGATIVE]
+                        )
 
-            # Resolve positive/negative through the node graph; intermediate nodes like
-            # ReferenceLatent pass conditioning through and are followed via _resolve_clip_text.
-            pos_key = node_inputs.get(ImageDataExtractor.POSITIVE)
-            neg_key = node_inputs.get(ImageDataExtractor.NEGATIVE)
+            # Resolve positive/negative through the node graph. ReferenceLatent passes
+            # conditioning through. ReferenceMultiLatent exposes positive and negative
+            # on output slots 0 and 1 of the same node.
+            pos_ref = node_inputs.get(ImageDataExtractor.POSITIVE)
+            neg_ref = node_inputs.get(ImageDataExtractor.NEGATIVE)
             if not positive:
-                positive = self._resolve_clip_text(prompt, str(pos_key), prompt_dicts) if pos_key is not None else ""
-            negative = self._resolve_clip_text(prompt, str(neg_key), prompt_dicts) if neg_key is not None else ""
+                positive = self._resolve_clip_text(prompt, pos_ref[0], prompt_dicts, output_slot=pos_ref[1]) if pos_ref else ""
+            negative = self._resolve_clip_text(prompt, neg_ref[0], prompt_dicts, output_slot=neg_ref[1]) if neg_ref else ""
 
         return (positive, negative)
 

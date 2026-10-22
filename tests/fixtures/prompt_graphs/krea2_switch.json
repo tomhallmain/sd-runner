@@ -1,0 +1,70 @@
+{
+  "3": {
+    "class_type": "KSampler",
+    "inputs": {
+      "positive": [
+        "6",
+        0
+      ],
+      "negative": [
+        "13",
+        0
+      ]
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": [
+        "28",
+        0
+      ]
+    }
+  },
+  "13": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "blurry, low quality"
+    }
+  },
+  "19": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {
+      "value": "drawing, people doing bravo !\n\n"
+    }
+  },
+  "23": {
+    "class_type": "PrimitiveBoolean",
+    "inputs": {
+      "value": false
+    }
+  },
+  "27": {
+    "class_type": "StringConcatenate",
+    "inputs": {
+      "string_a": [
+        "19",
+        0
+      ],
+      "string_b": "",
+      "delimiter": ", "
+    }
+  },
+  "28": {
+    "class_type": "ComfySwitchNode",
+    "inputs": {
+      "switch": [
+        "23",
+        0
+      ],
+      "on_false": [
+        "19",
+        0
+      ],
+      "on_true": [
+        "27",
+        0
+      ]
+    }
+  }
+}
