@@ -94,6 +94,17 @@ class WorkflowPromptComfy(WorkflowPrompt):
     def set_by_id(self, id_key, key, value):
         self.json[id_key][WorkflowPromptComfy.INPUTS][key] = value
 
+    def set_krea_prompts(self, positive, negative):
+        """Write the prompts the user typed into the Krea simple-gen graph.
+
+        The positive string is encoded as written. The sampler's negative
+        input is a CLIP encode of the negative text. This graph is the run
+        without a LoRA, so the LoRA switch stays off.
+        """
+        self.set_by_id("30:19", "value", positive or "")
+        self.set_by_id("30:13", "text", negative or "")
+        self.set_by_id("30:23", "value", False)
+
     def find_linked_input_node(self, starting_class_type=ComfyNodeName.IP_ADAPTER_ADVANCED, class_type=ComfyNodeName.LOAD_IMAGE, vartype="image"):
         found_node = None
         counter = 0

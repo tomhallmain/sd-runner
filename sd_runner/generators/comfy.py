@@ -511,8 +511,8 @@ class ComfyGen(BaseImageGenerator):
         positive = self.gen_config.redo_param("positive", positive)
         negative = self.gen_config.redo_param("negative", negative)
         if model.is_krea2():
-            positive, _negative = model.get_model_text(positive, negative or "")
-            prompt.set_by_id("30:19", "value", positive)
+            positive, negative = model.get_model_text(positive, negative or "")
+            prompt.set_krea_prompts(positive, negative)
         elif model.is_minimax_h3():
             positive, _negative = model.get_model_text(positive, negative or "")
             prompt.set_by_id("140:131", "prompt", positive)

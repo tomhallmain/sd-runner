@@ -454,6 +454,21 @@ class TestSimpleGenWorkflowSelection:
             ]
             assert unets and all("\\" in name for name in unets)
 
+    def test_krea_simple_gen_encodes_the_typed_prompts(self):
+        from sd_runner.globals import WorkflowType
+
+        prompt, _model = self._setup("krea2_turbo.safetensors", WorkflowType.SIMPLE_IMAGE_GEN)
+        classes = {node["class_type"] for node in prompt.json.values()}
+        assert "TextGenerate" not in classes
+        assert prompt.json["30:28"]["inputs"]["on_false"] == ["30:19", 0]
+        assert prompt.json["30:13"]["class_type"] == "CLIPTextEncode"
+        assert prompt.json["30:3"]["inputs"]["negative"] == ["30:13", 0]
+        assert prompt.json["30:23"]["inputs"]["value"] is False
+        prompt.set_krea_prompts("a red door", "blurry")
+        assert prompt.json["30:19"]["inputs"]["value"] == "a red door"
+        assert prompt.json["30:13"]["inputs"]["text"] == "blurry"
+        assert prompt.json["30:23"]["inputs"]["value"] is False
+
     def test_flux2_klein_lora_keeps_its_existing_workflow(self):
         from sd_runner.globals import WorkflowType
 

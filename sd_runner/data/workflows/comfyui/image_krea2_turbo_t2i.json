@@ -123,14 +123,15 @@
   },
   "30:13": {
     "inputs": {
-      "conditioning": [
-        "30:6",
+      "text": "",
+      "clip": [
+        "30:11",
         0
       ]
     },
-    "class_type": "ConditioningZeroOut",
+    "class_type": "CLIPTextEncode",
     "_meta": {
-      "title": "ConditioningZeroOut"
+      "title": "Negative Prompt"
     }
   },
   "30:15": {
@@ -147,59 +148,6 @@
       "title": "LoraLoaderModelOnly"
     }
   },
-  "30:16": {
-    "inputs": {
-      "prompt": [
-        "30:17",
-        0
-      ],
-      "max_length": 512,
-      "sampling_mode": "on",
-      "sampling_mode.temperature": 0.7,
-      "sampling_mode.top_k": 64,
-      "sampling_mode.top_p": 0.95,
-      "sampling_mode.min_p": 0.05,
-      "sampling_mode.repetition_penalty": 1.05,
-      "sampling_mode.seed": 0,
-      "sampling_mode.presence_penalty": 0,
-      "thinking": false,
-      "use_default_template": true,
-      "clip": [
-        "30:11",
-        0
-      ]
-    },
-    "class_type": "TextGenerate",
-    "_meta": {
-      "title": "TextGenerate"
-    }
-  },
-  "30:17": {
-    "inputs": {
-      "string_a": [
-        "30:18",
-        0
-      ],
-      "string_b": [
-        "30:19",
-        0
-      ],
-      "delimiter": ""
-    },
-    "class_type": "StringConcatenate",
-    "_meta": {
-      "title": "StringConcatenate"
-    }
-  },
-  "30:18": {
-    "inputs": {
-      "value": ""
-    },
-    "class_type": "PrimitiveStringMultiline",
-    "_meta": {
-      "title": "Text String (System Prompt)"
-    }
-  },
   "30:19": {
     "inputs": {
       "value": ""
@@ -207,38 +155,6 @@
     "class_type": "PrimitiveStringMultiline",
     "_meta": {
       "title": "Text String (User Prompt)"
-    }
-  },
-  "30:20": {
-    "inputs": {
-      "source": [
-        "30:21",
-        0
-      ]
-    },
-    "class_type": "PreviewAny",
-    "_meta": {
-      "title": "PreviewAny"
-    }
-  },
-  "30:21": {
-    "inputs": {
-      "switch": [
-        "30:24",
-        0
-      ],
-      "on_false": [
-        "30:19",
-        0
-      ],
-      "on_true": [
-        "30:16",
-        0
-      ]
-    },
-    "class_type": "ComfySwitchNode",
-    "_meta": {
-      "title": "ComfySwitchNode"
     }
   },
   "30:22": {
@@ -270,19 +186,10 @@
       "title": "Boolean (Enable LoRA?)"
     }
   },
-  "30:24": {
-    "inputs": {
-      "value": true
-    },
-    "class_type": "PrimitiveBoolean",
-    "_meta": {
-      "title": "Boolean (Refine Prompt?)"
-    }
-  },
   "30:27": {
     "inputs": {
       "string_a": [
-        "30:20",
+        "30:19",
         0
       ],
       "string_b": "",
@@ -300,7 +207,7 @@
         0
       ],
       "on_false": [
-        "30:20",
+        "30:19",
         0
       ],
       "on_true": [
