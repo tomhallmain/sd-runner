@@ -35,3 +35,10 @@
   implicit-imports:
     - depends:
         - 'huggingface_hub.utils.*'
+
+# filelock 4.x loads SoftFileLock and the other lock types from __getattr__.
+# Nuitka does not follow that. huggingface_hub imports SoftFileLock.
+- module-name: 'filelock'
+  implicit-imports:
+    - depends:
+        - 'filelock.*'
