@@ -228,7 +228,25 @@ class TestNotification:
         set_mode(BlacklistMode.REMOVE_ENTIRE_TAG, silent=False)
         Prompter.filter_taken_prompt(TAKEN_POSITIVE, TAKEN_NEGATIVE)
         assert callbacks.warnings, "removal was not surfaced to the user"
-        assert "forbidden" in callbacks.warnings[0]
+        assert callbacks.warnings[0] == (
+            "One or more tags were removed due to blacklist failure."
+        )
+
+    def test_the_default_notice_does_not_name_the_removed_tag(self, monkeypatch):
+        callbacks = RecordingCallbacks()
+        monkeypatch.setattr(Blacklist, "_ui_callbacks", callbacks)
+        set_mode(BlacklistMode.REMOVE_ENTIRE_TAG, silent=False)
+        Prompter.filter_taken_prompt(TAKEN_POSITIVE, TAKEN_NEGATIVE)
+        assert "forbidden" not in callbacks.warnings[0]
+
+    def test_naming_the_matched_item_adds_the_blacklist_item(self, monkeypatch):
+        callbacks = RecordingCallbacks()
+        monkeypatch.setattr(Blacklist, "_ui_callbacks", callbacks)
+        set_mode(BlacklistMode.REMOVE_ENTIRE_TAG, silent=False)
+        Blacklist.set_blacklist_name_matched_item(True)
+        Prompter.filter_taken_prompt(TAKEN_POSITIVE, TAKEN_NEGATIVE)
+        assert "Matched blacklist items: forbidden" in callbacks.warnings[0]
+        assert "Blacklisted tags removed from extracted prompt" not in callbacks.warnings[0]
 
     def test_notification_carries_warning_severity(self, monkeypatch):
         """Removal is a warning, not a neutral notice -- warn(), not toast()."""

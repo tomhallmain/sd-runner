@@ -33,6 +33,7 @@ BLACKLIST_MODE_KEY = "blacklist_mode"
 BLACKLIST_PROMPT_MODE_KEY = "blacklist_prompt_mode"
 MODEL_BLACKLIST_MODE_KEY = "model_blacklist_mode"
 BLACKLIST_SILENT_KEY = "blacklist_silent_removal"
+BLACKLIST_NAME_MATCHED_ITEM_KEY = "blacklist_name_matched_item"
 MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY = "model_blacklist_all_prompt_modes"
 SIMILARITY_PHRASES_KEY = "similarity_phrases"
 SIMILARITY_THRESHOLD_KEY = "similarity_threshold"
@@ -70,6 +71,8 @@ def set_blacklist():
         _restore_mode(ModelBlacklistMode, model_mode_str, Blacklist.get_model_blacklist_mode()))
     silent = app_info_cache.get(BLACKLIST_SILENT_KEY, default_val=False)
     Blacklist.set_blacklist_silent_removal(silent)
+    Blacklist.set_blacklist_name_matched_item(
+        bool(app_info_cache.get(BLACKLIST_NAME_MATCHED_ITEM_KEY, default_val=False)))
     all_prompt_modes = app_info_cache.get(MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY, default_val=False)
     Blacklist.set_model_blacklist_all_prompt_modes(all_prompt_modes)
 
@@ -116,6 +119,8 @@ def store_blacklist(persist: bool = True):
     app_info_cache.set(BLACKLIST_PROMPT_MODE_KEY, str(Blacklist.get_blacklist_prompt_mode()))
     app_info_cache.set(MODEL_BLACKLIST_MODE_KEY, str(Blacklist.get_model_blacklist_mode()))
     app_info_cache.set(BLACKLIST_SILENT_KEY, Blacklist.get_blacklist_silent_removal())
+    app_info_cache.set(
+        BLACKLIST_NAME_MATCHED_ITEM_KEY, Blacklist.get_blacklist_name_matched_item())
     app_info_cache.set(MODEL_BLACKLIST_ALL_PROMPT_MODES_KEY, Blacklist.get_model_blacklist_all_prompt_modes())
     app_info_cache.set(
         SIMILARITY_PHRASES_KEY,

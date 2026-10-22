@@ -73,6 +73,42 @@ class TestStartupGate:
         assert app_startup_auth.check_startup_password_required(callback=answers.append) is True
 
 
+class TestPasswordDialogCanOpenSecuritySettings:
+    def test_a_launcher_uses_the_application_actions(self):
+        from types import SimpleNamespace
+        actions = object()
+        owner = SimpleNamespace(_app=SimpleNamespace(app_actions=actions))
+        assert password_utils.app_actions_for(owner) is actions
+
+    def test_the_gate_passes_those_actions_into_the_dialog(self, monkeypatch):
+        from types import SimpleNamespace
+        seen = {}
+
+        def capture(master, config, action_name, callback=None, app_actions=None, *args, **kwargs):
+            seen["app_actions"] = app_actions
+            return True
+
+        monkeypatch.setattr(password_utils.PasswordDialog, "prompt_password", staticmethod(capture))
+        monkeypatch.setattr(password_utils, "_check_all_actions_protection", lambda *a, **k: True)
+        monkeypatch.setattr(password_utils.PasswordManager, "is_password_unreadable", staticmethod(lambda: False))
+        monkeypatch.setattr(
+            password_utils, "get_security_config",
+            lambda: SimpleNamespace(is_session_timeout_enabled=lambda: False),
+        )
+        actions = object()
+
+        class Launcher:
+            def __init__(self):
+                self._app = SimpleNamespace(app_actions=actions)
+
+            @password_utils.require_password(ProtectedActions.EDIT_BLACKLIST)
+            def open_blacklist(self):
+                return "opened"
+
+        Launcher().open_blacklist()
+        assert seen["app_actions"] is actions
+
+
 class TestDecoratorsKeepNames:
     def test_require_password(self):
         class Window:

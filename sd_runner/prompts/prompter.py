@@ -474,7 +474,9 @@ class Prompter:
         blacklist_silent_removal settings.
 
         - REMOVE_WORD_OR_PHRASE / REMOVE_ENTIRE_TAG: strip matching tags, notify,
-          and let the run continue with what is left.
+          and let the run continue with what is left. The notice is the same
+          one used for tags the user typed: it does not name the removed tag
+          unless "Name matched item" is on, and silent removal suppresses it.
         - FAIL_PROMPT: raise BlacklistException, which aborts the run.
         - LOG_ONLY: log and return unchanged.
 
@@ -511,9 +513,7 @@ class Prompter:
                 positive = ", ".join(whitelist)
                 if not silent:
                     Prompter._notify_taken_prompt_filtering(
-                        _("Blacklisted tags removed from extracted prompt: {0}").format(
-                            ", ".join(filtered.keys())
-                        )
+                        Blacklist.user_tag_removal_notice(filtered)
                     )
 
         # Similarity runs on the surviving text: removing a tag may well have

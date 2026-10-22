@@ -406,7 +406,12 @@ class PresetsWindow(SmartDialog):
             return
         # The same gate the sidebar applies to its own positive tags -- this
         # text reaches the backend too, so it cannot skip the blacklist.
-        if not self._app_actions.validate_blacklist(positive):
+        from sd_runner.prompts.blacklist import BlacklistException
+        try:
+            allowed = self._app_actions.validate_blacklist(positive)
+        except BlacklistException:
+            return
+        if not allowed:
             return
         existing = PresetsState.get_intermediate_prompt_by_name(name)
         if existing is not None:

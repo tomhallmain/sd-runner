@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
+from lib.logging_setup import get_logger
 from lib.multi_display_qt import SmartDialog
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_core import PasswordManager
@@ -22,6 +23,7 @@ from sd_runner.ui.auth.password_session_manager import PasswordSessionManager
 from lib.translations import I18N
 
 _ = I18N._
+logger = get_logger("ui.auth.password_dialog")
 
 
 def _is_caps_lock_on() -> bool:
@@ -316,10 +318,9 @@ class PasswordDialog(SmartDialog):
         """Open the password administration window."""
         self.cancel(result=False)
 
-        if self.app_actions and getattr(
-            self.app_actions, "open_password_admin_window", None
-        ):
-            self.app_actions.open_password_admin_window()
+        opener = getattr(self.app_actions, "open_password_admin_window", None) if self.app_actions else None
+        if opener:
+            opener()
         else:
             raise Exception("AppActions failed to initialize")
 

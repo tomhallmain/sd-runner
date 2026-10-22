@@ -170,6 +170,15 @@ class BlacklistWindow(SmartDialog):
         self._silent_cb.stateChanged.connect(self._on_silent_change)
         create_tooltip(self._silent_cb, _("If enabled, blacklisted words are removed silently without notification."))
         settings_row.addWidget(self._silent_cb)
+
+        self._name_item_cb = QCheckBox(_("Name matched item"))
+        self._name_item_cb.setChecked(Blacklist.get_blacklist_name_matched_item())
+        self._name_item_cb.stateChanged.connect(self._on_name_matched_item_change)
+        create_tooltip(
+            self._name_item_cb,
+            _("When a positive-tag removal notice is shown, include the blacklist item that matched. The removed tag is not listed."),
+        )
+        settings_row.addWidget(self._name_item_cb)
         settings_row.addStretch()
         layout.addLayout(settings_row)
 
@@ -241,6 +250,15 @@ class BlacklistWindow(SmartDialog):
         self._silent_cb_model.stateChanged.connect(self._on_silent_change)
         create_tooltip(self._silent_cb_model, _("If enabled, blacklisted words are removed silently without notification."))
         settings_row.addWidget(self._silent_cb_model)
+
+        self._name_item_cb_model = QCheckBox(_("Name matched item"))
+        self._name_item_cb_model.setChecked(Blacklist.get_blacklist_name_matched_item())
+        self._name_item_cb_model.stateChanged.connect(self._on_name_matched_item_change)
+        create_tooltip(
+            self._name_item_cb_model,
+            _("When a positive-tag removal notice is shown, include the blacklist item that matched. The removed tag is not listed."),
+        )
+        settings_row.addWidget(self._name_item_cb_model)
         settings_row.addStretch()
         layout.addLayout(settings_row)
 
@@ -1097,6 +1115,17 @@ class BlacklistWindow(SmartDialog):
                 cb.blockSignals(False)
         blacklist_state.store_blacklist()
         self._app_actions.toast(_("Silent removal set to: {0}").format(val))
+
+    def _on_name_matched_item_change(self) -> None:
+        val = self._name_item_cb.isChecked()
+        Blacklist.set_blacklist_name_matched_item(val)
+        for cb in (self._name_item_cb, self._name_item_cb_model):
+            if cb.isChecked() != val:
+                cb.blockSignals(True)
+                cb.setChecked(val)
+                cb.blockSignals(False)
+        blacklist_state.store_blacklist()
+        self._app_actions.toast(_("Name matched blacklist item set to: {0}").format(val))
 
     # ==================================================================
     # Import / Export

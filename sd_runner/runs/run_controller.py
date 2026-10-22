@@ -282,7 +282,10 @@ class RunController:
 
         if filtered:
             if not Blacklist.get_blacklist_silent_removal():
-                alert_text = _("Blacklisted items found in prompt: {0}").format(filtered)
+                alert_text = _("Blacklist validation failed.")
+                note = Blacklist.matched_blacklist_item_note(filtered)
+                if note:
+                    alert_text = f"{alert_text}\n\n{note}"
                 self._app.notification_ctrl.alert(_("Invalid Prompt Tags"), alert_text, kind="error")
             if Blacklist.get_blacklist_mode() == BlacklistMode.FAIL_PROMPT:
                 if Blacklist.get_blacklist_silent_removal():
@@ -504,7 +507,12 @@ class RunController:
             if app.job_queue_preset_schedules is not None:
                 app.job_queue_preset_schedules.cancel()
 
-        args, args_copy = app.get_args()
+        try:
+            args, args_copy = app.get_args()
+        except BlacklistException:
+            # validate_blacklist already showed the blocked tags. A failed
+            # prompt stops the run here, before anything is queued.
+            return
 
         # Set after get_args() so it stays off args_copy, which is what is
         # written back to runner_app_config -- where a run came from is not one

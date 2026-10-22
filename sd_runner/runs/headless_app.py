@@ -239,7 +239,12 @@ class HeadlessApp:
         prompt = PresetsState.get_active_intermediate_prompt()
         if prompt is None:
             return None
-        if not self.run_ctrl.validate_blacklist(prompt.positive_tags):
+        from sd_runner.prompts.blacklist import BlacklistException
+        try:
+            allowed = self.run_ctrl.validate_blacklist(prompt.positive_tags)
+        except BlacklistException:
+            return None
+        if not allowed:
             return None
         return prompt.to_dict()
 

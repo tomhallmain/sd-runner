@@ -291,6 +291,7 @@ def _reset_class_state() -> None:
         Blacklist.blacklist_prompt_mode = BlacklistPromptMode.DISALLOW
         Blacklist.model_blacklist_mode = ModelBlacklistMode.ALLOW_IN_NSFW
         Blacklist.blacklist_silent_removal = False
+        Blacklist.blacklist_name_matched_item = False
         Blacklist.model_blacklist_all_prompt_modes = False
         Blacklist.SIMILARITY_PHRASE_ITEMS = []
         Blacklist.similarity_threshold = 0.85

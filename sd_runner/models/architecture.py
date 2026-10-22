@@ -13,6 +13,8 @@ from sd_runner.globals import ArchitectureType
 _MAX_HEADER_BYTES = 8 * 1024 * 1024
 
 _4B_RE = re.compile(r"(?<!\d)4b")
+# "chroma1" is Chroma. "chromatic" is not.
+_CHROMA_RE = re.compile(r"(?:^|[^a-z0-9])chroma(?:[^a-z]|$)")
 _KREA2_RE = re.compile(r"krea[\W_]*2(?!\d)")
 _MINIMAX_H3_RE = re.compile(r"minimax[\W_]*h[\W_]*3(?!\d)")
 _FLUX3_RE = re.compile(r"flux[\W_]*3(?!\d)")
@@ -64,7 +66,7 @@ def classify_text(text: str) -> ArchitectureType | None:
     lowered = text.lower()
     if "illustrious" in lowered:
         return ArchitectureType.ILLUSTRIOUS
-    if _token(lowered, "chroma"):
+    if _CHROMA_RE.search(lowered):
         return ArchitectureType.CHROMA
     if "zimage" in lowered or "z_image" in lowered or "z-image" in lowered:
         return ArchitectureType.Z_IMAGE_TURBO

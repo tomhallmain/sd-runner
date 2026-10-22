@@ -97,6 +97,8 @@ class TestDetermineArchitectureType:
         assert self._det("flux-2-klein-9b.safetensors") == ArchitectureType.FLUX2_KLEIN
         assert self._det("z_image_turbo.safetensors") == ArchitectureType.Z_IMAGE_TURBO
         assert self._det("chroma-v1.safetensors") == ArchitectureType.CHROMA
+        assert self._det("Chroma1-HD-fp8mixed.safetensors") == ArchitectureType.CHROMA
+        assert self._det("chromatic_style.safetensors") == ArchitectureType.UNKNOWN
 
     def test_flux3_is_not_flux2_klein_or_flux1(self):
         assert self._det("flux-3-dev.safetensors") == ArchitectureType.FLUX3

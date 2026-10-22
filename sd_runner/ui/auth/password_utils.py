@@ -21,6 +21,21 @@ _ = I18N._
 logger = get_logger("ui.auth.password_utils")
 
 
+def app_actions_for(owner):
+    """The AppActions a window or its launcher can use to open other windows.
+
+    A launcher keeps them on the application (``_app.app_actions``) rather than
+    on itself. The password dialog needs that object to open security settings.
+    """
+    actions = getattr(owner, "app_actions", None)
+    if actions is not None:
+        return actions
+    app = getattr(owner, "_app", None)
+    if app is None:
+        return None
+    return getattr(app, "app_actions", None)
+
+
 def alert_password_unreadable(master) -> None:
     """Tell the user a protected action is refused because the stored
     password cannot be decrypted in this process."""
@@ -235,8 +250,7 @@ def require_password(
                 return func(self, *args, **kwargs)
 
 
-            # Get app_actions from the instance
-            app_actions = getattr(self, 'app_actions', None)
+            app_actions = app_actions_for(self)
             
             def password_callback(result):
                 if result:

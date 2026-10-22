@@ -524,6 +524,9 @@ class Blacklist:
     blacklist_prompt_mode = BlacklistPromptMode.DISALLOW
     model_blacklist_mode = ModelBlacklistMode.ALLOW_IN_NSFW
     blacklist_silent_removal = False
+    # The removal notice for a user-written positive prompt does not name the
+    # blacklist item unless this is on. The removed tag itself is never named.
+    blacklist_name_matched_item = False
     model_blacklist_all_prompt_modes = False
 
     @staticmethod
@@ -563,6 +566,71 @@ class Blacklist:
     @staticmethod
     def set_blacklist_silent_removal(silent: bool) -> None:
         Blacklist.blacklist_silent_removal = silent
+
+    @staticmethod
+    def get_blacklist_name_matched_item() -> bool:
+        return Blacklist.blacklist_name_matched_item
+
+    @staticmethod
+    def set_blacklist_name_matched_item(name_item: bool) -> None:
+        Blacklist.blacklist_name_matched_item = name_item
+
+    @staticmethod
+    def matched_blacklist_item_note(filtered: dict[str, str]) -> str:
+        """The blacklist items that matched, when the user has asked to see them.
+
+        Empty unless that option is on. The tag that was removed is not included.
+        """
+        if not Blacklist.get_blacklist_name_matched_item():
+            return ""
+        items = ", ".join(sorted({item for item in filtered.values() if item}))
+        if not items:
+            return ""
+        return _("Matched blacklist items: {0}").format(items)
+
+    @staticmethod
+    def user_tag_removal_notice(filtered: dict[str, str]) -> str:
+        """The notice shown after tags are removed from a user-written positive prompt."""
+        message = _("One or more tags were removed due to blacklist failure.")
+        note = Blacklist.matched_blacklist_item_note(filtered)
+        if not note:
+            return message
+        return f"{message}\n\n{note}"
+
+    @staticmethod
+    def strip_user_positive_tags(
+        text: str, prompt_mode: PromptMode = PromptMode.SFW
+    ) -> tuple[str, dict[str, str]]:
+        """Drop blacklisted tags from a user-written positive prompt.
+
+        Only the two removal modes change the text. Fail and log-only leave it
+        for the caller that decides whether the run stops. Generated concepts
+        and prompts read out of an image are not handled here.
+        """
+        if Blacklist.is_allowed_prompt_mode(prompt_mode):
+            return text, {}
+        mode = Blacklist.get_blacklist_mode()
+        if mode not in (BlacklistMode.REMOVE_ENTIRE_TAG, BlacklistMode.REMOVE_WORD_OR_PHRASE):
+            return text, {}
+        if not text or not text.strip():
+            return text, {}
+
+        parts = [part.strip() for part in text.split(",") if part.strip()]
+        whitelist, filtered = Blacklist.filter_concepts(
+            parts, do_cache=False, user_prompt=True, prompt_mode=prompt_mode
+        )
+        if mode == BlacklistMode.REMOVE_ENTIRE_TAG:
+            kept = []
+            for tag in whitelist:
+                extra = Blacklist.check_user_prompt_detailed(tag)
+                if extra:
+                    filtered[tag] = next(iter(extra.values()))
+                else:
+                    kept.append(tag)
+            whitelist = kept
+        if not filtered:
+            return text, {}
+        return ", ".join(whitelist), filtered
 
     @staticmethod
     def get_model_blacklist_all_prompt_modes() -> bool:

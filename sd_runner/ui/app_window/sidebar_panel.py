@@ -820,8 +820,26 @@ class SidebarPanel(QWidget):
 
     def set_positive_tags(self) -> None:
         """Sync positive tags from widget to config; validates blacklist and applies expansions."""
+        from sd_runner.prompts.blacklist import Blacklist
         from sd_runner.prompts.prompter import Prompter
+        from sd_runner.config import config
+
         text = self.positive_tags_box.toPlainText()
+        # Removal applies to the tags the user typed. Generated concepts and
+        # prompts taken from an image are filtered later, without this notice.
+        if config.blacklist_prevent_execution:
+            prompt_mode = self._app.runner_app_config.prompter_config.prompt_mode
+            cleaned, removed = Blacklist.strip_user_positive_tags(text, prompt_mode)
+            if removed:
+                if not Blacklist.get_blacklist_silent_removal():
+                    self._app.notification_ctrl.alert(
+                        _("Invalid Prompt Tags"),
+                        Blacklist.user_tag_removal_notice(removed),
+                        kind="error",
+                    )
+                text = cleaned
+                if self.positive_tags_box.toPlainText() != text:
+                    self.positive_tags_box.setPlainText(text)
         if not self._app.run_ctrl.validate_blacklist(text):
             return
         text = self._apply_expansions(text, positive=True)
