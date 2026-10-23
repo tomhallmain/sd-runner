@@ -670,9 +670,14 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         """
         from copy import deepcopy
         from sd_runner.runs.run_controller import clear_quotes
-        from sd_runner.globals import WorkflowType
+        from sd_runner.globals import PromptMode, WorkflowType
 
         sp = self.sidebar_panel
+
+        # Before the tags: blacklist validation reads the stored prompt mode to
+        # decide whether the NSFW allowance applies.
+        self.runner_app_config.prompter_config.prompt_mode = PromptMode.get(
+            sp.prompt_mode_combo.currentText())
 
         # Sync concepts dir, tags, and strengths before reading
         sp.set_prompt_massage_tags()
