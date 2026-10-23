@@ -206,8 +206,73 @@ class ComfyGen(BaseImageGenerator):
         return output_paths
 
     @staticmethod
+    def _listed_options(class_type: str) -> dict:
+        """Choices ComfyUI lists for each list-valued input of *class_type*."""
+        with request.urlopen(
+            "http://{}/object_info/{}".format(ComfyGen.BASE_URL, parse.quote(class_type))
+        ) as response:
+            info = json.loads(response.read()).get(class_type, {})
+        options = {}
+        inputs = info.get("input", {})
+        for section in ("required", "optional"):
+            for name, spec in (inputs.get(section) or {}).items():
+                if not isinstance(spec, list) or not spec:
+                    continue
+                if isinstance(spec[0], list):
+                    choices = spec[0]
+                elif spec[0] == "COMBO" and len(spec) > 1 and isinstance(spec[1], dict):
+                    choices = spec[1].get("options") or []
+                else:
+                    continue
+                options[name] = [c for c in choices if isinstance(c, str)]
+        return options
+
+    @staticmethod
+    def match_listed_filenames(workflow: dict, listed_options=None) -> None:
+        """Spell file inputs the way ComfyUI lists them.
+
+        ComfyUI compares a filename against its list exactly, so a template's
+        ``MiniMaxH3\\x.safetensors`` fails against a folder named ``MinimaxH3``
+        even though Windows treats the two as one path. A value that is not
+        listed but matches exactly one listed entry apart from letter case and
+        slash direction is replaced with that entry. Anything else is left for
+        ComfyUI to report.
+        """
+        listed_options = listed_options or ComfyGen._listed_options
+        cache: dict = {}
+
+        def normalize(value: str) -> str:
+            return value.replace("/", "\\").casefold()
+
+        for node_id, node in workflow.items():
+            if not isinstance(node, dict):
+                continue
+            class_type = node.get("class_type")
+            inputs = node.get("inputs")
+            if not class_type or not isinstance(inputs, dict):
+                continue
+            for name, value in inputs.items():
+                if not isinstance(value, str) or not value:
+                    continue
+                if class_type not in cache:
+                    try:
+                        cache[class_type] = listed_options(class_type)
+                    except Exception as e:
+                        logger.debug(f"Could not read ComfyUI's options for {class_type}: {e}")
+                        cache[class_type] = {}
+                choices = cache[class_type].get(name)
+                if not choices or value in choices:
+                    continue
+                matches = [c for c in choices if normalize(c) == normalize(value)]
+                if len(matches) == 1:
+                    logger.info(f"Node {node_id} {name}: using {matches[0]!r} for {value!r}")
+                    inputs[name] = matches[0]
+
+    @staticmethod
     def _queue_prompt(prompt, client_id: str):
         body = dict(prompt)  # already {"prompt": {...workflow...}}; avoid mutating the original
+        if isinstance(body.get("prompt"), dict):
+            ComfyGen.match_listed_filenames(body["prompt"])
         body["client_id"] = client_id
         data = json.dumps(body).encode('utf-8')
         req = request.Request(
