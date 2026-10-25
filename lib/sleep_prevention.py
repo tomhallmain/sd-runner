@@ -719,10 +719,13 @@ def _darwin_argv_for(effective: WakeLevel) -> Optional[Tuple[str, ...]]:
         return None
     if effective == WakeLevel.NONE:
         return None
-    # -i idle, -s system sleep (on AC), -d display; -m disk spins (legacy parity with previous module)
+    # -i idle, -s system sleep (on AC), -d display; -m disk spins (legacy parity with previous module).
+    # -w ends caffeinate with this process: when it is killed or crashes, the
+    # atexit release never runs, and caffeinate would otherwise assert forever.
+    wait = ("-w", str(os.getpid()))
     if effective & WakeLevel.DISPLAY:
-        return (exe, "-dims")
-    return (exe, "-is")
+        return (exe, "-dims", *wait)
+    return (exe, "-is", *wait)
 
 
 def _darwin_apply(effective: WakeLevel) -> None:
