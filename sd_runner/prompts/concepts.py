@@ -240,9 +240,25 @@ def weighted_sample_without_replacement(population: list[str], weights: list[flo
 
 
 def sample(l: list[str] | dict[str, float], low: int, high: int) -> list[str]:
-    if high > len(l):
-        high = len(l) - 1
-    k = high if low > high else random.randint(low, high)
+    """Draw between low and high items, never more than the population holds.
+
+    An empty population or a non-positive ceiling contributes nothing. A
+    request larger than the population is clamped to it. The previous clamp
+    used len - 1, which asked random.sample for -1 items when the list was
+    empty ("Sample larger than population or is negative") and also dropped
+    a one-item list instead of returning it.
+    """
+    n = len(l)
+    if n == 0 or high <= 0:
+        return []
+    if high > n:
+        high = n
+    if low > high:
+        k = high
+    else:
+        k = random.randint(max(low, 0), high)
+    if k <= 0:
+        return []
     if isinstance(l, dict):
         return weighted_sample_without_replacement(list(l.keys()), l.values(), k)
     elif isinstance(l, list):
@@ -928,9 +944,23 @@ class Concepts:
             art_styles.extend(Concepts.load(ArtStyles.glitch))
             art_styles.extend(Concepts.load(ArtStyles.painters))
             art_styles.extend(Concepts.load(ArtStyles.artists))
-            style_tag = None            
+            style_tag = None
+        # A concepts directory is not required to carry every file.
+        # Concepts.load has already named each missing file once. Sampling
+        # an empty list used to fail the whole run.
+        if not art_styles:
+            marker = f"art-styles:{Concepts.CONCEPTS_DIR}"
+            if marker not in Concepts._missing_files_reported:
+                Concepts._missing_files_reported.add(marker)
+                logger.warning(
+                    f"No art styles in {Concepts.CONCEPTS_DIR}; "
+                    "art styles will be left out of prompts"
+                )
+            return []
         if max_styles == -1:
             max_styles = min(8, len(art_styles)) if self.prompt_mode in (PromptMode.ANY_ART, PromptMode.GLITCH) else 2
+        if max_styles < 1:
+            return []
         concept_config = ConceptConfiguration(1, random.randint(1, max_styles))
         low, high = concept_config.get_adjusted_range(multiplier=multiplier)
         out = sample(art_styles, low, high)

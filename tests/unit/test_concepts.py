@@ -205,6 +205,29 @@ class TestSampleFunction:
         result = sample(lst, low=1, high=100)
         assert len(result) <= len(lst)
 
+    def test_request_larger_than_population_returns_the_whole_population(self):
+        lst = ["x", "y", "z"]
+        result = sample(lst, low=10, high=20)
+        assert len(result) == len(lst)
+        assert set(result) == set(lst)
+
+    def test_a_single_item_is_returned_when_the_request_is_larger(self):
+        """Clamping to len - 1 used to turn this into a draw of 0."""
+        assert sample(["only"], low=1, high=5) == ["only"]
+
+    def test_empty_population_returns_empty(self):
+        """An empty list used to ask random.sample for -1 items."""
+        assert sample([], low=1, high=2) == []
+
+    def test_non_positive_high_returns_empty(self):
+        assert sample(["a", "b"], low=1, high=0) == []
+        assert sample(["a", "b"], low=1, high=-1) == []
+
+    def test_dict_clamped_to_population(self):
+        d = {"a": 1.0, "b": 1.0}
+        result = sample(d, low=5, high=10)
+        assert set(result) == set(d)
+
     def test_invalid_type_raises(self):
         with pytest.raises(Exception):
             sample("not a list or dict", 1, 2)
@@ -500,3 +523,44 @@ class TestMissingCategoryFile:
             for _ in range(3):
                 Concepts.load("definitely_not_a_concepts_file.txt")
         assert caplog.text.count("definitely_not_a_concepts_file") == 1
+
+
+class TestGetArtStyles:
+    """Art styles are optional. A set with no artist lists must not fail the run."""
+
+    def _concepts(self, monkeypatch, mode=PromptMode.SFW, styles=()):
+        monkeypatch.setattr(Concepts, "ensure_dictionary_loaded", staticmethod(lambda: None))
+        loaded = list(styles)
+        monkeypatch.setattr(Concepts, "load", staticmethod(lambda filename: list(loaded)))
+        return Concepts(mode, get_specific_locations=False)
+
+    def test_missing_style_lists_are_skipped(self, monkeypatch):
+        concepts = self._concepts(monkeypatch)
+        assert concepts.get_art_styles(max_styles=2) == []
+
+    def test_the_absence_is_reported_once(self, monkeypatch, caplog):
+        from sd_runner.prompts import concepts as concepts_module
+        from tests.utils import captured_logs
+
+        marker = f"art-styles:{Concepts.CONCEPTS_DIR}"
+        Concepts._missing_files_reported.discard(marker)
+        concepts = self._concepts(monkeypatch)
+        with captured_logs(caplog, concepts_module.logger, level="WARNING"):
+            for _ in range(3):
+                assert concepts.get_art_styles(max_styles=2) == []
+        assert caplog.text.count("No art styles") == 1
+
+    def test_a_loaded_style_is_prefixed(self, monkeypatch):
+        concepts = self._concepts(monkeypatch, styles=["Alice", "Bob"])
+        result = concepts.get_art_styles(max_styles=1)
+        assert len(result) == 1
+        assert result[0].startswith("art by ")
+        assert result[0].removeprefix("art by ") in {"Alice", "Bob"}
+
+    def test_anime_mode_uses_the_anime_tag(self, monkeypatch):
+        concepts = self._concepts(monkeypatch, mode=PromptMode.ANIME, styles=["Studio"])
+        assert concepts.get_art_styles(max_styles=1) == ["anime art by Studio"]
+
+    def test_a_zero_cap_adds_nothing(self, monkeypatch):
+        concepts = self._concepts(monkeypatch, styles=["Alice"])
+        assert concepts.get_art_styles(max_styles=0) == []
