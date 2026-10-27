@@ -1,0 +1,13 @@
+Fraktal
+gebrochene Farbverläufe
+Vektorfeld
+Infrarotbild
+Wärmebild
+Pixelabfluss
+lineare Transformation
+Wurmloch
+Dimensionskollaps
+Bitmap
+kartesische Abbildungen
+Mesh-Texturen
+Fehler
