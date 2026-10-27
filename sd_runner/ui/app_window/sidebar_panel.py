@@ -208,6 +208,9 @@ class SidebarPanel(QWidget):
             ResolutionGroup.display_values(),
             ResolutionGroup.get(str(runner_cfg.resolution_group)).get_description(),
         )
+        self.resolution_group_combo.currentTextChanged.connect(
+            self._on_resolution_group_changed
+        )
 
         # Model Tags (with autocomplete)
         self._local_model_names = [str(m).split(".")[0] for m in Model.CHECKPOINTS]
@@ -664,6 +667,14 @@ class SidebarPanel(QWidget):
                 self.inpainting_check.setChecked(True)
                 self._single_resolution()
                 self.total_combo.setCurrentText("1")
+        except Exception:
+            pass
+
+    def _on_resolution_group_changed(self, text: str) -> None:
+        if not text:
+            return
+        try:
+            self._app.runner_app_config.resolution_group = ResolutionGroup.get(text).name
         except Exception:
             pass
 

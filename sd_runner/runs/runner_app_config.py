@@ -65,6 +65,9 @@ class RunnerAppConfig:
     def set_from_run_config(self, args):
         self.workflow_type = args.workflow_tag
         self.resolutions = args.res_tags
+        resolution_group = getattr(args, "resolution_group", None)
+        if resolution_group:
+            self.resolution_group = ResolutionGroup.get(str(resolution_group)).name
         self.seed = args.seed
         self.steps = args.steps
         self.cfg = args.cfg

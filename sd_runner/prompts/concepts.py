@@ -240,14 +240,6 @@ def weighted_sample_without_replacement(population: list[str], weights: list[flo
 
 
 def sample(l: list[str] | dict[str, float], low: int, high: int) -> list[str]:
-    """Draw between low and high items, never more than the population holds.
-
-    An empty population or a non-positive ceiling contributes nothing. A
-    request larger than the population is clamped to it. The previous clamp
-    used len - 1, which asked random.sample for -1 items when the list was
-    empty ("Sample larger than population or is negative") and also dropped
-    a one-item list instead of returning it.
-    """
     n = len(l)
     if n == 0 or high <= 0:
         return []
@@ -945,9 +937,6 @@ class Concepts:
             art_styles.extend(Concepts.load(ArtStyles.painters))
             art_styles.extend(Concepts.load(ArtStyles.artists))
             style_tag = None
-        # A concepts directory is not required to carry every file.
-        # Concepts.load has already named each missing file once. Sampling
-        # an empty list used to fail the whole run.
         if not art_styles:
             marker = f"art-styles:{Concepts.CONCEPTS_DIR}"
             if marker not in Concepts._missing_files_reported:

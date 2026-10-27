@@ -1,6 +1,7 @@
-import pytest
+from types import SimpleNamespace
+
 from sd_runner.runs.runner_app_config import RunnerAppConfig
-from sd_runner.globals import SoftwareType, WorkflowType, Sampler, Scheduler
+from sd_runner.globals import ResolutionGroup, Sampler, Scheduler
 from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 
 
@@ -125,6 +126,51 @@ class TestRunnerAppConfigEquality:
         c.positive_tags = "unique"
         s = {a, b, c}
         assert len(s) == 2
+
+
+class TestSetFromRunConfig:
+    def _args(self, cfg: RunnerAppConfig, **overrides):
+        values = dict(
+            workflow_tag=cfg.workflow_type,
+            res_tags=cfg.resolutions,
+            seed=cfg.seed,
+            steps=cfg.steps,
+            cfg=cfg.cfg,
+            denoise=cfg.denoise,
+            model_tags=cfg.model_tags,
+            lora_tags=cfg.lora_tags,
+            control_nets="",
+            ip_adapters="",
+            source_prompts="",
+            sampler=Sampler.ACCEPT_ANY,
+            scheduler=Scheduler.ACCEPT_ANY,
+            n_latents=cfg.n_latents,
+            total=cfg.total,
+            batch_limit=cfg.batch_limit,
+            auto_run=cfg.auto_run,
+            override_resolution=cfg.override_resolution,
+            inpainting=cfg.inpainting,
+        )
+        values.update(overrides)
+        return SimpleNamespace(**values)
+
+    def test_resolution_group_from_the_combo_is_stored_as_a_name(self):
+        """The combo shows a description. The cache has to keep the name."""
+        cfg = RunnerAppConfig()
+        cfg.resolution_group = ResolutionGroup.FIVE_ONE_TWO.name
+        cfg.set_from_run_config(self._args(
+            cfg, resolution_group=ResolutionGroup.SEVEN_SIXTY_EIGHT.get_description(),
+        ))
+        assert cfg.resolution_group == ResolutionGroup.SEVEN_SIXTY_EIGHT.name
+        restored = RunnerAppConfig.from_dict(cfg.to_dict())
+        assert restored.resolution_group == ResolutionGroup.SEVEN_SIXTY_EIGHT.name
+
+    def test_a_resolution_group_name_is_kept_as_a_name(self):
+        cfg = RunnerAppConfig()
+        cfg.set_from_run_config(self._args(
+            cfg, resolution_group=ResolutionGroup.TEN_TWENTY_FOUR.name,
+        ))
+        assert cfg.resolution_group == ResolutionGroup.TEN_TWENTY_FOUR.name
 
 
 class TestGetPrompterConfigCopy:
