@@ -31,6 +31,7 @@
     "random_skip_chance": 0,
     "save_last_prompt": false,
     "delay_after_single_run": true,
+    "force_delay": false,
     "blacklist_backup_retention_days": 30,
     "gen_order": [
         "control_nets",

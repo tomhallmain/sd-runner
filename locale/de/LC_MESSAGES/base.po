@@ -288,6 +288,9 @@ msgstr "Letzte Eingabe speichern"
 msgid "Delay After Single Run"
 msgstr "Verzögerung nach einem einzelnen Durchlauf"
 
+msgid "Force Delay"
+msgstr "Verzögerung erzwingen"
+
 #: ui_qt/config_window.py:165
 msgid "Debug Mode"
 msgstr "Debug-Modus"

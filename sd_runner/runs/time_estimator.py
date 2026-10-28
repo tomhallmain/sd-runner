@@ -1,5 +1,6 @@
 import math
 
+from sd_runner.config import config
 from sd_runner.globals import Globals
 from lib.translations import I18N
 
@@ -9,34 +10,34 @@ _ = I18N._
 class TimeEstimator:
     """Time estimates for image generation runs.
 
-    An estimate has three parts, kept separate because their confidence
-    differs::
+    An estimate has a measured generation term and a delay term. How they
+    combine follows ``config.force_delay``, because that flag decides whether
+    ``_sleep_for_delay`` holds the interval or treats it as a ceiling::
 
-        rate x megapixels x images             # measured, per model
-        + model_switches x load_seconds        # measured, per model
-        + pacing                               # see below
+        force_delay:
+            max(generation, delay x images)
+        otherwise:
+            generation + pacing floor          # timed model
+            delay x images                     # untimed model
 
-    The first two come from ``sd_runner.runs.generation_timing``, which learns them from
-    completed generations. For a long time neither existed and the pacing was
-    the *whole* estimate, which expanded to exactly the sleep the run would
-    perform, so the backend's actual work contributed nothing. That is why
-    estimates used to be unreliable in both directions and why no amount of
-    tuning fixed them: the term for the thing being measured was missing rather
-    than wrong.
+    Generation is ``rate x megapixels x images`` plus model-load time, from
+    ``sd_runner.runs.generation_timing``. For a long time neither existed and
+    the delay was the *whole* estimate, which expanded to exactly the sleep
+    the run would perform, so the backend's actual work contributed nothing.
 
-    Pacing is now whichever of two things applies, because ``_sleep_for_delay``
-    waits on the generations it dispatched rather than for a fixed interval:
+    - **force_delay on.** The loop holds the full delay even when the
+      generation finishes inside it. The two overlap, so a timed model is the
+      longer of them. A fast job still occupies the whole delay; a slow one
+      is not charged the delay again on top of the time it already took.
+    - **force_delay off.** The loop continues once the dispatched work is
+      idle, so a timed model's generation term already covers that wait and
+      only the short per-iteration floor remains. Charging the full delay as
+      well would count the same seconds twice. An untimed model has no
+      generation term, so the delay ceiling is the whole estimate.
 
-    - **Timed model.** The generation term already covers that wait, so all
-      that remains is the short floor the loop holds per iteration. Charging
-      the full interval here as well double-counted the same seconds, which
-      made estimates for timed models run high by the entire delay term.
-    - **Untimed model.** No generation term exists, so the old ceiling stands
-      as the only available signal.
-
-    A model that has never been timed therefore falls back to the ceiling
-    alone -- callers must not read a low estimate as permission, nor a missing
-    one as a reason to refuse.
+    A model that has never been timed therefore falls back to the delay
+    alone in either mode -- callers must not read a low estimate as
+    permission, nor a missing one as a reason to refuse.
 
     Callers: the long-run confirmation dialog, ``config.server_run_max_seconds``
     (which *refuses* requests over its ceiling), and the sidebar label.
@@ -75,14 +76,13 @@ class TimeEstimator:
     
     @staticmethod
     def delay_seconds(image_count: float) -> int:
-        """The most the app will pace for *image_count* images.
+        """The configured delay for *image_count* images.
 
-        An upper bound rather than a fixed cost. ``Run._sleep_for_delay``
-        computes this same figure but treats it as a ceiling, continuing as
-        soon as the generations it dispatched have finished -- so a run that
-        keeps up with its backend pays much less than this, and the estimate
-        errs high. Still computed from the same constant, so the bound is
-        exact even though the cost is not.
+        ``Run._sleep_for_delay`` computes the same figure. With
+        ``config.force_delay`` it waits that long even after the dispatched
+        work has finished. Without the flag the figure is a ceiling: the loop
+        continues as soon as that work is idle, so a run that keeps up with
+        its backend pays less than this.
         """
         return int(Globals.GENERATION_DELAY_TIME_SECONDS * image_count)
 
@@ -95,10 +95,11 @@ class TimeEstimator:
         image count directly, or a per-latent count plus *avg_latents_per_job*
         -- the two are multiplied.
 
-        The pacing ceiling only, since without a ``GenConfig`` there is nothing
+        The configured delay only, since without a ``GenConfig`` there is nothing
         to look a measured rate up with. Callers holding one should use
         ``estimate_run_seconds``, which accounts for the generation itself and
-        charges only the pacing floor once it can.
+        for whether ``config.force_delay`` holds the delay or treats it as a
+        ceiling.
         """
         return TimeEstimator.delay_seconds(image_count * avg_latents_per_job)
 
@@ -106,14 +107,21 @@ class TimeEstimator:
     def estimate_run_seconds(gen_config, image_count: float) -> int:
         """Estimate the seconds a run producing *image_count* images will take.
 
-        Measured generation and model-load time when this model has been timed
-        before, plus whatever the run loop's pacing adds on top. Falls back to
-        the pacing ceiling alone when the model has not been timed, which is
-        what every estimate used to be -- so an unmeasured model is no worse
-        off than before, and callers must not treat the absence of timing data
-        as a reason to refuse work.
+        With ``config.force_delay``, the longer of measured generation time and
+        the configured delay: the loop holds the delay even when the generation
+        finishes inside it, and the two overlap, so they are not added.
+        Without the flag, measured generation time plus the short floor the
+        loop holds once the backend is idle. Falls back to the delay alone when
+        the model has not been timed, in either mode -- so an unmeasured model
+        is no worse off than before, and callers must not treat the absence of
+        timing data as a reason to refuse work.
         """
         generation = TimeEstimator._generation_seconds(gen_config, image_count)
+        if config.force_delay:
+            delay = TimeEstimator.delay_seconds(image_count)
+            if generation is None:
+                return int(delay)
+            return int(max(delay, generation))
         pacing = TimeEstimator._pacing_seconds(
             gen_config, image_count, measured=generation is not None
         )
@@ -121,18 +129,17 @@ class TimeEstimator:
 
     @staticmethod
     def _pacing_seconds(gen_config, image_count: float, measured: bool) -> int:
-        """What the run loop's own pacing adds, beyond the generation itself.
+        """What the run loop adds when ``config.force_delay`` is off.
 
-        Unmeasured, this is the whole estimate, and it stays the old ceiling --
-        it is the only signal available, and the size ceiling that refuses work
-        is built on it.
+        Unmeasured, this is the whole estimate, and it stays the delay
+        ceiling -- it is the only signal available, and the size ceiling that
+        refuses work is built on it.
 
         Measured, the generation term already accounts for the wait. The loop
-        waits *for* the generations it dispatched rather than for a fixed
-        interval, so charging the ceiling as well would count the same seconds
-        twice -- which is what made estimates for timed models run high by the
-        whole delay term. What is genuinely left is the short floor the loop
-        holds each iteration even when the backend is already idle.
+        continues once the work it dispatched is idle, so charging the ceiling
+        as well would count the same seconds twice. What is left is the short
+        floor the loop holds each iteration even when the backend is already
+        idle.
         """
         if not measured:
             return TimeEstimator.delay_seconds(image_count)

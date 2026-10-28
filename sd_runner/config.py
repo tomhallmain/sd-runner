@@ -68,6 +68,7 @@ class Config:
         "cache_store_interval_seconds":     int,
         "save_last_prompt":                 bool,
         "delay_after_single_run":           bool,
+        "force_delay":                      bool,
         "blacklist_backup_retention_days":  int,
         "debug":                            bool,
         "encrypt_log_file":                 bool,
@@ -177,6 +178,9 @@ class Config:
         self.cache_store_interval_seconds = 300  # Periodic cache store interval; 0 or less disables the timer
         self.save_last_prompt = False
         self.delay_after_single_run = True  # Post-run delay when total == 1 (e.g. standalone server requests)
+        # Off keeps the delay as a ceiling: the next iteration starts once the
+        # previous one has finished. On waits out the full delay either way.
+        self.force_delay = False
         self.blacklist_backup_retention_days = 30  # How long a cleared blacklist stays restorable; 0 or less keeps it until discarded
 
         self.gen_order = ["control_nets", "ip_adapters", "resolutions", "models", "vaes", "loras"]
@@ -283,6 +287,7 @@ class Config:
                         "blacklist_prevent_execution",
                         "purge_blacklisted_prompt_history",
                         "delay_after_single_run",
+                        "force_delay",
                         "vlm_load_in_4bit",
                         "log_backend_output",
         )

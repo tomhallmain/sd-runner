@@ -1,16 +1,19 @@
 import math
 
 import pytest
+from sd_runner.config import config
 from sd_runner.globals import Globals
 from sd_runner.runs.time_estimator import TimeEstimator
 
 
 class TestDelaySeconds:
-    """The pacing bound, which is exact as a ceiling rather than as a cost."""
+    """The delay figure both pacing modes compute.
 
-    def test_matches_the_ceiling_the_run_will_wait_up_to(self):
-        # Run._sleep_for_delay computes the same figure and waits at most that
-        # long, continuing early once the dispatched generations finish.
+    With ``force_delay`` the loop waits it out. Without the flag it is the
+    ceiling the loop may leave once the dispatched work is idle.
+    """
+
+    def test_matches_the_interval_the_run_computes(self):
         assert TimeEstimator.delay_seconds(7) == Globals.GENERATION_DELAY_TIME_SECONDS * 7
 
     def test_scales_with_image_count(self):
@@ -92,11 +95,13 @@ class TestEstimateQueueTime:
 
 
 class TestEstimateRunSeconds:
-    """The entry point that adds measured generation time to the pacing.
+    """The entry point that accounts for measured generation time.
 
-    Which pacing depends on whether the model has been timed: an untimed one
-    still gets the full ceiling, a timed one only the per-iteration floor,
-    because the generation term already covers the wait.
+    ``force_delay`` off charges a timed model the generation plus the short
+    floor, because the loop leaves the delay once the work is idle.
+    ``force_delay`` on charges the longer of generation and the full delay,
+    because the hold and the generation overlap. An untimed model gets the
+    delay alone in either mode.
     """
 
     def make_config(self):
@@ -115,8 +120,10 @@ class TestEstimateRunSeconds:
             "model": str(model.id),
         }
 
-    def test_an_unmeasured_model_falls_back_to_the_delay(self):
-        """No worse off than before any of this existed."""
+    @pytest.mark.parametrize("force_delay", [False, True])
+    def test_an_unmeasured_model_falls_back_to_the_delay(self, force_delay, monkeypatch):
+        """No worse off than before any of this existed, in either mode."""
+        monkeypatch.setattr(config, "force_delay", force_delay)
         gen_config = self.make_config()
         assert (TimeEstimator.estimate_run_seconds(gen_config, 4)
                 == TimeEstimator.delay_seconds(4))
@@ -132,28 +139,28 @@ class TestEstimateRunSeconds:
         return gen_config
 
     def pacing_for(self, gen_config, images):
-        """The floor the loop holds, once per iteration rather than per image."""
+        """The floor the loop holds, once per iteration, when force_delay is off."""
         iterations = math.ceil(images / gen_config.maximum_gens())
         return Globals.MINIMUM_PACING_SECONDS * iterations
 
-    def test_a_measured_model_is_generation_time_plus_the_pacing_floor(self):
+    def test_a_measured_model_is_generation_time_plus_the_pacing_floor(self, monkeypatch):
+        """force_delay off: the delay ceiling is not charged again."""
+        monkeypatch.setattr(config, "force_delay", False)
         gen_config = self.measured_config()
         estimate = TimeEstimator.estimate_run_seconds(gen_config, 4)
         assert estimate == pytest.approx(
             40.0 + self.pacing_for(gen_config, 4), abs=1
         )
 
-    def test_a_measured_model_is_not_charged_the_full_delay(self):
-        """The double-count that made timed estimates run high.
-
-        The loop waits *for* the generations, so the interval and the measured
-        generation time are the same seconds.
-        """
+    def test_a_measured_model_is_not_charged_the_full_delay(self, monkeypatch):
+        """force_delay off: generation time already covers the wait."""
+        monkeypatch.setattr(config, "force_delay", False)
         gen_config = self.measured_config()
         estimate = TimeEstimator.estimate_run_seconds(gen_config, 4)
         assert estimate < TimeEstimator.delay_seconds(4) + 40.0
 
-    def test_it_scales_with_image_count(self):
+    def test_ceiling_mode_scales_with_image_count(self, monkeypatch):
+        monkeypatch.setattr(config, "force_delay", False)
         gen_config = self.measured_config()
         one = TimeEstimator.estimate_run_seconds(gen_config, 1)
         ten = TimeEstimator.estimate_run_seconds(gen_config, 10)
@@ -161,15 +168,41 @@ class TestEstimateRunSeconds:
         generation_ten = ten - self.pacing_for(gen_config, 10)
         assert generation_ten == pytest.approx(generation_one * 10, abs=1)
 
-    def test_a_config_without_models_falls_back_to_the_delay(self):
-        """Nothing to look a rate up with; must not raise."""
+    def test_a_fast_measured_model_still_pays_the_full_delay(self, monkeypatch):
+        """force_delay on: finishing inside the delay does not shrink the estimate."""
+        monkeypatch.setattr(config, "force_delay", True)
+        gen_config = self.measured_config(seconds=1.0)
+        assert (TimeEstimator.estimate_run_seconds(gen_config, 4)
+                == TimeEstimator.delay_seconds(4))
+
+    def test_a_slow_measured_model_is_not_charged_the_delay_on_top(self, monkeypatch):
+        """force_delay on: the hold overlaps the generation, so the two are not added."""
+        monkeypatch.setattr(config, "force_delay", True)
+        gen_config = self.measured_config(seconds=100.0)
+        estimate = TimeEstimator.estimate_run_seconds(gen_config, 4)
+        assert estimate == pytest.approx(400.0, abs=1)
+        assert estimate < TimeEstimator.delay_seconds(4) + 400.0
+
+    def test_forced_delay_scales_with_image_count(self, monkeypatch):
+        monkeypatch.setattr(config, "force_delay", True)
+        gen_config = self.measured_config()
+        one = TimeEstimator.estimate_run_seconds(gen_config, 1)
+        ten = TimeEstimator.estimate_run_seconds(gen_config, 10)
+        assert ten == pytest.approx(one * 10, abs=1)
+
+    @pytest.mark.parametrize("force_delay", [False, True])
+    def test_a_config_without_models_falls_back_to_the_delay(self, force_delay, monkeypatch):
+        """Nothing to look a rate up with; must not raise, in either mode."""
+        monkeypatch.setattr(config, "force_delay", force_delay)
         from tests.utils import make_gen_config
         gen_config = make_gen_config(models=[])
         assert (TimeEstimator.estimate_run_seconds(gen_config, 4)
                 == TimeEstimator.delay_seconds(4))
 
-    def test_a_broken_timing_store_does_not_break_the_estimate(self, monkeypatch):
+    @pytest.mark.parametrize("force_delay", [False, True])
+    def test_a_broken_timing_store_does_not_break_the_estimate(self, force_delay, monkeypatch):
         """An estimate is advisory and must never fail the run it describes."""
+        monkeypatch.setattr(config, "force_delay", force_delay)
         from sd_runner.runs import generation_timing as timing_module
 
         def explode(*args, **kwargs):

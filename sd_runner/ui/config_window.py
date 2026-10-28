@@ -190,6 +190,9 @@ class ConfigWindow(SmartDialog):
         self._cb_delay_after_single = self._add_checkbox(
             _("Delay After Single Run"), config.delay_after_single_run,
         )
+        self._cb_force_delay = self._add_checkbox(
+            _("Force Delay"), config.force_delay,
+        )
         self._cb_debug = self._add_checkbox(
             _("Debug Mode"), config.debug,
         )
@@ -281,6 +284,7 @@ class ConfigWindow(SmartDialog):
             ("_cb_purge_blacklisted",     "purge_blacklisted_prompt_history"),
             ("_cb_save_last_prompt",      "save_last_prompt"),
             ("_cb_delay_after_single",    "delay_after_single_run"),
+            ("_cb_force_delay",           "force_delay"),
             ("_cb_debug",                 "debug"),
             ("_cb_encrypt_log_file",      "encrypt_log_file"),
             ("_cb_print_settings",        "print_settings"),

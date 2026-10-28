@@ -265,22 +265,27 @@ class Run:
             pass
 
     def _sleep_for_delay(self, maximum_gens: int = 1, gen=None) -> None:
-        """Hold the loop between iterations until the backend is idle again.
+        """Pause before the next iteration for the configured delay.
 
-        The computed delay is a ceiling rather than a fixed cost. Given a live
-        count of in-flight generations the loop can continue as soon as the
-        work it dispatched has finished, instead of always waiting an interval
-        guessed from the image count -- which over-sleeps on fast models and
-        under-sleeps on slow ones.
+        ``config.force_delay`` chooses what an early finish does. On, the
+        interval is a hold: ``gen.run`` returns as soon as work is queued, and
+        the next iteration still waits out the rest even when that work has
+        already finished. Off, the interval is a ceiling. The loop continues
+        once the dispatched work is idle, after a short floor so a backend
+        that fails immediately is not retried at loop speed. A backend that
+        never releases its count is not waited on past the ceiling. Without
+        *gen* there is nothing to observe, so the full interval is waited
+        either way.
 
-        The ceiling stays: a backend that dies without releasing its count
-        would otherwise stall the loop for good. Without *gen* there is nothing
-        to observe, so the full interval is waited as before.
+        Cancellation ends the wait. With auto-run off there is no pacing.
         """
         if not self.args.auto_run:
             return
         ceiling = maximum_gens * Globals.GENERATION_DELAY_TIME_SECONDS
-        if gen is None:
+        if ceiling <= 0:
+            return
+        force_delay = config.force_delay
+        if force_delay or gen is None:
             self.print(f"Sleeping for {ceiling} seconds.")
         else:
             self.print(f"Waiting up to {ceiling} seconds for generations to finish.")
@@ -288,7 +293,8 @@ class Run:
         while waited < ceiling and not self.is_cancelled:
             time.sleep(1)
             waited += 1
-            if (gen is not None
+            if (not force_delay
+                    and gen is not None
                     and waited >= Globals.MINIMUM_PACING_SECONDS
                     and gen.pending_counter <= 0):
                 self.print(f"Generations finished after {waited}s; continuing.")

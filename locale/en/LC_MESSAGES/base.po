@@ -286,6 +286,9 @@ msgstr "Save Last Prompt"
 msgid "Delay After Single Run"
 msgstr "Delay After Single Run"
 
+msgid "Force Delay"
+msgstr "Force Delay"
+
 #: ui_qt/config_window.py:165
 msgid "Debug Mode"
 msgstr "Debug Mode"

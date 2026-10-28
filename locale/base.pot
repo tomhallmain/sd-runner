@@ -311,6 +311,9 @@ msgstr ""
 msgid "Delay After Single Run"
 msgstr ""
 
+msgid "Force Delay"
+msgstr ""
+
 #: ui_qt/config_window.py:165
 msgid "Debug Mode"
 msgstr ""
