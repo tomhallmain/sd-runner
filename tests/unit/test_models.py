@@ -480,6 +480,40 @@ class TestSimpleGenWorkflowSelection:
         assert prompt.json["30:13"]["inputs"]["text"] == "blurry"
         assert prompt.json["30:23"]["inputs"]["value"] is False
 
+    def test_bypass_nodes_follows_linked_inputs_of_any_class(self):
+        from sd_runner.workflow_prompts.comfy import WorkflowPromptComfy
+
+        prompt = WorkflowPromptComfy.__new__(WorkflowPromptComfy)
+        prompt.json = {
+            "src_model": {"class_type": "UNETLoader", "inputs": {}},
+            "src_clip": {"class_type": "CLIPLoader", "inputs": {}},
+            "first": {
+                "class_type": "Gate",
+                "inputs": {
+                    "label": "stay",
+                    "model": ["src_model", 0],
+                    "clip": ["src_clip", 0],
+                },
+            },
+            "second": {
+                "class_type": "Gate",
+                "inputs": {
+                    "label": "stay",
+                    "model": ["first", 0],
+                    "clip": ["first", 1],
+                },
+            },
+            "use": {
+                "class_type": "CFGGuider",
+                "inputs": {"model": ["second", 0], "clip": ["second", 1]},
+            },
+        }
+        prompt.bypass_nodes("Gate")
+        assert "first" in prompt.json and "second" in prompt.json
+        assert prompt.json["use"]["inputs"]["model"] == ["src_model", 0]
+        assert prompt.json["use"]["inputs"]["clip"] == ["src_clip", 0]
+        assert prompt.json["second"]["inputs"]["model"] == ["first", 0]
+
     def test_flux2_klein_lora_keeps_its_existing_workflow(self):
         from sd_runner.globals import WorkflowType
 

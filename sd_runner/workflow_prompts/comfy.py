@@ -369,43 +369,54 @@ class WorkflowPromptComfy(WorkflowPrompt):
             if node:
                 self.set_lora_node(node, lora, override_strength=0)
 
-    def bypass_lora_loaders(self):
-        """Take LoraLoader nodes off the path to the output and leave them in the graph.
+    def bypass_nodes(self, class_type: str) -> None:
+        """Take every node of *class_type* off the path to an output and leave it in the graph.
 
-        The prompt API does not honor a bypass or active flag. ComfyUI validates
-        every node that still feeds an output, so a placeholder lora_name fails
-        even at strength 0. Passing the model and clip links around the loaders
-        is the same step the UI takes when a node is bypassed.
+        The prompt API has no bypass flag, and ComfyUI validates every node that
+        still feeds an output. Output slot 0 follows that node's first linked
+        input, slot 1 the second, and so on. Widget values are not links, so
+        they are skipped. A chain of bypassed nodes is followed to the first
+        node that stays on the path.
         """
-        lora_ids = {
+        bypassed = {
             node_id
             for node_id, node in self.json.items()
-            if isinstance(node, dict) and node.get(self.CLASS_TYPE) == ComfyNodeName.LOAD_LORA
+            if isinstance(node, dict) and node.get(self.CLASS_TYPE) == class_type
         }
-        if not lora_ids:
+        if not bypassed:
             return
 
+        def linked_inputs(node_id):
+            inputs = self.json[node_id].get(self.INPUTS, {})
+            return [
+                key for key, value in inputs.items()
+                if isinstance(value, list) and len(value) >= 2 and isinstance(value[0], str)
+            ]
+
         def origin(link, seen):
-            if not isinstance(link, list) or len(link) < 2 or link[0] not in lora_ids:
+            if not isinstance(link, list) or len(link) < 2 or link[0] not in bypassed:
                 return link
             node_id, slot = link[0], link[1]
             if node_id in seen:
                 return link
-            seen.add(node_id)
-            inputs = self.json[node_id].get(self.INPUTS, {})
-            key = "model" if slot == 0 else "clip" if slot == 1 else None
-            if key is None or key not in inputs:
+            names = linked_inputs(node_id)
+            if not isinstance(slot, int) or slot < 0 or slot >= len(names):
                 return link
-            return origin(inputs[key], seen)
+            seen.add(node_id)
+            return origin(self.json[node_id][self.INPUTS][names[slot]], seen)
 
         for node_id, node in self.json.items():
-            if node_id in lora_ids or not isinstance(node, dict):
+            if node_id in bypassed or not isinstance(node, dict):
                 continue
             inputs = node.get(self.INPUTS)
             if not isinstance(inputs, dict):
                 continue
             for key, value in list(inputs.items()):
                 inputs[key] = origin(value, set())
+
+    def bypass_lora_loaders(self):
+        """Take LoraLoader nodes off the path to the output and leave them in the graph."""
+        self.bypass_nodes(ComfyNodeName.LOAD_LORA)
 
     def set_lora_node(self, node, lora, override_strength=-1):
         node[WorkflowPromptComfy.INPUTS]["lora_name"] = lora.path
