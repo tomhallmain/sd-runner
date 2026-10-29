@@ -103,7 +103,9 @@ class TestDetermineArchitectureType:
     def test_flux3_is_not_flux2_klein_or_flux1(self):
         assert self._det("flux-3-dev.safetensors") == ArchitectureType.FLUX3
         assert self._det("flux3.safetensors") == ArchitectureType.FLUX3
+        assert self._det("flux3Klein_9b.safetensors") == ArchitectureType.FLUX3
         assert self._det("flux-2-klein-4b.safetensors") == ArchitectureType.FLUX2_KLEIN_4B
+        assert self._det("flux2Klein_9b.safetensors") == ArchitectureType.FLUX2_KLEIN
 
     def test_krea2_and_minimax_h3_are_their_own_families(self):
         assert self._det("krea2_turbo_fp8_scaled.safetensors") == ArchitectureType.KREA2
@@ -441,12 +443,21 @@ class TestSimpleGenWorkflowSelection:
             "krea2_turbo.safetensors": ("30:19", "value"),
             "minimax_h3.safetensors": ("140:131", "prompt"),
             "flux-3-dev.safetensors": ("18:17", "value"),
-            "flux-2-klein-9b.safetensors": ("18:17", "value"),
+            "flux2Klein_9b.safetensors": ("75:74", "text"),
+            "flux-2-klein-9b.safetensors": ("75:74", "text"),
         }
         for model_id, (node_id, key) in cases.items():
             prompt, model = self._setup(model_id, WorkflowType.SIMPLE_IMAGE_GEN)
             assert prompt.json[node_id]["inputs"][key] == ""
             assert model.architecture_type != ArchitectureType.UNKNOWN
+            if model.is_flux2_klein():
+                loras = [node for node in prompt.json.values() if node["class_type"] == "LoraLoader"]
+                assert loras
+                guider = next(node for node in prompt.json.values() if node["class_type"] == "CFGGuider")
+                assert prompt.json[guider["inputs"]["model"][0]]["class_type"] == "UNETLoader"
+                assert prompt.json[prompt.json["75:74"]["inputs"]["clip"][0]]["class_type"] == "CLIPLoader"
+            if model.is_flux3():
+                assert prompt.workflow_filename == "image_flux3_klein_t2i.json"
             unets = [
                 node["inputs"]["unet_name"]
                 for node in prompt.json.values()
@@ -475,6 +486,8 @@ class TestSimpleGenWorkflowSelection:
         prompt, model = self._setup("flux-2-klein-4b.safetensors", WorkflowType.SIMPLE_IMAGE_GEN_LORA)
         assert model.is_flux2_klein_4b()
         assert prompt.workflow_filename == "image_flux2_text_to_image_4b.json"
+        guider = next(node for node in prompt.json.values() if node["class_type"] == "CFGGuider")
+        assert prompt.json[guider["inputs"]["model"][0]]["class_type"] == "LoraLoader"
 
     def test_flux3_image_edit_is_not_offered(self):
         from sd_runner.globals import WorkflowType

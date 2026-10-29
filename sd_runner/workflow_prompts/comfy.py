@@ -369,6 +369,44 @@ class WorkflowPromptComfy(WorkflowPrompt):
             if node:
                 self.set_lora_node(node, lora, override_strength=0)
 
+    def bypass_lora_loaders(self):
+        """Take LoraLoader nodes off the path to the output and leave them in the graph.
+
+        The prompt API does not honor a bypass or active flag. ComfyUI validates
+        every node that still feeds an output, so a placeholder lora_name fails
+        even at strength 0. Passing the model and clip links around the loaders
+        is the same step the UI takes when a node is bypassed.
+        """
+        lora_ids = {
+            node_id
+            for node_id, node in self.json.items()
+            if isinstance(node, dict) and node.get(self.CLASS_TYPE) == ComfyNodeName.LOAD_LORA
+        }
+        if not lora_ids:
+            return
+
+        def origin(link, seen):
+            if not isinstance(link, list) or len(link) < 2 or link[0] not in lora_ids:
+                return link
+            node_id, slot = link[0], link[1]
+            if node_id in seen:
+                return link
+            seen.add(node_id)
+            inputs = self.json[node_id].get(self.INPUTS, {})
+            key = "model" if slot == 0 else "clip" if slot == 1 else None
+            if key is None or key not in inputs:
+                return link
+            return origin(inputs[key], seen)
+
+        for node_id, node in self.json.items():
+            if node_id in lora_ids or not isinstance(node, dict):
+                continue
+            inputs = node.get(self.INPUTS)
+            if not isinstance(inputs, dict):
+                continue
+            for key, value in list(inputs.items()):
+                inputs[key] = origin(value, set())
+
     def set_lora_node(self, node, lora, override_strength=-1):
         node[WorkflowPromptComfy.INPUTS]["lora_name"] = lora.path
         if override_strength != -1:

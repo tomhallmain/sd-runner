@@ -96,14 +96,13 @@ class ComfyGen(BaseImageGenerator):
                 else:
                     raise Exception("Flux.3 workflows other than simple image gen are not supported in SDRunner's ComfyUI implementation at this time")
             if model.is_flux2_klein():
-                if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
-                    # The Flux.3 Klein template runs with Flux.2 Klein weights.
-                    prompt = WorkflowPromptComfy("image_flux3_klein_t2i.json")
-                elif workflow_type == WorkflowType.SIMPLE_IMAGE_GEN_LORA:
+                if workflow_type in (WorkflowType.SIMPLE_IMAGE_GEN, WorkflowType.SIMPLE_IMAGE_GEN_LORA):
                     if model.is_flux2_klein_4b():
                         prompt = WorkflowPromptComfy("image_flux2_text_to_image_4b.json")
                     else:
                         prompt = WorkflowPromptComfy("image_flux2_text_to_image_9b.json")
+                    if workflow_type == WorkflowType.SIMPLE_IMAGE_GEN:
+                        prompt.bypass_lora_loaders()
                 elif workflow_type == WorkflowType.IMAGE_EDIT:
                     prompt = WorkflowPromptComfy("image_flux2_klein_image_edit_4b_base.json")
                 else:
@@ -581,11 +580,15 @@ class ComfyGen(BaseImageGenerator):
         elif model.is_minimax_h3():
             positive, _negative = model.get_model_text(positive, negative or "")
             prompt.set_by_id("140:131", "prompt", positive)
-        elif model.is_flux3() or model.is_flux2_klein():
+        elif model.is_flux3():
             positive, negative = model.get_model_text(positive, negative or "")
             prompt.set_by_id("18:17", "value", positive)
             if negative:
                 prompt.set_by_id("18:5", "text", negative)
+        elif model.is_flux2_klein():
+            prompt.set_clip_text_by_id(
+                self.gen_config.redo_param("positive", positive),
+                None, positive_id="75:74", model=model)
         elif model.is_flux():
             # NOTE Flux models don't have a negative prompt
             prompt.set_clip_text_by_id(
@@ -620,7 +623,13 @@ class ComfyGen(BaseImageGenerator):
                 positive_id="3", negative_id="4", model=model)
         prompt.set_seed(self.gen_config.redo_param("seed", self.get_seed()))
         prompt.set_other_sampler_inputs(self.gen_config)
-        prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
+        if model.is_flux2_klein():
+            resolution_val = self.gen_config.redo_param("resolution", resolution)
+            if resolution_val:
+                prompt.set_by_id("75:68", "value", resolution_val.width)
+                prompt.set_by_id("75:69", "value", resolution_val.height)
+        else:
+            prompt.set_latent_dimensions(self.gen_config.redo_param("resolution", resolution))
         prompt.set_empty_latents(self.gen_config.redo_param("n_latents", n_latents))
         return self.queue_prompt(prompt)
 
