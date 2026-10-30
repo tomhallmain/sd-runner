@@ -155,9 +155,11 @@ def main() -> int:
         parser.error("give --accept-dir, or --language with --accept")
 
     base = load_rows(args.against) if args.against else []
+    results = [(language, *process_language(language, path, base)) for language, path in accept_files(args)]
+    # A global row covers every language's source list, not only its own.
+    global_items = [item for _language, items, _skipped, _held in results for item in items if item.language is None]
     written = {}
-    for language, path in accept_files(args):
-        items, skipped, held = process_language(language, path, base)
+    for language, items, skipped, held in results:
         for item in items:
             if item.string in written and written[item.string].language != item.language:
                 print(f"WARNING: {item.string} is in two languages; make it global with !", file=sys.stderr)
@@ -168,8 +170,8 @@ def main() -> int:
         if args.ldnoobw:
             source = os.path.join(args.ldnoobw, language) if os.path.isdir(args.ldnoobw) else args.ldnoobw
             if os.path.isfile(source):
-                missing = unreviewed(source, items, base, held)
-                print(f"    {len(missing)} source entries not covered or held: {missing[:40]}")
+                missing = unreviewed(source, items + global_items, base, held)
+                print(f"    {len(missing)} source entries not covered or held: {missing}")
 
     with open(args.out, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=list(BlacklistItem.CSV_FIELDNAMES))

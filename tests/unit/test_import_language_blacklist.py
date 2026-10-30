@@ -8,7 +8,10 @@ import pytest
 from sd_runner.prompts.blacklist import BlacklistItem
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-ACCEPT_DIR = os.path.join(REPO_ROOT, "docs", "Sperrliste-Verbesserungen", "accept_lists")
+LIST_DIR = os.path.join(REPO_ROOT, "docs", "Sperrliste-Verbesserungen")
+ACCEPT_DIR = os.path.join(LIST_DIR, "accept_lists")
+BASE_LIST = os.path.join(LIST_DIR, "Sperrlisteausfuhr.csv")
+SOURCE_DIR = os.path.join(LIST_DIR, "List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words")
 
 
 @pytest.fixture(scope="module")
@@ -106,6 +109,20 @@ class TestCuratedLists:
     def test_every_in_scope_language_has_a_list(self, lists):
         assert set(lists) == {"de", "es", "fr", "it", "ja", "ko", "pt", "ru", "zh"}
 
+    def test_every_source_entry_is_covered_or_held(self, tool, lists):
+        if not os.path.isfile(BASE_LIST) or not os.path.isdir(SOURCE_DIR):
+            pytest.skip("the source lists are not in this checkout")
+        base = tool.load_rows(BASE_LIST)
+        global_items = [item for items in lists.values() for item in items if item.language is None]
+        missing = {}
+        for language in lists:
+            path = os.path.join(ACCEPT_DIR, f"accept_{language}.txt")
+            items, _skipped, held = tool.process_language(language, path, base)
+            found = tool.unreviewed(os.path.join(SOURCE_DIR, language), items + global_items, base, held)
+            if found:
+                missing[language] = found
+        assert missing == {}
+
     def test_no_row_is_in_two_languages(self, lists):
         seen = {}
         for language, items in lists.items():
@@ -121,8 +138,8 @@ class TestCuratedLists:
         ("ja", "グローバル"), ("ja", "カント"), ("ja", "裸足"), ("ja", "逃げろ"),
         ("ko", "자위대"), ("ko", "씹다"), ("ko", "에로스"),
         ("ru", "колебать"), ("ru", "разгребать"), ("ru", "застрахуй"), ("ru", "мандарин"),
-        ("ru", "педикюр"), ("ru", "тебе"),
-        ("zh", "操作"), ("zh", "体操"), ("zh", "日本"), ("zh", "干净"),
+        ("ru", "педикюр"), ("ru", "тебе"), ("ru", "застрахую"),
+        ("zh", "操作"), ("zh", "体操"), ("zh", "日本"), ("zh", "干净"), ("zh", "今日你好"), ("zh", "注射你"),
     ])
     def test_an_ordinary_word_passes(self, lists, language, text):
         assert [item.string for item in lists[language] if item.matches_tag(text)] == []
@@ -132,9 +149,9 @@ class TestCuratedLists:
         ("de", "Blutbad"), ("de", "Tötung"), ("de", "voegeln"), ("de", "Selbstmord"),
         ("es", "coño"), ("fr", "salope"), ("it", "cazzo"), ("pt", "caralho"),
         ("ja", "ファック"), ("ja", "セックス"), ("ja", "全裸"),
-        ("ko", "씨발"), ("ko", "자위"),
+        ("ko", "씨발"), ("ko", "자위"), ("ko", "개좆"),
         ("ru", "ебать"), ("ru", "выебать"), ("ru", "пиздец"), ("ru", "похуй"),
-        ("zh", "操你妈"), ("zh", "鸡巴"), ("zh", "强奸"),
+        ("zh", "操你妈"), ("zh", "鸡巴"), ("zh", "强奸"), ("zh", "插死你"), ("ru", "на хую вертеть"),
     ])
     def test_a_target_word_is_blocked(self, lists, language, text):
         assert any(item.matches_tag(text) for item in lists[language])
