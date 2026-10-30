@@ -22,13 +22,17 @@ from sd_runner.prompts.blacklist import Blacklist
 
 logger = get_logger("prompts.language_detection")
 
+# Set from the sweep in scripts/verify_language_detection.py. Those settings
+# keep missed languages low and accept that English prompts often gain one, so
+# the blacklist rows have to be chosen not to collide with English text.
+
 #: A tag with at least this many Latin letters is detected on its own; shorter
 #: ones give the detector too little, so they are pooled and detected together.
-MIN_LETTERS = 12
+MIN_LETTERS = 10
 #: A language at or above this confidence joins the basket.
-MIN_CONFIDENCE = 0.15
+MIN_CONFIDENCE = 0.3
 #: Below this top confidence, every language the text could be in joins.
-CONFIDENT = 0.6
+CONFIDENT = 0.4
 
 _SCRIPT_RANGES = (
     ("greek", 0x0370, 0x03FF),

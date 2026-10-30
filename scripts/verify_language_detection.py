@@ -14,6 +14,7 @@ phrases below, so their numbers are thin evidence.
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+import hashlib
 import importlib.metadata
 import itertools
 import json
@@ -28,9 +29,13 @@ DISTRIBUTION = "lingua-language-detector"
 LATIN_CODES = ("de", "es", "fr", "it", "pt")
 HAN_CODES = ("zh", "ja")
 EXPECTED_PYTHON = (3, 11)
-MIN_LETTERS_GRID = (6, 8, 10, 12, 16, 20)
+# 1000 pools every tag. A CONFIDENT of 0.0 never widens, so a language joins
+# only by its own score.
+MIN_LETTERS_GRID = (6, 8, 10, 12, 16, 20, 30, 1000)
 MIN_CONFIDENCE_GRID = (0.05, 0.1, 0.15, 0.2, 0.3)
-CONFIDENT_GRID = (0.4, 0.5, 0.6, 0.7, 0.8)
+CONFIDENT_GRID = (0.0, 0.4, 0.5, 0.6, 0.7, 0.8)
+CURRENT_DEFAULTS = (10, 0.3, 0.4)
+ACCEPTABLE_MISSED = 0.01
 
 PHRASES = {
     "es": ["una casa antigua", "el gato duerme", "montañas nevadas al amanecer", "mujer con vestido rojo",
@@ -131,16 +136,56 @@ def check_packaging(report):
     data_files = [name for name, size in entries
                   if size > 1048576 and not name.endswith((".pyd", ".so", ".dylib"))]
     print(f"licence and notice files: {licences or 'none'}")
+    licence_matches = compare_licence(files)
+    print(f"bundled licence text matches the installed one: {licence_matches}")
     print(f"large files outside the extension: {data_files or 'none, so the models are compiled in'}")
     report["packaging"] = {"total_mb": sum(size for _name, size in entries) / 1048576,
-                           "licence_files": licences, "large_data_files": data_files}
+                           "licence_files": licences, "large_data_files": data_files,
+                           "licence_matches": licence_matches}
+
+
+def text_digest(path):
+    """A digest that ignores line endings and surrounding whitespace."""
+    with open(path, encoding="utf-8") as f:
+        return hashlib.sha256(f.read().strip().encode("utf-8")).hexdigest()
+
+
+def compare_licence(files):
+    installed = [file for file in files if os.path.basename(str(file)).upper().startswith("LICENSE")]
+    bundled = os.path.join(REPO_ROOT, "licenses", "lingua-language-detector-LICENSE.txt")
+    if not installed or not os.path.isfile(bundled):
+        return None
+    return text_digest(str(installed[0].locate())) == text_digest(bundled)
+
+
+def windows_resident_memory_mb():
+    import ctypes
+    from ctypes import wintypes
+
+    class ProcessMemoryCounters(ctypes.Structure):
+        _fields_ = [("cb", wintypes.DWORD), ("PageFaultCount", wintypes.DWORD)] + [
+            (name, ctypes.c_size_t) for name in (
+                "PeakWorkingSetSize", "WorkingSetSize", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage",
+                "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "PagefileUsage", "PeakPagefileUsage",
+            )
+        ]
+
+    counters = ProcessMemoryCounters()
+    counters.cb = ctypes.sizeof(counters)
+    get_current_process = ctypes.windll.kernel32.GetCurrentProcess
+    get_current_process.restype = wintypes.HANDLE
+    get_memory_info = ctypes.windll.psapi.GetProcessMemoryInfo
+    get_memory_info.argtypes = [wintypes.HANDLE, ctypes.POINTER(ProcessMemoryCounters), wintypes.DWORD]
+    if not get_memory_info(get_current_process(), ctypes.byref(counters), counters.cb):
+        return None
+    return counters.WorkingSetSize / 1048576
 
 
 def resident_memory_mb():
     try:
         import psutil
     except ImportError:
-        return None
+        return windows_resident_memory_mb() if sys.platform == "win32" else None
     return psutil.Process().memory_info().rss / 1048576
 
 
@@ -153,7 +198,7 @@ def check_memory(report):
         build(codes)("Die Katze schläft auf dem warmen Sofa, une vieille maison")
         memory = resident_memory_mb()
         if memory is None:
-            print("psutil is not installed; skipped")
+            print("process memory is not available here; skipped")
             report["memory"] = None
             return
         steps.append({"languages": list(codes), "resident_mb": memory})
@@ -161,16 +206,33 @@ def check_memory(report):
     report["memory"] = steps
 
 
+def compare_runs(texts, results, expected):
+    """How results differ from *expected*: exactly, by language order, and by how much."""
+    exact = order = 0
+    largest = 0.0
+    for text, result in zip(texts, results):
+        wanted = expected[text]
+        exact += result != wanted
+        order += [code for code, _value in result] != [code for code, _value in wanted]
+        scores = dict(wanted)
+        for code, value in result:
+            largest = max(largest, abs(value - scores.get(code, 0.0)))
+    return {"exact_differences": exact, "language_order_changes": order, "largest_score_change": largest}
+
+
 def check_threads(report):
     section("Thread safety")
     score = build(LATIN_CODES + HAN_CODES)
     expected = {text: score(text) for text in THREAD_SAMPLE}
     texts = THREAD_SAMPLE * 400
+    # The single-thread baseline shows what repeating a call does with no
+    # concurrency, so only what threads add beyond it counts against them.
+    alone = compare_runs(texts, [score(text) for text in texts], expected)
     with ThreadPoolExecutor(max_workers=8) as pool:
-        results = list(pool.map(score, texts))
-    mismatches = sum(result != expected[text] for text, result in zip(texts, results))
-    print(f"{len(texts)} calls on 8 threads, {mismatches} differed from single-thread results")
-    report["threads"] = {"calls": len(texts), "mismatches": mismatches}
+        threaded = compare_runs(texts, list(pool.map(score, texts)), expected)
+    print(f"{len(texts)} calls repeated on one thread: {alone}")
+    print(f"{len(texts)} calls on 8 threads:           {threaded}")
+    report["threads"] = {"calls": len(texts), "single_thread": alone, "eight_threads": threaded}
 
 
 def check_speed(report, tags):
@@ -213,6 +275,7 @@ def place(score, text, family, min_confidence, confident):
 
 
 def basket(score, tags, min_letters, min_confidence, confident):
+    """Returns (languages, what widened): "alone", "pool", "han", or none of them."""
     alone, pooled, han = [], [], []
     languages = set()
     for tag in tags:
@@ -222,21 +285,22 @@ def basket(score, tags, min_letters, min_confidence, confident):
             han.append(tag)
         else:
             (alone if letters(tag) >= min_letters else pooled).append(tag)
-    texts = [(tag, LATIN_CODES) for tag in alone]
+    texts = [(tag, LATIN_CODES, "alone") for tag in alone]
     if pooled:
-        texts.append((", ".join(pooled), LATIN_CODES))
+        texts.append((", ".join(pooled), LATIN_CODES, "pool"))
     if han:
-        texts.append((", ".join(han), HAN_CODES))
-    widened = False
-    for text, family in texts:
+        texts.append((", ".join(han), HAN_CODES, "han"))
+    widened_by = set()
+    for text, family, source in texts:
         found, text_widened = place(score, text, family, min_confidence, confident)
         languages |= found
-        widened = widened or text_widened
-    return languages, widened
+        if text_widened:
+            widened_by.add(source)
+    return languages, widened_by
 
 
 def build_prompts(english, german, count, rng):
-    """Comma-joined mixes: (tags, languages present). English adds no language."""
+    """Comma-joined mixes: (kind, tags, languages present). English adds no language."""
     prompts = []
     others = list(PHRASES)
     for _i in range(count):
@@ -253,8 +317,28 @@ def build_prompts(english, german, count, rng):
                 code = rng.choice(others)
                 tags.append(rng.choice(PHRASES[code]))
                 present.add(code)
-        prompts.append((tags, present))
+        prompts.append((kind, tags, present))
     return prompts
+
+
+def rates(rows):
+    """The share of *rows* (found, widened_by, present) that missed, added or widened."""
+    count = len(rows) or 1
+    return {
+        "prompts": len(rows),
+        "missed": sum(bool(present - found) for found, _by, present in rows) / count,
+        "extra": sum(bool(found - present) for found, _by, present in rows) / count,
+        "widened": sum(bool(by) for _found, by, _present in rows) / count,
+        "extra_languages": sum(len(found - present) for found, _by, present in rows) / count,
+    }
+
+
+def print_row(result):
+    english = result["by_kind"]["english"]
+    print(f"{result['min_letters']:>11} {result['min_confidence']:>8} {result['confident']:>9} "
+          f"{result['missed']:>7.1%} {result['extra']:>7.1%} {result['widened']:>7.1%} "
+          f"{english['extra']:>10.1%} {english['extra_languages']:>9.2f} "
+          f"{result['widened_alone']:>7.1%} {result['widened_pool']:>7.1%}")
 
 
 def sweep(report, english, german, count):
@@ -272,23 +356,38 @@ def sweep(report, english, german, count):
     results = []
     for min_letters, min_confidence, confident in itertools.product(
             MIN_LETTERS_GRID, MIN_CONFIDENCE_GRID, CONFIDENT_GRID):
-        missed = extra = widened_count = 0
-        for tags, present in prompts:
-            found, widened = basket(score, tags, min_letters, min_confidence, confident)
-            missed += bool(present - found)
-            extra += bool(found - present)
-            widened_count += widened
+        rows_by_kind = {}
+        for kind, tags, present in prompts:
+            found, widened_by = basket(score, tags, min_letters, min_confidence, confident)
+            rows_by_kind.setdefault(kind, []).append((found, widened_by, present))
+        rows = [row for kind_rows in rows_by_kind.values() for row in kind_rows]
         results.append({
             "min_letters": min_letters, "min_confidence": min_confidence, "confident": confident,
-            "missed": missed / count, "extra": extra / count, "widened": widened_count / count,
+            **rates(rows),
+            "widened_alone": sum("alone" in by for _found, by, _present in rows) / count,
+            "widened_pool": sum("pool" in by for _found, by, _present in rows) / count,
+            "by_kind": {kind: rates(kind_rows) for kind, kind_rows in rows_by_kind.items()},
         })
-    # Missing a language loses protection; an extra one only risks a collision.
-    results.sort(key=lambda r: (r["missed"], r["widened"], r["extra"]))
     print(f"{count} prompts, {len(cache)} distinct detector inputs")
-    print("min_letters min_conf confident   missed    extra  widened")
-    for r in results[:12]:
-        print(f"{r['min_letters']:>11} {r['min_confidence']:>8} {r['confident']:>9} "
-              f"{r['missed']:>8.1%} {r['extra']:>8.1%} {r['widened']:>8.1%}")
+    print("Share of prompts. 'en extra' is English-only prompts given any language; "
+          "'en langs' is how many on average.")
+    print("min_letters min_conf confident  missed   extra widened   en extra  en langs   alone    pool")
+    current = next(r for r in results if (r["min_letters"], r["min_confidence"], r["confident"]) == CURRENT_DEFAULTS)
+    print("current defaults:")
+    print_row(current)
+    # An English prompt that gains a language can be blocked by a word it does
+    # not contain in that sense, so among settings that keep misses low, the
+    # best are those that leave English prompts alone.
+    acceptable = [r for r in results if r["missed"] <= ACCEPTABLE_MISSED]
+    acceptable.sort(key=lambda r: (r["by_kind"]["english"]["extra"], r["missed"]))
+    print(f"best with at most {ACCEPTABLE_MISSED:.0%} missed:")
+    for r in acceptable[:12]:
+        print_row(r)
+    never_widening = [r for r in results if r["confident"] == 0.0]
+    never_widening.sort(key=lambda r: (r["missed"], r["by_kind"]["english"]["extra"]))
+    print("never widening, fewest missed:")
+    for r in never_widening[:6]:
+        print_row(r)
     report["thresholds"] = {"prompts": count, "results": results}
 
 
@@ -306,7 +405,7 @@ def check_classifier(report, model_ref):
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--prompts", type=int, default=2000, help="Synthetic prompts in the threshold sweep")
+    parser.add_argument("--prompts", type=int, default=4000, help="Synthetic prompts in the threshold sweep")
     parser.add_argument("--output", default="language_detection_report.json", help="JSON report path")
     parser.add_argument("--classifier", default=None, help="Also check this classifier model id or path")
     args = parser.parse_args()
