@@ -13,7 +13,10 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
-from sd_runner.prompts.blacklist import BlacklistItem
+from sd_runner.config import config
+from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+from sd_runner.prompts.concept_sets import concept_set_info
+from sd_runner.prompts.language_codes import is_invalid_language_code, normalize_language_code
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.ui.window_focus import clear_class_ref_if_self
 from sd_runner.globals import ProtectedActions
@@ -70,6 +73,7 @@ class BlacklistModifyWindow(SmartDialog):
             "apply_to_whole_prompt": getattr(self._item, "apply_to_whole_prompt", False),
             "apply_to_prompt_tags": getattr(self._item, "apply_to_prompt_tags", True),
             "apply_to_generated": getattr(self._item, "apply_to_generated", True),
+            "language": getattr(self._item, "language", None) or "",
         }
 
         root = QVBoxLayout(self)
@@ -128,6 +132,23 @@ class BlacklistModifyWindow(SmartDialog):
             self._scope_combo.setVisible(False)
         root.addWidget(self._scope_combo)
 
+        # --- Language (tag items only) --------------------------------------
+        self._language_label = QLabel(_("Language"))
+        root.addWidget(self._language_label)
+        self._language_combo = QComboBox()
+        self._language_combo.setEditable(True)
+        self._language_combo.addItem(_("No language"))
+        self._language_combo.addItems(self._known_languages())
+        self._language_combo.setToolTip(
+            _("No language applies to all text. A language code such as de applies "
+              "when that language is detected in a prompt, and to all concept lists.")
+        )
+        self._language_combo.setCurrentText(getattr(self._item, "language", None) or _("No language"))
+        if is_model:
+            self._language_label.setVisible(False)
+            self._language_combo.setVisible(False)
+        root.addWidget(self._language_combo)
+
         # --- Buttons --------------------------------------------------------
         btn_row = QHBoxLayout()
         preview_btn = QPushButton(_("Preview"))
@@ -147,6 +168,18 @@ class BlacklistModifyWindow(SmartDialog):
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
+    @staticmethod
+    def _known_languages() -> list[str]:
+        """The codes already in use, on items or on the configured concept sets."""
+        codes = {item.language for item in Blacklist.get_items()}
+        codes.update(concept_set_info(path).language for path in config.concepts_dirs.values())
+        return sorted(code for code in codes if code)
+
+    def _language_text(self) -> str:
+        """The language as entered; empty for no language."""
+        text = self._language_combo.currentText().strip()
+        return "" if text == _("No language") else text
+
     def _has_changes(self) -> bool:
         s = self._string_entry.text().strip()
         if self._is_new:
@@ -162,6 +195,7 @@ class BlacklistModifyWindow(SmartDialog):
             "apply_to_whole_prompt": self._whole_prompt_cb.isChecked(),
             "apply_to_prompt_tags": apply_to_prompt_tags,
             "apply_to_generated": apply_to_generated,
+            "language": normalize_language_code(self._language_text()) or self._language_text(),
         } != self._original_values
 
     def _validate_and_build(self) -> Optional[BlacklistItem]:
@@ -169,6 +203,14 @@ class BlacklistModifyWindow(SmartDialog):
         if not s:
             self._app_actions.alert(
                 _("Error"), _("Blacklist string cannot be empty."),
+                kind="error", master=self,
+            )
+            return None
+        language = self._language_text()
+        if is_invalid_language_code(language):
+            self._app_actions.alert(
+                _("Error"),
+                _("\"{0}\" is not a language code. Use a code such as de or fr.").format(language),
                 kind="error", master=self,
             )
             return None
@@ -184,7 +226,7 @@ class BlacklistModifyWindow(SmartDialog):
             apply_to_whole_prompt=self._whole_prompt_cb.isChecked(),
             apply_to_prompt_tags=apply_to_prompt_tags,
             apply_to_generated=apply_to_generated,
-            language=getattr(self._item, "language", None),
+            language=language,
         )
 
     # ------------------------------------------------------------------

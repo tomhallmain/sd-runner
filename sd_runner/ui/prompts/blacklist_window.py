@@ -64,7 +64,15 @@ def _item_display_text(item: BlacklistItem) -> str:
         parts.append(_("[generated only]"))
     if not getattr(item, "apply_to_generated", True):
         parts.append(_("[user prompts only]"))
+    # A language code reads the same in every locale.
+    if getattr(item, "language", None):
+        parts.append(f"[{item.language}]")
     return " ".join(parts)
+
+
+#: Item data of the language filter's fixed entries; every other entry is a code.
+_ALL_LANGUAGES = "*"
+_NO_LANGUAGE = ""
 
 
 def _import_report_text(report) -> str:
@@ -76,6 +84,12 @@ def _import_report_text(report) -> str:
         return shown
 
     sections = []
+    if report.ineffective_boundary:
+        sections.append(
+            _("These imported items ask for word boundary matching, but their script "
+              "does not separate words, so each one matches anywhere in the text:\n\n{0}").format(
+                listing([item.string for item in report.ineffective_boundary]))
+        )
     if report.regex_syntax:
         sections.append(
             _("These imported items are not marked as regex, but their text looks "
@@ -254,6 +268,22 @@ class BlacklistWindow(SmartDialog):
             layout, self._restore_tag_backup, self._discard_tag_backup
         )
 
+        # --- Language filter ------------------------------------------------
+        # Outside the content area, which is rebuilt on every change: the combo
+        # would otherwise be destroyed from inside its own signal.
+        self._language_row = QWidget()
+        language_layout = QHBoxLayout(self._language_row)
+        language_layout.setContentsMargins(0, 0, 0, 0)
+        language_layout.addWidget(QLabel(_("Language:")))
+        self._language_combo = QComboBox()
+        # Without focus, typed keys keep reaching the text filter.
+        self._language_combo.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self._language_combo.addItem(_("All"), _ALL_LANGUAGES)
+        self._language_combo.currentIndexChanged.connect(self._on_language_filter_changed)
+        language_layout.addWidget(self._language_combo)
+        language_layout.addStretch()
+        layout.addWidget(self._language_row)
+
         # --- Content area (reveal gate OR table) ---------------------------
         self._tag_content = QWidget()
         self._tag_content_layout = QVBoxLayout(self._tag_content)
@@ -359,6 +389,7 @@ class BlacklistWindow(SmartDialog):
     def _rebuild_tag_content(self) -> None:
         self._clear_layout(self._tag_content_layout)
         self._tag_table = None
+        self._language_row.setVisible(self._concepts_revealed)
 
         if not self._concepts_revealed:
             if Blacklist.is_empty():
@@ -381,13 +412,18 @@ class BlacklistWindow(SmartDialog):
                 self._tag_content_layout.addWidget(reveal_btn)
             return
 
+        self._refresh_language_filter()
+
         # --- Filter / count status ------------------------------------------
         total = len(Blacklist.get_items())
         showing = len(self._filtered_items)
+        filtering = bool(self._filter_text.strip()) or self._language_combo.currentData() != _ALL_LANGUAGES
         if self._filter_text.strip():
             status = _("Filter: \"{0}\"  ({1} of {2} items)").format(
                 self._filter_text, showing, total,
             )
+        elif filtering:
+            status = _("{0} of {1} items").format(showing, total)
         else:
             status = _("{0} items").format(total)
         self._tag_status_label = QLabel(status)
@@ -397,7 +433,7 @@ class BlacklistWindow(SmartDialog):
         if showing == 0:
             no_match = QLabel(
                 _("No items match the current filter.")
-                if self._filter_text.strip()
+                if filtering
                 else _("The blacklist is empty.")
             )
             no_match.setWordWrap(True)
@@ -746,13 +782,31 @@ class BlacklistWindow(SmartDialog):
         self._apply_filter()
         event.accept()
 
+    def _refresh_language_filter(self) -> None:
+        """Offer the languages the items have now, keeping the current choice if it still exists."""
+        current = self._language_combo.currentData()
+        self._language_combo.blockSignals(True)
+        self._language_combo.clear()
+        self._language_combo.addItem(_("All"), _ALL_LANGUAGES)
+        self._language_combo.addItem(_("No language"), _NO_LANGUAGE)
+        for code in sorted({item.language for item in Blacklist.get_items() if item.language}):
+            self._language_combo.addItem(code, code)
+        self._language_combo.setCurrentIndex(max(self._language_combo.findData(current), 0))
+        self._language_combo.blockSignals(False)
+
+    def _on_language_filter_changed(self, index: int) -> None:
+        self._apply_filter()
+
     def _apply_filter(self) -> None:
-        """Re-filter the tag item list based on ``_filter_text``."""
+        """Re-filter the tag item list based on the language and ``_filter_text``."""
+        language = self._language_combo.currentData()
+        all_items = Blacklist.get_items()[:]
+        if language != _ALL_LANGUAGES:
+            all_items = [i for i in all_items if (i.language or _NO_LANGUAGE) == language]
         if not self._filter_text.strip():
-            self._filtered_items = Blacklist.get_items()[:]
+            self._filtered_items = all_items
         else:
             ft = self._filter_text.lower()
-            all_items = Blacklist.get_items()
             exact = [i for i in all_items if i.string.lower() == ft]
             prefix = [i for i in all_items if i not in exact and i.string.lower().startswith(ft)]
             partial = [i for i in all_items if i not in exact and i not in prefix
@@ -768,8 +822,7 @@ class BlacklistWindow(SmartDialog):
         if not hasattr(self, "_tag_content_layout"):
             return
         if index == 0:
-            self._filtered_items = Blacklist.get_items()[:]
-            self._rebuild_tag_content()
+            self._apply_filter()
         else:
             self._filtered_model_items = Blacklist.get_model_items()[:]
             self._rebuild_model_content()

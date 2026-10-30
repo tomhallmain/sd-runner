@@ -74,6 +74,17 @@ def normalize_accents_for_regex(text: str, is_regex: bool = False) -> str:
     """
     # Mapping of base characters to their common accented variations
     accent_patterns = {
+        # German transliteration: an item written with a umlaut also matches the
+        # spelling without it. The other direction is covered below, since a
+        # base letter's class includes its umlaut. These come first so that
+        # the replacement pass cannot rewrite them inside those classes.
+        'ä': '(?:ä|ae)',
+        'ö': '(?:ö|oe)',
+        'ü': '(?:ü|ue)',
+        'ß': '(?:ß|ss)',
+        'Ä': '(?:Ä|Ae)',
+        'Ö': '(?:Ö|Oe)',
+        'Ü': '(?:Ü|Ue)',
         'a': '[aàáâãäåāăąǎǟǡǻȁȃȧɐɑ]',
         'A': '[AÀÁÂÃÄÅĀĂĄǍǞǠǺȀȂȦɐ]',
         'e': '[eèéêëēĕėęěȅȇȩɇ]',
@@ -179,6 +190,16 @@ def normalize_user_tag(tag: str) -> str:
     return re.sub(r":\s*\d+(\.\d+)?$", "", tag).strip().lower()
 
 
+#: Kana, CJK, Thai, Lao, Khmer and Myanmar: scripts that do not separate words
+#: with spaces and whose letters Python counts as word characters, so a term
+#: inside a sentence is never at a word start. Hangul is left out: Korean
+#: separates words, and its particles attach at the end.
+_NO_SPACE_SCRIPT = re.compile(
+    r'[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff'
+    r'\u0e00-\u0e7f\u0e80-\u0eff\u1780-\u17ff\u1000-\u109f]'
+)
+
+
 class BlacklistException(Exception):
     def __init__(self, message, whitelist, filtered):
         self.message = message
@@ -271,6 +292,9 @@ class BlacklistItem:
         # strict side, and invalid_language keeps it for the import report.
         self.language = normalize_language_code(language)
         self.invalid_language = language if is_invalid_language_code(language) else None
+        # The stored flag stays as set, so the round trip is unchanged; only
+        # the compiled pattern ignores it for these scripts.
+        self._anchor_word_start = use_word_boundary and not _NO_SPACE_SCRIPT.search(string)
         
         # Process the string based on the new property
         
@@ -298,7 +322,7 @@ class BlacklistItem:
             # Apply accent normalization to prevent filter evasion via accent variations
             processed_string = normalize_accents_for_regex(processed_string, is_regex=True)
             # Use simple word boundary pattern for exact match mode
-            if use_word_boundary:
+            if self._anchor_word_start:
                 self.regex_pattern = re.compile(r'(^|\W)' + processed_string)
             else:
                 self.regex_pattern = re.compile(processed_string)
@@ -327,6 +351,14 @@ class BlacklistItem:
         if any(c in "()[]|\\" for c in self.string):
             return True
         return "*" in self.string and self.string.strip("*") != ""
+
+    def has_ineffective_word_boundary(self) -> bool:
+        """Whether use_word_boundary is set on a string in a no-space script.
+
+        The boundary is dropped there, so the item matches anywhere, which may
+        not be what the row's author expected of it.
+        """
+        return self.use_word_boundary and not self._anchor_word_start
 
     def applies_to(self, languages: frozenset[str] | None) -> bool:
         """Whether this item checks text whose basket is *languages*.
@@ -453,7 +485,7 @@ class BlacklistItem:
         # This ensures the pattern matches at the start of a word.
         # If the user wants to add boundary matching to the end,
         # they can do this by adding (\W|$) to the end of the pattern.
-        if self.use_word_boundary:
+        if self._anchor_word_start:
             regex_pattern = r'(^|\W)' + regex_pattern
         
         return regex_pattern
@@ -568,6 +600,8 @@ class SimilarityPhrase:
 class ImportReport:
     """What an import found worth telling the user. The items are imported regardless."""
     regex_syntax: list[BlacklistItem] = field(default_factory=list)
+    #: Set to match at word start, in a script where that is ignored.
+    ineffective_boundary: list[BlacklistItem] = field(default_factory=list)
     #: Imported with a language over an item that had none, so they apply less widely.
     narrowed: list[BlacklistItem] = field(default_factory=list)
     #: Raw language values that could not be used; those items apply everywhere.
@@ -1314,6 +1348,7 @@ class Blacklist:
             raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
         suspicious = {item.string: item for item in items if item.has_unflagged_regex_syntax()}
         report.regex_syntax = list(suspicious.values())
+        report.ineffective_boundary = [item for item in items if item.has_ineffective_word_boundary()]
         report.invalid_language = [str(item.invalid_language) for item in items
                                    if item.invalid_language is not None]
         report.empty_scope = [item for item in items if item.scope_was_empty]

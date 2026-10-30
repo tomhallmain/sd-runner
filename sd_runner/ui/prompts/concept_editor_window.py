@@ -37,6 +37,7 @@ from PySide6.QtWidgets import (
 )
 
 from lib.multi_display_qt import SmartDialog
+from sd_runner.prompts.concept_sets import concept_set_info
 from sd_runner.prompts.concepts import Concepts, SFW, NSFW, NSFL, ArtStyles
 from sd_runner.prompts.pending_translation import stage_for_translation
 from sd_runner.ui.app_style import AppStyle
@@ -169,6 +170,9 @@ class ConceptEditorWindow(SmartDialog):
             self._dir_combo.setCurrentIndex(default_idx)
         self._dir_combo.currentIndexChanged.connect(self._on_dir_changed)
         dir_row.addWidget(self._dir_combo)
+        self._dir_language_label = QLabel("")
+        dir_row.addWidget(self._dir_language_label)
+        self._update_dir_language()
         dir_row.addStretch()
         root.addLayout(dir_row)
 
@@ -324,6 +328,11 @@ class ConceptEditorWindow(SmartDialog):
     # ------------------------------------------------------------------
     # Refresh / search
     # ------------------------------------------------------------------
+    def _update_dir_language(self) -> None:
+        """Name the selected set's language. An English set shows nothing."""
+        language = concept_set_info(self._dir_combo.currentData()).language
+        self._dir_language_label.setText(_("Language: {0}").format(language) if language else "")
+
     def _on_dir_changed(self) -> None:
         """Concepts directory combo changed -- switch active dir and refresh."""
         full_path = self._dir_combo.currentData()
@@ -339,6 +348,7 @@ class ConceptEditorWindow(SmartDialog):
                 master=self,
             )
             return
+        self._update_dir_language()
         self._loaded_concepts.clear()
         self._current_concept = None
         self._current_file = None
