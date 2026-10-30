@@ -8,6 +8,7 @@ from typing import Callable, Dict, Optional, Set
 
 from sd_runner.app_paths import concepts_dir, resource_path
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+from sd_runner.prompts.concept_sets import SourceAnchors, concept_set_info, read_concept_lines
 from sd_runner.config import config
 from sd_runner.globals import Globals, PromptMode, BlacklistPromptMode, BlacklistTextOrigin
 from lib.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
@@ -471,6 +472,9 @@ class Concepts:
             raise Exception(f"{path} is not a valid concepts directory")
         else:
             Concepts.CONCEPTS_DIR = path
+        # Refreshed on every call: a saved edit changes the map without
+        # changing the directory.
+        Blacklist.set_source_anchors(SourceAnchors.for_set(concept_set_info(Concepts.CONCEPTS_DIR)))
         return old_path != Concepts.CONCEPTS_DIR
 
     @staticmethod
@@ -530,7 +534,8 @@ class Concepts:
         if isinstance(concepts, dict):
             # Filter the dictionary keys, then reconstruct dictionary with original weights
             concepts_list = list(concepts.keys())
-            whitelist, filtered = Blacklist.filter_concepts(concepts_list, user_prompt=False, prompt_mode=prompt_mode)
+            whitelist, filtered = Blacklist.filter_concepts(concepts_list, user_prompt=False, prompt_mode=prompt_mode,
+                                                            anchors=Blacklist.get_source_anchors())
             
             # Reconstruct dictionary with only whitelisted items, preserving their original weights
             whitelist_dict = {concept: concepts[concept] for concept in whitelist if concept in concepts}
@@ -548,7 +553,8 @@ class Concepts:
             return sample(whitelist_dict, low, high)
         else:
             # Handle list case (uniform sampling)
-            whitelist, filtered = Blacklist.filter_concepts(concepts, user_prompt=False, prompt_mode=prompt_mode)
+            whitelist, filtered = Blacklist.filter_concepts(concepts, user_prompt=False, prompt_mode=prompt_mode,
+                                                            anchors=Blacklist.get_source_anchors())
             
             # Check if we have enough items after filtering
             if len(whitelist) < low:
@@ -1023,16 +1029,7 @@ class Concepts:
         else:
             filepath = os.path.join(Concepts.CONCEPTS_DIR, filename)
         try:
-            with open(filepath, encoding="utf-8") as f:
-                for line in f:
-                    val = ""
-                    for c in line:
-                        if c == "#":
-                            break
-                        val += c
-                    val = val.strip()
-                    if len(val) > 0:
-                        l.append(val)
+            l = read_concept_lines(filepath)
         except Exception:
             # Once per file, and not gated on debug: a concept directory that
             # does not carry this file makes its category silently produce
@@ -1166,7 +1163,8 @@ class Concepts:
                     continue
                 if item.matches_tag(text):
                     return item
-        return None
+        anchors = Blacklist.get_source_anchors()
+        return Blacklist.inherited_violation(concept, anchors) if anchors is not None else None
 
     @staticmethod
     def add_concept_to_category(concept: str, target_category: str) -> bool:
@@ -1403,7 +1401,8 @@ class Concepts:
         else:
             # Use the actual blacklist filtering logic
             whitelist, filtered = Blacklist.filter_concepts(all_concepts, user_prompt=False,
-                                                            prompt_mode=PromptMode.NSFW if is_nsfw else PromptMode.SFW)
+                                                            prompt_mode=PromptMode.NSFW if is_nsfw else PromptMode.SFW,
+                                                            anchors=Blacklist.get_source_anchors())
             return list(filtered.keys())
 
 

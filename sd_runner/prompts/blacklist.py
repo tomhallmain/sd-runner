@@ -5,6 +5,7 @@ import os
 import re
 import string
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 from sd_runner.globals import (
     Globals, BlacklistMode, BlacklistPromptMode, BlacklistTextOrigin, ModelBlacklistMode, PromptMode,
@@ -16,6 +17,9 @@ from lib.pickleable_cache import SizeAwarePicklableCache, fingerprint_string_seq
 from lib.translations import I18N
 from lib.utils import Utils
 from sd_runner.prompts.language_codes import is_invalid_language_code, normalize_language_code
+
+if TYPE_CHECKING:
+    from sd_runner.prompts.concept_sets import SourceAnchors
 
 _ = I18N._
 
@@ -589,6 +593,8 @@ class Blacklist:
     CACHE_AUTOSAVE_CONCEPT_THRESHOLD = 20000
     DEFAULT_BLACKLIST_FILE_LOC = resource_path("sd_runner", "data", "blacklist_default.enc")
     _ui_callbacks = None  # Static variable to store UI callbacks
+    # The line map of the loaded concept set, if it is a translation.
+    _source_anchors: "SourceAnchors | None" = None
     _filter_cache = SizeAwarePicklableCache.load_or_create(
         BLACKLIST_CACHE_FILE, maxsize=CACHE_MAXSIZE,
         max_large_items=CACHE_MAX_LARGE_ITEMS, large_threshold=CACHE_LARGE_THRESHOLD,
@@ -707,6 +713,30 @@ class Blacklist:
         return ", ".join(whitelist), filtered
 
     @staticmethod
+    def set_source_anchors(anchors: "SourceAnchors | None") -> None:
+        Blacklist._source_anchors = anchors
+
+    @staticmethod
+    def get_source_anchors() -> "SourceAnchors | None":
+        return Blacklist._source_anchors
+
+    @staticmethod
+    def inherited_violation(line: str, anchors: "SourceAnchors") -> BlacklistItem | None:
+        """The item blocking a source line of *line*, if any.
+
+        A translated line is judged by the line it translates, in that line's
+        own language. A block that was only an English token is inherited too.
+        """
+        for source in anchors.sources(line):
+            for item in Blacklist.TAG_BLACKLIST:
+                if (item.enabled and not item.apply_to_whole_prompt
+                        and item.applies_to_origin(BlacklistTextOrigin.GENERATED)
+                        and item.applies_to(anchors.source_languages)
+                        and item.matches_tag(source)):
+                    return item
+        return None
+
+    @staticmethod
     def get_model_blacklist_all_prompt_modes() -> bool:
         return Blacklist.model_blacklist_all_prompt_modes
 
@@ -792,6 +822,7 @@ class Blacklist:
         languages: frozenset[str] | None = None,
         origin: BlacklistTextOrigin | None = None,
         user_tags: frozenset[str] | None = None,
+        anchors: "SourceAnchors | None" = None,
     ) -> tuple[list[str], dict[str, str]]:
         if origin is None:
             origin = BlacklistTextOrigin.USER if user_prompt else BlacklistTextOrigin.GENERATED
@@ -809,6 +840,7 @@ class Blacklist:
             "*" if languages is None else ",".join(sorted(languages)),
             origin.value,
             "" if user_tags is None else fingerprint_string_sequence(tuple(sorted(user_tags))),
+            "" if anchors is None else anchors.fingerprint,
         )
 
         # Check cache first
@@ -859,6 +891,7 @@ class Blacklist:
         # Single loop with different behaviors based on mode
         for i, concept_cased in enumerate(concepts):
             match_found = False
+            inherited = False
             concept_origin = origin
             if user_tags is not None:
                 concept_origin = (BlacklistTextOrigin.USER if normalize_user_tag(concept_cased) in user_tags
@@ -868,13 +901,23 @@ class Blacklist:
                     filtered[concept_cased] = blacklist_item.string
                     match_found = True
                     break
+
+            if not match_found and anchors is not None:
+                source_item = Blacklist.inherited_violation(concept_cased, anchors)
+                if source_item is not None:
+                    filtered[concept_cased] = source_item.string
+                    match_found = True
+                    inherited = True
             
             # Handle different modes
             if mode == BlacklistMode.REMOVE_WORD_OR_PHRASE and match_found:
-                # Try to remove the blacklisted content from the concept
-                cleaned_concept = blacklist_item.remove_blacklisted_content(concept_cased)
-                if cleaned_concept and cleaned_concept.strip():
-                    whitelist.append(cleaned_concept)
+                # Try to remove the blacklisted content from the concept. A line
+                # blocked through its source has no match of its own to remove,
+                # so all of it goes.
+                if not inherited:
+                    cleaned_concept = blacklist_item.remove_blacklisted_content(concept_cased)
+                    if cleaned_concept and cleaned_concept.strip():
+                        whitelist.append(cleaned_concept)
             elif not match_found or mode == BlacklistMode.LOG_ONLY:
                 # Default behavior: add to whitelist if no blacklist match found
                 whitelist.append(concept_cased)
@@ -1044,6 +1087,7 @@ class Blacklist:
         origin: BlacklistTextOrigin | None = None,
         user_tags: frozenset[str] | None = None,
         detect_languages: bool = False,
+        anchors: "SourceAnchors | None" = None,
     ) -> tuple[list[str], dict[str, str]]:
         """Filter a list of concepts against the blacklist.
         
@@ -1059,6 +1103,7 @@ class Blacklist:
                 wrote. Those are checked as USER and all others as GENERATED.
             detect_languages: Use the basket detected from the concepts. Skipped
                 when the prompt mode bypasses the blacklist.
+            anchors: Also block a line whose source line is blocked
         Returns:
             tuple: (whitelist, filtered_dict) where:
                 - whitelist is a list of concepts that passed the blacklist check
@@ -1075,7 +1120,7 @@ class Blacklist:
         # Use the LRU cache for filtering
         concepts_tuple = tuple(concepts)
         whitelist, filtered = Blacklist._filter_concepts_cached(
-            concepts_tuple, do_cache, user_prompt, languages, origin, user_tags
+            concepts_tuple, do_cache, user_prompt, languages, origin, user_tags, anchors
         )
         # If a filtered_dict is provided, update it
         if filtered_dict is not None:

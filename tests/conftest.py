@@ -303,6 +303,7 @@ def _reset_class_state() -> None:
         # bridge -- or worse, a modal dialog with nobody to dismiss it, which
         # hangs the run rather than failing it.
         Blacklist._ui_callbacks = None
+        Blacklist._source_anchors = None
         # The filter cache keys only on the concept list, never on blacklist
         # contents, so a result cached under one blacklist is returned verbatim
         # under another. Without this a test that filters the same concepts as
@@ -320,8 +321,9 @@ def _reset_class_state() -> None:
         pass
 
     try:
-        from sd_runner.prompts.concept_sets import concept_set_info
+        from sd_runner.prompts.concept_sets import SourceAnchors, concept_set_info
         concept_set_info.cache_clear()
+        SourceAnchors.reset_cache()
     except Exception:
         pass
 
