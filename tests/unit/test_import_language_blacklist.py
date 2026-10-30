@@ -29,6 +29,14 @@ def write_accept(tmp_path, *lines):
     return str(path)
 
 
+class TestSourceFiles:
+    def test_a_regional_list_merges_into_its_language(self, tool, tmp_path):
+        for name in ("fr", "fr-CA-u-sd-caqc", "de", "README.md", "LICENSE"):
+            (tmp_path / name).write_text("x\n", encoding="utf-8")
+        found = [os.path.basename(path) for path in tool.source_files(str(tmp_path), "fr")]
+        assert found == ["fr", "fr-CA-u-sd-caqc"]
+
+
 class TestParsing:
     @pytest.mark.parametrize("line", ["", "   ", "# a comment", "# hold: a, b - reason"])
     def test_blanks_and_comments_give_nothing(self, tool, line):
@@ -78,6 +86,11 @@ class TestProcessLanguage:
         assert items[0].language == "es"
         assert items[0].use_regex is True
 
+    def test_a_retag_with_bang_makes_the_row_global(self, tool, tmp_path):
+        base = BlacklistItem("puta($|\\W|s)", use_regex=True)
+        items, _skipped, _held = tool.process_language("es", write_accept(tmp_path, "=!puta($|\\W|s)"), [base])
+        assert items[0].language is None
+
     def test_a_retag_of_a_missing_row_is_an_error(self, tool, tmp_path):
         with pytest.raises(ValueError):
             tool.process_language("es", write_accept(tmp_path, "=gone"), [])
@@ -107,7 +120,10 @@ def lists(tool):
 
 class TestCuratedLists:
     def test_every_in_scope_language_has_a_list(self, lists):
-        assert set(lists) == {"de", "es", "fr", "it", "ja", "ko", "pt", "ru", "zh"}
+        assert set(lists) == {
+            "ar", "cs", "da", "de", "eo", "es", "fa", "fi", "fil", "fr", "hi", "hu", "it",
+            "ja", "ko", "nl", "no", "pl", "pt", "ru", "sv", "th", "tr", "zh",
+        }
 
     def test_every_source_entry_is_covered_or_held(self, tool, lists):
         if not os.path.isfile(BASE_LIST) or not os.path.isdir(SOURCE_DIR):
@@ -118,7 +134,7 @@ class TestCuratedLists:
         for language in lists:
             path = os.path.join(ACCEPT_DIR, f"accept_{language}.txt")
             items, _skipped, held = tool.process_language(language, path, base)
-            found = tool.unreviewed(os.path.join(SOURCE_DIR, language), items + global_items, base, held)
+            found = tool.unreviewed(tool.source_files(SOURCE_DIR, language), items + global_items, base, held)
             if found:
                 missing[language] = found
         assert missing == {}
@@ -139,6 +155,12 @@ class TestCuratedLists:
         ("ko", "자위대"), ("ko", "씹다"), ("ko", "에로스"),
         ("ru", "колебать"), ("ru", "разгребать"), ("ru", "застрахуй"), ("ru", "мандарин"),
         ("ru", "педикюр"), ("ru", "тебе"), ("ru", "застрахую"),
+        ("no", "fitted"), ("pl", "Jebusite"), ("fi", "Manussiha"), ("fi", "lapillus"), ("da", "Luderick"),
+        ("nl", "strontium"), ("nl", "kutjera"), ("hi", "chinking"),
+        ("ar", "كسر"), ("ar", "مصر"), ("cs", "špičatý"), ("eo", "perfekt"), ("eo", "defekto"),
+        ("fa", "اکنون"), ("fi", "persecute"), ("fi", "persevere"), ("hi", "कालंड"), ("hi", "लंडन"),
+        ("hu", "szarvas"), ("nl", "hoera"), ("nl", "aftrekken"), ("sv", "fitting"), ("sv", "Pitt"),
+        ("th", "หีบ"), ("th", "ขี้เกียจ"), ("th", "ควาย"), ("tr", "Goethe"), ("tr", "am"),
         ("zh", "操作"), ("zh", "体操"), ("zh", "日本"), ("zh", "干净"), ("zh", "今日你好"), ("zh", "注射你"),
     ])
     def test_an_ordinary_word_passes(self, lists, language, text):
@@ -147,6 +169,9 @@ class TestCuratedLists:
     @pytest.mark.parametrize("language, text", [
         ("de", "Arschloch"), ("de", "Drecksfotze"), ("de", "SCHEISSE"), ("de", "Moese"),
         ("de", "Blutbad"), ("de", "Tötung"), ("de", "voegeln"), ("de", "Selbstmord"),
+        ("ar", "شرموطة"), ("cs", "mrdat"), ("eo", "fikado"), ("fa", "جنده"), ("fi", "hevonvittu"),
+        ("hi", "लंड"), ("hu", "faszfej"), ("nl", "klootzak"), ("no", "ståpikk"), ("pl", "skurwysyn"),
+        ("sv", "knulla"), ("th", "เย็ด"), ("tr", "orospu"), ("tr", "SİKTİR"), ("fil", "putang ina"),
         ("es", "coño"), ("fr", "salope"), ("it", "cazzo"), ("pt", "caralho"),
         ("ja", "ファック"), ("ja", "セックス"), ("ja", "全裸"),
         ("ko", "씨발"), ("ko", "자위"), ("ko", "개좆"),

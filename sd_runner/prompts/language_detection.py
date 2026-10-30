@@ -64,6 +64,11 @@ _SCRIPT_LANGUAGES = {
 _HAN_LANGUAGES = frozenset({"zh", "ja"})
 _NON_LATIN_LANGUAGES = _HAN_LANGUAGES.union(*_SCRIPT_LANGUAGES.values())
 
+#: Item codes the detector knows by other names. Items keep the LDNOOBW codes.
+_DETECTOR_CODES = {"no": ("nb", "nn"), "fil": ("tl",)}
+_ITEM_CODES = {detector_code: code for code, detector_codes in _DETECTOR_CODES.items()
+               for detector_code in detector_codes}
+
 #: Replaces the Lingua binding: takes the language codes and returns the
 #: scoring function. Lets the tests run without Lingua installed.
 detector_hook: Callable[[frozenset[str]], Callable] | None = None
@@ -95,18 +100,28 @@ def supported_languages() -> frozenset[str]:
     return languages
 
 
+def _item_code_scores(scores: Iterable[tuple[str, float]]) -> tuple[tuple[str, float], ...]:
+    """Detector scores under item codes, highest first; a shared code adds up."""
+    merged: dict[str, float] = {}
+    for code, value in scores:
+        code = _ITEM_CODES.get(code, code)
+        merged[code] = merged.get(code, 0.0) + value
+    return tuple(sorted(merged.items(), key=lambda entry: entry[1], reverse=True))
+
+
 def build_detector(codes: frozenset[str]) -> Callable[[str], tuple[tuple[str, float], ...]]:
     """A function scoring text over *codes* and English, highest confidence first."""
     if detector_hook is not None:
         return detector_hook(codes)
     from lingua import IsoCode639_1, LanguageDetectorBuilder
 
-    iso_codes = [getattr(IsoCode639_1, code.upper()) for code in codes | {"en"}]
+    iso_codes = [getattr(IsoCode639_1, detector_code.upper()) for code in codes | {"en"}
+                 for detector_code in _DETECTOR_CODES.get(code, (code,))]
     detector = LanguageDetectorBuilder.from_iso_codes_639_1(*iso_codes).build()
 
     def score(text: str) -> tuple[tuple[str, float], ...]:
-        return tuple((value.language.iso_code_639_1.name.lower(), value.value)
-                     for value in detector.compute_language_confidence_values(text))
+        return _item_code_scores((value.language.iso_code_639_1.name.lower(), value.value)
+                                 for value in detector.compute_language_confidence_values(text))
 
     return score
 
@@ -119,7 +134,9 @@ def _known_to_detector(codes: frozenset[str]) -> frozenset[str]:
         from lingua import IsoCode639_1
     except Exception:
         return codes
-    return frozenset(code for code in codes if hasattr(IsoCode639_1, code.upper()))
+    return frozenset(code for code in codes
+                     if all(hasattr(IsoCode639_1, detector_code.upper())
+                            for detector_code in _DETECTOR_CODES.get(code, (code,))))
 
 
 def _get_detector(codes: frozenset[str]):

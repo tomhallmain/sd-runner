@@ -89,7 +89,9 @@ def normalize_accents_for_regex(text: str, is_regex: bool = False) -> str:
         'A': '[AÀÁÂÃÄÅĀĂĄǍǞǠǺȀȂȦɐ]',
         'e': '[eèéêëēĕėęěȅȇȩɇ]',
         'E': '[EÈÉÊËĒĔĖĘĚȄȆȨ]',
-        'i': '[iìíîïĩīĭįıǐȉȋɨ]',
+        # The Turkish capital İ lowercases to i + U+0307. A group, so that a
+        # quantifier after the i of a regex row applies to all of it.
+        'i': '(?:[iìíîïĩīĭįıǐȉȋɨ]\u0307?)',
         'I': '[IÌÍÎÏĨĪĬĮİǏȈȊ]',
         'o': '[oòóôõöøōŏőǒǫǭǿȍȏȫȭȯȱɵ]',
         'O': '[OÒÓÔÕÖØŌŎŐǑǪǬǾȌȎȪȬȮȰ]',
@@ -159,6 +161,12 @@ def normalize_accents_for_regex(text: str, is_regex: bool = False) -> str:
                 i = j
                 continue
             
+            # Skip a lookbehind: it must stay fixed-width, and the patterns
+            # below are not.
+            if result.startswith(('(?<=', '(?<!'), i):
+                i = result.index(')', i) + 1
+                continue
+
             # Skip if we're dealing with an escaped character
             if char == '\\' and i + 1 < len(result):
                 # Skip the escaped character

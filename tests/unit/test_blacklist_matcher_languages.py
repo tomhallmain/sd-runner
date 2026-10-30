@@ -41,6 +41,29 @@ class TestTransliteration:
         assert BlacklistItem("cat").regex_pattern.pattern.endswith("[tþ]")
 
 
+class TestTurkish:
+    @pytest.mark.parametrize("text", ["sik", "SİK", "sık"])
+    def test_a_plain_row_matches_every_form_of_i(self, text):
+        assert BlacklistItem("sik").matches_tag(text)
+
+    def test_a_quantifier_after_i_applies_to_all_of_it(self):
+        item = BlacklistItem("hi?at", use_regex=True)
+        assert item.matches_tag("hat")
+        assert item.matches_tag("hiat")
+
+
+class TestLookbehind:
+    def test_a_row_with_a_lookbehind_compiles_and_works(self):
+        item = BlacklistItem("(?<!ti)schlampe", use_regex=True, use_word_boundary=False)
+        assert item.matches_tag("Drecksschlampe")
+        assert not item.matches_tag("Schreibtischlampe")
+
+    def test_a_lookahead_is_still_expanded(self):
+        item = BlacklistItem("cock(?!tail)", use_regex=True)
+        assert not item.matches_tag("cocktail")
+        assert not item.matches_tag("cocktaíl")
+
+
 class TestNoSpaceScripts:
     @pytest.mark.parametrize("row, text", [
         ("鸡巴", "他的鸡巴很大"),

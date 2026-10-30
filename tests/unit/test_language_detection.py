@@ -159,11 +159,33 @@ class TestConceptSetHasNoBearing:
         assert detect_basket(["一座房子"]).languages == frozenset({"zh"})
 
 
+class TestDetectorCodes:
+    def test_both_forms_of_norwegian_add_up_under_one_code(self):
+        scores = language_detection._item_code_scores([("nb", 0.3), ("en", 0.4), ("nn", 0.3)])
+        assert scores == (("no", 0.6), ("en", 0.4))
+
+    def test_tagalog_is_filipino(self):
+        assert language_detection._item_code_scores([("tl", 1.0)]) == (("fil", 1.0),)
+
+    def test_other_codes_pass_through(self):
+        assert language_detection._item_code_scores([("de", 0.7), ("en", 0.3)]) == (("de", 0.7), ("en", 0.3))
+
+
 class TestRealLingua:
     def test_a_restricted_detector_picks_german(self):
         pytest.importorskip("lingua")
         add_languages("de", "fr")
         assert "de" in detect_basket(["Die Katze schläft auf dem warmen Sofa"]).languages
+
+    def test_norwegian_is_detected_through_its_mapping(self):
+        pytest.importorskip("lingua")
+        add_languages("de", "no")
+        assert "no" in detect_basket(["Jeg liker ikke den gamle hytta ved sjøen"]).languages
+
+    def test_filipino_is_detected_through_its_mapping(self):
+        pytest.importorskip("lingua")
+        add_languages("de", "fil")
+        assert "fil" in detect_basket(["Ang bahay ay malaki at maganda sa bundok"]).languages
 
     def test_a_language_with_no_model_is_always_in_the_basket(self):
         pytest.importorskip("lingua")

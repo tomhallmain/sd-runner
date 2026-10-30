@@ -11,7 +11,7 @@ accept file has one entry per line, a word or a regex row, with leading markers:
     ~   no word boundary, so the row matches inside compounds
     @   user prompts only: it does not filter concept lines or dictionary words
     !   no language: it applies to all text
-    =   an existing row of --against, given this language
+    =   an existing row of --against, given this language (or none, with !)
 
 "# hold: a, b - reason" records entries left out, and other # lines are comments.
 A row shared by two languages must be global, since an item is identified by its
@@ -28,6 +28,7 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECT_ROOT)
 
 from sd_runner.prompts.blacklist import BlacklistItem
+from sd_runner.prompts.language_codes import normalize_language_code
 
 MARKERS = "~@!="
 ACCEPT_PREFIX = "accept_"
@@ -104,7 +105,7 @@ def process_language(language, accept_path, base):
             if "=" in markers:
                 if text not in by_string:
                     raise ValueError(f"{accept_path}: {text} is not in the --against list")
-                items.append(retag(by_string[text], language))
+                items.append(retag(by_string[text], None if "!" in markers else language))
                 continue
             item = build_item(markers, text, language)
             if item.string in by_string and by_string[item.string].language is None:
@@ -123,10 +124,18 @@ def folded(text):
     return "".join(char for char in decomposed if not unicodedata.combining(char))
 
 
-def unreviewed(source_path, items, base, held):
-    """Entries of a source list that no row covers and no hold line names."""
-    with open(source_path, encoding="utf-8") as f:
-        entries = [line.strip() for line in f if line.strip()]
+def source_files(folder, language):
+    """The source lists in *folder* for a language; regional lists merge into it."""
+    return [os.path.join(folder, name) for name in sorted(os.listdir(folder))
+            if normalize_language_code(name) == language]
+
+
+def unreviewed(source_paths, items, base, held):
+    """Entries of the source lists that no row covers and no hold line names."""
+    entries = []
+    for path in source_paths:
+        with open(path, encoding="utf-8") as f:
+            entries += [line.strip() for line in f if line.strip()]
     rows = items + base
     held = {folded(name) for name in held}
     return [entry for entry in entries
@@ -168,9 +177,9 @@ def main() -> int:
         for string, reason in skipped:
             print(f"    skipped {string} ({reason})")
         if args.ldnoobw:
-            source = os.path.join(args.ldnoobw, language) if os.path.isdir(args.ldnoobw) else args.ldnoobw
-            if os.path.isfile(source):
-                missing = unreviewed(source, items + global_items, base, held)
+            sources = source_files(args.ldnoobw, language) if os.path.isdir(args.ldnoobw) else [args.ldnoobw]
+            if sources:
+                missing = unreviewed(sources, items + global_items, base, held)
                 print(f"    {len(missing)} source entries not covered or held: {missing}")
 
     with open(args.out, "w", newline="", encoding="utf-8") as f:
