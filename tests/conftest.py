@@ -313,6 +313,19 @@ def _reset_class_state() -> None:
         pass
 
     try:
+        from sd_runner.prompts import language_detection
+        language_detection.detector_hook = None
+        language_detection.reset_state()
+    except Exception:
+        pass
+
+    try:
+        from sd_runner.prompts.concept_sets import concept_set_info
+        concept_set_info.cache_clear()
+    except Exception:
+        pass
+
+    try:
         from sd_runner.prompts.concepts import Concepts
         Concepts.ALL_WORDS_LIST = []
         # Lazily decrypted from the ~2M-entry corpus on the first NSFW draw.

@@ -72,6 +72,7 @@ class Run:
             original_negative,
             related_image_path=prompt_image_path,
         )
+        gen_config.user_tags = prompter.last_user_tags
 
         self.print(str(gen_config))
 

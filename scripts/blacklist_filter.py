@@ -9,6 +9,7 @@ sys.path.insert(0, PROJECT_ROOT)
 
 from sd_runner.prompts.blacklist import Blacklist
 from sd_runner.prompts import blacklist_state
+from sd_runner.prompts.language_codes import normalize_language_code
 
 
 def main() -> None:
@@ -24,6 +25,11 @@ def main() -> None:
         "--output",
         help="Write non-blacklisted lines to this file",
     )
+    parser.add_argument(
+        "--language",
+        default=None,
+        help="Apply items of this language only (with the items that have none). Default: every language.",
+    )
     args = parser.parse_args()
 
     if not os.path.exists(args.input_file):
@@ -35,7 +41,11 @@ def main() -> None:
     with open(args.input_file, "r", encoding="utf-8") as f:
         lines = [line.rstrip("\n\r") for line in f]
 
-    non_blacklisted, blacklisted = Blacklist.filter_file_lines(lines, do_cache=False)
+    languages = None
+    if args.language is not None:
+        code = normalize_language_code(args.language)
+        languages = frozenset({code}) if code else frozenset()
+    non_blacklisted, blacklisted = Blacklist.filter_file_lines(lines, do_cache=False, languages=languages)
 
     for line in blacklisted:
         print(line)

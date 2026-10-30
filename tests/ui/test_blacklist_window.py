@@ -19,6 +19,7 @@ from types import SimpleNamespace
 import pytest
 
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+from sd_runner.ui.prompts.blacklist_modify_window import BlacklistModifyWindow
 from sd_runner.ui.prompts.blacklist_window import BlacklistWindow
 from tests.utils import close_window, install_password_bypass
 
@@ -79,6 +80,15 @@ def add_item(window, string):
     modify._finalize()
 
 
+def add_scoped_item(window, string, scope_index):
+    """Add one item with the "Applies to" combo set to *scope_index*."""
+    window._add_new_item()
+    modify = BlacklistWindow._modify_window
+    modify._string_entry.setText(string)
+    modify._scope_combo.setCurrentIndex(scope_index)
+    modify._finalize()
+
+
 def reveal(window):
     """Show the item table. Selection-based actions need it to exist."""
     window._reveal_concepts()
@@ -86,6 +96,49 @@ def reveal(window):
 
 def strings(items=None):
     return [item.string for item in (items if items is not None else Blacklist.get_items())]
+
+
+# ---------------------------------------------------------------------------
+# The "Applies to" setting
+# ---------------------------------------------------------------------------
+
+class TestItemScope:
+    @pytest.mark.parametrize("scope_index, apply_to_prompt_tags, apply_to_generated", [
+        (0, True, True),
+        (1, False, True),
+        (2, True, False),
+    ])
+    def test_each_entry_reaches_the_item(self, window, scope_index, apply_to_prompt_tags, apply_to_generated):
+        add_scoped_item(window, "forbidden", scope_index)
+        item = Blacklist.get_items()[0]
+        assert item.apply_to_prompt_tags is apply_to_prompt_tags
+        assert item.apply_to_generated is apply_to_generated
+
+    @pytest.mark.parametrize("scope", [
+        {},
+        {"apply_to_prompt_tags": False},
+        {"apply_to_generated": False},
+    ])
+    def test_the_editor_opens_on_the_items_setting(self, window, scope):
+        item = BlacklistItem("forbidden", **scope)
+        Blacklist.add_item(item)
+        modify = BlacklistModifyWindow(window, lambda *args: None, item, window._test_actions)
+        try:
+            assert modify._SCOPES[modify._scope_combo.currentIndex()] == (
+                item.apply_to_prompt_tags, item.apply_to_generated,
+            )
+            assert modify._has_changes() is False
+        finally:
+            close_window(modify)
+
+    def test_the_item_keeps_its_language_when_edited(self, window):
+        item = BlacklistItem("forbidden", language="de")
+        Blacklist.add_item(item)
+        modify = BlacklistModifyWindow(window, lambda *args: None, item, window._test_actions)
+        try:
+            assert modify._validate_and_build().language == "de"
+        finally:
+            close_window(modify)
 
 
 # ---------------------------------------------------------------------------

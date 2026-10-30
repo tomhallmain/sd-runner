@@ -750,7 +750,10 @@ class BaseImageGenerator(ABC):
             str: The filtered prompt with blacklisted terms removed
         """
         concepts = [c.strip() for c in prompt.split(',')]
-        whitelist, filtered = Blacklist.filter_concepts(concepts, prompt_mode=self.gen_config.get_prompt_mode())
+        whitelist, filtered = Blacklist.filter_concepts(
+            concepts, prompt_mode=self.gen_config.get_prompt_mode(),
+            user_tags=self.gen_config.user_tags, detect_languages=True,
+        )
         
         if len(filtered) > 0:
             if config.debug:

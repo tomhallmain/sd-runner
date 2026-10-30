@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Callable, Optional
 
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
-    QCheckBox, QHBoxLayout, QLabel, QLineEdit,
+    QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineEdit,
     QPushButton, QVBoxLayout, QWidget,
 )
 
@@ -27,6 +27,10 @@ _ = I18N._
 
 class BlacklistModifyWindow(SmartDialog):
     """Edit or create a single :class:`BlacklistItem`."""
+
+    #: (apply_to_prompt_tags, apply_to_generated) for each entry of the scope
+    #: combo, by index: a tuple does not survive being stored as Qt item data.
+    _SCOPES = ((True, True), (False, True), (True, False))
 
     def __init__(
         self,
@@ -65,6 +69,7 @@ class BlacklistModifyWindow(SmartDialog):
             "exception_pattern": getattr(self._item, "exception_pattern", "") or "",
             "apply_to_whole_prompt": getattr(self._item, "apply_to_whole_prompt", False),
             "apply_to_prompt_tags": getattr(self._item, "apply_to_prompt_tags", True),
+            "apply_to_generated": getattr(self._item, "apply_to_generated", True),
         }
 
         root = QVBoxLayout(self)
@@ -103,16 +108,25 @@ class BlacklistModifyWindow(SmartDialog):
             self._whole_prompt_cb.setVisible(False)
         root.addWidget(self._whole_prompt_cb)
 
-        # --- Whether the user's own wording is checked (tag items only) ------
-        self._prompt_tags_cb = QCheckBox(_("Apply to prompt tags (check what you type, not just generated content)"))
-        self._prompt_tags_cb.setToolTip(
-            _("Uncheck to keep filtering this term out of generated content while "
-              "still allowing it in prompt tags you write yourself.")
+        # --- Which text the item checks (tag items only) ---------------------
+        self._scope_label = QLabel(_("Applies to"))
+        root.addWidget(self._scope_label)
+        self._scope_combo = QComboBox()
+        self._scope_combo.addItems([_("Everything"), _("Generated content only"), _("User prompts only")])
+        self._scope_combo.setToolTip(
+            _("Generated content only keeps this term out of concepts and random words "
+              "while allowing it in prompts you write yourself.\n"
+              "User prompts only checks what you write. Concept lines and dictionary "
+              "words containing the term are not filtered, so it can still reach a prompt.")
         )
-        self._prompt_tags_cb.setChecked(getattr(self._item, "apply_to_prompt_tags", True))
+        self._scope_combo.setCurrentIndex(self._SCOPES.index((
+            getattr(self._item, "apply_to_prompt_tags", True),
+            getattr(self._item, "apply_to_generated", True),
+        )))
         if is_model:
-            self._prompt_tags_cb.setVisible(False)
-        root.addWidget(self._prompt_tags_cb)
+            self._scope_label.setVisible(False)
+            self._scope_combo.setVisible(False)
+        root.addWidget(self._scope_combo)
 
         # --- Buttons --------------------------------------------------------
         btn_row = QHBoxLayout()
@@ -137,6 +151,7 @@ class BlacklistModifyWindow(SmartDialog):
         s = self._string_entry.text().strip()
         if self._is_new:
             return s != ""
+        apply_to_prompt_tags, apply_to_generated = self._SCOPES[self._scope_combo.currentIndex()]
         return {
             "string": s,
             "enabled": self._enabled_cb.isChecked(),
@@ -145,7 +160,8 @@ class BlacklistModifyWindow(SmartDialog):
             "use_space_as_optional_nonword": self._space_cb.isChecked(),
             "exception_pattern": self._exception_entry.text().strip(),
             "apply_to_whole_prompt": self._whole_prompt_cb.isChecked(),
-            "apply_to_prompt_tags": self._prompt_tags_cb.isChecked(),
+            "apply_to_prompt_tags": apply_to_prompt_tags,
+            "apply_to_generated": apply_to_generated,
         } != self._original_values
 
     def _validate_and_build(self) -> Optional[BlacklistItem]:
@@ -157,6 +173,7 @@ class BlacklistModifyWindow(SmartDialog):
             )
             return None
         exc = self._exception_entry.text().strip() or None
+        apply_to_prompt_tags, apply_to_generated = self._SCOPES[self._scope_combo.currentIndex()]
         return BlacklistItem(
             string=s,
             enabled=self._enabled_cb.isChecked(),
@@ -165,7 +182,9 @@ class BlacklistModifyWindow(SmartDialog):
             use_space_as_optional_nonword=self._space_cb.isChecked(),
             exception_pattern=exc,
             apply_to_whole_prompt=self._whole_prompt_cb.isChecked(),
-            apply_to_prompt_tags=self._prompt_tags_cb.isChecked(),
+            apply_to_prompt_tags=apply_to_prompt_tags,
+            apply_to_generated=apply_to_generated,
+            language=getattr(self._item, "language", None),
         )
 
     # ------------------------------------------------------------------

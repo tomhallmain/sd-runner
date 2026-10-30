@@ -62,7 +62,44 @@ def _item_display_text(item: BlacklistItem) -> str:
     # say nothing.
     if not getattr(item, "apply_to_prompt_tags", True):
         parts.append(_("[generated only]"))
+    if not getattr(item, "apply_to_generated", True):
+        parts.append(_("[user prompts only]"))
     return " ".join(parts)
+
+
+def _import_report_text(report) -> str:
+    """The findings of an ImportReport as one message; empty if there are none."""
+    def listing(entries: list[str]) -> str:
+        shown = "\n".join(entries[:20])
+        if len(entries) > 20:
+            shown += "\n" + _("...and {0} more").format(len(entries) - 20)
+        return shown
+
+    sections = []
+    if report.regex_syntax:
+        sections.append(
+            _("These imported items are not marked as regex, but their text looks "
+              "like a regex. Each one only matches its text literally:\n\n{0}").format(
+                listing([item.string for item in report.regex_syntax]))
+        )
+    if report.narrowed:
+        sections.append(
+            _("These imported items replaced items with no language, so they now "
+              "apply only to their own language:\n\n{0}").format(
+                listing([f"{item.string} [{item.language}]" for item in report.narrowed]))
+        )
+    if report.invalid_language:
+        sections.append(
+            _("These language values could not be used, so their items apply to "
+              "every language:\n\n{0}").format(listing(report.invalid_language))
+        )
+    if report.empty_scope:
+        sections.append(
+            _("These imported items were set to apply to no text, so they now "
+              "apply to everything:\n\n{0}").format(
+                listing([item.string for item in report.empty_scope]))
+        )
+    return "\n\n".join(sections)
 
 
 # ======================================================================
@@ -1140,25 +1177,22 @@ class BlacklistWindow(SmartDialog):
             return
         try:
             if path.endswith(".csv"):
-                suspicious = Blacklist.import_blacklist_csv(path)
+                report = Blacklist.import_blacklist_csv(path)
             elif path.endswith(".json"):
-                suspicious = Blacklist.import_blacklist_json(path)
+                report = Blacklist.import_blacklist_json(path)
             else:
-                suspicious = Blacklist.import_blacklist_txt(path)
+                report = Blacklist.import_blacklist_txt(path)
             blacklist_state.mark_user_confirmed_non_default()
             self._app_actions.toast(_("Successfully imported blacklist"))
             self._refresh()
         except Exception as e:
             self._app_actions.alert(_("Import Error"), str(e), kind="error", master=self)
             return
-        if suspicious:
-            shown = "\n".join(item.string for item in suspicious[:20])
-            if len(suspicious) > 20:
-                shown += "\n" + _("...and {0} more").format(len(suspicious) - 20)
+        report_text = _import_report_text(report)
+        if report_text:
             self._app_actions.alert(
-                _("Possible Regex Items"),
-                _("These imported items are not marked as regex, but their text looks "
-                  "like a regex. Each one only matches its text literally:\n\n{0}").format(shown),
+                _("Import Warnings"),
+                report_text,
                 kind="warning",
                 master=self,
             )

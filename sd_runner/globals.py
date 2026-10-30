@@ -90,6 +90,14 @@ class BlacklistMode(Enum):
                 return mode
         raise ValueError(f"No BlacklistMode with display value '{display_str}'")
 
+class BlacklistTextOrigin(Enum):
+    """Where a text being checked against the blacklist came from."""
+    USER = "USER"
+    GENERATED = "GENERATED"
+    # A prompt taken from an image: no one here wrote it, so every item applies.
+    EXTERNAL = "EXTERNAL"
+
+
 class BlacklistPromptMode(Enum):
     DISALLOW = "DISALLOW"
     ALLOW_IN_NSFW = "ALLOW_IN_NSFW"

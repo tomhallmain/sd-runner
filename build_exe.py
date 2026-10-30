@@ -100,13 +100,16 @@ DATA_FILES = (
     os.path.join("sd_runner", "data", "blacklist_default.enc"),
     os.path.join("sd_runner", "data", "urban_dictionary.enc"),
     os.path.join("sd_runner", "data", "config_example.json"),
+    "THIRD_PARTY_NOTICES.md",
+    os.path.join("licenses", "lingua-language-detector-LICENSE.txt"),
 )
 WORKFLOWS_DIR = os.path.join("sd_runner", "data", "workflows")
 # test.json is the last prompt the app writes when save_last_prompt is on;
 # stableDiffusion3* are not shipped (.gitignore).
 WORKFLOWS_EXCLUDED = re.compile(r"^(test\.json|stableDiffusion3.*)$")
 # The concept sets config.json can name by a relative path, every list in
-# each, tracked or not; their subfolders hold editing and translation material.
+# each, tracked or not, and each set's manifest; their subfolders hold editing
+# and translation material.
 CONCEPT_SET_DIRS = ("concepts", "Konzepte")
 
 # lib/pillow_plugins.py imports these by name, which Nuitka can't follow.
@@ -330,7 +333,7 @@ def _concept_files() -> list:
         folder = os.path.join(REPO_ROOT, set_dir)
         files += [
             os.path.join(set_dir, n) for n in os.listdir(folder)
-            if n.endswith(".txt") and os.path.isfile(os.path.join(folder, n))
+            if (n.endswith(".txt") or n == "concept_set.json") and os.path.isfile(os.path.join(folder, n))
         ]
     return sorted(files)
 

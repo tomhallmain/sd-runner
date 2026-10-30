@@ -28,6 +28,7 @@ temp*.md
 temp*.py
 temp*.txt
 test_multiselect.py
+language_detection_report.json
 
 # Nuitka build (build_exe.py)
 .venv-build/

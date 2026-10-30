@@ -7,6 +7,8 @@ numpy
 websocket-client
 # GUI framework
 PySide6>=6.6.0
+# The blacklist's language detection (Apache 2.0). 2.2 needs Python 3.12.
+lingua-language-detector>=2.1.1,<2.2
 # Testing
 pytest
 pytest-qt

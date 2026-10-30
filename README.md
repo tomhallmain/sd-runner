@@ -381,6 +381,8 @@ Excepting the concepts files, application data is encrypted for security, includ
 
 Optional (platform-specific): `pip install -r requirements-optional.txt` installs extras for your OS only (e.g. on macOS, Foundation/Cocoa for keychain integration; on Linux, D-Bus for Secret Service lock).
 
+Third-party components and their licences are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 ## Keyboard Shortcuts
 
 - `<Control-Return>`: Run workflows

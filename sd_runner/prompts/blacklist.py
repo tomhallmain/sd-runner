@@ -4,14 +4,18 @@ import json
 import os
 import re
 import string
+from dataclasses import dataclass, field
 
-from sd_runner.globals import Globals, BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, PromptMode
+from sd_runner.globals import (
+    Globals, BlacklistMode, BlacklistPromptMode, BlacklistTextOrigin, ModelBlacklistMode, PromptMode,
+)
 from lib.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from lib.logging_setup import adopt_legacy_file, app_data_dir, get_logger
 from sd_runner.app_paths import REPO_ROOT, legacy_migration_allowed, resource_path
 from lib.pickleable_cache import SizeAwarePicklableCache, fingerprint_string_sequence
 from lib.translations import I18N
 from lib.utils import Utils
+from sd_runner.prompts.language_codes import is_invalid_language_code, normalize_language_code
 
 _ = I18N._
 
@@ -161,6 +165,16 @@ def normalize_accents_for_regex(text: str, is_regex: bool = False) -> str:
             result = result.replace(base_char, pattern)
         return result
 
+def normalize_user_tag(tag: str) -> str:
+    """A prompt tag without its emphasis or weight, for comparing tags by wording."""
+    tag = tag.strip()
+    while tag[:1] in ("(", "["):
+        tag = tag[1:].strip()
+    while tag[-1:] in (")", "]"):
+        tag = tag[:-1].strip()
+    return re.sub(r":\s*\d+(\.\d+)?$", "", tag).strip().lower()
+
+
 class BlacklistException(Exception):
     def __init__(self, message, whitelist, filtered):
         self.message = message
@@ -180,6 +194,8 @@ class BlacklistItem:
         "exception_pattern",
         "apply_to_whole_prompt",
         "apply_to_prompt_tags",
+        "apply_to_generated",
+        "language",
     )
     #: CSV round-trips every value as text, so these need coercing back on import.
     CSV_BOOL_FIELDS = (
@@ -189,6 +205,7 @@ class BlacklistItem:
         "use_space_as_optional_nonword",
         "apply_to_whole_prompt",
         "apply_to_prompt_tags",
+        "apply_to_generated",
     )
 
     @classmethod
@@ -205,6 +222,8 @@ class BlacklistItem:
         pattern = row.get("exception_pattern")
         if pattern is not None and str(pattern).strip() != "":
             data["exception_pattern"] = str(pattern)
+        if row.get("language") is not None:
+            data["language"] = row["language"]
         return cls.from_dict(data)
 
     def __init__(
@@ -217,6 +236,8 @@ class BlacklistItem:
         exception_pattern: str = None,
         apply_to_whole_prompt: bool = False,
         apply_to_prompt_tags: bool = True,
+        apply_to_generated: bool = True,
+        language: str = None,
     ):
         self.enabled = enabled
         self.use_regex = use_regex
@@ -233,7 +254,19 @@ class BlacklistItem:
         #
         # Orthogonal to apply_to_whole_prompt, which is about *how* to match
         # (the assembled text vs each tag) rather than *what* to match against.
-        self.apply_to_prompt_tags = apply_to_prompt_tags
+        #
+        # apply_to_generated is the other half: off, the item checks only what
+        # the user typed, so a concept line or dictionary word containing the
+        # term passes. Both off would make the item do nothing, so that falls
+        # back to both on and scope_was_empty lets an import report it.
+        self.scope_was_empty = not apply_to_prompt_tags and not apply_to_generated
+        self.apply_to_prompt_tags = apply_to_prompt_tags or self.scope_was_empty
+        self.apply_to_generated = apply_to_generated or self.scope_was_empty
+        # None applies to every text; a code applies when that language is in
+        # the basket of the check. An unusable code applies everywhere, the
+        # strict side, and invalid_language keeps it for the import report.
+        self.language = normalize_language_code(language)
+        self.invalid_language = language if is_invalid_language_code(language) else None
         
         # Process the string based on the new property
         
@@ -291,6 +324,21 @@ class BlacklistItem:
             return True
         return "*" in self.string and self.string.strip("*") != ""
 
+    def applies_to(self, languages: frozenset[str] | None) -> bool:
+        """Whether this item checks text whose basket is *languages*.
+
+        None is every supported language; an empty set is English alone.
+        """
+        return self.language is None or languages is None or self.language in languages
+
+    def applies_to_origin(self, origin: BlacklistTextOrigin) -> bool:
+        """Whether this item checks text of *origin*."""
+        if origin == BlacklistTextOrigin.USER:
+            return self.apply_to_prompt_tags
+        if origin == BlacklistTextOrigin.GENERATED:
+            return self.apply_to_generated
+        return True
+
     def find_match_text(self, text: str) -> str | None:
         """Return the matched substring from *text*, or ``None`` if no match."""
         text_to_check = text if self.use_regex else text.lower()
@@ -309,6 +357,8 @@ class BlacklistItem:
             "exception_pattern": self.exception_pattern,
             "apply_to_whole_prompt": self.apply_to_whole_prompt,
             "apply_to_prompt_tags": self.apply_to_prompt_tags,
+            "apply_to_generated": self.apply_to_generated,
+            "language": self.language,
         }
 
     @classmethod
@@ -340,8 +390,12 @@ class BlacklistItem:
         apply_to_prompt_tags = data.get("apply_to_prompt_tags", True)
         if not isinstance(apply_to_prompt_tags, bool):
             apply_to_prompt_tags = True
+        apply_to_generated = data.get("apply_to_generated", True)
+        if not isinstance(apply_to_generated, bool):
+            apply_to_generated = True
         return cls(data["string"], enabled, use_regex, use_word_boundary, use_space_as_optional_nonword,
-                   exception_pattern, apply_to_whole_prompt, apply_to_prompt_tags)
+                   exception_pattern, apply_to_whole_prompt, apply_to_prompt_tags,
+                   apply_to_generated, data.get("language"))
 
     def matches_tag(self, tag: str) -> bool:
         """Check if a tag matches this blacklist item.
@@ -449,6 +503,14 @@ class ModelBlacklistItem(BlacklistItem):
             exception_pattern=exception_pattern,
         )
 
+    def to_dict(self) -> dict:
+        # Model names are not text in a language or from a text source, so
+        # these stay out of the model list's stored data.
+        data = super().to_dict()
+        del data["apply_to_generated"]
+        del data["language"]
+        return data
+
     @classmethod
     def from_dict(cls, data: dict) -> "ModelBlacklistItem":
         # Ignore use_word_boundary for models
@@ -496,6 +558,18 @@ class SimilarityPhrase:
         if not isinstance(enabled, bool):
             enabled = True
         return cls(phrase.strip(), enabled)
+
+
+@dataclass
+class ImportReport:
+    """What an import found worth telling the user. The items are imported regardless."""
+    regex_syntax: list[BlacklistItem] = field(default_factory=list)
+    #: Imported with a language over an item that had none, so they apply less widely.
+    narrowed: list[BlacklistItem] = field(default_factory=list)
+    #: Raw language values that could not be used; those items apply everywhere.
+    invalid_language: list[str] = field(default_factory=list)
+    #: Both text scopes off, which would do nothing, so both were turned on.
+    empty_scope: list[BlacklistItem] = field(default_factory=list)
 
 
 class Blacklist:
@@ -617,7 +691,7 @@ class Blacklist:
 
         parts = [part.strip() for part in text.split(",") if part.strip()]
         whitelist, filtered = Blacklist.filter_concepts(
-            parts, do_cache=False, user_prompt=True, prompt_mode=prompt_mode
+            parts, do_cache=False, user_prompt=True, prompt_mode=prompt_mode, detect_languages=True
         )
         if mode == BlacklistMode.REMOVE_ENTIRE_TAG:
             kept = []
@@ -676,10 +750,14 @@ class Blacklist:
                     item.use_regex,
                     item.use_word_boundary,
                     item.use_space_as_optional_nonword,
-                    item.exception_pattern
+                    item.exception_pattern,
+                    item.apply_to_whole_prompt,
+                    item.apply_to_prompt_tags,
+                    item.apply_to_generated,
+                    item.language,
                 ))
-            # Sort to ensure consistent ordering
-            version_data.sort()
+            # Sort by string to ensure consistent ordering; later fields can be None.
+            version_data.sort(key=lambda data: data[0])
             
             # Create a hash from the version data
             version_str = json.dumps(version_data, sort_keys=True)
@@ -711,7 +789,12 @@ class Blacklist:
         concepts_tuple: tuple[str],
         do_cache: bool = True,
         user_prompt: bool = True,
+        languages: frozenset[str] | None = None,
+        origin: BlacklistTextOrigin | None = None,
+        user_tags: frozenset[str] | None = None,
     ) -> tuple[list[str], dict[str, str]]:
+        if origin is None:
+            origin = BlacklistTextOrigin.USER if user_prompt else BlacklistTextOrigin.GENERATED
         # The key must include the blacklist state, not just the concepts: the
         # same concept list filtered under two different blacklists has two
         # different answers, and this cache persists to disk across sessions.
@@ -723,6 +806,9 @@ class Blacklist:
             f"v{Blacklist.get_version()}",
             len(concepts_tuple),
             fingerprint_string_sequence(concepts_tuple),
+            "*" if languages is None else ",".join(sorted(languages)),
+            origin.value,
+            "" if user_tags is None else fingerprint_string_sequence(tuple(sorted(user_tags))),
         )
 
         # Check cache first
@@ -755,15 +841,29 @@ class Blacklist:
         do_update_progress(0)
         
         logger.debug(f"Filtering concepts for blacklist: {concepts_count} - {mode}")
+
+        def items_for(item_origin: BlacklistTextOrigin) -> list[BlacklistItem]:
+            # Whole-prompt items don't apply to individual concept filtering.
+            return [
+                item for item in Blacklist.TAG_BLACKLIST
+                if item.enabled and not item.apply_to_whole_prompt
+                and item.applies_to_origin(item_origin) and item.applies_to(languages)
+            ]
+
+        # user_tags splits an assembled prompt: the tags the user wrote are USER
+        # and the rest GENERATED. Without it, origin covers the whole list.
+        items_by_origin = {origin: items_for(origin)}
+        if user_tags is not None:
+            items_by_origin = {o: items_for(o) for o in (BlacklistTextOrigin.USER, BlacklistTextOrigin.GENERATED)}
         
         # Single loop with different behaviors based on mode
         for i, concept_cased in enumerate(concepts):
             match_found = False
-            for blacklist_item in Blacklist.TAG_BLACKLIST:
-                if not blacklist_item.enabled:
-                    continue
-                if blacklist_item.apply_to_whole_prompt:
-                    continue  # whole-prompt items don't apply to individual concept filtering
+            concept_origin = origin
+            if user_tags is not None:
+                concept_origin = (BlacklistTextOrigin.USER if normalize_user_tag(concept_cased) in user_tags
+                                  else BlacklistTextOrigin.GENERATED)
+            for blacklist_item in items_by_origin[concept_origin]:
                 if blacklist_item.matches_tag(concept_cased):
                     filtered[concept_cased] = blacklist_item.string
                     match_found = True
@@ -940,6 +1040,10 @@ class Blacklist:
         do_cache: bool = True,
         user_prompt: bool = True,
         prompt_mode: PromptMode = PromptMode.SFW,
+        languages: frozenset[str] | None = None,
+        origin: BlacklistTextOrigin | None = None,
+        user_tags: frozenset[str] | None = None,
+        detect_languages: bool = False,
     ) -> tuple[list[str], dict[str, str]]:
         """Filter a list of concepts against the blacklist.
         
@@ -949,6 +1053,12 @@ class Blacklist:
             do_cache: Whether to use caching for filtering
             user_prompt: Whether this is a user-provided prompt (True) or internal prompt (False)
             prompt_mode: The current prompt mode
+            languages: The basket to check in; None is every supported language
+            origin: Where the concepts came from; defaults from user_prompt
+            user_tags: For an assembled prompt, the normalized tags the user
+                wrote. Those are checked as USER and all others as GENERATED.
+            detect_languages: Use the basket detected from the concepts. Skipped
+                when the prompt mode bypasses the blacklist.
         Returns:
             tuple: (whitelist, filtered_dict) where:
                 - whitelist is a list of concepts that passed the blacklist check
@@ -957,20 +1067,28 @@ class Blacklist:
         if Blacklist.is_allowed_prompt_mode(prompt_mode):
             return list(concepts), {}
 
+        if detect_languages:
+            # Import here to avoid circular import (it reads the blacklist's items)
+            from sd_runner.prompts.language_detection import detect_basket
+            languages = detect_basket(concepts).languages
+
         # Use the LRU cache for filtering
         concepts_tuple = tuple(concepts)
-        whitelist, filtered = Blacklist._filter_concepts_cached(concepts_tuple, do_cache, user_prompt)
+        whitelist, filtered = Blacklist._filter_concepts_cached(
+            concepts_tuple, do_cache, user_prompt, languages, origin, user_tags
+        )
         # If a filtered_dict is provided, update it
         if filtered_dict is not None:
             filtered_dict.update(filtered)
         return whitelist, filtered
 
     @staticmethod
-    def find_blacklisted_items(text: str) -> dict:
+    def find_blacklisted_items(text: str, languages: frozenset[str] | None = None) -> dict:
         """Find any blacklisted items in the given text.
         
         Args:
             text: The text to check for blacklisted items
+            languages: The basket to check in; None is every supported language
             
         Returns:
             dict: A dictionary mapping found blacklisted tags to their blacklist items.
@@ -985,6 +1103,8 @@ class Blacklist:
             if not blacklist_item.apply_to_prompt_tags:
                 continue
             if not blacklist_item.apply_to_whole_prompt:
+                continue
+            if not blacklist_item.applies_to(languages):
                 continue
             if blacklist_item.matches_tag(text):
                 match_text = blacklist_item.find_match_text(text) or text[:60]
@@ -1011,6 +1131,8 @@ class Blacklist:
                     continue
                 if blacklist_item.apply_to_whole_prompt:
                     continue
+                if not blacklist_item.applies_to(languages):
+                    continue
                 if blacklist_item.matches_tag(tag):
                     filtered[tag] = blacklist_item.string
                     break
@@ -1018,14 +1140,22 @@ class Blacklist:
         return filtered
 
     @staticmethod
-    def check_user_prompt_detailed(text: str) -> dict:
+    def check_user_prompt_detailed(
+        text: str, origin: BlacklistTextOrigin = BlacklistTextOrigin.USER
+    ) -> dict:
         """Perform detailed blacklist checking on user-provided positive tags.
         
         This method performs additional scrutiny by checking truncated versions of words
         that are not found in the dictionary, to counter filter evasion attempts.
+
+        Items with a language take no part. Words are only exempt if they are in
+        the loaded dictionary, so a German word under an English dictionary
+        would be truncated into a match (Abmarsch into arsch), and which
+        concept set is loaded must not decide which items apply.
         
         Args:
-            text: The user-provided positive tags text to check
+            text: The text to check
+            origin: Where the text came from
             
         Returns:
             dict: A dictionary mapping found blacklisted items to their blacklist strings.
@@ -1077,7 +1207,9 @@ class Blacklist:
                         for blacklist_item in Blacklist.TAG_BLACKLIST:
                             if not blacklist_item.enabled:
                                 continue
-                            if not blacklist_item.apply_to_prompt_tags:
+                            if not blacklist_item.applies_to_origin(origin):
+                                continue
+                            if blacklist_item.language is not None:
                                 continue
                             if blacklist_item.matches_tag(truncated):
                                 # Found a match - store it and break (one match per word is enough)
@@ -1092,7 +1224,7 @@ class Blacklist:
 
     @staticmethod
     def get_violation_item(string: str) -> BlacklistItem:
-        """Check if a single string violates any blacklist items.
+        """Check if a single generated string violates any blacklist items.
         
         Args:
             string: The string to check against the blacklist
@@ -1101,24 +1233,29 @@ class Blacklist:
             BlacklistItem: The first blacklist item that matches the string, or None if no violations
         """
         for blacklist_item in Blacklist.TAG_BLACKLIST:
-            if blacklist_item.enabled and blacklist_item.matches_tag(string):
+            if (blacklist_item.enabled
+                    and blacklist_item.applies_to_origin(BlacklistTextOrigin.GENERATED)
+                    and blacklist_item.matches_tag(string)):
                 return blacklist_item
         return None
 
     @staticmethod
-    def _import_items(items: list[BlacklistItem]) -> list[BlacklistItem]:
+    def _import_items(items: list[BlacklistItem]) -> ImportReport:
         """Merge imported items into the tag blacklist.
 
         An imported item replaces an existing one with the same string, and a
         later duplicate in the file replaces an earlier one, so re-importing an
         edited export updates items in place instead of doubling them.
 
-        Returns the imported plain items whose string looks written as a regex,
-        for the caller to warn about.
+        Returns an ImportReport for the caller to warn about.
         """
         index = {item.string: n for n, item in enumerate(Blacklist.TAG_BLACKLIST)}
+        report = ImportReport()
         for item in items:
             if item.string in index:
+                replaced = Blacklist.TAG_BLACKLIST[index[item.string]]
+                if replaced.language is None and item.language is not None:
+                    report.narrowed.append(item)
                 Blacklist.TAG_BLACKLIST[index[item.string]] = item
             else:
                 index[item.string] = len(Blacklist.TAG_BLACKLIST)
@@ -1131,10 +1268,14 @@ class Blacklist:
         except Exception as e:
             raise Exception(f"Error clearing/saving blacklist cache: {e}", e)
         suspicious = {item.string: item for item in items if item.has_unflagged_regex_syntax()}
-        return list(suspicious.values())
+        report.regex_syntax = list(suspicious.values())
+        report.invalid_language = [str(item.invalid_language) for item in items
+                                   if item.invalid_language is not None]
+        report.empty_scope = [item for item in items if item.scope_was_empty]
+        return report
 
     @staticmethod
-    def import_blacklist_csv(filename: str) -> list[BlacklistItem]:
+    def import_blacklist_csv(filename: str) -> ImportReport:
         """Import blacklist from a CSV file.
 
         Expected format:
@@ -1147,7 +1288,7 @@ class Blacklist:
         tag1,true
         tag2,false
 
-        Returns the items _import_items flags as unflagged regex syntax.
+        Returns the report from _import_items.
         """
         items = []
         with open(filename, 'r', encoding='utf-8') as f:
@@ -1173,7 +1314,7 @@ class Blacklist:
         return Blacklist._import_items(items)
 
     @staticmethod
-    def import_blacklist_json(filename: str) -> list[BlacklistItem]:
+    def import_blacklist_json(filename: str) -> ImportReport:
         """Import blacklist from a JSON file.
         
         Expected format:
@@ -1186,7 +1327,7 @@ class Blacklist:
             {"string": "tag2", "enabled": false}
         ]
 
-        Returns the items _import_items flags as unflagged regex syntax.
+        Returns the report from _import_items.
         """
         items = []
         with open(filename, 'r', encoding='utf-8') as f:
@@ -1207,7 +1348,7 @@ class Blacklist:
         return Blacklist._import_items(items)
 
     @staticmethod
-    def import_blacklist_txt(filename: str) -> list[BlacklistItem]:
+    def import_blacklist_txt(filename: str) -> ImportReport:
         """Import blacklist from a text file.
 
         Expected format:
@@ -1216,7 +1357,7 @@ class Blacklist:
         # Comment line
         tag3
 
-        Returns the items _import_items flags as unflagged regex syntax.
+        Returns the report from _import_items.
         """
         items = []
         with open(filename, 'r', encoding='utf-8') as f:
@@ -1564,6 +1705,7 @@ class Blacklist:
     def filter_file_lines(
         lines: list[str],
         do_cache: bool = False,
+        languages: frozenset[str] | None = None,
     ) -> tuple[list[str], list[str]]:
         """Split file lines into non-blacklisted and blacklisted, preserving order.
 
@@ -1574,7 +1716,7 @@ class Blacklist:
         if concepts_with_idx:
             indices, concepts = zip(*concepts_with_idx)
             _, filtered = Blacklist.filter_concepts(
-                list(concepts), do_cache=do_cache, user_prompt=False
+                list(concepts), do_cache=do_cache, user_prompt=False, languages=languages
             )
             blacklisted_indices = {
                 indices[i] for i, concept in enumerate(concepts) if concept in filtered

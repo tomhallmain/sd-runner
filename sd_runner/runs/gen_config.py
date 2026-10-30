@@ -51,6 +51,8 @@ class GenConfig:
         self.ip_adapters = ip_adapters
         self.positive = positive
         self.negative = negative
+        # Which tags of positive the user wrote, for the final blacklist check.
+        self.user_tags: frozenset[str] = frozenset()
         self.loras = loras
         self.resolutions = resolutions
         self.seed = run_config.seed

@@ -25,6 +25,7 @@ from PySide6.QtWidgets import (
 from lib.multi_display_qt import SmartDialog
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
 from sd_runner.prompts.concepts import Concepts
+from sd_runner.prompts.language_detection import LanguageBasket, detect_basket
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.globals import ProtectedActions
 from lib.translations import I18N
@@ -130,15 +131,30 @@ class BlacklistPreviewWindow(SmartDialog):
             )
             return
 
-        filtered = Blacklist.find_blacklisted_items(text)
+        basket = detect_basket(text.split(","))
+        filtered = Blacklist.find_blacklisted_items(text, basket.languages)
+        header = self._language_header(basket)
         if not filtered:
-            self._result_text.setPlainText(_("No blacklist items matched."))
+            self._result_text.setPlainText(header + _("No blacklist items matched."))
             return
 
-        lines = [_("Matched {0} item(s):").format(len(filtered)), ""]
+        lines = [header + _("Matched {0} item(s):").format(len(filtered)), ""]
         for tag, rule in sorted(filtered.items(), key=lambda x: (x[1], x[0])):
             lines.append(_("  \"{0}\" -> rule \"{1}\"").format(tag, rule))
         self._result_text.setPlainText("\n".join(lines))
+
+    @staticmethod
+    def _language_header(basket: LanguageBasket) -> str:
+        """Why items with a language applied or not. Empty for an English-alone basket."""
+        if not basket.languages:
+            return ""
+        scores = ", ".join(f"{code} {value:.0%}" for code, value in basket.scores)
+        lines = [_("Languages checked: {0}").format(", ".join(sorted(basket.languages)))]
+        if scores:
+            lines.append(_("Detector scores: {0}").format(scores))
+        if basket.widened:
+            lines.append(_("Some text could not be placed, so more languages were checked."))
+        return "\n".join(lines) + "\n\n"
 
     # ==================================================================
     # Tab 2 -- Concept Preview

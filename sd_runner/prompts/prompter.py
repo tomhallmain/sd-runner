@@ -4,12 +4,12 @@ import random
 import re
 import subprocess
 
-from sd_runner.prompts.blacklist import Blacklist, BlacklistException
+from sd_runner.prompts.blacklist import Blacklist, BlacklistException, normalize_user_tag
 from sd_runner.prompts.concepts import ConceptConfiguration, Concepts
 from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.prompts.expansion import Expansion
 from sd_runner.config import config
-from sd_runner.globals import BlacklistMode, PromptMode
+from sd_runner.globals import BlacklistMode, BlacklistTextOrigin, PromptMode
 from lib.logging_setup import get_logger
 from lib.translations import I18N
 from lib.utils import NO_CONSOLE_WINDOW
@@ -57,6 +57,7 @@ class Prompter:
         self.count = 0
         self.prompt_list = prompt_list
         self.last_prompt = ""
+        self.last_user_tags: frozenset[str] = frozenset()
 
         if prompter_config == PromptMode.LIST and len(prompt_list) == 0:
             raise Exception("No list items to iterate for prompting.")
@@ -93,6 +94,7 @@ class Prompter:
         # Prompter.POSITIVE_TAGS (already stripped of its header by set_positive_tags).
         # Any header in the `positive` arg itself is handled here as a fallback.
         inline_vars, positive = Prompter.extract_inline_vars(positive)
+        self.last_user_tags = self._user_tags(positive)
         # Merge: POSITIVE_TAGS vars are the base; vars from the `positive` arg override.
         if Prompter.POSITIVE_TAGS_INLINE_VARS:
             merged = dict(Prompter.POSITIVE_TAGS_INLINE_VARS)
@@ -161,7 +163,9 @@ class Prompter:
         
         # Validate final prompts against blacklist
         positive_concepts = [c.strip() for c in positive.split(',')]
-        positive_whitelist, positive_filtered = Blacklist.filter_concepts(positive_concepts, prompt_mode=self.prompt_mode)
+        positive_whitelist, positive_filtered = Blacklist.filter_concepts(
+            positive_concepts, prompt_mode=self.prompt_mode, user_tags=self.last_user_tags, detect_languages=True
+        )
         
         # Reconstruct the prompts with only whitelisted concepts if needed
         if len(positive_filtered) > 0:
@@ -283,6 +287,19 @@ class Prompter:
         nonsense = self.concepts.get_nonsense(self.prompter_config.get_category_config("nonsense"), multiplier=self.prompter_config.multiplier)
         Prompter.emphasize(nonsense, emphasis_chance=self.prompter_config.emphasis_chance)
         return ', '.join(nonsense)
+
+    def _user_tags(self, positive: str) -> frozenset[str]:
+        """The tags of this prompt the user wrote, in normalize_user_tag form.
+
+        Tags in the assembled prompt that are not in this set are generated. A
+        user tag an expansion or choice set rewrites no longer matches, so it
+        counts as generated; its unexpanded text was checked as the user's.
+        """
+        texts = [positive, Prompter.POSITIVE_TAGS]
+        if self.prompt_mode == PromptMode.LIST and self.prompt_list:
+            texts.append(self.prompt_list[self.count % len(self.prompt_list)])
+        tags = (normalize_user_tag(tag) for text in texts if text for tag in text.split(","))
+        return frozenset(tag for tag in tags if tag)
 
     def _mix_sparse_tags(self, text: str) -> str:
         if not Prompter.POSITIVE_TAGS or Prompter.POSITIVE_TAGS.strip() == '' or text is None or text.strip() == "":
@@ -495,7 +512,9 @@ class Prompter:
         silent = Blacklist.get_blacklist_silent_removal()
 
         tags = [tag.strip() for tag in positive.split(",")]
-        whitelist, filtered = Blacklist.filter_concepts(tags, prompt_mode=PromptMode.TAKE)
+        whitelist, filtered = Blacklist.filter_concepts(
+            tags, prompt_mode=PromptMode.TAKE, origin=BlacklistTextOrigin.EXTERNAL, detect_languages=True
+        )
 
         if filtered:
             if mode == BlacklistMode.FAIL_PROMPT:

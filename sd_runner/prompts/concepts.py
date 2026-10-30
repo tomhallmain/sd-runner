@@ -9,7 +9,7 @@ from typing import Callable, Dict, Optional, Set
 from sd_runner.app_paths import concepts_dir, resource_path
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
 from sd_runner.config import config
-from sd_runner.globals import Globals, PromptMode, BlacklistPromptMode
+from sd_runner.globals import Globals, PromptMode, BlacklistPromptMode, BlacklistTextOrigin
 from lib.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from lib.logging_setup import get_logger
 from lib.translations import I18N
@@ -966,7 +966,7 @@ class Concepts:
         counter = 0
         while word in Concepts.ALL_WORDS_LIST or \
                 Blacklist.get_violation_item(word) is not None or \
-                len(Blacklist.check_user_prompt_detailed(word)) > 0:
+                len(Blacklist.check_user_prompt_detailed(word, BlacklistTextOrigin.GENERATED)) > 0:
             if counter > 100:
                 logger.error("Failed to generate a nonsense word!")
                 break
@@ -1161,6 +1161,8 @@ class Concepts:
         for text in Concepts.template_texts(concept):
             for item in Blacklist.get_items():
                 if not item.enabled or item.apply_to_whole_prompt:
+                    continue
+                if not item.applies_to_origin(BlacklistTextOrigin.GENERATED):
                     continue
                 if item.matches_tag(text):
                     return item

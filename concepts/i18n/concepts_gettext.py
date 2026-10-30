@@ -19,6 +19,7 @@ Locale files live under concepts/i18n/locale/, separate from the app locale/ at 
 """
 
 import argparse
+import json
 import os
 import re
 import sys
@@ -278,18 +279,27 @@ def parse_po(po_path: str) -> dict[tuple[str, str], str]:
     return result
 
 
+def po_language(po_path: str) -> str | None:
+    """The value of the PO file's Language header, if it has one."""
+    with open(po_path, encoding="utf-8") as f:
+        match = re.search(r'"Language:\s*([^\\"]+)', f.read())
+    return match.group(1).strip() if match else None
+
+
 def import_locale_to_concepts(
     concepts_dir_source: str,
     po_path: str,
     output_concepts_dir: str,
     exclude_files: frozenset[str] | None = None,
+    language: str | None = None,
 ) -> None:
     """
     Build a localized concepts directory from the source concepts dir and
     a locale's concepts PO file. For each (file, line) in source, use the
     translation from the PO if present, else the original. Order is preserved.
     Excluded files (e.g. dictionary.txt) are skipped; use a separate dictionary
-    for that locale.
+    for that locale. Also writes the set's concept_set.json manifest, taking the
+    language from *language*, else from the PO file's Language header.
 
     Lookup uses exact (msgctxt, msgid) first, then normalized msgid (trailing
     newlines stripped) so import matches merge/chunk behavior when PO keys
@@ -311,6 +321,14 @@ def import_locale_to_concepts(
                 msgstr = lookup_po_translation(basename, line, exact, by_norm)
                 out_line = msgstr if msgstr else line
                 f.write(out_line + "\n")
+
+    manifest = {
+        "language": language or po_language(po_path),
+        "source_set": os.path.basename(os.path.normpath(concepts_dir_source)),
+    }
+    with open(os.path.join(output_concepts_dir, "concept_set.json"), "w", encoding="utf-8") as f:
+        json.dump(manifest, f)
+        f.write("\n")
 
 
 def _resolve_path(path: str, base: str) -> str:
@@ -353,6 +371,11 @@ def main() -> int:
         nargs="*",
         default=None,
         help=f"Filenames to exclude (default: {list(DEFAULT_EXCLUDE_FILES)}).",
+    )
+    parser.add_argument(
+        "--language",
+        default=None,
+        help="Language code for the output set's manifest (import only). Default: the PO file's Language header.",
     )
     args = parser.parse_args()
 
@@ -398,7 +421,7 @@ def main() -> int:
         if not os.path.isfile(po_path):
             print(f"PO file not found: {po_path}", file=sys.stderr)
             return 1
-        import_locale_to_concepts(concepts_dir, po_path, output_dir, exclude_files=exclude)
+        import_locale_to_concepts(concepts_dir, po_path, output_dir, exclude_files=exclude, language=args.language)
         print(f"Imported to {output_dir}")
 
     return 0

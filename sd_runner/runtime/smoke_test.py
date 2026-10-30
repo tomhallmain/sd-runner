@@ -187,12 +187,23 @@ class SmokeTest:
             from mcp.server import MCPServer  # noqa: F401
             import uvicorn  # noqa: F401
 
+        def lingua():
+            # Missing model data would otherwise show up only as every prompt
+            # being checked against every language.
+            from sd_runner.prompts.language_detection import build_detector
+
+            scores = build_detector(frozenset({"de"}))("Die Katze schläft auf dem warmen Sofa")
+            if not scores or scores[0][0] != "de":
+                raise ValueError(f"German text scored {scores}")
+            return f"de {scores[0][1]:.2f}"
+
         self.check_call("websocket-client", websocket)
         self.check_call("torch", torch)
         self.check_call("transformers", transformers)
         self.check_call("onnxruntime", onnxruntime)
         self.check_call("huggingface_hub", huggingface_hub)
         self.check_call("mcp", mcp)
+        self.check_call("lingua", lingua)
 
     def result(self) -> int:
         """Exit code: 0 if every check passed."""

@@ -285,8 +285,8 @@ class TestUnflaggedRegexSyntax:
         _write_items_csv(path, [BlacklistItem("chok(e|i)"),
                                 BlacklistItem("brut(e|al)", use_regex=True),
                                 BlacklistItem("wolf")])
-        flagged = Blacklist.import_blacklist_csv(path)
-        assert [i.string for i in flagged] == ["chok(e|i)"]
+        report = Blacklist.import_blacklist_csv(path)
+        assert [i.string for i in report.regex_syntax] == ["chok(e|i)"]
         # Flagged items are still imported as written.
         assert len(Blacklist.TAG_BLACKLIST) == 3
 
