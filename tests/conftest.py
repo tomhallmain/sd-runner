@@ -332,6 +332,7 @@ def _reset_class_state() -> None:
         Concepts.ALL_WORDS_LIST = []
         # Lazily decrypted from the ~2M-entry corpus on the first NSFW draw.
         Concepts.URBAN_DICTIONARY_CORPUS = []
+        Concepts._SET_DICTIONARIES = {}
         # Mutated in place by Concepts.__init__ -> set_concepts_dir, so a test
         # that redirects it can leave the next one pointing at a temp dir.
         Concepts.CONCEPTS_DIR = _default_concepts_dir()

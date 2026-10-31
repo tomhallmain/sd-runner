@@ -390,6 +390,15 @@ class Config:
         else:
             self.default_concepts_dir = concepts
 
+    def concepts_dir_name(self, path: str) -> str | None:
+        """The ``concepts_dirs`` name of the set at *path*, which may be that
+        name or a path saved by another install, or None if none is configured."""
+        for name, configured in self.concepts_dirs.items():
+            if path in (name, configured):
+                return name
+        name = os.path.basename(os.path.normpath(path)) if path else None
+        return name if name in self.concepts_dirs else None
+
     def _resolve_concepts_dir(self, value: str):
         """A concepts directory from the configuration. A relative name of a
         bundled concept set (``Konzepte``) is that set, as ``concepts_dir``

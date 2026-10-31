@@ -2,6 +2,7 @@ import json
 import csv
 import pytest
 
+from sd_runner.globals import BlacklistMode
 from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
 
 
@@ -468,3 +469,40 @@ class TestFilterCacheInvalidation:
         count_after_first = len(Blacklist._filter_cache.cache)
         Blacklist.filter_concepts(list(self.CONCEPTS))
         assert len(Blacklist._filter_cache.cache) == count_after_first
+
+
+# ---------------------------------------------------------------------------
+# $$name variables, which resolve per prompt
+# ---------------------------------------------------------------------------
+
+class TestExpansionVariables:
+    def test_a_variable_name_is_not_truncated_into_a_match(self, monkeypatch):
+        _patch_dictionary(monkeypatch)
+        Blacklist.TAG_BLACKLIST.append(BlacklistItem(r"dom($|\W|inatio)", use_regex=True))
+        assert Blacklist.check_user_prompt_detailed("$$random_word $$random_word") == {}
+
+    def test_the_same_word_outside_a_variable_is_still_truncated(self, monkeypatch):
+        _patch_dictionary(monkeypatch)
+        Blacklist.TAG_BLACKLIST.append(BlacklistItem(r"dom($|\W|inatio)", use_regex=True))
+        assert Blacklist.check_user_prompt_detailed("random")
+
+    def test_a_variable_name_does_not_match_an_item(self):
+        _add("bad")
+        assert Blacklist.find_blacklisted_items("$$bad") == {}
+
+    def test_text_around_a_variable_is_still_checked(self):
+        _add("bad")
+        assert Blacklist.find_blacklisted_items("$$fine bad")
+        assert Blacklist.find_blacklisted_items("$$fine, bad")
+
+    def test_a_single_dollar_variable_is_not_exempt(self):
+        _add("bad")
+        assert Blacklist.find_blacklisted_items("$bad")
+
+    def test_removal_keeps_a_variable_and_drops_a_blocked_tag(self, monkeypatch):
+        _patch_dictionary(monkeypatch, {"fine"})
+        monkeypatch.setattr(Blacklist, "blacklist_mode", BlacklistMode.REMOVE_ENTIRE_TAG)
+        _add("bad")
+        cleaned, removed = Blacklist.strip_user_positive_tags("$$bad, bad, fine")
+        assert cleaned == "$$bad, fine"
+        assert "bad" in removed

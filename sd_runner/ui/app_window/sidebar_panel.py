@@ -473,6 +473,7 @@ class SidebarPanel(QWidget):
         from sd_runner.config import config as app_config
         self.concepts_dir_combo = QComboBox()
         self.concepts_dir_combo.addItems(list(app_config.concepts_dirs.keys()))
+        self.set_concepts_dir_from_config()
         concepts_row.addWidget(self.concepts_dir_combo)
         self.concepts_dir_combo.currentTextChanged.connect(self._on_concepts_dir_changed)
         layout.addLayout(concepts_row)
@@ -767,6 +768,15 @@ class SidebarPanel(QWidget):
         except Exception as e:
             logger.exception(f"Error checking prompt mode password: {e}")
 
+    def set_concepts_dir_from_config(self) -> None:
+        """Show the concept set the run will use, falling back to the default
+        when the stored one is not configured here."""
+        from sd_runner.config import config as app_config
+        prompter_config = self._app.runner_app_config.prompter_config
+        name = app_config.concepts_dir_name(prompter_config.concepts_dir) or app_config.default_concepts_dir
+        self.concepts_dir_combo.setCurrentText(name)
+        prompter_config.concepts_dir = app_config.concepts_dirs[name]
+
     def _on_concepts_dir_changed(self, text: str) -> None:
         from sd_runner.config import config as app_config
         try:
@@ -830,12 +840,13 @@ class SidebarPanel(QWidget):
         Globals.set_prompt_massage_tags(text)
 
     def set_positive_tags(self) -> None:
-        """Sync positive tags from widget to config; validates blacklist and applies expansions."""
+        """Sync positive tags from widget to config; applies expansions and validates blacklist."""
         from sd_runner.prompts.blacklist import Blacklist
         from sd_runner.prompts.prompter import Prompter
         from sd_runner.config import config
 
-        text = self.positive_tags_box.toPlainText()
+        # Expanded first so the blacklist checks what a variable stands for.
+        text = self._apply_expansions(self.positive_tags_box.toPlainText())
         # Removal applies to the tags the user typed. Generated concepts and
         # prompts taken from an image are filtered later, without this notice.
         if config.blacklist_prevent_execution:
@@ -853,15 +864,17 @@ class SidebarPanel(QWidget):
                     self.positive_tags_box.setPlainText(text)
         if not self._app.run_ctrl.validate_blacklist(text):
             return
-        text = self._apply_expansions(text, positive=True)
+        if self.positive_tags_box.toPlainText() != text:
+            self.positive_tags_box.setPlainText(text)
         self._app.runner_app_config.positive_tags = text
         Prompter.set_positive_tags(text)
 
     def set_negative_tags(self) -> None:
         """Sync negative tags from widget to config."""
         from sd_runner.prompts.prompter import Prompter
-        text = self.negative_tags_box.toPlainText()
-        text = self._apply_expansions(text, positive=False)
+        text = self._apply_expansions(self.negative_tags_box.toPlainText())
+        if self.negative_tags_box.toPlainText() != text:
+            self.negative_tags_box.setPlainText(text)
         self._app.runner_app_config.negative_tags = text
         Prompter.set_negative_tags(text)
 
@@ -872,15 +885,11 @@ class SidebarPanel(QWidget):
         self._app.runner_app_config.exclusion_tags = text
         Prompter.set_exclusion_tags(text)
 
-    def _apply_expansions(self, text: str, positive: bool = False) -> str:
+    def _apply_expansions(self, text: str) -> str:
         """Substitute expansion variables in *text* if present."""
         from sd_runner.prompts.prompter import Prompter
         if Prompter.contains_expansion_var(text, from_ui=True):
             text = Prompter.apply_expansions(text, from_ui=True)
-            if positive:
-                self.positive_tags_box.setPlainText(text)
-            else:
-                self.negative_tags_box.setPlainText(text)
         return text
 
     # ==================================================================

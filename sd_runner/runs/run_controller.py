@@ -267,7 +267,7 @@ class RunController:
         """
         from sd_runner.config import config
         from sd_runner.globals import BlacklistMode, BlacklistPromptMode
-        from sd_runner.prompts.blacklist import Blacklist, BlacklistException
+        from sd_runner.prompts.blacklist import Blacklist, BlacklistException, strip_expansion_vars
         from sd_runner.prompts.language_detection import detect_basket
 
         if not config.blacklist_prevent_execution:
@@ -277,6 +277,7 @@ class RunController:
         if prompt_mode.is_nsfw() and Blacklist.get_blacklist_prompt_mode() == BlacklistPromptMode.ALLOW_IN_NSFW:
             return True
 
+        text = strip_expansion_vars(text)
         filtered = Blacklist.find_blacklisted_items(text, detect_basket(text.split(",")).languages)
         if not filtered:
             filtered = Blacklist.check_user_prompt_detailed(text)

@@ -129,7 +129,6 @@ class PromptGeneratorWindow(SmartDialog):
 
             prompt_mode = PromptMode.get(sp.prompt_mode_combo.currentText())
             cfg.prompter_config.prompt_mode = prompt_mode
-            cfg.prompter_config.concepts_dir = sp.concepts_dir_combo.currentText()
             cfg.prompter_config.sparse_mixed_tags = cfg.sparse_mixed_tags
 
             positive_seed = sp.positive_tags_box.toPlainText().strip()

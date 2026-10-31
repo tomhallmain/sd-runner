@@ -530,6 +530,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         )
         if getattr(cfg, "source_prompt_file", "").strip():
             sp.prompt_mode_combo.setCurrentText(PromptMode.TAKE.display())
+        sp.set_concepts_dir_from_config()
         sp.override_resolution_check.setChecked(cfg.override_resolution)
         sp.inpainting_check.setChecked(cfg.inpainting)
         sp.override_negative_check.setChecked(cfg.override_negative)

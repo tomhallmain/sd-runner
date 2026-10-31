@@ -188,6 +188,15 @@ def normalize_accents_for_regex(text: str, is_regex: bool = False) -> str:
             result = result.replace(base_char, pattern)
         return result
 
+def strip_expansion_vars(text: str) -> str:
+    """*text* without its ``$$name`` variables, which resolve per prompt.
+
+    The name of one says nothing about what it inserts, and that text is
+    checked once it exists, in the assembled prompt.
+    """
+    return " ".join(_EXPANSION_VAR.sub(" ", text).split())
+
+
 def normalize_user_tag(tag: str) -> str:
     """A prompt tag without its emphasis or weight, for comparing tags by wording."""
     tag = tag.strip()
@@ -197,6 +206,8 @@ def normalize_user_tag(tag: str) -> str:
         tag = tag[:-1].strip()
     return re.sub(r":\s*\d+(\.\d+)?$", "", tag).strip().lower()
 
+
+_EXPANSION_VAR = re.compile(r"\$\$\w+")
 
 #: Kana, CJK, Thai, Lao, Khmer and Myanmar: scripts that do not separate words
 #: with spaces and whose letters Python counts as word characters, so a term
@@ -738,8 +749,10 @@ class Blacklist:
             return text, {}
 
         parts = [part.strip() for part in text.split(",") if part.strip()]
+        checked = [strip_expansion_vars(part) for part in parts]
         whitelist, filtered = Blacklist.filter_concepts(
-            parts, do_cache=False, user_prompt=True, prompt_mode=prompt_mode, detect_languages=True
+            [tag for tag in checked if tag],
+            do_cache=False, user_prompt=True, prompt_mode=prompt_mode, detect_languages=True,
         )
         if mode == BlacklistMode.REMOVE_ENTIRE_TAG:
             kept = []
@@ -752,7 +765,8 @@ class Blacklist:
             whitelist = kept
         if not filtered:
             return text, {}
-        return ", ".join(whitelist), filtered
+        passed = set(whitelist)
+        return ", ".join(part for part, tag in zip(parts, checked) if not tag or tag in passed), filtered
 
     @staticmethod
     def set_source_anchors(anchors: "SourceAnchors | None") -> None:
@@ -1182,6 +1196,7 @@ class Blacklist:
                  Empty if no blacklisted items are found.
         """
         filtered = {}
+        text = strip_expansion_vars(text)
 
         # Whole-prompt items: match against full text before splitting by tag
         for blacklist_item in Blacklist.TAG_BLACKLIST:
@@ -1235,10 +1250,9 @@ class Blacklist:
         This method performs additional scrutiny by checking truncated versions of words
         that are not found in the dictionary, to counter filter evasion attempts.
 
-        Items with a language take no part. Words are only exempt if they are in
-        the loaded dictionary, so a German word under an English dictionary
-        would be truncated into a match (Abmarsch into arsch), and which
-        concept set is loaded must not decide which items apply.
+        Items with a language take no part: a word is only exempt if a
+        dictionary holds it, so an uncommon German word would be truncated
+        into a match (Abmarsch into arsch).
         
         Args:
             text: The text to check
@@ -1252,6 +1266,7 @@ class Blacklist:
         from sd_runner.prompts.concepts import Concepts
         
         filtered = {}
+        text = strip_expansion_vars(text)
         
         # Get dictionary set for fast lookups
         dictionary_set = Concepts.get_dictionary_set()

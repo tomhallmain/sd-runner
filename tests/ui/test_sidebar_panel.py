@@ -1,8 +1,10 @@
-"""Collapsing the negative tags box, and remembering it across sessions."""
+"""Collapsing the negative tags box, the shown concept set, and the order of
+expansion and the blacklist check."""
 
 import pytest
 from PySide6.QtCore import Qt
 
+from sd_runner.config import config
 from sd_runner.persistence.app_info_cache import app_info_cache
 from sd_runner.ui.app_window.sidebar_panel import SidebarPanel
 
@@ -55,3 +57,67 @@ class TestNegativeTagsCollapse:
         sp.negative_tags_box.setPlainText("blurry")
         sp.set_negative_tags()
         assert app_window.runner_app_config.negative_tags == "blurry"
+
+
+@pytest.fixture
+def konzepte(app_window, monkeypatch):
+    """A second concept set in the sidebar's combo."""
+    monkeypatch.setitem(config.concepts_dirs, "Konzepte", "/app/Konzepte")
+    app_window.sidebar_panel.concepts_dir_combo.addItem("Konzepte")
+    return app_window
+
+
+class TestConceptsDirCombo:
+    def test_shows_the_stored_set(self, konzepte):
+        konzepte.runner_app_config.prompter_config.concepts_dir = "/app/Konzepte"
+        konzepte.sidebar_panel.set_concepts_dir_from_config()
+        assert konzepte.sidebar_panel.concepts_dir_combo.currentText() == "Konzepte"
+
+    def test_a_config_from_history_updates_the_combo(self, konzepte):
+        konzepte.runner_app_config.prompter_config.concepts_dir = "/app/Konzepte"
+        konzepte._set_widgets_from_config()
+        assert konzepte.sidebar_panel.concepts_dir_combo.currentText() == "Konzepte"
+
+    def test_a_path_from_another_install_becomes_the_local_one(self, konzepte):
+        prompter_config = konzepte.runner_app_config.prompter_config
+        prompter_config.concepts_dir = "/other/machine/Konzepte"
+        konzepte.sidebar_panel.set_concepts_dir_from_config()
+        assert prompter_config.concepts_dir == "/app/Konzepte"
+
+    def test_an_unconfigured_set_falls_back_to_the_default(self, konzepte):
+        prompter_config = konzepte.runner_app_config.prompter_config
+        prompter_config.concepts_dir = "/gone/Sammlung"
+        konzepte.sidebar_panel.set_concepts_dir_from_config()
+        assert konzepte.sidebar_panel.concepts_dir_combo.currentText() == config.default_concepts_dir
+        assert prompter_config.concepts_dir == config.concepts_dirs[config.default_concepts_dir]
+
+
+class TestPositiveTagExpansion:
+    @pytest.fixture
+    def validated(self, app_window, monkeypatch):
+        seen = []
+        monkeypatch.setitem(config.wildcards, "wild", "expanded text")
+
+        def validate(text):
+            seen.append(text)
+            return True
+
+        monkeypatch.setattr(app_window.run_ctrl, "validate_blacklist", validate)
+        return seen
+
+    def test_the_check_sees_what_a_variable_stands_for(self, app_window, validated):
+        app_window.sidebar_panel.positive_tags_box.setPlainText("$wild")
+        app_window.sidebar_panel.set_positive_tags()
+        assert validated == ["expanded text"]
+        assert app_window.sidebar_panel.positive_tags_box.toPlainText() == "expanded text"
+
+    def test_a_failed_check_leaves_the_box_as_typed(self, app_window, validated, monkeypatch):
+        monkeypatch.setattr(app_window.run_ctrl, "validate_blacklist", lambda text: False)
+        app_window.sidebar_panel.positive_tags_box.setPlainText("$wild")
+        app_window.sidebar_panel.set_positive_tags()
+        assert app_window.sidebar_panel.positive_tags_box.toPlainText() == "$wild"
+
+    def test_a_deferred_variable_stays_in_the_box(self, app_window, validated):
+        app_window.sidebar_panel.positive_tags_box.setPlainText("$$wild")
+        app_window.sidebar_panel.set_positive_tags()
+        assert app_window.sidebar_panel.positive_tags_box.toPlainText() == "$$wild"

@@ -7,7 +7,7 @@ import re
 from typing import Callable, Dict, Optional, Set
 
 from sd_runner.app_paths import concepts_dir, resource_path
-from sd_runner.prompts.blacklist import Blacklist, BlacklistItem
+from sd_runner.prompts.blacklist import Blacklist, BlacklistItem, strip_expansion_vars
 from sd_runner.prompts.concept_sets import SourceAnchors, concept_set_info, read_concept_lines
 from sd_runner.config import config
 from sd_runner.globals import Globals, PromptMode, BlacklistPromptMode, BlacklistTextOrigin
@@ -20,14 +20,9 @@ _ = I18N._
 
 logger = get_logger("prompts.concepts")
 
-_EXPANSION_VAR = re.compile(r"\$\$\w+")
 #: Above this many choice-set expansions a line is matched on its markup-free
 #: form only, so one pathological template cannot stall a search keystroke.
 _MAX_TEMPLATE_EXPANSIONS = 512
-
-
-def _strip_expansion_vars(text: str) -> str:
-    return " ".join(_EXPANSION_VAR.sub(" ", text).split())
 
 
 def _estimate_expansions(concept: str, prompter) -> int:
@@ -67,11 +62,11 @@ def _template_texts(concept: str) -> tuple[str, ...]:
     if Prompter.contains_choice_set(concept):
         if _estimate_expansions(concept, Prompter) <= _MAX_TEMPLATE_EXPANSIONS:
             expansions = Prompter._expand_nested_choices(concept)
-            texts.extend(_strip_expansion_vars(text) for text, _weight in expansions)
+            texts.extend(strip_expansion_vars(text) for text, _weight in expansions)
         else:
-            texts.append(_strip_expansion_vars(re.sub(r"[\[\],|]", " ", concept)))
+            texts.append(strip_expansion_vars(re.sub(r"[\[\],|]", " ", concept)))
     elif "$$" in concept:
-        texts.append(_strip_expansion_vars(concept))
+        texts.append(strip_expansion_vars(concept))
     return tuple(dict.fromkeys(t for t in texts if t))
 
 
@@ -457,11 +452,13 @@ class Concepts:
     TAG_BLACKLIST = []
     ALPHABET = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
                 "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-    CONCEPTS_DIR = concepts_dir("concepts") if config.default_concepts_dir == "concepts" else config.concepts_dir
+    CONCEPTS_DIR = concepts_dir("concepts") if config.default_concepts_dir == "concepts" else config.concepts_dirs[config.default_concepts_dir]
     #: Obfuscated like the default blacklist; written by
     #: scripts/encrypt_urban_dictionary.py from the trimmed corpus.
     URBAN_DICTIONARY_CORPUS_PATH = resource_path("sd_runner", "data", "urban_dictionary.enc")
     URBAN_DICTIONARY_CORPUS = []
+    #: Dictionary file path -> (modification time, lowercase words).
+    _SET_DICTIONARIES: dict[str, tuple[float, frozenset[str]]] = {}
 
     @staticmethod
     def set_concepts_dir(path: str = "concepts") -> bool:
@@ -585,15 +582,38 @@ class Concepts:
     @staticmethod
     def get_dictionary_set() -> set[str]:
         """Get a case-insensitive set of all dictionary words for fast lookups.
-        
-        Ensures the dictionary is loaded and handles override dictionary paths.
+
+        Covers the dictionary of every configured concept set, so that the
+        selected set has no bearing on what the blacklist blocks. An override
+        dictionary that replaces the default stands alone.
         
         Returns:
             set[str]: A set of lowercase dictionary words
         """
         Concepts.ensure_dictionary_loaded()
         # Create and return a set for faster dictionary lookups (case-insensitive)
-        return {word.lower() for word in Concepts.ALL_WORDS_LIST}
+        words = {word.lower() for word in Concepts.ALL_WORDS_LIST}
+        override = config.override_dictionary_path
+        if override is not None and override.strip() != "" and not config.override_dictionary_append:
+            return words
+        for path in config.concepts_dirs.values():
+            words |= Concepts._set_dictionary(path)
+        return words
+
+    @staticmethod
+    def _set_dictionary(path: str) -> frozenset[str]:
+        """The lowercase dictionary words of the concept set at *path*."""
+        directory = concepts_dir("concepts") if path == "concepts" else path
+        filepath = os.path.join(directory, Concepts.ALL_WORDS_LIST_FILENAME)
+        try:
+            modified = os.path.getmtime(filepath)
+        except OSError:
+            return frozenset()
+        cached = Concepts._SET_DICTIONARIES.get(filepath)
+        if cached is None or cached[0] != modified:
+            cached = (modified, frozenset(word.lower() for word in Concepts.load(filepath)))
+            Concepts._SET_DICTIONARIES[filepath] = cached
+        return cached[1]
 
     def extend(self, l: list[str], nsfw_file: str, nsfw_repeats: int, nsfl_file: str, nsfl_repeats: int) -> None:
         nsfw = Concepts.load(nsfw_file)
