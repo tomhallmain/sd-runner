@@ -439,7 +439,7 @@ class ComfyGen(BaseImageGenerator):
                     out = ws.recv()
                     if isinstance(out, str):
                         message = json.loads(out)
-                        logger.debug(f"Received message: {message}")
+                        # logger.trace(f"Received message: {message}")
                         if message['type'] == 'executing':
                             data = message['data']
                             if data['node'] is None and data['prompt_id'] == prompt_id:

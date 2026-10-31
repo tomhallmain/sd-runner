@@ -294,6 +294,8 @@ class RunController:
                     self._app.notification_ctrl.alert(
                         _("Invalid Prompt Tags"), _("Blacklist validation failed!"), kind="error"
                     )
+                if config.debug:
+                    logger.debug(f"Filtered tags: {filtered}")
                 raise BlacklistException("Blacklist validation failed", [], filtered)
             return False
 
