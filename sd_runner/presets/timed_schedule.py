@@ -1,7 +1,5 @@
 
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import I18N, _
 
 class TimedSchedule:
     def __init__(self, name=None, enabled=True, weekday_options=[], start_time=None, end_time=None, shutdown_time=None):

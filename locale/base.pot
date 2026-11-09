@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: APPLICATION 1.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translator@example.com>\n"
-"POT-Creation-Date: 2026-08-31 17:18-0400\n"
-"PO-Revision-Date: 2026-08-31 17:18-0400\n"
+"POT-Creation-Date: 2026-11-09 16:51-0500\n"
+"PO-Revision-Date: 2026-11-09 16:51-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,489 +16,790 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app_qt.py:40 ui_qt/app_window/app_window.py:129 ui_qt/app_window/app_window.py:154 ui_qt/app_window/app_window.py:364
+#: app_gui.py:76
+msgid "This build no longer matches its source code. See the log for details."
+msgstr ""
+
+#: app_gui.py:140 sd_runner/ui/app_window/app_window.py:130 sd_runner/ui/app_window/app_window.py:155
+#: sd_runner/ui/app_window/app_window.py:397
 msgid " SD Runner "
 msgstr ""
 
-#: app_qt.py:145
+#: app_gui.py:264
 msgid "Startup Error"
 msgstr ""
 
-#: app_qt.py:146
+#: app_gui.py:265
 msgid "Failed to create main window:"
 msgstr ""
 
-#: lib/qt_alert.py:27 ui_qt/auth/app_startup_auth_qt.py:78 ui_qt/auth/password_dialog.py:200
+#: lib/custom_title_bar.py:158
+msgid "Minimize"
+msgstr ""
+
+#: lib/custom_title_bar.py:163 lib/custom_title_bar.py:294
+msgid "Maximize"
+msgstr ""
+
+#: lib/custom_title_bar.py:168 sd_runner/ui/auth/password_admin_window.py:352 sd_runner/ui/models/models_window.py:146
+#: sd_runner/ui/models/models_window.py:203 sd_runner/ui/models/models_window.py:618
+#: sd_runner/ui/models/recent_adapters_window.py:207 sd_runner/ui/models/recent_adapters_window.py:249
+#: sd_runner/ui/models/recent_adapters_window.py:312 sd_runner/ui/models/recent_adapters_window.py:364
+#: sd_runner/ui/prompts/blacklist_preview_window.py:83 sd_runner/ui/prompts/prompt_config_window.py:256
+#: sd_runner/ui/runs/runs_window.py:167 sd_runner/ui/runs/runs_window.py:356
+msgid "Close"
+msgstr ""
+
+#: lib/custom_title_bar.py:291 sd_runner/ui/prompts/blacklist_window.py:1066
+msgid "Restore"
+msgstr ""
+
+#: lib/lora_trigger_extractor.py:100
+msgid "Safetriggers functionality not available"
+msgstr ""
+
+#: lib/lora_trigger_extractor.py:163
+msgid "No triggers found in LoRA"
+msgstr ""
+
+#: lib/lora_trigger_extractor.py:174
+msgid "Error extracting triggers: {0}"
+msgstr ""
+
+#: lib/qt_alert.py:25 sd_runner/ui/auth/app_startup_auth.py:80 sd_runner/ui/auth/password_dialog.py:201
 msgid "OK"
 msgstr ""
 
-#: lib/qt_alert.py:28 ui_qt/auth/app_startup_auth_qt.py:75 ui_qt/auth/password_admin_window.py:83
-#: ui_qt/auth/password_dialog.py:197 ui_qt/auth/password_dialog.py:267 ui_qt/auth/password_dialog.py:288
+#: lib/qt_alert.py:26 sd_runner/ui/auth/app_startup_auth.py:77 sd_runner/ui/auth/password_admin_window.py:81
+#: sd_runner/ui/auth/password_dialog.py:198 sd_runner/ui/auth/password_dialog.py:268
+#: sd_runner/ui/auth/password_dialog.py:289
 msgid "Cancel"
 msgstr ""
 
-#: lib/qt_alert.py:29
+#: lib/qt_alert.py:27
 msgid "Yes"
 msgstr ""
 
-#: lib/qt_alert.py:30
+#: lib/qt_alert.py:28
 msgid "No"
 msgstr ""
 
-#: sd_runner/blacklist.py:643
-msgid "Filtering concepts for blacklist: "
+#: lib/translations.py:80
+msgid "Monday"
 msgstr ""
 
-#: sd_runner/models.py:653
+#: lib/translations.py:82
+msgid "Tuesday"
+msgstr ""
+
+#: lib/translations.py:84
+msgid "Wednesday"
+msgstr ""
+
+#: lib/translations.py:86
+msgid "Thursday"
+msgstr ""
+
+#: lib/translations.py:88
+msgid "Friday"
+msgstr ""
+
+#: lib/translations.py:90
+msgid "Saturday"
+msgstr ""
+
+#: lib/translations.py:92
+msgid "Sunday"
+msgstr ""
+
+#: lib/translations.py:104
+msgid "seconds"
+msgstr ""
+
+#: lib/translations.py:106
+msgid "minutes"
+msgstr ""
+
+#: lib/translations.py:108
+msgid "hours"
+msgstr ""
+
+#: lib/translations.py:110
+msgid "days"
+msgstr ""
+
+#: lib/translations.py:112
+msgid "weeks"
+msgstr ""
+
+#: lib/translations.py:114
+msgid "months"
+msgstr ""
+
+#: lib/translations.py:116
+msgid "years"
+msgstr ""
+
+#: sd_runner/globals.py:29
+msgid "Fixed"
+msgstr ""
+
+#: sd_runner/globals.py:30
+msgid "SFW"
+msgstr ""
+
+#: sd_runner/globals.py:31
+msgid "NSFW"
+msgstr ""
+
+#: sd_runner/globals.py:32
+msgid "NSFL"
+msgstr ""
+
+#: sd_runner/globals.py:33
+msgid "Take"
+msgstr ""
+
+#: sd_runner/globals.py:34
+msgid "Random"
+msgstr ""
+
+#: sd_runner/globals.py:35 sd_runner/ui/prompts/prompt_config_window.py:97
+msgid "Nonsense"
+msgstr ""
+
+#: sd_runner/globals.py:36
+msgid "Any Art"
+msgstr ""
+
+#: sd_runner/globals.py:37
+msgid "Painterly"
+msgstr ""
+
+#: sd_runner/globals.py:38
+msgid "Anime"
+msgstr ""
+
+#: sd_runner/globals.py:39
+msgid "Glitch"
+msgstr ""
+
+#: sd_runner/globals.py:40
+msgid "List"
+msgstr ""
+
+#: sd_runner/globals.py:41
+msgid "Improve"
+msgstr ""
+
+#: sd_runner/globals.py:71
+msgid "Remove word/phrase (only the blacklisted part)"
+msgstr ""
+
+#: sd_runner/globals.py:72
+msgid "Remove entire tag (if any part matches)"
+msgstr ""
+
+#: sd_runner/globals.py:73
+msgid "Fail prompt (block generation)"
+msgstr ""
+
+#: sd_runner/globals.py:74
+msgid "Log only (do not remove, just log)"
+msgstr ""
+
+#: sd_runner/globals.py:106 sd_runner/globals.py:131
+msgid "Disallow"
+msgstr ""
+
+#: sd_runner/globals.py:107 sd_runner/globals.py:132
+msgid "Allow in NSFW"
+msgstr ""
+
+#: sd_runner/globals.py:167
+msgid "All visual media"
+msgstr ""
+
+#: sd_runner/globals.py:168
+msgid "Text to Image"
+msgstr ""
+
+#: sd_runner/globals.py:169 sd_runner/globals.py:354
+msgid "Image to Image"
+msgstr ""
+
+#: sd_runner/globals.py:170
+msgid "Image to Text"
+msgstr ""
+
+#: sd_runner/globals.py:171
+msgid "Image Classification"
+msgstr ""
+
+#: sd_runner/globals.py:172
+msgid "Zero-shot Image Classification"
+msgstr ""
+
+#: sd_runner/globals.py:173
+msgid "Object Detection"
+msgstr ""
+
+#: sd_runner/globals.py:174
+msgid "Image Segmentation"
+msgstr ""
+
+#: sd_runner/globals.py:175
+msgid "Depth Estimation"
+msgstr ""
+
+#: sd_runner/globals.py:176
+msgid "Visual Question Answering"
+msgstr ""
+
+#: sd_runner/globals.py:177
+msgid "Video Classification"
+msgstr ""
+
+#: sd_runner/globals.py:178
+msgid "Text to Video"
+msgstr ""
+
+#: sd_runner/globals.py:179
+msgid "Image Feature Extraction"
+msgstr ""
+
+#: sd_runner/globals.py:210 sd_runner/ui/models/models_window.py:257
+msgid "Downloads"
+msgstr ""
+
+#: sd_runner/globals.py:211 sd_runner/ui/models/models_window.py:257
+msgid "Likes"
+msgstr ""
+
+#: sd_runner/globals.py:212
+msgid "Last Modified"
+msgstr ""
+
+#: sd_runner/globals.py:213
+msgid "Created At"
+msgstr ""
+
+#: sd_runner/globals.py:214
+msgid "Trending Score"
+msgstr ""
+
+#: sd_runner/globals.py:238
+msgid "Descending"
+msgstr ""
+
+#: sd_runner/globals.py:239
+msgid "Ascending"
+msgstr ""
+
+#: sd_runner/globals.py:348
+msgid "Simple Image Gen"
+msgstr ""
+
+#: sd_runner/globals.py:349
+msgid "Simple Image Gen Lora"
+msgstr ""
+
+#: sd_runner/globals.py:350
+msgid "Simple Image Gen Tiled Upscale"
+msgstr ""
+
+#: sd_runner/globals.py:351
+msgid "Ella"
+msgstr ""
+
+#: sd_runner/globals.py:352
+msgid "Instant Lora"
+msgstr ""
+
+#: sd_runner/globals.py:353 sd_runner/ui/models/recent_adapters_window.py:283
+msgid "IP Adapter"
+msgstr ""
+
+#: sd_runner/globals.py:355
+msgid "Image Edit"
+msgstr ""
+
+#: sd_runner/globals.py:356 sd_runner/ui/models/recent_adapters_window.py:282
+msgid "ControlNet"
+msgstr ""
+
+#: sd_runner/globals.py:357
+msgid "Inpaint ClipSeg"
+msgstr ""
+
+#: sd_runner/globals.py:358
+msgid "Animate Diff"
+msgstr ""
+
+#: sd_runner/globals.py:359
+msgid "Renoiser"
+msgstr ""
+
+#: sd_runner/globals.py:360 sd_runner/globals.py:669
+msgid "Turbo"
+msgstr ""
+
+#: sd_runner/globals.py:361
+msgid "Upscale Simple"
+msgstr ""
+
+#: sd_runner/globals.py:362
+msgid "Upscale Better"
+msgstr ""
+
+#: sd_runner/globals.py:363
+msgid "Redo Prompt"
+msgstr ""
+
+#: sd_runner/globals.py:476 sd_runner/globals.py:537
+msgid "Any"
+msgstr ""
+
+#: sd_runner/globals.py:477
+msgid "Euler"
+msgstr ""
+
+#: sd_runner/globals.py:478
+msgid "Euler Ancestral"
+msgstr ""
+
+#: sd_runner/globals.py:479
+msgid "DPM 2"
+msgstr ""
+
+#: sd_runner/globals.py:480
+msgid "DPM 2 Ancestral"
+msgstr ""
+
+#: sd_runner/globals.py:481
+msgid "DPM++ SDE"
+msgstr ""
+
+#: sd_runner/globals.py:482
+msgid "DPM++ SDE GPU"
+msgstr ""
+
+#: sd_runner/globals.py:483
+msgid "DPM++ 2M"
+msgstr ""
+
+#: sd_runner/globals.py:484
+msgid "DPM++ 2M SDE"
+msgstr ""
+
+#: sd_runner/globals.py:485
+msgid "DPM++ 2M SDE GPU"
+msgstr ""
+
+#: sd_runner/globals.py:486
+msgid "DPM++ 3M SDE"
+msgstr ""
+
+#: sd_runner/globals.py:487
+msgid "DPM++ 3M SDE GPU"
+msgstr ""
+
+#: sd_runner/globals.py:488
+msgid "DDIM"
+msgstr ""
+
+#: sd_runner/globals.py:489
+msgid "DDPM"
+msgstr ""
+
+#: sd_runner/globals.py:490
+msgid "LCM"
+msgstr ""
+
+#: sd_runner/globals.py:538
+msgid "Normal"
+msgstr ""
+
+#: sd_runner/globals.py:539
+msgid "Karras"
+msgstr ""
+
+#: sd_runner/globals.py:540
+msgid "Simple"
+msgstr ""
+
+#: sd_runner/globals.py:541
+msgid "Exponential"
+msgstr ""
+
+#: sd_runner/globals.py:542
+msgid "SGM Uniform"
+msgstr ""
+
+#: sd_runner/globals.py:543
+msgid "DDIM Uniform"
+msgstr ""
+
+#: sd_runner/globals.py:666
+msgid "SD 1.5"
+msgstr ""
+
+#: sd_runner/globals.py:667
+msgid "SDXL"
+msgstr ""
+
+#: sd_runner/globals.py:668
+msgid "Illustrious"
+msgstr ""
+
+#: sd_runner/globals.py:670
+msgid "Flux"
+msgstr ""
+
+#: sd_runner/globals.py:671
+msgid "Flux.2 Klein 9B"
+msgstr ""
+
+#: sd_runner/globals.py:672
+msgid "Flux.2 Klein 4B"
+msgstr ""
+
+#: sd_runner/globals.py:673
+msgid "Flux.3"
+msgstr ""
+
+#: sd_runner/globals.py:674
+msgid "Krea 2"
+msgstr ""
+
+#: sd_runner/globals.py:675
+msgid "MiniMax H3"
+msgstr ""
+
+#: sd_runner/globals.py:676
+msgid "Chroma"
+msgstr ""
+
+#: sd_runner/globals.py:677
+msgid "ZImageTurbo"
+msgstr ""
+
+#: sd_runner/globals.py:678
+msgid "Qwen"
+msgstr ""
+
+#: sd_runner/globals.py:679 sd_runner/ui/models/models_window.py:633
+msgid "Unknown"
+msgstr ""
+
+#: sd_runner/globals.py:705
+msgid "1536"
+msgstr ""
+
+#: sd_runner/globals.py:706
+msgid "1328"
+msgstr ""
+
+#: sd_runner/globals.py:707
+msgid "1024"
+msgstr ""
+
+#: sd_runner/globals.py:708
+msgid "768"
+msgstr ""
+
+#: sd_runner/globals.py:709
+msgid "512"
+msgstr ""
+
+#: sd_runner/globals.py:749
+msgid "Open Application"
+msgstr ""
+
+#: sd_runner/globals.py:750
+msgid "NSFW/NSFL Prompt Modes"
+msgstr ""
+
+#: sd_runner/globals.py:751
+msgid "Take Prompt Mode (unfiltered image prompts)"
+msgstr ""
+
+#: sd_runner/globals.py:752
+msgid "Edit Blacklist"
+msgstr ""
+
+#: sd_runner/globals.py:753
+msgid "Reveal Blacklist Concepts"
+msgstr ""
+
+#: sd_runner/globals.py:754
+msgid "Edit Schedules"
+msgstr ""
+
+#: sd_runner/globals.py:755
+msgid "Edit Timed Schedules"
+msgstr ""
+
+#: sd_runner/globals.py:756
+msgid "Edit Expansions"
+msgstr ""
+
+#: sd_runner/globals.py:757
+msgid "Edit Presets"
+msgstr ""
+
+#: sd_runner/globals.py:758 sd_runner/ui/app_window/sidebar_panel.py:462
+msgid "Edit Concepts"
+msgstr ""
+
+#: sd_runner/globals.py:759
+msgid "Access Password Administration"
+msgstr ""
+
+#: sd_runner/image_to_prompt/providers/captioner_provider.py:61
+msgid ""
+"Captioner backend requires torch + transformers. Install optional deps (e.g. `pip install -r requirements-"
+"optional.txt`)."
+msgstr ""
+
+#: sd_runner/image_to_prompt/providers/captioner_provider.py:129
+msgid "Failed to initialize BLIP captioner backend. Ensure optional captioner dependencies are installed."
+msgstr ""
+
+#: sd_runner/image_to_prompt/providers/llava_transformers.py:136
+msgid ""
+"VLM backend requires torch + transformers. Install optional deps (e.g. `pip install -r requirements-optional.txt`). "
+"The VLM model class needs transformers 4.36 or newer."
+msgstr ""
+
+#: sd_runner/image_to_prompt/providers/llava_transformers.py:224
+msgid ""
+"vlm_load_in_4bit is set but bitsandbytes and accelerate are not both installed. Install them, or turn the setting off"
+" to load at full precision."
+msgstr ""
+
+#: sd_runner/models/model.py:718
 msgid "One or more loras are blacklisted. Please try again with a different lora."
 msgstr ""
 
-#: sd_runner/models.py:657
+#: sd_runner/models/model.py:722
 msgid ""
 "The following loras are blacklisted: {0}\n"
 "\n"
 "Please try again with a different lora."
 msgstr ""
 
-#: sd_runner/models.py:662
+#: sd_runner/models/model.py:727
 msgid "One or more models are blacklisted. Please try again with a different model."
 msgstr ""
 
-#: sd_runner/models.py:666
+#: sd_runner/models/model.py:731
 msgid ""
 "The following models are blacklisted: {0}\n"
 "\n"
 "Please try again with a different model."
 msgstr ""
 
-#: sd_runner/prompter.py:501
-msgid "Blacklist validation failed on extracted image prompt"
+#: sd_runner/presets/presets_state.py:185
+msgid "New Preset (ERROR no presets found)"
 msgstr ""
 
-#: sd_runner/prompter.py:512
-msgid "Blacklisted tags removed from extracted prompt: {0}"
+#: sd_runner/presets/presets_state.py:191
+msgid "Not enough presets found."
 msgstr ""
 
-#: sd_runner/prompter.py:523
-msgid "Extracted prompt too similar to blocked concept \"{0}\" ({1:.0%})"
-msgstr ""
-
-#: sd_runner/run_config.py:147
-msgid "No prompter config found!"
-msgstr ""
-
-#: sd_runner/run_config.py:151
-msgid "Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"
-msgstr ""
-
-#: sd_runner/run_config.py:163
-msgid "A model switch was detected and the model massage tags don't match. This warning will only be shown once."
-msgstr ""
-
-#: sd_runner/run_config.py:259
-msgid "WARNING: Multiple resolutions in renoiser workflow will produce nearly identical results (duplicates)."
-msgstr ""
-
-#: sd_runner/timed_schedule.py:8 ui_qt/presets/schedule.py:14
+#: sd_runner/presets/schedule.py:12 sd_runner/presets/timed_schedule.py:6
 msgid "New Schedule"
 msgstr ""
 
-#: sd_runner/timed_schedule.py:40
+#: sd_runner/presets/schedule.py:70
+msgid "{0} ({1} runs)"
+msgstr ""
+
+#: sd_runner/presets/timed_schedule.py:38
 msgid "Tomorrow"
 msgstr ""
 
-#: sd_runner/timed_schedule.py:75 ui_qt/presets/timed_schedules_window.py:70
+#: sd_runner/presets/timed_schedule.py:73 sd_runner/ui/presets/timed_schedules_window.py:68
 msgid "Every day"
 msgstr ""
 
-#: sd_runner/timed_schedule.py:78
+#: sd_runner/presets/timed_schedule.py:76
 msgid "{0} - Days: {1} - Times: {2}-{3} - Shutdown: {4}"
 msgstr ""
 
-#: sd_runner/timed_schedules_manager.py:22
+#: sd_runner/presets/timed_schedules_manager.py:20
 msgid "Default"
 msgstr ""
 
-#: sd_runner/timed_schedules_manager.py:49
+#: sd_runner/presets/timed_schedules_manager.py:47
 msgid "Default Shutdown"
 msgstr ""
 
-#: sd_runner/timed_schedules_manager.py:94
+#: sd_runner/presets/timed_schedules_manager.py:92
 msgid "Not enough schedules found."
 msgstr ""
 
-#: sd_runner/timed_schedules_manager.py:178
+#: sd_runner/presets/timed_schedules_manager.py:176
 msgid "Shutdown scheduled: {}"
 msgstr ""
 
-#: sd_runner/image_to_prompt/providers/captioner_provider.py:63
+#: sd_runner/prompts/blacklist.py:720
+msgid "Matched blacklist items: {0}"
+msgstr ""
+
+#: sd_runner/prompts/blacklist.py:725
+msgid "One or more tags were removed due to blacklist failure."
+msgstr ""
+
+#: sd_runner/prompts/blacklist.py:916
+msgid "Filtering concepts for blacklist: "
+msgstr ""
+
+#: sd_runner/prompts/concepts.py:1357
+msgid "{0} -> blacklisted"
+msgstr ""
+
+#: sd_runner/prompts/prompter.py:523
+msgid "Blacklist validation failed on extracted image prompt"
+msgstr ""
+
+#: sd_runner/prompts/prompter.py:543
+msgid "Extracted prompt too similar to blocked concept \"{0}\" ({1:.0%})"
+msgstr ""
+
+#: sd_runner/runs/gen_config.py:155
+msgid "You are using HARD concept {0} in prompt - this is hard for image generation models."
+msgstr ""
+
+#: sd_runner/runs/gen_config.py:158
+msgid "You are using EXCLUSIONARY concept {0} in prompt."
+msgstr ""
+
+#: sd_runner/runs/gen_config.py:161
+msgid "You are using BORING concept {0} in prompt."
+msgstr ""
+
+#: sd_runner/runs/gen_config.py:164
+msgid "The renoiser workflow creates images that are fairly bright, but no dark keywords detected."
+msgstr ""
+
+#: sd_runner/runs/gen_config.py:167
 msgid ""
-"Captioner backend requires torch + transformers. Install optional deps (e.g. `pip install -r requirements-"
-"optional.txt`)."
+"WARNING: The renoiser workflow is configured with {0} resolutions. Since seed variation has minimal effect on "
+"renoiser output, this will result in effectively duplicate entries for the same control net image. Each resolution "
+"will produce nearly identical results."
 msgstr ""
 
-#: sd_runner/image_to_prompt/providers/captioner_provider.py:131
-msgid "Failed to initialize BLIP captioner backend. Ensure optional captioner dependencies are installed."
-msgstr ""
-
-#: sd_runner/image_to_prompt/providers/llava_transformers.py:137
-msgid ""
-"VLM backend requires torch + transformers. Install optional deps (e.g. `pip install -r requirements-optional.txt`). "
-"The VLM model class needs transformers 4.36 or newer."
-msgstr ""
-
-#: sd_runner/image_to_prompt/providers/llava_transformers.py:225
-msgid ""
-"vlm_load_in_4bit is set but bitsandbytes and accelerate are not both installed. Install them, or turn the setting off"
-" to load at full precision."
-msgstr ""
-
-#: tests/integration/test_run_dispatch.py:285 ui_qt/app_window/run_controller.py:269
-msgid "Run Error"
-msgstr ""
-
-#: tests/integration/test_run_dispatch.py:336 ui_qt/app_window/run_controller.py:665
-msgid "Preset Schedule Error"
-msgstr ""
-
-#: tests/ui/test_prompt_generator_window.py:93 ui_qt/prompts/image_to_prompt_window.py:375
-#: ui_qt/prompts/prompt_generator_window.py:176
-msgid "Copied to clipboard"
-msgstr ""
-
-#: tests/ui/test_runs_window.py:172 tests/ui/test_runs_window.py:173 ui_qt/runs/runs_window.py:109
-#: ui_qt/runs/runs_window.py:119 ui_qt/runs/runs_window.py:132
-msgid "Origin"
-msgstr ""
-
-#: ui_qt/app_window/sidebar_panel.py:433 ui_qt/config_window.py:34
-msgid "Config"
-msgstr ""
-
-#: ui_qt/config_window.py:64
-msgid "Backend URLs"
-msgstr ""
-
-#: ui_qt/config_window.py:66
-msgid "ComfyUI URL"
-msgstr ""
-
-#: ui_qt/config_window.py:69
-msgid "SD WebUI URL"
-msgstr ""
-
-#: ui_qt/config_window.py:72
-msgid "Forge URL"
-msgstr ""
-
-#: ui_qt/config_window.py:75
-msgid "SDNext URL"
-msgstr ""
-
-#: ui_qt/config_window.py:78
-msgid "SwarmUI URL"
-msgstr ""
-
-#: ui_qt/config_window.py:81
-msgid "InvokeAI URL"
-msgstr ""
-
-#: ui_qt/config_window.py:84
-msgid "Fooocus URL"
-msgstr ""
-
-#: ui_qt/config_window.py:88
-msgid "Save Paths"
-msgstr ""
-
-#: ui_qt/config_window.py:90
-msgid "SD WebUI Save Path"
-msgstr ""
-
-#: ui_qt/config_window.py:93
-msgid "Forge Save Path"
-msgstr ""
-
-#: ui_qt/config_window.py:96
-msgid "SDNext Save Path"
-msgstr ""
-
-#: ui_qt/config_window.py:99
-msgid "SwarmUI Save Path"
-msgstr ""
-
-#: ui_qt/config_window.py:102
-msgid "InvokeAI Save Path"
-msgstr ""
-
-#: ui_qt/config_window.py:105
-msgid "Fooocus Save Path"
-msgstr ""
-
-#: ui_qt/config_window.py:109
-msgid "Directories"
-msgstr ""
-
-#: ui_qt/config_window.py:111
-msgid "Models Directory"
-msgstr ""
-
-#: ui_qt/config_window.py:114
-msgid "Image Output Directory"
-msgstr ""
-
-#: ui_qt/config_window.py:117
-msgid "Image Temps Directory"
-msgstr ""
-
-#: ui_qt/config_window.py:120
-msgid "IPAdapter Directory"
-msgstr ""
-
-#: ui_qt/config_window.py:123
-msgid "ComfyUI Location"
-msgstr ""
-
-#: ui_qt/config_window.py:126
-msgid "SD WebUI Location"
-msgstr ""
-
-#: ui_qt/config_window.py:129
-msgid "SD Prompt Reader Location"
-msgstr ""
-
-#: ui_qt/config_window.py:132
-msgid "Image Searcher Directory 2"
-msgstr ""
-
-#: ui_qt/config_window.py:136
-msgid "UI"
-msgstr ""
-
-#: ui_qt/config_window.py:138
-msgid "Foreground Color"
-msgstr ""
-
-#: ui_qt/config_window.py:141
-msgid "Background Color"
-msgstr ""
-
-#: ui_qt/config_window.py:144
-msgid "UI Scale Factor"
-msgstr ""
-
-#: ui_qt/config_window.py:147
-msgid "Locale"
-msgstr ""
-
-#: ui_qt/config_window.py:151
-msgid "Behavior"
-msgstr ""
-
-#: ui_qt/config_window.py:153
-msgid "Blacklist Prevents Execution"
-msgstr ""
-
-#: ui_qt/config_window.py:156
-msgid "Purge Blacklisted Prompts from History"
-msgstr ""
-
-#: ui_qt/config_window.py:159
-msgid "Save Last Prompt"
-msgstr ""
-
-#: ui_qt/config_window.py:162
-msgid "Delay After Single Run"
-msgstr ""
-
-msgid "Force Delay"
-msgstr ""
-
-#: ui_qt/config_window.py:165
-msgid "Debug Mode"
-msgstr ""
-
-#: ui_qt/config_window.py:168
-msgid "Print Settings on Start"
-msgstr ""
-
-#: ui_qt/config_window.py:171
-msgid "Max Executor Threads"
-msgstr ""
-
-#: ui_qt/config_window.py:175
-msgid "Server"
-msgstr ""
-
-#: ui_qt/config_window.py:177
-msgid "Server Host"
-msgstr ""
-
-#: ui_qt/config_window.py:180
-msgid "Server Port"
-msgstr ""
-
-#: ui_qt/config_window.py:183
-msgid "Server Password"
-msgstr ""
-
-#: ui_qt/config_window.py:187
-msgid "Dictionary Override"
-msgstr ""
-
-#: ui_qt/config_window.py:189
-msgid "Override Dictionary Path"
-msgstr ""
-
-#: ui_qt/config_window.py:192
-msgid "Append to Default Dictionary"
-msgstr ""
-
-#: sd_runner/ui/config_window.py
-msgid "Use Urban Dictionary Corpus in NSFW Modes"
-msgstr ""
-
-#: ui_qt/config_window.py:196 ui_qt/prompts/blacklist_window.py:255
-msgid "Similarity Check"
-msgstr ""
-
-#: ui_qt/config_window.py:198
-msgid "CLIP Model Path"
-msgstr ""
-
-#: ui_qt/config_window.py:217
-msgid "Save Config"
-msgstr ""
-
-#: ui_qt/config_window.py:294
-msgid "Save Failed"
-msgstr ""
-
-#: ui_qt/config_window.py:295
-msgid ""
-"Could not write config file:\n"
-"\n"
-msgstr ""
-
-#: ui_qt/config_window.py:302
-msgid "Config Validation Error"
-msgstr ""
-
-#: ui_qt/config_window.py:303
-msgid ""
-"Fix these fields before saving:\n"
-"\n"
-msgstr ""
-
-#: ui_qt/config_window.py:309
-msgid "Config Saved"
-msgstr ""
-
-#: ui_qt/config_window.py:310
-msgid ""
-"Settings saved successfully.\n"
-"\n"
-"Some changes (directories, URLs, UI scale, locale) require restarting the application to take full effect."
-msgstr ""
-
-#: ui_qt/app_window/app_window.py:357
-msgid "Theme switched to {0}."
-msgstr ""
-
-#: ui_qt/app_window/app_window.py:366
-msgid "Debug mode toggled."
-msgstr ""
-
-#: ui_qt/app_window/app_window.py:750
-msgid "Could not start {0}"
-msgstr ""
-
-#: ui_qt/app_window/app_window.py:798 ui_qt/app_window/app_window.py:813
-msgid "Updating history for blacklist changes — please wait…"
-msgstr ""
-
-#: ui_qt/app_window/app_window.py:800
-msgid "Saving application data is taking longer than expected — please wait…"
-msgstr ""
-
-#: ui_qt/app_window/app_window.py:802
-msgid "Closing"
-msgstr ""
-
-#: ui_qt/app_window/app_window.py:890
-msgid "Confirm Quit"
-msgstr ""
-
-#: ui_qt/app_window/app_window.py:891
-msgid "Would you like to quit the application?"
-msgstr ""
-
-#: ui_qt/app_window/notification_controller.py:169 ui_qt/auth/app_startup_auth_qt.py:123
-#: ui_qt/auth/password_admin_window.py:130 ui_qt/auth/password_admin_window.py:536 ui_qt/auth/password_dialog.py:305
-#: ui_qt/models/models_window.py:563 ui_qt/models/models_window.py:703 ui_qt/models/models_window.py:710
-#: ui_qt/models/models_window.py:712 ui_qt/prompts/blacklist_modify_window.py:155
-#: ui_qt/prompts/blacklist_preview_window.py:209 ui_qt/prompts/concept_editor_window.py:456
-#: ui_qt/prompts/concept_editor_window.py:571 ui_qt/prompts/concept_editor_window.py:595
-msgid "Error"
-msgstr ""
-
-#: ui_qt/app_window/run_controller.py:156
-msgid "Blacklisted items found in prompt: {0}"
-msgstr ""
-
-#: ui_qt/app_window/run_controller.py:157 ui_qt/app_window/run_controller.py:161
-msgid "Invalid Prompt Tags"
-msgstr ""
-
-#: ui_qt/app_window/run_controller.py:161
-msgid "Blacklist validation failed!"
-msgstr ""
-
-#: ui_qt/app_window/run_controller.py:169
-msgid "Prompt too similar to blocked concept \"{0}\" ({1:.0%})"
-msgstr ""
-
-#: ui_qt/app_window/run_controller.py:173
-msgid "Similarity Check Failed"
-msgstr ""
-
-#: ui_qt/app_window/run_controller.py:307 ui_qt/runs/runs_window.py:146
-msgid "Resume Queue"
-msgstr ""
-
-#: ui_qt/app_window/run_controller.py:307 ui_qt/app_window/sidebar_panel.py:130 ui_qt/runs/runs_window.py:142
-msgid "Pause Queue"
-msgstr ""
-
-#: ui_qt/app_window/run_controller.py:346 ui_qt/app_window/run_controller.py:385
+#: sd_runner/runs/gen_config.py:172 sd_runner/runs/run_controller.py:497 sd_runner/runs/run_controller.py:547
 msgid "Confirm Run"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:347
+#: sd_runner/runs/gen_config.py:176
+msgid "Confirm (y/n): "
+msgstr ""
+
+#: sd_runner/runs/job_queue.py:46
+msgid " (Pending runs: {0})"
+msgstr ""
+
+#: sd_runner/runs/job_queue.py:48
+msgid "Pending schedules: {0}"
+msgstr ""
+
+#: sd_runner/runs/job_queue.py:221
+msgid "Server staging: {0} pending"
+msgstr ""
+
+#: sd_runner/runs/run_config.py:165
+msgid "No prompter config found!"
+msgstr ""
+
+#: sd_runner/runs/run_config.py:169
+msgid "Ensure configuration is correct - do you really want to create more than 10 images using the same prompt?"
+msgstr ""
+
+#: sd_runner/runs/run_config.py:177
+msgid "No models found matching '{0}'"
+msgstr ""
+
+#: sd_runner/runs/run_config.py:186
+msgid "A model switch was detected and the model massage tags don't match. This warning will only be shown once."
+msgstr ""
+
+#: sd_runner/runs/run_config.py:273
+msgid "Workflow '{0}' requires an IP adapter to be specified."
+msgstr ""
+
+#: sd_runner/runs/run_config.py:277
+msgid "Workflow '{0}' requires a control net to be specified."
+msgstr ""
+
+#: sd_runner/runs/run_config.py:282
+msgid "WARNING: Multiple resolutions in renoiser workflow will produce nearly identical results (duplicates)."
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:286
+msgid "Blacklist validation failed."
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:290 sd_runner/runs/run_controller.py:294 sd_runner/ui/app_window/sidebar_panel.py:857
+msgid "Invalid Prompt Tags"
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:294
+msgid "Blacklist validation failed!"
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:304
+msgid "Prompt too similar to blocked concept \"{0}\" ({1:.0%})"
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:308
+msgid "Similarity Check Failed"
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:418 sd_runner/runs/run_controller.py:574 tests/integration/test_run_dispatch.py:325
+msgid "Run Error"
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:458 sd_runner/ui/runs/runs_window.py:149
+msgid "Resume Queue"
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:458 sd_runner/ui/app_window/sidebar_panel.py:133 sd_runner/ui/runs/runs_window.py:145
+msgid "Pause Queue"
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:498
 msgid "Starting a new run will cancel the current preset schedule. Are you sure you want to proceed?"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:381
+#: sd_runner/runs/run_controller.py:537
 msgid "Blacklist Validation Error"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:386
-msgid "Are you sure you want to proceed?"
-msgstr ""
-
-#: ui_qt/app_window/run_controller.py:398
-msgid "Setting up run..."
-msgstr ""
-
-#: ui_qt/app_window/run_controller.py:404 ui_qt/app_window/run_controller.py:448
+#: sd_runner/runs/run_controller.py:543 sd_runner/runs/run_controller.py:570 sd_runner/runs/run_controller.py:632
 msgid "No models found"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:414
+#: sd_runner/runs/run_controller.py:548
+msgid "Are you sure you want to proceed?"
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:560
+msgid "Setting up run..."
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:574
+msgid "Could not estimate the run."
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:586
 msgid "Long Running Job Confirmation"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:415
+#: sd_runner/runs/run_controller.py:587
 msgid ""
 "The estimated time for this run is {0}, which exceeds the threshold of {1}.\n"
 "\n"
@@ -507,1382 +808,2018 @@ msgid ""
 "Are you sure you want to proceed?"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:723
+#: sd_runner/runs/run_controller.py:849 tests/integration/test_run_dispatch.py:376
+msgid "Preset Schedule Error"
+msgstr ""
+
+#: sd_runner/runs/run_controller.py:907
 msgid " (unlimited)"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:737
+#: sd_runner/runs/run_controller.py:921
 msgid "Batch: {0}/{1}"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:744
+#: sd_runner/runs/run_controller.py:928
 msgid "Adapter: {0}/{1}"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:748
+#: sd_runner/runs/run_controller.py:932
 msgid "Remaining: {0} adapters"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:757
+#: sd_runner/runs/run_controller.py:941
 msgid "{0} remaining adapters"
 msgstr ""
 
-#: ui_qt/app_window/run_controller.py:779
+#: sd_runner/runs/run_controller.py:964
 msgid "{0} pending generations"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:110
+#: sd_runner/runs/time_estimator.py:66
+msgid "~{0}d"
+msgstr ""
+
+#: sd_runner/runs/time_estimator.py:68
+msgid "{0}h"
+msgstr ""
+
+#: sd_runner/runs/time_estimator.py:70
+msgid "{0}m"
+msgstr ""
+
+#: sd_runner/runs/time_estimator.py:71
+msgid "{0}s"
+msgstr ""
+
+#: sd_runner/ui/app_window/sidebar_panel.py:439 sd_runner/ui/config_window.py:33
+msgid "Config"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:63
+msgid "Backend URLs"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:65
+msgid "ComfyUI URL"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:68
+msgid "SD WebUI URL"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:71
+msgid "Forge URL"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:74
+msgid "SDNext URL"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:77
+msgid "SwarmUI URL"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:80
+msgid "InvokeAI URL"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:83
+msgid "Fooocus URL"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:87
+msgid "Save Paths"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:89
+msgid "SD WebUI Save Path"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:92
+msgid "Forge Save Path"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:95
+msgid "SDNext Save Path"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:98
+msgid "SwarmUI Save Path"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:101
+msgid "InvokeAI Save Path"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:104
+msgid "Fooocus Save Path"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:108
+msgid "Directories"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:110
+msgid "Models Directory"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:113
+msgid "Image Output Directory"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:116
+msgid "Image Temps Directory"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:119
+msgid "IPAdapter Directory"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:122
+msgid "ComfyUI Location"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:125
+msgid "SD WebUI Location"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:128
+msgid "SD Prompt Reader Location"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:131
+msgid "Image Searcher Directory 2"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:135
+msgid "Start Commands"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:137
+msgid "Blank leaves that software unstarted. The command runs in its location folder."
+msgstr ""
+
+#: sd_runner/ui/config_window.py:146
+msgid "ComfyUI Start Command"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:147
+msgid "SD WebUI Start Command"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:148
+msgid "Forge Start Command"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:149
+msgid "SDNext Start Command"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:150
+msgid "SwarmUI Start Command"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:151
+msgid "InvokeAI Start Command"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:152
+msgid "Fooocus Start Command"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:163
+msgid "UI"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:165
+msgid "Foreground Color"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:168
+msgid "Background Color"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:171
+msgid "UI Scale Factor"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:174
+msgid "Locale"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:178
+msgid "Behavior"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:180
+msgid "Blacklist Prevents Execution"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:183
+msgid "Purge Blacklisted Prompts from History"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:186
+msgid "Save Last Prompt"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:189
+msgid "Delay After Single Run"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:192
+msgid "Force Delay"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:195
+msgid "Debug Mode"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:198
+msgid "Encrypt Log File"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:201
+msgid "Print Settings on Start"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:204
+msgid "Max Executor Threads"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:208
+msgid "Server"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:210
+msgid "Server Host"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:213
+msgid "Server Port"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:216
+msgid "Server Password"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:220
+msgid "Dictionary Override"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:222
+msgid "Override Dictionary Path"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:225
+msgid "Append to Default Dictionary"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:228
+msgid "Use Urban Dictionary Corpus in NSFW Modes"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:232 sd_runner/ui/prompts/blacklist_window.py:184
+msgid "Similarity Check"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:234
+msgid "CLIP Model Path"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:253
+msgid "Save Config"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:347
+msgid "Save Failed"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:348
+msgid ""
+"Could not write config file:\n"
+"\n"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:355
+msgid "Config Validation Error"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:356
+msgid ""
+"Fix these fields before saving:\n"
+"\n"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:362
+msgid "Config Saved"
+msgstr ""
+
+#: sd_runner/ui/config_window.py:363
+msgid ""
+"Settings saved successfully.\n"
+"\n"
+"Some changes (directories, URLs, UI scale, locale) require restarting the application to take full effect."
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:390
+msgid "Theme switched to {0}."
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:399
+msgid "Debug mode toggled."
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:958
+msgid "Starting {0}..."
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:965
+msgid "{0} is ready"
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:967
+msgid "{0} is still starting"
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:969 sd_runner/ui/app_window/app_window.py:977
+msgid "Could not start {0}"
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:1025 sd_runner/ui/app_window/app_window.py:1040
+msgid "Updating history for blacklist changes — please wait…"
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:1027
+msgid "Saving application data is taking longer than expected — please wait…"
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:1029
+msgid "Closing"
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:1124
+msgid "Confirm Quit"
+msgstr ""
+
+#: sd_runner/ui/app_window/app_window.py:1125
+msgid "Would you like to quit the application?"
+msgstr ""
+
+#: sd_runner/ui/app_window/notification_controller.py:240 sd_runner/ui/auth/app_startup_auth.py:125
+#: sd_runner/ui/auth/password_admin_window.py:128 sd_runner/ui/auth/password_admin_window.py:534
+#: sd_runner/ui/auth/password_dialog.py:306 sd_runner/ui/models/models_window.py:538
+#: sd_runner/ui/models/models_window.py:672 sd_runner/ui/models/models_window.py:679
+#: sd_runner/ui/models/models_window.py:681 sd_runner/ui/prompts/blacklist_modify_window.py:203
+#: sd_runner/ui/prompts/blacklist_modify_window.py:210 sd_runner/ui/prompts/blacklist_preview_window.py:223
+#: sd_runner/ui/prompts/concept_editor_window.py:481 sd_runner/ui/prompts/concept_editor_window.py:610
+#: sd_runner/ui/prompts/concept_editor_window.py:649
+msgid "Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/sidebar_panel.py:113
 msgid "Run SD Workflows"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:116
+#: sd_runner/ui/app_window/sidebar_panel.py:119
 msgid "Run Workflows"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:119 ui_qt/runs/runs_window.py:65
+#: sd_runner/ui/app_window/sidebar_panel.py:122 sd_runner/ui/runs/runs_window.py:68
 msgid "Runs"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:120
+#: sd_runner/ui/app_window/sidebar_panel.py:123
 msgid "View queue and run history"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:126
+#: sd_runner/ui/app_window/sidebar_panel.py:129
 msgid "Cancel Run"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:131 ui_qt/runs/runs_window.py:143
+#: sd_runner/ui/app_window/sidebar_panel.py:134 sd_runner/ui/runs/runs_window.py:146
 msgid "Pause after the current job completes"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:164
+#: sd_runner/ui/app_window/sidebar_panel.py:167
 msgid "Software"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:170 ui_qt/runs/runs_window.py:109 ui_qt/runs/runs_window.py:118
-#: ui_qt/runs/runs_window.py:337
+#: sd_runner/ui/app_window/sidebar_panel.py:173 sd_runner/ui/runs/runs_window.py:112 sd_runner/ui/runs/runs_window.py:121
+#: sd_runner/ui/runs/runs_window.py:343
 msgid "Workflow"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:178
+#: sd_runner/ui/app_window/sidebar_panel.py:181
 msgid "Set N Latents"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:184
+#: sd_runner/ui/app_window/sidebar_panel.py:187
 msgid "Set Total"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:189
+#: sd_runner/ui/app_window/sidebar_panel.py:192
 msgid "Batch Limit"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:192
+#: sd_runner/ui/app_window/sidebar_panel.py:195
 msgid "Delay Seconds"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:200
+#: sd_runner/ui/app_window/sidebar_panel.py:203
 msgid "Resolutions"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:203
+#: sd_runner/ui/app_window/sidebar_panel.py:206
 msgid "Resolution Group"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:211 ui_qt/models/model_presets_window.py:363
+#: sd_runner/ui/app_window/sidebar_panel.py:217 sd_runner/ui/models/model_presets_window.py:361
 msgid "Model Tags"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:212 ui_qt/app_window/sidebar_panel.py:238 ui_qt/models/models_window.py:89
+#: sd_runner/ui/app_window/sidebar_panel.py:218 sd_runner/ui/app_window/sidebar_panel.py:244
+#: sd_runner/ui/models/models_window.py:64
 msgid "Models"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:217 ui_qt/models/model_presets_window.py:276
+#: sd_runner/ui/app_window/sidebar_panel.py:223 sd_runner/ui/models/model_presets_window.py:274
 msgid "Model Presets"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:237
+#: sd_runner/ui/app_window/sidebar_panel.py:243
 msgid "LoRA Tags"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:257
+#: sd_runner/ui/app_window/sidebar_panel.py:263
 msgid "Default LoRA Strength"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:264
+#: sd_runner/ui/app_window/sidebar_panel.py:270
 msgid "B/W Colorization Tags"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:270
+#: sd_runner/ui/app_window/sidebar_panel.py:276
 msgid "Control Net or Redo files"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:271 ui_qt/app_window/sidebar_panel.py:291 ui_qt/app_window/sidebar_panel.py:326
+#: sd_runner/ui/app_window/sidebar_panel.py:277 sd_runner/ui/app_window/sidebar_panel.py:297
+#: sd_runner/ui/app_window/sidebar_panel.py:332
 msgid "Recent"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:283
+#: sd_runner/ui/app_window/sidebar_panel.py:289
 msgid "Default Control Net Strength"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:290
+#: sd_runner/ui/app_window/sidebar_panel.py:296
 msgid "IPAdapter files"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:303
+#: sd_runner/ui/app_window/sidebar_panel.py:309
 msgid "Default IPAdapter Strength"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:310
+#: sd_runner/ui/app_window/sidebar_panel.py:316
 msgid "Edit Suffix"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:316
+#: sd_runner/ui/app_window/sidebar_panel.py:322
 msgid "Target Dir"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:320
+#: sd_runner/ui/app_window/sidebar_panel.py:326
 msgid "Optional directory to move generated images into after save"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:325
+#: sd_runner/ui/app_window/sidebar_panel.py:331
 msgid "Source Prompts from Directory"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:338
+#: sd_runner/ui/app_window/sidebar_panel.py:344
 msgid "Add User Prompt Tags to Sourced Prompt"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:347
+#: sd_runner/ui/app_window/sidebar_panel.py:353
 msgid "Redo Parameters"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:365 ui_qt/prompts/prompt_config_window.py:384
+#: sd_runner/ui/app_window/sidebar_panel.py:371 sd_runner/ui/prompts/prompt_config_window.py:417
 msgid "Prompts Configuration"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:371
+#: sd_runner/ui/app_window/sidebar_panel.py:377
 msgid "Preset Schedule"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:377
+#: sd_runner/ui/app_window/sidebar_panel.py:383 sd_runner/ui/presets/presets_window.py:91
 msgid "Presets"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:383 ui_qt/presets/timed_schedules_window.py:191
+#: sd_runner/ui/app_window/sidebar_panel.py:389 sd_runner/ui/presets/timed_schedules_window.py:189
 msgid "Timed Schedules"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:392 ui_qt/prompts/blacklist_window.py:253
+#: sd_runner/ui/app_window/sidebar_panel.py:398 sd_runner/ui/prompts/blacklist_window.py:182
 msgid "Tag Blacklist"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:398
+#: sd_runner/ui/app_window/sidebar_panel.py:404
 msgid "Expansions"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:404
+#: sd_runner/ui/app_window/sidebar_panel.py:410
 msgid "Prompt Config"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:413 ui_qt/prompts/prompt_generator_window.py:55
+#: sd_runner/ui/app_window/sidebar_panel.py:419 sd_runner/ui/prompts/prompt_generator_window.py:53
 msgid "Prompt Generator"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:424 ui_qt/prompts/image_to_prompt_window.py:58
+#: sd_runner/ui/app_window/sidebar_panel.py:430 sd_runner/ui/prompts/image_to_prompt_window.py:56
 msgid "Image to Prompt"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:446
+#: sd_runner/ui/app_window/sidebar_panel.py:452
 msgid "Prompt Mode"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:456 utils/globals.py:742
-msgid "Edit Concepts"
-msgstr ""
-
-#: ui_qt/app_window/sidebar_panel.py:465
+#: sd_runner/ui/app_window/sidebar_panel.py:471
 msgid "Concepts Dir"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:474
+#: sd_runner/ui/app_window/sidebar_panel.py:481
 msgid "Override Resolution"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:478
+#: sd_runner/ui/app_window/sidebar_panel.py:485
 msgid "Inpainting"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:482 ui_qt/prompts/prompt_config_window.py:298
+#: sd_runner/ui/app_window/sidebar_panel.py:489 sd_runner/ui/prompts/prompt_config_window.py:324
 msgid "Override Base Negative"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:487
+#: sd_runner/ui/app_window/sidebar_panel.py:494
 msgid "Run Preset Schedule"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:491 ui_qt/prompts/prompt_config_window.py:313
+#: sd_runner/ui/app_window/sidebar_panel.py:498 sd_runner/ui/prompts/prompt_config_window.py:339
 msgid "Continuous Seed Variation"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:495 ui_qt/prompts/prompt_config_window.py:318
+#: sd_runner/ui/app_window/sidebar_panel.py:502 sd_runner/ui/prompts/prompt_config_window.py:344
 msgid "Slight Dimension Variation"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:499
+#: sd_runner/ui/app_window/sidebar_panel.py:506
 msgid "Second Derivative"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:501
+#: sd_runner/ui/app_window/sidebar_panel.py:508
 msgid ""
 "Feed each generated image back through the same workflow with the same settings, so every image is followed by one "
 "made from it. Only applies to workflows that take an input image."
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:509
+#: sd_runner/ui/app_window/sidebar_panel.py:516
 msgid "Prompt Massage Tags"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:516 ui_qt/runs/runs_window.py:119 ui_qt/runs/runs_window.py:337
+#: sd_runner/ui/app_window/sidebar_panel.py:523 sd_runner/ui/runs/runs_window.py:122 sd_runner/ui/runs/runs_window.py:343
 msgid "Positive Tags"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:522
+#: sd_runner/ui/app_window/sidebar_panel.py:530
 msgid "Negative Tags"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:529
+#: sd_runner/ui/app_window/sidebar_panel.py:546
 msgid "Exclusion Tags (regex)"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:531
+#: sd_runner/ui/app_window/sidebar_panel.py:548
 msgid "regex to exclude concepts, e.g. cat|dog"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:533
+#: sd_runner/ui/app_window/sidebar_panel.py:550
 msgid "Per-run regex filter: any generated concept matching this pattern is removed from the prompt"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:717
+#: sd_runner/ui/app_window/sidebar_panel.py:756
 msgid "Password Cancelled"
 msgstr ""
 
-#: ui_qt/app_window/sidebar_panel.py:718
+#: sd_runner/ui/app_window/sidebar_panel.py:757
 msgid "Password cancelled or incorrect, revert to previous mode"
 msgstr ""
 
-#: ui_qt/auth/app_startup_auth_qt.py:27 ui_qt/auth/app_startup_auth_qt.py:40
+#: sd_runner/ui/app_window/window_launcher.py:67
+msgid "Blacklist Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:77
+msgid "Presets Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:84
+msgid "Schedules Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:91
+msgid "Timed Schedules Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:101
+msgid "Concept Editor Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:108
+msgid "Expansions Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:123 tests/ui/test_window_launcher.py:219
+msgid "Prompt Config Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:129
+msgid "Prompt Generator Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:141
+msgid "Frequent Tags Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:147
+msgid "Image to Prompt Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:153
+msgid "Config Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:162
+msgid "Models Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:168
+msgid "Model Presets Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:174
+msgid "LoRA Models Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:180
+msgid "ControlNet Adapters Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:186
+msgid "IPAdapter Adapters Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:192
+msgid "Source Prompt Adapters Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:201
+msgid "Runs Window Error"
+msgstr ""
+
+#: sd_runner/ui/app_window/window_launcher.py:218 tests/ui/test_window_launcher.py:236
+msgid "Password Admin Window Error"
+msgstr ""
+
+#: sd_runner/ui/auth/app_startup_auth.py:29 sd_runner/ui/auth/app_startup_auth.py:42
 msgid "Application Password Required"
 msgstr ""
 
-#: ui_qt/auth/app_startup_auth_qt.py:48
+#: sd_runner/ui/auth/app_startup_auth.py:50
 msgid "A password is required to open this application."
 msgstr ""
 
-#: ui_qt/auth/app_startup_auth_qt.py:55 ui_qt/auth/password_dialog.py:178
+#: sd_runner/ui/auth/app_startup_auth.py:57 sd_runner/ui/auth/password_dialog.py:179
 msgid "Password:"
 msgstr ""
 
-#: ui_qt/auth/app_startup_auth_qt.py:123 ui_qt/auth/password_dialog.py:306
+#: sd_runner/ui/auth/app_startup_auth.py:125 sd_runner/ui/auth/password_dialog.py:307
 msgid "Incorrect password"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:38 ui_qt/auth/password_admin_window.py:53 ui_qt/auth/password_admin_window.py:86
-#: ui_qt/auth/password_admin_window.py:290
+#: sd_runner/ui/auth/password_admin_window.py:36 sd_runner/ui/auth/password_admin_window.py:51
+#: sd_runner/ui/auth/password_admin_window.py:84 sd_runner/ui/auth/password_admin_window.py:288
 msgid "Change Password"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:60
+#: sd_runner/ui/auth/password_admin_window.py:58
 msgid "Current Password:"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:67 ui_qt/auth/password_admin_window.py:306
+#: sd_runner/ui/auth/password_admin_window.py:65 sd_runner/ui/auth/password_admin_window.py:304
 msgid "New Password:"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:74
+#: sd_runner/ui/auth/password_admin_window.py:72
 msgid "Confirm New Password:"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:99
+#: sd_runner/ui/auth/password_admin_window.py:97
 msgid "Current password is incorrect."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:103
+#: sd_runner/ui/auth/password_admin_window.py:101
 msgid "New passwords do not match."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:107 ui_qt/auth/password_admin_window.py:469
+#: sd_runner/ui/auth/password_admin_window.py:105 sd_runner/ui/auth/password_admin_window.py:467
 msgid "Password must be at least 6 characters long."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:115 ui_qt/auth/password_admin_window.py:118
+#: sd_runner/ui/auth/password_admin_window.py:113 sd_runner/ui/auth/password_admin_window.py:116
 msgid "Password changed successfully."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:118 ui_qt/auth/password_admin_window.py:538
+#: sd_runner/ui/auth/password_admin_window.py:116 sd_runner/ui/auth/password_admin_window.py:536
 msgid "Info"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:122
+#: sd_runner/ui/auth/password_admin_window.py:120
 msgid "Failed to change password."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:127 ui_qt/auth/password_admin_window.py:530
+#: sd_runner/ui/auth/password_admin_window.py:125 sd_runner/ui/auth/password_admin_window.py:528
 msgid "Administration Error"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:144
+#: sd_runner/ui/auth/password_admin_window.py:142
 msgid "Password Administration"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:189
+#: sd_runner/ui/auth/password_admin_window.py:187
 msgid "Password Protection Settings"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:201
+#: sd_runner/ui/auth/password_admin_window.py:199
 msgid "Protected Actions"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:209
+#: sd_runner/ui/auth/password_admin_window.py:207
 msgid "Select which actions require password authentication:"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:225
+#: sd_runner/ui/auth/password_admin_window.py:223
 msgid "(Always protected if a password is set)"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:241
+#: sd_runner/ui/auth/password_admin_window.py:239
 msgid "Session Timeout Settings"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:249
+#: sd_runner/ui/auth/password_admin_window.py:247
 msgid "Enable session timeout (remember password for a period)"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:258
+#: sd_runner/ui/auth/password_admin_window.py:256
 msgid "Session timeout duration (minutes):"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:268
+#: sd_runner/ui/auth/password_admin_window.py:266
 msgid "Security Advice Settings"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:273
+#: sd_runner/ui/auth/password_admin_window.py:271
 msgid "Show security advice when no password is configured"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:279
+#: sd_runner/ui/auth/password_admin_window.py:277
 msgid "Password Setup"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:286
+#: sd_runner/ui/auth/password_admin_window.py:284
 msgid "Password is configured"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:294 ui_qt/auth/password_admin_window.py:493
+#: sd_runner/ui/auth/password_admin_window.py:292 sd_runner/ui/auth/password_admin_window.py:491
 msgid "Remove Password"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:298
+#: sd_runner/ui/auth/password_admin_window.py:296
 msgid "Set up a password to enable protection:"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:317
+#: sd_runner/ui/auth/password_admin_window.py:315
 msgid "Confirm Password:"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:325
+#: sd_runner/ui/auth/password_admin_window.py:323
 msgid "Set Password"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:338 ui_qt/auth/password_admin_window.py:402
-#: ui_qt/models/recent_adapters_window.py:637
+#: sd_runner/ui/auth/password_admin_window.py:336 sd_runner/ui/auth/password_admin_window.py:400
+#: sd_runner/ui/models/recent_adapters_window.py:361
 msgid "Reset to Defaults"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:342 ui_qt/auth/password_admin_window.py:427
+#: sd_runner/ui/auth/password_admin_window.py:340 sd_runner/ui/auth/password_admin_window.py:425
 msgid "Set to Current"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:346
+#: sd_runner/ui/auth/password_admin_window.py:344
 msgid "Export Cache as JSON"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:350 ui_qt/models/recent_adapters_window.py:634
+#: sd_runner/ui/auth/password_admin_window.py:348 sd_runner/ui/models/recent_adapters_window.py:358
 msgid "Save Settings"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:354 ui_qt/models/models_window.py:171 ui_qt/models/models_window.py:228
-#: ui_qt/models/models_window.py:643 ui_qt/models/recent_adapters_window.py:407 ui_qt/models/recent_adapters_window.py:445
-#: ui_qt/models/recent_adapters_window.py:483 ui_qt/models/recent_adapters_window.py:525
-#: ui_qt/models/recent_adapters_window.py:588 ui_qt/models/recent_adapters_window.py:640
-#: ui_qt/prompts/blacklist_preview_window.py:84 ui_qt/prompts/prompt_config_window.py:230 ui_qt/runs/runs_window.py:164
-#: ui_qt/runs/runs_window.py:350
-msgid "Close"
-msgstr ""
-
-#: ui_qt/auth/password_admin_window.py:396
+#: sd_runner/ui/auth/password_admin_window.py:394
 msgid "Password protection settings saved."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:403
+#: sd_runner/ui/auth/password_admin_window.py:401
 msgid "Are you sure you want to reset all password protection settings to their default values?"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:422
+#: sd_runner/ui/auth/password_admin_window.py:420
 msgid "Settings reset to defaults."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:428
+#: sd_runner/ui/auth/password_admin_window.py:426
 msgid "Are you sure you want to restore all settings to their current saved state? This will discard any unsaved changes."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:446
+#: sd_runner/ui/auth/password_admin_window.py:444
 msgid "Settings restored to current saved state."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:457
+#: sd_runner/ui/auth/password_admin_window.py:455
 msgid "Please enter a password."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:463
+#: sd_runner/ui/auth/password_admin_window.py:461
 msgid "Passwords do not match."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:475
+#: sd_runner/ui/auth/password_admin_window.py:473
 msgid "Password set successfully."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:481
+#: sd_runner/ui/auth/password_admin_window.py:479
 msgid "Failed to set password."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:494
+#: sd_runner/ui/auth/password_admin_window.py:492
 msgid "Are you sure you want to remove password protection? This will disable all password requirements."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:502
+#: sd_runner/ui/auth/password_admin_window.py:500
 msgid "Password removed successfully."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:506
+#: sd_runner/ui/auth/password_admin_window.py:504
 msgid "Failed to remove password."
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:548
+#: sd_runner/ui/auth/password_admin_window.py:546
 msgid "Cache exported as JSON to:"
 msgstr ""
 
-#: ui_qt/auth/password_admin_window.py:552
+#: sd_runner/ui/auth/password_admin_window.py:550
 msgid "Failed to export cache as JSON:"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:61
+#: sd_runner/ui/auth/password_dialog.py:62
 msgid "⚠ Caps Lock is ON"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:97 ui_qt/auth/password_dialog.py:152
+#: sd_runner/ui/auth/password_dialog.py:98 sd_runner/ui/auth/password_dialog.py:153
 msgid "Password Required"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:99
+#: sd_runner/ui/auth/password_dialog.py:100
 msgid "Password Protection"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:160
+#: sd_runner/ui/auth/password_dialog.py:161
 msgid "Password required for: {0}"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:207
+#: sd_runner/ui/auth/password_dialog.py:208
 msgid "Password Protection Available"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:215
+#: sd_runner/ui/auth/password_dialog.py:216
 msgid "This action requires password protection: {0}"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:234
+#: sd_runner/ui/auth/password_dialog.py:235
 msgid "Password protection is not currently configured. You can:"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:243
+#: sd_runner/ui/auth/password_dialog.py:244
 msgid "• Configure password protection for sensitive actions"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:251
+#: sd_runner/ui/auth/password_dialog.py:252
 msgid "• Continue without password protection (less secure)"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:258
+#: sd_runner/ui/auth/password_dialog.py:259
 msgid "Don't show this security advice again"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:270
+#: sd_runner/ui/auth/password_dialog.py:271
 msgid "Continue Without Protection"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:273 ui_qt/auth/password_dialog.py:291
+#: sd_runner/ui/auth/password_dialog.py:274 sd_runner/ui/auth/password_dialog.py:292
 msgid "Configure Protection"
 msgstr ""
 
-#: ui_qt/auth/password_dialog.py:279
+#: sd_runner/ui/auth/password_dialog.py:280
 msgid "Password protection is required for this action but is not currently configured."
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:85
+#: sd_runner/ui/auth/password_utils.py:42
+msgid "Password Unavailable"
+msgstr ""
+
+#: sd_runner/ui/auth/password_utils.py:43
+msgid ""
+"The password is stored with quantum-safe (OQS) encryption, which this build does not include, so protected actions "
+"are unavailable. Use a build made with OQS support."
+msgstr ""
+
+#: sd_runner/ui/models/model_presets_window.py:83
 msgid "New Model Preset"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:87
+#: sd_runner/ui/models/model_presets_window.py:85
 msgid "Modify Preset: {0}"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:101
+#: sd_runner/ui/models/model_presets_window.py:99
 msgid "Model Tags (comma-separated substrings, matched against model names)"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:103
+#: sd_runner/ui/models/model_presets_window.py:101
 msgid "e.g. ponyDiffusion,everclear"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:110
+#: sd_runner/ui/models/model_presets_window.py:108
 msgid "Architecture Override"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:112
+#: sd_runner/ui/models/model_presets_window.py:110
 msgid "— auto-detect —"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:122
+#: sd_runner/ui/models/model_presets_window.py:120
 msgid "CLIP Req (optional)"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:125
+#: sd_runner/ui/models/model_presets_window.py:123
 msgid "e.g. -2"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:134
+#: sd_runner/ui/models/model_presets_window.py:132
 msgid "Prompt Tags (per mode)"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:148
+#: sd_runner/ui/models/model_presets_window.py:146
 msgid "Add mode tab"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:151
+#: sd_runner/ui/models/model_presets_window.py:149
 msgid "Remove current tab"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:159 ui_qt/prompts/blacklist_modify_window.py:122
-#: ui_qt/prompts/expansions_window.py:106
+#: sd_runner/ui/models/model_presets_window.py:157 sd_runner/ui/prompts/blacklist_modify_window.py:155
+#: sd_runner/ui/prompts/expansions_window.py:106
 msgid "Done"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:175
+#: sd_runner/ui/models/model_presets_window.py:173
 msgid "Positive tags"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:180
+#: sd_runner/ui/models/model_presets_window.py:178
 msgid "Negative tags"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:212 ui_qt/models/model_presets_window.py:226
+#: sd_runner/ui/models/model_presets_window.py:210 sd_runner/ui/models/model_presets_window.py:224
 msgid "Invalid Preset"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:213
+#: sd_runner/ui/models/model_presets_window.py:211
 msgid "Model Tags must be non-empty."
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:227
+#: sd_runner/ui/models/model_presets_window.py:225
 msgid "CLIP Req must be a number (e.g. -2) or left blank."
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:295
+#: sd_runner/ui/models/model_presets_window.py:293
 msgid "Model presets (saved to config.json)"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:297 ui_qt/presets/presets_window.py:148
+#: sd_runner/ui/models/model_presets_window.py:295 sd_runner/ui/presets/presets_window.py:123
 msgid "Add preset"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:303
+#: sd_runner/ui/models/model_presets_window.py:301
 msgid "Filter by model tags…"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:316 ui_qt/presets/schedules_window.py:295
-#: ui_qt/presets/timed_schedules_window.py:242 ui_qt/prompts/blacklist_window.py:485 ui_qt/prompts/blacklist_window.py:528
-#: ui_qt/prompts/expansions_window.py:299
+#: sd_runner/ui/models/model_presets_window.py:314 sd_runner/ui/presets/schedules_window.py:261
+#: sd_runner/ui/presets/timed_schedules_window.py:240 sd_runner/ui/prompts/blacklist_window.py:463
+#: sd_runner/ui/prompts/blacklist_window.py:506 sd_runner/ui/prompts/expansions_window.py:255
 msgid "Modify"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:317 ui_qt/presets/presets_window.py:202 ui_qt/presets/schedules_window.py:126
-#: ui_qt/presets/schedules_window.py:300 ui_qt/presets/timed_schedules_window.py:249
-#: ui_qt/prompts/concept_editor_window.py:238 ui_qt/prompts/expansions_window.py:300
+#: sd_runner/ui/models/model_presets_window.py:315 sd_runner/ui/presets/presets_window.py:298
+#: sd_runner/ui/presets/presets_window.py:327 sd_runner/ui/presets/presets_window.py:356
+#: sd_runner/ui/presets/schedules_window.py:125 sd_runner/ui/presets/schedules_window.py:266
+#: sd_runner/ui/presets/timed_schedules_window.py:247 sd_runner/ui/prompts/concept_editor_window.py:242
+#: sd_runner/ui/prompts/expansions_window.py:256
 msgid "Delete"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:344
+#: sd_runner/ui/models/model_presets_window.py:342
 msgid "Filter: \"{0}\"  ({1} of {2} presets)"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:347
+#: sd_runner/ui/models/model_presets_window.py:345
 msgid "{0} presets"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:351
+#: sd_runner/ui/models/model_presets_window.py:349
 msgid "No presets match the current filter."
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:353
+#: sd_runner/ui/models/model_presets_window.py:351
 msgid "No presets defined. Click 'Add preset' to create one."
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:363 ui_qt/models/models_window.py:144 ui_qt/models/models_window.py:197
+#: sd_runner/ui/models/model_presets_window.py:361 sd_runner/ui/models/models_window.py:119
+#: sd_runner/ui/models/models_window.py:172
 msgid "Architecture"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:363
+#: sd_runner/ui/models/model_presets_window.py:361
 msgid "CLIP Req"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:363
+#: sd_runner/ui/models/model_presets_window.py:361
 msgid "Prompt Modes"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:422 ui_qt/models/model_presets_window.py:453
+#: sd_runner/ui/models/model_presets_window.py:420 sd_runner/ui/models/model_presets_window.py:451
 msgid "Select a preset first"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:456
+#: sd_runner/ui/models/model_presets_window.py:454
 msgid "Delete preset?"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:457
+#: sd_runner/ui/models/model_presets_window.py:455
 msgid "Delete preset for \"{0}\"?"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:472
+#: sd_runner/ui/models/model_presets_window.py:470
 msgid "Presets saved to config.json"
 msgstr ""
 
-#: ui_qt/models/model_presets_window.py:475
+#: sd_runner/ui/models/model_presets_window.py:473
 msgid "Save Error"
 msgstr ""
 
-#: ui_qt/models/models_window.py:102
+#: sd_runner/ui/models/models_window.py:77
 msgid "Checkpoints"
 msgstr ""
 
-#: ui_qt/models/models_window.py:103
+#: sd_runner/ui/models/models_window.py:78
 msgid "LoRAs & Adapters"
 msgstr ""
 
-#: ui_qt/models/models_window.py:104
+#: sd_runner/ui/models/models_window.py:79
 msgid "HF Hub"
 msgstr ""
 
-#: ui_qt/models/models_window.py:133 ui_qt/models/models_window.py:187 ui_qt/models/recent_adapters_window.py:382
-#: ui_qt/models/recent_adapters_window.py:420 ui_qt/models/recent_adapters_window.py:458
-#: ui_qt/models/recent_adapters_window.py:500 ui_qt/models/recent_adapters_window.py:545 ui_qt/runs/runs_window.py:329
+#: sd_runner/ui/models/models_window.py:108 sd_runner/ui/models/models_window.py:162
+#: sd_runner/ui/models/recent_adapters_window.py:179 sd_runner/ui/models/recent_adapters_window.py:224
+#: sd_runner/ui/models/recent_adapters_window.py:269 sd_runner/ui/runs/runs_window.py:335
 msgid "Filter"
 msgstr ""
 
-#: ui_qt/models/models_window.py:144
+#: sd_runner/ui/models/models_window.py:119
 msgid "Model Name"
 msgstr ""
 
-#: ui_qt/models/models_window.py:144 ui_qt/models/models_window.py:197 ui_qt/models/recent_adapters_window.py:391
-#: ui_qt/models/recent_adapters_window.py:429 ui_qt/models/recent_adapters_window.py:467
-#: ui_qt/models/recent_adapters_window.py:506 ui_qt/models/recent_adapters_window.py:574
+#: sd_runner/ui/models/models_window.py:119 sd_runner/ui/models/models_window.py:172
+#: sd_runner/ui/models/recent_adapters_window.py:190 sd_runner/ui/models/recent_adapters_window.py:230
+#: sd_runner/ui/models/recent_adapters_window.py:298
 msgid "Created"
 msgstr ""
 
-#: ui_qt/models/models_window.py:159 ui_qt/models/models_window.py:211 ui_qt/models/recent_adapters_window.py:396
-#: ui_qt/models/recent_adapters_window.py:434 ui_qt/models/recent_adapters_window.py:472
+#: sd_runner/ui/models/models_window.py:134 sd_runner/ui/models/models_window.py:186
+#: sd_runner/ui/models/recent_adapters_window.py:196
 msgid "Replace"
 msgstr ""
 
-#: ui_qt/models/models_window.py:162 ui_qt/models/models_window.py:214 ui_qt/models/recent_adapters_window.py:396
-#: ui_qt/models/recent_adapters_window.py:434 ui_qt/models/recent_adapters_window.py:472
+#: sd_runner/ui/models/models_window.py:137 sd_runner/ui/models/models_window.py:189
+#: sd_runner/ui/models/recent_adapters_window.py:196
 msgid "Add"
 msgstr ""
 
-#: ui_qt/models/models_window.py:165 ui_qt/models/models_window.py:222 ui_qt/models/recent_adapters_window.py:406
-#: ui_qt/models/recent_adapters_window.py:444 ui_qt/models/recent_adapters_window.py:482 ui_qt/runs/runs_window.py:139
-#: ui_qt/runs/runs_window.py:347
+#: sd_runner/ui/models/models_window.py:140 sd_runner/ui/models/models_window.py:197
+#: sd_runner/ui/models/recent_adapters_window.py:206 sd_runner/ui/runs/runs_window.py:142
+#: sd_runner/ui/runs/runs_window.py:353
 msgid "Refresh"
 msgstr ""
 
-#: ui_qt/models/models_window.py:168 ui_qt/models/models_window.py:225 ui_qt/models/models_window.py:528
+#: sd_runner/ui/models/models_window.py:143 sd_runner/ui/models/models_window.py:200
+#: sd_runner/ui/models/models_window.py:503
 msgid "Show Blacklisted"
 msgstr ""
 
-#: ui_qt/models/models_window.py:197
+#: sd_runner/ui/models/models_window.py:172
 msgid "LoRA/Adapter Name"
 msgstr ""
 
-#: ui_qt/models/models_window.py:217
+#: sd_runner/ui/models/models_window.py:192
 msgid "LoRA Info"
 msgstr ""
 
-#: ui_qt/models/models_window.py:245 ui_qt/models/models_window.py:303
+#: sd_runner/ui/models/models_window.py:220 sd_runner/ui/models/models_window.py:278
 msgid "Search"
 msgstr ""
 
-#: ui_qt/models/models_window.py:247
+#: sd_runner/ui/models/models_window.py:222
 msgid "e.g. flux, sdxl, controlnet, ip-adapter"
 msgstr ""
 
-#: ui_qt/models/models_window.py:251 ui_qt/models/models_window.py:282
+#: sd_runner/ui/models/models_window.py:226 sd_runner/ui/models/models_window.py:257
 msgid "Task"
 msgstr ""
 
-#: ui_qt/models/models_window.py:257
+#: sd_runner/ui/models/models_window.py:232
 msgid "Sort"
 msgstr ""
 
-#: ui_qt/models/models_window.py:264
+#: sd_runner/ui/models/models_window.py:239
 msgid "Direction"
 msgstr ""
 
-#: ui_qt/models/models_window.py:271
+#: sd_runner/ui/models/models_window.py:246
 msgid "Limit"
 msgstr ""
 
-#: ui_qt/models/models_window.py:282
+#: sd_runner/ui/models/models_window.py:257
 msgid "Repo"
 msgstr ""
 
-#: ui_qt/models/models_window.py:282 utils/globals.py:206
-msgid "Downloads"
-msgstr ""
-
-#: ui_qt/models/models_window.py:282 utils/globals.py:207
-msgid "Likes"
-msgstr ""
-
-#: ui_qt/models/models_window.py:282
+#: sd_runner/ui/models/models_window.py:257
 msgid "License"
 msgstr ""
 
-#: ui_qt/models/models_window.py:282
+#: sd_runner/ui/models/models_window.py:257
 msgid "Gated"
 msgstr ""
 
-#: ui_qt/models/models_window.py:299
+#: sd_runner/ui/models/models_window.py:274
 msgid "Filename"
 msgstr ""
 
-#: ui_qt/models/models_window.py:307
+#: sd_runner/ui/models/models_window.py:282
 msgid "Download File"
 msgstr ""
 
-#: ui_qt/models/models_window.py:311
+#: sd_runner/ui/models/models_window.py:286
 msgid "Download Snapshot"
 msgstr ""
 
-#: ui_qt/models/models_window.py:325
+#: sd_runner/ui/models/models_window.py:300
 msgid "Select a model repository first"
 msgstr ""
 
-#: ui_qt/models/models_window.py:358
+#: sd_runner/ui/models/models_window.py:333
 msgid "Found {0} results"
 msgstr ""
 
-#: ui_qt/models/models_window.py:361
+#: sd_runner/ui/models/models_window.py:336
 msgid "HF Hub Search Error"
 msgstr ""
 
-#: ui_qt/models/models_window.py:373
+#: sd_runner/ui/models/models_window.py:348
 msgid "Enter a filename first"
 msgstr ""
 
-#: ui_qt/models/models_window.py:378
+#: sd_runner/ui/models/models_window.py:353
 msgid "Download Complete"
 msgstr ""
 
-#: ui_qt/models/models_window.py:379 ui_qt/models/models_window.py:406
+#: sd_runner/ui/models/models_window.py:354 sd_runner/ui/models/models_window.py:381
 msgid ""
 "Downloaded to:\n"
 "{0}"
 msgstr ""
 
-#: ui_qt/models/models_window.py:384
+#: sd_runner/ui/models/models_window.py:359
 msgid "HF Hub Download Error"
 msgstr ""
 
-#: ui_qt/models/models_window.py:405
+#: sd_runner/ui/models/models_window.py:380
 msgid "Snapshot Download Complete"
 msgstr ""
 
-#: ui_qt/models/models_window.py:411
+#: sd_runner/ui/models/models_window.py:386
 msgid "HF Hub Snapshot Error"
 msgstr ""
 
-#: ui_qt/models/models_window.py:489 ui_qt/models/recent_adapters_window.py:775
+#: sd_runner/ui/models/models_window.py:464 sd_runner/ui/models/recent_adapters_window.py:463
+#: tests/ui/test_recent_adapters_window.py:140
 msgid "Cache"
 msgstr ""
 
-#: ui_qt/models/models_window.py:528
+#: sd_runner/ui/models/models_window.py:503
 msgid "Hide Blacklisted"
 msgstr ""
 
-#: ui_qt/models/models_window.py:544
+#: sd_runner/ui/models/models_window.py:519
 msgid "Feature Unavailable"
 msgstr ""
 
-#: ui_qt/models/models_window.py:545
+#: sd_runner/ui/models/models_window.py:520
 msgid "LoRA trigger extraction is not available."
 msgstr ""
 
-#: ui_qt/models/models_window.py:553
+#: sd_runner/ui/models/models_window.py:528
 msgid "No Selection"
 msgstr ""
 
-#: ui_qt/models/models_window.py:554
+#: sd_runner/ui/models/models_window.py:529
 msgid "Please select a LoRA to view information."
 msgstr ""
 
-#: ui_qt/models/models_window.py:564
+#: sd_runner/ui/models/models_window.py:539
 msgid "Model not found: {0}"
 msgstr ""
 
-#: ui_qt/models/models_window.py:586
+#: sd_runner/ui/models/models_window.py:561
 msgid "LoRA Information: {0}"
 msgstr ""
 
-#: ui_qt/models/models_window.py:596
+#: sd_runner/ui/models/models_window.py:571
 msgid "LoRA Information"
 msgstr ""
 
-#: ui_qt/models/models_window.py:601
+#: sd_runner/ui/models/models_window.py:576
 msgid "Name:"
 msgstr ""
 
-#: ui_qt/models/models_window.py:602
+#: sd_runner/ui/models/models_window.py:577
 msgid "Architecture:"
 msgstr ""
 
-#: ui_qt/models/models_window.py:603
+#: sd_runner/ui/models/models_window.py:578
 msgid "File Path:"
 msgstr ""
 
-#: ui_qt/models/models_window.py:604
+#: sd_runner/ui/models/models_window.py:579
 msgid "Created:"
 msgstr ""
 
-#: ui_qt/models/models_window.py:605
+#: sd_runner/ui/models/models_window.py:580
 msgid "Strength:"
 msgstr ""
 
-#: ui_qt/models/models_window.py:625
+#: sd_runner/ui/models/models_window.py:600
 msgid "Trigger Information"
 msgstr ""
 
-#: ui_qt/models/models_window.py:629
+#: sd_runner/ui/models/models_window.py:604
 msgid "Loading trigger information..."
 msgstr ""
 
-#: ui_qt/models/models_window.py:638
+#: sd_runner/ui/models/models_window.py:613
 msgid "Create .safetriggers File"
 msgstr ""
 
-#: ui_qt/models/models_window.py:664 utils/globals.py:663
-msgid "Unknown"
-msgstr ""
-
-#: ui_qt/models/models_window.py:668
+#: sd_runner/ui/models/models_window.py:637
 msgid "Trigger extraction not available"
 msgstr ""
 
-#: ui_qt/models/models_window.py:675
+#: sd_runner/ui/models/models_window.py:644
 msgid "LoRA file not found"
 msgstr ""
 
-#: ui_qt/models/models_window.py:681
+#: sd_runner/ui/models/models_window.py:650
 msgid "No triggers found"
 msgstr ""
 
-#: ui_qt/models/models_window.py:682
+#: sd_runner/ui/models/models_window.py:651
 msgid "No triggers found: {0}"
 msgstr ""
 
-#: ui_qt/models/models_window.py:684
+#: sd_runner/ui/models/models_window.py:653
 msgid "Error loading triggers: {0}"
 msgstr ""
 
-#: ui_qt/models/models_window.py:687
+#: sd_runner/ui/models/models_window.py:656
 msgid "Found {0} triggers"
 msgstr ""
 
-#: ui_qt/models/models_window.py:703
+#: sd_runner/ui/models/models_window.py:672
 msgid "LoRA file not found: {0}"
 msgstr ""
 
-#: ui_qt/models/models_window.py:708
+#: sd_runner/ui/models/models_window.py:677
 msgid "Success"
 msgstr ""
 
-#: ui_qt/models/models_window.py:708
+#: sd_runner/ui/models/models_window.py:677
 msgid ""
 "Created .safetriggers file:\n"
 "{0}"
 msgstr ""
 
-#: ui_qt/models/models_window.py:710
+#: sd_runner/ui/models/models_window.py:679
 msgid "Failed to create .safetriggers file"
 msgstr ""
 
-#: ui_qt/models/models_window.py:712
+#: sd_runner/ui/models/models_window.py:681
 msgid "Failed to create .safetriggers file: {0}"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:339
-msgid "Recent Adapters"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:352
+#: sd_runner/ui/models/recent_adapters_window.py:87
 msgid "Recent ControlNets"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:353
-msgid "Recent IP Adapters"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:354
-msgid "Recent Source Prompts"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:355
-msgid "All Recent Adapters"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:356
-msgid "Favorites"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:357
-msgid "Configuration"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:391
+#: sd_runner/ui/models/recent_adapters_window.py:88
 msgid "ControlNet File"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:391 ui_qt/models/recent_adapters_window.py:429
-#: ui_qt/models/recent_adapters_window.py:467 ui_qt/models/recent_adapters_window.py:506
-msgid "Type"
+#: sd_runner/ui/models/recent_adapters_window.py:96
+msgid "Recent IP Adapters"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:400 ui_qt/models/recent_adapters_window.py:438
-#: ui_qt/models/recent_adapters_window.py:476 ui_qt/models/recent_adapters_window.py:519
-#: ui_qt/models/recent_adapters_window.py:585 ui_qt/prompts/expansions_window.py:301
-msgid "Copy"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:403 ui_qt/models/recent_adapters_window.py:441
-#: ui_qt/models/recent_adapters_window.py:479 ui_qt/models/recent_adapters_window.py:522
-msgid "Add to Favorites"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:429
+#: sd_runner/ui/models/recent_adapters_window.py:97
 msgid "IP Adapter File"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:467
+#: sd_runner/ui/models/recent_adapters_window.py:105
+msgid "Recent Source Prompts"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:106
 msgid "Source Prompt File"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:495
-msgid "Individual files, including from directory-split runs (no directories)"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:506
-msgid "Adapter File"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:511
-msgid "ControlNet (Replace)"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:512
-msgid "ControlNet (Add)"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:513
-msgid "IP Adapter (Replace)"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:514
-msgid "IP Adapter (Add)"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:537
-msgid "Preferred adapters regardless of type. Directories are auto-added when seen in recents."
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:552
-msgid "Target Field"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:558 utils/globals.py:352
-msgid "ControlNet"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:559 utils/globals.py:349
-msgid "IP Adapter"
-msgstr ""
-
-#: ui_qt/models/recent_adapters_window.py:560
+#: sd_runner/ui/models/recent_adapters_window.py:109 sd_runner/ui/models/recent_adapters_window.py:284
+#: tests/ui/test_recent_adapters_window.py:73
 msgid "Source Prompt"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:567
+#: sd_runner/ui/models/recent_adapters_window.py:133
+msgid "Recent Adapters"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:153
+msgid "All Recent Adapters"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:154
+msgid "Favorites"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:155
+msgid "Configuration"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:190 sd_runner/ui/models/recent_adapters_window.py:230
+msgid "Type"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:200 sd_runner/ui/models/recent_adapters_window.py:243
+#: sd_runner/ui/models/recent_adapters_window.py:309 sd_runner/ui/prompts/expansions_window.py:257
+msgid "Copy"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:203 sd_runner/ui/models/recent_adapters_window.py:246
+msgid "Add to Favorites"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:219
+msgid "Individual files, including from directory-split runs (no directories)"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:230
+msgid "Adapter File"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:235
+msgid "ControlNet (Replace)"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:236
+msgid "ControlNet (Add)"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:237
+msgid "IP Adapter (Replace)"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:238
+msgid "IP Adapter (Add)"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:261
+msgid "Preferred adapters regardless of type. Directories are auto-added when seen in recents."
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:276
+msgid "Target Field"
+msgstr ""
+
+#: sd_runner/ui/models/recent_adapters_window.py:291
 msgid "Append (unchecked = Replace)"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:574
+#: sd_runner/ui/models/recent_adapters_window.py:298
 msgid "Favorite Adapter"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:579
+#: sd_runner/ui/models/recent_adapters_window.py:303
 msgid "Use Favorite"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:582 ui_qt/prompts/blacklist_window.py:486 ui_qt/prompts/blacklist_window.py:529
+#: sd_runner/ui/models/recent_adapters_window.py:306 sd_runner/ui/prompts/blacklist_window.py:464
+#: sd_runner/ui/prompts/blacklist_window.py:507
 msgid "Remove"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:603
+#: sd_runner/ui/models/recent_adapters_window.py:327
 msgid "Recent Adapters Configuration"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:608
+#: sd_runner/ui/models/recent_adapters_window.py:332
 msgid "Max Recent Items:"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:617
+#: sd_runner/ui/models/recent_adapters_window.py:341
 msgid "Max Recent Split Items:"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:626
+#: sd_runner/ui/models/recent_adapters_window.py:350
 msgid ""
 "These settings control how many recent adapters are kept in memory.\n"
 "Higher values use more memory but keep more history.\n"
 "Changes take effect immediately and are saved automatically."
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:671 ui_qt/models/recent_adapters_window.py:860
-#: ui_qt/models/recent_adapters_window.py:873 ui_qt/models/recent_adapters_window.py:889
+#: sd_runner/ui/models/recent_adapters_window.py:395 sd_runner/ui/models/recent_adapters_window.py:521
+#: sd_runner/ui/models/recent_adapters_window.py:534 sd_runner/ui/models/recent_adapters_window.py:550
 msgid "Select a row first"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:677
+#: sd_runner/ui/models/recent_adapters_window.py:401
 msgid "Copied path to clipboard"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:877
+#: sd_runner/ui/models/recent_adapters_window.py:538
 msgid "Directories are auto-favorited and cannot be removed here"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:882
+#: sd_runner/ui/models/recent_adapters_window.py:543
 msgid "Removed from favorites"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:884
+#: sd_runner/ui/models/recent_adapters_window.py:545
 msgid "Item was not in favorites"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:895
+#: sd_runner/ui/models/recent_adapters_window.py:556
 msgid "Added to favorites"
 msgstr ""
 
-#: ui_qt/models/recent_adapters_window.py:897
+#: sd_runner/ui/models/recent_adapters_window.py:558
 msgid "Already in favorites"
 msgstr ""
 
-#: ui_qt/presets/presets_window.py:101
-msgid "New Preset (ERROR no presets found)"
+#: sd_runner/ui/presets/presets_window.py:77
+msgid "Presets and Stashed Configs"
 msgstr ""
 
-#: ui_qt/presets/presets_window.py:109
-msgid "Not enough presets found."
+#: sd_runner/ui/presets/presets_window.py:92
+msgid "Stashed Configs"
 msgstr ""
 
-#: ui_qt/presets/presets_window.py:136
-msgid "Presets Window"
+#: sd_runner/ui/presets/presets_window.py:93
+msgid "Intermediate Pass"
 msgstr ""
 
-#: ui_qt/presets/presets_window.py:144
+#: sd_runner/ui/presets/presets_window.py:119
 msgid "Set a new preset"
 msgstr ""
 
-#: ui_qt/presets/presets_window.py:145
+#: sd_runner/ui/presets/presets_window.py:120
 msgid "New Preset"
 msgstr ""
 
-#: ui_qt/presets/presets_window.py:151
+#: sd_runner/ui/presets/presets_window.py:126
 msgid "Clear presets"
 msgstr ""
 
-#: ui_qt/presets/presets_window.py:197 ui_qt/presets/schedules_window.py:290
-#: ui_qt/prompts/frequent_prompt_tags_window.py:138
+#: sd_runner/ui/presets/presets_window.py:146
+msgid "Stash the current run config"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:147
+msgid "New Stash"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:150
+msgid "Stash config"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:153
+msgid "Clear stashes"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:158
+msgid "Prompt mode, prompt tags and edit suffix are left untouched when a stash is applied -- those belong to presets."
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:179
+msgid "Run an intermediate generation on the reference image"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:185
+msgid ""
+"The intermediate pass transforms the reference image before your own run uses it, with your current workflow and "
+"settings and only the prompt below changed. Prompt mode and edit suffix always come from the main configuration."
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:196
+msgid "Intermediate workflow"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:211
+msgid "Generate at most"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:220
+msgid ""
+"How many intermediates to make for one source image and prompt before reusing them. One means the transformation runs"
+" once and every later run takes that image."
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:228
+msgid "Intermediate positive prompt"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:236
+msgid "Use the negative prompt below (otherwise inherit the main one)"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:249
+msgid "Save this prompt as"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:250
+msgid "New Intermediate Prompt"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:253
+msgid "Save prompt"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:256
+msgid "Clear saved"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:293 sd_runner/ui/presets/presets_window.py:322
+#: sd_runner/ui/presets/presets_window.py:351 sd_runner/ui/presets/schedules_window.py:256
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:136
 msgid "Set"
 msgstr ""
 
-#: ui_qt/presets/presets_window.py:218
+#: sd_runner/ui/presets/presets_window.py:399
+msgid "Enter a name for the intermediate prompt"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:403
+msgid "Enter a positive prompt to save"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:417
+msgid "Confirm Overwrite Prompt"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:418
+msgid ""
+"An intermediate prompt named \"{0}\" already exists.\n"
+"\n"
+"Replace it?"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:438
+msgid "Saved intermediate prompt: {0}"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:456
+msgid "Applied intermediate prompt: {0}"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:468
+msgid "Confirm Clear Intermediate Prompts"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:469
+msgid ""
+"Delete all saved intermediate prompts?\n"
+"\n"
+"WARNING: This action cannot be undone!\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:487
+msgid "Enter a name for the stash"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:492
+msgid "Confirm Overwrite Stash"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:493
+msgid ""
+"A stashed config named \"{0}\" already exists.\n"
+"\n"
+"Replace it with the current run config?"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:505
+msgid "Stashed run config: {0}"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:510
+msgid "Applied stashed config: {0}"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:522
+msgid "Confirm Clear Stashes"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:523
+msgid ""
+"Delete all stashed run configs?\n"
+"\n"
+"WARNING: This action cannot be undone!\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+
+#: sd_runner/ui/presets/presets_window.py:543
 msgid "Invalid preset: {0}"
 msgstr ""
 
-#: ui_qt/presets/schedule.py:72
-msgid "{0} ({1} runs)"
-msgstr ""
-
-#: ui_qt/presets/scheduled_shutdown_dialog.py:40 ui_qt/presets/scheduled_shutdown_dialog.py:52
+#: sd_runner/ui/presets/scheduled_shutdown_dialog.py:38 sd_runner/ui/presets/scheduled_shutdown_dialog.py:50
 msgid "Scheduled Shutdown"
 msgstr ""
 
-#: ui_qt/presets/scheduled_shutdown_dialog.py:57
+#: sd_runner/ui/presets/scheduled_shutdown_dialog.py:55
 msgid "Schedule: {0}"
 msgstr ""
 
-#: ui_qt/presets/scheduled_shutdown_dialog.py:62 ui_qt/presets/scheduled_shutdown_dialog.py:102
+#: sd_runner/ui/presets/scheduled_shutdown_dialog.py:60 sd_runner/ui/presets/scheduled_shutdown_dialog.py:100
 msgid "Shutting down in {0} seconds..."
 msgstr ""
 
-#: ui_qt/presets/scheduled_shutdown_dialog.py:72
+#: sd_runner/ui/presets/scheduled_shutdown_dialog.py:70
 msgid "Shutdown Now"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:50
+#: sd_runner/ui/presets/schedules_window.py:49
 msgid "Modify Preset Schedule: {0}"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:57
+#: sd_runner/ui/presets/schedules_window.py:56
 msgid "Modify Schedule"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:61 ui_qt/presets/timed_schedules_window.py:63
+#: sd_runner/ui/presets/schedules_window.py:60 sd_runner/ui/presets/timed_schedules_window.py:61
 msgid "Save schedule"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:64
+#: sd_runner/ui/presets/schedules_window.py:63
 msgid "Add Preset Task"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:120
+#: sd_runner/ui/presets/schedules_window.py:119
 msgid "Move Down"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:235
+#: sd_runner/ui/presets/schedules_window.py:201
 msgid "Preset Schedules"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:245 ui_qt/presets/timed_schedules_window.py:200
+#: sd_runner/ui/presets/schedules_window.py:211 sd_runner/ui/presets/timed_schedules_window.py:198
 msgid "Add schedule"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:248 ui_qt/presets/timed_schedules_window.py:203
+#: sd_runner/ui/presets/schedules_window.py:214 sd_runner/ui/presets/timed_schedules_window.py:201
 msgid "Clear schedules"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:272
+#: sd_runner/ui/presets/schedules_window.py:238
 msgid "Current schedule: {0}"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:311
+#: sd_runner/ui/presets/schedules_window.py:277
 msgid "Set schedule: {0}"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:343
+#: sd_runner/ui/presets/schedules_window.py:309
 msgid "Deleted schedule: {0}"
 msgstr ""
 
-#: ui_qt/presets/schedules_window.py:351
+#: sd_runner/ui/presets/schedules_window.py:317
 msgid "Cleared schedules"
 msgstr ""
 
-#: ui_qt/presets/timed_schedules_window.py:49
+#: sd_runner/ui/presets/timed_schedules_window.py:47
 msgid "Modify Timed Schedule: {0}"
 msgstr ""
 
-#: ui_qt/presets/timed_schedules_window.py:59
+#: sd_runner/ui/presets/timed_schedules_window.py:57
 msgid "Schedule Name"
 msgstr ""
 
-#: ui_qt/presets/timed_schedules_window.py:93
+#: sd_runner/ui/presets/timed_schedules_window.py:91
 msgid "Start Time"
 msgstr ""
 
-#: ui_qt/presets/timed_schedules_window.py:105
+#: sd_runner/ui/presets/timed_schedules_window.py:103
 msgid "End Time"
 msgstr ""
 
-#: ui_qt/presets/timed_schedules_window.py:117
+#: sd_runner/ui/presets/timed_schedules_window.py:115
 msgid "Shutdown Time"
 msgstr ""
 
-#: ui_qt/presets/timed_schedules_window.py:145 ui_qt/presets/timed_schedules_window.py:148
+#: sd_runner/ui/presets/timed_schedules_window.py:143 sd_runner/ui/presets/timed_schedules_window.py:146
 msgid "Validation Error"
 msgstr ""
 
-#: ui_qt/presets/timed_schedules_window.py:145 ui_qt/presets/timed_schedules_window.py:148
+#: sd_runner/ui/presets/timed_schedules_window.py:143 sd_runner/ui/presets/timed_schedules_window.py:146
 msgid "No days selected"
 msgstr ""
 
-#: ui_qt/presets/timed_schedules_window.py:199
+#: sd_runner/ui/presets/timed_schedules_window.py:197
 msgid "Create and modify timed schedules"
 msgstr ""
 
-#: ui_qt/presets/timed_schedules_window.py:256 ui_qt/prompts/blacklist_modify_window.py:78
-#: ui_qt/prompts/blacklist_window.py:467 ui_qt/prompts/blacklist_window.py:511
+#: sd_runner/ui/presets/timed_schedules_window.py:254 sd_runner/ui/prompts/blacklist_modify_window.py:85
+#: sd_runner/ui/prompts/blacklist_window.py:445 sd_runner/ui/prompts/blacklist_window.py:489
 msgid "Enabled"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:51
+#: sd_runner/ui/prompts/blacklist_modify_window.py:56
 msgid "Modify Blacklist Item: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:73
+#: sd_runner/ui/prompts/blacklist_modify_window.py:80
 msgid "Blacklist String"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:82
+#: sd_runner/ui/prompts/blacklist_modify_window.py:89
 msgid "Use glob-based regex"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:86
+#: sd_runner/ui/prompts/blacklist_modify_window.py:93
 msgid "Use word boundary matching"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:90
+#: sd_runner/ui/prompts/blacklist_modify_window.py:97
 msgid "Convert spaces to optional non-word characters"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:95
+#: sd_runner/ui/prompts/blacklist_modify_window.py:102
 msgid "Exception Pattern (optional regex to unfilter tags)"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:100
+#: sd_runner/ui/prompts/blacklist_modify_window.py:107
 msgid "Apply to whole prompt (match full text, not individual tags)"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:107
-msgid "Apply to prompt tags (check what you type, not just generated content)"
+#: sd_runner/ui/prompts/blacklist_modify_window.py:114
+msgid "Applies to"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:109
+#: sd_runner/ui/prompts/blacklist_modify_window.py:117
+msgid "Everything"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_modify_window.py:117
+msgid "Generated content only"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_modify_window.py:117
+msgid "User prompts only"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_modify_window.py:119
 msgid ""
-"Uncheck to keep filtering this term out of generated content while still allowing it in prompt tags you write "
-"yourself."
+"Generated content only keeps this term out of concepts and random words while allowing it in prompts you write "
+"yourself.\n"
+"User prompts only checks what you write. Concept lines and dictionary words containing the term are not filtered, so "
+"it can still reach a prompt."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:119 ui_qt/prompts/blacklist_window.py:488
+#: sd_runner/ui/prompts/blacklist_modify_window.py:134
+msgid "Language"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_modify_window.py:138 sd_runner/ui/prompts/blacklist_modify_window.py:144
+#: sd_runner/ui/prompts/blacklist_modify_window.py:179 sd_runner/ui/prompts/blacklist_window.py:789
+msgid "No language"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_modify_window.py:141
+msgid ""
+"No language applies to all text. A language code such as de applies when that language is detected in a prompt, and "
+"to all concept lists."
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_modify_window.py:152 sd_runner/ui/prompts/blacklist_window.py:466
 msgid "Preview"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:155
+#: sd_runner/ui/prompts/blacklist_modify_window.py:203
 msgid "Blacklist string cannot be empty."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:187
+#: sd_runner/ui/prompts/blacklist_modify_window.py:211
+msgid "\"{0}\" is not a language code. Use a code such as de or fr."
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_modify_window.py:246
 msgid "No changes were made"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:199 ui_qt/prompts/blacklist_modify_window.py:220
+#: sd_runner/ui/prompts/blacklist_modify_window.py:258 sd_runner/ui/prompts/blacklist_modify_window.py:279
 msgid "Unsaved Changes"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_modify_window.py:200 ui_qt/prompts/blacklist_modify_window.py:221
+#: sd_runner/ui/prompts/blacklist_modify_window.py:259 sd_runner/ui/prompts/blacklist_modify_window.py:280
 msgid "Do you want to save changes before closing?"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:63
+#: sd_runner/ui/prompts/blacklist_preview_window.py:62
 msgid "Blacklist Preview"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:75
+#: sd_runner/ui/prompts/blacklist_preview_window.py:74
 msgid "Test Text"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:76
+#: sd_runner/ui/prompts/blacklist_preview_window.py:75
 msgid "Concept Preview"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:100
+#: sd_runner/ui/prompts/blacklist_preview_window.py:99
 msgid "Enter text to test (tags can be comma- or dot-separated):"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:105
+#: sd_runner/ui/prompts/blacklist_preview_window.py:104
 msgid "Type or paste text here, then click Test..."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:112
+#: sd_runner/ui/prompts/blacklist_preview_window.py:111
 msgid "Test against blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:116
+#: sd_runner/ui/prompts/blacklist_preview_window.py:115
 msgid "Result:"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:129
+#: sd_runner/ui/prompts/blacklist_preview_window.py:128
 msgid "Enter some text above, then click Test."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:135
+#: sd_runner/ui/prompts/blacklist_preview_window.py:136
 msgid "No blacklist items matched."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:138
+#: sd_runner/ui/prompts/blacklist_preview_window.py:139
 msgid "Matched {0} item(s):"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:140
+#: sd_runner/ui/prompts/blacklist_preview_window.py:141
 msgid "  \"{0}\" -> rule \"{1}\""
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:151
+#: sd_runner/ui/prompts/blacklist_preview_window.py:150
+msgid "Languages checked: {0}"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_preview_window.py:152
+msgid "Detector scores: {0}"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_preview_window.py:154
+msgid "Some text could not be placed, so more languages were checked."
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_preview_window.py:165
 msgid "Concepts filtered by: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:155
+#: sd_runner/ui/prompts/blacklist_preview_window.py:169
 msgid "All filtered concepts"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:200
+#: sd_runner/ui/prompts/blacklist_preview_window.py:214
 msgid "Found {0} filtered concepts"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_preview_window.py:206
+#: sd_runner/ui/prompts/blacklist_preview_window.py:220
 msgid "Error loading concepts: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:50
+#: sd_runner/ui/prompts/blacklist_window.py:50
 msgid "[regex]"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:52
+#: sd_runner/ui/prompts/blacklist_window.py:52
 msgid "[no boundary]"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:54
+#: sd_runner/ui/prompts/blacklist_window.py:54
 msgid "[no space conversion]"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:56
+#: sd_runner/ui/prompts/blacklist_window.py:56
 msgid "[exception: {0}]"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:58
+#: sd_runner/ui/prompts/blacklist_window.py:58
 msgid "[whole prompt]"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:62
+#: sd_runner/ui/prompts/blacklist_window.py:62
 msgid "[generated only]"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:224
+#: sd_runner/ui/prompts/blacklist_window.py:64
+msgid "[user prompts only]"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:81 sd_runner/ui/prompts/concept_editor_window.py:631
+msgid "...and {0} more"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:87
+msgid ""
+"These imported items ask for word boundary matching, but their script does not separate words, so each one matches "
+"anywhere in the text:\n"
+"\n"
+"{0}"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:93
+msgid ""
+"These imported items are not marked as regex, but their text looks like a regex. Each one only matches its text "
+"literally:\n"
+"\n"
+"{0}"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:99
+msgid ""
+"These imported items replaced items with no language, so they now apply only to their own language:\n"
+"\n"
+"{0}"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:105
+msgid ""
+"These language values could not be used, so their items apply to every language:\n"
+"\n"
+"{0}"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:110
+msgid ""
+"These imported items were set to apply to no text, so they now apply to everything:\n"
+"\n"
+"{0}"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:153
 msgid ""
 "WARNING: Are you sure you want to reveal the blacklist concepts? These concepts are damaging or offensive and WILL "
 "cause you severe psychological harm. Do not, under any circumstances, reveal these concepts to minors.\n"
@@ -1890,226 +2827,247 @@ msgid ""
 "If you are young, not sure, or even an adult, click the close button on this window now and do something fun instead."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:235
+#: sd_runner/ui/prompts/blacklist_window.py:164
 msgid "Tags/Models Blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:254
+#: sd_runner/ui/prompts/blacklist_window.py:183
 msgid "Model Blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:276 ui_qt/prompts/blacklist_window.py:343
+#: sd_runner/ui/prompts/blacklist_window.py:206 sd_runner/ui/prompts/blacklist_window.py:302
 msgid "Global Settings:"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:277 ui_qt/prompts/blacklist_window.py:344
+#: sd_runner/ui/prompts/blacklist_window.py:207 sd_runner/ui/prompts/blacklist_window.py:303
 msgid "These settings affect how the blacklist is applied globally."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:284 ui_qt/prompts/blacklist_window.py:351
+#: sd_runner/ui/prompts/blacklist_window.py:214 sd_runner/ui/prompts/blacklist_window.py:310
 msgid "Choose how the blacklist is enforced: block, warn, or allow."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:287 ui_qt/prompts/blacklist_window.py:354
+#: sd_runner/ui/prompts/blacklist_window.py:217 sd_runner/ui/prompts/blacklist_window.py:313
 msgid "Silent Removal"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:290 ui_qt/prompts/blacklist_window.py:357
+#: sd_runner/ui/prompts/blacklist_window.py:220 sd_runner/ui/prompts/blacklist_window.py:316
 msgid "If enabled, blacklisted words are removed silently without notification."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:298 ui_qt/prompts/blacklist_window.py:365 ui_qt/prompts/concept_editor_window.py:245
+#: sd_runner/ui/prompts/blacklist_window.py:223 sd_runner/ui/prompts/blacklist_window.py:319
+msgid "Name matched item"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:228 sd_runner/ui/prompts/blacklist_window.py:324
+msgid "When a positive-tag removal notice is shown, include the blacklist item that matched. The removed tag is not listed."
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:237 sd_runner/ui/prompts/blacklist_window.py:333
+#: sd_runner/ui/prompts/concept_editor_window.py:249
 msgid "Import"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:299 ui_qt/prompts/blacklist_window.py:366
+#: sd_runner/ui/prompts/blacklist_window.py:238 sd_runner/ui/prompts/blacklist_window.py:334
 msgid "Export"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:300 ui_qt/prompts/blacklist_window.py:367
+#: sd_runner/ui/prompts/blacklist_window.py:239 sd_runner/ui/prompts/blacklist_window.py:335
 msgid "Preview All"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:301
+#: sd_runner/ui/prompts/blacklist_window.py:240
 msgid "Load Default"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:315
+#: sd_runner/ui/prompts/blacklist_window.py:254
 msgid "Choose how the blacklist is enforced: disallow or allow in NSFW."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:317
+#: sd_runner/ui/prompts/blacklist_window.py:256
 msgid "Add to tag blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:320 ui_qt/prompts/blacklist_window.py:386
+#: sd_runner/ui/prompts/blacklist_window.py:259 sd_runner/ui/prompts/blacklist_window.py:354
 msgid "Clear items"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:381
+#: sd_runner/ui/prompts/blacklist_window.py:275
+msgid "Language:"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:279 sd_runner/ui/prompts/blacklist_window.py:788
+msgid "All"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:349
 msgid "Choose how the model blacklist is enforced: disallow or allow in NSFW."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:383
+#: sd_runner/ui/prompts/blacklist_window.py:351
 msgid "Add to model blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:421
+#: sd_runner/ui/prompts/blacklist_window.py:394
 msgid ""
 "No blacklist items found. You can add items by clicking the 'Add to tag blacklist' button above, or load the default "
 "blacklist."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:424
+#: sd_runner/ui/prompts/blacklist_window.py:397
 msgid "Click below to reveal blacklist concepts."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:427
+#: sd_runner/ui/prompts/blacklist_window.py:400
 msgid ""
 "Default blacklist is loaded. You can load your own blacklist by editing the existing concepts, clearing the blacklist"
 " and adding your own, or importing concepts from a file."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:435
+#: sd_runner/ui/prompts/blacklist_window.py:408
 msgid "Reveal Concepts"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:444
+#: sd_runner/ui/prompts/blacklist_window.py:420
 msgid "Filter: \"{0}\"  ({1} of {2} items)"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:448
+#: sd_runner/ui/prompts/blacklist_window.py:424
+msgid "{0} of {1} items"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:426
 msgid "{0} items"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:455
+#: sd_runner/ui/prompts/blacklist_window.py:433
 msgid "No items match the current filter."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:457
+#: sd_runner/ui/prompts/blacklist_window.py:435
 msgid "The blacklist is empty."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:467 ui_qt/prompts/blacklist_window.py:511
+#: sd_runner/ui/prompts/blacklist_window.py:445 sd_runner/ui/prompts/blacklist_window.py:489
 msgid "Item"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:477 ui_qt/prompts/blacklist_window.py:521 ui_qt/prompts/blacklist_window.py:872
-#: ui_qt/prompts/blacklist_window.py:971
+#: sd_runner/ui/prompts/blacklist_window.py:455 sd_runner/ui/prompts/blacklist_window.py:499
+#: sd_runner/ui/prompts/blacklist_window.py:868 sd_runner/ui/prompts/blacklist_window.py:969
 msgid "Disabled"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:487 ui_qt/prompts/blacklist_window.py:530
+#: sd_runner/ui/prompts/blacklist_window.py:465 sd_runner/ui/prompts/blacklist_window.py:508
 msgid "Toggle"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:502
+#: sd_runner/ui/prompts/blacklist_window.py:480
 msgid "No model blacklist items found. You can add items by clicking the 'Add to model blacklist' button above."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:571 ui_qt/prompts/blacklist_window.py:578 ui_qt/prompts/blacklist_window.py:585
-#: ui_qt/prompts/blacklist_window.py:592 ui_qt/prompts/blacklist_window.py:599 ui_qt/prompts/blacklist_window.py:606
-#: ui_qt/prompts/blacklist_window.py:613
+#: sd_runner/ui/prompts/blacklist_window.py:549 sd_runner/ui/prompts/blacklist_window.py:556
+#: sd_runner/ui/prompts/blacklist_window.py:563 sd_runner/ui/prompts/blacklist_window.py:570
+#: sd_runner/ui/prompts/blacklist_window.py:577 sd_runner/ui/prompts/blacklist_window.py:584
+#: sd_runner/ui/prompts/blacklist_window.py:591
 msgid "Select an item first"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:625
+#: sd_runner/ui/prompts/blacklist_window.py:603
 msgid "Enable similarity check"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:629
+#: sd_runner/ui/prompts/blacklist_window.py:607
 msgid "When enabled, prompts are rejected if cosine similarity to any blocked phrase exceeds the threshold."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:635
+#: sd_runner/ui/prompts/blacklist_window.py:613
 msgid "Threshold:"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:643
+#: sd_runner/ui/prompts/blacklist_window.py:621
 msgid "Cosine similarity score at which a prompt is blocked (0.50–1.00). Lower = more sensitive."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:650
+#: sd_runner/ui/prompts/blacklist_window.py:628
 msgid "Blocked concepts (check to enable):"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:663
+#: sd_runner/ui/prompts/blacklist_window.py:641
 msgid "Add phrase..."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:666
+#: sd_runner/ui/prompts/blacklist_window.py:644
 msgid "Remove selected"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:674
+#: sd_runner/ui/prompts/blacklist_window.py:652
 msgid ""
 "Backend: ONNX CLIP if an .onnx model path is set in Config → Torch CLIP if the clip package is available → n-gram "
 "cosine (always available, character-level only)."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:683
+#: sd_runner/ui/prompts/blacklist_window.py:661
 msgid "Apply && Save"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:685
+#: sd_runner/ui/prompts/blacklist_window.py:663
 msgid "Apply settings and rebuild the similarity engine."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:692
+#: sd_runner/ui/prompts/blacklist_window.py:670
 msgid "Add Phrase"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:692
+#: sd_runner/ui/prompts/blacklist_window.py:670
 msgid "Enter blocked concept:"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:718
+#: sd_runner/ui/prompts/blacklist_window.py:696
 msgid "Similarity settings saved ({0} phrases, threshold {1:.0%})"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:859
+#: sd_runner/ui/prompts/blacklist_window.py:855
 msgid "Removed item: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:875
+#: sd_runner/ui/prompts/blacklist_window.py:871
 msgid "Item \"{0}\" is now {1}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:877 ui_qt/prompts/blacklist_window.py:975
+#: sd_runner/ui/prompts/blacklist_window.py:873 sd_runner/ui/prompts/blacklist_window.py:973
 msgid "enabled"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:877 ui_qt/prompts/blacklist_window.py:975
+#: sd_runner/ui/prompts/blacklist_window.py:873 sd_runner/ui/prompts/blacklist_window.py:973
 msgid "disabled"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:890
+#: sd_runner/ui/prompts/blacklist_window.py:886
 msgid "Concepts revealed"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:905
+#: sd_runner/ui/prompts/blacklist_window.py:901
 msgid "Confirm Clear Blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:906
+#: sd_runner/ui/prompts/blacklist_window.py:902
 msgid ""
 "Are you sure you want to clear all blacklist items?\n"
 "\n"
-"WARNING: This action cannot be undone!\n"
-"All blacklist items will be permanently deleted.\n"
+"{0}\n"
 "\n"
 "Do you want to continue?"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:917
+#: sd_runner/ui/prompts/blacklist_window.py:914
 msgid "Cleared item blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:924
+#: sd_runner/ui/prompts/blacklist_window.py:922
 msgid "Confirm Load Default Blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:925
+#: sd_runner/ui/prompts/blacklist_window.py:923
 msgid ""
 "Are you sure you want to load the default blacklist?\n"
 "\n"
@@ -2118,291 +3076,378 @@ msgid ""
 "Do you want to continue?"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:933
+#: sd_runner/ui/prompts/blacklist_window.py:931
 msgid "Loaded default blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:937
+#: sd_runner/ui/prompts/blacklist_window.py:935
 msgid "Error loading default blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:938
+#: sd_runner/ui/prompts/blacklist_window.py:936
 msgid "Could not decrypt or load the default blacklist."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:959
+#: sd_runner/ui/prompts/blacklist_window.py:957
 msgid "Removed model blacklist item: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:973
+#: sd_runner/ui/prompts/blacklist_window.py:971
 msgid "Model item '{0}' is now {1}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:985
+#: sd_runner/ui/prompts/blacklist_window.py:981
+msgid "Confirm Clear Model Blacklist"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:982
+msgid ""
+"Are you sure you want to clear all model blacklist items?\n"
+"\n"
+"{0}\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:994
 msgid "Cleared model blacklist items"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:991
+#: sd_runner/ui/prompts/blacklist_window.py:1005
+msgid "A backup is kept for {0} days and can be restored from this window."
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1007
+msgid "A backup is kept until you restore or discard it from this window."
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1019
+msgid "Restored {0} tag blacklist items"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1032
+msgid "Restored {0} model blacklist items"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1047
+msgid "Confirm Discard Backup"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1048
+msgid ""
+"Permanently delete the backup of the cleared items?\n"
+"\n"
+"WARNING: This action cannot be undone!\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1056
+msgid "Discarded blacklist backup"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1069
+msgid "Discard backup"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1091
+msgid "{0} cleared items can be restored"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1098
 msgid "Not Implemented"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:992
+#: sd_runner/ui/prompts/blacklist_window.py:1099
 msgid "Preview all models not implemented yet."
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1033
+#: sd_runner/ui/prompts/blacklist_window.py:1140
 msgid "Added item to blacklist: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1033
+#: sd_runner/ui/prompts/blacklist_window.py:1140
 msgid "Modified blacklist item: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1051
+#: sd_runner/ui/prompts/blacklist_window.py:1158
 msgid "Model blacklist updated: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1069
+#: sd_runner/ui/prompts/blacklist_window.py:1176
 msgid "Blacklist mode set to: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1078
+#: sd_runner/ui/prompts/blacklist_window.py:1185
 msgid "Blacklist prompt mode set to: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1087
+#: sd_runner/ui/prompts/blacklist_window.py:1194
 msgid "Model blacklist mode set to: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1098
+#: sd_runner/ui/prompts/blacklist_window.py:1205
 msgid "Silent removal set to: {0}"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1106
+#: sd_runner/ui/prompts/blacklist_window.py:1216
+msgid "Name matched blacklist item set to: {0}"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1224
 msgid "Import Blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1107 ui_qt/prompts/blacklist_window.py:1147
+#: sd_runner/ui/prompts/blacklist_window.py:1225 sd_runner/ui/prompts/blacklist_window.py:1274
 msgid "All supported (*.csv *.json *.txt);;CSV (*.csv);;JSON (*.json);;Text (*.txt)"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1119
+#: sd_runner/ui/prompts/blacklist_window.py:1237
 msgid "Successfully imported blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1122 ui_qt/prompts/blacklist_window.py:1162
+#: sd_runner/ui/prompts/blacklist_window.py:1240 sd_runner/ui/prompts/blacklist_window.py:1289
 msgid "Import Error"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1127
+#: sd_runner/ui/prompts/blacklist_window.py:1245
+msgid "Import Warnings"
+msgstr ""
+
+#: sd_runner/ui/prompts/blacklist_window.py:1254
 msgid "Export Blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1128
+#: sd_runner/ui/prompts/blacklist_window.py:1255
 msgid "CSV (*.csv);;JSON (*.json);;Text (*.txt)"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1139
+#: sd_runner/ui/prompts/blacklist_window.py:1266
 msgid "Successfully exported blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1141 ui_qt/prompts/blacklist_window.py:1176
+#: sd_runner/ui/prompts/blacklist_window.py:1268 sd_runner/ui/prompts/blacklist_window.py:1303
 msgid "Export Error"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1146
+#: sd_runner/ui/prompts/blacklist_window.py:1273
 msgid "Import Model Blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1159
+#: sd_runner/ui/prompts/blacklist_window.py:1286
 msgid "Successfully imported model blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1167
+#: sd_runner/ui/prompts/blacklist_window.py:1294
 msgid "Export Model Blacklist"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1168
+#: sd_runner/ui/prompts/blacklist_window.py:1295
 msgid "JSON (*.json)"
 msgstr ""
 
-#: ui_qt/prompts/blacklist_window.py:1174
+#: sd_runner/ui/prompts/blacklist_window.py:1301
 msgid "Successfully exported model blacklist"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:127
+#: sd_runner/ui/prompts/concept_editor_window.py:128
 msgid "Concept Editor"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:161
+#: sd_runner/ui/prompts/concept_editor_window.py:162
 msgid "Concepts dir:"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:175
+#: sd_runner/ui/prompts/concept_editor_window.py:179
 msgid "Search/Add Concept:"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:177
+#: sd_runner/ui/prompts/concept_editor_window.py:181
 msgid "Type to search concepts..."
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:215
+#: sd_runner/ui/prompts/concept_editor_window.py:219
 msgid "File:"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:224
+#: sd_runner/ui/prompts/concept_editor_window.py:228
 msgid "(Target file for saving new concepts and importing)"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:231
+#: sd_runner/ui/prompts/concept_editor_window.py:235
 msgid "Save"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:234
+#: sd_runner/ui/prompts/concept_editor_window.py:238
 msgid "Add the search text as a new concept to the selected file"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:241
+#: sd_runner/ui/prompts/concept_editor_window.py:245
 msgid "Delete the selected concept from the file it belongs to"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:248
+#: sd_runner/ui/prompts/concept_editor_window.py:252
 msgid "Import concepts from an external text file into the selected file"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:296
+#: sd_runner/ui/prompts/concept_editor_window.py:300
 msgid "Selected concept: —"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:301
+#: sd_runner/ui/prompts/concept_editor_window.py:305
 msgid "Selected concept: \"{0}\" — {1} ({2})"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:307
+#: sd_runner/ui/prompts/concept_editor_window.py:311
 msgid "Selected concept: \"{0}\" — {1}"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:334
+#: sd_runner/ui/prompts/concept_editor_window.py:332
+msgid "Language: {0}"
+msgstr ""
+
+#: sd_runner/ui/prompts/concept_editor_window.py:343
 msgid "Invalid Directory"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:366
+#: sd_runner/ui/prompts/concept_editor_window.py:376
 msgid "Enter search text to see concepts..."
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:405
+#: sd_runner/ui/prompts/concept_editor_window.py:410
 msgid "{0} concepts found"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:450
+#: sd_runner/ui/prompts/concept_editor_window.py:475
 msgid "Enter a concept name first"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:457
+#: sd_runner/ui/prompts/concept_editor_window.py:482
 msgid "Please select a file to save to"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:469
+#: sd_runner/ui/prompts/concept_editor_window.py:494
 msgid "Concept \"{0}\" already exists in {1}"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:493
+#: sd_runner/ui/prompts/concept_editor_window.py:509
+msgid "Blacklisted Concept"
+msgstr ""
+
+#: sd_runner/ui/prompts/concept_editor_window.py:510
+msgid "\"{0}\" matches the blacklist and would be filtered out of generated prompts. Save it anyway?"
+msgstr ""
+
+#: sd_runner/ui/prompts/concept_editor_window.py:530
 msgid "Saved concept: {0} → {1}"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:513
+#: sd_runner/ui/prompts/concept_editor_window.py:550
 msgid "Select a concept first"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:520
+#: sd_runner/ui/prompts/concept_editor_window.py:557
 msgid "Confirm"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:521
+#: sd_runner/ui/prompts/concept_editor_window.py:558
 msgid "Delete concept \"{0}\" from {1}?"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:533
+#: sd_runner/ui/prompts/concept_editor_window.py:570
 msgid "Concept \"{0}\" was not found in {1} -- it may have already been removed."
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:549
+#: sd_runner/ui/prompts/concept_editor_window.py:586
 msgid "Deleted concept: {0} from {1}"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:572
+#: sd_runner/ui/prompts/concept_editor_window.py:611
 msgid "Please select a target file first"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:580
+#: sd_runner/ui/prompts/concept_editor_window.py:619
 msgid "Select concepts file to import"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:582
+#: sd_runner/ui/prompts/concept_editor_window.py:621
 msgid "Text files (*.txt);;All files (*.*)"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:610
+#: sd_runner/ui/prompts/concept_editor_window.py:633
+msgid "Blacklisted Concepts"
+msgstr ""
+
+#: sd_runner/ui/prompts/concept_editor_window.py:634
+msgid ""
+"{0} concepts match the blacklist and would be filtered out of generated prompts:\n"
+"\n"
+"{1}\n"
+"\n"
+"Import them anyway?"
+msgstr ""
+
+#: sd_runner/ui/prompts/concept_editor_window.py:664
 msgid "Successfully imported {0} concepts into {1}"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:616
+#: sd_runner/ui/prompts/concept_editor_window.py:670
 msgid "{0} concepts were not imported (see {1}_failed_import.txt for details)"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:622
+#: sd_runner/ui/prompts/concept_editor_window.py:676
 msgid ""
 "Tip: You can prepend '!' to any concept line to force importation, or simply use the concept name as a search term to"
 " force import."
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:627
+#: sd_runner/ui/prompts/concept_editor_window.py:681
 msgid "Import Results"
 msgstr ""
 
-#: ui_qt/prompts/concept_editor_window.py:636
+#: sd_runner/ui/prompts/concept_editor_window.py:690
 msgid "No new concepts to import from {0}"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:63
+#: sd_runner/ui/prompts/expansions_window.py:63
 msgid "New Expansion"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:63
+#: sd_runner/ui/prompts/expansions_window.py:63
 msgid "Modify Expansion: {0}"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:81
+#: sd_runner/ui/prompts/expansions_window.py:81
 msgid "Expansion ID"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:89
+#: sd_runner/ui/prompts/expansions_window.py:89
 msgid "Expansion Text"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:91
+#: sd_runner/ui/prompts/expansions_window.py:91
 msgid "New Expansion Text"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:122
+#: sd_runner/ui/prompts/expansions_window.py:122
 msgid ""
 "Warning: This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is "
 "removed or renamed."
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:136
+#: sd_runner/ui/prompts/expansions_window.py:136
 msgid "Invalid Expansion"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:137
+#: sd_runner/ui/prompts/expansions_window.py:137
 msgid "Both the expansion ID and text must be non-empty."
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:145
+#: sd_runner/ui/prompts/expansions_window.py:145
 msgid "Warning"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:146
+#: sd_runner/ui/prompts/expansions_window.py:146
 msgid ""
 "This expansion ID matches a wildcard in config.json. Changes will not take effect until the wildcard is removed or "
 "renamed.\n"
@@ -2410,1132 +3455,677 @@ msgid ""
 "Do you want to save anyway?"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:208
-msgid "New Expansion (ERROR no expansions found)"
-msgstr ""
-
-#: ui_qt/prompts/expansions_window.py:232
-msgid "Not enough expansions found."
-msgstr ""
-
-#: ui_qt/prompts/expansions_window.py:246
+#: sd_runner/ui/prompts/expansions_window.py:202
 msgid "Expansions Window"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:271
+#: sd_runner/ui/prompts/expansions_window.py:227
 msgid "Add or update expansions"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:273
+#: sd_runner/ui/prompts/expansions_window.py:229
 msgid "Add expansion"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:276
+#: sd_runner/ui/prompts/expansions_window.py:232
 msgid "Clear expansions"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:283
+#: sd_runner/ui/prompts/expansions_window.py:239
 msgid "Filter by ID or text…"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:333
+#: sd_runner/ui/prompts/expansions_window.py:289
 msgid "Filter: \"{0}\"  ({1} of {2} expansions)"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:339
+#: sd_runner/ui/prompts/expansions_window.py:295
 msgid "{0} expansions"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:344
+#: sd_runner/ui/prompts/expansions_window.py:300
 msgid "No expansions match the current filter."
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:346
+#: sd_runner/ui/prompts/expansions_window.py:302
 msgid "No expansions defined. Click 'Add expansion' to create one."
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:355
+#: sd_runner/ui/prompts/expansions_window.py:311
 msgid "ID"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:355
+#: sd_runner/ui/prompts/expansions_window.py:311
 msgid "Text"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:398 ui_qt/prompts/expansions_window.py:430 ui_qt/prompts/expansions_window.py:456
+#: sd_runner/ui/prompts/expansions_window.py:354 sd_runner/ui/prompts/expansions_window.py:386
+#: sd_runner/ui/prompts/expansions_window.py:412
 msgid "Select an expansion first"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:440
+#: sd_runner/ui/prompts/expansions_window.py:396
 msgid "Clear all expansions?"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:441
+#: sd_runner/ui/prompts/expansions_window.py:397
 msgid "This will permanently delete all {0} expansions. Are you sure?"
 msgstr ""
 
-#: ui_qt/prompts/expansions_window.py:462
+#: sd_runner/ui/prompts/expansions_window.py:418
 msgid "Copied expansion text to clipboard"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:90
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:88
 msgid "Frequent Prompt Tags"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:117
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:115
 msgid "Select or add prompt tags"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:119
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:117
 msgid "Add tag"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:122
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:120
 msgid "Clear tags"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:162
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:160
 msgid "Filter: \"{0}\"  ({1} of {2} tags)"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:168
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:166
 msgid "{0} tags"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:173
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:171
 msgid "No tags match the current filter."
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:175
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:173
 msgid "No frequent tags yet. Click 'Add tag' to create one."
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:184
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:182
 msgid "Tag"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:221
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:219
 msgid "Select a tag first"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:236
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:234
 msgid "add_tags callback not wired yet. Tag: {0}"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:243
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:241
 msgid "Add Tag"
 msgstr ""
 
-#: ui_qt/prompts/frequent_prompt_tags_window.py:243
+#: sd_runner/ui/prompts/frequent_prompt_tags_window.py:241
 msgid "Enter tag text:"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:83
+#: sd_runner/ui/prompts/image_to_prompt_window.py:81
 msgid "Generate prompt text from an image using selectable backends. This does not start image generation."
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:92
+#: sd_runner/ui/prompts/image_to_prompt_window.py:90
 msgid "Image"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:95
+#: sd_runner/ui/prompts/image_to_prompt_window.py:93
 msgid "Browse"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:102
+#: sd_runner/ui/prompts/image_to_prompt_window.py:100
 msgid "Backend"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:104
+#: sd_runner/ui/prompts/image_to_prompt_window.py:102
 msgid "Captioner (BLIP)"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:105
+#: sd_runner/ui/prompts/image_to_prompt_window.py:103
 msgid "Fast Tagger"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:106
+#: sd_runner/ui/prompts/image_to_prompt_window.py:104
 msgid "VLM"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:111
+#: sd_runner/ui/prompts/image_to_prompt_window.py:109
 msgid "Include Negative Prompt"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:123
+#: sd_runner/ui/prompts/image_to_prompt_window.py:121
 msgid "VLM Model"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:128
+#: sd_runner/ui/prompts/image_to_prompt_window.py:126
 msgid "Unload Model"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:130
+#: sd_runner/ui/prompts/image_to_prompt_window.py:128
 msgid "Free the VLM's video memory for image generation. It reloads on next use."
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:138
+#: sd_runner/ui/prompts/image_to_prompt_window.py:136
 msgid "Prompt Hint (optional)"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:145
+#: sd_runner/ui/prompts/image_to_prompt_window.py:143
 msgid "Generate Prompt from Image"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:149 ui_qt/prompts/prompt_generator_window.py:91
+#: sd_runner/ui/prompts/image_to_prompt_window.py:147 sd_runner/ui/prompts/prompt_generator_window.py:89
 msgid "Copy Positive"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:153 ui_qt/prompts/prompt_generator_window.py:95
+#: sd_runner/ui/prompts/image_to_prompt_window.py:151 sd_runner/ui/prompts/prompt_generator_window.py:93
 msgid "Copy Negative"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:157
+#: sd_runner/ui/prompts/image_to_prompt_window.py:155
 msgid "Apply Positive to Main UI"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:165
+#: sd_runner/ui/prompts/image_to_prompt_window.py:163
 msgid "Positive Prompt"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:170
+#: sd_runner/ui/prompts/image_to_prompt_window.py:168
 msgid "Negative Prompt"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:175
+#: sd_runner/ui/prompts/image_to_prompt_window.py:173
 msgid "No output yet."
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:197
+#: sd_runner/ui/prompts/image_to_prompt_window.py:195
 msgid "Select Image"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:199
+#: sd_runner/ui/prompts/image_to_prompt_window.py:197
 msgid "Images (*.png *.jpg *.jpeg *.webp *.bmp *.avif *.heic *.heif *.jxl);;All files (*.*)"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:230
+#: sd_runner/ui/prompts/image_to_prompt_window.py:228
 msgid "VLM model unloaded."
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:312
+#: sd_runner/ui/prompts/image_to_prompt_window.py:310
 msgid "Select an image first."
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:333
+#: sd_runner/ui/prompts/image_to_prompt_window.py:329
 msgid "updated"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:333
+#: sd_runner/ui/prompts/image_to_prompt_window.py:329
 msgid "unchanged"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:337
+#: sd_runner/ui/prompts/image_to_prompt_window.py:333
 msgid "Generated ({0}: {1}) using backend: {2} [{3}]"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:352
+#: sd_runner/ui/prompts/image_to_prompt_window.py:348
 msgid "Fast tagger returned no tags; try a lower threshold."
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:355
+#: sd_runner/ui/prompts/image_to_prompt_window.py:352
 msgid "Backend Not Configured"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:362
+#: sd_runner/ui/prompts/image_to_prompt_window.py:360
 msgid "Image to Prompt Error"
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:370
+#: sd_runner/ui/prompts/image_to_prompt_window.py:374
+msgid "Failed using backend: {0} [{1}]"
+msgstr ""
+
+#: sd_runner/ui/prompts/image_to_prompt_window.py:394
+msgid "Generating with backend: {0}…"
+msgstr ""
+
+#: sd_runner/ui/prompts/image_to_prompt_window.py:416
+msgid "Image to prompt generation did not complete."
+msgstr ""
+
+#: sd_runner/ui/prompts/image_to_prompt_window.py:424
 msgid "Nothing to copy."
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:380
+#: sd_runner/ui/prompts/image_to_prompt_window.py:429 sd_runner/ui/prompts/prompt_generator_window.py:173
+#: tests/ui/test_prompt_generator_window.py:92
+msgid "Copied to clipboard"
+msgstr ""
+
+#: sd_runner/ui/prompts/image_to_prompt_window.py:434
 msgid "No positive prompt to apply."
 msgstr ""
 
-#: ui_qt/prompts/image_to_prompt_window.py:383
+#: sd_runner/ui/prompts/image_to_prompt_window.py:437
 msgid "Applied positive prompt to main UI"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:73
+#: sd_runner/ui/prompts/prompt_config_window.py:66
+msgid "Sayings"
+msgstr ""
+
+#: sd_runner/ui/prompts/prompt_config_window.py:67
+msgid "Puns"
+msgstr ""
+
+#: sd_runner/ui/prompts/prompt_config_window.py:68
+msgid "Quotations"
+msgstr ""
+
+#: sd_runner/ui/prompts/prompt_config_window.py:81
 msgid "Media Features"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:74
+#: sd_runner/ui/prompts/prompt_config_window.py:82
 msgid "Objects"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:75
+#: sd_runner/ui/prompts/prompt_config_window.py:83
 msgid "Positions"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:76
+#: sd_runner/ui/prompts/prompt_config_window.py:84
 msgid "Locations"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:77
+#: sd_runner/ui/prompts/prompt_config_window.py:85
 msgid "Animals"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:78
+#: sd_runner/ui/prompts/prompt_config_window.py:86
 msgid "Plants"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:79
+#: sd_runner/ui/prompts/prompt_config_window.py:87
 msgid "Colors"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:80
+#: sd_runner/ui/prompts/prompt_config_window.py:88
 msgid "Lighting"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:81
+#: sd_runner/ui/prompts/prompt_config_window.py:89
 msgid "Times"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:82
+#: sd_runner/ui/prompts/prompt_config_window.py:90
 msgid "Units"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:83
+#: sd_runner/ui/prompts/prompt_config_window.py:91
 msgid "Dress"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:84
+#: sd_runner/ui/prompts/prompt_config_window.py:92
 msgid "Expressions"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:85
+#: sd_runner/ui/prompts/prompt_config_window.py:93
 msgid "Actions"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:86
+#: sd_runner/ui/prompts/prompt_config_window.py:94
 msgid "Descriptions"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:87
+#: sd_runner/ui/prompts/prompt_config_window.py:95
 msgid "Characters"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:88
+#: sd_runner/ui/prompts/prompt_config_window.py:96
 msgid "Random Words"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:89 utils/globals.py:37
-msgid "Nonsense"
-msgstr ""
-
-#: ui_qt/prompts/prompt_config_window.py:90
+#: sd_runner/ui/prompts/prompt_config_window.py:98
 msgid "Jargon"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:91
+#: sd_runner/ui/prompts/prompt_config_window.py:99
 msgid "Witticisms"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:92
+#: sd_runner/ui/prompts/prompt_config_window.py:100
 msgid "Prefixes"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:93
+#: sd_runner/ui/prompts/prompt_config_window.py:101
 msgid "Suffixes"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:160
+#: sd_runner/ui/prompts/prompt_config_window.py:184
 msgid "Prompt Configuration"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:191
+#: sd_runner/ui/prompts/prompt_config_window.py:217
 msgid "Detailed Prompt Configuration"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:239
+#: sd_runner/ui/prompts/prompt_config_window.py:265
 msgid "Basic Generation Settings"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:248
+#: sd_runner/ui/prompts/prompt_config_window.py:274
 msgid "Sampler"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:259
+#: sd_runner/ui/prompts/prompt_config_window.py:285
 msgid "Scheduler"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:271
+#: sd_runner/ui/prompts/prompt_config_window.py:297
 msgid "Seed"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:272
+#: sd_runner/ui/prompts/prompt_config_window.py:298
 msgid "Steps"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:273
+#: sd_runner/ui/prompts/prompt_config_window.py:299
 msgid "CFG"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:274
+#: sd_runner/ui/prompts/prompt_config_window.py:300
 msgid "Denoise"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:275
+#: sd_runner/ui/prompts/prompt_config_window.py:301
 msgid "Random Skip Chance"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:286
+#: sd_runner/ui/prompts/prompt_config_window.py:312
 msgid "Multiplier"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:297
+#: sd_runner/ui/prompts/prompt_config_window.py:323
 msgid "Options"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:303
+#: sd_runner/ui/prompts/prompt_config_window.py:329
 msgid "Tags Applied to Prompt Start"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:308
+#: sd_runner/ui/prompts/prompt_config_window.py:334
 msgid "Sparse Mixed Tags"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:329
-msgid "Subcategory Weights"
+#: sd_runner/ui/prompts/prompt_config_window.py:355
+msgid "Witticisms Weights"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:331
-msgid "Sayings / Puns Ratio"
+#: sd_runner/ui/prompts/prompt_config_window.py:360
+msgid "Relative weight of this source. The percentage is its share of witticisms; all at 0 turns witticisms off."
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:334
-msgid "0 = mostly sayings, 50 = equal blend, 100 = mostly puns"
-msgstr ""
-
-#: ui_qt/prompts/prompt_config_window.py:346
+#: sd_runner/ui/prompts/prompt_config_window.py:379
 msgid "Chance Sliders"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:348
+#: sd_runner/ui/prompts/prompt_config_window.py:381
 msgid "Specific Locations Chance"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:350
+#: sd_runner/ui/prompts/prompt_config_window.py:383
 msgid "Specific Times Chance"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:352
+#: sd_runner/ui/prompts/prompt_config_window.py:385
 msgid "Specify Humans Chance"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:354
+#: sd_runner/ui/prompts/prompt_config_window.py:387
 msgid "Art Styles Chance"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:356
+#: sd_runner/ui/prompts/prompt_config_window.py:389
 msgid "Emphasis Chance"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:358
+#: sd_runner/ui/prompts/prompt_config_window.py:391
 msgid "Stop Insertion Chance"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:360
+#: sd_runner/ui/prompts/prompt_config_window.py:393
 msgid "Return Insertion Chance"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:362
+#: sd_runner/ui/prompts/prompt_config_window.py:395
 msgid "Animals Inclusion Chance"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:364
+#: sd_runner/ui/prompts/prompt_config_window.py:397
 msgid "Dress Inclusion Chance"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:390
+#: sd_runner/ui/prompts/prompt_config_window.py:423
 msgid "Category"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:391
+#: sd_runner/ui/prompts/prompt_config_window.py:424
 msgid "Low"
 msgstr ""
 
-#: ui_qt/prompts/prompt_config_window.py:392
+#: sd_runner/ui/prompts/prompt_config_window.py:425
 msgid "High"
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:78
+#: sd_runner/ui/prompts/prompt_config_window.py:478 tests/ui/test_prompt_config_window.py:185
+#: tests/ui/test_prompt_config_window.py:186
+msgid "{percent}%"
+msgstr ""
+
+#: sd_runner/ui/prompts/prompt_generator_window.py:76
 msgid ""
 "Generate one prompt at a time using current UI settings. This does not run image generation and does not modify "
 "prompt history unless you click \"Save to Prompt History\"."
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:87
+#: sd_runner/ui/prompts/prompt_generator_window.py:85
 msgid "Generate One Prompt"
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:99
+#: sd_runner/ui/prompts/prompt_generator_window.py:97
 msgid "Save to Prompt History"
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:106
+#: sd_runner/ui/prompts/prompt_generator_window.py:104
 msgid "Generated Positive Prompt"
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:111
+#: sd_runner/ui/prompts/prompt_generator_window.py:109
 msgid "Generated Negative Prompt"
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:116
+#: sd_runner/ui/prompts/prompt_generator_window.py:114
 msgid "No prompt generated yet."
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:165
+#: sd_runner/ui/prompts/prompt_generator_window.py:162
 msgid "Generated a new prompt."
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:167
+#: sd_runner/ui/prompts/prompt_generator_window.py:164
 msgid "Prompt Generation Error"
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:171
+#: sd_runner/ui/prompts/prompt_generator_window.py:168
 msgid "Nothing to copy. Generate a prompt first."
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:180
+#: sd_runner/ui/prompts/prompt_generator_window.py:177
 msgid "Generate a prompt first."
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:188
+#: sd_runner/ui/prompts/prompt_generator_window.py:185
 msgid "Nothing to save."
 msgstr ""
 
-#: ui_qt/prompts/prompt_generator_window.py:191
+#: sd_runner/ui/prompts/prompt_generator_window.py:188
 msgid "Saved generated prompt to prompt history"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:74
+#: sd_runner/ui/runs/runs_window.py:77
 msgid "Queue"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:75
+#: sd_runner/ui/runs/runs_window.py:78
 msgid "History"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:76
+#: sd_runner/ui/runs/runs_window.py:79
 msgid "Saved Runs"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:104 ui_qt/runs/runs_window.py:199
+#: sd_runner/ui/runs/runs_window.py:107 sd_runner/ui/runs/runs_window.py:202
 msgid "Status: Idle"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:109 ui_qt/runs/runs_window.py:118 ui_qt/runs/runs_window.py:337
+#: sd_runner/ui/runs/runs_window.py:112 sd_runner/ui/runs/runs_window.py:121 sd_runner/ui/runs/runs_window.py:343
 msgid "Model"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:109 ui_qt/runs/runs_window.py:118 ui_qt/runs/runs_window.py:337
+#: sd_runner/ui/runs/runs_window.py:112 sd_runner/ui/runs/runs_window.py:121 sd_runner/ui/runs/runs_window.py:343
 msgid "N"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:109 ui_qt/runs/runs_window.py:118 ui_qt/runs/runs_window.py:337
+#: sd_runner/ui/runs/runs_window.py:112 sd_runner/ui/runs/runs_window.py:121 sd_runner/ui/runs/runs_window.py:343
 msgid "Total"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:109
+#: sd_runner/ui/runs/runs_window.py:112 sd_runner/ui/runs/runs_window.py:122 sd_runner/ui/runs/runs_window.py:135
+#: tests/ui/test_runs_window.py:170 tests/ui/test_runs_window.py:171
+msgid "Origin"
+msgstr ""
+
+#: sd_runner/ui/runs/runs_window.py:112
 msgid "Status"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:113
+#: sd_runner/ui/runs/runs_window.py:116
 msgid "Currently Running"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:116
+#: sd_runner/ui/runs/runs_window.py:119
 msgid "Pending Jobs"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:118 ui_qt/runs/runs_window.py:132
+#: sd_runner/ui/runs/runs_window.py:121 sd_runner/ui/runs/runs_window.py:135
 msgid "#"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:118
+#: sd_runner/ui/runs/runs_window.py:121
 msgid "Batch"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:128
+#: sd_runner/ui/runs/runs_window.py:131
 msgid "Server Staging Queue"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:132
+#: sd_runner/ui/runs/runs_window.py:135
 msgid "Command"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:132
+#: sd_runner/ui/runs/runs_window.py:135
 msgid "Args"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:147
+#: sd_runner/ui/runs/runs_window.py:150
 msgid "Start processing pending jobs"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:150
+#: sd_runner/ui/runs/runs_window.py:153
 msgid "Edit Pending"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:151
+#: sd_runner/ui/runs/runs_window.py:154
 msgid "Edit N and Total counts for the selected pending job"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:154
+#: sd_runner/ui/runs/runs_window.py:157
 msgid "Cancel Current Run"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:157
+#: sd_runner/ui/runs/runs_window.py:160
 msgid "Cancel All"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:160
+#: sd_runner/ui/runs/runs_window.py:163
 msgid "Cancel Staging"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:161
+#: sd_runner/ui/runs/runs_window.py:164
 msgid "Clear the server staging queue"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:180
+#: sd_runner/ui/runs/runs_window.py:183
 msgid "Running"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:182
+#: sd_runner/ui/runs/runs_window.py:185
 msgid "Cancelled"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:191
+#: sd_runner/ui/runs/runs_window.py:194
 msgid "Status: Running"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:194
+#: sd_runner/ui/runs/runs_window.py:197
 msgid "Status: Paused — {0} restored job(s) from previous session"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:244
+#: sd_runner/ui/runs/runs_window.py:250
 msgid "Select a pending job first"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:254
+#: sd_runner/ui/runs/runs_window.py:260
 msgid "Edit Pending Job"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:262
+#: sd_runner/ui/runs/runs_window.py:268
 msgid "N (images per run):"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:267
+#: sd_runner/ui/runs/runs_window.py:273
 msgid "Total (runs):"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:331
+#: sd_runner/ui/runs/runs_window.py:337
 msgid "workflow, model, or tags…"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:337
+#: sd_runner/ui/runs/runs_window.py:343
 msgid "Time"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:344
+#: sd_runner/ui/runs/runs_window.py:350
 msgid "Restore to Sidebar"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:387
+#: sd_runner/ui/runs/runs_window.py:393
 msgid "Select a history entry first"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:397
+#: sd_runner/ui/runs/runs_window.py:403
 msgid "Config restored to sidebar"
 msgstr ""
 
-#: ui_qt/runs/runs_window.py:400
+#: sd_runner/ui/runs/runs_window.py:406
 msgid "Failed to restore config"
 msgstr ""
 
-#: utils/globals.py:31
-msgid "Fixed"
+#: tests/ui/test_recent_adapters_window.py:141
+msgid "Not loaded"
 msgstr ""
 
-#: utils/globals.py:32
-msgid "SFW"
-msgstr ""
-
-#: utils/globals.py:33
-msgid "NSFW"
-msgstr ""
-
-#: utils/globals.py:34
-msgid "NSFL"
-msgstr ""
-
-#: utils/globals.py:35
-msgid "Take"
-msgstr ""
-
-#: utils/globals.py:36
-msgid "Random"
-msgstr ""
-
-#: utils/globals.py:38
-msgid "Any Art"
-msgstr ""
-
-#: utils/globals.py:39
-msgid "Painterly"
-msgstr ""
-
-#: utils/globals.py:40
-msgid "Anime"
-msgstr ""
-
-#: utils/globals.py:41
-msgid "Glitch"
-msgstr ""
-
-#: utils/globals.py:42
-msgid "List"
-msgstr ""
-
-#: utils/globals.py:43
-msgid "Improve"
-msgstr ""
-
-#: utils/globals.py:75
-msgid "Remove word/phrase (only the blacklisted part)"
-msgstr ""
-
-#: utils/globals.py:76
-msgid "Remove entire tag (if any part matches)"
-msgstr ""
-
-#: utils/globals.py:77
-msgid "Fail prompt (block generation)"
-msgstr ""
-
-#: utils/globals.py:78
-msgid "Log only (do not remove, just log)"
-msgstr ""
-
-#: utils/globals.py:102 utils/globals.py:127
-msgid "Disallow"
-msgstr ""
-
-#: utils/globals.py:103 utils/globals.py:128
-msgid "Allow in NSFW"
-msgstr ""
-
-#: utils/globals.py:163
-msgid "All visual media"
-msgstr ""
-
-#: utils/globals.py:164
-msgid "Text to Image"
-msgstr ""
-
-#: utils/globals.py:165 utils/globals.py:350
-msgid "Image to Image"
-msgstr ""
-
-#: utils/globals.py:166
-msgid "Image to Text"
-msgstr ""
-
-#: utils/globals.py:167
-msgid "Image Classification"
-msgstr ""
-
-#: utils/globals.py:168
-msgid "Zero-shot Image Classification"
-msgstr ""
-
-#: utils/globals.py:169
-msgid "Object Detection"
-msgstr ""
-
-#: utils/globals.py:170
-msgid "Image Segmentation"
-msgstr ""
-
-#: utils/globals.py:171
-msgid "Depth Estimation"
-msgstr ""
-
-#: utils/globals.py:172
-msgid "Visual Question Answering"
-msgstr ""
-
-#: utils/globals.py:173
-msgid "Video Classification"
-msgstr ""
-
-#: utils/globals.py:174
-msgid "Text to Video"
-msgstr ""
-
-#: utils/globals.py:175
-msgid "Image Feature Extraction"
-msgstr ""
-
-#: utils/globals.py:208
-msgid "Last Modified"
-msgstr ""
-
-#: utils/globals.py:209
-msgid "Created At"
-msgstr ""
-
-#: utils/globals.py:210
-msgid "Trending Score"
-msgstr ""
-
-#: utils/globals.py:234
-msgid "Descending"
-msgstr ""
-
-#: utils/globals.py:235
-msgid "Ascending"
-msgstr ""
-
-#: utils/globals.py:344
-msgid "Simple Image Gen"
-msgstr ""
-
-#: utils/globals.py:345
-msgid "Simple Image Gen Lora"
-msgstr ""
-
-#: utils/globals.py:346
-msgid "Simple Image Gen Tiled Upscale"
-msgstr ""
-
-#: utils/globals.py:347
-msgid "Ella"
-msgstr ""
-
-#: utils/globals.py:348
-msgid "Instant Lora"
-msgstr ""
-
-#: utils/globals.py:351
-msgid "Image Edit"
-msgstr ""
-
-#: utils/globals.py:353
-msgid "Inpaint ClipSeg"
-msgstr ""
-
-#: utils/globals.py:354
-msgid "Animate Diff"
-msgstr ""
-
-#: utils/globals.py:355
-msgid "Renoiser"
-msgstr ""
-
-#: utils/globals.py:356 utils/globals.py:656
-msgid "Turbo"
-msgstr ""
-
-#: utils/globals.py:357
-msgid "Upscale Simple"
-msgstr ""
-
-#: utils/globals.py:358
-msgid "Upscale Better"
-msgstr ""
-
-#: utils/globals.py:359
-msgid "Redo Prompt"
-msgstr ""
-
-#: utils/globals.py:472 utils/globals.py:533
-msgid "Any"
-msgstr ""
-
-#: utils/globals.py:473
-msgid "Euler"
-msgstr ""
-
-#: utils/globals.py:474
-msgid "Euler Ancestral"
-msgstr ""
-
-#: utils/globals.py:475
-msgid "DPM 2"
-msgstr ""
-
-#: utils/globals.py:476
-msgid "DPM 2 Ancestral"
-msgstr ""
-
-#: utils/globals.py:477
-msgid "DPM++ SDE"
-msgstr ""
-
-#: utils/globals.py:478
-msgid "DPM++ SDE GPU"
-msgstr ""
-
-#: utils/globals.py:479
-msgid "DPM++ 2M"
-msgstr ""
-
-#: utils/globals.py:480
-msgid "DPM++ 2M SDE"
-msgstr ""
-
-#: utils/globals.py:481
-msgid "DPM++ 2M SDE GPU"
-msgstr ""
-
-#: utils/globals.py:482
-msgid "DPM++ 3M SDE"
-msgstr ""
-
-#: utils/globals.py:483
-msgid "DPM++ 3M SDE GPU"
-msgstr ""
-
-#: utils/globals.py:484
-msgid "DDIM"
-msgstr ""
-
-#: utils/globals.py:485
-msgid "DDPM"
-msgstr ""
-
-#: utils/globals.py:486
-msgid "LCM"
-msgstr ""
-
-#: utils/globals.py:534
-msgid "Normal"
-msgstr ""
-
-#: utils/globals.py:535
-msgid "Karras"
-msgstr ""
-
-#: utils/globals.py:536
-msgid "Simple"
-msgstr ""
-
-#: utils/globals.py:537
-msgid "Exponential"
-msgstr ""
-
-#: utils/globals.py:538
-msgid "SGM Uniform"
-msgstr ""
-
-#: utils/globals.py:539
-msgid "DDIM Uniform"
-msgstr ""
-
-#: utils/globals.py:653
-msgid "SD 1.5"
-msgstr ""
-
-#: utils/globals.py:654
-msgid "SDXL"
-msgstr ""
-
-#: utils/globals.py:655
-msgid "Illustrious"
-msgstr ""
-
-#: utils/globals.py:657
-msgid "Flux"
-msgstr ""
-
-#: utils/globals.py:658
-msgid "Flux2 Klein 9B"
-msgstr ""
-
-#: utils/globals.py:659
-msgid "Flux2 Klein 4B"
-msgstr ""
-
-#: utils/globals.py:660
-msgid "Chroma"
-msgstr ""
-
-#: utils/globals.py:661
-msgid "ZImageTurbo"
-msgstr ""
-
-#: utils/globals.py:662
-msgid "Qwen"
-msgstr ""
-
-#: utils/globals.py:689
-msgid "1536"
-msgstr ""
-
-#: utils/globals.py:690
-msgid "1328"
-msgstr ""
-
-#: utils/globals.py:691
-msgid "1024"
-msgstr ""
-
-#: utils/globals.py:692
-msgid "768"
-msgstr ""
-
-#: utils/globals.py:693
-msgid "512"
-msgstr ""
-
-#: utils/globals.py:733
-msgid "Open Application"
-msgstr ""
-
-#: utils/globals.py:734
-msgid "NSFW/NSFL Prompt Modes"
-msgstr ""
-
-#: utils/globals.py:735
-msgid "Take Prompt Mode (unfiltered image prompts)"
-msgstr ""
-
-#: utils/globals.py:736
-msgid "Edit Blacklist"
-msgstr ""
-
-#: utils/globals.py:737
-msgid "Reveal Blacklist Concepts"
-msgstr ""
-
-#: utils/globals.py:738
-msgid "Edit Schedules"
-msgstr ""
-
-#: utils/globals.py:739
-msgid "Edit Timed Schedules"
-msgstr ""
-
-#: utils/globals.py:740
-msgid "Edit Expansions"
-msgstr ""
-
-#: utils/globals.py:741
-msgid "Edit Presets"
-msgstr ""
-
-#: utils/globals.py:743
-msgid "Access Password Administration"
-msgstr ""
-
-#: utils/job_queue.py:46
-msgid " (Pending runs: {0})"
-msgstr ""
-
-#: utils/job_queue.py:48
-msgid "Pending schedules: {0}"
-msgstr ""
-
-#: utils/job_queue.py:209
-msgid "Server staging: {0} pending"
-msgstr ""
-
-#: utils/time_estimator.py:67
-msgid "~{0}d"
-msgstr ""
-
-#: utils/time_estimator.py:69
-msgid "{0}h"
-msgstr ""
-
-#: utils/time_estimator.py:71
-msgid "{0}m"
-msgstr ""
-
-#: utils/time_estimator.py:72
-msgid "{0}s"
-msgstr ""
-
-#: utils/translations.py:32
-msgid "Monday"
-msgstr ""
-
-#: utils/translations.py:34
-msgid "Tuesday"
-msgstr ""
-
-#: utils/translations.py:36
-msgid "Wednesday"
-msgstr ""
-
-#: utils/translations.py:38
-msgid "Thursday"
-msgstr ""
-
-#: utils/translations.py:40
-msgid "Friday"
-msgstr ""
-
-#: utils/translations.py:42
-msgid "Saturday"
-msgstr ""
-
-#: utils/translations.py:44
-msgid "Sunday"
-msgstr ""
-
-#: utils/translations.py:56
-msgid "seconds"
-msgstr ""
-
-#: utils/translations.py:58
-msgid "minutes"
-msgstr ""
-
-#: utils/translations.py:60
-msgid "hours"
-msgstr ""
-
-#: utils/translations.py:62
-msgid "days"
-msgstr ""
-
-#: utils/translations.py:64
-msgid "weeks"
-msgstr ""
-
-#: utils/translations.py:66
-msgid "months"
-msgstr ""
-
-#: utils/translations.py:68
-msgid "years"
-msgstr ""
-
-#: sd_runner/prompts/concepts.py:1324
-msgid "{0} -> blacklisted"
-msgstr ""
-
-#: sd_runner/ui/prompts/concept_editor_window.py:501
-msgid "Blacklisted Concept"
-msgstr ""
-
-#: sd_runner/ui/prompts/concept_editor_window.py:502
-msgid "\"{0}\" matches the blacklist and would be filtered out of generated prompts. Save it anyway?"
-msgstr ""
-
-#: sd_runner/ui/prompts/concept_editor_window.py:623
-msgid "...and {0} more"
-msgstr ""
-
-#: sd_runner/ui/prompts/concept_editor_window.py:625
-msgid "Blacklisted Concepts"
-msgstr ""
-
-#: sd_runner/ui/prompts/concept_editor_window.py:626
-msgid "{0} concepts match the blacklist and would be filtered out of generated prompts:\n\n{1}\n\nImport them anyway?"
-msgstr ""

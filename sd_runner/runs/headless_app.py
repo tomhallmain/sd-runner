@@ -20,9 +20,8 @@ from __future__ import annotations
 from typing import Any, Callable, Optional
 
 from lib.logging_setup import get_logger
-from lib.translations import I18N
+from lib.translations import _
 
-_ = I18N._
 logger = get_logger("runs.headless_app")
 
 

@@ -41,12 +41,10 @@ from sd_runner.runs.run_config import RunConfig
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.globals import Sampler, Scheduler
 from sd_runner.runs.runner_app_config import RunnerAppConfig
-from lib.translations import I18N
+from lib.translations import _
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
-
-_ = I18N._
 
 # Range 0..50 for concept-count dropdowns
 _COUNT_ITEMS = [str(i) for i in range(51)]

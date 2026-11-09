@@ -14,9 +14,7 @@ from sd_runner.ui.auth.password_session_manager import PasswordSessionManager
 from sd_runner.globals import ProtectedActions
 from lib.logging_setup import get_logger
 from lib.qt_alert import qt_alert
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import _
 
 logger = get_logger("ui.auth.password_utils")
 

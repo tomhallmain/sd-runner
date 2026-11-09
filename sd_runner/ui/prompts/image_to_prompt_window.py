@@ -32,13 +32,11 @@ from sd_runner.image_to_prompt import ImageToPromptBackend, ImageToPromptService
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.persistence.app_info_cache import app_info_cache
 from sd_runner.config import config
-from lib.translations import I18N
+from lib.translations import _
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
     from sd_runner.ui.app_window.app_window import AppWindow
-
-_ = I18N._
 
 
 class ImageToPromptWindow(SmartDialog):

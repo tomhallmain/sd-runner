@@ -31,12 +31,10 @@ from sd_runner.presets.preset import Preset
 from sd_runner.presets.presets_state import PresetsState
 from sd_runner.presets.stashed_config import StashedConfig
 from sd_runner.globals import ProtectedActions, WorkflowType
-from lib.translations import I18N
+from lib.translations import _
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
-
-_ = I18N._
 
 
 class PresetsWindow(SmartDialog):

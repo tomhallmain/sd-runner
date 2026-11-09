@@ -3,9 +3,7 @@ import os
 
 from sd_runner.config import config
 from extensions.image_data_extractor import ImageDataExtractor
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import _
 
 
 class PromptMode(Enum):
@@ -69,8 +67,6 @@ class BlacklistMode(Enum):
         return self.value
 
     def display(self):
-        # Use I18N._ for translation
-        _ = I18N._
         display_map = {
             BlacklistMode.REMOVE_WORD_OR_PHRASE: _(u"Remove word/phrase (only the blacklisted part)"),
             BlacklistMode.REMOVE_ENTIRE_TAG: _(u"Remove entire tag (if any part matches)"),

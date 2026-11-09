@@ -14,14 +14,12 @@ close.
 
 import pytest
 
-from lib.translations import I18N
+from lib.translations import _
 from sd_runner.globals import Sampler, Scheduler
 from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.runs.runner_app_config import RunnerAppConfig
 from sd_runner.ui.prompts.prompt_config_window import PromptConfigWindow
 from tests.utils import close_window, make_app_actions, make_run_config
-
-_ = I18N._
 
 
 @pytest.fixture

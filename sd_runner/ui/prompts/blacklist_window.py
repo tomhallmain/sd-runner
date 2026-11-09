@@ -33,12 +33,10 @@ from sd_runner.config import config
 from sd_runner.globals import (
     BlacklistMode, BlacklistPromptMode, ModelBlacklistMode, ProtectedActions,
 )
-from lib.translations import I18N
+from lib.translations import _
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
-
-_ = I18N._
 
 
 # ======================================================================

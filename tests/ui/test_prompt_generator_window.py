@@ -3,8 +3,7 @@ import pytest
 from PySide6.QtWidgets import QApplication
 
 from sd_runner.ui.prompts.prompt_generator_window import PromptGeneratorWindow
-from lib.translations import I18N
-_ = I18N._
+from lib.translations import _
 
 
 class TestPromptGeneratorWindowOpens:

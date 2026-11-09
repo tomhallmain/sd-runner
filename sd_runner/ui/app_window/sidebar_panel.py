@@ -29,9 +29,8 @@ from sd_runner.globals import (
     Sampler, Scheduler,
 )
 from lib.logging_setup import get_logger
-from lib.translations import I18N
+from lib.translations import _
 
-_ = I18N._
 logger = get_logger("ui.sidebar_panel")
 
 

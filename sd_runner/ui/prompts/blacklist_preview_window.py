@@ -28,12 +28,10 @@ from sd_runner.prompts.concepts import Concepts
 from sd_runner.prompts.language_detection import LanguageBasket, detect_basket
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.globals import ProtectedActions
-from lib.translations import I18N
+from lib.translations import _
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
-
-_ = I18N._
 
 
 class BlacklistPreviewWindow(SmartDialog):

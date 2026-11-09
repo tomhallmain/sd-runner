@@ -26,10 +26,9 @@ import uuid
 
 from sd_runner.models.model import NoModelsFound
 from lib.logging_setup import get_logger
-from lib.translations import I18N
+from lib.translations import _
 from lib.utils import Utils
 
-_ = I18N._
 logger = get_logger("runs.run_controller")
 
 #: Origin recorded for a server run whose client did not name itself. The

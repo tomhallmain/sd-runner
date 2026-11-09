@@ -10,9 +10,7 @@ from sd_runner.models.model_adapters import LoraBundle
 from sd_runner.config import config
 from sd_runner.globals import Globals, PromptMode, ModelBlacklistMode, WorkflowType, ArchitectureType, ResolutionGroup
 from lib.logging_setup import get_logger
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import _
 
 logger = get_logger("models.model")
 

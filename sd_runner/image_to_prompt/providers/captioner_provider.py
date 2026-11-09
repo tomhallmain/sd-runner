@@ -11,9 +11,7 @@ from sd_runner.image_to_prompt.types import (
     ImageToPromptRequest,
     ImageToPromptResult,
 )
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import _
 
 
 class CaptionerProvider(ImageToPromptProvider):

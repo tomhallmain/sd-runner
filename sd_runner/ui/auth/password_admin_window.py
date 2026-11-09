@@ -24,9 +24,7 @@ from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.auth.password_core import PasswordManager, get_security_config
 from sd_runner.ui.auth.password_utils import require_password
 from sd_runner.globals import ProtectedActions
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import _
 
 
 class PasswordChangeDialog(QDialog):

@@ -6,9 +6,8 @@ import threading
 
 from extensions.hf_hub_api import ensure_hf_snapshot
 from lib.logging_setup import get_logger
-from lib.translations import I18N
+from lib.translations import _
 
-_ = I18N._
 logger = get_logger("image_to_prompt.llava")
 
 #: Lead-ins a LLaVA-family model habitually opens with. They are prose framing,

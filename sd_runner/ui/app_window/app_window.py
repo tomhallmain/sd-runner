@@ -41,10 +41,9 @@ from sd_runner.config import config
 from sd_runner.runs.job_queue import SDRunsQueue, PresetSchedulesQueue, ServerStagingQueue
 from lib.logging_setup import get_logger, set_logger_level
 from sd_runner.runs.runner_app_config import RunnerAppConfig
-from lib.translations import I18N
+from lib.translations import _
 from lib.utils import Utils
 
-_ = I18N._
 logger = get_logger("ui.app_window")
 
 

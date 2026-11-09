@@ -10,9 +10,7 @@ from sd_runner.globals import Globals, PromptMode, Sampler, Scheduler, WorkflowT
 from sd_runner.models.model import Model, NoModelsFound
 from lib.logging_setup import get_logger
 from sd_runner.runs.time_estimator import TimeEstimator
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import _
 
 logger = get_logger("runs.run_config")
 
@@ -272,11 +270,11 @@ class RunConfig:
 
         # Validate IP adapter requirements
         if workflow_type in ip_adapter_required_workflows and self._is_ip_adapter_missing():
-            raise Exception(_(f"Workflow '{workflow_type.get_translation()}' requires an IP adapter to be specified."))
+            raise Exception(_("Workflow '{0}' requires an IP adapter to be specified.").format(workflow_type.get_translation()))
 
         # Validate control net requirements
         if workflow_type in control_net_required_workflows and self._is_control_net_missing():
-            raise Exception(_(f"Workflow '{workflow_type.get_translation()}' requires a control net to be specified."))
+            raise Exception(_("Workflow '{0}' requires a control net to be specified.").format(workflow_type.get_translation()))
         
         # Validate renoiser workflow with multiple resolutions
         if workflow_type == WorkflowType.RENOISER and self.res_tags and "," in self.res_tags:

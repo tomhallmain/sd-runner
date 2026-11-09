@@ -30,6 +30,7 @@ from typing import Optional, Dict, List, Tuple
 from dataclasses import dataclass
 
 from lib.logging_setup import get_logger
+from lib.translations import _
 
 logger = get_logger("lora_trigger_extractor")
 
@@ -96,7 +97,7 @@ class LoRATriggerExtractor:
                 trigger_count=0,
                 top_triggers=[],
                 last_updated=time.time(),
-                error_message="Safetriggers functionality not available"
+                error_message=_("Safetriggers functionality not available")
             )
         
         # Normalize path for caching
@@ -159,7 +160,7 @@ class LoRATriggerExtractor:
                     trigger_count=0,
                     top_triggers=[],
                     last_updated=time.time(),
-                    error_message="No triggers found in LoRA"
+                    error_message=_("No triggers found in LoRA")
                 )
                 
         except Exception as e:
@@ -170,7 +171,7 @@ class LoRATriggerExtractor:
                 trigger_count=0,
                 top_triggers=[],
                 last_updated=time.time(),
-                error_message=f"Error extracting triggers: {str(e)}"
+                error_message=_("Error extracting triggers: {0}").format(e)
             )
     
     def get_cached_trigger_info(self, lora_path: str) -> Optional[TriggerInfo]:

@@ -33,12 +33,10 @@ from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.window_focus import clear_class_ref_if_self, try_focus_existing_window
 from sd_runner.config import config
 from sd_runner.globals import ArchitectureType, PromptMode
-from lib.translations import I18N
+from lib.translations import _
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
-
-_ = I18N._
 
 _WILDCARD_KEY = "*"
 _WILDCARD_LABEL = "* (All modes)"

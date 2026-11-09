@@ -32,7 +32,6 @@ from lib.logging_setup import get_logger
 from lib.translations import I18N
 from lib.utils import Utils
 
-_ = I18N._
 logger = get_logger("app_headless")
 
 

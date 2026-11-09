@@ -14,14 +14,12 @@ from lib.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data
 from lib.logging_setup import adopt_legacy_file, app_data_dir, get_logger
 from sd_runner.app_paths import REPO_ROOT, legacy_migration_allowed, resource_path
 from lib.pickleable_cache import SizeAwarePicklableCache, fingerprint_string_sequence
-from lib.translations import I18N
+from lib.translations import _
 from lib.utils import Utils
 from sd_runner.prompts.language_codes import is_invalid_language_code, normalize_language_code
 
 if TYPE_CHECKING:
     from sd_runner.prompts.concept_sets import SourceAnchors
-
-_ = I18N._
 
 logger = get_logger("prompts.blacklist")
 

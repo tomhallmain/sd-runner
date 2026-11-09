@@ -12,9 +12,7 @@ singleton at import time, and importing this module should not force that.
 from sd_runner.presets.intermediate_prompt import IntermediatePrompt
 from sd_runner.presets.preset import Preset
 from sd_runner.presets.stashed_config import StashedConfig
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import _
 
 
 class PresetsState:

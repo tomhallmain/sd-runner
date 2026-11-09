@@ -33,7 +33,7 @@ from sd_runner.globals import (
     HfHubVisualMediaTask,
     ProtectedActions,
 )
-from lib.translations import I18N
+from lib.translations import _
 
 try:
     from lib.lora_trigger_extractor import (
@@ -46,8 +46,6 @@ except ImportError:
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
-
-_ = I18N._
 
 
 # ======================================================================

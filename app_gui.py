@@ -30,10 +30,9 @@ from sd_runner.runtime.crash_log import enable_fault_log
 from sd_runner.runtime.unpack_cleanup import remove_stale_unpack_dirs
 from sd_runner.runtime.version import describe as describe_version, source_drift
 from lib.logging_setup import get_logger
-from lib.translations import I18N
+from lib.translations import I18N, _
 from lib.utils import Utils
 
-_ = I18N._
 logger = get_logger("app_gui")
 
 

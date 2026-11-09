@@ -22,12 +22,11 @@ from lib.multi_display_qt import SmartDialog
 from sd_runner.persistence.app_info_cache import app_info_cache
 from lib.logging_setup import get_logger
 from sd_runner.runs.runner_app_config import RunnerAppConfig
-from lib.translations import I18N
+from lib.translations import _
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
 
-_ = I18N._
 logger = get_logger("ui.runs_window")
 
 _QUEUE_REFRESH_MS = 2000

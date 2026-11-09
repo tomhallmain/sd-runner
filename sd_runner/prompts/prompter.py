@@ -11,11 +11,10 @@ from sd_runner.prompts.expansion import Expansion
 from sd_runner.config import config
 from sd_runner.globals import BlacklistMode, BlacklistTextOrigin, PromptMode
 from lib.logging_setup import get_logger
-from lib.translations import I18N
+from lib.translations import _
 from lib.utils import NO_CONSOLE_WINDOW
 from extensions.image_data_extractor import ImageDataExtractor
 
-_ = I18N._
 logger = get_logger("prompts.prompter")
 
 

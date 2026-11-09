@@ -3,9 +3,7 @@ import uuid
 from sd_runner.config import config
 from lib.logging_setup import get_logger
 from sd_runner.runs.time_estimator import TimeEstimator
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import _
 
 logger = get_logger("runs.job_queue")
 

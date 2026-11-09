@@ -2,9 +2,7 @@ import math
 
 from sd_runner.config import config
 from sd_runner.globals import Globals
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import _
 
 
 class TimeEstimator:

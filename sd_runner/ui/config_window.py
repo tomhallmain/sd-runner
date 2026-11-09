@@ -15,12 +15,10 @@ from lib.multi_display_qt import SmartDialog
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.config import config
 from sd_runner.globals import SoftwareType
-from lib.translations import I18N
+from lib.translations import _
 
 if TYPE_CHECKING:
     from sd_runner.ui.app_actions import AppActions
-
-_ = I18N._
 
 
 class ConfigWindow(SmartDialog):

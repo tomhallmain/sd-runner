@@ -11,12 +11,10 @@ from types import SimpleNamespace
 
 import pytest
 
-from lib.translations import I18N
+from lib.translations import _
 from sd_runner.globals import ProtectedActions
 from sd_runner.ui.app_window.window_launcher import WindowLauncher
 from tests.utils import install_password_bypass
-
-_ = I18N._
 
 
 class RecordingNotifications:

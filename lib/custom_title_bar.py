@@ -18,6 +18,8 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QPoint, Signal, QSize, QRect, QEvent, QObject
 from PySide6.QtGui import QMouseEvent, QCursor, QAction, QPixmap, QIcon
 
+from lib.translations import _
+
 
 class TitleBarMenuButton(QPushButton):
     """A styled menu button for the title bar."""
@@ -153,17 +155,17 @@ class CustomTitleBar(QWidget):
         
         # Window control buttons - aligned to fill height
         self.minimize_btn = TitleBarButton("─", "minimize", self)
-        self.minimize_btn.setToolTip("Minimize")
+        self.minimize_btn.setToolTip(_("Minimize"))
         self.minimize_btn.clicked.connect(self._on_minimize)
         layout.addWidget(self.minimize_btn, 0, Qt.AlignVCenter)
         
         self.maximize_btn = TitleBarButton("□", "maximize", self)
-        self.maximize_btn.setToolTip("Maximize")
+        self.maximize_btn.setToolTip(_("Maximize"))
         self.maximize_btn.clicked.connect(self._on_maximize)
         layout.addWidget(self.maximize_btn, 0, Qt.AlignVCenter)
         
         self.close_btn = TitleBarButton("✕", "close", self)
-        self.close_btn.setToolTip("Close")
+        self.close_btn.setToolTip(_("Close"))
         self.close_btn.clicked.connect(self._on_close)
         layout.addWidget(self.close_btn, 0, Qt.AlignVCenter)
     
@@ -286,10 +288,10 @@ class CustomTitleBar(QWidget):
         self._is_maximized = is_maximized
         if is_maximized:
             self.maximize_btn.setText("❐")
-            self.maximize_btn.setToolTip("Restore")
+            self.maximize_btn.setToolTip(_("Restore"))
         else:
             self.maximize_btn.setText("□")
-            self.maximize_btn.setToolTip("Maximize")
+            self.maximize_btn.setToolTip(_("Maximize"))
             
     def apply_theme(self, is_dark: bool):
         """Apply theme to the title bar using AppStyle."""

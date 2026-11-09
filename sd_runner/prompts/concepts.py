@@ -13,10 +13,8 @@ from sd_runner.config import config
 from sd_runner.globals import Globals, PromptMode, BlacklistPromptMode, BlacklistTextOrigin
 from lib.encryptor import symmetric_encrypt_data_to_file, symmetric_decrypt_data_from_file
 from lib.logging_setup import get_logger
-from lib.translations import I18N
+from lib.translations import _
 from lib.utils import Utils
-
-_ = I18N._
 
 logger = get_logger("prompts.concepts")
 

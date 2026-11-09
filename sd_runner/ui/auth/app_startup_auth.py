@@ -16,9 +16,8 @@ from sd_runner.ui.auth.password_dialog import PasswordLineEdit
 from sd_runner.ui.auth.password_utils import alert_password_unreadable
 from sd_runner.globals import ProtectedActions
 from lib.logging_setup import get_logger
-from lib.translations import I18N
+from lib.translations import _
 
-_ = I18N._
 logger = get_logger("app_startup_auth")
 
 

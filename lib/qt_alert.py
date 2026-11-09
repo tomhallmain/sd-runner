@@ -5,9 +5,7 @@ from typing import Optional
 
 from PySide6.QtWidgets import QWidget, QMessageBox
 
-from lib.translations import I18N
-
-_ = I18N._
+from lib.translations import _
 
 
 def _make_box(
