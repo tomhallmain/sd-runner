@@ -29,6 +29,24 @@ class TestJobQueueBasics:
         q.take()
         assert len(q.pending_jobs) == 0
 
+    def test_remove_matching_drops_only_the_matches_and_keeps_order(self):
+        q = JobQueue()
+        q.add("a")
+        q.add("b")
+        q.add("a")
+        same = q.pending_jobs
+        q.job_running = True
+        assert q.remove_matching(lambda job: job == "a") == 2
+        assert q.pending_jobs == ["b"]
+        assert q.pending_jobs is same
+        assert q.job_running is True
+
+    def test_remove_matching_with_no_hits_leaves_the_queue(self):
+        q = JobQueue()
+        q.add("a")
+        assert q.remove_matching(lambda job: False) == 0
+        assert q.pending_jobs == ["a"]
+
     def test_cancel_clears_all_pending(self):
         q = JobQueue()
         q.add("a")
@@ -151,6 +169,16 @@ class TestServerStagingQueue:
         assert q.pending_count() == 2
         q.take()
         assert q.pending_count() == 1
+
+    def test_remove_matching_drops_only_the_matches_and_keeps_order(self):
+        q = ServerStagingQueue()
+        q.add("keep", {"edit_suffix": "_a"}, "weidr")
+        q.add("drop", {"edit_suffix": "_b"}, "other")
+        q.add("keep2", {"edit_suffix": "_a"}, "weidr")
+        same = q._requests
+        assert q.remove_matching(lambda entry: entry[0] == "drop") == 1
+        assert [entry[0] for entry in q._requests] == ["keep", "keep2"]
+        assert q._requests is same
 
     def test_cancel_clears_all(self):
         q = ServerStagingQueue()

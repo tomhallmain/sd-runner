@@ -2,7 +2,11 @@
 import pytest
 from PySide6.QtWidgets import QApplication
 
-from sd_runner.ui.runs.runs_window import RunsWindow, _fmt_timestamp, _origin, _short
+from sd_runner.ui.runs.runs_window import (
+    FILTER_EDIT_SUFFIX, FILTER_ORIGIN, RunsWindow,
+    _fmt_timestamp, _origin, _short,
+    pending_filter_value, staging_filter_value,
+)
 from lib.translations import _
 
 
@@ -139,6 +143,29 @@ class TestRunsWindowQueue:
 # Origin column — which runs a request started
 # ---------------------------------------------------------------------------
 
+class TestQueueFilterValues:
+    def test_pending_suffix_and_origin_are_stripped(self):
+        assert pending_filter_value(_Stub(edit_suffix="  _x "), FILTER_EDIT_SUFFIX) == "_x"
+        assert pending_filter_value(_Stub(run_origin=" weidr "), FILTER_ORIGIN) == "weidr"
+
+    def test_pending_missing_field_is_empty(self):
+        assert pending_filter_value(_Stub(), FILTER_EDIT_SUFFIX) == ""
+        assert pending_filter_value(_Stub(), FILTER_ORIGIN) == ""
+
+    def test_staging_reads_suffix_from_args_and_client_from_the_third_slot(self):
+        entry = ("GEN", {"edit_suffix": "_x"}, "weidr", "run-1")
+        assert staging_filter_value(entry, FILTER_EDIT_SUFFIX) == "_x"
+        assert staging_filter_value(entry, FILTER_ORIGIN) == "weidr"
+
+    def test_staging_blank_client_stays_blank(self):
+        """An unidentified client is not rewritten to the pending-run sentinel."""
+        assert staging_filter_value(("GEN", {}, ""), FILTER_ORIGIN) == ""
+
+    def test_staging_entry_of_unexpected_shape_matches_nothing(self):
+        assert staging_filter_value(("only",), FILTER_EDIT_SUFFIX) == ""
+        assert staging_filter_value(None, FILTER_ORIGIN) == ""
+
+
 class TestOriginHelper:
     def test_server_run_is_labelled(self):
         assert _origin(_Stub(run_origin="weidr")) == "weidr"
@@ -206,6 +233,90 @@ class TestOriginColumn:
             item = win._pending_tree.topLevelItem(0)
             assert item.text(win._pending_tree.columnCount() - 1) is not None
             assert win._pending_tree.columnCount() == 8
+        finally:
+            win.close()
+
+
+class TestRemoveMatching:
+    def _select(self, combo, field: str) -> None:
+        for i in range(combo.count()):
+            if combo.itemData(i) == field:
+                combo.setCurrentIndex(i)
+                return
+        raise AssertionError(field)
+
+    def test_edit_suffix_removes_matches_from_both_queues(self, app_window):
+        keep, _copy = app_window.get_args()
+        keep.edit_suffix = "_keep"
+        drop, _copy = app_window.get_args()
+        drop.edit_suffix = "_drop"
+        app_window.job_queue.pending_jobs.extend([keep, drop])
+        app_window.server_staging_queue.add("GEN", {"edit_suffix": "_drop"}, "weidr")
+        app_window.server_staging_queue.add("GEN", {"edit_suffix": "_keep"}, "other")
+
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        try:
+            self._select(win._remove_field, FILTER_EDIT_SUFFIX)
+            win._remove_value.setText("  _drop ")
+            win._remove_matching()
+            assert [job.edit_suffix for job in app_window.job_queue.pending_jobs] == ["_keep"]
+            assert app_window.server_staging_queue.pending_count() == 1
+            assert staging_filter_value(
+                app_window.server_staging_queue._requests[0], FILTER_EDIT_SUFFIX
+            ) == "_keep"
+            assert win._pending_tree.topLevelItemCount() == 1
+            assert win._staging_tree.topLevelItemCount() == 1
+        finally:
+            win.close()
+
+    def test_origin_removes_one_client_from_both_queues(self, app_window):
+        theirs, _copy = app_window.get_args()
+        theirs.run_origin = "weidr"
+        mine, _copy = app_window.get_args()
+        mine.run_origin = ""
+        app_window.job_queue.pending_jobs.extend([theirs, mine])
+        app_window.server_staging_queue.add("GEN", {"edit_suffix": "_x"}, "weidr")
+        app_window.server_staging_queue.add("GEN", {}, "other")
+
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        try:
+            self._select(win._remove_field, FILTER_ORIGIN)
+            win._remove_value.setText("weidr")
+            win._remove_matching()
+            assert [job.run_origin for job in app_window.job_queue.pending_jobs] == [""]
+            assert [entry[2] for entry in app_window.server_staging_queue._requests] == ["other"]
+        finally:
+            win.close()
+
+    def test_empty_filter_removes_nothing(self, app_window):
+        toasts = []
+        app_window.app_actions._actions["toast"] = lambda msg, **kw: toasts.append(msg)
+        args, _copy = app_window.get_args()
+        args.edit_suffix = "_drop"
+        app_window.job_queue.pending_jobs.append(args)
+
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        try:
+            win._remove_value.setText("   ")
+            win._remove_matching()
+            assert len(app_window.job_queue.pending_jobs) == 1
+            assert len(toasts) == 1
+        finally:
+            win.close()
+
+    def test_no_match_toasts_and_leaves_the_queues(self, app_window):
+        toasts = []
+        app_window.app_actions._actions["toast"] = lambda msg, **kw: toasts.append(msg)
+        args, _copy = app_window.get_args()
+        args.edit_suffix = "_keep"
+        app_window.job_queue.pending_jobs.append(args)
+
+        win = RunsWindow(parent=app_window, app_actions=app_window.app_actions)
+        try:
+            win._remove_value.setText("_drop")
+            win._remove_matching()
+            assert len(app_window.job_queue.pending_jobs) == 1
+            assert len(toasts) == 1
         finally:
             win.close()
 

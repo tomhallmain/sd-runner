@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
-    QDialog, QDialogButtonBox, QFormLayout,
+    QComboBox, QDialog, QDialogButtonBox, QFormLayout,
     QHBoxLayout, QHeaderView, QLabel, QLineEdit,
     QPushButton, QSpinBox, QTabWidget, QTreeWidget, QTreeWidgetItem,
     QVBoxLayout, QWidget,
@@ -31,6 +31,12 @@ logger = get_logger("ui.runs_window")
 
 _QUEUE_REFRESH_MS = 2000
 
+# Combo item data, not the translated label. The two queues do not store a
+# client the same way: a pending run records run_origin (empty client ids
+# become "server"), a staged request keeps the client id it arrived with.
+FILTER_EDIT_SUFFIX = "edit_suffix"
+FILTER_ORIGIN = "origin"
+
 
 def _fmt_timestamp(ts: str) -> str:
     try:
@@ -42,6 +48,45 @@ def _fmt_timestamp(ts: str) -> str:
 def _short(value: str, max_len: int = 40) -> str:
     s = str(value or "")
     return s if len(s) <= max_len else s[:max_len - 1] + "…"
+
+
+def pending_filter_value(run_config, field: str) -> str:
+    """The string a pending-job filter compares, or "" when the field is absent.
+
+    Exact, and stripped: a suffix or a client id is an identifier, and a
+    deletion that treated the query as a substring would remove neighbours.
+    """
+    if field == FILTER_EDIT_SUFFIX:
+        raw = getattr(run_config, "edit_suffix", "")
+    elif field == FILTER_ORIGIN:
+        raw = getattr(run_config, "run_origin", "")
+    else:
+        return ""
+    return str(raw or "").strip()
+
+
+def staging_filter_value(entry, field: str) -> str:
+    """The string a staged-request filter compares.
+
+    The suffix lives in the request args, because a staged request has not
+    been turned into a run yet. The client id is the third slot, still
+    unresolved -- an empty id is not the "server" origin a pending run would
+    show. An entry of an unexpected shape matches nothing.
+    """
+    try:
+        if field == FILTER_EDIT_SUFFIX:
+            args = entry[1]
+            if isinstance(args, dict):
+                raw = args.get("edit_suffix", "")
+            else:
+                raw = getattr(args, "edit_suffix", "")
+        elif field == FILTER_ORIGIN:
+            raw = entry[2]
+        else:
+            return ""
+    except (IndexError, TypeError):
+        return ""
+    return str(raw or "").strip()
 
 
 def _origin(run_config) -> str:
@@ -137,6 +182,31 @@ class RunsWindow(SmartDialog):
         )
         self._staging_tree.setMaximumHeight(120)
         layout.addWidget(self._staging_tree)
+
+        # One row for both lists. The button bar below is already full, and
+        # the two queues are matched on the same identifiers, so a second
+        # control set under each tree would only repeat this one. Not labelled
+        # "Filter": on the history tab that word hides rows, and this deletes.
+        filter_row = QHBoxLayout()
+        self._remove_field = QComboBox()
+        self._remove_field.addItem(_("Edit Suffix"), FILTER_EDIT_SUFFIX)
+        self._remove_field.addItem(_("Origin"), FILTER_ORIGIN)
+        self._remove_field.setToolTip(
+            _("Edit Suffix is the suffix stored on the job or staged request. "
+              "Origin is the client id shown in the Origin column.")
+        )
+        filter_row.addWidget(self._remove_field)
+        self._remove_value = QLineEdit()
+        self._remove_value.setPlaceholderText(_("exact value"))
+        self._remove_value.returnPressed.connect(self._remove_matching)
+        filter_row.addWidget(self._remove_value, stretch=1)
+        remove_btn = QPushButton(_("Remove Matching"))
+        remove_btn.setToolTip(
+            _("Remove pending jobs and staged requests that match exactly")
+        )
+        remove_btn.clicked.connect(self._remove_matching)
+        filter_row.addWidget(remove_btn)
+        layout.addLayout(filter_row)
 
         btn_row = QHBoxLayout()
         refresh_btn = QPushButton(_("Refresh"))
@@ -239,6 +309,35 @@ class RunsWindow(SmartDialog):
                 QTreeWidgetItem(
                     self._staging_tree, [str(idx + 1), name, _short(client_id, 24), args_str]
                 )
+
+    def _remove_matching(self) -> None:
+        query = (self._remove_value.text() or "").strip()
+        if not query:
+            self._app_actions.toast(_("Enter a filter value first"))
+            return
+
+        field = self._remove_field.currentData()
+        job_queue = getattr(self._app, "job_queue", None)
+        pending_removed = 0
+        if job_queue is not None:
+            pending_removed = job_queue.remove_matching(
+                lambda job: pending_filter_value(job, field) == query
+            )
+        staging = getattr(self._app, "server_staging_queue", None)
+        staging_removed = 0
+        if staging is not None:
+            staging_removed = staging.remove_matching(
+                lambda entry: staging_filter_value(entry, field) == query
+            )
+        self._refresh_queue()
+        if pending_removed == 0 and staging_removed == 0:
+            self._app_actions.toast(_("No matching queue entries"))
+            return
+        self._app_actions.toast(
+            _("Removed {0} pending job(s) and {1} staged request(s)").format(
+                pending_removed, staging_removed
+            )
+        )
 
     def _edit_pending_job(self) -> None:
         job_queue = getattr(self._app, "job_queue", None)

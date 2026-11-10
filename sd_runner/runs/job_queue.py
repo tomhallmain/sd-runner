@@ -39,6 +39,19 @@ class JobQueue:
         self.pending_jobs = []
         self.job_running = False
 
+    def remove_matching(self, predicate) -> int:
+        """Drop pending jobs for which *predicate* is true. Returns how many.
+
+        The list object stays the one callers already hold. ``job_running`` is
+        left alone: the job in progress is not in ``pending_jobs``, and clearing
+        the flag here would report the queue idle while that job is still going.
+        """
+        kept = [job for job in self.pending_jobs if not predicate(job)]
+        removed = len(self.pending_jobs) - len(kept)
+        if removed:
+            self.pending_jobs[:] = kept
+        return removed
+
     def pending_text(self):
         if len(self.pending_jobs) == 0:
             return ""
@@ -213,6 +226,18 @@ class ServerStagingQueue:
 
     def cancel(self) -> None:
         self._requests = []
+
+    def remove_matching(self, predicate) -> int:
+        """Drop staged requests for which *predicate* is true. Returns how many.
+
+        The list object stays the one callers already hold, as with
+        ``JobQueue.remove_matching``.
+        """
+        kept = [entry for entry in self._requests if not predicate(entry)]
+        removed = len(self._requests) - len(kept)
+        if removed:
+            self._requests[:] = kept
+        return removed
 
     def pending_text(self) -> str:
         n = self.pending_count()
