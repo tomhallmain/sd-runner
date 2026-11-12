@@ -19,6 +19,12 @@ pytest-qt
 # Torch CLIP is also supported automatically if 'clip' and 'torch' are already installed.
 # onnxruntime>=1.16.0
 
+# [[~a,b]] choice sets (resolved by similarity to the reference image) need
+# torch and transformers from requirements-optional.txt, and a CLIP or SigLIP
+# model in the local Hugging Face cache (reference_similarity_model in
+# config.json). A .pt file for the clip package works too:
+#   pip install git+https://github.com/openai/CLIP.git
+
 # Optional dependencies for image format conversion
 # Uncomment the following lines to enable image conversion capabilities:
 # opencv-python>=4.5.0  # For video frame extraction (MP4, AVI, MOV, MKV, WebM, GIF)

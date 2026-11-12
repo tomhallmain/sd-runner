@@ -105,3 +105,19 @@ class TestPromptGeneratorWindowGuards:
             assert len(toasts) == 1
         finally:
             win.close()
+
+
+class TestPromptGeneratorWindowSimilaritySets:
+    def test_similarity_set_shown_as_written(self, app_window):
+        from sd_runner.prompts.similarity_choices import PLACEHOLDER_PATTERN
+
+        app_window.sidebar_panel.positive_tags_box.setPlainText("[[~woman,man]], portrait")
+        win = PromptGeneratorWindow(parent=app_window, app_actions=app_window.app_actions)
+        try:
+            win._generate_btn.click()
+            QApplication.processEvents()
+            positive = win._positive_box.toPlainText()
+            assert "[[~woman,man]]" in positive
+            assert PLACEHOLDER_PATTERN.search(positive) is None
+        finally:
+            win.close()

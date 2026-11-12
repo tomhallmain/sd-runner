@@ -163,16 +163,20 @@ class SmokeTest:
             return _torch.__version__
 
         def transformers():
-            # The classes the image-to-prompt providers and the similarity
-            # check load, without their weights. transformers resolves them
-            # lazily, so naming them imports their modules.
+            # The classes the image-to-prompt providers, the similarity check
+            # and [[~...]] choice sets load, without their weights. transformers
+            # resolves them lazily, so naming them imports their modules.
             from transformers import (  # noqa: F401
                 AutoProcessor,
                 BlipForConditionalGeneration,
                 BlipForQuestionAnswering,
                 BlipProcessor,
+                AutoModel,
+                CLIPModel,
+                CLIPProcessor,
                 CLIPTokenizer,
                 LlavaForConditionalGeneration,
+                SiglipModel,
             )
 
         def onnxruntime():

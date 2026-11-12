@@ -58,11 +58,13 @@ def _template_texts(concept: str) -> tuple[str, ...]:
 
     texts = [concept]
     if Prompter.contains_choice_set(concept):
-        if _estimate_expansions(concept, Prompter) <= _MAX_TEMPLATE_EXPANSIONS:
-            expansions = Prompter._expand_nested_choices(concept)
+        # A [[~a,b]] set stands for its options like any other set.
+        expandable = concept.replace("[[~", "[[")
+        if _estimate_expansions(expandable, Prompter) <= _MAX_TEMPLATE_EXPANSIONS:
+            expansions = Prompter._expand_nested_choices(expandable)
             texts.extend(strip_expansion_vars(text) for text, _weight in expansions)
         else:
-            texts.append(strip_expansion_vars(re.sub(r"[\[\],|]", " ", concept)))
+            texts.append(strip_expansion_vars(re.sub(r"[\[\],|]", " ", expandable)))
     elif "$$" in concept:
         texts.append(strip_expansion_vars(concept))
     return tuple(dict.fromkeys(t for t in texts if t))

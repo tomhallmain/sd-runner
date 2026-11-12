@@ -25,6 +25,7 @@ from PySide6.QtWidgets import (
 
 from lib.multi_display_qt import SmartDialog
 from sd_runner.prompts.prompter import Prompter
+from sd_runner.prompts.similarity_choices import restore_similarity_sets
 from sd_runner.runs.run_config import RunConfig
 from sd_runner.ui.app_style import AppStyle
 from sd_runner.ui.prompts.prompt_config_window import PromptConfigWindow
@@ -149,6 +150,10 @@ class PromptGeneratorWindow(SmartDialog):
                     get_specific_times=Globals.PROMPTER_GET_SPECIFIC_TIMES,
                 )
                 positive, negative = prompter.generate_prompt(positive_seed, negative_seed)
+                # [[~...]] sets are chosen per generation against its reference
+                # image, so the preview shows them as written.
+                positive = restore_similarity_sets(positive, prompter.last_similarity_choices)
+                negative = restore_similarity_sets(negative, prompter.last_similarity_choices)
             finally:
                 # Keep this preview flow side-effect free for the rest of the app.
                 Prompter.set_positive_tags(prev_positive_tags)

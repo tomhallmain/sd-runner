@@ -235,6 +235,21 @@ class ConfigWindow(SmartDialog):
             str(config.clip_model_path or ""),
         )
 
+        # ── Reference Similarity ([[~a,b]] choice sets) ───────────────
+        self._add_section(_("Reference Image Similarity"))
+        self._le_reference_similarity_model = self._add_entry(
+            _("Image-Text Model (Hugging Face ID, Folder or .pt File)"),
+            str(config.reference_similarity_model or ""),
+        )
+        self._le_reference_similarity_template = self._add_entry(
+            _("Option Template ({0} is the Option)"),
+            str(config.reference_similarity_prompt_template or ""),
+        )
+        self._le_reference_similarity_device = self._add_entry(
+            _("Device (cpu, cuda or auto)"),
+            str(config.reference_similarity_device or ""),
+        )
+
         # ── Save bar (always visible) ─────────────────────────────────
         save_bar = QWidget()
         save_bar.setStyleSheet(
@@ -321,6 +336,9 @@ class ConfigWindow(SmartDialog):
             ("_le_server_password",       "server_password"),
             ("_le_override_dict_path",    "override_dictionary_path"),
             ("_le_clip_model_path",       "clip_model_path"),
+            ("_le_reference_similarity_model",    "reference_similarity_model"),
+            ("_le_reference_similarity_template", "reference_similarity_prompt_template"),
+            ("_le_reference_similarity_device",   "reference_similarity_device"),
         ]
 
         raw: dict[str, object] = {}
@@ -339,6 +357,12 @@ class ConfigWindow(SmartDialog):
                     commands[name] = command
         raw["backend_launch_commands"] = commands
 
+        reference_similarity_keys = (
+            "reference_similarity_model",
+            "reference_similarity_prompt_template",
+            "reference_similarity_device",
+        )
+        previous_reference_similarity = [getattr(config, k, None) for k in reference_similarity_keys]
         try:
             errors = config.apply_and_persist(raw)
         except Exception as exc:
@@ -356,6 +380,11 @@ class ConfigWindow(SmartDialog):
                 _("Fix these fields before saving:\n\n") + "\n".join(errors),
             )
             return
+
+        if [getattr(config, k, None) for k in reference_similarity_keys] != previous_reference_similarity:
+            # The next [[~...]] set loads the model from the new settings.
+            from sd_runner.prompts.reference_similarity import ReferenceSimilarityEngine
+            ReferenceSimilarityEngine.reset()
 
         QMessageBox.information(
             self,

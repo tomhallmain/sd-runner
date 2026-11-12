@@ -29,7 +29,7 @@ huggingface_hub
 # The blacklist's language detection (Apache 2.0). 2.2 needs Python 3.12.
 lingua-language-detector>=2.1.1,<2.2
 onnxruntime
-transformers >= 4.36
+transformers >= 4.37
 torch
 torchvision
 mcp

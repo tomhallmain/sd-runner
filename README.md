@@ -92,6 +92,10 @@ Nested choice sets are also available:
 
 Note that choice sets can be stored in preset prompt variables to cut down on visible prompt lengths.
 
+When a run has a reference image, a choice set starting with `~` is resolved to the option that CLIP finds most similar to that image instead of at random. The image is the IP adapter's, else the ControlNet's, else the run's prompt image, and each generation is compared against its own image, so a run over several IP adapter images can choose differently for each. Weights are accepted but ignored for now. Without a reference image or a usable model (`reference_similarity_model` in `config.json`: a CLIP, SigLIP or MetaCLIP model read from the local Hugging Face cache only, or a `.pt` file for the `clip` package) the option is chosen at random. A similarity set inside another choice set is not supported.
+
+`"A photo of a [[~woman,man,child]] in a park"` -> `"A photo of a child in a park"` (with an IP adapter image of a child)
+
 A `@@filepath` token can appear anywhere in a prompt (or as an inline variable value) to draw one random line from a text file as if it were a choice set. The path must contain a dot (e.g. `@@animals.txt`, `@@/abs/path/file.txt`). Bare filenames are looked up in the concepts directory with `.txt` appended automatically.
 
 `"A @@animals.txt in a forest"` -> `"A lion in a forest"` (one possible result)

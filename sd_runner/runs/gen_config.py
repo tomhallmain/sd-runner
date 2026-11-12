@@ -51,6 +51,8 @@ class GenConfig:
         self.negative = negative
         # Which tags of positive the user wrote, for the final blacklist check.
         self.user_tags: frozenset[str] = frozenset()
+        # Options of the [[~...]] sets whose placeholders are in positive and negative.
+        self.similarity_choices: list = []
         self.loras = loras
         self.resolutions = resolutions
         self.seed = run_config.seed
@@ -137,7 +139,8 @@ class GenConfig:
 
     def prompts_match(self, prior_config: "GenConfig") -> bool:
         if prior_config:
-            return prior_config.positive == self.positive and prior_config.negative == self.negative
+            return (prior_config.positive == self.positive and prior_config.negative == self.negative
+                    and prior_config.similarity_choices == self.similarity_choices)
         return False
 
     def validate(self, app_actions=None) -> bool:
@@ -270,7 +273,12 @@ class GenConfig:
             ip_adapter_str = f"IP Adapters: {Utils.print_list_str(self.ip_adapters)}\n" if GenConfig.is_set(self.ip_adapters) else ""
             positive_str = f"Positive: {Utils.format_green(self.positive)}\n"
             negative_str = f"Negative: {Utils.format_red(self.negative)}\n" if Globals.PRINT_NEGATIVES else ""
-            return f"""{title_str}{resolution_str}{models_str}{vae_str}{lora_str}{positive_str}{negative_str}{control_net_str}{ip_adapter_str}"""
+            # Chosen per generation; the choice is logged where it is made.
+            similarity_str = "".join(
+                f"Similarity set {i}: {c.source} -> {c.options}\n"
+                for i, c in enumerate(self.similarity_choices)
+            )
+            return f"""{title_str}{resolution_str}{models_str}{vae_str}{lora_str}{positive_str}{negative_str}{similarity_str}{control_net_str}{ip_adapter_str}"""
 
     def __hash__(self) -> int:
         return hash((
@@ -304,6 +312,7 @@ class GenConfig:
                 self.resolutions,
                 self.seed,
                 self.software_type,
+                self.similarity_choices,
             ) == (
                 other.workflow_id,
                 other.n_latents,
@@ -317,6 +326,7 @@ class GenConfig:
                 other.resolutions,
                 other.seed,
                 other.software_type,
+                other.similarity_choices,
             ) and (self.seed is not None and other.seed is not None
                    and self.seed >-1 and other.seed > -1) # Ensure random seed not set.
         return False  # To handle the case when other object is of different type

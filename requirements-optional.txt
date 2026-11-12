@@ -25,11 +25,14 @@ onnxruntime
 # BLIP, for both the captioner backend and the in-run captioning the Upscale
 # Better workflow does; and BLIP VQA for extensions/interrogator.py. Also
 # serves the image-to-prompt VLM backend (LLaVA), which needs >= 4.36 for
-# LlavaForConditionalGeneration; BLIP works on any version from here up, so
-# the floor costs the captioner nothing.
-transformers >= 4.36
+# LlavaForConditionalGeneration, and [[~a,b]] choice sets, whose SigLIP models
+# need >= 4.37; BLIP works on any version from here up, so the floor costs the
+# captioner nothing.
+transformers >= 4.37
 
-# Runtime for every transformers model above, and for the similarity check.
+# Runtime for every transformers model above, for the similarity check, and
+# for [[~a,b]] choice sets, which compare their options with the reference
+# image through a transformers CLIP or SigLIP model.
 torch
 torchvision
 

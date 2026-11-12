@@ -88,6 +88,10 @@ class Config:
         "nsfw_urban_dictionary":            bool,
         # Similarity check — path to ONNX or Torch CLIP text encoder (nullable)
         "clip_model_path":                  None,
+        # [[~a,b]] choice sets — image-text model; blank turns the comparison off
+        "reference_similarity_model":       None,
+        "reference_similarity_prompt_template": str,
+        "reference_similarity_device":      str,
         # Image to prompt — VLM backend
         "vlm_repo_id":                      str,
         "vlm_load_in_4bit":                 bool,
@@ -194,6 +198,14 @@ class Config:
         # Draw random words from the encrypted Urban Dictionary corpus in NSFW/NSFL modes
         self.nsfw_urban_dictionary = True
         self.clip_model_path = None
+        # [[~a,b]] choice sets: a model with text and image encoders in one
+        # space (CLIP, SigLIP, MetaCLIP, ...), as a Hugging Face id or local
+        # directory (read from the local cache only) or a .pt file for the clip
+        # package. The template wraps each option before it is compared with
+        # the reference image. Device: "cpu", "cuda" or "auto".
+        self.reference_similarity_model = "openai/clip-vit-base-patch32"
+        self.reference_similarity_prompt_template = "a photo of {0}"
+        self.reference_similarity_device = "cpu"
 
         # Image-to-prompt VLM backend. The default is the original LLaVA-1.5
         # weights in the Transformers layout; any repo Transformers can load as
@@ -307,6 +319,9 @@ class Config:
                         "mcp_server_token",
                         "override_dictionary_path",
                         "clip_model_path",
+                        "reference_similarity_model",
+                        "reference_similarity_prompt_template",
+                        "reference_similarity_device",
                         "vlm_repo_id",
         )
         self.set_values(list,

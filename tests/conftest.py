@@ -377,6 +377,9 @@ def _reset_class_state() -> None:
     # entries themselves live in app_info_cache and are isolated already, but
     # the lock table would carry keys between tests.
     _reset_if_imported("sd_runner.runs.intermediate_cache", "IntermediateCache", _locks={})
+    # The CLIP model and its embedding caches, built on first use.
+    _reset_if_imported("sd_runner.prompts.reference_similarity", "ReferenceSimilarityEngine",
+                       _instance=None, _build_failed=False)
 
     # Window-level history lists, all restored from app_info_cache on open. Only
     # reset if the module is already imported: touching them unconditionally

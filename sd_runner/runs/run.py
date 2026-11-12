@@ -70,6 +70,7 @@ class Run:
             related_image_path=prompt_image_path,
         )
         gen_config.user_tags = prompter.last_user_tags
+        gen_config.similarity_choices = prompter.last_similarity_choices
 
         self.print(str(gen_config))
 

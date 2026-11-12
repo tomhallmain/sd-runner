@@ -8,6 +8,7 @@ from sd_runner.prompts.blacklist import Blacklist, BlacklistException, normalize
 from sd_runner.prompts.concepts import ConceptConfiguration, Concepts
 from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.prompts.expansion import Expansion
+from sd_runner.prompts.similarity_choices import SET_MARKER, SimilarityChoice, extract_similarity_sets
 from sd_runner.config import config
 from sd_runner.globals import BlacklistMode, BlacklistTextOrigin, PromptMode
 from lib.logging_setup import get_logger
@@ -57,6 +58,8 @@ class Prompter:
         self.prompt_list = prompt_list
         self.last_prompt = ""
         self.last_user_tags: frozenset[str] = frozenset()
+        # The [[~...]] sets of the last prompt, indexed by its placeholders.
+        self.last_similarity_choices: list[SimilarityChoice] = []
 
         if prompter_config == PromptMode.LIST and len(prompt_list) == 0:
             raise Exception("No list items to iterate for prompting.")
@@ -131,26 +134,35 @@ class Prompter:
             data = self.gather_data()
             positive = self.transform_result(data)
         self.count += 1
-        if Prompter.POSITIVE_TAGS and Prompter.POSITIVE_TAGS.strip() != "":
+        # [[~...]] sets become placeholders before anything splits the prompt
+        # on commas, and again after expansions, which can introduce them.
+        similarity_choices: list[SimilarityChoice] = []
+        positive = extract_similarity_sets(positive, similarity_choices)
+        negative = extract_similarity_sets(negative, similarity_choices)
+        positive_tags = extract_similarity_sets(Prompter.POSITIVE_TAGS, similarity_choices)
+        negative_tags = extract_similarity_sets(Prompter.NEGATIVE_TAGS, similarity_choices)
+        if positive_tags and positive_tags.strip() != "":
             if self.prompter_config.sparse_mixed_tags:
-                positive = self._mix_sparse_tags(positive)
+                positive = self._mix_sparse_tags(positive, positive_tags)
             elif Prompter.TAGS_APPLY_TO_START:
-                if not positive.startswith(Prompter.POSITIVE_TAGS):
-                    positive = Prompter.POSITIVE_TAGS + positive
-            elif not positive.endswith(Prompter.POSITIVE_TAGS):
-                positive += ", " + Prompter.POSITIVE_TAGS
-        if Prompter.NEGATIVE_TAGS and Prompter.NEGATIVE_TAGS != "":
+                if not positive.startswith(positive_tags):
+                    positive = positive_tags + positive
+            elif not positive.endswith(positive_tags):
+                positive += ", " + positive_tags
+        if negative_tags and negative_tags != "":
             if self.prompter_config.sparse_mixed_tags:
-                negative = self._mix_sparse_tags(negative)
+                negative = self._mix_sparse_tags(negative, positive_tags)
             elif Prompter.TAGS_APPLY_TO_START:
-                if not negative.startswith(Prompter.NEGATIVE_TAGS):
-                    negative = Prompter.NEGATIVE_TAGS + negative
-            elif not negative.endswith(Prompter.NEGATIVE_TAGS):
-                negative += ", " + Prompter.NEGATIVE_TAGS
+                if not negative.startswith(negative_tags):
+                    negative = negative_tags + negative
+            elif not negative.endswith(negative_tags):
+                negative += ", " + negative_tags
         if Prompter.contains_expansion_var(positive):
             positive = self.apply_expansions(positive, concepts=self.concepts, specific_locations_chance=self.prompter_config.get_specific_locations_chance(), inline_vars=inline_vars if inline_vars else None)
         if Prompter.contains_expansion_var(negative):
             negative = self.apply_expansions(negative, concepts=self.concepts, specific_locations_chance=self.prompter_config.get_specific_locations_chance())
+        positive = extract_similarity_sets(positive, similarity_choices)
+        negative = extract_similarity_sets(negative, similarity_choices)
         if Prompter.contains_choice_set(positive):
             positive = self.apply_choices(positive)
         if Prompter.contains_choice_set(negative):
@@ -188,8 +200,28 @@ class Prompter:
         positive = self._apply_random_stops_returns(positive)
         negative = self._apply_random_stops_returns(negative)
 
+        self._filter_similarity_options(similarity_choices)
+        self.last_similarity_choices = similarity_choices
         self.last_prompt = positive
         return (positive, negative)
+
+    def _filter_similarity_options(self, choices: list[SimilarityChoice]) -> None:
+        """Drop blacklisted options, each checked on its own.
+
+        The resolved prompt is checked again before generation; this keeps a
+        blocked option from winning the comparison and taking its set with it.
+        """
+        for choice in choices:
+            if not choice.options:
+                continue
+            whitelist, filtered = Blacklist.filter_concepts(
+                list(choice.options), prompt_mode=self.prompt_mode,
+                user_tags=self.last_user_tags, detect_languages=True,
+            )
+            if filtered:
+                if config.debug:
+                    logger.debug(f"Filtered options of {choice.source} from blacklist tags: {filtered}")
+                choice.options = [o for o in choice.options if o in whitelist]
 
     def _apply_random_stops_returns(self, text: str) -> str:
         """Randomly replace some comma/period separators with stops or paragraph breaks.
@@ -300,10 +332,13 @@ class Prompter:
         tags = (normalize_user_tag(tag) for text in texts if text for tag in text.split(","))
         return frozenset(tag for tag in tags if tag)
 
-    def _mix_sparse_tags(self, text: str) -> str:
-        if not Prompter.POSITIVE_TAGS or Prompter.POSITIVE_TAGS.strip() == '' or text is None or text.strip() == "":
+    def _mix_sparse_tags(self, text: str, tags: str | None = None) -> str:
+        """Mix a random share of *tags* (default ``POSITIVE_TAGS``) into *text*."""
+        if tags is None:
+            tags = Prompter.POSITIVE_TAGS
+        if not tags or tags.strip() == '' or text is None or text.strip() == "":
             return str(text)
-        positive_tags = Prompter._get_discretely_emphasized_prompt(Prompter.POSITIVE_TAGS)
+        positive_tags = Prompter._get_discretely_emphasized_prompt(tags)
         # print(positive_tags)
         if len(positive_tags) > 1:
             random.shuffle(positive_tags)
@@ -1082,6 +1117,11 @@ class Prompter:
                 
                 # Extract the inner content (between the double brackets)
                 inner_content = original_text[outer_start + 2:inner_close]
+
+                # [[~...]] is chosen by image similarity at generation time.
+                if inner_content.startswith(SET_MARKER):
+                    i = outer_end
+                    continue
 
                 # Range syntax: [[start--stop]] or [[start--stop--step]]
                 range_values = Prompter._expand_range(inner_content)

@@ -13,6 +13,7 @@ import threading
 from sd_runner.globals import Globals, WorkflowType, SoftwareType, image_input_field
 
 from sd_runner.prompts.blacklist import Blacklist
+from sd_runner.prompts import similarity_choices
 from sd_runner.runs.gen_config import GenConfig
 from lib.image_converter import convert_image_if_needed, cleanup_converter, clear_converter_cache
 from sd_runner.models.model import Model
@@ -21,6 +22,7 @@ from sd_runner.workflow_prompts.base import WorkflowPrompt
 from sd_runner.ui.app_actions import AppActions
 from sd_runner.config import config
 from lib.logging_setup import get_logger
+from lib.translations import _
 from lib.utils import Utils
 
 logger = get_logger("base_image_generator")
@@ -75,6 +77,7 @@ class BaseImageGenerator(ABC):
         self.pending_counter = 0
         self.captioner = None
         self.has_run_one_workflow = False
+        self._warned_similarity_fallback = False
         self._lock = threading.Lock()  # Instance-specific lock
         # How many decrements the dispatch running on this thread still owes
         # the pending count. Raised when a task starts, spent by whichever of
@@ -256,6 +259,7 @@ class BaseImageGenerator(ABC):
 
     def run(self):
         self.has_run_one_workflow = False
+        self._warned_similarity_fallback = False
         self.gen_config.prepare()
         workflow_id = self.gen_config.workflow_id
         n_latents = self.gen_config.n_latents
@@ -301,6 +305,8 @@ class BaseImageGenerator(ABC):
                                 if ip_adapter:
                                     positive_copy += ip_adapter.modifiers
                                     positive_copy = ip_adapter.b_w_coloration_modifier(positive_copy)
+                                positive_copy, negative_copy = self.resolve_similarity_choices(
+                                    positive_copy, negative, control_net, ip_adapter)
 
                                 # Final blacklist validation before generation
                                 positive_copy = self.validate_prompt_against_blacklist(positive_copy)
@@ -314,10 +320,35 @@ class BaseImageGenerator(ABC):
                                     self.has_run_one_workflow = True
                                 else:
                                     if not self.run_workflow(workflow_id, prompt=None, resolution=resolution, model=model, vae=vae, n_latents=n_latents, positive=positive_copy,
-                                                             negative=negative, lora=lora, control_net=control_net, ip_adapter=ip_adapter):
+                                                             negative=negative_copy, lora=lora, control_net=control_net, ip_adapter=ip_adapter):
                                         self.gen_config.resolutions_skipped += 1
         self.print_stats()
         return
+
+    def resolve_similarity_choices(self, positive: str, negative: str, control_net, ip_adapter) -> tuple[str, str]:
+        """Resolve the [[~...]] sets of this iteration against its reference image.
+
+        Sets added after the prompt was generated, by the IP adapter's
+        modifiers, are extracted here first.
+        """
+        choices = list(getattr(self.gen_config, "similarity_choices", None) or [])
+        if similarity_choices.contains_similarity_set(positive):
+            positive = similarity_choices.extract_similarity_sets(positive, choices)
+        if not choices:
+            return positive, negative
+        image_path = similarity_choices.reference_image_path(
+            ip_adapter=ip_adapter, control_net=control_net,
+            prompt_image_path=self.gen_config.prompt_image_path,
+        )
+
+        def on_fallback(reason: str) -> None:
+            if not self._warned_similarity_fallback:
+                self._warned_similarity_fallback = True
+                logger.warning(_(
+                    "[[~...]] choice sets are resolved at random for this run: {0}"
+                ).format(reason))
+
+        return similarity_choices.resolve_prompts(positive, negative, choices, image_path, on_fallback)
 
     def should_skip_resolution(self, workflow_id, resolution, control_net, ip_adapter):
         return False

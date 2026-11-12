@@ -188,9 +188,11 @@ class TorchClipBackend:
         import clip  # noqa: PLC0415
         import torch  # noqa: PLC0415
 
+        from lib.clip_loader import load_clip  # noqa: PLC0415
+
         self._device = "cpu"
         name = model_name_or_path or "ViT-B/32"
-        self._model, _ = clip.load(name, device=self._device)
+        self._model, _ = load_clip(clip, torch, name, self._device)
         self._model.eval()
         self._clip = clip
         self._torch = torch
