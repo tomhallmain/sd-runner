@@ -144,6 +144,17 @@ class TestGeneratePrompt:
             assert "[[" not in pos and "~woman" not in pos
             assert p.last_similarity_choices[0].options == ["woman", "man", "child"]
 
+    @pytest.mark.parametrize("negative", ["", "ugly"])
+    def test_sparse_mix_keeps_all_negative_tags(self, monkeypatch, negative):
+        monkeypatch.setattr(Prompter, "POSITIVE_TAGS", "masterpiece, best quality, sharp")
+        monkeypatch.setattr(Prompter, "NEGATIVE_TAGS", "blurry, lowres, watermark")
+        p = make_prompter(sparse_mixed_tags=True)
+        for _i in range(10):
+            _pos, neg = p.generate_prompt(positive="sunset", negative=negative)
+            assert negative in neg
+            assert all(t in neg for t in ("blurry", "lowres", "watermark"))
+            assert not any(t in neg for t in ("masterpiece", "best quality", "sharp"))
+
     def test_blacklisted_option_dropped(self, monkeypatch):
         from sd_runner.prompts.blacklist import Blacklist
 

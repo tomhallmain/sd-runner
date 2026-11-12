@@ -149,10 +149,10 @@ class Prompter:
                     positive = positive_tags + positive
             elif not positive.endswith(positive_tags):
                 positive += ", " + positive_tags
+        # Concepts fill only the positive prompt, so there is nothing to mix the
+        # negative tags among: sparse mixing would only drop some of them.
         if negative_tags and negative_tags != "":
-            if self.prompter_config.sparse_mixed_tags:
-                negative = self._mix_sparse_tags(negative, positive_tags)
-            elif Prompter.TAGS_APPLY_TO_START:
+            if Prompter.TAGS_APPLY_TO_START:
                 if not negative.startswith(negative_tags):
                     negative = negative_tags + negative
             elif not negative.endswith(negative_tags):
@@ -332,10 +332,8 @@ class Prompter:
         tags = (normalize_user_tag(tag) for text in texts if text for tag in text.split(","))
         return frozenset(tag for tag in tags if tag)
 
-    def _mix_sparse_tags(self, text: str, tags: str | None = None) -> str:
-        """Mix a random share of *tags* (default ``POSITIVE_TAGS``) into *text*."""
-        if tags is None:
-            tags = Prompter.POSITIVE_TAGS
+    def _mix_sparse_tags(self, text: str, tags: str) -> str:
+        """Mix a random share of *tags* into *text*."""
         if not tags or tags.strip() == '' or text is None or text.strip() == "":
             return str(text)
         positive_tags = Prompter._get_discretely_emphasized_prompt(tags)
