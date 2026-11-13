@@ -61,6 +61,12 @@ class TestJobQueueBasics:
         q.cancel()
         assert q.job_running is False
 
+    def test_cancel_also_clears_the_running_job(self):
+        q = JobQueue()
+        q.running_job = "a"
+        q.cancel()
+        assert q.running_job is None
+
     def test_has_pending_true_when_job_running(self):
         q = JobQueue()
         q.job_running = True

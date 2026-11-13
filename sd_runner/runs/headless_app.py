@@ -343,7 +343,7 @@ class HeadlessApp:
 
         if self.current_run is not None:
             try:
-                self.current_run.cancel("Shutting down")
+                self.current_run.cancel("Shutting down", for_shutdown=True)
             except Exception as e:
                 logger.warning(f"Could not cancel the current run: {e}")
 

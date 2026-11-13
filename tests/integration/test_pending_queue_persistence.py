@@ -256,3 +256,90 @@ class TestPendingRuns:
         ctrl._restore_pending_queues()
 
         assert app_window.job_queue.pending_jobs == []
+
+
+# ---------------------------------------------------------------------------
+# The running job, when the application ends before it finishes
+# ---------------------------------------------------------------------------
+
+def start_running(app_window, **kwargs):
+    """Make *kwargs* the running job and its run, as _run_async does."""
+    from sd_runner.runs.run import Run
+    args = dict(workflow_tag="RENOISER", model_tags="a_model", total=1, batch_limit=1)
+    args.update(kwargs)
+    run_config = make_run_config(**args)
+    app_window.job_queue.job_running = True
+    app_window.job_queue.running_job = run_config
+    app_window.current_run = Run(run_config)
+    return app_window.current_run
+
+
+class TestInterruptedRun:
+    def test_a_single_image_run_comes_back_first_in_the_paused_queue(self, app_window, ctrl, cache):
+        start_running(app_window, model_tags="interrupted")
+        app_window.job_queue.pending_jobs.append(make_run_config(workflow_tag="RENOISER", model_tags="queued"))
+        ctrl.store_pending_queues()
+        app_window.job_queue.cancel()
+        app_window.job_queue.paused = False
+
+        ctrl._restore_pending_queues()
+
+        assert [job.model_tags for job in app_window.job_queue.pending_jobs] == ["interrupted", "queued"]
+        assert app_window.job_queue.paused is True
+
+    def test_it_keeps_its_id_and_origin(self, app_window, ctrl, cache):
+        run = start_running(app_window)
+        run.args.run_origin = "weidr"
+        ctrl.store_pending_queues()
+
+        assert stored_runs(cache)[0]["run_id"] == run.args.run_id
+        assert stored_runs(cache)[0]["run_origin"] == "weidr"
+
+    def test_a_run_ended_by_the_application_closing_comes_back(self, app_window, ctrl, cache):
+        start_running(app_window).cancel("Shutting down", for_shutdown=True)
+        ctrl.store_pending_queues()
+
+        assert len(stored_runs(cache)) == 1
+
+    @pytest.mark.parametrize("total, batch_limit", [(2, 1), (-1, 1), (1, -1), (1, 2)])
+    def test_a_longer_run_is_not_queued_again(self, app_window, ctrl, cache, total, batch_limit):
+        start_running(app_window, total=total, batch_limit=batch_limit)
+        ctrl.store_pending_queues()
+
+        assert stored_runs(cache) == []
+
+    def test_a_cancelled_run_is_not_queued_again(self, app_window, ctrl, cache):
+        """A user's cancel, a scheduled shutdown and a failed run all cancel this way."""
+        start_running(app_window).cancel("Scheduled shutdown")
+        ctrl.store_pending_queues()
+
+        assert stored_runs(cache) == []
+
+    def test_a_finished_run_is_not_queued_again(self, app_window, ctrl, cache):
+        start_running(app_window).is_complete = True
+        ctrl.store_pending_queues()
+
+        assert stored_runs(cache) == []
+
+    def test_a_run_waiting_for_the_backend_counts_as_running(self, app_window, ctrl, cache):
+        """The previous run is still current until the backend is up."""
+        from sd_runner.runs.run import Run
+        from sd_runner.runs.run_config import RunConfig
+        start_running(app_window)
+        app_window.current_run = Run(RunConfig())
+        app_window.current_run.is_complete = True
+        ctrl.store_pending_queues()
+
+        assert len(stored_runs(cache)) == 1
+
+    def test_a_run_of_a_preset_schedule_is_not_queued_again(self, app_window, ctrl, cache):
+        start_running(app_window)
+        app_window.job_queue_preset_schedules.job_running = True
+        ctrl.store_pending_queues()
+
+        assert stored_runs(cache) == []
+
+    def test_nothing_running_stores_nothing_extra(self, app_window, ctrl, cache):
+        ctrl.store_pending_queues()
+
+        assert stored_runs(cache) == []

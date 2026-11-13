@@ -40,6 +40,9 @@ class Run:
         self.id = getattr(args, "run_id", None) or str(time.time())
         self.is_complete = False
         self.is_cancelled = False
+        #: Set when the application ending cancelled this run, which leaves it
+        #: eligible to be queued again at the next start.
+        self.cancelled_for_shutdown = False
         self.delay_after_last_run = delay_after_last_run
         self.args = args
         self.prompter_config = args.prompter_config
@@ -427,6 +430,7 @@ class Run:
         
         self.is_complete = False
         self.is_cancelled = False
+        self.cancelled_for_shutdown = False
         Model.load_all()
         Model.set_lora_strength(Globals.DEFAULT_LORA_STRENGTH)
         prompter_config = PrompterConfiguration(prompt_mode=PromptMode.FIXED) if self.args.prompter_override else self.args.prompter_config
@@ -495,10 +499,11 @@ class Run:
 
         self.is_complete = True
 
-    def cancel(self, reason: Optional[str] = None) -> None:
+    def cancel(self, reason: Optional[str] = None, for_shutdown: bool = False) -> None:
         cancel_message = "Canceling..."
         if reason is not None:
             cancel_message += f" {reason}"
         self.print(cancel_message)
         self.is_cancelled = True
+        self.cancelled_for_shutdown = for_shutdown
         # TODO send cancel/delete call to ComfyUI for all previously started prompts

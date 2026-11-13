@@ -16,6 +16,9 @@ class JobQueue:
         self.max_size = max_size
         self.pending_jobs = []
         self.job_running = False
+        #: The job taken off ``pending_jobs`` and now running, so the cache can
+        #: put it back if the application ends before it finishes.
+        self.running_job = None
         self.paused = False
 
     def has_pending(self):
@@ -38,6 +41,7 @@ class JobQueue:
     def cancel(self):
         self.pending_jobs = []
         self.job_running = False
+        self.running_job = None
 
     def remove_matching(self, predicate) -> int:
         """Drop pending jobs for which *predicate* is true. Returns how many.

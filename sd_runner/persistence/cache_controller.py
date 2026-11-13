@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING, Optional, Union
 
 from sd_runner.persistence.app_info_cache import app_info_cache
 from lib.logging_setup import get_logger
+from lib.translations import _
 
 if TYPE_CHECKING:
     from PySide6.QtCore import QTimer
@@ -250,6 +251,12 @@ class CacheController:
         try:
             job_queue = getattr(self._app, "job_queue", None)
             runs_data: list = []
+            interrupted = self._restartable_running_job()
+            if interrupted is not None:
+                try:
+                    runs_data.append(interrupted.to_dict())
+                except Exception as exc:
+                    logger.warning(_("Failed to serialize the running run: {0}").format(exc))
             if job_queue is not None:
                 for run_config in job_queue.pending_jobs:
                     try:
@@ -284,6 +291,30 @@ class CacheController:
             )
         except Exception as e:
             logger.error(f"Failed to store pending queues: {e}")
+
+    def _restartable_running_job(self):
+        """The running job, if it should be queued again should the app end now.
+
+        Only a single image with a batch limit of one qualifies: ending a run of
+        more than that, an infinite one included, is taken as the user meaning
+        to stop it. So is cancelling, a scheduled shutdown, a failed run and a
+        run that belongs to a preset schedule. Stored ahead of the pending
+        runs, it comes back first in the paused queue.
+        """
+        job_queue = getattr(self._app, "job_queue", None)
+        run_args = getattr(job_queue, "running_job", None)
+        if run_args is None:
+            return None
+        if getattr(run_args, "total", None) != 1 or getattr(run_args, "batch_limit", None) != 1:
+            return None
+        schedules = getattr(self._app, "job_queue_preset_schedules", None)
+        if schedules is not None and schedules.has_pending():
+            return None
+        run = getattr(self._app, "current_run", None)
+        if run is not None and run.args is run_args and (
+                run.is_complete or (run.is_cancelled and not run.cancelled_for_shutdown)):
+            return None
+        return run_args
 
     # ------------------------------------------------------------------
     # Display position

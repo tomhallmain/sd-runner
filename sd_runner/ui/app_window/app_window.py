@@ -1080,7 +1080,7 @@ class AppWindow(FramelessWindowMixin, SmartMainWindow):
         # Cancel running jobs
         if self.current_run is not None:
             try:
-                self.current_run.cancel("Application shutdown")
+                self.current_run.cancel("Application shutdown", for_shutdown=True)
             except Exception as e:
                 logger.warning(f"Failed to cancel the current run at shutdown: {e}")
         if self.job_queue is not None:

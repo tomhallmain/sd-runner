@@ -338,6 +338,7 @@ class RunController:
         """
         app = self._app
         app.job_queue.job_running = False
+        app.job_queue.running_job = None
         next_job_args = app.job_queue.take()
 
         # A slot just opened; promote one staged server request into the main
@@ -379,6 +380,7 @@ class RunController:
         app = self._app
         Utils.prevent_sleep(True)
         app.job_queue.job_running = True
+        app.job_queue.running_job = run_args
         # Every run path converges here before touching the backend, so this is
         # the one place that asks for it. A backend already running (ours or
         # adopted) returns immediately.
@@ -412,6 +414,9 @@ class RunController:
         try:
             app.current_run.execute()
         except ScheduledShutdownException as e:
+            # Cancelled so that the shutdown, which the user scheduled, does
+            # not put this run back in the queue.
+            app.current_run.cancel("Scheduled shutdown")
             self._handle_scheduled_shutdown(e)
         except Exception as e:
             traceback.print_exc()

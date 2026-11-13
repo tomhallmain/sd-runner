@@ -233,7 +233,7 @@ A preset schedule should specify the number of times each preset should run, as 
 
 Note that similar to normal image generation runs, run schedules can be queued while one is already running.
 
-The run queue can be paused at any time using the **Pause Queue** button (sidebar or Runs window). The current job completes normally; subsequent queued jobs are held until **Resume Queue** is clicked. Pending jobs are also saved to cache on exit and restored as a paused queue on next launch.
+The run queue can be paused at any time using the **Pause Queue** button (sidebar or Runs window). The current job completes normally; subsequent queued jobs are held until **Resume Queue** is clicked. Pending jobs are also saved to cache on exit and restored as a paused queue on next launch. A job still running when the application ends — closed, killed or crashed — is put back at the front of that queue if it was a single image (**Total** 1, **Batch Limit** 1); a longer job, a cancelled one, one ended by a scheduled shutdown and one run by a preset schedule are not. A hard kill or native crash keeps the state of the last save, which happens every `cache_store_interval_seconds` (default 300).
 
 ## Concepts Folder
 
