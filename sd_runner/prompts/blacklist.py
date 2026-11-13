@@ -522,6 +522,23 @@ class BlacklistItem:
         cleaned_tag = re.sub(r'\s+', ' ', cleaned_tag).strip()
         return cleaned_tag
 
+    def replace_blacklisted_content(self, tag: str, replacement: str) -> str:
+        """*tag* with each match of this item replaced by *replacement*.
+
+        Matched case-insensitively, as ``matches_tag`` does. The separator the
+        word-start anchor consumes before a match is kept.
+        """
+        pattern = re.compile(self.regex_pattern.pattern, self.regex_pattern.flags | re.IGNORECASE)
+
+        def _sub(match: re.Match) -> str:
+            lead = (match.group(1) or "") if self._anchor_word_start else ""
+            if len(match.group(0)) <= len(lead):
+                return match.group(0)
+            return lead + replacement
+
+        replaced = pattern.sub(_sub, tag)
+        return re.sub(r'\s+', ' ', replaced).strip()
+
     def __eq__(self, other: object) -> bool:
         if isinstance(other, BlacklistItem):
             return self.string == other.string
@@ -729,13 +746,42 @@ class Blacklist:
         return f"{message}\n\n{note}"
 
     @staticmethod
+    def user_tag_replacement_notice(filtered: dict[str, str]) -> str:
+        """The notice shown after blacklisted words in a prompt are replaced."""
+        message = _("Blacklisted words in one or more tags were replaced with random words.")
+        note = Blacklist.matched_blacklist_item_note(filtered)
+        if not note:
+            return message
+        return f"{message}\n\n{note}"
+
+    @staticmethod
+    def can_replace_all(filtered: dict[str, str]) -> bool:
+        """Whether the replace mode is on and handles every match in *filtered*.
+
+        Whole-prompt items match the assembled text rather than a tag, so
+        there is no tag to put a word into; they keep the mode's refusal.
+        """
+        if Blacklist.get_blacklist_mode() != BlacklistMode.REPLACE_WORD_OR_PHRASE:
+            return False
+        whole_prompt = {item.string for item in Blacklist.TAG_BLACKLIST if item.apply_to_whole_prompt}
+        return not any(item_string in whole_prompt for item_string in filtered.values())
+
+    @staticmethod
+    def filtering_notice(filtered: dict[str, str]) -> str:
+        """The removal or replacement notice, whichever the current mode applies."""
+        if Blacklist.get_blacklist_mode() == BlacklistMode.REPLACE_WORD_OR_PHRASE:
+            return Blacklist.user_tag_replacement_notice(filtered)
+        return Blacklist.user_tag_removal_notice(filtered)
+
+    @staticmethod
     def strip_user_positive_tags(
         text: str, prompt_mode: PromptMode = PromptMode.SFW
     ) -> tuple[str, dict[str, str]]:
         """Drop blacklisted tags from a user-written positive prompt.
 
         Only the two removal modes change the text. Fail and log-only leave it
-        for the caller that decides whether the run stops. Generated concepts
+        for the caller that decides whether the run stops; replace leaves it
+        for generation, which draws new words for every prompt. Generated concepts
         and prompts read out of an image are not handled here.
         """
         if Blacklist.is_allowed_prompt_mode(prompt_mode):
@@ -887,6 +933,9 @@ class Blacklist:
         # version of the cache container -- a constant, so every blacklist
         # produced the same key.)
         # Keep cache keys compact: tuple payloads are massive (millions of terms).
+        # The result depends on the mode too. A concept-list prefilter always
+        # removes whole tags, so its key carries no mode and stays as it was.
+        mode = Blacklist.get_blacklist_mode() if user_prompt else BlacklistMode.REMOVE_ENTIRE_TAG
         cache_key = (
             f"v{Blacklist.get_version()}",
             len(concepts_tuple),
@@ -895,7 +944,7 @@ class Blacklist:
             origin.value,
             "" if user_tags is None else fingerprint_string_sequence(tuple(sorted(user_tags))),
             "" if anchors is None else anchors.fingerprint,
-        )
+        ) + ((mode.value,) if user_prompt else ())
 
         # Check cache first
         try:
@@ -918,7 +967,6 @@ class Blacklist:
                 pass  # Ignore any errors in UI callback
         
         # Convert tuple back to list for processing
-        mode = Blacklist.get_blacklist_mode() if user_prompt else BlacklistMode.REMOVE_ENTIRE_TAG
         concepts = list(concepts_tuple)
         whitelist = []
         filtered = {}
@@ -972,8 +1020,10 @@ class Blacklist:
                     cleaned_concept = blacklist_item.remove_blacklisted_content(concept_cased)
                     if cleaned_concept and cleaned_concept.strip():
                         whitelist.append(cleaned_concept)
-            elif not match_found or mode == BlacklistMode.LOG_ONLY:
-                # Default behavior: add to whitelist if no blacklist match found
+            elif not match_found or mode in (BlacklistMode.LOG_ONLY, BlacklistMode.REPLACE_WORD_OR_PHRASE):
+                # Default behavior: add to whitelist if no blacklist match found.
+                # Replace keeps the tag here; filter_concepts swaps a word in
+                # afterwards, outside the cache, since it draws one per call.
                 whitelist.append(concept_cased)
             
             # Call progress update every 5000 concepts
@@ -1013,6 +1063,63 @@ class Blacklist:
                 raise Exception(f"Error caching blacklist result: {e}", e)
         
         return result
+
+    @staticmethod
+    def _replace_filtered(concepts: list[str], filtered: dict[str, str]) -> list[str]:
+        """*concepts* with a random word in place of each blocked match.
+
+        A concept blocked only through its source line has no match of its
+        own, so it is dropped, as the removal mode drops it.
+        """
+        items: dict[str, BlacklistItem] = {}
+        for item in Blacklist.TAG_BLACKLIST:
+            if item.enabled:
+                items.setdefault(item.string, item)
+        replaced_concepts = []
+        for concept in concepts:
+            item_string = filtered.get(concept)
+            if item_string is None:
+                replaced_concepts.append(concept)
+                continue
+            item = items.get(item_string)
+            if item is None or not item.matches_tag(concept):
+                continue
+            replaced = Blacklist.replace_blacklisted_content(item, concept)
+            if replaced and replaced.strip():
+                replaced_concepts.append(replaced)
+        return replaced_concepts
+
+    #: Words drawn for one replacement before the match is removed instead.
+    REPLACEMENT_ATTEMPTS = 20
+
+    @staticmethod
+    def replace_blacklisted_content(item: "BlacklistItem", tag: str) -> str:
+        """*tag* with *item*'s match replaced by a random dictionary word.
+
+        A drawn word counts only if the tag with it is blocked by no item.
+        After ``REPLACEMENT_ATTEMPTS`` blocked draws, or with no dictionary,
+        the match is removed.
+        """
+        import random  # noqa: PLC0415
+        # Deferred: concepts imports this module.
+        from sd_runner.prompts.concepts import Concepts  # noqa: PLC0415
+
+        try:
+            Concepts.ensure_dictionary_loaded()
+            words = Concepts.ALL_WORDS_LIST
+        except Exception as e:
+            logger.warning(_("Could not load the dictionary for blacklist replacement: {0}").format(e))
+            words = []
+        if words:
+            items = [i for i in Blacklist.TAG_BLACKLIST if i.enabled and not i.apply_to_whole_prompt]
+            for _attempt in range(Blacklist.REPLACEMENT_ATTEMPTS):
+                word = str(random.choice(words)).strip()
+                if not word:
+                    continue
+                candidate = item.replace_blacklisted_content(tag, word)
+                if candidate and not any(i.matches_tag(candidate) for i in items):
+                    return candidate
+        return item.remove_blacklisted_content(tag)
 
     @staticmethod
     def is_empty() -> bool:
@@ -1176,6 +1283,8 @@ class Blacklist:
         whitelist, filtered = Blacklist._filter_concepts_cached(
             concepts_tuple, do_cache, user_prompt, languages, origin, user_tags, anchors
         )
+        if filtered and user_prompt and Blacklist.get_blacklist_mode() == BlacklistMode.REPLACE_WORD_OR_PHRASE:
+            whitelist = Blacklist._replace_filtered(whitelist, filtered)
         # If a filtered_dict is provided, update it
         if filtered_dict is not None:
             filtered_dict.update(filtered)

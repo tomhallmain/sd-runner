@@ -257,6 +257,8 @@ A UI window for managing terms to filter from generated prompts. Add, remove, or
 
 **Languages**: An item can have a language code. Concept lists are checked against every language, while typed prompts are checked against the languages detected in their text, along with all items that have no language.
 
+**Blacklist Mode**: A blacklisted match can remove the matching word or phrase, remove the whole tag, fail the prompt, or only be logged. **Replace word/phrase** puts a random dictionary word in place of the match, drawn again for every prompt; a word that is itself blacklisted is redrawn, and after 20 blacklisted draws the match is removed instead. The dictionary is the one random words come from, so the caution above about it applies to these words too. The text you typed is left as it is, and a match by a whole-prompt item cannot be replaced, so it still keeps the run from starting. Prompts taken from an image and the prompt stored in an image you redo are checked the same way as a taken prompt; the image itself is never changed.
+
 **Enhanced Security**: The blacklist features multi-level password protection with separate permissions for revealing and editing concepts. A default encrypted blacklist is provided for first-time users, and blacklist operations require security to be configured with user confirmation to prevent accidental data loss and exposure of problematic concepts.
 
 ### Similarity Check

@@ -243,6 +243,60 @@ class WorkflowPromptComfy(WorkflowPrompt):
             else:
                 raise e
 
+    #: Inputs followed back from the sampler to the node holding the prompt text.
+    _CONDITIONING_INPUTS = ("conditioning", "positive", "conditioning_1", "conditioning_to")
+    _TEXT_INPUTS = ("text", "wildcard_text")
+    #: Read only on a node a text input links to, a string node.
+    _LINKED_TEXT_INPUTS = ("text", "string", "value")
+
+    def _clip_text_slot(self, positive=True):
+        """``(inputs, key)`` of the text a sampler's positive or negative input
+        is encoded from, or ``None``. Conditioning nodes between the two, and a
+        text input linked to a string node, are followed back."""
+        try:
+            link = self.get_ksampler_node_inputs()["positive" if positive else "negative"]
+        except Exception:
+            link = None
+        via_text = False
+        for _hop in range(20):
+            if not (isinstance(link, list) and link and link[0] in self.json):
+                break
+            inputs = self.json[link[0]].get(WorkflowPromptComfy.INPUTS, {})
+            text_keys = WorkflowPromptComfy._LINKED_TEXT_INPUTS if via_text else WorkflowPromptComfy._TEXT_INPUTS
+            link = None
+            for key in text_keys:
+                value = inputs.get(key)
+                if isinstance(value, str):
+                    return inputs, key
+                if isinstance(value, list):
+                    link = value
+                    break
+            via_text = link is not None
+            if link is None:
+                link = next((inputs[k] for k in WorkflowPromptComfy._CONDITIONING_INPUTS
+                             if isinstance(inputs.get(k), list)), None)
+        if positive:
+            node = self.find_node_of_class_type(ComfyNodeName.IMPACT_WILDCARD_PROCESSOR, raise_exc=False)
+            if node is not None and isinstance(node[WorkflowPromptComfy.INPUTS].get("wildcard_text"), str):
+                return node[WorkflowPromptComfy.INPUTS], "wildcard_text"
+        return None
+
+    def get_clip_text(self, positive=True):
+        """The prompt text of an API workflow, or ``None`` if none is found."""
+        slot = self._clip_text_slot(positive)
+        return slot[0][slot[1]] if slot else None
+
+    def replace_clip_text(self, text, positive=True) -> bool:
+        """Put *text* where ``get_clip_text`` read it, adding nothing to it."""
+        slot = self._clip_text_slot(positive)
+        if slot is None:
+            return False
+        inputs, key = slot
+        inputs[key] = text
+        if key == "wildcard_text" and "populated_text" in inputs:
+            inputs["populated_text"] = text
+        return True
+
     # Have to use IDs because these nodes use the same class type CLIPTextEncode
     def set_clip_text_by_id(self, positive, negative, positive_id=None, negative_id=None, model=None):
         if not (positive or negative):

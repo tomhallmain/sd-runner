@@ -793,6 +793,29 @@ class BaseImageGenerator(ABC):
         else:
             return prompt
 
+    def filter_redo_positive(self, source_file: str, positive: Optional[str]) -> tuple[bool, Optional[str]]:
+        """``(skip, positive)`` for the positive prompt stored in a redo image,
+        checked as a prompt taken from an image: same settings, modes and notice.
+
+        *skip* is true when the blacklist applies and the image holds no prompt
+        text to check. A blocking mode or a similarity match raises
+        ``BlacklistException`` as it does for a taken prompt. Only the returned
+        text changes, never the image.
+        """
+        from sd_runner.globals import PromptMode
+        from sd_runner.prompts.prompter import Prompter
+
+        if not config.blacklist_prevent_execution or Blacklist.is_allowed_prompt_mode(PromptMode.TAKE):
+            return False, positive
+        if not positive or not positive.strip():
+            if Blacklist.is_active():
+                logger.warning(_("Skipped redo of {0}: no prompt text found to check against the blacklist").format(
+                    source_file))
+                return True, positive
+            return False, positive
+        cleaned, _unused = Prompter.filter_taken_prompt(positive, "")
+        return False, cleaned
+
     def convert_adapter_images(self, control_net=None, ip_adapter=None) -> tuple:
         """
         Convert adapter images to standard formats if needed.

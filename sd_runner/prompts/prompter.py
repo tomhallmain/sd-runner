@@ -522,7 +522,8 @@ class Prompter:
         the same BlacklistMode / blacklist_prevent_execution /
         blacklist_silent_removal settings.
 
-        - REMOVE_WORD_OR_PHRASE / REMOVE_ENTIRE_TAG: strip matching tags, notify,
+        - REMOVE_WORD_OR_PHRASE / REMOVE_ENTIRE_TAG / REPLACE_WORD_OR_PHRASE:
+          strip (or, replacing, swap a random word into) matching tags, notify,
           and let the run continue with what is left. The notice is the same
           one used for tags the user typed: it does not name the removed tag
           unless "Name matched item" is on, and silent removal suppresses it.
@@ -560,12 +561,13 @@ class Prompter:
             if mode == BlacklistMode.LOG_ONLY:
                 logger.warning(f"Blacklisted tags in extracted prompt (log only): {filtered}")
             else:
-                logger.info(f"Removed blacklisted tags from extracted prompt: {filtered}")
+                if mode == BlacklistMode.REPLACE_WORD_OR_PHRASE:
+                    logger.info(_("Replaced blacklisted words in extracted prompt: {0}").format(filtered))
+                else:
+                    logger.info(_("Removed blacklisted tags from extracted prompt: {0}").format(filtered))
                 positive = ", ".join(whitelist)
                 if not silent:
-                    Prompter._notify_taken_prompt_filtering(
-                        Blacklist.user_tag_removal_notice(filtered)
-                    )
+                    Prompter._notify_taken_prompt_filtering(Blacklist.filtering_notice(filtered))
 
         # Similarity runs on the surviving text: removing a tag may well have
         # removed the resemblance, and re-checking the original would fail a

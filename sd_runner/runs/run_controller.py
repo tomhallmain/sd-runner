@@ -281,7 +281,13 @@ class RunController:
         if not filtered:
             filtered = Blacklist.check_user_prompt_detailed(text)
 
-        if filtered:
+        if filtered and Blacklist.can_replace_all(filtered):
+            # Replaced at generation, with new words for every prompt.
+            if not Blacklist.get_blacklist_silent_removal():
+                self._app.notification_ctrl.alert(
+                    _("Invalid Prompt Tags"), Blacklist.user_tag_replacement_notice(filtered), kind="warning"
+                )
+        elif filtered:
             if not Blacklist.get_blacklist_silent_removal():
                 alert_text = _("Blacklist validation failed.")
                 note = Blacklist.matched_blacklist_item_note(filtered)

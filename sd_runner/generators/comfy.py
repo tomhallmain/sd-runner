@@ -16,6 +16,7 @@ from sd_runner.prompts.prompter_configuration import PrompterConfiguration
 from sd_runner.workflow_prompts.base import WorkflowPrompt
 from sd_runner.workflow_prompts.comfy import WorkflowPromptComfy
 from sd_runner.config import config
+from sd_runner.prompts.blacklist import BlacklistException
 from lib.logging_setup import get_logger
 from lib.utils import Utils
 
@@ -991,10 +992,11 @@ class ComfyGen(BaseImageGenerator):
                                       lora=None, positive=None, negative=None, n_latents=None,
                                       control_net=None, ip_adapter=None, **kw):
         self.print_pre("Assembling redo prompt", model=model, resolution=resolution, vae=vae, n_latents=n_latents, positive="", negative="", lora=lora, control_net=control_net, ip_adapter=ip_adapter)
-        prompt = WorkflowPrompt(source_file)
+        prompt = WorkflowPromptComfy(source_file)
 
         # If this is not an API prompt, handle in an annoying way
-        if not prompt.validate_api_prompt():
+        is_api_prompt = prompt.validate_api_prompt()
+        if not is_api_prompt:
             if config.debug:
                 logger.debug("Not an API prompt image: " + source_file)
             try:
@@ -1003,7 +1005,9 @@ class ComfyGen(BaseImageGenerator):
                     model = prompt.temp_redo_inputs.model
                     vae = prompt.temp_redo_inputs.vae
                     lora = prompt.temp_redo_inputs.lora
-                    positive = prompt.temp_redo_inputs.positive
+                    skip, positive = self.filter_redo_positive(source_file, prompt.temp_redo_inputs.positive)
+                    if skip:
+                        return
                     negative = prompt.temp_redo_inputs.negative
                     control_net = prompt.temp_redo_inputs.control_net
                     ip_adapter = prompt.temp_redo_inputs.ip_adapter
@@ -1012,9 +1016,19 @@ class ComfyGen(BaseImageGenerator):
                 else:
                     logger.error("Invalid prompt for file: " + source_file)
                     return
+            except BlacklistException:
+                raise
             except Exception:
                 logger.exception(f"Failed to redo non-API prompt image: {source_file}")
                 return
+
+        if is_api_prompt:
+            stored_positive = prompt.get_clip_text(positive=True)
+            skip, checked_positive = self.filter_redo_positive(source_file, stored_positive)
+            if skip:
+                return
+            if checked_positive != stored_positive:
+                prompt.replace_clip_text(checked_positive, positive=True)
 
         prompt.change_preview_images_to_save_images()
 

@@ -60,6 +60,7 @@ class PromptMode(Enum):
 class BlacklistMode(Enum):
     REMOVE_WORD_OR_PHRASE = "REMOVE_WORD_OR_PHRASE"
     REMOVE_ENTIRE_TAG = "REMOVE_ENTIRE_TAG"
+    REPLACE_WORD_OR_PHRASE = "REPLACE_WORD_OR_PHRASE"
     FAIL_PROMPT = "FAIL_PROMPT"
     LOG_ONLY = "LOG_ONLY"
 
@@ -70,6 +71,7 @@ class BlacklistMode(Enum):
         display_map = {
             BlacklistMode.REMOVE_WORD_OR_PHRASE: _(u"Remove word/phrase (only the blacklisted part)"),
             BlacklistMode.REMOVE_ENTIRE_TAG: _(u"Remove entire tag (if any part matches)"),
+            BlacklistMode.REPLACE_WORD_OR_PHRASE: _(u"Replace word/phrase (with a random allowed word)"),
             BlacklistMode.FAIL_PROMPT: _(u"Fail prompt (block generation)"),
             BlacklistMode.LOG_ONLY: _(u"Log only (do not remove, just log)"),
         }
